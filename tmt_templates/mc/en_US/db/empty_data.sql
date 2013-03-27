@@ -1,9 +1,9 @@
 # --------------------------------------------------------
-# Host:                         192.168.56.101
-# Server version:               5.5.23-55
-# Server OS:                    Linux
+# Host:                         127.0.0.1
+# Server version:               5.0.77
+# Server OS:                    redhat-linux-gnu
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2013-02-28 11:05:54
+# Date/time:                    2013-03-27 13:39:46
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -11,44 +11,44 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-# Dumping structure for table adminnotification_inbox
+# Dumping structure for table s5152d29ad0535.adminnotification_inbox
 DROP TABLE IF EXISTS `adminnotification_inbox`;
 CREATE TABLE IF NOT EXISTS `adminnotification_inbox` (
-  `notification_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Notification id',
-  `severity` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Problem type',
-  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Create date',
+  `notification_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Notification id',
+  `severity` smallint(5) unsigned NOT NULL default '0' COMMENT 'Problem type',
+  `date_added` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Create date',
   `title` varchar(255) NOT NULL COMMENT 'Title',
   `description` text COMMENT 'Description',
-  `url` varchar(255) DEFAULT NULL COMMENT 'Url',
-  `is_read` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Flag if notification read',
-  `is_remove` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Flag if notification might be removed',
-  PRIMARY KEY (`notification_id`),
+  `url` varchar(255) default NULL COMMENT 'Url',
+  `is_read` smallint(5) unsigned NOT NULL default '0' COMMENT 'Flag if notification read',
+  `is_remove` smallint(5) unsigned NOT NULL default '0' COMMENT 'Flag if notification might be removed',
+  PRIMARY KEY  (`notification_id`),
   KEY `IDX_ADMINNOTIFICATION_INBOX_SEVERITY` (`severity`),
   KEY `IDX_ADMINNOTIFICATION_INBOX_IS_READ` (`is_read`),
   KEY `IDX_ADMINNOTIFICATION_INBOX_IS_REMOVE` (`is_remove`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Adminnotification Inbox';
 
-# Dumping data for table adminnotification_inbox: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.adminnotification_inbox: ~0 rows (approximately)
 /*!40000 ALTER TABLE `adminnotification_inbox` DISABLE KEYS */;
 /*!40000 ALTER TABLE `adminnotification_inbox` ENABLE KEYS */;
 
 
-# Dumping structure for table admin_role
+# Dumping structure for table s5152d29ad0535.admin_role
 DROP TABLE IF EXISTS `admin_role`;
 CREATE TABLE IF NOT EXISTS `admin_role` (
-  `role_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Role ID',
-  `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Parent Role ID',
-  `tree_level` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Role Tree Level',
-  `sort_order` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Role Sort Order',
-  `role_type` varchar(1) NOT NULL DEFAULT '0' COMMENT 'Role Type',
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'User ID',
-  `role_name` varchar(50) DEFAULT NULL COMMENT 'Role Name',
-  PRIMARY KEY (`role_id`),
+  `role_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Role ID',
+  `parent_id` int(10) unsigned NOT NULL default '0' COMMENT 'Parent Role ID',
+  `tree_level` smallint(5) unsigned NOT NULL default '0' COMMENT 'Role Tree Level',
+  `sort_order` smallint(5) unsigned NOT NULL default '0' COMMENT 'Role Sort Order',
+  `role_type` varchar(1) NOT NULL default '0' COMMENT 'Role Type',
+  `user_id` int(10) unsigned NOT NULL default '0' COMMENT 'User ID',
+  `role_name` varchar(50) default NULL COMMENT 'Role Name',
+  PRIMARY KEY  (`role_id`),
   KEY `IDX_ADMIN_ROLE_PARENT_ID_SORT_ORDER` (`parent_id`,`sort_order`),
   KEY `IDX_ADMIN_ROLE_TREE_LEVEL` (`tree_level`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Admin Role Table';
 
-# Dumping data for table admin_role: ~2 rows (approximately)
+# Dumping data for table s5152d29ad0535.admin_role: ~2 rows (approximately)
 /*!40000 ALTER TABLE `admin_role` DISABLE KEYS */;
 INSERT INTO `admin_role` (`role_id`, `parent_id`, `tree_level`, `sort_order`, `role_type`, `user_id`, `role_name`) VALUES
 	(1, 0, 1, 1, 'G', 0, 'Administrators'),
@@ -56,209 +56,212 @@ INSERT INTO `admin_role` (`role_id`, `parent_id`, `tree_level`, `sort_order`, `r
 /*!40000 ALTER TABLE `admin_role` ENABLE KEYS */;
 
 
-# Dumping structure for table admin_rule
+# Dumping structure for table s5152d29ad0535.admin_rule
 DROP TABLE IF EXISTS `admin_rule`;
 CREATE TABLE IF NOT EXISTS `admin_rule` (
-  `rule_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rule ID',
-  `role_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Role ID',
-  `resource_id` varchar(255) DEFAULT NULL COMMENT 'Resource ID',
-  `privileges` varchar(20) DEFAULT NULL COMMENT 'Privileges',
-  `role_type` varchar(1) DEFAULT NULL COMMENT 'Role Type',
-  `permission` varchar(10) DEFAULT NULL COMMENT 'Permission',
-  PRIMARY KEY (`rule_id`),
+  `rule_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rule ID',
+  `role_id` int(10) unsigned NOT NULL default '0' COMMENT 'Role ID',
+  `resource_id` varchar(255) default NULL COMMENT 'Resource ID',
+  `privileges` varchar(20) default NULL COMMENT 'Privileges',
+  `role_type` varchar(1) default NULL COMMENT 'Role Type',
+  `permission` varchar(10) default NULL COMMENT 'Permission',
+  PRIMARY KEY  (`rule_id`),
   KEY `IDX_ADMIN_RULE_RESOURCE_ID_ROLE_ID` (`resource_id`,`role_id`),
   KEY `IDX_ADMIN_RULE_ROLE_ID_RESOURCE_ID` (`role_id`,`resource_id`),
   CONSTRAINT `FK_ADMIN_RULE_ROLE_ID_ADMIN_ROLE_ROLE_ID` FOREIGN KEY (`role_id`) REFERENCES `admin_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Admin Rule Table';
 
-# Dumping data for table admin_rule: ~1 rows (approximately)
+# Dumping data for table s5152d29ad0535.admin_rule: ~1 rows (approximately)
 /*!40000 ALTER TABLE `admin_rule` DISABLE KEYS */;
 INSERT INTO `admin_rule` (`rule_id`, `role_id`, `resource_id`, `privileges`, `role_type`, `permission`) VALUES
 	(1, 1, 'Mage_Adminhtml::all', NULL, 'G', 'allow');
 /*!40000 ALTER TABLE `admin_rule` ENABLE KEYS */;
 
 
-# Dumping structure for table admin_user
+# Dumping structure for table s5152d29ad0535.admin_user
 DROP TABLE IF EXISTS `admin_user`;
 CREATE TABLE IF NOT EXISTS `admin_user` (
-  `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'User ID',
-  `firstname` varchar(32) DEFAULT NULL COMMENT 'User First Name',
-  `lastname` varchar(32) DEFAULT NULL COMMENT 'User Last Name',
-  `email` varchar(128) DEFAULT NULL COMMENT 'User Email',
-  `username` varchar(40) DEFAULT NULL COMMENT 'User Login',
-  `password` varchar(40) DEFAULT NULL COMMENT 'User Password',
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'User Created Time',
-  `modified` timestamp NULL DEFAULT NULL COMMENT 'User Modified Time',
-  `logdate` timestamp NULL DEFAULT NULL COMMENT 'User Last Login Time',
-  `lognum` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'User Login Number',
-  `reload_acl_flag` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Reload ACL',
-  `is_active` smallint(6) NOT NULL DEFAULT '1' COMMENT 'User Is Active',
+  `user_id` int(10) unsigned NOT NULL auto_increment COMMENT 'User ID',
+  `firstname` varchar(32) default NULL COMMENT 'User First Name',
+  `lastname` varchar(32) default NULL COMMENT 'User Last Name',
+  `email` varchar(128) default NULL COMMENT 'User Email',
+  `username` varchar(40) default NULL COMMENT 'User Login',
+  `password` varchar(100) default NULL COMMENT 'User Password',
+  `created` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'User Created Time',
+  `modified` timestamp NULL default NULL COMMENT 'User Modified Time',
+  `logdate` timestamp NULL default NULL COMMENT 'User Last Login Time',
+  `lognum` smallint(5) unsigned NOT NULL default '0' COMMENT 'User Login Number',
+  `reload_acl_flag` smallint(6) NOT NULL default '0' COMMENT 'Reload ACL',
+  `is_active` smallint(6) NOT NULL default '1' COMMENT 'User Is Active',
   `extra` text COMMENT 'User Extra Data',
   `rp_token` text COMMENT 'Reset Password Link Token',
-  `rp_token_created_at` timestamp NULL DEFAULT NULL COMMENT 'Reset Password Link Token Creation Date',
-  PRIMARY KEY (`user_id`),
+  `rp_token_created_at` timestamp NULL default NULL COMMENT 'Reset Password Link Token Creation Date',
+  `failures_num` smallint(6) default '0' COMMENT 'Failure Number',
+  `first_failure` timestamp NULL default NULL COMMENT 'First Failure',
+  `lock_expires` timestamp NULL default NULL COMMENT 'Expiration Lock Dates',
+  PRIMARY KEY  (`user_id`),
   UNIQUE KEY `UNQ_ADMIN_USER_USERNAME` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Admin User Table';
 
-# Dumping data for table admin_user: ~1 rows (approximately)
+# Dumping data for table s5152d29ad0535.admin_user: ~1 rows (approximately)
 /*!40000 ALTER TABLE `admin_user` DISABLE KEYS */;
-INSERT INTO `admin_user` (`user_id`, `firstname`, `lastname`, `email`, `username`, `password`, `created`, `modified`, `logdate`, `lognum`, `reload_acl_flag`, `is_active`, `extra`, `rp_token`, `rp_token_created_at`) VALUES
-	(1, 'admin', 'admin', 'null@example.com', 'admin', 'bcd0f689178baabb24f3804be4e24a72:jQ', '2013-02-28 19:03:41', '2013-02-28 19:03:41', NULL, 0, 0, 1, 'N;', NULL, NULL);
+INSERT INTO `admin_user` (`user_id`, `firstname`, `lastname`, `email`, `username`, `password`, `created`, `modified`, `logdate`, `lognum`, `reload_acl_flag`, `is_active`, `extra`, `rp_token`, `rp_token_created_at`, `failures_num`, `first_failure`, `lock_expires`) VALUES
+	(1, 'admin', 'admin', 'null@null.null', 'admin', '360c9c5a74dd92a3826acfa6a93044484d64d01e', '2013-03-27 13:07:26', '2013-03-27 13:07:26', NULL, 0, 0, 1, 'N;', NULL, NULL, 0, NULL, NULL);
 /*!40000 ALTER TABLE `admin_user` ENABLE KEYS */;
 
 
-# Dumping structure for table api_assert
+# Dumping structure for table s5152d29ad0535.api_assert
 DROP TABLE IF EXISTS `api_assert`;
 CREATE TABLE IF NOT EXISTS `api_assert` (
-  `assert_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Assert id',
-  `assert_type` varchar(20) DEFAULT NULL COMMENT 'Assert type',
+  `assert_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Assert id',
+  `assert_type` varchar(20) default NULL COMMENT 'Assert type',
   `assert_data` text COMMENT 'Assert additional data',
-  PRIMARY KEY (`assert_id`)
+  PRIMARY KEY  (`assert_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Api ACL Asserts';
 
-# Dumping data for table api_assert: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.api_assert: ~0 rows (approximately)
 /*!40000 ALTER TABLE `api_assert` DISABLE KEYS */;
 /*!40000 ALTER TABLE `api_assert` ENABLE KEYS */;
 
 
-# Dumping structure for table api_role
+# Dumping structure for table s5152d29ad0535.api_role
 DROP TABLE IF EXISTS `api_role`;
 CREATE TABLE IF NOT EXISTS `api_role` (
-  `role_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Role id',
-  `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Parent role id',
-  `tree_level` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Role level in tree',
-  `sort_order` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Sort order to display on admin area',
-  `role_type` varchar(1) NOT NULL DEFAULT '0' COMMENT 'Role type',
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'User id',
-  `role_name` varchar(50) DEFAULT NULL COMMENT 'Role name',
-  PRIMARY KEY (`role_id`),
+  `role_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Role id',
+  `parent_id` int(10) unsigned NOT NULL default '0' COMMENT 'Parent role id',
+  `tree_level` smallint(5) unsigned NOT NULL default '0' COMMENT 'Role level in tree',
+  `sort_order` smallint(5) unsigned NOT NULL default '0' COMMENT 'Sort order to display on admin area',
+  `role_type` varchar(1) NOT NULL default '0' COMMENT 'Role type',
+  `user_id` int(10) unsigned NOT NULL default '0' COMMENT 'User id',
+  `role_name` varchar(50) default NULL COMMENT 'Role name',
+  PRIMARY KEY  (`role_id`),
   KEY `IDX_API_ROLE_PARENT_ID_SORT_ORDER` (`parent_id`,`sort_order`),
   KEY `IDX_API_ROLE_TREE_LEVEL` (`tree_level`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Api ACL Roles';
 
-# Dumping data for table api_role: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.api_role: ~0 rows (approximately)
 /*!40000 ALTER TABLE `api_role` DISABLE KEYS */;
 /*!40000 ALTER TABLE `api_role` ENABLE KEYS */;
 
 
-# Dumping structure for table api_rule
+# Dumping structure for table s5152d29ad0535.api_rule
 DROP TABLE IF EXISTS `api_rule`;
 CREATE TABLE IF NOT EXISTS `api_rule` (
-  `rule_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Api rule Id',
-  `role_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Api role Id',
-  `resource_id` varchar(255) DEFAULT NULL COMMENT 'Module code',
-  `api_privileges` varchar(20) DEFAULT NULL COMMENT 'Privileges',
-  `assert_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Assert id',
-  `role_type` varchar(1) DEFAULT NULL COMMENT 'Role type',
-  `api_permission` varchar(10) DEFAULT NULL COMMENT 'Permission',
-  PRIMARY KEY (`rule_id`),
+  `rule_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Api rule Id',
+  `role_id` int(10) unsigned NOT NULL default '0' COMMENT 'Api role Id',
+  `resource_id` varchar(255) default NULL COMMENT 'Module code',
+  `api_privileges` varchar(20) default NULL COMMENT 'Privileges',
+  `assert_id` int(10) unsigned NOT NULL default '0' COMMENT 'Assert id',
+  `role_type` varchar(1) default NULL COMMENT 'Role type',
+  `api_permission` varchar(10) default NULL COMMENT 'Permission',
+  PRIMARY KEY  (`rule_id`),
   KEY `IDX_API_RULE_RESOURCE_ID_ROLE_ID` (`resource_id`,`role_id`),
   KEY `IDX_API_RULE_ROLE_ID_RESOURCE_ID` (`role_id`,`resource_id`),
   CONSTRAINT `FK_API_RULE_ROLE_ID_API_ROLE_ROLE_ID` FOREIGN KEY (`role_id`) REFERENCES `api_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Api ACL Rules';
 
-# Dumping data for table api_rule: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.api_rule: ~0 rows (approximately)
 /*!40000 ALTER TABLE `api_rule` DISABLE KEYS */;
 /*!40000 ALTER TABLE `api_rule` ENABLE KEYS */;
 
 
-# Dumping structure for table api_session
+# Dumping structure for table s5152d29ad0535.api_session
 DROP TABLE IF EXISTS `api_session`;
 CREATE TABLE IF NOT EXISTS `api_session` (
   `user_id` int(10) unsigned NOT NULL COMMENT 'User id',
-  `logdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Login date',
-  `sessid` varchar(40) DEFAULT NULL COMMENT 'Sessioin id',
+  `logdate` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Login date',
+  `sessid` varchar(40) default NULL COMMENT 'Sessioin id',
   KEY `IDX_API_SESSION_USER_ID` (`user_id`),
   KEY `IDX_API_SESSION_SESSID` (`sessid`),
   CONSTRAINT `FK_API_SESSION_USER_ID_API_USER_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `api_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Api Sessions';
 
-# Dumping data for table api_session: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.api_session: ~0 rows (approximately)
 /*!40000 ALTER TABLE `api_session` DISABLE KEYS */;
 /*!40000 ALTER TABLE `api_session` ENABLE KEYS */;
 
 
-# Dumping structure for table api_user
+# Dumping structure for table s5152d29ad0535.api_user
 DROP TABLE IF EXISTS `api_user`;
 CREATE TABLE IF NOT EXISTS `api_user` (
-  `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'User id',
-  `firstname` varchar(32) DEFAULT NULL COMMENT 'First name',
-  `lastname` varchar(32) DEFAULT NULL COMMENT 'Last name',
-  `email` varchar(128) DEFAULT NULL COMMENT 'Email',
-  `username` varchar(40) DEFAULT NULL COMMENT 'Nickname',
-  `api_key` varchar(40) DEFAULT NULL COMMENT 'Api key',
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'User record create date',
-  `modified` timestamp NULL DEFAULT NULL COMMENT 'User record modify date',
-  `lognum` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Quantity of log ins',
-  `reload_acl_flag` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Refresh ACL flag',
-  `is_active` smallint(6) NOT NULL DEFAULT '1' COMMENT 'Account status',
-  PRIMARY KEY (`user_id`)
+  `user_id` int(10) unsigned NOT NULL auto_increment COMMENT 'User id',
+  `firstname` varchar(32) default NULL COMMENT 'First name',
+  `lastname` varchar(32) default NULL COMMENT 'Last name',
+  `email` varchar(128) default NULL COMMENT 'Email',
+  `username` varchar(40) default NULL COMMENT 'Nickname',
+  `api_key` varchar(100) default NULL COMMENT 'Api key',
+  `created` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'User record create date',
+  `modified` timestamp NULL default NULL COMMENT 'User record modify date',
+  `lognum` smallint(5) unsigned NOT NULL default '0' COMMENT 'Quantity of log ins',
+  `reload_acl_flag` smallint(6) NOT NULL default '0' COMMENT 'Refresh ACL flag',
+  `is_active` smallint(6) NOT NULL default '1' COMMENT 'Account status',
+  PRIMARY KEY  (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Api Users';
 
-# Dumping data for table api_user: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.api_user: ~0 rows (approximately)
 /*!40000 ALTER TABLE `api_user` DISABLE KEYS */;
 /*!40000 ALTER TABLE `api_user` ENABLE KEYS */;
 
 
-# Dumping structure for table captcha_log
+# Dumping structure for table s5152d29ad0535.captcha_log
 DROP TABLE IF EXISTS `captcha_log`;
 CREATE TABLE IF NOT EXISTS `captcha_log` (
   `type` varchar(32) NOT NULL COMMENT 'Type',
   `value` varchar(32) NOT NULL COMMENT 'Value',
-  `count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Count',
-  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Update Time',
-  PRIMARY KEY (`type`,`value`)
+  `count` int(10) unsigned NOT NULL default '0' COMMENT 'Count',
+  `updated_at` timestamp NULL default NULL COMMENT 'Update Time',
+  PRIMARY KEY  (`type`,`value`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Count Login Attempts';
 
-# Dumping data for table captcha_log: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.captcha_log: ~0 rows (approximately)
 /*!40000 ALTER TABLE `captcha_log` DISABLE KEYS */;
 /*!40000 ALTER TABLE `captcha_log` ENABLE KEYS */;
 
 
-# Dumping structure for table cataloginventory_stock
+# Dumping structure for table s5152d29ad0535.cataloginventory_stock
 DROP TABLE IF EXISTS `cataloginventory_stock`;
 CREATE TABLE IF NOT EXISTS `cataloginventory_stock` (
-  `stock_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Stock Id',
-  `stock_name` varchar(255) DEFAULT NULL COMMENT 'Stock Name',
-  PRIMARY KEY (`stock_id`)
+  `stock_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Stock Id',
+  `stock_name` varchar(255) default NULL COMMENT 'Stock Name',
+  PRIMARY KEY  (`stock_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock';
 
-# Dumping data for table cataloginventory_stock: ~1 rows (approximately)
+# Dumping data for table s5152d29ad0535.cataloginventory_stock: ~1 rows (approximately)
 /*!40000 ALTER TABLE `cataloginventory_stock` DISABLE KEYS */;
 INSERT INTO `cataloginventory_stock` (`stock_id`, `stock_name`) VALUES
 	(1, 'Default');
 /*!40000 ALTER TABLE `cataloginventory_stock` ENABLE KEYS */;
 
 
-# Dumping structure for table cataloginventory_stock_item
+# Dumping structure for table s5152d29ad0535.cataloginventory_stock_item
 DROP TABLE IF EXISTS `cataloginventory_stock_item`;
 CREATE TABLE IF NOT EXISTS `cataloginventory_stock_item` (
-  `item_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Item Id',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product Id',
-  `stock_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Stock Id',
-  `qty` decimal(12,4) DEFAULT NULL COMMENT 'Qty',
-  `min_qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Min Qty',
-  `use_config_min_qty` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Min Qty',
-  `is_qty_decimal` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Qty Decimal',
-  `backorders` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Backorders',
-  `use_config_backorders` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Backorders',
-  `min_sale_qty` decimal(12,4) NOT NULL DEFAULT '1.0000' COMMENT 'Min Sale Qty',
-  `use_config_min_sale_qty` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Min Sale Qty',
-  `max_sale_qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Max Sale Qty',
-  `use_config_max_sale_qty` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Max Sale Qty',
-  `is_in_stock` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is In Stock',
-  `low_stock_date` timestamp NULL DEFAULT NULL COMMENT 'Low Stock Date',
-  `notify_stock_qty` decimal(12,4) DEFAULT NULL COMMENT 'Notify Stock Qty',
-  `use_config_notify_stock_qty` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Notify Stock Qty',
-  `manage_stock` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Manage Stock',
-  `use_config_manage_stock` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Manage Stock',
-  `stock_status_changed_auto` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Stock Status Changed Automatically',
-  `use_config_qty_increments` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Qty Increments',
-  `qty_increments` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty Increments',
-  `use_config_enable_qty_inc` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Use Config Enable Qty Increments',
-  `enable_qty_increments` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Enable Qty Increments',
-  `is_decimal_divided` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Divided into Multiple Boxes for Shipping',
-  PRIMARY KEY (`item_id`),
+  `item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Item Id',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product Id',
+  `stock_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Stock Id',
+  `qty` decimal(12,4) default NULL COMMENT 'Qty',
+  `min_qty` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Min Qty',
+  `use_config_min_qty` smallint(5) unsigned NOT NULL default '1' COMMENT 'Use Config Min Qty',
+  `is_qty_decimal` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Qty Decimal',
+  `backorders` smallint(5) unsigned NOT NULL default '0' COMMENT 'Backorders',
+  `use_config_backorders` smallint(5) unsigned NOT NULL default '1' COMMENT 'Use Config Backorders',
+  `min_sale_qty` decimal(12,4) NOT NULL default '1.0000' COMMENT 'Min Sale Qty',
+  `use_config_min_sale_qty` smallint(5) unsigned NOT NULL default '1' COMMENT 'Use Config Min Sale Qty',
+  `max_sale_qty` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Max Sale Qty',
+  `use_config_max_sale_qty` smallint(5) unsigned NOT NULL default '1' COMMENT 'Use Config Max Sale Qty',
+  `is_in_stock` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is In Stock',
+  `low_stock_date` timestamp NULL default NULL COMMENT 'Low Stock Date',
+  `notify_stock_qty` decimal(12,4) default NULL COMMENT 'Notify Stock Qty',
+  `use_config_notify_stock_qty` smallint(5) unsigned NOT NULL default '1' COMMENT 'Use Config Notify Stock Qty',
+  `manage_stock` smallint(5) unsigned NOT NULL default '0' COMMENT 'Manage Stock',
+  `use_config_manage_stock` smallint(5) unsigned NOT NULL default '1' COMMENT 'Use Config Manage Stock',
+  `stock_status_changed_auto` smallint(5) unsigned NOT NULL default '0' COMMENT 'Stock Status Changed Automatically',
+  `use_config_qty_increments` smallint(5) unsigned NOT NULL default '1' COMMENT 'Use Config Qty Increments',
+  `qty_increments` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Qty Increments',
+  `use_config_enable_qty_inc` smallint(5) unsigned NOT NULL default '1' COMMENT 'Use Config Enable Qty Increments',
+  `enable_qty_increments` smallint(5) unsigned NOT NULL default '0' COMMENT 'Enable Qty Increments',
+  `is_decimal_divided` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Divided into Multiple Boxes for Shipping',
+  PRIMARY KEY  (`item_id`),
   UNIQUE KEY `UNQ_CATALOGINVENTORY_STOCK_ITEM_PRODUCT_ID_STOCK_ID` (`product_id`,`stock_id`),
   KEY `IDX_CATALOGINVENTORY_STOCK_ITEM_PRODUCT_ID` (`product_id`),
   KEY `IDX_CATALOGINVENTORY_STOCK_ITEM_STOCK_ID` (`stock_id`),
@@ -266,20 +269,20 @@ CREATE TABLE IF NOT EXISTS `cataloginventory_stock_item` (
   CONSTRAINT `FK_CATINV_STOCK_ITEM_STOCK_ID_CATINV_STOCK_STOCK_ID` FOREIGN KEY (`stock_id`) REFERENCES `cataloginventory_stock` (`stock_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Item';
 
-# Dumping data for table cataloginventory_stock_item: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.cataloginventory_stock_item: ~0 rows (approximately)
 /*!40000 ALTER TABLE `cataloginventory_stock_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `cataloginventory_stock_item` ENABLE KEYS */;
 
 
-# Dumping structure for table cataloginventory_stock_status
+# Dumping structure for table s5152d29ad0535.cataloginventory_stock_status
 DROP TABLE IF EXISTS `cataloginventory_stock_status`;
 CREATE TABLE IF NOT EXISTS `cataloginventory_stock_status` (
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
   `stock_id` smallint(5) unsigned NOT NULL COMMENT 'Stock Id',
-  `qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty',
+  `qty` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Qty',
   `stock_status` smallint(5) unsigned NOT NULL COMMENT 'Stock Status',
-  PRIMARY KEY (`product_id`,`website_id`,`stock_id`),
+  PRIMARY KEY  (`product_id`,`website_id`,`stock_id`),
   KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_STOCK_ID` (`stock_id`),
   KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_WEBSITE_ID` (`website_id`),
   CONSTRAINT `FK_CATINV_STOCK_STS_STOCK_ID_CATINV_STOCK_STOCK_ID` FOREIGN KEY (`stock_id`) REFERENCES `cataloginventory_stock` (`stock_id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -287,110 +290,110 @@ CREATE TABLE IF NOT EXISTS `cataloginventory_stock_status` (
   CONSTRAINT `FK_CATINV_STOCK_STS_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Status';
 
-# Dumping data for table cataloginventory_stock_status: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.cataloginventory_stock_status: ~0 rows (approximately)
 /*!40000 ALTER TABLE `cataloginventory_stock_status` DISABLE KEYS */;
 /*!40000 ALTER TABLE `cataloginventory_stock_status` ENABLE KEYS */;
 
 
-# Dumping structure for table cataloginventory_stock_status_idx
+# Dumping structure for table s5152d29ad0535.cataloginventory_stock_status_idx
 DROP TABLE IF EXISTS `cataloginventory_stock_status_idx`;
 CREATE TABLE IF NOT EXISTS `cataloginventory_stock_status_idx` (
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
   `stock_id` smallint(5) unsigned NOT NULL COMMENT 'Stock Id',
-  `qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty',
+  `qty` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Qty',
   `stock_status` smallint(5) unsigned NOT NULL COMMENT 'Stock Status',
-  PRIMARY KEY (`product_id`,`website_id`,`stock_id`),
+  PRIMARY KEY  (`product_id`,`website_id`,`stock_id`),
   KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_IDX_STOCK_ID` (`stock_id`),
   KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_IDX_WEBSITE_ID` (`website_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Status Indexer Idx';
 
-# Dumping data for table cataloginventory_stock_status_idx: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.cataloginventory_stock_status_idx: ~0 rows (approximately)
 /*!40000 ALTER TABLE `cataloginventory_stock_status_idx` DISABLE KEYS */;
 /*!40000 ALTER TABLE `cataloginventory_stock_status_idx` ENABLE KEYS */;
 
 
-# Dumping structure for table cataloginventory_stock_status_tmp
+# Dumping structure for table s5152d29ad0535.cataloginventory_stock_status_tmp
 DROP TABLE IF EXISTS `cataloginventory_stock_status_tmp`;
 CREATE TABLE IF NOT EXISTS `cataloginventory_stock_status_tmp` (
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
   `stock_id` smallint(5) unsigned NOT NULL COMMENT 'Stock Id',
-  `qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty',
+  `qty` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Qty',
   `stock_status` smallint(5) unsigned NOT NULL COMMENT 'Stock Status',
-  PRIMARY KEY (`product_id`,`website_id`,`stock_id`),
+  PRIMARY KEY  (`product_id`,`website_id`,`stock_id`),
   KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_TMP_STOCK_ID` (`stock_id`),
   KEY `IDX_CATALOGINVENTORY_STOCK_STATUS_TMP_WEBSITE_ID` (`website_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Status Indexer Tmp';
 
-# Dumping data for table cataloginventory_stock_status_tmp: 0 rows
+# Dumping data for table s5152d29ad0535.cataloginventory_stock_status_tmp: 0 rows
 /*!40000 ALTER TABLE `cataloginventory_stock_status_tmp` DISABLE KEYS */;
 /*!40000 ALTER TABLE `cataloginventory_stock_status_tmp` ENABLE KEYS */;
 
 
-# Dumping structure for table catalogrule
+# Dumping structure for table s5152d29ad0535.catalogrule
 DROP TABLE IF EXISTS `catalogrule`;
 CREATE TABLE IF NOT EXISTS `catalogrule` (
-  `rule_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rule Id',
-  `name` varchar(255) DEFAULT NULL COMMENT 'Name',
+  `rule_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rule Id',
+  `name` varchar(255) default NULL COMMENT 'Name',
   `description` text COMMENT 'Description',
-  `from_date` date DEFAULT NULL COMMENT 'From Date',
-  `to_date` date DEFAULT NULL COMMENT 'To Date',
-  `is_active` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Is Active',
+  `from_date` date default NULL COMMENT 'From Date',
+  `to_date` date default NULL COMMENT 'To Date',
+  `is_active` smallint(6) NOT NULL default '0' COMMENT 'Is Active',
   `conditions_serialized` mediumtext COMMENT 'Conditions Serialized',
   `actions_serialized` mediumtext COMMENT 'Actions Serialized',
-  `stop_rules_processing` smallint(6) NOT NULL DEFAULT '1' COMMENT 'Stop Rules Processing',
-  `sort_order` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Sort Order',
-  `simple_action` varchar(32) DEFAULT NULL COMMENT 'Simple Action',
-  `discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Discount Amount',
-  `sub_is_enable` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Rule Enable For Subitems',
-  `sub_simple_action` varchar(32) DEFAULT NULL COMMENT 'Simple Action For Subitems',
-  `sub_discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Discount Amount For Subitems',
-  PRIMARY KEY (`rule_id`),
+  `stop_rules_processing` smallint(6) NOT NULL default '1' COMMENT 'Stop Rules Processing',
+  `sort_order` int(10) unsigned NOT NULL default '0' COMMENT 'Sort Order',
+  `simple_action` varchar(32) default NULL COMMENT 'Simple Action',
+  `discount_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Discount Amount',
+  `sub_is_enable` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Rule Enable For Subitems',
+  `sub_simple_action` varchar(32) default NULL COMMENT 'Simple Action For Subitems',
+  `sub_discount_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Discount Amount For Subitems',
+  PRIMARY KEY  (`rule_id`),
   KEY `IDX_CATALOGRULE_IS_ACTIVE_SORT_ORDER_TO_DATE_FROM_DATE` (`is_active`,`sort_order`,`to_date`,`from_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule';
 
-# Dumping data for table catalogrule: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalogrule: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalogrule` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalogrule` ENABLE KEYS */;
 
 
-# Dumping structure for table catalogrule_affected_product
+# Dumping structure for table s5152d29ad0535.catalogrule_affected_product
 DROP TABLE IF EXISTS `catalogrule_affected_product`;
 CREATE TABLE IF NOT EXISTS `catalogrule_affected_product` (
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
-  PRIMARY KEY (`product_id`)
+  PRIMARY KEY  (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Affected Product';
 
-# Dumping data for table catalogrule_affected_product: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalogrule_affected_product: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalogrule_affected_product` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalogrule_affected_product` ENABLE KEYS */;
 
 
-# Dumping structure for table catalogrule_customer_group
+# Dumping structure for table s5152d29ad0535.catalogrule_customer_group
 DROP TABLE IF EXISTS `catalogrule_customer_group`;
 CREATE TABLE IF NOT EXISTS `catalogrule_customer_group` (
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
-  PRIMARY KEY (`rule_id`,`customer_group_id`),
+  PRIMARY KEY  (`rule_id`,`customer_group_id`),
   KEY `IDX_CATALOGRULE_CUSTOMER_GROUP_RULE_ID` (`rule_id`),
   KEY `IDX_CATALOGRULE_CUSTOMER_GROUP_CUSTOMER_GROUP_ID` (`customer_group_id`),
   CONSTRAINT `FK_CATALOGRULE_CUSTOMER_GROUP_RULE_ID_CATALOGRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `catalogrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATRULE_CSTR_GROUP_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Rules To Customer Groups Relations';
 
-# Dumping data for table catalogrule_customer_group: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalogrule_customer_group: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalogrule_customer_group` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalogrule_customer_group` ENABLE KEYS */;
 
 
-# Dumping structure for table catalogrule_group_website
+# Dumping structure for table s5152d29ad0535.catalogrule_group_website
 DROP TABLE IF EXISTS `catalogrule_group_website`;
 CREATE TABLE IF NOT EXISTS `catalogrule_group_website` (
-  `rule_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Rule Id',
-  `customer_group_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer Group Id',
-  `website_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Website Id',
-  PRIMARY KEY (`rule_id`,`customer_group_id`,`website_id`),
+  `rule_id` int(10) unsigned NOT NULL default '0' COMMENT 'Rule Id',
+  `customer_group_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Customer Group Id',
+  `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website Id',
+  PRIMARY KEY  (`rule_id`,`customer_group_id`,`website_id`),
   KEY `IDX_CATALOGRULE_GROUP_WEBSITE_RULE_ID` (`rule_id`),
   KEY `IDX_CATALOGRULE_GROUP_WEBSITE_CUSTOMER_GROUP_ID` (`customer_group_id`),
   KEY `IDX_CATALOGRULE_GROUP_WEBSITE_WEBSITE_ID` (`website_id`),
@@ -399,28 +402,28 @@ CREATE TABLE IF NOT EXISTS `catalogrule_group_website` (
   CONSTRAINT `FK_CATALOGRULE_GROUP_WEBSITE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Group Website';
 
-# Dumping data for table catalogrule_group_website: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalogrule_group_website: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalogrule_group_website` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalogrule_group_website` ENABLE KEYS */;
 
 
-# Dumping structure for table catalogrule_product
+# Dumping structure for table s5152d29ad0535.catalogrule_product
 DROP TABLE IF EXISTS `catalogrule_product`;
 CREATE TABLE IF NOT EXISTS `catalogrule_product` (
-  `rule_product_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rule Product Id',
-  `rule_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Rule Id',
-  `from_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'From Time',
-  `to_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'To time',
-  `customer_group_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer Group Id',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product Id',
-  `action_operator` varchar(10) DEFAULT 'to_fixed' COMMENT 'Action Operator',
-  `action_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Action Amount',
-  `action_stop` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Action Stop',
-  `sort_order` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Sort Order',
+  `rule_product_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rule Product Id',
+  `rule_id` int(10) unsigned NOT NULL default '0' COMMENT 'Rule Id',
+  `from_time` int(10) unsigned NOT NULL default '0' COMMENT 'From Time',
+  `to_time` int(10) unsigned NOT NULL default '0' COMMENT 'To time',
+  `customer_group_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Customer Group Id',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product Id',
+  `action_operator` varchar(10) default 'to_fixed' COMMENT 'Action Operator',
+  `action_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Action Amount',
+  `action_stop` smallint(6) NOT NULL default '0' COMMENT 'Action Stop',
+  `sort_order` int(10) unsigned NOT NULL default '0' COMMENT 'Sort Order',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  `sub_simple_action` varchar(32) DEFAULT NULL COMMENT 'Simple Action For Subitems',
-  `sub_discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Discount Amount For Subitems',
-  PRIMARY KEY (`rule_product_id`),
+  `sub_simple_action` varchar(32) default NULL COMMENT 'Simple Action For Subitems',
+  `sub_discount_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Discount Amount For Subitems',
+  PRIMARY KEY  (`rule_product_id`),
   UNIQUE KEY `EAA51B56FF092A0DCB795D1CEF812B7B` (`rule_id`,`from_time`,`to_time`,`website_id`,`customer_group_id`,`product_id`,`sort_order`),
   KEY `IDX_CATALOGRULE_PRODUCT_RULE_ID` (`rule_id`),
   KEY `IDX_CATALOGRULE_PRODUCT_CUSTOMER_GROUP_ID` (`customer_group_id`),
@@ -434,23 +437,23 @@ CREATE TABLE IF NOT EXISTS `catalogrule_product` (
   CONSTRAINT `FK_CATRULE_PRD_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Product';
 
-# Dumping data for table catalogrule_product: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalogrule_product: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalogrule_product` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalogrule_product` ENABLE KEYS */;
 
 
-# Dumping structure for table catalogrule_product_price
+# Dumping structure for table s5152d29ad0535.catalogrule_product_price
 DROP TABLE IF EXISTS `catalogrule_product_price`;
 CREATE TABLE IF NOT EXISTS `catalogrule_product_price` (
-  `rule_product_price_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rule Product PriceId',
+  `rule_product_price_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rule Product PriceId',
   `rule_date` date NOT NULL COMMENT 'Rule Date',
-  `customer_group_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer Group Id',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product Id',
-  `rule_price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Rule Price',
+  `customer_group_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Customer Group Id',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product Id',
+  `rule_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Rule Price',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  `latest_start_date` date DEFAULT NULL COMMENT 'Latest StartDate',
-  `earliest_end_date` date DEFAULT NULL COMMENT 'Earliest EndDate',
-  PRIMARY KEY (`rule_product_price_id`),
+  `latest_start_date` date default NULL COMMENT 'Latest StartDate',
+  `earliest_end_date` date default NULL COMMENT 'Earliest EndDate',
+  PRIMARY KEY  (`rule_product_price_id`),
   UNIQUE KEY `UNQ_CATRULE_PRD_PRICE_RULE_DATE_WS_ID_CSTR_GROUP_ID_PRD_ID` (`rule_date`,`website_id`,`customer_group_id`,`product_id`),
   KEY `IDX_CATALOGRULE_PRODUCT_PRICE_CUSTOMER_GROUP_ID` (`customer_group_id`),
   KEY `IDX_CATALOGRULE_PRODUCT_PRICE_WEBSITE_ID` (`website_id`),
@@ -460,163 +463,184 @@ CREATE TABLE IF NOT EXISTS `catalogrule_product_price` (
   CONSTRAINT `FK_CATALOGRULE_PRODUCT_PRICE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Product Price';
 
-# Dumping data for table catalogrule_product_price: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalogrule_product_price: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalogrule_product_price` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalogrule_product_price` ENABLE KEYS */;
 
 
-# Dumping structure for table catalogrule_website
+# Dumping structure for table s5152d29ad0535.catalogrule_website
 DROP TABLE IF EXISTS `catalogrule_website`;
 CREATE TABLE IF NOT EXISTS `catalogrule_website` (
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  PRIMARY KEY (`rule_id`,`website_id`),
+  PRIMARY KEY  (`rule_id`,`website_id`),
   KEY `IDX_CATALOGRULE_WEBSITE_RULE_ID` (`rule_id`),
   KEY `IDX_CATALOGRULE_WEBSITE_WEBSITE_ID` (`website_id`),
   CONSTRAINT `FK_CATALOGRULE_WEBSITE_RULE_ID_CATALOGRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `catalogrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOGRULE_WEBSITE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Rules To Websites Relations';
 
-# Dumping data for table catalogrule_website: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalogrule_website: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalogrule_website` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalogrule_website` ENABLE KEYS */;
 
 
-# Dumping structure for table catalogsearch_fulltext
+# Dumping structure for table s5152d29ad0535.catalogsearch_fulltext
 DROP TABLE IF EXISTS `catalogsearch_fulltext`;
 CREATE TABLE IF NOT EXISTS `catalogsearch_fulltext` (
-  `fulltext_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity ID',
+  `fulltext_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity ID',
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product ID',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
   `data_index` longtext COMMENT 'Data index',
-  PRIMARY KEY (`fulltext_id`),
+  PRIMARY KEY  (`fulltext_id`),
   UNIQUE KEY `UNQ_CATALOGSEARCH_FULLTEXT_PRODUCT_ID_STORE_ID` (`product_id`,`store_id`),
   FULLTEXT KEY `FTI_CATALOGSEARCH_FULLTEXT_DATA_INDEX` (`data_index`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Catalog search result table';
 
-# Dumping data for table catalogsearch_fulltext: 0 rows
+# Dumping data for table s5152d29ad0535.catalogsearch_fulltext: 0 rows
 /*!40000 ALTER TABLE `catalogsearch_fulltext` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalogsearch_fulltext` ENABLE KEYS */;
 
 
-# Dumping structure for table catalogsearch_query
+# Dumping structure for table s5152d29ad0535.catalogsearch_query
 DROP TABLE IF EXISTS `catalogsearch_query`;
 CREATE TABLE IF NOT EXISTS `catalogsearch_query` (
-  `query_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Query ID',
-  `query_text` varchar(255) DEFAULT NULL COMMENT 'Query text',
-  `num_results` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Num results',
-  `popularity` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Popularity',
-  `redirect` varchar(255) DEFAULT NULL COMMENT 'Redirect',
-  `synonym_for` varchar(255) DEFAULT NULL COMMENT 'Synonym for',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `display_in_terms` smallint(6) NOT NULL DEFAULT '1' COMMENT 'Display in terms',
-  `is_active` smallint(6) DEFAULT '1' COMMENT 'Active status',
-  `is_processed` smallint(6) DEFAULT '0' COMMENT 'Processed status',
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Updated at',
-  PRIMARY KEY (`query_id`),
+  `query_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Query ID',
+  `query_text` varchar(255) default NULL COMMENT 'Query text',
+  `num_results` int(10) unsigned NOT NULL default '0' COMMENT 'Num results',
+  `popularity` int(10) unsigned NOT NULL default '0' COMMENT 'Popularity',
+  `redirect` varchar(255) default NULL COMMENT 'Redirect',
+  `synonym_for` varchar(255) default NULL COMMENT 'Synonym for',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `display_in_terms` smallint(6) NOT NULL default '1' COMMENT 'Display in terms',
+  `is_active` smallint(6) default '1' COMMENT 'Active status',
+  `is_processed` smallint(6) default '0' COMMENT 'Processed status',
+  `updated_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Updated at',
+  PRIMARY KEY  (`query_id`),
   KEY `IDX_CATALOGSEARCH_QUERY_QUERY_TEXT_STORE_ID_POPULARITY` (`query_text`,`store_id`,`popularity`),
   KEY `IDX_CATALOGSEARCH_QUERY_STORE_ID` (`store_id`),
+  KEY `IDX_CATALOGSEARCH_QUERY_NUM_RESULTS` (`num_results`),
+  KEY `IDX_CATALOGSEARCH_QUERY_QUERY_TEXT` (`query_text`),
+  KEY `IDX_CATALOGSEARCH_QUERY_QUERY_TEXT_STORE_ID_NUM_RESULTS` (`query_text`,`store_id`,`num_results`),
   CONSTRAINT `FK_CATALOGSEARCH_QUERY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog search query table';
 
-# Dumping data for table catalogsearch_query: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalogsearch_query: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalogsearch_query` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalogsearch_query` ENABLE KEYS */;
 
 
-# Dumping structure for table catalogsearch_result
+# Dumping structure for table s5152d29ad0535.catalogsearch_recommendations
+DROP TABLE IF EXISTS `catalogsearch_recommendations`;
+CREATE TABLE IF NOT EXISTS `catalogsearch_recommendations` (
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `query_id` int(10) unsigned NOT NULL default '0' COMMENT 'Query Id',
+  `relation_id` int(10) unsigned NOT NULL default '0' COMMENT 'Relation Id',
+  PRIMARY KEY  (`id`),
+  KEY `FK_CATSRCH_RECOMMENDATIONS_QR_ID_CATSRCH_QR_QR_ID` (`query_id`),
+  KEY `FK_CATSRCH_RECOMMENDATIONS_RELATION_ID_CATSRCH_QR_QR_ID` (`relation_id`),
+  CONSTRAINT `FK_CATSRCH_RECOMMENDATIONS_QR_ID_CATSRCH_QR_QR_ID` FOREIGN KEY (`query_id`) REFERENCES `catalogsearch_query` (`query_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_CATSRCH_RECOMMENDATIONS_RELATION_ID_CATSRCH_QR_QR_ID` FOREIGN KEY (`relation_id`) REFERENCES `catalogsearch_query` (`query_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Search Recommendations';
+
+# Dumping data for table s5152d29ad0535.catalogsearch_recommendations: ~0 rows (approximately)
+/*!40000 ALTER TABLE `catalogsearch_recommendations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `catalogsearch_recommendations` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.catalogsearch_result
 DROP TABLE IF EXISTS `catalogsearch_result`;
 CREATE TABLE IF NOT EXISTS `catalogsearch_result` (
   `query_id` int(10) unsigned NOT NULL COMMENT 'Query ID',
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product ID',
-  `relevance` decimal(20,4) NOT NULL DEFAULT '0.0000' COMMENT 'Relevance',
-  PRIMARY KEY (`query_id`,`product_id`),
+  `relevance` decimal(20,4) NOT NULL default '0.0000' COMMENT 'Relevance',
+  PRIMARY KEY  (`query_id`,`product_id`),
   KEY `IDX_CATALOGSEARCH_RESULT_QUERY_ID` (`query_id`),
   KEY `IDX_CATALOGSEARCH_RESULT_PRODUCT_ID` (`product_id`),
   CONSTRAINT `FK_CATALOGSEARCH_RESULT_QUERY_ID_CATALOGSEARCH_QUERY_QUERY_ID` FOREIGN KEY (`query_id`) REFERENCES `catalogsearch_query` (`query_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATSRCH_RESULT_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog search result table';
 
-# Dumping data for table catalogsearch_result: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalogsearch_result: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalogsearch_result` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalogsearch_result` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_category_anc_categs_index_idx
+# Dumping structure for table s5152d29ad0535.catalog_category_anc_categs_index_idx
 DROP TABLE IF EXISTS `catalog_category_anc_categs_index_idx`;
 CREATE TABLE IF NOT EXISTS `catalog_category_anc_categs_index_idx` (
-  `category_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Category ID',
-  `path` varchar(255) DEFAULT NULL COMMENT 'Path',
+  `category_id` int(10) unsigned NOT NULL default '0' COMMENT 'Category ID',
+  `path` varchar(255) default NULL COMMENT 'Path',
   KEY `IDX_CATALOG_CATEGORY_ANC_CATEGS_INDEX_IDX_CATEGORY_ID` (`category_id`),
   KEY `IDX_CATALOG_CATEGORY_ANC_CATEGS_INDEX_IDX_PATH_CATEGORY_ID` (`path`,`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Anchor Indexer Index Table';
 
-# Dumping data for table catalog_category_anc_categs_index_idx: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_category_anc_categs_index_idx: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_category_anc_categs_index_idx` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_category_anc_categs_index_idx` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_category_anc_categs_index_tmp
+# Dumping structure for table s5152d29ad0535.catalog_category_anc_categs_index_tmp
 DROP TABLE IF EXISTS `catalog_category_anc_categs_index_tmp`;
 CREATE TABLE IF NOT EXISTS `catalog_category_anc_categs_index_tmp` (
-  `category_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Category ID',
-  `path` varchar(255) DEFAULT NULL COMMENT 'Path',
+  `category_id` int(10) unsigned NOT NULL default '0' COMMENT 'Category ID',
+  `path` varchar(255) default NULL COMMENT 'Path',
   KEY `IDX_CATALOG_CATEGORY_ANC_CATEGS_INDEX_TMP_CATEGORY_ID` (`category_id`),
   KEY `IDX_CATALOG_CATEGORY_ANC_CATEGS_INDEX_TMP_PATH_CATEGORY_ID` (`path`,`category_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Category Anchor Indexer Temp Table';
 
-# Dumping data for table catalog_category_anc_categs_index_tmp: 0 rows
+# Dumping data for table s5152d29ad0535.catalog_category_anc_categs_index_tmp: 0 rows
 /*!40000 ALTER TABLE `catalog_category_anc_categs_index_tmp` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_category_anc_categs_index_tmp` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_category_anc_products_index_idx
+# Dumping structure for table s5152d29ad0535.catalog_category_anc_products_index_idx
 DROP TABLE IF EXISTS `catalog_category_anc_products_index_idx`;
 CREATE TABLE IF NOT EXISTS `catalog_category_anc_products_index_idx` (
-  `category_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Category ID',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product ID',
-  `position` int(10) unsigned DEFAULT NULL COMMENT 'Position',
+  `category_id` int(10) unsigned NOT NULL default '0' COMMENT 'Category ID',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
+  `position` int(10) unsigned default NULL COMMENT 'Position',
   KEY `IDX_CAT_CTGR_ANC_PRDS_IDX_IDX_CTGR_ID_PRD_ID_POSITION` (`category_id`,`product_id`,`position`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Anchor Product Indexer Index Table';
 
-# Dumping data for table catalog_category_anc_products_index_idx: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_category_anc_products_index_idx: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_category_anc_products_index_idx` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_category_anc_products_index_idx` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_category_anc_products_index_tmp
+# Dumping structure for table s5152d29ad0535.catalog_category_anc_products_index_tmp
 DROP TABLE IF EXISTS `catalog_category_anc_products_index_tmp`;
 CREATE TABLE IF NOT EXISTS `catalog_category_anc_products_index_tmp` (
-  `category_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Category ID',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product ID',
-  `position` int(10) unsigned DEFAULT NULL COMMENT 'Position',
+  `category_id` int(10) unsigned NOT NULL default '0' COMMENT 'Category ID',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
+  `position` int(10) unsigned default NULL COMMENT 'Position',
   KEY `IDX_CAT_CTGR_ANC_PRDS_IDX_TMP_CTGR_ID_PRD_ID_POSITION` (`category_id`,`product_id`,`position`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Category Anchor Product Indexer Temp Table';
 
-# Dumping data for table catalog_category_anc_products_index_tmp: 0 rows
+# Dumping data for table s5152d29ad0535.catalog_category_anc_products_index_tmp: 0 rows
 /*!40000 ALTER TABLE `catalog_category_anc_products_index_tmp` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_category_anc_products_index_tmp` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_category_entity
+# Dumping structure for table s5152d29ad0535.catalog_category_entity
 DROP TABLE IF EXISTS `catalog_category_entity`;
 CREATE TABLE IF NOT EXISTS `catalog_category_entity` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity ID',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type ID',
-  `attribute_set_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attriute Set ID',
-  `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Parent Category ID',
-  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Creation Time',
-  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Update Time',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity ID',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
+  `attribute_set_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attriute Set ID',
+  `parent_id` int(10) unsigned NOT NULL default '0' COMMENT 'Parent Category ID',
+  `created_at` timestamp NULL default NULL COMMENT 'Creation Time',
+  `updated_at` timestamp NULL default NULL COMMENT 'Update Time',
   `path` varchar(255) NOT NULL COMMENT 'Tree Path',
   `position` int(11) NOT NULL COMMENT 'Position',
-  `level` int(11) NOT NULL DEFAULT '0' COMMENT 'Tree Level',
+  `level` int(11) NOT NULL default '0' COMMENT 'Tree Level',
   `children_count` int(11) NOT NULL COMMENT 'Child Count',
-  PRIMARY KEY (`entity_id`),
+  PRIMARY KEY  (`entity_id`),
   KEY `IDX_CATALOG_CATEGORY_ENTITY_LEVEL` (`level`),
   KEY `IDX_CATALOG_CATEGORY_ENTITY_PATH_ENTITY_ID` (`path`,`entity_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Catalog Category Table';
 
-# Dumping data for table catalog_category_entity: ~2 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_category_entity: ~2 rows (approximately)
 /*!40000 ALTER TABLE `catalog_category_entity` DISABLE KEYS */;
 INSERT INTO `catalog_category_entity` (`entity_id`, `entity_type_id`, `attribute_set_id`, `parent_id`, `created_at`, `updated_at`, `path`, `position`, `level`, `children_count`) VALUES
 	(1, 3, 0, 0, '2013-02-28 19:03:08', '2013-02-28 19:03:08', '1', 0, 0, 1),
@@ -624,16 +648,16 @@ INSERT INTO `catalog_category_entity` (`entity_id`, `entity_type_id`, `attribute
 /*!40000 ALTER TABLE `catalog_category_entity` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_category_entity_datetime
+# Dumping structure for table s5152d29ad0535.catalog_category_entity_datetime
 DROP TABLE IF EXISTS `catalog_category_entity_datetime`;
 CREATE TABLE IF NOT EXISTS `catalog_category_entity_datetime` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type ID',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity ID',
-  `value` datetime DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity ID',
+  `value` datetime default NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CAT_CTGR_ENTT_DTIME_ENTT_TYPE_ID_ENTT_ID_ATTR_ID_STORE_ID` (`entity_type_id`,`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_CATALOG_CATEGORY_ENTITY_DATETIME_ENTITY_ID` (`entity_id`),
   KEY `IDX_CATALOG_CATEGORY_ENTITY_DATETIME_ATTRIBUTE_ID` (`attribute_id`),
@@ -643,21 +667,21 @@ CREATE TABLE IF NOT EXISTS `catalog_category_entity_datetime` (
   CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_DATETIME_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Datetime Attribute Backend Table';
 
-# Dumping data for table catalog_category_entity_datetime: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_category_entity_datetime: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_category_entity_datetime` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_category_entity_datetime` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_category_entity_decimal
+# Dumping structure for table s5152d29ad0535.catalog_category_entity_decimal
 DROP TABLE IF EXISTS `catalog_category_entity_decimal`;
 CREATE TABLE IF NOT EXISTS `catalog_category_entity_decimal` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type ID',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity ID',
-  `value` decimal(12,4) DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity ID',
+  `value` decimal(12,4) default NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CAT_CTGR_ENTT_DEC_ENTT_TYPE_ID_ENTT_ID_ATTR_ID_STORE_ID` (`entity_type_id`,`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_CATALOG_CATEGORY_ENTITY_DECIMAL_ENTITY_ID` (`entity_id`),
   KEY `IDX_CATALOG_CATEGORY_ENTITY_DECIMAL_ATTRIBUTE_ID` (`attribute_id`),
@@ -667,21 +691,21 @@ CREATE TABLE IF NOT EXISTS `catalog_category_entity_decimal` (
   CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_DECIMAL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Decimal Attribute Backend Table';
 
-# Dumping data for table catalog_category_entity_decimal: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_category_entity_decimal: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_category_entity_decimal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_category_entity_decimal` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_category_entity_int
+# Dumping structure for table s5152d29ad0535.catalog_category_entity_int
 DROP TABLE IF EXISTS `catalog_category_entity_int`;
 CREATE TABLE IF NOT EXISTS `catalog_category_entity_int` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type ID',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity ID',
-  `value` int(11) DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity ID',
+  `value` int(11) default NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CAT_CTGR_ENTT_INT_ENTT_TYPE_ID_ENTT_ID_ATTR_ID_STORE_ID` (`entity_type_id`,`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_CATALOG_CATEGORY_ENTITY_INT_ENTITY_ID` (`entity_id`),
   KEY `IDX_CATALOG_CATEGORY_ENTITY_INT_ATTRIBUTE_ID` (`attribute_id`),
@@ -691,7 +715,7 @@ CREATE TABLE IF NOT EXISTS `catalog_category_entity_int` (
   CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_INT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Catalog Category Integer Attribute Backend Table';
 
-# Dumping data for table catalog_category_entity_int: ~6 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_category_entity_int: ~6 rows (approximately)
 /*!40000 ALTER TABLE `catalog_category_entity_int` DISABLE KEYS */;
 INSERT INTO `catalog_category_entity_int` (`value_id`, `entity_type_id`, `attribute_id`, `store_id`, `entity_id`, `value`) VALUES
 	(1, 3, 67, 0, 1, 1),
@@ -703,16 +727,16 @@ INSERT INTO `catalog_category_entity_int` (`value_id`, `entity_type_id`, `attrib
 /*!40000 ALTER TABLE `catalog_category_entity_int` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_category_entity_text
+# Dumping structure for table s5152d29ad0535.catalog_category_entity_text
 DROP TABLE IF EXISTS `catalog_category_entity_text`;
 CREATE TABLE IF NOT EXISTS `catalog_category_entity_text` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type ID',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity ID',
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity ID',
   `value` text COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CAT_CTGR_ENTT_TEXT_ENTT_TYPE_ID_ENTT_ID_ATTR_ID_STORE_ID` (`entity_type_id`,`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_CATALOG_CATEGORY_ENTITY_TEXT_ENTITY_ID` (`entity_id`),
   KEY `IDX_CATALOG_CATEGORY_ENTITY_TEXT_ATTRIBUTE_ID` (`attribute_id`),
@@ -722,7 +746,7 @@ CREATE TABLE IF NOT EXISTS `catalog_category_entity_text` (
   CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_TEXT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Catalog Category Text Attribute Backend Table';
 
-# Dumping data for table catalog_category_entity_text: ~4 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_category_entity_text: ~4 rows (approximately)
 /*!40000 ALTER TABLE `catalog_category_entity_text` DISABLE KEYS */;
 INSERT INTO `catalog_category_entity_text` (`value_id`, `entity_type_id`, `attribute_id`, `store_id`, `entity_id`, `value`) VALUES
 	(1, 3, 65, 0, 1, NULL),
@@ -732,16 +756,16 @@ INSERT INTO `catalog_category_entity_text` (`value_id`, `entity_type_id`, `attri
 /*!40000 ALTER TABLE `catalog_category_entity_text` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_category_entity_varchar
+# Dumping structure for table s5152d29ad0535.catalog_category_entity_varchar
 DROP TABLE IF EXISTS `catalog_category_entity_varchar`;
 CREATE TABLE IF NOT EXISTS `catalog_category_entity_varchar` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type ID',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity ID',
-  `value` varchar(255) DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity ID',
+  `value` varchar(255) default NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CAT_CTGR_ENTT_VCHR_ENTT_TYPE_ID_ENTT_ID_ATTR_ID_STORE_ID` (`entity_type_id`,`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_CATALOG_CATEGORY_ENTITY_VARCHAR_ENTITY_ID` (`entity_id`),
   KEY `IDX_CATALOG_CATEGORY_ENTITY_VARCHAR_ATTRIBUTE_ID` (`attribute_id`),
@@ -751,7 +775,7 @@ CREATE TABLE IF NOT EXISTS `catalog_category_entity_varchar` (
   CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_VARCHAR_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='Catalog Category Varchar Attribute Backend Table';
 
-# Dumping data for table catalog_category_entity_varchar: ~7 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_category_entity_varchar: ~7 rows (approximately)
 /*!40000 ALTER TABLE `catalog_category_entity_varchar` DISABLE KEYS */;
 INSERT INTO `catalog_category_entity_varchar` (`value_id`, `entity_type_id`, `attribute_id`, `store_id`, `entity_id`, `value`) VALUES
 	(1, 3, 41, 0, 1, 'Root Catalog'),
@@ -764,33 +788,33 @@ INSERT INTO `catalog_category_entity_varchar` (`value_id`, `entity_type_id`, `at
 /*!40000 ALTER TABLE `catalog_category_entity_varchar` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_category_product
+# Dumping structure for table s5152d29ad0535.catalog_category_product
 DROP TABLE IF EXISTS `catalog_category_product`;
 CREATE TABLE IF NOT EXISTS `catalog_category_product` (
-  `category_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Category ID',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product ID',
-  `position` int(11) NOT NULL DEFAULT '0' COMMENT 'Position',
-  PRIMARY KEY (`category_id`,`product_id`),
+  `category_id` int(10) unsigned NOT NULL default '0' COMMENT 'Category ID',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
+  `position` int(11) NOT NULL default '0' COMMENT 'Position',
+  PRIMARY KEY  (`category_id`,`product_id`),
   KEY `IDX_CATALOG_CATEGORY_PRODUCT_PRODUCT_ID` (`product_id`),
   CONSTRAINT `FK_CAT_CTGR_PRD_CTGR_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`category_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_CTGR_PRD_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product To Category Linkage Table';
 
-# Dumping data for table catalog_category_product: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_category_product: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_category_product` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_category_product` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_category_product_index
+# Dumping structure for table s5152d29ad0535.catalog_category_product_index
 DROP TABLE IF EXISTS `catalog_category_product_index`;
 CREATE TABLE IF NOT EXISTS `catalog_category_product_index` (
-  `category_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Category ID',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product ID',
-  `position` int(11) DEFAULT NULL COMMENT 'Position',
-  `is_parent` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Parent',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
+  `category_id` int(10) unsigned NOT NULL default '0' COMMENT 'Category ID',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
+  `position` int(11) default NULL COMMENT 'Position',
+  `is_parent` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Parent',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
   `visibility` smallint(5) unsigned NOT NULL COMMENT 'Visibility',
-  PRIMARY KEY (`category_id`,`product_id`,`store_id`),
+  PRIMARY KEY  (`category_id`,`product_id`,`store_id`),
   KEY `IDX_CAT_CTGR_PRD_IDX_PRD_ID_STORE_ID_CTGR_ID_VISIBILITY` (`product_id`,`store_id`,`category_id`,`visibility`),
   KEY `15D3C269665C74C2219037D534F4B0DC` (`store_id`,`category_id`,`visibility`,`is_parent`,`position`),
   CONSTRAINT `FK_CATALOG_CATEGORY_PRODUCT_INDEX_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -798,80 +822,80 @@ CREATE TABLE IF NOT EXISTS `catalog_category_product_index` (
   CONSTRAINT `FK_CAT_CTGR_PRD_IDX_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Product Index';
 
-# Dumping data for table catalog_category_product_index: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_category_product_index: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_category_product_index` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_category_product_index` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_category_product_index_enbl_idx
+# Dumping structure for table s5152d29ad0535.catalog_category_product_index_enbl_idx
 DROP TABLE IF EXISTS `catalog_category_product_index_enbl_idx`;
 CREATE TABLE IF NOT EXISTS `catalog_category_product_index_enbl_idx` (
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product ID',
-  `visibility` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Visibility',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
+  `visibility` int(10) unsigned NOT NULL default '0' COMMENT 'Visibility',
   KEY `IDX_CAT_CTGR_PRD_IDX_ENBL_IDX_PRD_ID_VISIBILITY` (`product_id`,`visibility`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Product Enabled Indexer Index Table';
 
-# Dumping data for table catalog_category_product_index_enbl_idx: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_category_product_index_enbl_idx: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_category_product_index_enbl_idx` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_category_product_index_enbl_idx` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_category_product_index_enbl_tmp
+# Dumping structure for table s5152d29ad0535.catalog_category_product_index_enbl_tmp
 DROP TABLE IF EXISTS `catalog_category_product_index_enbl_tmp`;
 CREATE TABLE IF NOT EXISTS `catalog_category_product_index_enbl_tmp` (
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product ID',
-  `visibility` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Visibility',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
+  `visibility` int(10) unsigned NOT NULL default '0' COMMENT 'Visibility',
   KEY `IDX_CAT_CTGR_PRD_IDX_ENBL_TMP_PRD_ID_VISIBILITY` (`product_id`,`visibility`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Category Product Enabled Indexer Temp Table';
 
-# Dumping data for table catalog_category_product_index_enbl_tmp: 0 rows
+# Dumping data for table s5152d29ad0535.catalog_category_product_index_enbl_tmp: 0 rows
 /*!40000 ALTER TABLE `catalog_category_product_index_enbl_tmp` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_category_product_index_enbl_tmp` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_category_product_index_idx
+# Dumping structure for table s5152d29ad0535.catalog_category_product_index_idx
 DROP TABLE IF EXISTS `catalog_category_product_index_idx`;
 CREATE TABLE IF NOT EXISTS `catalog_category_product_index_idx` (
-  `category_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Category ID',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product ID',
-  `position` int(11) NOT NULL DEFAULT '0' COMMENT 'Position',
-  `is_parent` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Parent',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
+  `category_id` int(10) unsigned NOT NULL default '0' COMMENT 'Category ID',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
+  `position` int(11) NOT NULL default '0' COMMENT 'Position',
+  `is_parent` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Parent',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
   `visibility` smallint(5) unsigned NOT NULL COMMENT 'Visibility',
   KEY `IDX_CAT_CTGR_PRD_IDX_IDX_PRD_ID_CTGR_ID_STORE_ID` (`product_id`,`category_id`,`store_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Product Indexer Index Table';
 
-# Dumping data for table catalog_category_product_index_idx: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_category_product_index_idx: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_category_product_index_idx` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_category_product_index_idx` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_category_product_index_tmp
+# Dumping structure for table s5152d29ad0535.catalog_category_product_index_tmp
 DROP TABLE IF EXISTS `catalog_category_product_index_tmp`;
 CREATE TABLE IF NOT EXISTS `catalog_category_product_index_tmp` (
-  `category_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Category ID',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product ID',
-  `position` int(11) NOT NULL DEFAULT '0' COMMENT 'Position',
-  `is_parent` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Parent',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
+  `category_id` int(10) unsigned NOT NULL default '0' COMMENT 'Category ID',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
+  `position` int(11) NOT NULL default '0' COMMENT 'Position',
+  `is_parent` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Parent',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
   `visibility` smallint(5) unsigned NOT NULL COMMENT 'Visibility',
   KEY `IDX_CAT_CTGR_PRD_IDX_TMP_PRD_ID_CTGR_ID_STORE_ID` (`product_id`,`category_id`,`store_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Category Product Indexer Temp Table';
 
-# Dumping data for table catalog_category_product_index_tmp: 0 rows
+# Dumping data for table s5152d29ad0535.catalog_category_product_index_tmp: 0 rows
 /*!40000 ALTER TABLE `catalog_category_product_index_tmp` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_category_product_index_tmp` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_compare_item
+# Dumping structure for table s5152d29ad0535.catalog_compare_item
 DROP TABLE IF EXISTS `catalog_compare_item`;
 CREATE TABLE IF NOT EXISTS `catalog_compare_item` (
-  `catalog_compare_item_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Compare Item ID',
-  `visitor_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Visitor ID',
-  `customer_id` int(10) unsigned DEFAULT NULL COMMENT 'Customer ID',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product ID',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store ID',
-  PRIMARY KEY (`catalog_compare_item_id`),
+  `catalog_compare_item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Compare Item ID',
+  `visitor_id` int(10) unsigned NOT NULL default '0' COMMENT 'Visitor ID',
+  `customer_id` int(10) unsigned default NULL COMMENT 'Customer ID',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store ID',
+  PRIMARY KEY  (`catalog_compare_item_id`),
   KEY `IDX_CATALOG_COMPARE_ITEM_CUSTOMER_ID` (`customer_id`),
   KEY `IDX_CATALOG_COMPARE_ITEM_PRODUCT_ID` (`product_id`),
   KEY `IDX_CATALOG_COMPARE_ITEM_VISITOR_ID_PRODUCT_ID` (`visitor_id`,`product_id`),
@@ -882,174 +906,193 @@ CREATE TABLE IF NOT EXISTS `catalog_compare_item` (
   CONSTRAINT `FK_CATALOG_COMPARE_ITEM_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Compare Table';
 
-# Dumping data for table catalog_compare_item: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_compare_item: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_compare_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_compare_item` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_eav_attribute
+# Dumping structure for table s5152d29ad0535.catalog_eav_attribute
 DROP TABLE IF EXISTS `catalog_eav_attribute`;
 CREATE TABLE IF NOT EXISTS `catalog_eav_attribute` (
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
-  `frontend_input_renderer` varchar(255) DEFAULT NULL COMMENT 'Frontend Input Renderer',
-  `is_global` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Is Global',
-  `is_visible` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Is Visible',
-  `is_searchable` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Searchable',
-  `is_filterable` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Filterable',
-  `is_comparable` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Comparable',
-  `is_visible_on_front` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Visible On Front',
-  `is_html_allowed_on_front` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is HTML Allowed On Front',
-  `is_used_for_price_rules` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Used For Price Rules',
-  `is_filterable_in_search` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Filterable In Search',
-  `used_in_product_listing` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Used In Product Listing',
-  `used_for_sort_by` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Used For Sorting',
-  `is_configurable` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Is Configurable',
-  `apply_to` varchar(255) DEFAULT NULL COMMENT 'Apply To',
-  `is_visible_in_advanced_search` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Visible In Advanced Search',
-  `position` int(11) NOT NULL DEFAULT '0' COMMENT 'Position',
-  `is_wysiwyg_enabled` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is WYSIWYG Enabled',
-  `is_used_for_promo_rules` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Used For Promo Rules',
-  PRIMARY KEY (`attribute_id`),
+  `frontend_input_renderer` varchar(255) default NULL COMMENT 'Frontend Input Renderer',
+  `is_global` smallint(5) unsigned NOT NULL default '1' COMMENT 'Is Global',
+  `is_visible` smallint(5) unsigned NOT NULL default '1' COMMENT 'Is Visible',
+  `is_searchable` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Searchable',
+  `is_filterable` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Filterable',
+  `is_comparable` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Comparable',
+  `is_visible_on_front` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Visible On Front',
+  `is_html_allowed_on_front` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is HTML Allowed On Front',
+  `is_used_for_price_rules` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Used For Price Rules',
+  `is_filterable_in_search` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Filterable In Search',
+  `used_in_product_listing` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Used In Product Listing',
+  `used_for_sort_by` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Used For Sorting',
+  `is_configurable` smallint(5) unsigned NOT NULL default '1' COMMENT 'Is Configurable',
+  `apply_to` varchar(255) default NULL COMMENT 'Apply To',
+  `is_visible_in_advanced_search` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Visible In Advanced Search',
+  `position` int(11) NOT NULL default '0' COMMENT 'Position',
+  `is_wysiwyg_enabled` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is WYSIWYG Enabled',
+  `is_used_for_promo_rules` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Used For Promo Rules',
+  `search_weight` smallint(5) unsigned NOT NULL default '1' COMMENT 'Search Weight',
+  PRIMARY KEY  (`attribute_id`),
   KEY `IDX_CATALOG_EAV_ATTRIBUTE_USED_FOR_SORT_BY` (`used_for_sort_by`),
   KEY `IDX_CATALOG_EAV_ATTRIBUTE_USED_IN_PRODUCT_LISTING` (`used_in_product_listing`),
   CONSTRAINT `FK_CATALOG_EAV_ATTRIBUTE_ATTRIBUTE_ID_EAV_ATTRIBUTE_ATTRIBUTE_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog EAV Attribute Table';
 
-# Dumping data for table catalog_eav_attribute: ~93 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_eav_attribute: ~111 rows (approximately)
 /*!40000 ALTER TABLE `catalog_eav_attribute` DISABLE KEYS */;
-INSERT INTO `catalog_eav_attribute` (`attribute_id`, `frontend_input_renderer`, `is_global`, `is_visible`, `is_searchable`, `is_filterable`, `is_comparable`, `is_visible_on_front`, `is_html_allowed_on_front`, `is_used_for_price_rules`, `is_filterable_in_search`, `used_in_product_listing`, `used_for_sort_by`, `is_configurable`, `apply_to`, `is_visible_in_advanced_search`, `position`, `is_wysiwyg_enabled`, `is_used_for_promo_rules`) VALUES
-	(41, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(42, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(43, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(44, NULL, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, NULL, 0, 0, 1, 0),
-	(45, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(46, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(47, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(48, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(49, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(50, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(51, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(52, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(53, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(54, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(55, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(56, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(57, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(58, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(59, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(60, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(61, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(62, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(63, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(64, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(65, 'Mage_Adminhtml_Block_Catalog_Category_Helper_Sortby_Available', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(66, 'Mage_Adminhtml_Block_Catalog_Category_Helper_Sortby_Default', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(67, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(68, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(69, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(70, 'Mage_Adminhtml_Block_Catalog_Category_Helper_Pricestep', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(71, NULL, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, NULL, 1, 0, 0, 0),
-	(72, NULL, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, NULL, 1, 0, 0, 0),
-	(73, NULL, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, NULL, 1, 0, 1, 0),
-	(74, NULL, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, NULL, 1, 0, 1, 0),
-	(75, NULL, 2, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 'simple,configurable,virtual,bundle,downloadable', 1, 0, 0, 0),
-	(76, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,configurable,virtual,bundle,downloadable', 0, 0, 0, 0),
-	(77, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,configurable,virtual,bundle,downloadable', 0, 0, 0, 0),
-	(78, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,configurable,virtual,bundle,downloadable', 0, 0, 0, 0),
-	(79, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'virtual,downloadable', 0, 0, 0, 0),
-	(80, 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'simple,virtual,configurable,bundle,downloadable', 0, 0, 0, 0),
-	(81, NULL, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 'simple', 1, 0, 0, 0),
-	(82, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(83, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(84, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(85, 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(86, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, NULL, 0, 0, 0, 0),
-	(87, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, NULL, 0, 0, 0, 0),
-	(88, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(89, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(90, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'simple,configurable,virtual,bundle,downloadable', 0, 0, 0, 0),
-	(91, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'simple,configurable,virtual,bundle,downloadable', 0, 0, 0, 0),
-	(92, NULL, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 'simple', 1, 0, 0, 0),
-	(93, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, NULL, 0, 0, 0, 0),
-	(94, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, NULL, 0, 0, 0, 0),
-	(95, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(96, NULL, 2, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, NULL, 0, 0, 0, 0),
-	(97, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, NULL, 0, 0, 0, 0),
-	(98, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(99, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'simple,configurable,virtual,bundle,downloadable', 0, 0, 0, 0),
-	(100, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'simple,virtual', 0, 0, 0, 0),
-	(101, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'simple,virtual', 0, 0, 0, 0),
-	(102, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(103, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(104, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(105, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(106, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(107, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(108, 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(109, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(110, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, NULL, 0, 0, 0, 0),
-	(111, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(112, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, NULL, 0, 0, 0, 0),
-	(113, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, NULL, 0, 0, 0, 0),
-	(114, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, NULL, 0, 0, 0, 0),
-	(115, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(116, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0),
-	(117, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'simple,configurable,bundle,grouped', 0, 0, 0, 0),
-	(118, 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Msrp_Enabled', 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,bundle,configurable,virtual,downloadable', 0, 0, 0, 0),
-	(119, 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Msrp_Price', 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,bundle,configurable,virtual,downloadable', 0, 0, 0, 0),
-	(120, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,bundle,configurable,virtual,downloadable', 0, 0, 0, 0),
-	(121, 'Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, 0, 0, 0, 0),
-	(122, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 'bundle', 0, 0, 0, 0),
-	(123, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'bundle', 0, 0, 0, 0),
-	(124, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 'bundle', 0, 0, 0, 0),
-	(125, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 'bundle', 0, 0, 0, 0),
-	(126, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 'bundle', 0, 0, 0, 0),
-	(127, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 'downloadable', 0, 0, 0, 0),
-	(128, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'downloadable', 0, 0, 0, 0),
-	(129, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'downloadable', 0, 0, 0, 0),
-	(130, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 'downloadable', 0, 0, 0, 0),
-	(131, 'Mage_GiftMessage_Block_Adminhtml_Product_Helper_Form_Config', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, 0, 0, 0, 0),
-	(132, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, 0, 0, 0, 0),
-	(133, NULL, 2, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,configurable,virtual,downloadable,bundle', 1, 0, 0, 0);
+INSERT INTO `catalog_eav_attribute` (`attribute_id`, `frontend_input_renderer`, `is_global`, `is_visible`, `is_searchable`, `is_filterable`, `is_comparable`, `is_visible_on_front`, `is_html_allowed_on_front`, `is_used_for_price_rules`, `is_filterable_in_search`, `used_in_product_listing`, `used_for_sort_by`, `is_configurable`, `apply_to`, `is_visible_in_advanced_search`, `position`, `is_wysiwyg_enabled`, `is_used_for_promo_rules`, `search_weight`) VALUES
+	(41, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(42, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(43, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(44, NULL, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, NULL, 0, 0, 1, 0, 1),
+	(45, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(46, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(47, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(48, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(49, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(50, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(51, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(52, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(53, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(54, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(55, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(56, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(57, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(58, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(59, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(60, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(61, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(62, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(63, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(64, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(65, 'Mage_Adminhtml_Block_Catalog_Category_Helper_Sortby_Available', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(66, 'Mage_Adminhtml_Block_Catalog_Category_Helper_Sortby_Default', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(67, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(68, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(69, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(70, 'Mage_Adminhtml_Block_Catalog_Category_Helper_Pricestep', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(71, NULL, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, NULL, 1, 0, 0, 0, 1),
+	(72, NULL, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, NULL, 1, 0, 0, 0, 1),
+	(73, NULL, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, NULL, 1, 0, 1, 0, 1),
+	(74, NULL, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, NULL, 1, 0, 1, 0, 1),
+	(75, NULL, 2, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 'simple,configurable,virtual,bundle,downloadable', 1, 0, 0, 0, 1),
+	(76, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,configurable,virtual,bundle,downloadable', 0, 0, 0, 0, 1),
+	(77, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,configurable,virtual,bundle,downloadable', 0, 0, 0, 0, 1),
+	(78, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,configurable,virtual,bundle,downloadable', 0, 0, 0, 0, 1),
+	(79, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'virtual,downloadable', 0, 0, 0, 0, 1),
+	(80, 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'simple,virtual,configurable,bundle,downloadable,giftcard', 0, 0, 0, 0, 1),
+	(81, NULL, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 'simple', 1, 0, 0, 0, 1),
+	(82, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(83, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(84, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(85, 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(86, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(87, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(88, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(89, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(90, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'simple,configurable,virtual,bundle,downloadable', 0, 0, 0, 0, 1),
+	(91, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'simple,configurable,virtual,bundle,downloadable', 0, 0, 0, 0, 1),
+	(92, NULL, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 'simple', 1, 0, 0, 0, 1),
+	(93, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(94, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(95, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(96, 'Varien_Data_Form_Element_Hidden', 2, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(97, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(98, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(99, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'simple,configurable,virtual,bundle,downloadable', 0, 0, 0, 0, 1),
+	(100, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'simple,virtual', 0, 0, 0, 0, 1),
+	(101, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'simple,virtual', 0, 0, 0, 0, 1),
+	(102, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(103, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(104, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(105, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(106, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(107, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(108, 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(109, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(110, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(111, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(112, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, NULL, 0, 0, 0, 0, 1),
+	(113, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, NULL, 0, 0, 0, 0, 1),
+	(114, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, NULL, 0, 0, 0, 0, 1),
+	(115, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(116, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(117, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'simple,configurable,bundle,grouped', 0, 0, 0, 0, 1),
+	(118, 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Msrp_Enabled', 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,bundle,configurable,virtual,downloadable', 0, 0, 0, 0, 1),
+	(119, 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Msrp_Price', 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,bundle,configurable,virtual,downloadable', 0, 0, 0, 0, 1),
+	(120, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,bundle,configurable,virtual,downloadable', 0, 0, 0, 0, 1),
+	(121, 'Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, 0, 0, 0, 0, 1),
+	(122, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 'bundle', 0, 0, 0, 0, 1),
+	(123, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'bundle', 0, 0, 0, 0, 1),
+	(124, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 'bundle', 0, 0, 0, 0, 1),
+	(125, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 'bundle', 0, 0, 0, 0, 1),
+	(126, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 'bundle', 0, 0, 0, 0, 1),
+	(127, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 'downloadable', 0, 0, 0, 0, 1),
+	(128, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'downloadable', 0, 0, 0, 0, 1),
+	(129, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'downloadable', 0, 0, 0, 0, 1),
+	(130, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 'downloadable', 0, 0, 0, 0, 1),
+	(131, 'Mage_GiftMessage_Block_Adminhtml_Product_Helper_Form_Config', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, 0, 0, 0, 0, 1),
+	(132, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, 0, 0, 0, 0, 1),
+	(133, NULL, 2, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,configurable,virtual,downloadable,bundle', 1, 0, 0, 0, 1),
+	(134, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 'giftcard', 0, 0, 0, 0, 1),
+	(135, 'Enterprise_GiftCard_Block_Adminhtml_Renderer_OpenAmount', 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 'giftcard', 0, 0, 0, 0, 1),
+	(136, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 'giftcard', 0, 0, 0, 0, 1),
+	(137, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 'giftcard', 0, 0, 0, 0, 1),
+	(138, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'giftcard', 0, 0, 0, 0, 1),
+	(139, NULL, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'giftcard', 0, 0, 0, 0, 1),
+	(140, NULL, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'giftcard', 0, 0, 0, 0, 1),
+	(141, NULL, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'giftcard', 0, 0, 0, 0, 1),
+	(142, NULL, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'giftcard', 0, 0, 0, 0, 1),
+	(143, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'giftcard', 0, 0, 0, 0, 1),
+	(144, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'giftcard', 0, 0, 0, 0, 1),
+	(145, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'giftcard', 0, 0, 0, 0, 1),
+	(146, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'giftcard', 0, 0, 0, 0, 1),
+	(149, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,configurable', 0, 0, 0, 0, 1),
+	(150, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,configurable', 0, 0, 0, 0, 1),
+	(151, 'Saas_UnitPrice_Block_Catalog_Product_Helper_Form_Unit', 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 'simple,configurable', 0, 0, 0, 0, 1),
+	(152, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,configurable', 0, 0, 0, 0, 1),
+	(153, 'Saas_UnitPrice_Block_Catalog_Product_Helper_Form_Unit', 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 'simple,configurable', 0, 0, 0, 0, 1);
 /*!40000 ALTER TABLE `catalog_eav_attribute` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_bundle_option
+# Dumping structure for table s5152d29ad0535.catalog_product_bundle_option
 DROP TABLE IF EXISTS `catalog_product_bundle_option`;
 CREATE TABLE IF NOT EXISTS `catalog_product_bundle_option` (
-  `option_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Option Id',
+  `option_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
-  `required` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Required',
-  `position` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Position',
-  `type` varchar(255) DEFAULT NULL COMMENT 'Type',
-  PRIMARY KEY (`option_id`),
+  `required` smallint(5) unsigned NOT NULL default '0' COMMENT 'Required',
+  `position` int(10) unsigned NOT NULL default '0' COMMENT 'Position',
+  `type` varchar(255) default NULL COMMENT 'Type',
+  PRIMARY KEY  (`option_id`),
   KEY `IDX_CATALOG_PRODUCT_BUNDLE_OPTION_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_CAT_PRD_BNDL_OPT_PARENT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`parent_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Bundle Option';
 
-# Dumping data for table catalog_product_bundle_option: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_bundle_option: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_bundle_option` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_bundle_option` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_bundle_option_value
+# Dumping structure for table s5152d29ad0535.catalog_product_bundle_option_value
 DROP TABLE IF EXISTS `catalog_product_bundle_option_value`;
 CREATE TABLE IF NOT EXISTS `catalog_product_bundle_option_value` (
-  `value_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Value Id',
+  `value_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Value Id',
   `option_id` int(10) unsigned NOT NULL COMMENT 'Option Id',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
-  `title` varchar(255) DEFAULT NULL COMMENT 'Title',
-  PRIMARY KEY (`value_id`),
+  `title` varchar(255) default NULL COMMENT 'Title',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CATALOG_PRODUCT_BUNDLE_OPTION_VALUE_OPTION_ID_STORE_ID` (`option_id`,`store_id`),
   CONSTRAINT `FK_CAT_PRD_BNDL_OPT_VAL_OPT_ID_CAT_PRD_BNDL_OPT_OPT_ID` FOREIGN KEY (`option_id`) REFERENCES `catalog_product_bundle_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Bundle Option Value';
 
-# Dumping data for table catalog_product_bundle_option_value: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_bundle_option_value: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_bundle_option_value` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_bundle_option_value` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_bundle_price_index
+# Dumping structure for table s5152d29ad0535.catalog_product_bundle_price_index
 DROP TABLE IF EXISTS `catalog_product_bundle_price_index`;
 CREATE TABLE IF NOT EXISTS `catalog_product_bundle_price_index` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
@@ -1057,7 +1100,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_bundle_price_index` (
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
   `min_price` decimal(12,4) NOT NULL COMMENT 'Min Price',
   `max_price` decimal(12,4) NOT NULL COMMENT 'Max Price',
-  PRIMARY KEY (`entity_id`,`website_id`,`customer_group_id`),
+  PRIMARY KEY  (`entity_id`,`website_id`,`customer_group_id`),
   KEY `IDX_CATALOG_PRODUCT_BUNDLE_PRICE_INDEX_WEBSITE_ID` (`website_id`),
   KEY `IDX_CATALOG_PRODUCT_BUNDLE_PRICE_INDEX_CUSTOMER_GROUP_ID` (`customer_group_id`),
   CONSTRAINT `FK_CAT_PRD_BNDL_PRICE_IDX_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -1065,100 +1108,100 @@ CREATE TABLE IF NOT EXISTS `catalog_product_bundle_price_index` (
   CONSTRAINT `FK_CAT_PRD_BNDL_PRICE_IDX_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Bundle Price Index';
 
-# Dumping data for table catalog_product_bundle_price_index: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_bundle_price_index: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_bundle_price_index` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_bundle_price_index` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_bundle_selection
+# Dumping structure for table s5152d29ad0535.catalog_product_bundle_selection
 DROP TABLE IF EXISTS `catalog_product_bundle_selection`;
 CREATE TABLE IF NOT EXISTS `catalog_product_bundle_selection` (
-  `selection_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Selection Id',
+  `selection_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Selection Id',
   `option_id` int(10) unsigned NOT NULL COMMENT 'Option Id',
   `parent_product_id` int(10) unsigned NOT NULL COMMENT 'Parent Product Id',
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
-  `position` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Position',
-  `is_default` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Default',
-  `selection_price_type` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Selection Price Type',
-  `selection_price_value` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Selection Price Value',
-  `selection_qty` decimal(12,4) DEFAULT NULL COMMENT 'Selection Qty',
-  `selection_can_change_qty` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Selection Can Change Qty',
-  PRIMARY KEY (`selection_id`),
+  `position` int(10) unsigned NOT NULL default '0' COMMENT 'Position',
+  `is_default` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Default',
+  `selection_price_type` smallint(5) unsigned NOT NULL default '0' COMMENT 'Selection Price Type',
+  `selection_price_value` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Selection Price Value',
+  `selection_qty` decimal(12,4) default NULL COMMENT 'Selection Qty',
+  `selection_can_change_qty` smallint(6) NOT NULL default '0' COMMENT 'Selection Can Change Qty',
+  PRIMARY KEY  (`selection_id`),
   KEY `IDX_CATALOG_PRODUCT_BUNDLE_SELECTION_OPTION_ID` (`option_id`),
   KEY `IDX_CATALOG_PRODUCT_BUNDLE_SELECTION_PRODUCT_ID` (`product_id`),
   CONSTRAINT `FK_CAT_PRD_BNDL_SELECTION_OPT_ID_CAT_PRD_BNDL_OPT_OPT_ID` FOREIGN KEY (`option_id`) REFERENCES `catalog_product_bundle_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_BNDL_SELECTION_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Bundle Selection';
 
-# Dumping data for table catalog_product_bundle_selection: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_bundle_selection: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_bundle_selection` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_bundle_selection` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_bundle_selection_price
+# Dumping structure for table s5152d29ad0535.catalog_product_bundle_selection_price
 DROP TABLE IF EXISTS `catalog_product_bundle_selection_price`;
 CREATE TABLE IF NOT EXISTS `catalog_product_bundle_selection_price` (
   `selection_id` int(10) unsigned NOT NULL COMMENT 'Selection Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  `selection_price_type` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Selection Price Type',
-  `selection_price_value` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Selection Price Value',
-  PRIMARY KEY (`selection_id`,`website_id`),
+  `selection_price_type` smallint(5) unsigned NOT NULL default '0' COMMENT 'Selection Price Type',
+  `selection_price_value` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Selection Price Value',
+  PRIMARY KEY  (`selection_id`,`website_id`),
   KEY `IDX_CATALOG_PRODUCT_BUNDLE_SELECTION_PRICE_WEBSITE_ID` (`website_id`),
   CONSTRAINT `FK_CAT_PRD_BNDL_SELECTION_PRICE_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_DCF37523AA05D770A70AA4ED7C2616E4` FOREIGN KEY (`selection_id`) REFERENCES `catalog_product_bundle_selection` (`selection_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Bundle Selection Price';
 
-# Dumping data for table catalog_product_bundle_selection_price: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_bundle_selection_price: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_bundle_selection_price` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_bundle_selection_price` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_bundle_stock_index
+# Dumping structure for table s5152d29ad0535.catalog_product_bundle_stock_index
 DROP TABLE IF EXISTS `catalog_product_bundle_stock_index`;
 CREATE TABLE IF NOT EXISTS `catalog_product_bundle_stock_index` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
   `stock_id` smallint(5) unsigned NOT NULL COMMENT 'Stock Id',
-  `option_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Option Id',
-  `stock_status` smallint(6) DEFAULT '0' COMMENT 'Stock Status',
-  PRIMARY KEY (`entity_id`,`website_id`,`stock_id`,`option_id`)
+  `option_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option Id',
+  `stock_status` smallint(6) default '0' COMMENT 'Stock Status',
+  PRIMARY KEY  (`entity_id`,`website_id`,`stock_id`,`option_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Bundle Stock Index';
 
-# Dumping data for table catalog_product_bundle_stock_index: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_bundle_stock_index: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_bundle_stock_index` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_bundle_stock_index` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_enabled_index
+# Dumping structure for table s5152d29ad0535.catalog_product_enabled_index
 DROP TABLE IF EXISTS `catalog_product_enabled_index`;
 CREATE TABLE IF NOT EXISTS `catalog_product_enabled_index` (
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `visibility` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Visibility',
-  PRIMARY KEY (`product_id`,`store_id`),
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `visibility` smallint(5) unsigned NOT NULL default '0' COMMENT 'Visibility',
+  PRIMARY KEY  (`product_id`,`store_id`),
   KEY `IDX_CATALOG_PRODUCT_ENABLED_INDEX_STORE_ID` (`store_id`),
   CONSTRAINT `FK_CAT_PRD_ENABLED_IDX_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CATALOG_PRODUCT_ENABLED_INDEX_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Visibility Index Table';
 
-# Dumping data for table catalog_product_enabled_index: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_enabled_index: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_enabled_index` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_enabled_index` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_entity
+# Dumping structure for table s5152d29ad0535.catalog_product_entity
 DROP TABLE IF EXISTS `catalog_product_entity`;
 CREATE TABLE IF NOT EXISTS `catalog_product_entity` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity ID',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type ID',
-  `attribute_set_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Set ID',
-  `type_id` varchar(32) NOT NULL DEFAULT 'simple' COMMENT 'Type ID',
-  `sku` varchar(64) DEFAULT NULL COMMENT 'SKU',
-  `has_options` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Has Options',
-  `required_options` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Required Options',
-  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Creation Time',
-  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Update Time',
-  PRIMARY KEY (`entity_id`),
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity ID',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
+  `attribute_set_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Set ID',
+  `type_id` varchar(32) NOT NULL default 'simple' COMMENT 'Type ID',
+  `sku` varchar(64) default NULL COMMENT 'SKU',
+  `has_options` smallint(6) NOT NULL default '0' COMMENT 'Has Options',
+  `required_options` smallint(5) unsigned NOT NULL default '0' COMMENT 'Required Options',
+  `created_at` timestamp NULL default NULL COMMENT 'Creation Time',
+  `updated_at` timestamp NULL default NULL COMMENT 'Update Time',
+  PRIMARY KEY  (`entity_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_ATTRIBUTE_SET_ID` (`attribute_set_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_SKU` (`sku`),
@@ -1166,21 +1209,21 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity` (
   CONSTRAINT `FK_CAT_PRD_ENTT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Table';
 
-# Dumping data for table catalog_product_entity: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_entity: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_entity` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_entity` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_entity_datetime
+# Dumping structure for table s5152d29ad0535.catalog_product_entity_datetime
 DROP TABLE IF EXISTS `catalog_product_entity_datetime`;
 CREATE TABLE IF NOT EXISTS `catalog_product_entity_datetime` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type ID',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity ID',
-  `value` datetime DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity ID',
+  `value` datetime default NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CAT_PRD_ENTT_DTIME_ENTT_ID_ATTR_ID_STORE_ID` (`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_DATETIME_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_DATETIME_STORE_ID` (`store_id`),
@@ -1190,21 +1233,21 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_datetime` (
   CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_DATETIME_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Datetime Attribute Backend Table';
 
-# Dumping data for table catalog_product_entity_datetime: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_entity_datetime: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_entity_datetime` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_entity_datetime` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_entity_decimal
+# Dumping structure for table s5152d29ad0535.catalog_product_entity_decimal
 DROP TABLE IF EXISTS `catalog_product_entity_decimal`;
 CREATE TABLE IF NOT EXISTS `catalog_product_entity_decimal` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type ID',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity ID',
-  `value` decimal(12,4) DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity ID',
+  `value` decimal(12,4) default NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CAT_PRD_ENTT_DEC_ENTT_ID_ATTR_ID_STORE_ID` (`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_DECIMAL_STORE_ID` (`store_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_DECIMAL_ENTITY_ID` (`entity_id`),
@@ -1214,22 +1257,22 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_decimal` (
   CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_DECIMAL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Decimal Attribute Backend Table';
 
-# Dumping data for table catalog_product_entity_decimal: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_entity_decimal: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_entity_decimal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_entity_decimal` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_entity_gallery
+# Dumping structure for table s5152d29ad0535.catalog_product_entity_gallery
 DROP TABLE IF EXISTS `catalog_product_entity_gallery`;
 CREATE TABLE IF NOT EXISTS `catalog_product_entity_gallery` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type ID',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity ID',
-  `position` int(11) NOT NULL DEFAULT '0' COMMENT 'Position',
-  `value` varchar(255) DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity ID',
+  `position` int(11) NOT NULL default '0' COMMENT 'Position',
+  `value` varchar(255) default NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CAT_PRD_ENTT_GLR_ENTT_TYPE_ID_ENTT_ID_ATTR_ID_STORE_ID` (`entity_type_id`,`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_GALLERY_ENTITY_ID` (`entity_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_GALLERY_ATTRIBUTE_ID` (`attribute_id`),
@@ -1239,21 +1282,21 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_gallery` (
   CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_GALLERY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Gallery Attribute Backend Table';
 
-# Dumping data for table catalog_product_entity_gallery: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_entity_gallery: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_entity_gallery` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_entity_gallery` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_entity_group_price
+# Dumping structure for table s5152d29ad0535.catalog_product_entity_group_price
 DROP TABLE IF EXISTS `catalog_product_entity_group_price`;
 CREATE TABLE IF NOT EXISTS `catalog_product_entity_group_price` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity ID',
-  `all_groups` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Is Applicable To All Customer Groups',
-  `customer_group_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer Group ID',
-  `value` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Value',
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity ID',
+  `all_groups` smallint(5) unsigned NOT NULL default '1' COMMENT 'Is Applicable To All Customer Groups',
+  `customer_group_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Customer Group ID',
+  `value` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Value',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  PRIMARY KEY (`value_id`),
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `CC12C83765B562314470A24F2BDD0F36` (`entity_id`,`all_groups`,`customer_group_id`,`website_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_GROUP_PRICE_ENTITY_ID` (`entity_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_GROUP_PRICE_CUSTOMER_GROUP_ID` (`customer_group_id`),
@@ -1263,21 +1306,21 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_group_price` (
   CONSTRAINT `FK_CAT_PRD_ENTT_GROUP_PRICE_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Group Price Attribute Backend Table';
 
-# Dumping data for table catalog_product_entity_group_price: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_entity_group_price: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_entity_group_price` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_entity_group_price` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_entity_int
+# Dumping structure for table s5152d29ad0535.catalog_product_entity_int
 DROP TABLE IF EXISTS `catalog_product_entity_int`;
 CREATE TABLE IF NOT EXISTS `catalog_product_entity_int` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `entity_type_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type ID',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity ID',
-  `value` int(11) DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
+  `entity_type_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity ID',
+  `value` int(11) default NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CATALOG_PRODUCT_ENTITY_INT_ENTITY_ID_ATTRIBUTE_ID_STORE_ID` (`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_INT_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_INT_STORE_ID` (`store_id`),
@@ -1287,59 +1330,59 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_int` (
   CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_INT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Integer Attribute Backend Table';
 
-# Dumping data for table catalog_product_entity_int: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_entity_int: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_entity_int` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_entity_int` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_entity_media_gallery
+# Dumping structure for table s5152d29ad0535.catalog_product_entity_media_gallery
 DROP TABLE IF EXISTS `catalog_product_entity_media_gallery`;
 CREATE TABLE IF NOT EXISTS `catalog_product_entity_media_gallery` (
-  `value_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute ID',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity ID',
-  `value` varchar(255) DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Value ID',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute ID',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity ID',
+  `value` varchar(255) default NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_MEDIA_GALLERY_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_MEDIA_GALLERY_ENTITY_ID` (`entity_id`),
   CONSTRAINT `FK_CAT_PRD_ENTT_MDA_GLR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_ENTT_MDA_GLR_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Media Gallery Attribute Backend Table';
 
-# Dumping data for table catalog_product_entity_media_gallery: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_entity_media_gallery: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_entity_media_gallery` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_entity_media_gallery` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_entity_media_gallery_value
+# Dumping structure for table s5152d29ad0535.catalog_product_entity_media_gallery_value
 DROP TABLE IF EXISTS `catalog_product_entity_media_gallery_value`;
 CREATE TABLE IF NOT EXISTS `catalog_product_entity_media_gallery_value` (
-  `value_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Value ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `label` varchar(255) DEFAULT NULL COMMENT 'Label',
-  `position` int(10) unsigned DEFAULT NULL COMMENT 'Position',
-  `disabled` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Disabled',
-  PRIMARY KEY (`value_id`,`store_id`),
+  `value_id` int(10) unsigned NOT NULL default '0' COMMENT 'Value ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `label` varchar(255) default NULL COMMENT 'Label',
+  `position` int(10) unsigned default NULL COMMENT 'Position',
+  `disabled` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Disabled',
+  PRIMARY KEY  (`value_id`,`store_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_MEDIA_GALLERY_VALUE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_CAT_PRD_ENTT_MDA_GLR_VAL_VAL_ID_CAT_PRD_ENTT_MDA_GLR_VAL_ID` FOREIGN KEY (`value_id`) REFERENCES `catalog_product_entity_media_gallery` (`value_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_ENTT_MDA_GLR_VAL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Media Gallery Attribute Value Table';
 
-# Dumping data for table catalog_product_entity_media_gallery_value: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_entity_media_gallery_value: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_entity_media_gallery_value` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_entity_media_gallery_value` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_entity_text
+# Dumping structure for table s5152d29ad0535.catalog_product_entity_text
 DROP TABLE IF EXISTS `catalog_product_entity_text`;
 CREATE TABLE IF NOT EXISTS `catalog_product_entity_text` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `entity_type_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type ID',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity ID',
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
+  `entity_type_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity ID',
   `value` text COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CATALOG_PRODUCT_ENTITY_TEXT_ENTITY_ID_ATTRIBUTE_ID_STORE_ID` (`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_TEXT_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_TEXT_STORE_ID` (`store_id`),
@@ -1349,22 +1392,22 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_text` (
   CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_TEXT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Text Attribute Backend Table';
 
-# Dumping data for table catalog_product_entity_text: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_entity_text: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_entity_text` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_entity_text` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_entity_tier_price
+# Dumping structure for table s5152d29ad0535.catalog_product_entity_tier_price
 DROP TABLE IF EXISTS `catalog_product_entity_tier_price`;
 CREATE TABLE IF NOT EXISTS `catalog_product_entity_tier_price` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity ID',
-  `all_groups` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Is Applicable To All Customer Groups',
-  `customer_group_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer Group ID',
-  `qty` decimal(12,4) NOT NULL DEFAULT '1.0000' COMMENT 'QTY',
-  `value` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Value',
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity ID',
+  `all_groups` smallint(5) unsigned NOT NULL default '1' COMMENT 'Is Applicable To All Customer Groups',
+  `customer_group_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Customer Group ID',
+  `qty` decimal(12,4) NOT NULL default '1.0000' COMMENT 'QTY',
+  `value` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Value',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  PRIMARY KEY (`value_id`),
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `E8AB433B9ACB00343ABB312AD2FAB087` (`entity_id`,`all_groups`,`customer_group_id`,`qty`,`website_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_TIER_PRICE_ENTITY_ID` (`entity_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_TIER_PRICE_CUSTOMER_GROUP_ID` (`customer_group_id`),
@@ -1374,21 +1417,21 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_tier_price` (
   CONSTRAINT `FK_CAT_PRD_ENTT_TIER_PRICE_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Tier Price Attribute Backend Table';
 
-# Dumping data for table catalog_product_entity_tier_price: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_entity_tier_price: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_entity_tier_price` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_entity_tier_price` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_entity_varchar
+# Dumping structure for table s5152d29ad0535.catalog_product_entity_varchar
 DROP TABLE IF EXISTS `catalog_product_entity_varchar`;
 CREATE TABLE IF NOT EXISTS `catalog_product_entity_varchar` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `entity_type_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type ID',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity ID',
-  `value` varchar(255) DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value ID',
+  `entity_type_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity ID',
+  `value` varchar(255) default NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CAT_PRD_ENTT_VCHR_ENTT_ID_ATTR_ID_STORE_ID` (`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_VARCHAR_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_ENTITY_VARCHAR_STORE_ID` (`store_id`),
@@ -1398,19 +1441,19 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_varchar` (
   CONSTRAINT `FK_CATALOG_PRODUCT_ENTITY_VARCHAR_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Varchar Attribute Backend Table';
 
-# Dumping data for table catalog_product_entity_varchar: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_entity_varchar: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_entity_varchar` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_entity_varchar` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_eav
+# Dumping structure for table s5152d29ad0535.catalog_product_index_eav
 DROP TABLE IF EXISTS `catalog_product_index_eav`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_eav` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
   `value` int(10) unsigned NOT NULL COMMENT 'Value',
-  PRIMARY KEY (`entity_id`,`attribute_id`,`store_id`,`value`),
+  PRIMARY KEY  (`entity_id`,`attribute_id`,`store_id`,`value`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_ENTITY_ID` (`entity_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_STORE_ID` (`store_id`),
@@ -1420,19 +1463,19 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_eav` (
   CONSTRAINT `FK_CATALOG_PRODUCT_INDEX_EAV_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Index Table';
 
-# Dumping data for table catalog_product_index_eav: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_index_eav: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_index_eav` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_eav` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_eav_decimal
+# Dumping structure for table s5152d29ad0535.catalog_product_index_eav_decimal
 DROP TABLE IF EXISTS `catalog_product_index_eav_decimal`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_eav_decimal` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
   `value` decimal(12,4) NOT NULL COMMENT 'Value',
-  PRIMARY KEY (`entity_id`,`attribute_id`,`store_id`),
+  PRIMARY KEY  (`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_DECIMAL_ENTITY_ID` (`entity_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_DECIMAL_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_DECIMAL_STORE_ID` (`store_id`),
@@ -1442,95 +1485,95 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_eav_decimal` (
   CONSTRAINT `FK_CAT_PRD_IDX_EAV_DEC_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Decimal Index Table';
 
-# Dumping data for table catalog_product_index_eav_decimal: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_index_eav_decimal: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_index_eav_decimal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_eav_decimal` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_eav_decimal_idx
+# Dumping structure for table s5152d29ad0535.catalog_product_index_eav_decimal_idx
 DROP TABLE IF EXISTS `catalog_product_index_eav_decimal_idx`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_eav_decimal_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
   `value` decimal(12,4) NOT NULL COMMENT 'Value',
-  PRIMARY KEY (`entity_id`,`attribute_id`,`store_id`,`value`),
+  PRIMARY KEY  (`entity_id`,`attribute_id`,`store_id`,`value`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_DECIMAL_IDX_ENTITY_ID` (`entity_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_DECIMAL_IDX_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_DECIMAL_IDX_STORE_ID` (`store_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_DECIMAL_IDX_VALUE` (`value`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Decimal Indexer Index Table';
 
-# Dumping data for table catalog_product_index_eav_decimal_idx: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_index_eav_decimal_idx: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_index_eav_decimal_idx` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_eav_decimal_idx` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_eav_decimal_tmp
+# Dumping structure for table s5152d29ad0535.catalog_product_index_eav_decimal_tmp
 DROP TABLE IF EXISTS `catalog_product_index_eav_decimal_tmp`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_eav_decimal_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
   `value` decimal(12,4) NOT NULL COMMENT 'Value',
-  PRIMARY KEY (`entity_id`,`attribute_id`,`store_id`),
+  PRIMARY KEY  (`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_DECIMAL_TMP_ENTITY_ID` (`entity_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_DECIMAL_TMP_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_DECIMAL_TMP_STORE_ID` (`store_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_DECIMAL_TMP_VALUE` (`value`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Decimal Indexer Temp Table';
 
-# Dumping data for table catalog_product_index_eav_decimal_tmp: 0 rows
+# Dumping data for table s5152d29ad0535.catalog_product_index_eav_decimal_tmp: 0 rows
 /*!40000 ALTER TABLE `catalog_product_index_eav_decimal_tmp` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_eav_decimal_tmp` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_eav_idx
+# Dumping structure for table s5152d29ad0535.catalog_product_index_eav_idx
 DROP TABLE IF EXISTS `catalog_product_index_eav_idx`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_eav_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
   `value` int(10) unsigned NOT NULL COMMENT 'Value',
-  PRIMARY KEY (`entity_id`,`attribute_id`,`store_id`,`value`),
+  PRIMARY KEY  (`entity_id`,`attribute_id`,`store_id`,`value`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_IDX_ENTITY_ID` (`entity_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_IDX_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_IDX_STORE_ID` (`store_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_IDX_VALUE` (`value`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Indexer Index Table';
 
-# Dumping data for table catalog_product_index_eav_idx: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_index_eav_idx: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_index_eav_idx` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_eav_idx` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_eav_tmp
+# Dumping structure for table s5152d29ad0535.catalog_product_index_eav_tmp
 DROP TABLE IF EXISTS `catalog_product_index_eav_tmp`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_eav_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
   `value` int(10) unsigned NOT NULL COMMENT 'Value',
-  PRIMARY KEY (`entity_id`,`attribute_id`,`store_id`,`value`),
+  PRIMARY KEY  (`entity_id`,`attribute_id`,`store_id`,`value`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_TMP_ENTITY_ID` (`entity_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_TMP_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_TMP_STORE_ID` (`store_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_EAV_TMP_VALUE` (`value`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Indexer Temp Table';
 
-# Dumping data for table catalog_product_index_eav_tmp: 0 rows
+# Dumping data for table s5152d29ad0535.catalog_product_index_eav_tmp: 0 rows
 /*!40000 ALTER TABLE `catalog_product_index_eav_tmp` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_eav_tmp` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_group_price
+# Dumping structure for table s5152d29ad0535.catalog_product_index_group_price
 DROP TABLE IF EXISTS `catalog_product_index_group_price`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_group_price` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  `price` decimal(12,4) DEFAULT NULL COMMENT 'Min Price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`),
+  `price` decimal(12,4) default NULL COMMENT 'Min Price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_GROUP_PRICE_CUSTOMER_GROUP_ID` (`customer_group_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_GROUP_PRICE_WEBSITE_ID` (`website_id`),
   CONSTRAINT `FK_195DF97C81B0BDD6A2EEC50F870E16D1` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -1538,25 +1581,25 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_group_price` (
   CONSTRAINT `FK_CAT_PRD_IDX_GROUP_PRICE_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Group Price Index Table';
 
-# Dumping data for table catalog_product_index_group_price: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_index_group_price: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_index_group_price` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_group_price` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price
 DROP TABLE IF EXISTS `catalog_product_index_price`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  `tax_class_id` smallint(5) unsigned DEFAULT '0' COMMENT 'Tax Class ID',
-  `price` decimal(12,4) DEFAULT NULL COMMENT 'Price',
-  `final_price` decimal(12,4) DEFAULT NULL COMMENT 'Final Price',
-  `min_price` decimal(12,4) DEFAULT NULL COMMENT 'Min Price',
-  `max_price` decimal(12,4) DEFAULT NULL COMMENT 'Max Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`),
+  `tax_class_id` smallint(5) unsigned default '0' COMMENT 'Tax Class ID',
+  `price` decimal(12,4) default NULL COMMENT 'Price',
+  `final_price` decimal(12,4) default NULL COMMENT 'Final Price',
+  `min_price` decimal(12,4) default NULL COMMENT 'Min Price',
+  `max_price` decimal(12,4) default NULL COMMENT 'Max Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_PRICE_CUSTOMER_GROUP_ID` (`customer_group_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_PRICE_WEBSITE_ID` (`website_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_PRICE_MIN_PRICE` (`min_price`),
@@ -1566,431 +1609,431 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price` (
   CONSTRAINT `FK_CAT_PRD_IDX_PRICE_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Index Table';
 
-# Dumping data for table catalog_product_index_price: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_index_price: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_index_price` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_bundle_idx
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_bundle_idx
 DROP TABLE IF EXISTS `catalog_product_index_price_bundle_idx`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_bundle_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  `tax_class_id` smallint(5) unsigned DEFAULT '0' COMMENT 'Tax Class Id',
+  `tax_class_id` smallint(5) unsigned default '0' COMMENT 'Tax Class Id',
   `price_type` smallint(5) unsigned NOT NULL COMMENT 'Price Type',
-  `special_price` decimal(12,4) DEFAULT NULL COMMENT 'Special Price',
-  `tier_percent` decimal(12,4) DEFAULT NULL COMMENT 'Tier Percent',
-  `orig_price` decimal(12,4) DEFAULT NULL COMMENT 'Orig Price',
-  `price` decimal(12,4) DEFAULT NULL COMMENT 'Price',
-  `min_price` decimal(12,4) DEFAULT NULL COMMENT 'Min Price',
-  `max_price` decimal(12,4) DEFAULT NULL COMMENT 'Max Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `base_tier` decimal(12,4) DEFAULT NULL COMMENT 'Base Tier',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  `base_group_price` decimal(12,4) DEFAULT NULL COMMENT 'Base Group Price',
-  `group_price_percent` decimal(12,4) DEFAULT NULL COMMENT 'Group Price Percent',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`)
+  `special_price` decimal(12,4) default NULL COMMENT 'Special Price',
+  `tier_percent` decimal(12,4) default NULL COMMENT 'Tier Percent',
+  `orig_price` decimal(12,4) default NULL COMMENT 'Orig Price',
+  `price` decimal(12,4) default NULL COMMENT 'Price',
+  `min_price` decimal(12,4) default NULL COMMENT 'Min Price',
+  `max_price` decimal(12,4) default NULL COMMENT 'Max Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `base_tier` decimal(12,4) default NULL COMMENT 'Base Tier',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  `base_group_price` decimal(12,4) default NULL COMMENT 'Base Group Price',
+  `group_price_percent` decimal(12,4) default NULL COMMENT 'Group Price Percent',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Index Price Bundle Idx';
 
-# Dumping data for table catalog_product_index_price_bundle_idx: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_bundle_idx: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_index_price_bundle_idx` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_bundle_idx` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_bundle_opt_idx
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_bundle_opt_idx
 DROP TABLE IF EXISTS `catalog_product_index_price_bundle_opt_idx`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_bundle_opt_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  `option_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Option Id',
-  `min_price` decimal(12,4) DEFAULT NULL COMMENT 'Min Price',
-  `alt_price` decimal(12,4) DEFAULT NULL COMMENT 'Alt Price',
-  `max_price` decimal(12,4) DEFAULT NULL COMMENT 'Max Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `alt_tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Alt Tier Price',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  `alt_group_price` decimal(12,4) DEFAULT NULL COMMENT 'Alt Group Price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`,`option_id`)
+  `option_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option Id',
+  `min_price` decimal(12,4) default NULL COMMENT 'Min Price',
+  `alt_price` decimal(12,4) default NULL COMMENT 'Alt Price',
+  `max_price` decimal(12,4) default NULL COMMENT 'Max Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `alt_tier_price` decimal(12,4) default NULL COMMENT 'Alt Tier Price',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  `alt_group_price` decimal(12,4) default NULL COMMENT 'Alt Group Price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`,`option_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Index Price Bundle Opt Idx';
 
-# Dumping data for table catalog_product_index_price_bundle_opt_idx: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_bundle_opt_idx: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_index_price_bundle_opt_idx` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_bundle_opt_idx` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_bundle_opt_tmp
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_bundle_opt_tmp
 DROP TABLE IF EXISTS `catalog_product_index_price_bundle_opt_tmp`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_bundle_opt_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  `option_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Option Id',
-  `min_price` decimal(12,4) DEFAULT NULL COMMENT 'Min Price',
-  `alt_price` decimal(12,4) DEFAULT NULL COMMENT 'Alt Price',
-  `max_price` decimal(12,4) DEFAULT NULL COMMENT 'Max Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `alt_tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Alt Tier Price',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  `alt_group_price` decimal(12,4) DEFAULT NULL COMMENT 'Alt Group Price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`,`option_id`)
+  `option_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option Id',
+  `min_price` decimal(12,4) default NULL COMMENT 'Min Price',
+  `alt_price` decimal(12,4) default NULL COMMENT 'Alt Price',
+  `max_price` decimal(12,4) default NULL COMMENT 'Max Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `alt_tier_price` decimal(12,4) default NULL COMMENT 'Alt Tier Price',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  `alt_group_price` decimal(12,4) default NULL COMMENT 'Alt Group Price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`,`option_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Index Price Bundle Opt Tmp';
 
-# Dumping data for table catalog_product_index_price_bundle_opt_tmp: 0 rows
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_bundle_opt_tmp: 0 rows
 /*!40000 ALTER TABLE `catalog_product_index_price_bundle_opt_tmp` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_bundle_opt_tmp` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_bundle_sel_idx
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_bundle_sel_idx
 DROP TABLE IF EXISTS `catalog_product_index_price_bundle_sel_idx`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_bundle_sel_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  `option_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Option Id',
-  `selection_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Selection Id',
-  `group_type` smallint(5) unsigned DEFAULT '0' COMMENT 'Group Type',
-  `is_required` smallint(5) unsigned DEFAULT '0' COMMENT 'Is Required',
-  `price` decimal(12,4) DEFAULT NULL COMMENT 'Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`,`option_id`,`selection_id`)
+  `option_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option Id',
+  `selection_id` int(10) unsigned NOT NULL default '0' COMMENT 'Selection Id',
+  `group_type` smallint(5) unsigned default '0' COMMENT 'Group Type',
+  `is_required` smallint(5) unsigned default '0' COMMENT 'Is Required',
+  `price` decimal(12,4) default NULL COMMENT 'Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`,`option_id`,`selection_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Index Price Bundle Sel Idx';
 
-# Dumping data for table catalog_product_index_price_bundle_sel_idx: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_bundle_sel_idx: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_index_price_bundle_sel_idx` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_bundle_sel_idx` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_bundle_sel_tmp
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_bundle_sel_tmp
 DROP TABLE IF EXISTS `catalog_product_index_price_bundle_sel_tmp`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_bundle_sel_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  `option_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Option Id',
-  `selection_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Selection Id',
-  `group_type` smallint(5) unsigned DEFAULT '0' COMMENT 'Group Type',
-  `is_required` smallint(5) unsigned DEFAULT '0' COMMENT 'Is Required',
-  `price` decimal(12,4) DEFAULT NULL COMMENT 'Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`,`option_id`,`selection_id`)
+  `option_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option Id',
+  `selection_id` int(10) unsigned NOT NULL default '0' COMMENT 'Selection Id',
+  `group_type` smallint(5) unsigned default '0' COMMENT 'Group Type',
+  `is_required` smallint(5) unsigned default '0' COMMENT 'Is Required',
+  `price` decimal(12,4) default NULL COMMENT 'Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`,`option_id`,`selection_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Index Price Bundle Sel Tmp';
 
-# Dumping data for table catalog_product_index_price_bundle_sel_tmp: 0 rows
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_bundle_sel_tmp: 0 rows
 /*!40000 ALTER TABLE `catalog_product_index_price_bundle_sel_tmp` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_bundle_sel_tmp` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_bundle_tmp
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_bundle_tmp
 DROP TABLE IF EXISTS `catalog_product_index_price_bundle_tmp`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_bundle_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  `tax_class_id` smallint(5) unsigned DEFAULT '0' COMMENT 'Tax Class Id',
+  `tax_class_id` smallint(5) unsigned default '0' COMMENT 'Tax Class Id',
   `price_type` smallint(5) unsigned NOT NULL COMMENT 'Price Type',
-  `special_price` decimal(12,4) DEFAULT NULL COMMENT 'Special Price',
-  `tier_percent` decimal(12,4) DEFAULT NULL COMMENT 'Tier Percent',
-  `orig_price` decimal(12,4) DEFAULT NULL COMMENT 'Orig Price',
-  `price` decimal(12,4) DEFAULT NULL COMMENT 'Price',
-  `min_price` decimal(12,4) DEFAULT NULL COMMENT 'Min Price',
-  `max_price` decimal(12,4) DEFAULT NULL COMMENT 'Max Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `base_tier` decimal(12,4) DEFAULT NULL COMMENT 'Base Tier',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  `base_group_price` decimal(12,4) DEFAULT NULL COMMENT 'Base Group Price',
-  `group_price_percent` decimal(12,4) DEFAULT NULL COMMENT 'Group Price Percent',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`)
+  `special_price` decimal(12,4) default NULL COMMENT 'Special Price',
+  `tier_percent` decimal(12,4) default NULL COMMENT 'Tier Percent',
+  `orig_price` decimal(12,4) default NULL COMMENT 'Orig Price',
+  `price` decimal(12,4) default NULL COMMENT 'Price',
+  `min_price` decimal(12,4) default NULL COMMENT 'Min Price',
+  `max_price` decimal(12,4) default NULL COMMENT 'Max Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `base_tier` decimal(12,4) default NULL COMMENT 'Base Tier',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  `base_group_price` decimal(12,4) default NULL COMMENT 'Base Group Price',
+  `group_price_percent` decimal(12,4) default NULL COMMENT 'Group Price Percent',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Index Price Bundle Tmp';
 
-# Dumping data for table catalog_product_index_price_bundle_tmp: 0 rows
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_bundle_tmp: 0 rows
 /*!40000 ALTER TABLE `catalog_product_index_price_bundle_tmp` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_bundle_tmp` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_cfg_opt_agr_idx
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_cfg_opt_agr_idx
 DROP TABLE IF EXISTS `catalog_product_index_price_cfg_opt_agr_idx`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_cfg_opt_agr_idx` (
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent ID',
   `child_id` int(10) unsigned NOT NULL COMMENT 'Child ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  `price` decimal(12,4) DEFAULT NULL COMMENT 'Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  PRIMARY KEY (`parent_id`,`child_id`,`customer_group_id`,`website_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Config Option Aggregate Index Table';
+  `price` decimal(12,4) default NULL COMMENT 'Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  PRIMARY KEY  (`parent_id`,`child_id`,`customer_group_id`,`website_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Config Option Aggregate Index ';
 
-# Dumping data for table catalog_product_index_price_cfg_opt_agr_idx: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_cfg_opt_agr_idx: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_index_price_cfg_opt_agr_idx` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_cfg_opt_agr_idx` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_cfg_opt_agr_tmp
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_cfg_opt_agr_tmp
 DROP TABLE IF EXISTS `catalog_product_index_price_cfg_opt_agr_tmp`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_cfg_opt_agr_tmp` (
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent ID',
   `child_id` int(10) unsigned NOT NULL COMMENT 'Child ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  `price` decimal(12,4) DEFAULT NULL COMMENT 'Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  PRIMARY KEY (`parent_id`,`child_id`,`customer_group_id`,`website_id`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Config Option Aggregate Temp Table';
+  `price` decimal(12,4) default NULL COMMENT 'Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  PRIMARY KEY  (`parent_id`,`child_id`,`customer_group_id`,`website_id`)
+) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Config Option Aggregate Temp T';
 
-# Dumping data for table catalog_product_index_price_cfg_opt_agr_tmp: 0 rows
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_cfg_opt_agr_tmp: 0 rows
 /*!40000 ALTER TABLE `catalog_product_index_price_cfg_opt_agr_tmp` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_cfg_opt_agr_tmp` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_cfg_opt_idx
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_cfg_opt_idx
 DROP TABLE IF EXISTS `catalog_product_index_price_cfg_opt_idx`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_cfg_opt_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  `min_price` decimal(12,4) DEFAULT NULL COMMENT 'Min Price',
-  `max_price` decimal(12,4) DEFAULT NULL COMMENT 'Max Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`)
+  `min_price` decimal(12,4) default NULL COMMENT 'Min Price',
+  `max_price` decimal(12,4) default NULL COMMENT 'Max Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Config Option Index Table';
 
-# Dumping data for table catalog_product_index_price_cfg_opt_idx: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_cfg_opt_idx: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_index_price_cfg_opt_idx` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_cfg_opt_idx` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_cfg_opt_tmp
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_cfg_opt_tmp
 DROP TABLE IF EXISTS `catalog_product_index_price_cfg_opt_tmp`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_cfg_opt_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  `min_price` decimal(12,4) DEFAULT NULL COMMENT 'Min Price',
-  `max_price` decimal(12,4) DEFAULT NULL COMMENT 'Max Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`)
+  `min_price` decimal(12,4) default NULL COMMENT 'Min Price',
+  `max_price` decimal(12,4) default NULL COMMENT 'Max Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Config Option Temp Table';
 
-# Dumping data for table catalog_product_index_price_cfg_opt_tmp: 0 rows
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_cfg_opt_tmp: 0 rows
 /*!40000 ALTER TABLE `catalog_product_index_price_cfg_opt_tmp` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_cfg_opt_tmp` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_downlod_idx
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_downlod_idx
 DROP TABLE IF EXISTS `catalog_product_index_price_downlod_idx`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_downlod_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  `min_price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Minimum price',
-  `max_price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Maximum price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`)
+  `min_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Minimum price',
+  `max_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Maximum price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Indexer Table for price of downloadable products';
 
-# Dumping data for table catalog_product_index_price_downlod_idx: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_downlod_idx: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_index_price_downlod_idx` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_downlod_idx` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_downlod_tmp
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_downlod_tmp
 DROP TABLE IF EXISTS `catalog_product_index_price_downlod_tmp`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_downlod_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  `min_price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Minimum price',
-  `max_price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Maximum price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`)
+  `min_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Minimum price',
+  `max_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Maximum price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Temporary Indexer Table for price of downloadable products';
 
-# Dumping data for table catalog_product_index_price_downlod_tmp: 0 rows
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_downlod_tmp: 0 rows
 /*!40000 ALTER TABLE `catalog_product_index_price_downlod_tmp` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_downlod_tmp` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_final_idx
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_final_idx
 DROP TABLE IF EXISTS `catalog_product_index_price_final_idx`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_final_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  `tax_class_id` smallint(5) unsigned DEFAULT '0' COMMENT 'Tax Class ID',
-  `orig_price` decimal(12,4) DEFAULT NULL COMMENT 'Original Price',
-  `price` decimal(12,4) DEFAULT NULL COMMENT 'Price',
-  `min_price` decimal(12,4) DEFAULT NULL COMMENT 'Min Price',
-  `max_price` decimal(12,4) DEFAULT NULL COMMENT 'Max Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `base_tier` decimal(12,4) DEFAULT NULL COMMENT 'Base Tier',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  `base_group_price` decimal(12,4) DEFAULT NULL COMMENT 'Base Group Price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`)
+  `tax_class_id` smallint(5) unsigned default '0' COMMENT 'Tax Class ID',
+  `orig_price` decimal(12,4) default NULL COMMENT 'Original Price',
+  `price` decimal(12,4) default NULL COMMENT 'Price',
+  `min_price` decimal(12,4) default NULL COMMENT 'Min Price',
+  `max_price` decimal(12,4) default NULL COMMENT 'Max Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `base_tier` decimal(12,4) default NULL COMMENT 'Base Tier',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  `base_group_price` decimal(12,4) default NULL COMMENT 'Base Group Price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Final Index Table';
 
-# Dumping data for table catalog_product_index_price_final_idx: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_final_idx: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_index_price_final_idx` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_final_idx` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_final_tmp
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_final_tmp
 DROP TABLE IF EXISTS `catalog_product_index_price_final_tmp`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_final_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  `tax_class_id` smallint(5) unsigned DEFAULT '0' COMMENT 'Tax Class ID',
-  `orig_price` decimal(12,4) DEFAULT NULL COMMENT 'Original Price',
-  `price` decimal(12,4) DEFAULT NULL COMMENT 'Price',
-  `min_price` decimal(12,4) DEFAULT NULL COMMENT 'Min Price',
-  `max_price` decimal(12,4) DEFAULT NULL COMMENT 'Max Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `base_tier` decimal(12,4) DEFAULT NULL COMMENT 'Base Tier',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  `base_group_price` decimal(12,4) DEFAULT NULL COMMENT 'Base Group Price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`)
+  `tax_class_id` smallint(5) unsigned default '0' COMMENT 'Tax Class ID',
+  `orig_price` decimal(12,4) default NULL COMMENT 'Original Price',
+  `price` decimal(12,4) default NULL COMMENT 'Price',
+  `min_price` decimal(12,4) default NULL COMMENT 'Min Price',
+  `max_price` decimal(12,4) default NULL COMMENT 'Max Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `base_tier` decimal(12,4) default NULL COMMENT 'Base Tier',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  `base_group_price` decimal(12,4) default NULL COMMENT 'Base Group Price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Final Temp Table';
 
-# Dumping data for table catalog_product_index_price_final_tmp: 0 rows
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_final_tmp: 0 rows
 /*!40000 ALTER TABLE `catalog_product_index_price_final_tmp` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_final_tmp` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_idx
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_idx
 DROP TABLE IF EXISTS `catalog_product_index_price_idx`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  `tax_class_id` smallint(5) unsigned DEFAULT '0' COMMENT 'Tax Class ID',
-  `price` decimal(12,4) DEFAULT NULL COMMENT 'Price',
-  `final_price` decimal(12,4) DEFAULT NULL COMMENT 'Final Price',
-  `min_price` decimal(12,4) DEFAULT NULL COMMENT 'Min Price',
-  `max_price` decimal(12,4) DEFAULT NULL COMMENT 'Max Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`),
+  `tax_class_id` smallint(5) unsigned default '0' COMMENT 'Tax Class ID',
+  `price` decimal(12,4) default NULL COMMENT 'Price',
+  `final_price` decimal(12,4) default NULL COMMENT 'Final Price',
+  `min_price` decimal(12,4) default NULL COMMENT 'Min Price',
+  `max_price` decimal(12,4) default NULL COMMENT 'Max Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_PRICE_IDX_CUSTOMER_GROUP_ID` (`customer_group_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_PRICE_IDX_WEBSITE_ID` (`website_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_PRICE_IDX_MIN_PRICE` (`min_price`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Index Table';
 
-# Dumping data for table catalog_product_index_price_idx: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_idx: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_index_price_idx` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_idx` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_opt_agr_idx
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_opt_agr_idx
 DROP TABLE IF EXISTS `catalog_product_index_price_opt_agr_idx`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_opt_agr_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  `option_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Option ID',
-  `min_price` decimal(12,4) DEFAULT NULL COMMENT 'Min Price',
-  `max_price` decimal(12,4) DEFAULT NULL COMMENT 'Max Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`,`option_id`)
+  `option_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option ID',
+  `min_price` decimal(12,4) default NULL COMMENT 'Min Price',
+  `max_price` decimal(12,4) default NULL COMMENT 'Max Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`,`option_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Option Aggregate Index Table';
 
-# Dumping data for table catalog_product_index_price_opt_agr_idx: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_opt_agr_idx: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_index_price_opt_agr_idx` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_opt_agr_idx` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_opt_agr_tmp
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_opt_agr_tmp
 DROP TABLE IF EXISTS `catalog_product_index_price_opt_agr_tmp`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_opt_agr_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  `option_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Option ID',
-  `min_price` decimal(12,4) DEFAULT NULL COMMENT 'Min Price',
-  `max_price` decimal(12,4) DEFAULT NULL COMMENT 'Max Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`,`option_id`)
+  `option_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option ID',
+  `min_price` decimal(12,4) default NULL COMMENT 'Min Price',
+  `max_price` decimal(12,4) default NULL COMMENT 'Max Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`,`option_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Option Aggregate Temp Table';
 
-# Dumping data for table catalog_product_index_price_opt_agr_tmp: 0 rows
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_opt_agr_tmp: 0 rows
 /*!40000 ALTER TABLE `catalog_product_index_price_opt_agr_tmp` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_opt_agr_tmp` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_opt_idx
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_opt_idx
 DROP TABLE IF EXISTS `catalog_product_index_price_opt_idx`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_opt_idx` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  `min_price` decimal(12,4) DEFAULT NULL COMMENT 'Min Price',
-  `max_price` decimal(12,4) DEFAULT NULL COMMENT 'Max Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`)
+  `min_price` decimal(12,4) default NULL COMMENT 'Min Price',
+  `max_price` decimal(12,4) default NULL COMMENT 'Max Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Option Index Table';
 
-# Dumping data for table catalog_product_index_price_opt_idx: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_opt_idx: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_index_price_opt_idx` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_opt_idx` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_opt_tmp
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_opt_tmp
 DROP TABLE IF EXISTS `catalog_product_index_price_opt_tmp`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_opt_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  `min_price` decimal(12,4) DEFAULT NULL COMMENT 'Min Price',
-  `max_price` decimal(12,4) DEFAULT NULL COMMENT 'Max Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`)
+  `min_price` decimal(12,4) default NULL COMMENT 'Min Price',
+  `max_price` decimal(12,4) default NULL COMMENT 'Max Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Option Temp Table';
 
-# Dumping data for table catalog_product_index_price_opt_tmp: 0 rows
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_opt_tmp: 0 rows
 /*!40000 ALTER TABLE `catalog_product_index_price_opt_tmp` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_opt_tmp` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_price_tmp
+# Dumping structure for table s5152d29ad0535.catalog_product_index_price_tmp
 DROP TABLE IF EXISTS `catalog_product_index_price_tmp`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_price_tmp` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  `tax_class_id` smallint(5) unsigned DEFAULT '0' COMMENT 'Tax Class ID',
-  `price` decimal(12,4) DEFAULT NULL COMMENT 'Price',
-  `final_price` decimal(12,4) DEFAULT NULL COMMENT 'Final Price',
-  `min_price` decimal(12,4) DEFAULT NULL COMMENT 'Min Price',
-  `max_price` decimal(12,4) DEFAULT NULL COMMENT 'Max Price',
-  `tier_price` decimal(12,4) DEFAULT NULL COMMENT 'Tier Price',
-  `group_price` decimal(12,4) DEFAULT NULL COMMENT 'Group price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`),
+  `tax_class_id` smallint(5) unsigned default '0' COMMENT 'Tax Class ID',
+  `price` decimal(12,4) default NULL COMMENT 'Price',
+  `final_price` decimal(12,4) default NULL COMMENT 'Final Price',
+  `min_price` decimal(12,4) default NULL COMMENT 'Min Price',
+  `max_price` decimal(12,4) default NULL COMMENT 'Max Price',
+  `tier_price` decimal(12,4) default NULL COMMENT 'Tier Price',
+  `group_price` decimal(12,4) default NULL COMMENT 'Group price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_PRICE_TMP_CUSTOMER_GROUP_ID` (`customer_group_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_PRICE_TMP_WEBSITE_ID` (`website_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_PRICE_TMP_MIN_PRICE` (`min_price`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Temp Table';
 
-# Dumping data for table catalog_product_index_price_tmp: 0 rows
+# Dumping data for table s5152d29ad0535.catalog_product_index_price_tmp: 0 rows
 /*!40000 ALTER TABLE `catalog_product_index_price_tmp` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_price_tmp` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_tier_price
+# Dumping structure for table s5152d29ad0535.catalog_product_index_tier_price
 DROP TABLE IF EXISTS `catalog_product_index_tier_price`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_tier_price` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  `min_price` decimal(12,4) DEFAULT NULL COMMENT 'Min Price',
-  PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`),
+  `min_price` decimal(12,4) default NULL COMMENT 'Min Price',
+  PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_TIER_PRICE_CUSTOMER_GROUP_ID` (`customer_group_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_TIER_PRICE_WEBSITE_ID` (`website_id`),
   CONSTRAINT `FK_CAT_PRD_IDX_TIER_PRICE_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -1998,35 +2041,35 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_tier_price` (
   CONSTRAINT `FK_CAT_PRD_IDX_TIER_PRICE_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Tier Price Index Table';
 
-# Dumping data for table catalog_product_index_tier_price: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_index_tier_price: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_index_tier_price` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_tier_price` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_index_website
+# Dumping structure for table s5152d29ad0535.catalog_product_index_website
 DROP TABLE IF EXISTS `catalog_product_index_website`;
 CREATE TABLE IF NOT EXISTS `catalog_product_index_website` (
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  `website_date` date DEFAULT NULL COMMENT 'Website Date',
-  `rate` float DEFAULT '1' COMMENT 'Rate',
-  PRIMARY KEY (`website_id`),
+  `website_date` date default NULL COMMENT 'Website Date',
+  `rate` float default '1' COMMENT 'Rate',
+  PRIMARY KEY  (`website_id`),
   KEY `IDX_CATALOG_PRODUCT_INDEX_WEBSITE_WEBSITE_DATE` (`website_date`),
   CONSTRAINT `FK_CAT_PRD_IDX_WS_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Website Index Table';
 
-# Dumping data for table catalog_product_index_website: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_index_website: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_index_website` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_index_website` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_link
+# Dumping structure for table s5152d29ad0535.catalog_product_link
 DROP TABLE IF EXISTS `catalog_product_link`;
 CREATE TABLE IF NOT EXISTS `catalog_product_link` (
-  `link_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Link ID',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product ID',
-  `linked_product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Linked Product ID',
-  `link_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Link Type ID',
-  PRIMARY KEY (`link_id`),
+  `link_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Link ID',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
+  `linked_product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Linked Product ID',
+  `link_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Link Type ID',
+  PRIMARY KEY  (`link_id`),
   UNIQUE KEY `UNQ_CAT_PRD_LNK_LNK_TYPE_ID_PRD_ID_LNKED_PRD_ID` (`link_type_id`,`product_id`,`linked_product_id`),
   KEY `IDX_CATALOG_PRODUCT_LINK_PRODUCT_ID` (`product_id`),
   KEY `IDX_CATALOG_PRODUCT_LINK_LINKED_PRODUCT_ID` (`linked_product_id`),
@@ -2036,24 +2079,24 @@ CREATE TABLE IF NOT EXISTS `catalog_product_link` (
   CONSTRAINT `FK_CAT_PRD_LNK_LNK_TYPE_ID_CAT_PRD_LNK_TYPE_LNK_TYPE_ID` FOREIGN KEY (`link_type_id`) REFERENCES `catalog_product_link_type` (`link_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product To Product Linkage Table';
 
-# Dumping data for table catalog_product_link: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_link: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_link` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_link` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_link_attribute
+# Dumping structure for table s5152d29ad0535.catalog_product_link_attribute
 DROP TABLE IF EXISTS `catalog_product_link_attribute`;
 CREATE TABLE IF NOT EXISTS `catalog_product_link_attribute` (
-  `product_link_attribute_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Product Link Attribute ID',
-  `link_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Link Type ID',
-  `product_link_attribute_code` varchar(32) DEFAULT NULL COMMENT 'Product Link Attribute Code',
-  `data_type` varchar(32) DEFAULT NULL COMMENT 'Data Type',
-  PRIMARY KEY (`product_link_attribute_id`),
+  `product_link_attribute_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Product Link Attribute ID',
+  `link_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Link Type ID',
+  `product_link_attribute_code` varchar(32) default NULL COMMENT 'Product Link Attribute Code',
+  `data_type` varchar(32) default NULL COMMENT 'Data Type',
+  PRIMARY KEY  (`product_link_attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_LINK_ATTRIBUTE_LINK_TYPE_ID` (`link_type_id`),
   CONSTRAINT `FK_CAT_PRD_LNK_ATTR_LNK_TYPE_ID_CAT_PRD_LNK_TYPE_LNK_TYPE_ID` FOREIGN KEY (`link_type_id`) REFERENCES `catalog_product_link_type` (`link_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Catalog Product Link Attribute Table';
 
-# Dumping data for table catalog_product_link_attribute: ~5 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_link_attribute: ~5 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_link_attribute` DISABLE KEYS */;
 INSERT INTO `catalog_product_link_attribute` (`product_link_attribute_id`, `link_type_id`, `product_link_attribute_code`, `data_type`) VALUES
 	(1, 1, 'position', 'int'),
@@ -2064,14 +2107,14 @@ INSERT INTO `catalog_product_link_attribute` (`product_link_attribute_id`, `link
 /*!40000 ALTER TABLE `catalog_product_link_attribute` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_link_attribute_decimal
+# Dumping structure for table s5152d29ad0535.catalog_product_link_attribute_decimal
 DROP TABLE IF EXISTS `catalog_product_link_attribute_decimal`;
 CREATE TABLE IF NOT EXISTS `catalog_product_link_attribute_decimal` (
-  `value_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `product_link_attribute_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Product Link Attribute ID',
+  `value_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Value ID',
+  `product_link_attribute_id` smallint(5) unsigned default NULL COMMENT 'Product Link Attribute ID',
   `link_id` int(10) unsigned NOT NULL COMMENT 'Link ID',
-  `value` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CAT_PRD_LNK_ATTR_DEC_PRD_LNK_ATTR_ID_LNK_ID` (`product_link_attribute_id`,`link_id`),
   KEY `IDX_CAT_PRD_LNK_ATTR_DEC_PRD_LNK_ATTR_ID` (`product_link_attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_LINK_ATTRIBUTE_DECIMAL_LINK_ID` (`link_id`),
@@ -2079,19 +2122,19 @@ CREATE TABLE IF NOT EXISTS `catalog_product_link_attribute_decimal` (
   CONSTRAINT `FK_AB2EFA9A14F7BCF1D5400056203D14B6` FOREIGN KEY (`product_link_attribute_id`) REFERENCES `catalog_product_link_attribute` (`product_link_attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Link Decimal Attribute Table';
 
-# Dumping data for table catalog_product_link_attribute_decimal: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_link_attribute_decimal: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_link_attribute_decimal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_link_attribute_decimal` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_link_attribute_int
+# Dumping structure for table s5152d29ad0535.catalog_product_link_attribute_int
 DROP TABLE IF EXISTS `catalog_product_link_attribute_int`;
 CREATE TABLE IF NOT EXISTS `catalog_product_link_attribute_int` (
-  `value_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `product_link_attribute_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Product Link Attribute ID',
+  `value_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Value ID',
+  `product_link_attribute_id` smallint(5) unsigned default NULL COMMENT 'Product Link Attribute ID',
   `link_id` int(10) unsigned NOT NULL COMMENT 'Link ID',
-  `value` int(11) NOT NULL DEFAULT '0' COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value` int(11) NOT NULL default '0' COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CAT_PRD_LNK_ATTR_INT_PRD_LNK_ATTR_ID_LNK_ID` (`product_link_attribute_id`,`link_id`),
   KEY `IDX_CATALOG_PRODUCT_LINK_ATTRIBUTE_INT_PRODUCT_LINK_ATTRIBUTE_ID` (`product_link_attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_LINK_ATTRIBUTE_INT_LINK_ID` (`link_id`),
@@ -2099,19 +2142,19 @@ CREATE TABLE IF NOT EXISTS `catalog_product_link_attribute_int` (
   CONSTRAINT `FK_CAT_PRD_LNK_ATTR_INT_LNK_ID_CAT_PRD_LNK_LNK_ID` FOREIGN KEY (`link_id`) REFERENCES `catalog_product_link` (`link_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Link Integer Attribute Table';
 
-# Dumping data for table catalog_product_link_attribute_int: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_link_attribute_int: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_link_attribute_int` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_link_attribute_int` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_link_attribute_varchar
+# Dumping structure for table s5152d29ad0535.catalog_product_link_attribute_varchar
 DROP TABLE IF EXISTS `catalog_product_link_attribute_varchar`;
 CREATE TABLE IF NOT EXISTS `catalog_product_link_attribute_varchar` (
-  `value_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `product_link_attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Product Link Attribute ID',
+  `value_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Value ID',
+  `product_link_attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Product Link Attribute ID',
   `link_id` int(10) unsigned NOT NULL COMMENT 'Link ID',
-  `value` varchar(255) DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value` varchar(255) default NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CAT_PRD_LNK_ATTR_VCHR_PRD_LNK_ATTR_ID_LNK_ID` (`product_link_attribute_id`,`link_id`),
   KEY `IDX_CAT_PRD_LNK_ATTR_VCHR_PRD_LNK_ATTR_ID` (`product_link_attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_LINK_ATTRIBUTE_VARCHAR_LINK_ID` (`link_id`),
@@ -2119,20 +2162,20 @@ CREATE TABLE IF NOT EXISTS `catalog_product_link_attribute_varchar` (
   CONSTRAINT `FK_DEE9C4DA61CFCC01DFCF50F0D79CEA51` FOREIGN KEY (`product_link_attribute_id`) REFERENCES `catalog_product_link_attribute` (`product_link_attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Link Varchar Attribute Table';
 
-# Dumping data for table catalog_product_link_attribute_varchar: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_link_attribute_varchar: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_link_attribute_varchar` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_link_attribute_varchar` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_link_type
+# Dumping structure for table s5152d29ad0535.catalog_product_link_type
 DROP TABLE IF EXISTS `catalog_product_link_type`;
 CREATE TABLE IF NOT EXISTS `catalog_product_link_type` (
-  `link_type_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Link Type ID',
-  `code` varchar(32) DEFAULT NULL COMMENT 'Code',
-  PRIMARY KEY (`link_type_id`)
+  `link_type_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Link Type ID',
+  `code` varchar(32) default NULL COMMENT 'Code',
+  PRIMARY KEY  (`link_type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Catalog Product Link Type Table';
 
-# Dumping data for table catalog_product_link_type: ~4 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_link_type: ~4 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_link_type` DISABLE KEYS */;
 INSERT INTO `catalog_product_link_type` (`link_type_id`, `code`) VALUES
 	(1, 'relation'),
@@ -2142,38 +2185,38 @@ INSERT INTO `catalog_product_link_type` (`link_type_id`, `code`) VALUES
 /*!40000 ALTER TABLE `catalog_product_link_type` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_option
+# Dumping structure for table s5152d29ad0535.catalog_product_option
 DROP TABLE IF EXISTS `catalog_product_option`;
 CREATE TABLE IF NOT EXISTS `catalog_product_option` (
-  `option_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Option ID',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product ID',
-  `type` varchar(50) DEFAULT NULL COMMENT 'Type',
-  `is_require` smallint(6) NOT NULL DEFAULT '1' COMMENT 'Is Required',
-  `sku` varchar(64) DEFAULT NULL COMMENT 'SKU',
-  `max_characters` int(10) unsigned DEFAULT NULL COMMENT 'Max Characters',
-  `file_extension` varchar(50) DEFAULT NULL COMMENT 'File Extension',
-  `image_size_x` smallint(5) unsigned DEFAULT NULL COMMENT 'Image Size X',
-  `image_size_y` smallint(5) unsigned DEFAULT NULL COMMENT 'Image Size Y',
-  `sort_order` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Sort Order',
-  PRIMARY KEY (`option_id`),
+  `option_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option ID',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
+  `type` varchar(50) default NULL COMMENT 'Type',
+  `is_require` smallint(6) NOT NULL default '1' COMMENT 'Is Required',
+  `sku` varchar(64) default NULL COMMENT 'SKU',
+  `max_characters` int(10) unsigned default NULL COMMENT 'Max Characters',
+  `file_extension` varchar(50) default NULL COMMENT 'File Extension',
+  `image_size_x` smallint(5) unsigned default NULL COMMENT 'Image Size X',
+  `image_size_y` smallint(5) unsigned default NULL COMMENT 'Image Size Y',
+  `sort_order` int(10) unsigned NOT NULL default '0' COMMENT 'Sort Order',
+  PRIMARY KEY  (`option_id`),
   KEY `IDX_CATALOG_PRODUCT_OPTION_PRODUCT_ID` (`product_id`),
   CONSTRAINT `FK_CAT_PRD_OPT_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Option Table';
 
-# Dumping data for table catalog_product_option: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_option: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_option` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_option` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_option_price
+# Dumping structure for table s5152d29ad0535.catalog_product_option_price
 DROP TABLE IF EXISTS `catalog_product_option_price`;
 CREATE TABLE IF NOT EXISTS `catalog_product_option_price` (
-  `option_price_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Option Price ID',
-  `option_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Option ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Price',
-  `price_type` varchar(7) NOT NULL DEFAULT 'fixed' COMMENT 'Price Type',
-  PRIMARY KEY (`option_price_id`),
+  `option_price_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Price ID',
+  `option_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Price',
+  `price_type` varchar(7) NOT NULL default 'fixed' COMMENT 'Price Type',
+  PRIMARY KEY  (`option_price_id`),
   UNIQUE KEY `UNQ_CATALOG_PRODUCT_OPTION_PRICE_OPTION_ID_STORE_ID` (`option_id`,`store_id`),
   KEY `IDX_CATALOG_PRODUCT_OPTION_PRICE_OPTION_ID` (`option_id`),
   KEY `IDX_CATALOG_PRODUCT_OPTION_PRICE_STORE_ID` (`store_id`),
@@ -2181,19 +2224,19 @@ CREATE TABLE IF NOT EXISTS `catalog_product_option_price` (
   CONSTRAINT `FK_CATALOG_PRODUCT_OPTION_PRICE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Option Price Table';
 
-# Dumping data for table catalog_product_option_price: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_option_price: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_option_price` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_option_price` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_option_title
+# Dumping structure for table s5152d29ad0535.catalog_product_option_title
 DROP TABLE IF EXISTS `catalog_product_option_title`;
 CREATE TABLE IF NOT EXISTS `catalog_product_option_title` (
-  `option_title_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Option Title ID',
-  `option_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Option ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `title` varchar(255) DEFAULT NULL COMMENT 'Title',
-  PRIMARY KEY (`option_title_id`),
+  `option_title_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Title ID',
+  `option_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `title` varchar(255) default NULL COMMENT 'Title',
+  PRIMARY KEY  (`option_title_id`),
   UNIQUE KEY `UNQ_CATALOG_PRODUCT_OPTION_TITLE_OPTION_ID_STORE_ID` (`option_id`,`store_id`),
   KEY `IDX_CATALOG_PRODUCT_OPTION_TITLE_OPTION_ID` (`option_id`),
   KEY `IDX_CATALOG_PRODUCT_OPTION_TITLE_STORE_ID` (`store_id`),
@@ -2201,20 +2244,20 @@ CREATE TABLE IF NOT EXISTS `catalog_product_option_title` (
   CONSTRAINT `FK_CATALOG_PRODUCT_OPTION_TITLE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Option Title Table';
 
-# Dumping data for table catalog_product_option_title: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_option_title: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_option_title` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_option_title` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_option_type_price
+# Dumping structure for table s5152d29ad0535.catalog_product_option_type_price
 DROP TABLE IF EXISTS `catalog_product_option_type_price`;
 CREATE TABLE IF NOT EXISTS `catalog_product_option_type_price` (
-  `option_type_price_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Option Type Price ID',
-  `option_type_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Option Type ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Price',
-  `price_type` varchar(7) NOT NULL DEFAULT 'fixed' COMMENT 'Price Type',
-  PRIMARY KEY (`option_type_price_id`),
+  `option_type_price_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Type Price ID',
+  `option_type_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option Type ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Price',
+  `price_type` varchar(7) NOT NULL default 'fixed' COMMENT 'Price Type',
+  PRIMARY KEY  (`option_type_price_id`),
   UNIQUE KEY `UNQ_CATALOG_PRODUCT_OPTION_TYPE_PRICE_OPTION_TYPE_ID_STORE_ID` (`option_type_id`,`store_id`),
   KEY `IDX_CATALOG_PRODUCT_OPTION_TYPE_PRICE_OPTION_TYPE_ID` (`option_type_id`),
   KEY `IDX_CATALOG_PRODUCT_OPTION_TYPE_PRICE_STORE_ID` (`store_id`),
@@ -2222,19 +2265,19 @@ CREATE TABLE IF NOT EXISTS `catalog_product_option_type_price` (
   CONSTRAINT `FK_CAT_PRD_OPT_TYPE_PRICE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Option Type Price Table';
 
-# Dumping data for table catalog_product_option_type_price: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_option_type_price: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_option_type_price` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_option_type_price` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_option_type_title
+# Dumping structure for table s5152d29ad0535.catalog_product_option_type_title
 DROP TABLE IF EXISTS `catalog_product_option_type_title`;
 CREATE TABLE IF NOT EXISTS `catalog_product_option_type_title` (
-  `option_type_title_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Option Type Title ID',
-  `option_type_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Option Type ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `title` varchar(255) DEFAULT NULL COMMENT 'Title',
-  PRIMARY KEY (`option_type_title_id`),
+  `option_type_title_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Type Title ID',
+  `option_type_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option Type ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `title` varchar(255) default NULL COMMENT 'Title',
+  PRIMARY KEY  (`option_type_title_id`),
   UNIQUE KEY `UNQ_CATALOG_PRODUCT_OPTION_TYPE_TITLE_OPTION_TYPE_ID_STORE_ID` (`option_type_id`,`store_id`),
   KEY `IDX_CATALOG_PRODUCT_OPTION_TYPE_TITLE_OPTION_TYPE_ID` (`option_type_id`),
   KEY `IDX_CATALOG_PRODUCT_OPTION_TYPE_TITLE_STORE_ID` (`store_id`),
@@ -2242,71 +2285,71 @@ CREATE TABLE IF NOT EXISTS `catalog_product_option_type_title` (
   CONSTRAINT `FK_CAT_PRD_OPT_TYPE_TTL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Option Type Title Table';
 
-# Dumping data for table catalog_product_option_type_title: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_option_type_title: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_option_type_title` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_option_type_title` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_option_type_value
+# Dumping structure for table s5152d29ad0535.catalog_product_option_type_value
 DROP TABLE IF EXISTS `catalog_product_option_type_value`;
 CREATE TABLE IF NOT EXISTS `catalog_product_option_type_value` (
-  `option_type_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Option Type ID',
-  `option_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Option ID',
-  `sku` varchar(64) DEFAULT NULL COMMENT 'SKU',
-  `sort_order` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Sort Order',
-  PRIMARY KEY (`option_type_id`),
+  `option_type_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Type ID',
+  `option_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option ID',
+  `sku` varchar(64) default NULL COMMENT 'SKU',
+  `sort_order` int(10) unsigned NOT NULL default '0' COMMENT 'Sort Order',
+  PRIMARY KEY  (`option_type_id`),
   KEY `IDX_CATALOG_PRODUCT_OPTION_TYPE_VALUE_OPTION_ID` (`option_id`),
   CONSTRAINT `FK_CAT_PRD_OPT_TYPE_VAL_OPT_ID_CAT_PRD_OPT_OPT_ID` FOREIGN KEY (`option_id`) REFERENCES `catalog_product_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Option Type Value Table';
 
-# Dumping data for table catalog_product_option_type_value: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_option_type_value: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_option_type_value` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_option_type_value` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_relation
+# Dumping structure for table s5152d29ad0535.catalog_product_relation
 DROP TABLE IF EXISTS `catalog_product_relation`;
 CREATE TABLE IF NOT EXISTS `catalog_product_relation` (
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent ID',
   `child_id` int(10) unsigned NOT NULL COMMENT 'Child ID',
-  PRIMARY KEY (`parent_id`,`child_id`),
+  PRIMARY KEY  (`parent_id`,`child_id`),
   KEY `IDX_CATALOG_PRODUCT_RELATION_CHILD_ID` (`child_id`),
   CONSTRAINT `FK_CAT_PRD_RELATION_CHILD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`child_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_RELATION_PARENT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`parent_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Relation Table';
 
-# Dumping data for table catalog_product_relation: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_relation: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_relation` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_relation` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_super_attribute
+# Dumping structure for table s5152d29ad0535.catalog_product_super_attribute
 DROP TABLE IF EXISTS `catalog_product_super_attribute`;
 CREATE TABLE IF NOT EXISTS `catalog_product_super_attribute` (
-  `product_super_attribute_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Product Super Attribute ID',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product ID',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute ID',
-  `position` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Position',
-  PRIMARY KEY (`product_super_attribute_id`),
+  `product_super_attribute_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Product Super Attribute ID',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute ID',
+  `position` smallint(5) unsigned NOT NULL default '0' COMMENT 'Position',
+  PRIMARY KEY  (`product_super_attribute_id`),
   UNIQUE KEY `UNQ_CATALOG_PRODUCT_SUPER_ATTRIBUTE_PRODUCT_ID_ATTRIBUTE_ID` (`product_id`,`attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_SUPER_ATTRIBUTE_PRODUCT_ID` (`product_id`),
   CONSTRAINT `FK_CAT_PRD_SPR_ATTR_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Super Attribute Table';
 
-# Dumping data for table catalog_product_super_attribute: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_super_attribute: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_super_attribute` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_super_attribute` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_super_attribute_label
+# Dumping structure for table s5152d29ad0535.catalog_product_super_attribute_label
 DROP TABLE IF EXISTS `catalog_product_super_attribute_label`;
 CREATE TABLE IF NOT EXISTS `catalog_product_super_attribute_label` (
-  `value_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `product_super_attribute_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product Super Attribute ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `use_default` smallint(5) unsigned DEFAULT '0' COMMENT 'Use Default Value',
-  `value` varchar(255) DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Value ID',
+  `product_super_attribute_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product Super Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `use_default` smallint(5) unsigned default '0' COMMENT 'Use Default Value',
+  `value` varchar(255) default NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CAT_PRD_SPR_ATTR_LBL_PRD_SPR_ATTR_ID_STORE_ID` (`product_super_attribute_id`,`store_id`),
   KEY `IDX_CAT_PRD_SPR_ATTR_LBL_PRD_SPR_ATTR_ID` (`product_super_attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_SUPER_ATTRIBUTE_LABEL_STORE_ID` (`store_id`),
@@ -2314,21 +2357,21 @@ CREATE TABLE IF NOT EXISTS `catalog_product_super_attribute_label` (
   CONSTRAINT `FK_CAT_PRD_SPR_ATTR_LBL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Super Attribute Label Table';
 
-# Dumping data for table catalog_product_super_attribute_label: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_super_attribute_label: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_super_attribute_label` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_super_attribute_label` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_super_attribute_pricing
+# Dumping structure for table s5152d29ad0535.catalog_product_super_attribute_pricing
 DROP TABLE IF EXISTS `catalog_product_super_attribute_pricing`;
 CREATE TABLE IF NOT EXISTS `catalog_product_super_attribute_pricing` (
-  `value_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
-  `product_super_attribute_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product Super Attribute ID',
-  `value_index` varchar(255) DEFAULT NULL COMMENT 'Value Index',
-  `is_percent` smallint(5) unsigned DEFAULT '0' COMMENT 'Is Percent',
-  `pricing_value` decimal(12,4) DEFAULT NULL COMMENT 'Pricing Value',
-  `website_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Website ID',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Value ID',
+  `product_super_attribute_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product Super Attribute ID',
+  `value_index` varchar(255) default NULL COMMENT 'Value Index',
+  `is_percent` smallint(5) unsigned default '0' COMMENT 'Is Percent',
+  `pricing_value` decimal(12,4) default NULL COMMENT 'Pricing Value',
+  `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website ID',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CAT_PRD_SPR_ATTR_PRICING_PRD_SPR_ATTR_ID_VAL_IDX_WS_ID` (`product_super_attribute_id`,`value_index`,`website_id`),
   KEY `IDX_CAT_PRD_SPR_ATTR_PRICING_PRD_SPR_ATTR_ID` (`product_super_attribute_id`),
   KEY `IDX_CATALOG_PRODUCT_SUPER_ATTRIBUTE_PRICING_WEBSITE_ID` (`website_id`),
@@ -2336,18 +2379,18 @@ CREATE TABLE IF NOT EXISTS `catalog_product_super_attribute_pricing` (
   CONSTRAINT `FK_CDE8813117106CFAA3AD209358F66332` FOREIGN KEY (`product_super_attribute_id`) REFERENCES `catalog_product_super_attribute` (`product_super_attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Super Attribute Pricing Table';
 
-# Dumping data for table catalog_product_super_attribute_pricing: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_super_attribute_pricing: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_super_attribute_pricing` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_super_attribute_pricing` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_super_link
+# Dumping structure for table s5152d29ad0535.catalog_product_super_link
 DROP TABLE IF EXISTS `catalog_product_super_link`;
 CREATE TABLE IF NOT EXISTS `catalog_product_super_link` (
-  `link_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Link ID',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product ID',
-  `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Parent ID',
-  PRIMARY KEY (`link_id`),
+  `link_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Link ID',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
+  `parent_id` int(10) unsigned NOT NULL default '0' COMMENT 'Parent ID',
+  PRIMARY KEY  (`link_id`),
   UNIQUE KEY `UNQ_CATALOG_PRODUCT_SUPER_LINK_PRODUCT_ID_PARENT_ID` (`product_id`,`parent_id`),
   KEY `IDX_CATALOG_PRODUCT_SUPER_LINK_PARENT_ID` (`parent_id`),
   KEY `IDX_CATALOG_PRODUCT_SUPER_LINK_PRODUCT_ID` (`product_id`),
@@ -2355,148 +2398,160 @@ CREATE TABLE IF NOT EXISTS `catalog_product_super_link` (
   CONSTRAINT `FK_CAT_PRD_SPR_LNK_PARENT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`parent_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Super Link Table';
 
-# Dumping data for table catalog_product_super_link: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_super_link: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_super_link` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_super_link` ENABLE KEYS */;
 
 
-# Dumping structure for table catalog_product_website
+# Dumping structure for table s5152d29ad0535.catalog_product_website
 DROP TABLE IF EXISTS `catalog_product_website`;
 CREATE TABLE IF NOT EXISTS `catalog_product_website` (
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product ID',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website ID',
-  PRIMARY KEY (`product_id`,`website_id`),
+  PRIMARY KEY  (`product_id`,`website_id`),
   KEY `IDX_CATALOG_PRODUCT_WEBSITE_WEBSITE_ID` (`website_id`),
   CONSTRAINT `FK_CATALOG_PRODUCT_WEBSITE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CAT_PRD_WS_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product To Website Linkage Table';
 
-# Dumping data for table catalog_product_website: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.catalog_product_website: ~0 rows (approximately)
 /*!40000 ALTER TABLE `catalog_product_website` DISABLE KEYS */;
 /*!40000 ALTER TABLE `catalog_product_website` ENABLE KEYS */;
 
 
-# Dumping structure for table checkout_agreement
+# Dumping structure for table s5152d29ad0535.checkout_agreement
 DROP TABLE IF EXISTS `checkout_agreement`;
 CREATE TABLE IF NOT EXISTS `checkout_agreement` (
-  `agreement_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Agreement Id',
-  `name` varchar(255) DEFAULT NULL COMMENT 'Name',
+  `agreement_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Agreement Id',
+  `name` varchar(255) default NULL COMMENT 'Name',
   `content` text COMMENT 'Content',
-  `content_height` varchar(25) DEFAULT NULL COMMENT 'Content Height',
+  `content_height` varchar(25) default NULL COMMENT 'Content Height',
   `checkbox_text` text COMMENT 'Checkbox Text',
-  `is_active` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Is Active',
-  `is_html` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Is Html',
-  PRIMARY KEY (`agreement_id`)
+  `is_active` smallint(6) NOT NULL default '0' COMMENT 'Is Active',
+  `is_html` smallint(6) NOT NULL default '0' COMMENT 'Is Html',
+  PRIMARY KEY  (`agreement_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Checkout Agreement';
 
-# Dumping data for table checkout_agreement: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.checkout_agreement: ~0 rows (approximately)
 /*!40000 ALTER TABLE `checkout_agreement` DISABLE KEYS */;
 /*!40000 ALTER TABLE `checkout_agreement` ENABLE KEYS */;
 
 
-# Dumping structure for table checkout_agreement_store
+# Dumping structure for table s5152d29ad0535.checkout_agreement_store
 DROP TABLE IF EXISTS `checkout_agreement_store`;
 CREATE TABLE IF NOT EXISTS `checkout_agreement_store` (
   `agreement_id` int(10) unsigned NOT NULL COMMENT 'Agreement Id',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
-  PRIMARY KEY (`agreement_id`,`store_id`),
+  PRIMARY KEY  (`agreement_id`,`store_id`),
   KEY `FK_CHECKOUT_AGREEMENT_STORE_STORE_ID_CORE_STORE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_CHKT_AGRT_STORE_AGRT_ID_CHKT_AGRT_AGRT_ID` FOREIGN KEY (`agreement_id`) REFERENCES `checkout_agreement` (`agreement_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CHECKOUT_AGREEMENT_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Checkout Agreement Store';
 
-# Dumping data for table checkout_agreement_store: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.checkout_agreement_store: ~0 rows (approximately)
 /*!40000 ALTER TABLE `checkout_agreement_store` DISABLE KEYS */;
 /*!40000 ALTER TABLE `checkout_agreement_store` ENABLE KEYS */;
 
 
-# Dumping structure for table cms_block
+# Dumping structure for table s5152d29ad0535.cms_block
 DROP TABLE IF EXISTS `cms_block`;
 CREATE TABLE IF NOT EXISTS `cms_block` (
-  `block_id` smallint(6) NOT NULL AUTO_INCREMENT COMMENT 'Block ID',
+  `block_id` smallint(6) NOT NULL auto_increment COMMENT 'Block ID',
   `title` varchar(255) NOT NULL COMMENT 'Block Title',
   `identifier` varchar(255) NOT NULL COMMENT 'Block String Identifier',
   `content` mediumtext COMMENT 'Block Content',
-  `creation_time` timestamp NULL DEFAULT NULL COMMENT 'Block Creation Time',
-  `update_time` timestamp NULL DEFAULT NULL COMMENT 'Block Modification Time',
-  `is_active` smallint(6) NOT NULL DEFAULT '1' COMMENT 'Is Block Active',
-  PRIMARY KEY (`block_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='CMS Block Table';
+  `creation_time` timestamp NULL default NULL COMMENT 'Block Creation Time',
+  `update_time` timestamp NULL default NULL COMMENT 'Block Modification Time',
+  `is_active` smallint(6) NOT NULL default '1' COMMENT 'Is Block Active',
+  PRIMARY KEY  (`block_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='CMS Block Table';
 
-# Dumping data for table cms_block: ~1 rows (approximately)
+# Dumping data for table s5152d29ad0535.cms_block: ~5 rows (approximately)
 /*!40000 ALTER TABLE `cms_block` DISABLE KEYS */;
 INSERT INTO `cms_block` (`block_id`, `title`, `identifier`, `content`, `creation_time`, `update_time`, `is_active`) VALUES
-	(1, 'Footer Links', 'footer_links', '<ul>\r\n<li><a href="{{store direct_url="about-magento-demo-store"}}">About Us</a></li>\r\n<li><a href="{{store direct_url="customer-service"}}">Customer Service</a></li>\r\n<li class="last privacy"><a href="{{store direct_url="privacy-policy-cookie-restriction-mode"}}">Privacy Policy</a></li>\r\n</ul>', '2013-02-28 19:03:08', '2013-02-28 19:03:08', 1);
+	(1, 'Footer Links', 'footer_links', '<ul>\r\n<li><a href="{{store direct_url="about-magento-demo-store"}}">About Us</a></li>\r\n<li><a href="{{store direct_url="customer-service"}}">Customer Service</a></li>\r\n<li class="last privacy"><a href="{{store direct_url="privacy-policy-cookie-restriction-mode"}}">Privacy Policy</a></li>\r\n</ul>', '2013-02-28 19:03:08', '2013-02-28 19:03:08', 1),
+	(2, 'Flaunt yourself', 'flaunt_yourself', '<img src="{{view url="images/callouts/home/flaunt_yourself.jpg"}}" alt="Flaunt yourself" />', '2013-03-27 11:10:53', '2013-03-27 11:10:53', 1),
+	(3, 'Link to Private Sales Site', 'link_privatesales', '<a href="{{store direct_url="privatesales/"}}"><img src="{{view url="images/callouts/home/link_private_sales.gif"}}" alt="Private Sales Exclusive Store" /></a>', '2013-03-27 11:10:53', '2013-03-27 11:10:53', 1),
+	(4, 'Link to Gift Cards Category', 'link_giftcards', '<a href="{{store direct_url="gift-cards"}}"><img src="{{view url="images/callouts/home/link_gift_cards.gif"}}" alt="Gift Cards" /></a>', '2013-03-27 11:10:53', '2013-03-27 11:10:53', 1),
+	(5, 'Link to Apparel -> Women -> Handbags Category', 'link_apparel_women_handbags', '<a href="{{store direct_url="apparel/women/handbags"}}"><img style="margin-bottom:7px;" src="{{view url="images/callouts/home/link_handbags.jpg"}}" alt="Handbags" /></a>', '2013-03-27 11:10:53', '2013-03-27 11:10:53', 1);
 /*!40000 ALTER TABLE `cms_block` ENABLE KEYS */;
 
 
-# Dumping structure for table cms_block_store
+# Dumping structure for table s5152d29ad0535.cms_block_store
 DROP TABLE IF EXISTS `cms_block_store`;
 CREATE TABLE IF NOT EXISTS `cms_block_store` (
   `block_id` smallint(6) NOT NULL COMMENT 'Block ID',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
-  PRIMARY KEY (`block_id`,`store_id`),
+  PRIMARY KEY  (`block_id`,`store_id`),
   KEY `IDX_CMS_BLOCK_STORE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_CMS_BLOCK_STORE_BLOCK_ID_CMS_BLOCK_BLOCK_ID` FOREIGN KEY (`block_id`) REFERENCES `cms_block` (`block_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CMS_BLOCK_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CMS Block To Store Linkage Table';
 
-# Dumping data for table cms_block_store: ~1 rows (approximately)
+# Dumping data for table s5152d29ad0535.cms_block_store: ~5 rows (approximately)
 /*!40000 ALTER TABLE `cms_block_store` DISABLE KEYS */;
 INSERT INTO `cms_block_store` (`block_id`, `store_id`) VALUES
-	(1, 0);
+	(1, 0),
+	(2, 0),
+	(3, 0),
+	(4, 0),
+	(5, 0);
 /*!40000 ALTER TABLE `cms_block_store` ENABLE KEYS */;
 
 
-# Dumping structure for table cms_page
+# Dumping structure for table s5152d29ad0535.cms_page
 DROP TABLE IF EXISTS `cms_page`;
 CREATE TABLE IF NOT EXISTS `cms_page` (
-  `page_id` smallint(6) NOT NULL AUTO_INCREMENT COMMENT 'Page ID',
-  `title` varchar(255) DEFAULT NULL COMMENT 'Page Title',
-  `root_template` varchar(255) DEFAULT NULL COMMENT 'Page Template',
+  `page_id` smallint(6) NOT NULL auto_increment COMMENT 'Page ID',
+  `title` varchar(255) default NULL COMMENT 'Page Title',
+  `root_template` varchar(255) default NULL COMMENT 'Page Template',
   `meta_keywords` text COMMENT 'Page Meta Keywords',
   `meta_description` text COMMENT 'Page Meta Description',
-  `identifier` varchar(100) DEFAULT NULL COMMENT 'Page String Identifier',
-  `content_heading` varchar(255) DEFAULT NULL COMMENT 'Page Content Heading',
+  `identifier` varchar(100) default NULL COMMENT 'Page String Identifier',
+  `content_heading` varchar(255) default NULL COMMENT 'Page Content Heading',
   `content` mediumtext COMMENT 'Page Content',
-  `creation_time` timestamp NULL DEFAULT NULL COMMENT 'Page Creation Time',
-  `update_time` timestamp NULL DEFAULT NULL COMMENT 'Page Modification Time',
-  `is_active` smallint(6) NOT NULL DEFAULT '1' COMMENT 'Is Page Active',
-  `sort_order` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Page Sort Order',
+  `creation_time` timestamp NULL default NULL COMMENT 'Page Creation Time',
+  `update_time` timestamp NULL default NULL COMMENT 'Page Modification Time',
+  `is_active` smallint(6) NOT NULL default '1' COMMENT 'Is Page Active',
+  `sort_order` smallint(6) NOT NULL default '0' COMMENT 'Page Sort Order',
   `layout_update_xml` text COMMENT 'Page Layout Update Content',
-  `custom_theme` varchar(100) DEFAULT NULL COMMENT 'Page Custom Theme',
-  `custom_root_template` varchar(255) DEFAULT NULL COMMENT 'Page Custom Template',
+  `custom_theme` varchar(100) default NULL COMMENT 'Page Custom Theme',
+  `custom_root_template` varchar(255) default NULL COMMENT 'Page Custom Template',
   `custom_layout_update_xml` text COMMENT 'Page Custom Layout Update Content',
-  `custom_theme_from` date DEFAULT NULL COMMENT 'Page Custom Theme Active From Date',
-  `custom_theme_to` date DEFAULT NULL COMMENT 'Page Custom Theme Active To Date',
-  PRIMARY KEY (`page_id`),
+  `custom_theme_from` date default NULL COMMENT 'Page Custom Theme Active From Date',
+  `custom_theme_to` date default NULL COMMENT 'Page Custom Theme Active To Date',
+  `published_revision_id` int(10) unsigned NOT NULL default '0' COMMENT 'Published Revision Id',
+  `website_root` smallint(5) unsigned NOT NULL default '1' COMMENT 'Website Root',
+  `under_version_control` smallint(5) unsigned NOT NULL default '0' COMMENT 'Under Version Control Flag',
+  PRIMARY KEY  (`page_id`),
   KEY `IDX_CMS_PAGE_IDENTIFIER` (`identifier`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='CMS Page Table';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='CMS Page Table';
 
-# Dumping data for table cms_page: ~7 rows (approximately)
+# Dumping data for table s5152d29ad0535.cms_page: ~5 rows (approximately)
 /*!40000 ALTER TABLE `cms_page` DISABLE KEYS */;
-INSERT INTO `cms_page` (`page_id`, `title`, `root_template`, `meta_keywords`, `meta_description`, `identifier`, `content_heading`, `content`, `creation_time`, `update_time`, `is_active`, `sort_order`, `layout_update_xml`, `custom_theme`, `custom_root_template`, `custom_layout_update_xml`, `custom_theme_from`, `custom_theme_to`) VALUES
-	(1, '404 Not Found 1', 'two_columns_right', 'Page keywords', 'Page description', 'no-route', NULL, '<div class="page-title"><h1>Whoops, our bad...</h1></div>\r\n<dl>\r\n<dt>The page you requested was not found, and we have a fine guess why.</dt>\r\n<dd>\r\n<ul class="disc">\r\n<li>If you typed the URL directly, please make sure the spelling is correct.</li>\r\n<li>If you clicked on a link to get here, the link is outdated.</li>\r\n</ul></dd>\r\n</dl>\r\n<dl>\r\n<dt>What can you do?</dt>\r\n<dd>Have no fear, help is near! There are many ways you can get back on track with Magento Store.</dd>\r\n<dd>\r\n<ul class="disc">\r\n<li><a href="#" onclick="history.go(-1); return false;">Go back</a> to the previous page.</li>\r\n<li>Use the search bar at the top of the page to search for your products.</li>\r\n<li>Follow these links to get you back on track!<br /><a href="{{store url=""}}">Store Home</a> <span class="separator">|</span> <a href="{{store url="customer/account"}}">My Account</a></li></ul></dd></dl>\r\n', '2013-02-28 19:03:08', '2013-02-28 19:03:08', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL),
-	(2, 'Home page', 'two_columns_right', NULL, NULL, 'home', NULL, '<div class="page-title"><h2>Home Page</h2></div>\r\n', '2013-02-28 19:03:08', '2013-02-28 19:03:09', 1, 0, '<!--<reference name="content">\n        <block type="Mage_Catalog_Block_Product_New" name="home.catalog.product.new" alias="product_new" template="product/new.phtml" after="cms_page">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type="Mage_Reports_Block_Product_Viewed" name="home.reports.product.viewed" alias="product_viewed" template="home_product_viewed.phtml" after="product_new">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type="Mage_Reports_Block_Product_Compared" name="home.reports.product.compared" template="home_product_compared.phtml" after="product_viewed">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n    </reference>\n    <reference name="right">\n        <action method="unsetChild"><alias>right.reports.product.viewed</alias></action>\n        <action method="unsetChild"><alias>right.reports.product.compared</alias></action>\n    </reference>-->', NULL, NULL, NULL, NULL, NULL),
-	(3, 'About Us', 'two_columns_right', NULL, NULL, 'about-magento-demo-store', NULL, '<div class="page-title">\r\n<h1>About Magento Store</h1>\r\n</div>\r\n<div class="col3-set">\r\n<div class="col-1"><p><a href="http://www.magento.com/"><img src="{{view url=\'Mage_Cms::images/about_us_img.jpg\'}}" title="Varien" alt="Varien" /></a></p><p style="line-height:1.2em;"><small>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.</small></p>\r\n<p style="color:#888; font:1.2em/1.4em georgia, serif;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta.</p></div>\r\n<div class="col-2">\r\n<p><strong style="color:#de036f;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.</strong></p>\r\n<p>Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo. </p>\r\n<p>Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus. Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi. Vestibulum sapien dolor, aliquet nec, porta ac, malesuada a, libero. Praesent feugiat purus eget est. Nulla facilisi. Vestibulum tincidunt sapien eu velit. Mauris purus. Maecenas eget mauris eu orci accumsan feugiat. Pellentesque eget velit. Nunc tincidunt.</p></div>\r\n<div class="col-3">\r\n<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper </p>\r\n<p><strong style="color:#de036f;">Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus.</strong></p>\r\n<p>Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi.</p>\r\n<div class="divider"></div>\r\n<p>To all of you, from all of us at Magento Store - Thank you and Happy eCommerce!</p>\r\n<p style="line-height:1.2em;"><strong style="font:italic 2em Georgia, serif;">John Doe</strong><br /><small>Some important guy</small></p></div>\r\n</div>', '2013-02-28 19:03:08', '2013-02-28 19:03:08', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL),
-	(4, 'Customer Service', 'three_columns', NULL, NULL, 'customer-service', NULL, '<div class="page-title">\r\n<h1>Customer Service</h1>\r\n</div>\r\n<ul class="disc">\r\n<li><a href="#answer1">Shipping &amp; Delivery</a></li>\r\n<li><a href="#answer2">Privacy &amp; Security</a></li>\r\n<li><a href="#answer3">Returns &amp; Replacements</a></li>\r\n<li><a href="#answer4">Ordering</a></li>\r\n<li><a href="#answer5">Payment, Pricing &amp; Promotions</a></li>\r\n<li><a href="#answer6">Viewing Orders</a></li>\r\n<li><a href="#answer7">Updating Account Information</a></li>\r\n</ul>\r\n<dl>\r\n<dt id="answer1">Shipping &amp; Delivery</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer2">Privacy &amp; Security</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer3">Returns &amp; Replacements</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer4">Ordering</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer5">Payment, Pricing &amp; Promotions</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer6">Viewing Orders</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer7">Updating Account Information</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n</dl>', '2013-02-28 19:03:08', '2013-02-28 19:03:08', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL),
-	(5, 'Enable Cookies', 'one_column', NULL, NULL, 'enable-cookies', NULL, '<div class="std">\r\n    <ul class="messages">\r\n        <li class="notice-msg">\r\n            <ul>\r\n                <li>Please enable cookies in your web browser to continue.</li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n    <div class="page-title">\r\n        <h1><a name="top"></a>What are Cookies?</h1>\r\n    </div>\r\n    <p>Cookies are short pieces of data that are sent to your computer when you visit a website. On later visits, this data is then returned to that website. Cookies allow us to recognize you automatically whenever you visit our site so that we can personalize your experience and provide you with better service. We also use cookies (and similar browser data, such as Flash cookies) for fraud prevention and other purposes. If your web browser is set to refuse cookies from our website, you will not be able to complete a purchase or take advantage of certain features of our website, such as storing items in your Shopping Cart or receiving personalized recommendations. As a result, we strongly encourage you to configure your web browser to accept cookies from our website.</p>\r\n    <h2 class="subtitle">Enabling Cookies</h2>\r\n    <ul class="disc">\r\n        <li><a href="#ie7">Internet Explorer 7.x</a></li>\r\n        <li><a href="#ie6">Internet Explorer 6.x</a></li>\r\n        <li><a href="#firefox">Mozilla/Firefox</a></li>\r\n        <li><a href="#opera">Opera 7.x</a></li>\r\n    </ul>\r\n    <h3><a name="ie7"></a>Internet Explorer 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Start Internet Explorer</p>\r\n        </li>\r\n        <li>\r\n            <p>Under the <strong>Tools</strong> menu, click <strong>Internet Options</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-1.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Privacy</strong> tab</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-2.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Advanced</strong> button</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-3.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Put a check mark in the box for <strong>Override Automatic Cookie Handling</strong>, put another check mark in the <strong>Always accept session cookies </strong>box</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-4.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-5.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-6.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Restart Internet Explore</p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="ie6"></a>Internet Explorer 6.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Select <strong>Internet Options</strong> from the Tools menu</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie6-1.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> tab</p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Default</strong> button (or manually slide the bar down to <strong>Medium</strong>) under <strong>Settings</strong>. Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie6-2.gif"}}" alt="" /></p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="firefox"></a>Mozilla/Firefox</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong>-menu in Mozilla</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Options...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection in the left part of the window. (See image below)</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/firefox.png"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Expand the <strong>Cookies</strong> section</p>\r\n        </li>\r\n        <li>\r\n            <p>Check the <strong>Enable cookies</strong> and <strong>Accept cookies normally</strong> checkboxes</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong>.</p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="opera"></a>Opera 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong> menu in Opera</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Preferences...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection near the bottom left of the window. (See image below)</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/opera.png"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>The <strong>Enable cookies</strong> checkbox must be checked, and <strong>Accept all cookies</strong> should be selected in the &quot;<strong>Normal cookies</strong>&quot; drop-down</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong></p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n</div>\r\n', '2013-02-28 19:03:08', '2013-02-28 19:03:08', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL),
-	(6, 'Privacy Policy', 'one_column', NULL, NULL, 'privacy-policy-cookie-restriction-mode', 'Privacy Policy', '<p style="color: #ff0000; font-weight: bold; font-size: 13px">\n    Please replace this text with you Privacy Policy.\n    Please add any additional cookies your website uses below (e.g., Google Analytics)\n</p>\n<p>\n    This privacy policy sets out how {{config path="general/store_information/name"}} uses and protects any information\n    that you give {{config path="general/store_information/name"}} when you use this website.\n    {{config path="general/store_information/name"}} is committed to ensuring that your privacy is protected.\n    Should we ask you to provide certain information by which you can be identified when using this website,\n    then you can be assured that it will only be used in accordance with this privacy statement.\n    {{config path="general/store_information/name"}} may change this policy from time to time by updating this page.\n    You should check this page from time to time to ensure that you are happy with any changes.\n</p>\n<h2>What we collect</h2>\n<p>We may collect the following information:</p>\n<ul>\n    <li>name</li>\n    <li>contact information including email address</li>\n    <li>demographic information such as postcode, preferences and interests</li>\n    <li>other information relevant to customer surveys and/or offers</li>\n</ul>\n<p>\n    For the exhaustive list of cookies we collect see the <a href="#list">List of cookies we collect</a> section.\n</p>\n<h2>What we do with the information we gather</h2>\n<p>\n    We require this information to understand your needs and provide you with a better service,\n    and in particular for the following reasons:\n</p>\n<ul>\n    <li>Internal record keeping.</li>\n    <li>We may use the information to improve our products and services.</li>\n    <li>\n        We may periodically send promotional emails about new products, special offers or other information which we\n        think you may find interesting using the email address which you have provided.\n    </li>\n    <li>\n        From time to time, we may also use your information to contact you for market research purposes.\n        We may contact you by email, phone, fax or mail. We may use the information to customise the website\n        according to your interests.\n    </li>\n</ul>\n<h2>Security</h2>\n<p>\n    We are committed to ensuring that your information is secure. In order to prevent unauthorised access or disclosure,\n    we have put in place suitable physical, electronic and managerial procedures to safeguard and secure\n    the information we collect online.\n</p>\n<h2>How we use cookies</h2>\n<p>\n    A cookie is a small file which asks permission to be placed on your computer\'s hard drive.\n    Once you agree, the file is added and the cookie helps analyse web traffic or lets you know when you visit\n    a particular site. Cookies allow web applications to respond to you as an individual. The web application\n    can tailor its operations to your needs, likes and dislikes by gathering and remembering information about\n    your preferences.\n</p>\n<p>\n    We use traffic log cookies to identify which pages are being used. This helps us analyse data about web page traffic\n    and improve our website in order to tailor it to customer needs. We only use this information for statistical\n    analysis purposes and then the data is removed from the system.\n</p>\n<p>\n    Overall, cookies help us provide you with a better website, by enabling us to monitor which pages you find useful\n    and which you do not. A cookie in no way gives us access to your computer or any information about you,\n    other than the data you choose to share with us. You can choose to accept or decline cookies.\n    Most web browsers automatically accept cookies, but you can usually modify your browser setting\n    to decline cookies if you prefer. This may prevent you from taking full advantage of the website.\n</p>\n<h2>Links to other websites</h2>\n<p>\n    Our website may contain links to other websites of interest. However, once you have used these links\n    to leave our site, you should note that we do not have any control over that other website.\n    Therefore, we cannot be responsible for the protection and privacy of any information which you provide whilst\n    visiting such sites and such sites are not governed by this privacy statement.\n    You should exercise caution and look at the privacy statement applicable to the website in question.\n</p>\n<h2>Controlling your personal information</h2>\n<p>You may choose to restrict the collection or use of your personal information in the following ways:</p>\n<ul>\n    <li>\n        whenever you are asked to fill in a form on the website, look for the box that you can click to indicate\n        that you do not want the information to be used by anybody for direct marketing purposes\n    </li>\n    <li>\n        if you have previously agreed to us using your personal information for direct marketing purposes,\n        you may change your mind at any time by writing to or emailing us at\n        {{config path="trans_email/ident_general/email"}}\n    </li>\n</ul>\n<p>\n    We will not sell, distribute or lease your personal information to third parties unless we have your permission\n    or are required by law to do so. We may use your personal information to send you promotional information\n    about third parties which we think you may find interesting if you tell us that you wish this to happen.\n</p>\n<p>\n    You may request details of personal information which we hold about you under the Data Protection Act 1998.\n    A small fee will be payable. If you would like a copy of the information held on you please write to\n    {{config path="general/store_information/address"}}.\n</p>\n<p>\n    If you believe that any information we are holding on you is incorrect or incomplete,\n    please write to or email us as soon as possible, at the above address.\n    We will promptly correct any information found to be incorrect.\n</p>\n<h2><a name="list"></a>List of cookies we collect</h2>\n<p>The table below lists the cookies we collect and what information they store.</p>\n<table class="data-table">\n    <thead>\n        <tr>\n            <th>COOKIE name</th>\n            <th>COOKIE Description</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <th>CART</th>\n            <td>The association with your shopping cart.</td>\n        </tr>\n        <tr>\n            <th>CATEGORY_INFO</th>\n            <td>Stores the category info on the page, that allows to display pages more quickly.</td>\n        </tr>\n        <tr>\n            <th>COMPARE</th>\n            <td>The items that you have in the Compare Products list.</td>\n        </tr>\n        <tr>\n            <th>CURRENCY</th>\n            <td>Your preferred currency</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER</th>\n            <td>An encrypted version of your customer id with the store.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_AUTH</th>\n            <td>An indicator if you are currently logged into the store.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_INFO</th>\n            <td>An encrypted version of the customer group you belong to.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_SEGMENT_IDS</th>\n            <td>Stores the Customer Segment ID</td>\n        </tr>\n        <tr>\n            <th>EXTERNAL_NO_CACHE</th>\n            <td>A flag, which indicates whether caching is disabled or not.</td>\n        </tr>\n        <tr>\n            <th>FRONTEND</th>\n            <td>You sesssion ID on the server.</td>\n        </tr>\n        <tr>\n            <th>GUEST-VIEW</th>\n            <td>Allows guests to edit their orders.</td>\n        </tr>\n        <tr>\n            <th>LAST_CATEGORY</th>\n            <td>The last category you visited.</td>\n        </tr>\n        <tr>\n            <th>LAST_PRODUCT</th>\n            <td>The most recent product you have viewed.</td>\n        </tr>\n        <tr>\n            <th>NEWMESSAGE</th>\n            <td>Indicates whether a new message has been received.</td>\n        </tr>\n        <tr>\n            <th>NO_CACHE</th>\n            <td>Indicates whether it is allowed to use cache.</td>\n        </tr>\n        <tr>\n            <th>PERSISTENT_SHOPPING_CART</th>\n            <td>A link to information about your cart and viewing history if you have asked the site.</td>\n        </tr>\n        <tr>\n            <th>POLL</th>\n            <td>The ID of any polls you have recently voted in.</td>\n        </tr>\n        <tr>\n            <th>POLLN</th>\n            <td>Information on what polls you have voted on.</td>\n        </tr>\n        <tr>\n            <th>RECENTLYCOMPARED</th>\n            <td>The items that you have recently compared.            </td>\n        </tr>\n        <tr>\n            <th>STF</th>\n            <td>Information on products you have emailed to friends.</td>\n        </tr>\n        <tr>\n            <th>STORE</th>\n            <td>The store view or language you have selected.</td>\n        </tr>\n        <tr>\n            <th>USER_ALLOWED_SAVE_COOKIE</th>\n            <td>Indicates whether a customer allowed to use cookies.</td>\n        </tr>\n        <tr>\n            <th>VIEWED_PRODUCT_IDS</th>\n            <td>The products that you have recently viewed.</td>\n        </tr>\n        <tr>\n            <th>WISHLIST</th>\n            <td>An encrypted list of products added to your Wishlist.</td>\n        </tr>\n        <tr>\n            <th>WISHLIST_CNT</th>\n            <td>The number of items in your Wishlist.</td>\n        </tr>\n    </tbody>\n</table>', '2013-02-28 19:03:08', '2013-02-28 19:03:08', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `cms_page` (`page_id`, `title`, `root_template`, `meta_keywords`, `meta_description`, `identifier`, `content_heading`, `content`, `creation_time`, `update_time`, `is_active`, `sort_order`, `layout_update_xml`, `custom_theme`, `custom_root_template`, `custom_layout_update_xml`, `custom_theme_from`, `custom_theme_to`, `published_revision_id`, `website_root`, `under_version_control`) VALUES
+	(1, '404 Not Found 1', 'two_columns_right', 'Page keywords', 'Page description', 'no-route', NULL, '<div class="page-head-alt"><h3>We are sorry, but the page you are looking for cannot be found.</h3></div>\n<div>\n    <ul class="disc">\n        <li>If you typed the URL directly, please make sure the spelling is correct.</li>\n        <li>If you clicked on a link to get here, we must have moved the content.<br/>Please try our store search box above to search for an item.</li>\n        <li>If you are not sure how you got here, <a href="#" onclick="history.go(-1);">go back</a> to the previous page</a> or return to our <a href="{{store url=""}}">store homepage</a>.</li>\n    </ul>\n</div>\n\n<!-- <div class="page-title"><h1>Whoops, our bad...</h1></div>\r\n<dl>\r\n<dt>The page you requested was not found, and we have a fine guess why.</dt>\r\n<dd>\r\n<ul class="disc">\r\n<li>If you typed the URL directly, please make sure the spelling is correct.</li>\r\n<li>If you clicked on a link to get here, the link is outdated.</li>\r\n</ul></dd>\r\n</dl>\r\n<dl>\r\n<dt>What can you do?</dt>\r\n<dd>Have no fear, help is near! There are many ways you can get back on track with Magento Store.</dd>\r\n<dd>\r\n<ul class="disc">\r\n<li><a href="#" onclick="history.go(-1); return false;">Go back</a> to the previous page.</li>\r\n<li>Use the search bar at the top of the page to search for your products.</li>\r\n<li>Follow these links to get you back on track!<br /><a href="{{store url=""}}">Store Home</a> <span class="separator">|</span> <a href="{{store url="customer/account"}}">My Account</a></li></ul></dd></dl>\r\n -->', '2013-02-28 19:03:08', '2013-02-28 19:03:08', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0),
+	(2, 'Home page', 'one_column', NULL, NULL, 'home', NULL, '<div class="col2-set">\n<div class="col-1">\n{{widget type="Mage_Cms_Block_Widget_Block" template="Mage_Cms::widget/static_block/default.phtml" block_id="2"}}\n</div>\n<div class="col-2">\n{{widget type="Mage_Cms_Block_Widget_Block" template="Mage_Cms::widget/static_block/default.phtml" block_id="3"}}\n{{widget type="Mage_Cms_Block_Widget_Block" template="Mage_Cms::widget/static_block/default.phtml" block_id="4"}}\n{{widget type="Mage_Cms_Block_Widget_Block" template="Mage_Cms::widget/static_block/default.phtml" block_id="5"}}\n</div>\n</div>\n    \n\n\n\n<div style="display:none"><!-- your previous content backup comes below -->\n\n\n <div class="page-title"><h2>Home Page</h2></div>\r\n\n\n\n</div>', '2013-02-28 19:03:08', '2013-02-28 19:03:09', 1, 0, '<!--<reference name="content">\n        <block type="Mage_Catalog_Block_Product_New" name="home.catalog.product.new" alias="product_new" template="product/new.phtml" after="cms_page">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type="Mage_Reports_Block_Product_Viewed" name="home.reports.product.viewed" alias="product_viewed" template="home_product_viewed.phtml" after="product_new">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type="Mage_Reports_Block_Product_Compared" name="home.reports.product.compared" template="home_product_compared.phtml" after="product_viewed">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n    </reference>\n    <reference name="right">\n        <action method="unsetChild"><alias>right.reports.product.viewed</alias></action>\n        <action method="unsetChild"><alias>right.reports.product.compared</alias></action>\n    </reference>-->', NULL, NULL, NULL, NULL, NULL, 0, 1, 0),
+	(3, 'About Us', 'two_columns_right', NULL, NULL, 'about-magento-demo-store', NULL, '<div class="page-title">\r\n<h1>About Magento Store</h1>\r\n</div>\r\n<div class="col3-set">\r\n<div class="col-1"><p><a href="http://www.magento.com/"><img src="{{view url=\'Mage_Cms::images/about_us_img.jpg\'}}" title="Varien" alt="Varien" /></a></p><p style="line-height:1.2em;"><small>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.</small></p>\r\n<p style="color:#888; font:1.2em/1.4em georgia, serif;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta.</p></div>\r\n<div class="col-2">\r\n<p><strong style="color:#de036f;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.</strong></p>\r\n<p>Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo. </p>\r\n<p>Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus. Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi. Vestibulum sapien dolor, aliquet nec, porta ac, malesuada a, libero. Praesent feugiat purus eget est. Nulla facilisi. Vestibulum tincidunt sapien eu velit. Mauris purus. Maecenas eget mauris eu orci accumsan feugiat. Pellentesque eget velit. Nunc tincidunt.</p></div>\r\n<div class="col-3">\r\n<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper </p>\r\n<p><strong style="color:#de036f;">Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus.</strong></p>\r\n<p>Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi.</p>\r\n<div class="divider"></div>\r\n<p>To all of you, from all of us at Magento Store - Thank you and Happy eCommerce!</p>\r\n<p style="line-height:1.2em;"><strong style="font:italic 2em Georgia, serif;">John Doe</strong><br /><small>Some important guy</small></p></div>\r\n</div>', '2013-02-28 19:03:08', '2013-02-28 19:03:08', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0),
+	(4, 'Customer Service', 'three_columns', NULL, NULL, 'customer-service', NULL, '<div class="page-title">\r\n<h1>Customer Service</h1>\r\n</div>\r\n<ul class="disc">\r\n<li><a href="#answer1">Shipping &amp; Delivery</a></li>\r\n<li><a href="#answer2">Privacy &amp; Security</a></li>\r\n<li><a href="#answer3">Returns &amp; Replacements</a></li>\r\n<li><a href="#answer4">Ordering</a></li>\r\n<li><a href="#answer5">Payment, Pricing &amp; Promotions</a></li>\r\n<li><a href="#answer6">Viewing Orders</a></li>\r\n<li><a href="#answer7">Updating Account Information</a></li>\r\n</ul>\r\n<dl>\r\n<dt id="answer1">Shipping &amp; Delivery</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer2">Privacy &amp; Security</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer3">Returns &amp; Replacements</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer4">Ordering</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer5">Payment, Pricing &amp; Promotions</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer6">Viewing Orders</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer7">Updating Account Information</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n</dl>', '2013-02-28 19:03:08', '2013-02-28 19:03:08', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0),
+	(5, 'Enable Cookies', 'one_column', NULL, NULL, 'enable-cookies', NULL, '<div class="std">\r\n    <ul class="messages">\r\n        <li class="notice-msg">\r\n            <ul>\r\n                <li>Please enable cookies in your web browser to continue.</li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n    <div class="page-title">\r\n        <h1><a name="top"></a>What are Cookies?</h1>\r\n    </div>\r\n    <p>Cookies are short pieces of data that are sent to your computer when you visit a website. On later visits, this data is then returned to that website. Cookies allow us to recognize you automatically whenever you visit our site so that we can personalize your experience and provide you with better service. We also use cookies (and similar browser data, such as Flash cookies) for fraud prevention and other purposes. If your web browser is set to refuse cookies from our website, you will not be able to complete a purchase or take advantage of certain features of our website, such as storing items in your Shopping Cart or receiving personalized recommendations. As a result, we strongly encourage you to configure your web browser to accept cookies from our website.</p>\r\n    <h2 class="subtitle">Enabling Cookies</h2>\r\n    <ul class="disc">\r\n        <li><a href="#ie7">Internet Explorer 7.x</a></li>\r\n        <li><a href="#ie6">Internet Explorer 6.x</a></li>\r\n        <li><a href="#firefox">Mozilla/Firefox</a></li>\r\n        <li><a href="#opera">Opera 7.x</a></li>\r\n    </ul>\r\n    <h3><a name="ie7"></a>Internet Explorer 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Start Internet Explorer</p>\r\n        </li>\r\n        <li>\r\n            <p>Under the <strong>Tools</strong> menu, click <strong>Internet Options</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-1.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Privacy</strong> tab</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-2.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Advanced</strong> button</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-3.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Put a check mark in the box for <strong>Override Automatic Cookie Handling</strong>, put another check mark in the <strong>Always accept session cookies </strong>box</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-4.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-5.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-6.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Restart Internet Explore</p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="ie6"></a>Internet Explorer 6.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Select <strong>Internet Options</strong> from the Tools menu</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie6-1.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> tab</p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Default</strong> button (or manually slide the bar down to <strong>Medium</strong>) under <strong>Settings</strong>. Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie6-2.gif"}}" alt="" /></p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="firefox"></a>Mozilla/Firefox</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong>-menu in Mozilla</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Options...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection in the left part of the window. (See image below)</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/firefox.png"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Expand the <strong>Cookies</strong> section</p>\r\n        </li>\r\n        <li>\r\n            <p>Check the <strong>Enable cookies</strong> and <strong>Accept cookies normally</strong> checkboxes</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong>.</p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="opera"></a>Opera 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong> menu in Opera</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Preferences...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection near the bottom left of the window. (See image below)</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/opera.png"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>The <strong>Enable cookies</strong> checkbox must be checked, and <strong>Accept all cookies</strong> should be selected in the &quot;<strong>Normal cookies</strong>&quot; drop-down</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong></p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n</div>\r\n', '2013-02-28 19:03:08', '2013-02-28 19:03:08', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0),
+	(6, 'Privacy Policy', 'one_column', NULL, NULL, 'privacy-policy-cookie-restriction-mode', 'Privacy Policy', '<p style="color: #ff0000; font-weight: bold; font-size: 13px">\n    Please replace this text with you Privacy Policy.\n    Please add any additional cookies your website uses below (e.g., Google Analytics)\n</p>\n<p>\n    This privacy policy sets out how {{config path="general/store_information/name"}} uses and protects any information\n    that you give {{config path="general/store_information/name"}} when you use this website.\n    {{config path="general/store_information/name"}} is committed to ensuring that your privacy is protected.\n    Should we ask you to provide certain information by which you can be identified when using this website,\n    then you can be assured that it will only be used in accordance with this privacy statement.\n    {{config path="general/store_information/name"}} may change this policy from time to time by updating this page.\n    You should check this page from time to time to ensure that you are happy with any changes.\n</p>\n<h2>What we collect</h2>\n<p>We may collect the following information:</p>\n<ul>\n    <li>name</li>\n    <li>contact information including email address</li>\n    <li>demographic information such as postcode, preferences and interests</li>\n    <li>other information relevant to customer surveys and/or offers</li>\n</ul>\n<p>\n    For the exhaustive list of cookies we collect see the <a href="#list">List of cookies we collect</a> section.\n</p>\n<h2>What we do with the information we gather</h2>\n<p>\n    We require this information to understand your needs and provide you with a better service,\n    and in particular for the following reasons:\n</p>\n<ul>\n    <li>Internal record keeping.</li>\n    <li>We may use the information to improve our products and services.</li>\n    <li>\n        We may periodically send promotional emails about new products, special offers or other information which we\n        think you may find interesting using the email address which you have provided.\n    </li>\n    <li>\n        From time to time, we may also use your information to contact you for market research purposes.\n        We may contact you by email, phone, fax or mail. We may use the information to customise the website\n        according to your interests.\n    </li>\n</ul>\n<h2>Security</h2>\n<p>\n    We are committed to ensuring that your information is secure. In order to prevent unauthorised access or disclosure,\n    we have put in place suitable physical, electronic and managerial procedures to safeguard and secure\n    the information we collect online.\n</p>\n<h2>How we use cookies</h2>\n<p>\n    A cookie is a small file which asks permission to be placed on your computer\'s hard drive.\n    Once you agree, the file is added and the cookie helps analyse web traffic or lets you know when you visit\n    a particular site. Cookies allow web applications to respond to you as an individual. The web application\n    can tailor its operations to your needs, likes and dislikes by gathering and remembering information about\n    your preferences.\n</p>\n<p>\n    We use traffic log cookies to identify which pages are being used. This helps us analyse data about web page traffic\n    and improve our website in order to tailor it to customer needs. We only use this information for statistical\n    analysis purposes and then the data is removed from the system.\n</p>\n<p>\n    Overall, cookies help us provide you with a better website, by enabling us to monitor which pages you find useful\n    and which you do not. A cookie in no way gives us access to your computer or any information about you,\n    other than the data you choose to share with us. You can choose to accept or decline cookies.\n    Most web browsers automatically accept cookies, but you can usually modify your browser setting\n    to decline cookies if you prefer. This may prevent you from taking full advantage of the website.\n</p>\n<h2>Links to other websites</h2>\n<p>\n    Our website may contain links to other websites of interest. However, once you have used these links\n    to leave our site, you should note that we do not have any control over that other website.\n    Therefore, we cannot be responsible for the protection and privacy of any information which you provide whilst\n    visiting such sites and such sites are not governed by this privacy statement.\n    You should exercise caution and look at the privacy statement applicable to the website in question.\n</p>\n<h2>Controlling your personal information</h2>\n<p>You may choose to restrict the collection or use of your personal information in the following ways:</p>\n<ul>\n    <li>\n        whenever you are asked to fill in a form on the website, look for the box that you can click to indicate\n        that you do not want the information to be used by anybody for direct marketing purposes\n    </li>\n    <li>\n        if you have previously agreed to us using your personal information for direct marketing purposes,\n        you may change your mind at any time by writing to or emailing us at\n        {{config path="trans_email/ident_general/email"}}\n    </li>\n</ul>\n<p>\n    We will not sell, distribute or lease your personal information to third parties unless we have your permission\n    or are required by law to do so. We may use your personal information to send you promotional information\n    about third parties which we think you may find interesting if you tell us that you wish this to happen.\n</p>\n<p>\n    You may request details of personal information which we hold about you under the Data Protection Act 1998.\n    A small fee will be payable. If you would like a copy of the information held on you please write to\n    {{config path="general/store_information/street_line1"}} {{config path="general/store_information/street_line2"}} {{config path="general/store_information/city"}} {{config path="general/store_information/postcode"}} {{config path="general/store_information/region_id"}} {{config path="general/store_information/country_id"}}.\n</p>\n<p>\n    If you believe that any information we are holding on you is incorrect or incomplete,\n    please write to or email us as soon as possible, at the above address.\n    We will promptly correct any information found to be incorrect.\n</p>\n<h2><a name="list"></a>List of cookies we collect</h2>\n<p>The table below lists the cookies we collect and what information they store.</p>\n<table class="data-table">\n    <thead>\n        <tr>\n            <th>COOKIE name</th>\n            <th>COOKIE Description</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <th>CART</th>\n            <td>The association with your shopping cart.</td>\n        </tr>\n        <tr>\n            <th>CATEGORY_INFO</th>\n            <td>Stores the category info on the page, that allows to display pages more quickly.</td>\n        </tr>\n        <tr>\n            <th>COMPARE</th>\n            <td>The items that you have in the Compare Products list.</td>\n        </tr>\n        <tr>\n            <th>CURRENCY</th>\n            <td>Your preferred currency</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER</th>\n            <td>An encrypted version of your customer id with the store.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_AUTH</th>\n            <td>An indicator if you are currently logged into the store.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_INFO</th>\n            <td>An encrypted version of the customer group you belong to.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_SEGMENT_IDS</th>\n            <td>Stores the Customer Segment ID</td>\n        </tr>\n        <tr>\n            <th>EXTERNAL_NO_CACHE</th>\n            <td>A flag, which indicates whether caching is disabled or not.</td>\n        </tr>\n        <tr>\n            <th>FRONTEND</th>\n            <td>You sesssion ID on the server.</td>\n        </tr>\n        <tr>\n            <th>GUEST-VIEW</th>\n            <td>Allows guests to edit their orders.</td>\n        </tr>\n        <tr>\n            <th>LAST_CATEGORY</th>\n            <td>The last category you visited.</td>\n        </tr>\n        <tr>\n            <th>LAST_PRODUCT</th>\n            <td>The most recent product you have viewed.</td>\n        </tr>\n        <tr>\n            <th>NEWMESSAGE</th>\n            <td>Indicates whether a new message has been received.</td>\n        </tr>\n        <tr>\n            <th>NO_CACHE</th>\n            <td>Indicates whether it is allowed to use cache.</td>\n        </tr>\n        <tr>\n            <th>PERSISTENT_SHOPPING_CART</th>\n            <td>A link to information about your cart and viewing history if you have asked the site.</td>\n        </tr>\n        <tr>\n            <th>POLL</th>\n            <td>The ID of any polls you have recently voted in.</td>\n        </tr>\n        <tr>\n            <th>POLLN</th>\n            <td>Information on what polls you have voted on.</td>\n        </tr>\n        <tr>\n            <th>RECENTLYCOMPARED</th>\n            <td>The items that you have recently compared.            </td>\n        </tr>\n        <tr>\n            <th>STF</th>\n            <td>Information on products you have emailed to friends.</td>\n        </tr>\n        <tr>\n            <th>STORE</th>\n            <td>The store view or language you have selected.</td>\n        </tr>\n        <tr>\n            <th>USER_ALLOWED_SAVE_COOKIE</th>\n            <td>Indicates whether a customer allowed to use cookies.</td>\n        </tr>\n        <tr>\n            <th>VIEWED_PRODUCT_IDS</th>\n            <td>The products that you have recently viewed.</td>\n        </tr>\n        <tr>\n            <th>WISHLIST</th>\n            <td>An encrypted list of products added to your Wishlist.</td>\n        </tr>\n        <tr>\n            <th>WISHLIST_CNT</th>\n            <td>The number of items in your Wishlist.</td>\n        </tr>\n    </tbody>\n</table>', '2013-02-28 19:03:08', '2013-03-27 11:10:51', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0),
+	(7, 'Reward Points', 'one_column', NULL, NULL, 'reward-points', 'Reward Points', '<p>The Reward Points Program allows you to earn points for certain actions you take on the site. Points are awarded based on making purchases and customer actions such as submitting reviews.</p>\n\n<h2>Benefits of Reward Points for Registered Customers</h2>\n<p>Once you register you will be able to earn and accrue reward points, which are then redeemable at time of purchase towards the cost of your order. Rewards are an added bonus to your shopping experience on the site and just one of the ways we thank you for being a loyal customer.</p>\n\n<h2>Earning Reward Points</h2>\n<p>Rewards can currently be earned for the following actions:</p>\n<ul>\n<li>Making purchases — every time you make a purchase you earn points based on the price of products purchased and these points are added to your Reward Points balance.</li>\n<li>Registering on the site.</li>\n<li>Subscribing to a newsletter for the first time.</li>\n<li>Sending Invitations — Earn points by inviting your friends to join the site.</li>\n<li>Converting Invitations to Customer — Earn points for every invitation you send out which leads to your friends registering on the site.</li>\n<li>Converting Invitations to Order — Earn points for every invitation you send out which leads to a sale.</li>\n<li>Review Submission — Earn points for submitting product reviews.</li>\n<li>New Tag Submission — Earn points for adding tags to products.</li>\n</ul>\n\n<h2>Reward Points Exchange Rates</h2>\n<p>The value of reward points is determined by an exchange rate of both currency spent on products to points, and an exchange rate of points earned to currency for spending on future purchases.</p>\n\n<h2>Redeeming Reward Points</h2>\n<p>You can redeem your reward points at checkout. If you have accumulated enough points to redeem them you will have the option of using points as one of the payment methods.  The option to use reward points, as well as your balance and the monetary equivalent this balance, will be shown to you in the Payment Method area of the checkout.  Redeemable reward points can be used in conjunction with other payment methods such as credit cards, gift cards and more.</p>\n<p><img src="{{view url="Enterprise_Reward::images/payment.gif"}}" alt="Payment Information" /></p>\n\n<h2>Reward Points Minimums and Maximums</h2>\n<p>Reward points may be capped at a minimum value required for redemption.  If this option is selected you will not be able to use your reward points until you accrue a minimum number of points, at which point they will become available for redemption.</p>\n<p>Reward points may also be capped at the maximum value of points which can be accrued. If this option is selected you will need to redeem your accrued points before you are able to earn more points.</p>\n\n<h2>Managing My Reward Points</h2>\n<p>You have the ability to view and manage your points through your <a href="{{store url="customer/account"}}">Customer Account</a>. From your account you will be able to view your total points (and currency equivalent), minimum needed to redeem, whether you have reached the maximum points limit and a cumulative history of points acquired, redeemed and lost. The history record will retain and display historical rates and currency for informational purposes. The history will also show you comprehensive informational messages regarding points, including expiration notifications.</p>\n<p><img src="{{view url="Enterprise_Reward::images/my_account.gif"}}" alt="My Account" /></p>\n\n<h2>Reward Points Expiration</h2>\n<p>Reward points can be set to expire. Points will expire in the order form which they were first earned.</p>\n<p><strong>Note</strong>: You can sign up to receive email notifications each time your balance changes when you either earn, redeem or lose points, as well as point expiration notifications. This option is found in the <a href="{{store url="reward/customer/info"}}">Reward Points section</a> of the My Account area.</p>\n', '2013-03-27 11:10:53', '2013-03-27 11:10:53', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0);
 /*!40000 ALTER TABLE `cms_page` ENABLE KEYS */;
 
 
-# Dumping structure for table cms_page_store
+# Dumping structure for table s5152d29ad0535.cms_page_store
 DROP TABLE IF EXISTS `cms_page_store`;
 CREATE TABLE IF NOT EXISTS `cms_page_store` (
   `page_id` smallint(6) NOT NULL COMMENT 'Page ID',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
-  PRIMARY KEY (`page_id`,`store_id`),
+  PRIMARY KEY  (`page_id`,`store_id`),
   KEY `IDX_CMS_PAGE_STORE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_CMS_PAGE_STORE_PAGE_ID_CMS_PAGE_PAGE_ID` FOREIGN KEY (`page_id`) REFERENCES `cms_page` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CMS_PAGE_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CMS Page To Store Linkage Table';
 
-# Dumping data for table cms_page_store: ~6 rows (approximately)
+# Dumping data for table s5152d29ad0535.cms_page_store: ~7 rows (approximately)
 /*!40000 ALTER TABLE `cms_page_store` DISABLE KEYS */;
 INSERT INTO `cms_page_store` (`page_id`, `store_id`) VALUES
 	(1, 0),
@@ -2504,54 +2559,55 @@ INSERT INTO `cms_page_store` (`page_id`, `store_id`) VALUES
 	(3, 0),
 	(4, 0),
 	(5, 0),
-	(6, 0);
+	(6, 0),
+	(7, 0);
 /*!40000 ALTER TABLE `cms_page_store` ENABLE KEYS */;
 
 
-# Dumping structure for table cms_url_rewrite
+# Dumping structure for table s5152d29ad0535.cms_url_rewrite
 DROP TABLE IF EXISTS `cms_url_rewrite`;
 CREATE TABLE IF NOT EXISTS `cms_url_rewrite` (
-  `cms_rewrite_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Cms Url Rewrite ID',
+  `cms_rewrite_id` int(11) NOT NULL auto_increment COMMENT 'Cms Url Rewrite ID',
   `url_rewrite_id` int(10) unsigned NOT NULL COMMENT 'Core Url Rewrite ID',
   `cms_page_id` smallint(6) NOT NULL COMMENT 'Cms Page ID',
-  PRIMARY KEY (`cms_rewrite_id`),
+  PRIMARY KEY  (`cms_rewrite_id`),
   KEY `IDX_CMS_URL_REWRITE_URL_REWRITE_ID` (`url_rewrite_id`),
   KEY `IDX_CMS_URL_REWRITE_CMS_PAGE_ID` (`cms_page_id`),
   CONSTRAINT `FK_A14061FDDAE372929A7EBFCB3A385F04` FOREIGN KEY (`url_rewrite_id`) REFERENCES `core_url_rewrite` (`url_rewrite_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CMS_URL_REWRITE_CMS_PAGE_ID_CMS_PAGE_PAGE_ID` FOREIGN KEY (`cms_page_id`) REFERENCES `cms_page` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cms Url Rewrite Table';
 
-# Dumping data for table cms_url_rewrite: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.cms_url_rewrite: ~0 rows (approximately)
 /*!40000 ALTER TABLE `cms_url_rewrite` DISABLE KEYS */;
 /*!40000 ALTER TABLE `cms_url_rewrite` ENABLE KEYS */;
 
 
-# Dumping structure for table core_cache
+# Dumping structure for table s5152d29ad0535.core_cache
 DROP TABLE IF EXISTS `core_cache`;
 CREATE TABLE IF NOT EXISTS `core_cache` (
   `id` varchar(200) NOT NULL COMMENT 'Cache Id',
   `data` mediumblob COMMENT 'Cache Data',
-  `create_time` int(11) DEFAULT NULL COMMENT 'Cache Creation Time',
-  `update_time` int(11) DEFAULT NULL COMMENT 'Time of Cache Updating',
-  `expire_time` int(11) DEFAULT NULL COMMENT 'Cache Expiration Time',
-  PRIMARY KEY (`id`),
+  `create_time` int(11) default NULL COMMENT 'Cache Creation Time',
+  `update_time` int(11) default NULL COMMENT 'Time of Cache Updating',
+  `expire_time` int(11) default NULL COMMENT 'Cache Expiration Time',
+  PRIMARY KEY  (`id`),
   KEY `IDX_CORE_CACHE_EXPIRE_TIME` (`expire_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Caches';
 
-# Dumping data for table core_cache: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.core_cache: ~0 rows (approximately)
 /*!40000 ALTER TABLE `core_cache` DISABLE KEYS */;
 /*!40000 ALTER TABLE `core_cache` ENABLE KEYS */;
 
 
-# Dumping structure for table core_cache_option
+# Dumping structure for table s5152d29ad0535.core_cache_option
 DROP TABLE IF EXISTS `core_cache_option`;
 CREATE TABLE IF NOT EXISTS `core_cache_option` (
   `code` varchar(32) NOT NULL COMMENT 'Code',
-  `value` smallint(6) DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`code`)
+  `value` smallint(6) default NULL COMMENT 'Value',
+  PRIMARY KEY  (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cache Options';
 
-# Dumping data for table core_cache_option: ~8 rows (approximately)
+# Dumping data for table s5152d29ad0535.core_cache_option: ~8 rows (approximately)
 /*!40000 ALTER TABLE `core_cache_option` DISABLE KEYS */;
 INSERT INTO `core_cache_option` (`code`, `value`) VALUES
 	('block_html', 1),
@@ -2565,144 +2621,133 @@ INSERT INTO `core_cache_option` (`code`, `value`) VALUES
 /*!40000 ALTER TABLE `core_cache_option` ENABLE KEYS */;
 
 
-# Dumping structure for table core_cache_tag
+# Dumping structure for table s5152d29ad0535.core_cache_tag
 DROP TABLE IF EXISTS `core_cache_tag`;
 CREATE TABLE IF NOT EXISTS `core_cache_tag` (
   `tag` varchar(100) NOT NULL COMMENT 'Tag',
   `cache_id` varchar(200) NOT NULL COMMENT 'Cache Id',
-  PRIMARY KEY (`tag`,`cache_id`),
+  PRIMARY KEY  (`tag`,`cache_id`),
   KEY `IDX_CORE_CACHE_TAG_CACHE_ID` (`cache_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tag Caches';
 
-# Dumping data for table core_cache_tag: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.core_cache_tag: ~0 rows (approximately)
 /*!40000 ALTER TABLE `core_cache_tag` DISABLE KEYS */;
 /*!40000 ALTER TABLE `core_cache_tag` ENABLE KEYS */;
 
 
-# Dumping structure for table core_config_data
+# Dumping structure for table s5152d29ad0535.core_config_data
 DROP TABLE IF EXISTS `core_config_data`;
 CREATE TABLE IF NOT EXISTS `core_config_data` (
-  `config_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Config Id',
-  `scope` varchar(8) NOT NULL DEFAULT 'default' COMMENT 'Config Scope',
-  `scope_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Config Scope Id',
-  `path` varchar(255) NOT NULL DEFAULT 'general' COMMENT 'Config Path',
+  `config_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Config Id',
+  `scope` varchar(8) NOT NULL default 'default' COMMENT 'Config Scope',
+  `scope_id` int(11) NOT NULL default '0' COMMENT 'Config Scope Id',
+  `path` varchar(255) NOT NULL default 'general' COMMENT 'Config Path',
   `value` text COMMENT 'Config Value',
-  PRIMARY KEY (`config_id`),
+  PRIMARY KEY  (`config_id`),
   UNIQUE KEY `UNQ_CORE_CONFIG_DATA_SCOPE_SCOPE_ID_PATH` (`scope`,`scope_id`,`path`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='Config Data';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Config Data';
 
-# Dumping data for table core_config_data: ~11 rows (approximately)
-/*!40000 ALTER TABLE `core_config_data` DISABLE KEYS */;
-INSERT INTO `core_config_data` (`config_id`, `scope`, `scope_id`, `path`, `value`) VALUES
-	(1, 'default', 0, 'general/region/display_all', '1'),
-	(2, 'default', 0, 'general/region/state_required', 'AT,CA,CH,DE,EE,ES,FI,FR,LT,LV,RO,US'),
-	(3, 'default', 0, 'catalog/category/root_id', '2'),
-	(4, 'default', 0, 'admin/dashboard/enable_charts', '1'),
-	(5, 'default', 0, 'web/unsecure/base_url', 'http://m2test.qs.varien.com/'),
-	(6, 'default', 0, 'web/secure/base_url', 'https://m2test.qs.varien.com/'),
-	(7, 'default', 0, 'general/locale/code', 'en_US'),
-	(8, 'default', 0, 'general/locale/timezone', 'America/Los_Angeles'),
-	(9, 'default', 0, 'currency/options/base', 'USD'),
-	(10, 'default', 0, 'currency/options/default', 'USD'),
-	(11, 'default', 0, 'currency/options/allow', 'USD');
-/*!40000 ALTER TABLE `core_config_data` ENABLE KEYS */;
-
-
-# Dumping structure for table core_email_template
+# Dumping structure for table s5152d29ad0535.core_email_template
 DROP TABLE IF EXISTS `core_email_template`;
 CREATE TABLE IF NOT EXISTS `core_email_template` (
-  `template_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Template Id',
+  `template_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Template Id',
   `template_code` varchar(150) NOT NULL COMMENT 'Template Name',
   `template_text` text NOT NULL COMMENT 'Template Content',
   `template_styles` text COMMENT 'Templste Styles',
-  `template_type` int(10) unsigned DEFAULT NULL COMMENT 'Template Type',
+  `template_type` int(10) unsigned default NULL COMMENT 'Template Type',
   `template_subject` varchar(200) NOT NULL COMMENT 'Template Subject',
-  `template_sender_name` varchar(200) DEFAULT NULL COMMENT 'Template Sender Name',
-  `template_sender_email` varchar(200) DEFAULT NULL COMMENT 'Template Sender Email',
-  `added_at` timestamp NULL DEFAULT NULL COMMENT 'Date of Template Creation',
-  `modified_at` timestamp NULL DEFAULT NULL COMMENT 'Date of Template Modification',
-  `orig_template_code` varchar(200) DEFAULT NULL COMMENT 'Original Template Code',
+  `template_sender_name` varchar(200) default NULL COMMENT 'Template Sender Name',
+  `template_sender_email` varchar(200) default NULL COMMENT 'Template Sender Email',
+  `added_at` timestamp NULL default NULL COMMENT 'Date of Template Creation',
+  `modified_at` timestamp NULL default NULL COMMENT 'Date of Template Modification',
+  `orig_template_code` varchar(200) default NULL COMMENT 'Original Template Code',
   `orig_template_variables` text COMMENT 'Original Template Variables',
-  PRIMARY KEY (`template_id`),
+  PRIMARY KEY  (`template_id`),
   UNIQUE KEY `UNQ_CORE_EMAIL_TEMPLATE_TEMPLATE_CODE` (`template_code`),
   KEY `IDX_CORE_EMAIL_TEMPLATE_ADDED_AT` (`added_at`),
   KEY `IDX_CORE_EMAIL_TEMPLATE_MODIFIED_AT` (`modified_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Email Templates';
 
-# Dumping data for table core_email_template: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.core_email_template: ~0 rows (approximately)
 /*!40000 ALTER TABLE `core_email_template` DISABLE KEYS */;
 /*!40000 ALTER TABLE `core_email_template` ENABLE KEYS */;
 
 
-# Dumping structure for table core_flag
+# Dumping structure for table s5152d29ad0535.core_flag
 DROP TABLE IF EXISTS `core_flag`;
 CREATE TABLE IF NOT EXISTS `core_flag` (
-  `flag_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Flag Id',
+  `flag_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Flag Id',
   `flag_code` varchar(255) NOT NULL COMMENT 'Flag Code',
-  `state` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Flag State',
+  `state` smallint(5) unsigned NOT NULL default '0' COMMENT 'Flag State',
   `flag_data` text COMMENT 'Flag Data',
-  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date of Last Flag Update',
-  PRIMARY KEY (`flag_id`),
+  `last_update` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Date of Last Flag Update',
+  PRIMARY KEY  (`flag_id`),
   KEY `IDX_CORE_FLAG_LAST_UPDATE` (`last_update`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Flag';
 
-# Dumping data for table core_flag: ~1 rows (approximately)
+# Dumping data for table s5152d29ad0535.core_flag: ~1 rows (approximately)
 /*!40000 ALTER TABLE `core_flag` DISABLE KEYS */;
 INSERT INTO `core_flag` (`flag_id`, `flag_code`, `state`, `flag_data`, `last_update`) VALUES
 	(1, 'admin_notification_survey', 0, 'a:1:{s:13:"survey_viewed";b:1;}', '2013-02-28 19:03:46');
 /*!40000 ALTER TABLE `core_flag` ENABLE KEYS */;
 
 
-# Dumping structure for table core_layout_link
+# Dumping structure for table s5152d29ad0535.core_layout_link
 DROP TABLE IF EXISTS `core_layout_link`;
 CREATE TABLE IF NOT EXISTS `core_layout_link` (
-  `layout_link_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Link Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
+  `layout_link_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Link Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
   `theme_id` int(10) unsigned NOT NULL COMMENT 'Theme id',
-  `layout_update_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Layout Update Id',
-  `is_temporary` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Defines whether Layout Update is Temporary',
-  PRIMARY KEY (`layout_link_id`),
+  `layout_update_id` int(10) unsigned NOT NULL default '0' COMMENT 'Layout Update Id',
+  `is_temporary` tinyint(1) NOT NULL default '0' COMMENT 'Defines whether Layout Update is Temporary',
+  PRIMARY KEY  (`layout_link_id`),
   UNIQUE KEY `UNQ_CORE_LYT_LNK_STORE_ID_THEME_ID_LYT_UPDATE_ID_IS_TEMPORARY` (`store_id`,`theme_id`,`layout_update_id`,`is_temporary`),
   KEY `IDX_CORE_LAYOUT_LINK_LAYOUT_UPDATE_ID` (`layout_update_id`),
   KEY `FK_CORE_LAYOUT_LINK_THEME_ID_CORE_THEME_THEME_ID` (`theme_id`),
   CONSTRAINT `FK_CORE_LAYOUT_LINK_THEME_ID_CORE_THEME_THEME_ID` FOREIGN KEY (`theme_id`) REFERENCES `core_theme` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CORE_LAYOUT_LINK_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CORE_LYT_LNK_LYT_UPDATE_ID_CORE_LYT_UPDATE_LYT_UPDATE_ID` FOREIGN KEY (`layout_update_id`) REFERENCES `core_layout_update` (`layout_update_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Layout Link';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Layout Link';
 
-# Dumping data for table core_layout_link: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.core_layout_link: ~2 rows (approximately)
 /*!40000 ALTER TABLE `core_layout_link` DISABLE KEYS */;
+INSERT INTO `core_layout_link` (`layout_link_id`, `store_id`, `theme_id`, `layout_update_id`, `is_temporary`) VALUES
+	(1, 0, 10, 1, 0),
+	(2, 0, 10, 2, 0);
 /*!40000 ALTER TABLE `core_layout_link` ENABLE KEYS */;
 
 
-# Dumping structure for table core_layout_update
+# Dumping structure for table s5152d29ad0535.core_layout_update
 DROP TABLE IF EXISTS `core_layout_update`;
 CREATE TABLE IF NOT EXISTS `core_layout_update` (
-  `layout_update_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Layout Update Id',
-  `handle` varchar(255) DEFAULT NULL COMMENT 'Handle',
+  `layout_update_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Layout Update Id',
+  `handle` varchar(255) default NULL COMMENT 'Handle',
   `xml` text COMMENT 'Xml',
-  `sort_order` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Sort Order',
-  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Last Update Timestamp',
-  `is_vde` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Defines whether layout update created via design editor',
-  PRIMARY KEY (`layout_update_id`),
+  `sort_order` smallint(6) NOT NULL default '0' COMMENT 'Sort Order',
+  `updated_at` timestamp NULL default NULL COMMENT 'Last Update Timestamp',
+  `is_vde` tinyint(1) NOT NULL default '0' COMMENT 'Defines whether layout update created via design editor',
+  PRIMARY KEY  (`layout_update_id`),
   KEY `IDX_CORE_LAYOUT_UPDATE_HANDLE` (`handle`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Layout Updates';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Layout Updates';
 
-# Dumping data for table core_layout_update: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.core_layout_update: ~2 rows (approximately)
 /*!40000 ALTER TABLE `core_layout_update` DISABLE KEYS */;
+INSERT INTO `core_layout_update` (`layout_update_id`, `handle`, `xml`, `sort_order`, `updated_at`, `is_vde`) VALUES
+	(1, 'cms_index_index', '<reference name="top.container"><block type="Enterprise_Banner_Block_Widget_Banner" name="0de888142f23a8ea340c2f75bae97616" template="widget/block.phtml"><action method="setData"><name>display_mode</name><value>fixed</value></action><action method="setData"><name>banner_ids</name><value>1</value></action><action method="setData"><name>unique_id</name><value>95a6722cbe317a790e4701f1dafb278a</value></action></block></reference>', 0, NULL, 0),
+	(2, 'cms_index_index', '<reference name="footer.before"><block type="Enterprise_Banner_Block_Widget_Banner" name="41fb88c617454ce6bf79213d852aa26b" template="widget/block.phtml"><action method="setData"><name>display_mode</name><value>fixed</value></action><action method="setData"><name>banner_ids</name><value>2</value></action><action method="setData"><name>unique_id</name><value>5d59e0010d28ca001157c76197fa1af7</value></action></block></reference>', 1, NULL, 0);
 /*!40000 ALTER TABLE `core_layout_update` ENABLE KEYS */;
 
 
-# Dumping structure for table core_resource
+# Dumping structure for table s5152d29ad0535.core_resource
 DROP TABLE IF EXISTS `core_resource`;
 CREATE TABLE IF NOT EXISTS `core_resource` (
   `code` varchar(50) NOT NULL COMMENT 'Resource Code',
-  `version` varchar(50) DEFAULT NULL COMMENT 'Resource Version',
-  `data_version` varchar(50) DEFAULT NULL COMMENT 'Data Version',
-  PRIMARY KEY (`code`)
+  `version` varchar(50) default NULL COMMENT 'Resource Version',
+  `data_version` varchar(50) default NULL COMMENT 'Data Version',
+  PRIMARY KEY  (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Resources';
 
-# Dumping data for table core_resource: ~54 rows (approximately)
+# Dumping data for table s5152d29ad0535.core_resource: ~72 rows (approximately)
 /*!40000 ALTER TABLE `core_resource` DISABLE KEYS */;
 INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('adminnotification_setup', '1.6.0.0', '1.6.0.0'),
@@ -2710,26 +2755,42 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('backup_setup', '1.6.0.0', '1.6.0.0'),
 	('bundle_setup', '1.6.0.0.2', '1.6.0.0.2'),
 	('captcha_setup', '1.7.0.0.0', '1.7.0.0.0'),
-	('cataloginventory_setup', '1.6.0.0.3', '1.6.0.0.3'),
+	('cataloginventory_setup', '1.6.0.0.4', '1.6.0.0.4'),
 	('catalogrule_setup', '1.6.0.4', '1.6.0.4'),
 	('catalogsearch_setup', '1.6.0.0', '1.6.0.0'),
-	('catalog_setup', '1.6.0.0.20', '1.6.0.0.20'),
+	('catalog_setup', '1.6.0.0.22', '1.6.0.0.22'),
 	('checkout_setup', '1.6.0.0', '1.6.0.0'),
-	('cms_setup', '1.6.0.0.3', '1.6.0.0.3'),
+	('cms_setup', '2.0.0.0', '2.0.0.0'),
 	('contacts_setup', '1.6.0.0', '1.6.0.0'),
-	('core_setup', '1.6.0.10', '1.6.0.10'),
+	('core_setup', '1.6.0.12', '1.6.0.12'),
 	('cron_setup', '1.6.0.0', '1.6.0.0'),
 	('customer_setup', '1.6.2.0.3', '1.6.2.0.3'),
 	('designeditor_setup', '1.0.0.1', '1.0.0.1'),
 	('directory_setup', '1.6.0.1', '1.6.0.1'),
 	('downloadable_setup', '1.6.0.0.3', '1.6.0.0.3'),
-	('eav_setup', '1.6.0.1', '1.6.0.1'),
-	('giftmessage_setup', '1.6.0.0', '1.6.0.0'),
+	('eav_setup', '1.6.0.2', '1.6.0.2'),
+	('enterprise_banner_setup', '1.11.0.1', '1.11.0.1'),
+	('enterprise_cms_setup', '1.11.0.4', '1.11.0.4'),
+	('enterprise_customerbalance_setup', '1.11.0.0', '1.11.0.0'),
+	('enterprise_customersegment_setup', '1.11.0.0.4', '1.11.0.0.4'),
+	('enterprise_customer_setup', '1.11.0.0', '1.11.0.0'),
+	('enterprise_enterprise_setup', '1.11.0.3', '1.11.0.3'),
+	('enterprise_giftcardaccount_setup', '1.11.0.0', '1.11.0.0'),
+	('enterprise_giftcard_setup', '1.11.0.1', '1.11.0.1'),
+	('enterprise_giftregistry_setup', '1.11.0.0.1', '1.11.0.0.1'),
+	('enterprise_logging_setup', '1.11.0.0', '1.11.0.0'),
+	('enterprise_pagecache_setup', '1.11.0.0', '1.11.0.0'),
+	('enterprise_pci_setup', '1.11.0.0', '1.11.0.0'),
+	('enterprise_reward_setup', '1.11.0.2', '1.11.0.2'),
+	('enterprise_salesarchive_setup', '1.11.0.0', '1.11.0.0'),
+	('enterprise_search_setup', '1.11.0.0', '1.11.0.0'),
+	('giftmessage_setup', '1.6.0.1', '1.6.0.1'),
 	('googlecheckout_setup', '1.6.0.1', '1.6.0.1'),
 	('googleoptimizer_setup', '1.6.0.0', '1.6.0.0'),
 	('googleshopping_setup', '1.6.0.0.1', '1.6.0.0.1'),
 	('importexport_setup', '1.6.0.4', '1.6.0.4'),
 	('index_setup', '1.6.0.0', '1.6.0.0'),
+	('launcher_setup', '2.0.0.0', '2.0.0.0'),
 	('log_setup', '1.6.0.0', '1.6.0.0'),
 	('moneybookers_setup', '1.6.0.0', '1.6.0.0'),
 	('newsletter_setup', '1.6.0.2', '1.6.0.2'),
@@ -2745,8 +2806,10 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('rating_setup', '1.6.0.1', '1.6.0.1'),
 	('reports_setup', '1.6.0.0.2', '1.6.0.0.2'),
 	('review_setup', '1.6.0.0', '1.6.0.0'),
+	('saas_printedtemplate_setup', '0.1.0', '0.1.0'),
+	('saas_unitprice_setup', '0.1.4', '0.1.4'),
 	('salesrule_setup', '1.6.0.4', '1.6.0.4'),
-	('sales_setup', '1.6.0.9', '1.6.0.9'),
+	('sales_setup', '1.6.0.11', '1.6.0.11'),
 	('sendfriend_setup', '1.6.0.0', '1.6.0.0'),
 	('shipping_setup', '1.6.0.0', '1.6.0.0'),
 	('sitemap_setup', '1.6.0.0', '1.6.0.0'),
@@ -2754,7 +2817,7 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('tag_setup', '1.6.0.0', '1.6.0.0'),
 	('tax_setup', '1.6.0.5', '1.6.0.5'),
 	('usa_setup', '1.6.0.1', '1.6.0.1'),
-	('user_setup', '1.6.1.3', '1.6.1.3'),
+	('user_setup', '1.6.1.4', '1.6.1.4'),
 	('webapi_setup', '1.0.0.3', '1.0.0.3'),
 	('weee_setup', '1.6.0.0', '1.6.0.0'),
 	('widget_setup', '1.6.0.2', '1.6.0.2'),
@@ -2762,31 +2825,31 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 /*!40000 ALTER TABLE `core_resource` ENABLE KEYS */;
 
 
-# Dumping structure for table core_session
+# Dumping structure for table s5152d29ad0535.core_session
 DROP TABLE IF EXISTS `core_session`;
 CREATE TABLE IF NOT EXISTS `core_session` (
   `session_id` varchar(255) NOT NULL COMMENT 'Session Id',
-  `session_expires` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Date of Session Expiration',
+  `session_expires` int(10) unsigned NOT NULL default '0' COMMENT 'Date of Session Expiration',
   `session_data` mediumblob NOT NULL COMMENT 'Session Data',
-  PRIMARY KEY (`session_id`)
+  PRIMARY KEY  (`session_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Database Sessions Storage';
 
-# Dumping data for table core_session: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.core_session: ~0 rows (approximately)
 /*!40000 ALTER TABLE `core_session` DISABLE KEYS */;
 /*!40000 ALTER TABLE `core_session` ENABLE KEYS */;
 
 
-# Dumping structure for table core_store
+# Dumping structure for table s5152d29ad0535.core_store
 DROP TABLE IF EXISTS `core_store`;
 CREATE TABLE IF NOT EXISTS `core_store` (
-  `store_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Store Id',
-  `code` varchar(32) DEFAULT NULL COMMENT 'Code',
-  `website_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Website Id',
-  `group_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Group Id',
+  `store_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Store Id',
+  `code` varchar(32) default NULL COMMENT 'Code',
+  `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website Id',
+  `group_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Group Id',
   `name` varchar(255) NOT NULL COMMENT 'Store Name',
-  `sort_order` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Sort Order',
-  `is_active` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Activity',
-  PRIMARY KEY (`store_id`),
+  `sort_order` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Sort Order',
+  `is_active` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Activity',
+  PRIMARY KEY  (`store_id`),
   UNIQUE KEY `UNQ_CORE_STORE_CODE` (`code`),
   KEY `IDX_CORE_STORE_WEBSITE_ID` (`website_id`),
   KEY `IDX_CORE_STORE_IS_ACTIVE_SORT_ORDER` (`is_active`,`sort_order`),
@@ -2795,7 +2858,7 @@ CREATE TABLE IF NOT EXISTS `core_store` (
   CONSTRAINT `FK_CORE_STORE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Stores';
 
-# Dumping data for table core_store: ~2 rows (approximately)
+# Dumping data for table s5152d29ad0535.core_store: ~2 rows (approximately)
 /*!40000 ALTER TABLE `core_store` DISABLE KEYS */;
 INSERT INTO `core_store` (`store_id`, `code`, `website_id`, `group_id`, `name`, `sort_order`, `is_active`) VALUES
 	(0, 'admin', 0, 0, 'Admin', 0, 1),
@@ -2803,21 +2866,21 @@ INSERT INTO `core_store` (`store_id`, `code`, `website_id`, `group_id`, `name`, 
 /*!40000 ALTER TABLE `core_store` ENABLE KEYS */;
 
 
-# Dumping structure for table core_store_group
+# Dumping structure for table s5152d29ad0535.core_store_group
 DROP TABLE IF EXISTS `core_store_group`;
 CREATE TABLE IF NOT EXISTS `core_store_group` (
-  `group_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Group Id',
-  `website_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Website Id',
+  `group_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Group Id',
+  `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website Id',
   `name` varchar(255) NOT NULL COMMENT 'Store Group Name',
-  `root_category_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Root Category Id',
-  `default_store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Default Store Id',
-  PRIMARY KEY (`group_id`),
+  `root_category_id` int(10) unsigned NOT NULL default '0' COMMENT 'Root Category Id',
+  `default_store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Default Store Id',
+  PRIMARY KEY  (`group_id`),
   KEY `IDX_CORE_STORE_GROUP_WEBSITE_ID` (`website_id`),
   KEY `IDX_CORE_STORE_GROUP_DEFAULT_STORE_ID` (`default_store_id`),
   CONSTRAINT `FK_CORE_STORE_GROUP_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Store Groups';
 
-# Dumping data for table core_store_group: ~2 rows (approximately)
+# Dumping data for table s5152d29ad0535.core_store_group: ~2 rows (approximately)
 /*!40000 ALTER TABLE `core_store_group` DISABLE KEYS */;
 INSERT INTO `core_store_group` (`group_id`, `website_id`, `name`, `root_category_id`, `default_store_id`) VALUES
 	(0, 0, 'Default', 0, 0),
@@ -2825,113 +2888,116 @@ INSERT INTO `core_store_group` (`group_id`, `website_id`, `name`, `root_category
 /*!40000 ALTER TABLE `core_store_group` ENABLE KEYS */;
 
 
-# Dumping structure for table core_theme
+# Dumping structure for table s5152d29ad0535.core_theme
 DROP TABLE IF EXISTS `core_theme`;
 CREATE TABLE IF NOT EXISTS `core_theme` (
-  `theme_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Theme identifier',
-  `parent_id` int(11) DEFAULT NULL COMMENT 'Parent Id',
-  `theme_path` varchar(255) DEFAULT NULL COMMENT 'Theme Path',
+  `theme_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Theme identifier',
+  `parent_id` int(11) default NULL COMMENT 'Parent Id',
+  `theme_path` varchar(255) default NULL COMMENT 'Theme Path',
   `theme_version` varchar(255) NOT NULL COMMENT 'Theme Version',
   `theme_title` varchar(255) NOT NULL COMMENT 'Theme Title',
-  `preview_image` varchar(255) DEFAULT NULL COMMENT 'Preview Image',
+  `preview_image` varchar(255) default NULL COMMENT 'Preview Image',
   `magento_version_from` varchar(255) NOT NULL COMMENT 'Magento Version From',
   `magento_version_to` varchar(255) NOT NULL COMMENT 'Magento Version To',
-  `is_featured` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is Theme Featured',
+  `is_featured` tinyint(1) NOT NULL default '0' COMMENT 'Is Theme Featured',
   `area` varchar(255) NOT NULL COMMENT 'Theme Area',
-  PRIMARY KEY (`theme_id`)
+  `type` smallint(6) NOT NULL COMMENT 'Theme type: 0:physical, 1:virtual, 2:staging',
+  PRIMARY KEY  (`theme_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='Core theme';
 
-# Dumping data for table core_theme: ~15 rows (approximately)
+# Dumping data for table s5152d29ad0535.core_theme: ~15 rows (approximately)
 /*!40000 ALTER TABLE `core_theme` DISABLE KEYS */;
-INSERT INTO `core_theme` (`theme_id`, `parent_id`, `theme_path`, `theme_version`, `theme_title`, `preview_image`, `magento_version_from`, `magento_version_to`, `is_featured`, `area`) VALUES
-	(1, NULL, 'default/backend', '1.0.0.0', 'Magento 2 backend', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml'),
-	(2, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml'),
-	(3, 2, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml'),
-	(4, 2, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml'),
-	(5, NULL, 'default/demo', '2.0.0.0', 'Magento Demo', 'preview_image_512fa9e9122fc.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend'),
-	(6, 5, 'default/blank', '2.0.0.0', 'Magento Blank', 'preview_image_512fa9e918c4a.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend'),
-	(7, 5, 'default/demo_blue', '2.0.0.0', 'Magento Demo Blue', 'preview_image_512fa9e91ef15.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend'),
-	(8, 5, 'default/iphone', '2.0.0.0', 'Magento Iphone', 'preview_image_512fa9e924456.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend'),
-	(9, 5, 'default/modern', '2.0.0.0', 'Magento Modern', 'preview_image_512fa9e929aa8.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend'),
-	(10, NULL, 'enterprise/fixed', '2.0.0.0', 'Magento Fixed Design', 'preview_image_512fa9e92f3e2.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend'),
-	(11, 10, 'enterprise/iphone_html5', '2.0.0.0', 'Magento Iphone (HTML5)', 'preview_image_512fa9e934a5b.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend'),
-	(12, NULL, 'pro/fluid', '2.0.0.0', 'Magento Fluid Design', 'preview_image_512fa9e93a43a.jpeg', '2.0.0.0', '*', 1, 'frontend'),
-	(13, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, '2.0.0.0-dev1', '*', 0, 'install'),
-	(14, 13, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, '2.0.0.0-dev1', '*', 0, 'install'),
-	(15, 13, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'install');
+INSERT INTO `core_theme` (`theme_id`, `parent_id`, `theme_path`, `theme_version`, `theme_title`, `preview_image`, `magento_version_from`, `magento_version_to`, `is_featured`, `area`, `type`) VALUES
+	(1, NULL, 'default/backend', '1.0.0.0', 'Magento 2 backend', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
+	(2, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
+	(3, 2, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
+	(4, 2, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
+	(5, NULL, 'default/demo', '2.0.0.0', 'Magento Demo', 'preview_image_512fa9e9122fc.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(6, 5, 'default/blank', '2.0.0.0', 'Magento Blank', 'preview_image_512fa9e918c4a.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(7, 5, 'default/demo_blue', '2.0.0.0', 'Magento Demo Blue', 'preview_image_512fa9e91ef15.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(8, 5, 'default/iphone', '2.0.0.0', 'Magento Iphone', 'preview_image_512fa9e924456.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(9, 5, 'default/modern', '2.0.0.0', 'Magento Modern', 'preview_image_512fa9e929aa8.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(10, NULL, 'enterprise/fixed', '2.0.0.0', 'Magento Fixed Design', 'preview_image_512fa9e92f3e2.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(11, 10, 'enterprise/iphone_html5', '2.0.0.0', 'Magento Iphone (HTML5)', 'preview_image_512fa9e934a5b.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(12, NULL, 'pro/fluid', '2.0.0.0', 'Magento Fluid Design', 'preview_image_512fa9e93a43a.jpeg', '2.0.0.0', '*', 1, 'frontend', 0),
+	(13, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
+	(14, 13, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
+	(15, 13, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0);
 /*!40000 ALTER TABLE `core_theme` ENABLE KEYS */;
 
 
-# Dumping structure for table core_theme_files
-DROP TABLE IF EXISTS `core_theme_files`;
-CREATE TABLE IF NOT EXISTS `core_theme_files` (
-  `theme_files_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Theme files identifier',
+# Dumping structure for table s5152d29ad0535.core_theme_file
+DROP TABLE IF EXISTS `core_theme_file`;
+CREATE TABLE IF NOT EXISTS `core_theme_file` (
+  `theme_files_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Theme files identifier',
   `theme_id` int(10) unsigned NOT NULL COMMENT 'Theme Id',
-  `file_path` varchar(255) DEFAULT NULL COMMENT 'Relative path to file',
+  `file_path` varchar(255) default NULL COMMENT 'Relative path to file',
   `file_type` varchar(32) NOT NULL COMMENT 'File Type',
   `content` longtext NOT NULL COMMENT 'File Content',
-  `sort_order` smallint(6) DEFAULT NULL,
-  `is_temporary` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is Temporary File',
-  PRIMARY KEY (`theme_files_id`),
+  `sort_order` smallint(6) default NULL,
+  `is_temporary` tinyint(1) NOT NULL default '0' COMMENT 'Is Temporary File',
+  PRIMARY KEY  (`theme_files_id`),
   KEY `FK_CORE_THEME_FILES_THEME_ID_CORE_THEME_THEME_ID` (`theme_id`),
   CONSTRAINT `FK_CORE_THEME_FILES_THEME_ID_CORE_THEME_THEME_ID` FOREIGN KEY (`theme_id`) REFERENCES `core_theme` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Core theme files';
 
-# Dumping data for table core_theme_files: ~0 rows (approximately)
-/*!40000 ALTER TABLE `core_theme_files` DISABLE KEYS */;
-/*!40000 ALTER TABLE `core_theme_files` ENABLE KEYS */;
+# Dumping data for table s5152d29ad0535.core_theme_file: ~0 rows (approximately)
+/*!40000 ALTER TABLE `core_theme_file` DISABLE KEYS */;
+/*!40000 ALTER TABLE `core_theme_file` ENABLE KEYS */;
 
 
-# Dumping structure for table core_theme_files_link
-DROP TABLE IF EXISTS `core_theme_files_link`;
-CREATE TABLE IF NOT EXISTS `core_theme_files_link` (
-  `files_link_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Customization link id',
+# Dumping structure for table s5152d29ad0535.core_theme_file_update
+DROP TABLE IF EXISTS `core_theme_file_update`;
+CREATE TABLE IF NOT EXISTS `core_theme_file_update` (
+  `file_update_id` int(10) unsigned NOT NULL COMMENT 'Customization file update id',
   `theme_id` int(10) unsigned NOT NULL COMMENT 'Theme Id',
-  `layout_link_id` int(10) unsigned NOT NULL COMMENT 'Theme layout link id',
-  PRIMARY KEY (`files_link_id`),
-  KEY `FK_CORE_THEME_FILES_LINK_THEME_ID_CORE_THEME_THEME_ID` (`theme_id`),
-  CONSTRAINT `FK_CORE_THEME_FILES_LINK_THEME_ID_CORE_THEME_THEME_ID` FOREIGN KEY (`theme_id`) REFERENCES `core_theme` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `layout_update_id` int(10) unsigned NOT NULL COMMENT 'Theme layout update id',
+  PRIMARY KEY  (`file_update_id`),
+  UNIQUE KEY `UNQ_CORE_THEME_FILE_UPDATE_THEME_ID` (`theme_id`),
+  KEY `IDX_CORE_THEME_FILE_UPDATE_LAYOUT_UPDATE_ID` (`layout_update_id`),
+  CONSTRAINT `FK_8B4B31B1C9491019A17758BADFB25FF8` FOREIGN KEY (`layout_update_id`) REFERENCES `core_layout_update` (`layout_update_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_CORE_THEME_FILE_UPDATE_THEME_ID_CORE_THEME_THEME_ID` FOREIGN KEY (`theme_id`) REFERENCES `core_theme` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Core theme link on layout update';
 
-# Dumping data for table core_theme_files_link: ~0 rows (approximately)
-/*!40000 ALTER TABLE `core_theme_files_link` DISABLE KEYS */;
-/*!40000 ALTER TABLE `core_theme_files_link` ENABLE KEYS */;
+# Dumping data for table s5152d29ad0535.core_theme_file_update: ~0 rows (approximately)
+/*!40000 ALTER TABLE `core_theme_file_update` DISABLE KEYS */;
+/*!40000 ALTER TABLE `core_theme_file_update` ENABLE KEYS */;
 
 
-# Dumping structure for table core_translate
+# Dumping structure for table s5152d29ad0535.core_translate
 DROP TABLE IF EXISTS `core_translate`;
 CREATE TABLE IF NOT EXISTS `core_translate` (
-  `key_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Key Id of Translation',
-  `string` varchar(255) NOT NULL DEFAULT 'Translate String' COMMENT 'Translation String',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
-  `translate` varchar(255) DEFAULT NULL COMMENT 'Translate',
-  `locale` varchar(20) NOT NULL DEFAULT 'en_US' COMMENT 'Locale',
-  `crc_string` bigint(20) NOT NULL DEFAULT '1591228201' COMMENT 'Translation String CRC32 Hash',
-  PRIMARY KEY (`key_id`),
+  `key_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Key Id of Translation',
+  `string` varchar(255) NOT NULL default 'Translate String' COMMENT 'Translation String',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  `translate` varchar(255) default NULL COMMENT 'Translate',
+  `locale` varchar(20) NOT NULL default 'en_US' COMMENT 'Locale',
+  `crc_string` bigint(20) NOT NULL default '1591228201' COMMENT 'Translation String CRC32 Hash',
+  PRIMARY KEY  (`key_id`),
   UNIQUE KEY `UNQ_CORE_TRANSLATE_STORE_ID_LOCALE_CRC_STRING_STRING` (`store_id`,`locale`,`crc_string`,`string`),
   KEY `IDX_CORE_TRANSLATE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_CORE_TRANSLATE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Translations';
 
-# Dumping data for table core_translate: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.core_translate: ~0 rows (approximately)
 /*!40000 ALTER TABLE `core_translate` DISABLE KEYS */;
 /*!40000 ALTER TABLE `core_translate` ENABLE KEYS */;
 
 
-# Dumping structure for table core_url_rewrite
+# Dumping structure for table s5152d29ad0535.core_url_rewrite
 DROP TABLE IF EXISTS `core_url_rewrite`;
 CREATE TABLE IF NOT EXISTS `core_url_rewrite` (
-  `url_rewrite_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rewrite Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
-  `id_path` varchar(255) DEFAULT NULL COMMENT 'Id Path',
-  `request_path` varchar(255) DEFAULT NULL COMMENT 'Request Path',
-  `target_path` varchar(255) DEFAULT NULL COMMENT 'Target Path',
-  `is_system` smallint(5) unsigned DEFAULT '1' COMMENT 'Defines is Rewrite System',
-  `options` varchar(255) DEFAULT NULL COMMENT 'Options',
-  `description` varchar(255) DEFAULT NULL COMMENT 'Deascription',
-  `category_id` int(10) unsigned DEFAULT NULL COMMENT 'Category Id',
-  `product_id` int(10) unsigned DEFAULT NULL COMMENT 'Product Id',
-  PRIMARY KEY (`url_rewrite_id`),
+  `url_rewrite_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rewrite Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  `id_path` varchar(255) default NULL COMMENT 'Id Path',
+  `request_path` varchar(255) default NULL COMMENT 'Request Path',
+  `target_path` varchar(255) default NULL COMMENT 'Target Path',
+  `is_system` smallint(5) unsigned default '1' COMMENT 'Defines is Rewrite System',
+  `options` varchar(255) default NULL COMMENT 'Options',
+  `description` varchar(255) default NULL COMMENT 'Deascription',
+  `category_id` int(10) unsigned default NULL COMMENT 'Category Id',
+  `product_id` int(10) unsigned default NULL COMMENT 'Product Id',
+  PRIMARY KEY  (`url_rewrite_id`),
   UNIQUE KEY `UNQ_CORE_URL_REWRITE_REQUEST_PATH_STORE_ID` (`request_path`,`store_id`),
   UNIQUE KEY `UNQ_CORE_URL_REWRITE_ID_PATH_IS_SYSTEM_STORE_ID` (`id_path`,`is_system`,`store_id`),
   KEY `IDX_CORE_URL_REWRITE_TARGET_PATH_STORE_ID` (`target_path`,`store_id`),
@@ -2944,35 +3010,35 @@ CREATE TABLE IF NOT EXISTS `core_url_rewrite` (
   CONSTRAINT `FK_CORE_URL_REWRITE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Url Rewrites';
 
-# Dumping data for table core_url_rewrite: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.core_url_rewrite: ~0 rows (approximately)
 /*!40000 ALTER TABLE `core_url_rewrite` DISABLE KEYS */;
 /*!40000 ALTER TABLE `core_url_rewrite` ENABLE KEYS */;
 
 
-# Dumping structure for table core_variable
+# Dumping structure for table s5152d29ad0535.core_variable
 DROP TABLE IF EXISTS `core_variable`;
 CREATE TABLE IF NOT EXISTS `core_variable` (
-  `variable_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Variable Id',
-  `code` varchar(255) DEFAULT NULL COMMENT 'Variable Code',
-  `name` varchar(255) DEFAULT NULL COMMENT 'Variable Name',
-  PRIMARY KEY (`variable_id`),
+  `variable_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Variable Id',
+  `code` varchar(255) default NULL COMMENT 'Variable Code',
+  `name` varchar(255) default NULL COMMENT 'Variable Name',
+  PRIMARY KEY  (`variable_id`),
   UNIQUE KEY `UNQ_CORE_VARIABLE_CODE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Variables';
 
-# Dumping data for table core_variable: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.core_variable: ~0 rows (approximately)
 /*!40000 ALTER TABLE `core_variable` DISABLE KEYS */;
 /*!40000 ALTER TABLE `core_variable` ENABLE KEYS */;
 
 
-# Dumping structure for table core_variable_value
+# Dumping structure for table s5152d29ad0535.core_variable_value
 DROP TABLE IF EXISTS `core_variable_value`;
 CREATE TABLE IF NOT EXISTS `core_variable_value` (
-  `value_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Variable Value Id',
-  `variable_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Variable Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
+  `value_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Variable Value Id',
+  `variable_id` int(10) unsigned NOT NULL default '0' COMMENT 'Variable Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
   `plain_value` text COMMENT 'Plain Text Value',
   `html_value` text COMMENT 'Html Value',
-  PRIMARY KEY (`value_id`),
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CORE_VARIABLE_VALUE_VARIABLE_ID_STORE_ID` (`variable_id`,`store_id`),
   KEY `IDX_CORE_VARIABLE_VALUE_VARIABLE_ID` (`variable_id`),
   KEY `IDX_CORE_VARIABLE_VALUE_STORE_ID` (`store_id`),
@@ -2980,27 +3046,27 @@ CREATE TABLE IF NOT EXISTS `core_variable_value` (
   CONSTRAINT `FK_CORE_VARIABLE_VALUE_VARIABLE_ID_CORE_VARIABLE_VARIABLE_ID` FOREIGN KEY (`variable_id`) REFERENCES `core_variable` (`variable_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Variable Value';
 
-# Dumping data for table core_variable_value: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.core_variable_value: ~0 rows (approximately)
 /*!40000 ALTER TABLE `core_variable_value` DISABLE KEYS */;
 /*!40000 ALTER TABLE `core_variable_value` ENABLE KEYS */;
 
 
-# Dumping structure for table core_website
+# Dumping structure for table s5152d29ad0535.core_website
 DROP TABLE IF EXISTS `core_website`;
 CREATE TABLE IF NOT EXISTS `core_website` (
-  `website_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Website Id',
-  `code` varchar(32) DEFAULT NULL COMMENT 'Code',
-  `name` varchar(64) DEFAULT NULL COMMENT 'Website Name',
-  `sort_order` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Sort Order',
-  `default_group_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Default Group Id',
-  `is_default` smallint(5) unsigned DEFAULT '0' COMMENT 'Defines Is Website Default',
-  PRIMARY KEY (`website_id`),
+  `website_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Website Id',
+  `code` varchar(32) default NULL COMMENT 'Code',
+  `name` varchar(64) default NULL COMMENT 'Website Name',
+  `sort_order` smallint(5) unsigned NOT NULL default '0' COMMENT 'Sort Order',
+  `default_group_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Default Group Id',
+  `is_default` smallint(5) unsigned default '0' COMMENT 'Defines Is Website Default',
+  PRIMARY KEY  (`website_id`),
   UNIQUE KEY `UNQ_CORE_WEBSITE_CODE` (`code`),
   KEY `IDX_CORE_WEBSITE_SORT_ORDER` (`sort_order`),
   KEY `IDX_CORE_WEBSITE_DEFAULT_GROUP_ID` (`default_group_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Websites';
 
-# Dumping data for table core_website: ~2 rows (approximately)
+# Dumping data for table s5152d29ad0535.core_website: ~2 rows (approximately)
 /*!40000 ALTER TABLE `core_website` DISABLE KEYS */;
 INSERT INTO `core_website` (`website_id`, `code`, `name`, `sort_order`, `default_group_id`, `is_default`) VALUES
 	(0, 'admin', 'Admin', 0, 0, 0),
@@ -3008,138 +3074,138 @@ INSERT INTO `core_website` (`website_id`, `code`, `name`, `sort_order`, `default
 /*!40000 ALTER TABLE `core_website` ENABLE KEYS */;
 
 
-# Dumping structure for table coupon_aggregated
+# Dumping structure for table s5152d29ad0535.coupon_aggregated
 DROP TABLE IF EXISTS `coupon_aggregated`;
 CREATE TABLE IF NOT EXISTS `coupon_aggregated` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date NOT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `order_status` varchar(50) DEFAULT NULL COMMENT 'Order Status',
-  `coupon_code` varchar(50) DEFAULT NULL COMMENT 'Coupon Code',
-  `coupon_uses` int(11) NOT NULL DEFAULT '0' COMMENT 'Coupon Uses',
-  `subtotal_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Subtotal Amount',
-  `discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Discount Amount',
-  `total_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Amount',
-  `subtotal_amount_actual` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Subtotal Amount Actual',
-  `discount_amount_actual` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Discount Amount Actual',
-  `total_amount_actual` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Amount Actual',
-  `rule_name` varchar(255) DEFAULT NULL COMMENT 'Rule Name',
-  PRIMARY KEY (`id`),
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `order_status` varchar(50) default NULL COMMENT 'Order Status',
+  `coupon_code` varchar(50) default NULL COMMENT 'Coupon Code',
+  `coupon_uses` int(11) NOT NULL default '0' COMMENT 'Coupon Uses',
+  `subtotal_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Subtotal Amount',
+  `discount_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Discount Amount',
+  `total_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Amount',
+  `subtotal_amount_actual` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Subtotal Amount Actual',
+  `discount_amount_actual` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Discount Amount Actual',
+  `total_amount_actual` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Amount Actual',
+  `rule_name` varchar(255) default NULL COMMENT 'Rule Name',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `UNQ_COUPON_AGGREGATED_PERIOD_STORE_ID_ORDER_STATUS_COUPON_CODE` (`period`,`store_id`,`order_status`,`coupon_code`),
   KEY `IDX_COUPON_AGGREGATED_STORE_ID` (`store_id`),
   KEY `IDX_COUPON_AGGREGATED_RULE_NAME` (`rule_name`),
   CONSTRAINT `FK_COUPON_AGGREGATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Coupon Aggregated';
 
-# Dumping data for table coupon_aggregated: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.coupon_aggregated: ~0 rows (approximately)
 /*!40000 ALTER TABLE `coupon_aggregated` DISABLE KEYS */;
 /*!40000 ALTER TABLE `coupon_aggregated` ENABLE KEYS */;
 
 
-# Dumping structure for table coupon_aggregated_order
+# Dumping structure for table s5152d29ad0535.coupon_aggregated_order
 DROP TABLE IF EXISTS `coupon_aggregated_order`;
 CREATE TABLE IF NOT EXISTS `coupon_aggregated_order` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date NOT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `order_status` varchar(50) DEFAULT NULL COMMENT 'Order Status',
-  `coupon_code` varchar(50) DEFAULT NULL COMMENT 'Coupon Code',
-  `coupon_uses` int(11) NOT NULL DEFAULT '0' COMMENT 'Coupon Uses',
-  `subtotal_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Subtotal Amount',
-  `discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Discount Amount',
-  `total_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Amount',
-  `rule_name` varchar(255) DEFAULT NULL COMMENT 'Rule Name',
-  PRIMARY KEY (`id`),
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `order_status` varchar(50) default NULL COMMENT 'Order Status',
+  `coupon_code` varchar(50) default NULL COMMENT 'Coupon Code',
+  `coupon_uses` int(11) NOT NULL default '0' COMMENT 'Coupon Uses',
+  `subtotal_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Subtotal Amount',
+  `discount_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Discount Amount',
+  `total_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Amount',
+  `rule_name` varchar(255) default NULL COMMENT 'Rule Name',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `UNQ_COUPON_AGGRED_ORDER_PERIOD_STORE_ID_ORDER_STS_COUPON_CODE` (`period`,`store_id`,`order_status`,`coupon_code`),
   KEY `IDX_COUPON_AGGREGATED_ORDER_STORE_ID` (`store_id`),
   KEY `IDX_COUPON_AGGREGATED_ORDER_RULE_NAME` (`rule_name`),
   CONSTRAINT `FK_COUPON_AGGREGATED_ORDER_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Coupon Aggregated Order';
 
-# Dumping data for table coupon_aggregated_order: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.coupon_aggregated_order: ~0 rows (approximately)
 /*!40000 ALTER TABLE `coupon_aggregated_order` DISABLE KEYS */;
 /*!40000 ALTER TABLE `coupon_aggregated_order` ENABLE KEYS */;
 
 
-# Dumping structure for table coupon_aggregated_updated
+# Dumping structure for table s5152d29ad0535.coupon_aggregated_updated
 DROP TABLE IF EXISTS `coupon_aggregated_updated`;
 CREATE TABLE IF NOT EXISTS `coupon_aggregated_updated` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `period` date NOT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `order_status` varchar(50) DEFAULT NULL COMMENT 'Order Status',
-  `coupon_code` varchar(50) DEFAULT NULL COMMENT 'Coupon Code',
-  `coupon_uses` int(11) NOT NULL DEFAULT '0' COMMENT 'Coupon Uses',
-  `subtotal_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Subtotal Amount',
-  `discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Discount Amount',
-  `total_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Amount',
-  `subtotal_amount_actual` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Subtotal Amount Actual',
-  `discount_amount_actual` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Discount Amount Actual',
-  `total_amount_actual` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Amount Actual',
-  `rule_name` varchar(255) DEFAULT NULL COMMENT 'Rule Name',
-  PRIMARY KEY (`id`),
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `order_status` varchar(50) default NULL COMMENT 'Order Status',
+  `coupon_code` varchar(50) default NULL COMMENT 'Coupon Code',
+  `coupon_uses` int(11) NOT NULL default '0' COMMENT 'Coupon Uses',
+  `subtotal_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Subtotal Amount',
+  `discount_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Discount Amount',
+  `total_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Amount',
+  `subtotal_amount_actual` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Subtotal Amount Actual',
+  `discount_amount_actual` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Discount Amount Actual',
+  `total_amount_actual` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Amount Actual',
+  `rule_name` varchar(255) default NULL COMMENT 'Rule Name',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `UNQ_COUPON_AGGRED_UPDATED_PERIOD_STORE_ID_ORDER_STS_COUPON_CODE` (`period`,`store_id`,`order_status`,`coupon_code`),
   KEY `IDX_COUPON_AGGREGATED_UPDATED_STORE_ID` (`store_id`),
   KEY `IDX_COUPON_AGGREGATED_UPDATED_RULE_NAME` (`rule_name`),
   CONSTRAINT `FK_COUPON_AGGREGATED_UPDATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Coupon Aggregated Updated';
 
-# Dumping data for table coupon_aggregated_updated: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.coupon_aggregated_updated: ~0 rows (approximately)
 /*!40000 ALTER TABLE `coupon_aggregated_updated` DISABLE KEYS */;
 /*!40000 ALTER TABLE `coupon_aggregated_updated` ENABLE KEYS */;
 
 
-# Dumping structure for table cron_schedule
+# Dumping structure for table s5152d29ad0535.cron_schedule
 DROP TABLE IF EXISTS `cron_schedule`;
 CREATE TABLE IF NOT EXISTS `cron_schedule` (
-  `schedule_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Schedule Id',
-  `job_code` varchar(255) NOT NULL DEFAULT '0' COMMENT 'Job Code',
-  `status` varchar(7) NOT NULL DEFAULT 'pending' COMMENT 'Status',
+  `schedule_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Schedule Id',
+  `job_code` varchar(255) NOT NULL default '0' COMMENT 'Job Code',
+  `status` varchar(7) NOT NULL default 'pending' COMMENT 'Status',
   `messages` text COMMENT 'Messages',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Created At',
-  `scheduled_at` timestamp NULL DEFAULT NULL COMMENT 'Scheduled At',
-  `executed_at` timestamp NULL DEFAULT NULL COMMENT 'Executed At',
-  `finished_at` timestamp NULL DEFAULT NULL COMMENT 'Finished At',
-  PRIMARY KEY (`schedule_id`),
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Created At',
+  `scheduled_at` timestamp NULL default NULL COMMENT 'Scheduled At',
+  `executed_at` timestamp NULL default NULL COMMENT 'Executed At',
+  `finished_at` timestamp NULL default NULL COMMENT 'Finished At',
+  PRIMARY KEY  (`schedule_id`),
   KEY `IDX_CRON_SCHEDULE_JOB_CODE` (`job_code`),
   KEY `IDX_CRON_SCHEDULE_SCHEDULED_AT_STATUS` (`scheduled_at`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cron Schedule';
 
-# Dumping data for table cron_schedule: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.cron_schedule: ~0 rows (approximately)
 /*!40000 ALTER TABLE `cron_schedule` DISABLE KEYS */;
 /*!40000 ALTER TABLE `cron_schedule` ENABLE KEYS */;
 
 
-# Dumping structure for table customer_address_entity
+# Dumping structure for table s5152d29ad0535.customer_address_entity
 DROP TABLE IF EXISTS `customer_address_entity`;
 CREATE TABLE IF NOT EXISTS `customer_address_entity` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_set_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Set Id',
-  `increment_id` varchar(50) DEFAULT NULL COMMENT 'Increment Id',
-  `parent_id` int(10) unsigned DEFAULT NULL COMMENT 'Parent Id',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Created At',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Updated At',
-  `is_active` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Is Active',
-  PRIMARY KEY (`entity_id`),
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_set_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Set Id',
+  `increment_id` varchar(50) default NULL COMMENT 'Increment Id',
+  `parent_id` int(10) unsigned default NULL COMMENT 'Parent Id',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Created At',
+  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'Updated At',
+  `is_active` smallint(5) unsigned NOT NULL default '1' COMMENT 'Is Active',
+  PRIMARY KEY  (`entity_id`),
   KEY `IDX_CUSTOMER_ADDRESS_ENTITY_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_CUSTOMER_ADDRESS_ENTITY_PARENT_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`parent_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Address Entity';
 
-# Dumping data for table customer_address_entity: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.customer_address_entity: ~0 rows (approximately)
 /*!40000 ALTER TABLE `customer_address_entity` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customer_address_entity` ENABLE KEYS */;
 
 
-# Dumping structure for table customer_address_entity_datetime
+# Dumping structure for table s5152d29ad0535.customer_address_entity_datetime
 DROP TABLE IF EXISTS `customer_address_entity_datetime`;
 CREATE TABLE IF NOT EXISTS `customer_address_entity_datetime` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Id',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
-  `value` datetime DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `value` datetime default NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CUSTOMER_ADDRESS_ENTITY_DATETIME_ENTITY_ID_ATTRIBUTE_ID` (`entity_id`,`attribute_id`),
   KEY `IDX_CUSTOMER_ADDRESS_ENTITY_DATETIME_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_CUSTOMER_ADDRESS_ENTITY_DATETIME_ATTRIBUTE_ID` (`attribute_id`),
@@ -3150,20 +3216,20 @@ CREATE TABLE IF NOT EXISTS `customer_address_entity_datetime` (
   CONSTRAINT `FK_CSTR_ADDR_ENTT_DTIME_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Address Entity Datetime';
 
-# Dumping data for table customer_address_entity_datetime: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.customer_address_entity_datetime: ~0 rows (approximately)
 /*!40000 ALTER TABLE `customer_address_entity_datetime` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customer_address_entity_datetime` ENABLE KEYS */;
 
 
-# Dumping structure for table customer_address_entity_decimal
+# Dumping structure for table s5152d29ad0535.customer_address_entity_decimal
 DROP TABLE IF EXISTS `customer_address_entity_decimal`;
 CREATE TABLE IF NOT EXISTS `customer_address_entity_decimal` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Id',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
-  `value` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `value` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CUSTOMER_ADDRESS_ENTITY_DECIMAL_ENTITY_ID_ATTRIBUTE_ID` (`entity_id`,`attribute_id`),
   KEY `IDX_CUSTOMER_ADDRESS_ENTITY_DECIMAL_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_CUSTOMER_ADDRESS_ENTITY_DECIMAL_ATTRIBUTE_ID` (`attribute_id`),
@@ -3174,20 +3240,20 @@ CREATE TABLE IF NOT EXISTS `customer_address_entity_decimal` (
   CONSTRAINT `FK_CSTR_ADDR_ENTT_DEC_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Address Entity Decimal';
 
-# Dumping data for table customer_address_entity_decimal: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.customer_address_entity_decimal: ~0 rows (approximately)
 /*!40000 ALTER TABLE `customer_address_entity_decimal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customer_address_entity_decimal` ENABLE KEYS */;
 
 
-# Dumping structure for table customer_address_entity_int
+# Dumping structure for table s5152d29ad0535.customer_address_entity_int
 DROP TABLE IF EXISTS `customer_address_entity_int`;
 CREATE TABLE IF NOT EXISTS `customer_address_entity_int` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Id',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
-  `value` int(11) NOT NULL DEFAULT '0' COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `value` int(11) NOT NULL default '0' COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CUSTOMER_ADDRESS_ENTITY_INT_ENTITY_ID_ATTRIBUTE_ID` (`entity_id`,`attribute_id`),
   KEY `IDX_CUSTOMER_ADDRESS_ENTITY_INT_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_CUSTOMER_ADDRESS_ENTITY_INT_ATTRIBUTE_ID` (`attribute_id`),
@@ -3198,20 +3264,20 @@ CREATE TABLE IF NOT EXISTS `customer_address_entity_int` (
   CONSTRAINT `FK_CSTR_ADDR_ENTT_INT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Address Entity Int';
 
-# Dumping data for table customer_address_entity_int: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.customer_address_entity_int: ~0 rows (approximately)
 /*!40000 ALTER TABLE `customer_address_entity_int` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customer_address_entity_int` ENABLE KEYS */;
 
 
-# Dumping structure for table customer_address_entity_text
+# Dumping structure for table s5152d29ad0535.customer_address_entity_text
 DROP TABLE IF EXISTS `customer_address_entity_text`;
 CREATE TABLE IF NOT EXISTS `customer_address_entity_text` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Id',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
   `value` text NOT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CUSTOMER_ADDRESS_ENTITY_TEXT_ENTITY_ID_ATTRIBUTE_ID` (`entity_id`,`attribute_id`),
   KEY `IDX_CUSTOMER_ADDRESS_ENTITY_TEXT_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_CUSTOMER_ADDRESS_ENTITY_TEXT_ATTRIBUTE_ID` (`attribute_id`),
@@ -3221,20 +3287,20 @@ CREATE TABLE IF NOT EXISTS `customer_address_entity_text` (
   CONSTRAINT `FK_CSTR_ADDR_ENTT_TEXT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Address Entity Text';
 
-# Dumping data for table customer_address_entity_text: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.customer_address_entity_text: ~0 rows (approximately)
 /*!40000 ALTER TABLE `customer_address_entity_text` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customer_address_entity_text` ENABLE KEYS */;
 
 
-# Dumping structure for table customer_address_entity_varchar
+# Dumping structure for table s5152d29ad0535.customer_address_entity_varchar
 DROP TABLE IF EXISTS `customer_address_entity_varchar`;
 CREATE TABLE IF NOT EXISTS `customer_address_entity_varchar` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Id',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
-  `value` varchar(255) DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `value` varchar(255) default NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CUSTOMER_ADDRESS_ENTITY_VARCHAR_ENTITY_ID_ATTRIBUTE_ID` (`entity_id`,`attribute_id`),
   KEY `IDX_CUSTOMER_ADDRESS_ENTITY_VARCHAR_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_CUSTOMER_ADDRESS_ENTITY_VARCHAR_ATTRIBUTE_ID` (`attribute_id`),
@@ -3245,108 +3311,111 @@ CREATE TABLE IF NOT EXISTS `customer_address_entity_varchar` (
   CONSTRAINT `FK_CSTR_ADDR_ENTT_VCHR_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Address Entity Varchar';
 
-# Dumping data for table customer_address_entity_varchar: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.customer_address_entity_varchar: ~0 rows (approximately)
 /*!40000 ALTER TABLE `customer_address_entity_varchar` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customer_address_entity_varchar` ENABLE KEYS */;
 
 
-# Dumping structure for table customer_eav_attribute
+# Dumping structure for table s5152d29ad0535.customer_eav_attribute
 DROP TABLE IF EXISTS `customer_eav_attribute`;
 CREATE TABLE IF NOT EXISTS `customer_eav_attribute` (
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Id',
-  `is_visible` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Is Visible',
-  `input_filter` varchar(255) DEFAULT NULL COMMENT 'Input Filter',
-  `multiline_count` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Multiline Count',
+  `is_visible` smallint(5) unsigned NOT NULL default '1' COMMENT 'Is Visible',
+  `input_filter` varchar(255) default NULL COMMENT 'Input Filter',
+  `multiline_count` smallint(5) unsigned NOT NULL default '1' COMMENT 'Multiline Count',
   `validate_rules` text COMMENT 'Validate Rules',
-  `is_system` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is System',
-  `sort_order` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Sort Order',
-  `data_model` varchar(255) DEFAULT NULL COMMENT 'Data Model',
-  PRIMARY KEY (`attribute_id`),
+  `is_system` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is System',
+  `sort_order` int(10) unsigned NOT NULL default '0' COMMENT 'Sort Order',
+  `data_model` varchar(255) default NULL COMMENT 'Data Model',
+  `is_used_for_customer_segment` int(10) unsigned NOT NULL default '0' COMMENT 'Customer Segment',
+  PRIMARY KEY  (`attribute_id`),
   CONSTRAINT `FK_CSTR_EAV_ATTR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Eav Attribute';
 
-# Dumping data for table customer_eav_attribute: ~40 rows (approximately)
+# Dumping data for table s5152d29ad0535.customer_eav_attribute: ~42 rows (approximately)
 /*!40000 ALTER TABLE `customer_eav_attribute` DISABLE KEYS */;
-INSERT INTO `customer_eav_attribute` (`attribute_id`, `is_visible`, `input_filter`, `multiline_count`, `validate_rules`, `is_system`, `sort_order`, `data_model`) VALUES
-	(1, 1, NULL, 0, NULL, 1, 10, NULL),
-	(2, 0, NULL, 0, NULL, 1, 0, NULL),
-	(3, 1, NULL, 0, NULL, 1, 20, NULL),
-	(4, 0, NULL, 0, NULL, 0, 30, NULL),
-	(5, 1, NULL, 0, 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}', 1, 40, NULL),
-	(6, 0, NULL, 0, NULL, 0, 50, NULL),
-	(7, 1, NULL, 0, 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}', 1, 60, NULL),
-	(8, 0, NULL, 0, NULL, 0, 70, NULL),
-	(9, 1, NULL, 0, 'a:1:{s:16:"input_validation";s:5:"email";}', 1, 80, NULL),
-	(10, 1, NULL, 0, NULL, 1, 25, NULL),
-	(11, 0, 'date', 0, 'a:1:{s:16:"input_validation";s:4:"date";}', 0, 90, NULL),
-	(12, 0, NULL, 0, NULL, 1, 0, NULL),
-	(13, 0, NULL, 0, NULL, 1, 0, NULL),
-	(14, 0, NULL, 0, NULL, 1, 0, NULL),
-	(15, 0, NULL, 0, 'a:1:{s:15:"max_text_length";i:255;}', 0, 100, NULL),
-	(16, 0, NULL, 0, NULL, 1, 0, NULL),
-	(17, 0, NULL, 0, NULL, 0, 0, NULL),
-	(18, 0, NULL, 0, 'a:0:{}', 0, 110, NULL),
-	(19, 0, NULL, 0, NULL, 0, 10, NULL),
-	(20, 1, NULL, 0, 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}', 1, 20, NULL),
-	(21, 0, NULL, 0, NULL, 0, 30, NULL),
-	(22, 1, NULL, 0, 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}', 1, 40, NULL),
-	(23, 0, NULL, 0, NULL, 0, 50, NULL),
-	(24, 1, NULL, 0, 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}', 1, 60, NULL),
-	(25, 1, NULL, 2, 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}', 1, 70, NULL),
-	(26, 1, NULL, 0, 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}', 1, 80, NULL),
-	(27, 1, NULL, 0, NULL, 1, 90, NULL),
-	(28, 1, NULL, 0, NULL, 1, 100, NULL),
-	(29, 1, NULL, 0, NULL, 1, 100, NULL),
-	(30, 1, NULL, 0, 'a:0:{}', 1, 110, 'Mage_Customer_Model_Attribute_Data_Postcode'),
-	(31, 1, NULL, 0, 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}', 1, 120, NULL),
-	(32, 1, NULL, 0, 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}', 1, 130, NULL),
-	(33, 0, NULL, 0, NULL, 1, 0, NULL),
-	(34, 0, NULL, 0, 'a:1:{s:16:"input_validation";s:4:"date";}', 1, 0, NULL),
-	(35, 1, NULL, 0, NULL, 1, 28, NULL),
-	(36, 1, NULL, 0, NULL, 1, 140, NULL),
-	(37, 0, NULL, 0, NULL, 1, 0, NULL),
-	(38, 0, NULL, 0, NULL, 1, 0, NULL),
-	(39, 0, NULL, 0, NULL, 1, 0, NULL),
-	(40, 0, NULL, 0, NULL, 1, 0, NULL);
+INSERT INTO `customer_eav_attribute` (`attribute_id`, `is_visible`, `input_filter`, `multiline_count`, `validate_rules`, `is_system`, `sort_order`, `data_model`, `is_used_for_customer_segment`) VALUES
+	(1, 1, NULL, 0, NULL, 1, 10, NULL, 0),
+	(2, 0, NULL, 0, NULL, 1, 0, NULL, 0),
+	(3, 1, NULL, 0, NULL, 1, 20, NULL, 0),
+	(4, 0, NULL, 0, NULL, 0, 30, NULL, 0),
+	(5, 1, NULL, 0, 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}', 1, 40, NULL, 1),
+	(6, 0, NULL, 0, NULL, 0, 50, NULL, 0),
+	(7, 1, NULL, 0, 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}', 1, 60, NULL, 1),
+	(8, 0, NULL, 0, NULL, 0, 70, NULL, 0),
+	(9, 1, NULL, 0, 'a:1:{s:16:"input_validation";s:5:"email";}', 1, 80, NULL, 1),
+	(10, 1, NULL, 0, NULL, 1, 25, NULL, 1),
+	(11, 0, 'date', 0, 'a:1:{s:16:"input_validation";s:4:"date";}', 0, 90, NULL, 1),
+	(12, 0, NULL, 0, NULL, 1, 0, NULL, 0),
+	(13, 0, NULL, 0, NULL, 1, 0, NULL, 1),
+	(14, 0, NULL, 0, NULL, 1, 0, NULL, 1),
+	(15, 0, NULL, 0, 'a:1:{s:15:"max_text_length";i:255;}', 0, 100, NULL, 0),
+	(16, 0, NULL, 0, NULL, 1, 0, NULL, 0),
+	(17, 0, NULL, 0, NULL, 0, 0, NULL, 1),
+	(18, 0, NULL, 0, 'a:0:{}', 0, 110, NULL, 1),
+	(19, 0, NULL, 0, NULL, 0, 10, NULL, 0),
+	(20, 1, NULL, 0, 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}', 1, 20, NULL, 1),
+	(21, 0, NULL, 0, NULL, 0, 30, NULL, 0),
+	(22, 1, NULL, 0, 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}', 1, 40, NULL, 1),
+	(23, 0, NULL, 0, NULL, 0, 50, NULL, 0),
+	(24, 1, NULL, 0, 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}', 1, 60, NULL, 1),
+	(25, 1, NULL, 2, 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}', 1, 70, NULL, 1),
+	(26, 1, NULL, 0, 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}', 1, 80, NULL, 1),
+	(27, 1, NULL, 0, NULL, 1, 90, NULL, 1),
+	(28, 1, NULL, 0, NULL, 1, 100, NULL, 0),
+	(29, 1, NULL, 0, NULL, 1, 100, NULL, 1),
+	(30, 1, NULL, 0, 'a:0:{}', 1, 110, 'Mage_Customer_Model_Attribute_Data_Postcode', 1),
+	(31, 1, NULL, 0, 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}', 1, 120, NULL, 1),
+	(32, 1, NULL, 0, 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}', 1, 130, NULL, 0),
+	(33, 0, NULL, 0, NULL, 1, 0, NULL, 0),
+	(34, 0, NULL, 0, 'a:1:{s:16:"input_validation";s:4:"date";}', 1, 0, NULL, 0),
+	(35, 1, NULL, 0, NULL, 1, 28, NULL, 0),
+	(36, 1, NULL, 0, NULL, 1, 140, NULL, 0),
+	(37, 0, NULL, 0, NULL, 1, 0, NULL, 0),
+	(38, 0, NULL, 0, NULL, 1, 0, NULL, 0),
+	(39, 0, NULL, 0, NULL, 1, 0, NULL, 0),
+	(40, 0, NULL, 0, NULL, 1, 0, NULL, 0),
+	(147, 0, NULL, 1, NULL, 0, 0, NULL, 0),
+	(148, 0, NULL, 1, NULL, 0, 0, NULL, 0);
 /*!40000 ALTER TABLE `customer_eav_attribute` ENABLE KEYS */;
 
 
-# Dumping structure for table customer_eav_attribute_website
+# Dumping structure for table s5152d29ad0535.customer_eav_attribute_website
 DROP TABLE IF EXISTS `customer_eav_attribute_website`;
 CREATE TABLE IF NOT EXISTS `customer_eav_attribute_website` (
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  `is_visible` smallint(5) unsigned DEFAULT NULL COMMENT 'Is Visible',
-  `is_required` smallint(5) unsigned DEFAULT NULL COMMENT 'Is Required',
+  `is_visible` smallint(5) unsigned default NULL COMMENT 'Is Visible',
+  `is_required` smallint(5) unsigned default NULL COMMENT 'Is Required',
   `default_value` text COMMENT 'Default Value',
-  `multiline_count` smallint(5) unsigned DEFAULT NULL COMMENT 'Multiline Count',
-  PRIMARY KEY (`attribute_id`,`website_id`),
+  `multiline_count` smallint(5) unsigned default NULL COMMENT 'Multiline Count',
+  PRIMARY KEY  (`attribute_id`,`website_id`),
   KEY `IDX_CUSTOMER_EAV_ATTRIBUTE_WEBSITE_WEBSITE_ID` (`website_id`),
   CONSTRAINT `FK_CSTR_EAV_ATTR_WS_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CSTR_EAV_ATTR_WS_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Eav Attribute Website';
 
-# Dumping data for table customer_eav_attribute_website: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.customer_eav_attribute_website: ~0 rows (approximately)
 /*!40000 ALTER TABLE `customer_eav_attribute_website` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customer_eav_attribute_website` ENABLE KEYS */;
 
 
-# Dumping structure for table customer_entity
+# Dumping structure for table s5152d29ad0535.customer_entity
 DROP TABLE IF EXISTS `customer_entity`;
 CREATE TABLE IF NOT EXISTS `customer_entity` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_set_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Set Id',
-  `website_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Website Id',
-  `email` varchar(255) DEFAULT NULL COMMENT 'Email',
-  `group_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Group Id',
-  `increment_id` varchar(50) DEFAULT NULL COMMENT 'Increment Id',
-  `store_id` smallint(5) unsigned DEFAULT '0' COMMENT 'Store Id',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Created At',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Updated At',
-  `is_active` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Is Active',
-  `disable_auto_group_change` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Disable automatic group change based on VAT ID',
-  PRIMARY KEY (`entity_id`),
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_set_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Set Id',
+  `website_id` smallint(5) unsigned default NULL COMMENT 'Website Id',
+  `email` varchar(255) default NULL COMMENT 'Email',
+  `group_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Group Id',
+  `increment_id` varchar(50) default NULL COMMENT 'Increment Id',
+  `store_id` smallint(5) unsigned default '0' COMMENT 'Store Id',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Created At',
+  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'Updated At',
+  `is_active` smallint(5) unsigned NOT NULL default '1' COMMENT 'Is Active',
+  `disable_auto_group_change` smallint(5) unsigned NOT NULL default '0' COMMENT 'Disable automatic group change based on VAT ID',
+  PRIMARY KEY  (`entity_id`),
   KEY `IDX_CUSTOMER_ENTITY_STORE_ID` (`store_id`),
   KEY `IDX_CUSTOMER_ENTITY_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_CUSTOMER_ENTITY_EMAIL_WEBSITE_ID` (`email`,`website_id`),
@@ -3355,20 +3424,20 @@ CREATE TABLE IF NOT EXISTS `customer_entity` (
   CONSTRAINT `FK_CUSTOMER_ENTITY_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Entity';
 
-# Dumping data for table customer_entity: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.customer_entity: ~0 rows (approximately)
 /*!40000 ALTER TABLE `customer_entity` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customer_entity` ENABLE KEYS */;
 
 
-# Dumping structure for table customer_entity_datetime
+# Dumping structure for table s5152d29ad0535.customer_entity_datetime
 DROP TABLE IF EXISTS `customer_entity_datetime`;
 CREATE TABLE IF NOT EXISTS `customer_entity_datetime` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Id',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
-  `value` datetime DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `value` datetime default NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CUSTOMER_ENTITY_DATETIME_ENTITY_ID_ATTRIBUTE_ID` (`entity_id`,`attribute_id`),
   KEY `IDX_CUSTOMER_ENTITY_DATETIME_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_CUSTOMER_ENTITY_DATETIME_ATTRIBUTE_ID` (`attribute_id`),
@@ -3379,20 +3448,20 @@ CREATE TABLE IF NOT EXISTS `customer_entity_datetime` (
   CONSTRAINT `FK_CSTR_ENTT_DTIME_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Entity Datetime';
 
-# Dumping data for table customer_entity_datetime: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.customer_entity_datetime: ~0 rows (approximately)
 /*!40000 ALTER TABLE `customer_entity_datetime` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customer_entity_datetime` ENABLE KEYS */;
 
 
-# Dumping structure for table customer_entity_decimal
+# Dumping structure for table s5152d29ad0535.customer_entity_decimal
 DROP TABLE IF EXISTS `customer_entity_decimal`;
 CREATE TABLE IF NOT EXISTS `customer_entity_decimal` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Id',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
-  `value` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `value` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CUSTOMER_ENTITY_DECIMAL_ENTITY_ID_ATTRIBUTE_ID` (`entity_id`,`attribute_id`),
   KEY `IDX_CUSTOMER_ENTITY_DECIMAL_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_CUSTOMER_ENTITY_DECIMAL_ATTRIBUTE_ID` (`attribute_id`),
@@ -3403,20 +3472,20 @@ CREATE TABLE IF NOT EXISTS `customer_entity_decimal` (
   CONSTRAINT `FK_CSTR_ENTT_DEC_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Entity Decimal';
 
-# Dumping data for table customer_entity_decimal: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.customer_entity_decimal: ~0 rows (approximately)
 /*!40000 ALTER TABLE `customer_entity_decimal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customer_entity_decimal` ENABLE KEYS */;
 
 
-# Dumping structure for table customer_entity_int
+# Dumping structure for table s5152d29ad0535.customer_entity_int
 DROP TABLE IF EXISTS `customer_entity_int`;
 CREATE TABLE IF NOT EXISTS `customer_entity_int` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Id',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
-  `value` int(11) NOT NULL DEFAULT '0' COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `value` int(11) NOT NULL default '0' COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CUSTOMER_ENTITY_INT_ENTITY_ID_ATTRIBUTE_ID` (`entity_id`,`attribute_id`),
   KEY `IDX_CUSTOMER_ENTITY_INT_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_CUSTOMER_ENTITY_INT_ATTRIBUTE_ID` (`attribute_id`),
@@ -3427,20 +3496,20 @@ CREATE TABLE IF NOT EXISTS `customer_entity_int` (
   CONSTRAINT `FK_CSTR_ENTT_INT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Entity Int';
 
-# Dumping data for table customer_entity_int: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.customer_entity_int: ~0 rows (approximately)
 /*!40000 ALTER TABLE `customer_entity_int` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customer_entity_int` ENABLE KEYS */;
 
 
-# Dumping structure for table customer_entity_text
+# Dumping structure for table s5152d29ad0535.customer_entity_text
 DROP TABLE IF EXISTS `customer_entity_text`;
 CREATE TABLE IF NOT EXISTS `customer_entity_text` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Id',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
   `value` text NOT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CUSTOMER_ENTITY_TEXT_ENTITY_ID_ATTRIBUTE_ID` (`entity_id`,`attribute_id`),
   KEY `IDX_CUSTOMER_ENTITY_TEXT_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_CUSTOMER_ENTITY_TEXT_ATTRIBUTE_ID` (`attribute_id`),
@@ -3450,20 +3519,20 @@ CREATE TABLE IF NOT EXISTS `customer_entity_text` (
   CONSTRAINT `FK_CSTR_ENTT_TEXT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Entity Text';
 
-# Dumping data for table customer_entity_text: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.customer_entity_text: ~0 rows (approximately)
 /*!40000 ALTER TABLE `customer_entity_text` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customer_entity_text` ENABLE KEYS */;
 
 
-# Dumping structure for table customer_entity_varchar
+# Dumping structure for table s5152d29ad0535.customer_entity_varchar
 DROP TABLE IF EXISTS `customer_entity_varchar`;
 CREATE TABLE IF NOT EXISTS `customer_entity_varchar` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Id',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
-  `value` varchar(255) DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `value` varchar(255) default NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_CUSTOMER_ENTITY_VARCHAR_ENTITY_ID_ATTRIBUTE_ID` (`entity_id`,`attribute_id`),
   KEY `IDX_CUSTOMER_ENTITY_VARCHAR_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_CUSTOMER_ENTITY_VARCHAR_ATTRIBUTE_ID` (`attribute_id`),
@@ -3474,22 +3543,22 @@ CREATE TABLE IF NOT EXISTS `customer_entity_varchar` (
   CONSTRAINT `FK_CSTR_ENTT_VCHR_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Entity Varchar';
 
-# Dumping data for table customer_entity_varchar: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.customer_entity_varchar: ~0 rows (approximately)
 /*!40000 ALTER TABLE `customer_entity_varchar` DISABLE KEYS */;
 /*!40000 ALTER TABLE `customer_entity_varchar` ENABLE KEYS */;
 
 
-# Dumping structure for table customer_form_attribute
+# Dumping structure for table s5152d29ad0535.customer_form_attribute
 DROP TABLE IF EXISTS `customer_form_attribute`;
 CREATE TABLE IF NOT EXISTS `customer_form_attribute` (
   `form_code` varchar(32) NOT NULL COMMENT 'Form Code',
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Id',
-  PRIMARY KEY (`form_code`,`attribute_id`),
+  PRIMARY KEY  (`form_code`,`attribute_id`),
   KEY `IDX_CUSTOMER_FORM_ATTRIBUTE_ATTRIBUTE_ID` (`attribute_id`),
   CONSTRAINT `FK_CSTR_FORM_ATTR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Form Attribute';
 
-# Dumping data for table customer_form_attribute: ~94 rows (approximately)
+# Dumping data for table s5152d29ad0535.customer_form_attribute: ~94 rows (approximately)
 /*!40000 ALTER TABLE `customer_form_attribute` DISABLE KEYS */;
 INSERT INTO `customer_form_attribute` (`form_code`, `attribute_id`) VALUES
 	('adminhtml_customer', 1),
@@ -3589,16 +3658,16 @@ INSERT INTO `customer_form_attribute` (`form_code`, `attribute_id`) VALUES
 /*!40000 ALTER TABLE `customer_form_attribute` ENABLE KEYS */;
 
 
-# Dumping structure for table customer_group
+# Dumping structure for table s5152d29ad0535.customer_group
 DROP TABLE IF EXISTS `customer_group`;
 CREATE TABLE IF NOT EXISTS `customer_group` (
-  `customer_group_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Customer Group Id',
+  `customer_group_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Customer Group Id',
   `customer_group_code` varchar(32) NOT NULL COMMENT 'Customer Group Code',
-  `tax_class_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Tax Class Id',
-  PRIMARY KEY (`customer_group_id`)
+  `tax_class_id` int(10) unsigned NOT NULL default '0' COMMENT 'Tax Class Id',
+  PRIMARY KEY  (`customer_group_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Customer Group';
 
-# Dumping data for table customer_group: ~4 rows (approximately)
+# Dumping data for table s5152d29ad0535.customer_group: ~4 rows (approximately)
 /*!40000 ALTER TABLE `customer_group` DISABLE KEYS */;
 INSERT INTO `customer_group` (`customer_group_id`, `customer_group_code`, `tax_class_id`) VALUES
 	(0, 'NOT LOGGED IN', 3),
@@ -3608,34 +3677,34 @@ INSERT INTO `customer_group` (`customer_group_id`, `customer_group_code`, `tax_c
 /*!40000 ALTER TABLE `customer_group` ENABLE KEYS */;
 
 
-# Dumping structure for table design_change
+# Dumping structure for table s5152d29ad0535.design_change
 DROP TABLE IF EXISTS `design_change`;
 CREATE TABLE IF NOT EXISTS `design_change` (
-  `design_change_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Design Change Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
-  `design` varchar(255) DEFAULT NULL COMMENT 'Design',
-  `date_from` date DEFAULT NULL COMMENT 'First Date of Design Activity',
-  `date_to` date DEFAULT NULL COMMENT 'Last Date of Design Activity',
-  PRIMARY KEY (`design_change_id`),
+  `design_change_id` int(11) NOT NULL auto_increment COMMENT 'Design Change Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  `design` varchar(255) default NULL COMMENT 'Design',
+  `date_from` date default NULL COMMENT 'First Date of Design Activity',
+  `date_to` date default NULL COMMENT 'Last Date of Design Activity',
+  PRIMARY KEY  (`design_change_id`),
   KEY `IDX_DESIGN_CHANGE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_DESIGN_CHANGE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Design Changes';
 
-# Dumping data for table design_change: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.design_change: ~0 rows (approximately)
 /*!40000 ALTER TABLE `design_change` DISABLE KEYS */;
 /*!40000 ALTER TABLE `design_change` ENABLE KEYS */;
 
 
-# Dumping structure for table directory_country
+# Dumping structure for table s5152d29ad0535.directory_country
 DROP TABLE IF EXISTS `directory_country`;
 CREATE TABLE IF NOT EXISTS `directory_country` (
-  `country_id` varchar(2) NOT NULL DEFAULT '' COMMENT 'Country Id in ISO-2',
-  `iso2_code` varchar(2) DEFAULT NULL COMMENT 'Country ISO-2 format',
-  `iso3_code` varchar(3) DEFAULT NULL COMMENT 'Country ISO-3',
-  PRIMARY KEY (`country_id`)
+  `country_id` varchar(2) NOT NULL default '' COMMENT 'Country Id in ISO-2',
+  `iso2_code` varchar(2) default NULL COMMENT 'Country ISO-2 format',
+  `iso3_code` varchar(3) default NULL COMMENT 'Country ISO-3',
+  PRIMARY KEY  (`country_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Directory Country';
 
-# Dumping data for table directory_country: ~246 rows (approximately)
+# Dumping data for table s5152d29ad0535.directory_country: ~246 rows (approximately)
 /*!40000 ALTER TABLE `directory_country` DISABLE KEYS */;
 INSERT INTO `directory_country` (`country_id`, `iso2_code`, `iso3_code`) VALUES
 	('AD', 'AD', 'AND'),
@@ -3887,34 +3956,34 @@ INSERT INTO `directory_country` (`country_id`, `iso2_code`, `iso3_code`) VALUES
 /*!40000 ALTER TABLE `directory_country` ENABLE KEYS */;
 
 
-# Dumping structure for table directory_country_format
+# Dumping structure for table s5152d29ad0535.directory_country_format
 DROP TABLE IF EXISTS `directory_country_format`;
 CREATE TABLE IF NOT EXISTS `directory_country_format` (
-  `country_format_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Country Format Id',
-  `country_id` varchar(2) DEFAULT NULL COMMENT 'Country Id in ISO-2',
-  `type` varchar(30) DEFAULT NULL COMMENT 'Country Format Type',
+  `country_format_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Country Format Id',
+  `country_id` varchar(2) default NULL COMMENT 'Country Id in ISO-2',
+  `type` varchar(30) default NULL COMMENT 'Country Format Type',
   `format` text NOT NULL COMMENT 'Country Format',
-  PRIMARY KEY (`country_format_id`),
+  PRIMARY KEY  (`country_format_id`),
   UNIQUE KEY `UNQ_DIRECTORY_COUNTRY_FORMAT_COUNTRY_ID_TYPE` (`country_id`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Directory Country Format';
 
-# Dumping data for table directory_country_format: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.directory_country_format: ~0 rows (approximately)
 /*!40000 ALTER TABLE `directory_country_format` DISABLE KEYS */;
 /*!40000 ALTER TABLE `directory_country_format` ENABLE KEYS */;
 
 
-# Dumping structure for table directory_country_region
+# Dumping structure for table s5152d29ad0535.directory_country_region
 DROP TABLE IF EXISTS `directory_country_region`;
 CREATE TABLE IF NOT EXISTS `directory_country_region` (
-  `region_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Region Id',
-  `country_id` varchar(4) NOT NULL DEFAULT '0' COMMENT 'Country Id in ISO-2',
-  `code` varchar(32) DEFAULT NULL COMMENT 'Region code',
-  `default_name` varchar(255) DEFAULT NULL COMMENT 'Region Name',
-  PRIMARY KEY (`region_id`),
+  `region_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Region Id',
+  `country_id` varchar(4) NOT NULL default '0' COMMENT 'Country Id in ISO-2',
+  `code` varchar(32) default NULL COMMENT 'Region code',
+  `default_name` varchar(255) default NULL COMMENT 'Region Name',
+  PRIMARY KEY  (`region_id`),
   KEY `IDX_DIRECTORY_COUNTRY_REGION_COUNTRY_ID` (`country_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=485 DEFAULT CHARSET=utf8 COMMENT='Directory Country Region';
 
-# Dumping data for table directory_country_region: ~367 rows (approximately)
+# Dumping data for table s5152d29ad0535.directory_country_region: ~367 rows (approximately)
 /*!40000 ALTER TABLE `directory_country_region` DISABLE KEYS */;
 INSERT INTO `directory_country_region` (`region_id`, `country_id`, `code`, `default_name`) VALUES
 	(1, 'US', 'AL', 'Alabama'),
@@ -4404,18 +4473,18 @@ INSERT INTO `directory_country_region` (`region_id`, `country_id`, `code`, `defa
 /*!40000 ALTER TABLE `directory_country_region` ENABLE KEYS */;
 
 
-# Dumping structure for table directory_country_region_name
+# Dumping structure for table s5152d29ad0535.directory_country_region_name
 DROP TABLE IF EXISTS `directory_country_region_name`;
 CREATE TABLE IF NOT EXISTS `directory_country_region_name` (
-  `locale` varchar(8) NOT NULL DEFAULT '' COMMENT 'Locale',
-  `region_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Region Id',
-  `name` varchar(255) DEFAULT NULL COMMENT 'Region Name',
-  PRIMARY KEY (`locale`,`region_id`),
+  `locale` varchar(8) NOT NULL default '' COMMENT 'Locale',
+  `region_id` int(10) unsigned NOT NULL default '0' COMMENT 'Region Id',
+  `name` varchar(255) default NULL COMMENT 'Region Name',
+  PRIMARY KEY  (`locale`,`region_id`),
   KEY `IDX_DIRECTORY_COUNTRY_REGION_NAME_REGION_ID` (`region_id`),
   CONSTRAINT `FK_D7CFDEB379F775328EB6F62695E2B3E1` FOREIGN KEY (`region_id`) REFERENCES `directory_country_region` (`region_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Directory Country Region Name';
 
-# Dumping data for table directory_country_region_name: ~589 rows (approximately)
+# Dumping data for table s5152d29ad0535.directory_country_region_name: ~381 rows (approximately)
 /*!40000 ALTER TABLE `directory_country_region_name` DISABLE KEYS */;
 INSERT INTO `directory_country_region_name` (`locale`, `region_id`, `name`) VALUES
 	('en_US', 1, 'Alabama'),
@@ -4905,17 +4974,17 @@ INSERT INTO `directory_country_region_name` (`locale`, `region_id`, `name`) VALU
 /*!40000 ALTER TABLE `directory_country_region_name` ENABLE KEYS */;
 
 
-# Dumping structure for table directory_currency_rate
+# Dumping structure for table s5152d29ad0535.directory_currency_rate
 DROP TABLE IF EXISTS `directory_currency_rate`;
 CREATE TABLE IF NOT EXISTS `directory_currency_rate` (
-  `currency_from` varchar(3) NOT NULL DEFAULT '' COMMENT 'Currency Code Convert From',
-  `currency_to` varchar(3) NOT NULL DEFAULT '' COMMENT 'Currency Code Convert To',
-  `rate` decimal(24,12) NOT NULL DEFAULT '0.000000000000' COMMENT 'Currency Conversion Rate',
-  PRIMARY KEY (`currency_from`,`currency_to`),
+  `currency_from` varchar(3) NOT NULL default '' COMMENT 'Currency Code Convert From',
+  `currency_to` varchar(3) NOT NULL default '' COMMENT 'Currency Code Convert To',
+  `rate` decimal(24,12) NOT NULL default '0.000000000000' COMMENT 'Currency Conversion Rate',
+  PRIMARY KEY  (`currency_from`,`currency_to`),
   KEY `IDX_DIRECTORY_CURRENCY_RATE_CURRENCY_TO` (`currency_to`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Directory Currency Rate';
 
-# Dumping data for table directory_currency_rate: ~4 rows (approximately)
+# Dumping data for table s5152d29ad0535.directory_currency_rate: ~4 rows (approximately)
 /*!40000 ALTER TABLE `directory_currency_rate` DISABLE KEYS */;
 INSERT INTO `directory_currency_rate` (`currency_from`, `currency_to`, `rate`) VALUES
 	('EUR', 'EUR', 1.000000000000),
@@ -4925,64 +4994,64 @@ INSERT INTO `directory_currency_rate` (`currency_from`, `currency_to`, `rate`) V
 /*!40000 ALTER TABLE `directory_currency_rate` ENABLE KEYS */;
 
 
-# Dumping structure for table downloadable_link
+# Dumping structure for table s5152d29ad0535.downloadable_link
 DROP TABLE IF EXISTS `downloadable_link`;
 CREATE TABLE IF NOT EXISTS `downloadable_link` (
-  `link_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Link ID',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product ID',
-  `sort_order` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Sort order',
-  `number_of_downloads` int(11) DEFAULT NULL COMMENT 'Number of downloads',
-  `is_shareable` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Shareable flag',
-  `link_url` varchar(255) DEFAULT NULL COMMENT 'Link Url',
-  `link_file` varchar(255) DEFAULT NULL COMMENT 'Link File',
-  `link_type` varchar(20) DEFAULT NULL COMMENT 'Link Type',
-  `sample_url` varchar(255) DEFAULT NULL COMMENT 'Sample Url',
-  `sample_file` varchar(255) DEFAULT NULL COMMENT 'Sample File',
-  `sample_type` varchar(20) DEFAULT NULL COMMENT 'Sample Type',
-  PRIMARY KEY (`link_id`),
+  `link_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Link ID',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
+  `sort_order` int(10) unsigned NOT NULL default '0' COMMENT 'Sort order',
+  `number_of_downloads` int(11) default NULL COMMENT 'Number of downloads',
+  `is_shareable` smallint(5) unsigned NOT NULL default '0' COMMENT 'Shareable flag',
+  `link_url` varchar(255) default NULL COMMENT 'Link Url',
+  `link_file` varchar(255) default NULL COMMENT 'Link File',
+  `link_type` varchar(20) default NULL COMMENT 'Link Type',
+  `sample_url` varchar(255) default NULL COMMENT 'Sample Url',
+  `sample_file` varchar(255) default NULL COMMENT 'Sample File',
+  `sample_type` varchar(20) default NULL COMMENT 'Sample Type',
+  PRIMARY KEY  (`link_id`),
   KEY `IDX_DOWNLOADABLE_LINK_PRODUCT_ID` (`product_id`),
   KEY `IDX_DOWNLOADABLE_LINK_PRODUCT_ID_SORT_ORDER` (`product_id`,`sort_order`),
   CONSTRAINT `FK_DOWNLOADABLE_LINK_PRODUCT_ID_CATALOG_PRODUCT_ENTITY_ENTITY_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Downloadable Link Table';
 
-# Dumping data for table downloadable_link: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.downloadable_link: ~0 rows (approximately)
 /*!40000 ALTER TABLE `downloadable_link` DISABLE KEYS */;
 /*!40000 ALTER TABLE `downloadable_link` ENABLE KEYS */;
 
 
-# Dumping structure for table downloadable_link_price
+# Dumping structure for table s5152d29ad0535.downloadable_link_price
 DROP TABLE IF EXISTS `downloadable_link_price`;
 CREATE TABLE IF NOT EXISTS `downloadable_link_price` (
-  `price_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Price ID',
-  `link_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Link ID',
-  `website_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Website ID',
-  `price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Price',
-  PRIMARY KEY (`price_id`),
+  `price_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Price ID',
+  `link_id` int(10) unsigned NOT NULL default '0' COMMENT 'Link ID',
+  `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website ID',
+  `price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Price',
+  PRIMARY KEY  (`price_id`),
   KEY `IDX_DOWNLOADABLE_LINK_PRICE_LINK_ID` (`link_id`),
   KEY `IDX_DOWNLOADABLE_LINK_PRICE_WEBSITE_ID` (`website_id`),
   CONSTRAINT `FK_DOWNLOADABLE_LINK_PRICE_LINK_ID_DOWNLOADABLE_LINK_LINK_ID` FOREIGN KEY (`link_id`) REFERENCES `downloadable_link` (`link_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_DOWNLOADABLE_LINK_PRICE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Downloadable Link Price Table';
 
-# Dumping data for table downloadable_link_price: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.downloadable_link_price: ~0 rows (approximately)
 /*!40000 ALTER TABLE `downloadable_link_price` DISABLE KEYS */;
 /*!40000 ALTER TABLE `downloadable_link_price` ENABLE KEYS */;
 
 
-# Dumping structure for table downloadable_link_purchased
+# Dumping structure for table s5152d29ad0535.downloadable_link_purchased
 DROP TABLE IF EXISTS `downloadable_link_purchased`;
 CREATE TABLE IF NOT EXISTS `downloadable_link_purchased` (
-  `purchased_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Purchased ID',
-  `order_id` int(10) unsigned DEFAULT '0' COMMENT 'Order ID',
-  `order_increment_id` varchar(50) DEFAULT NULL COMMENT 'Order Increment ID',
-  `order_item_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Order Item ID',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date of creation',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Date of modification',
-  `customer_id` int(10) unsigned DEFAULT '0' COMMENT 'Customer ID',
-  `product_name` varchar(255) DEFAULT NULL COMMENT 'Product name',
-  `product_sku` varchar(255) DEFAULT NULL COMMENT 'Product sku',
-  `link_section_title` varchar(255) DEFAULT NULL COMMENT 'Link_section_title',
-  PRIMARY KEY (`purchased_id`),
+  `purchased_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Purchased ID',
+  `order_id` int(10) unsigned default '0' COMMENT 'Order ID',
+  `order_increment_id` varchar(50) default NULL COMMENT 'Order Increment ID',
+  `order_item_id` int(10) unsigned NOT NULL default '0' COMMENT 'Order Item ID',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Date of creation',
+  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'Date of modification',
+  `customer_id` int(10) unsigned default '0' COMMENT 'Customer ID',
+  `product_name` varchar(255) default NULL COMMENT 'Product name',
+  `product_sku` varchar(255) default NULL COMMENT 'Product sku',
+  `link_section_title` varchar(255) default NULL COMMENT 'Link_section_title',
+  PRIMARY KEY  (`purchased_id`),
   KEY `IDX_DOWNLOADABLE_LINK_PURCHASED_ORDER_ID` (`order_id`),
   KEY `IDX_DOWNLOADABLE_LINK_PURCHASED_ORDER_ITEM_ID` (`order_item_id`),
   KEY `IDX_DOWNLOADABLE_LINK_PURCHASED_CUSTOMER_ID` (`customer_id`),
@@ -4990,31 +5059,31 @@ CREATE TABLE IF NOT EXISTS `downloadable_link_purchased` (
   CONSTRAINT `FK_DL_LNK_PURCHASED_ORDER_ID_SALES_FLAT_ORDER_ENTT_ID` FOREIGN KEY (`order_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Downloadable Link Purchased Table';
 
-# Dumping data for table downloadable_link_purchased: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.downloadable_link_purchased: ~0 rows (approximately)
 /*!40000 ALTER TABLE `downloadable_link_purchased` DISABLE KEYS */;
 /*!40000 ALTER TABLE `downloadable_link_purchased` ENABLE KEYS */;
 
 
-# Dumping structure for table downloadable_link_purchased_item
+# Dumping structure for table s5152d29ad0535.downloadable_link_purchased_item
 DROP TABLE IF EXISTS `downloadable_link_purchased_item`;
 CREATE TABLE IF NOT EXISTS `downloadable_link_purchased_item` (
-  `item_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Item ID',
-  `purchased_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Purchased ID',
-  `order_item_id` int(10) unsigned DEFAULT '0' COMMENT 'Order Item ID',
-  `product_id` int(10) unsigned DEFAULT '0' COMMENT 'Product ID',
-  `link_hash` varchar(255) DEFAULT NULL COMMENT 'Link hash',
-  `number_of_downloads_bought` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Number of downloads bought',
-  `number_of_downloads_used` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Number of downloads used',
-  `link_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Link ID',
-  `link_title` varchar(255) DEFAULT NULL COMMENT 'Link Title',
-  `is_shareable` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Shareable Flag',
-  `link_url` varchar(255) DEFAULT NULL COMMENT 'Link Url',
-  `link_file` varchar(255) DEFAULT NULL COMMENT 'Link File',
-  `link_type` varchar(255) DEFAULT NULL COMMENT 'Link Type',
-  `status` varchar(50) DEFAULT NULL COMMENT 'Status',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Creation Time',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Update Time',
-  PRIMARY KEY (`item_id`),
+  `item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Item ID',
+  `purchased_id` int(10) unsigned NOT NULL default '0' COMMENT 'Purchased ID',
+  `order_item_id` int(10) unsigned default '0' COMMENT 'Order Item ID',
+  `product_id` int(10) unsigned default '0' COMMENT 'Product ID',
+  `link_hash` varchar(255) default NULL COMMENT 'Link hash',
+  `number_of_downloads_bought` int(10) unsigned NOT NULL default '0' COMMENT 'Number of downloads bought',
+  `number_of_downloads_used` int(10) unsigned NOT NULL default '0' COMMENT 'Number of downloads used',
+  `link_id` int(10) unsigned NOT NULL default '0' COMMENT 'Link ID',
+  `link_title` varchar(255) default NULL COMMENT 'Link Title',
+  `is_shareable` smallint(5) unsigned NOT NULL default '0' COMMENT 'Shareable Flag',
+  `link_url` varchar(255) default NULL COMMENT 'Link Url',
+  `link_file` varchar(255) default NULL COMMENT 'Link File',
+  `link_type` varchar(255) default NULL COMMENT 'Link Type',
+  `status` varchar(50) default NULL COMMENT 'Status',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Creation Time',
+  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'Update Time',
+  PRIMARY KEY  (`item_id`),
   KEY `IDX_DOWNLOADABLE_LINK_PURCHASED_ITEM_LINK_HASH` (`link_hash`),
   KEY `IDX_DOWNLOADABLE_LINK_PURCHASED_ITEM_ORDER_ITEM_ID` (`order_item_id`),
   KEY `IDX_DOWNLOADABLE_LINK_PURCHASED_ITEM_PURCHASED_ID` (`purchased_id`),
@@ -5022,19 +5091,19 @@ CREATE TABLE IF NOT EXISTS `downloadable_link_purchased_item` (
   CONSTRAINT `FK_B219BF25756700DEE44550B21220ECCE` FOREIGN KEY (`order_item_id`) REFERENCES `sales_flat_order_item` (`item_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Downloadable Link Purchased Item Table';
 
-# Dumping data for table downloadable_link_purchased_item: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.downloadable_link_purchased_item: ~0 rows (approximately)
 /*!40000 ALTER TABLE `downloadable_link_purchased_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `downloadable_link_purchased_item` ENABLE KEYS */;
 
 
-# Dumping structure for table downloadable_link_title
+# Dumping structure for table s5152d29ad0535.downloadable_link_title
 DROP TABLE IF EXISTS `downloadable_link_title`;
 CREATE TABLE IF NOT EXISTS `downloadable_link_title` (
-  `title_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Title ID',
-  `link_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Link ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `title` varchar(255) DEFAULT NULL COMMENT 'Title',
-  PRIMARY KEY (`title_id`),
+  `title_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Title ID',
+  `link_id` int(10) unsigned NOT NULL default '0' COMMENT 'Link ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `title` varchar(255) default NULL COMMENT 'Title',
+  PRIMARY KEY  (`title_id`),
   UNIQUE KEY `UNQ_DOWNLOADABLE_LINK_TITLE_LINK_ID_STORE_ID` (`link_id`,`store_id`),
   KEY `IDX_DOWNLOADABLE_LINK_TITLE_LINK_ID` (`link_id`),
   KEY `IDX_DOWNLOADABLE_LINK_TITLE_STORE_ID` (`store_id`),
@@ -5042,38 +5111,38 @@ CREATE TABLE IF NOT EXISTS `downloadable_link_title` (
   CONSTRAINT `FK_DOWNLOADABLE_LINK_TITLE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Link Title Table';
 
-# Dumping data for table downloadable_link_title: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.downloadable_link_title: ~0 rows (approximately)
 /*!40000 ALTER TABLE `downloadable_link_title` DISABLE KEYS */;
 /*!40000 ALTER TABLE `downloadable_link_title` ENABLE KEYS */;
 
 
-# Dumping structure for table downloadable_sample
+# Dumping structure for table s5152d29ad0535.downloadable_sample
 DROP TABLE IF EXISTS `downloadable_sample`;
 CREATE TABLE IF NOT EXISTS `downloadable_sample` (
-  `sample_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Sample ID',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product ID',
-  `sample_url` varchar(255) DEFAULT NULL COMMENT 'Sample URL',
-  `sample_file` varchar(255) DEFAULT NULL COMMENT 'Sample file',
-  `sample_type` varchar(20) DEFAULT NULL COMMENT 'Sample Type',
-  `sort_order` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Sort Order',
-  PRIMARY KEY (`sample_id`),
+  `sample_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Sample ID',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
+  `sample_url` varchar(255) default NULL COMMENT 'Sample URL',
+  `sample_file` varchar(255) default NULL COMMENT 'Sample file',
+  `sample_type` varchar(20) default NULL COMMENT 'Sample Type',
+  `sort_order` int(10) unsigned NOT NULL default '0' COMMENT 'Sort Order',
+  PRIMARY KEY  (`sample_id`),
   KEY `IDX_DOWNLOADABLE_SAMPLE_PRODUCT_ID` (`product_id`),
   CONSTRAINT `FK_DL_SAMPLE_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Downloadable Sample Table';
 
-# Dumping data for table downloadable_sample: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.downloadable_sample: ~0 rows (approximately)
 /*!40000 ALTER TABLE `downloadable_sample` DISABLE KEYS */;
 /*!40000 ALTER TABLE `downloadable_sample` ENABLE KEYS */;
 
 
-# Dumping structure for table downloadable_sample_title
+# Dumping structure for table s5152d29ad0535.downloadable_sample_title
 DROP TABLE IF EXISTS `downloadable_sample_title`;
 CREATE TABLE IF NOT EXISTS `downloadable_sample_title` (
-  `title_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Title ID',
-  `sample_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Sample ID',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store ID',
-  `title` varchar(255) DEFAULT NULL COMMENT 'Title',
-  PRIMARY KEY (`title_id`),
+  `title_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Title ID',
+  `sample_id` int(10) unsigned NOT NULL default '0' COMMENT 'Sample ID',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store ID',
+  `title` varchar(255) default NULL COMMENT 'Title',
+  PRIMARY KEY  (`title_id`),
   UNIQUE KEY `UNQ_DOWNLOADABLE_SAMPLE_TITLE_SAMPLE_ID_STORE_ID` (`sample_id`,`store_id`),
   KEY `IDX_DOWNLOADABLE_SAMPLE_TITLE_SAMPLE_ID` (`sample_id`),
   KEY `IDX_DOWNLOADABLE_SAMPLE_TITLE_STORE_ID` (`store_id`),
@@ -5081,38 +5150,38 @@ CREATE TABLE IF NOT EXISTS `downloadable_sample_title` (
   CONSTRAINT `FK_DOWNLOADABLE_SAMPLE_TITLE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Downloadable Sample Title Table';
 
-# Dumping data for table downloadable_sample_title: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.downloadable_sample_title: ~0 rows (approximately)
 /*!40000 ALTER TABLE `downloadable_sample_title` DISABLE KEYS */;
 /*!40000 ALTER TABLE `downloadable_sample_title` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_attribute
+# Dumping structure for table s5152d29ad0535.eav_attribute
 DROP TABLE IF EXISTS `eav_attribute`;
 CREATE TABLE IF NOT EXISTS `eav_attribute` (
-  `attribute_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Attribute Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_code` varchar(255) DEFAULT NULL COMMENT 'Attribute Code',
-  `attribute_model` varchar(255) DEFAULT NULL COMMENT 'Attribute Model',
-  `backend_model` varchar(255) DEFAULT NULL COMMENT 'Backend Model',
-  `backend_type` varchar(8) NOT NULL DEFAULT 'static' COMMENT 'Backend Type',
-  `backend_table` varchar(255) DEFAULT NULL COMMENT 'Backend Table',
-  `frontend_model` varchar(255) DEFAULT NULL COMMENT 'Frontend Model',
-  `frontend_input` varchar(50) DEFAULT NULL COMMENT 'Frontend Input',
-  `frontend_label` varchar(255) DEFAULT NULL COMMENT 'Frontend Label',
-  `frontend_class` varchar(255) DEFAULT NULL COMMENT 'Frontend Class',
-  `source_model` varchar(255) DEFAULT NULL COMMENT 'Source Model',
-  `is_required` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Defines Is Required',
-  `is_user_defined` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Defines Is User Defined',
+  `attribute_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Attribute Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_code` varchar(255) default NULL COMMENT 'Attribute Code',
+  `attribute_model` varchar(255) default NULL COMMENT 'Attribute Model',
+  `backend_model` varchar(255) default NULL COMMENT 'Backend Model',
+  `backend_type` varchar(8) NOT NULL default 'static' COMMENT 'Backend Type',
+  `backend_table` varchar(255) default NULL COMMENT 'Backend Table',
+  `frontend_model` varchar(255) default NULL COMMENT 'Frontend Model',
+  `frontend_input` varchar(50) default NULL COMMENT 'Frontend Input',
+  `frontend_label` varchar(255) default NULL COMMENT 'Frontend Label',
+  `frontend_class` varchar(255) default NULL COMMENT 'Frontend Class',
+  `source_model` varchar(255) default NULL COMMENT 'Source Model',
+  `is_required` smallint(5) unsigned NOT NULL default '0' COMMENT 'Defines Is Required',
+  `is_user_defined` smallint(5) unsigned NOT NULL default '0' COMMENT 'Defines Is User Defined',
   `default_value` text COMMENT 'Default Value',
-  `is_unique` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Defines Is Unique',
-  `note` varchar(255) DEFAULT NULL COMMENT 'Note',
-  PRIMARY KEY (`attribute_id`),
+  `is_unique` smallint(5) unsigned NOT NULL default '0' COMMENT 'Defines Is Unique',
+  `note` varchar(255) default NULL COMMENT 'Note',
+  PRIMARY KEY  (`attribute_id`),
   UNIQUE KEY `UNQ_EAV_ATTRIBUTE_ENTITY_TYPE_ID_ATTRIBUTE_CODE` (`entity_type_id`,`attribute_code`),
   KEY `IDX_EAV_ATTRIBUTE_ENTITY_TYPE_ID` (`entity_type_id`),
   CONSTRAINT `FK_EAV_ATTRIBUTE_ENTITY_TYPE_ID_EAV_ENTITY_TYPE_ENTITY_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=134 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute';
+) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute';
 
-# Dumping data for table eav_attribute: ~133 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_attribute: ~153 rows (approximately)
 /*!40000 ALTER TABLE `eav_attribute` DISABLE KEYS */;
 INSERT INTO `eav_attribute` (`attribute_id`, `entity_type_id`, `attribute_code`, `attribute_model`, `backend_model`, `backend_type`, `backend_table`, `frontend_model`, `frontend_input`, `frontend_label`, `frontend_class`, `source_model`, `is_required`, `is_user_defined`, `default_value`, `is_unique`, `note`) VALUES
 	(1, 1, 'website_id', NULL, 'Mage_Customer_Model_Customer_Attribute_Backend_Website', 'static', NULL, NULL, 'select', 'Associate to Website', NULL, 'Mage_Customer_Model_Customer_Attribute_Source_Website', 1, 0, NULL, 0, NULL),
@@ -5185,16 +5254,16 @@ INSERT INTO `eav_attribute` (`attribute_id`, `entity_type_id`, `attribute_code`,
 	(68, 3, 'custom_use_parent_settings', NULL, NULL, 'int', NULL, NULL, 'select', 'Use Parent Category Settings', NULL, 'Mage_Eav_Model_Entity_Attribute_Source_Boolean', 0, 0, NULL, 0, NULL),
 	(69, 3, 'custom_apply_to_products', NULL, NULL, 'int', NULL, NULL, 'select', 'Apply To Products', NULL, 'Mage_Eav_Model_Entity_Attribute_Source_Boolean', 0, 0, NULL, 0, NULL),
 	(70, 3, 'filter_price_range', NULL, NULL, 'decimal', NULL, NULL, 'text', 'Layered Navigation Price Step', NULL, NULL, 0, 0, NULL, 0, NULL),
-	(71, 4, 'name', NULL, NULL, 'varchar', NULL, NULL, 'text', 'Name', NULL, NULL, 1, 0, NULL, 0, NULL),
-	(72, 4, 'sku', NULL, 'Mage_Catalog_Model_Product_Attribute_Backend_Sku', 'static', NULL, NULL, 'text', 'SKU', NULL, NULL, 1, 0, NULL, 1, NULL),
-	(73, 4, 'description', NULL, NULL, 'text', NULL, NULL, 'textarea', 'Description', NULL, NULL, 1, 0, NULL, 0, NULL),
-	(74, 4, 'short_description', NULL, NULL, 'text', NULL, NULL, 'textarea', 'Short Description', NULL, NULL, 1, 0, NULL, 0, NULL),
+	(71, 4, 'name', NULL, NULL, 'varchar', NULL, NULL, 'text', 'Name', 'validate-length maximum-length-255', NULL, 1, 0, NULL, 0, NULL),
+	(72, 4, 'sku', NULL, 'Mage_Catalog_Model_Product_Attribute_Backend_Sku', 'static', NULL, NULL, 'text', 'SKU', 'validate-length maximum-length-64', NULL, 1, 0, NULL, 1, NULL),
+	(73, 4, 'description', NULL, NULL, 'text', NULL, NULL, 'textarea', 'Description', NULL, NULL, 0, 0, NULL, 0, NULL),
+	(74, 4, 'short_description', NULL, NULL, 'text', NULL, NULL, 'textarea', 'Short Description', NULL, NULL, 0, 0, NULL, 0, NULL),
 	(75, 4, 'price', NULL, 'Mage_Catalog_Model_Product_Attribute_Backend_Price', 'decimal', NULL, NULL, 'price', 'Price', NULL, NULL, 1, 0, NULL, 0, NULL),
 	(76, 4, 'special_price', NULL, 'Mage_Catalog_Model_Product_Attribute_Backend_Price', 'decimal', NULL, NULL, 'price', 'Special Price', NULL, NULL, 0, 0, NULL, 0, NULL),
 	(77, 4, 'special_from_date', NULL, 'Mage_Catalog_Model_Product_Attribute_Backend_Startdate', 'datetime', NULL, NULL, 'date', 'Special Price From Date', NULL, NULL, 0, 0, NULL, 0, NULL),
 	(78, 4, 'special_to_date', NULL, 'Mage_Eav_Model_Entity_Attribute_Backend_Datetime', 'datetime', NULL, NULL, 'date', 'Special Price To Date', NULL, NULL, 0, 0, NULL, 0, NULL),
 	(79, 4, 'cost', NULL, 'Mage_Catalog_Model_Product_Attribute_Backend_Price', 'decimal', NULL, NULL, 'price', 'Cost', NULL, NULL, 0, 1, NULL, 0, NULL),
-	(80, 4, 'weight', NULL, NULL, 'decimal', NULL, NULL, 'weight', 'Weight', NULL, NULL, 1, 0, NULL, 0, NULL),
+	(80, 4, 'weight', NULL, 'Mage_Catalog_Model_Product_Attribute_Backend_Weight', 'decimal', NULL, NULL, 'weight', 'Weight', NULL, NULL, 0, 0, NULL, 0, NULL),
 	(81, 4, 'manufacturer', NULL, NULL, 'int', NULL, NULL, 'select', 'Manufacturer', NULL, NULL, 0, 1, NULL, 0, NULL),
 	(82, 4, 'meta_title', NULL, NULL, 'varchar', NULL, NULL, 'text', 'Meta Title', NULL, NULL, 0, 0, NULL, 0, NULL),
 	(83, 4, 'meta_keyword', NULL, NULL, 'text', NULL, NULL, 'textarea', 'Meta Keywords', NULL, NULL, 0, 0, NULL, 0, NULL),
@@ -5210,13 +5279,13 @@ INSERT INTO `eav_attribute` (`attribute_id`, `entity_type_id`, `attribute_code`,
 	(93, 4, 'news_from_date', NULL, 'Mage_Catalog_Model_Product_Attribute_Backend_Startdate', 'datetime', NULL, NULL, 'date', 'Set Product as New from Date', NULL, NULL, 0, 0, NULL, 0, NULL),
 	(94, 4, 'news_to_date', NULL, 'Mage_Eav_Model_Entity_Attribute_Backend_Datetime', 'datetime', NULL, NULL, 'date', 'Set Product as New to Date', NULL, NULL, 0, 0, NULL, 0, NULL),
 	(95, 4, 'gallery', NULL, NULL, 'varchar', NULL, NULL, 'gallery', 'Image Gallery', NULL, NULL, 0, 0, NULL, 0, NULL),
-	(96, 4, 'status', NULL, NULL, 'int', NULL, NULL, 'select', 'Status', NULL, 'Mage_Catalog_Model_Product_Status', 1, 0, NULL, 0, NULL),
+	(96, 4, 'status', NULL, NULL, 'int', NULL, NULL, 'select', 'Status', NULL, 'Mage_Catalog_Model_Product_Status', 0, 0, '1', 0, NULL),
 	(97, 4, 'url_key', NULL, 'Mage_Catalog_Model_Product_Attribute_Backend_Urlkey', 'varchar', NULL, NULL, 'text', 'URL Key', NULL, NULL, 0, 0, NULL, 0, NULL),
 	(98, 4, 'url_path', NULL, NULL, 'varchar', NULL, NULL, 'text', NULL, NULL, NULL, 0, 0, NULL, 0, NULL),
 	(99, 4, 'minimal_price', NULL, NULL, 'decimal', NULL, NULL, 'price', 'Minimal Price', NULL, NULL, 0, 0, NULL, 0, NULL),
 	(100, 4, 'is_recurring', NULL, NULL, 'int', NULL, NULL, 'select', 'Enable Recurring Profile', NULL, 'Mage_Eav_Model_Entity_Attribute_Source_Boolean', 0, 0, NULL, 0, 'Products with recurring profile participate in catalog as nominal items.'),
 	(101, 4, 'recurring_profile', NULL, 'Mage_Catalog_Model_Product_Attribute_Backend_Recurring', 'text', NULL, NULL, 'text', 'Recurring Payment Profile', NULL, NULL, 0, 0, NULL, 0, NULL),
-	(102, 4, 'visibility', NULL, NULL, 'int', NULL, NULL, 'select', 'Visibility', NULL, 'Mage_Catalog_Model_Product_Visibility', 1, 0, '4', 0, NULL),
+	(102, 4, 'visibility', NULL, NULL, 'int', NULL, NULL, 'select', 'Visibility', NULL, 'Mage_Catalog_Model_Product_Visibility', 0, 0, '4', 0, NULL),
 	(103, 4, 'custom_design', NULL, NULL, 'varchar', NULL, NULL, 'select', 'Custom Design', NULL, 'Mage_Core_Model_Design_Source_Design', 0, 0, NULL, 0, NULL),
 	(104, 4, 'custom_design_from', NULL, 'Mage_Catalog_Model_Product_Attribute_Backend_Startdate', 'datetime', NULL, NULL, 'date', 'Active From', NULL, NULL, 0, 0, NULL, 0, NULL),
 	(105, 4, 'custom_design_to', NULL, 'Mage_Eav_Model_Entity_Attribute_Backend_Datetime', 'datetime', NULL, NULL, 'date', 'Active To', NULL, NULL, 0, 0, NULL, 0, NULL),
@@ -5247,56 +5316,79 @@ INSERT INTO `eav_attribute` (`attribute_id`, `entity_type_id`, `attribute_code`,
 	(130, 4, 'links_exist', NULL, NULL, 'int', NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '0', 0, NULL),
 	(131, 4, 'gift_message_available', NULL, 'Mage_Catalog_Model_Product_Attribute_Backend_Boolean', 'varchar', NULL, NULL, 'select', 'Allow Gift Message', NULL, 'Mage_Eav_Model_Entity_Attribute_Source_Boolean', 0, 0, NULL, 0, NULL),
 	(132, 4, 'enable_googlecheckout', NULL, NULL, 'int', NULL, NULL, 'select', 'Is Product Available for Purchase with Google Checkout', NULL, 'Mage_Eav_Model_Entity_Attribute_Source_Boolean', 0, 0, '1', 0, NULL),
-	(133, 4, 'tax_class_id', NULL, NULL, 'int', NULL, NULL, 'select', 'Tax Class', NULL, 'Mage_Tax_Model_Class_Source_Product', 1, 0, NULL, 0, NULL);
+	(133, 4, 'tax_class_id', NULL, NULL, 'int', NULL, NULL, 'select', 'Tax Class', NULL, 'Mage_Tax_Model_Class_Source_Product', 0, 0, '2', 0, NULL),
+	(134, 4, 'giftcard_amounts', NULL, 'Enterprise_GiftCard_Model_Attribute_Backend_Giftcard_Amount', 'decimal', NULL, NULL, 'price', 'Amounts', NULL, NULL, 0, 0, NULL, 0, NULL),
+	(135, 4, 'allow_open_amount', NULL, NULL, 'int', NULL, NULL, 'select', 'Allow Open Amount', NULL, 'Enterprise_GiftCard_Model_Source_Open', 0, 0, NULL, 0, NULL),
+	(136, 4, 'open_amount_min', NULL, 'Mage_Catalog_Model_Product_Attribute_Backend_Price', 'decimal', NULL, NULL, 'price', 'Open Amount Min Value', NULL, NULL, 0, 0, NULL, 0, NULL),
+	(137, 4, 'open_amount_max', NULL, 'Mage_Catalog_Model_Product_Attribute_Backend_Price', 'decimal', NULL, NULL, 'price', 'Open Amount Max Value', NULL, NULL, 0, 0, NULL, 0, NULL),
+	(138, 4, 'giftcard_type', NULL, NULL, 'int', NULL, NULL, 'select', 'Card Type', NULL, 'Enterprise_GiftCard_Model_Source_Type', 1, 0, NULL, 0, NULL),
+	(139, 4, 'is_redeemable', NULL, NULL, 'int', NULL, NULL, 'text', 'Is Redeemable', NULL, NULL, 0, 0, NULL, 0, NULL),
+	(140, 4, 'use_config_is_redeemable', NULL, NULL, 'int', NULL, NULL, 'text', 'Use Config Is Redeemable', NULL, NULL, 0, 0, NULL, 0, NULL),
+	(141, 4, 'lifetime', NULL, NULL, 'int', NULL, NULL, 'text', 'Lifetime', NULL, NULL, 0, 0, NULL, 0, NULL),
+	(142, 4, 'use_config_lifetime', NULL, NULL, 'int', NULL, NULL, 'text', 'Use Config Lifetime', NULL, NULL, 0, 0, NULL, 0, NULL),
+	(143, 4, 'email_template', NULL, NULL, 'varchar', NULL, NULL, 'text', 'Email Template', NULL, NULL, 0, 0, NULL, 0, NULL),
+	(144, 4, 'use_config_email_template', NULL, NULL, 'int', NULL, NULL, 'text', 'Use Config Email Template', NULL, NULL, 0, 0, NULL, 0, NULL),
+	(145, 4, 'allow_message', NULL, NULL, 'int', NULL, NULL, 'text', 'Allow Message', NULL, NULL, 0, 0, NULL, 0, NULL),
+	(146, 4, 'use_config_allow_message', NULL, NULL, 'int', NULL, NULL, 'text', 'Use Config Allow Message', NULL, NULL, 0, 0, NULL, 0, NULL),
+	(147, 1, 'reward_update_notification', NULL, NULL, 'int', NULL, NULL, 'text', NULL, NULL, NULL, 0, 0, NULL, 0, NULL),
+	(148, 1, 'reward_warning_notification', NULL, NULL, 'int', NULL, NULL, 'text', NULL, NULL, NULL, 0, 0, NULL, 0, NULL),
+	(149, 4, 'unit_price_use', NULL, NULL, 'int', NULL, NULL, 'select', 'Allow displaying the unit product\'s price', NULL, 'Mage_Eav_Model_Entity_Attribute_Source_Boolean', 0, 0, '0', 0, NULL),
+	(150, 4, 'unit_price_unit', 'Saas_UnitPrice_Model_Entity_Resource_Eav_Attribute_Product_Unit', 'Saas_UnitPrice_Model_Entity_Backend_Unitprice_Unit', 'varchar', NULL, 'Saas_UnitPrice_Model_Entity_Frontend_Unitprice_Default', 'select', 'Measurement to be used for the base product', NULL, 'Saas_UnitPrice_Model_Entity_Source_Unitprice_Unit', 0, 0, 'KG', 0, NULL),
+	(151, 4, 'unit_price_amount', 'Saas_UnitPrice_Model_Entity_Resource_Eav_Attribute_Product_Amount', 'Saas_UnitPrice_Model_Entity_Backend_Unitprice_Amount', 'varchar', NULL, 'Saas_UnitPrice_Model_Entity_Frontend_Unitprice_Default', 'text', 'Volume/size of one item of the base product', NULL, NULL, 0, 0, NULL, 0, NULL),
+	(152, 4, 'unit_price_base_unit', 'Saas_UnitPrice_Model_Entity_Resource_Eav_Attribute_Reference_Unit', NULL, 'varchar', NULL, 'Saas_UnitPrice_Model_Entity_Frontend_Unitprice_Default', 'select', 'Measurement to be used for the unit product', NULL, 'Saas_UnitPrice_Model_Entity_Source_Unitprice_Unit', 0, 0, 'KG', 0, NULL),
+	(153, 4, 'unit_price_base_amount', 'Saas_UnitPrice_Model_Entity_Resource_Eav_Attribute_Reference_Amount', 'Saas_UnitPrice_Model_Entity_Backend_Unitprice_Amount', 'varchar', NULL, 'Saas_UnitPrice_Model_Entity_Frontend_Unitprice_Default', 'text', 'Volume/size of the unit product', NULL, NULL, 0, 0, '1', 0, NULL);
 /*!40000 ALTER TABLE `eav_attribute` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_attribute_group
+# Dumping structure for table s5152d29ad0535.eav_attribute_group
 DROP TABLE IF EXISTS `eav_attribute_group`;
 CREATE TABLE IF NOT EXISTS `eav_attribute_group` (
-  `attribute_group_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Attribute Group Id',
-  `attribute_set_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Set Id',
-  `attribute_group_name` varchar(255) DEFAULT NULL COMMENT 'Attribute Group Name',
-  `sort_order` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Sort Order',
-  `default_id` smallint(5) unsigned DEFAULT '0' COMMENT 'Default Id',
-  PRIMARY KEY (`attribute_group_id`),
+  `attribute_group_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Attribute Group Id',
+  `attribute_set_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Set Id',
+  `attribute_group_name` varchar(255) default NULL COMMENT 'Attribute Group Name',
+  `sort_order` smallint(6) NOT NULL default '0' COMMENT 'Sort Order',
+  `default_id` smallint(5) unsigned default '0' COMMENT 'Default Id',
+  `attribute_group_code` varchar(255) default NULL COMMENT 'Attribute Group Code',
+  `tab_group_code` varchar(255) default NULL COMMENT 'Tab Group Code',
+  PRIMARY KEY  (`attribute_group_id`),
   UNIQUE KEY `UNQ_EAV_ATTRIBUTE_GROUP_ATTRIBUTE_SET_ID_ATTRIBUTE_GROUP_NAME` (`attribute_set_id`,`attribute_group_name`),
   KEY `IDX_EAV_ATTRIBUTE_GROUP_ATTRIBUTE_SET_ID_SORT_ORDER` (`attribute_set_id`,`sort_order`),
   CONSTRAINT `FK_EAV_ATTR_GROUP_ATTR_SET_ID_EAV_ATTR_SET_ATTR_SET_ID` FOREIGN KEY (`attribute_set_id`) REFERENCES `eav_attribute_set` (`attribute_set_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Group';
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Group';
 
-# Dumping data for table eav_attribute_group: ~18 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_attribute_group: ~19 rows (approximately)
 /*!40000 ALTER TABLE `eav_attribute_group` DISABLE KEYS */;
-INSERT INTO `eav_attribute_group` (`attribute_group_id`, `attribute_set_id`, `attribute_group_name`, `sort_order`, `default_id`) VALUES
-	(1, 1, 'General', 1, 1),
-	(2, 2, 'General', 1, 1),
-	(3, 3, 'General', 10, 1),
-	(4, 3, 'General Information', 2, 0),
-	(5, 3, 'Display Settings', 20, 0),
-	(6, 3, 'Custom Design', 30, 0),
-	(7, 4, 'General', 1, 1),
-	(8, 4, 'Prices', 2, 0),
-	(9, 4, 'Meta Information', 3, 0),
-	(10, 4, 'Images', 4, 0),
-	(11, 4, 'Recurring Profile', 5, 0),
-	(12, 4, 'Design', 6, 0),
-	(13, 5, 'General', 1, 1),
-	(14, 6, 'General', 1, 1),
-	(15, 7, 'General', 1, 1),
-	(16, 8, 'General', 1, 1),
-	(17, 4, 'Gift Options', 7, 0),
-	(18, 9, 'General', 1, 1);
+INSERT INTO `eav_attribute_group` (`attribute_group_id`, `attribute_set_id`, `attribute_group_name`, `sort_order`, `default_id`, `attribute_group_code`, `tab_group_code`) VALUES
+	(1, 1, 'General', 1, 1, 'general', NULL),
+	(2, 2, 'General', 1, 1, 'general', NULL),
+	(3, 3, 'General', 10, 1, 'general', NULL),
+	(4, 3, 'General Information', 2, 0, 'general-information', NULL),
+	(5, 3, 'Display Settings', 20, 0, 'display-settings', NULL),
+	(6, 3, 'Custom Design', 30, 0, 'custom-design', NULL),
+	(7, 4, 'Product Details', 10, 1, 'product-details', 'basic'),
+	(8, 4, 'Advanced Pricing', 40, 0, 'advanced-pricing', 'advanced'),
+	(9, 4, 'Search Optimization', 30, 0, 'search-optimization', 'basic'),
+	(10, 4, 'Image Management', 20, 0, 'image-management', 'basic'),
+	(11, 4, 'Recurring Profile', 41, 0, 'recurring-profile', 'advanced'),
+	(12, 4, 'Design', 50, 0, 'design', 'advanced'),
+	(13, 5, 'General', 1, 1, 'general', NULL),
+	(14, 6, 'General', 1, 1, 'general', NULL),
+	(15, 7, 'General', 1, 1, 'general', NULL),
+	(16, 8, 'General', 1, 1, 'general', NULL),
+	(18, 9, 'General', 1, 1, 'general', NULL),
+	(19, 9, 'Prices', 2, 0, NULL, NULL),
+	(20, 4, 'Autosettings', 60, 0, 'autosettings', 'advanced');
 /*!40000 ALTER TABLE `eav_attribute_group` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_attribute_label
+# Dumping structure for table s5152d29ad0535.eav_attribute_label
 DROP TABLE IF EXISTS `eav_attribute_label`;
 CREATE TABLE IF NOT EXISTS `eav_attribute_label` (
-  `attribute_label_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Attribute Label Id',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
-  `value` varchar(255) DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`attribute_label_id`),
+  `attribute_label_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Attribute Label Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  `value` varchar(255) default NULL COMMENT 'Value',
+  PRIMARY KEY  (`attribute_label_id`),
   KEY `IDX_EAV_ATTRIBUTE_LABEL_ATTRIBUTE_ID` (`attribute_id`),
   KEY `IDX_EAV_ATTRIBUTE_LABEL_STORE_ID` (`store_id`),
   KEY `IDX_EAV_ATTRIBUTE_LABEL_ATTRIBUTE_ID_STORE_ID` (`attribute_id`,`store_id`),
@@ -5304,23 +5396,23 @@ CREATE TABLE IF NOT EXISTS `eav_attribute_label` (
   CONSTRAINT `FK_EAV_ATTRIBUTE_LABEL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Label';
 
-# Dumping data for table eav_attribute_label: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_attribute_label: ~0 rows (approximately)
 /*!40000 ALTER TABLE `eav_attribute_label` DISABLE KEYS */;
 /*!40000 ALTER TABLE `eav_attribute_label` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_attribute_option
+# Dumping structure for table s5152d29ad0535.eav_attribute_option
 DROP TABLE IF EXISTS `eav_attribute_option`;
 CREATE TABLE IF NOT EXISTS `eav_attribute_option` (
-  `option_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Option Id',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Id',
-  `sort_order` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Sort Order',
-  PRIMARY KEY (`option_id`),
+  `option_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `sort_order` smallint(5) unsigned NOT NULL default '0' COMMENT 'Sort Order',
+  PRIMARY KEY  (`option_id`),
   KEY `IDX_EAV_ATTRIBUTE_OPTION_ATTRIBUTE_ID` (`attribute_id`),
   CONSTRAINT `FK_EAV_ATTRIBUTE_OPTION_ATTRIBUTE_ID_EAV_ATTRIBUTE_ATTRIBUTE_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Option';
 
-# Dumping data for table eav_attribute_option: ~2 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_attribute_option: ~2 rows (approximately)
 /*!40000 ALTER TABLE `eav_attribute_option` DISABLE KEYS */;
 INSERT INTO `eav_attribute_option` (`option_id`, `attribute_id`, `sort_order`) VALUES
 	(1, 18, 0),
@@ -5328,21 +5420,21 @@ INSERT INTO `eav_attribute_option` (`option_id`, `attribute_id`, `sort_order`) V
 /*!40000 ALTER TABLE `eav_attribute_option` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_attribute_option_value
+# Dumping structure for table s5152d29ad0535.eav_attribute_option_value
 DROP TABLE IF EXISTS `eav_attribute_option_value`;
 CREATE TABLE IF NOT EXISTS `eav_attribute_option_value` (
-  `value_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Value Id',
-  `option_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Option Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
-  `value` varchar(255) DEFAULT NULL COMMENT 'Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Value Id',
+  `option_id` int(10) unsigned NOT NULL default '0' COMMENT 'Option Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  `value` varchar(255) default NULL COMMENT 'Value',
+  PRIMARY KEY  (`value_id`),
   KEY `IDX_EAV_ATTRIBUTE_OPTION_VALUE_OPTION_ID` (`option_id`),
   KEY `IDX_EAV_ATTRIBUTE_OPTION_VALUE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_EAV_ATTR_OPT_VAL_OPT_ID_EAV_ATTR_OPT_OPT_ID` FOREIGN KEY (`option_id`) REFERENCES `eav_attribute_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_ATTRIBUTE_OPTION_VALUE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Option Value';
 
-# Dumping data for table eav_attribute_option_value: ~2 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_attribute_option_value: ~2 rows (approximately)
 /*!40000 ALTER TABLE `eav_attribute_option_value` DISABLE KEYS */;
 INSERT INTO `eav_attribute_option_value` (`value_id`, `option_id`, `store_id`, `value`) VALUES
 	(1, 1, 0, 'Male'),
@@ -5350,20 +5442,20 @@ INSERT INTO `eav_attribute_option_value` (`value_id`, `option_id`, `store_id`, `
 /*!40000 ALTER TABLE `eav_attribute_option_value` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_attribute_set
+# Dumping structure for table s5152d29ad0535.eav_attribute_set
 DROP TABLE IF EXISTS `eav_attribute_set`;
 CREATE TABLE IF NOT EXISTS `eav_attribute_set` (
-  `attribute_set_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Attribute Set Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_set_name` varchar(255) DEFAULT NULL COMMENT 'Attribute Set Name',
-  `sort_order` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Sort Order',
-  PRIMARY KEY (`attribute_set_id`),
+  `attribute_set_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Attribute Set Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_set_name` varchar(255) default NULL COMMENT 'Attribute Set Name',
+  `sort_order` smallint(6) NOT NULL default '0' COMMENT 'Sort Order',
+  PRIMARY KEY  (`attribute_set_id`),
   UNIQUE KEY `UNQ_EAV_ATTRIBUTE_SET_ENTITY_TYPE_ID_ATTRIBUTE_SET_NAME` (`entity_type_id`,`attribute_set_name`),
   KEY `IDX_EAV_ATTRIBUTE_SET_ENTITY_TYPE_ID_SORT_ORDER` (`entity_type_id`,`sort_order`),
   CONSTRAINT `FK_EAV_ATTR_SET_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Set';
 
-# Dumping data for table eav_attribute_set: ~9 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_attribute_set: ~9 rows (approximately)
 /*!40000 ALTER TABLE `eav_attribute_set` DISABLE KEYS */;
 INSERT INTO `eav_attribute_set` (`attribute_set_id`, `entity_type_id`, `attribute_set_name`, `sort_order`) VALUES
 	(1, 1, 'Default', 2),
@@ -5378,49 +5470,49 @@ INSERT INTO `eav_attribute_set` (`attribute_set_id`, `entity_type_id`, `attribut
 /*!40000 ALTER TABLE `eav_attribute_set` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_entity
+# Dumping structure for table s5152d29ad0535.eav_entity
 DROP TABLE IF EXISTS `eav_entity`;
 CREATE TABLE IF NOT EXISTS `eav_entity` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_set_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Set Id',
-  `increment_id` varchar(50) DEFAULT NULL COMMENT 'Increment Id',
-  `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Parent Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Created At',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Updated At',
-  `is_active` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Defines Is Entity Active',
-  PRIMARY KEY (`entity_id`),
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_set_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Set Id',
+  `increment_id` varchar(50) default NULL COMMENT 'Increment Id',
+  `parent_id` int(10) unsigned NOT NULL default '0' COMMENT 'Parent Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Created At',
+  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'Updated At',
+  `is_active` smallint(5) unsigned NOT NULL default '1' COMMENT 'Defines Is Entity Active',
+  PRIMARY KEY  (`entity_id`),
   KEY `IDX_EAV_ENTITY_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_EAV_ENTITY_STORE_ID` (`store_id`),
   CONSTRAINT `FK_EAV_ENTITY_ENTITY_TYPE_ID_EAV_ENTITY_TYPE_ENTITY_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_ENTITY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity';
 
-# Dumping data for table eav_entity: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_entity: ~0 rows (approximately)
 /*!40000 ALTER TABLE `eav_entity` DISABLE KEYS */;
 /*!40000 ALTER TABLE `eav_entity` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_entity_attribute
+# Dumping structure for table s5152d29ad0535.eav_entity_attribute
 DROP TABLE IF EXISTS `eav_entity_attribute`;
 CREATE TABLE IF NOT EXISTS `eav_entity_attribute` (
-  `entity_attribute_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Attribute Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_set_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Set Id',
-  `attribute_group_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Group Id',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Id',
-  `sort_order` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Sort Order',
-  PRIMARY KEY (`entity_attribute_id`),
+  `entity_attribute_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Attribute Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_set_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Set Id',
+  `attribute_group_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Group Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `sort_order` smallint(6) NOT NULL default '0' COMMENT 'Sort Order',
+  PRIMARY KEY  (`entity_attribute_id`),
   UNIQUE KEY `UNQ_EAV_ENTITY_ATTRIBUTE_ATTRIBUTE_SET_ID_ATTRIBUTE_ID` (`attribute_set_id`,`attribute_id`),
   UNIQUE KEY `UNQ_EAV_ENTITY_ATTRIBUTE_ATTRIBUTE_GROUP_ID_ATTRIBUTE_ID` (`attribute_group_id`,`attribute_id`),
   KEY `IDX_EAV_ENTITY_ATTRIBUTE_ATTRIBUTE_SET_ID_SORT_ORDER` (`attribute_set_id`,`sort_order`),
   KEY `IDX_EAV_ENTITY_ATTRIBUTE_ATTRIBUTE_ID` (`attribute_id`),
   CONSTRAINT `FK_EAV_ENTITY_ATTRIBUTE_ATTRIBUTE_ID_EAV_ATTRIBUTE_ATTRIBUTE_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_ENTT_ATTR_ATTR_GROUP_ID_EAV_ATTR_GROUP_ATTR_GROUP_ID` FOREIGN KEY (`attribute_group_id`) REFERENCES `eav_attribute_group` (`attribute_group_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8 COMMENT='Eav Entity Attributes';
+) ENGINE=InnoDB AUTO_INCREMENT=183 DEFAULT CHARSET=utf8 COMMENT='Eav Entity Attributes';
 
-# Dumping data for table eav_entity_attribute: ~144 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_entity_attribute: ~182 rows (approximately)
 /*!40000 ALTER TABLE `eav_entity_attribute` DISABLE KEYS */;
 INSERT INTO `eav_entity_attribute` (`entity_attribute_id`, `entity_type_id`, `attribute_set_id`, `attribute_group_id`, `attribute_id`, `sort_order`) VALUES
 	(1, 1, 1, 1, 1, 10),
@@ -5493,42 +5585,42 @@ INSERT INTO `eav_entity_attribute` (`entity_attribute_id`, `entity_type_id`, `at
 	(68, 3, 3, 6, 68, 5),
 	(69, 3, 3, 6, 69, 6),
 	(70, 3, 3, 5, 70, 51),
-	(71, 4, 4, 7, 71, 1),
-	(72, 4, 4, 7, 72, 2),
-	(73, 4, 4, 7, 73, 3),
-	(74, 4, 4, 7, 74, 4),
-	(75, 4, 4, 8, 75, 1),
+	(71, 4, 4, 7, 71, 10),
+	(72, 4, 4, 7, 72, 20),
+	(73, 4, 4, 7, 73, 90),
+	(74, 4, 4, 20, 74, 0),
+	(75, 4, 4, 7, 75, 30),
 	(76, 4, 4, 8, 76, 3),
 	(77, 4, 4, 8, 77, 4),
 	(78, 4, 4, 8, 78, 5),
 	(79, 4, 4, 8, 79, 6),
-	(80, 4, 4, 7, 80, 5),
+	(80, 4, 4, 7, 80, 70),
 	(81, 4, 4, 9, 82, 1),
 	(82, 4, 4, 9, 83, 2),
 	(83, 4, 4, 9, 84, 3),
-	(84, 4, 4, 7, 85, 0),
+	(84, 4, 4, 7, 85, 50),
 	(85, 4, 4, 10, 86, 2),
 	(86, 4, 4, 10, 87, 3),
 	(87, 4, 4, 10, 88, 4),
 	(88, 4, 4, 7, 89, 6),
 	(89, 4, 4, 8, 90, 2),
 	(90, 4, 4, 8, 91, 7),
-	(91, 4, 4, 7, 93, 7),
-	(92, 4, 4, 7, 94, 8),
+	(91, 4, 4, 20, 93, 30),
+	(92, 4, 4, 20, 94, 40),
 	(93, 4, 4, 10, 95, 5),
-	(94, 4, 4, 7, 96, 9),
-	(95, 4, 4, 7, 97, 10),
+	(94, 4, 4, 7, 96, 100),
+	(95, 4, 4, 20, 97, 10),
 	(96, 4, 4, 7, 98, 11),
 	(97, 4, 4, 8, 99, 8),
 	(98, 4, 4, 11, 100, 1),
 	(99, 4, 4, 11, 101, 2),
-	(100, 4, 4, 7, 102, 12),
+	(100, 4, 4, 20, 102, 20),
 	(101, 4, 4, 12, 103, 1),
 	(102, 4, 4, 12, 104, 2),
 	(103, 4, 4, 12, 105, 3),
 	(104, 4, 4, 12, 106, 4),
 	(105, 4, 4, 12, 107, 5),
-	(106, 4, 4, 7, 108, 13),
+	(106, 4, 4, 7, 108, 80),
 	(107, 4, 4, 12, 109, 6),
 	(108, 4, 4, 7, 110, 14),
 	(109, 4, 4, 7, 111, 15),
@@ -5537,11 +5629,11 @@ INSERT INTO `eav_entity_attribute` (`entity_attribute_id`, `entity_type_id`, `at
 	(112, 4, 4, 7, 114, 18),
 	(113, 4, 4, 7, 115, 19),
 	(114, 4, 4, 7, 116, 20),
-	(115, 4, 4, 7, 117, 21),
+	(115, 4, 4, 20, 117, 50),
 	(116, 4, 4, 8, 118, 9),
 	(117, 4, 4, 8, 119, 10),
 	(118, 4, 4, 8, 120, 11),
-	(119, 4, 4, 7, 121, 22),
+	(119, 4, 4, 7, 121, 60),
 	(120, 4, 4, 7, 122, 23),
 	(121, 4, 4, 7, 123, 24),
 	(122, 4, 4, 7, 124, 25),
@@ -5551,9 +5643,9 @@ INSERT INTO `eav_entity_attribute` (`entity_attribute_id`, `entity_type_id`, `at
 	(126, 4, 4, 7, 128, 28),
 	(127, 4, 4, 7, 129, 29),
 	(128, 4, 4, 7, 130, 30),
-	(129, 4, 4, 17, 131, 1),
+	(129, 4, 4, 20, 131, 60),
 	(130, 4, 4, 8, 132, 13),
-	(131, 4, 4, 8, 133, 14),
+	(131, 4, 4, 7, 133, 40),
 	(132, 4, 9, 18, 71, 1),
 	(133, 4, 9, 18, 73, 2),
 	(134, 4, 9, 18, 74, 3),
@@ -5566,20 +5658,58 @@ INSERT INTO `eav_entity_attribute` (`entity_attribute_id`, `entity_type_id`, `at
 	(141, 4, 9, 18, 85, 0),
 	(142, 4, 9, 18, 122, 10),
 	(143, 4, 9, 18, 125, 11),
-	(144, 4, 9, 18, 133, 12);
+	(144, 4, 9, 18, 133, 12),
+	(145, 4, 4, 7, 134, 32),
+	(146, 4, 9, 19, 134, -5),
+	(147, 4, 4, 7, 135, 33),
+	(148, 4, 9, 19, 135, -4),
+	(149, 4, 4, 7, 136, 34),
+	(150, 4, 9, 19, 136, -3),
+	(151, 4, 4, 7, 137, 35),
+	(152, 4, 9, 19, 137, -2),
+	(153, 4, 4, 7, 138, 31),
+	(154, 4, 9, 19, 138, -1),
+	(155, 4, 4, 8, 139, 16),
+	(156, 4, 9, 19, 139, 0),
+	(157, 4, 4, 8, 140, 17),
+	(158, 4, 9, 19, 140, 1),
+	(159, 4, 4, 8, 141, 18),
+	(160, 4, 9, 19, 141, 2),
+	(161, 4, 4, 8, 142, 19),
+	(162, 4, 9, 19, 142, 3),
+	(163, 4, 4, 8, 143, 20),
+	(164, 4, 9, 19, 143, 4),
+	(165, 4, 4, 8, 144, 21),
+	(166, 4, 9, 19, 144, 5),
+	(167, 4, 4, 8, 145, 22),
+	(168, 4, 9, 19, 145, 6),
+	(169, 4, 4, 8, 146, 23),
+	(170, 4, 9, 19, 146, 7),
+	(171, 1, 1, 1, 147, 113),
+	(172, 1, 1, 1, 148, 114),
+	(173, 4, 4, 8, 149, 24),
+	(174, 4, 9, 19, 149, 8),
+	(175, 4, 4, 8, 150, 25),
+	(176, 4, 9, 19, 150, 9),
+	(177, 4, 4, 8, 151, 26),
+	(178, 4, 9, 19, 151, 10),
+	(179, 4, 4, 8, 152, 27),
+	(180, 4, 9, 19, 152, 11),
+	(181, 4, 4, 8, 153, 28),
+	(182, 4, 9, 19, 153, 12);
 /*!40000 ALTER TABLE `eav_entity_attribute` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_entity_datetime
+# Dumping structure for table s5152d29ad0535.eav_entity_datetime
 DROP TABLE IF EXISTS `eav_entity_datetime`;
 CREATE TABLE IF NOT EXISTS `eav_entity_datetime` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
-  `value` datetime DEFAULT NULL COMMENT 'Attribute Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `value` datetime default NULL COMMENT 'Attribute Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_EAV_ENTITY_DATETIME_ENTITY_ID_ATTRIBUTE_ID_STORE_ID` (`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_EAV_ENTITY_DATETIME_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_EAV_ENTITY_DATETIME_ATTRIBUTE_ID` (`attribute_id`),
@@ -5592,21 +5722,21 @@ CREATE TABLE IF NOT EXISTS `eav_entity_datetime` (
   CONSTRAINT `FK_EAV_ENTITY_DATETIME_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity Value Prefix';
 
-# Dumping data for table eav_entity_datetime: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_entity_datetime: ~0 rows (approximately)
 /*!40000 ALTER TABLE `eav_entity_datetime` DISABLE KEYS */;
 /*!40000 ALTER TABLE `eav_entity_datetime` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_entity_decimal
+# Dumping structure for table s5152d29ad0535.eav_entity_decimal
 DROP TABLE IF EXISTS `eav_entity_decimal`;
 CREATE TABLE IF NOT EXISTS `eav_entity_decimal` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
-  `value` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Attribute Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `value` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Attribute Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_EAV_ENTITY_DECIMAL_ENTITY_ID_ATTRIBUTE_ID_STORE_ID` (`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_EAV_ENTITY_DECIMAL_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_EAV_ENTITY_DECIMAL_ATTRIBUTE_ID` (`attribute_id`),
@@ -5619,21 +5749,21 @@ CREATE TABLE IF NOT EXISTS `eav_entity_decimal` (
   CONSTRAINT `FK_EAV_ENTITY_DECIMAL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity Value Prefix';
 
-# Dumping data for table eav_entity_decimal: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_entity_decimal: ~0 rows (approximately)
 /*!40000 ALTER TABLE `eav_entity_decimal` DISABLE KEYS */;
 /*!40000 ALTER TABLE `eav_entity_decimal` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_entity_int
+# Dumping structure for table s5152d29ad0535.eav_entity_int
 DROP TABLE IF EXISTS `eav_entity_int`;
 CREATE TABLE IF NOT EXISTS `eav_entity_int` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
-  `value` int(11) NOT NULL DEFAULT '0' COMMENT 'Attribute Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `value` int(11) NOT NULL default '0' COMMENT 'Attribute Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_EAV_ENTITY_INT_ENTITY_ID_ATTRIBUTE_ID_STORE_ID` (`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_EAV_ENTITY_INT_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_EAV_ENTITY_INT_ATTRIBUTE_ID` (`attribute_id`),
@@ -5646,41 +5776,41 @@ CREATE TABLE IF NOT EXISTS `eav_entity_int` (
   CONSTRAINT `FK_EAV_ENTITY_INT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity Value Prefix';
 
-# Dumping data for table eav_entity_int: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_entity_int: ~0 rows (approximately)
 /*!40000 ALTER TABLE `eav_entity_int` DISABLE KEYS */;
 /*!40000 ALTER TABLE `eav_entity_int` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_entity_store
+# Dumping structure for table s5152d29ad0535.eav_entity_store
 DROP TABLE IF EXISTS `eav_entity_store`;
 CREATE TABLE IF NOT EXISTS `eav_entity_store` (
-  `entity_store_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Store Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
-  `increment_prefix` varchar(20) DEFAULT NULL COMMENT 'Increment Prefix',
-  `increment_last_id` varchar(50) DEFAULT NULL COMMENT 'Last Incremented Id',
-  PRIMARY KEY (`entity_store_id`),
+  `entity_store_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Store Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  `increment_prefix` varchar(20) default NULL COMMENT 'Increment Prefix',
+  `increment_last_id` varchar(50) default NULL COMMENT 'Last Incremented Id',
+  PRIMARY KEY  (`entity_store_id`),
   KEY `IDX_EAV_ENTITY_STORE_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_EAV_ENTITY_STORE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_EAV_ENTT_STORE_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_ENTITY_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity Store';
 
-# Dumping data for table eav_entity_store: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_entity_store: ~0 rows (approximately)
 /*!40000 ALTER TABLE `eav_entity_store` DISABLE KEYS */;
 /*!40000 ALTER TABLE `eav_entity_store` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_entity_text
+# Dumping structure for table s5152d29ad0535.eav_entity_text
 DROP TABLE IF EXISTS `eav_entity_text`;
 CREATE TABLE IF NOT EXISTS `eav_entity_text` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
   `value` text NOT NULL COMMENT 'Attribute Value',
-  PRIMARY KEY (`value_id`),
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_EAV_ENTITY_TEXT_ENTITY_ID_ATTRIBUTE_ID_STORE_ID` (`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_EAV_ENTITY_TEXT_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_EAV_ENTITY_TEXT_ATTRIBUTE_ID` (`attribute_id`),
@@ -5691,35 +5821,35 @@ CREATE TABLE IF NOT EXISTS `eav_entity_text` (
   CONSTRAINT `FK_EAV_ENTITY_TEXT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity Value Prefix';
 
-# Dumping data for table eav_entity_text: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_entity_text: ~0 rows (approximately)
 /*!40000 ALTER TABLE `eav_entity_text` DISABLE KEYS */;
 /*!40000 ALTER TABLE `eav_entity_text` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_entity_type
+# Dumping structure for table s5152d29ad0535.eav_entity_type
 DROP TABLE IF EXISTS `eav_entity_type`;
 CREATE TABLE IF NOT EXISTS `eav_entity_type` (
-  `entity_type_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Type Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Entity Type Id',
   `entity_type_code` varchar(50) NOT NULL COMMENT 'Entity Type Code',
   `entity_model` varchar(255) NOT NULL COMMENT 'Entity Model',
-  `attribute_model` varchar(255) DEFAULT NULL COMMENT 'Attribute Model',
-  `entity_table` varchar(255) DEFAULT NULL COMMENT 'Entity Table',
-  `value_table_prefix` varchar(255) DEFAULT NULL COMMENT 'Value Table Prefix',
-  `entity_id_field` varchar(255) DEFAULT NULL COMMENT 'Entity Id Field',
-  `is_data_sharing` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Defines Is Data Sharing',
-  `data_sharing_key` varchar(100) DEFAULT 'default' COMMENT 'Data Sharing Key',
-  `default_attribute_set_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Default Attribute Set Id',
-  `increment_model` varchar(255) DEFAULT '' COMMENT 'Increment Model',
-  `increment_per_store` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Increment Per Store',
-  `increment_pad_length` smallint(5) unsigned NOT NULL DEFAULT '8' COMMENT 'Increment Pad Length',
-  `increment_pad_char` varchar(1) NOT NULL DEFAULT '0' COMMENT 'Increment Pad Char',
-  `additional_attribute_table` varchar(255) DEFAULT '' COMMENT 'Additional Attribute Table',
-  `entity_attribute_collection` varchar(255) DEFAULT NULL COMMENT 'Entity Attribute Collection',
-  PRIMARY KEY (`entity_type_id`),
+  `attribute_model` varchar(255) default NULL COMMENT 'Attribute Model',
+  `entity_table` varchar(255) default NULL COMMENT 'Entity Table',
+  `value_table_prefix` varchar(255) default NULL COMMENT 'Value Table Prefix',
+  `entity_id_field` varchar(255) default NULL COMMENT 'Entity Id Field',
+  `is_data_sharing` smallint(5) unsigned NOT NULL default '1' COMMENT 'Defines Is Data Sharing',
+  `data_sharing_key` varchar(100) default 'default' COMMENT 'Data Sharing Key',
+  `default_attribute_set_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Default Attribute Set Id',
+  `increment_model` varchar(255) default '' COMMENT 'Increment Model',
+  `increment_per_store` smallint(5) unsigned NOT NULL default '0' COMMENT 'Increment Per Store',
+  `increment_pad_length` smallint(5) unsigned NOT NULL default '8' COMMENT 'Increment Pad Length',
+  `increment_pad_char` varchar(1) NOT NULL default '0' COMMENT 'Increment Pad Char',
+  `additional_attribute_table` varchar(255) default '' COMMENT 'Additional Attribute Table',
+  `entity_attribute_collection` varchar(255) default NULL COMMENT 'Entity Attribute Collection',
+  PRIMARY KEY  (`entity_type_id`),
   KEY `IDX_EAV_ENTITY_TYPE_ENTITY_TYPE_CODE` (`entity_type_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='Eav Entity Type';
 
-# Dumping data for table eav_entity_type: ~8 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_entity_type: ~8 rows (approximately)
 /*!40000 ALTER TABLE `eav_entity_type` DISABLE KEYS */;
 INSERT INTO `eav_entity_type` (`entity_type_id`, `entity_type_code`, `entity_model`, `attribute_model`, `entity_table`, `value_table_prefix`, `entity_id_field`, `is_data_sharing`, `data_sharing_key`, `default_attribute_set_id`, `increment_model`, `increment_per_store`, `increment_pad_length`, `increment_pad_char`, `additional_attribute_table`, `entity_attribute_collection`) VALUES
 	(1, 'customer', 'Mage_Customer_Model_Resource_Customer', 'Mage_Customer_Model_Attribute', 'customer_entity', NULL, NULL, 1, 'default', 1, 'Mage_Eav_Model_Entity_Increment_Numeric', 0, 8, '0', 'customer_eav_attribute', 'Mage_Customer_Model_Resource_Attribute_Collection'),
@@ -5733,16 +5863,16 @@ INSERT INTO `eav_entity_type` (`entity_type_id`, `entity_type_code`, `entity_mod
 /*!40000 ALTER TABLE `eav_entity_type` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_entity_varchar
+# Dumping structure for table s5152d29ad0535.eav_entity_varchar
 DROP TABLE IF EXISTS `eav_entity_varchar`;
 CREATE TABLE IF NOT EXISTS `eav_entity_varchar` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value Id',
-  `entity_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Type Id',
-  `attribute_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
-  `value` varchar(255) DEFAULT NULL COMMENT 'Attribute Value',
-  PRIMARY KEY (`value_id`),
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Attribute Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `value` varchar(255) default NULL COMMENT 'Attribute Value',
+  PRIMARY KEY  (`value_id`),
   UNIQUE KEY `UNQ_EAV_ENTITY_VARCHAR_ENTITY_ID_ATTRIBUTE_ID_STORE_ID` (`entity_id`,`attribute_id`,`store_id`),
   KEY `IDX_EAV_ENTITY_VARCHAR_ENTITY_TYPE_ID` (`entity_type_id`),
   KEY `IDX_EAV_ENTITY_VARCHAR_ATTRIBUTE_ID` (`attribute_id`),
@@ -5755,20 +5885,20 @@ CREATE TABLE IF NOT EXISTS `eav_entity_varchar` (
   CONSTRAINT `FK_EAV_ENTITY_VARCHAR_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity Value Prefix';
 
-# Dumping data for table eav_entity_varchar: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_entity_varchar: ~0 rows (approximately)
 /*!40000 ALTER TABLE `eav_entity_varchar` DISABLE KEYS */;
 /*!40000 ALTER TABLE `eav_entity_varchar` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_form_element
+# Dumping structure for table s5152d29ad0535.eav_form_element
 DROP TABLE IF EXISTS `eav_form_element`;
 CREATE TABLE IF NOT EXISTS `eav_form_element` (
-  `element_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Element Id',
+  `element_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Element Id',
   `type_id` smallint(5) unsigned NOT NULL COMMENT 'Type Id',
-  `fieldset_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Fieldset Id',
+  `fieldset_id` smallint(5) unsigned default NULL COMMENT 'Fieldset Id',
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Id',
-  `sort_order` int(11) NOT NULL DEFAULT '0' COMMENT 'Sort Order',
-  PRIMARY KEY (`element_id`),
+  `sort_order` int(11) NOT NULL default '0' COMMENT 'Sort Order',
+  PRIMARY KEY  (`element_id`),
   UNIQUE KEY `UNQ_EAV_FORM_ELEMENT_TYPE_ID_ATTRIBUTE_ID` (`type_id`,`attribute_id`),
   KEY `IDX_EAV_FORM_ELEMENT_TYPE_ID` (`type_id`),
   KEY `IDX_EAV_FORM_ELEMENT_FIELDSET_ID` (`fieldset_id`),
@@ -5778,7 +5908,7 @@ CREATE TABLE IF NOT EXISTS `eav_form_element` (
   CONSTRAINT `FK_EAV_FORM_ELEMENT_TYPE_ID_EAV_FORM_TYPE_TYPE_ID` FOREIGN KEY (`type_id`) REFERENCES `eav_form_type` (`type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COMMENT='Eav Form Element';
 
-# Dumping data for table eav_form_element: ~52 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_form_element: ~52 rows (approximately)
 /*!40000 ALTER TABLE `eav_form_element` DISABLE KEYS */;
 INSERT INTO `eav_form_element` (`element_id`, `type_id`, `fieldset_id`, `attribute_id`, `sort_order`) VALUES
 	(1, 1, NULL, 20, 0),
@@ -5836,20 +5966,20 @@ INSERT INTO `eav_form_element` (`element_id`, `type_id`, `fieldset_id`, `attribu
 /*!40000 ALTER TABLE `eav_form_element` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_form_fieldset
+# Dumping structure for table s5152d29ad0535.eav_form_fieldset
 DROP TABLE IF EXISTS `eav_form_fieldset`;
 CREATE TABLE IF NOT EXISTS `eav_form_fieldset` (
-  `fieldset_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Fieldset Id',
+  `fieldset_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Fieldset Id',
   `type_id` smallint(5) unsigned NOT NULL COMMENT 'Type Id',
   `code` varchar(64) NOT NULL COMMENT 'Code',
-  `sort_order` int(11) NOT NULL DEFAULT '0' COMMENT 'Sort Order',
-  PRIMARY KEY (`fieldset_id`),
+  `sort_order` int(11) NOT NULL default '0' COMMENT 'Sort Order',
+  PRIMARY KEY  (`fieldset_id`),
   UNIQUE KEY `UNQ_EAV_FORM_FIELDSET_TYPE_ID_CODE` (`type_id`,`code`),
   KEY `IDX_EAV_FORM_FIELDSET_TYPE_ID` (`type_id`),
   CONSTRAINT `FK_EAV_FORM_FIELDSET_TYPE_ID_EAV_FORM_TYPE_TYPE_ID` FOREIGN KEY (`type_id`) REFERENCES `eav_form_type` (`type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Eav Form Fieldset';
 
-# Dumping data for table eav_form_fieldset: ~2 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_form_fieldset: ~2 rows (approximately)
 /*!40000 ALTER TABLE `eav_form_fieldset` DISABLE KEYS */;
 INSERT INTO `eav_form_fieldset` (`fieldset_id`, `type_id`, `code`, `sort_order`) VALUES
 	(1, 5, 'general', 1),
@@ -5857,20 +5987,20 @@ INSERT INTO `eav_form_fieldset` (`fieldset_id`, `type_id`, `code`, `sort_order`)
 /*!40000 ALTER TABLE `eav_form_fieldset` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_form_fieldset_label
+# Dumping structure for table s5152d29ad0535.eav_form_fieldset_label
 DROP TABLE IF EXISTS `eav_form_fieldset_label`;
 CREATE TABLE IF NOT EXISTS `eav_form_fieldset_label` (
   `fieldset_id` smallint(5) unsigned NOT NULL COMMENT 'Fieldset Id',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
   `label` varchar(255) NOT NULL COMMENT 'Label',
-  PRIMARY KEY (`fieldset_id`,`store_id`),
+  PRIMARY KEY  (`fieldset_id`,`store_id`),
   KEY `IDX_EAV_FORM_FIELDSET_LABEL_FIELDSET_ID` (`fieldset_id`),
   KEY `IDX_EAV_FORM_FIELDSET_LABEL_STORE_ID` (`store_id`),
   CONSTRAINT `FK_EAV_FORM_FSET_LBL_FSET_ID_EAV_FORM_FSET_FSET_ID` FOREIGN KEY (`fieldset_id`) REFERENCES `eav_form_fieldset` (`fieldset_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_FORM_FIELDSET_LABEL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Form Fieldset Label';
 
-# Dumping data for table eav_form_fieldset_label: ~2 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_form_fieldset_label: ~2 rows (approximately)
 /*!40000 ALTER TABLE `eav_form_fieldset_label` DISABLE KEYS */;
 INSERT INTO `eav_form_fieldset_label` (`fieldset_id`, `store_id`, `label`) VALUES
 	(1, 0, 'Personal Information'),
@@ -5878,22 +6008,22 @@ INSERT INTO `eav_form_fieldset_label` (`fieldset_id`, `store_id`, `label`) VALUE
 /*!40000 ALTER TABLE `eav_form_fieldset_label` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_form_type
+# Dumping structure for table s5152d29ad0535.eav_form_type
 DROP TABLE IF EXISTS `eav_form_type`;
 CREATE TABLE IF NOT EXISTS `eav_form_type` (
-  `type_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Type Id',
+  `type_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Type Id',
   `code` varchar(64) NOT NULL COMMENT 'Code',
   `label` varchar(255) NOT NULL COMMENT 'Label',
-  `is_system` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is System',
-  `theme` varchar(64) DEFAULT NULL COMMENT 'Theme',
+  `is_system` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is System',
+  `theme` varchar(64) default NULL COMMENT 'Theme',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
-  PRIMARY KEY (`type_id`),
+  PRIMARY KEY  (`type_id`),
   UNIQUE KEY `UNQ_EAV_FORM_TYPE_CODE_THEME_STORE_ID` (`code`,`theme`,`store_id`),
   KEY `IDX_EAV_FORM_TYPE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_EAV_FORM_TYPE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Eav Form Type';
 
-# Dumping data for table eav_form_type: ~5 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_form_type: ~5 rows (approximately)
 /*!40000 ALTER TABLE `eav_form_type` DISABLE KEYS */;
 INSERT INTO `eav_form_type` (`type_id`, `code`, `label`, `is_system`, `theme`, `store_id`) VALUES
 	(1, 'checkout_onepage_register', 'checkout_onepage_register', 1, '', 0),
@@ -5904,18 +6034,18 @@ INSERT INTO `eav_form_type` (`type_id`, `code`, `label`, `is_system`, `theme`, `
 /*!40000 ALTER TABLE `eav_form_type` ENABLE KEYS */;
 
 
-# Dumping structure for table eav_form_type_entity
+# Dumping structure for table s5152d29ad0535.eav_form_type_entity
 DROP TABLE IF EXISTS `eav_form_type_entity`;
 CREATE TABLE IF NOT EXISTS `eav_form_type_entity` (
   `type_id` smallint(5) unsigned NOT NULL COMMENT 'Type Id',
   `entity_type_id` smallint(5) unsigned NOT NULL COMMENT 'Entity Type Id',
-  PRIMARY KEY (`type_id`,`entity_type_id`),
+  PRIMARY KEY  (`type_id`,`entity_type_id`),
   KEY `IDX_EAV_FORM_TYPE_ENTITY_ENTITY_TYPE_ID` (`entity_type_id`),
   CONSTRAINT `FK_EAV_FORM_TYPE_ENTT_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_FORM_TYPE_ENTITY_TYPE_ID_EAV_FORM_TYPE_TYPE_ID` FOREIGN KEY (`type_id`) REFERENCES `eav_form_type` (`type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Form Type Entity';
 
-# Dumping data for table eav_form_type_entity: ~8 rows (approximately)
+# Dumping data for table s5152d29ad0535.eav_form_type_entity: ~8 rows (approximately)
 /*!40000 ALTER TABLE `eav_form_type_entity` DISABLE KEYS */;
 INSERT INTO `eav_form_type_entity` (`type_id`, `entity_type_id`) VALUES
 	(1, 1),
@@ -5929,146 +6059,1134 @@ INSERT INTO `eav_form_type_entity` (`type_id`, `entity_type_id`) VALUES
 /*!40000 ALTER TABLE `eav_form_type_entity` ENABLE KEYS */;
 
 
-# Dumping structure for table gift_message
+# Dumping structure for table s5152d29ad0535.enterprise_admin_passwords
+DROP TABLE IF EXISTS `enterprise_admin_passwords`;
+CREATE TABLE IF NOT EXISTS `enterprise_admin_passwords` (
+  `password_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Password Id',
+  `user_id` int(10) unsigned NOT NULL default '0' COMMENT 'User Id',
+  `password_hash` varchar(100) default NULL COMMENT 'Password Hash',
+  `expires` int(10) unsigned NOT NULL default '0' COMMENT 'Expires',
+  `last_updated` int(10) unsigned NOT NULL default '0' COMMENT 'Last Updated',
+  PRIMARY KEY  (`password_id`),
+  KEY `IDX_ENTERPRISE_ADMIN_PASSWORDS_USER_ID` (`user_id`),
+  CONSTRAINT `FK_ENTERPRISE_ADMIN_PASSWORDS_USER_ID_ADMIN_USER_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `admin_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Admin Passwords';
+
+# Dumping data for table s5152d29ad0535.enterprise_admin_passwords: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_admin_passwords` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_admin_passwords` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_banner
+DROP TABLE IF EXISTS `enterprise_banner`;
+CREATE TABLE IF NOT EXISTS `enterprise_banner` (
+  `banner_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Banner Id',
+  `name` varchar(255) default NULL COMMENT 'Name',
+  `is_enabled` int(11) NOT NULL COMMENT 'Is Enabled',
+  `types` varchar(255) default NULL COMMENT 'Types',
+  PRIMARY KEY  (`banner_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Enterprise Banner';
+
+# Dumping data for table s5152d29ad0535.enterprise_banner: ~2 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_banner` DISABLE KEYS */;
+INSERT INTO `enterprise_banner` (`banner_id`, `name`, `is_enabled`, `types`) VALUES
+	(1, 'Free Shipping on All Handbags', 1, NULL),
+	(2, '15% off Our New Evening Dresses', 1, NULL);
+/*!40000 ALTER TABLE `enterprise_banner` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_banner_catalogrule
+DROP TABLE IF EXISTS `enterprise_banner_catalogrule`;
+CREATE TABLE IF NOT EXISTS `enterprise_banner_catalogrule` (
+  `banner_id` int(10) unsigned NOT NULL COMMENT 'Banner Id',
+  `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
+  PRIMARY KEY  (`banner_id`,`rule_id`),
+  KEY `IDX_ENTERPRISE_BANNER_CATALOGRULE_BANNER_ID` (`banner_id`),
+  KEY `IDX_ENTERPRISE_BANNER_CATALOGRULE_RULE_ID` (`rule_id`),
+  CONSTRAINT `FK_ENT_BANNER_CATRULE_BANNER_ID_ENT_BANNER_BANNER_ID` FOREIGN KEY (`banner_id`) REFERENCES `enterprise_banner` (`banner_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENTERPRISE_BANNER_CATALOGRULE_RULE_ID_CATALOGRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `catalogrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Banner Catalogrule';
+
+# Dumping data for table s5152d29ad0535.enterprise_banner_catalogrule: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_banner_catalogrule` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_banner_catalogrule` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_banner_content
+DROP TABLE IF EXISTS `enterprise_banner_content`;
+CREATE TABLE IF NOT EXISTS `enterprise_banner_content` (
+  `banner_id` int(10) unsigned NOT NULL default '0' COMMENT 'Banner Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  `banner_content` mediumtext COMMENT 'Banner Content',
+  PRIMARY KEY  (`banner_id`,`store_id`),
+  KEY `IDX_ENTERPRISE_BANNER_CONTENT_BANNER_ID` (`banner_id`),
+  KEY `IDX_ENTERPRISE_BANNER_CONTENT_STORE_ID` (`store_id`),
+  CONSTRAINT `FK_ENT_BANNER_CONTENT_BANNER_ID_ENT_BANNER_BANNER_ID` FOREIGN KEY (`banner_id`) REFERENCES `enterprise_banner` (`banner_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENTERPRISE_BANNER_CONTENT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Banner Content';
+
+# Dumping data for table s5152d29ad0535.enterprise_banner_content: ~2 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_banner_content` DISABLE KEYS */;
+INSERT INTO `enterprise_banner_content` (`banner_id`, `store_id`, `banner_content`) VALUES
+	(1, 0, '<a href="{{store direct_url="apparel/women/handbags"}}"> <img class="callout" title="Get Free Shipping on All Items under Handbags" src="{{view url="images/callouts/home/free_shipping_all_handbags.jpg"}}" alt="Free Shipping on All Handbags" /></a>'),
+	(2, 0, '<a href="{{store direct_url="apparel/women/evening-dresses"}}"> <img class="callout" title="15% off Our New Evening Dresses" src="{{view url="images/callouts/home/15_off_new_evening_dresses.jpg"}}" alt="15% off Our New Evening Dresses" /></a>');
+/*!40000 ALTER TABLE `enterprise_banner_content` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_banner_customersegment
+DROP TABLE IF EXISTS `enterprise_banner_customersegment`;
+CREATE TABLE IF NOT EXISTS `enterprise_banner_customersegment` (
+  `banner_id` int(10) unsigned NOT NULL default '0' COMMENT 'Banner Id',
+  `segment_id` int(10) unsigned NOT NULL default '0' COMMENT 'Segment Id',
+  PRIMARY KEY  (`banner_id`,`segment_id`),
+  KEY `IDX_ENTERPRISE_BANNER_CUSTOMERSEGMENT_BANNER_ID` (`banner_id`),
+  KEY `IDX_ENTERPRISE_BANNER_CUSTOMERSEGMENT_SEGMENT_ID` (`segment_id`),
+  CONSTRAINT `FK_ENT_BANNER_CSTRSEGMENT_BANNER_ID_ENT_BANNER_BANNER_ID` FOREIGN KEY (`banner_id`) REFERENCES `enterprise_banner` (`banner_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_1AD1C6488568AC0D2E337469CDDEB530` FOREIGN KEY (`segment_id`) REFERENCES `enterprise_customersegment_segment` (`segment_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Banner Customersegment';
+
+# Dumping data for table s5152d29ad0535.enterprise_banner_customersegment: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_banner_customersegment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_banner_customersegment` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_banner_salesrule
+DROP TABLE IF EXISTS `enterprise_banner_salesrule`;
+CREATE TABLE IF NOT EXISTS `enterprise_banner_salesrule` (
+  `banner_id` int(10) unsigned NOT NULL COMMENT 'Banner Id',
+  `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
+  PRIMARY KEY  (`banner_id`,`rule_id`),
+  KEY `IDX_ENTERPRISE_BANNER_SALESRULE_BANNER_ID` (`banner_id`),
+  KEY `IDX_ENTERPRISE_BANNER_SALESRULE_RULE_ID` (`rule_id`),
+  CONSTRAINT `FK_ENT_BANNER_SALESRULE_BANNER_ID_ENT_BANNER_BANNER_ID` FOREIGN KEY (`banner_id`) REFERENCES `enterprise_banner` (`banner_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENTERPRISE_BANNER_SALESRULE_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Banner Salesrule';
+
+# Dumping data for table s5152d29ad0535.enterprise_banner_salesrule: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_banner_salesrule` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_banner_salesrule` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_cms_hierarchy_lock
+DROP TABLE IF EXISTS `enterprise_cms_hierarchy_lock`;
+CREATE TABLE IF NOT EXISTS `enterprise_cms_hierarchy_lock` (
+  `lock_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Lock Id',
+  `user_id` int(10) unsigned NOT NULL COMMENT 'User Id',
+  `user_name` varchar(50) default NULL COMMENT 'User Name',
+  `session_id` varchar(50) default NULL COMMENT 'Session Id',
+  `started_at` int(10) unsigned NOT NULL COMMENT 'Started At',
+  PRIMARY KEY  (`lock_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Hierarchy Lock';
+
+# Dumping data for table s5152d29ad0535.enterprise_cms_hierarchy_lock: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_cms_hierarchy_lock` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_cms_hierarchy_lock` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_cms_hierarchy_metadata
+DROP TABLE IF EXISTS `enterprise_cms_hierarchy_metadata`;
+CREATE TABLE IF NOT EXISTS `enterprise_cms_hierarchy_metadata` (
+  `node_id` int(10) unsigned NOT NULL COMMENT 'Node Id',
+  `meta_first_last` smallint(6) NOT NULL default '0' COMMENT 'Meta First Last',
+  `meta_next_previous` smallint(6) NOT NULL default '0' COMMENT 'Meta Next Previous',
+  `meta_chapter` smallint(6) NOT NULL default '0' COMMENT 'Meta Chapter',
+  `meta_section` smallint(6) NOT NULL default '0' COMMENT 'Meta Section',
+  `meta_cs_enabled` smallint(5) unsigned NOT NULL default '0' COMMENT 'Meta Cs Enabled',
+  `pager_visibility` smallint(5) unsigned default NULL COMMENT 'Pager Visibility',
+  `pager_frame` smallint(5) unsigned default NULL COMMENT 'Pager Frame',
+  `pager_jump` smallint(5) unsigned default NULL COMMENT 'Pager Jump',
+  `menu_visibility` smallint(5) unsigned default NULL COMMENT 'Menu Visibility',
+  `menu_excluded` smallint(5) unsigned NOT NULL default '0' COMMENT 'Menu Excluded',
+  `menu_layout` varchar(50) default NULL COMMENT 'Menu Layout',
+  `menu_brief` smallint(5) unsigned NOT NULL default '0' COMMENT 'Menu Brief',
+  `menu_levels_down` smallint(5) unsigned default NULL COMMENT 'Menu Levels Down',
+  `menu_ordered` smallint(5) unsigned default NULL COMMENT 'Menu Ordered',
+  `menu_list_type` varchar(50) default NULL COMMENT 'Menu List Type',
+  `top_menu_visibility` smallint(5) unsigned default NULL COMMENT 'Top Menu Visibility',
+  `top_menu_excluded` smallint(5) unsigned default NULL COMMENT 'Top Menu Excluded',
+  PRIMARY KEY  (`node_id`),
+  CONSTRAINT `FK_8F850C837B70ECACFEC564B6646F543D` FOREIGN KEY (`node_id`) REFERENCES `enterprise_cms_hierarchy_node` (`node_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Hierarchy Metadata';
+
+# Dumping data for table s5152d29ad0535.enterprise_cms_hierarchy_metadata: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_cms_hierarchy_metadata` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_cms_hierarchy_metadata` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_cms_hierarchy_node
+DROP TABLE IF EXISTS `enterprise_cms_hierarchy_node`;
+CREATE TABLE IF NOT EXISTS `enterprise_cms_hierarchy_node` (
+  `node_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Node Id',
+  `parent_node_id` int(10) unsigned default NULL COMMENT 'Parent Node Id',
+  `page_id` smallint(6) default NULL COMMENT 'Page Id',
+  `identifier` varchar(100) default NULL COMMENT 'Identifier',
+  `label` varchar(255) default NULL COMMENT 'Label',
+  `level` smallint(5) unsigned NOT NULL default '0' COMMENT 'Level',
+  `sort_order` int(11) NOT NULL COMMENT 'Sort Order',
+  `request_url` varchar(255) default NULL COMMENT 'Request Url',
+  `xpath` varchar(255) default NULL COMMENT 'Xpath',
+  `scope` varchar(8) NOT NULL default 'default' COMMENT 'Scope: default|website|store',
+  `scope_id` int(10) unsigned NOT NULL default '0' COMMENT 'Scope Id',
+  PRIMARY KEY  (`node_id`),
+  UNIQUE KEY `UNQ_ENTERPRISE_CMS_HIERARCHY_NODE_REQUEST_URL_SCOPE_SCOPE_ID` (`request_url`,`scope`,`scope_id`),
+  KEY `IDX_ENTERPRISE_CMS_HIERARCHY_NODE_PARENT_NODE_ID` (`parent_node_id`),
+  KEY `IDX_ENTERPRISE_CMS_HIERARCHY_NODE_PAGE_ID` (`page_id`),
+  CONSTRAINT `FK_0B6F0C9336A69EBB4BDF876393501698` FOREIGN KEY (`parent_node_id`) REFERENCES `enterprise_cms_hierarchy_node` (`node_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENTERPRISE_CMS_HIERARCHY_NODE_PAGE_ID_CMS_PAGE_PAGE_ID` FOREIGN KEY (`page_id`) REFERENCES `cms_page` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Hierarchy Node';
+
+# Dumping data for table s5152d29ad0535.enterprise_cms_hierarchy_node: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_cms_hierarchy_node` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_cms_hierarchy_node` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_cms_increment
+DROP TABLE IF EXISTS `enterprise_cms_increment`;
+CREATE TABLE IF NOT EXISTS `enterprise_cms_increment` (
+  `increment_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Increment Id',
+  `increment_type` int(11) NOT NULL COMMENT 'Increment Type',
+  `increment_node` int(10) unsigned NOT NULL COMMENT 'Increment Node',
+  `increment_level` int(10) unsigned NOT NULL COMMENT 'Increment Level',
+  `last_id` int(10) unsigned NOT NULL COMMENT 'Last Id',
+  PRIMARY KEY  (`increment_id`),
+  UNIQUE KEY `4A5098DD889508EF1CC3092A90A57706` (`increment_type`,`increment_node`,`increment_level`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Increment';
+
+# Dumping data for table s5152d29ad0535.enterprise_cms_increment: ~12 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_cms_increment` DISABLE KEYS */;
+INSERT INTO `enterprise_cms_increment` (`increment_id`, `increment_type`, `increment_node`, `increment_level`, `last_id`) VALUES
+	(1, 0, 1, 0, 1),
+	(2, 0, 1, 1, 1),
+	(3, 0, 2, 0, 1),
+	(4, 0, 2, 1, 1),
+	(5, 0, 3, 0, 1),
+	(6, 0, 3, 1, 1),
+	(7, 0, 4, 0, 1),
+	(8, 0, 4, 1, 1),
+	(9, 0, 5, 0, 1),
+	(10, 0, 5, 1, 1),
+	(11, 0, 6, 0, 1),
+	(12, 0, 6, 1, 1);
+/*!40000 ALTER TABLE `enterprise_cms_increment` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_cms_page_revision
+DROP TABLE IF EXISTS `enterprise_cms_page_revision`;
+CREATE TABLE IF NOT EXISTS `enterprise_cms_page_revision` (
+  `revision_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Revision Id',
+  `version_id` int(10) unsigned NOT NULL COMMENT 'Version Id',
+  `page_id` smallint(6) NOT NULL COMMENT 'Page Id',
+  `root_template` varchar(255) default NULL COMMENT 'Root Template',
+  `meta_keywords` text COMMENT 'Meta Keywords',
+  `meta_description` text COMMENT 'Meta Description',
+  `content_heading` varchar(255) default NULL COMMENT 'Content Heading',
+  `content` mediumtext COMMENT 'Content',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Created At',
+  `layout_update_xml` text COMMENT 'Layout Update Xml',
+  `custom_theme` varchar(100) default NULL COMMENT 'Custom Theme',
+  `custom_root_template` varchar(255) default NULL COMMENT 'Custom Root Template',
+  `custom_layout_update_xml` text COMMENT 'Custom Layout Update Xml',
+  `custom_theme_from` date default NULL COMMENT 'Custom Theme From',
+  `custom_theme_to` date default NULL COMMENT 'Custom Theme To',
+  `user_id` int(10) unsigned default NULL COMMENT 'User Id',
+  `revision_number` int(10) unsigned NOT NULL COMMENT 'Revision Number',
+  PRIMARY KEY  (`revision_id`),
+  KEY `IDX_ENTERPRISE_CMS_PAGE_REVISION_VERSION_ID` (`version_id`),
+  KEY `IDX_ENTERPRISE_CMS_PAGE_REVISION_PAGE_ID` (`page_id`),
+  KEY `IDX_ENTERPRISE_CMS_PAGE_REVISION_USER_ID` (`user_id`),
+  KEY `IDX_ENTERPRISE_CMS_PAGE_REVISION_REVISION_NUMBER` (`revision_number`),
+  CONSTRAINT `FK_ENTERPRISE_CMS_PAGE_REVISION_PAGE_ID_CMS_PAGE_PAGE_ID` FOREIGN KEY (`page_id`) REFERENCES `cms_page` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENTERPRISE_CMS_PAGE_REVISION_USER_ID_ADMIN_USER_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `admin_user` (`user_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `FK_80D5A1E2CFBC07783152959C1A944632` FOREIGN KEY (`version_id`) REFERENCES `enterprise_cms_page_version` (`version_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Page Revision';
+
+# Dumping data for table s5152d29ad0535.enterprise_cms_page_revision: ~7 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_cms_page_revision` DISABLE KEYS */;
+INSERT INTO `enterprise_cms_page_revision` (`revision_id`, `version_id`, `page_id`, `root_template`, `meta_keywords`, `meta_description`, `content_heading`, `content`, `created_at`, `layout_update_xml`, `custom_theme`, `custom_root_template`, `custom_layout_update_xml`, `custom_theme_from`, `custom_theme_to`, `user_id`, `revision_number`) VALUES
+	(1, 1, 1, 'two_columns_right', 'Page keywords', 'Page description', NULL, '<div class="page-title"><h1>Whoops, our bad...</h1></div>\r\n<dl>\r\n<dt>The page you requested was not found, and we have a fine guess why.</dt>\r\n<dd>\r\n<ul class="disc">\r\n<li>If you typed the URL directly, please make sure the spelling is correct.</li>\r\n<li>If you clicked on a link to get here, the link is outdated.</li>\r\n</ul></dd>\r\n</dl>\r\n<dl>\r\n<dt>What can you do?</dt>\r\n<dd>Have no fear, help is near! There are many ways you can get back on track with Magento Store.</dd>\r\n<dd>\r\n<ul class="disc">\r\n<li><a href="#" onclick="history.go(-1); return false;">Go back</a> to the previous page.</li>\r\n<li>Use the search bar at the top of the page to search for your products.</li>\r\n<li>Follow these links to get you back on track!<br /><a href="{{store url=""}}">Store Home</a> <span class="separator">|</span> <a href="{{store url="customer/account"}}">My Account</a></li></ul></dd></dl>\r\n', '2013-03-27 11:10:52', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+	(2, 2, 2, 'two_columns_right', NULL, NULL, NULL, '<div class="page-title"><h2>Home Page</h2></div>\r\n', '2013-03-27 11:10:52', '<!--<reference name="content">\n        <block type="Mage_Catalog_Block_Product_New" name="home.catalog.product.new" alias="product_new" template="product/new.phtml" after="cms_page">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type="Mage_Reports_Block_Product_Viewed" name="home.reports.product.viewed" alias="product_viewed" template="home_product_viewed.phtml" after="product_new">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type="Mage_Reports_Block_Product_Compared" name="home.reports.product.compared" template="home_product_compared.phtml" after="product_viewed">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n    </reference>\n    <reference name="right">\n        <action method="unsetChild"><alias>right.reports.product.viewed</alias></action>\n        <action method="unsetChild"><alias>right.reports.product.compared</alias></action>\n    </reference>-->', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+	(3, 3, 3, 'two_columns_right', NULL, NULL, NULL, '<div class="page-title">\r\n<h1>About Magento Store</h1>\r\n</div>\r\n<div class="col3-set">\r\n<div class="col-1"><p><a href="http://www.magento.com/"><img src="{{view url=\'Mage_Cms::images/about_us_img.jpg\'}}" title="Varien" alt="Varien" /></a></p><p style="line-height:1.2em;"><small>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.</small></p>\r\n<p style="color:#888; font:1.2em/1.4em georgia, serif;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta.</p></div>\r\n<div class="col-2">\r\n<p><strong style="color:#de036f;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.</strong></p>\r\n<p>Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo. </p>\r\n<p>Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus. Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi. Vestibulum sapien dolor, aliquet nec, porta ac, malesuada a, libero. Praesent feugiat purus eget est. Nulla facilisi. Vestibulum tincidunt sapien eu velit. Mauris purus. Maecenas eget mauris eu orci accumsan feugiat. Pellentesque eget velit. Nunc tincidunt.</p></div>\r\n<div class="col-3">\r\n<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper </p>\r\n<p><strong style="color:#de036f;">Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus.</strong></p>\r\n<p>Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi.</p>\r\n<div class="divider"></div>\r\n<p>To all of you, from all of us at Magento Store - Thank you and Happy eCommerce!</p>\r\n<p style="line-height:1.2em;"><strong style="font:italic 2em Georgia, serif;">John Doe</strong><br /><small>Some important guy</small></p></div>\r\n</div>', '2013-03-27 11:10:52', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+	(4, 4, 4, 'three_columns', NULL, NULL, NULL, '<div class="page-title">\r\n<h1>Customer Service</h1>\r\n</div>\r\n<ul class="disc">\r\n<li><a href="#answer1">Shipping &amp; Delivery</a></li>\r\n<li><a href="#answer2">Privacy &amp; Security</a></li>\r\n<li><a href="#answer3">Returns &amp; Replacements</a></li>\r\n<li><a href="#answer4">Ordering</a></li>\r\n<li><a href="#answer5">Payment, Pricing &amp; Promotions</a></li>\r\n<li><a href="#answer6">Viewing Orders</a></li>\r\n<li><a href="#answer7">Updating Account Information</a></li>\r\n</ul>\r\n<dl>\r\n<dt id="answer1">Shipping &amp; Delivery</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer2">Privacy &amp; Security</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer3">Returns &amp; Replacements</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer4">Ordering</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer5">Payment, Pricing &amp; Promotions</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer6">Viewing Orders</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer7">Updating Account Information</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n</dl>', '2013-03-27 11:10:52', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+	(5, 5, 5, 'one_column', NULL, NULL, NULL, '<div class="std">\r\n    <ul class="messages">\r\n        <li class="notice-msg">\r\n            <ul>\r\n                <li>Please enable cookies in your web browser to continue.</li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n    <div class="page-title">\r\n        <h1><a name="top"></a>What are Cookies?</h1>\r\n    </div>\r\n    <p>Cookies are short pieces of data that are sent to your computer when you visit a website. On later visits, this data is then returned to that website. Cookies allow us to recognize you automatically whenever you visit our site so that we can personalize your experience and provide you with better service. We also use cookies (and similar browser data, such as Flash cookies) for fraud prevention and other purposes. If your web browser is set to refuse cookies from our website, you will not be able to complete a purchase or take advantage of certain features of our website, such as storing items in your Shopping Cart or receiving personalized recommendations. As a result, we strongly encourage you to configure your web browser to accept cookies from our website.</p>\r\n    <h2 class="subtitle">Enabling Cookies</h2>\r\n    <ul class="disc">\r\n        <li><a href="#ie7">Internet Explorer 7.x</a></li>\r\n        <li><a href="#ie6">Internet Explorer 6.x</a></li>\r\n        <li><a href="#firefox">Mozilla/Firefox</a></li>\r\n        <li><a href="#opera">Opera 7.x</a></li>\r\n    </ul>\r\n    <h3><a name="ie7"></a>Internet Explorer 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Start Internet Explorer</p>\r\n        </li>\r\n        <li>\r\n            <p>Under the <strong>Tools</strong> menu, click <strong>Internet Options</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-1.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Privacy</strong> tab</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-2.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Advanced</strong> button</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-3.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Put a check mark in the box for <strong>Override Automatic Cookie Handling</strong>, put another check mark in the <strong>Always accept session cookies </strong>box</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-4.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-5.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-6.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Restart Internet Explore</p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="ie6"></a>Internet Explorer 6.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Select <strong>Internet Options</strong> from the Tools menu</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie6-1.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> tab</p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Default</strong> button (or manually slide the bar down to <strong>Medium</strong>) under <strong>Settings</strong>. Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie6-2.gif"}}" alt="" /></p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="firefox"></a>Mozilla/Firefox</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong>-menu in Mozilla</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Options...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection in the left part of the window. (See image below)</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/firefox.png"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Expand the <strong>Cookies</strong> section</p>\r\n        </li>\r\n        <li>\r\n            <p>Check the <strong>Enable cookies</strong> and <strong>Accept cookies normally</strong> checkboxes</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong>.</p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="opera"></a>Opera 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong> menu in Opera</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Preferences...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection near the bottom left of the window. (See image below)</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/opera.png"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>The <strong>Enable cookies</strong> checkbox must be checked, and <strong>Accept all cookies</strong> should be selected in the &quot;<strong>Normal cookies</strong>&quot; drop-down</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong></p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n</div>\r\n', '2013-03-27 11:10:52', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+	(6, 6, 6, 'one_column', NULL, NULL, NULL, '<p style="color: #ff0000; font-weight: bold; font-size: 13px">\n    Please replace this text with you Privacy Policy.\n    Please add any additional cookies your website uses below (e.g., Google Analytics)\n</p>\n<p>\n    This privacy policy sets out how {{config path="general/store_information/name"}} uses and protects any information\n    that you give {{config path="general/store_information/name"}} when you use this website.\n    {{config path="general/store_information/name"}} is committed to ensuring that your privacy is protected.\n    Should we ask you to provide certain information by which you can be identified when using this website,\n    then you can be assured that it will only be used in accordance with this privacy statement.\n    {{config path="general/store_information/name"}} may change this policy from time to time by updating this page.\n    You should check this page from time to time to ensure that you are happy with any changes.\n</p>\n<h2>What we collect</h2>\n<p>We may collect the following information:</p>\n<ul>\n    <li>name</li>\n    <li>contact information including email address</li>\n    <li>demographic information such as postcode, preferences and interests</li>\n    <li>other information relevant to customer surveys and/or offers</li>\n</ul>\n<p>\n    For the exhaustive list of cookies we collect see the <a href="#list">List of cookies we collect</a> section.\n</p>\n<h2>What we do with the information we gather</h2>\n<p>\n    We require this information to understand your needs and provide you with a better service,\n    and in particular for the following reasons:\n</p>\n<ul>\n    <li>Internal record keeping.</li>\n    <li>We may use the information to improve our products and services.</li>\n    <li>\n        We may periodically send promotional emails about new products, special offers or other information which we\n        think you may find interesting using the email address which you have provided.\n    </li>\n    <li>\n        From time to time, we may also use your information to contact you for market research purposes.\n        We may contact you by email, phone, fax or mail. We may use the information to customise the website\n        according to your interests.\n    </li>\n</ul>\n<h2>Security</h2>\n<p>\n    We are committed to ensuring that your information is secure. In order to prevent unauthorised access or disclosure,\n    we have put in place suitable physical, electronic and managerial procedures to safeguard and secure\n    the information we collect online.\n</p>\n<h2>How we use cookies</h2>\n<p>\n    A cookie is a small file which asks permission to be placed on your computer\'s hard drive.\n    Once you agree, the file is added and the cookie helps analyse web traffic or lets you know when you visit\n    a particular site. Cookies allow web applications to respond to you as an individual. The web application\n    can tailor its operations to your needs, likes and dislikes by gathering and remembering information about\n    your preferences.\n</p>\n<p>\n    We use traffic log cookies to identify which pages are being used. This helps us analyse data about web page traffic\n    and improve our website in order to tailor it to customer needs. We only use this information for statistical\n    analysis purposes and then the data is removed from the system.\n</p>\n<p>\n    Overall, cookies help us provide you with a better website, by enabling us to monitor which pages you find useful\n    and which you do not. A cookie in no way gives us access to your computer or any information about you,\n    other than the data you choose to share with us. You can choose to accept or decline cookies.\n    Most web browsers automatically accept cookies, but you can usually modify your browser setting\n    to decline cookies if you prefer. This may prevent you from taking full advantage of the website.\n</p>\n<h2>Links to other websites</h2>\n<p>\n    Our website may contain links to other websites of interest. However, once you have used these links\n    to leave our site, you should note that we do not have any control over that other website.\n    Therefore, we cannot be responsible for the protection and privacy of any information which you provide whilst\n    visiting such sites and such sites are not governed by this privacy statement.\n    You should exercise caution and look at the privacy statement applicable to the website in question.\n</p>\n<h2>Controlling your personal information</h2>\n<p>You may choose to restrict the collection or use of your personal information in the following ways:</p>\n<ul>\n    <li>\n        whenever you are asked to fill in a form on the website, look for the box that you can click to indicate\n        that you do not want the information to be used by anybody for direct marketing purposes\n    </li>\n    <li>\n        if you have previously agreed to us using your personal information for direct marketing purposes,\n        you may change your mind at any time by writing to or emailing us at\n        {{config path="trans_email/ident_general/email"}}\n    </li>\n</ul>\n<p>\n    We will not sell, distribute or lease your personal information to third parties unless we have your permission\n    or are required by law to do so. We may use your personal information to send you promotional information\n    about third parties which we think you may find interesting if you tell us that you wish this to happen.\n</p>\n<p>\n    You may request details of personal information which we hold about you under the Data Protection Act 1998.\n    A small fee will be payable. If you would like a copy of the information held on you please write to\n    {{config path="general/store_information/street_line1"}} {{config path="general/store_information/street_line2"}} {{config path="general/store_information/city"}} {{config path="general/store_information/postcode"}} {{config path="general/store_information/region_id"}} {{config path="general/store_information/country_id"}}.\n</p>\n<p>\n    If you believe that any information we are holding on you is incorrect or incomplete,\n    please write to or email us as soon as possible, at the above address.\n    We will promptly correct any information found to be incorrect.\n</p>\n<h2><a name="list"></a>List of cookies we collect</h2>\n<p>The table below lists the cookies we collect and what information they store.</p>\n<table class="data-table">\n    <thead>\n        <tr>\n            <th>COOKIE name</th>\n            <th>COOKIE Description</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <th>CART</th>\n            <td>The association with your shopping cart.</td>\n        </tr>\n        <tr>\n            <th>CATEGORY_INFO</th>\n            <td>Stores the category info on the page, that allows to display pages more quickly.</td>\n        </tr>\n        <tr>\n            <th>COMPARE</th>\n            <td>The items that you have in the Compare Products list.</td>\n        </tr>\n        <tr>\n            <th>CURRENCY</th>\n            <td>Your preferred currency</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER</th>\n            <td>An encrypted version of your customer id with the store.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_AUTH</th>\n            <td>An indicator if you are currently logged into the store.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_INFO</th>\n            <td>An encrypted version of the customer group you belong to.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_SEGMENT_IDS</th>\n            <td>Stores the Customer Segment ID</td>\n        </tr>\n        <tr>\n            <th>EXTERNAL_NO_CACHE</th>\n            <td>A flag, which indicates whether caching is disabled or not.</td>\n        </tr>\n        <tr>\n            <th>FRONTEND</th>\n            <td>You sesssion ID on the server.</td>\n        </tr>\n        <tr>\n            <th>GUEST-VIEW</th>\n            <td>Allows guests to edit their orders.</td>\n        </tr>\n        <tr>\n            <th>LAST_CATEGORY</th>\n            <td>The last category you visited.</td>\n        </tr>\n        <tr>\n            <th>LAST_PRODUCT</th>\n            <td>The most recent product you have viewed.</td>\n        </tr>\n        <tr>\n            <th>NEWMESSAGE</th>\n            <td>Indicates whether a new message has been received.</td>\n        </tr>\n        <tr>\n            <th>NO_CACHE</th>\n            <td>Indicates whether it is allowed to use cache.</td>\n        </tr>\n        <tr>\n            <th>PERSISTENT_SHOPPING_CART</th>\n            <td>A link to information about your cart and viewing history if you have asked the site.</td>\n        </tr>\n        <tr>\n            <th>POLL</th>\n            <td>The ID of any polls you have recently voted in.</td>\n        </tr>\n        <tr>\n            <th>POLLN</th>\n            <td>Information on what polls you have voted on.</td>\n        </tr>\n        <tr>\n            <th>RECENTLYCOMPARED</th>\n            <td>The items that you have recently compared.            </td>\n        </tr>\n        <tr>\n            <th>STF</th>\n            <td>Information on products you have emailed to friends.</td>\n        </tr>\n        <tr>\n            <th>STORE</th>\n            <td>The store view or language you have selected.</td>\n        </tr>\n        <tr>\n            <th>USER_ALLOWED_SAVE_COOKIE</th>\n            <td>Indicates whether a customer allowed to use cookies.</td>\n        </tr>\n        <tr>\n            <th>VIEWED_PRODUCT_IDS</th>\n            <td>The products that you have recently viewed.</td>\n        </tr>\n        <tr>\n            <th>WISHLIST</th>\n            <td>An encrypted list of products added to your Wishlist.</td>\n        </tr>\n        <tr>\n            <th>WISHLIST_CNT</th>\n            <td>The number of items in your Wishlist.</td>\n        </tr>\n    </tbody>\n</table>', '2013-03-27 11:10:52', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+/*!40000 ALTER TABLE `enterprise_cms_page_revision` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_cms_page_version
+DROP TABLE IF EXISTS `enterprise_cms_page_version`;
+CREATE TABLE IF NOT EXISTS `enterprise_cms_page_version` (
+  `version_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Version Id',
+  `label` varchar(255) default NULL COMMENT 'Label',
+  `access_level` varchar(9) default NULL COMMENT 'Access Level',
+  `page_id` smallint(6) NOT NULL COMMENT 'Page Id',
+  `user_id` int(10) unsigned default NULL COMMENT 'User Id',
+  `revisions_count` int(10) unsigned default NULL COMMENT 'Revisions Count',
+  `version_number` int(10) unsigned NOT NULL COMMENT 'Version Number',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Created At',
+  PRIMARY KEY  (`version_id`),
+  KEY `IDX_ENTERPRISE_CMS_PAGE_VERSION_PAGE_ID` (`page_id`),
+  KEY `IDX_ENTERPRISE_CMS_PAGE_VERSION_USER_ID` (`user_id`),
+  KEY `IDX_ENTERPRISE_CMS_PAGE_VERSION_VERSION_NUMBER` (`version_number`),
+  CONSTRAINT `FK_ENTERPRISE_CMS_PAGE_VERSION_PAGE_ID_CMS_PAGE_PAGE_ID` FOREIGN KEY (`page_id`) REFERENCES `cms_page` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENTERPRISE_CMS_PAGE_VERSION_USER_ID_ADMIN_USER_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `admin_user` (`user_id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Page Version';
+
+# Dumping data for table s5152d29ad0535.enterprise_cms_page_version: ~6 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_cms_page_version` DISABLE KEYS */;
+INSERT INTO `enterprise_cms_page_version` (`version_id`, `label`, `access_level`, `page_id`, `user_id`, `revisions_count`, `version_number`, `created_at`) VALUES
+	(1, '404 Not Found 1', 'public', 1, NULL, 1, 1, '2013-03-27 11:10:52'),
+	(2, 'Home page', 'public', 2, NULL, 1, 1, '2013-03-27 11:10:52'),
+	(3, 'About Us', 'public', 3, NULL, 1, 1, '2013-03-27 11:10:52'),
+	(4, 'Customer Service', 'public', 4, NULL, 1, 1, '2013-03-27 11:10:52'),
+	(5, 'Enable Cookies', 'public', 5, NULL, 1, 1, '2013-03-27 11:10:52'),
+	(6, 'Privacy Policy', 'public', 6, NULL, 1, 1, '2013-03-27 11:10:52');
+/*!40000 ALTER TABLE `enterprise_cms_page_version` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_customerbalance
+DROP TABLE IF EXISTS `enterprise_customerbalance`;
+CREATE TABLE IF NOT EXISTS `enterprise_customerbalance` (
+  `balance_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Balance Id',
+  `customer_id` int(10) unsigned NOT NULL default '0' COMMENT 'Customer Id',
+  `website_id` smallint(5) unsigned default NULL COMMENT 'Website Id',
+  `amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Balance Amount',
+  `base_currency_code` varchar(3) default NULL COMMENT 'Base Currency Code',
+  PRIMARY KEY  (`balance_id`),
+  UNIQUE KEY `UNQ_ENTERPRISE_CUSTOMERBALANCE_CUSTOMER_ID_WEBSITE_ID` (`customer_id`,`website_id`),
+  KEY `IDX_ENTERPRISE_CUSTOMERBALANCE_WEBSITE_ID` (`website_id`),
+  CONSTRAINT `FK_ENTERPRISE_CUSTOMERBALANCE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_CSTRBALANCE_CSTR_ID_CSTR_ENTT_ENTT_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customerbalance';
+
+# Dumping data for table s5152d29ad0535.enterprise_customerbalance: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_customerbalance` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_customerbalance` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_customerbalance_history
+DROP TABLE IF EXISTS `enterprise_customerbalance_history`;
+CREATE TABLE IF NOT EXISTS `enterprise_customerbalance_history` (
+  `history_id` int(10) unsigned NOT NULL auto_increment COMMENT 'History Id',
+  `balance_id` int(10) unsigned NOT NULL default '0' COMMENT 'Balance Id',
+  `updated_at` timestamp NULL default NULL COMMENT 'Updated At',
+  `action` smallint(5) unsigned NOT NULL default '0' COMMENT 'Action',
+  `balance_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Balance Amount',
+  `balance_delta` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Balance Delta',
+  `additional_info` varchar(255) default NULL COMMENT 'Additional Info',
+  `is_customer_notified` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Customer Notified',
+  PRIMARY KEY  (`history_id`),
+  KEY `IDX_ENTERPRISE_CUSTOMERBALANCE_HISTORY_BALANCE_ID` (`balance_id`),
+  CONSTRAINT `FK_ENT_CSTRBALANCE_HISTORY_BALANCE_ID_ENT_CSTRBALANCE_BALANCE_ID` FOREIGN KEY (`balance_id`) REFERENCES `enterprise_customerbalance` (`balance_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customerbalance History';
+
+# Dumping data for table s5152d29ad0535.enterprise_customerbalance_history: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_customerbalance_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_customerbalance_history` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_customersegment_customer
+DROP TABLE IF EXISTS `enterprise_customersegment_customer`;
+CREATE TABLE IF NOT EXISTS `enterprise_customersegment_customer` (
+  `segment_id` int(10) unsigned NOT NULL COMMENT 'Segment Id',
+  `customer_id` int(10) unsigned NOT NULL COMMENT 'Customer Id',
+  `added_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Added Date',
+  `updated_date` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'Updated Date',
+  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
+  PRIMARY KEY  (`segment_id`,`customer_id`,`website_id`),
+  UNIQUE KEY `UNQ_ENT_CSTRSEGMENT_CSTR_SEGMENT_ID_WS_ID_CSTR_ID` (`segment_id`,`website_id`,`customer_id`),
+  KEY `IDX_ENTERPRISE_CUSTOMERSEGMENT_CUSTOMER_WEBSITE_ID` (`website_id`),
+  KEY `IDX_ENTERPRISE_CUSTOMERSEGMENT_CUSTOMER_CUSTOMER_ID` (`customer_id`),
+  CONSTRAINT `FK_ENT_CSTRSEGMENT_CSTR_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_CSTRSEGMENT_CSTR_CSTR_ID_CSTR_ENTT_ENTT_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_52E0985884BDC49D4116415806CAC638` FOREIGN KEY (`segment_id`) REFERENCES `enterprise_customersegment_segment` (`segment_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customersegment Customer';
+
+# Dumping data for table s5152d29ad0535.enterprise_customersegment_customer: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_customersegment_customer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_customersegment_customer` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_customersegment_event
+DROP TABLE IF EXISTS `enterprise_customersegment_event`;
+CREATE TABLE IF NOT EXISTS `enterprise_customersegment_event` (
+  `segment_id` int(10) unsigned NOT NULL COMMENT 'Segment Id',
+  `event` varchar(255) default NULL COMMENT 'Event',
+  KEY `IDX_ENTERPRISE_CUSTOMERSEGMENT_EVENT_EVENT` (`event`),
+  KEY `IDX_ENTERPRISE_CUSTOMERSEGMENT_EVENT_SEGMENT_ID` (`segment_id`),
+  CONSTRAINT `FK_CDDCB176ADBEFB49CC4C44F284806949` FOREIGN KEY (`segment_id`) REFERENCES `enterprise_customersegment_segment` (`segment_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customersegment Event';
+
+# Dumping data for table s5152d29ad0535.enterprise_customersegment_event: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_customersegment_event` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_customersegment_event` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_customersegment_segment
+DROP TABLE IF EXISTS `enterprise_customersegment_segment`;
+CREATE TABLE IF NOT EXISTS `enterprise_customersegment_segment` (
+  `segment_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Segment Id',
+  `name` varchar(255) default NULL COMMENT 'Name',
+  `description` text COMMENT 'Description',
+  `is_active` smallint(6) NOT NULL default '0' COMMENT 'Is Active',
+  `conditions_serialized` mediumtext COMMENT 'Conditions Serialized',
+  `processing_frequency` int(11) NOT NULL COMMENT 'Processing Frequency',
+  `condition_sql` mediumtext COMMENT 'Condition Sql',
+  `apply_to` smallint(5) unsigned NOT NULL default '0' COMMENT 'Customer types to which this segment applies',
+  PRIMARY KEY  (`segment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customersegment Segment';
+
+# Dumping data for table s5152d29ad0535.enterprise_customersegment_segment: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_customersegment_segment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_customersegment_segment` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_customersegment_website
+DROP TABLE IF EXISTS `enterprise_customersegment_website`;
+CREATE TABLE IF NOT EXISTS `enterprise_customersegment_website` (
+  `segment_id` int(10) unsigned NOT NULL COMMENT 'Segment Id',
+  `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
+  PRIMARY KEY  (`segment_id`,`website_id`),
+  KEY `IDX_ENTERPRISE_CUSTOMERSEGMENT_WEBSITE_WEBSITE_ID` (`website_id`),
+  CONSTRAINT `FK_F8A41CD74CED6BAAA9051010654A97E4` FOREIGN KEY (`segment_id`) REFERENCES `enterprise_customersegment_segment` (`segment_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_CSTRSEGMENT_WS_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customersegment Website';
+
+# Dumping data for table s5152d29ad0535.enterprise_customersegment_website: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_customersegment_website` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_customersegment_website` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_customer_sales_flat_order
+DROP TABLE IF EXISTS `enterprise_customer_sales_flat_order`;
+CREATE TABLE IF NOT EXISTS `enterprise_customer_sales_flat_order` (
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  PRIMARY KEY  (`entity_id`),
+  CONSTRAINT `FK_ENT_CSTR_SALES_FLAT_ORDER_ENTT_ID_SALES_FLAT_ORDER_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customer Sales Flat Order';
+
+# Dumping data for table s5152d29ad0535.enterprise_customer_sales_flat_order: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_customer_sales_flat_order` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_customer_sales_flat_order` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_customer_sales_flat_order_address
+DROP TABLE IF EXISTS `enterprise_customer_sales_flat_order_address`;
+CREATE TABLE IF NOT EXISTS `enterprise_customer_sales_flat_order_address` (
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  PRIMARY KEY  (`entity_id`),
+  CONSTRAINT `FK_4E069350A68E00D76DC1B8722A94EFA4` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_order_address` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customer Sales Flat Order Address';
+
+# Dumping data for table s5152d29ad0535.enterprise_customer_sales_flat_order_address: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_customer_sales_flat_order_address` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_customer_sales_flat_order_address` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_customer_sales_flat_quote
+DROP TABLE IF EXISTS `enterprise_customer_sales_flat_quote`;
+CREATE TABLE IF NOT EXISTS `enterprise_customer_sales_flat_quote` (
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  PRIMARY KEY  (`entity_id`),
+  CONSTRAINT `FK_ENT_CSTR_SALES_FLAT_QUOTE_ENTT_ID_SALES_FLAT_QUOTE_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_quote` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customer Sales Flat Quote';
+
+# Dumping data for table s5152d29ad0535.enterprise_customer_sales_flat_quote: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_customer_sales_flat_quote` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_customer_sales_flat_quote` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_customer_sales_flat_quote_address
+DROP TABLE IF EXISTS `enterprise_customer_sales_flat_quote_address`;
+CREATE TABLE IF NOT EXISTS `enterprise_customer_sales_flat_quote_address` (
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  PRIMARY KEY  (`entity_id`),
+  CONSTRAINT `FK_E152BECD370CBCC294EEFDD7035E9C9F` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_quote_address` (`address_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customer Sales Flat Quote Address';
+
+# Dumping data for table s5152d29ad0535.enterprise_customer_sales_flat_quote_address: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_customer_sales_flat_quote_address` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_customer_sales_flat_quote_address` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_giftcardaccount
+DROP TABLE IF EXISTS `enterprise_giftcardaccount`;
+CREATE TABLE IF NOT EXISTS `enterprise_giftcardaccount` (
+  `giftcardaccount_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Giftcardaccount Id',
+  `code` varchar(255) NOT NULL COMMENT 'Code',
+  `status` smallint(6) NOT NULL COMMENT 'Status',
+  `date_created` date NOT NULL COMMENT 'Date Created',
+  `date_expires` date default NULL COMMENT 'Date Expires',
+  `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website Id',
+  `balance` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Balance',
+  `state` smallint(6) NOT NULL default '0' COMMENT 'State',
+  `is_redeemable` smallint(6) NOT NULL default '1' COMMENT 'Is Redeemable',
+  PRIMARY KEY  (`giftcardaccount_id`),
+  KEY `IDX_ENTERPRISE_GIFTCARDACCOUNT_WEBSITE_ID` (`website_id`),
+  CONSTRAINT `FK_ENTERPRISE_GIFTCARDACCOUNT_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Giftcardaccount';
+
+# Dumping data for table s5152d29ad0535.enterprise_giftcardaccount: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_giftcardaccount` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_giftcardaccount` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_giftcardaccount_history
+DROP TABLE IF EXISTS `enterprise_giftcardaccount_history`;
+CREATE TABLE IF NOT EXISTS `enterprise_giftcardaccount_history` (
+  `history_id` int(10) unsigned NOT NULL auto_increment COMMENT 'History Id',
+  `giftcardaccount_id` int(10) unsigned NOT NULL default '0' COMMENT 'Giftcardaccount Id',
+  `updated_at` timestamp NULL default NULL COMMENT 'Updated At',
+  `action` smallint(5) unsigned NOT NULL default '0' COMMENT 'Action',
+  `balance_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Balance Amount',
+  `balance_delta` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Balance Delta',
+  `additional_info` varchar(255) default NULL COMMENT 'Additional Info',
+  PRIMARY KEY  (`history_id`),
+  KEY `IDX_ENTERPRISE_GIFTCARDACCOUNT_HISTORY_GIFTCARDACCOUNT_ID` (`giftcardaccount_id`),
+  CONSTRAINT `FK_3B8BD605F9D0B548E5EEDF7ADFC30A5D` FOREIGN KEY (`giftcardaccount_id`) REFERENCES `enterprise_giftcardaccount` (`giftcardaccount_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Giftcardaccount History';
+
+# Dumping data for table s5152d29ad0535.enterprise_giftcardaccount_history: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_giftcardaccount_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_giftcardaccount_history` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_giftcardaccount_pool
+DROP TABLE IF EXISTS `enterprise_giftcardaccount_pool`;
+CREATE TABLE IF NOT EXISTS `enterprise_giftcardaccount_pool` (
+  `code` varchar(255) NOT NULL COMMENT 'Code',
+  `status` smallint(6) NOT NULL default '0' COMMENT 'Status',
+  PRIMARY KEY  (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Giftcardaccount Pool';
+
+# Dumping data for table s5152d29ad0535.enterprise_giftcardaccount_pool: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_giftcardaccount_pool` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_giftcardaccount_pool` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_giftcard_amount
+DROP TABLE IF EXISTS `enterprise_giftcard_amount`;
+CREATE TABLE IF NOT EXISTS `enterprise_giftcard_amount` (
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website Id',
+  `value` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Value',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `entity_type_id` smallint(5) unsigned NOT NULL COMMENT 'Entity Type Id',
+  `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Id',
+  PRIMARY KEY  (`value_id`),
+  KEY `IDX_ENTERPRISE_GIFTCARD_AMOUNT_ENTITY_ID` (`entity_id`),
+  KEY `IDX_ENTERPRISE_GIFTCARD_AMOUNT_WEBSITE_ID` (`website_id`),
+  KEY `IDX_ENTERPRISE_GIFTCARD_AMOUNT_ATTRIBUTE_ID` (`attribute_id`),
+  CONSTRAINT `FK_ENT_GIFTCARD_AMOUNT_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENTERPRISE_GIFTCARD_AMOUNT_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_GIFTCARD_AMOUNT_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Giftcard Amount';
+
+# Dumping data for table s5152d29ad0535.enterprise_giftcard_amount: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_giftcard_amount` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_giftcard_amount` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_giftregistry_data
+DROP TABLE IF EXISTS `enterprise_giftregistry_data`;
+CREATE TABLE IF NOT EXISTS `enterprise_giftregistry_data` (
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `event_date` date default NULL COMMENT 'Event Date',
+  `event_country` varchar(3) default NULL COMMENT 'Event Country',
+  `event_country_region` int(11) default NULL COMMENT 'Event Country Region',
+  `event_country_region_text` varchar(30) default NULL COMMENT 'Event Country Region Text',
+  `event_location` varchar(255) default NULL COMMENT 'Event Location',
+  PRIMARY KEY  (`entity_id`),
+  CONSTRAINT `FK_ENT_GIFTREGISTRY_DATA_ENTT_ID_ENT_GIFTREGISTRY_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `enterprise_giftregistry_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Data Table';
+
+# Dumping data for table s5152d29ad0535.enterprise_giftregistry_data: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_giftregistry_data` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_giftregistry_data` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_giftregistry_entity
+DROP TABLE IF EXISTS `enterprise_giftregistry_entity`;
+CREATE TABLE IF NOT EXISTS `enterprise_giftregistry_entity` (
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
+  `type_id` int(10) unsigned NOT NULL default '0' COMMENT 'Type Id',
+  `customer_id` int(10) unsigned NOT NULL default '0' COMMENT 'Customer Id',
+  `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website Id',
+  `is_public` smallint(5) unsigned NOT NULL default '1' COMMENT 'Is Public',
+  `url_key` varchar(100) default NULL COMMENT 'Url Key',
+  `title` varchar(255) default NULL COMMENT 'Title',
+  `message` text NOT NULL COMMENT 'Message',
+  `shipping_address` blob COMMENT 'Shipping Address',
+  `custom_values` text COMMENT 'Custom Values',
+  `is_active` smallint(6) NOT NULL default '0' COMMENT 'Is Active',
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  PRIMARY KEY  (`entity_id`),
+  KEY `IDX_ENTERPRISE_GIFTREGISTRY_ENTITY_CUSTOMER_ID` (`customer_id`),
+  KEY `IDX_ENTERPRISE_GIFTREGISTRY_ENTITY_WEBSITE_ID` (`website_id`),
+  KEY `IDX_ENTERPRISE_GIFTREGISTRY_ENTITY_TYPE_ID` (`type_id`),
+  CONSTRAINT `FK_ENT_GIFTREGISTRY_ENTT_TYPE_ID_ENT_GIFTREGISTRY_TYPE_TYPE_ID` FOREIGN KEY (`type_id`) REFERENCES `enterprise_giftregistry_type` (`type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_GIFTREGISTRY_ENTT_CSTR_ID_CSTR_ENTT_ENTT_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_GIFTREGISTRY_ENTT_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Entity Table';
+
+# Dumping data for table s5152d29ad0535.enterprise_giftregistry_entity: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_giftregistry_entity` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_giftregistry_entity` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_giftregistry_item
+DROP TABLE IF EXISTS `enterprise_giftregistry_item`;
+CREATE TABLE IF NOT EXISTS `enterprise_giftregistry_item` (
+  `item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Item Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product Id',
+  `qty` decimal(12,4) default NULL COMMENT 'Qty',
+  `qty_fulfilled` decimal(12,4) default NULL COMMENT 'Qty Fulfilled',
+  `note` text COMMENT 'Note',
+  `added_at` timestamp NULL default NULL COMMENT 'Added At',
+  `custom_options` text COMMENT 'Custom Options',
+  PRIMARY KEY  (`item_id`),
+  KEY `IDX_ENTERPRISE_GIFTREGISTRY_ITEM_ENTITY_ID` (`entity_id`),
+  KEY `IDX_ENTERPRISE_GIFTREGISTRY_ITEM_PRODUCT_ID` (`product_id`),
+  CONSTRAINT `FK_ENT_GIFTREGISTRY_ITEM_ENTT_ID_ENT_GIFTREGISTRY_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `enterprise_giftregistry_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_GIFTREGISTRY_ITEM_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Item Table';
+
+# Dumping data for table s5152d29ad0535.enterprise_giftregistry_item: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_giftregistry_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_giftregistry_item` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_giftregistry_item_option
+DROP TABLE IF EXISTS `enterprise_giftregistry_item_option`;
+CREATE TABLE IF NOT EXISTS `enterprise_giftregistry_item_option` (
+  `option_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Id',
+  `item_id` int(10) unsigned NOT NULL COMMENT 'Item Id',
+  `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
+  `code` varchar(255) NOT NULL COMMENT 'Code',
+  `value` text NOT NULL COMMENT 'Value',
+  PRIMARY KEY  (`option_id`),
+  KEY `FK_51E3E032B5F0C7B1DE70D7090034C6EE` (`item_id`),
+  CONSTRAINT `FK_51E3E032B5F0C7B1DE70D7090034C6EE` FOREIGN KEY (`item_id`) REFERENCES `enterprise_giftregistry_item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Item Option Table';
+
+# Dumping data for table s5152d29ad0535.enterprise_giftregistry_item_option: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_giftregistry_item_option` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_giftregistry_item_option` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_giftregistry_label
+DROP TABLE IF EXISTS `enterprise_giftregistry_label`;
+CREATE TABLE IF NOT EXISTS `enterprise_giftregistry_label` (
+  `type_id` int(10) unsigned NOT NULL default '0' COMMENT 'Type Id',
+  `attribute_code` varchar(32) NOT NULL COMMENT 'Attribute Code',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  `option_code` varchar(32) NOT NULL COMMENT 'Option Code',
+  `label` varchar(255) default NULL COMMENT 'Label',
+  PRIMARY KEY  (`type_id`,`attribute_code`,`store_id`,`option_code`),
+  KEY `IDX_ENTERPRISE_GIFTREGISTRY_LABEL_TYPE_ID` (`type_id`),
+  KEY `IDX_ENTERPRISE_GIFTREGISTRY_LABEL_STORE_ID` (`store_id`),
+  CONSTRAINT `FK_ENT_GIFTREGISTRY_LBL_TYPE_ID_ENT_GIFTREGISTRY_TYPE_TYPE_ID` FOREIGN KEY (`type_id`) REFERENCES `enterprise_giftregistry_type` (`type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENTERPRISE_GIFTREGISTRY_LABEL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Label Table';
+
+# Dumping data for table s5152d29ad0535.enterprise_giftregistry_label: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_giftregistry_label` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_giftregistry_label` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_giftregistry_person
+DROP TABLE IF EXISTS `enterprise_giftregistry_person`;
+CREATE TABLE IF NOT EXISTS `enterprise_giftregistry_person` (
+  `person_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Person Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `firstname` varchar(100) default NULL COMMENT 'Firstname',
+  `lastname` varchar(100) default NULL COMMENT 'Lastname',
+  `email` varchar(150) default NULL COMMENT 'Email',
+  `role` varchar(32) default NULL COMMENT 'Role',
+  `custom_values` text NOT NULL COMMENT 'Custom Values',
+  PRIMARY KEY  (`person_id`),
+  KEY `IDX_ENTERPRISE_GIFTREGISTRY_PERSON_ENTITY_ID` (`entity_id`),
+  CONSTRAINT `FK_ENT_GIFTREGISTRY_PERSON_ENTT_ID_ENT_GIFTREGISTRY_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `enterprise_giftregistry_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Person Table';
+
+# Dumping data for table s5152d29ad0535.enterprise_giftregistry_person: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_giftregistry_person` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_giftregistry_person` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_giftregistry_type
+DROP TABLE IF EXISTS `enterprise_giftregistry_type`;
+CREATE TABLE IF NOT EXISTS `enterprise_giftregistry_type` (
+  `type_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Type Id',
+  `code` varchar(15) default NULL COMMENT 'Code',
+  `meta_xml` blob COMMENT 'Meta Xml',
+  PRIMARY KEY  (`type_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Type Table';
+
+# Dumping data for table s5152d29ad0535.enterprise_giftregistry_type: ~3 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_giftregistry_type` DISABLE KEYS */;
+INSERT INTO `enterprise_giftregistry_type` (`type_id`, `code`, `meta_xml`) VALUES
+	(1, 'birthday', _binary 0x3C636F6E6669673E3C70726F746F747970653E3C72656769737472793E3C6576656E745F646174653E3C6C6162656C3E4576656E7420446174653C2F6C6162656C3E3C67726F75703E6576656E745F696E666F726D6174696F6E3C2F67726F75703E3C747970653E646174653C2F747970653E3C736F72745F6F726465723E353C2F736F72745F6F726465723E3C646174655F666F726D61743E73686F72743C2F646174655F666F726D61743E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C69735F7365617263686561626C653E313C2F69735F7365617263686561626C653E3C69735F6C69737465643E313C2F69735F6C69737465643E3C2F66726F6E74656E643E3C2F6576656E745F646174653E3C6576656E745F636F756E7472793E3C6C6162656C3E436F756E7472793C2F6C6162656C3E3C67726F75703E6576656E745F696E666F726D6174696F6E3C2F67726F75703E3C747970653E636F756E7472793C2F747970653E3C736F72745F6F726465723E313C2F736F72745F6F726465723E3C73686F775F726567696F6E3E313C2F73686F775F726567696F6E3E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C69735F7365617263686561626C653E313C2F69735F7365617263686561626C653E3C69735F6C69737465643E313C2F69735F6C69737465643E3C2F66726F6E74656E643E3C2F6576656E745F636F756E7472793E3C2F72656769737472793E3C2F70726F746F747970653E3C2F636F6E6669673E),
+	(2, 'baby_registry', _binary 0x3C636F6E6669673E3C70726F746F747970653E3C72656769737472616E743E3C726F6C653E3C6C6162656C3E526F6C653C2F6C6162656C3E3C67726F75703E72656769737472616E743C2F67726F75703E3C747970653E73656C6563743C2F747970653E3C736F72745F6F726465723E313C2F736F72745F6F726465723E3C6F7074696F6E733E3C6D6F6D3E4D6F746865723C2F6D6F6D3E3C6461643E4661746865723C2F6461643E3C2F6F7074696F6E733E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C69735F7365617263686561626C653E313C2F69735F7365617263686561626C653E3C69735F6C69737465643E313C2F69735F6C69737465643E3C2F66726F6E74656E643E3C2F726F6C653E3C2F72656769737472616E743E3C72656769737472793E3C626162795F67656E6465723E3C6C6162656C3E426162792047656E6465723C2F6C6162656C3E3C67726F75703E72656769737472793C2F67726F75703E3C747970653E73656C6563743C2F747970653E3C736F72745F6F726465723E353C2F736F72745F6F726465723E3C6F7074696F6E733E3C626F793E426F793C2F626F793E3C6769726C3E4769726C3C2F6769726C3E3C73757270726973653E53757270726973653C2F73757270726973653E3C2F6F7074696F6E733E3C64656661756C743E73757270726973653C2F64656661756C743E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C2F66726F6E74656E643E3C2F626162795F67656E6465723E3C6576656E745F636F756E7472793E3C6C6162656C3E436F756E7472793C2F6C6162656C3E3C67726F75703E6576656E745F696E666F726D6174696F6E3C2F67726F75703E3C747970653E636F756E7472793C2F747970653E3C736F72745F6F726465723E313C2F736F72745F6F726465723E3C73686F775F726567696F6E3E313C2F73686F775F726567696F6E3E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C69735F7365617263686561626C653E313C2F69735F7365617263686561626C653E3C69735F6C69737465643E313C2F69735F6C69737465643E3C2F66726F6E74656E643E3C2F6576656E745F636F756E7472793E3C2F72656769737472793E3C2F70726F746F747970653E3C2F636F6E6669673E),
+	(3, 'wedding', _binary 0x3C636F6E6669673E3C70726F746F747970653E3C72656769737472616E743E3C726F6C653E3C6C6162656C3E526F6C653C2F6C6162656C3E3C67726F75703E72656769737472616E743C2F67726F75703E3C747970653E73656C6563743C2F747970653E3C736F72745F6F726465723E32303C2F736F72745F6F726465723E3C6F7074696F6E733E3C67726F6F6D3E47726F6F6D3C2F67726F6F6D3E3C62726964653E42726964653C2F62726964653E3C706172746E65723E506172746E65723C2F706172746E65723E3C2F6F7074696F6E733E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C69735F7365617263686561626C653E303C2F69735F7365617263686561626C653E3C69735F6C69737465643E313C2F69735F6C69737465643E3C2F66726F6E74656E643E3C2F726F6C653E3C2F72656769737472616E743E3C72656769737472793E3C6576656E745F636F756E7472793E3C6C6162656C3E436F756E7472793C2F6C6162656C3E3C67726F75703E6576656E745F696E666F726D6174696F6E3C2F67726F75703E3C747970653E636F756E7472793C2F747970653E3C736F72745F6F726465723E313C2F736F72745F6F726465723E3C73686F775F726567696F6E3E313C2F73686F775F726567696F6E3E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C69735F7365617263686561626C653E313C2F69735F7365617263686561626C653E3C69735F6C69737465643E313C2F69735F6C69737465643E3C2F66726F6E74656E643E3C2F6576656E745F636F756E7472793E3C6576656E745F646174653E3C6C6162656C3E57656464696E6720446174653C2F6C6162656C3E3C67726F75703E6576656E745F696E666F726D6174696F6E3C2F67726F75703E3C747970653E646174653C2F747970653E3C736F72745F6F726465723E353C2F736F72745F6F726465723E3C646174655F666F726D61743E73686F72743C2F646174655F666F726D61743E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C69735F7365617263686561626C653E313C2F69735F7365617263686561626C653E3C69735F6C69737465643E313C2F69735F6C69737465643E3C2F66726F6E74656E643E3C2F6576656E745F646174653E3C6576656E745F6C6F636174696F6E3E3C6C6162656C3E4C6F636174696F6E3C2F6C6162656C3E3C67726F75703E6576656E745F696E666F726D6174696F6E3C2F67726F75703E3C747970653E746578743C2F747970653E3C736F72745F6F726465723E31303C2F736F72745F6F726465723E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C69735F7365617263686561626C653E313C2F69735F7365617263686561626C653E3C69735F6C69737465643E313C2F69735F6C69737465643E3C2F66726F6E74656E643E3C2F6576656E745F6C6F636174696F6E3E3C6E756D6265725F6F665F6775657374733E3C6C6162656C3E4E756D626572206F66204775657374733C2F6C6162656C3E3C67726F75703E6576656E745F696E666F726D6174696F6E3C2F67726F75703E3C747970653E746578743C2F747970653E3C736F72745F6F726465723E31353C2F736F72745F6F726465723E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C2F66726F6E74656E643E3C2F6E756D6265725F6F665F6775657374733E3C2F72656769737472793E3C2F70726F746F747970653E3C2F636F6E6669673E);
+/*!40000 ALTER TABLE `enterprise_giftregistry_type` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_giftregistry_type_info
+DROP TABLE IF EXISTS `enterprise_giftregistry_type_info`;
+CREATE TABLE IF NOT EXISTS `enterprise_giftregistry_type_info` (
+  `type_id` int(10) unsigned NOT NULL default '0' COMMENT 'Type Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  `label` varchar(255) default NULL COMMENT 'Label',
+  `is_listed` smallint(5) unsigned default NULL COMMENT 'Is Listed',
+  `sort_order` smallint(5) unsigned default NULL COMMENT 'Sort Order',
+  PRIMARY KEY  (`type_id`,`store_id`),
+  KEY `IDX_ENTERPRISE_GIFTREGISTRY_TYPE_INFO_STORE_ID` (`store_id`),
+  CONSTRAINT `FK_44F735AC54D0D431054C3CB51729B68D` FOREIGN KEY (`type_id`) REFERENCES `enterprise_giftregistry_type` (`type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_GIFTREGISTRY_TYPE_INFO_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Info Table';
+
+# Dumping data for table s5152d29ad0535.enterprise_giftregistry_type_info: ~3 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_giftregistry_type_info` DISABLE KEYS */;
+INSERT INTO `enterprise_giftregistry_type_info` (`type_id`, `store_id`, `label`, `is_listed`, `sort_order`) VALUES
+	(1, 0, 'Birthday', 1, 1),
+	(2, 0, 'Baby Registry', 1, 5),
+	(3, 0, 'Wedding', 1, 10);
+/*!40000 ALTER TABLE `enterprise_giftregistry_type_info` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_logging_event
+DROP TABLE IF EXISTS `enterprise_logging_event`;
+CREATE TABLE IF NOT EXISTS `enterprise_logging_event` (
+  `log_id` int(11) NOT NULL auto_increment COMMENT 'Log Id',
+  `ip` bigint(20) NOT NULL default '0' COMMENT 'Ip address',
+  `x_forwarded_ip` bigint(20) NOT NULL default '0' COMMENT 'Real ip address if visitor used proxy',
+  `event_code` varchar(100) default NULL COMMENT 'Event Code',
+  `time` timestamp NULL default NULL COMMENT 'Even date',
+  `action` varchar(20) default NULL COMMENT 'Event action',
+  `info` varchar(255) default NULL COMMENT 'Additional information',
+  `status` varchar(15) default NULL COMMENT 'Status',
+  `user` varchar(40) default NULL COMMENT 'User name',
+  `user_id` int(10) unsigned default NULL COMMENT 'User Id',
+  `fullaction` varchar(200) default NULL COMMENT 'Full action description',
+  `error_message` text COMMENT 'Error Message',
+  PRIMARY KEY  (`log_id`),
+  KEY `IDX_ENTERPRISE_LOGGING_EVENT_USER_ID` (`user_id`),
+  KEY `IDX_ENTERPRISE_LOGGING_EVENT_USER` (`user`),
+  CONSTRAINT `FK_ENTERPRISE_LOGGING_EVENT_USER_ID_ADMIN_USER_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `admin_user` (`user_id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Logging Event';
+
+# Dumping data for table s5152d29ad0535.enterprise_logging_event: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_logging_event` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_logging_event` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_logging_event_changes
+DROP TABLE IF EXISTS `enterprise_logging_event_changes`;
+CREATE TABLE IF NOT EXISTS `enterprise_logging_event_changes` (
+  `id` int(11) NOT NULL auto_increment COMMENT 'Enterprise logging id',
+  `source_name` varchar(150) default NULL COMMENT 'Logged Source Name',
+  `event_id` int(11) default NULL COMMENT 'Logged event id',
+  `source_id` int(11) default NULL COMMENT 'Logged Source Id',
+  `original_data` text COMMENT 'Logged Original Data',
+  `result_data` text COMMENT 'Logged Result Data',
+  PRIMARY KEY  (`id`),
+  KEY `IDX_ENTERPRISE_LOGGING_EVENT_CHANGES_EVENT_ID` (`event_id`),
+  CONSTRAINT `FK_ENT_LOGGING_EVENT_CHANGES_EVENT_ID_ENT_LOGGING_EVENT_LOG_ID` FOREIGN KEY (`event_id`) REFERENCES `enterprise_logging_event` (`log_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Logging Event Changes';
+
+# Dumping data for table s5152d29ad0535.enterprise_logging_event_changes: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_logging_event_changes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_logging_event_changes` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_reward
+DROP TABLE IF EXISTS `enterprise_reward`;
+CREATE TABLE IF NOT EXISTS `enterprise_reward` (
+  `reward_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Reward Id',
+  `customer_id` int(10) unsigned NOT NULL default '0' COMMENT 'Customer Id',
+  `website_id` smallint(5) unsigned default NULL COMMENT 'Website Id',
+  `points_balance` int(10) unsigned NOT NULL default '0' COMMENT 'Points Balance',
+  `website_currency_code` varchar(3) default NULL COMMENT 'Website Currency Code',
+  PRIMARY KEY  (`reward_id`),
+  UNIQUE KEY `UNQ_ENTERPRISE_REWARD_CUSTOMER_ID_WEBSITE_ID` (`customer_id`,`website_id`),
+  KEY `IDX_ENTERPRISE_REWARD_WEBSITE_ID` (`website_id`),
+  CONSTRAINT `FK_ENTERPRISE_REWARD_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Reward';
+
+# Dumping data for table s5152d29ad0535.enterprise_reward: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_reward` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_reward` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_reward_history
+DROP TABLE IF EXISTS `enterprise_reward_history`;
+CREATE TABLE IF NOT EXISTS `enterprise_reward_history` (
+  `history_id` int(10) unsigned NOT NULL auto_increment COMMENT 'History Id',
+  `reward_id` int(10) unsigned NOT NULL default '0' COMMENT 'Reward Id',
+  `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website Id',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `action` smallint(6) NOT NULL default '0' COMMENT 'Action',
+  `entity` int(11) default NULL COMMENT 'Entity',
+  `points_balance` int(10) unsigned NOT NULL default '0' COMMENT 'Points Balance',
+  `points_delta` int(11) NOT NULL default '0' COMMENT 'Points Delta',
+  `points_used` int(11) NOT NULL default '0' COMMENT 'Points Used',
+  `currency_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Currency Amount',
+  `currency_delta` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Currency Delta',
+  `base_currency_code` varchar(5) NOT NULL COMMENT 'Base Currency Code',
+  `additional_data` text NOT NULL COMMENT 'Additional Data',
+  `comment` text COMMENT 'Comment',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `expired_at_static` timestamp NULL default NULL COMMENT 'Expired At Static',
+  `expired_at_dynamic` timestamp NULL default NULL COMMENT 'Expired At Dynamic',
+  `is_expired` smallint(6) NOT NULL default '0' COMMENT 'Is Expired',
+  `is_duplicate_of` int(10) unsigned default NULL COMMENT 'Is Duplicate Of',
+  `notification_sent` smallint(6) NOT NULL default '0' COMMENT 'Notification Sent',
+  PRIMARY KEY  (`history_id`),
+  KEY `IDX_ENTERPRISE_REWARD_HISTORY_REWARD_ID` (`reward_id`),
+  KEY `IDX_ENTERPRISE_REWARD_HISTORY_WEBSITE_ID` (`website_id`),
+  KEY `IDX_ENTERPRISE_REWARD_HISTORY_STORE_ID` (`store_id`),
+  CONSTRAINT `FK_ENTERPRISE_REWARD_HISTORY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENTERPRISE_REWARD_HISTORY_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_REWARD_HISTORY_REWARD_ID_ENT_REWARD_REWARD_ID` FOREIGN KEY (`reward_id`) REFERENCES `enterprise_reward` (`reward_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Reward History';
+
+# Dumping data for table s5152d29ad0535.enterprise_reward_history: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_reward_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_reward_history` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_reward_rate
+DROP TABLE IF EXISTS `enterprise_reward_rate`;
+CREATE TABLE IF NOT EXISTS `enterprise_reward_rate` (
+  `rate_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rate Id',
+  `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website Id',
+  `customer_group_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Customer Group Id',
+  `direction` smallint(6) NOT NULL default '1' COMMENT 'Direction',
+  `points` int(11) NOT NULL default '0' COMMENT 'Points',
+  `currency_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Currency Amount',
+  PRIMARY KEY  (`rate_id`),
+  UNIQUE KEY `UNQ_ENT_REWARD_RATE_WS_ID_CSTR_GROUP_ID_DIRECTION` (`website_id`,`customer_group_id`,`direction`),
+  KEY `IDX_ENTERPRISE_REWARD_RATE_WEBSITE_ID` (`website_id`),
+  KEY `IDX_ENTERPRISE_REWARD_RATE_CUSTOMER_GROUP_ID` (`customer_group_id`),
+  CONSTRAINT `FK_ENTERPRISE_REWARD_RATE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Reward Rate';
+
+# Dumping data for table s5152d29ad0535.enterprise_reward_rate: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_reward_rate` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_reward_rate` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_reward_salesrule
+DROP TABLE IF EXISTS `enterprise_reward_salesrule`;
+CREATE TABLE IF NOT EXISTS `enterprise_reward_salesrule` (
+  `rule_id` int(10) unsigned NOT NULL default '0' COMMENT 'Rule Id',
+  `points_delta` int(10) unsigned NOT NULL default '0' COMMENT 'Points Delta',
+  UNIQUE KEY `UNQ_ENTERPRISE_REWARD_SALESRULE_RULE_ID` (`rule_id`),
+  CONSTRAINT `FK_ENTERPRISE_REWARD_SALESRULE_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Reward Reward Salesrule';
+
+# Dumping data for table s5152d29ad0535.enterprise_reward_salesrule: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_reward_salesrule` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_reward_salesrule` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_sales_creditmemo_grid_archive
+DROP TABLE IF EXISTS `enterprise_sales_creditmemo_grid_archive`;
+CREATE TABLE IF NOT EXISTS `enterprise_sales_creditmemo_grid_archive` (
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `store_to_order_rate` decimal(12,4) default NULL COMMENT 'Store To Order Rate',
+  `base_to_order_rate` decimal(12,4) default NULL COMMENT 'Base To Order Rate',
+  `grand_total` decimal(12,4) default NULL COMMENT 'Grand Total',
+  `store_to_base_rate` decimal(12,4) default NULL COMMENT 'Store To Base Rate',
+  `base_to_global_rate` decimal(12,4) default NULL COMMENT 'Base To Global Rate',
+  `base_grand_total` decimal(12,4) default NULL COMMENT 'Base Grand Total',
+  `order_id` int(10) unsigned NOT NULL COMMENT 'Order Id',
+  `creditmemo_status` int(11) default NULL COMMENT 'Creditmemo Status',
+  `state` int(11) default NULL COMMENT 'State',
+  `invoice_id` int(11) default NULL COMMENT 'Invoice Id',
+  `store_currency_code` varchar(3) default NULL COMMENT 'Store Currency Code',
+  `order_currency_code` varchar(3) default NULL COMMENT 'Order Currency Code',
+  `base_currency_code` varchar(3) default NULL COMMENT 'Base Currency Code',
+  `global_currency_code` varchar(3) default NULL COMMENT 'Global Currency Code',
+  `increment_id` varchar(50) default NULL COMMENT 'Increment Id',
+  `order_increment_id` varchar(50) default NULL COMMENT 'Order Increment Id',
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  `order_created_at` timestamp NULL default NULL COMMENT 'Order Created At',
+  `billing_name` varchar(255) default NULL COMMENT 'Billing Name',
+  PRIMARY KEY  (`entity_id`),
+  UNIQUE KEY `UNQ_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_INCREMENT_ID` (`increment_id`),
+  KEY `IDX_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_STORE_ID` (`store_id`),
+  KEY `IDX_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_GRAND_TOTAL` (`grand_total`),
+  KEY `IDX_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_BASE_GRAND_TOTAL` (`base_grand_total`),
+  KEY `IDX_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_ORDER_ID` (`order_id`),
+  KEY `IDX_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_CREDITMEMO_STATUS` (`creditmemo_status`),
+  KEY `IDX_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_STATE` (`state`),
+  KEY `IDX_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_ORDER_INCREMENT_ID` (`order_increment_id`),
+  KEY `IDX_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_CREATED_AT` (`created_at`),
+  KEY `IDX_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_ORDER_CREATED_AT` (`order_created_at`),
+  KEY `IDX_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_BILLING_NAME` (`billing_name`),
+  CONSTRAINT `FK_E981D988ACFE987737ED74A659E38DF3` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_creditmemo` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_DB015F1E1FBEAE1450A1BB2A6AC8C9B9` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Sales Creditmemo Grid Archive';
+
+# Dumping data for table s5152d29ad0535.enterprise_sales_creditmemo_grid_archive: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_sales_creditmemo_grid_archive` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_sales_creditmemo_grid_archive` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_sales_invoice_grid_archive
+DROP TABLE IF EXISTS `enterprise_sales_invoice_grid_archive`;
+CREATE TABLE IF NOT EXISTS `enterprise_sales_invoice_grid_archive` (
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `base_grand_total` decimal(12,4) default NULL COMMENT 'Base Grand Total',
+  `grand_total` decimal(12,4) default NULL COMMENT 'Grand Total',
+  `order_id` int(10) unsigned NOT NULL COMMENT 'Order Id',
+  `state` int(11) default NULL COMMENT 'State',
+  `store_currency_code` varchar(3) default NULL COMMENT 'Store Currency Code',
+  `order_currency_code` varchar(3) default NULL COMMENT 'Order Currency Code',
+  `base_currency_code` varchar(3) default NULL COMMENT 'Base Currency Code',
+  `global_currency_code` varchar(3) default NULL COMMENT 'Global Currency Code',
+  `increment_id` varchar(50) default NULL COMMENT 'Increment Id',
+  `order_increment_id` varchar(50) default NULL COMMENT 'Order Increment Id',
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  `order_created_at` timestamp NULL default NULL COMMENT 'Order Created At',
+  `billing_name` varchar(255) default NULL COMMENT 'Billing Name',
+  PRIMARY KEY  (`entity_id`),
+  UNIQUE KEY `UNQ_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_INCREMENT_ID` (`increment_id`),
+  KEY `IDX_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_STORE_ID` (`store_id`),
+  KEY `IDX_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_GRAND_TOTAL` (`grand_total`),
+  KEY `IDX_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_ORDER_ID` (`order_id`),
+  KEY `IDX_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_STATE` (`state`),
+  KEY `IDX_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_ORDER_INCREMENT_ID` (`order_increment_id`),
+  KEY `IDX_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_CREATED_AT` (`created_at`),
+  KEY `IDX_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_ORDER_CREATED_AT` (`order_created_at`),
+  KEY `IDX_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_BILLING_NAME` (`billing_name`),
+  CONSTRAINT `FK_C68E29DC077CF1219AD681CCF9B0D5E4` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_invoice` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_SALES_INVOICE_GRID_ARCHIVE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Sales Invoice Grid Archive';
+
+# Dumping data for table s5152d29ad0535.enterprise_sales_invoice_grid_archive: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_sales_invoice_grid_archive` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_sales_invoice_grid_archive` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_sales_order_grid_archive
+DROP TABLE IF EXISTS `enterprise_sales_order_grid_archive`;
+CREATE TABLE IF NOT EXISTS `enterprise_sales_order_grid_archive` (
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
+  `status` varchar(32) default NULL COMMENT 'Status',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `store_name` varchar(255) default NULL COMMENT 'Store Name',
+  `customer_id` int(10) unsigned default NULL COMMENT 'Customer Id',
+  `base_grand_total` decimal(12,4) default NULL COMMENT 'Base Grand Total',
+  `base_total_paid` decimal(12,4) default NULL COMMENT 'Base Total Paid',
+  `grand_total` decimal(12,4) default NULL COMMENT 'Grand Total',
+  `total_paid` decimal(12,4) default NULL COMMENT 'Total Paid',
+  `increment_id` varchar(50) default NULL COMMENT 'Increment Id',
+  `base_currency_code` varchar(3) default NULL COMMENT 'Base Currency Code',
+  `order_currency_code` varchar(255) default NULL COMMENT 'Order Currency Code',
+  `shipping_name` varchar(255) default NULL COMMENT 'Shipping Name',
+  `billing_name` varchar(255) default NULL COMMENT 'Billing Name',
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  `updated_at` timestamp NULL default NULL COMMENT 'Updated At',
+  PRIMARY KEY  (`entity_id`),
+  UNIQUE KEY `UNQ_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_INCREMENT_ID` (`increment_id`),
+  KEY `IDX_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_STATUS` (`status`),
+  KEY `IDX_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_STORE_ID` (`store_id`),
+  KEY `IDX_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_BASE_GRAND_TOTAL` (`base_grand_total`),
+  KEY `IDX_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_BASE_TOTAL_PAID` (`base_total_paid`),
+  KEY `IDX_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_GRAND_TOTAL` (`grand_total`),
+  KEY `IDX_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_TOTAL_PAID` (`total_paid`),
+  KEY `IDX_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_SHIPPING_NAME` (`shipping_name`),
+  KEY `IDX_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_BILLING_NAME` (`billing_name`),
+  KEY `IDX_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_CREATED_AT` (`created_at`),
+  KEY `IDX_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_CUSTOMER_ID` (`customer_id`),
+  KEY `IDX_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_UPDATED_AT` (`updated_at`),
+  CONSTRAINT `FK_ENT_SALES_ORDER_GRID_ARCHIVE_CSTR_ID_CSTR_ENTT_ENTT_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_SALES_ORDER_GRID_ARCHIVE_ENTT_ID_SALES_FLAT_ORDER_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_SALES_ORDER_GRID_ARCHIVE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Sales Order Grid Archive';
+
+# Dumping data for table s5152d29ad0535.enterprise_sales_order_grid_archive: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_sales_order_grid_archive` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_sales_order_grid_archive` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.enterprise_sales_shipment_grid_archive
+DROP TABLE IF EXISTS `enterprise_sales_shipment_grid_archive`;
+CREATE TABLE IF NOT EXISTS `enterprise_sales_shipment_grid_archive` (
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `total_qty` decimal(12,4) default NULL COMMENT 'Total Qty',
+  `order_id` int(10) unsigned NOT NULL COMMENT 'Order Id',
+  `shipment_status` int(11) default NULL COMMENT 'Shipment Status',
+  `increment_id` varchar(50) default NULL COMMENT 'Increment Id',
+  `order_increment_id` varchar(50) default NULL COMMENT 'Order Increment Id',
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  `order_created_at` timestamp NULL default NULL COMMENT 'Order Created At',
+  `shipping_name` varchar(255) default NULL COMMENT 'Shipping Name',
+  PRIMARY KEY  (`entity_id`),
+  UNIQUE KEY `UNQ_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_INCREMENT_ID` (`increment_id`),
+  KEY `IDX_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_STORE_ID` (`store_id`),
+  KEY `IDX_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_TOTAL_QTY` (`total_qty`),
+  KEY `IDX_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_ORDER_ID` (`order_id`),
+  KEY `IDX_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_SHIPMENT_STATUS` (`shipment_status`),
+  KEY `IDX_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_ORDER_INCREMENT_ID` (`order_increment_id`),
+  KEY `IDX_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_CREATED_AT` (`created_at`),
+  KEY `IDX_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_ORDER_CREATED_AT` (`order_created_at`),
+  KEY `IDX_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_SHIPPING_NAME` (`shipping_name`),
+  CONSTRAINT `FK_60E9F5945D0EE01B1FB92BB6DDE42878` FOREIGN KEY (`entity_id`) REFERENCES `sales_flat_shipment` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_ENT_SALES_SHIPMENT_GRID_ARCHIVE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Sales Shipment Grid Archive';
+
+# Dumping data for table s5152d29ad0535.enterprise_sales_shipment_grid_archive: ~0 rows (approximately)
+/*!40000 ALTER TABLE `enterprise_sales_shipment_grid_archive` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enterprise_sales_shipment_grid_archive` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.gift_message
 DROP TABLE IF EXISTS `gift_message`;
 CREATE TABLE IF NOT EXISTS `gift_message` (
-  `gift_message_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'GiftMessage Id',
-  `customer_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer id',
-  `sender` varchar(255) DEFAULT NULL COMMENT 'Sender',
-  `recipient` varchar(255) DEFAULT NULL COMMENT 'Recipient',
+  `gift_message_id` int(10) unsigned NOT NULL auto_increment COMMENT 'GiftMessage Id',
+  `customer_id` int(10) unsigned NOT NULL default '0' COMMENT 'Customer id',
+  `sender` varchar(255) default NULL COMMENT 'Sender',
+  `recipient` varchar(255) default NULL COMMENT 'Recipient',
   `message` text COMMENT 'Message',
-  PRIMARY KEY (`gift_message_id`)
+  PRIMARY KEY  (`gift_message_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Gift Message';
 
-# Dumping data for table gift_message: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.gift_message: ~0 rows (approximately)
 /*!40000 ALTER TABLE `gift_message` DISABLE KEYS */;
 /*!40000 ALTER TABLE `gift_message` ENABLE KEYS */;
 
 
-# Dumping structure for table googlecheckout_notification
+# Dumping structure for table s5152d29ad0535.googlecheckout_notification
 DROP TABLE IF EXISTS `googlecheckout_notification`;
 CREATE TABLE IF NOT EXISTS `googlecheckout_notification` (
   `serial_number` varchar(64) NOT NULL COMMENT 'Serial Number',
-  `started_at` timestamp NULL DEFAULT NULL COMMENT 'Started At',
-  `status` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Status',
-  PRIMARY KEY (`serial_number`)
+  `started_at` timestamp NULL default NULL COMMENT 'Started At',
+  `status` smallint(5) unsigned NOT NULL default '0' COMMENT 'Status',
+  PRIMARY KEY  (`serial_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Google Checkout Notification Table';
 
-# Dumping data for table googlecheckout_notification: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.googlecheckout_notification: ~0 rows (approximately)
 /*!40000 ALTER TABLE `googlecheckout_notification` DISABLE KEYS */;
 /*!40000 ALTER TABLE `googlecheckout_notification` ENABLE KEYS */;
 
 
-# Dumping structure for table googleoptimizer_code
+# Dumping structure for table s5152d29ad0535.googleoptimizer_code
 DROP TABLE IF EXISTS `googleoptimizer_code`;
 CREATE TABLE IF NOT EXISTS `googleoptimizer_code` (
-  `code_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Google optimizer code id',
+  `code_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Google optimizer code id',
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Optimized entity id product id or catalog id',
-  `entity_type` varchar(50) DEFAULT NULL COMMENT 'Optimized entity type',
+  `entity_type` varchar(50) default NULL COMMENT 'Optimized entity type',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store id',
   `control_script` text COMMENT 'Google optimizer control script',
   `tracking_script` text COMMENT 'Google optimizer tracking script',
   `conversion_script` text COMMENT 'Google optimizer conversion script',
-  `conversion_page` varchar(255) DEFAULT NULL COMMENT 'Google optimizer conversion page',
+  `conversion_page` varchar(255) default NULL COMMENT 'Google optimizer conversion page',
   `additional_data` text COMMENT 'Google optimizer additional data',
-  PRIMARY KEY (`code_id`),
+  PRIMARY KEY  (`code_id`),
   KEY `IDX_GOOGLEOPTIMIZER_CODE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_GOOGLEOPTIMIZER_CODE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Googleoptimizer code';
 
-# Dumping data for table googleoptimizer_code: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.googleoptimizer_code: ~0 rows (approximately)
 /*!40000 ALTER TABLE `googleoptimizer_code` DISABLE KEYS */;
 /*!40000 ALTER TABLE `googleoptimizer_code` ENABLE KEYS */;
 
 
-# Dumping structure for table googleshopping_attributes
+# Dumping structure for table s5152d29ad0535.googleshopping_attributes
 DROP TABLE IF EXISTS `googleshopping_attributes`;
 CREATE TABLE IF NOT EXISTS `googleshopping_attributes` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Id',
   `gcontent_attribute` varchar(255) NOT NULL COMMENT 'Google Content Attribute',
   `type_id` int(10) unsigned NOT NULL COMMENT 'Type Id',
-  PRIMARY KEY (`id`),
+  PRIMARY KEY  (`id`),
   KEY `FK_GOOGLESHOPPING_ATTRS_ATTR_ID_EAV_ATTR_ATTR_ID` (`attribute_id`),
   KEY `FK_GOOGLESHOPPING_ATTRS_TYPE_ID_GOOGLESHOPPING_TYPES_TYPE_ID` (`type_id`),
   CONSTRAINT `FK_GOOGLESHOPPING_ATTRS_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `FK_GOOGLESHOPPING_ATTRS_TYPE_ID_GOOGLESHOPPING_TYPES_TYPE_ID` FOREIGN KEY (`type_id`) REFERENCES `googleshopping_types` (`type_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Google Content Attributes link Product Attributes';
 
-# Dumping data for table googleshopping_attributes: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.googleshopping_attributes: ~0 rows (approximately)
 /*!40000 ALTER TABLE `googleshopping_attributes` DISABLE KEYS */;
 /*!40000 ALTER TABLE `googleshopping_attributes` ENABLE KEYS */;
 
 
-# Dumping structure for table googleshopping_items
+# Dumping structure for table s5152d29ad0535.googleshopping_items
 DROP TABLE IF EXISTS `googleshopping_items`;
 CREATE TABLE IF NOT EXISTS `googleshopping_items` (
-  `item_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Item Id',
-  `type_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Type Id',
+  `item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Item Id',
+  `type_id` int(10) unsigned NOT NULL default '0' COMMENT 'Type Id',
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
   `gcontent_item_id` varchar(255) NOT NULL COMMENT 'Google Content Item Id',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
-  `published` datetime DEFAULT NULL COMMENT 'Published date',
-  `expires` datetime DEFAULT NULL COMMENT 'Expires date',
-  PRIMARY KEY (`item_id`),
+  `published` datetime default NULL COMMENT 'Published date',
+  `expires` datetime default NULL COMMENT 'Expires date',
+  PRIMARY KEY  (`item_id`),
   KEY `IDX_GOOGLESHOPPING_ITEMS_PRODUCT_ID_STORE_ID` (`product_id`,`store_id`),
   KEY `FK_GOOGLESHOPPING_ITEMS_STORE_ID_CORE_STORE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_GOOGLESHOPPING_ITEMS_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `FK_GOOGLESHOPPING_ITEMS_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Google Content Items Products';
 
-# Dumping data for table googleshopping_items: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.googleshopping_items: ~0 rows (approximately)
 /*!40000 ALTER TABLE `googleshopping_items` DISABLE KEYS */;
 /*!40000 ALTER TABLE `googleshopping_items` ENABLE KEYS */;
 
 
-# Dumping structure for table googleshopping_types
+# Dumping structure for table s5152d29ad0535.googleshopping_types
 DROP TABLE IF EXISTS `googleshopping_types`;
 CREATE TABLE IF NOT EXISTS `googleshopping_types` (
-  `type_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Type ID',
+  `type_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Type ID',
   `attribute_set_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Set Id',
-  `target_country` varchar(2) NOT NULL DEFAULT 'US' COMMENT 'Target country',
-  `category` varchar(40) DEFAULT NULL COMMENT 'Google product category',
-  PRIMARY KEY (`type_id`),
+  `target_country` varchar(2) NOT NULL default 'US' COMMENT 'Target country',
+  `category` varchar(40) default NULL COMMENT 'Google product category',
+  PRIMARY KEY  (`type_id`),
   UNIQUE KEY `UNQ_GOOGLESHOPPING_TYPES_ATTRIBUTE_SET_ID_TARGET_COUNTRY` (`attribute_set_id`,`target_country`),
   CONSTRAINT `FK_GOOGLESHOPPING_TYPES_ATTR_SET_ID_EAV_ATTR_SET_ATTR_SET_ID` FOREIGN KEY (`attribute_set_id`) REFERENCES `eav_attribute_set` (`attribute_set_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Google Content Item Types link Attribute Sets';
 
-# Dumping data for table googleshopping_types: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.googleshopping_types: ~0 rows (approximately)
 /*!40000 ALTER TABLE `googleshopping_types` DISABLE KEYS */;
 /*!40000 ALTER TABLE `googleshopping_types` ENABLE KEYS */;
 
 
-# Dumping structure for table importexport_importdata
+# Dumping structure for table s5152d29ad0535.importexport_importdata
 DROP TABLE IF EXISTS `importexport_importdata`;
 CREATE TABLE IF NOT EXISTS `importexport_importdata` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
   `entity` varchar(50) NOT NULL COMMENT 'Entity',
-  `behavior` varchar(10) NOT NULL DEFAULT 'append' COMMENT 'Behavior',
+  `behavior` varchar(10) NOT NULL default 'append' COMMENT 'Behavior',
   `data` longtext COMMENT 'Data',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Import Data Table';
 
-# Dumping data for table importexport_importdata: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.importexport_importdata: ~0 rows (approximately)
 /*!40000 ALTER TABLE `importexport_importdata` DISABLE KEYS */;
 /*!40000 ALTER TABLE `importexport_importdata` ENABLE KEYS */;
 
 
-# Dumping structure for table index_event
+# Dumping structure for table s5152d29ad0535.index_event
 DROP TABLE IF EXISTS `index_event`;
 CREATE TABLE IF NOT EXISTS `index_event` (
-  `event_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Event Id',
+  `event_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Event Id',
   `type` varchar(64) NOT NULL COMMENT 'Type',
   `entity` varchar(64) NOT NULL COMMENT 'Entity',
-  `entity_pk` bigint(20) DEFAULT NULL COMMENT 'Entity Primary Key',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Creation Time',
+  `entity_pk` bigint(20) default NULL COMMENT 'Entity Primary Key',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Creation Time',
   `old_data` mediumtext COMMENT 'Old Data',
   `new_data` mediumtext COMMENT 'New Data',
-  PRIMARY KEY (`event_id`),
+  PRIMARY KEY  (`event_id`),
   UNIQUE KEY `UNQ_INDEX_EVENT_TYPE_ENTITY_ENTITY_PK` (`type`,`entity`,`entity_pk`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Index Event';
 
-# Dumping data for table index_event: ~2 rows (approximately)
+# Dumping data for table s5152d29ad0535.index_event: ~2 rows (approximately)
 /*!40000 ALTER TABLE `index_event` DISABLE KEYS */;
 INSERT INTO `index_event` (`event_id`, `type`, `entity`, `entity_pk`, `created_at`, `old_data`, `new_data`) VALUES
 	(1, 'save', 'catalog_category', 1, '2013-02-28 19:03:08', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:0;s:34:"catalog_product_price_match_result";b:0;s:24:"catalog_url_match_result";b:1;s:37:"catalog_category_product_match_result";b:1;s:35:"catalogsearch_fulltext_match_result";b:1;}'),
@@ -6076,20 +7194,20 @@ INSERT INTO `index_event` (`event_id`, `type`, `entity`, `entity_pk`, `created_a
 /*!40000 ALTER TABLE `index_event` ENABLE KEYS */;
 
 
-# Dumping structure for table index_process
+# Dumping structure for table s5152d29ad0535.index_process
 DROP TABLE IF EXISTS `index_process`;
 CREATE TABLE IF NOT EXISTS `index_process` (
-  `process_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Process Id',
+  `process_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Process Id',
   `indexer_code` varchar(32) NOT NULL COMMENT 'Indexer Code',
-  `status` varchar(15) NOT NULL DEFAULT 'pending' COMMENT 'Status',
-  `started_at` timestamp NULL DEFAULT NULL COMMENT 'Started At',
-  `ended_at` timestamp NULL DEFAULT NULL COMMENT 'Ended At',
-  `mode` varchar(9) NOT NULL DEFAULT 'real_time' COMMENT 'Mode',
-  PRIMARY KEY (`process_id`),
+  `status` varchar(15) NOT NULL default 'pending' COMMENT 'Status',
+  `started_at` timestamp NULL default NULL COMMENT 'Started At',
+  `ended_at` timestamp NULL default NULL COMMENT 'Ended At',
+  `mode` varchar(9) NOT NULL default 'real_time' COMMENT 'Mode',
+  PRIMARY KEY  (`process_id`),
   UNIQUE KEY `UNQ_INDEX_PROCESS_INDEXER_CODE` (`indexer_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='Index Process';
 
-# Dumping data for table index_process: ~9 rows (approximately)
+# Dumping data for table s5152d29ad0535.index_process: ~9 rows (approximately)
 /*!40000 ALTER TABLE `index_process` DISABLE KEYS */;
 INSERT INTO `index_process` (`process_id`, `indexer_code`, `status`, `started_at`, `ended_at`, `mode`) VALUES
 	(1, 'catalog_product_attribute', 'require_reindex', NULL, NULL, 'real_time'),
@@ -6104,84 +7222,159 @@ INSERT INTO `index_process` (`process_id`, `indexer_code`, `status`, `started_at
 /*!40000 ALTER TABLE `index_process` ENABLE KEYS */;
 
 
-# Dumping structure for table index_process_event
+# Dumping structure for table s5152d29ad0535.index_process_event
 DROP TABLE IF EXISTS `index_process_event`;
 CREATE TABLE IF NOT EXISTS `index_process_event` (
   `process_id` int(10) unsigned NOT NULL COMMENT 'Process Id',
   `event_id` bigint(20) unsigned NOT NULL COMMENT 'Event Id',
-  `status` varchar(7) NOT NULL DEFAULT 'new' COMMENT 'Status',
-  PRIMARY KEY (`process_id`,`event_id`),
+  `status` varchar(7) NOT NULL default 'new' COMMENT 'Status',
+  PRIMARY KEY  (`process_id`,`event_id`),
   KEY `IDX_INDEX_PROCESS_EVENT_EVENT_ID` (`event_id`),
   CONSTRAINT `FK_INDEX_PROCESS_EVENT_EVENT_ID_INDEX_EVENT_EVENT_ID` FOREIGN KEY (`event_id`) REFERENCES `index_event` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_INDEX_PROCESS_EVENT_PROCESS_ID_INDEX_PROCESS_PROCESS_ID` FOREIGN KEY (`process_id`) REFERENCES `index_process` (`process_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Index Process Event';
 
-# Dumping data for table index_process_event: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.index_process_event: ~0 rows (approximately)
 /*!40000 ALTER TABLE `index_process_event` DISABLE KEYS */;
 /*!40000 ALTER TABLE `index_process_event` ENABLE KEYS */;
 
 
-# Dumping structure for table log_customer
+# Dumping structure for table s5152d29ad0535.launcher_link_tracker
+DROP TABLE IF EXISTS `launcher_link_tracker`;
+CREATE TABLE IF NOT EXISTS `launcher_link_tracker` (
+  `link_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `code` varchar(255) NOT NULL COMMENT 'Link Code',
+  `url` varchar(255) NOT NULL COMMENT 'Link Url',
+  `params` varchar(255) default NULL COMMENT 'Link params',
+  `is_visited` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Link Visited?',
+  PRIMARY KEY  (`link_id`),
+  UNIQUE KEY `UNQ_LAUNCHER_LINK_TRACKER_CODE` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Link Tracker Data Table';
+
+# Dumping data for table s5152d29ad0535.launcher_link_tracker: ~0 rows (approximately)
+/*!40000 ALTER TABLE `launcher_link_tracker` DISABLE KEYS */;
+/*!40000 ALTER TABLE `launcher_link_tracker` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.launcher_page
+DROP TABLE IF EXISTS `launcher_page`;
+CREATE TABLE IF NOT EXISTS `launcher_page` (
+  `page_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `page_code` varchar(32) NOT NULL COMMENT 'Page Code',
+  PRIMARY KEY  (`page_id`),
+  UNIQUE KEY `UNQ_LAUNCHER_PAGE_PAGE_CODE` (`page_code`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Landing Page Data Table';
+
+# Dumping data for table s5152d29ad0535.launcher_page: ~2 rows (approximately)
+/*!40000 ALTER TABLE `launcher_page` DISABLE KEYS */;
+INSERT INTO `launcher_page` (`page_id`, `page_code`) VALUES
+	(2, 'promote_store'),
+	(1, 'store_launcher');
+/*!40000 ALTER TABLE `launcher_page` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.launcher_tile
+DROP TABLE IF EXISTS `launcher_tile`;
+CREATE TABLE IF NOT EXISTS `launcher_tile` (
+  `tile_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `page_code` varchar(32) NOT NULL COMMENT 'Page Code',
+  `tile_code` varchar(32) NOT NULL COMMENT 'Tile Code',
+  `state` int(10) unsigned NOT NULL COMMENT 'Tile State',
+  `is_skippable` smallint(5) unsigned NOT NULL default '1' COMMENT 'Flag that shows whether tile can be skipped.',
+  `is_dismissible` smallint(5) unsigned NOT NULL default '1' COMMENT 'Flag that shows whether tile can be dismissed.',
+  `sort_order` smallint(5) unsigned default '0' COMMENT 'Sort order of the tile.',
+  PRIMARY KEY  (`tile_id`),
+  UNIQUE KEY `UNQ_LAUNCHER_TILE_TILE_CODE` (`tile_code`),
+  KEY `IDX_LAUNCHER_TILE_SORT_ORDER` (`sort_order`),
+  KEY `IDX_LAUNCHER_TILE_PAGE_CODE_TILE_CODE` (`page_code`,`tile_code`),
+  CONSTRAINT `FK_LAUNCHER_PAGE_PAGE_CODE_LAUNCHER_TILE_PAGE_CODE` FOREIGN KEY (`page_code`) REFERENCES `launcher_page` (`page_code`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='Tile Data Table';
+
+# Dumping data for table s5152d29ad0535.launcher_tile: ~18 rows (approximately)
+/*!40000 ALTER TABLE `launcher_tile` DISABLE KEYS */;
+INSERT INTO `launcher_tile` (`tile_id`, `page_code`, `tile_code`, `state`, `is_skippable`, `is_dismissible`, `sort_order`) VALUES
+	(1, 'store_launcher', 'business_info', 0, 1, 1, 50),
+	(2, 'store_launcher', 'store_design', 0, 1, 1, 100),
+	(3, 'store_launcher', 'payments', 0, 1, 1, 150),
+	(4, 'store_launcher', 'shipping', 0, 1, 1, 200),
+	(5, 'store_launcher', 'tax', 0, 1, 1, 250),
+	(6, 'store_launcher', 'product', 0, 1, 1, 300),
+	(7, 'promote_store', 'home_page', 0, 1, 1, 50),
+	(8, 'promote_store', 'content_pages', 0, 1, 1, 100),
+	(9, 'promote_store', 'seo', 0, 1, 1, 150),
+	(10, 'promote_store', 'customer_communication', 0, 1, 1, 200),
+	(11, 'promote_store', 'reports', 0, 1, 1, 250),
+	(12, 'promote_store', 'promotion', 0, 1, 1, 300),
+	(13, 'promote_store', 'catalog_price_rule', 0, 1, 1, 350),
+	(14, 'promote_store', 'google_analytics', 0, 1, 1, 400),
+	(15, 'promote_store', 'ebay', 0, 1, 1, 450),
+	(16, 'promote_store', 'wishlist', 0, 1, 1, 500),
+	(17, 'promote_store', 'rss', 0, 1, 1, 550),
+	(18, 'promote_store', 'related_products', 0, 1, 1, 600);
+/*!40000 ALTER TABLE `launcher_tile` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.log_customer
 DROP TABLE IF EXISTS `log_customer`;
 CREATE TABLE IF NOT EXISTS `log_customer` (
-  `log_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Log ID',
-  `visitor_id` bigint(20) unsigned DEFAULT NULL COMMENT 'Visitor ID',
-  `customer_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Customer ID',
-  `login_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Login Time',
-  `logout_at` timestamp NULL DEFAULT NULL COMMENT 'Logout Time',
+  `log_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Log ID',
+  `visitor_id` bigint(20) unsigned default NULL COMMENT 'Visitor ID',
+  `customer_id` int(11) NOT NULL default '0' COMMENT 'Customer ID',
+  `login_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Login Time',
+  `logout_at` timestamp NULL default NULL COMMENT 'Logout Time',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
-  PRIMARY KEY (`log_id`),
+  PRIMARY KEY  (`log_id`),
   KEY `IDX_LOG_CUSTOMER_VISITOR_ID` (`visitor_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Customers Table';
 
-# Dumping data for table log_customer: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.log_customer: ~0 rows (approximately)
 /*!40000 ALTER TABLE `log_customer` DISABLE KEYS */;
 /*!40000 ALTER TABLE `log_customer` ENABLE KEYS */;
 
 
-# Dumping structure for table log_quote
+# Dumping structure for table s5152d29ad0535.log_quote
 DROP TABLE IF EXISTS `log_quote`;
 CREATE TABLE IF NOT EXISTS `log_quote` (
-  `quote_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Quote ID',
-  `visitor_id` bigint(20) unsigned DEFAULT NULL COMMENT 'Visitor ID',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Creation Time',
-  `deleted_at` timestamp NULL DEFAULT NULL COMMENT 'Deletion Time',
-  PRIMARY KEY (`quote_id`)
+  `quote_id` int(10) unsigned NOT NULL default '0' COMMENT 'Quote ID',
+  `visitor_id` bigint(20) unsigned default NULL COMMENT 'Visitor ID',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Creation Time',
+  `deleted_at` timestamp NULL default NULL COMMENT 'Deletion Time',
+  PRIMARY KEY  (`quote_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Quotes Table';
 
-# Dumping data for table log_quote: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.log_quote: ~0 rows (approximately)
 /*!40000 ALTER TABLE `log_quote` DISABLE KEYS */;
 /*!40000 ALTER TABLE `log_quote` ENABLE KEYS */;
 
 
-# Dumping structure for table log_summary
+# Dumping structure for table s5152d29ad0535.log_summary
 DROP TABLE IF EXISTS `log_summary`;
 CREATE TABLE IF NOT EXISTS `log_summary` (
-  `summary_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Summary ID',
+  `summary_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Summary ID',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
-  `type_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Type ID',
-  `visitor_count` int(11) NOT NULL DEFAULT '0' COMMENT 'Visitor Count',
-  `customer_count` int(11) NOT NULL DEFAULT '0' COMMENT 'Customer Count',
-  `add_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date',
-  PRIMARY KEY (`summary_id`)
+  `type_id` smallint(5) unsigned default NULL COMMENT 'Type ID',
+  `visitor_count` int(11) NOT NULL default '0' COMMENT 'Visitor Count',
+  `customer_count` int(11) NOT NULL default '0' COMMENT 'Customer Count',
+  `add_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Date',
+  PRIMARY KEY  (`summary_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Summary Table';
 
-# Dumping data for table log_summary: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.log_summary: ~0 rows (approximately)
 /*!40000 ALTER TABLE `log_summary` DISABLE KEYS */;
 /*!40000 ALTER TABLE `log_summary` ENABLE KEYS */;
 
 
-# Dumping structure for table log_summary_type
+# Dumping structure for table s5152d29ad0535.log_summary_type
 DROP TABLE IF EXISTS `log_summary_type`;
 CREATE TABLE IF NOT EXISTS `log_summary_type` (
-  `type_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Type ID',
-  `type_code` varchar(64) DEFAULT NULL COMMENT 'Type Code',
-  `period` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Period',
-  `period_type` varchar(6) NOT NULL DEFAULT 'MINUTE' COMMENT 'Period Type',
-  PRIMARY KEY (`type_id`)
+  `type_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Type ID',
+  `type_code` varchar(64) default NULL COMMENT 'Type Code',
+  `period` smallint(5) unsigned NOT NULL default '0' COMMENT 'Period',
+  `period_type` varchar(6) NOT NULL default 'MINUTE' COMMENT 'Period Type',
+  PRIMARY KEY  (`type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Log Summary Types Table';
 
-# Dumping data for table log_summary_type: ~2 rows (approximately)
+# Dumping data for table s5152d29ad0535.log_summary_type: ~2 rows (approximately)
 /*!40000 ALTER TABLE `log_summary_type` DISABLE KEYS */;
 INSERT INTO `log_summary_type` (`type_id`, `type_code`, `period`, `period_type`) VALUES
 	(1, 'hour', 1, 'HOUR'),
@@ -6189,139 +7382,153 @@ INSERT INTO `log_summary_type` (`type_id`, `type_code`, `period`, `period_type`)
 /*!40000 ALTER TABLE `log_summary_type` ENABLE KEYS */;
 
 
-# Dumping structure for table log_url
+# Dumping structure for table s5152d29ad0535.log_url
 DROP TABLE IF EXISTS `log_url`;
 CREATE TABLE IF NOT EXISTS `log_url` (
-  `url_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'URL ID',
-  `visitor_id` bigint(20) unsigned DEFAULT NULL COMMENT 'Visitor ID',
-  `visit_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Visit Time',
-  PRIMARY KEY (`url_id`),
+  `url_id` bigint(20) unsigned NOT NULL default '0' COMMENT 'URL ID',
+  `visitor_id` bigint(20) unsigned default NULL COMMENT 'Visitor ID',
+  `visit_time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Visit Time',
+  PRIMARY KEY  (`url_id`),
   KEY `IDX_LOG_URL_VISITOR_ID` (`visitor_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log URL Table';
 
-# Dumping data for table log_url: ~1 rows (approximately)
+# Dumping data for table s5152d29ad0535.log_url: ~2 rows (approximately)
 /*!40000 ALTER TABLE `log_url` DISABLE KEYS */;
 INSERT INTO `log_url` (`url_id`, `visitor_id`, `visit_time`) VALUES
-	(1, 1, '2013-02-28 19:03:59');
+	(1, 1, '2013-02-28 19:03:59'),
+	(2, 2, '2013-03-27 11:11:11');
 /*!40000 ALTER TABLE `log_url` ENABLE KEYS */;
 
 
-# Dumping structure for table log_url_info
+# Dumping structure for table s5152d29ad0535.log_url_info
 DROP TABLE IF EXISTS `log_url_info`;
 CREATE TABLE IF NOT EXISTS `log_url_info` (
-  `url_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'URL ID',
-  `url` varchar(255) DEFAULT NULL COMMENT 'URL',
-  `referer` varchar(255) DEFAULT NULL COMMENT 'Referrer',
-  PRIMARY KEY (`url_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Log URL Info Table';
+  `url_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'URL ID',
+  `url` varchar(255) default NULL COMMENT 'URL',
+  `referer` varchar(255) default NULL COMMENT 'Referrer',
+  PRIMARY KEY  (`url_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Log URL Info Table';
+
+# Dumping data for table s5152d29ad0535.log_url_info: ~1 rows (approximately)
+/*!40000 ALTER TABLE `log_url_info` DISABLE KEYS */;
+INSERT INTO `log_url_info` (`url_id`, `url`, `referer`) VALUES
+	(2, 'http://t3.magento.go/', NULL);
+/*!40000 ALTER TABLE `log_url_info` ENABLE KEYS */;
 
 
-# Dumping structure for table log_visitor
+# Dumping structure for table s5152d29ad0535.log_visitor
 DROP TABLE IF EXISTS `log_visitor`;
 CREATE TABLE IF NOT EXISTS `log_visitor` (
-  `visitor_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Visitor ID',
-  `session_id` varchar(64) DEFAULT NULL COMMENT 'Session ID',
-  `first_visit_at` timestamp NULL DEFAULT NULL COMMENT 'First Visit Time',
-  `last_visit_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Last Visit Time',
-  `last_url_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'Last URL ID',
+  `visitor_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Visitor ID',
+  `session_id` varchar(64) default NULL COMMENT 'Session ID',
+  `first_visit_at` timestamp NULL default NULL COMMENT 'First Visit Time',
+  `last_visit_at` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'Last Visit Time',
+  `last_url_id` bigint(20) unsigned NOT NULL default '0' COMMENT 'Last URL ID',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
-  PRIMARY KEY (`visitor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Log Visitors Table';
+  PRIMARY KEY  (`visitor_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Log Visitors Table';
 
-# Dumping data for table log_visitor: ~1 rows (approximately)
+# Dumping data for table s5152d29ad0535.log_visitor: ~2 rows (approximately)
 /*!40000 ALTER TABLE `log_visitor` DISABLE KEYS */;
 INSERT INTO `log_visitor` (`visitor_id`, `session_id`, `first_visit_at`, `last_visit_at`, `last_url_id`, `store_id`) VALUES
-	(1, '60elu10bltfvt41do9hvfljok1', '2013-02-28 19:03:58', '2013-02-28 19:03:59', 1, 1);
+	(1, '60elu10bltfvt41do9hvfljok1', '2013-02-28 19:03:58', '2013-02-28 19:03:59', 1, 1),
+	(2, '9bstki2qqsk0qc23nn5dnqg4p5', '2013-03-27 11:10:55', '2013-03-27 11:11:11', 2, 1);
 /*!40000 ALTER TABLE `log_visitor` ENABLE KEYS */;
 
 
-# Dumping structure for table log_visitor_info
+# Dumping structure for table s5152d29ad0535.log_visitor_info
 DROP TABLE IF EXISTS `log_visitor_info`;
 CREATE TABLE IF NOT EXISTS `log_visitor_info` (
-  `visitor_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'Visitor ID',
-  `http_referer` varchar(255) DEFAULT NULL COMMENT 'HTTP Referrer',
-  `http_user_agent` varchar(255) DEFAULT NULL COMMENT 'HTTP User-Agent',
-  `http_accept_charset` varchar(255) DEFAULT NULL COMMENT 'HTTP Accept-Charset',
-  `http_accept_language` varchar(255) DEFAULT NULL COMMENT 'HTTP Accept-Language',
-  `server_addr` bigint(20) DEFAULT NULL COMMENT 'Server Address',
-  `remote_addr` bigint(20) DEFAULT NULL COMMENT 'Remote Address',
-  PRIMARY KEY (`visitor_id`)
+  `visitor_id` bigint(20) unsigned NOT NULL default '0' COMMENT 'Visitor ID',
+  `http_referer` varchar(255) default NULL COMMENT 'HTTP Referrer',
+  `http_user_agent` varchar(255) default NULL COMMENT 'HTTP User-Agent',
+  `http_accept_charset` varchar(255) default NULL COMMENT 'HTTP Accept-Charset',
+  `http_accept_language` varchar(255) default NULL COMMENT 'HTTP Accept-Language',
+  `server_addr` bigint(20) default NULL COMMENT 'Server Address',
+  `remote_addr` bigint(20) default NULL COMMENT 'Remote Address',
+  PRIMARY KEY  (`visitor_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Visitor Info Table';
 
+# Dumping data for table s5152d29ad0535.log_visitor_info: ~1 rows (approximately)
+/*!40000 ALTER TABLE `log_visitor_info` DISABLE KEYS */;
+INSERT INTO `log_visitor_info` (`visitor_id`, `http_referer`, `http_user_agent`, `http_accept_charset`, `http_accept_language`, `server_addr`, `remote_addr`) VALUES
+	(2, NULL, 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:19.0) Gecko/20100101 Firefox/19.0', NULL, 'en-US,en;q=0.5', 3232249958, 3232249966);
+/*!40000 ALTER TABLE `log_visitor_info` ENABLE KEYS */;
 
-# Dumping structure for table log_visitor_online
+
+# Dumping structure for table s5152d29ad0535.log_visitor_online
 DROP TABLE IF EXISTS `log_visitor_online`;
 CREATE TABLE IF NOT EXISTS `log_visitor_online` (
-  `visitor_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Visitor ID',
+  `visitor_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Visitor ID',
   `visitor_type` varchar(1) NOT NULL COMMENT 'Visitor Type',
   `remote_addr` bigint(20) NOT NULL COMMENT 'Remote Address',
-  `first_visit_at` timestamp NULL DEFAULT NULL COMMENT 'First Visit Time',
-  `last_visit_at` timestamp NULL DEFAULT NULL COMMENT 'Last Visit Time',
-  `customer_id` int(10) unsigned DEFAULT NULL COMMENT 'Customer ID',
-  `last_url` varchar(255) DEFAULT NULL COMMENT 'Last URL',
-  PRIMARY KEY (`visitor_id`),
+  `first_visit_at` timestamp NULL default NULL COMMENT 'First Visit Time',
+  `last_visit_at` timestamp NULL default NULL COMMENT 'Last Visit Time',
+  `customer_id` int(10) unsigned default NULL COMMENT 'Customer ID',
+  `last_url` varchar(255) default NULL COMMENT 'Last URL',
+  PRIMARY KEY  (`visitor_id`),
   KEY `IDX_LOG_VISITOR_ONLINE_VISITOR_TYPE` (`visitor_type`),
   KEY `IDX_LOG_VISITOR_ONLINE_FIRST_VISIT_AT_LAST_VISIT_AT` (`first_visit_at`,`last_visit_at`),
   KEY `IDX_LOG_VISITOR_ONLINE_CUSTOMER_ID` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Visitor Online Table';
 
-# Dumping data for table log_visitor_online: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.log_visitor_online: ~0 rows (approximately)
 /*!40000 ALTER TABLE `log_visitor_online` DISABLE KEYS */;
 /*!40000 ALTER TABLE `log_visitor_online` ENABLE KEYS */;
 
 
-# Dumping structure for table newsletter_problem
+# Dumping structure for table s5152d29ad0535.newsletter_problem
 DROP TABLE IF EXISTS `newsletter_problem`;
 CREATE TABLE IF NOT EXISTS `newsletter_problem` (
-  `problem_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Problem Id',
-  `subscriber_id` int(10) unsigned DEFAULT NULL COMMENT 'Subscriber Id',
-  `queue_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Queue Id',
-  `problem_error_code` int(10) unsigned DEFAULT '0' COMMENT 'Problem Error Code',
-  `problem_error_text` varchar(200) DEFAULT NULL COMMENT 'Problem Error Text',
-  PRIMARY KEY (`problem_id`),
+  `problem_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Problem Id',
+  `subscriber_id` int(10) unsigned default NULL COMMENT 'Subscriber Id',
+  `queue_id` int(10) unsigned NOT NULL default '0' COMMENT 'Queue Id',
+  `problem_error_code` int(10) unsigned default '0' COMMENT 'Problem Error Code',
+  `problem_error_text` varchar(200) default NULL COMMENT 'Problem Error Text',
+  PRIMARY KEY  (`problem_id`),
   KEY `IDX_NEWSLETTER_PROBLEM_SUBSCRIBER_ID` (`subscriber_id`),
   KEY `IDX_NEWSLETTER_PROBLEM_QUEUE_ID` (`queue_id`),
   CONSTRAINT `FK_NEWSLETTER_PROBLEM_QUEUE_ID_NEWSLETTER_QUEUE_QUEUE_ID` FOREIGN KEY (`queue_id`) REFERENCES `newsletter_queue` (`queue_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_NLTTR_PROBLEM_SUBSCRIBER_ID_NLTTR_SUBSCRIBER_SUBSCRIBER_ID` FOREIGN KEY (`subscriber_id`) REFERENCES `newsletter_subscriber` (`subscriber_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Problems';
 
-# Dumping data for table newsletter_problem: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.newsletter_problem: ~0 rows (approximately)
 /*!40000 ALTER TABLE `newsletter_problem` DISABLE KEYS */;
 /*!40000 ALTER TABLE `newsletter_problem` ENABLE KEYS */;
 
 
-# Dumping structure for table newsletter_queue
+# Dumping structure for table s5152d29ad0535.newsletter_queue
 DROP TABLE IF EXISTS `newsletter_queue`;
 CREATE TABLE IF NOT EXISTS `newsletter_queue` (
-  `queue_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Queue Id',
-  `template_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Template Id',
-  `newsletter_type` int(11) DEFAULT NULL COMMENT 'Newsletter Type',
+  `queue_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Queue Id',
+  `template_id` int(10) unsigned NOT NULL default '0' COMMENT 'Template Id',
+  `newsletter_type` int(11) default NULL COMMENT 'Newsletter Type',
   `newsletter_text` text COMMENT 'Newsletter Text',
   `newsletter_styles` text COMMENT 'Newsletter Styles',
-  `newsletter_subject` varchar(200) DEFAULT NULL COMMENT 'Newsletter Subject',
-  `newsletter_sender_name` varchar(200) DEFAULT NULL COMMENT 'Newsletter Sender Name',
-  `newsletter_sender_email` varchar(200) DEFAULT NULL COMMENT 'Newsletter Sender Email',
-  `queue_status` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Queue Status',
-  `queue_start_at` timestamp NULL DEFAULT NULL COMMENT 'Queue Start At',
-  `queue_finish_at` timestamp NULL DEFAULT NULL COMMENT 'Queue Finish At',
-  PRIMARY KEY (`queue_id`),
+  `newsletter_subject` varchar(200) default NULL COMMENT 'Newsletter Subject',
+  `newsletter_sender_name` varchar(200) default NULL COMMENT 'Newsletter Sender Name',
+  `newsletter_sender_email` varchar(200) default NULL COMMENT 'Newsletter Sender Email',
+  `queue_status` int(10) unsigned NOT NULL default '0' COMMENT 'Queue Status',
+  `queue_start_at` timestamp NULL default NULL COMMENT 'Queue Start At',
+  `queue_finish_at` timestamp NULL default NULL COMMENT 'Queue Finish At',
+  PRIMARY KEY  (`queue_id`),
   KEY `IDX_NEWSLETTER_QUEUE_TEMPLATE_ID` (`template_id`),
   CONSTRAINT `FK_NEWSLETTER_QUEUE_TEMPLATE_ID_NEWSLETTER_TEMPLATE_TEMPLATE_ID` FOREIGN KEY (`template_id`) REFERENCES `newsletter_template` (`template_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Queue';
 
-# Dumping data for table newsletter_queue: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.newsletter_queue: ~0 rows (approximately)
 /*!40000 ALTER TABLE `newsletter_queue` DISABLE KEYS */;
 /*!40000 ALTER TABLE `newsletter_queue` ENABLE KEYS */;
 
 
-# Dumping structure for table newsletter_queue_link
+# Dumping structure for table s5152d29ad0535.newsletter_queue_link
 DROP TABLE IF EXISTS `newsletter_queue_link`;
 CREATE TABLE IF NOT EXISTS `newsletter_queue_link` (
-  `queue_link_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Queue Link Id',
-  `queue_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Queue Id',
-  `subscriber_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Subscriber Id',
-  `letter_sent_at` timestamp NULL DEFAULT NULL COMMENT 'Letter Sent At',
-  PRIMARY KEY (`queue_link_id`),
+  `queue_link_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Queue Link Id',
+  `queue_id` int(10) unsigned NOT NULL default '0' COMMENT 'Queue Id',
+  `subscriber_id` int(10) unsigned NOT NULL default '0' COMMENT 'Subscriber Id',
+  `letter_sent_at` timestamp NULL default NULL COMMENT 'Letter Sent At',
+  PRIMARY KEY  (`queue_link_id`),
   KEY `IDX_NEWSLETTER_QUEUE_LINK_SUBSCRIBER_ID` (`subscriber_id`),
   KEY `IDX_NEWSLETTER_QUEUE_LINK_QUEUE_ID` (`queue_id`),
   KEY `IDX_NEWSLETTER_QUEUE_LINK_QUEUE_ID_LETTER_SENT_AT` (`queue_id`,`letter_sent_at`),
@@ -6329,98 +7536,98 @@ CREATE TABLE IF NOT EXISTS `newsletter_queue_link` (
   CONSTRAINT `FK_NLTTR_QUEUE_LNK_SUBSCRIBER_ID_NLTTR_SUBSCRIBER_SUBSCRIBER_ID` FOREIGN KEY (`subscriber_id`) REFERENCES `newsletter_subscriber` (`subscriber_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Queue Link';
 
-# Dumping data for table newsletter_queue_link: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.newsletter_queue_link: ~0 rows (approximately)
 /*!40000 ALTER TABLE `newsletter_queue_link` DISABLE KEYS */;
 /*!40000 ALTER TABLE `newsletter_queue_link` ENABLE KEYS */;
 
 
-# Dumping structure for table newsletter_queue_store_link
+# Dumping structure for table s5152d29ad0535.newsletter_queue_store_link
 DROP TABLE IF EXISTS `newsletter_queue_store_link`;
 CREATE TABLE IF NOT EXISTS `newsletter_queue_store_link` (
-  `queue_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Queue Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
-  PRIMARY KEY (`queue_id`,`store_id`),
+  `queue_id` int(10) unsigned NOT NULL default '0' COMMENT 'Queue Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  PRIMARY KEY  (`queue_id`,`store_id`),
   KEY `IDX_NEWSLETTER_QUEUE_STORE_LINK_STORE_ID` (`store_id`),
   CONSTRAINT `FK_NLTTR_QUEUE_STORE_LNK_QUEUE_ID_NLTTR_QUEUE_QUEUE_ID` FOREIGN KEY (`queue_id`) REFERENCES `newsletter_queue` (`queue_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_NEWSLETTER_QUEUE_STORE_LINK_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Queue Store Link';
 
-# Dumping data for table newsletter_queue_store_link: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.newsletter_queue_store_link: ~0 rows (approximately)
 /*!40000 ALTER TABLE `newsletter_queue_store_link` DISABLE KEYS */;
 /*!40000 ALTER TABLE `newsletter_queue_store_link` ENABLE KEYS */;
 
 
-# Dumping structure for table newsletter_subscriber
+# Dumping structure for table s5152d29ad0535.newsletter_subscriber
 DROP TABLE IF EXISTS `newsletter_subscriber`;
 CREATE TABLE IF NOT EXISTS `newsletter_subscriber` (
-  `subscriber_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Subscriber Id',
-  `store_id` smallint(5) unsigned DEFAULT '0' COMMENT 'Store Id',
-  `change_status_at` timestamp NULL DEFAULT NULL COMMENT 'Change Status At',
-  `customer_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer Id',
-  `subscriber_email` varchar(150) DEFAULT NULL COMMENT 'Subscriber Email',
-  `subscriber_status` int(11) NOT NULL DEFAULT '0' COMMENT 'Subscriber Status',
-  `subscriber_confirm_code` varchar(32) DEFAULT 'NULL' COMMENT 'Subscriber Confirm Code',
-  PRIMARY KEY (`subscriber_id`),
+  `subscriber_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Subscriber Id',
+  `store_id` smallint(5) unsigned default '0' COMMENT 'Store Id',
+  `change_status_at` timestamp NULL default NULL COMMENT 'Change Status At',
+  `customer_id` int(10) unsigned NOT NULL default '0' COMMENT 'Customer Id',
+  `subscriber_email` varchar(150) default NULL COMMENT 'Subscriber Email',
+  `subscriber_status` int(11) NOT NULL default '0' COMMENT 'Subscriber Status',
+  `subscriber_confirm_code` varchar(32) default 'NULL' COMMENT 'Subscriber Confirm Code',
+  PRIMARY KEY  (`subscriber_id`),
   KEY `IDX_NEWSLETTER_SUBSCRIBER_CUSTOMER_ID` (`customer_id`),
   KEY `IDX_NEWSLETTER_SUBSCRIBER_STORE_ID` (`store_id`),
   CONSTRAINT `FK_NEWSLETTER_SUBSCRIBER_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Subscriber';
 
-# Dumping data for table newsletter_subscriber: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.newsletter_subscriber: ~0 rows (approximately)
 /*!40000 ALTER TABLE `newsletter_subscriber` DISABLE KEYS */;
 /*!40000 ALTER TABLE `newsletter_subscriber` ENABLE KEYS */;
 
 
-# Dumping structure for table newsletter_template
+# Dumping structure for table s5152d29ad0535.newsletter_template
 DROP TABLE IF EXISTS `newsletter_template`;
 CREATE TABLE IF NOT EXISTS `newsletter_template` (
-  `template_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Template Id',
-  `template_code` varchar(150) DEFAULT NULL COMMENT 'Template Code',
+  `template_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Template Id',
+  `template_code` varchar(150) default NULL COMMENT 'Template Code',
   `template_text` text COMMENT 'Template Text',
   `template_text_preprocessed` text COMMENT 'Template Text Preprocessed',
   `template_styles` text COMMENT 'Template Styles',
-  `template_type` int(10) unsigned DEFAULT NULL COMMENT 'Template Type',
-  `template_subject` varchar(200) DEFAULT NULL COMMENT 'Template Subject',
-  `template_sender_name` varchar(200) DEFAULT NULL COMMENT 'Template Sender Name',
-  `template_sender_email` varchar(200) DEFAULT NULL COMMENT 'Template Sender Email',
-  `template_actual` smallint(5) unsigned DEFAULT '1' COMMENT 'Template Actual',
-  `added_at` timestamp NULL DEFAULT NULL COMMENT 'Added At',
-  `modified_at` timestamp NULL DEFAULT NULL COMMENT 'Modified At',
-  PRIMARY KEY (`template_id`),
+  `template_type` int(10) unsigned default NULL COMMENT 'Template Type',
+  `template_subject` varchar(200) default NULL COMMENT 'Template Subject',
+  `template_sender_name` varchar(200) default NULL COMMENT 'Template Sender Name',
+  `template_sender_email` varchar(200) default NULL COMMENT 'Template Sender Email',
+  `template_actual` smallint(5) unsigned default '1' COMMENT 'Template Actual',
+  `added_at` timestamp NULL default NULL COMMENT 'Added At',
+  `modified_at` timestamp NULL default NULL COMMENT 'Modified At',
+  PRIMARY KEY  (`template_id`),
   KEY `IDX_NEWSLETTER_TEMPLATE_TEMPLATE_ACTUAL` (`template_actual`),
   KEY `IDX_NEWSLETTER_TEMPLATE_ADDED_AT` (`added_at`),
   KEY `IDX_NEWSLETTER_TEMPLATE_MODIFIED_AT` (`modified_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Template';
 
-# Dumping data for table newsletter_template: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.newsletter_template: ~0 rows (approximately)
 /*!40000 ALTER TABLE `newsletter_template` DISABLE KEYS */;
 /*!40000 ALTER TABLE `newsletter_template` ENABLE KEYS */;
 
 
-# Dumping structure for table oauth_consumer
+# Dumping structure for table s5152d29ad0535.oauth_consumer
 DROP TABLE IF EXISTS `oauth_consumer`;
 CREATE TABLE IF NOT EXISTS `oauth_consumer` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Created At',
-  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Updated At',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP COMMENT 'Created At',
+  `updated_at` timestamp NULL default NULL COMMENT 'Updated At',
   `name` varchar(255) NOT NULL COMMENT 'Name of consumer',
   `key` varchar(32) NOT NULL COMMENT 'Key code',
   `secret` varchar(32) NOT NULL COMMENT 'Secret code',
-  `callback_url` varchar(255) DEFAULT NULL COMMENT 'Callback URL',
+  `callback_url` varchar(255) default NULL COMMENT 'Callback URL',
   `rejected_callback_url` varchar(255) NOT NULL COMMENT 'Rejected callback URL',
-  PRIMARY KEY (`entity_id`),
+  PRIMARY KEY  (`entity_id`),
   UNIQUE KEY `UNQ_OAUTH_CONSUMER_KEY` (`key`),
   UNIQUE KEY `UNQ_OAUTH_CONSUMER_SECRET` (`secret`),
   KEY `IDX_OAUTH_CONSUMER_CREATED_AT` (`created_at`),
   KEY `IDX_OAUTH_CONSUMER_UPDATED_AT` (`updated_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='OAuth Consumers';
 
-# Dumping data for table oauth_consumer: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.oauth_consumer: ~0 rows (approximately)
 /*!40000 ALTER TABLE `oauth_consumer` DISABLE KEYS */;
 /*!40000 ALTER TABLE `oauth_consumer` ENABLE KEYS */;
 
 
-# Dumping structure for table oauth_nonce
+# Dumping structure for table s5152d29ad0535.oauth_nonce
 DROP TABLE IF EXISTS `oauth_nonce`;
 CREATE TABLE IF NOT EXISTS `oauth_nonce` (
   `nonce` varchar(32) NOT NULL COMMENT 'Nonce String',
@@ -6428,27 +7635,27 @@ CREATE TABLE IF NOT EXISTS `oauth_nonce` (
   UNIQUE KEY `UNQ_OAUTH_NONCE_NONCE` (`nonce`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='oauth_nonce';
 
-# Dumping data for table oauth_nonce: 0 rows
+# Dumping data for table s5152d29ad0535.oauth_nonce: 0 rows
 /*!40000 ALTER TABLE `oauth_nonce` DISABLE KEYS */;
 /*!40000 ALTER TABLE `oauth_nonce` ENABLE KEYS */;
 
 
-# Dumping structure for table oauth_token
+# Dumping structure for table s5152d29ad0535.oauth_token
 DROP TABLE IF EXISTS `oauth_token`;
 CREATE TABLE IF NOT EXISTS `oauth_token` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity ID',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity ID',
   `consumer_id` int(10) unsigned NOT NULL COMMENT 'Consumer ID',
-  `admin_id` int(10) unsigned DEFAULT NULL COMMENT 'Admin user ID',
-  `customer_id` int(10) unsigned DEFAULT NULL COMMENT 'Customer user ID',
+  `admin_id` int(10) unsigned default NULL COMMENT 'Admin user ID',
+  `customer_id` int(10) unsigned default NULL COMMENT 'Customer user ID',
   `type` varchar(16) NOT NULL COMMENT 'Token Type',
   `token` varchar(32) NOT NULL COMMENT 'Token',
   `secret` varchar(32) NOT NULL COMMENT 'Token Secret',
-  `verifier` varchar(32) DEFAULT NULL COMMENT 'Token Verifier',
+  `verifier` varchar(32) default NULL COMMENT 'Token Verifier',
   `callback_url` varchar(255) NOT NULL COMMENT 'Token Callback URL',
-  `revoked` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Token revoked',
-  `authorized` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Token authorized',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Token creation timestamp',
-  PRIMARY KEY (`entity_id`),
+  `revoked` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Token revoked',
+  `authorized` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Token authorized',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP COMMENT 'Token creation timestamp',
+  PRIMARY KEY  (`entity_id`),
   UNIQUE KEY `UNQ_OAUTH_TOKEN_TOKEN` (`token`),
   KEY `IDX_OAUTH_TOKEN_CONSUMER_ID` (`consumer_id`),
   KEY `FK_OAUTH_TOKEN_ADMIN_ID_ADMIN_USER_USER_ID` (`admin_id`),
@@ -6458,102 +7665,102 @@ CREATE TABLE IF NOT EXISTS `oauth_token` (
   CONSTRAINT `FK_OAUTH_TOKEN_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='OAuth Tokens';
 
-# Dumping data for table oauth_token: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.oauth_token: ~0 rows (approximately)
 /*!40000 ALTER TABLE `oauth_token` DISABLE KEYS */;
 /*!40000 ALTER TABLE `oauth_token` ENABLE KEYS */;
 
 
-# Dumping structure for table paypal_cert
+# Dumping structure for table s5152d29ad0535.paypal_cert
 DROP TABLE IF EXISTS `paypal_cert`;
 CREATE TABLE IF NOT EXISTS `paypal_cert` (
-  `cert_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Cert Id',
-  `website_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Website Id',
+  `cert_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Cert Id',
+  `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website Id',
   `content` text COMMENT 'Content',
-  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Updated At',
-  PRIMARY KEY (`cert_id`),
+  `updated_at` timestamp NULL default NULL COMMENT 'Updated At',
+  PRIMARY KEY  (`cert_id`),
   KEY `IDX_PAYPAL_CERT_WEBSITE_ID` (`website_id`),
   CONSTRAINT `FK_PAYPAL_CERT_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Paypal Certificate Table';
 
-# Dumping data for table paypal_cert: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.paypal_cert: ~0 rows (approximately)
 /*!40000 ALTER TABLE `paypal_cert` DISABLE KEYS */;
 /*!40000 ALTER TABLE `paypal_cert` ENABLE KEYS */;
 
 
-# Dumping structure for table paypal_payment_transaction
+# Dumping structure for table s5152d29ad0535.paypal_payment_transaction
 DROP TABLE IF EXISTS `paypal_payment_transaction`;
 CREATE TABLE IF NOT EXISTS `paypal_payment_transaction` (
-  `transaction_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
-  `txn_id` varchar(100) DEFAULT NULL COMMENT 'Txn Id',
+  `transaction_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
+  `txn_id` varchar(100) default NULL COMMENT 'Txn Id',
   `additional_information` blob COMMENT 'Additional Information',
-  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Created At',
-  PRIMARY KEY (`transaction_id`),
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  PRIMARY KEY  (`transaction_id`),
   UNIQUE KEY `UNQ_PAYPAL_PAYMENT_TRANSACTION_TXN_ID` (`txn_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='PayPal Payflow Link Payment Transaction';
 
-# Dumping data for table paypal_payment_transaction: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.paypal_payment_transaction: ~0 rows (approximately)
 /*!40000 ALTER TABLE `paypal_payment_transaction` DISABLE KEYS */;
 /*!40000 ALTER TABLE `paypal_payment_transaction` ENABLE KEYS */;
 
 
-# Dumping structure for table paypal_settlement_report
+# Dumping structure for table s5152d29ad0535.paypal_settlement_report
 DROP TABLE IF EXISTS `paypal_settlement_report`;
 CREATE TABLE IF NOT EXISTS `paypal_settlement_report` (
-  `report_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Report Id',
-  `report_date` timestamp NULL DEFAULT NULL COMMENT 'Report Date',
-  `account_id` varchar(64) DEFAULT NULL COMMENT 'Account Id',
-  `filename` varchar(24) DEFAULT NULL COMMENT 'Filename',
-  `last_modified` timestamp NULL DEFAULT NULL COMMENT 'Last Modified',
-  PRIMARY KEY (`report_id`),
+  `report_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Report Id',
+  `report_date` timestamp NULL default NULL COMMENT 'Report Date',
+  `account_id` varchar(64) default NULL COMMENT 'Account Id',
+  `filename` varchar(24) default NULL COMMENT 'Filename',
+  `last_modified` timestamp NULL default NULL COMMENT 'Last Modified',
+  PRIMARY KEY  (`report_id`),
   UNIQUE KEY `UNQ_PAYPAL_SETTLEMENT_REPORT_REPORT_DATE_ACCOUNT_ID` (`report_date`,`account_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Paypal Settlement Report Table';
 
-# Dumping data for table paypal_settlement_report: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.paypal_settlement_report: ~0 rows (approximately)
 /*!40000 ALTER TABLE `paypal_settlement_report` DISABLE KEYS */;
 /*!40000 ALTER TABLE `paypal_settlement_report` ENABLE KEYS */;
 
 
-# Dumping structure for table paypal_settlement_report_row
+# Dumping structure for table s5152d29ad0535.paypal_settlement_report_row
 DROP TABLE IF EXISTS `paypal_settlement_report_row`;
 CREATE TABLE IF NOT EXISTS `paypal_settlement_report_row` (
-  `row_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Row Id',
+  `row_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Row Id',
   `report_id` int(10) unsigned NOT NULL COMMENT 'Report Id',
-  `transaction_id` varchar(19) DEFAULT NULL COMMENT 'Transaction Id',
-  `invoice_id` varchar(127) DEFAULT NULL COMMENT 'Invoice Id',
-  `paypal_reference_id` varchar(19) DEFAULT NULL COMMENT 'Paypal Reference Id',
-  `paypal_reference_id_type` varchar(3) DEFAULT NULL COMMENT 'Paypal Reference Id Type',
-  `transaction_event_code` varchar(5) DEFAULT NULL COMMENT 'Transaction Event Code',
-  `transaction_initiation_date` timestamp NULL DEFAULT NULL COMMENT 'Transaction Initiation Date',
-  `transaction_completion_date` timestamp NULL DEFAULT NULL COMMENT 'Transaction Completion Date',
-  `transaction_debit_or_credit` varchar(2) NOT NULL DEFAULT 'CR' COMMENT 'Transaction Debit Or Credit',
-  `gross_transaction_amount` decimal(20,6) NOT NULL DEFAULT '0.000000' COMMENT 'Gross Transaction Amount',
-  `gross_transaction_currency` varchar(3) DEFAULT '' COMMENT 'Gross Transaction Currency',
-  `fee_debit_or_credit` varchar(2) DEFAULT NULL COMMENT 'Fee Debit Or Credit',
-  `fee_amount` decimal(20,6) NOT NULL DEFAULT '0.000000' COMMENT 'Fee Amount',
-  `fee_currency` varchar(3) DEFAULT NULL COMMENT 'Fee Currency',
-  `custom_field` varchar(255) DEFAULT NULL COMMENT 'Custom Field',
-  `consumer_id` varchar(127) DEFAULT NULL COMMENT 'Consumer Id',
-  `payment_tracking_id` varchar(255) DEFAULT NULL COMMENT 'Payment Tracking ID',
-  PRIMARY KEY (`row_id`),
+  `transaction_id` varchar(19) default NULL COMMENT 'Transaction Id',
+  `invoice_id` varchar(127) default NULL COMMENT 'Invoice Id',
+  `paypal_reference_id` varchar(19) default NULL COMMENT 'Paypal Reference Id',
+  `paypal_reference_id_type` varchar(3) default NULL COMMENT 'Paypal Reference Id Type',
+  `transaction_event_code` varchar(5) default NULL COMMENT 'Transaction Event Code',
+  `transaction_initiation_date` timestamp NULL default NULL COMMENT 'Transaction Initiation Date',
+  `transaction_completion_date` timestamp NULL default NULL COMMENT 'Transaction Completion Date',
+  `transaction_debit_or_credit` varchar(2) NOT NULL default 'CR' COMMENT 'Transaction Debit Or Credit',
+  `gross_transaction_amount` decimal(20,6) NOT NULL default '0.000000' COMMENT 'Gross Transaction Amount',
+  `gross_transaction_currency` varchar(3) default '' COMMENT 'Gross Transaction Currency',
+  `fee_debit_or_credit` varchar(2) default NULL COMMENT 'Fee Debit Or Credit',
+  `fee_amount` decimal(20,6) NOT NULL default '0.000000' COMMENT 'Fee Amount',
+  `fee_currency` varchar(3) default NULL COMMENT 'Fee Currency',
+  `custom_field` varchar(255) default NULL COMMENT 'Custom Field',
+  `consumer_id` varchar(127) default NULL COMMENT 'Consumer Id',
+  `payment_tracking_id` varchar(255) default NULL COMMENT 'Payment Tracking ID',
+  PRIMARY KEY  (`row_id`),
   KEY `IDX_PAYPAL_SETTLEMENT_REPORT_ROW_REPORT_ID` (`report_id`),
   CONSTRAINT `FK_E183E488F593E0DE10C6EBFFEBAC9B55` FOREIGN KEY (`report_id`) REFERENCES `paypal_settlement_report` (`report_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Paypal Settlement Report Row Table';
 
-# Dumping data for table paypal_settlement_report_row: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.paypal_settlement_report_row: ~0 rows (approximately)
 /*!40000 ALTER TABLE `paypal_settlement_report_row` DISABLE KEYS */;
 /*!40000 ALTER TABLE `paypal_settlement_report_row` ENABLE KEYS */;
 
 
-# Dumping structure for table persistent_session
+# Dumping structure for table s5152d29ad0535.persistent_session
 DROP TABLE IF EXISTS `persistent_session`;
 CREATE TABLE IF NOT EXISTS `persistent_session` (
-  `persistent_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Session id',
+  `persistent_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Session id',
   `key` varchar(50) NOT NULL COMMENT 'Unique cookie key',
-  `customer_id` int(10) unsigned DEFAULT NULL COMMENT 'Customer id',
-  `website_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Website ID',
+  `customer_id` int(10) unsigned default NULL COMMENT 'Customer id',
+  `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website ID',
   `info` text COMMENT 'Session Data',
-  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Updated At',
-  PRIMARY KEY (`persistent_id`),
+  `updated_at` timestamp NULL default NULL COMMENT 'Updated At',
+  PRIMARY KEY  (`persistent_id`),
   UNIQUE KEY `IDX_PERSISTENT_SESSION_KEY` (`key`),
   UNIQUE KEY `IDX_PERSISTENT_SESSION_CUSTOMER_ID` (`customer_id`),
   KEY `IDX_PERSISTENT_SESSION_UPDATED_AT` (`updated_at`),
@@ -6562,49 +7769,49 @@ CREATE TABLE IF NOT EXISTS `persistent_session` (
   CONSTRAINT `FK_PERSISTENT_SESSION_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Persistent Session';
 
-# Dumping data for table persistent_session: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.persistent_session: ~0 rows (approximately)
 /*!40000 ALTER TABLE `persistent_session` DISABLE KEYS */;
 /*!40000 ALTER TABLE `persistent_session` ENABLE KEYS */;
 
 
-# Dumping structure for table poll
+# Dumping structure for table s5152d29ad0535.poll
 DROP TABLE IF EXISTS `poll`;
 CREATE TABLE IF NOT EXISTS `poll` (
-  `poll_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Poll Id',
-  `poll_title` varchar(255) DEFAULT NULL COMMENT 'Poll title',
-  `votes_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Votes Count',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store id',
-  `date_posted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date posted',
-  `date_closed` timestamp NULL DEFAULT NULL COMMENT 'Date closed',
-  `active` smallint(6) NOT NULL DEFAULT '1' COMMENT 'Is active',
-  `closed` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Is closed',
-  `answers_display` smallint(6) DEFAULT NULL COMMENT 'Answers display',
-  PRIMARY KEY (`poll_id`),
+  `poll_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Poll Id',
+  `poll_title` varchar(255) default NULL COMMENT 'Poll title',
+  `votes_count` int(10) unsigned NOT NULL default '0' COMMENT 'Votes Count',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store id',
+  `date_posted` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Date posted',
+  `date_closed` timestamp NULL default NULL COMMENT 'Date closed',
+  `active` smallint(6) NOT NULL default '1' COMMENT 'Is active',
+  `closed` smallint(6) NOT NULL default '0' COMMENT 'Is closed',
+  `answers_display` smallint(6) default NULL COMMENT 'Answers display',
+  PRIMARY KEY  (`poll_id`),
   KEY `IDX_POLL_STORE_ID` (`store_id`),
   CONSTRAINT `FK_POLL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Poll';
 
-# Dumping data for table poll: ~1 rows (approximately)
+# Dumping data for table s5152d29ad0535.poll: ~1 rows (approximately)
 /*!40000 ALTER TABLE `poll` DISABLE KEYS */;
 INSERT INTO `poll` (`poll_id`, `poll_title`, `votes_count`, `store_id`, `date_posted`, `date_closed`, `active`, `closed`, `answers_display`) VALUES
 	(1, 'What is your favorite color', 7, 0, '2013-02-28 21:03:09', NULL, 1, 0, NULL);
 /*!40000 ALTER TABLE `poll` ENABLE KEYS */;
 
 
-# Dumping structure for table poll_answer
+# Dumping structure for table s5152d29ad0535.poll_answer
 DROP TABLE IF EXISTS `poll_answer`;
 CREATE TABLE IF NOT EXISTS `poll_answer` (
-  `answer_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Answer Id',
-  `poll_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Poll Id',
-  `answer_title` varchar(255) DEFAULT NULL COMMENT 'Answer title',
-  `votes_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Votes Count',
-  `answer_order` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Answers display',
-  PRIMARY KEY (`answer_id`),
+  `answer_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Answer Id',
+  `poll_id` int(10) unsigned NOT NULL default '0' COMMENT 'Poll Id',
+  `answer_title` varchar(255) default NULL COMMENT 'Answer title',
+  `votes_count` int(10) unsigned NOT NULL default '0' COMMENT 'Votes Count',
+  `answer_order` smallint(6) NOT NULL default '0' COMMENT 'Answers display',
+  PRIMARY KEY  (`answer_id`),
   KEY `IDX_POLL_ANSWER_POLL_ID` (`poll_id`),
   CONSTRAINT `FK_POLL_ANSWER_POLL_ID_POLL_POLL_ID` FOREIGN KEY (`poll_id`) REFERENCES `poll` (`poll_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Poll Answers';
 
-# Dumping data for table poll_answer: ~4 rows (approximately)
+# Dumping data for table s5152d29ad0535.poll_answer: ~4 rows (approximately)
 /*!40000 ALTER TABLE `poll_answer` DISABLE KEYS */;
 INSERT INTO `poll_answer` (`answer_id`, `poll_id`, `answer_title`, `votes_count`, `answer_order`) VALUES
 	(1, 1, 'Green', 4, 0),
@@ -6614,56 +7821,56 @@ INSERT INTO `poll_answer` (`answer_id`, `poll_id`, `answer_title`, `votes_count`
 /*!40000 ALTER TABLE `poll_answer` ENABLE KEYS */;
 
 
-# Dumping structure for table poll_store
+# Dumping structure for table s5152d29ad0535.poll_store
 DROP TABLE IF EXISTS `poll_store`;
 CREATE TABLE IF NOT EXISTS `poll_store` (
-  `poll_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Poll Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store id',
-  PRIMARY KEY (`poll_id`,`store_id`),
+  `poll_id` int(10) unsigned NOT NULL default '0' COMMENT 'Poll Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store id',
+  PRIMARY KEY  (`poll_id`,`store_id`),
   KEY `IDX_POLL_STORE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_POLL_STORE_POLL_ID_POLL_POLL_ID` FOREIGN KEY (`poll_id`) REFERENCES `poll` (`poll_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_POLL_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Poll Store';
 
-# Dumping data for table poll_store: ~1 rows (approximately)
+# Dumping data for table s5152d29ad0535.poll_store: ~1 rows (approximately)
 /*!40000 ALTER TABLE `poll_store` DISABLE KEYS */;
 INSERT INTO `poll_store` (`poll_id`, `store_id`) VALUES
 	(1, 1);
 /*!40000 ALTER TABLE `poll_store` ENABLE KEYS */;
 
 
-# Dumping structure for table poll_vote
+# Dumping structure for table s5152d29ad0535.poll_vote
 DROP TABLE IF EXISTS `poll_vote`;
 CREATE TABLE IF NOT EXISTS `poll_vote` (
-  `vote_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Vote Id',
-  `poll_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Poll Id',
-  `poll_answer_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Poll answer id',
-  `ip_address` bigint(20) DEFAULT NULL COMMENT 'Poll answer id',
-  `customer_id` int(11) DEFAULT NULL COMMENT 'Customer id',
-  `vote_time` timestamp NULL DEFAULT NULL COMMENT 'Date closed',
-  PRIMARY KEY (`vote_id`),
+  `vote_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Vote Id',
+  `poll_id` int(10) unsigned NOT NULL default '0' COMMENT 'Poll Id',
+  `poll_answer_id` int(10) unsigned NOT NULL default '0' COMMENT 'Poll answer id',
+  `ip_address` bigint(20) default NULL COMMENT 'Poll answer id',
+  `customer_id` int(11) default NULL COMMENT 'Customer id',
+  `vote_time` timestamp NULL default NULL COMMENT 'Date closed',
+  PRIMARY KEY  (`vote_id`),
   KEY `IDX_POLL_VOTE_POLL_ANSWER_ID` (`poll_answer_id`),
   CONSTRAINT `FK_POLL_VOTE_POLL_ANSWER_ID_POLL_ANSWER_ANSWER_ID` FOREIGN KEY (`poll_answer_id`) REFERENCES `poll_answer` (`answer_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Poll Vote';
 
-# Dumping data for table poll_vote: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.poll_vote: ~0 rows (approximately)
 /*!40000 ALTER TABLE `poll_vote` DISABLE KEYS */;
 /*!40000 ALTER TABLE `poll_vote` ENABLE KEYS */;
 
 
-# Dumping structure for table product_alert_price
+# Dumping structure for table s5152d29ad0535.product_alert_price
 DROP TABLE IF EXISTS `product_alert_price`;
 CREATE TABLE IF NOT EXISTS `product_alert_price` (
-  `alert_price_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Product alert price id',
-  `customer_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer id',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product id',
-  `price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Price amount',
-  `website_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Website id',
-  `add_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Product alert add date',
-  `last_send_date` timestamp NULL DEFAULT NULL COMMENT 'Product alert last send date',
-  `send_count` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Product alert send count',
-  `status` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Product alert status',
-  PRIMARY KEY (`alert_price_id`),
+  `alert_price_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Product alert price id',
+  `customer_id` int(10) unsigned NOT NULL default '0' COMMENT 'Customer id',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product id',
+  `price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Price amount',
+  `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website id',
+  `add_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Product alert add date',
+  `last_send_date` timestamp NULL default NULL COMMENT 'Product alert last send date',
+  `send_count` smallint(5) unsigned NOT NULL default '0' COMMENT 'Product alert send count',
+  `status` smallint(5) unsigned NOT NULL default '0' COMMENT 'Product alert status',
+  PRIMARY KEY  (`alert_price_id`),
   KEY `IDX_PRODUCT_ALERT_PRICE_CUSTOMER_ID` (`customer_id`),
   KEY `IDX_PRODUCT_ALERT_PRICE_PRODUCT_ID` (`product_id`),
   KEY `IDX_PRODUCT_ALERT_PRICE_WEBSITE_ID` (`website_id`),
@@ -6672,23 +7879,23 @@ CREATE TABLE IF NOT EXISTS `product_alert_price` (
   CONSTRAINT `FK_PRODUCT_ALERT_PRICE_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product Alert Price';
 
-# Dumping data for table product_alert_price: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.product_alert_price: ~0 rows (approximately)
 /*!40000 ALTER TABLE `product_alert_price` DISABLE KEYS */;
 /*!40000 ALTER TABLE `product_alert_price` ENABLE KEYS */;
 
 
-# Dumping structure for table product_alert_stock
+# Dumping structure for table s5152d29ad0535.product_alert_stock
 DROP TABLE IF EXISTS `product_alert_stock`;
 CREATE TABLE IF NOT EXISTS `product_alert_stock` (
-  `alert_stock_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Product alert stock id',
-  `customer_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer id',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product id',
-  `website_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Website id',
-  `add_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Product alert add date',
-  `send_date` timestamp NULL DEFAULT NULL COMMENT 'Product alert send date',
-  `send_count` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Send Count',
-  `status` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Product alert status',
-  PRIMARY KEY (`alert_stock_id`),
+  `alert_stock_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Product alert stock id',
+  `customer_id` int(10) unsigned NOT NULL default '0' COMMENT 'Customer id',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product id',
+  `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website id',
+  `add_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Product alert add date',
+  `send_date` timestamp NULL default NULL COMMENT 'Product alert send date',
+  `send_count` smallint(5) unsigned NOT NULL default '0' COMMENT 'Send Count',
+  `status` smallint(5) unsigned NOT NULL default '0' COMMENT 'Product alert status',
+  PRIMARY KEY  (`alert_stock_id`),
   KEY `IDX_PRODUCT_ALERT_STOCK_CUSTOMER_ID` (`customer_id`),
   KEY `IDX_PRODUCT_ALERT_STOCK_PRODUCT_ID` (`product_id`),
   KEY `IDX_PRODUCT_ALERT_STOCK_WEBSITE_ID` (`website_id`),
@@ -6697,26 +7904,26 @@ CREATE TABLE IF NOT EXISTS `product_alert_stock` (
   CONSTRAINT `FK_PRD_ALERT_STOCK_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product Alert Stock';
 
-# Dumping data for table product_alert_stock: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.product_alert_stock: ~0 rows (approximately)
 /*!40000 ALTER TABLE `product_alert_stock` DISABLE KEYS */;
 /*!40000 ALTER TABLE `product_alert_stock` ENABLE KEYS */;
 
 
-# Dumping structure for table rating
+# Dumping structure for table s5152d29ad0535.rating
 DROP TABLE IF EXISTS `rating`;
 CREATE TABLE IF NOT EXISTS `rating` (
-  `rating_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rating Id',
-  `entity_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
+  `rating_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Rating Id',
+  `entity_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity Id',
   `rating_code` varchar(64) NOT NULL COMMENT 'Rating Code',
-  `position` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Rating Position On Frontend',
-  `is_active` smallint(6) NOT NULL DEFAULT '1' COMMENT 'Rating is active.',
-  PRIMARY KEY (`rating_id`),
+  `position` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating Position On Frontend',
+  `is_active` smallint(6) NOT NULL default '1' COMMENT 'Rating is active.',
+  PRIMARY KEY  (`rating_id`),
   UNIQUE KEY `UNQ_RATING_RATING_CODE` (`rating_code`),
   KEY `IDX_RATING_ENTITY_ID` (`entity_id`),
   CONSTRAINT `FK_RATING_ENTITY_ID_RATING_ENTITY_ENTITY_ID` FOREIGN KEY (`entity_id`) REFERENCES `rating_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Ratings';
 
-# Dumping data for table rating: ~3 rows (approximately)
+# Dumping data for table s5152d29ad0535.rating: ~3 rows (approximately)
 /*!40000 ALTER TABLE `rating` DISABLE KEYS */;
 INSERT INTO `rating` (`rating_id`, `entity_id`, `rating_code`, `position`, `is_active`) VALUES
 	(1, 1, 'Quality', 0, 1),
@@ -6725,16 +7932,16 @@ INSERT INTO `rating` (`rating_id`, `entity_id`, `rating_code`, `position`, `is_a
 /*!40000 ALTER TABLE `rating` ENABLE KEYS */;
 
 
-# Dumping structure for table rating_entity
+# Dumping structure for table s5152d29ad0535.rating_entity
 DROP TABLE IF EXISTS `rating_entity`;
 CREATE TABLE IF NOT EXISTS `rating_entity` (
-  `entity_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
+  `entity_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `entity_code` varchar(64) NOT NULL COMMENT 'Entity Code',
-  PRIMARY KEY (`entity_id`),
+  PRIMARY KEY  (`entity_id`),
   UNIQUE KEY `UNQ_RATING_ENTITY_ENTITY_CODE` (`entity_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Rating entities';
 
-# Dumping data for table rating_entity: ~3 rows (approximately)
+# Dumping data for table s5152d29ad0535.rating_entity: ~3 rows (approximately)
 /*!40000 ALTER TABLE `rating_entity` DISABLE KEYS */;
 INSERT INTO `rating_entity` (`entity_id`, `entity_code`) VALUES
 	(1, 'product'),
@@ -6743,20 +7950,20 @@ INSERT INTO `rating_entity` (`entity_id`, `entity_code`) VALUES
 /*!40000 ALTER TABLE `rating_entity` ENABLE KEYS */;
 
 
-# Dumping structure for table rating_option
+# Dumping structure for table s5152d29ad0535.rating_option
 DROP TABLE IF EXISTS `rating_option`;
 CREATE TABLE IF NOT EXISTS `rating_option` (
-  `option_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rating Option Id',
-  `rating_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Rating Id',
+  `option_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rating Option Id',
+  `rating_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating Id',
   `code` varchar(32) NOT NULL COMMENT 'Rating Option Code',
-  `value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Rating Option Value',
-  `position` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Ration option position on frontend',
-  PRIMARY KEY (`option_id`),
+  `value` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating Option Value',
+  `position` smallint(5) unsigned NOT NULL default '0' COMMENT 'Ration option position on frontend',
+  PRIMARY KEY  (`option_id`),
   KEY `IDX_RATING_OPTION_RATING_ID` (`rating_id`),
   CONSTRAINT `FK_RATING_OPTION_RATING_ID_RATING_RATING_ID` FOREIGN KEY (`rating_id`) REFERENCES `rating` (`rating_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='Rating options';
 
-# Dumping data for table rating_option: ~15 rows (approximately)
+# Dumping data for table s5152d29ad0535.rating_option: ~15 rows (approximately)
 /*!40000 ALTER TABLE `rating_option` DISABLE KEYS */;
 INSERT INTO `rating_option` (`option_id`, `rating_id`, `code`, `value`, `position`) VALUES
 	(1, 1, '1', 1, 1),
@@ -6777,97 +7984,97 @@ INSERT INTO `rating_option` (`option_id`, `rating_id`, `code`, `value`, `positio
 /*!40000 ALTER TABLE `rating_option` ENABLE KEYS */;
 
 
-# Dumping structure for table rating_option_vote
+# Dumping structure for table s5152d29ad0535.rating_option_vote
 DROP TABLE IF EXISTS `rating_option_vote`;
 CREATE TABLE IF NOT EXISTS `rating_option_vote` (
-  `vote_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Vote id',
-  `option_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Vote option id',
+  `vote_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Vote id',
+  `option_id` int(10) unsigned NOT NULL default '0' COMMENT 'Vote option id',
   `remote_ip` varchar(16) NOT NULL COMMENT 'Customer IP',
-  `remote_ip_long` bigint(20) NOT NULL DEFAULT '0' COMMENT 'Customer IP converted to long integer format',
-  `customer_id` int(10) unsigned DEFAULT '0' COMMENT 'Customer Id',
-  `entity_pk_value` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'Product id',
-  `rating_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Rating id',
-  `review_id` bigint(20) unsigned DEFAULT NULL COMMENT 'Review id',
-  `percent` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Percent amount',
-  `value` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Vote option value',
-  PRIMARY KEY (`vote_id`),
+  `remote_ip_long` bigint(20) NOT NULL default '0' COMMENT 'Customer IP converted to long integer format',
+  `customer_id` int(10) unsigned default '0' COMMENT 'Customer Id',
+  `entity_pk_value` bigint(20) unsigned NOT NULL default '0' COMMENT 'Product id',
+  `rating_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating id',
+  `review_id` bigint(20) unsigned default NULL COMMENT 'Review id',
+  `percent` smallint(6) NOT NULL default '0' COMMENT 'Percent amount',
+  `value` smallint(6) NOT NULL default '0' COMMENT 'Vote option value',
+  PRIMARY KEY  (`vote_id`),
   KEY `IDX_RATING_OPTION_VOTE_OPTION_ID` (`option_id`),
   KEY `FK_RATING_OPTION_VOTE_REVIEW_ID_REVIEW_REVIEW_ID` (`review_id`),
   CONSTRAINT `FK_RATING_OPTION_VOTE_REVIEW_ID_REVIEW_REVIEW_ID` FOREIGN KEY (`review_id`) REFERENCES `review` (`review_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_RATING_OPTION_VOTE_OPTION_ID_RATING_OPTION_OPTION_ID` FOREIGN KEY (`option_id`) REFERENCES `rating_option` (`option_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Rating option values';
 
-# Dumping data for table rating_option_vote: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.rating_option_vote: ~0 rows (approximately)
 /*!40000 ALTER TABLE `rating_option_vote` DISABLE KEYS */;
 /*!40000 ALTER TABLE `rating_option_vote` ENABLE KEYS */;
 
 
-# Dumping structure for table rating_option_vote_aggregated
+# Dumping structure for table s5152d29ad0535.rating_option_vote_aggregated
 DROP TABLE IF EXISTS `rating_option_vote_aggregated`;
 CREATE TABLE IF NOT EXISTS `rating_option_vote_aggregated` (
-  `primary_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Vote aggregation id',
-  `rating_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Rating id',
-  `entity_pk_value` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'Product id',
-  `vote_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Vote dty',
-  `vote_value_sum` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'General vote sum',
-  `percent` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Vote percent',
-  `percent_approved` smallint(6) DEFAULT '0' COMMENT 'Vote percent approved by admin',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
-  PRIMARY KEY (`primary_id`),
+  `primary_id` int(11) NOT NULL auto_increment COMMENT 'Vote aggregation id',
+  `rating_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating id',
+  `entity_pk_value` bigint(20) unsigned NOT NULL default '0' COMMENT 'Product id',
+  `vote_count` int(10) unsigned NOT NULL default '0' COMMENT 'Vote dty',
+  `vote_value_sum` int(10) unsigned NOT NULL default '0' COMMENT 'General vote sum',
+  `percent` smallint(6) NOT NULL default '0' COMMENT 'Vote percent',
+  `percent_approved` smallint(6) default '0' COMMENT 'Vote percent approved by admin',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  PRIMARY KEY  (`primary_id`),
   KEY `IDX_RATING_OPTION_VOTE_AGGREGATED_RATING_ID` (`rating_id`),
   KEY `IDX_RATING_OPTION_VOTE_AGGREGATED_STORE_ID` (`store_id`),
   CONSTRAINT `FK_RATING_OPTION_VOTE_AGGREGATED_RATING_ID_RATING_RATING_ID` FOREIGN KEY (`rating_id`) REFERENCES `rating` (`rating_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_RATING_OPTION_VOTE_AGGREGATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Rating vote aggregated';
 
-# Dumping data for table rating_option_vote_aggregated: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.rating_option_vote_aggregated: ~0 rows (approximately)
 /*!40000 ALTER TABLE `rating_option_vote_aggregated` DISABLE KEYS */;
 /*!40000 ALTER TABLE `rating_option_vote_aggregated` ENABLE KEYS */;
 
 
-# Dumping structure for table rating_store
+# Dumping structure for table s5152d29ad0535.rating_store
 DROP TABLE IF EXISTS `rating_store`;
 CREATE TABLE IF NOT EXISTS `rating_store` (
-  `rating_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Rating id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store id',
-  PRIMARY KEY (`rating_id`,`store_id`),
+  `rating_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store id',
+  PRIMARY KEY  (`rating_id`,`store_id`),
   KEY `IDX_RATING_STORE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_RATING_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_RATING_STORE_RATING_ID_RATING_RATING_ID` FOREIGN KEY (`rating_id`) REFERENCES `rating` (`rating_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Rating Store';
 
-# Dumping data for table rating_store: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.rating_store: ~0 rows (approximately)
 /*!40000 ALTER TABLE `rating_store` DISABLE KEYS */;
 /*!40000 ALTER TABLE `rating_store` ENABLE KEYS */;
 
 
-# Dumping structure for table rating_title
+# Dumping structure for table s5152d29ad0535.rating_title
 DROP TABLE IF EXISTS `rating_title`;
 CREATE TABLE IF NOT EXISTS `rating_title` (
-  `rating_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Rating Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
+  `rating_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
   `value` varchar(255) NOT NULL COMMENT 'Rating Label',
-  PRIMARY KEY (`rating_id`,`store_id`),
+  PRIMARY KEY  (`rating_id`,`store_id`),
   KEY `IDX_RATING_TITLE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_RATING_TITLE_RATING_ID_RATING_RATING_ID` FOREIGN KEY (`rating_id`) REFERENCES `rating` (`rating_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_RATING_TITLE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Rating Title';
 
-# Dumping data for table rating_title: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.rating_title: ~0 rows (approximately)
 /*!40000 ALTER TABLE `rating_title` DISABLE KEYS */;
 /*!40000 ALTER TABLE `rating_title` ENABLE KEYS */;
 
 
-# Dumping structure for table report_compared_product_index
+# Dumping structure for table s5152d29ad0535.report_compared_product_index
 DROP TABLE IF EXISTS `report_compared_product_index`;
 CREATE TABLE IF NOT EXISTS `report_compared_product_index` (
-  `index_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Index Id',
-  `visitor_id` int(10) unsigned DEFAULT NULL COMMENT 'Visitor Id',
-  `customer_id` int(10) unsigned DEFAULT NULL COMMENT 'Customer Id',
+  `index_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Index Id',
+  `visitor_id` int(10) unsigned default NULL COMMENT 'Visitor Id',
+  `customer_id` int(10) unsigned default NULL COMMENT 'Customer Id',
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `added_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Added At',
-  PRIMARY KEY (`index_id`),
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `added_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Added At',
+  PRIMARY KEY  (`index_id`),
   UNIQUE KEY `UNQ_REPORT_COMPARED_PRODUCT_INDEX_VISITOR_ID_PRODUCT_ID` (`visitor_id`,`product_id`),
   UNIQUE KEY `UNQ_REPORT_COMPARED_PRODUCT_INDEX_CUSTOMER_ID_PRODUCT_ID` (`customer_id`,`product_id`),
   KEY `IDX_REPORT_COMPARED_PRODUCT_INDEX_STORE_ID` (`store_id`),
@@ -6878,22 +8085,22 @@ CREATE TABLE IF NOT EXISTS `report_compared_product_index` (
   CONSTRAINT `FK_REPORT_COMPARED_PRODUCT_INDEX_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Reports Compared Product Index Table';
 
-# Dumping data for table report_compared_product_index: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.report_compared_product_index: ~0 rows (approximately)
 /*!40000 ALTER TABLE `report_compared_product_index` DISABLE KEYS */;
 /*!40000 ALTER TABLE `report_compared_product_index` ENABLE KEYS */;
 
 
-# Dumping structure for table report_event
+# Dumping structure for table s5152d29ad0535.report_event
 DROP TABLE IF EXISTS `report_event`;
 CREATE TABLE IF NOT EXISTS `report_event` (
-  `event_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Event Id',
-  `logged_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Logged At',
-  `event_type_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Event Type Id',
-  `object_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Object Id',
-  `subject_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Subject Id',
-  `subtype` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Subtype',
+  `event_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Event Id',
+  `logged_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Logged At',
+  `event_type_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Event Type Id',
+  `object_id` int(10) unsigned NOT NULL default '0' COMMENT 'Object Id',
+  `subject_id` int(10) unsigned NOT NULL default '0' COMMENT 'Subject Id',
+  `subtype` smallint(5) unsigned NOT NULL default '0' COMMENT 'Subtype',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
-  PRIMARY KEY (`event_id`),
+  PRIMARY KEY  (`event_id`),
   KEY `IDX_REPORT_EVENT_EVENT_TYPE_ID` (`event_type_id`),
   KEY `IDX_REPORT_EVENT_SUBJECT_ID` (`subject_id`),
   KEY `IDX_REPORT_EVENT_OBJECT_ID` (`object_id`),
@@ -6903,21 +8110,21 @@ CREATE TABLE IF NOT EXISTS `report_event` (
   CONSTRAINT `FK_REPORT_EVENT_EVENT_TYPE_ID_REPORT_EVENT_TYPES_EVENT_TYPE_ID` FOREIGN KEY (`event_type_id`) REFERENCES `report_event_types` (`event_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Reports Event Table';
 
-# Dumping data for table report_event: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.report_event: ~0 rows (approximately)
 /*!40000 ALTER TABLE `report_event` DISABLE KEYS */;
 /*!40000 ALTER TABLE `report_event` ENABLE KEYS */;
 
 
-# Dumping structure for table report_event_types
+# Dumping structure for table s5152d29ad0535.report_event_types
 DROP TABLE IF EXISTS `report_event_types`;
 CREATE TABLE IF NOT EXISTS `report_event_types` (
-  `event_type_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Event Type Id',
+  `event_type_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Event Type Id',
   `event_name` varchar(64) NOT NULL COMMENT 'Event Name',
-  `customer_login` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer Login',
-  PRIMARY KEY (`event_type_id`)
+  `customer_login` smallint(5) unsigned NOT NULL default '0' COMMENT 'Customer Login',
+  PRIMARY KEY  (`event_type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Reports Event Type Table';
 
-# Dumping data for table report_event_types: ~6 rows (approximately)
+# Dumping data for table s5152d29ad0535.report_event_types: ~6 rows (approximately)
 /*!40000 ALTER TABLE `report_event_types` DISABLE KEYS */;
 INSERT INTO `report_event_types` (`event_type_id`, `event_name`, `customer_login`) VALUES
 	(1, 'catalog_product_view', 0),
@@ -6929,18 +8136,18 @@ INSERT INTO `report_event_types` (`event_type_id`, `event_name`, `customer_login
 /*!40000 ALTER TABLE `report_event_types` ENABLE KEYS */;
 
 
-# Dumping structure for table report_viewed_product_aggregated_daily
+# Dumping structure for table s5152d29ad0535.report_viewed_product_aggregated_daily
 DROP TABLE IF EXISTS `report_viewed_product_aggregated_daily`;
 CREATE TABLE IF NOT EXISTS `report_viewed_product_aggregated_daily` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `period` date DEFAULT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `product_id` int(10) unsigned DEFAULT NULL COMMENT 'Product Id',
-  `product_name` varchar(255) DEFAULT NULL COMMENT 'Product Name',
-  `product_price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Product Price',
-  `views_num` int(11) NOT NULL DEFAULT '0' COMMENT 'Number of Views',
-  `rating_pos` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Rating Pos',
-  PRIMARY KEY (`id`),
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `product_id` int(10) unsigned default NULL COMMENT 'Product Id',
+  `product_name` varchar(255) default NULL COMMENT 'Product Name',
+  `product_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Product Price',
+  `views_num` int(11) NOT NULL default '0' COMMENT 'Number of Views',
+  `rating_pos` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating Pos',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `UNQ_REPORT_VIEWED_PRD_AGGRED_DAILY_PERIOD_STORE_ID_PRD_ID` (`period`,`store_id`,`product_id`),
   KEY `IDX_REPORT_VIEWED_PRODUCT_AGGREGATED_DAILY_STORE_ID` (`store_id`),
   KEY `IDX_REPORT_VIEWED_PRODUCT_AGGREGATED_DAILY_PRODUCT_ID` (`product_id`),
@@ -6948,23 +8155,23 @@ CREATE TABLE IF NOT EXISTS `report_viewed_product_aggregated_daily` (
   CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_DAILY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Most Viewed Products Aggregated Daily';
 
-# Dumping data for table report_viewed_product_aggregated_daily: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.report_viewed_product_aggregated_daily: ~0 rows (approximately)
 /*!40000 ALTER TABLE `report_viewed_product_aggregated_daily` DISABLE KEYS */;
 /*!40000 ALTER TABLE `report_viewed_product_aggregated_daily` ENABLE KEYS */;
 
 
-# Dumping structure for table report_viewed_product_aggregated_monthly
+# Dumping structure for table s5152d29ad0535.report_viewed_product_aggregated_monthly
 DROP TABLE IF EXISTS `report_viewed_product_aggregated_monthly`;
 CREATE TABLE IF NOT EXISTS `report_viewed_product_aggregated_monthly` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `period` date DEFAULT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `product_id` int(10) unsigned DEFAULT NULL COMMENT 'Product Id',
-  `product_name` varchar(255) DEFAULT NULL COMMENT 'Product Name',
-  `product_price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Product Price',
-  `views_num` int(11) NOT NULL DEFAULT '0' COMMENT 'Number of Views',
-  `rating_pos` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Rating Pos',
-  PRIMARY KEY (`id`),
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `product_id` int(10) unsigned default NULL COMMENT 'Product Id',
+  `product_name` varchar(255) default NULL COMMENT 'Product Name',
+  `product_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Product Price',
+  `views_num` int(11) NOT NULL default '0' COMMENT 'Number of Views',
+  `rating_pos` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating Pos',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `UNQ_REPORT_VIEWED_PRD_AGGRED_MONTHLY_PERIOD_STORE_ID_PRD_ID` (`period`,`store_id`,`product_id`),
   KEY `IDX_REPORT_VIEWED_PRODUCT_AGGREGATED_MONTHLY_STORE_ID` (`store_id`),
   KEY `IDX_REPORT_VIEWED_PRODUCT_AGGREGATED_MONTHLY_PRODUCT_ID` (`product_id`),
@@ -6972,23 +8179,23 @@ CREATE TABLE IF NOT EXISTS `report_viewed_product_aggregated_monthly` (
   CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_MONTHLY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Most Viewed Products Aggregated Monthly';
 
-# Dumping data for table report_viewed_product_aggregated_monthly: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.report_viewed_product_aggregated_monthly: ~0 rows (approximately)
 /*!40000 ALTER TABLE `report_viewed_product_aggregated_monthly` DISABLE KEYS */;
 /*!40000 ALTER TABLE `report_viewed_product_aggregated_monthly` ENABLE KEYS */;
 
 
-# Dumping structure for table report_viewed_product_aggregated_yearly
+# Dumping structure for table s5152d29ad0535.report_viewed_product_aggregated_yearly
 DROP TABLE IF EXISTS `report_viewed_product_aggregated_yearly`;
 CREATE TABLE IF NOT EXISTS `report_viewed_product_aggregated_yearly` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `period` date DEFAULT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `product_id` int(10) unsigned DEFAULT NULL COMMENT 'Product Id',
-  `product_name` varchar(255) DEFAULT NULL COMMENT 'Product Name',
-  `product_price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Product Price',
-  `views_num` int(11) NOT NULL DEFAULT '0' COMMENT 'Number of Views',
-  `rating_pos` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Rating Pos',
-  PRIMARY KEY (`id`),
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `product_id` int(10) unsigned default NULL COMMENT 'Product Id',
+  `product_name` varchar(255) default NULL COMMENT 'Product Name',
+  `product_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Product Price',
+  `views_num` int(11) NOT NULL default '0' COMMENT 'Number of Views',
+  `rating_pos` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating Pos',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `UNQ_REPORT_VIEWED_PRD_AGGRED_YEARLY_PERIOD_STORE_ID_PRD_ID` (`period`,`store_id`,`product_id`),
   KEY `IDX_REPORT_VIEWED_PRODUCT_AGGREGATED_YEARLY_STORE_ID` (`store_id`),
   KEY `IDX_REPORT_VIEWED_PRODUCT_AGGREGATED_YEARLY_PRODUCT_ID` (`product_id`),
@@ -6996,21 +8203,21 @@ CREATE TABLE IF NOT EXISTS `report_viewed_product_aggregated_yearly` (
   CONSTRAINT `FK_REPORT_VIEWED_PRD_AGGRED_YEARLY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Most Viewed Products Aggregated Yearly';
 
-# Dumping data for table report_viewed_product_aggregated_yearly: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.report_viewed_product_aggregated_yearly: ~0 rows (approximately)
 /*!40000 ALTER TABLE `report_viewed_product_aggregated_yearly` DISABLE KEYS */;
 /*!40000 ALTER TABLE `report_viewed_product_aggregated_yearly` ENABLE KEYS */;
 
 
-# Dumping structure for table report_viewed_product_index
+# Dumping structure for table s5152d29ad0535.report_viewed_product_index
 DROP TABLE IF EXISTS `report_viewed_product_index`;
 CREATE TABLE IF NOT EXISTS `report_viewed_product_index` (
-  `index_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Index Id',
-  `visitor_id` int(10) unsigned DEFAULT NULL COMMENT 'Visitor Id',
-  `customer_id` int(10) unsigned DEFAULT NULL COMMENT 'Customer Id',
+  `index_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Index Id',
+  `visitor_id` int(10) unsigned default NULL COMMENT 'Visitor Id',
+  `customer_id` int(10) unsigned default NULL COMMENT 'Customer Id',
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `added_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Added At',
-  PRIMARY KEY (`index_id`),
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `added_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Added At',
+  PRIMARY KEY  (`index_id`),
   UNIQUE KEY `UNQ_REPORT_VIEWED_PRODUCT_INDEX_VISITOR_ID_PRODUCT_ID` (`visitor_id`,`product_id`),
   UNIQUE KEY `UNQ_REPORT_VIEWED_PRODUCT_INDEX_CUSTOMER_ID_PRODUCT_ID` (`customer_id`,`product_id`),
   KEY `IDX_REPORT_VIEWED_PRODUCT_INDEX_STORE_ID` (`store_id`),
@@ -7021,20 +8228,20 @@ CREATE TABLE IF NOT EXISTS `report_viewed_product_index` (
   CONSTRAINT `FK_REPORT_VIEWED_PRODUCT_INDEX_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Reports Viewed Product Index Table';
 
-# Dumping data for table report_viewed_product_index: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.report_viewed_product_index: ~0 rows (approximately)
 /*!40000 ALTER TABLE `report_viewed_product_index` DISABLE KEYS */;
 /*!40000 ALTER TABLE `report_viewed_product_index` ENABLE KEYS */;
 
 
-# Dumping structure for table review
+# Dumping structure for table s5152d29ad0535.review
 DROP TABLE IF EXISTS `review`;
 CREATE TABLE IF NOT EXISTS `review` (
-  `review_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Review id',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Review create date',
-  `entity_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity id',
-  `entity_pk_value` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product id',
-  `status_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Status code',
-  PRIMARY KEY (`review_id`),
+  `review_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Review id',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Review create date',
+  `entity_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Entity id',
+  `entity_pk_value` int(10) unsigned NOT NULL default '0' COMMENT 'Product id',
+  `status_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Status code',
+  PRIMARY KEY  (`review_id`),
   KEY `IDX_REVIEW_ENTITY_ID` (`entity_id`),
   KEY `IDX_REVIEW_STATUS_ID` (`status_id`),
   KEY `IDX_REVIEW_ENTITY_PK_VALUE` (`entity_pk_value`),
@@ -7042,22 +8249,22 @@ CREATE TABLE IF NOT EXISTS `review` (
   CONSTRAINT `FK_REVIEW_STATUS_ID_REVIEW_STATUS_STATUS_ID` FOREIGN KEY (`status_id`) REFERENCES `review_status` (`status_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Review base information';
 
-# Dumping data for table review: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.review: ~0 rows (approximately)
 /*!40000 ALTER TABLE `review` DISABLE KEYS */;
 /*!40000 ALTER TABLE `review` ENABLE KEYS */;
 
 
-# Dumping structure for table review_detail
+# Dumping structure for table s5152d29ad0535.review_detail
 DROP TABLE IF EXISTS `review_detail`;
 CREATE TABLE IF NOT EXISTS `review_detail` (
-  `detail_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Review detail id',
-  `review_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'Review id',
-  `store_id` smallint(5) unsigned DEFAULT '0' COMMENT 'Store id',
+  `detail_id` bigint(20) unsigned NOT NULL auto_increment COMMENT 'Review detail id',
+  `review_id` bigint(20) unsigned NOT NULL default '0' COMMENT 'Review id',
+  `store_id` smallint(5) unsigned default '0' COMMENT 'Store id',
   `title` varchar(255) NOT NULL COMMENT 'Title',
   `detail` text NOT NULL COMMENT 'Detail description',
   `nickname` varchar(128) NOT NULL COMMENT 'User nickname',
-  `customer_id` int(10) unsigned DEFAULT NULL COMMENT 'Customer Id',
-  PRIMARY KEY (`detail_id`),
+  `customer_id` int(10) unsigned default NULL COMMENT 'Customer Id',
+  PRIMARY KEY  (`detail_id`),
   KEY `IDX_REVIEW_DETAIL_REVIEW_ID` (`review_id`),
   KEY `IDX_REVIEW_DETAIL_STORE_ID` (`store_id`),
   KEY `IDX_REVIEW_DETAIL_CUSTOMER_ID` (`customer_id`),
@@ -7066,20 +8273,20 @@ CREATE TABLE IF NOT EXISTS `review_detail` (
   CONSTRAINT `FK_REVIEW_DETAIL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Review detail information';
 
-# Dumping data for table review_detail: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.review_detail: ~0 rows (approximately)
 /*!40000 ALTER TABLE `review_detail` DISABLE KEYS */;
 /*!40000 ALTER TABLE `review_detail` ENABLE KEYS */;
 
 
-# Dumping structure for table review_entity
+# Dumping structure for table s5152d29ad0535.review_entity
 DROP TABLE IF EXISTS `review_entity`;
 CREATE TABLE IF NOT EXISTS `review_entity` (
-  `entity_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Review entity id',
+  `entity_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Review entity id',
   `entity_code` varchar(32) NOT NULL COMMENT 'Review entity code',
-  PRIMARY KEY (`entity_id`)
+  PRIMARY KEY  (`entity_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Review entities';
 
-# Dumping data for table review_entity: ~3 rows (approximately)
+# Dumping data for table s5152d29ad0535.review_entity: ~3 rows (approximately)
 /*!40000 ALTER TABLE `review_entity` DISABLE KEYS */;
 INSERT INTO `review_entity` (`entity_id`, `entity_code`) VALUES
 	(1, 'product'),
@@ -7088,34 +8295,34 @@ INSERT INTO `review_entity` (`entity_id`, `entity_code`) VALUES
 /*!40000 ALTER TABLE `review_entity` ENABLE KEYS */;
 
 
-# Dumping structure for table review_entity_summary
+# Dumping structure for table s5152d29ad0535.review_entity_summary
 DROP TABLE IF EXISTS `review_entity_summary`;
 CREATE TABLE IF NOT EXISTS `review_entity_summary` (
-  `primary_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'Summary review entity id',
-  `entity_pk_value` bigint(20) NOT NULL DEFAULT '0' COMMENT 'Product id',
-  `entity_type` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Entity type id',
-  `reviews_count` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Qty of reviews',
-  `rating_summary` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Summarized rating',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store id',
-  PRIMARY KEY (`primary_id`),
+  `primary_id` bigint(20) NOT NULL auto_increment COMMENT 'Summary review entity id',
+  `entity_pk_value` bigint(20) NOT NULL default '0' COMMENT 'Product id',
+  `entity_type` smallint(6) NOT NULL default '0' COMMENT 'Entity type id',
+  `reviews_count` smallint(6) NOT NULL default '0' COMMENT 'Qty of reviews',
+  `rating_summary` smallint(6) NOT NULL default '0' COMMENT 'Summarized rating',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store id',
+  PRIMARY KEY  (`primary_id`),
   KEY `IDX_REVIEW_ENTITY_SUMMARY_STORE_ID` (`store_id`),
   CONSTRAINT `FK_REVIEW_ENTITY_SUMMARY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Review aggregates';
 
-# Dumping data for table review_entity_summary: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.review_entity_summary: ~0 rows (approximately)
 /*!40000 ALTER TABLE `review_entity_summary` DISABLE KEYS */;
 /*!40000 ALTER TABLE `review_entity_summary` ENABLE KEYS */;
 
 
-# Dumping structure for table review_status
+# Dumping structure for table s5152d29ad0535.review_status
 DROP TABLE IF EXISTS `review_status`;
 CREATE TABLE IF NOT EXISTS `review_status` (
-  `status_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Status id',
+  `status_id` smallint(5) unsigned NOT NULL auto_increment COMMENT 'Status id',
   `status_code` varchar(32) NOT NULL COMMENT 'Status code',
-  PRIMARY KEY (`status_id`)
+  PRIMARY KEY  (`status_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Review statuses';
 
-# Dumping data for table review_status: ~3 rows (approximately)
+# Dumping data for table s5152d29ad0535.review_status: ~3 rows (approximately)
 /*!40000 ALTER TABLE `review_status` DISABLE KEYS */;
 INSERT INTO `review_status` (`status_id`, `status_code`) VALUES
 	(1, 'Approved'),
@@ -7124,145 +8331,219 @@ INSERT INTO `review_status` (`status_id`, `status_code`) VALUES
 /*!40000 ALTER TABLE `review_status` ENABLE KEYS */;
 
 
-# Dumping structure for table review_store
+# Dumping structure for table s5152d29ad0535.review_store
 DROP TABLE IF EXISTS `review_store`;
 CREATE TABLE IF NOT EXISTS `review_store` (
   `review_id` bigint(20) unsigned NOT NULL COMMENT 'Review Id',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
-  PRIMARY KEY (`review_id`,`store_id`),
+  PRIMARY KEY  (`review_id`,`store_id`),
   KEY `IDX_REVIEW_STORE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_REVIEW_STORE_REVIEW_ID_REVIEW_REVIEW_ID` FOREIGN KEY (`review_id`) REFERENCES `review` (`review_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_REVIEW_STORE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Review Store';
 
-# Dumping data for table review_store: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.review_store: ~0 rows (approximately)
 /*!40000 ALTER TABLE `review_store` DISABLE KEYS */;
 /*!40000 ALTER TABLE `review_store` ENABLE KEYS */;
 
 
-# Dumping structure for table salesrule
+# Dumping structure for table s5152d29ad0535.saas_printed_template
+DROP TABLE IF EXISTS `saas_printed_template`;
+CREATE TABLE IF NOT EXISTS `saas_printed_template` (
+  `template_id` int(10) unsigned NOT NULL auto_increment,
+  `name` varchar(255) default NULL COMMENT 'Name',
+  `page_size` varchar(40) default NULL COMMENT 'Page_size',
+  `entity_type` enum('invoice','creditmemo','shipment') NOT NULL,
+  `page_orientation` enum('portrait','landscape') default NULL,
+  `content` text,
+  `created_at` datetime NOT NULL default '0000-00-00 00:00:00',
+  `updated_at` datetime NOT NULL default '0000-00-00 00:00:00',
+  `header` text COMMENT 'Template header',
+  `footer` text COMMENT 'Template footer',
+  `header_height` decimal(12,4) default NULL COMMENT 'header height',
+  `header_height_measurement` varchar(255) default NULL COMMENT 'header height measurement',
+  `footer_height` decimal(12,4) default NULL COMMENT 'footer height',
+  `footer_height_measurement` text COMMENT 'footer height measurement',
+  `header_auto_height` int(1) default NULL COMMENT 'calculate header height automaticaly or use manual setup',
+  `footer_auto_height` int(1) default NULL COMMENT 'calculate footer height automaticaly or use manual setup',
+  PRIMARY KEY  (`template_id`),
+  KEY `INDEX_SAAS_PRINTED_TEMPLATE_ENTITY_TYPE` (`entity_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='saas_printed_template';
+
+# Dumping data for table s5152d29ad0535.saas_printed_template: ~0 rows (approximately)
+/*!40000 ALTER TABLE `saas_printed_template` DISABLE KEYS */;
+/*!40000 ALTER TABLE `saas_printed_template` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.saas_printed_template_order_item_tax
+DROP TABLE IF EXISTS `saas_printed_template_order_item_tax`;
+CREATE TABLE IF NOT EXISTS `saas_printed_template_order_item_tax` (
+  `item_tax_id` int(10) unsigned NOT NULL auto_increment,
+  `code` varchar(255) default NULL COMMENT 'Code',
+  `title` varchar(255) default NULL COMMENT 'Title',
+  `is_tax_after_discount` tinyint(1) default NULL COMMENT 'Is_tax_after_discount',
+  `is_discount_on_incl_tax` tinyint(1) default NULL COMMENT 'Is_discount_on_incl_tax',
+  `item_id` int(10) unsigned NOT NULL COMMENT 'Item_id',
+  `percent` decimal(12,4) NOT NULL COMMENT 'Percent',
+  `real_percent` decimal(12,4) NOT NULL COMMENT 'Real_percent',
+  `priority` int(11) NOT NULL COMMENT 'Priority',
+  `position` int(11) NOT NULL COMMENT 'Position',
+  PRIMARY KEY  (`item_tax_id`),
+  KEY `INDEX_SALES_ORDER_ITEM_TAX_ITEM_ID` (`item_id`),
+  CONSTRAINT `FK_SALES_ORDER_ITEM_TAX_ITEM_ID` FOREIGN KEY (`item_id`) REFERENCES `sales_flat_order_item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='saas_printed_template_order_item_tax';
+
+# Dumping data for table s5152d29ad0535.saas_printed_template_order_item_tax: ~0 rows (approximately)
+/*!40000 ALTER TABLE `saas_printed_template_order_item_tax` DISABLE KEYS */;
+/*!40000 ALTER TABLE `saas_printed_template_order_item_tax` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.saas_printed_template_order_shipping_tax
+DROP TABLE IF EXISTS `saas_printed_template_order_shipping_tax`;
+CREATE TABLE IF NOT EXISTS `saas_printed_template_order_shipping_tax` (
+  `shipping_tax_id` int(10) unsigned NOT NULL auto_increment,
+  `code` varchar(255) default NULL COMMENT 'Code',
+  `title` varchar(255) default NULL COMMENT 'Title',
+  `is_tax_after_discount` tinyint(1) default NULL COMMENT 'Is_tax_after_discount',
+  `is_discount_on_incl_tax` tinyint(1) default NULL COMMENT 'Is_discount_on_incl_tax',
+  `order_id` int(10) unsigned NOT NULL COMMENT 'Order_id',
+  `percent` decimal(12,4) NOT NULL COMMENT 'Percent',
+  `real_percent` decimal(12,4) NOT NULL COMMENT 'Real_percent',
+  `priority` int(11) NOT NULL COMMENT 'Priority',
+  `position` int(11) NOT NULL COMMENT 'Position',
+  PRIMARY KEY  (`shipping_tax_id`),
+  KEY `INDEX_SALES_ORDER_ITEM_SHIPPING_ORDER_ID` (`order_id`),
+  CONSTRAINT `FK_SALES_ORDER_SHIPPING_TAX_ORDER_ID` FOREIGN KEY (`order_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='saas_printed_template_order_shipping_tax';
+
+# Dumping data for table s5152d29ad0535.saas_printed_template_order_shipping_tax: ~0 rows (approximately)
+/*!40000 ALTER TABLE `saas_printed_template_order_shipping_tax` DISABLE KEYS */;
+/*!40000 ALTER TABLE `saas_printed_template_order_shipping_tax` ENABLE KEYS */;
+
+
+# Dumping structure for table s5152d29ad0535.salesrule
 DROP TABLE IF EXISTS `salesrule`;
 CREATE TABLE IF NOT EXISTS `salesrule` (
-  `rule_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rule Id',
-  `name` varchar(255) DEFAULT NULL COMMENT 'Name',
+  `rule_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rule Id',
+  `name` varchar(255) default NULL COMMENT 'Name',
   `description` text COMMENT 'Description',
-  `from_date` date DEFAULT NULL,
-  `to_date` date DEFAULT NULL,
-  `uses_per_customer` int(11) NOT NULL DEFAULT '0' COMMENT 'Uses Per Customer',
-  `is_active` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Is Active',
+  `from_date` date default NULL,
+  `to_date` date default NULL,
+  `uses_per_customer` int(11) NOT NULL default '0' COMMENT 'Uses Per Customer',
+  `is_active` smallint(6) NOT NULL default '0' COMMENT 'Is Active',
   `conditions_serialized` mediumtext COMMENT 'Conditions Serialized',
   `actions_serialized` mediumtext COMMENT 'Actions Serialized',
-  `stop_rules_processing` smallint(6) NOT NULL DEFAULT '1' COMMENT 'Stop Rules Processing',
-  `is_advanced` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Is Advanced',
+  `stop_rules_processing` smallint(6) NOT NULL default '1' COMMENT 'Stop Rules Processing',
+  `is_advanced` smallint(5) unsigned NOT NULL default '1' COMMENT 'Is Advanced',
   `product_ids` text COMMENT 'Product Ids',
-  `sort_order` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Sort Order',
-  `simple_action` varchar(32) DEFAULT NULL COMMENT 'Simple Action',
-  `discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Discount Amount',
-  `discount_qty` decimal(12,4) DEFAULT NULL COMMENT 'Discount Qty',
+  `sort_order` int(10) unsigned NOT NULL default '0' COMMENT 'Sort Order',
+  `simple_action` varchar(32) default NULL COMMENT 'Simple Action',
+  `discount_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Discount Amount',
+  `discount_qty` decimal(12,4) default NULL COMMENT 'Discount Qty',
   `discount_step` int(10) unsigned NOT NULL COMMENT 'Discount Step',
-  `simple_free_shipping` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Simple Free Shipping',
-  `apply_to_shipping` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Apply To Shipping',
-  `times_used` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Times Used',
-  `is_rss` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Is Rss',
-  `coupon_type` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Coupon Type',
-  `use_auto_generation` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Use Auto Generation',
-  `uses_per_coupon` int(11) NOT NULL DEFAULT '0' COMMENT 'Uses Per Coupon',
-  PRIMARY KEY (`rule_id`),
+  `simple_free_shipping` smallint(5) unsigned NOT NULL default '0' COMMENT 'Simple Free Shipping',
+  `apply_to_shipping` smallint(5) unsigned NOT NULL default '0' COMMENT 'Apply To Shipping',
+  `times_used` int(10) unsigned NOT NULL default '0' COMMENT 'Times Used',
+  `is_rss` smallint(6) NOT NULL default '0' COMMENT 'Is Rss',
+  `coupon_type` smallint(5) unsigned NOT NULL default '1' COMMENT 'Coupon Type',
+  `use_auto_generation` smallint(6) NOT NULL default '0' COMMENT 'Use Auto Generation',
+  `uses_per_coupon` int(11) NOT NULL default '0' COMMENT 'Uses Per Coupon',
+  PRIMARY KEY  (`rule_id`),
   KEY `IDX_SALESRULE_IS_ACTIVE_SORT_ORDER_TO_DATE_FROM_DATE` (`is_active`,`sort_order`,`to_date`,`from_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule';
 
-# Dumping data for table salesrule: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.salesrule: ~0 rows (approximately)
 /*!40000 ALTER TABLE `salesrule` DISABLE KEYS */;
 /*!40000 ALTER TABLE `salesrule` ENABLE KEYS */;
 
 
-# Dumping structure for table salesrule_coupon
+# Dumping structure for table s5152d29ad0535.salesrule_coupon
 DROP TABLE IF EXISTS `salesrule_coupon`;
 CREATE TABLE IF NOT EXISTS `salesrule_coupon` (
-  `coupon_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Coupon Id',
+  `coupon_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Coupon Id',
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
-  `code` varchar(255) DEFAULT NULL COMMENT 'Code',
-  `usage_limit` int(10) unsigned DEFAULT NULL COMMENT 'Usage Limit',
-  `usage_per_customer` int(10) unsigned DEFAULT NULL COMMENT 'Usage Per Customer',
-  `times_used` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Times Used',
-  `expiration_date` timestamp NULL DEFAULT NULL COMMENT 'Expiration Date',
-  `is_primary` smallint(5) unsigned DEFAULT NULL COMMENT 'Is Primary',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Coupon Code Creation Date',
-  `type` smallint(6) DEFAULT '0' COMMENT 'Coupon Code Type',
-  PRIMARY KEY (`coupon_id`),
+  `code` varchar(255) default NULL COMMENT 'Code',
+  `usage_limit` int(10) unsigned default NULL COMMENT 'Usage Limit',
+  `usage_per_customer` int(10) unsigned default NULL COMMENT 'Usage Per Customer',
+  `times_used` int(10) unsigned NOT NULL default '0' COMMENT 'Times Used',
+  `expiration_date` timestamp NULL default NULL COMMENT 'Expiration Date',
+  `is_primary` smallint(5) unsigned default NULL COMMENT 'Is Primary',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP COMMENT 'Coupon Code Creation Date',
+  `type` smallint(6) default '0' COMMENT 'Coupon Code Type',
+  PRIMARY KEY  (`coupon_id`),
   UNIQUE KEY `UNQ_SALESRULE_COUPON_CODE` (`code`),
   UNIQUE KEY `UNQ_SALESRULE_COUPON_RULE_ID_IS_PRIMARY` (`rule_id`,`is_primary`),
   KEY `IDX_SALESRULE_COUPON_RULE_ID` (`rule_id`),
   CONSTRAINT `FK_SALESRULE_COUPON_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Coupon';
 
-# Dumping data for table salesrule_coupon: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.salesrule_coupon: ~0 rows (approximately)
 /*!40000 ALTER TABLE `salesrule_coupon` DISABLE KEYS */;
 /*!40000 ALTER TABLE `salesrule_coupon` ENABLE KEYS */;
 
 
-# Dumping structure for table salesrule_coupon_usage
+# Dumping structure for table s5152d29ad0535.salesrule_coupon_usage
 DROP TABLE IF EXISTS `salesrule_coupon_usage`;
 CREATE TABLE IF NOT EXISTS `salesrule_coupon_usage` (
   `coupon_id` int(10) unsigned NOT NULL COMMENT 'Coupon Id',
   `customer_id` int(10) unsigned NOT NULL COMMENT 'Customer Id',
-  `times_used` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Times Used',
-  PRIMARY KEY (`coupon_id`,`customer_id`),
+  `times_used` int(10) unsigned NOT NULL default '0' COMMENT 'Times Used',
+  PRIMARY KEY  (`coupon_id`,`customer_id`),
   KEY `IDX_SALESRULE_COUPON_USAGE_COUPON_ID` (`coupon_id`),
   KEY `IDX_SALESRULE_COUPON_USAGE_CUSTOMER_ID` (`customer_id`),
   CONSTRAINT `FK_SALESRULE_COUPON_USAGE_COUPON_ID_SALESRULE_COUPON_COUPON_ID` FOREIGN KEY (`coupon_id`) REFERENCES `salesrule_coupon` (`coupon_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALESRULE_COUPON_USAGE_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Coupon Usage';
 
-# Dumping data for table salesrule_coupon_usage: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.salesrule_coupon_usage: ~0 rows (approximately)
 /*!40000 ALTER TABLE `salesrule_coupon_usage` DISABLE KEYS */;
 /*!40000 ALTER TABLE `salesrule_coupon_usage` ENABLE KEYS */;
 
 
-# Dumping structure for table salesrule_customer
+# Dumping structure for table s5152d29ad0535.salesrule_customer
 DROP TABLE IF EXISTS `salesrule_customer`;
 CREATE TABLE IF NOT EXISTS `salesrule_customer` (
-  `rule_customer_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rule Customer Id',
-  `rule_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Rule Id',
-  `customer_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer Id',
-  `times_used` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Times Used',
-  PRIMARY KEY (`rule_customer_id`),
+  `rule_customer_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rule Customer Id',
+  `rule_id` int(10) unsigned NOT NULL default '0' COMMENT 'Rule Id',
+  `customer_id` int(10) unsigned NOT NULL default '0' COMMENT 'Customer Id',
+  `times_used` smallint(5) unsigned NOT NULL default '0' COMMENT 'Times Used',
+  PRIMARY KEY  (`rule_customer_id`),
   KEY `IDX_SALESRULE_CUSTOMER_RULE_ID_CUSTOMER_ID` (`rule_id`,`customer_id`),
   KEY `IDX_SALESRULE_CUSTOMER_CUSTOMER_ID_RULE_ID` (`customer_id`,`rule_id`),
   CONSTRAINT `FK_SALESRULE_CUSTOMER_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALESRULE_CUSTOMER_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Customer';
 
-# Dumping data for table salesrule_customer: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.salesrule_customer: ~0 rows (approximately)
 /*!40000 ALTER TABLE `salesrule_customer` DISABLE KEYS */;
 /*!40000 ALTER TABLE `salesrule_customer` ENABLE KEYS */;
 
 
-# Dumping structure for table salesrule_customer_group
+# Dumping structure for table s5152d29ad0535.salesrule_customer_group
 DROP TABLE IF EXISTS `salesrule_customer_group`;
 CREATE TABLE IF NOT EXISTS `salesrule_customer_group` (
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
-  PRIMARY KEY (`rule_id`,`customer_group_id`),
+  PRIMARY KEY  (`rule_id`,`customer_group_id`),
   KEY `IDX_SALESRULE_CUSTOMER_GROUP_RULE_ID` (`rule_id`),
   KEY `IDX_SALESRULE_CUSTOMER_GROUP_CUSTOMER_GROUP_ID` (`customer_group_id`),
   CONSTRAINT `FK_SALESRULE_CUSTOMER_GROUP_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALESRULE_CSTR_GROUP_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID` FOREIGN KEY (`customer_group_id`) REFERENCES `customer_group` (`customer_group_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Rules To Customer Groups Relations';
 
-# Dumping data for table salesrule_customer_group: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.salesrule_customer_group: ~0 rows (approximately)
 /*!40000 ALTER TABLE `salesrule_customer_group` DISABLE KEYS */;
 /*!40000 ALTER TABLE `salesrule_customer_group` ENABLE KEYS */;
 
 
-# Dumping structure for table salesrule_label
+# Dumping structure for table s5152d29ad0535.salesrule_label
 DROP TABLE IF EXISTS `salesrule_label`;
 CREATE TABLE IF NOT EXISTS `salesrule_label` (
-  `label_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Label Id',
+  `label_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Label Id',
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
-  `label` varchar(255) DEFAULT NULL COMMENT 'Label',
-  PRIMARY KEY (`label_id`),
+  `label` varchar(255) default NULL COMMENT 'Label',
+  PRIMARY KEY  (`label_id`),
   UNIQUE KEY `UNQ_SALESRULE_LABEL_RULE_ID_STORE_ID` (`rule_id`,`store_id`),
   KEY `IDX_SALESRULE_LABEL_STORE_ID` (`store_id`),
   KEY `IDX_SALESRULE_LABEL_RULE_ID` (`rule_id`),
@@ -7270,19 +8551,19 @@ CREATE TABLE IF NOT EXISTS `salesrule_label` (
   CONSTRAINT `FK_SALESRULE_LABEL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Label';
 
-# Dumping data for table salesrule_label: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.salesrule_label: ~0 rows (approximately)
 /*!40000 ALTER TABLE `salesrule_label` DISABLE KEYS */;
 /*!40000 ALTER TABLE `salesrule_label` ENABLE KEYS */;
 
 
-# Dumping structure for table salesrule_product_attribute
+# Dumping structure for table s5152d29ad0535.salesrule_product_attribute
 DROP TABLE IF EXISTS `salesrule_product_attribute`;
 CREATE TABLE IF NOT EXISTS `salesrule_product_attribute` (
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Id',
-  PRIMARY KEY (`rule_id`,`website_id`,`customer_group_id`,`attribute_id`),
+  PRIMARY KEY  (`rule_id`,`website_id`,`customer_group_id`,`attribute_id`),
   KEY `IDX_SALESRULE_PRODUCT_ATTRIBUTE_WEBSITE_ID` (`website_id`),
   KEY `IDX_SALESRULE_PRODUCT_ATTRIBUTE_CUSTOMER_GROUP_ID` (`customer_group_id`),
   KEY `IDX_SALESRULE_PRODUCT_ATTRIBUTE_ATTRIBUTE_ID` (`attribute_id`),
@@ -7292,40 +8573,40 @@ CREATE TABLE IF NOT EXISTS `salesrule_product_attribute` (
   CONSTRAINT `FK_SALESRULE_PRD_ATTR_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Product Attribute';
 
-# Dumping data for table salesrule_product_attribute: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.salesrule_product_attribute: ~0 rows (approximately)
 /*!40000 ALTER TABLE `salesrule_product_attribute` DISABLE KEYS */;
 /*!40000 ALTER TABLE `salesrule_product_attribute` ENABLE KEYS */;
 
 
-# Dumping structure for table salesrule_website
+# Dumping structure for table s5152d29ad0535.salesrule_website
 DROP TABLE IF EXISTS `salesrule_website`;
 CREATE TABLE IF NOT EXISTS `salesrule_website` (
   `rule_id` int(10) unsigned NOT NULL COMMENT 'Rule Id',
   `website_id` smallint(5) unsigned NOT NULL COMMENT 'Website Id',
-  PRIMARY KEY (`rule_id`,`website_id`),
+  PRIMARY KEY  (`rule_id`,`website_id`),
   KEY `IDX_SALESRULE_WEBSITE_RULE_ID` (`rule_id`),
   KEY `IDX_SALESRULE_WEBSITE_WEBSITE_ID` (`website_id`),
   CONSTRAINT `FK_SALESRULE_WEBSITE_RULE_ID_SALESRULE_RULE_ID` FOREIGN KEY (`rule_id`) REFERENCES `salesrule` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALESRULE_WEBSITE_WEBSITE_ID_CORE/WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Rules To Websites Relations';
 
-# Dumping data for table salesrule_website: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.salesrule_website: ~0 rows (approximately)
 /*!40000 ALTER TABLE `salesrule_website` DISABLE KEYS */;
 /*!40000 ALTER TABLE `salesrule_website` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_bestsellers_aggregated_daily
+# Dumping structure for table s5152d29ad0535.sales_bestsellers_aggregated_daily
 DROP TABLE IF EXISTS `sales_bestsellers_aggregated_daily`;
 CREATE TABLE IF NOT EXISTS `sales_bestsellers_aggregated_daily` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `period` date DEFAULT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `product_id` int(10) unsigned DEFAULT NULL COMMENT 'Product Id',
-  `product_name` varchar(255) DEFAULT NULL COMMENT 'Product Name',
-  `product_price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Product Price',
-  `qty_ordered` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty Ordered',
-  `rating_pos` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Rating Pos',
-  PRIMARY KEY (`id`),
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `product_id` int(10) unsigned default NULL COMMENT 'Product Id',
+  `product_name` varchar(255) default NULL COMMENT 'Product Name',
+  `product_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Product Price',
+  `qty_ordered` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Qty Ordered',
+  `rating_pos` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating Pos',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `UNQ_SALES_BESTSELLERS_AGGRED_DAILY_PERIOD_STORE_ID_PRD_ID` (`period`,`store_id`,`product_id`),
   KEY `IDX_SALES_BESTSELLERS_AGGREGATED_DAILY_STORE_ID` (`store_id`),
   KEY `IDX_SALES_BESTSELLERS_AGGREGATED_DAILY_PRODUCT_ID` (`product_id`),
@@ -7333,23 +8614,23 @@ CREATE TABLE IF NOT EXISTS `sales_bestsellers_aggregated_daily` (
   CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_DAILY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Bestsellers Aggregated Daily';
 
-# Dumping data for table sales_bestsellers_aggregated_daily: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_bestsellers_aggregated_daily: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_bestsellers_aggregated_daily` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_bestsellers_aggregated_daily` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_bestsellers_aggregated_monthly
+# Dumping structure for table s5152d29ad0535.sales_bestsellers_aggregated_monthly
 DROP TABLE IF EXISTS `sales_bestsellers_aggregated_monthly`;
 CREATE TABLE IF NOT EXISTS `sales_bestsellers_aggregated_monthly` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `period` date DEFAULT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `product_id` int(10) unsigned DEFAULT NULL COMMENT 'Product Id',
-  `product_name` varchar(255) DEFAULT NULL COMMENT 'Product Name',
-  `product_price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Product Price',
-  `qty_ordered` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty Ordered',
-  `rating_pos` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Rating Pos',
-  PRIMARY KEY (`id`),
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `product_id` int(10) unsigned default NULL COMMENT 'Product Id',
+  `product_name` varchar(255) default NULL COMMENT 'Product Name',
+  `product_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Product Price',
+  `qty_ordered` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Qty Ordered',
+  `rating_pos` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating Pos',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `UNQ_SALES_BESTSELLERS_AGGRED_MONTHLY_PERIOD_STORE_ID_PRD_ID` (`period`,`store_id`,`product_id`),
   KEY `IDX_SALES_BESTSELLERS_AGGREGATED_MONTHLY_STORE_ID` (`store_id`),
   KEY `IDX_SALES_BESTSELLERS_AGGREGATED_MONTHLY_PRODUCT_ID` (`product_id`),
@@ -7357,23 +8638,23 @@ CREATE TABLE IF NOT EXISTS `sales_bestsellers_aggregated_monthly` (
   CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_MONTHLY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Bestsellers Aggregated Monthly';
 
-# Dumping data for table sales_bestsellers_aggregated_monthly: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_bestsellers_aggregated_monthly: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_bestsellers_aggregated_monthly` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_bestsellers_aggregated_monthly` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_bestsellers_aggregated_yearly
+# Dumping structure for table s5152d29ad0535.sales_bestsellers_aggregated_yearly
 DROP TABLE IF EXISTS `sales_bestsellers_aggregated_yearly`;
 CREATE TABLE IF NOT EXISTS `sales_bestsellers_aggregated_yearly` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `period` date DEFAULT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `product_id` int(10) unsigned DEFAULT NULL COMMENT 'Product Id',
-  `product_name` varchar(255) DEFAULT NULL COMMENT 'Product Name',
-  `product_price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Product Price',
-  `qty_ordered` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty Ordered',
-  `rating_pos` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Rating Pos',
-  PRIMARY KEY (`id`),
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `product_id` int(10) unsigned default NULL COMMENT 'Product Id',
+  `product_name` varchar(255) default NULL COMMENT 'Product Name',
+  `product_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Product Price',
+  `qty_ordered` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Qty Ordered',
+  `rating_pos` smallint(5) unsigned NOT NULL default '0' COMMENT 'Rating Pos',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `UNQ_SALES_BESTSELLERS_AGGRED_YEARLY_PERIOD_STORE_ID_PRD_ID` (`period`,`store_id`,`product_id`),
   KEY `IDX_SALES_BESTSELLERS_AGGREGATED_YEARLY_STORE_ID` (`store_id`),
   KEY `IDX_SALES_BESTSELLERS_AGGREGATED_YEARLY_PRODUCT_ID` (`product_id`),
@@ -7381,103 +8662,113 @@ CREATE TABLE IF NOT EXISTS `sales_bestsellers_aggregated_yearly` (
   CONSTRAINT `FK_SALES_BESTSELLERS_AGGRED_YEARLY_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Bestsellers Aggregated Yearly';
 
-# Dumping data for table sales_bestsellers_aggregated_yearly: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_bestsellers_aggregated_yearly: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_bestsellers_aggregated_yearly` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_bestsellers_aggregated_yearly` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_billing_agreement
+# Dumping structure for table s5152d29ad0535.sales_billing_agreement
 DROP TABLE IF EXISTS `sales_billing_agreement`;
 CREATE TABLE IF NOT EXISTS `sales_billing_agreement` (
-  `agreement_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Agreement Id',
+  `agreement_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Agreement Id',
   `customer_id` int(10) unsigned NOT NULL COMMENT 'Customer Id',
   `method_code` varchar(32) NOT NULL COMMENT 'Method Code',
   `reference_id` varchar(32) NOT NULL COMMENT 'Reference Id',
   `status` varchar(20) NOT NULL COMMENT 'Status',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Created At',
-  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Updated At',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `agreement_label` varchar(255) DEFAULT NULL COMMENT 'Agreement Label',
-  PRIMARY KEY (`agreement_id`),
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Created At',
+  `updated_at` timestamp NULL default NULL COMMENT 'Updated At',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `agreement_label` varchar(255) default NULL COMMENT 'Agreement Label',
+  PRIMARY KEY  (`agreement_id`),
   KEY `IDX_SALES_BILLING_AGREEMENT_CUSTOMER_ID` (`customer_id`),
   KEY `IDX_SALES_BILLING_AGREEMENT_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_BILLING_AGREEMENT_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_BILLING_AGREEMENT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Billing Agreement';
 
-# Dumping data for table sales_billing_agreement: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_billing_agreement: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_billing_agreement` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_billing_agreement` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_billing_agreement_order
+# Dumping structure for table s5152d29ad0535.sales_billing_agreement_order
 DROP TABLE IF EXISTS `sales_billing_agreement_order`;
 CREATE TABLE IF NOT EXISTS `sales_billing_agreement_order` (
   `agreement_id` int(10) unsigned NOT NULL COMMENT 'Agreement Id',
   `order_id` int(10) unsigned NOT NULL COMMENT 'Order Id',
-  PRIMARY KEY (`agreement_id`,`order_id`),
+  PRIMARY KEY  (`agreement_id`,`order_id`),
   KEY `IDX_SALES_BILLING_AGREEMENT_ORDER_ORDER_ID` (`order_id`),
   CONSTRAINT `FK_SALES_BILLING_AGRT_ORDER_AGRT_ID_SALES_BILLING_AGRT_AGRT_ID` FOREIGN KEY (`agreement_id`) REFERENCES `sales_billing_agreement` (`agreement_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_BILLING_AGRT_ORDER_ORDER_ID_SALES_FLAT_ORDER_ENTT_ID` FOREIGN KEY (`order_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Billing Agreement Order';
 
-# Dumping data for table sales_billing_agreement_order: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_billing_agreement_order: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_billing_agreement_order` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_billing_agreement_order` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_creditmemo
+# Dumping structure for table s5152d29ad0535.sales_flat_creditmemo
 DROP TABLE IF EXISTS `sales_flat_creditmemo`;
 CREATE TABLE IF NOT EXISTS `sales_flat_creditmemo` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `adjustment_positive` decimal(12,4) DEFAULT NULL COMMENT 'Adjustment Positive',
-  `base_shipping_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Tax Amount',
-  `store_to_order_rate` decimal(12,4) DEFAULT NULL COMMENT 'Store To Order Rate',
-  `base_discount_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Discount Amount',
-  `base_to_order_rate` decimal(12,4) DEFAULT NULL COMMENT 'Base To Order Rate',
-  `grand_total` decimal(12,4) DEFAULT NULL COMMENT 'Grand Total',
-  `base_adjustment_negative` decimal(12,4) DEFAULT NULL COMMENT 'Base Adjustment Negative',
-  `base_subtotal_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Base Subtotal Incl Tax',
-  `shipping_amount` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Amount',
-  `subtotal_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Subtotal Incl Tax',
-  `adjustment_negative` decimal(12,4) DEFAULT NULL COMMENT 'Adjustment Negative',
-  `base_shipping_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Amount',
-  `store_to_base_rate` decimal(12,4) DEFAULT NULL COMMENT 'Store To Base Rate',
-  `base_to_global_rate` decimal(12,4) DEFAULT NULL COMMENT 'Base To Global Rate',
-  `base_adjustment` decimal(12,4) DEFAULT NULL COMMENT 'Base Adjustment',
-  `base_subtotal` decimal(12,4) DEFAULT NULL COMMENT 'Base Subtotal',
-  `discount_amount` decimal(12,4) DEFAULT NULL COMMENT 'Discount Amount',
-  `subtotal` decimal(12,4) DEFAULT NULL COMMENT 'Subtotal',
-  `adjustment` decimal(12,4) DEFAULT NULL COMMENT 'Adjustment',
-  `base_grand_total` decimal(12,4) DEFAULT NULL COMMENT 'Base Grand Total',
-  `base_adjustment_positive` decimal(12,4) DEFAULT NULL COMMENT 'Base Adjustment Positive',
-  `base_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Tax Amount',
-  `shipping_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Tax Amount',
-  `tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Tax Amount',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `adjustment_positive` decimal(12,4) default NULL COMMENT 'Adjustment Positive',
+  `base_shipping_tax_amount` decimal(12,4) default NULL COMMENT 'Base Shipping Tax Amount',
+  `store_to_order_rate` decimal(12,4) default NULL COMMENT 'Store To Order Rate',
+  `base_discount_amount` decimal(12,4) default NULL COMMENT 'Base Discount Amount',
+  `base_to_order_rate` decimal(12,4) default NULL COMMENT 'Base To Order Rate',
+  `grand_total` decimal(12,4) default NULL COMMENT 'Grand Total',
+  `base_adjustment_negative` decimal(12,4) default NULL COMMENT 'Base Adjustment Negative',
+  `base_subtotal_incl_tax` decimal(12,4) default NULL COMMENT 'Base Subtotal Incl Tax',
+  `shipping_amount` decimal(12,4) default NULL COMMENT 'Shipping Amount',
+  `subtotal_incl_tax` decimal(12,4) default NULL COMMENT 'Subtotal Incl Tax',
+  `adjustment_negative` decimal(12,4) default NULL COMMENT 'Adjustment Negative',
+  `base_shipping_amount` decimal(12,4) default NULL COMMENT 'Base Shipping Amount',
+  `store_to_base_rate` decimal(12,4) default NULL COMMENT 'Store To Base Rate',
+  `base_to_global_rate` decimal(12,4) default NULL COMMENT 'Base To Global Rate',
+  `base_adjustment` decimal(12,4) default NULL COMMENT 'Base Adjustment',
+  `base_subtotal` decimal(12,4) default NULL COMMENT 'Base Subtotal',
+  `discount_amount` decimal(12,4) default NULL COMMENT 'Discount Amount',
+  `subtotal` decimal(12,4) default NULL COMMENT 'Subtotal',
+  `adjustment` decimal(12,4) default NULL COMMENT 'Adjustment',
+  `base_grand_total` decimal(12,4) default NULL COMMENT 'Base Grand Total',
+  `base_adjustment_positive` decimal(12,4) default NULL COMMENT 'Base Adjustment Positive',
+  `base_tax_amount` decimal(12,4) default NULL COMMENT 'Base Tax Amount',
+  `shipping_tax_amount` decimal(12,4) default NULL COMMENT 'Shipping Tax Amount',
+  `tax_amount` decimal(12,4) default NULL COMMENT 'Tax Amount',
   `order_id` int(10) unsigned NOT NULL COMMENT 'Order Id',
-  `email_sent` smallint(5) unsigned DEFAULT NULL COMMENT 'Email Sent',
-  `creditmemo_status` int(11) DEFAULT NULL COMMENT 'Creditmemo Status',
-  `state` int(11) DEFAULT NULL COMMENT 'State',
-  `shipping_address_id` int(11) DEFAULT NULL COMMENT 'Shipping Address Id',
-  `billing_address_id` int(11) DEFAULT NULL COMMENT 'Billing Address Id',
-  `invoice_id` int(11) DEFAULT NULL COMMENT 'Invoice Id',
-  `store_currency_code` varchar(3) DEFAULT NULL COMMENT 'Store Currency Code',
-  `order_currency_code` varchar(3) DEFAULT NULL COMMENT 'Order Currency Code',
-  `base_currency_code` varchar(3) DEFAULT NULL COMMENT 'Base Currency Code',
-  `global_currency_code` varchar(3) DEFAULT NULL COMMENT 'Global Currency Code',
-  `transaction_id` varchar(255) DEFAULT NULL COMMENT 'Transaction Id',
-  `increment_id` varchar(50) DEFAULT NULL COMMENT 'Increment Id',
-  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Created At',
-  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Updated At',
-  `hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Hidden Tax Amount',
-  `base_hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Hidden Tax Amount',
-  `shipping_hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Hidden Tax Amount',
-  `base_shipping_hidden_tax_amnt` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Hidden Tax Amount',
-  `shipping_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Incl Tax',
-  `base_shipping_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Incl Tax',
-  `discount_description` varchar(255) DEFAULT NULL COMMENT 'Discount Description',
-  PRIMARY KEY (`entity_id`),
+  `email_sent` smallint(5) unsigned default NULL COMMENT 'Email Sent',
+  `creditmemo_status` int(11) default NULL COMMENT 'Creditmemo Status',
+  `state` int(11) default NULL COMMENT 'State',
+  `shipping_address_id` int(11) default NULL COMMENT 'Shipping Address Id',
+  `billing_address_id` int(11) default NULL COMMENT 'Billing Address Id',
+  `invoice_id` int(11) default NULL COMMENT 'Invoice Id',
+  `store_currency_code` varchar(3) default NULL COMMENT 'Store Currency Code',
+  `order_currency_code` varchar(3) default NULL COMMENT 'Order Currency Code',
+  `base_currency_code` varchar(3) default NULL COMMENT 'Base Currency Code',
+  `global_currency_code` varchar(3) default NULL COMMENT 'Global Currency Code',
+  `transaction_id` varchar(255) default NULL COMMENT 'Transaction Id',
+  `increment_id` varchar(50) default NULL COMMENT 'Increment Id',
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  `updated_at` timestamp NULL default NULL COMMENT 'Updated At',
+  `hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Hidden Tax Amount',
+  `base_hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Base Hidden Tax Amount',
+  `shipping_hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Shipping Hidden Tax Amount',
+  `base_shipping_hidden_tax_amnt` decimal(12,4) default NULL COMMENT 'Base Shipping Hidden Tax Amount',
+  `shipping_incl_tax` decimal(12,4) default NULL COMMENT 'Shipping Incl Tax',
+  `base_shipping_incl_tax` decimal(12,4) default NULL COMMENT 'Base Shipping Incl Tax',
+  `discount_description` varchar(255) default NULL COMMENT 'Discount Description',
+  `base_customer_balance_amount` decimal(12,4) default NULL COMMENT 'Base Customer Balance Amount',
+  `customer_balance_amount` decimal(12,4) default NULL COMMENT 'Customer Balance Amount',
+  `bs_customer_bal_total_refunded` decimal(12,4) default NULL COMMENT 'Bs Customer Bal Total Refunded',
+  `customer_bal_total_refunded` decimal(12,4) default NULL COMMENT 'Customer Bal Total Refunded',
+  `base_gift_cards_amount` decimal(12,4) default NULL COMMENT 'Base Gift Cards Amount',
+  `gift_cards_amount` decimal(12,4) default NULL COMMENT 'Gift Cards Amount',
+  `base_reward_currency_amount` decimal(12,4) default NULL COMMENT 'Base Reward Currency Amount',
+  `reward_currency_amount` decimal(12,4) default NULL COMMENT 'Reward Currency Amount',
+  `reward_points_balance` int(11) default NULL COMMENT 'Reward Points Balance',
+  `reward_points_balance_refund` int(11) default NULL COMMENT 'Reward Points Balance Refund',
+  PRIMARY KEY  (`entity_id`),
   UNIQUE KEY `UNQ_SALES_FLAT_CREDITMEMO_INCREMENT_ID` (`increment_id`),
   KEY `IDX_SALES_FLAT_CREDITMEMO_STORE_ID` (`store_id`),
   KEY `IDX_SALES_FLAT_CREDITMEMO_ORDER_ID` (`order_id`),
@@ -7488,56 +8779,56 @@ CREATE TABLE IF NOT EXISTS `sales_flat_creditmemo` (
   CONSTRAINT `FK_SALES_FLAT_CREDITMEMO_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Creditmemo';
 
-# Dumping data for table sales_flat_creditmemo: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_creditmemo: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_creditmemo` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_creditmemo` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_creditmemo_comment
+# Dumping structure for table s5152d29ad0535.sales_flat_creditmemo_comment
 DROP TABLE IF EXISTS `sales_flat_creditmemo_comment`;
 CREATE TABLE IF NOT EXISTS `sales_flat_creditmemo_comment` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
-  `is_customer_notified` int(11) DEFAULT NULL COMMENT 'Is Customer Notified',
-  `is_visible_on_front` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Visible On Front',
+  `is_customer_notified` int(11) default NULL COMMENT 'Is Customer Notified',
+  `is_visible_on_front` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Visible On Front',
   `comment` text COMMENT 'Comment',
-  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Created At',
-  PRIMARY KEY (`entity_id`),
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  PRIMARY KEY  (`entity_id`),
   KEY `IDX_SALES_FLAT_CREDITMEMO_COMMENT_CREATED_AT` (`created_at`),
   KEY `IDX_SALES_FLAT_CREDITMEMO_COMMENT_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_B0FCB0B5467075BE63D474F2CD5F7804` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_creditmemo` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Creditmemo Comment';
 
-# Dumping data for table sales_flat_creditmemo_comment: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_creditmemo_comment: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_creditmemo_comment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_creditmemo_comment` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_creditmemo_grid
+# Dumping structure for table s5152d29ad0535.sales_flat_creditmemo_grid
 DROP TABLE IF EXISTS `sales_flat_creditmemo_grid`;
 CREATE TABLE IF NOT EXISTS `sales_flat_creditmemo_grid` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `store_to_order_rate` decimal(12,4) DEFAULT NULL COMMENT 'Store To Order Rate',
-  `base_to_order_rate` decimal(12,4) DEFAULT NULL COMMENT 'Base To Order Rate',
-  `grand_total` decimal(12,4) DEFAULT NULL COMMENT 'Grand Total',
-  `store_to_base_rate` decimal(12,4) DEFAULT NULL COMMENT 'Store To Base Rate',
-  `base_to_global_rate` decimal(12,4) DEFAULT NULL COMMENT 'Base To Global Rate',
-  `base_grand_total` decimal(12,4) DEFAULT NULL COMMENT 'Base Grand Total',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `store_to_order_rate` decimal(12,4) default NULL COMMENT 'Store To Order Rate',
+  `base_to_order_rate` decimal(12,4) default NULL COMMENT 'Base To Order Rate',
+  `grand_total` decimal(12,4) default NULL COMMENT 'Grand Total',
+  `store_to_base_rate` decimal(12,4) default NULL COMMENT 'Store To Base Rate',
+  `base_to_global_rate` decimal(12,4) default NULL COMMENT 'Base To Global Rate',
+  `base_grand_total` decimal(12,4) default NULL COMMENT 'Base Grand Total',
   `order_id` int(10) unsigned NOT NULL COMMENT 'Order Id',
-  `creditmemo_status` int(11) DEFAULT NULL COMMENT 'Creditmemo Status',
-  `state` int(11) DEFAULT NULL COMMENT 'State',
-  `invoice_id` int(11) DEFAULT NULL COMMENT 'Invoice Id',
-  `store_currency_code` varchar(3) DEFAULT NULL COMMENT 'Store Currency Code',
-  `order_currency_code` varchar(3) DEFAULT NULL COMMENT 'Order Currency Code',
-  `base_currency_code` varchar(3) DEFAULT NULL COMMENT 'Base Currency Code',
-  `global_currency_code` varchar(3) DEFAULT NULL COMMENT 'Global Currency Code',
-  `increment_id` varchar(50) DEFAULT NULL COMMENT 'Increment Id',
-  `order_increment_id` varchar(50) DEFAULT NULL COMMENT 'Order Increment Id',
-  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Created At',
-  `order_created_at` timestamp NULL DEFAULT NULL COMMENT 'Order Created At',
-  `billing_name` varchar(255) DEFAULT NULL COMMENT 'Billing Name',
-  PRIMARY KEY (`entity_id`),
+  `creditmemo_status` int(11) default NULL COMMENT 'Creditmemo Status',
+  `state` int(11) default NULL COMMENT 'State',
+  `invoice_id` int(11) default NULL COMMENT 'Invoice Id',
+  `store_currency_code` varchar(3) default NULL COMMENT 'Store Currency Code',
+  `order_currency_code` varchar(3) default NULL COMMENT 'Order Currency Code',
+  `base_currency_code` varchar(3) default NULL COMMENT 'Base Currency Code',
+  `global_currency_code` varchar(3) default NULL COMMENT 'Global Currency Code',
+  `increment_id` varchar(50) default NULL COMMENT 'Increment Id',
+  `order_increment_id` varchar(50) default NULL COMMENT 'Order Increment Id',
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  `order_created_at` timestamp NULL default NULL COMMENT 'Order Created At',
+  `billing_name` varchar(255) default NULL COMMENT 'Billing Name',
+  PRIMARY KEY  (`entity_id`),
   UNIQUE KEY `UNQ_SALES_FLAT_CREDITMEMO_GRID_INCREMENT_ID` (`increment_id`),
   KEY `IDX_SALES_FLAT_CREDITMEMO_GRID_STORE_ID` (`store_id`),
   KEY `IDX_SALES_FLAT_CREDITMEMO_GRID_GRAND_TOTAL` (`grand_total`),
@@ -7553,105 +8844,112 @@ CREATE TABLE IF NOT EXISTS `sales_flat_creditmemo_grid` (
   CONSTRAINT `FK_SALES_FLAT_CREDITMEMO_GRID_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Creditmemo Grid';
 
-# Dumping data for table sales_flat_creditmemo_grid: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_creditmemo_grid: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_creditmemo_grid` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_creditmemo_grid` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_creditmemo_item
+# Dumping structure for table s5152d29ad0535.sales_flat_creditmemo_item
 DROP TABLE IF EXISTS `sales_flat_creditmemo_item`;
 CREATE TABLE IF NOT EXISTS `sales_flat_creditmemo_item` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
-  `base_price` decimal(12,4) DEFAULT NULL COMMENT 'Base Price',
-  `tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Tax Amount',
-  `base_row_total` decimal(12,4) DEFAULT NULL COMMENT 'Base Row Total',
-  `discount_amount` decimal(12,4) DEFAULT NULL COMMENT 'Discount Amount',
-  `row_total` decimal(12,4) DEFAULT NULL COMMENT 'Row Total',
-  `base_discount_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Discount Amount',
-  `price_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Price Incl Tax',
-  `base_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Tax Amount',
-  `base_price_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Base Price Incl Tax',
-  `qty` decimal(12,4) DEFAULT NULL COMMENT 'Qty',
-  `base_cost` decimal(12,4) DEFAULT NULL COMMENT 'Base Cost',
-  `price` decimal(12,4) DEFAULT NULL COMMENT 'Price',
-  `base_row_total_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Base Row Total Incl Tax',
-  `row_total_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Row Total Incl Tax',
-  `product_id` int(11) DEFAULT NULL COMMENT 'Product Id',
-  `order_item_id` int(11) DEFAULT NULL COMMENT 'Order Item Id',
+  `base_price` decimal(12,4) default NULL COMMENT 'Base Price',
+  `tax_amount` decimal(12,4) default NULL COMMENT 'Tax Amount',
+  `base_row_total` decimal(12,4) default NULL COMMENT 'Base Row Total',
+  `discount_amount` decimal(12,4) default NULL COMMENT 'Discount Amount',
+  `row_total` decimal(12,4) default NULL COMMENT 'Row Total',
+  `base_discount_amount` decimal(12,4) default NULL COMMENT 'Base Discount Amount',
+  `price_incl_tax` decimal(12,4) default NULL COMMENT 'Price Incl Tax',
+  `base_tax_amount` decimal(12,4) default NULL COMMENT 'Base Tax Amount',
+  `base_price_incl_tax` decimal(12,4) default NULL COMMENT 'Base Price Incl Tax',
+  `qty` decimal(12,4) default NULL COMMENT 'Qty',
+  `base_cost` decimal(12,4) default NULL COMMENT 'Base Cost',
+  `price` decimal(12,4) default NULL COMMENT 'Price',
+  `base_row_total_incl_tax` decimal(12,4) default NULL COMMENT 'Base Row Total Incl Tax',
+  `row_total_incl_tax` decimal(12,4) default NULL COMMENT 'Row Total Incl Tax',
+  `product_id` int(11) default NULL COMMENT 'Product Id',
+  `order_item_id` int(11) default NULL COMMENT 'Order Item Id',
   `additional_data` text COMMENT 'Additional Data',
   `description` text COMMENT 'Description',
-  `sku` varchar(255) DEFAULT NULL COMMENT 'Sku',
-  `name` varchar(255) DEFAULT NULL COMMENT 'Name',
-  `hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Hidden Tax Amount',
-  `base_hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Hidden Tax Amount',
-  `weee_tax_disposition` decimal(12,4) DEFAULT NULL COMMENT 'Weee Tax Disposition',
-  `weee_tax_row_disposition` decimal(12,4) DEFAULT NULL COMMENT 'Weee Tax Row Disposition',
-  `base_weee_tax_disposition` decimal(12,4) DEFAULT NULL COMMENT 'Base Weee Tax Disposition',
-  `base_weee_tax_row_disposition` decimal(12,4) DEFAULT NULL COMMENT 'Base Weee Tax Row Disposition',
+  `sku` varchar(255) default NULL COMMENT 'Sku',
+  `name` varchar(255) default NULL COMMENT 'Name',
+  `hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Hidden Tax Amount',
+  `base_hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Base Hidden Tax Amount',
+  `weee_tax_disposition` decimal(12,4) default NULL COMMENT 'Weee Tax Disposition',
+  `weee_tax_row_disposition` decimal(12,4) default NULL COMMENT 'Weee Tax Row Disposition',
+  `base_weee_tax_disposition` decimal(12,4) default NULL COMMENT 'Base Weee Tax Disposition',
+  `base_weee_tax_row_disposition` decimal(12,4) default NULL COMMENT 'Base Weee Tax Row Disposition',
   `weee_tax_applied` text COMMENT 'Weee Tax Applied',
-  `base_weee_tax_applied_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Weee Tax Applied Amount',
-  `base_weee_tax_applied_row_amnt` decimal(12,4) DEFAULT NULL COMMENT 'Base Weee Tax Applied Row Amnt',
-  `weee_tax_applied_amount` decimal(12,4) DEFAULT NULL COMMENT 'Weee Tax Applied Amount',
-  `weee_tax_applied_row_amount` decimal(12,4) DEFAULT NULL COMMENT 'Weee Tax Applied Row Amount',
-  PRIMARY KEY (`entity_id`),
+  `base_weee_tax_applied_amount` decimal(12,4) default NULL COMMENT 'Base Weee Tax Applied Amount',
+  `base_weee_tax_applied_row_amnt` decimal(12,4) default NULL COMMENT 'Base Weee Tax Applied Row Amnt',
+  `weee_tax_applied_amount` decimal(12,4) default NULL COMMENT 'Weee Tax Applied Amount',
+  `weee_tax_applied_row_amount` decimal(12,4) default NULL COMMENT 'Weee Tax Applied Row Amount',
+  PRIMARY KEY  (`entity_id`),
   KEY `IDX_SALES_FLAT_CREDITMEMO_ITEM_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_306DAC836C699F0B5E13BE486557AC8A` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_creditmemo` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Creditmemo Item';
 
-# Dumping data for table sales_flat_creditmemo_item: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_creditmemo_item: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_creditmemo_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_creditmemo_item` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_invoice
+# Dumping structure for table s5152d29ad0535.sales_flat_invoice
 DROP TABLE IF EXISTS `sales_flat_invoice`;
 CREATE TABLE IF NOT EXISTS `sales_flat_invoice` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `base_grand_total` decimal(12,4) DEFAULT NULL COMMENT 'Base Grand Total',
-  `shipping_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Tax Amount',
-  `tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Tax Amount',
-  `base_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Tax Amount',
-  `store_to_order_rate` decimal(12,4) DEFAULT NULL COMMENT 'Store To Order Rate',
-  `base_shipping_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Tax Amount',
-  `base_discount_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Discount Amount',
-  `base_to_order_rate` decimal(12,4) DEFAULT NULL COMMENT 'Base To Order Rate',
-  `grand_total` decimal(12,4) DEFAULT NULL COMMENT 'Grand Total',
-  `shipping_amount` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Amount',
-  `subtotal_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Subtotal Incl Tax',
-  `base_subtotal_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Base Subtotal Incl Tax',
-  `store_to_base_rate` decimal(12,4) DEFAULT NULL COMMENT 'Store To Base Rate',
-  `base_shipping_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Amount',
-  `total_qty` decimal(12,4) DEFAULT NULL COMMENT 'Total Qty',
-  `base_to_global_rate` decimal(12,4) DEFAULT NULL COMMENT 'Base To Global Rate',
-  `subtotal` decimal(12,4) DEFAULT NULL COMMENT 'Subtotal',
-  `base_subtotal` decimal(12,4) DEFAULT NULL COMMENT 'Base Subtotal',
-  `discount_amount` decimal(12,4) DEFAULT NULL COMMENT 'Discount Amount',
-  `billing_address_id` int(11) DEFAULT NULL COMMENT 'Billing Address Id',
-  `is_used_for_refund` smallint(5) unsigned DEFAULT NULL COMMENT 'Is Used For Refund',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `base_grand_total` decimal(12,4) default NULL COMMENT 'Base Grand Total',
+  `shipping_tax_amount` decimal(12,4) default NULL COMMENT 'Shipping Tax Amount',
+  `tax_amount` decimal(12,4) default NULL COMMENT 'Tax Amount',
+  `base_tax_amount` decimal(12,4) default NULL COMMENT 'Base Tax Amount',
+  `store_to_order_rate` decimal(12,4) default NULL COMMENT 'Store To Order Rate',
+  `base_shipping_tax_amount` decimal(12,4) default NULL COMMENT 'Base Shipping Tax Amount',
+  `base_discount_amount` decimal(12,4) default NULL COMMENT 'Base Discount Amount',
+  `base_to_order_rate` decimal(12,4) default NULL COMMENT 'Base To Order Rate',
+  `grand_total` decimal(12,4) default NULL COMMENT 'Grand Total',
+  `shipping_amount` decimal(12,4) default NULL COMMENT 'Shipping Amount',
+  `subtotal_incl_tax` decimal(12,4) default NULL COMMENT 'Subtotal Incl Tax',
+  `base_subtotal_incl_tax` decimal(12,4) default NULL COMMENT 'Base Subtotal Incl Tax',
+  `store_to_base_rate` decimal(12,4) default NULL COMMENT 'Store To Base Rate',
+  `base_shipping_amount` decimal(12,4) default NULL COMMENT 'Base Shipping Amount',
+  `total_qty` decimal(12,4) default NULL COMMENT 'Total Qty',
+  `base_to_global_rate` decimal(12,4) default NULL COMMENT 'Base To Global Rate',
+  `subtotal` decimal(12,4) default NULL COMMENT 'Subtotal',
+  `base_subtotal` decimal(12,4) default NULL COMMENT 'Base Subtotal',
+  `discount_amount` decimal(12,4) default NULL COMMENT 'Discount Amount',
+  `billing_address_id` int(11) default NULL COMMENT 'Billing Address Id',
+  `is_used_for_refund` smallint(5) unsigned default NULL COMMENT 'Is Used For Refund',
   `order_id` int(10) unsigned NOT NULL COMMENT 'Order Id',
-  `email_sent` smallint(5) unsigned DEFAULT NULL COMMENT 'Email Sent',
-  `can_void_flag` smallint(5) unsigned DEFAULT NULL COMMENT 'Can Void Flag',
-  `state` int(11) DEFAULT NULL COMMENT 'State',
-  `shipping_address_id` int(11) DEFAULT NULL COMMENT 'Shipping Address Id',
-  `store_currency_code` varchar(3) DEFAULT NULL COMMENT 'Store Currency Code',
-  `transaction_id` varchar(255) DEFAULT NULL COMMENT 'Transaction Id',
-  `order_currency_code` varchar(3) DEFAULT NULL COMMENT 'Order Currency Code',
-  `base_currency_code` varchar(3) DEFAULT NULL COMMENT 'Base Currency Code',
-  `global_currency_code` varchar(3) DEFAULT NULL COMMENT 'Global Currency Code',
-  `increment_id` varchar(50) DEFAULT NULL COMMENT 'Increment Id',
-  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Created At',
-  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Updated At',
-  `hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Hidden Tax Amount',
-  `base_hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Hidden Tax Amount',
-  `shipping_hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Hidden Tax Amount',
-  `base_shipping_hidden_tax_amnt` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Hidden Tax Amount',
-  `shipping_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Incl Tax',
-  `base_shipping_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Incl Tax',
-  `base_total_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Base Total Refunded',
-  `discount_description` varchar(255) DEFAULT NULL COMMENT 'Discount Description',
-  PRIMARY KEY (`entity_id`),
+  `email_sent` smallint(5) unsigned default NULL COMMENT 'Email Sent',
+  `can_void_flag` smallint(5) unsigned default NULL COMMENT 'Can Void Flag',
+  `state` int(11) default NULL COMMENT 'State',
+  `shipping_address_id` int(11) default NULL COMMENT 'Shipping Address Id',
+  `store_currency_code` varchar(3) default NULL COMMENT 'Store Currency Code',
+  `transaction_id` varchar(255) default NULL COMMENT 'Transaction Id',
+  `order_currency_code` varchar(3) default NULL COMMENT 'Order Currency Code',
+  `base_currency_code` varchar(3) default NULL COMMENT 'Base Currency Code',
+  `global_currency_code` varchar(3) default NULL COMMENT 'Global Currency Code',
+  `increment_id` varchar(50) default NULL COMMENT 'Increment Id',
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  `updated_at` timestamp NULL default NULL COMMENT 'Updated At',
+  `hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Hidden Tax Amount',
+  `base_hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Base Hidden Tax Amount',
+  `shipping_hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Shipping Hidden Tax Amount',
+  `base_shipping_hidden_tax_amnt` decimal(12,4) default NULL COMMENT 'Base Shipping Hidden Tax Amount',
+  `shipping_incl_tax` decimal(12,4) default NULL COMMENT 'Shipping Incl Tax',
+  `base_shipping_incl_tax` decimal(12,4) default NULL COMMENT 'Base Shipping Incl Tax',
+  `base_total_refunded` decimal(12,4) default NULL COMMENT 'Base Total Refunded',
+  `discount_description` varchar(255) default NULL COMMENT 'Discount Description',
+  `base_customer_balance_amount` decimal(12,4) default NULL COMMENT 'Base Customer Balance Amount',
+  `customer_balance_amount` decimal(12,4) default NULL COMMENT 'Customer Balance Amount',
+  `base_gift_cards_amount` decimal(12,4) default NULL COMMENT 'Base Gift Cards Amount',
+  `gift_cards_amount` decimal(12,4) default NULL COMMENT 'Gift Cards Amount',
+  `base_reward_currency_amount` decimal(12,4) default NULL COMMENT 'Base Reward Currency Amount',
+  `reward_currency_amount` decimal(12,4) default NULL COMMENT 'Reward Currency Amount',
+  `reward_points_balance` int(11) default NULL COMMENT 'Reward Points Balance',
+  PRIMARY KEY  (`entity_id`),
   UNIQUE KEY `UNQ_SALES_FLAT_INVOICE_INCREMENT_ID` (`increment_id`),
   KEY `IDX_SALES_FLAT_INVOICE_STORE_ID` (`store_id`),
   KEY `IDX_SALES_FLAT_INVOICE_GRAND_TOTAL` (`grand_total`),
@@ -7662,50 +8960,50 @@ CREATE TABLE IF NOT EXISTS `sales_flat_invoice` (
   CONSTRAINT `FK_SALES_FLAT_INVOICE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Invoice';
 
-# Dumping data for table sales_flat_invoice: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_invoice: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_invoice` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_invoice` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_invoice_comment
+# Dumping structure for table s5152d29ad0535.sales_flat_invoice_comment
 DROP TABLE IF EXISTS `sales_flat_invoice_comment`;
 CREATE TABLE IF NOT EXISTS `sales_flat_invoice_comment` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
-  `is_customer_notified` smallint(5) unsigned DEFAULT NULL COMMENT 'Is Customer Notified',
-  `is_visible_on_front` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Visible On Front',
+  `is_customer_notified` smallint(5) unsigned default NULL COMMENT 'Is Customer Notified',
+  `is_visible_on_front` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Visible On Front',
   `comment` text COMMENT 'Comment',
-  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Created At',
-  PRIMARY KEY (`entity_id`),
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  PRIMARY KEY  (`entity_id`),
   KEY `IDX_SALES_FLAT_INVOICE_COMMENT_CREATED_AT` (`created_at`),
   KEY `IDX_SALES_FLAT_INVOICE_COMMENT_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_5C4B36BBE5231A76AB8018B281ED50BC` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_invoice` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Invoice Comment';
 
-# Dumping data for table sales_flat_invoice_comment: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_invoice_comment: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_invoice_comment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_invoice_comment` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_invoice_grid
+# Dumping structure for table s5152d29ad0535.sales_flat_invoice_grid
 DROP TABLE IF EXISTS `sales_flat_invoice_grid`;
 CREATE TABLE IF NOT EXISTS `sales_flat_invoice_grid` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `base_grand_total` decimal(12,4) DEFAULT NULL COMMENT 'Base Grand Total',
-  `grand_total` decimal(12,4) DEFAULT NULL COMMENT 'Grand Total',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `base_grand_total` decimal(12,4) default NULL COMMENT 'Base Grand Total',
+  `grand_total` decimal(12,4) default NULL COMMENT 'Grand Total',
   `order_id` int(10) unsigned NOT NULL COMMENT 'Order Id',
-  `state` int(11) DEFAULT NULL COMMENT 'State',
-  `store_currency_code` varchar(3) DEFAULT NULL COMMENT 'Store Currency Code',
-  `order_currency_code` varchar(3) DEFAULT NULL COMMENT 'Order Currency Code',
-  `base_currency_code` varchar(3) DEFAULT NULL COMMENT 'Base Currency Code',
-  `global_currency_code` varchar(3) DEFAULT NULL COMMENT 'Global Currency Code',
-  `increment_id` varchar(50) DEFAULT NULL COMMENT 'Increment Id',
-  `order_increment_id` varchar(50) DEFAULT NULL COMMENT 'Order Increment Id',
-  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Created At',
-  `order_created_at` timestamp NULL DEFAULT NULL COMMENT 'Order Created At',
-  `billing_name` varchar(255) DEFAULT NULL COMMENT 'Billing Name',
-  PRIMARY KEY (`entity_id`),
+  `state` int(11) default NULL COMMENT 'State',
+  `store_currency_code` varchar(3) default NULL COMMENT 'Store Currency Code',
+  `order_currency_code` varchar(3) default NULL COMMENT 'Order Currency Code',
+  `base_currency_code` varchar(3) default NULL COMMENT 'Base Currency Code',
+  `global_currency_code` varchar(3) default NULL COMMENT 'Global Currency Code',
+  `increment_id` varchar(50) default NULL COMMENT 'Increment Id',
+  `order_increment_id` varchar(50) default NULL COMMENT 'Order Increment Id',
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  `order_created_at` timestamp NULL default NULL COMMENT 'Order Created At',
+  `billing_name` varchar(255) default NULL COMMENT 'Billing Name',
+  PRIMARY KEY  (`entity_id`),
   UNIQUE KEY `UNQ_SALES_FLAT_INVOICE_GRID_INCREMENT_ID` (`increment_id`),
   KEY `IDX_SALES_FLAT_INVOICE_GRID_STORE_ID` (`store_id`),
   KEY `IDX_SALES_FLAT_INVOICE_GRID_GRAND_TOTAL` (`grand_total`),
@@ -7719,198 +9017,223 @@ CREATE TABLE IF NOT EXISTS `sales_flat_invoice_grid` (
   CONSTRAINT `FK_SALES_FLAT_INVOICE_GRID_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Invoice Grid';
 
-# Dumping data for table sales_flat_invoice_grid: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_invoice_grid: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_invoice_grid` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_invoice_grid` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_invoice_item
+# Dumping structure for table s5152d29ad0535.sales_flat_invoice_item
 DROP TABLE IF EXISTS `sales_flat_invoice_item`;
 CREATE TABLE IF NOT EXISTS `sales_flat_invoice_item` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
-  `base_price` decimal(12,4) DEFAULT NULL COMMENT 'Base Price',
-  `tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Tax Amount',
-  `base_row_total` decimal(12,4) DEFAULT NULL COMMENT 'Base Row Total',
-  `discount_amount` decimal(12,4) DEFAULT NULL COMMENT 'Discount Amount',
-  `row_total` decimal(12,4) DEFAULT NULL COMMENT 'Row Total',
-  `base_discount_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Discount Amount',
-  `price_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Price Incl Tax',
-  `base_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Tax Amount',
-  `base_price_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Base Price Incl Tax',
-  `qty` decimal(12,4) DEFAULT NULL COMMENT 'Qty',
-  `base_cost` decimal(12,4) DEFAULT NULL COMMENT 'Base Cost',
-  `price` decimal(12,4) DEFAULT NULL COMMENT 'Price',
-  `base_row_total_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Base Row Total Incl Tax',
-  `row_total_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Row Total Incl Tax',
-  `product_id` int(11) DEFAULT NULL COMMENT 'Product Id',
-  `order_item_id` int(11) DEFAULT NULL COMMENT 'Order Item Id',
+  `base_price` decimal(12,4) default NULL COMMENT 'Base Price',
+  `tax_amount` decimal(12,4) default NULL COMMENT 'Tax Amount',
+  `base_row_total` decimal(12,4) default NULL COMMENT 'Base Row Total',
+  `discount_amount` decimal(12,4) default NULL COMMENT 'Discount Amount',
+  `row_total` decimal(12,4) default NULL COMMENT 'Row Total',
+  `base_discount_amount` decimal(12,4) default NULL COMMENT 'Base Discount Amount',
+  `price_incl_tax` decimal(12,4) default NULL COMMENT 'Price Incl Tax',
+  `base_tax_amount` decimal(12,4) default NULL COMMENT 'Base Tax Amount',
+  `base_price_incl_tax` decimal(12,4) default NULL COMMENT 'Base Price Incl Tax',
+  `qty` decimal(12,4) default NULL COMMENT 'Qty',
+  `base_cost` decimal(12,4) default NULL COMMENT 'Base Cost',
+  `price` decimal(12,4) default NULL COMMENT 'Price',
+  `base_row_total_incl_tax` decimal(12,4) default NULL COMMENT 'Base Row Total Incl Tax',
+  `row_total_incl_tax` decimal(12,4) default NULL COMMENT 'Row Total Incl Tax',
+  `product_id` int(11) default NULL COMMENT 'Product Id',
+  `order_item_id` int(11) default NULL COMMENT 'Order Item Id',
   `additional_data` text COMMENT 'Additional Data',
   `description` text COMMENT 'Description',
-  `sku` varchar(255) DEFAULT NULL COMMENT 'Sku',
-  `name` varchar(255) DEFAULT NULL COMMENT 'Name',
-  `hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Hidden Tax Amount',
-  `base_hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Hidden Tax Amount',
-  `base_weee_tax_applied_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Weee Tax Applied Amount',
-  `base_weee_tax_applied_row_amnt` decimal(12,4) DEFAULT NULL COMMENT 'Base Weee Tax Applied Row Amnt',
-  `weee_tax_applied_amount` decimal(12,4) DEFAULT NULL COMMENT 'Weee Tax Applied Amount',
-  `weee_tax_applied_row_amount` decimal(12,4) DEFAULT NULL COMMENT 'Weee Tax Applied Row Amount',
+  `sku` varchar(255) default NULL COMMENT 'Sku',
+  `name` varchar(255) default NULL COMMENT 'Name',
+  `hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Hidden Tax Amount',
+  `base_hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Base Hidden Tax Amount',
+  `base_weee_tax_applied_amount` decimal(12,4) default NULL COMMENT 'Base Weee Tax Applied Amount',
+  `base_weee_tax_applied_row_amnt` decimal(12,4) default NULL COMMENT 'Base Weee Tax Applied Row Amnt',
+  `weee_tax_applied_amount` decimal(12,4) default NULL COMMENT 'Weee Tax Applied Amount',
+  `weee_tax_applied_row_amount` decimal(12,4) default NULL COMMENT 'Weee Tax Applied Row Amount',
   `weee_tax_applied` text COMMENT 'Weee Tax Applied',
-  `weee_tax_disposition` decimal(12,4) DEFAULT NULL COMMENT 'Weee Tax Disposition',
-  `weee_tax_row_disposition` decimal(12,4) DEFAULT NULL COMMENT 'Weee Tax Row Disposition',
-  `base_weee_tax_disposition` decimal(12,4) DEFAULT NULL COMMENT 'Base Weee Tax Disposition',
-  `base_weee_tax_row_disposition` decimal(12,4) DEFAULT NULL COMMENT 'Base Weee Tax Row Disposition',
-  PRIMARY KEY (`entity_id`),
+  `weee_tax_disposition` decimal(12,4) default NULL COMMENT 'Weee Tax Disposition',
+  `weee_tax_row_disposition` decimal(12,4) default NULL COMMENT 'Weee Tax Row Disposition',
+  `base_weee_tax_disposition` decimal(12,4) default NULL COMMENT 'Base Weee Tax Disposition',
+  `base_weee_tax_row_disposition` decimal(12,4) default NULL COMMENT 'Base Weee Tax Row Disposition',
+  PRIMARY KEY  (`entity_id`),
   KEY `IDX_SALES_FLAT_INVOICE_ITEM_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_SALES_FLAT_INVOICE_ITEM_PARENT_ID_SALES_FLAT_INVOICE_ENTT_ID` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_invoice` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Invoice Item';
 
-# Dumping data for table sales_flat_invoice_item: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_invoice_item: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_invoice_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_invoice_item` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_order
+# Dumping structure for table s5152d29ad0535.sales_flat_order
 DROP TABLE IF EXISTS `sales_flat_order`;
 CREATE TABLE IF NOT EXISTS `sales_flat_order` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
-  `state` varchar(32) DEFAULT NULL COMMENT 'State',
-  `status` varchar(32) DEFAULT NULL COMMENT 'Status',
-  `coupon_code` varchar(255) DEFAULT NULL COMMENT 'Coupon Code',
-  `protect_code` varchar(255) DEFAULT NULL COMMENT 'Protect Code',
-  `shipping_description` varchar(255) DEFAULT NULL COMMENT 'Shipping Description',
-  `is_virtual` smallint(5) unsigned DEFAULT NULL COMMENT 'Is Virtual',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `customer_id` int(10) unsigned DEFAULT NULL COMMENT 'Customer Id',
-  `base_discount_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Discount Amount',
-  `base_discount_canceled` decimal(12,4) DEFAULT NULL COMMENT 'Base Discount Canceled',
-  `base_discount_invoiced` decimal(12,4) DEFAULT NULL COMMENT 'Base Discount Invoiced',
-  `base_discount_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Base Discount Refunded',
-  `base_grand_total` decimal(12,4) DEFAULT NULL COMMENT 'Base Grand Total',
-  `base_shipping_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Amount',
-  `base_shipping_canceled` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Canceled',
-  `base_shipping_invoiced` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Invoiced',
-  `base_shipping_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Refunded',
-  `base_shipping_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Tax Amount',
-  `base_shipping_tax_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Tax Refunded',
-  `base_subtotal` decimal(12,4) DEFAULT NULL COMMENT 'Base Subtotal',
-  `base_subtotal_canceled` decimal(12,4) DEFAULT NULL COMMENT 'Base Subtotal Canceled',
-  `base_subtotal_invoiced` decimal(12,4) DEFAULT NULL COMMENT 'Base Subtotal Invoiced',
-  `base_subtotal_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Base Subtotal Refunded',
-  `base_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Tax Amount',
-  `base_tax_canceled` decimal(12,4) DEFAULT NULL COMMENT 'Base Tax Canceled',
-  `base_tax_invoiced` decimal(12,4) DEFAULT NULL COMMENT 'Base Tax Invoiced',
-  `base_tax_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Base Tax Refunded',
-  `base_to_global_rate` decimal(12,4) DEFAULT NULL COMMENT 'Base To Global Rate',
-  `base_to_order_rate` decimal(12,4) DEFAULT NULL COMMENT 'Base To Order Rate',
-  `base_total_canceled` decimal(12,4) DEFAULT NULL COMMENT 'Base Total Canceled',
-  `base_total_invoiced` decimal(12,4) DEFAULT NULL COMMENT 'Base Total Invoiced',
-  `base_total_invoiced_cost` decimal(12,4) DEFAULT NULL COMMENT 'Base Total Invoiced Cost',
-  `base_total_offline_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Base Total Offline Refunded',
-  `base_total_online_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Base Total Online Refunded',
-  `base_total_paid` decimal(12,4) DEFAULT NULL COMMENT 'Base Total Paid',
-  `base_total_qty_ordered` decimal(12,4) DEFAULT NULL COMMENT 'Base Total Qty Ordered',
-  `base_total_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Base Total Refunded',
-  `discount_amount` decimal(12,4) DEFAULT NULL COMMENT 'Discount Amount',
-  `discount_canceled` decimal(12,4) DEFAULT NULL COMMENT 'Discount Canceled',
-  `discount_invoiced` decimal(12,4) DEFAULT NULL COMMENT 'Discount Invoiced',
-  `discount_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Discount Refunded',
-  `grand_total` decimal(12,4) DEFAULT NULL COMMENT 'Grand Total',
-  `shipping_amount` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Amount',
-  `shipping_canceled` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Canceled',
-  `shipping_invoiced` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Invoiced',
-  `shipping_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Refunded',
-  `shipping_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Tax Amount',
-  `shipping_tax_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Tax Refunded',
-  `store_to_base_rate` decimal(12,4) DEFAULT NULL COMMENT 'Store To Base Rate',
-  `store_to_order_rate` decimal(12,4) DEFAULT NULL COMMENT 'Store To Order Rate',
-  `subtotal` decimal(12,4) DEFAULT NULL COMMENT 'Subtotal',
-  `subtotal_canceled` decimal(12,4) DEFAULT NULL COMMENT 'Subtotal Canceled',
-  `subtotal_invoiced` decimal(12,4) DEFAULT NULL COMMENT 'Subtotal Invoiced',
-  `subtotal_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Subtotal Refunded',
-  `tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Tax Amount',
-  `tax_canceled` decimal(12,4) DEFAULT NULL COMMENT 'Tax Canceled',
-  `tax_invoiced` decimal(12,4) DEFAULT NULL COMMENT 'Tax Invoiced',
-  `tax_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Tax Refunded',
-  `total_canceled` decimal(12,4) DEFAULT NULL COMMENT 'Total Canceled',
-  `total_invoiced` decimal(12,4) DEFAULT NULL COMMENT 'Total Invoiced',
-  `total_offline_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Total Offline Refunded',
-  `total_online_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Total Online Refunded',
-  `total_paid` decimal(12,4) DEFAULT NULL COMMENT 'Total Paid',
-  `total_qty_ordered` decimal(12,4) DEFAULT NULL COMMENT 'Total Qty Ordered',
-  `total_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Total Refunded',
-  `can_ship_partially` smallint(5) unsigned DEFAULT NULL COMMENT 'Can Ship Partially',
-  `can_ship_partially_item` smallint(5) unsigned DEFAULT NULL COMMENT 'Can Ship Partially Item',
-  `customer_is_guest` smallint(5) unsigned DEFAULT NULL COMMENT 'Customer Is Guest',
-  `customer_note_notify` smallint(5) unsigned DEFAULT NULL COMMENT 'Customer Note Notify',
-  `billing_address_id` int(11) DEFAULT NULL COMMENT 'Billing Address Id',
-  `customer_group_id` smallint(6) DEFAULT NULL COMMENT 'Customer Group Id',
-  `edit_increment` int(11) DEFAULT NULL COMMENT 'Edit Increment',
-  `email_sent` smallint(5) unsigned DEFAULT NULL COMMENT 'Email Sent',
-  `forced_shipment_with_invoice` smallint(5) unsigned DEFAULT NULL COMMENT 'Forced Do Shipment With Invoice',
-  `payment_auth_expiration` int(11) DEFAULT NULL COMMENT 'Payment Authorization Expiration',
-  `quote_address_id` int(11) DEFAULT NULL COMMENT 'Quote Address Id',
-  `quote_id` int(11) DEFAULT NULL COMMENT 'Quote Id',
-  `shipping_address_id` int(11) DEFAULT NULL COMMENT 'Shipping Address Id',
-  `adjustment_negative` decimal(12,4) DEFAULT NULL COMMENT 'Adjustment Negative',
-  `adjustment_positive` decimal(12,4) DEFAULT NULL COMMENT 'Adjustment Positive',
-  `base_adjustment_negative` decimal(12,4) DEFAULT NULL COMMENT 'Base Adjustment Negative',
-  `base_adjustment_positive` decimal(12,4) DEFAULT NULL COMMENT 'Base Adjustment Positive',
-  `base_shipping_discount_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Discount Amount',
-  `base_subtotal_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Base Subtotal Incl Tax',
-  `base_total_due` decimal(12,4) DEFAULT NULL COMMENT 'Base Total Due',
-  `payment_authorization_amount` decimal(12,4) DEFAULT NULL COMMENT 'Payment Authorization Amount',
-  `shipping_discount_amount` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Discount Amount',
-  `subtotal_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Subtotal Incl Tax',
-  `total_due` decimal(12,4) DEFAULT NULL COMMENT 'Total Due',
-  `weight` decimal(12,4) DEFAULT NULL COMMENT 'Weight',
-  `customer_dob` datetime DEFAULT NULL COMMENT 'Customer Dob',
-  `increment_id` varchar(50) DEFAULT NULL COMMENT 'Increment Id',
-  `applied_rule_ids` varchar(255) DEFAULT NULL COMMENT 'Applied Rule Ids',
-  `base_currency_code` varchar(3) DEFAULT NULL COMMENT 'Base Currency Code',
-  `customer_email` varchar(255) DEFAULT NULL COMMENT 'Customer Email',
-  `customer_firstname` varchar(255) DEFAULT NULL COMMENT 'Customer Firstname',
-  `customer_lastname` varchar(255) DEFAULT NULL COMMENT 'Customer Lastname',
-  `customer_middlename` varchar(255) DEFAULT NULL COMMENT 'Customer Middlename',
-  `customer_prefix` varchar(255) DEFAULT NULL COMMENT 'Customer Prefix',
-  `customer_suffix` varchar(255) DEFAULT NULL COMMENT 'Customer Suffix',
-  `customer_taxvat` varchar(255) DEFAULT NULL COMMENT 'Customer Taxvat',
-  `discount_description` varchar(255) DEFAULT NULL COMMENT 'Discount Description',
-  `ext_customer_id` varchar(255) DEFAULT NULL COMMENT 'Ext Customer Id',
-  `ext_order_id` varchar(255) DEFAULT NULL COMMENT 'Ext Order Id',
-  `global_currency_code` varchar(3) DEFAULT NULL COMMENT 'Global Currency Code',
-  `hold_before_state` varchar(255) DEFAULT NULL COMMENT 'Hold Before State',
-  `hold_before_status` varchar(255) DEFAULT NULL COMMENT 'Hold Before Status',
-  `order_currency_code` varchar(255) DEFAULT NULL COMMENT 'Order Currency Code',
-  `original_increment_id` varchar(50) DEFAULT NULL COMMENT 'Original Increment Id',
-  `relation_child_id` varchar(32) DEFAULT NULL COMMENT 'Relation Child Id',
-  `relation_child_real_id` varchar(32) DEFAULT NULL COMMENT 'Relation Child Real Id',
-  `relation_parent_id` varchar(32) DEFAULT NULL COMMENT 'Relation Parent Id',
-  `relation_parent_real_id` varchar(32) DEFAULT NULL COMMENT 'Relation Parent Real Id',
-  `remote_ip` varchar(255) DEFAULT NULL COMMENT 'Remote Ip',
-  `shipping_method` varchar(255) DEFAULT NULL COMMENT 'Shipping Method',
-  `store_currency_code` varchar(3) DEFAULT NULL COMMENT 'Store Currency Code',
-  `store_name` varchar(255) DEFAULT NULL COMMENT 'Store Name',
-  `x_forwarded_for` varchar(255) DEFAULT NULL COMMENT 'X Forwarded For',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
+  `state` varchar(32) default NULL COMMENT 'State',
+  `status` varchar(32) default NULL COMMENT 'Status',
+  `coupon_code` varchar(255) default NULL COMMENT 'Coupon Code',
+  `protect_code` varchar(255) default NULL COMMENT 'Protect Code',
+  `shipping_description` varchar(255) default NULL COMMENT 'Shipping Description',
+  `is_virtual` smallint(5) unsigned default NULL COMMENT 'Is Virtual',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `customer_id` int(10) unsigned default NULL COMMENT 'Customer Id',
+  `base_discount_amount` decimal(12,4) default NULL COMMENT 'Base Discount Amount',
+  `base_discount_canceled` decimal(12,4) default NULL COMMENT 'Base Discount Canceled',
+  `base_discount_invoiced` decimal(12,4) default NULL COMMENT 'Base Discount Invoiced',
+  `base_discount_refunded` decimal(12,4) default NULL COMMENT 'Base Discount Refunded',
+  `base_grand_total` decimal(12,4) default NULL COMMENT 'Base Grand Total',
+  `base_shipping_amount` decimal(12,4) default NULL COMMENT 'Base Shipping Amount',
+  `base_shipping_canceled` decimal(12,4) default NULL COMMENT 'Base Shipping Canceled',
+  `base_shipping_invoiced` decimal(12,4) default NULL COMMENT 'Base Shipping Invoiced',
+  `base_shipping_refunded` decimal(12,4) default NULL COMMENT 'Base Shipping Refunded',
+  `base_shipping_tax_amount` decimal(12,4) default NULL COMMENT 'Base Shipping Tax Amount',
+  `base_shipping_tax_refunded` decimal(12,4) default NULL COMMENT 'Base Shipping Tax Refunded',
+  `base_subtotal` decimal(12,4) default NULL COMMENT 'Base Subtotal',
+  `base_subtotal_canceled` decimal(12,4) default NULL COMMENT 'Base Subtotal Canceled',
+  `base_subtotal_invoiced` decimal(12,4) default NULL COMMENT 'Base Subtotal Invoiced',
+  `base_subtotal_refunded` decimal(12,4) default NULL COMMENT 'Base Subtotal Refunded',
+  `base_tax_amount` decimal(12,4) default NULL COMMENT 'Base Tax Amount',
+  `base_tax_canceled` decimal(12,4) default NULL COMMENT 'Base Tax Canceled',
+  `base_tax_invoiced` decimal(12,4) default NULL COMMENT 'Base Tax Invoiced',
+  `base_tax_refunded` decimal(12,4) default NULL COMMENT 'Base Tax Refunded',
+  `base_to_global_rate` decimal(12,4) default NULL COMMENT 'Base To Global Rate',
+  `base_to_order_rate` decimal(12,4) default NULL COMMENT 'Base To Order Rate',
+  `base_total_canceled` decimal(12,4) default NULL COMMENT 'Base Total Canceled',
+  `base_total_invoiced` decimal(12,4) default NULL COMMENT 'Base Total Invoiced',
+  `base_total_invoiced_cost` decimal(12,4) default NULL COMMENT 'Base Total Invoiced Cost',
+  `base_total_offline_refunded` decimal(12,4) default NULL COMMENT 'Base Total Offline Refunded',
+  `base_total_online_refunded` decimal(12,4) default NULL COMMENT 'Base Total Online Refunded',
+  `base_total_paid` decimal(12,4) default NULL COMMENT 'Base Total Paid',
+  `base_total_qty_ordered` decimal(12,4) default NULL COMMENT 'Base Total Qty Ordered',
+  `base_total_refunded` decimal(12,4) default NULL COMMENT 'Base Total Refunded',
+  `discount_amount` decimal(12,4) default NULL COMMENT 'Discount Amount',
+  `discount_canceled` decimal(12,4) default NULL COMMENT 'Discount Canceled',
+  `discount_invoiced` decimal(12,4) default NULL COMMENT 'Discount Invoiced',
+  `discount_refunded` decimal(12,4) default NULL COMMENT 'Discount Refunded',
+  `grand_total` decimal(12,4) default NULL COMMENT 'Grand Total',
+  `shipping_amount` decimal(12,4) default NULL COMMENT 'Shipping Amount',
+  `shipping_canceled` decimal(12,4) default NULL COMMENT 'Shipping Canceled',
+  `shipping_invoiced` decimal(12,4) default NULL COMMENT 'Shipping Invoiced',
+  `shipping_refunded` decimal(12,4) default NULL COMMENT 'Shipping Refunded',
+  `shipping_tax_amount` decimal(12,4) default NULL COMMENT 'Shipping Tax Amount',
+  `shipping_tax_refunded` decimal(12,4) default NULL COMMENT 'Shipping Tax Refunded',
+  `store_to_base_rate` decimal(12,4) default NULL COMMENT 'Store To Base Rate',
+  `store_to_order_rate` decimal(12,4) default NULL COMMENT 'Store To Order Rate',
+  `subtotal` decimal(12,4) default NULL COMMENT 'Subtotal',
+  `subtotal_canceled` decimal(12,4) default NULL COMMENT 'Subtotal Canceled',
+  `subtotal_invoiced` decimal(12,4) default NULL COMMENT 'Subtotal Invoiced',
+  `subtotal_refunded` decimal(12,4) default NULL COMMENT 'Subtotal Refunded',
+  `tax_amount` decimal(12,4) default NULL COMMENT 'Tax Amount',
+  `tax_canceled` decimal(12,4) default NULL COMMENT 'Tax Canceled',
+  `tax_invoiced` decimal(12,4) default NULL COMMENT 'Tax Invoiced',
+  `tax_refunded` decimal(12,4) default NULL COMMENT 'Tax Refunded',
+  `total_canceled` decimal(12,4) default NULL COMMENT 'Total Canceled',
+  `total_invoiced` decimal(12,4) default NULL COMMENT 'Total Invoiced',
+  `total_offline_refunded` decimal(12,4) default NULL COMMENT 'Total Offline Refunded',
+  `total_online_refunded` decimal(12,4) default NULL COMMENT 'Total Online Refunded',
+  `total_paid` decimal(12,4) default NULL COMMENT 'Total Paid',
+  `total_qty_ordered` decimal(12,4) default NULL COMMENT 'Total Qty Ordered',
+  `total_refunded` decimal(12,4) default NULL COMMENT 'Total Refunded',
+  `can_ship_partially` smallint(5) unsigned default NULL COMMENT 'Can Ship Partially',
+  `can_ship_partially_item` smallint(5) unsigned default NULL COMMENT 'Can Ship Partially Item',
+  `customer_is_guest` smallint(5) unsigned default NULL COMMENT 'Customer Is Guest',
+  `customer_note_notify` smallint(5) unsigned default NULL COMMENT 'Customer Note Notify',
+  `billing_address_id` int(11) default NULL COMMENT 'Billing Address Id',
+  `customer_group_id` smallint(6) default NULL COMMENT 'Customer Group Id',
+  `edit_increment` int(11) default NULL COMMENT 'Edit Increment',
+  `email_sent` smallint(5) unsigned default NULL COMMENT 'Email Sent',
+  `forced_shipment_with_invoice` smallint(5) unsigned default NULL COMMENT 'Forced Do Shipment With Invoice',
+  `payment_auth_expiration` int(11) default NULL COMMENT 'Payment Authorization Expiration',
+  `quote_address_id` int(11) default NULL COMMENT 'Quote Address Id',
+  `quote_id` int(11) default NULL COMMENT 'Quote Id',
+  `shipping_address_id` int(11) default NULL COMMENT 'Shipping Address Id',
+  `adjustment_negative` decimal(12,4) default NULL COMMENT 'Adjustment Negative',
+  `adjustment_positive` decimal(12,4) default NULL COMMENT 'Adjustment Positive',
+  `base_adjustment_negative` decimal(12,4) default NULL COMMENT 'Base Adjustment Negative',
+  `base_adjustment_positive` decimal(12,4) default NULL COMMENT 'Base Adjustment Positive',
+  `base_shipping_discount_amount` decimal(12,4) default NULL COMMENT 'Base Shipping Discount Amount',
+  `base_subtotal_incl_tax` decimal(12,4) default NULL COMMENT 'Base Subtotal Incl Tax',
+  `base_total_due` decimal(12,4) default NULL COMMENT 'Base Total Due',
+  `payment_authorization_amount` decimal(12,4) default NULL COMMENT 'Payment Authorization Amount',
+  `shipping_discount_amount` decimal(12,4) default NULL COMMENT 'Shipping Discount Amount',
+  `subtotal_incl_tax` decimal(12,4) default NULL COMMENT 'Subtotal Incl Tax',
+  `total_due` decimal(12,4) default NULL COMMENT 'Total Due',
+  `weight` decimal(12,4) default NULL COMMENT 'Weight',
+  `customer_dob` datetime default NULL COMMENT 'Customer Dob',
+  `increment_id` varchar(50) default NULL COMMENT 'Increment Id',
+  `applied_rule_ids` varchar(255) default NULL COMMENT 'Applied Rule Ids',
+  `base_currency_code` varchar(3) default NULL COMMENT 'Base Currency Code',
+  `customer_email` varchar(255) default NULL COMMENT 'Customer Email',
+  `customer_firstname` varchar(255) default NULL COMMENT 'Customer Firstname',
+  `customer_lastname` varchar(255) default NULL COMMENT 'Customer Lastname',
+  `customer_middlename` varchar(255) default NULL COMMENT 'Customer Middlename',
+  `customer_prefix` varchar(255) default NULL COMMENT 'Customer Prefix',
+  `customer_suffix` varchar(255) default NULL COMMENT 'Customer Suffix',
+  `customer_taxvat` varchar(255) default NULL COMMENT 'Customer Taxvat',
+  `discount_description` varchar(255) default NULL COMMENT 'Discount Description',
+  `ext_customer_id` varchar(255) default NULL COMMENT 'Ext Customer Id',
+  `ext_order_id` varchar(255) default NULL COMMENT 'Ext Order Id',
+  `global_currency_code` varchar(3) default NULL COMMENT 'Global Currency Code',
+  `hold_before_state` varchar(255) default NULL COMMENT 'Hold Before State',
+  `hold_before_status` varchar(255) default NULL COMMENT 'Hold Before Status',
+  `order_currency_code` varchar(255) default NULL COMMENT 'Order Currency Code',
+  `original_increment_id` varchar(50) default NULL COMMENT 'Original Increment Id',
+  `relation_child_id` varchar(32) default NULL COMMENT 'Relation Child Id',
+  `relation_child_real_id` varchar(32) default NULL COMMENT 'Relation Child Real Id',
+  `relation_parent_id` varchar(32) default NULL COMMENT 'Relation Parent Id',
+  `relation_parent_real_id` varchar(32) default NULL COMMENT 'Relation Parent Real Id',
+  `remote_ip` varchar(255) default NULL COMMENT 'Remote Ip',
+  `shipping_method` varchar(255) default NULL COMMENT 'Shipping Method',
+  `store_currency_code` varchar(3) default NULL COMMENT 'Store Currency Code',
+  `store_name` varchar(255) default NULL COMMENT 'Store Name',
+  `x_forwarded_for` varchar(255) default NULL COMMENT 'X Forwarded For',
   `customer_note` text COMMENT 'Customer Note',
-  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Created At',
-  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Updated At',
-  `total_item_count` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Total Item Count',
-  `customer_gender` int(11) DEFAULT NULL COMMENT 'Customer Gender',
-  `hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Hidden Tax Amount',
-  `base_hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Hidden Tax Amount',
-  `shipping_hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Hidden Tax Amount',
-  `base_shipping_hidden_tax_amnt` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Hidden Tax Amount',
-  `hidden_tax_invoiced` decimal(12,4) DEFAULT NULL COMMENT 'Hidden Tax Invoiced',
-  `base_hidden_tax_invoiced` decimal(12,4) DEFAULT NULL COMMENT 'Base Hidden Tax Invoiced',
-  `hidden_tax_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Hidden Tax Refunded',
-  `base_hidden_tax_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Base Hidden Tax Refunded',
-  `shipping_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Incl Tax',
-  `base_shipping_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Incl Tax',
-  `coupon_rule_name` varchar(255) DEFAULT NULL COMMENT 'Coupon Sales Rule Name',
-  `gift_message_id` int(11) DEFAULT NULL COMMENT 'Gift Message Id',
-  `paypal_ipn_customer_notified` int(11) DEFAULT '0' COMMENT 'Paypal Ipn Customer Notified',
-  PRIMARY KEY (`entity_id`),
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  `updated_at` timestamp NULL default NULL COMMENT 'Updated At',
+  `total_item_count` smallint(5) unsigned NOT NULL default '0' COMMENT 'Total Item Count',
+  `customer_gender` int(11) default NULL COMMENT 'Customer Gender',
+  `hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Hidden Tax Amount',
+  `base_hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Base Hidden Tax Amount',
+  `shipping_hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Shipping Hidden Tax Amount',
+  `base_shipping_hidden_tax_amnt` decimal(12,4) default NULL COMMENT 'Base Shipping Hidden Tax Amount',
+  `hidden_tax_invoiced` decimal(12,4) default NULL COMMENT 'Hidden Tax Invoiced',
+  `base_hidden_tax_invoiced` decimal(12,4) default NULL COMMENT 'Base Hidden Tax Invoiced',
+  `hidden_tax_refunded` decimal(12,4) default NULL COMMENT 'Hidden Tax Refunded',
+  `base_hidden_tax_refunded` decimal(12,4) default NULL COMMENT 'Base Hidden Tax Refunded',
+  `shipping_incl_tax` decimal(12,4) default NULL COMMENT 'Shipping Incl Tax',
+  `base_shipping_incl_tax` decimal(12,4) default NULL COMMENT 'Base Shipping Incl Tax',
+  `coupon_rule_name` varchar(255) default NULL COMMENT 'Coupon Sales Rule Name',
+  `gift_message_id` int(11) default NULL COMMENT 'Gift Message Id',
+  `paypal_ipn_customer_notified` int(11) default '0' COMMENT 'Paypal Ipn Customer Notified',
+  `base_customer_balance_amount` decimal(12,4) default NULL COMMENT 'Base Customer Balance Amount',
+  `customer_balance_amount` decimal(12,4) default NULL COMMENT 'Customer Balance Amount',
+  `base_customer_balance_invoiced` decimal(12,4) default NULL COMMENT 'Base Customer Balance Invoiced',
+  `customer_balance_invoiced` decimal(12,4) default NULL COMMENT 'Customer Balance Invoiced',
+  `base_customer_balance_refunded` decimal(12,4) default NULL COMMENT 'Base Customer Balance Refunded',
+  `customer_balance_refunded` decimal(12,4) default NULL COMMENT 'Customer Balance Refunded',
+  `bs_customer_bal_total_refunded` decimal(12,4) default NULL COMMENT 'Bs Customer Bal Total Refunded',
+  `customer_bal_total_refunded` decimal(12,4) default NULL COMMENT 'Customer Bal Total Refunded',
+  `gift_cards` text COMMENT 'Gift Cards',
+  `base_gift_cards_amount` decimal(12,4) default NULL COMMENT 'Base Gift Cards Amount',
+  `gift_cards_amount` decimal(12,4) default NULL COMMENT 'Gift Cards Amount',
+  `base_gift_cards_invoiced` decimal(12,4) default NULL COMMENT 'Base Gift Cards Invoiced',
+  `gift_cards_invoiced` decimal(12,4) default NULL COMMENT 'Gift Cards Invoiced',
+  `base_gift_cards_refunded` decimal(12,4) default NULL COMMENT 'Base Gift Cards Refunded',
+  `gift_cards_refunded` decimal(12,4) default NULL COMMENT 'Gift Cards Refunded',
+  `reward_points_balance` int(11) default NULL COMMENT 'Reward Points Balance',
+  `base_reward_currency_amount` decimal(12,4) default NULL COMMENT 'Base Reward Currency Amount',
+  `reward_currency_amount` decimal(12,4) default NULL COMMENT 'Reward Currency Amount',
+  `base_rwrd_crrncy_amt_invoiced` decimal(12,4) default NULL COMMENT 'Base Rwrd Crrncy Amt Invoiced',
+  `rwrd_currency_amount_invoiced` decimal(12,4) default NULL COMMENT 'Rwrd Currency Amount Invoiced',
+  `base_rwrd_crrncy_amnt_refnded` decimal(12,4) default NULL COMMENT 'Base Rwrd Crrncy Amnt Refnded',
+  `rwrd_crrncy_amnt_refunded` decimal(12,4) default NULL COMMENT 'Rwrd Crrncy Amnt Refunded',
+  `reward_points_balance_refund` int(11) default NULL COMMENT 'Reward Points Balance Refund',
+  `reward_points_balance_refunded` int(11) default NULL COMMENT 'Reward Points Balance Refunded',
+  `reward_salesrule_points` int(11) default NULL COMMENT 'Reward Salesrule Points',
+  PRIMARY KEY  (`entity_id`),
   UNIQUE KEY `UNQ_SALES_FLAT_ORDER_INCREMENT_ID` (`increment_id`),
   KEY `IDX_SALES_FLAT_ORDER_STATUS` (`status`),
   KEY `IDX_SALES_FLAT_ORDER_STATE` (`state`),
@@ -7924,70 +9247,71 @@ CREATE TABLE IF NOT EXISTS `sales_flat_order` (
   CONSTRAINT `FK_SALES_FLAT_ORDER_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Order';
 
-# Dumping data for table sales_flat_order: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_order: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_order` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_order` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_order_address
+# Dumping structure for table s5152d29ad0535.sales_flat_order_address
 DROP TABLE IF EXISTS `sales_flat_order_address`;
 CREATE TABLE IF NOT EXISTS `sales_flat_order_address` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
-  `parent_id` int(10) unsigned DEFAULT NULL COMMENT 'Parent Id',
-  `customer_address_id` int(11) DEFAULT NULL COMMENT 'Customer Address Id',
-  `quote_address_id` int(11) DEFAULT NULL COMMENT 'Quote Address Id',
-  `region_id` int(11) DEFAULT NULL COMMENT 'Region Id',
-  `customer_id` int(11) DEFAULT NULL COMMENT 'Customer Id',
-  `fax` varchar(255) DEFAULT NULL COMMENT 'Fax',
-  `region` varchar(255) DEFAULT NULL COMMENT 'Region',
-  `postcode` varchar(255) DEFAULT NULL COMMENT 'Postcode',
-  `lastname` varchar(255) DEFAULT NULL COMMENT 'Lastname',
-  `street` varchar(255) DEFAULT NULL COMMENT 'Street',
-  `city` varchar(255) DEFAULT NULL COMMENT 'City',
-  `email` varchar(255) DEFAULT NULL COMMENT 'Email',
-  `telephone` varchar(255) DEFAULT NULL COMMENT 'Telephone',
-  `country_id` varchar(2) DEFAULT NULL COMMENT 'Country Id',
-  `firstname` varchar(255) DEFAULT NULL COMMENT 'Firstname',
-  `address_type` varchar(255) DEFAULT NULL COMMENT 'Address Type',
-  `prefix` varchar(255) DEFAULT NULL COMMENT 'Prefix',
-  `middlename` varchar(255) DEFAULT NULL COMMENT 'Middlename',
-  `suffix` varchar(255) DEFAULT NULL COMMENT 'Suffix',
-  `company` varchar(255) DEFAULT NULL COMMENT 'Company',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
+  `parent_id` int(10) unsigned default NULL COMMENT 'Parent Id',
+  `customer_address_id` int(11) default NULL COMMENT 'Customer Address Id',
+  `quote_address_id` int(11) default NULL COMMENT 'Quote Address Id',
+  `region_id` int(11) default NULL COMMENT 'Region Id',
+  `customer_id` int(11) default NULL COMMENT 'Customer Id',
+  `fax` varchar(255) default NULL COMMENT 'Fax',
+  `region` varchar(255) default NULL COMMENT 'Region',
+  `postcode` varchar(255) default NULL COMMENT 'Postcode',
+  `lastname` varchar(255) default NULL COMMENT 'Lastname',
+  `street` varchar(255) default NULL COMMENT 'Street',
+  `city` varchar(255) default NULL COMMENT 'City',
+  `email` varchar(255) default NULL COMMENT 'Email',
+  `telephone` varchar(255) default NULL COMMENT 'Telephone',
+  `country_id` varchar(2) default NULL COMMENT 'Country Id',
+  `firstname` varchar(255) default NULL COMMENT 'Firstname',
+  `address_type` varchar(255) default NULL COMMENT 'Address Type',
+  `prefix` varchar(255) default NULL COMMENT 'Prefix',
+  `middlename` varchar(255) default NULL COMMENT 'Middlename',
+  `suffix` varchar(255) default NULL COMMENT 'Suffix',
+  `company` varchar(255) default NULL COMMENT 'Company',
   `vat_id` text COMMENT 'Vat Id',
-  `vat_is_valid` smallint(6) DEFAULT NULL COMMENT 'Vat Is Valid',
+  `vat_is_valid` smallint(6) default NULL COMMENT 'Vat Is Valid',
   `vat_request_id` text COMMENT 'Vat Request Id',
   `vat_request_date` text COMMENT 'Vat Request Date',
-  `vat_request_success` smallint(6) DEFAULT NULL COMMENT 'Vat Request Success',
-  PRIMARY KEY (`entity_id`),
+  `vat_request_success` smallint(6) default NULL COMMENT 'Vat Request Success',
+  `giftregistry_item_id` int(11) default NULL COMMENT 'Giftregistry Item Id',
+  PRIMARY KEY  (`entity_id`),
   KEY `IDX_SALES_FLAT_ORDER_ADDRESS_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_SALES_FLAT_ORDER_ADDRESS_PARENT_ID_SALES_FLAT_ORDER_ENTITY_ID` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Order Address';
 
-# Dumping data for table sales_flat_order_address: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_order_address: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_order_address` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_order_address` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_order_grid
+# Dumping structure for table s5152d29ad0535.sales_flat_order_grid
 DROP TABLE IF EXISTS `sales_flat_order_grid`;
 CREATE TABLE IF NOT EXISTS `sales_flat_order_grid` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
-  `status` varchar(32) DEFAULT NULL COMMENT 'Status',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `store_name` varchar(255) DEFAULT NULL COMMENT 'Store Name',
-  `customer_id` int(10) unsigned DEFAULT NULL COMMENT 'Customer Id',
-  `base_grand_total` decimal(12,4) DEFAULT NULL COMMENT 'Base Grand Total',
-  `base_total_paid` decimal(12,4) DEFAULT NULL COMMENT 'Base Total Paid',
-  `grand_total` decimal(12,4) DEFAULT NULL COMMENT 'Grand Total',
-  `total_paid` decimal(12,4) DEFAULT NULL COMMENT 'Total Paid',
-  `increment_id` varchar(50) DEFAULT NULL COMMENT 'Increment Id',
-  `base_currency_code` varchar(3) DEFAULT NULL COMMENT 'Base Currency Code',
-  `order_currency_code` varchar(255) DEFAULT NULL COMMENT 'Order Currency Code',
-  `shipping_name` varchar(255) DEFAULT NULL COMMENT 'Shipping Name',
-  `billing_name` varchar(255) DEFAULT NULL COMMENT 'Billing Name',
-  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Created At',
-  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Updated At',
-  PRIMARY KEY (`entity_id`),
+  `status` varchar(32) default NULL COMMENT 'Status',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `store_name` varchar(255) default NULL COMMENT 'Store Name',
+  `customer_id` int(10) unsigned default NULL COMMENT 'Customer Id',
+  `base_grand_total` decimal(12,4) default NULL COMMENT 'Base Grand Total',
+  `base_total_paid` decimal(12,4) default NULL COMMENT 'Base Total Paid',
+  `grand_total` decimal(12,4) default NULL COMMENT 'Grand Total',
+  `total_paid` decimal(12,4) default NULL COMMENT 'Total Paid',
+  `increment_id` varchar(50) default NULL COMMENT 'Increment Id',
+  `base_currency_code` varchar(3) default NULL COMMENT 'Base Currency Code',
+  `order_currency_code` varchar(255) default NULL COMMENT 'Order Currency Code',
+  `shipping_name` varchar(255) default NULL COMMENT 'Shipping Name',
+  `billing_name` varchar(255) default NULL COMMENT 'Billing Name',
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  `updated_at` timestamp NULL default NULL COMMENT 'Updated At',
+  PRIMARY KEY  (`entity_id`),
   UNIQUE KEY `UNQ_SALES_FLAT_ORDER_GRID_INCREMENT_ID` (`increment_id`),
   KEY `IDX_SALES_FLAT_ORDER_GRID_STATUS` (`status`),
   KEY `IDX_SALES_FLAT_ORDER_GRID_STORE_ID` (`store_id`),
@@ -8005,380 +9329,403 @@ CREATE TABLE IF NOT EXISTS `sales_flat_order_grid` (
   CONSTRAINT `FK_SALES_FLAT_ORDER_GRID_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Order Grid';
 
-# Dumping data for table sales_flat_order_grid: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_order_grid: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_order_grid` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_order_grid` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_order_item
+# Dumping structure for table s5152d29ad0535.sales_flat_order_item
 DROP TABLE IF EXISTS `sales_flat_order_item`;
 CREATE TABLE IF NOT EXISTS `sales_flat_order_item` (
-  `item_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Item Id',
-  `order_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Order Id',
-  `parent_item_id` int(10) unsigned DEFAULT NULL COMMENT 'Parent Item Id',
-  `quote_item_id` int(10) unsigned DEFAULT NULL COMMENT 'Quote Item Id',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Created At',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Updated At',
-  `product_id` int(10) unsigned DEFAULT NULL COMMENT 'Product Id',
-  `product_type` varchar(255) DEFAULT NULL COMMENT 'Product Type',
+  `item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Item Id',
+  `order_id` int(10) unsigned NOT NULL default '0' COMMENT 'Order Id',
+  `parent_item_id` int(10) unsigned default NULL COMMENT 'Parent Item Id',
+  `quote_item_id` int(10) unsigned default NULL COMMENT 'Quote Item Id',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Created At',
+  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'Updated At',
+  `product_id` int(10) unsigned default NULL COMMENT 'Product Id',
+  `product_type` varchar(255) default NULL COMMENT 'Product Type',
   `product_options` text COMMENT 'Product Options',
-  `weight` decimal(12,4) DEFAULT '0.0000' COMMENT 'Weight',
-  `is_virtual` smallint(5) unsigned DEFAULT NULL COMMENT 'Is Virtual',
-  `sku` varchar(255) DEFAULT NULL COMMENT 'Sku',
-  `name` varchar(255) DEFAULT NULL COMMENT 'Name',
+  `weight` decimal(12,4) default '0.0000' COMMENT 'Weight',
+  `is_virtual` smallint(5) unsigned default NULL COMMENT 'Is Virtual',
+  `sku` varchar(255) default NULL COMMENT 'Sku',
+  `name` varchar(255) default NULL COMMENT 'Name',
   `description` text COMMENT 'Description',
   `applied_rule_ids` text COMMENT 'Applied Rule Ids',
   `additional_data` text COMMENT 'Additional Data',
-  `free_shipping` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Free Shipping',
-  `is_qty_decimal` smallint(5) unsigned DEFAULT NULL COMMENT 'Is Qty Decimal',
-  `no_discount` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'No Discount',
-  `qty_backordered` decimal(12,4) DEFAULT '0.0000' COMMENT 'Qty Backordered',
-  `qty_canceled` decimal(12,4) DEFAULT '0.0000' COMMENT 'Qty Canceled',
-  `qty_invoiced` decimal(12,4) DEFAULT '0.0000' COMMENT 'Qty Invoiced',
-  `qty_ordered` decimal(12,4) DEFAULT '0.0000' COMMENT 'Qty Ordered',
-  `qty_refunded` decimal(12,4) DEFAULT '0.0000' COMMENT 'Qty Refunded',
-  `qty_shipped` decimal(12,4) DEFAULT '0.0000' COMMENT 'Qty Shipped',
-  `base_cost` decimal(12,4) DEFAULT '0.0000' COMMENT 'Base Cost',
-  `price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Price',
-  `base_price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Base Price',
-  `original_price` decimal(12,4) DEFAULT NULL COMMENT 'Original Price',
-  `base_original_price` decimal(12,4) DEFAULT NULL COMMENT 'Base Original Price',
-  `tax_percent` decimal(12,4) DEFAULT '0.0000' COMMENT 'Tax Percent',
-  `tax_amount` decimal(12,4) DEFAULT '0.0000' COMMENT 'Tax Amount',
-  `base_tax_amount` decimal(12,4) DEFAULT '0.0000' COMMENT 'Base Tax Amount',
-  `tax_invoiced` decimal(12,4) DEFAULT '0.0000' COMMENT 'Tax Invoiced',
-  `base_tax_invoiced` decimal(12,4) DEFAULT '0.0000' COMMENT 'Base Tax Invoiced',
-  `discount_percent` decimal(12,4) DEFAULT '0.0000' COMMENT 'Discount Percent',
-  `discount_amount` decimal(12,4) DEFAULT '0.0000' COMMENT 'Discount Amount',
-  `base_discount_amount` decimal(12,4) DEFAULT '0.0000' COMMENT 'Base Discount Amount',
-  `discount_invoiced` decimal(12,4) DEFAULT '0.0000' COMMENT 'Discount Invoiced',
-  `base_discount_invoiced` decimal(12,4) DEFAULT '0.0000' COMMENT 'Base Discount Invoiced',
-  `amount_refunded` decimal(12,4) DEFAULT '0.0000' COMMENT 'Amount Refunded',
-  `base_amount_refunded` decimal(12,4) DEFAULT '0.0000' COMMENT 'Base Amount Refunded',
-  `row_total` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Row Total',
-  `base_row_total` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Base Row Total',
-  `row_invoiced` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Row Invoiced',
-  `base_row_invoiced` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Base Row Invoiced',
-  `row_weight` decimal(12,4) DEFAULT '0.0000' COMMENT 'Row Weight',
-  `base_tax_before_discount` decimal(12,4) DEFAULT NULL COMMENT 'Base Tax Before Discount',
-  `tax_before_discount` decimal(12,4) DEFAULT NULL COMMENT 'Tax Before Discount',
-  `ext_order_item_id` varchar(255) DEFAULT NULL COMMENT 'Ext Order Item Id',
-  `locked_do_invoice` smallint(5) unsigned DEFAULT NULL COMMENT 'Locked Do Invoice',
-  `locked_do_ship` smallint(5) unsigned DEFAULT NULL COMMENT 'Locked Do Ship',
-  `price_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Price Incl Tax',
-  `base_price_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Base Price Incl Tax',
-  `row_total_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Row Total Incl Tax',
-  `base_row_total_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Base Row Total Incl Tax',
-  `hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Hidden Tax Amount',
-  `base_hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Hidden Tax Amount',
-  `hidden_tax_invoiced` decimal(12,4) DEFAULT NULL COMMENT 'Hidden Tax Invoiced',
-  `base_hidden_tax_invoiced` decimal(12,4) DEFAULT NULL COMMENT 'Base Hidden Tax Invoiced',
-  `hidden_tax_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Hidden Tax Refunded',
-  `base_hidden_tax_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Base Hidden Tax Refunded',
-  `is_nominal` int(11) NOT NULL DEFAULT '0' COMMENT 'Is Nominal',
-  `tax_canceled` decimal(12,4) DEFAULT NULL COMMENT 'Tax Canceled',
-  `hidden_tax_canceled` decimal(12,4) DEFAULT NULL COMMENT 'Hidden Tax Canceled',
-  `tax_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Tax Refunded',
-  `base_tax_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Base Tax Refunded',
-  `discount_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Discount Refunded',
-  `base_discount_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Base Discount Refunded',
-  `gift_message_id` int(11) DEFAULT NULL COMMENT 'Gift Message Id',
-  `gift_message_available` int(11) DEFAULT NULL COMMENT 'Gift Message Available',
-  `base_weee_tax_applied_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Weee Tax Applied Amount',
-  `base_weee_tax_applied_row_amnt` decimal(12,4) DEFAULT NULL COMMENT 'Base Weee Tax Applied Row Amnt',
-  `weee_tax_applied_amount` decimal(12,4) DEFAULT NULL COMMENT 'Weee Tax Applied Amount',
-  `weee_tax_applied_row_amount` decimal(12,4) DEFAULT NULL COMMENT 'Weee Tax Applied Row Amount',
+  `free_shipping` smallint(5) unsigned NOT NULL default '0' COMMENT 'Free Shipping',
+  `is_qty_decimal` smallint(5) unsigned default NULL COMMENT 'Is Qty Decimal',
+  `no_discount` smallint(5) unsigned NOT NULL default '0' COMMENT 'No Discount',
+  `qty_backordered` decimal(12,4) default '0.0000' COMMENT 'Qty Backordered',
+  `qty_canceled` decimal(12,4) default '0.0000' COMMENT 'Qty Canceled',
+  `qty_invoiced` decimal(12,4) default '0.0000' COMMENT 'Qty Invoiced',
+  `qty_ordered` decimal(12,4) default '0.0000' COMMENT 'Qty Ordered',
+  `qty_refunded` decimal(12,4) default '0.0000' COMMENT 'Qty Refunded',
+  `qty_shipped` decimal(12,4) default '0.0000' COMMENT 'Qty Shipped',
+  `base_cost` decimal(12,4) default '0.0000' COMMENT 'Base Cost',
+  `price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Price',
+  `base_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Base Price',
+  `original_price` decimal(12,4) default NULL COMMENT 'Original Price',
+  `base_original_price` decimal(12,4) default NULL COMMENT 'Base Original Price',
+  `tax_percent` decimal(12,4) default '0.0000' COMMENT 'Tax Percent',
+  `tax_amount` decimal(12,4) default '0.0000' COMMENT 'Tax Amount',
+  `base_tax_amount` decimal(12,4) default '0.0000' COMMENT 'Base Tax Amount',
+  `tax_invoiced` decimal(12,4) default '0.0000' COMMENT 'Tax Invoiced',
+  `base_tax_invoiced` decimal(12,4) default '0.0000' COMMENT 'Base Tax Invoiced',
+  `discount_percent` decimal(12,4) default '0.0000' COMMENT 'Discount Percent',
+  `discount_amount` decimal(12,4) default '0.0000' COMMENT 'Discount Amount',
+  `base_discount_amount` decimal(12,4) default '0.0000' COMMENT 'Base Discount Amount',
+  `discount_invoiced` decimal(12,4) default '0.0000' COMMENT 'Discount Invoiced',
+  `base_discount_invoiced` decimal(12,4) default '0.0000' COMMENT 'Base Discount Invoiced',
+  `amount_refunded` decimal(12,4) default '0.0000' COMMENT 'Amount Refunded',
+  `base_amount_refunded` decimal(12,4) default '0.0000' COMMENT 'Base Amount Refunded',
+  `row_total` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Row Total',
+  `base_row_total` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Base Row Total',
+  `row_invoiced` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Row Invoiced',
+  `base_row_invoiced` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Base Row Invoiced',
+  `row_weight` decimal(12,4) default '0.0000' COMMENT 'Row Weight',
+  `base_tax_before_discount` decimal(12,4) default NULL COMMENT 'Base Tax Before Discount',
+  `tax_before_discount` decimal(12,4) default NULL COMMENT 'Tax Before Discount',
+  `ext_order_item_id` varchar(255) default NULL COMMENT 'Ext Order Item Id',
+  `locked_do_invoice` smallint(5) unsigned default NULL COMMENT 'Locked Do Invoice',
+  `locked_do_ship` smallint(5) unsigned default NULL COMMENT 'Locked Do Ship',
+  `price_incl_tax` decimal(12,4) default NULL COMMENT 'Price Incl Tax',
+  `base_price_incl_tax` decimal(12,4) default NULL COMMENT 'Base Price Incl Tax',
+  `row_total_incl_tax` decimal(12,4) default NULL COMMENT 'Row Total Incl Tax',
+  `base_row_total_incl_tax` decimal(12,4) default NULL COMMENT 'Base Row Total Incl Tax',
+  `hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Hidden Tax Amount',
+  `base_hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Base Hidden Tax Amount',
+  `hidden_tax_invoiced` decimal(12,4) default NULL COMMENT 'Hidden Tax Invoiced',
+  `base_hidden_tax_invoiced` decimal(12,4) default NULL COMMENT 'Base Hidden Tax Invoiced',
+  `hidden_tax_refunded` decimal(12,4) default NULL COMMENT 'Hidden Tax Refunded',
+  `base_hidden_tax_refunded` decimal(12,4) default NULL COMMENT 'Base Hidden Tax Refunded',
+  `is_nominal` int(11) NOT NULL default '0' COMMENT 'Is Nominal',
+  `tax_canceled` decimal(12,4) default NULL COMMENT 'Tax Canceled',
+  `hidden_tax_canceled` decimal(12,4) default NULL COMMENT 'Hidden Tax Canceled',
+  `tax_refunded` decimal(12,4) default NULL COMMENT 'Tax Refunded',
+  `base_tax_refunded` decimal(12,4) default NULL COMMENT 'Base Tax Refunded',
+  `discount_refunded` decimal(12,4) default NULL COMMENT 'Discount Refunded',
+  `base_discount_refunded` decimal(12,4) default NULL COMMENT 'Base Discount Refunded',
+  `gift_message_id` int(11) default NULL COMMENT 'Gift Message Id',
+  `gift_message_available` int(11) default NULL COMMENT 'Gift Message Available',
+  `base_weee_tax_applied_amount` decimal(12,4) default NULL COMMENT 'Base Weee Tax Applied Amount',
+  `base_weee_tax_applied_row_amnt` decimal(12,4) default NULL COMMENT 'Base Weee Tax Applied Row Amnt',
+  `weee_tax_applied_amount` decimal(12,4) default NULL COMMENT 'Weee Tax Applied Amount',
+  `weee_tax_applied_row_amount` decimal(12,4) default NULL COMMENT 'Weee Tax Applied Row Amount',
   `weee_tax_applied` text COMMENT 'Weee Tax Applied',
-  `weee_tax_disposition` decimal(12,4) DEFAULT NULL COMMENT 'Weee Tax Disposition',
-  `weee_tax_row_disposition` decimal(12,4) DEFAULT NULL COMMENT 'Weee Tax Row Disposition',
-  `base_weee_tax_disposition` decimal(12,4) DEFAULT NULL COMMENT 'Base Weee Tax Disposition',
-  `base_weee_tax_row_disposition` decimal(12,4) DEFAULT NULL COMMENT 'Base Weee Tax Row Disposition',
-  PRIMARY KEY (`item_id`),
+  `weee_tax_disposition` decimal(12,4) default NULL COMMENT 'Weee Tax Disposition',
+  `weee_tax_row_disposition` decimal(12,4) default NULL COMMENT 'Weee Tax Row Disposition',
+  `base_weee_tax_disposition` decimal(12,4) default NULL COMMENT 'Base Weee Tax Disposition',
+  `base_weee_tax_row_disposition` decimal(12,4) default NULL COMMENT 'Base Weee Tax Row Disposition',
+  `giftregistry_item_id` int(11) default NULL COMMENT 'Giftregistry Item Id',
+  PRIMARY KEY  (`item_id`),
   KEY `IDX_SALES_FLAT_ORDER_ITEM_ORDER_ID` (`order_id`),
   KEY `IDX_SALES_FLAT_ORDER_ITEM_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_FLAT_ORDER_ITEM_ORDER_ID_SALES_FLAT_ORDER_ENTITY_ID` FOREIGN KEY (`order_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_FLAT_ORDER_ITEM_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Order Item';
 
-# Dumping data for table sales_flat_order_item: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_order_item: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_order_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_order_item` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_order_payment
+# Dumping structure for table s5152d29ad0535.sales_flat_order_payment
 DROP TABLE IF EXISTS `sales_flat_order_payment`;
 CREATE TABLE IF NOT EXISTS `sales_flat_order_payment` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
-  `base_shipping_captured` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Captured',
-  `shipping_captured` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Captured',
-  `amount_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Amount Refunded',
-  `base_amount_paid` decimal(12,4) DEFAULT NULL COMMENT 'Base Amount Paid',
-  `amount_canceled` decimal(12,4) DEFAULT NULL COMMENT 'Amount Canceled',
-  `base_amount_authorized` decimal(12,4) DEFAULT NULL COMMENT 'Base Amount Authorized',
-  `base_amount_paid_online` decimal(12,4) DEFAULT NULL COMMENT 'Base Amount Paid Online',
-  `base_amount_refunded_online` decimal(12,4) DEFAULT NULL COMMENT 'Base Amount Refunded Online',
-  `base_shipping_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Amount',
-  `shipping_amount` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Amount',
-  `amount_paid` decimal(12,4) DEFAULT NULL COMMENT 'Amount Paid',
-  `amount_authorized` decimal(12,4) DEFAULT NULL COMMENT 'Amount Authorized',
-  `base_amount_ordered` decimal(12,4) DEFAULT NULL COMMENT 'Base Amount Ordered',
-  `base_shipping_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Refunded',
-  `shipping_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Refunded',
-  `base_amount_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Base Amount Refunded',
-  `amount_ordered` decimal(12,4) DEFAULT NULL COMMENT 'Amount Ordered',
-  `base_amount_canceled` decimal(12,4) DEFAULT NULL COMMENT 'Base Amount Canceled',
-  `quote_payment_id` int(11) DEFAULT NULL COMMENT 'Quote Payment Id',
+  `base_shipping_captured` decimal(12,4) default NULL COMMENT 'Base Shipping Captured',
+  `shipping_captured` decimal(12,4) default NULL COMMENT 'Shipping Captured',
+  `amount_refunded` decimal(12,4) default NULL COMMENT 'Amount Refunded',
+  `base_amount_paid` decimal(12,4) default NULL COMMENT 'Base Amount Paid',
+  `amount_canceled` decimal(12,4) default NULL COMMENT 'Amount Canceled',
+  `base_amount_authorized` decimal(12,4) default NULL COMMENT 'Base Amount Authorized',
+  `base_amount_paid_online` decimal(12,4) default NULL COMMENT 'Base Amount Paid Online',
+  `base_amount_refunded_online` decimal(12,4) default NULL COMMENT 'Base Amount Refunded Online',
+  `base_shipping_amount` decimal(12,4) default NULL COMMENT 'Base Shipping Amount',
+  `shipping_amount` decimal(12,4) default NULL COMMENT 'Shipping Amount',
+  `amount_paid` decimal(12,4) default NULL COMMENT 'Amount Paid',
+  `amount_authorized` decimal(12,4) default NULL COMMENT 'Amount Authorized',
+  `base_amount_ordered` decimal(12,4) default NULL COMMENT 'Base Amount Ordered',
+  `base_shipping_refunded` decimal(12,4) default NULL COMMENT 'Base Shipping Refunded',
+  `shipping_refunded` decimal(12,4) default NULL COMMENT 'Shipping Refunded',
+  `base_amount_refunded` decimal(12,4) default NULL COMMENT 'Base Amount Refunded',
+  `amount_ordered` decimal(12,4) default NULL COMMENT 'Amount Ordered',
+  `base_amount_canceled` decimal(12,4) default NULL COMMENT 'Base Amount Canceled',
+  `quote_payment_id` int(11) default NULL COMMENT 'Quote Payment Id',
   `additional_data` text COMMENT 'Additional Data',
-  `cc_exp_month` varchar(255) DEFAULT NULL COMMENT 'Cc Exp Month',
-  `cc_ss_start_year` varchar(255) DEFAULT NULL COMMENT 'Cc Ss Start Year',
-  `echeck_bank_name` varchar(255) DEFAULT NULL COMMENT 'Echeck Bank Name',
-  `method` varchar(255) DEFAULT NULL COMMENT 'Method',
-  `cc_debug_request_body` varchar(255) DEFAULT NULL COMMENT 'Cc Debug Request Body',
-  `cc_secure_verify` varchar(255) DEFAULT NULL COMMENT 'Cc Secure Verify',
-  `protection_eligibility` varchar(255) DEFAULT NULL COMMENT 'Protection Eligibility',
-  `cc_approval` varchar(255) DEFAULT NULL COMMENT 'Cc Approval',
-  `cc_last4` varchar(255) DEFAULT NULL COMMENT 'Cc Last4',
-  `cc_status_description` varchar(255) DEFAULT NULL COMMENT 'Cc Status Description',
-  `echeck_type` varchar(255) DEFAULT NULL COMMENT 'Echeck Type',
-  `cc_debug_response_serialized` varchar(255) DEFAULT NULL COMMENT 'Cc Debug Response Serialized',
-  `cc_ss_start_month` varchar(255) DEFAULT NULL COMMENT 'Cc Ss Start Month',
-  `echeck_account_type` varchar(255) DEFAULT NULL COMMENT 'Echeck Account Type',
-  `last_trans_id` varchar(255) DEFAULT NULL COMMENT 'Last Trans Id',
-  `cc_cid_status` varchar(255) DEFAULT NULL COMMENT 'Cc Cid Status',
-  `cc_owner` varchar(255) DEFAULT NULL COMMENT 'Cc Owner',
-  `cc_type` varchar(255) DEFAULT NULL COMMENT 'Cc Type',
-  `po_number` varchar(255) DEFAULT NULL COMMENT 'Po Number',
-  `cc_exp_year` varchar(255) DEFAULT NULL COMMENT 'Cc Exp Year',
-  `cc_status` varchar(255) DEFAULT NULL COMMENT 'Cc Status',
-  `echeck_routing_number` varchar(255) DEFAULT NULL COMMENT 'Echeck Routing Number',
-  `account_status` varchar(255) DEFAULT NULL COMMENT 'Account Status',
-  `anet_trans_method` varchar(255) DEFAULT NULL COMMENT 'Anet Trans Method',
-  `cc_debug_response_body` varchar(255) DEFAULT NULL COMMENT 'Cc Debug Response Body',
-  `cc_ss_issue` varchar(255) DEFAULT NULL COMMENT 'Cc Ss Issue',
-  `echeck_account_name` varchar(255) DEFAULT NULL COMMENT 'Echeck Account Name',
-  `cc_avs_status` varchar(255) DEFAULT NULL COMMENT 'Cc Avs Status',
-  `cc_number_enc` varchar(255) DEFAULT NULL COMMENT 'Cc Number Enc',
-  `cc_trans_id` varchar(255) DEFAULT NULL COMMENT 'Cc Trans Id',
-  `address_status` varchar(255) DEFAULT NULL COMMENT 'Address Status',
+  `cc_exp_month` varchar(255) default NULL COMMENT 'Cc Exp Month',
+  `cc_ss_start_year` varchar(255) default NULL COMMENT 'Cc Ss Start Year',
+  `echeck_bank_name` varchar(255) default NULL COMMENT 'Echeck Bank Name',
+  `method` varchar(255) default NULL COMMENT 'Method',
+  `cc_debug_request_body` varchar(255) default NULL COMMENT 'Cc Debug Request Body',
+  `cc_secure_verify` varchar(255) default NULL COMMENT 'Cc Secure Verify',
+  `protection_eligibility` varchar(255) default NULL COMMENT 'Protection Eligibility',
+  `cc_approval` varchar(255) default NULL COMMENT 'Cc Approval',
+  `cc_last4` varchar(255) default NULL COMMENT 'Cc Last4',
+  `cc_status_description` varchar(255) default NULL COMMENT 'Cc Status Description',
+  `echeck_type` varchar(255) default NULL COMMENT 'Echeck Type',
+  `cc_debug_response_serialized` varchar(255) default NULL COMMENT 'Cc Debug Response Serialized',
+  `cc_ss_start_month` varchar(255) default NULL COMMENT 'Cc Ss Start Month',
+  `echeck_account_type` varchar(255) default NULL COMMENT 'Echeck Account Type',
+  `last_trans_id` varchar(255) default NULL COMMENT 'Last Trans Id',
+  `cc_cid_status` varchar(255) default NULL COMMENT 'Cc Cid Status',
+  `cc_owner` varchar(255) default NULL COMMENT 'Cc Owner',
+  `cc_type` varchar(255) default NULL COMMENT 'Cc Type',
+  `po_number` varchar(255) default NULL COMMENT 'Po Number',
+  `cc_exp_year` varchar(255) default NULL COMMENT 'Cc Exp Year',
+  `cc_status` varchar(255) default NULL COMMENT 'Cc Status',
+  `echeck_routing_number` varchar(255) default NULL COMMENT 'Echeck Routing Number',
+  `account_status` varchar(255) default NULL COMMENT 'Account Status',
+  `anet_trans_method` varchar(255) default NULL COMMENT 'Anet Trans Method',
+  `cc_debug_response_body` varchar(255) default NULL COMMENT 'Cc Debug Response Body',
+  `cc_ss_issue` varchar(255) default NULL COMMENT 'Cc Ss Issue',
+  `echeck_account_name` varchar(255) default NULL COMMENT 'Echeck Account Name',
+  `cc_avs_status` varchar(255) default NULL COMMENT 'Cc Avs Status',
+  `cc_number_enc` varchar(255) default NULL COMMENT 'Cc Number Enc',
+  `cc_trans_id` varchar(255) default NULL COMMENT 'Cc Trans Id',
+  `address_status` varchar(255) default NULL COMMENT 'Address Status',
   `additional_information` text COMMENT 'Additional Information',
-  PRIMARY KEY (`entity_id`),
+  PRIMARY KEY  (`entity_id`),
   KEY `IDX_SALES_FLAT_ORDER_PAYMENT_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_SALES_FLAT_ORDER_PAYMENT_PARENT_ID_SALES_FLAT_ORDER_ENTITY_ID` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Order Payment';
 
-# Dumping data for table sales_flat_order_payment: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_order_payment: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_order_payment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_order_payment` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_order_status_history
+# Dumping structure for table s5152d29ad0535.sales_flat_order_status_history
 DROP TABLE IF EXISTS `sales_flat_order_status_history`;
 CREATE TABLE IF NOT EXISTS `sales_flat_order_status_history` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
-  `is_customer_notified` int(11) DEFAULT NULL COMMENT 'Is Customer Notified',
-  `is_visible_on_front` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Visible On Front',
+  `is_customer_notified` int(11) default NULL COMMENT 'Is Customer Notified',
+  `is_visible_on_front` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Visible On Front',
   `comment` text COMMENT 'Comment',
-  `status` varchar(32) DEFAULT NULL COMMENT 'Status',
-  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Created At',
-  `entity_name` varchar(32) DEFAULT NULL COMMENT 'Shows what entity history is bind to.',
-  PRIMARY KEY (`entity_id`),
+  `status` varchar(32) default NULL COMMENT 'Status',
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  `entity_name` varchar(32) default NULL COMMENT 'Shows what entity history is bind to.',
+  PRIMARY KEY  (`entity_id`),
   KEY `IDX_SALES_FLAT_ORDER_STATUS_HISTORY_PARENT_ID` (`parent_id`),
   KEY `IDX_SALES_FLAT_ORDER_STATUS_HISTORY_CREATED_AT` (`created_at`),
   CONSTRAINT `FK_CE7C71E74CB74DDACED337CEE6753D5E` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Order Status History';
 
-# Dumping data for table sales_flat_order_status_history: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_order_status_history: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_order_status_history` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_order_status_history` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_quote
+# Dumping structure for table s5152d29ad0535.sales_flat_quote
 DROP TABLE IF EXISTS `sales_flat_quote`;
 CREATE TABLE IF NOT EXISTS `sales_flat_quote` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Created At',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Updated At',
-  `converted_at` timestamp NULL DEFAULT NULL COMMENT 'Converted At',
-  `is_active` smallint(5) unsigned DEFAULT '1' COMMENT 'Is Active',
-  `is_virtual` smallint(5) unsigned DEFAULT '0' COMMENT 'Is Virtual',
-  `is_multi_shipping` smallint(5) unsigned DEFAULT '0' COMMENT 'Is Multi Shipping',
-  `items_count` int(10) unsigned DEFAULT '0' COMMENT 'Items Count',
-  `items_qty` decimal(12,4) DEFAULT '0.0000' COMMENT 'Items Qty',
-  `orig_order_id` int(10) unsigned DEFAULT '0' COMMENT 'Orig Order Id',
-  `store_to_base_rate` decimal(12,4) DEFAULT '0.0000' COMMENT 'Store To Base Rate',
-  `store_to_quote_rate` decimal(12,4) DEFAULT '0.0000' COMMENT 'Store To Quote Rate',
-  `base_currency_code` varchar(255) DEFAULT NULL COMMENT 'Base Currency Code',
-  `store_currency_code` varchar(255) DEFAULT NULL COMMENT 'Store Currency Code',
-  `quote_currency_code` varchar(255) DEFAULT NULL COMMENT 'Quote Currency Code',
-  `grand_total` decimal(12,4) DEFAULT '0.0000' COMMENT 'Grand Total',
-  `base_grand_total` decimal(12,4) DEFAULT '0.0000' COMMENT 'Base Grand Total',
-  `checkout_method` varchar(255) DEFAULT NULL COMMENT 'Checkout Method',
-  `customer_id` int(10) unsigned DEFAULT '0' COMMENT 'Customer Id',
-  `customer_tax_class_id` int(10) unsigned DEFAULT '0' COMMENT 'Customer Tax Class Id',
-  `customer_group_id` int(10) unsigned DEFAULT '0' COMMENT 'Customer Group Id',
-  `customer_email` varchar(255) DEFAULT NULL COMMENT 'Customer Email',
-  `customer_prefix` varchar(40) DEFAULT NULL COMMENT 'Customer Prefix',
-  `customer_firstname` varchar(255) DEFAULT NULL COMMENT 'Customer Firstname',
-  `customer_middlename` varchar(40) DEFAULT NULL COMMENT 'Customer Middlename',
-  `customer_lastname` varchar(255) DEFAULT NULL COMMENT 'Customer Lastname',
-  `customer_suffix` varchar(40) DEFAULT NULL COMMENT 'Customer Suffix',
-  `customer_dob` datetime DEFAULT NULL COMMENT 'Customer Dob',
-  `customer_note` varchar(255) DEFAULT NULL COMMENT 'Customer Note',
-  `customer_note_notify` smallint(5) unsigned DEFAULT '1' COMMENT 'Customer Note Notify',
-  `customer_is_guest` smallint(5) unsigned DEFAULT '0' COMMENT 'Customer Is Guest',
-  `remote_ip` varchar(32) DEFAULT NULL COMMENT 'Remote Ip',
-  `applied_rule_ids` varchar(255) DEFAULT NULL COMMENT 'Applied Rule Ids',
-  `reserved_order_id` varchar(64) DEFAULT NULL COMMENT 'Reserved Order Id',
-  `password_hash` varchar(255) DEFAULT NULL COMMENT 'Password Hash',
-  `coupon_code` varchar(255) DEFAULT NULL COMMENT 'Coupon Code',
-  `global_currency_code` varchar(255) DEFAULT NULL COMMENT 'Global Currency Code',
-  `base_to_global_rate` decimal(12,4) DEFAULT NULL COMMENT 'Base To Global Rate',
-  `base_to_quote_rate` decimal(12,4) DEFAULT NULL COMMENT 'Base To Quote Rate',
-  `customer_taxvat` varchar(255) DEFAULT NULL COMMENT 'Customer Taxvat',
-  `customer_gender` varchar(255) DEFAULT NULL COMMENT 'Customer Gender',
-  `subtotal` decimal(12,4) DEFAULT NULL COMMENT 'Subtotal',
-  `base_subtotal` decimal(12,4) DEFAULT NULL COMMENT 'Base Subtotal',
-  `subtotal_with_discount` decimal(12,4) DEFAULT NULL COMMENT 'Subtotal With Discount',
-  `base_subtotal_with_discount` decimal(12,4) DEFAULT NULL COMMENT 'Base Subtotal With Discount',
-  `is_changed` int(10) unsigned DEFAULT NULL COMMENT 'Is Changed',
-  `trigger_recollect` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Trigger Recollect',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Created At',
+  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'Updated At',
+  `converted_at` timestamp NULL default NULL COMMENT 'Converted At',
+  `is_active` smallint(5) unsigned default '1' COMMENT 'Is Active',
+  `is_virtual` smallint(5) unsigned default '0' COMMENT 'Is Virtual',
+  `is_multi_shipping` smallint(5) unsigned default '0' COMMENT 'Is Multi Shipping',
+  `items_count` int(10) unsigned default '0' COMMENT 'Items Count',
+  `items_qty` decimal(12,4) default '0.0000' COMMENT 'Items Qty',
+  `orig_order_id` int(10) unsigned default '0' COMMENT 'Orig Order Id',
+  `store_to_base_rate` decimal(12,4) default '0.0000' COMMENT 'Store To Base Rate',
+  `store_to_quote_rate` decimal(12,4) default '0.0000' COMMENT 'Store To Quote Rate',
+  `base_currency_code` varchar(255) default NULL COMMENT 'Base Currency Code',
+  `store_currency_code` varchar(255) default NULL COMMENT 'Store Currency Code',
+  `quote_currency_code` varchar(255) default NULL COMMENT 'Quote Currency Code',
+  `grand_total` decimal(12,4) default '0.0000' COMMENT 'Grand Total',
+  `base_grand_total` decimal(12,4) default '0.0000' COMMENT 'Base Grand Total',
+  `checkout_method` varchar(255) default NULL COMMENT 'Checkout Method',
+  `customer_id` int(10) unsigned default '0' COMMENT 'Customer Id',
+  `customer_tax_class_id` int(10) unsigned default '0' COMMENT 'Customer Tax Class Id',
+  `customer_group_id` int(10) unsigned default '0' COMMENT 'Customer Group Id',
+  `customer_email` varchar(255) default NULL COMMENT 'Customer Email',
+  `customer_prefix` varchar(40) default NULL COMMENT 'Customer Prefix',
+  `customer_firstname` varchar(255) default NULL COMMENT 'Customer Firstname',
+  `customer_middlename` varchar(40) default NULL COMMENT 'Customer Middlename',
+  `customer_lastname` varchar(255) default NULL COMMENT 'Customer Lastname',
+  `customer_suffix` varchar(40) default NULL COMMENT 'Customer Suffix',
+  `customer_dob` datetime default NULL COMMENT 'Customer Dob',
+  `customer_note` varchar(255) default NULL COMMENT 'Customer Note',
+  `customer_note_notify` smallint(5) unsigned default '1' COMMENT 'Customer Note Notify',
+  `customer_is_guest` smallint(5) unsigned default '0' COMMENT 'Customer Is Guest',
+  `remote_ip` varchar(32) default NULL COMMENT 'Remote Ip',
+  `applied_rule_ids` varchar(255) default NULL COMMENT 'Applied Rule Ids',
+  `reserved_order_id` varchar(64) default NULL COMMENT 'Reserved Order Id',
+  `password_hash` varchar(255) default NULL COMMENT 'Password Hash',
+  `coupon_code` varchar(255) default NULL COMMENT 'Coupon Code',
+  `global_currency_code` varchar(255) default NULL COMMENT 'Global Currency Code',
+  `base_to_global_rate` decimal(12,4) default NULL COMMENT 'Base To Global Rate',
+  `base_to_quote_rate` decimal(12,4) default NULL COMMENT 'Base To Quote Rate',
+  `customer_taxvat` varchar(255) default NULL COMMENT 'Customer Taxvat',
+  `customer_gender` varchar(255) default NULL COMMENT 'Customer Gender',
+  `subtotal` decimal(12,4) default NULL COMMENT 'Subtotal',
+  `base_subtotal` decimal(12,4) default NULL COMMENT 'Base Subtotal',
+  `subtotal_with_discount` decimal(12,4) default NULL COMMENT 'Subtotal With Discount',
+  `base_subtotal_with_discount` decimal(12,4) default NULL COMMENT 'Base Subtotal With Discount',
+  `is_changed` int(10) unsigned default NULL COMMENT 'Is Changed',
+  `trigger_recollect` smallint(6) NOT NULL default '0' COMMENT 'Trigger Recollect',
   `ext_shipping_info` text COMMENT 'Ext Shipping Info',
-  `gift_message_id` int(11) DEFAULT NULL COMMENT 'Gift Message Id',
-  `is_persistent` smallint(5) unsigned DEFAULT '0' COMMENT 'Is Quote Persistent',
-  PRIMARY KEY (`entity_id`),
+  `gift_message_id` int(11) default NULL COMMENT 'Gift Message Id',
+  `is_persistent` smallint(5) unsigned default '0' COMMENT 'Is Quote Persistent',
+  `customer_balance_amount_used` decimal(12,4) default NULL COMMENT 'Customer Balance Amount Used',
+  `base_customer_bal_amount_used` decimal(12,4) default NULL COMMENT 'Base Customer Bal Amount Used',
+  `use_customer_balance` int(11) default NULL COMMENT 'Use Customer Balance',
+  `gift_cards` text COMMENT 'Gift Cards',
+  `gift_cards_amount` decimal(12,4) default NULL COMMENT 'Gift Cards Amount',
+  `base_gift_cards_amount` decimal(12,4) default NULL COMMENT 'Base Gift Cards Amount',
+  `gift_cards_amount_used` decimal(12,4) default NULL COMMENT 'Gift Cards Amount Used',
+  `base_gift_cards_amount_used` decimal(12,4) default NULL COMMENT 'Base Gift Cards Amount Used',
+  `use_reward_points` int(11) default NULL COMMENT 'Use Reward Points',
+  `reward_points_balance` int(11) default NULL COMMENT 'Reward Points Balance',
+  `base_reward_currency_amount` decimal(12,4) default NULL COMMENT 'Base Reward Currency Amount',
+  `reward_currency_amount` decimal(12,4) default NULL COMMENT 'Reward Currency Amount',
+  PRIMARY KEY  (`entity_id`),
   KEY `IDX_SALES_FLAT_QUOTE_CUSTOMER_ID_STORE_ID_IS_ACTIVE` (`customer_id`,`store_id`,`is_active`),
   KEY `IDX_SALES_FLAT_QUOTE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_FLAT_QUOTE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote';
 
-# Dumping data for table sales_flat_quote: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_quote: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_quote` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_quote` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_quote_address
+# Dumping structure for table s5152d29ad0535.sales_flat_quote_address
 DROP TABLE IF EXISTS `sales_flat_quote_address`;
 CREATE TABLE IF NOT EXISTS `sales_flat_quote_address` (
-  `address_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Address Id',
-  `quote_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Quote Id',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Created At',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Updated At',
-  `customer_id` int(10) unsigned DEFAULT NULL COMMENT 'Customer Id',
-  `save_in_address_book` smallint(6) DEFAULT '0' COMMENT 'Save In Address Book',
-  `customer_address_id` int(10) unsigned DEFAULT NULL COMMENT 'Customer Address Id',
-  `address_type` varchar(255) DEFAULT NULL COMMENT 'Address Type',
-  `email` varchar(255) DEFAULT NULL COMMENT 'Email',
-  `prefix` varchar(40) DEFAULT NULL COMMENT 'Prefix',
-  `firstname` varchar(255) DEFAULT NULL COMMENT 'Firstname',
-  `middlename` varchar(40) DEFAULT NULL COMMENT 'Middlename',
-  `lastname` varchar(255) DEFAULT NULL COMMENT 'Lastname',
-  `suffix` varchar(40) DEFAULT NULL COMMENT 'Suffix',
-  `company` varchar(255) DEFAULT NULL COMMENT 'Company',
-  `street` varchar(255) DEFAULT NULL COMMENT 'Street',
-  `city` varchar(255) DEFAULT NULL COMMENT 'City',
-  `region` varchar(255) DEFAULT NULL COMMENT 'Region',
-  `region_id` int(10) unsigned DEFAULT NULL COMMENT 'Region Id',
-  `postcode` varchar(255) DEFAULT NULL COMMENT 'Postcode',
-  `country_id` varchar(255) DEFAULT NULL COMMENT 'Country Id',
-  `telephone` varchar(255) DEFAULT NULL COMMENT 'Telephone',
-  `fax` varchar(255) DEFAULT NULL COMMENT 'Fax',
-  `same_as_billing` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Same As Billing',
-  `free_shipping` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Free Shipping',
-  `collect_shipping_rates` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Collect Shipping Rates',
-  `shipping_method` varchar(255) DEFAULT NULL COMMENT 'Shipping Method',
-  `shipping_description` varchar(255) DEFAULT NULL COMMENT 'Shipping Description',
-  `weight` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Weight',
-  `subtotal` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Subtotal',
-  `base_subtotal` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Base Subtotal',
-  `subtotal_with_discount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Subtotal With Discount',
-  `base_subtotal_with_discount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Base Subtotal With Discount',
-  `tax_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Tax Amount',
-  `base_tax_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Base Tax Amount',
-  `shipping_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Shipping Amount',
-  `base_shipping_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Base Shipping Amount',
-  `shipping_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Tax Amount',
-  `base_shipping_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Tax Amount',
-  `discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Discount Amount',
-  `base_discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Base Discount Amount',
-  `grand_total` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Grand Total',
-  `base_grand_total` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Base Grand Total',
+  `address_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Address Id',
+  `quote_id` int(10) unsigned NOT NULL default '0' COMMENT 'Quote Id',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Created At',
+  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'Updated At',
+  `customer_id` int(10) unsigned default NULL COMMENT 'Customer Id',
+  `save_in_address_book` smallint(6) default '0' COMMENT 'Save In Address Book',
+  `customer_address_id` int(10) unsigned default NULL COMMENT 'Customer Address Id',
+  `address_type` varchar(255) default NULL COMMENT 'Address Type',
+  `email` varchar(255) default NULL COMMENT 'Email',
+  `prefix` varchar(40) default NULL COMMENT 'Prefix',
+  `firstname` varchar(255) default NULL COMMENT 'Firstname',
+  `middlename` varchar(40) default NULL COMMENT 'Middlename',
+  `lastname` varchar(255) default NULL COMMENT 'Lastname',
+  `suffix` varchar(40) default NULL COMMENT 'Suffix',
+  `company` varchar(255) default NULL COMMENT 'Company',
+  `street` varchar(255) default NULL COMMENT 'Street',
+  `city` varchar(255) default NULL COMMENT 'City',
+  `region` varchar(255) default NULL COMMENT 'Region',
+  `region_id` int(10) unsigned default NULL COMMENT 'Region Id',
+  `postcode` varchar(255) default NULL COMMENT 'Postcode',
+  `country_id` varchar(255) default NULL COMMENT 'Country Id',
+  `telephone` varchar(255) default NULL COMMENT 'Telephone',
+  `fax` varchar(255) default NULL COMMENT 'Fax',
+  `same_as_billing` smallint(5) unsigned NOT NULL default '0' COMMENT 'Same As Billing',
+  `free_shipping` smallint(5) unsigned NOT NULL default '0' COMMENT 'Free Shipping',
+  `collect_shipping_rates` smallint(5) unsigned NOT NULL default '0' COMMENT 'Collect Shipping Rates',
+  `shipping_method` varchar(255) default NULL COMMENT 'Shipping Method',
+  `shipping_description` varchar(255) default NULL COMMENT 'Shipping Description',
+  `weight` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Weight',
+  `subtotal` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Subtotal',
+  `base_subtotal` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Base Subtotal',
+  `subtotal_with_discount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Subtotal With Discount',
+  `base_subtotal_with_discount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Base Subtotal With Discount',
+  `tax_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Tax Amount',
+  `base_tax_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Base Tax Amount',
+  `shipping_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Shipping Amount',
+  `base_shipping_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Base Shipping Amount',
+  `shipping_tax_amount` decimal(12,4) default NULL COMMENT 'Shipping Tax Amount',
+  `base_shipping_tax_amount` decimal(12,4) default NULL COMMENT 'Base Shipping Tax Amount',
+  `discount_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Discount Amount',
+  `base_discount_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Base Discount Amount',
+  `grand_total` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Grand Total',
+  `base_grand_total` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Base Grand Total',
   `customer_notes` text COMMENT 'Customer Notes',
   `applied_taxes` text COMMENT 'Applied Taxes',
-  `discount_description` varchar(255) DEFAULT NULL COMMENT 'Discount Description',
-  `shipping_discount_amount` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Discount Amount',
-  `base_shipping_discount_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Discount Amount',
-  `subtotal_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Subtotal Incl Tax',
-  `base_subtotal_total_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Base Subtotal Total Incl Tax',
-  `hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Hidden Tax Amount',
-  `base_hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Hidden Tax Amount',
-  `shipping_hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Hidden Tax Amount',
-  `base_shipping_hidden_tax_amnt` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Hidden Tax Amount',
-  `shipping_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Incl Tax',
-  `base_shipping_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Base Shipping Incl Tax',
+  `discount_description` varchar(255) default NULL COMMENT 'Discount Description',
+  `shipping_discount_amount` decimal(12,4) default NULL COMMENT 'Shipping Discount Amount',
+  `base_shipping_discount_amount` decimal(12,4) default NULL COMMENT 'Base Shipping Discount Amount',
+  `subtotal_incl_tax` decimal(12,4) default NULL COMMENT 'Subtotal Incl Tax',
+  `base_subtotal_total_incl_tax` decimal(12,4) default NULL COMMENT 'Base Subtotal Total Incl Tax',
+  `hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Hidden Tax Amount',
+  `base_hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Base Hidden Tax Amount',
+  `shipping_hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Shipping Hidden Tax Amount',
+  `base_shipping_hidden_tax_amnt` decimal(12,4) default NULL COMMENT 'Base Shipping Hidden Tax Amount',
+  `shipping_incl_tax` decimal(12,4) default NULL COMMENT 'Shipping Incl Tax',
+  `base_shipping_incl_tax` decimal(12,4) default NULL COMMENT 'Base Shipping Incl Tax',
   `vat_id` text COMMENT 'Vat Id',
-  `vat_is_valid` smallint(6) DEFAULT NULL COMMENT 'Vat Is Valid',
+  `vat_is_valid` smallint(6) default NULL COMMENT 'Vat Is Valid',
   `vat_request_id` text COMMENT 'Vat Request Id',
   `vat_request_date` text COMMENT 'Vat Request Date',
-  `vat_request_success` smallint(6) DEFAULT NULL COMMENT 'Vat Request Success',
-  `gift_message_id` int(11) DEFAULT NULL COMMENT 'Gift Message Id',
-  PRIMARY KEY (`address_id`),
+  `vat_request_success` smallint(6) default NULL COMMENT 'Vat Request Success',
+  `gift_message_id` int(11) default NULL COMMENT 'Gift Message Id',
+  `base_customer_balance_amount` decimal(12,4) default NULL COMMENT 'Base Customer Balance Amount',
+  `customer_balance_amount` decimal(12,4) default NULL COMMENT 'Customer Balance Amount',
+  `gift_cards_amount` decimal(12,4) default NULL COMMENT 'Gift Cards Amount',
+  `base_gift_cards_amount` decimal(12,4) default NULL COMMENT 'Base Gift Cards Amount',
+  `gift_cards` text COMMENT 'Gift Cards',
+  `used_gift_cards` text COMMENT 'Used Gift Cards',
+  `giftregistry_item_id` int(11) default NULL COMMENT 'Giftregistry Item Id',
+  `reward_points_balance` int(11) default NULL COMMENT 'Reward Points Balance',
+  `base_reward_currency_amount` decimal(12,4) default NULL COMMENT 'Base Reward Currency Amount',
+  `reward_currency_amount` decimal(12,4) default NULL COMMENT 'Reward Currency Amount',
+  PRIMARY KEY  (`address_id`),
   KEY `IDX_SALES_FLAT_QUOTE_ADDRESS_QUOTE_ID` (`quote_id`),
   CONSTRAINT `FK_SALES_FLAT_QUOTE_ADDRESS_QUOTE_ID_SALES_FLAT_QUOTE_ENTITY_ID` FOREIGN KEY (`quote_id`) REFERENCES `sales_flat_quote` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Address';
 
-# Dumping data for table sales_flat_quote_address: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_quote_address: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_quote_address` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_quote_address` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_quote_address_item
+# Dumping structure for table s5152d29ad0535.sales_flat_quote_address_item
 DROP TABLE IF EXISTS `sales_flat_quote_address_item`;
 CREATE TABLE IF NOT EXISTS `sales_flat_quote_address_item` (
-  `address_item_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Address Item Id',
-  `parent_item_id` int(10) unsigned DEFAULT NULL COMMENT 'Parent Item Id',
-  `quote_address_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Quote Address Id',
-  `quote_item_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Quote Item Id',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Created At',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Updated At',
+  `address_item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Address Item Id',
+  `parent_item_id` int(10) unsigned default NULL COMMENT 'Parent Item Id',
+  `quote_address_id` int(10) unsigned NOT NULL default '0' COMMENT 'Quote Address Id',
+  `quote_item_id` int(10) unsigned NOT NULL default '0' COMMENT 'Quote Item Id',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Created At',
+  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'Updated At',
   `applied_rule_ids` text COMMENT 'Applied Rule Ids',
   `additional_data` text COMMENT 'Additional Data',
-  `weight` decimal(12,4) DEFAULT '0.0000' COMMENT 'Weight',
-  `qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty',
-  `discount_amount` decimal(12,4) DEFAULT '0.0000' COMMENT 'Discount Amount',
-  `tax_amount` decimal(12,4) DEFAULT '0.0000' COMMENT 'Tax Amount',
-  `row_total` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Row Total',
-  `base_row_total` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Base Row Total',
-  `row_total_with_discount` decimal(12,4) DEFAULT '0.0000' COMMENT 'Row Total With Discount',
-  `base_discount_amount` decimal(12,4) DEFAULT '0.0000' COMMENT 'Base Discount Amount',
-  `base_tax_amount` decimal(12,4) DEFAULT '0.0000' COMMENT 'Base Tax Amount',
-  `row_weight` decimal(12,4) DEFAULT '0.0000' COMMENT 'Row Weight',
-  `product_id` int(10) unsigned DEFAULT NULL COMMENT 'Product Id',
-  `super_product_id` int(10) unsigned DEFAULT NULL COMMENT 'Super Product Id',
-  `parent_product_id` int(10) unsigned DEFAULT NULL COMMENT 'Parent Product Id',
-  `sku` varchar(255) DEFAULT NULL COMMENT 'Sku',
-  `image` varchar(255) DEFAULT NULL COMMENT 'Image',
-  `name` varchar(255) DEFAULT NULL COMMENT 'Name',
+  `weight` decimal(12,4) default '0.0000' COMMENT 'Weight',
+  `qty` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Qty',
+  `discount_amount` decimal(12,4) default '0.0000' COMMENT 'Discount Amount',
+  `tax_amount` decimal(12,4) default '0.0000' COMMENT 'Tax Amount',
+  `row_total` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Row Total',
+  `base_row_total` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Base Row Total',
+  `row_total_with_discount` decimal(12,4) default '0.0000' COMMENT 'Row Total With Discount',
+  `base_discount_amount` decimal(12,4) default '0.0000' COMMENT 'Base Discount Amount',
+  `base_tax_amount` decimal(12,4) default '0.0000' COMMENT 'Base Tax Amount',
+  `row_weight` decimal(12,4) default '0.0000' COMMENT 'Row Weight',
+  `product_id` int(10) unsigned default NULL COMMENT 'Product Id',
+  `super_product_id` int(10) unsigned default NULL COMMENT 'Super Product Id',
+  `parent_product_id` int(10) unsigned default NULL COMMENT 'Parent Product Id',
+  `sku` varchar(255) default NULL COMMENT 'Sku',
+  `image` varchar(255) default NULL COMMENT 'Image',
+  `name` varchar(255) default NULL COMMENT 'Name',
   `description` text COMMENT 'Description',
-  `free_shipping` int(10) unsigned DEFAULT NULL COMMENT 'Free Shipping',
-  `is_qty_decimal` int(10) unsigned DEFAULT NULL COMMENT 'Is Qty Decimal',
-  `price` decimal(12,4) DEFAULT NULL COMMENT 'Price',
-  `discount_percent` decimal(12,4) DEFAULT NULL COMMENT 'Discount Percent',
-  `no_discount` int(10) unsigned DEFAULT NULL COMMENT 'No Discount',
-  `tax_percent` decimal(12,4) DEFAULT NULL COMMENT 'Tax Percent',
-  `base_price` decimal(12,4) DEFAULT NULL COMMENT 'Base Price',
-  `base_cost` decimal(12,4) DEFAULT NULL COMMENT 'Base Cost',
-  `price_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Price Incl Tax',
-  `base_price_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Base Price Incl Tax',
-  `row_total_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Row Total Incl Tax',
-  `base_row_total_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Base Row Total Incl Tax',
-  `hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Hidden Tax Amount',
-  `base_hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Hidden Tax Amount',
-  `gift_message_id` int(11) DEFAULT NULL COMMENT 'Gift Message Id',
-  PRIMARY KEY (`address_item_id`),
+  `free_shipping` int(10) unsigned default NULL COMMENT 'Free Shipping',
+  `is_qty_decimal` int(10) unsigned default NULL COMMENT 'Is Qty Decimal',
+  `price` decimal(12,4) default NULL COMMENT 'Price',
+  `discount_percent` decimal(12,4) default NULL COMMENT 'Discount Percent',
+  `no_discount` int(10) unsigned default NULL COMMENT 'No Discount',
+  `tax_percent` decimal(12,4) default NULL COMMENT 'Tax Percent',
+  `base_price` decimal(12,4) default NULL COMMENT 'Base Price',
+  `base_cost` decimal(12,4) default NULL COMMENT 'Base Cost',
+  `price_incl_tax` decimal(12,4) default NULL COMMENT 'Price Incl Tax',
+  `base_price_incl_tax` decimal(12,4) default NULL COMMENT 'Base Price Incl Tax',
+  `row_total_incl_tax` decimal(12,4) default NULL COMMENT 'Row Total Incl Tax',
+  `base_row_total_incl_tax` decimal(12,4) default NULL COMMENT 'Base Row Total Incl Tax',
+  `hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Hidden Tax Amount',
+  `base_hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Base Hidden Tax Amount',
+  `gift_message_id` int(11) default NULL COMMENT 'Gift Message Id',
+  PRIMARY KEY  (`address_item_id`),
   KEY `IDX_SALES_FLAT_QUOTE_ADDRESS_ITEM_QUOTE_ADDRESS_ID` (`quote_address_id`),
   KEY `IDX_SALES_FLAT_QUOTE_ADDRESS_ITEM_PARENT_ITEM_ID` (`parent_item_id`),
   KEY `IDX_SALES_FLAT_QUOTE_ADDRESS_ITEM_QUOTE_ITEM_ID` (`quote_item_id`),
@@ -8387,68 +9734,69 @@ CREATE TABLE IF NOT EXISTS `sales_flat_quote_address_item` (
   CONSTRAINT `FK_B521389746C00700D1B2B76EBBE53854` FOREIGN KEY (`quote_address_id`) REFERENCES `sales_flat_quote_address` (`address_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Address Item';
 
-# Dumping data for table sales_flat_quote_address_item: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_quote_address_item: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_quote_address_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_quote_address_item` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_quote_item
+# Dumping structure for table s5152d29ad0535.sales_flat_quote_item
 DROP TABLE IF EXISTS `sales_flat_quote_item`;
 CREATE TABLE IF NOT EXISTS `sales_flat_quote_item` (
-  `item_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Item Id',
-  `quote_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Quote Id',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Created At',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Updated At',
-  `product_id` int(10) unsigned DEFAULT NULL COMMENT 'Product Id',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `parent_item_id` int(10) unsigned DEFAULT NULL COMMENT 'Parent Item Id',
-  `is_virtual` smallint(5) unsigned DEFAULT NULL COMMENT 'Is Virtual',
-  `sku` varchar(255) DEFAULT NULL COMMENT 'Sku',
-  `name` varchar(255) DEFAULT NULL COMMENT 'Name',
+  `item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Item Id',
+  `quote_id` int(10) unsigned NOT NULL default '0' COMMENT 'Quote Id',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Created At',
+  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'Updated At',
+  `product_id` int(10) unsigned default NULL COMMENT 'Product Id',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `parent_item_id` int(10) unsigned default NULL COMMENT 'Parent Item Id',
+  `is_virtual` smallint(5) unsigned default NULL COMMENT 'Is Virtual',
+  `sku` varchar(255) default NULL COMMENT 'Sku',
+  `name` varchar(255) default NULL COMMENT 'Name',
   `description` text COMMENT 'Description',
   `applied_rule_ids` text COMMENT 'Applied Rule Ids',
   `additional_data` text COMMENT 'Additional Data',
-  `free_shipping` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Free Shipping',
-  `is_qty_decimal` smallint(5) unsigned DEFAULT NULL COMMENT 'Is Qty Decimal',
-  `no_discount` smallint(5) unsigned DEFAULT '0' COMMENT 'No Discount',
-  `weight` decimal(12,4) DEFAULT '0.0000' COMMENT 'Weight',
-  `qty` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Qty',
-  `price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Price',
-  `base_price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Base Price',
-  `custom_price` decimal(12,4) DEFAULT NULL COMMENT 'Custom Price',
-  `discount_percent` decimal(12,4) DEFAULT '0.0000' COMMENT 'Discount Percent',
-  `discount_amount` decimal(12,4) DEFAULT '0.0000' COMMENT 'Discount Amount',
-  `base_discount_amount` decimal(12,4) DEFAULT '0.0000' COMMENT 'Base Discount Amount',
-  `tax_percent` decimal(12,4) DEFAULT '0.0000' COMMENT 'Tax Percent',
-  `tax_amount` decimal(12,4) DEFAULT '0.0000' COMMENT 'Tax Amount',
-  `base_tax_amount` decimal(12,4) DEFAULT '0.0000' COMMENT 'Base Tax Amount',
-  `row_total` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Row Total',
-  `base_row_total` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Base Row Total',
-  `row_total_with_discount` decimal(12,4) DEFAULT '0.0000' COMMENT 'Row Total With Discount',
-  `row_weight` decimal(12,4) DEFAULT '0.0000' COMMENT 'Row Weight',
-  `product_type` varchar(255) DEFAULT NULL COMMENT 'Product Type',
-  `base_tax_before_discount` decimal(12,4) DEFAULT NULL COMMENT 'Base Tax Before Discount',
-  `tax_before_discount` decimal(12,4) DEFAULT NULL COMMENT 'Tax Before Discount',
-  `original_custom_price` decimal(12,4) DEFAULT NULL COMMENT 'Original Custom Price',
-  `redirect_url` varchar(255) DEFAULT NULL COMMENT 'Redirect Url',
-  `base_cost` decimal(12,4) DEFAULT NULL COMMENT 'Base Cost',
-  `price_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Price Incl Tax',
-  `base_price_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Base Price Incl Tax',
-  `row_total_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Row Total Incl Tax',
-  `base_row_total_incl_tax` decimal(12,4) DEFAULT NULL COMMENT 'Base Row Total Incl Tax',
-  `hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Hidden Tax Amount',
-  `base_hidden_tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Hidden Tax Amount',
-  `gift_message_id` int(11) DEFAULT NULL COMMENT 'Gift Message Id',
-  `weee_tax_disposition` decimal(12,4) DEFAULT NULL COMMENT 'Weee Tax Disposition',
-  `weee_tax_row_disposition` decimal(12,4) DEFAULT NULL COMMENT 'Weee Tax Row Disposition',
-  `base_weee_tax_disposition` decimal(12,4) DEFAULT NULL COMMENT 'Base Weee Tax Disposition',
-  `base_weee_tax_row_disposition` decimal(12,4) DEFAULT NULL COMMENT 'Base Weee Tax Row Disposition',
+  `free_shipping` smallint(5) unsigned NOT NULL default '0' COMMENT 'Free Shipping',
+  `is_qty_decimal` smallint(5) unsigned default NULL COMMENT 'Is Qty Decimal',
+  `no_discount` smallint(5) unsigned default '0' COMMENT 'No Discount',
+  `weight` decimal(12,4) default '0.0000' COMMENT 'Weight',
+  `qty` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Qty',
+  `price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Price',
+  `base_price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Base Price',
+  `custom_price` decimal(12,4) default NULL COMMENT 'Custom Price',
+  `discount_percent` decimal(12,4) default '0.0000' COMMENT 'Discount Percent',
+  `discount_amount` decimal(12,4) default '0.0000' COMMENT 'Discount Amount',
+  `base_discount_amount` decimal(12,4) default '0.0000' COMMENT 'Base Discount Amount',
+  `tax_percent` decimal(12,4) default '0.0000' COMMENT 'Tax Percent',
+  `tax_amount` decimal(12,4) default '0.0000' COMMENT 'Tax Amount',
+  `base_tax_amount` decimal(12,4) default '0.0000' COMMENT 'Base Tax Amount',
+  `row_total` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Row Total',
+  `base_row_total` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Base Row Total',
+  `row_total_with_discount` decimal(12,4) default '0.0000' COMMENT 'Row Total With Discount',
+  `row_weight` decimal(12,4) default '0.0000' COMMENT 'Row Weight',
+  `product_type` varchar(255) default NULL COMMENT 'Product Type',
+  `base_tax_before_discount` decimal(12,4) default NULL COMMENT 'Base Tax Before Discount',
+  `tax_before_discount` decimal(12,4) default NULL COMMENT 'Tax Before Discount',
+  `original_custom_price` decimal(12,4) default NULL COMMENT 'Original Custom Price',
+  `redirect_url` varchar(255) default NULL COMMENT 'Redirect Url',
+  `base_cost` decimal(12,4) default NULL COMMENT 'Base Cost',
+  `price_incl_tax` decimal(12,4) default NULL COMMENT 'Price Incl Tax',
+  `base_price_incl_tax` decimal(12,4) default NULL COMMENT 'Base Price Incl Tax',
+  `row_total_incl_tax` decimal(12,4) default NULL COMMENT 'Row Total Incl Tax',
+  `base_row_total_incl_tax` decimal(12,4) default NULL COMMENT 'Base Row Total Incl Tax',
+  `hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Hidden Tax Amount',
+  `base_hidden_tax_amount` decimal(12,4) default NULL COMMENT 'Base Hidden Tax Amount',
+  `gift_message_id` int(11) default NULL COMMENT 'Gift Message Id',
+  `weee_tax_disposition` decimal(12,4) default NULL COMMENT 'Weee Tax Disposition',
+  `weee_tax_row_disposition` decimal(12,4) default NULL COMMENT 'Weee Tax Row Disposition',
+  `base_weee_tax_disposition` decimal(12,4) default NULL COMMENT 'Base Weee Tax Disposition',
+  `base_weee_tax_row_disposition` decimal(12,4) default NULL COMMENT 'Base Weee Tax Row Disposition',
   `weee_tax_applied` text COMMENT 'Weee Tax Applied',
-  `weee_tax_applied_amount` decimal(12,4) DEFAULT NULL COMMENT 'Weee Tax Applied Amount',
-  `weee_tax_applied_row_amount` decimal(12,4) DEFAULT NULL COMMENT 'Weee Tax Applied Row Amount',
-  `base_weee_tax_applied_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Weee Tax Applied Amount',
-  `base_weee_tax_applied_row_amnt` decimal(12,4) DEFAULT NULL COMMENT 'Base Weee Tax Applied Row Amnt',
-  PRIMARY KEY (`item_id`),
+  `weee_tax_applied_amount` decimal(12,4) default NULL COMMENT 'Weee Tax Applied Amount',
+  `weee_tax_applied_row_amount` decimal(12,4) default NULL COMMENT 'Weee Tax Applied Row Amount',
+  `base_weee_tax_applied_amount` decimal(12,4) default NULL COMMENT 'Base Weee Tax Applied Amount',
+  `base_weee_tax_applied_row_amnt` decimal(12,4) default NULL COMMENT 'Base Weee Tax Applied Row Amnt',
+  `giftregistry_item_id` int(11) default NULL COMMENT 'Giftregistry Item Id',
+  PRIMARY KEY  (`item_id`),
   KEY `IDX_SALES_FLAT_QUOTE_ITEM_PARENT_ITEM_ID` (`parent_item_id`),
   KEY `IDX_SALES_FLAT_QUOTE_ITEM_PRODUCT_ID` (`product_id`),
   KEY `IDX_SALES_FLAT_QUOTE_ITEM_QUOTE_ID` (`quote_id`),
@@ -8459,108 +9807,108 @@ CREATE TABLE IF NOT EXISTS `sales_flat_quote_item` (
   CONSTRAINT `FK_SALES_FLAT_QUOTE_ITEM_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Item';
 
-# Dumping data for table sales_flat_quote_item: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_quote_item: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_quote_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_quote_item` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_quote_item_option
+# Dumping structure for table s5152d29ad0535.sales_flat_quote_item_option
 DROP TABLE IF EXISTS `sales_flat_quote_item_option`;
 CREATE TABLE IF NOT EXISTS `sales_flat_quote_item_option` (
-  `option_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Option Id',
+  `option_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Id',
   `item_id` int(10) unsigned NOT NULL COMMENT 'Item Id',
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
   `code` varchar(255) NOT NULL COMMENT 'Code',
   `value` text COMMENT 'Value',
-  PRIMARY KEY (`option_id`),
+  PRIMARY KEY  (`option_id`),
   KEY `IDX_SALES_FLAT_QUOTE_ITEM_OPTION_ITEM_ID` (`item_id`),
   CONSTRAINT `FK_5F20E478CA64B6891EA8A9D6C2735739` FOREIGN KEY (`item_id`) REFERENCES `sales_flat_quote_item` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Item Option';
 
-# Dumping data for table sales_flat_quote_item_option: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_quote_item_option: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_quote_item_option` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_quote_item_option` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_quote_payment
+# Dumping structure for table s5152d29ad0535.sales_flat_quote_payment
 DROP TABLE IF EXISTS `sales_flat_quote_payment`;
 CREATE TABLE IF NOT EXISTS `sales_flat_quote_payment` (
-  `payment_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Payment Id',
-  `quote_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Quote Id',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Created At',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Updated At',
-  `method` varchar(255) DEFAULT NULL COMMENT 'Method',
-  `cc_type` varchar(255) DEFAULT NULL COMMENT 'Cc Type',
-  `cc_number_enc` varchar(255) DEFAULT NULL COMMENT 'Cc Number Enc',
-  `cc_last4` varchar(255) DEFAULT NULL COMMENT 'Cc Last4',
-  `cc_cid_enc` varchar(255) DEFAULT NULL COMMENT 'Cc Cid Enc',
-  `cc_owner` varchar(255) DEFAULT NULL COMMENT 'Cc Owner',
-  `cc_exp_month` varchar(255) DEFAULT NULL COMMENT 'Cc Exp Month',
-  `cc_exp_year` varchar(255) DEFAULT NULL COMMENT 'Cc Exp Year',
-  `cc_ss_owner` varchar(255) DEFAULT NULL COMMENT 'Cc Ss Owner',
-  `cc_ss_start_month` smallint(5) unsigned DEFAULT '0' COMMENT 'Cc Ss Start Month',
-  `cc_ss_start_year` smallint(5) unsigned DEFAULT '0' COMMENT 'Cc Ss Start Year',
-  `po_number` varchar(255) DEFAULT NULL COMMENT 'Po Number',
+  `payment_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Payment Id',
+  `quote_id` int(10) unsigned NOT NULL default '0' COMMENT 'Quote Id',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Created At',
+  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'Updated At',
+  `method` varchar(255) default NULL COMMENT 'Method',
+  `cc_type` varchar(255) default NULL COMMENT 'Cc Type',
+  `cc_number_enc` varchar(255) default NULL COMMENT 'Cc Number Enc',
+  `cc_last4` varchar(255) default NULL COMMENT 'Cc Last4',
+  `cc_cid_enc` varchar(255) default NULL COMMENT 'Cc Cid Enc',
+  `cc_owner` varchar(255) default NULL COMMENT 'Cc Owner',
+  `cc_exp_month` varchar(255) default NULL COMMENT 'Cc Exp Month',
+  `cc_exp_year` varchar(255) default NULL COMMENT 'Cc Exp Year',
+  `cc_ss_owner` varchar(255) default NULL COMMENT 'Cc Ss Owner',
+  `cc_ss_start_month` smallint(5) unsigned default '0' COMMENT 'Cc Ss Start Month',
+  `cc_ss_start_year` smallint(5) unsigned default '0' COMMENT 'Cc Ss Start Year',
+  `po_number` varchar(255) default NULL COMMENT 'Po Number',
   `additional_data` text COMMENT 'Additional Data',
-  `cc_ss_issue` varchar(255) DEFAULT NULL COMMENT 'Cc Ss Issue',
+  `cc_ss_issue` varchar(255) default NULL COMMENT 'Cc Ss Issue',
   `additional_information` text COMMENT 'Additional Information',
-  `paypal_payer_id` varchar(255) DEFAULT NULL COMMENT 'Paypal Payer Id',
-  `paypal_payer_status` varchar(255) DEFAULT NULL COMMENT 'Paypal Payer Status',
-  `paypal_correlation_id` varchar(255) DEFAULT NULL COMMENT 'Paypal Correlation Id',
-  PRIMARY KEY (`payment_id`),
+  `paypal_payer_id` varchar(255) default NULL COMMENT 'Paypal Payer Id',
+  `paypal_payer_status` varchar(255) default NULL COMMENT 'Paypal Payer Status',
+  `paypal_correlation_id` varchar(255) default NULL COMMENT 'Paypal Correlation Id',
+  PRIMARY KEY  (`payment_id`),
   KEY `IDX_SALES_FLAT_QUOTE_PAYMENT_QUOTE_ID` (`quote_id`),
   CONSTRAINT `FK_SALES_FLAT_QUOTE_PAYMENT_QUOTE_ID_SALES_FLAT_QUOTE_ENTITY_ID` FOREIGN KEY (`quote_id`) REFERENCES `sales_flat_quote` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Payment';
 
-# Dumping data for table sales_flat_quote_payment: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_quote_payment: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_quote_payment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_quote_payment` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_quote_shipping_rate
+# Dumping structure for table s5152d29ad0535.sales_flat_quote_shipping_rate
 DROP TABLE IF EXISTS `sales_flat_quote_shipping_rate`;
 CREATE TABLE IF NOT EXISTS `sales_flat_quote_shipping_rate` (
-  `rate_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rate Id',
-  `address_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Address Id',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Created At',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Updated At',
-  `carrier` varchar(255) DEFAULT NULL COMMENT 'Carrier',
-  `carrier_title` varchar(255) DEFAULT NULL COMMENT 'Carrier Title',
-  `code` varchar(255) DEFAULT NULL COMMENT 'Code',
-  `method` varchar(255) DEFAULT NULL COMMENT 'Method',
+  `rate_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rate Id',
+  `address_id` int(10) unsigned NOT NULL default '0' COMMENT 'Address Id',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Created At',
+  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'Updated At',
+  `carrier` varchar(255) default NULL COMMENT 'Carrier',
+  `carrier_title` varchar(255) default NULL COMMENT 'Carrier Title',
+  `code` varchar(255) default NULL COMMENT 'Code',
+  `method` varchar(255) default NULL COMMENT 'Method',
   `method_description` text COMMENT 'Method Description',
-  `price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Price',
+  `price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Price',
   `error_message` text COMMENT 'Error Message',
   `method_title` text COMMENT 'Method Title',
-  PRIMARY KEY (`rate_id`),
+  PRIMARY KEY  (`rate_id`),
   KEY `IDX_SALES_FLAT_QUOTE_SHIPPING_RATE_ADDRESS_ID` (`address_id`),
   CONSTRAINT `FK_B1F177EFB73D3EDF5322BA64AC48D150` FOREIGN KEY (`address_id`) REFERENCES `sales_flat_quote_address` (`address_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Shipping Rate';
 
-# Dumping data for table sales_flat_quote_shipping_rate: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_quote_shipping_rate: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_quote_shipping_rate` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_quote_shipping_rate` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_shipment
+# Dumping structure for table s5152d29ad0535.sales_flat_shipment
 DROP TABLE IF EXISTS `sales_flat_shipment`;
 CREATE TABLE IF NOT EXISTS `sales_flat_shipment` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `total_weight` decimal(12,4) DEFAULT NULL COMMENT 'Total Weight',
-  `total_qty` decimal(12,4) DEFAULT NULL COMMENT 'Total Qty',
-  `email_sent` smallint(5) unsigned DEFAULT NULL COMMENT 'Email Sent',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `total_weight` decimal(12,4) default NULL COMMENT 'Total Weight',
+  `total_qty` decimal(12,4) default NULL COMMENT 'Total Qty',
+  `email_sent` smallint(5) unsigned default NULL COMMENT 'Email Sent',
   `order_id` int(10) unsigned NOT NULL COMMENT 'Order Id',
-  `customer_id` int(11) DEFAULT NULL COMMENT 'Customer Id',
-  `shipping_address_id` int(11) DEFAULT NULL COMMENT 'Shipping Address Id',
-  `billing_address_id` int(11) DEFAULT NULL COMMENT 'Billing Address Id',
-  `shipment_status` int(11) DEFAULT NULL COMMENT 'Shipment Status',
-  `increment_id` varchar(50) DEFAULT NULL COMMENT 'Increment Id',
-  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Created At',
-  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Updated At',
+  `customer_id` int(11) default NULL COMMENT 'Customer Id',
+  `shipping_address_id` int(11) default NULL COMMENT 'Shipping Address Id',
+  `billing_address_id` int(11) default NULL COMMENT 'Billing Address Id',
+  `shipment_status` int(11) default NULL COMMENT 'Shipment Status',
+  `increment_id` varchar(50) default NULL COMMENT 'Increment Id',
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  `updated_at` timestamp NULL default NULL COMMENT 'Updated At',
   `packages` text COMMENT 'Packed Products in Packages',
   `shipping_label` mediumblob COMMENT 'Shipping Label Content',
-  PRIMARY KEY (`entity_id`),
+  PRIMARY KEY  (`entity_id`),
   UNIQUE KEY `UNQ_SALES_FLAT_SHIPMENT_INCREMENT_ID` (`increment_id`),
   KEY `IDX_SALES_FLAT_SHIPMENT_STORE_ID` (`store_id`),
   KEY `IDX_SALES_FLAT_SHIPMENT_TOTAL_QTY` (`total_qty`),
@@ -8571,45 +9919,45 @@ CREATE TABLE IF NOT EXISTS `sales_flat_shipment` (
   CONSTRAINT `FK_SALES_FLAT_SHIPMENT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Shipment';
 
-# Dumping data for table sales_flat_shipment: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_shipment: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_shipment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_shipment` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_shipment_comment
+# Dumping structure for table s5152d29ad0535.sales_flat_shipment_comment
 DROP TABLE IF EXISTS `sales_flat_shipment_comment`;
 CREATE TABLE IF NOT EXISTS `sales_flat_shipment_comment` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
-  `is_customer_notified` int(11) DEFAULT NULL COMMENT 'Is Customer Notified',
-  `is_visible_on_front` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Visible On Front',
+  `is_customer_notified` int(11) default NULL COMMENT 'Is Customer Notified',
+  `is_visible_on_front` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Visible On Front',
   `comment` text COMMENT 'Comment',
-  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Created At',
-  PRIMARY KEY (`entity_id`),
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  PRIMARY KEY  (`entity_id`),
   KEY `IDX_SALES_FLAT_SHIPMENT_COMMENT_CREATED_AT` (`created_at`),
   KEY `IDX_SALES_FLAT_SHIPMENT_COMMENT_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_C2D69CC1FB03D2B2B794B0439F6650CF` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_shipment` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Shipment Comment';
 
-# Dumping data for table sales_flat_shipment_comment: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_shipment_comment: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_shipment_comment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_shipment_comment` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_shipment_grid
+# Dumping structure for table s5152d29ad0535.sales_flat_shipment_grid
 DROP TABLE IF EXISTS `sales_flat_shipment_grid`;
 CREATE TABLE IF NOT EXISTS `sales_flat_shipment_grid` (
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `total_qty` decimal(12,4) DEFAULT NULL COMMENT 'Total Qty',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `total_qty` decimal(12,4) default NULL COMMENT 'Total Qty',
   `order_id` int(10) unsigned NOT NULL COMMENT 'Order Id',
-  `shipment_status` int(11) DEFAULT NULL COMMENT 'Shipment Status',
-  `increment_id` varchar(50) DEFAULT NULL COMMENT 'Increment Id',
-  `order_increment_id` varchar(50) DEFAULT NULL COMMENT 'Order Increment Id',
-  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Created At',
-  `order_created_at` timestamp NULL DEFAULT NULL COMMENT 'Order Created At',
-  `shipping_name` varchar(255) DEFAULT NULL COMMENT 'Shipping Name',
-  PRIMARY KEY (`entity_id`),
+  `shipment_status` int(11) default NULL COMMENT 'Shipment Status',
+  `increment_id` varchar(50) default NULL COMMENT 'Increment Id',
+  `order_increment_id` varchar(50) default NULL COMMENT 'Order Increment Id',
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  `order_created_at` timestamp NULL default NULL COMMENT 'Order Created At',
+  `shipping_name` varchar(255) default NULL COMMENT 'Shipping Name',
+  PRIMARY KEY  (`entity_id`),
   UNIQUE KEY `UNQ_SALES_FLAT_SHIPMENT_GRID_INCREMENT_ID` (`increment_id`),
   KEY `IDX_SALES_FLAT_SHIPMENT_GRID_STORE_ID` (`store_id`),
   KEY `IDX_SALES_FLAT_SHIPMENT_GRID_TOTAL_QTY` (`total_qty`),
@@ -8623,185 +9971,185 @@ CREATE TABLE IF NOT EXISTS `sales_flat_shipment_grid` (
   CONSTRAINT `FK_SALES_FLAT_SHIPMENT_GRID_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Shipment Grid';
 
-# Dumping data for table sales_flat_shipment_grid: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_shipment_grid: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_shipment_grid` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_shipment_grid` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_shipment_item
+# Dumping structure for table s5152d29ad0535.sales_flat_shipment_item
 DROP TABLE IF EXISTS `sales_flat_shipment_item`;
 CREATE TABLE IF NOT EXISTS `sales_flat_shipment_item` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
-  `row_total` decimal(12,4) DEFAULT NULL COMMENT 'Row Total',
-  `price` decimal(12,4) DEFAULT NULL COMMENT 'Price',
-  `weight` decimal(12,4) DEFAULT NULL COMMENT 'Weight',
-  `qty` decimal(12,4) DEFAULT NULL COMMENT 'Qty',
-  `product_id` int(11) DEFAULT NULL COMMENT 'Product Id',
-  `order_item_id` int(11) DEFAULT NULL COMMENT 'Order Item Id',
+  `row_total` decimal(12,4) default NULL COMMENT 'Row Total',
+  `price` decimal(12,4) default NULL COMMENT 'Price',
+  `weight` decimal(12,4) default NULL COMMENT 'Weight',
+  `qty` decimal(12,4) default NULL COMMENT 'Qty',
+  `product_id` int(11) default NULL COMMENT 'Product Id',
+  `order_item_id` int(11) default NULL COMMENT 'Order Item Id',
   `additional_data` text COMMENT 'Additional Data',
   `description` text COMMENT 'Description',
-  `name` varchar(255) DEFAULT NULL COMMENT 'Name',
-  `sku` varchar(255) DEFAULT NULL COMMENT 'Sku',
-  PRIMARY KEY (`entity_id`),
+  `name` varchar(255) default NULL COMMENT 'Name',
+  `sku` varchar(255) default NULL COMMENT 'Sku',
+  PRIMARY KEY  (`entity_id`),
   KEY `IDX_SALES_FLAT_SHIPMENT_ITEM_PARENT_ID` (`parent_id`),
   CONSTRAINT `FK_3AECE5007D18F159231B87E8306FC02A` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_shipment` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Shipment Item';
 
-# Dumping data for table sales_flat_shipment_item: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_shipment_item: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_shipment_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_shipment_item` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_flat_shipment_track
+# Dumping structure for table s5152d29ad0535.sales_flat_shipment_track
 DROP TABLE IF EXISTS `sales_flat_shipment_track`;
 CREATE TABLE IF NOT EXISTS `sales_flat_shipment_track` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `parent_id` int(10) unsigned NOT NULL COMMENT 'Parent Id',
-  `weight` decimal(12,4) DEFAULT NULL COMMENT 'Weight',
-  `qty` decimal(12,4) DEFAULT NULL COMMENT 'Qty',
+  `weight` decimal(12,4) default NULL COMMENT 'Weight',
+  `qty` decimal(12,4) default NULL COMMENT 'Qty',
   `order_id` int(10) unsigned NOT NULL COMMENT 'Order Id',
   `track_number` text COMMENT 'Number',
   `description` text COMMENT 'Description',
-  `title` varchar(255) DEFAULT NULL COMMENT 'Title',
-  `carrier_code` varchar(32) DEFAULT NULL COMMENT 'Carrier Code',
-  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Created At',
-  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Updated At',
-  PRIMARY KEY (`entity_id`),
+  `title` varchar(255) default NULL COMMENT 'Title',
+  `carrier_code` varchar(32) default NULL COMMENT 'Carrier Code',
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  `updated_at` timestamp NULL default NULL COMMENT 'Updated At',
+  PRIMARY KEY  (`entity_id`),
   KEY `IDX_SALES_FLAT_SHIPMENT_TRACK_PARENT_ID` (`parent_id`),
   KEY `IDX_SALES_FLAT_SHIPMENT_TRACK_ORDER_ID` (`order_id`),
   KEY `IDX_SALES_FLAT_SHIPMENT_TRACK_CREATED_AT` (`created_at`),
   CONSTRAINT `FK_BCD2FA28717D29F37E10A153E6F2F841` FOREIGN KEY (`parent_id`) REFERENCES `sales_flat_shipment` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Shipment Track';
 
-# Dumping data for table sales_flat_shipment_track: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_flat_shipment_track: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_flat_shipment_track` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_flat_shipment_track` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_invoiced_aggregated
+# Dumping structure for table s5152d29ad0535.sales_invoiced_aggregated
 DROP TABLE IF EXISTS `sales_invoiced_aggregated`;
 CREATE TABLE IF NOT EXISTS `sales_invoiced_aggregated` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `period` date DEFAULT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `order_status` varchar(50) DEFAULT NULL COMMENT 'Order Status',
-  `orders_count` int(11) NOT NULL DEFAULT '0' COMMENT 'Orders Count',
-  `orders_invoiced` decimal(12,4) DEFAULT NULL COMMENT 'Orders Invoiced',
-  `invoiced` decimal(12,4) DEFAULT NULL COMMENT 'Invoiced',
-  `invoiced_captured` decimal(12,4) DEFAULT NULL COMMENT 'Invoiced Captured',
-  `invoiced_not_captured` decimal(12,4) DEFAULT NULL COMMENT 'Invoiced Not Captured',
-  PRIMARY KEY (`id`),
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `order_status` varchar(50) default NULL COMMENT 'Order Status',
+  `orders_count` int(11) NOT NULL default '0' COMMENT 'Orders Count',
+  `orders_invoiced` decimal(12,4) default NULL COMMENT 'Orders Invoiced',
+  `invoiced` decimal(12,4) default NULL COMMENT 'Invoiced',
+  `invoiced_captured` decimal(12,4) default NULL COMMENT 'Invoiced Captured',
+  `invoiced_not_captured` decimal(12,4) default NULL COMMENT 'Invoiced Not Captured',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `UNQ_SALES_INVOICED_AGGREGATED_PERIOD_STORE_ID_ORDER_STATUS` (`period`,`store_id`,`order_status`),
   KEY `IDX_SALES_INVOICED_AGGREGATED_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_INVOICED_AGGREGATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Invoiced Aggregated';
 
-# Dumping data for table sales_invoiced_aggregated: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_invoiced_aggregated: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_invoiced_aggregated` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_invoiced_aggregated` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_invoiced_aggregated_order
+# Dumping structure for table s5152d29ad0535.sales_invoiced_aggregated_order
 DROP TABLE IF EXISTS `sales_invoiced_aggregated_order`;
 CREATE TABLE IF NOT EXISTS `sales_invoiced_aggregated_order` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `period` date DEFAULT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `order_status` varchar(50) NOT NULL DEFAULT '' COMMENT 'Order Status',
-  `orders_count` int(11) NOT NULL DEFAULT '0' COMMENT 'Orders Count',
-  `orders_invoiced` decimal(12,4) DEFAULT NULL COMMENT 'Orders Invoiced',
-  `invoiced` decimal(12,4) DEFAULT NULL COMMENT 'Invoiced',
-  `invoiced_captured` decimal(12,4) DEFAULT NULL COMMENT 'Invoiced Captured',
-  `invoiced_not_captured` decimal(12,4) DEFAULT NULL COMMENT 'Invoiced Not Captured',
-  PRIMARY KEY (`id`),
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `order_status` varchar(50) NOT NULL default '' COMMENT 'Order Status',
+  `orders_count` int(11) NOT NULL default '0' COMMENT 'Orders Count',
+  `orders_invoiced` decimal(12,4) default NULL COMMENT 'Orders Invoiced',
+  `invoiced` decimal(12,4) default NULL COMMENT 'Invoiced',
+  `invoiced_captured` decimal(12,4) default NULL COMMENT 'Invoiced Captured',
+  `invoiced_not_captured` decimal(12,4) default NULL COMMENT 'Invoiced Not Captured',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `UNQ_SALES_INVOICED_AGGREGATED_ORDER_PERIOD_STORE_ID_ORDER_STATUS` (`period`,`store_id`,`order_status`),
   KEY `IDX_SALES_INVOICED_AGGREGATED_ORDER_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_INVOICED_AGGREGATED_ORDER_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Invoiced Aggregated Order';
 
-# Dumping data for table sales_invoiced_aggregated_order: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_invoiced_aggregated_order: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_invoiced_aggregated_order` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_invoiced_aggregated_order` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_order_aggregated_created
+# Dumping structure for table s5152d29ad0535.sales_order_aggregated_created
 DROP TABLE IF EXISTS `sales_order_aggregated_created`;
 CREATE TABLE IF NOT EXISTS `sales_order_aggregated_created` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `period` date DEFAULT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `order_status` varchar(50) NOT NULL DEFAULT '' COMMENT 'Order Status',
-  `orders_count` int(11) NOT NULL DEFAULT '0' COMMENT 'Orders Count',
-  `total_qty_ordered` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Qty Ordered',
-  `total_qty_invoiced` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Qty Invoiced',
-  `total_income_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Income Amount',
-  `total_revenue_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Revenue Amount',
-  `total_profit_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Profit Amount',
-  `total_invoiced_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Invoiced Amount',
-  `total_canceled_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Canceled Amount',
-  `total_paid_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Paid Amount',
-  `total_refunded_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Refunded Amount',
-  `total_tax_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Tax Amount',
-  `total_tax_amount_actual` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Tax Amount Actual',
-  `total_shipping_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Shipping Amount',
-  `total_shipping_amount_actual` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Shipping Amount Actual',
-  `total_discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Discount Amount',
-  `total_discount_amount_actual` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Discount Amount Actual',
-  PRIMARY KEY (`id`),
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `order_status` varchar(50) NOT NULL default '' COMMENT 'Order Status',
+  `orders_count` int(11) NOT NULL default '0' COMMENT 'Orders Count',
+  `total_qty_ordered` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Qty Ordered',
+  `total_qty_invoiced` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Qty Invoiced',
+  `total_income_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Income Amount',
+  `total_revenue_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Revenue Amount',
+  `total_profit_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Profit Amount',
+  `total_invoiced_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Invoiced Amount',
+  `total_canceled_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Canceled Amount',
+  `total_paid_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Paid Amount',
+  `total_refunded_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Refunded Amount',
+  `total_tax_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Tax Amount',
+  `total_tax_amount_actual` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Tax Amount Actual',
+  `total_shipping_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Shipping Amount',
+  `total_shipping_amount_actual` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Shipping Amount Actual',
+  `total_discount_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Discount Amount',
+  `total_discount_amount_actual` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Discount Amount Actual',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `UNQ_SALES_ORDER_AGGREGATED_CREATED_PERIOD_STORE_ID_ORDER_STATUS` (`period`,`store_id`,`order_status`),
   KEY `IDX_SALES_ORDER_AGGREGATED_CREATED_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_ORDER_AGGREGATED_CREATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Aggregated Created';
 
-# Dumping data for table sales_order_aggregated_created: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_order_aggregated_created: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_order_aggregated_created` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_order_aggregated_created` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_order_aggregated_updated
+# Dumping structure for table s5152d29ad0535.sales_order_aggregated_updated
 DROP TABLE IF EXISTS `sales_order_aggregated_updated`;
 CREATE TABLE IF NOT EXISTS `sales_order_aggregated_updated` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `period` date DEFAULT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
   `order_status` varchar(50) NOT NULL COMMENT 'Order Status',
-  `orders_count` int(11) NOT NULL DEFAULT '0' COMMENT 'Orders Count',
-  `total_qty_ordered` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Qty Ordered',
-  `total_qty_invoiced` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Qty Invoiced',
-  `total_income_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Income Amount',
-  `total_revenue_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Revenue Amount',
-  `total_profit_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Profit Amount',
-  `total_invoiced_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Invoiced Amount',
-  `total_canceled_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Canceled Amount',
-  `total_paid_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Paid Amount',
-  `total_refunded_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Refunded Amount',
-  `total_tax_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Tax Amount',
-  `total_tax_amount_actual` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Tax Amount Actual',
-  `total_shipping_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Shipping Amount',
-  `total_shipping_amount_actual` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Shipping Amount Actual',
-  `total_discount_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Discount Amount',
-  `total_discount_amount_actual` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Total Discount Amount Actual',
-  PRIMARY KEY (`id`),
+  `orders_count` int(11) NOT NULL default '0' COMMENT 'Orders Count',
+  `total_qty_ordered` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Qty Ordered',
+  `total_qty_invoiced` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Qty Invoiced',
+  `total_income_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Income Amount',
+  `total_revenue_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Revenue Amount',
+  `total_profit_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Profit Amount',
+  `total_invoiced_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Invoiced Amount',
+  `total_canceled_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Canceled Amount',
+  `total_paid_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Paid Amount',
+  `total_refunded_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Refunded Amount',
+  `total_tax_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Tax Amount',
+  `total_tax_amount_actual` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Tax Amount Actual',
+  `total_shipping_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Shipping Amount',
+  `total_shipping_amount_actual` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Shipping Amount Actual',
+  `total_discount_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Discount Amount',
+  `total_discount_amount_actual` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Total Discount Amount Actual',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `UNQ_SALES_ORDER_AGGREGATED_UPDATED_PERIOD_STORE_ID_ORDER_STATUS` (`period`,`store_id`,`order_status`),
   KEY `IDX_SALES_ORDER_AGGREGATED_UPDATED_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_ORDER_AGGREGATED_UPDATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Aggregated Updated';
 
-# Dumping data for table sales_order_aggregated_updated: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_order_aggregated_updated: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_order_aggregated_updated` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_order_aggregated_updated` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_order_status
+# Dumping structure for table s5152d29ad0535.sales_order_status
 DROP TABLE IF EXISTS `sales_order_status`;
 CREATE TABLE IF NOT EXISTS `sales_order_status` (
   `status` varchar(32) NOT NULL COMMENT 'Status',
   `label` varchar(128) NOT NULL COMMENT 'Label',
-  PRIMARY KEY (`status`)
+  PRIMARY KEY  (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Status Table';
 
-# Dumping data for table sales_order_status: ~16 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_order_status: ~16 rows (approximately)
 /*!40000 ALTER TABLE `sales_order_status` DISABLE KEYS */;
 INSERT INTO `sales_order_status` (`status`, `label`) VALUES
 	('canceled', 'Canceled'),
@@ -8823,34 +10171,34 @@ INSERT INTO `sales_order_status` (`status`, `label`) VALUES
 /*!40000 ALTER TABLE `sales_order_status` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_order_status_label
+# Dumping structure for table s5152d29ad0535.sales_order_status_label
 DROP TABLE IF EXISTS `sales_order_status_label`;
 CREATE TABLE IF NOT EXISTS `sales_order_status_label` (
   `status` varchar(32) NOT NULL COMMENT 'Status',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
   `label` varchar(128) NOT NULL COMMENT 'Label',
-  PRIMARY KEY (`status`,`store_id`),
+  PRIMARY KEY  (`status`,`store_id`),
   KEY `IDX_SALES_ORDER_STATUS_LABEL_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_ORDER_STATUS_LABEL_STATUS_SALES_ORDER_STATUS_STATUS` FOREIGN KEY (`status`) REFERENCES `sales_order_status` (`status`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_ORDER_STATUS_LABEL_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Status Label Table';
 
-# Dumping data for table sales_order_status_label: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_order_status_label: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_order_status_label` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_order_status_label` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_order_status_state
+# Dumping structure for table s5152d29ad0535.sales_order_status_state
 DROP TABLE IF EXISTS `sales_order_status_state`;
 CREATE TABLE IF NOT EXISTS `sales_order_status_state` (
   `status` varchar(32) NOT NULL COMMENT 'Status',
   `state` varchar(32) NOT NULL COMMENT 'Label',
-  `is_default` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Default',
-  PRIMARY KEY (`status`,`state`),
+  `is_default` smallint(5) unsigned NOT NULL default '0' COMMENT 'Is Default',
+  PRIMARY KEY  (`status`,`state`),
   CONSTRAINT `FK_SALES_ORDER_STATUS_STATE_STATUS_SALES_ORDER_STATUS_STATUS` FOREIGN KEY (`status`) REFERENCES `sales_order_status` (`status`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Status Table';
 
-# Dumping data for table sales_order_status_state: ~11 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_order_status_state: ~11 rows (approximately)
 /*!40000 ALTER TABLE `sales_order_status_state` DISABLE KEYS */;
 INSERT INTO `sales_order_status_state` (`status`, `state`, `is_default`) VALUES
 	('canceled', 'canceled', 1),
@@ -8867,38 +10215,38 @@ INSERT INTO `sales_order_status_state` (`status`, `state`, `is_default`) VALUES
 /*!40000 ALTER TABLE `sales_order_status_state` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_order_tax
+# Dumping structure for table s5152d29ad0535.sales_order_tax
 DROP TABLE IF EXISTS `sales_order_tax`;
 CREATE TABLE IF NOT EXISTS `sales_order_tax` (
-  `tax_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Tax Id',
+  `tax_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Tax Id',
   `order_id` int(10) unsigned NOT NULL COMMENT 'Order Id',
-  `code` varchar(255) DEFAULT NULL COMMENT 'Code',
-  `title` varchar(255) DEFAULT NULL COMMENT 'Title',
-  `percent` decimal(12,4) DEFAULT NULL COMMENT 'Percent',
-  `amount` decimal(12,4) DEFAULT NULL COMMENT 'Amount',
+  `code` varchar(255) default NULL COMMENT 'Code',
+  `title` varchar(255) default NULL COMMENT 'Title',
+  `percent` decimal(12,4) default NULL COMMENT 'Percent',
+  `amount` decimal(12,4) default NULL COMMENT 'Amount',
   `priority` int(11) NOT NULL COMMENT 'Priority',
   `position` int(11) NOT NULL COMMENT 'Position',
-  `base_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Amount',
+  `base_amount` decimal(12,4) default NULL COMMENT 'Base Amount',
   `process` smallint(6) NOT NULL COMMENT 'Process',
-  `base_real_amount` decimal(12,4) DEFAULT NULL COMMENT 'Base Real Amount',
-  `hidden` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Hidden',
-  PRIMARY KEY (`tax_id`),
+  `base_real_amount` decimal(12,4) default NULL COMMENT 'Base Real Amount',
+  `hidden` smallint(5) unsigned NOT NULL default '0' COMMENT 'Hidden',
+  PRIMARY KEY  (`tax_id`),
   KEY `IDX_SALES_ORDER_TAX_ORDER_ID_PRIORITY_POSITION` (`order_id`,`priority`,`position`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Tax Table';
 
-# Dumping data for table sales_order_tax: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_order_tax: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_order_tax` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_order_tax` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_order_tax_item
+# Dumping structure for table s5152d29ad0535.sales_order_tax_item
 DROP TABLE IF EXISTS `sales_order_tax_item`;
 CREATE TABLE IF NOT EXISTS `sales_order_tax_item` (
-  `tax_item_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Tax Item Id',
+  `tax_item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Tax Item Id',
   `tax_id` int(10) unsigned NOT NULL COMMENT 'Tax Id',
   `item_id` int(10) unsigned NOT NULL COMMENT 'Item Id',
   `tax_percent` decimal(12,4) NOT NULL COMMENT 'Real Tax Percent For Item',
-  PRIMARY KEY (`tax_item_id`),
+  PRIMARY KEY  (`tax_item_id`),
   UNIQUE KEY `UNQ_SALES_ORDER_TAX_ITEM_TAX_ID_ITEM_ID` (`tax_id`,`item_id`),
   KEY `IDX_SALES_ORDER_TAX_ITEM_TAX_ID` (`tax_id`),
   KEY `IDX_SALES_ORDER_TAX_ITEM_ITEM_ID` (`item_id`),
@@ -8906,25 +10254,25 @@ CREATE TABLE IF NOT EXISTS `sales_order_tax_item` (
   CONSTRAINT `FK_SALES_ORDER_TAX_ITEM_TAX_ID_SALES_ORDER_TAX_TAX_ID` FOREIGN KEY (`tax_id`) REFERENCES `sales_order_tax` (`tax_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Tax Item';
 
-# Dumping data for table sales_order_tax_item: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_order_tax_item: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_order_tax_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_order_tax_item` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_payment_transaction
+# Dumping structure for table s5152d29ad0535.sales_payment_transaction
 DROP TABLE IF EXISTS `sales_payment_transaction`;
 CREATE TABLE IF NOT EXISTS `sales_payment_transaction` (
-  `transaction_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Transaction Id',
-  `parent_id` int(10) unsigned DEFAULT NULL COMMENT 'Parent Id',
-  `order_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Order Id',
-  `payment_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Payment Id',
-  `txn_id` varchar(100) DEFAULT NULL COMMENT 'Txn Id',
-  `parent_txn_id` varchar(100) DEFAULT NULL COMMENT 'Parent Txn Id',
-  `txn_type` varchar(15) DEFAULT NULL COMMENT 'Txn Type',
-  `is_closed` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Is Closed',
+  `transaction_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Transaction Id',
+  `parent_id` int(10) unsigned default NULL COMMENT 'Parent Id',
+  `order_id` int(10) unsigned NOT NULL default '0' COMMENT 'Order Id',
+  `payment_id` int(10) unsigned NOT NULL default '0' COMMENT 'Payment Id',
+  `txn_id` varchar(100) default NULL COMMENT 'Txn Id',
+  `parent_txn_id` varchar(100) default NULL COMMENT 'Parent Txn Id',
+  `txn_type` varchar(15) default NULL COMMENT 'Txn Type',
+  `is_closed` smallint(5) unsigned NOT NULL default '1' COMMENT 'Is Closed',
   `additional_information` blob COMMENT 'Additional Information',
-  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Created At',
-  PRIMARY KEY (`transaction_id`),
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  PRIMARY KEY  (`transaction_id`),
   UNIQUE KEY `UNQ_SALES_PAYMENT_TRANSACTION_ORDER_ID_PAYMENT_ID_TXN_ID` (`order_id`,`payment_id`,`txn_id`),
   KEY `IDX_SALES_PAYMENT_TRANSACTION_ORDER_ID` (`order_id`),
   KEY `IDX_SALES_PAYMENT_TRANSACTION_PARENT_ID` (`parent_id`),
@@ -8934,48 +10282,48 @@ CREATE TABLE IF NOT EXISTS `sales_payment_transaction` (
   CONSTRAINT `FK_DA51A10B2405B64A4DAEF77A64F0DAAD` FOREIGN KEY (`payment_id`) REFERENCES `sales_flat_order_payment` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Payment Transaction';
 
-# Dumping data for table sales_payment_transaction: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_payment_transaction: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_payment_transaction` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_payment_transaction` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_recurring_profile
+# Dumping structure for table s5152d29ad0535.sales_recurring_profile
 DROP TABLE IF EXISTS `sales_recurring_profile`;
 CREATE TABLE IF NOT EXISTS `sales_recurring_profile` (
-  `profile_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Profile Id',
+  `profile_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Profile Id',
   `state` varchar(20) NOT NULL COMMENT 'State',
-  `customer_id` int(10) unsigned DEFAULT NULL COMMENT 'Customer Id',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
+  `customer_id` int(10) unsigned default NULL COMMENT 'Customer Id',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
   `method_code` varchar(32) NOT NULL COMMENT 'Method Code',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Created At',
-  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Updated At',
-  `reference_id` varchar(32) DEFAULT NULL COMMENT 'Reference Id',
-  `subscriber_name` varchar(150) DEFAULT NULL COMMENT 'Subscriber Name',
-  `start_datetime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Start Datetime',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP COMMENT 'Created At',
+  `updated_at` timestamp NULL default NULL COMMENT 'Updated At',
+  `reference_id` varchar(32) default NULL COMMENT 'Reference Id',
+  `subscriber_name` varchar(150) default NULL COMMENT 'Subscriber Name',
+  `start_datetime` timestamp NOT NULL default '0000-00-00 00:00:00' COMMENT 'Start Datetime',
   `internal_reference_id` varchar(42) NOT NULL COMMENT 'Internal Reference Id',
   `schedule_description` varchar(255) NOT NULL COMMENT 'Schedule Description',
-  `suspension_threshold` smallint(5) unsigned DEFAULT NULL COMMENT 'Suspension Threshold',
-  `bill_failed_later` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Bill Failed Later',
+  `suspension_threshold` smallint(5) unsigned default NULL COMMENT 'Suspension Threshold',
+  `bill_failed_later` smallint(5) unsigned NOT NULL default '0' COMMENT 'Bill Failed Later',
   `period_unit` varchar(20) NOT NULL COMMENT 'Period Unit',
-  `period_frequency` smallint(5) unsigned DEFAULT NULL COMMENT 'Period Frequency',
-  `period_max_cycles` smallint(5) unsigned DEFAULT NULL COMMENT 'Period Max Cycles',
-  `billing_amount` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Billing Amount',
-  `trial_period_unit` varchar(20) DEFAULT NULL COMMENT 'Trial Period Unit',
-  `trial_period_frequency` smallint(5) unsigned DEFAULT NULL COMMENT 'Trial Period Frequency',
-  `trial_period_max_cycles` smallint(5) unsigned DEFAULT NULL COMMENT 'Trial Period Max Cycles',
+  `period_frequency` smallint(5) unsigned default NULL COMMENT 'Period Frequency',
+  `period_max_cycles` smallint(5) unsigned default NULL COMMENT 'Period Max Cycles',
+  `billing_amount` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Billing Amount',
+  `trial_period_unit` varchar(20) default NULL COMMENT 'Trial Period Unit',
+  `trial_period_frequency` smallint(5) unsigned default NULL COMMENT 'Trial Period Frequency',
+  `trial_period_max_cycles` smallint(5) unsigned default NULL COMMENT 'Trial Period Max Cycles',
   `trial_billing_amount` text COMMENT 'Trial Billing Amount',
   `currency_code` varchar(3) NOT NULL COMMENT 'Currency Code',
-  `shipping_amount` decimal(12,4) DEFAULT NULL COMMENT 'Shipping Amount',
-  `tax_amount` decimal(12,4) DEFAULT NULL COMMENT 'Tax Amount',
-  `init_amount` decimal(12,4) DEFAULT NULL COMMENT 'Init Amount',
-  `init_may_fail` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Init May Fail',
+  `shipping_amount` decimal(12,4) default NULL COMMENT 'Shipping Amount',
+  `tax_amount` decimal(12,4) default NULL COMMENT 'Tax Amount',
+  `init_amount` decimal(12,4) default NULL COMMENT 'Init Amount',
+  `init_may_fail` smallint(5) unsigned NOT NULL default '0' COMMENT 'Init May Fail',
   `order_info` text NOT NULL COMMENT 'Order Info',
   `order_item_info` text NOT NULL COMMENT 'Order Item Info',
   `billing_address_info` text NOT NULL COMMENT 'Billing Address Info',
   `shipping_address_info` text COMMENT 'Shipping Address Info',
   `profile_vendor_info` text COMMENT 'Profile Vendor Info',
   `additional_info` text COMMENT 'Additional Info',
-  PRIMARY KEY (`profile_id`),
+  PRIMARY KEY  (`profile_id`),
   UNIQUE KEY `UNQ_SALES_RECURRING_PROFILE_INTERNAL_REFERENCE_ID` (`internal_reference_id`),
   KEY `IDX_SALES_RECURRING_PROFILE_CUSTOMER_ID` (`customer_id`),
   KEY `IDX_SALES_RECURRING_PROFILE_STORE_ID` (`store_id`),
@@ -8983,238 +10331,238 @@ CREATE TABLE IF NOT EXISTS `sales_recurring_profile` (
   CONSTRAINT `FK_SALES_RECURRING_PROFILE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Recurring Profile';
 
-# Dumping data for table sales_recurring_profile: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_recurring_profile: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_recurring_profile` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_recurring_profile` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_recurring_profile_order
+# Dumping structure for table s5152d29ad0535.sales_recurring_profile_order
 DROP TABLE IF EXISTS `sales_recurring_profile_order`;
 CREATE TABLE IF NOT EXISTS `sales_recurring_profile_order` (
-  `link_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Link Id',
-  `profile_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Profile Id',
-  `order_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Order Id',
-  PRIMARY KEY (`link_id`),
+  `link_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Link Id',
+  `profile_id` int(10) unsigned NOT NULL default '0' COMMENT 'Profile Id',
+  `order_id` int(10) unsigned NOT NULL default '0' COMMENT 'Order Id',
+  PRIMARY KEY  (`link_id`),
   UNIQUE KEY `UNQ_SALES_RECURRING_PROFILE_ORDER_PROFILE_ID_ORDER_ID` (`profile_id`,`order_id`),
   KEY `IDX_SALES_RECURRING_PROFILE_ORDER_ORDER_ID` (`order_id`),
   CONSTRAINT `FK_7FF85741C66DCD37A4FBE3E3255A5A01` FOREIGN KEY (`order_id`) REFERENCES `sales_flat_order` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_B8A7A5397B67455786E55461748C59F4` FOREIGN KEY (`profile_id`) REFERENCES `sales_recurring_profile` (`profile_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Recurring Profile Order';
 
-# Dumping data for table sales_recurring_profile_order: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_recurring_profile_order: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_recurring_profile_order` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_recurring_profile_order` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_refunded_aggregated
+# Dumping structure for table s5152d29ad0535.sales_refunded_aggregated
 DROP TABLE IF EXISTS `sales_refunded_aggregated`;
 CREATE TABLE IF NOT EXISTS `sales_refunded_aggregated` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `period` date DEFAULT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `order_status` varchar(50) NOT NULL DEFAULT '' COMMENT 'Order Status',
-  `orders_count` int(11) NOT NULL DEFAULT '0' COMMENT 'Orders Count',
-  `refunded` decimal(12,4) DEFAULT NULL COMMENT 'Refunded',
-  `online_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Online Refunded',
-  `offline_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Offline Refunded',
-  PRIMARY KEY (`id`),
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `order_status` varchar(50) NOT NULL default '' COMMENT 'Order Status',
+  `orders_count` int(11) NOT NULL default '0' COMMENT 'Orders Count',
+  `refunded` decimal(12,4) default NULL COMMENT 'Refunded',
+  `online_refunded` decimal(12,4) default NULL COMMENT 'Online Refunded',
+  `offline_refunded` decimal(12,4) default NULL COMMENT 'Offline Refunded',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `UNQ_SALES_REFUNDED_AGGREGATED_PERIOD_STORE_ID_ORDER_STATUS` (`period`,`store_id`,`order_status`),
   KEY `IDX_SALES_REFUNDED_AGGREGATED_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_REFUNDED_AGGREGATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Refunded Aggregated';
 
-# Dumping data for table sales_refunded_aggregated: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_refunded_aggregated: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_refunded_aggregated` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_refunded_aggregated` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_refunded_aggregated_order
+# Dumping structure for table s5152d29ad0535.sales_refunded_aggregated_order
 DROP TABLE IF EXISTS `sales_refunded_aggregated_order`;
 CREATE TABLE IF NOT EXISTS `sales_refunded_aggregated_order` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `period` date DEFAULT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `order_status` varchar(50) DEFAULT NULL COMMENT 'Order Status',
-  `orders_count` int(11) NOT NULL DEFAULT '0' COMMENT 'Orders Count',
-  `refunded` decimal(12,4) DEFAULT NULL COMMENT 'Refunded',
-  `online_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Online Refunded',
-  `offline_refunded` decimal(12,4) DEFAULT NULL COMMENT 'Offline Refunded',
-  PRIMARY KEY (`id`),
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `order_status` varchar(50) default NULL COMMENT 'Order Status',
+  `orders_count` int(11) NOT NULL default '0' COMMENT 'Orders Count',
+  `refunded` decimal(12,4) default NULL COMMENT 'Refunded',
+  `online_refunded` decimal(12,4) default NULL COMMENT 'Online Refunded',
+  `offline_refunded` decimal(12,4) default NULL COMMENT 'Offline Refunded',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `UNQ_SALES_REFUNDED_AGGREGATED_ORDER_PERIOD_STORE_ID_ORDER_STATUS` (`period`,`store_id`,`order_status`),
   KEY `IDX_SALES_REFUNDED_AGGREGATED_ORDER_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_REFUNDED_AGGREGATED_ORDER_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Refunded Aggregated Order';
 
-# Dumping data for table sales_refunded_aggregated_order: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_refunded_aggregated_order: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_refunded_aggregated_order` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_refunded_aggregated_order` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_shipping_aggregated
+# Dumping structure for table s5152d29ad0535.sales_shipping_aggregated
 DROP TABLE IF EXISTS `sales_shipping_aggregated`;
 CREATE TABLE IF NOT EXISTS `sales_shipping_aggregated` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `period` date DEFAULT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `order_status` varchar(50) DEFAULT NULL COMMENT 'Order Status',
-  `shipping_description` varchar(255) DEFAULT NULL COMMENT 'Shipping Description',
-  `orders_count` int(11) NOT NULL DEFAULT '0' COMMENT 'Orders Count',
-  `total_shipping` decimal(12,4) DEFAULT NULL COMMENT 'Total Shipping',
-  `total_shipping_actual` decimal(12,4) DEFAULT NULL COMMENT 'Total Shipping Actual',
-  PRIMARY KEY (`id`),
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `order_status` varchar(50) default NULL COMMENT 'Order Status',
+  `shipping_description` varchar(255) default NULL COMMENT 'Shipping Description',
+  `orders_count` int(11) NOT NULL default '0' COMMENT 'Orders Count',
+  `total_shipping` decimal(12,4) default NULL COMMENT 'Total Shipping',
+  `total_shipping_actual` decimal(12,4) default NULL COMMENT 'Total Shipping Actual',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `UNQ_SALES_SHPP_AGGRED_PERIOD_STORE_ID_ORDER_STS_SHPP_DESCRIPTION` (`period`,`store_id`,`order_status`,`shipping_description`),
   KEY `IDX_SALES_SHIPPING_AGGREGATED_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_SHIPPING_AGGREGATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Shipping Aggregated';
 
-# Dumping data for table sales_shipping_aggregated: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_shipping_aggregated: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_shipping_aggregated` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_shipping_aggregated` ENABLE KEYS */;
 
 
-# Dumping structure for table sales_shipping_aggregated_order
+# Dumping structure for table s5152d29ad0535.sales_shipping_aggregated_order
 DROP TABLE IF EXISTS `sales_shipping_aggregated_order`;
 CREATE TABLE IF NOT EXISTS `sales_shipping_aggregated_order` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `period` date DEFAULT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
-  `order_status` varchar(50) DEFAULT NULL COMMENT 'Order Status',
-  `shipping_description` varchar(255) DEFAULT NULL COMMENT 'Shipping Description',
-  `orders_count` int(11) NOT NULL DEFAULT '0' COMMENT 'Orders Count',
-  `total_shipping` decimal(12,4) DEFAULT NULL COMMENT 'Total Shipping',
-  `total_shipping_actual` decimal(12,4) DEFAULT NULL COMMENT 'Total Shipping Actual',
-  PRIMARY KEY (`id`),
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
+  `order_status` varchar(50) default NULL COMMENT 'Order Status',
+  `shipping_description` varchar(255) default NULL COMMENT 'Shipping Description',
+  `orders_count` int(11) NOT NULL default '0' COMMENT 'Orders Count',
+  `total_shipping` decimal(12,4) default NULL COMMENT 'Total Shipping',
+  `total_shipping_actual` decimal(12,4) default NULL COMMENT 'Total Shipping Actual',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `C05FAE47282EEA68654D0924E946761F` (`period`,`store_id`,`order_status`,`shipping_description`),
   KEY `IDX_SALES_SHIPPING_AGGREGATED_ORDER_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SALES_SHIPPING_AGGREGATED_ORDER_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Shipping Aggregated Order';
 
-# Dumping data for table sales_shipping_aggregated_order: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sales_shipping_aggregated_order: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sales_shipping_aggregated_order` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sales_shipping_aggregated_order` ENABLE KEYS */;
 
 
-# Dumping structure for table sendfriend_log
+# Dumping structure for table s5152d29ad0535.sendfriend_log
 DROP TABLE IF EXISTS `sendfriend_log`;
 CREATE TABLE IF NOT EXISTS `sendfriend_log` (
-  `log_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Log ID',
-  `ip` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer IP address',
-  `time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Log time',
-  `website_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Website ID',
-  PRIMARY KEY (`log_id`),
+  `log_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Log ID',
+  `ip` bigint(20) unsigned NOT NULL default '0' COMMENT 'Customer IP address',
+  `time` int(10) unsigned NOT NULL default '0' COMMENT 'Log time',
+  `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website ID',
+  PRIMARY KEY  (`log_id`),
   KEY `IDX_SENDFRIEND_LOG_IP` (`ip`),
   KEY `IDX_SENDFRIEND_LOG_TIME` (`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Send to friend function log storage table';
 
-# Dumping data for table sendfriend_log: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sendfriend_log: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sendfriend_log` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sendfriend_log` ENABLE KEYS */;
 
 
-# Dumping structure for table shipping_tablerate
+# Dumping structure for table s5152d29ad0535.shipping_tablerate
 DROP TABLE IF EXISTS `shipping_tablerate`;
 CREATE TABLE IF NOT EXISTS `shipping_tablerate` (
-  `pk` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary key',
-  `website_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Website Id',
-  `dest_country_id` varchar(4) NOT NULL DEFAULT '0' COMMENT 'Destination coutry ISO/2 or ISO/3 code',
-  `dest_region_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Destination Region Id',
-  `dest_zip` varchar(10) NOT NULL DEFAULT '*' COMMENT 'Destination Post Code (Zip)',
+  `pk` int(10) unsigned NOT NULL auto_increment COMMENT 'Primary key',
+  `website_id` int(11) NOT NULL default '0' COMMENT 'Website Id',
+  `dest_country_id` varchar(4) NOT NULL default '0' COMMENT 'Destination coutry ISO/2 or ISO/3 code',
+  `dest_region_id` int(11) NOT NULL default '0' COMMENT 'Destination Region Id',
+  `dest_zip` varchar(10) NOT NULL default '*' COMMENT 'Destination Post Code (Zip)',
   `condition_name` varchar(20) NOT NULL COMMENT 'Rate Condition name',
-  `condition_value` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Rate condition value',
-  `price` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Price',
-  `cost` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Cost',
-  PRIMARY KEY (`pk`),
+  `condition_value` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Rate condition value',
+  `price` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Price',
+  `cost` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Cost',
+  PRIMARY KEY  (`pk`),
   UNIQUE KEY `D60821CDB2AFACEE1566CFC02D0D4CAA` (`website_id`,`dest_country_id`,`dest_region_id`,`dest_zip`,`condition_name`,`condition_value`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Shipping Tablerate';
 
-# Dumping data for table shipping_tablerate: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.shipping_tablerate: ~0 rows (approximately)
 /*!40000 ALTER TABLE `shipping_tablerate` DISABLE KEYS */;
 /*!40000 ALTER TABLE `shipping_tablerate` ENABLE KEYS */;
 
 
-# Dumping structure for table sitemap
+# Dumping structure for table s5152d29ad0535.sitemap
 DROP TABLE IF EXISTS `sitemap`;
 CREATE TABLE IF NOT EXISTS `sitemap` (
-  `sitemap_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Sitemap Id',
-  `sitemap_type` varchar(32) DEFAULT NULL COMMENT 'Sitemap Type',
-  `sitemap_filename` varchar(32) DEFAULT NULL COMMENT 'Sitemap Filename',
-  `sitemap_path` varchar(255) DEFAULT NULL COMMENT 'Sitemap Path',
-  `sitemap_time` timestamp NULL DEFAULT NULL COMMENT 'Sitemap Time',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store id',
-  PRIMARY KEY (`sitemap_id`),
+  `sitemap_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Sitemap Id',
+  `sitemap_type` varchar(32) default NULL COMMENT 'Sitemap Type',
+  `sitemap_filename` varchar(32) default NULL COMMENT 'Sitemap Filename',
+  `sitemap_path` varchar(255) default NULL COMMENT 'Sitemap Path',
+  `sitemap_time` timestamp NULL default NULL COMMENT 'Sitemap Time',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store id',
+  PRIMARY KEY  (`sitemap_id`),
   KEY `IDX_SITEMAP_STORE_ID` (`store_id`),
   CONSTRAINT `FK_SITEMAP_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='XML Sitemap';
 
-# Dumping data for table sitemap: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.sitemap: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sitemap` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sitemap` ENABLE KEYS */;
 
 
-# Dumping structure for table social_facebook_actions
+# Dumping structure for table s5152d29ad0535.social_facebook_actions
 DROP TABLE IF EXISTS `social_facebook_actions`;
 CREATE TABLE IF NOT EXISTS `social_facebook_actions` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
+  `entity_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Entity Id',
   `facebook_id` varchar(100) NOT NULL COMMENT 'Facebook User Id',
   `facebook_name` varchar(100) NOT NULL COMMENT 'Facebook User Name',
   `facebook_action` varchar(100) NOT NULL COMMENT 'User Action',
   `item_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
-  PRIMARY KEY (`entity_id`)
+  PRIMARY KEY  (`entity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Social Facebook Actions';
 
-# Dumping data for table social_facebook_actions: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.social_facebook_actions: ~0 rows (approximately)
 /*!40000 ALTER TABLE `social_facebook_actions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `social_facebook_actions` ENABLE KEYS */;
 
 
-# Dumping structure for table tag
+# Dumping structure for table s5152d29ad0535.tag
 DROP TABLE IF EXISTS `tag`;
 CREATE TABLE IF NOT EXISTS `tag` (
-  `tag_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Tag Id',
-  `name` varchar(255) DEFAULT NULL COMMENT 'Name',
-  `status` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Status',
-  `first_customer_id` int(10) unsigned DEFAULT NULL COMMENT 'First Customer Id',
-  `first_store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'First Store Id',
-  PRIMARY KEY (`tag_id`),
+  `tag_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Tag Id',
+  `name` varchar(255) default NULL COMMENT 'Name',
+  `status` smallint(6) NOT NULL default '0' COMMENT 'Status',
+  `first_customer_id` int(10) unsigned default NULL COMMENT 'First Customer Id',
+  `first_store_id` smallint(5) unsigned default NULL COMMENT 'First Store Id',
+  PRIMARY KEY  (`tag_id`),
   KEY `FK_TAG_FIRST_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` (`first_customer_id`),
   KEY `FK_TAG_FIRST_STORE_ID_CORE_STORE_STORE_ID` (`first_store_id`),
   CONSTRAINT `FK_TAG_FIRST_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`first_customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `FK_TAG_FIRST_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`first_store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tag';
 
-# Dumping data for table tag: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.tag: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tag` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tag` ENABLE KEYS */;
 
 
-# Dumping structure for table tag_properties
+# Dumping structure for table s5152d29ad0535.tag_properties
 DROP TABLE IF EXISTS `tag_properties`;
 CREATE TABLE IF NOT EXISTS `tag_properties` (
-  `tag_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Tag Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
-  `base_popularity` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Base Popularity',
-  PRIMARY KEY (`tag_id`,`store_id`),
+  `tag_id` int(10) unsigned NOT NULL default '0' COMMENT 'Tag Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  `base_popularity` int(10) unsigned NOT NULL default '0' COMMENT 'Base Popularity',
+  PRIMARY KEY  (`tag_id`,`store_id`),
   KEY `IDX_TAG_PROPERTIES_STORE_ID` (`store_id`),
   CONSTRAINT `FK_TAG_PROPERTIES_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_TAG_PROPERTIES_TAG_ID_TAG_TAG_ID` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tag Properties';
 
-# Dumping data for table tag_properties: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.tag_properties: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tag_properties` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tag_properties` ENABLE KEYS */;
 
 
-# Dumping structure for table tag_relation
+# Dumping structure for table s5152d29ad0535.tag_relation
 DROP TABLE IF EXISTS `tag_relation`;
 CREATE TABLE IF NOT EXISTS `tag_relation` (
-  `tag_relation_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Tag Relation Id',
-  `tag_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Tag Id',
-  `customer_id` int(10) unsigned DEFAULT NULL COMMENT 'Customer Id',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Store Id',
-  `active` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT 'Active',
-  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Created At',
-  PRIMARY KEY (`tag_relation_id`),
+  `tag_relation_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Tag Relation Id',
+  `tag_id` int(10) unsigned NOT NULL default '0' COMMENT 'Tag Id',
+  `customer_id` int(10) unsigned default NULL COMMENT 'Customer Id',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product Id',
+  `store_id` smallint(5) unsigned NOT NULL default '1' COMMENT 'Store Id',
+  `active` smallint(5) unsigned NOT NULL default '1' COMMENT 'Active',
+  `created_at` timestamp NULL default NULL COMMENT 'Created At',
+  PRIMARY KEY  (`tag_relation_id`),
   UNIQUE KEY `UNQ_TAG_RELATION_TAG_ID_CUSTOMER_ID_PRODUCT_ID_STORE_ID` (`tag_id`,`customer_id`,`product_id`,`store_id`),
   KEY `IDX_TAG_RELATION_PRODUCT_ID` (`product_id`),
   KEY `IDX_TAG_RELATION_TAG_ID` (`tag_id`),
@@ -9226,43 +10574,43 @@ CREATE TABLE IF NOT EXISTS `tag_relation` (
   CONSTRAINT `FK_TAG_RELATION_TAG_ID_TAG_TAG_ID` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tag Relation';
 
-# Dumping data for table tag_relation: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.tag_relation: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tag_relation` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tag_relation` ENABLE KEYS */;
 
 
-# Dumping structure for table tag_summary
+# Dumping structure for table s5152d29ad0535.tag_summary
 DROP TABLE IF EXISTS `tag_summary`;
 CREATE TABLE IF NOT EXISTS `tag_summary` (
-  `tag_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Tag Id',
-  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
-  `customers` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Customers',
-  `products` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Products',
-  `uses` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Uses',
-  `historical_uses` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Historical Uses',
-  `popularity` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Popularity',
-  `base_popularity` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Base Popularity',
-  PRIMARY KEY (`tag_id`,`store_id`),
+  `tag_id` int(10) unsigned NOT NULL default '0' COMMENT 'Tag Id',
+  `store_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Store Id',
+  `customers` int(10) unsigned NOT NULL default '0' COMMENT 'Customers',
+  `products` int(10) unsigned NOT NULL default '0' COMMENT 'Products',
+  `uses` int(10) unsigned NOT NULL default '0' COMMENT 'Uses',
+  `historical_uses` int(10) unsigned NOT NULL default '0' COMMENT 'Historical Uses',
+  `popularity` int(10) unsigned NOT NULL default '0' COMMENT 'Popularity',
+  `base_popularity` int(10) unsigned NOT NULL default '0' COMMENT 'Base Popularity',
+  PRIMARY KEY  (`tag_id`,`store_id`),
   KEY `IDX_TAG_SUMMARY_STORE_ID` (`store_id`),
   KEY `IDX_TAG_SUMMARY_TAG_ID` (`tag_id`),
   CONSTRAINT `FK_TAG_SUMMARY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_TAG_SUMMARY_TAG_ID_TAG_TAG_ID` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tag Summary';
 
-# Dumping data for table tag_summary: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.tag_summary: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tag_summary` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tag_summary` ENABLE KEYS */;
 
 
-# Dumping structure for table tax_calculation
+# Dumping structure for table s5152d29ad0535.tax_calculation
 DROP TABLE IF EXISTS `tax_calculation`;
 CREATE TABLE IF NOT EXISTS `tax_calculation` (
-  `tax_calculation_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Tax Calculation Id',
+  `tax_calculation_id` int(11) NOT NULL auto_increment COMMENT 'Tax Calculation Id',
   `tax_calculation_rate_id` int(11) NOT NULL COMMENT 'Tax Calculation Rate Id',
   `tax_calculation_rule_id` int(11) NOT NULL COMMENT 'Tax Calculation Rule Id',
   `customer_tax_class_id` smallint(6) NOT NULL COMMENT 'Customer Tax Class Id',
   `product_tax_class_id` smallint(6) NOT NULL COMMENT 'Product Tax Class Id',
-  PRIMARY KEY (`tax_calculation_id`),
+  PRIMARY KEY  (`tax_calculation_id`),
   KEY `IDX_TAX_CALCULATION_TAX_CALCULATION_RULE_ID` (`tax_calculation_rule_id`),
   KEY `IDX_TAX_CALCULATION_TAX_CALCULATION_RATE_ID` (`tax_calculation_rate_id`),
   KEY `IDX_TAX_CALCULATION_CUSTOMER_TAX_CLASS_ID` (`customer_tax_class_id`),
@@ -9274,7 +10622,7 @@ CREATE TABLE IF NOT EXISTS `tax_calculation` (
   CONSTRAINT `FK_TAX_CALC_TAX_CALC_RULE_ID_TAX_CALC_RULE_TAX_CALC_RULE_ID` FOREIGN KEY (`tax_calculation_rule_id`) REFERENCES `tax_calculation_rule` (`tax_calculation_rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Tax Calculation';
 
-# Dumping data for table tax_calculation: ~2 rows (approximately)
+# Dumping data for table s5152d29ad0535.tax_calculation: ~2 rows (approximately)
 /*!40000 ALTER TABLE `tax_calculation` DISABLE KEYS */;
 INSERT INTO `tax_calculation` (`tax_calculation_id`, `tax_calculation_rate_id`, `tax_calculation_rule_id`, `customer_tax_class_id`, `product_tax_class_id`) VALUES
 	(1, 1, 1, 3, 2),
@@ -9282,25 +10630,25 @@ INSERT INTO `tax_calculation` (`tax_calculation_id`, `tax_calculation_rate_id`, 
 /*!40000 ALTER TABLE `tax_calculation` ENABLE KEYS */;
 
 
-# Dumping structure for table tax_calculation_rate
+# Dumping structure for table s5152d29ad0535.tax_calculation_rate
 DROP TABLE IF EXISTS `tax_calculation_rate`;
 CREATE TABLE IF NOT EXISTS `tax_calculation_rate` (
-  `tax_calculation_rate_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Tax Calculation Rate Id',
+  `tax_calculation_rate_id` int(11) NOT NULL auto_increment COMMENT 'Tax Calculation Rate Id',
   `tax_country_id` varchar(2) NOT NULL COMMENT 'Tax Country Id',
   `tax_region_id` int(11) NOT NULL COMMENT 'Tax Region Id',
-  `tax_postcode` varchar(21) DEFAULT NULL COMMENT 'Tax Postcode',
+  `tax_postcode` varchar(21) default NULL COMMENT 'Tax Postcode',
   `code` varchar(255) NOT NULL COMMENT 'Code',
   `rate` decimal(12,4) NOT NULL COMMENT 'Rate',
-  `zip_is_range` smallint(6) DEFAULT NULL COMMENT 'Zip Is Range',
-  `zip_from` int(10) unsigned DEFAULT NULL COMMENT 'Zip From',
-  `zip_to` int(10) unsigned DEFAULT NULL COMMENT 'Zip To',
-  PRIMARY KEY (`tax_calculation_rate_id`),
+  `zip_is_range` smallint(6) default NULL COMMENT 'Zip Is Range',
+  `zip_from` int(10) unsigned default NULL COMMENT 'Zip From',
+  `zip_to` int(10) unsigned default NULL COMMENT 'Zip To',
+  PRIMARY KEY  (`tax_calculation_rate_id`),
   KEY `IDX_TAX_CALC_RATE_TAX_COUNTRY_ID_TAX_REGION_ID_TAX_POSTCODE` (`tax_country_id`,`tax_region_id`,`tax_postcode`),
   KEY `IDX_TAX_CALCULATION_RATE_CODE` (`code`),
   KEY `CA799F1E2CB843495F601E56C84A626D` (`tax_calculation_rate_id`,`tax_country_id`,`tax_region_id`,`zip_is_range`,`tax_postcode`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Tax Calculation Rate';
 
-# Dumping data for table tax_calculation_rate: ~2 rows (approximately)
+# Dumping data for table s5152d29ad0535.tax_calculation_rate: ~2 rows (approximately)
 /*!40000 ALTER TABLE `tax_calculation_rate` DISABLE KEYS */;
 INSERT INTO `tax_calculation_rate` (`tax_calculation_rate_id`, `tax_country_id`, `tax_region_id`, `tax_postcode`, `code`, `rate`, `zip_is_range`, `zip_from`, `zip_to`) VALUES
 	(1, 'US', 12, '*', 'US-CA-*-Rate 1', 8.2500, NULL, NULL, NULL),
@@ -9308,14 +10656,14 @@ INSERT INTO `tax_calculation_rate` (`tax_calculation_rate_id`, `tax_country_id`,
 /*!40000 ALTER TABLE `tax_calculation_rate` ENABLE KEYS */;
 
 
-# Dumping structure for table tax_calculation_rate_title
+# Dumping structure for table s5152d29ad0535.tax_calculation_rate_title
 DROP TABLE IF EXISTS `tax_calculation_rate_title`;
 CREATE TABLE IF NOT EXISTS `tax_calculation_rate_title` (
-  `tax_calculation_rate_title_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Tax Calculation Rate Title Id',
+  `tax_calculation_rate_title_id` int(11) NOT NULL auto_increment COMMENT 'Tax Calculation Rate Title Id',
   `tax_calculation_rate_id` int(11) NOT NULL COMMENT 'Tax Calculation Rate Id',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store Id',
   `value` varchar(255) NOT NULL COMMENT 'Value',
-  PRIMARY KEY (`tax_calculation_rate_title_id`),
+  PRIMARY KEY  (`tax_calculation_rate_title_id`),
   KEY `IDX_TAX_CALCULATION_RATE_TITLE_TAX_CALCULATION_RATE_ID_STORE_ID` (`tax_calculation_rate_id`,`store_id`),
   KEY `IDX_TAX_CALCULATION_RATE_TITLE_TAX_CALCULATION_RATE_ID` (`tax_calculation_rate_id`),
   KEY `IDX_TAX_CALCULATION_RATE_TITLE_STORE_ID` (`store_id`),
@@ -9323,40 +10671,40 @@ CREATE TABLE IF NOT EXISTS `tax_calculation_rate_title` (
   CONSTRAINT `FK_37FB965F786AD5897BB3AE90470C42AB` FOREIGN KEY (`tax_calculation_rate_id`) REFERENCES `tax_calculation_rate` (`tax_calculation_rate_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tax Calculation Rate Title';
 
-# Dumping data for table tax_calculation_rate_title: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.tax_calculation_rate_title: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tax_calculation_rate_title` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tax_calculation_rate_title` ENABLE KEYS */;
 
 
-# Dumping structure for table tax_calculation_rule
+# Dumping structure for table s5152d29ad0535.tax_calculation_rule
 DROP TABLE IF EXISTS `tax_calculation_rule`;
 CREATE TABLE IF NOT EXISTS `tax_calculation_rule` (
-  `tax_calculation_rule_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Tax Calculation Rule Id',
+  `tax_calculation_rule_id` int(11) NOT NULL auto_increment COMMENT 'Tax Calculation Rule Id',
   `code` varchar(255) NOT NULL COMMENT 'Code',
   `priority` int(11) NOT NULL COMMENT 'Priority',
   `position` int(11) NOT NULL COMMENT 'Position',
-  PRIMARY KEY (`tax_calculation_rule_id`),
+  PRIMARY KEY  (`tax_calculation_rule_id`),
   KEY `IDX_TAX_CALC_RULE_PRIORITY_POSITION_TAX_CALC_RULE_ID` (`priority`,`position`,`tax_calculation_rule_id`),
   KEY `IDX_TAX_CALCULATION_RULE_CODE` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Tax Calculation Rule';
 
-# Dumping data for table tax_calculation_rule: ~1 rows (approximately)
+# Dumping data for table s5152d29ad0535.tax_calculation_rule: ~1 rows (approximately)
 /*!40000 ALTER TABLE `tax_calculation_rule` DISABLE KEYS */;
 INSERT INTO `tax_calculation_rule` (`tax_calculation_rule_id`, `code`, `priority`, `position`) VALUES
 	(1, 'Retail Customer-Taxable Goods-Rate 1', 1, 1);
 /*!40000 ALTER TABLE `tax_calculation_rule` ENABLE KEYS */;
 
 
-# Dumping structure for table tax_class
+# Dumping structure for table s5152d29ad0535.tax_class
 DROP TABLE IF EXISTS `tax_class`;
 CREATE TABLE IF NOT EXISTS `tax_class` (
-  `class_id` smallint(6) NOT NULL AUTO_INCREMENT COMMENT 'Class Id',
+  `class_id` smallint(6) NOT NULL auto_increment COMMENT 'Class Id',
   `class_name` varchar(255) NOT NULL COMMENT 'Class Name',
-  `class_type` varchar(8) NOT NULL DEFAULT 'CUSTOMER' COMMENT 'Class Type',
-  PRIMARY KEY (`class_id`)
+  `class_type` varchar(8) NOT NULL default 'CUSTOMER' COMMENT 'Class Type',
+  PRIMARY KEY  (`class_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Tax Class';
 
-# Dumping data for table tax_class: ~2 rows (approximately)
+# Dumping data for table s5152d29ad0535.tax_class: ~2 rows (approximately)
 /*!40000 ALTER TABLE `tax_class` DISABLE KEYS */;
 INSERT INTO `tax_class` (`class_id`, `class_name`, `class_type`) VALUES
 	(2, 'Taxable Goods', 'PRODUCT'),
@@ -9364,107 +10712,107 @@ INSERT INTO `tax_class` (`class_id`, `class_name`, `class_type`) VALUES
 /*!40000 ALTER TABLE `tax_class` ENABLE KEYS */;
 
 
-# Dumping structure for table tax_order_aggregated_created
+# Dumping structure for table s5152d29ad0535.tax_order_aggregated_created
 DROP TABLE IF EXISTS `tax_order_aggregated_created`;
 CREATE TABLE IF NOT EXISTS `tax_order_aggregated_created` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `period` date DEFAULT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
   `code` varchar(255) NOT NULL COMMENT 'Code',
   `order_status` varchar(50) NOT NULL COMMENT 'Order Status',
-  `percent` float DEFAULT NULL COMMENT 'Percent',
-  `orders_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Orders Count',
-  `tax_base_amount_sum` float DEFAULT NULL COMMENT 'Tax Base Amount Sum',
-  PRIMARY KEY (`id`),
+  `percent` float default NULL COMMENT 'Percent',
+  `orders_count` int(10) unsigned NOT NULL default '0' COMMENT 'Orders Count',
+  `tax_base_amount_sum` float default NULL COMMENT 'Tax Base Amount Sum',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `FCA5E2C02689EB2641B30580D7AACF12` (`period`,`store_id`,`code`,`percent`,`order_status`),
   KEY `IDX_TAX_ORDER_AGGREGATED_CREATED_STORE_ID` (`store_id`),
   CONSTRAINT `FK_TAX_ORDER_AGGREGATED_CREATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tax Order Aggregation';
 
-# Dumping data for table tax_order_aggregated_created: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.tax_order_aggregated_created: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tax_order_aggregated_created` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tax_order_aggregated_created` ENABLE KEYS */;
 
 
-# Dumping structure for table tax_order_aggregated_updated
+# Dumping structure for table s5152d29ad0535.tax_order_aggregated_updated
 DROP TABLE IF EXISTS `tax_order_aggregated_updated`;
 CREATE TABLE IF NOT EXISTS `tax_order_aggregated_updated` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `period` date DEFAULT NULL COMMENT 'Period',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store Id',
+  `id` int(10) unsigned NOT NULL auto_increment COMMENT 'Id',
+  `period` date default NULL COMMENT 'Period',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store Id',
   `code` varchar(255) NOT NULL COMMENT 'Code',
   `order_status` varchar(50) NOT NULL COMMENT 'Order Status',
-  `percent` float DEFAULT NULL COMMENT 'Percent',
-  `orders_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Orders Count',
-  `tax_base_amount_sum` float DEFAULT NULL COMMENT 'Tax Base Amount Sum',
-  PRIMARY KEY (`id`),
+  `percent` float default NULL COMMENT 'Percent',
+  `orders_count` int(10) unsigned NOT NULL default '0' COMMENT 'Orders Count',
+  `tax_base_amount_sum` float default NULL COMMENT 'Tax Base Amount Sum',
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `DB0AF14011199AA6CD31D5078B90AA8D` (`period`,`store_id`,`code`,`percent`,`order_status`),
   KEY `IDX_TAX_ORDER_AGGREGATED_UPDATED_STORE_ID` (`store_id`),
   CONSTRAINT `FK_TAX_ORDER_AGGREGATED_UPDATED_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tax Order Aggregated Updated';
 
-# Dumping data for table tax_order_aggregated_updated: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.tax_order_aggregated_updated: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tax_order_aggregated_updated` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tax_order_aggregated_updated` ENABLE KEYS */;
 
 
-# Dumping structure for table webapi_role
+# Dumping structure for table s5152d29ad0535.webapi_role
 DROP TABLE IF EXISTS `webapi_role`;
 CREATE TABLE IF NOT EXISTS `webapi_role` (
-  `role_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Webapi role ID',
+  `role_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Webapi role ID',
   `role_name` varchar(255) NOT NULL COMMENT 'Role name is displayed in Adminhtml interface',
-  PRIMARY KEY (`role_id`),
+  PRIMARY KEY  (`role_id`),
   UNIQUE KEY `UNQ_WEBAPI_ROLE_ROLE_NAME` (`role_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Roles of unified webapi ACL';
 
-# Dumping data for table webapi_role: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.webapi_role: ~0 rows (approximately)
 /*!40000 ALTER TABLE `webapi_role` DISABLE KEYS */;
 /*!40000 ALTER TABLE `webapi_role` ENABLE KEYS */;
 
 
-# Dumping structure for table webapi_rule
+# Dumping structure for table s5152d29ad0535.webapi_rule
 DROP TABLE IF EXISTS `webapi_rule`;
 CREATE TABLE IF NOT EXISTS `webapi_rule` (
-  `rule_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rule ID',
+  `rule_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Rule ID',
   `resource_id` varchar(255) NOT NULL COMMENT 'Resource name. Must match resource calls in xml.',
   `role_id` int(10) unsigned NOT NULL COMMENT 'User role from webapi_role',
-  PRIMARY KEY (`rule_id`),
+  PRIMARY KEY  (`rule_id`),
   KEY `IDX_WEBAPI_RULE_ROLE_ID` (`role_id`),
   CONSTRAINT `FK_WEBAPI_RULE_ROLE_ID_WEBAPI_ROLE_ROLE_ID` FOREIGN KEY (`role_id`) REFERENCES `webapi_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Permissions of roles to resources';
 
-# Dumping data for table webapi_rule: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.webapi_rule: ~0 rows (approximately)
 /*!40000 ALTER TABLE `webapi_rule` DISABLE KEYS */;
 /*!40000 ALTER TABLE `webapi_rule` ENABLE KEYS */;
 
 
-# Dumping structure for table webapi_user
+# Dumping structure for table s5152d29ad0535.webapi_user
 DROP TABLE IF EXISTS `webapi_user`;
 CREATE TABLE IF NOT EXISTS `webapi_user` (
-  `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Webapi user ID',
+  `user_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Webapi user ID',
   `api_key` varchar(255) NOT NULL COMMENT 'Web API key',
-  `role_id` int(10) unsigned DEFAULT NULL COMMENT 'User role from webapi_role',
+  `role_id` int(10) unsigned default NULL COMMENT 'User role from webapi_role',
   `secret` varchar(255) NOT NULL COMMENT 'Secret used for authentication.',
-  `company_name` varchar(255) DEFAULT NULL COMMENT 'Company Name',
+  `company_name` varchar(255) default NULL COMMENT 'Company Name',
   `contact_email` varchar(255) NOT NULL COMMENT 'Contact Email',
-  PRIMARY KEY (`user_id`),
+  PRIMARY KEY  (`user_id`),
   UNIQUE KEY `UNQ_WEBAPI_USER_API_KEY` (`api_key`),
   KEY `IDX_WEBAPI_USER_ROLE_ID` (`role_id`),
   CONSTRAINT `FK_WEBAPI_USER_ROLE_ID_WEBAPI_ROLE_ROLE_ID` FOREIGN KEY (`role_id`) REFERENCES `webapi_role` (`role_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Users of unified webapi';
 
-# Dumping data for table webapi_user: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.webapi_user: ~0 rows (approximately)
 /*!40000 ALTER TABLE `webapi_user` DISABLE KEYS */;
 /*!40000 ALTER TABLE `webapi_user` ENABLE KEYS */;
 
 
-# Dumping structure for table weee_discount
+# Dumping structure for table s5152d29ad0535.weee_discount
 DROP TABLE IF EXISTS `weee_discount`;
 CREATE TABLE IF NOT EXISTS `weee_discount` (
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
-  `website_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Website Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website Id',
   `customer_group_id` smallint(5) unsigned NOT NULL COMMENT 'Customer Group Id',
-  `value` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Value',
+  `value` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Value',
   KEY `IDX_WEEE_DISCOUNT_WEBSITE_ID` (`website_id`),
   KEY `IDX_WEEE_DISCOUNT_ENTITY_ID` (`entity_id`),
   KEY `IDX_WEEE_DISCOUNT_CUSTOMER_GROUP_ID` (`customer_group_id`),
@@ -9473,23 +10821,23 @@ CREATE TABLE IF NOT EXISTS `weee_discount` (
   CONSTRAINT `FK_WEEE_DISCOUNT_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Weee Discount';
 
-# Dumping data for table weee_discount: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.weee_discount: ~0 rows (approximately)
 /*!40000 ALTER TABLE `weee_discount` DISABLE KEYS */;
 /*!40000 ALTER TABLE `weee_discount` ENABLE KEYS */;
 
 
-# Dumping structure for table weee_tax
+# Dumping structure for table s5152d29ad0535.weee_tax
 DROP TABLE IF EXISTS `weee_tax`;
 CREATE TABLE IF NOT EXISTS `weee_tax` (
-  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value Id',
-  `website_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Website Id',
-  `entity_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Entity Id',
-  `country` varchar(2) DEFAULT NULL COMMENT 'Country',
-  `value` decimal(12,4) NOT NULL DEFAULT '0.0000' COMMENT 'Value',
-  `state` varchar(255) NOT NULL DEFAULT '*' COMMENT 'State',
+  `value_id` int(11) NOT NULL auto_increment COMMENT 'Value Id',
+  `website_id` smallint(5) unsigned NOT NULL default '0' COMMENT 'Website Id',
+  `entity_id` int(10) unsigned NOT NULL default '0' COMMENT 'Entity Id',
+  `country` varchar(2) default NULL COMMENT 'Country',
+  `value` decimal(12,4) NOT NULL default '0.0000' COMMENT 'Value',
+  `state` varchar(255) NOT NULL default '*' COMMENT 'State',
   `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute Id',
   `entity_type_id` smallint(5) unsigned NOT NULL COMMENT 'Entity Type Id',
-  PRIMARY KEY (`value_id`),
+  PRIMARY KEY  (`value_id`),
   KEY `IDX_WEEE_TAX_WEBSITE_ID` (`website_id`),
   KEY `IDX_WEEE_TAX_ENTITY_ID` (`entity_id`),
   KEY `IDX_WEEE_TAX_COUNTRY` (`country`),
@@ -9500,73 +10848,79 @@ CREATE TABLE IF NOT EXISTS `weee_tax` (
   CONSTRAINT `FK_WEEE_TAX_ATTRIBUTE_ID_EAV_ATTRIBUTE_ATTRIBUTE_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Weee Tax';
 
-# Dumping data for table weee_tax: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.weee_tax: ~0 rows (approximately)
 /*!40000 ALTER TABLE `weee_tax` DISABLE KEYS */;
 /*!40000 ALTER TABLE `weee_tax` ENABLE KEYS */;
 
 
-# Dumping structure for table widget
+# Dumping structure for table s5152d29ad0535.widget
 DROP TABLE IF EXISTS `widget`;
 CREATE TABLE IF NOT EXISTS `widget` (
-  `widget_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Widget Id',
-  `widget_code` varchar(255) DEFAULT NULL COMMENT 'Widget code for template directive',
-  `widget_type` varchar(255) DEFAULT NULL COMMENT 'Widget Type',
+  `widget_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Widget Id',
+  `widget_code` varchar(255) default NULL COMMENT 'Widget code for template directive',
+  `widget_type` varchar(255) default NULL COMMENT 'Widget Type',
   `parameters` text COMMENT 'Parameters',
-  PRIMARY KEY (`widget_id`),
+  PRIMARY KEY  (`widget_id`),
   KEY `IDX_WIDGET_WIDGET_CODE` (`widget_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Preconfigured Widgets';
 
-# Dumping data for table widget: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.widget: ~0 rows (approximately)
 /*!40000 ALTER TABLE `widget` DISABLE KEYS */;
 /*!40000 ALTER TABLE `widget` ENABLE KEYS */;
 
 
-# Dumping structure for table widget_instance
+# Dumping structure for table s5152d29ad0535.widget_instance
 DROP TABLE IF EXISTS `widget_instance`;
 CREATE TABLE IF NOT EXISTS `widget_instance` (
-  `instance_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Instance Id',
-  `instance_type` varchar(255) DEFAULT NULL COMMENT 'Instance Type',
+  `instance_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Instance Id',
+  `instance_type` varchar(255) default NULL COMMENT 'Instance Type',
   `theme_id` int(10) unsigned NOT NULL COMMENT 'Theme id',
-  `title` varchar(255) DEFAULT NULL COMMENT 'Widget Title',
-  `store_ids` varchar(255) NOT NULL DEFAULT '0' COMMENT 'Store ids',
+  `title` varchar(255) default NULL COMMENT 'Widget Title',
+  `store_ids` varchar(255) NOT NULL default '0' COMMENT 'Store ids',
   `widget_parameters` text COMMENT 'Widget parameters',
-  `sort_order` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Sort order',
-  PRIMARY KEY (`instance_id`),
+  `sort_order` smallint(5) unsigned NOT NULL default '0' COMMENT 'Sort order',
+  PRIMARY KEY  (`instance_id`),
   KEY `FK_WIDGET_INSTANCE_THEME_ID_CORE_THEME_THEME_ID` (`theme_id`),
   CONSTRAINT `FK_WIDGET_INSTANCE_THEME_ID_CORE_THEME_THEME_ID` FOREIGN KEY (`theme_id`) REFERENCES `core_theme` (`theme_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Instances of Widget for Package Theme';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Instances of Widget for Package Theme';
 
-# Dumping data for table widget_instance: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.widget_instance: ~2 rows (approximately)
 /*!40000 ALTER TABLE `widget_instance` DISABLE KEYS */;
+INSERT INTO `widget_instance` (`instance_id`, `instance_type`, `theme_id`, `title`, `store_ids`, `widget_parameters`, `sort_order`) VALUES
+	(1, 'Enterprise_Banner_Block_Widget_Banner', 10, 'Free Shipping on All Handbags', '0', 'a:5:{s:12:"display_mode";s:5:"fixed";s:5:"types";a:1:{i:0;s:0:"";}s:6:"rotate";s:0:"";s:10:"banner_ids";s:1:"1";s:9:"unique_id";s:32:"95a6722cbe317a790e4701f1dafb278a";}', 0),
+	(2, 'Enterprise_Banner_Block_Widget_Banner', 10, '15% off Our New Evening Dresses', '0', 'a:5:{s:12:"display_mode";s:5:"fixed";s:5:"types";a:1:{i:0;s:0:"";}s:6:"rotate";s:0:"";s:10:"banner_ids";s:1:"2";s:9:"unique_id";s:32:"5d59e0010d28ca001157c76197fa1af7";}', 1);
 /*!40000 ALTER TABLE `widget_instance` ENABLE KEYS */;
 
 
-# Dumping structure for table widget_instance_page
+# Dumping structure for table s5152d29ad0535.widget_instance_page
 DROP TABLE IF EXISTS `widget_instance_page`;
 CREATE TABLE IF NOT EXISTS `widget_instance_page` (
-  `page_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Page Id',
-  `instance_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Instance Id',
-  `page_group` varchar(25) DEFAULT NULL COMMENT 'Block Group Type',
-  `layout_handle` varchar(255) DEFAULT NULL COMMENT 'Layout Handle',
-  `block_reference` varchar(255) DEFAULT NULL COMMENT 'Container',
-  `page_for` varchar(25) DEFAULT NULL COMMENT 'For instance entities',
+  `page_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Page Id',
+  `instance_id` int(10) unsigned NOT NULL default '0' COMMENT 'Instance Id',
+  `page_group` varchar(25) default NULL COMMENT 'Block Group Type',
+  `layout_handle` varchar(255) default NULL COMMENT 'Layout Handle',
+  `block_reference` varchar(255) default NULL COMMENT 'Container',
+  `page_for` varchar(25) default NULL COMMENT 'For instance entities',
   `entities` text COMMENT 'Catalog entities (comma separated)',
-  `page_template` varchar(255) DEFAULT NULL COMMENT 'Path to widget template',
-  PRIMARY KEY (`page_id`),
+  `page_template` varchar(255) default NULL COMMENT 'Path to widget template',
+  PRIMARY KEY  (`page_id`),
   KEY `IDX_WIDGET_INSTANCE_PAGE_INSTANCE_ID` (`instance_id`),
   CONSTRAINT `FK_WIDGET_INSTANCE_PAGE_INSTANCE_ID_WIDGET_INSTANCE_INSTANCE_ID` FOREIGN KEY (`instance_id`) REFERENCES `widget_instance` (`instance_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Instance of Widget on Page';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Instance of Widget on Page';
 
-# Dumping data for table widget_instance_page: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.widget_instance_page: ~2 rows (approximately)
 /*!40000 ALTER TABLE `widget_instance_page` DISABLE KEYS */;
+INSERT INTO `widget_instance_page` (`page_id`, `instance_id`, `page_group`, `layout_handle`, `block_reference`, `page_for`, `entities`, `page_template`) VALUES
+	(1, 1, 'pages', 'cms_index_index', 'top.container', 'all', '', 'widget/block.phtml'),
+	(2, 2, 'pages', 'cms_index_index', 'footer.before', 'all', '', 'widget/block.phtml');
 /*!40000 ALTER TABLE `widget_instance_page` ENABLE KEYS */;
 
 
-# Dumping structure for table widget_instance_page_layout
+# Dumping structure for table s5152d29ad0535.widget_instance_page_layout
 DROP TABLE IF EXISTS `widget_instance_page_layout`;
 CREATE TABLE IF NOT EXISTS `widget_instance_page_layout` (
-  `page_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Page Id',
-  `layout_update_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Layout Update Id',
+  `page_id` int(10) unsigned NOT NULL default '0' COMMENT 'Page Id',
+  `layout_update_id` int(10) unsigned NOT NULL default '0' COMMENT 'Layout Update Id',
   UNIQUE KEY `UNQ_WIDGET_INSTANCE_PAGE_LAYOUT_LAYOUT_UPDATE_ID_PAGE_ID` (`layout_update_id`,`page_id`),
   KEY `IDX_WIDGET_INSTANCE_PAGE_LAYOUT_PAGE_ID` (`page_id`),
   KEY `IDX_WIDGET_INSTANCE_PAGE_LAYOUT_LAYOUT_UPDATE_ID` (`layout_update_id`),
@@ -9574,41 +10928,44 @@ CREATE TABLE IF NOT EXISTS `widget_instance_page_layout` (
   CONSTRAINT `FK_0A5D06DCEC6A6845F50E5FAAC5A1C96D` FOREIGN KEY (`layout_update_id`) REFERENCES `core_layout_update` (`layout_update_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Layout updates';
 
-# Dumping data for table widget_instance_page_layout: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.widget_instance_page_layout: ~2 rows (approximately)
 /*!40000 ALTER TABLE `widget_instance_page_layout` DISABLE KEYS */;
+INSERT INTO `widget_instance_page_layout` (`page_id`, `layout_update_id`) VALUES
+	(1, 1),
+	(2, 2);
 /*!40000 ALTER TABLE `widget_instance_page_layout` ENABLE KEYS */;
 
 
-# Dumping structure for table wishlist
+# Dumping structure for table s5152d29ad0535.wishlist
 DROP TABLE IF EXISTS `wishlist`;
 CREATE TABLE IF NOT EXISTS `wishlist` (
-  `wishlist_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Wishlist ID',
-  `customer_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Customer ID',
-  `shared` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Sharing flag (0 or 1)',
-  `sharing_code` varchar(32) DEFAULT NULL COMMENT 'Sharing encrypted code',
-  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Last updated date',
-  PRIMARY KEY (`wishlist_id`),
+  `wishlist_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Wishlist ID',
+  `customer_id` int(10) unsigned NOT NULL default '0' COMMENT 'Customer ID',
+  `shared` smallint(5) unsigned NOT NULL default '0' COMMENT 'Sharing flag (0 or 1)',
+  `sharing_code` varchar(32) default NULL COMMENT 'Sharing encrypted code',
+  `updated_at` timestamp NULL default NULL COMMENT 'Last updated date',
+  PRIMARY KEY  (`wishlist_id`),
   UNIQUE KEY `UNQ_WISHLIST_CUSTOMER_ID` (`customer_id`),
   KEY `IDX_WISHLIST_SHARED` (`shared`),
   CONSTRAINT `FK_WISHLIST_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Wishlist main Table';
 
-# Dumping data for table wishlist: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.wishlist: ~0 rows (approximately)
 /*!40000 ALTER TABLE `wishlist` DISABLE KEYS */;
 /*!40000 ALTER TABLE `wishlist` ENABLE KEYS */;
 
 
-# Dumping structure for table wishlist_item
+# Dumping structure for table s5152d29ad0535.wishlist_item
 DROP TABLE IF EXISTS `wishlist_item`;
 CREATE TABLE IF NOT EXISTS `wishlist_item` (
-  `wishlist_item_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Wishlist item ID',
-  `wishlist_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Wishlist ID',
-  `product_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Product ID',
-  `store_id` smallint(5) unsigned DEFAULT NULL COMMENT 'Store ID',
-  `added_at` timestamp NULL DEFAULT NULL COMMENT 'Add date and time',
+  `wishlist_item_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Wishlist item ID',
+  `wishlist_id` int(10) unsigned NOT NULL default '0' COMMENT 'Wishlist ID',
+  `product_id` int(10) unsigned NOT NULL default '0' COMMENT 'Product ID',
+  `store_id` smallint(5) unsigned default NULL COMMENT 'Store ID',
+  `added_at` timestamp NULL default NULL COMMENT 'Add date and time',
   `description` text COMMENT 'Short description of wish list item',
   `qty` decimal(12,4) NOT NULL COMMENT 'Qty',
-  PRIMARY KEY (`wishlist_item_id`),
+  PRIMARY KEY  (`wishlist_item_id`),
   KEY `IDX_WISHLIST_ITEM_WISHLIST_ID` (`wishlist_id`),
   KEY `IDX_WISHLIST_ITEM_PRODUCT_ID` (`product_id`),
   KEY `IDX_WISHLIST_ITEM_STORE_ID` (`store_id`),
@@ -9617,25 +10974,25 @@ CREATE TABLE IF NOT EXISTS `wishlist_item` (
   CONSTRAINT `FK_WISHLIST_ITEM_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Wishlist items';
 
-# Dumping data for table wishlist_item: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.wishlist_item: ~0 rows (approximately)
 /*!40000 ALTER TABLE `wishlist_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `wishlist_item` ENABLE KEYS */;
 
 
-# Dumping structure for table wishlist_item_option
+# Dumping structure for table s5152d29ad0535.wishlist_item_option
 DROP TABLE IF EXISTS `wishlist_item_option`;
 CREATE TABLE IF NOT EXISTS `wishlist_item_option` (
-  `option_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Option Id',
+  `option_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Option Id',
   `wishlist_item_id` int(10) unsigned NOT NULL COMMENT 'Wishlist Item Id',
   `product_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
   `code` varchar(255) NOT NULL COMMENT 'Code',
   `value` text COMMENT 'Value',
-  PRIMARY KEY (`option_id`),
+  PRIMARY KEY  (`option_id`),
   KEY `FK_A014B30B04B72DD0EAB3EECD779728D6` (`wishlist_item_id`),
   CONSTRAINT `FK_A014B30B04B72DD0EAB3EECD779728D6` FOREIGN KEY (`wishlist_item_id`) REFERENCES `wishlist_item` (`wishlist_item_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Wishlist Item Option Table';
 
-# Dumping data for table wishlist_item_option: ~0 rows (approximately)
+# Dumping data for table s5152d29ad0535.wishlist_item_option: ~0 rows (approximately)
 /*!40000 ALTER TABLE `wishlist_item_option` DISABLE KEYS */;
 /*!40000 ALTER TABLE `wishlist_item_option` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
