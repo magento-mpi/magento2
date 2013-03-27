@@ -123,11 +123,9 @@ class Mage_DesignEditor_Model_Translate_InlineVdeTest extends PHPUnit_Framework_
 
         // Ensure each data-translate element has a translate-mode attribute
         foreach ($translations as $translation) {
-            foreach ($translation->attributes as $attribute) {
-                $translateMode = $translation->getAttribute('data-translate-mode');
-                $this->assertNotEmpty($translateMode);
-                $this->assertTrue("text" == $translateMode || "script" == $translateMode || "alt" == $translateMode);
-            }
+            $translateMode = $translation->getAttribute('data-translate-mode');
+            $this->assertNotEmpty($translateMode);
+            $this->assertTrue("text" == $translateMode || "script" == $translateMode || "alt" == $translateMode);
         }
     }
 

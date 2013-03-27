@@ -17,10 +17,26 @@
             this.element.find('[data-translate-selected="script"]').on('click', $.proxy(this._onClickScript, this));
             this.element.find('[data-translate-selected="alt"]').on('click', $.proxy(this._onClickAlt, this));
 
-            this.element.find('[vde-translate]').on('mouseover', $.proxy(this._onMouseOver, this))
-                                                .on('mouseout', $.proxy(this._onMouseOut, this))
-                                                .on('mousedown', $.proxy(this._onMouseDown, this))
-                                                .on('mouseup', $.proxy(this._onMouseUp, this));
+            this.element.find('[vde-translate]')
+                .on('mouseover', $.proxy(this._onMouseOver, this))
+                .on('mouseout', $.proxy(this._onMouseOut, this))
+                .on('mousedown', $.proxy(this._onMouseDown, this))
+                .on('mouseup', $.proxy(this._onMouseUp, this))
+                .on('disableInlineTranslation', $.proxy(this._disableInlineTranslation, this));
+        },
+
+        /**
+         * Disable inline translation.
+         *
+         * @param event
+         * @param data
+         * @private
+         */
+        _disableInlineTranslation: function (event, data) {
+            this.options.refreshVdeCanvas = false;
+            this.options.frameUrl = data.frameUrl;
+
+            this._toggle(data.mode);
         },
 
         /**
@@ -133,7 +149,7 @@
                  */
             }
             else {
-                this.options.frameBody.translateInlineDialogVde('toggleStyle', mode);
+                this.options.dialogWidgetElement.translateInlineDialogVde('toggleStyle', mode);
             }
          },
 
