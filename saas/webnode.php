@@ -33,10 +33,12 @@ return function (array $params)
         readfile($robotsFile);
         return;
     }
+    $appParams = $config->getApplicationParams();
+    $appParams[Mage::PARAM_MODE] = Mage_Core_Model_App_State::MODE_PRODUCTION; // Default mode for Saas web-node
 
     Magento_Profiler::start('mage');
     $entryPoint = new Mage_Core_Model_EntryPoint_Http(
-        new Mage_Core_Model_Config_Primary($rootDir, $config->getApplicationParams())
+        new Mage_Core_Model_Config_Primary($rootDir, $appParams)
     );
     $entryPoint->processRequest();
     Magento_Profiler::stop('mage');
