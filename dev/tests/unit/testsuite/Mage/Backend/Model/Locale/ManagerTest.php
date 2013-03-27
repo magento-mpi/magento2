@@ -22,21 +22,25 @@ class Mage_Backend_Model_Locale_ManagerTest extends PHPUnit_Framework_TestCase
     protected $_translator;
 
     /**
-     * @var Mage_Backend_Model_Auth_Session
+     * @var Mage_Backend_Model_Session
      */
-    protected $_backendSession;
+    protected $_session;
 
     /**
-     * Setup before tests
+     * @var Mage_Backend_Model_Auth_Session
      */
+    protected $_authSession;
+
     public function setUp()
     {
-        $this->_backendSession = $this->getMock('Mage_Backend_Model_Auth_Session',
+        $this->_session = $this->getMock('Mage_Backend_Model_Session', array(), array(), '', false);
+
+        $this->_authSession = $this->getMock('Mage_Backend_Model_Auth_Session',
             array('getUser'), array(), '', false);
 
         $userMock = new Varien_Object();
 
-        $this->_backendSession->expects($this->any())
+        $this->_authSession->expects($this->any())
             ->method('getUser')
             ->will($this->returnValue($userMock));
 
@@ -51,12 +55,10 @@ class Mage_Backend_Model_Locale_ManagerTest extends PHPUnit_Framework_TestCase
             ->method('init')
             ->will($this->returnValue(false));
 
-        $this->_model = new Mage_Backend_Model_Locale_Manager($this->_backendSession, $this->_translator);
+        $this->_model = new Mage_Backend_Model_Locale_Manager($this->_session, $this->_authSession, $this->_translator);
     }
 
     /**
-     * Test testSwitchBackendInterfaceLocale data provider
-     *
      * @return array
      */
     public function switchBackendInterfaceLocaleDataProvider()
@@ -72,8 +74,6 @@ class Mage_Backend_Model_Locale_ManagerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for switchBackendInterfaceLocale method
-     *
      * @param string $locale
      * @dataProvider switchBackendInterfaceLocaleDataProvider
      * @covers Mage_Backend_Model_Locale_Manager::switchBackendInterfaceLocale
@@ -82,27 +82,24 @@ class Mage_Backend_Model_Locale_ManagerTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->switchBackendInterfaceLocale($locale);
 
-        $userInterfaceLocale = $this->_backendSession->getUser()->getInterfaceLocale();
+        $userInterfaceLocale = $this->_authSession->getUser()->getInterfaceLocale();
         $this->assertEquals($userInterfaceLocale, $locale);
+
+        $sessionLocale = $this->_session->getSessionLocale();
+        $this->assertEquals($sessionLocale, null);
     }
 
     /**
-     * Test for getUserInterfaceLocale method
-     * default locale
-     *
      * @covers Mage_Backend_Model_Locale_Manager::getUserInterfaceLocale
      */
     public function testGetUserInterfaceLocaleDefault()
     {
         $locale = $this->_model->getUserInterfaceLocale();
 
-        $this->assertEquals($locale, Mage_Core_Model_Locale::DEFAULT_LOCALE);
+        $this->assertEquals($locale, Mage_Core_Model_LocaleInterface::DEFAULT_LOCALE);
     }
 
     /**
-     * Test for getUserInterfaceLocale method
-     * non-default locale
-     *
      * @covers Mage_Backend_Model_Locale_Manager::getUserInterfaceLocale
      */
     public function testGetUserInterfaceLocale()

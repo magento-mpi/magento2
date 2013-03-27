@@ -49,15 +49,12 @@
         </routers>
     </admin>
     <adminhtml>
+        <di>
+            <preferences>
+                <Mage_Core_Model_LocaleInterface>Mage_Backend_Model_Locale</Mage_Core_Model_LocaleInterface>
+            </preferences>
+        </di>
         <events>
-            <core_locale_set_locale>
-                <observers>
-                    <bind_locale>
-                        <class>Mage_Adminhtml_Model_Observer</class>
-                        <method>bindLocale</method>
-                    </bind_locale>
-                </observers>
-            </core_locale_set_locale>
             <admin_system_config_changed_section_admin>
                 <observers>
                     <bind_locale>

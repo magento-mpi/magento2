@@ -12,25 +12,24 @@
  * Locale validator model
  *
  * @category   Mage
- * @package    Mage_Backend
+ * @package    Mage_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Locale_Validator
+class Mage_Core_Model_Locale_Validator
 {
     /**
-     * @var Mage_Core_Model_Locale
+     * @var Mage_Core_Model_Locale_Config
      */
-    protected $_locale;
+    protected $_localeConfig;
 
     /**
      * Constructor
      *
-     * @param Mage_Core_Model_Locale $locale
+     * @param Mage_Core_Model_Locale_Config $localeConfig
      */
-    public function __construct(
-        Mage_Core_Model_Locale $locale
-    ) {
-        $this->_locale = $locale;
+    public function __construct(Mage_Core_Model_Locale_Config $localeConfig)
+    {
+        $this->_localeConfig = $localeConfig;
     }
 
     /**
@@ -42,7 +41,7 @@ class Mage_Backend_Model_Locale_Validator
     public function isValid($localeCode)
     {
         $isValid = true;
-        $allowedLocaleCodes = array_keys($this->_locale->getTranslatedOptionLocales());
+        $allowedLocaleCodes = $this->_localeConfig->getAllowedLocales();
 
         if (!$localeCode || !in_array($localeCode, $allowedLocaleCodes)) {
             $isValid = false;

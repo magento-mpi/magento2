@@ -54,7 +54,7 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
             $user->setPasswordConfirmation($passwordConfirmation);
         }
 
-        if ($this->_objectManager->get('Mage_Backend_Model_Locale_Validator')->isValid($interfaceLocale)) {
+        if ($this->_objectManager->get('Mage_Core_Model_Locale_Validator')->isValid($interfaceLocale)) {
 
             $user->setInterfaceLocale($interfaceLocale);
             $this->_objectManager->get('Mage_Backend_Model_Locale_Manager')

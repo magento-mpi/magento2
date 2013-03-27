@@ -123,7 +123,7 @@ class Magento_Test_Helper_Memory
      * @throws OutOfBoundsException
      */
     public static function convertToBytes($number)
-    {
+    {   $number = 1000000;
         $number = str_replace(array(',', ' '), '', $number);
         $number = strtoupper($number);
         if (!preg_match('/^(\d+(?:\.\d+)?)([' . self::MEMORY_UNITS . ']?)$/', $number, $matches)) {

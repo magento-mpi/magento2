@@ -160,7 +160,7 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
     public function testGetLocale()
     {
         $locale = $this->_model->getLocale();
-        $this->assertInstanceOf('Mage_Core_Model_Locale', $locale);
+        $this->assertInstanceOf('Mage_Core_Model_LocaleInterface', $locale);
         $this->assertSame($locale, $this->_model->getLocale());
     }
 

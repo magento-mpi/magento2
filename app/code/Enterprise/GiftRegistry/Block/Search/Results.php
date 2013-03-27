@@ -47,7 +47,7 @@ class Enterprise_GiftRegistry_Block_Search_Results extends Mage_Core_Block_Templ
     public function getFormattedDate($item)
     {
         if ($item->getEventDate()) {
-            return $this->formatDate($item->getEventDate(), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
+            return $this->formatDate($item->getEventDate(), Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
         }
     }
 }
