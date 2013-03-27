@@ -30,6 +30,7 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
     /**
      * Update product index when product data updated
      *
+     * @deprecated since 1.11
      * @param Varien_Event_Observer $observer
      * @return Mage_CatalogSearch_Model_Fulltext_Observer
      */
@@ -47,6 +48,7 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
     /**
      * Clean product index when product deleted or marked as unsearchable/invisible
      *
+     * @deprecated since 1.11
      * @param Varien_Event_Observer $observer
      * @return Mage_CatalogSearch_Model_Fulltext_Observer
      */
@@ -131,6 +133,7 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
     /**
      * Catalog Product mass website update
      *
+     * @deprecated since 1.11
      * @param Varien_Event_Observer $observer
      * @return Mage_CatalogSearch_Model_Fulltext_Observer
      */
