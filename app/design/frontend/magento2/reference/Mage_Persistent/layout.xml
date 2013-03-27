@@ -37,8 +37,10 @@
         </reference>
         <reference name="checkout.onepage.billing">
             <action method="setTemplate"><template>Mage_Persistent::checkout/onepage/billing.phtml</template></action>
-            <block type="Mage_Persistent_Block_Form_Remember" name="persistent.remember.me" template="remember_me.phtml" />
-            <block type="Mage_Core_Block_Template" name="persistent.remember.me.tooltip" template="Mage_Persistent::remember_me_tooltip.phtml" />
+            <container name="form.additional.info" label="invisible" as="form.additional.info">
+                <block type="Mage_Persistent_Block_Form_Remember" name="persistent.remember.me" template="remember_me.phtml" before="-" />
+                <block type="Mage_Core_Block_Template" name="persistent.remember.me.tooltip" template="Mage_Persistent::remember_me_tooltip.phtml" />
+            </container>
         </reference>
     </checkout_onepage_index>
 </layout>

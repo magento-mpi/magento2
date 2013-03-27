@@ -56,7 +56,7 @@ $_registerParam = $this->getRequest()->getParam('register');
                             failureUrl: '<?php echo $this->getUrl('checkout/cart') ?>',
                             getAddressUrl: '<?php echo $this->getUrl('checkout/onepage/getAddress') ?>address/',
                             checkoutAgreements: '#checkout-agreements',
-                            checkoutProgressContainer: '#col-right-opcheckout',
+                            checkoutProgressContainer: '#checkout-progress-wrapper',
                             checkout: {
                                 suggestRegistration: <?php echo ($_registerParam || $_registerParam === '') ? 'true' : 'false' ?>,
                                 saveUrl: '<?php echo $this->getUrl('checkout/onepage/saveMethod') ?>'

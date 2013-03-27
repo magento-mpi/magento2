@@ -1714,13 +1714,20 @@ select:disabled {
   float: left;
   width: 200px;
 }
-.block.progress.onepage .content {
-  padding-top: 30px;
-}
 .block.progress.onepage dt {
   font-size: 16px;
   font-weight: 400;
   margin: 0 0 10px 0;
+}
+.block.progress.onepage dt a {
+  font-size: 14px;
+}
+.block.progress.onepage dd.complete {
+  padding: 0;
+  margin: 0 0 30px;
+}
+.block.progress.onepage address {
+  font-style: normal;
 }
 .opc.wrapper {
   float: right;
@@ -1780,6 +1787,93 @@ select:disabled {
   display: block;
   margin-bottom: 20px;
 }
+.opc.wrapper .form:not(.login) .fieldset {
+  padding: 0;
+  margin: 20px 0;
+  border: 0;
+}
+.opc.wrapper .form:not(.login) .fieldset > .field {
+  width: 50%;
+  display: inline-block;
+  padding-right: 20px;
+  vertical-align: top;
+}
+.opc.wrapper .form:not(.login) .field {
+  margin: 0 0 10px;
+}
+.opc.wrapper .form:not(.login) .field:last-child {
+  margin-bottom: 0;
+}
+.opc.wrapper .form:not(.login) .field .nested {
+  padding: 0 0 5px;
+}
+.opc.wrapper .form:not(.login) .field .nested .field {
+  margin: 5px 0;
+}
+.opc.wrapper .form:not(.login) .field:not(.choice) .label {
+  display: block;
+  padding-bottom: 5px;
+}
+.opc.wrapper .form:not(.login) .actions {
+  *zoom: 1;
+  text-align: right;
+}
+.opc.wrapper .form:not(.login) .actions:before,
+.opc.wrapper .form:not(.login) .actions:after {
+  content: "";
+  display: table;
+}
+.opc.wrapper .form:not(.login) .actions:after {
+  clear: both;
+}
+.opc.wrapper .form:not(.login) .actions button.action {
+  float: right;
+  border: none;
+  border-radius: 0;
+  background: #f47a1f;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.opc.wrapper .form:not(.login) .actions button.action span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.opc.wrapper .form:not(.login) .actions .secondary {
+  padding-top: 10px;
+  clear: right;
+  float: right;
+}
+.opc.wrapper .form:not(.login) .field.country,
+.opc.wrapper .form:not(.login) .field.taxvat {
+  margin: 0 40% 30px 0;
+}
+.opc.wrapper .form:not(.login) .field.password {
+  margin: 20px 30% 0 0;
+}
+.opc.wrapper .form:not(.login) .field.choice {
+  width: 100%;
+  display: block;
+}
+.opc.wrapper .form:not(.login) .field.persistent,
+.opc.wrapper .form:not(.login) .field.save {
+  margin: 20px 0 0;
+}
+.opc.wrapper .form:not(.login) .field.addresses {
+  margin-bottom: 20px;
+}
+.opc.wrapper .form:not(.login):after {
+  content: attr(data-hasrequired);
+  display: block;
+  letter-spacing: normal;
+  word-spacing: normal;
+  color: #f47a1f;
+}
 .opc.loading .active {
   position: relative;
   z-index: 1;
@@ -1792,7 +1886,7 @@ select:disabled {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.1);
 }
 /* Step login */
 .step.login.wrapper {
@@ -1884,6 +1978,7 @@ select:disabled {
 .fieldset.guest > .field .nested .field {
   margin: 5px 0;
 }
+/* Step Billing */
 /*
  *    Mage_Checkout
  *
