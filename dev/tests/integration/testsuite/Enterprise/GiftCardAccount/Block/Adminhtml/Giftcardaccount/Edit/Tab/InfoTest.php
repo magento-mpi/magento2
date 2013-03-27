@@ -27,7 +27,6 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTe
     public function setUp()
     {
         parent::setUp();
-        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_TRANSLATE);
         $layout = Mage::getModel('Mage_Core_Model_Layout');
 
         $this->_block = $layout

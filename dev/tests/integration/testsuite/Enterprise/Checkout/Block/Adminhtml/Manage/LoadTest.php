@@ -20,7 +20,6 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_LoadTest extends Mage_Backend_A
     protected function setUp()
     {
         parent::setUp();
-        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_TRANSLATE);
         $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Enterprise_Checkout_Block_Adminhtml_Manage_Load');
     }
