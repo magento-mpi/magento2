@@ -10,7 +10,7 @@
 ?>
 
 <?php if ($this->canRefundToCustomerBalance()): ?>
-    <p>
+    <div>
         <label for="creditmemo_customerbalance_return_enable"><?php echo Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Refund to Store Credit') ?></label>
         <input type="hidden" name="creditmemo[refund_customerbalance_return_enable]" value="0">
         <input type="checkbox" name="creditmemo[refund_customerbalance_return_enable]" value="1" id="creditmemo_customerbalance_return_enable"<?php if (Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isAutoRefundEnabled()): ?> checked="checked"<?php endif ?>>
@@ -29,5 +29,5 @@
             toggleCustomerBalanceRefundAmount();
         //]]>
         </script>
-    </p>
+    </div>
 <?php endif; ?>

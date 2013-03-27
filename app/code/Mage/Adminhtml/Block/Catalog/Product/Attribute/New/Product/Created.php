@@ -32,11 +32,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created extends
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes')
                 ->setGroupAttributes($this->_getGroupAttributes())
         );
-
-        $this->addChild('close_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'   => Mage::helper('Mage_Catalog_Helper_Data')->__('Close Window'),
-            'onclick' => 'addAttribute(true)'
-        ));
     }
 
     /**

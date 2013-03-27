@@ -155,7 +155,9 @@ class Magento_Test_Application
         Mage::$headersSentThrowsException = false;
         $config = new Mage_Core_Model_Config_Primary(BP, $this->_customizeParams($overriddenParams));
         if (!Mage::getObjectManager()) {
-            $objectManager = new Magento_Test_ObjectManager(new Magento_ObjectManager_Definition_Runtime(), $config);
+            $definition = new Magento_ObjectManager_Definition_Runtime();
+            $definitionDecorator = new Magento_Code_Generator_DefinitionDecorator($definition);
+            $objectManager = new Magento_Test_ObjectManager($definitionDecorator, $config);
             Mage::setObjectManager($objectManager);
         } else {
             $config->configure(Mage::getObjectManager());

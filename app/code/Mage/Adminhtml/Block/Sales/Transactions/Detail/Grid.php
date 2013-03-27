@@ -56,7 +56,8 @@ class Mage_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Mage_Adminhtml
             'index'     => 'key',
             'sortable'  => false,
             'type'      => 'text',
-            'width'     => '50%'
+            'header_css_class'  => 'col-key',
+            'column_css_class'  => 'col-key'
         ));
 
         $this->addColumn('value', array(
@@ -64,7 +65,9 @@ class Mage_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Mage_Adminhtml
             'index'     => 'value',
             'sortable'  => false,
             'type'      => 'text',
-            'escape'    => true
+            'escape'    => true,
+            'header_css_class'  => 'col-value',
+            'column_css_class'  => 'col-value'
         ));
 
         return parent::_prepareColumns();

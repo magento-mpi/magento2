@@ -75,15 +75,40 @@ class Mage_Launcher_Adminhtml_Storelauncher_IndexController extends Mage_Launche
      */
     public function launchAction()
     {
-        //@TODO: Check page is completed
-        $this->_configWriter->save('design/head/demonotice', 0);
-        $this->_configWriter->save(
-            Mage_Launcher_Helper_Data::CONFIG_PATH_LAUNCHER_PHASE,
-            Mage_Launcher_Helper_Data::LAUNCHER_PHASE_PROMOTE_STORE
-        );
-        $this->_configModel->reinit();
-        $responseContent = $this->_launcherHelper->jsonEncode(array(
+        $responseContent = array();
+        /** @var $page Mage_Launcher_Model_Page */
+        $page = $this->_objectManager->create('Mage_Launcher_Model_Page')->loadByPageCode('store_launcher');
+        if ($page->isComplete()) {
+            $this->_configWriter->save('design/head/demonotice', 0);
+            $this->_configWriter->save(
+                Mage_Launcher_Helper_Data::CONFIG_PATH_LAUNCHER_PHASE,
+                Mage_Launcher_Helper_Data::LAUNCHER_PHASE_PROMOTE_STORE
+            );
+            $this->_configModel->reinit();
+            $responseContent = array(
+                'success' => true,
+            );
+        } else {
+            $responseContent = array(
+                'success' => false,
+                'error_message' => $this->_launcherHelper->__('All Tiles have to be completed before this action.')
+            );
+        }
+
+        $this->getResponse()->setBody($this->_launcherHelper->jsonEncode($responseContent));
+    }
+
+    /**
+     * Change state after showing Welcome Screen
+     */
+    public function showScreenAction()
+    {
+        $launcherFlag = $this->_objectManager->get('Mage_Launcher_Model_Storelauncher_Flag');
+        $launcherFlag->loadSelf()->setState(1);
+        $launcherFlag->save();
+        $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
             'success' => true,
+            'error_message' => '',
         ));
         $this->getResponse()->setBody($responseContent);
     }

@@ -69,7 +69,7 @@ class Mage_Core_Model_Event_InvokerDefault implements Mage_Core_Model_Event_Invo
     {
         if (method_exists($object, $method)) {
             $object->$method($observer);
-        } elseif ($this->_appState->isDeveloperMode()) {
+        } elseif ($this->_appState->getMode() == Mage_Core_Model_App_State::MODE_DEVELOPER) {
             Mage::throwException('Method "' . $method . '" is not defined in "' . get_class($object) . '"');
         }
         return $this;

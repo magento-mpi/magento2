@@ -59,6 +59,10 @@ class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db
      */
     protected function _getFetchUpdatesByHandleSelect($loadAllUpdates = false)
     {
+        //TODO Why it also loads layout updates for store_id=0, isn't it Admin Store View?
+        //If 0 means 'all stores' why it then refers by foreign key to Admin in `core_store` and not to something named
+        // 'All Stores'?
+
         $select = $this->_getReadAdapter()->select()
             ->from(array('layout_update' => $this->getMainTable()), array('xml'))
             ->join(array('link' => $this->getTable('core_layout_link')),

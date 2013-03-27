@@ -30,7 +30,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     /**
      * Theme custom css file
      *
-     * @var Mage_Core_Model_Theme_Files
+     * @var Mage_Core_Model_Theme_File
      */
     protected $_customCssFile;
 
@@ -46,8 +46,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         Mage_Theme_Model_Uploader_Service $uploaderService,
         array $data = array()
     ) {
-        parent::__construct($context, $objectManager, $data
-        );
+        parent::__construct($context, $objectManager, $data);
         $this->_uploaderService = $uploaderService;
     }
 
@@ -268,6 +267,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      * Get url to downlaod CSS file
      *
      * @param string $fileId
+     * @param int $themeId
      * @return string
      */
     public function getDownloadUrl($fileId, $themeId)

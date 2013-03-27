@@ -29,6 +29,11 @@ class Mage_DesignEditor_Model_Editor_Tools_ImageSizing_Validator
     const FIELD_IMAGE_WIDTH = 'image-width';
 
     /**
+     * Control type for image ratio
+     */
+    const FIELD_IMAGE_RATIO = 'image-ratio';
+
+    /**
      * Control type for image height
      */
     const FIELD_IMAGE_HEIGHT = 'image-height';
@@ -47,6 +52,7 @@ class Mage_DesignEditor_Model_Editor_Tools_ImageSizing_Validator
         self::FIELD_WHITE_BORDER,
         self::FIELD_IMAGE_TYPE,
         self::FIELD_IMAGE_WIDTH,
+        self::FIELD_IMAGE_RATIO,
         self::FIELD_IMAGE_HEIGHT
     );
 
@@ -164,6 +170,10 @@ class Mage_DesignEditor_Model_Editor_Tools_ImageSizing_Validator
                     array('class' => 'Zend_Validate_Between', 'options' => array(
                         'min' => 0, 'max' => self::MAX_SIZE_VALUE, 'inclusive' => true
                 )));
+                break;
+            case self::FIELD_IMAGE_RATIO:
+                $validators = array(
+                    array('class' => 'Zend_Validate_InArray', 'options' => array('haystack' => array('0', '1'))));
                 break;
             case self::FIELD_IMAGE_TYPE:
                 $validators = array(

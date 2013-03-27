@@ -48,18 +48,21 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
     /**
      * @param string $baseDir
      * @param array $params
+     * @param Mage_Core_Model_Dir $dir
+     * @param Mage_Core_Model_Config_LoaderInterface $loader
      */
-    public function __construct($baseDir, array $params)
-    {
+    public function __construct(
+        $baseDir, array $params, Mage_Core_Model_Dir $dir = null, Mage_Core_Model_Config_LoaderInterface $loader = null
+    ) {
         parent::__construct('<config/>');
         $this->_params = $params;
-        $this->_dir = new Mage_Core_Model_Dir(
+        $this->_dir = $dir ?: new Mage_Core_Model_Dir(
             new Magento_Filesystem(new Magento_Filesystem_Adapter_Local()),
             $baseDir,
             $this->getParam(Mage::PARAM_APP_URIS, array()),
             $this->getParam(Mage::PARAM_APP_DIRS, array())
         );
-        $this->_loader = new Mage_Core_Model_Config_Loader_Primary(
+        $this->_loader = $loader ?: new Mage_Core_Model_Config_Loader_Primary(
             new Mage_Core_Model_Config_Loader_Local(
                 $this->_dir->getDir(Mage_Core_Model_Dir::CONFIG),
                 $this->getParam(Mage::PARAM_CUSTOM_LOCAL_CONFIG),
@@ -127,11 +130,28 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
     /**
      * Retrieve class definition config
      *
-     * @return array
+     * @return string
      */
-    public function getDefinitionConfig()
+    public function getDefinitionPath()
     {
-        return (array) $this->getNode('global/di/definitions');
+        $pathInfo = (array) $this->getNode('global/di/definitions');
+        if (isset($pathInfo['path'])) {
+            return $pathInfo['path'];
+        } else if (isset($pathInfo['relativePath'])) {
+            return $this->_dir->getDir(Mage_Core_Model_Dir::ROOT) . DIRECTORY_SEPARATOR . $pathInfo['relativePath'];
+        } else {
+            return $this->_dir->getDir(Mage_Core_Model_Dir::DI) . DIRECTORY_SEPARATOR . 'definitions.php';
+        }
+    }
+
+    /**
+     * Retrieve definition format
+     *
+     * @return string
+     */
+    public function getDefinitionFormat()
+    {
+        return (string) $this->getNode('global/di/definitions/format');
     }
 
     /**

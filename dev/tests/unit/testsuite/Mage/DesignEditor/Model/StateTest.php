@@ -69,7 +69,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     protected $_urlModelFactory;
 
     /**
-     * @var Mage_Core_Model_CacheInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Model_Cache|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheManager;
 
@@ -109,7 +109,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_urlModelFactory = $this->getMock('Mage_DesignEditor_Model_Url_Factory', array('replaceClassName'),
             array(), '', false
         );
-        $this->_cacheManager = $this->getMock('Mage_Core_Model_CacheInterface');
+        $this->_cacheManager = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
         $this->_dataHelper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getDisabledCacheTypes'),
             array(), '', false
         );
@@ -187,7 +187,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->with('vde_current_mode', Mage_DesignEditor_Model_State::MODE_DESIGN);
         $this->_backendSession->expects($this->once())
             ->method('getData')
-            ->with('theme_id')
+            ->with(Mage_DesignEditor_Model_State::CURRENT_THEME_SESSION_KEY)
             ->will($this->returnValue(self::THEME_ID));
 
         $this->_urlModelFactory->expects($this->once())
@@ -223,7 +223,9 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->with($this->logicalOr(
                 Mage_DesignEditor_Model_State::CURRENT_HANDLE_SESSION_KEY,
                 Mage_DesignEditor_Model_State::CURRENT_MODE_SESSION_KEY,
-                Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY
+                Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY,
+                Mage_DesignEditor_Model_State::VIRTUAL_THEME_SESSION_KEY,
+                Mage_DesignEditor_Model_State::CURRENT_THEME_SESSION_KEY
             ))
             ->will($this->returnValue($this->_backendSession));
 
