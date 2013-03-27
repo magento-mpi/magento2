@@ -11,7 +11,7 @@
 -->
 <layout>
     <adminhtml_dashboard_index>
-        <reference name="dashboard.head.links">
+        <reference name="page-title">
             <block type="Mage_Backend_Block_Template" name="dashboard.store.links" template="Mage_Launcher::dashboard/links.phtml"/>
         </reference>
     </adminhtml_dashboard_index>

@@ -28,19 +28,31 @@
             </hgroup>
             <ul class="checklist">
                 <li class="completed"><?php echo $this->__('Store Info'); ?></li>
+                <li class="completed"><?php echo $this->__('Store Design'); ?></li>
+                <li class="completed"><?php echo $this->__('Payments'); ?></li>
+                <li class="completed"><?php echo $this->__('Shipping'); ?></li>
                 <li class="completed"><?php echo $this->__('Tax Rules'); ?></li>
-                <li class="completed"><?php echo $this->__('Design Theme'); ?></li>
-                <li class="completed"><?php echo $this->__('Shipping info'); ?></li>
-                <li class="completed"><?php echo $this->__('PayPal Express'); ?></li>
-                <li class="completed"><?php echo $this->__('Products (x)'); ?></li>
+                <li class="completed"><?php echo $this->__('Products'); ?></li>
             </ul>
             <p class="launch-tagline">
                 <?php echo $this->__('Before opening, you can'); ?>
             </p>
             <ul class="launch-actions">
-                <li><a href="#"><?php echo $this->__('Preview your store'); ?></a></li>
-                <li><a href="#"><?php echo $this->__('Add more products'); ?></a></li>
-                <li><a href="#"><?php echo $this->__('Run a test transaction'); ?></a></li>
+                <li>
+                    <a href="<?php echo Mage::getBaseUrl(); ?>">
+                        <?php echo $this->__('Preview your store'); ?>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo $this->getUrl('adminhtml/catalog_product/index'); ?>">
+                        <?php echo $this->__('Add more products'); ?>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo $this->getUrl('checkout/cart') ?>">
+                        <?php echo $this->__('Run a test transaction'); ?>
+                    </a>
+                </li>
             </ul>
             <a id="action-launch-store"
                href="<?php echo Mage::getBaseUrl(); ?>"

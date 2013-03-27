@@ -43,11 +43,15 @@
                     data-load-url="<?php echo $this->getUrl('*/storelauncher_shipping_drawer/load') ?>">
                 <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit Shipping') ?></span>
             </button>
-            <a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'carriers')); ?>"
-               class="action-more-shipping-options">
-                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Set Up More Shipping Options') ?>
-            </a>
         </div>
+        <footer class="tile-more-info">
+            <p class="tile-more-info-label"><?php echo $this->escapeHtml($this->__('Go here for all your shipping options:')); ?></p>
+            <p class="tile-more-info-breadcrumbs">
+                <span><?php echo $this->escapeHtml($this->__('Stores')); ?></span>
+                <span><?php echo $this->escapeHtml($this->__('Settings')); ?></span>
+                <a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'carriers')); ?>"><?php echo $this->__('Configurations'); ?></a>.
+            </p>
+        </footer>
         <?php endif; ?>
     </div>
 </article>

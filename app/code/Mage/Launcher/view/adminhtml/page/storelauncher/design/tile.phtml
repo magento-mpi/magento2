@@ -23,14 +23,13 @@
             <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                     data-save-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/save') ?>"
                     data-load-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/load') ?>">
-                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Open Store Design') ?>
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Open Store Design') ?></span>
             </button>
         </div>
     </div>
 
     <div class="tile-done">
         <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
-        <p><strong><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('You have already configured Design') ?></strong></p>
         <ul class="checklist">
         <?php $themeName = $this->getThemeName(); ?>
         <?php if (!empty($themeName)) :?>
@@ -48,10 +47,17 @@
             <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                     data-save-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/save') ?>"
                     data-load-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/load') ?>">
-                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Design Settings') ?>
+                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit Design') ?></span>
             </button>
-            <a class="action-design-editor" href="<?php echo $this->getUrl('adminhtml/system_design_editor/index') ?>"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Design Editor') ?></a>
         </div>
+        <footer class="tile-more-info">
+            <p class="tile-more-info-label"><?php echo $this->escapeHtml($this->__('Customize your store even more:')); ?></p>
+            <p class="tile-more-info-breadcrumbs">
+                <span><?php echo $this->escapeHtml($this->__('Content')); ?></span>
+                <span><?php echo $this->escapeHtml($this->__('Design')); ?></span>
+                <a href="<?php echo $this->getUrl('adminhtml/system_design_editor/index') ?>"><?php echo $this->__('The Designer'); ?></a>.
+            </p>
+        </footer>
         <?php endif; ?>
     </div>
 </article>

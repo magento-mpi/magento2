@@ -114,7 +114,7 @@
             });
 
             $('.' + this.options.tourPrefix + '-tag-top-menu').css({
-                top: topMenuPosition
+                top: topMenuPosition - 12
             });
 
             $('.' + this.options.tourPrefix + '-tag-store-launcher').css({
@@ -166,7 +166,7 @@
         },
 
         _toggleStoreTourMode: function(event) {
-            var elem = $(event.target),
+            var elem = $(event.target).closest('#action-toggle-' + this.options.tourPrefix + '-mode'),
                 storeTourWrapper = $('#' + this.options.tourPrefix + '-wrapper'),
                 tourPrefix = this.options.tourPrefix;
 
@@ -228,7 +228,7 @@
 
             this._oldToggleStoreTourMode = this._toggleStoreTourMode;
             this._toggleStoreTourMode =  function(event) {
-                var elem = $(event.target);
+                var elem = $(event.target).closest('#action-toggle-' + this.options.tourPrefix + '-mode');
                 if (elem.hasClass('active')) {
                     this._hideWelcomeScreen();
                     $('.' + this.options.tourPrefix + '-demo-content').remove();

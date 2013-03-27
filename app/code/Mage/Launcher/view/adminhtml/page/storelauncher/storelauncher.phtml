@@ -13,14 +13,16 @@
 
 <section class="store-launcher">
     <div class="page-title">
-        <h1 class="title"><?php echo $this->__('Store Launcher'); ?></h1>
-        <div class="actions">
-            <button class="action-launch-store primary"
-                <?php if (!$this->getPage()->isComplete()): ?>disabled="disabled"<?php endif; ?>
-                    id="action-launch-my-store"
-                    data-show-popup="launch-my-store">
-                <span><?php echo $this->__('Launch My Store'); ?></span>
-            </button>
+        <div class="page-title-inner">
+            <h1 class="title"><?php echo $this->__('Store Launcher'); ?></h1>
+            <div class="actions">
+                <button class="action-launch-store primary"
+                        <?php if (!$this->getPage()->isComplete()): ?>disabled="disabled"<?php endif; ?>
+                        id="action-launch-my-store"
+                        data-show-popup="launch-my-store">
+                    <span><?php echo $this->__('Launch My Store'); ?></span>
+                </button>
+            </div>
         </div>
     </div>
     <div id="store-launcher-content" class="store-launcher-content">
@@ -57,7 +59,7 @@
 <script type="text/javascript">
 (function($) {
     $(document).ready(function() {
-        if($('#welcome-screen').length) {
+        if ($('#welcome-screen').length) {
             $('#welcome-screen').welcomScreen(
                 {'ajaxUrl': "<?php echo $this->getUrl('*/storelauncher_index/showScreen');?>"}
             );
