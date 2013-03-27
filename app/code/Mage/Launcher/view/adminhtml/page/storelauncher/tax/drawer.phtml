@@ -19,8 +19,8 @@
     <?php endif; ?>
         <input type="checkbox"
                id="tax-enabled"
-                <?php if (!$this->isUseTaxControlSwitchedOff()) : ?>checked="checked" <?php endif; ?>
-                <?php if ($this->isUseTaxControlDisabled()) : ?>disabled="disabled" <?php else : ?>name="use_tax" <?php endif; ?>
+               <?php if (!$this->isUseTaxControlSwitchedOff()) : ?>checked="checked" <?php endif; ?>
+               <?php if ($this->isUseTaxControlDisabled()) : ?>disabled="disabled" <?php else : ?>name="use_tax" <?php endif; ?>
                value="tax-enabled" />
         <label class="switcher-label"
                for="tax-enabled"
@@ -64,28 +64,17 @@
     (function ($) {
         $(document).ready(function() {
             'use strict';
-            var drawerForm = $('#drawer-form'),
-                taxRuleConfig = $('#tax-rule-config'),
-                noTaxInfo = $('#tax-rule-disabled'),
-                drawerSwitcher = '.drawer-header-inner .drawer-switcher :checkbox';
 
-            $('body')
-                .on('change.drawerStatus', drawerSwitcher, function() {
-                    var elem = $(this),
-                        elemId = elem.prop('id').replace('copy-','');
+            var toggleCheckbox = '.drawer-header-inner .drawer-switcher :checkbox',
+                drawerHeader = $('.drawer-header');
 
-                    if (elem.is(':checked')) {
-                        drawerForm.removeClass('ignore-validate');
-                        taxRuleConfig.removeClass('disabled');
-                        noTaxInfo.addClass('hidden');
-                        $('#' + elemId).prop('checked', true);
-                    } else {
-                        drawerForm.addClass('ignore-validate');
-                        taxRuleConfig.addClass('disabled');
-                        noTaxInfo.removeClass('hidden');
-                        $('#' + elemId).prop('checked', false);
-                    }
+            drawerHeader.unbind('change');
+            drawerHeader.on('change', toggleCheckbox, function() {
+                $(toggleCheckbox).toggleStatus({
+                    'disabledMessage': '.no-tax-info',
+                    'formsToDisable': ['.tax-rule-config']
                 });
+            });
         });
     })(window.jQuery);
 </script>

@@ -83,14 +83,17 @@ $address = $this->getAddress();
                 originAddressView.hide();
                 originAddressForm.show();
             };
+
+        $("#shipping-origin-address").mage('form').mage('validation');
+
         saveOriginAddress
             .on('click.OriginAddressSave', function(event) {
                 event.preventDefault();
                 var drawerForm = $('#shipping-origin-address').validation();
-                originAddressForm.addClass('loading');
                 if (!drawerForm.valid()) {
                     return;
                 }
+                originAddressForm.addClass('loading');
 
                 $.ajax({
                     type: 'POST',

@@ -16,7 +16,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
     <h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Shipping Disabled') ?></h2>
     <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Shipping for your store is now turned off. Use the switch above to turn on shipping.') ?></p>
 </div>
-<form action="" class="shipping-config-form<?php if (!$this->isShippingEnabled()): ?> ignore-validate disabled<?php endif; ?>" id="drawer-form" method="post">
+<form action="" class="shipping-config-form ignore-validate <?php if (!$this->isShippingEnabled()): ?>disabled<?php endif; ?>" id="drawer-form" method="post">
 
     <div class="switcher drawer-switcher">
         <input type="checkbox" id="shipping_enabled" name="shipping_enabled" <?php if ($this->isShippingEnabled()): ?> checked="checked" <?php endif; ?> value="1" />
@@ -69,7 +69,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Display Name'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="text" class="input-text" id="flat-rate-name" name="groups[flatrate][fields][name][value]" value="<?php echo $this->getConfigValue('carriers/flatrate/name'); ?>">
+                            <input type="text" class="input-text required-entry" id="flat-rate-name" name="groups[flatrate][fields][name][value]" value="<?php echo $this->getConfigValue('carriers/flatrate/name'); ?>">
                         </div>
                     </div>
 
@@ -78,7 +78,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Price'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="text" class="input-text" id="flat-rate-price" name="groups[flatrate][fields][price][value]" value="<?php echo $this->getConfigValue('carriers/flatrate/price'); ?>">
+                            <input type="text" class="input-text validate-number validate-zero-or-greater required-entry" id="flat-rate-price" name="groups[flatrate][fields][price][value]" value="<?php echo $this->getConfigValue('carriers/flatrate/price'); ?>">
                         </div>
                     </div>
 
@@ -114,7 +114,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Account ID'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="fedex-id" name="groups[fedex][fields][account][value]" value="<?php echo $this->getObscuredConfigValue('carriers/fedex/account'); ?>">
+                            <input type="password" class="input-text required-entry" id="fedex-id" name="groups[fedex][fields][account][value]" value="<?php echo $this->getObscuredConfigValue('carriers/fedex/account'); ?>">
                         </div>
                     </div>
 
@@ -123,7 +123,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Meter Number'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="fedex-meter-number" name="groups[fedex][fields][meter_number][value]" value="<?php echo $this->getObscuredConfigValue('carriers/fedex/meter_number'); ?>">
+                            <input type="password" class="input-text required-entry" id="fedex-meter-number" name="groups[fedex][fields][meter_number][value]" value="<?php echo $this->getObscuredConfigValue('carriers/fedex/meter_number'); ?>">
                         </div>
                     </div>
 
@@ -132,7 +132,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Key'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="fedex-key" name="groups[fedex][fields][key][value]" value="<?php echo $this->getObscuredConfigValue('carriers/fedex/key'); ?>">
+                            <input type="password" class="input-text required-entry" id="fedex-key" name="groups[fedex][fields][key][value]" value="<?php echo $this->getObscuredConfigValue('carriers/fedex/key'); ?>">
                         </div>
                     </div>
 
@@ -141,7 +141,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="fedex-password" name="groups[fedex][fields][password][value]" value="<?php echo $this->getObscuredConfigValue('carriers/fedex/password'); ?>">
+                            <input type="password" class="input-text required-entry" id="fedex-password" name="groups[fedex][fields][password][value]" value="<?php echo $this->getObscuredConfigValue('carriers/fedex/password'); ?>">
                         </div>
                     </div>
 
@@ -166,7 +166,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User ID'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="usps-id" name="groups[usps][fields][userid][value]" value="<?php echo $this->getObscuredConfigValue('carriers/usps/userid'); ?>">
+                            <input type="password" class="input-text required-entry" id="usps-id" name="groups[usps][fields][userid][value]" value="<?php echo $this->getObscuredConfigValue('carriers/usps/userid'); ?>">
                         </div>
                     </div>
 
@@ -175,7 +175,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="usps-password" name="groups[usps][fields][password][value]" value="<?php echo $this->getObscuredConfigValue('carriers/usps/password'); ?>">
+                            <input type="password" class="input-text required-entry" id="usps-password" name="groups[usps][fields][password][value]" value="<?php echo $this->getObscuredConfigValue('carriers/usps/password'); ?>">
                         </div>
                     </div>
 
@@ -200,7 +200,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Access ID'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="dhl-id" name="groups[dhlint][fields][id][value]" value="<?php echo $this->getObscuredConfigValue('carriers/dhlint/id'); ?>">
+                            <input type="password" class="input-text required-entry" id="dhl-id" name="groups[dhlint][fields][id][value]" value="<?php echo $this->getObscuredConfigValue('carriers/dhlint/id'); ?>">
                         </div>
                     </div>
 
@@ -209,7 +209,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="dhl-password" name="groups[dhlint][fields][password][value]" value="<?php echo $this->getObscuredConfigValue('carriers/dhlint/password'); ?>">
+                            <input type="password" class="input-text required-entry" id="dhl-password" name="groups[dhlint][fields][password][value]" value="<?php echo $this->getObscuredConfigValue('carriers/dhlint/password'); ?>">
                         </div>
                     </div>
 
@@ -218,7 +218,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Account Number'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="text" class="input-text" id="dhl-account-number" name="groups[dhlint][fields][account][value]" value="<?php echo $this->getConfigValue('carriers/dhlint/account'); ?>">
+                            <input type="text" class="input-text required-entry" id="dhl-account-number" name="groups[dhlint][fields][account][value]" value="<?php echo $this->getConfigValue('carriers/dhlint/account'); ?>">
                         </div>
                     </div>
 
@@ -243,7 +243,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Password'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="ups-password" name="groups[ups][fields][password][value]" value="<?php echo $this->getObscuredConfigValue('carriers/ups/password'); ?>">
+                            <input type="password" class="input-text required-entry" id="ups-password" name="groups[ups][fields][password][value]" value="<?php echo $this->getObscuredConfigValue('carriers/ups/password'); ?>">
                         </div>
                     </div>
 
@@ -252,7 +252,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Access License Number'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="ups-license-number" name="groups[ups][fields][access_license_number][value]" value="<?php echo $this->getObscuredConfigValue('carriers/ups/access_license_number'); ?>">
+                            <input type="password" class="input-text required-entry" id="ups-license-number" name="groups[ups][fields][access_license_number][value]" value="<?php echo $this->getObscuredConfigValue('carriers/ups/access_license_number'); ?>">
                         </div>
                     </div>
 
@@ -261,7 +261,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
                             <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('User ID'); ?></span>
                         </label>
                         <div class="control">
-                            <input type="password" class="input-text" id="ups-user-id" name="groups[ups][fields][username][value]" value="<?php echo $this->getObscuredConfigValue('carriers/ups/username'); ?>">
+                            <input type="password" class="input-text required-entry" id="ups-user-id" name="groups[ups][fields][username][value]" value="<?php echo $this->getObscuredConfigValue('carriers/ups/username'); ?>">
                         </div>
                     </div>
 
@@ -286,77 +286,19 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
         $(document).ready(function() {
             'use strict';
 
-            var drawerForm = $('#drawer-form'),
-                shippingConfig = $('#shipping-vendors'),
-                shippingStatusDisabled = $('#shipping-disabled'),
-                shippingOriginAddress  = '#shipping-origin-address-wrapper',
-                drawerSwitcher = '.drawer-header-inner .drawer-switcher :checkbox',
-                shippingTabsNav = $('#shipping-tabs-nav'),
-                removeValidationMessage = function() {
-                    setTimeout(function() {
-                        $('.message-validation').slideUp(400);
-                    }, 3000);
-                };
+            var toggleCheckbox = '.drawer-header-inner .drawer-switcher :checkbox',
+                drawerHeader = $('.drawer-header');
 
-            $('body')
-                .on('change.drawerStatus', drawerSwitcher, function() {
-                    var elem = $(this),
-                        elemId = elem.prop('id').replace('copy-','');
+            $('.action-save-method').partiallyValidateDrawer({'currentSection': '.shipping-tabs-nav'});
 
-                    if (elem.is(':checked')) {
-                        drawerForm
-                            .removeClass('ignore-validate')
-                            .add(shippingOriginAddress)
-                            .removeClass('disabled');
-                         shippingStatusDisabled.addClass('hidden');
-                        $('#'+elemId).prop('checked', true);
-                    } else {
-                        drawerForm
-                            .addClass('ignore-validate')
-                            .add(shippingOriginAddress)
-                            .addClass('disabled');
-                         shippingStatusDisabled.removeClass('hidden');
-                        $('#'+elemId).prop('checked', false);
-                    }
+            drawerHeader.unbind('change');
+            drawerHeader.on('change', toggleCheckbox, function() {
+                $(toggleCheckbox).toggleStatus({
+                    'disabledMessage': '.shipping-disabled',
+                    'formsToDisable': ['.shipping-config-form', '.shipping-origin-address-wrapper'],
+                    'needValidate': false
                 });
-
-            $('.action-save-method')
-                .on('click.saveShippingMethod', function(event) {
-                    var elem = $(this),
-                        legend = elem.closest('.fieldset').find('.legend'),
-                        fields = elem
-                            .closest('.shipping-config')
-                            .find(':input'),
-                        insertValidationMessage = function(messageText, messageType) {
-                            $('<div class="message-validation ' + messageType + '">' + messageText + '</div>')
-                                .insertAfter(legend);
-                            removeValidationMessage();
-                        };
-
-                    event.preventDefault();
-                    var ajaxOptions = {
-                        type: 'POST',
-                        showLoader: true,
-                        data: fields.serialize(),
-                        dataType: 'json',
-                        url: elem.attr('data-save-url'),
-                        success: function(result, status) {
-                            if (result.success) {
-                                if (result && result.message) {
-                                    shippingTabsNav
-                                        .find('.active')
-                                        .addClass('configured');
-                                    insertValidationMessage(result.message,'success');
-                                }
-                            } else {
-                                if (result && result.error_message) {
-                                    insertValidationMessage(result.error_message,'error');
-                                }
-                            }
-                        }
-                    };
-                    $.ajax(ajaxOptions);
-                });
+            });
         });
     })(jQuery);
 </script>

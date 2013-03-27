@@ -260,6 +260,105 @@
         }
     });
 
+    $.widget('storeCreation.partiallyValidateDrawer', {
+        options: {
+            currentSection: ''
+        },
+
+        _create: function() {
+            this.currentSection = $(this.options.currentSection);
+
+            this.element.on('click.saveMethod', $.proxy(function(event) {
+                event.preventDefault();
+                var elem = this.element,
+                    fieldset = elem.closest('.fieldset'),
+                    fields = fieldset.find(':input'),
+                    legend = fieldset.find('.legend'),
+                    id = fieldset.attr('id'),
+                    removeValidationMessage = function() {
+                        setTimeout(function() {
+                            $('.message-validation').slideUp(400);
+                        }, 3000);
+                    },
+                    insertValidationMessage = function(messageText, messageType) {
+                        $('<div class="message-validation ' + messageType + '">' + messageText + '</div>')
+                            .insertAfter(legend);
+                        removeValidationMessage();
+                    };
+
+                var validationNotPassed = fields.filter(function(index, element) {
+                    return !$.validator.validateElement(element);
+                }).length;
+
+                if (validationNotPassed != 0) {
+                    return;
+                }
+
+                var ajaxOptions = {
+                    type: 'POST',
+                    showLoader: true,
+                    data: fields.serialize(),
+                    dataType: 'json',
+                    url: elem.attr('data-save-url'),
+                    success: $.proxy(function(result, status) {
+                        if (result.success) {
+                            if (result && result.message) {
+                                insertValidationMessage(result.message,'success');
+                                this.currentSection.find('.active').addClass('configured');
+                            }
+                        } else {
+                            if (result && result.error_message) {
+                                insertValidationMessage(result.error_message,'error');
+                            }
+                        }
+                    }, this)
+                };
+                $.ajax(ajaxOptions);
+            }, this));
+        }
+    });
+
+    $.widget('storeCreation.toggleStatus', {
+        options: {
+            formsToDisable: [],
+            disabledMessage: '',
+            needValidate: true,
+            drawerForm: '#drawer-form'
+        },
+
+        _create: function() {
+            this.drawerForm = $(this.options.drawerForm);
+            this.disabledMessage = $(this.options.disabledMessage);
+            this.element.on('change.drawerStatus', $.proxy(this._toggleStatus, this));
+            this._toggleStatus();
+        },
+
+        _toggleStatus: function() {
+            var elem = this.element,
+                elemId = elem.prop('id').replace('copy-','');
+
+            if (elem.is(':checked')) {
+                $.each(this.options.formsToDisable, $.proxy(function(index, element) {
+                    $(element).removeClass('disabled');
+                }, this));
+                if (this.options.needValidate) {
+                    this.drawerForm.removeClass('ignore-validate');
+                }
+                this.disabledMessage.addClass('hidden');
+                $('#' + elemId).prop('checked', true);
+            } else {
+                $.each(this.options.formsToDisable, $.proxy(function(index, element) {
+                    $(element).addClass('disabled');
+                }, this));
+                if (this.options.needValidate) {
+                    this.drawerForm.addClass('ignore-validate');
+                }
+                this.disabledMessage.removeClass('hidden');
+                $('#' + elemId).prop('checked', false);
+            }
+        }
+    });
+
     $(document).ready(function() {
         $('.tile-store-settings [class^="action"]')
             .add('.tile-store-settings a')
