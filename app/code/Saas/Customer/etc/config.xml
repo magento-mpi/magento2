@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Saas_Customer>
+            <version>2.0.0.0</version>
+            <active>false</active>
+        </Saas_Customer>
+    </modules>
+    <global>
+        <events>
+            <adminhtml_controller_action_predispatch_start>
+                <observers>
+                    <saas_customer_online_observer>
+                        <class>Saas_Customer_Model_Customer_Online_Observer</class>
+                        <method>disableCustomerOnlineController</method>
+                    </saas_customer_online_observer>
+                </observers>
+            </adminhtml_controller_action_predispatch_start>
+        </events>
+    </global>
+</config>
