@@ -30,8 +30,13 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->currentWindow()->maximize();
         $this->loginAdminUser();
+        $tileState = $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'tax_rules_tile', 'class');
+        $changeState = ('tile-store-settings tile-tax tile-complete' == $tileState) ? true : false;
+        if ($changeState) {
+            $this->storeLauncherHelper()->setTileState('tax', Core_Mage_StoreLauncher_Helper::$STATE_TODO);
+            $this->refresh();
+        }
     }
 
     /**
@@ -41,11 +46,6 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     protected function tearDownAfterTest()
     {
         $this->loginAdminUser();
-        $tileState = $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'tax_rules_tile', 'class');
-        $changeState = ('tile-store-settings tile-tax tile-complete' == $tileState) ? true : false;
-        if ($changeState) {
-            $this->storeLauncherHelper()->setTileState('tax', Core_Mage_StoreLauncher_Helper::$STATE_TODO);
-        }
         if (!empty($this->_ruleToBeDeleted)) {
             $this->navigate('manage_tax_rule');
             $this->taxHelper()->deleteTaxItem($this->_ruleToBeDeleted, 'rule');
@@ -93,7 +93,8 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     public function tileStateOnAddTaxRule()
     {
         $this->assertEquals('tile-store-settings tile-tax tile-todo',
-            $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'tax_rules_tile', 'class'), 'Tile state is not Equal to TODO');
+            $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'tax_rules_tile', 'class'),
+            'Tile state is not Equal to TODO');
         $taxRuleData = $this->loadDataSet('Tax', 'new_tax_rule_required');
         $searchTaxRuleData = $this->loadDataSet('Tax', 'search_tax_rule', array('filter_name' => $taxRuleData['name']));
         $this->navigate('manage_tax_rule');
@@ -102,7 +103,8 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
         $this->_ruleToBeDeleted = $searchTaxRuleData;
         $this->admin();
         $this->assertEquals('tile-store-settings tile-tax tile-complete',
-            $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'tax_rules_tile', 'class'), 'Tile state in Equal to Complete');
+            $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'tax_rules_tile', 'class'),
+            'Tile state in Equal to Complete');
     }
 
     //************************* Tax Rate **********************************************
@@ -115,6 +117,9 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
      */
     public function createTaxRateRequiredFieldsOnly($taxRateDataSetName)
     {
+        if ($taxRateDataSetName == 'tax_rate_create_test_zip_yes') {
+            $this->markTestIncomplete('MAGETWO-7602');
+        }
         $this->storeLauncherHelper()->openDrawer('tax_rules_tile');
         $rate = $this->loadDataSet('Tax', $taxRateDataSetName);
         $search = $this->loadDataSet('Tax', 'search_tax_rate', array('filter_tax_id' => $rate['tax_identifier']));
@@ -140,13 +145,14 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Rename Tax Rate</p>
+     * <p>Edit Tax Rate</p>
      *
      * @test
      * @depends createTaxRateRequiredFieldsOnly
      */
     public function editExistingTaxRate()
     {
+        $this->markTestIncomplete('MAGETWO-7602');
         $rate = $this->loadDataSet('Tax', 'tax_rate_create_test_zip_no');
         $this->storeLauncherHelper()->openDrawer('tax_rules_tile');
         $this->taxRuleHelper()->createTaxRate($rate);
