@@ -770,11 +770,20 @@ textarea,
     height: auto;
 }
 
+textarea {
+    resize: vertical;
+}
+
 select {
+    height: 28px;
     padding: 4px 4px 5px;
     margin: 0 0 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 select[multiple],
@@ -1199,7 +1208,6 @@ option.placeholder {
 .fieldset .control .addon .textarea {
     border-radius: 4px;
     width: 100%;
-    resize: vertical;
 }
 
 .fieldset > .field > input[type="checkbox"] {
@@ -1972,6 +1980,9 @@ table tbody tr:nth-child(odd):hover th {
     background: #19a3d1;
     border-radius: 3px;
     color: #fff;
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding-box;
+    background-clip: padding-box;
 }
 
 .navigation .level-0 > .submenu a[href="#"] {
@@ -3842,10 +3853,6 @@ table tbody tr:nth-child(odd):hover th {
 
 .eq-ie8 .massaction .entry-edit .field-row {
     display: inline;
-}
-
-.massaction .entry-edit .field-row button {
-    padding: 3px 10px;
 }
 
 .massaction .entry-edit .outer-span .entry-edit {
