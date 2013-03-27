@@ -138,7 +138,7 @@
                     }
                     if ($.type(response) === 'object' && !$.isEmptyObject(response)) {
                         if (response.error) {
-                            var msg = response.message;
+                            var msg = response.message || response.error_messages;
                             if (msg) {
                                 if ($.type(msg) === 'array') {
                                     msg = msg.join("\n");
