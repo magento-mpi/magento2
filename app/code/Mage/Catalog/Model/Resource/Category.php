@@ -715,7 +715,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('core_store_group'), array('group_id'))
             ->where('root_category_id = :root_category_id');
-        $result = $this->_getReadAdapter()->fetchOne($select,  array('root_category_id' => $categoryId));
+        $result = $this->_getReadAdapter()->fetchOne($select, array('root_category_id' => $categoryId));
 
         if ($result) {
             return true;
@@ -748,8 +748,8 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
      * @return Mage_Catalog_Model_Resource_Category
      */
     public function changeParent(Mage_Catalog_Model_Category $category, Mage_Catalog_Model_Category $newParent,
-        $afterCategoryId = null)
-    {
+        $afterCategoryId = null
+    ) {
         $childrenCount  = $this->getChildrenCount($category->getId()) + 1;
         $table          = $this->getEntityTable();
         $adapter        = $this->_getWriteAdapter();
@@ -839,7 +839,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
          */
         if ($afterCategoryId) {
             $select = $adapter->select()
-                ->from($table,'position')
+                ->from($table, 'position')
                 ->where('entity_id = :entity_id');
             $position = $adapter->fetchOne($select, array('entity_id' => $afterCategoryId));
 
@@ -850,7 +850,7 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
                 'parent_id = ?' => $newParent->getId(),
                 $positionField . ' > ?' => $position
             );
-            $adapter->update($table,$bind,$where);
+            $adapter->update($table, $bind, $where);
         } elseif ($afterCategoryId !== null) {
             $position = 0;
             $bind = array(
@@ -860,10 +860,10 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
                 'parent_id = ?' => $newParent->getId(),
                 $positionField . ' > ?' => $position
             );
-            $adapter->update($table,$bind,$where);
+            $adapter->update($table, $bind, $where);
         } else {
             $select = $adapter->select()
-                ->from($table,array('position' => new Zend_Db_Expr('MIN(' . $positionField. ')')))
+                ->from($table, array('position' => new Zend_Db_Expr('MIN(' . $positionField . ')')))
                 ->where('parent_id = :parent_id');
             $position = $adapter->fetchOne($select, array('parent_id' => $newParent->getId()));
         }
