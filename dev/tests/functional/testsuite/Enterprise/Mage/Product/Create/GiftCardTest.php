@@ -47,7 +47,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required');
-        $productData['general_gift_card_data']['general_card_type'] = $giftcardType;
+        $productData['general_giftcard_data']['general_card_type'] = $giftcardType;
         //Steps
         $this->productHelper()->createProduct($productData, 'giftcard', false);
         if (!$giftcardType == 'Virtual') {
@@ -105,17 +105,24 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     public function existSkuInGiftCard()
     {
         //Steps
-        $this->productHelper()->createProduct(self::$_existingSku, 'giftcard');
+        $this->productHelper()->createProduct(self::$_existingSku, 'giftcard', false);
+        $this->addParameter('elementTitle', self::$_existingSku['general_name']);
+        $this->productHelper()->saveProduct('continueEdit');
         //Verifying
-        $this->assertMessagePresent('validation', 'existing_sku');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $newSku = $this->productHelper()->getGeneratedSku(self::$_existingSku['general_sku']);
+        $this->addParameter('productSku', $newSku);
+        $this->addParameter('productName', self::$_existingSku['general_name']);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->assertMessagePresent('success', 'sku_autoincremented');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $productData['general_sku'] = $newSku;
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**
      * <p>Creating Gift Card with empty required fields</p>
      *
      * @param $emptyField
-     * @param $fieldType
      *
      * @dataProvider withRequiredFieldsEmptyDataProvider
      *
@@ -123,23 +130,15 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
      * @TestlinkId TL-MAGE-5856
      * @test
      */
-    public function withRequiredFieldsEmpty($emptyField, $fieldType)
+    public function withRequiredFieldsEmpty($emptyField)
     {
         //Data
-        if ($emptyField == 'prices_gift_card_allow_open_amount') {
-            $overrideData = array($emptyField => 'No', 'general_gift_card_amounts' => '%noValue%');
-        } else {
-            $overrideData = array($emptyField => '%noValue%');
-        }
+        $overrideData = array($emptyField => '');
         $productData = $this->loadDataSet('Product', 'gift_card_required', $overrideData);
         //Steps
         $this->productHelper()->createProduct($productData, 'giftcard');
         //Verifying
-        if ($emptyField == 'prices_gift_card_allow_open_amount') {
-            $this->addParameter('fieldId', 'giftcard_amounts_total');
-        } else {
-            $this->addFieldIdToMessage($fieldType, $emptyField);
-        }
+        $this->addFieldIdToMessage('field', $emptyField);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -147,9 +146,8 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
-            array('general_name', 'field'),
-            array('general_sku', 'field'),
-            array('general_gift_card_allow_open_amount', 'dropdown'),
+            array('general_name'),
+            array('general_sku'),
         );
     }
 
@@ -164,15 +162,16 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     public function emptyPriceInGiftCard()
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'gift_card_required',
-            array('prices_gift_card_amount' => ''));
+        $productData = $this->loadDataSet('Product', 'gift_card_required');
+        $productData['general_giftcard_data']['general_amounts']['general_amount1']['general_giftcard_amount'] = '';
+        $productData['general_giftcard_data']['general_amounts']['general_amount2']['general_giftcard_amount'] = '';
         //Steps
         $this->productHelper()->createProduct($productData, 'giftcard');
         //Verifying
-        $rowQty = count($this->getControlElements('fieldset', 'prices_gift_card_amounts'));
+        $rowQty = count($this->getControlElements('pageelement', 'general_giftcard_amount_line'));
         for ($i = 0; $i < $rowQty; $i++) {
             $this->addParameter('giftCardId', $i);
-            $this->addFieldIdToMessage('field', 'prices_gift_card_amount');
+            $this->addFieldIdToMessage('field', 'general_giftcard_amount');
             $this->assertMessagePresent('validation', 'empty_required_field');
         }
         $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
@@ -263,12 +262,15 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     public function invalidWeightInGiftCard()
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'gift_card_required',
-            array('general_gift_card_data' => array('general_card_type' => 'Combined'),
-                  'general_weight' => $this->generate('string', 9, ':punct:')));
+        $productData = $this->loadDataSet('Product', 'gift_card_required');
+        $productData['general_giftcard_data']['general_card_type'] = 'Combined';
         //Steps
-        $this->productHelper()->createProduct($productData, 'giftcard');
+        $this->productHelper()->createProduct($productData, 'giftcard', false);
+        $this->openTab('general');
+        $this->fillField('general_weight', $this->generate('string', 9, ':punct:'));
+        $this->productHelper()->saveProduct();
         //Verifying
+        $this->addParameter('fieldId', 'weight');
         $this->addFieldIdToMessage('field', 'general_weight');
         $this->assertMessagePresent('validation', 'enter_valid_number');
     }
@@ -321,18 +323,18 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
      * @depends onlyRequiredFieldsInGiftCard
      *
      * @TestlinkId TL-MAGE-5863
-     * @ test
+     * @test
      */
     public function invalidQtyInGiftCard($invalidQty)
     {
         //Data
-        $productData = $this->loadDataSet('Product', 'gift_card_required', array('inventory_qty' => $invalidQty));
+        $productData = $this->loadDataSet('Product', 'gift_card_required', array('general_qty' => $invalidQty));
         //Steps
         $this->productHelper()->createProduct($productData, 'giftcard');
         //Verifying
-        $this->addFieldIdToMessage('field', 'inventory_qty');
+        $this->addParameter('fieldId', 'qty');
+        $this->addFieldIdToMessage('field', 'general_qty');
         $this->assertMessagePresent('validation', 'enter_valid_number');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function invalidQtyDataProvider()
