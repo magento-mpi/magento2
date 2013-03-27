@@ -206,7 +206,7 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
      * @param string $trAttr
      * @return string
      */
-    protected function addTranslateAttribute($trAttr)
+    protected function _addTranslateAttribute($trAttr)
     {
         return $trAttr . ' ' . $this->_getHtmlAttribute(self::TRANSLATE_MODE, self::MODE_TEXT) . ' ';
     }
