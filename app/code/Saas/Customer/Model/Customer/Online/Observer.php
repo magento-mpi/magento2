@@ -37,8 +37,8 @@ class Saas_Customer_Model_Customer_Online_Observer
      */
     public function disableCustomerOnlineController(Varien_Event_Observer $observer)
     {
-        if ($this->_request->getControllerModule() == 'Mage_Adminhtml'
-            && $this->_request->getControllerName() == 'customer_online'
+        if ($this->_request->getControllerName() == 'customer_online'
+            && $this->_request->getControllerModule() == 'Mage_Adminhtml'
         ) {
             $this->_saasHelper->customizeNoRoutForward($this->_request);
         }
