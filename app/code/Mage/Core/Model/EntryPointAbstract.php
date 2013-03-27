@@ -27,6 +27,9 @@ abstract class Mage_Core_Model_EntryPointAbstract
             $definitions =  $definitionFactory->create($config);
             $objectManager = new Mage_Core_Model_ObjectManager($definitions, $config);
         }
+        set_error_handler(Mage::DEFAULT_ERROR_HANDLER);
+        date_default_timezone_set(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
+
         $this->_objectManager = $objectManager;
         Mage::setObjectManager($objectManager);
     }
