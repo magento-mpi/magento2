@@ -49,9 +49,9 @@ class Mage_Core_Model_Translate_Config
     /**
      * This method sets the area for the current translation.
      *
-     * @param Mage_Core_Model_App_Area $area
+     * @param mixed|Mage_Core_Model_App_Area $area
      */
-    public function setArea(Mage_Core_Model_App_Area $area)
+    public function setArea($area)
     {
         $this->_area = $area;
     }
