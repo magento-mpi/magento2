@@ -47,7 +47,7 @@ manage_cms_pages:
             invalid_url_key_with_numbers_only: //li[normalize-space(@class)='error-msg' and contains(.,'The page URL key cannot consist only of numbers.')]
             existing_url_key: //li[normalize-space(@class)='error-msg' and contains(.,'A page URL key for specified store already exists.')]
             invalid_urk_key_spec_sym: //label[@class='mage-error' and @for='%fieldId%' and text()='Please enter a valid URL Key. For example "example-page", "example-page.html" or "anotherlevel/example-page".']
-            empty_required_field: //label[@class='mage-error' and @for='%fieldId%']
+            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             confirmation_for_delete: Are you sure you want to do this?
 
 create_cms_page:
