@@ -30,9 +30,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
     protected function _initAction()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Attributes'))
-             ->_title($this->__('Manage Attributes'));
+        $this->_title($this->__('Manage Attributes'));
 
         if($this->getRequest()->getParam('popup')) {
             $this->loadLayout('popup');

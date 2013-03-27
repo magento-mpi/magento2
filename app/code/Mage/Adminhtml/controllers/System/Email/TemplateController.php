@@ -19,7 +19,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
 {
     public function indexAction()
     {
-        $this->_title($this->__('System'))->_title($this->__('Transactional Emails'));
+        $this->_title($this->__('Transactional Emails'));
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
@@ -188,7 +188,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
      */
     protected function _initTemplate($idFieldName = 'template_id')
     {
-        $this->_title($this->__('System'))->_title($this->__('Transactional Emails'));
+        $this->_title($this->__('Transactional Emails'));
 
         $id = (int)$this->getRequest()->getParam($idFieldName);
         $model = Mage::getModel('Mage_Adminhtml_Model_Email_Template');

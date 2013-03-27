@@ -85,7 +85,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
      */
     protected function _initCreditmemo($update = false)
     {
-        $this->_title($this->__('Sales'))->_title($this->__('Credit Memos'));
+        $this->_title($this->__('Credit Memos'));
 
         $creditmemo = false;
         $creditmemoId = $this->getRequest()->getParam('creditmemo_id');
