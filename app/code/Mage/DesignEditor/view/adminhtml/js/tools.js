@@ -21,9 +21,8 @@
                 .on('mouseover', $.proxy(this._onMouseOver, this))
                 .on('mouseout', $.proxy(this._onMouseOut, this))
                 .on('mousedown', $.proxy(this._onMouseDown, this))
-                .on('mouseup', $.proxy(this._onMouseUp, this));
-
-            this.element.find('[vde-translate]').on('disableInlineTranslation', $.proxy(this._disableInlineTranslation, this));
+                .on('mouseup', $.proxy(this._onMouseUp, this))
+                .on('disableInlineTranslation', $.proxy(this._disableInlineTranslation, this));
         },
 
         /**
