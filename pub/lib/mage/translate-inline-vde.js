@@ -40,10 +40,11 @@
             positionDialog: function(element, dialog) { },
             templateName: "translateInlineDialogVdeTemplate",
             dataAttrName: "translate",
-            onSubmitComplete: function() {},
-            onCancel: function() {},
             area: "vde",
             ajaxUrl: null,
+            textTranslations: null,
+            imageTranslations: null,
+            scriptTranslations: null,
             translateMode: null,
             translateModes : ["text", "script", "alt"]
         },
@@ -120,7 +121,7 @@
          */
         close: function() {
             this.translateDialog.dialog("close");
-            this.options.onCancel();
+            this._onCancel();
             this.isBeingEdited = false;
             $(window).off('resize.translateInlineVdeDialog');
         },
@@ -129,19 +130,11 @@
          * Shows translate mode applicable css styles.
          */
         toggleStyle: function(mode) {
-            if (mode == null)
-                mode = this.options.translateMode;
-            else
-                /* change translateMode */
-                this.options.translateMode = mode;
+            this._toggleOutline(mode);
 
-            this.element.closest('[data-container="body"]').addClass('trnslate-inline-' + mode + '-area');
-            var that = this;
-            $.each(this.options.translateModes, function(){
-                if (this != mode) {
-                    that.element.closest('[data-container="body"]').removeClass('trnslate-inline-' + this + '-area');
-                }
-            });
+            this.options.textTranslations.translateInlineVde('toggleIcon', mode);
+            this.options.imageTranslations.translateInlineImageVde('toggleIcon', mode);
+            this.options.scriptTranslations.translateInlineScriptVde('toggleIcon', mode);
         },
 
         /**
@@ -246,9 +239,39 @@
             this.translateDialog.dialog("close");
             $(window).off('resize.translateInlineVdeDialog');
 
-            this.options.onSubmitComplete();
+            this._onSubmitComplete();
 
             this.isSubmitting = false;
+        },
+
+        _toggleOutline: function(mode) {
+            if (mode == null)
+                mode = this.options.translateMode;
+            else
+            /* change translateMode */
+                this.options.translateMode = mode;
+
+            this.element.closest('[data-container="body"]').addClass('trnslate-inline-' + mode + '-area');
+            var that = this;
+            $.each(this.options.translateModes, function(){
+                if (this != mode) {
+                    that.element.closest('[data-container="body"]').removeClass('trnslate-inline-' + this + '-area');
+                }
+            });
+        },
+
+        _onCancel: function() {
+            this._toggleOutline();
+            this.options.textTranslations.translateInlineVde('show');
+            this.options.imageTranslations.translateInlineImageVde('show');
+            this.options.scriptTranslations.translateInlineScriptVde('show');
+        },
+
+        _onSubmitComplete: function() {
+            this._toggleOutline();
+            this.options.textTranslations.translateInlineVde('show');
+            this.options.imageTranslations.translateInlineImageVde('show');
+            this.options.scriptTranslations.translateInlineScriptVde('show');
         }
     });
 
