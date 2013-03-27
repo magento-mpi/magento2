@@ -659,7 +659,8 @@ class Mage_Core_Model_Locale
             $this->_locale = new Zend_Locale(Mage::getStoreConfig(self::XML_PATH_DEFAULT_LOCALE, $storeId));
             $this->_localeCode = $this->_locale->toString();
 
-            $this->_initTranslate($this->_localeCode, Mage_Core_Model_App_Area::AREA_FRONTEND, true);
+            Mage::getObjectManager()->get('Mage_Core_Helper_Translate')
+                ->initTranslate($this->_localeCode, Mage_Core_Model_App_Area::AREA_FRONTEND, true)->init();
         } else {
             $this->_emulatedLocales[] = false;
         }
@@ -676,7 +677,8 @@ class Mage_Core_Model_Locale
             $this->_locale = $locale;
             $this->_localeCode = $this->_locale->toString();
 
-            $this->_initTranslate($this->_localeCode, Mage_Core_Model_App_Area::AREA_ADMINHTML, true);
+            Mage::getObjectManager()->get('Mage_Core_Helper_Translate')
+                ->initTranslate($this->_localeCode, Mage_Core_Model_App_Area::AREA_ADMINHTML, true)->init();
         }
     }
 
@@ -757,32 +759,5 @@ class Mage_Core_Model_Locale
             $result = true;
         }
         return $result;
-    }
-
-    /**
-     * This method initializes the Translate object for this instance.
-     * @param $localeCode string
-     * @param $area string
-     * @param $forceReload bool
-     */
-    protected function _initTranslate($localeCode, $area, $forceReload)
-    {
-        /** @var $objectManager Mage_ObjectManager */
-        $objectManager = Mage::getObjectManager();
-
-        /** @var $config Mage_Core_Model_Translate_Config */
-        $config = $objectManager->get('Mage_Core_Model_Translate_Config');
-        $config->setArea($area);
-        $config->setForceReload($forceReload);
-
-        /** @var $translate Mage_Core_Model_Translate */
-        $translate = $objectManager->get('Mage_Core_Model_Translate');
-        $translate->setLocale($localeCode);
-
-        $eventManager = $objectManager->get('Mage_Core_Model_Event_Manager');
-        $eventManager->dispatch('translate_initialization_before', array(
-            'translate_object' => $translate
-        ));
-        $translate->init();
     }
 }

@@ -35,4 +35,32 @@ class Mage_Core_Helper_Translate extends Mage_Core_Helper_Abstract
         }
         return $result;
     }
+
+    /**
+     * This method initializes the Translate object for this instance.
+     * @param $localeCode string
+     * @param $area string
+     * @param $forceReload bool
+     * @return \Mage_Core_Model_Translate
+     */
+    public function initTranslate($localeCode, $area, $forceReload)
+    {
+        /** @var $objectManager Mage_ObjectManager */
+        $objectManager = Mage::getObjectManager();
+
+        /** @var $config Mage_Core_Model_Translate_Config */
+        $config = $objectManager->get('Mage_Core_Model_Translate_Config');
+        $config->setArea($area);
+        $config->setForceReload($forceReload);
+
+        /** @var $translate Mage_Core_Model_Translate */
+        $translate = $objectManager->get('Mage_Core_Model_Translate');
+        $translate->setLocale($localeCode);
+
+        $eventManager = $objectManager->get('Mage_Core_Model_Event_Manager');
+        $eventManager->dispatch('translate_initialization_before', array(
+            'translate_object' => $translate
+        ));
+        return $translate;
+    }
 }

@@ -148,7 +148,7 @@ class Mage_Core_Model_App_Emulation extends Varien_Object
         $newLocaleCode = Mage::getStoreConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE, $storeId);
         Mage::app()->getLocale()->setLocaleCode($newLocaleCode);
 
-        $this->_initTranslate($newLocaleCode, $area, true);
+        Mage::getObjectManager()->get('Mage_Core_Helper_Translate')->initTranslate($newLocaleCode, $area, true)->init();
         return $initialLocaleCode;
     }
 
@@ -190,34 +190,8 @@ class Mage_Core_Model_App_Emulation extends Varien_Object
     protected function _restoreInitialLocale($initialLocaleCode, $initialArea = Mage_Core_Model_App_Area::AREA_ADMIN)
     {
         Mage::app()->getLocale()->setLocaleCode($initialLocaleCode);
-        $this->_initTranslate($initialLocaleCode, $initialArea, true);
+        Mage::getObjectManager()->get('Mage_Core_Helper_Translate')
+            ->initTranslate($initialLocaleCode, $initialArea, true)->init();
         return $this;
-    }
-
-    /**
-     * This method initializes the Translate object for this instance.
-     * @param $localeCode string
-     * @param $area string
-     * @param $forceReload bool
-     */
-    protected function _initTranslate($localeCode, $area, $forceReload)
-    {
-        /** @var $objectManager Mage_ObjectManager */
-        $objectManager = Mage::getObjectManager();
-
-        /** @var $config Mage_Core_Model_Translate_Config */
-        $config = $objectManager->get('Mage_Core_Model_Translate_Config');
-        $config->setArea($area);
-        $config->setForceReload($forceReload);
-
-        /** @var $translate Mage_Core_Model_Translate */
-        $translate = $objectManager->get('Mage_Core_Model_Translate');
-        $translate->setLocale($localeCode);
-
-        $eventManager = $objectManager->get('Mage_Core_Model_Event_Manager');
-        $eventManager->dispatch('translate_initialization_before', array(
-            'translate_object' => $translate
-        ));
-        $translate->init();
     }
 }
