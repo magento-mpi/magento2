@@ -38,7 +38,11 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetViewFileProductionMode()
+    /**
+     * @param Mage_Core_Model_Theme $themeModel
+     * @dataProvider getViewFileUrlProductionModeDataProvider
+     */
+    public function testGetViewFileUrlProductionMode($themeModel)
     {
         $moduleReader = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false);
 
@@ -58,12 +62,8 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             false);
         $appState = new Mage_Core_Model_App_State(Mage_Core_Model_App_State::MODE_PRODUCTION);
 
-        // Prepare theme and model
-        $themeModel = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
-        $themeModel->expects($this->once())
-            ->method('getThemePath')
-            ->will($this->returnValue('t'));
-
+        // Create model to be tested
+        $expected = 'http://example.com/public_dir/a/t/m/file.js';
         $model = $this->getMock('Mage_Core_Model_Design_Package', array('getPublicDir', 'getPublicFileUrl'),
             array($moduleReader, $filesystem, $resolutionPool, $appState));
         $model->expects($this->once())
@@ -71,14 +71,51 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue('public_dir'));
         $model->expects($this->once())
             ->method('getPublicFileUrl')
-            ->with(str_replace(DIRECTORY_SEPARATOR, '/', 'public_dir/a/t/m/file.js'))
-            ->will($this->returnValue('http://example.com/public_dir/a/t/m/file.js'));
-
+            ->with(str_replace('/', DIRECTORY_SEPARATOR, 'public_dir/a/t/m/file.js'))
+            ->will($this->returnValue($expected));
 
         // Test
-        $result = $model->getViewFileUrl('file.js', array('area' => 'a', 'themeModel' => $themeModel, 'locale' => 'l',
+        $actual = $model->getViewFileUrl('file.js', array('area' => 'a', 'themeModel' => $themeModel, 'locale' => 'l',
             'module' => 'm'));
-        $this->assertEquals('http://example.com/public_dir/a/t/m/file.js', $result);
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getViewFileUrlProductionModeDataProvider()
+    {
+        $usualTheme = PHPUnit_Framework_MockObject_Generator::getMock(
+            'Mage_Core_Model_Theme',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
+        $virtualTheme = clone $usualTheme;
+        $parentOfVirtualTheme = clone $usualTheme;
+
+        $usualTheme->expects(new PHPUnit_Framework_MockObject_Matcher_InvokedCount(1))
+            ->method('getThemePath')
+            ->will(new PHPUnit_Framework_MockObject_Stub_Return('t'));
+
+        $parentOfVirtualTheme->expects(new PHPUnit_Framework_MockObject_Matcher_InvokedCount(1))
+            ->method('getThemePath')
+            ->will(new PHPUnit_Framework_MockObject_Stub_Return('t'));
+
+        $virtualTheme->expects(new PHPUnit_Framework_MockObject_Matcher_InvokedCount(1))
+            ->method('getParentTheme')
+            ->will(new PHPUnit_Framework_MockObject_Stub_Return($parentOfVirtualTheme));
+
+        return array(
+            'usual theme' => array(
+                $usualTheme
+            ),
+            'virtual theme' => array(
+                $virtualTheme
+            ),
+        );
     }
 
 

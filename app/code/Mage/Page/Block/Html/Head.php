@@ -80,7 +80,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     {
         $contentType = Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS;
         $asset = $this->_objectManager->create(
-            'Mage_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType), false
+            'Mage_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
         );
         $this->_pageAssets->add("$contentType/$file", $asset, array(
             'attributes'    => (string)$attributes,
@@ -103,7 +103,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     {
         $contentType = Mage_Core_Model_Design_Package::CONTENT_TYPE_JS;
         $asset = $this->_objectManager->create(
-            'Mage_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType), false
+            'Mage_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
         );
         $this->_pageAssets->add("$contentType/$file", $asset, array(
             'attributes'    => (string)$attributes,
@@ -150,7 +150,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     {
         $attributes = 'rel="alternate" type="application/rss+xml" title="' . $title . '"';
         $asset = $this->_objectManager->create(
-            'Mage_Core_Model_Page_Asset_Remote', array('url' => (string)$href), false
+            'Mage_Core_Model_Page_Asset_Remote', array('url' => (string)$href)
         );
         $this->_pageAssets->add("link/$href", $asset, array('attributes' => $attributes));
         return $this;
@@ -166,7 +166,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     public function addLinkRel($rel, $href)
     {
         $asset = $this->_objectManager->create(
-            'Mage_Core_Model_Page_Asset_Remote', array('url' => (string)$href), false
+            'Mage_Core_Model_Page_Asset_Remote', array('url' => (string)$href)
         );
         $this->_pageAssets->add("link/$href", $asset, array('attributes' => 'rel="' . $rel . '"'));
         return $this;

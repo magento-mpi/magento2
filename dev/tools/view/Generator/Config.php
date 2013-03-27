@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Tools
- * @package    translate
+ * @package    view
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -37,7 +37,7 @@ class Generator_Config
     {
         $sourceDir = isset($cmdOptions['source']) ? $cmdOptions['source'] : $appBaseDir;
         if (!is_dir($sourceDir)) {
-            throw new Magento_Exception('Source directory do not exist: ' . $sourceDir);
+            throw new Magento_Exception('Source directory does not exist: ' . $sourceDir);
         }
 
         if (isset($cmdOptions['destination'])) {
@@ -47,10 +47,10 @@ class Generator_Config
             $destinationDir = $dirs->getDir(Mage_Core_Model_Dir::STATIC_VIEW);
         }
         if (!is_dir($destinationDir)) {
-            throw new Magento_Exception('Destination directory do not exist: ' . $destinationDir);
+            throw new Magento_Exception('Destination directory does not exist: ' . $destinationDir);
         }
         if (glob($destinationDir . DIRECTORY_SEPARATOR . '*')) {
-            throw new Magento_Exception("The destination path must be empty: {$destinationDir}");
+            throw new Magento_Exception("Destination directory must be empty: {$destinationDir}");
         }
 
         $isDryRun = isset($cmdOptions['dry-run']);

@@ -12,7 +12,7 @@
 class Mage_Core_Model_Theme_FilesTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Theme_Files
+     * @var Mage_Core_Model_Theme_File
      */
     protected $_model;
 
@@ -28,7 +28,7 @@ class Mage_Core_Model_Theme_FilesTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Files');
+        $this->_model = Mage::getObjectManager()->create('Mage_Core_Model_Theme_File');
         /** @var $themeModel Mage_Core_Model_Theme */
         $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
         $this->_theme = $themeModel->getCollection()->getFirstItem();

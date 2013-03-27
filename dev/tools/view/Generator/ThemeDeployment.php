@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Tools
- * @package    translate
+ * @package    view
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -14,9 +14,11 @@
 class Generator_ThemeDeployment
 {
     /**
-     * @var Zend_Log
+     * Destination dir, where files will be copied to
+     *
+     * @var string
      */
-    private $_logger;
+    private $_destinationHomeDir;
 
     /**
      * List of extensions for files, which should be deployed.
@@ -24,7 +26,7 @@ class Generator_ThemeDeployment
      *
      * @var array
      */
-    private $_permitted;
+    private $_permitted = array();
 
     /**
      * List of extensions for files, which must not be deployed
@@ -32,23 +34,32 @@ class Generator_ThemeDeployment
      *
      * @var array
      */
-    private $_forbidden;
+    private $_forbidden = array();
+
+    /**
+     * Whether to actually do anything inside the filesystem
+     *
+     * @var bool
+     */
+    private $_isDryRun;
 
     /**
      * Constructor
      *
-     * @param Zend_Log $logger
+     * @param string $destinationHomeDir
      * @param string $configPermitted
-     * @param string $configForbidden
+     * @param string|null $configForbidden
+     * @param bool $isDryRun
      * @throws Magento_Exception
      */
-    public function __construct(Zend_Log $logger, $configPermitted, $configForbidden)
+    public function __construct($destinationHomeDir, $configPermitted, $configForbidden = null, $isDryRun = false)
     {
-        $this->_logger = $logger;
-
+        $this->_destinationHomeDir = $destinationHomeDir;
+        $this->_isDryRun = $isDryRun;
         $this->_permitted = $this->_loadConfig($configPermitted);
-        $this->_forbidden = $this->_loadConfig($configForbidden);
-        $this->_forbidden[''] = ''; // Force empty extension to be forbidden
+        if ($configForbidden) {
+            $this->_forbidden = $this->_loadConfig($configForbidden);
+        }
         $conflicts = array_intersect($this->_permitted, $this->_forbidden);
         if ($conflicts) {
             $message = 'Conflicts: the following extensions are added both to permitted and forbidden lists: %s';
@@ -69,43 +80,39 @@ class Generator_ThemeDeployment
             throw new Magento_Exception("Config file does not exist: {$path}");
         }
 
-        $contents = explode("\n", file_get_contents($path));
+        $contents = include($path);
         $contents = array_unique($contents);
-
-        foreach ($contents as $key => $line) {
-            if ((substr($line, 0, 2) == '//') || !strlen($line)) {
-                unset($contents[$key]);
-            }
-        }
-
-        $result = $contents ? array_combine($contents, $contents) : array();
-        return $result;
+        $contents = array_map('strtolower', $contents);
+        $contents = $contents ? array_combine($contents, $contents) : array();
+        return $contents;
     }
 
     /**
      * Copy all the files according to $copyRules
      *
      * @param array $copyRules
-     * @param string $destinationHomeDir
-     * @param bool $isDryRun
      */
-    public function run($copyRules, $destinationHomeDir, $isDryRun = false)
+    public function run($copyRules)
     {
-        if ($isDryRun) {
-            $this->_log('Running in dry-run mode');
-        }
-
         foreach ($copyRules as $copyRule) {
+            $destinationContext = $copyRule['destinationContext'];
             $context = array(
                 'source' => $copyRule['source'],
-                'destination' => $copyRule['destination'],
-                'destinationHomeDir' => $destinationHomeDir,
-                'path_info' => $copyRule['path_info'],
-                'is_dry_run' => $isDryRun
+                'destinationContext' => $destinationContext,
             );
+
+            $destDir = Mage_Core_Model_Design_Package::getPublishedViewFileRelPath(
+                $destinationContext['area'],
+                $destinationContext['themePath'],
+                $destinationContext['locale'],
+                '',
+                $destinationContext['module']
+            );
+            $destDir = rtrim($destDir, '\\/');
+
             $this->_copyDirStructure(
                 $copyRule['source'],
-                $destinationHomeDir . DIRECTORY_SEPARATOR . $copyRule['destination'],
+                $this->_destinationHomeDir . DIRECTORY_SEPARATOR . $destDir,
                 $context
             );
         }
@@ -122,10 +129,12 @@ class Generator_ThemeDeployment
      */
     protected function _copyDirStructure($sourceDir, $destinationDir, $context)
     {
-        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($sourceDir));
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($sourceDir, RecursiveDirectoryIterator::SKIP_DOTS)
+        );
         foreach ($files as $fileSource) {
             $fileSource = (string) $fileSource;
-            $extension = pathinfo($fileSource, PATHINFO_EXTENSION);
+            $extension = strtolower(pathinfo($fileSource, PATHINFO_EXTENSION));
 
             if (isset($this->_forbidden[$extension])) {
                 continue;
@@ -154,29 +163,25 @@ class Generator_ThemeDeployment
      */
     protected function _deployFile($fileSource, $fileDestination, $context)
     {
-        $isDryRun = $context['is_dry_run'];
-
         $context['fileSource'] = $fileSource;
         $context['fileDestination'] = $fileDestination;
 
         // Create directory
         $dir = dirname($fileDestination);
-        if (!is_dir($dir) && !$isDryRun) {
-            mkdir($dir, 0666, true);
+        if (!is_dir($dir) && !$this->_isDryRun) {
+            mkdir($dir, 0777, true);
         }
 
         // Copy file
         $extension = pathinfo($fileSource, PATHINFO_EXTENSION);
         if (strtolower($extension) == 'css') {
             // For CSS files we need to replace modular urls
-            $this->_log($fileSource . "\n ==CSS==> " . $fileDestination);
             $content = $this->_processCssContent($fileSource, $context);
-            if (!$isDryRun) {
+            if (!$this->_isDryRun) {
                 file_put_contents($fileDestination, $content);
             }
         } else {
-            $this->_log($fileSource . "\n => " . $fileDestination);
-            if (!$isDryRun) {
+            if (!$this->_isDryRun) {
                 copy($fileSource, $fileDestination);
             }
         }
@@ -198,6 +203,7 @@ class Generator_ThemeDeployment
             $urlNotationNew = str_replace($moduleUrl, $fileUrlNew, $urlNotation);
             $content = str_replace($urlNotation, $urlNotationNew, $content);
         }
+        return $content;
     }
 
     /**
@@ -233,15 +239,14 @@ class Generator_ThemeDeployment
      */
     protected function _expandModuleUrl($moduleUrl, $context)
     {
-        $destinationHomeDir = $context['destinationHomeDir'];
         $fileDestination = $context['fileDestination'];
-        $pathInfo = $context['path_info'];
+        $destinationContext = $context['destinationContext'];
 
         list($module, $file) = $this->_extractModuleAndFile($moduleUrl);
         $relPath = Mage_Core_Model_Design_Package::getPublishedViewFileRelPath(
-            $pathInfo['area'], $pathInfo['themePath'], $pathInfo['locale'], $file, $module
+            $destinationContext['area'], $destinationContext['themePath'], $destinationContext['locale'], $file, $module
         );
-        $relatedFile =  $destinationHomeDir . DIRECTORY_SEPARATOR . $relPath;
+        $relatedFile =  $this->_destinationHomeDir . DIRECTORY_SEPARATOR . $relPath;
 
         return $this->_composeUrlOffset($relatedFile, $fileDestination);
     }
@@ -296,15 +301,5 @@ class Generator_ThemeDeployment
 
         // Return resulting path
         return $relDir . basename($filePath);
-    }
-
-    /**
-     * Log message, using the logger object
-     *
-     * @param string $message
-     */
-    protected function _log($message)
-    {
-        $this->_logger->log($message, Zend_Log::INFO);
     }
 }

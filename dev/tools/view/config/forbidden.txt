@@ -1,5 +1,0 @@
-// These are extensions of files that are forbidden to be deployed to a public directory
-htaccess
-phtml
-xml
-csv

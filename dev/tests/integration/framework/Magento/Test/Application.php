@@ -66,11 +66,11 @@ class Magento_Test_Application
     protected $_initParams = array();
 
     /**
-     * Whether a developer mode is enabled or not
+     * Mode to run application
      *
-     * @var bool
+     * @var string
      */
-    protected $_appMode = false;
+    protected $_appMode;
 
     /**
      * Constructor
@@ -102,6 +102,7 @@ class Magento_Test_Application
                 Mage_Core_Model_Dir::MEDIA       => "$installDir/media",
                 Mage_Core_Model_Dir::STATIC_VIEW => "$installDir/static",
             ),
+            Mage::PARAM_MODE => $appMode
         );
     }
 

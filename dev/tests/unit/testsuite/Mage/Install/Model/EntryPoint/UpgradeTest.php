@@ -37,8 +37,6 @@ class Mage_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_TestCa
         $cacheFrontendPool->expects($this->at(0))->method('valid')->will($this->returnValue(true));
         $cacheFrontendPool->expects($this->once())->method('current')->will($this->returnValue($cacheFrontend));
 
-        $appState = $this->getMock('Mage_Core_Model_App_State', array('setMode'), array(), '', false);
-
         $update = $this->getMock('Mage_Core_Model_Db_Updater', array('updateScheme', 'updateData'), array(), '', false);
         $update->expects($this->once())->method('updateScheme');
         $update->expects($this->once())->method('updateData');
@@ -50,7 +48,6 @@ class Mage_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_TestCa
         $this->_objectManager = $this->getMock('Magento_ObjectManager');
         $this->_objectManager->expects($this->any())->method('get')->will($this->returnValueMap(array(
             array('Mage_Core_Model_Cache_Frontend_Pool', $cacheFrontendPool),
-            array('Mage_Core_Model_App_State', $appState),
             array('Mage_Core_Model_Db_Updater', $update),
             array('Mage_Core_Model_Config_Primary', $this->_config),
             array('Mage_Index_Model_Indexer', $this->_indexer),

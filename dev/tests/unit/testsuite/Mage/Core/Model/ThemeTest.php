@@ -34,15 +34,24 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             ->with('Mage_Core_Model_Dir')
             ->will($this->returnValue($dirMock));
 
+        /** @var $dirs Mage_Core_Model_Dir|PHPUnit_Framework_MockObject_MockObject */
+        $dirs = $this->getMock('Mage_Core_Model_Dir', array('getDir'), array(), '', false);
+
+        $dirs->expects($this->any())
+            ->method('getDir')
+            ->will($this->returnArgument(0));
+
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments('Mage_Core_Model_Theme',
             array(
-                 'objectManager' => $objectManager,
-                 'themeFactory' => $this->getMock('Mage_Core_Model_Theme_Factory', array(), array(), '', false),
-                 'helper' => $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false),
-                 'themeImage' => $this->getMock('Mage_Core_Model_Theme_Image', array(), array(), '', false),
-                 'resource' => $this->getMock('Mage_Core_Model_Resource_Theme', array(), array(), '', false),
-                 'resourceCollection'
+                'objectManager' => $this->getMock('Magento_ObjectManager', array(), array(), '', false),
+                'themeFactory' => $this->getMock('Mage_Core_Model_Theme_Factory', array(), array(), '', false),
+                'helper' => $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false),
+                'themeImage' => $this->getMock('Mage_Core_Model_Theme_Image', array(), array(), '', false),
+                //domain factory
+                'dirs' => $dirs,
+                'resource' => $this->getMock('Mage_Core_Model_Resource_Theme', array(), array(), '', false),
+                'resourceCollection'
                     => $this->getMock('Mage_Core_Model_Resource_Theme_Collection', array(), array(), '', false),
             )
         );
@@ -308,9 +317,9 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     public function getThemeFilesPathDataProvider()
     {
         return array(
-            array(Mage_Core_Model_Theme::TYPE_PHYSICAL, 'themes_dir/area51/theme_path'),
-            array(Mage_Core_Model_Theme::TYPE_VIRTUAL, 'theme_dir/customization/123'),
-            array(Mage_Core_Model_Theme::TYPE_STAGING, 'theme_dir/customization/123'),
+            array(Mage_Core_Model_Theme::TYPE_PHYSICAL, 'design/area51/theme_path'),
+            array(Mage_Core_Model_Theme::TYPE_VIRTUAL, 'media/theme_customization/123'),
+            array(Mage_Core_Model_Theme::TYPE_STAGING, 'media/theme_customization/123'),
         );
     }
 
@@ -335,15 +344,17 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     public function getCustomViewConfigDataProvider()
     {
         return array(
-            'no custom path, theme is not loaded' => array(null, null, $this->isEmpty()),
-            'no custom path, theme is loaded' => array(null, 'theme_id',
-                $this->equalTo('media' . DIRECTORY_SEPARATOR . 'theme_customization' . DIRECTORY_SEPARATOR . 'theme_id'
-                . DIRECTORY_SEPARATOR . 'view.xml')
+            'no custom path, theme is not loaded' => array(
+                null, null, $this->isEmpty()
             ),
-            'with custom path, theme is not loaded' => array('custom/path', null,
-                $this->equalTo('custom/path' . DIRECTORY_SEPARATOR . 'view.xml')),
-            'with custom path, theme is loaded' => array('custom/path', 'theme_id',
-                $this->equalTo('custom/path' . DIRECTORY_SEPARATOR . 'view.xml')
+            'no custom path, theme is loaded' => array(
+                null, 'theme_id', $this->equalTo('media/theme_customization/theme_id/view.xml')
+            ),
+            'with custom path, theme is not loaded' => array(
+                'custom/path', null, $this->equalTo('custom/path/view.xml')
+            ),
+            'with custom path, theme is loaded' => array(
+                'custom/path', 'theme_id', $this->equalTo('custom/path/view.xml')
             ),
         );
     }

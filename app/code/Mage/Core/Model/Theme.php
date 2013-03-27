@@ -42,7 +42,7 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
-    implements Mage_Core_Model_Theme_Customization_CustomizedInterface, Mage_Core_Model_ThemeInterface
+    implements Mage_Core_Model_ThemeInterface, Mage_Core_Model_Theme_Customization_CustomizedInterface
 {
     /**#@+
      * Theme types group
@@ -61,11 +61,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * Separator between theme_path elements
      */
     const PATH_SEPARATOR = '/';
-
-    /**
-     * Path prefix to customized theme files
-     */
-    const PATH_PREFIX_CUSTOMIZATION = 'theme_customization';
 
     /**
      * Filename of view configuration
@@ -291,11 +286,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         $customPath = $this->getData('customization_path');
         if ($this->getId() && empty($customPath)) {
-            /** @var $modelDir Mage_Core_Model_Dir */
-            $modelDir = $this->_objectManager->get('Mage_Core_Model_Dir');
-            $customPath = $modelDir->getDir(Mage_Core_Model_Dir::MEDIA)
-                . DIRECTORY_SEPARATOR . self::PATH_PREFIX_CUSTOMIZATION
-                . DIRECTORY_SEPARATOR . $this->getId();
+            $customPath = $this->_dirs->getDir(Mage_Core_Model_Dir::MEDIA)
+                . Magento_Filesystem::DIRECTORY_SEPARATOR . 'theme_customization'
+                . Magento_Filesystem::DIRECTORY_SEPARATOR . $this->getId();
             $this->setData('customization_path', $customPath);
         }
         return $customPath;
@@ -620,7 +613,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         $config = $this->getCustomizationPath();
         if (!empty($config)) {
-            $config .= DIRECTORY_SEPARATOR . self::FILENAME_VIEW_CONFIG;
+            $config .= Magento_Filesystem::DIRECTORY_SEPARATOR . self::FILENAME_VIEW_CONFIG;
         }
         return $config;
     }

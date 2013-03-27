@@ -13,23 +13,24 @@ class Mage_Core_Model_Design_Fallback_Rule_SimpleTest extends PHPUnit_Framework_
 {
     /**
      * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Required parameter 'required_parameter' was not passed
      */
-    public function testGetPatternsDirsException()
+    public function testGetPatternDirsException()
     {
-        $model = new Mage_Core_Model_Design_Fallback_Rule_Simple('<other_param> other text');
+        $model = new Mage_Core_Model_Design_Fallback_Rule_Simple('<required_parameter> other text');
         $model->getPatternDirs(array());
     }
 
     /**
-     * @dataProvider getPatternsDirsDataProvider
+     * @dataProvider getPatternDirsDataProvider
      */
-    public function testGetPatternsDirs($pattern, $param = null, $expectedResult = null)
+    public function testGetPatternDirs($pattern, $optionalParameter = null, $expectedResult = null)
     {
         $params = array(
-            'param' => $param,
-            'other_param' => 'other param',
+            'optional_parameter' => $optionalParameter,
+            'required_parameter' => 'required_parameter',
         );
-        $model = new Mage_Core_Model_Design_Fallback_Rule_Simple($pattern, array('param'));
+        $model = new Mage_Core_Model_Design_Fallback_Rule_Simple($pattern, array('optional_parameter'));
 
         $this->assertEquals(
             $expectedResult,
@@ -37,26 +38,26 @@ class Mage_Core_Model_Design_Fallback_Rule_SimpleTest extends PHPUnit_Framework_
         );
     }
 
-    public function getPatternsDirsDataProvider()
+    public function getPatternDirsDataProvider()
     {
-        $patternOptional = '<param> <other_param> other text';
-        $patternNoOptional = '<other_param> other text';
+        $patternOptional = '<optional_parameter> <required_parameter> other text';
+        $patternNoOptional = '<required_parameter> other text';
 
         return array(
-            'no optional param' => array(
+            'no optional param passed' => array(
                 $patternOptional,
                 null,
                 array()
             ),
-            'no modules in pattern' => array(
+            'no optional param in pattern' => array(
                 $patternNoOptional,
-                'Module',
-                array('other param other text')
+                'optional_parameter',
+                array('required_parameter other text')
             ),
-            'modules' => array(
+            'optional params in pattern and passed' => array(
                 $patternOptional,
-                'Module',
-                array('Module other param other text')
+                'optional_parameter',
+                array('optional_parameter required_parameter other text')
             ),
         );
     }

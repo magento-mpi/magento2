@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Tools
- * @package    translate
+ * @package    view
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -13,6 +13,11 @@
  */
 class Generator_CopyRule
 {
+    /**
+     * @var Magento_Filesystem
+     */
+    private $_filesystem;
+
     /**
      * @var Mage_Core_Model_Theme_Collection
      */
@@ -33,13 +38,16 @@ class Generator_CopyRule
     /**
      * Constructor
      *
+     * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Theme_Collection $themes
      * @param Mage_Core_Model_Design_Fallback_Rule_RuleInterface $fallbackRule
      */
     public function __construct(
+        Magento_Filesystem $filesystem,
         Mage_Core_Model_Theme_Collection $themes,
         Mage_Core_Model_Design_Fallback_Rule_RuleInterface $fallbackRule
     ) {
+        $this->_filesystem = $filesystem;
         $this->_themes = $themes;
         $this->_fallbackRule = $fallbackRule;
     }
@@ -47,7 +55,7 @@ class Generator_CopyRule
     /**
      * Get rules for copying static view files
      * returns array(
-     *      array('source' => <Absolute Source Path>, 'destination' => <Relative Destination Path>),
+     *      array('source' => <Absolute Source Path>, 'destinationContext' => <Destination Path Context>),
      *      ......
      * )
      *
@@ -55,12 +63,9 @@ class Generator_CopyRule
      */
     public function getCopyRules()
     {
-        $locale = null; // Temporary locale is not taken into account
         $params = array(
-            'theme_path'    => $this->_composePlaceholder('theme_path'),
-            'locale'        => $locale,
-            'namespace'     => $this->_composePlaceholder('namespace'),
-            'module'        => $this->_composePlaceholder('module'),
+            'namespace' => $this->_composePlaceholder('namespace'),
+            'module'    => $this->_composePlaceholder('module'),
         );
         $result = array();
         /** @var $theme Mage_Core_Model_ThemeInterface */
@@ -70,6 +75,7 @@ class Generator_CopyRule
             $params['theme'] = $theme;
             $patternDirs = $this->_fallbackRule->getPatternDirs($params);
             foreach (array_reverse($patternDirs) as $pattern) {
+                $pattern = Magento_Filesystem::fixSeparator($pattern);
                 foreach ($this->_getMatchingDirs($pattern) as $srcDir) {
                     $paramsFromDir = $this->_parsePlaceholders($srcDir, $pattern);
                     if (!empty($paramsFromDir['namespace']) && !empty($paramsFromDir['module'])) {
@@ -78,19 +84,16 @@ class Generator_CopyRule
                         $module = null;
                     }
 
-                    $pathInfo = array(
+                    $destinationContext = array(
                         'area' => $area,
-                        'locale' => $locale,
                         'themePath' => $theme->getThemePath(),
+                        'locale' => null, // Temporary locale is not taken into account
                         'module' => $module
                     );
-                    $destination = $this->_getDestinationPath('', $pathInfo['area'], $pathInfo['themePath'], $module);
-                    $destination = rtrim($destination, "\\/");
 
                     $result[] = array(
                         'source' => $srcDir,
-                        'destination' => $destination,
-                        'path_info' => $pathInfo
+                        'destinationContext' => $destinationContext,
                     );
                 }
             }
@@ -117,8 +120,24 @@ class Generator_CopyRule
      */
     private function _getMatchingDirs($dirPattern)
     {
-        $patternGlob = preg_replace($this->_placeholderPcre, '*', $dirPattern);
-        return glob($patternGlob, GLOB_ONLYDIR);
+        $patternGlob = preg_replace($this->_placeholderPcre, '*', $dirPattern, -1, $placeholderCount);
+        if ($placeholderCount) {
+            // autodetect pattern base directory because the filesystem interface requires it
+            $firstPlaceholderPos = strpos($patternGlob, '*');
+            $patternBaseDir = substr($patternGlob, 0, $firstPlaceholderPos);
+            $patternTrailing = substr($patternGlob, $firstPlaceholderPos);
+            $paths = $this->_filesystem->searchKeys($patternBaseDir, $patternTrailing);
+        } else {
+            // pattern is already a valid path containing no placeholders
+            $paths = array($dirPattern);
+        }
+        $result = array();
+        foreach ($paths as $path) {
+            if ($this->_filesystem->isDirectory($path)) {
+                $result[] = $path;
+            }
+        }
+        return $result;
     }
 
     /**
@@ -136,19 +155,5 @@ class Generator_CopyRule
             return $placeholders;
         }
         return array();
-    }
-
-    /**
-     * Get relative destination path based on parameters. Calls method used in Production Mode in application
-     *
-     * @param $filename
-     * @param $area
-     * @param $themePath
-     * @param $module
-     * @return string
-     */
-    private function _getDestinationPath($filename, $area, $themePath, $module)
-    {
-        return Mage_Core_Model_Design_Package::getPublishedViewFileRelPath($area, $themePath, '', $filename, $module);
     }
 }

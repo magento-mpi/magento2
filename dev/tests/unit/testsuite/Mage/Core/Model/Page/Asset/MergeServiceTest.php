@@ -125,7 +125,7 @@ class Mage_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_Test
         $this->_objectManager
             ->expects($this->once())
             ->method('create')
-            ->with('Mage_Core_Model_Page_Asset_Merged', array('assets' => $assets), false)
+            ->with('Mage_Core_Model_Page_Asset_Merged', array('assets' => $assets))
             ->will($this->returnValue($mergedAsset))
         ;
         $this->assertSame(array($mergedAsset), $this->_object->getMergedAssets($assets, $contentType));

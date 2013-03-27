@@ -69,8 +69,7 @@ class Mage_Core_Model_Page_Asset_MergeService
             $isJsMergeEnabled = $this->_storeConfig->getConfigFlag(self::XML_PATH_MERGE_JS_FILES);
             if (($isCss && $isCssMergeEnabled) || ($isJs && $isJsMergeEnabled)) {
                 $assets = array(
-                    $this->_objectManager->create('Mage_Core_Model_Page_Asset_Merged', array('assets' => $assets),
-                        false)
+                    $this->_objectManager->create('Mage_Core_Model_Page_Asset_Merged', array('assets' => $assets))
                 );
             }
         }

@@ -19,7 +19,7 @@ class Mage_Core_Model_Theme_Domain_StagingTest extends PHPUnit_Framework_TestCas
      */
     public function testUpdateFromStagingTheme()
     {
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
+        $themeMock = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false, false);
         $copyStV = $this->getMock('Mage_Core_Model_Theme_Copy_StagingToVirtual', array('copy'), array(), '', false);
         $copyStV->expects($this->once())
             ->method('copy')
@@ -27,6 +27,6 @@ class Mage_Core_Model_Theme_Domain_StagingTest extends PHPUnit_Framework_TestCas
             ->will($this->returnSelf());
 
         $stagingTheme = new Mage_Core_Model_Theme_Domain_Staging($themeMock, $copyStV);
-        $this->assertEquals($stagingTheme, $stagingTheme->updateFromStagingTheme());
+        $this->assertSame($stagingTheme, $stagingTheme->updateFromStagingTheme());
     }
 }

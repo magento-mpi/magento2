@@ -17,12 +17,13 @@ class Mage_Core_Model_App_State
      */
     private $_appMode;
 
-    /**
+    /**#@+
      * Application modes
      */
     const MODE_DEVELOPER       = 'developer';
     const MODE_PRODUCTION      = 'production';
     const MODE_DEFAULT         = 'default';
+    /**#@-*/
 
     /**
      * @param string $mode

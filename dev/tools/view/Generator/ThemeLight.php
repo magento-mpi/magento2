@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Tools
- * @package    translate
+ * @package    view
  * @copyright  {copyright}
  * @license    {license_link}
  */

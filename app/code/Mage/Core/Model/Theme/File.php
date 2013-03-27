@@ -195,8 +195,7 @@ class Mage_Core_Model_Theme_File extends Mage_Core_Model_Abstract
         if ($this->hasContent()) {
             return $this->_objectManager->create(
                 'Mage_Core_Model_Page_Asset_PublicFile',
-                array('file' => $this->getFullPath(), 'contentType' => $this->getFileType()),
-                false
+                array('file' => $this->getFullPath(), 'contentType' => $this->getFileType())
             );
         }
         return null;

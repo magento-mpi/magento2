@@ -47,7 +47,7 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->method('current')
             ->will($this->returnValue($this->_cacheFrontendMock))
         ;
-        $this->_themeFilesMock = $this->getMock('Mage_Core_Model_Theme_Files', array(), array(), '', false);
+        $this->_themeFilesMock = $this->getMock('Mage_Core_Model_Theme_File', array(), array(), '', false);
         $this->_assetsMock = $this->getMock('Mage_Core_Model_Page_Asset_Collection');
 
         $this->_model = new Mage_Core_Model_Observer(
@@ -84,7 +84,7 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testApplyThemeCustomization()
     {
         $asset = new Mage_Core_Model_Page_Asset_Remote('http://127.0.0.1/test.css');
-        $file = $this->getMock('Mage_Core_Model_Theme_Files', array('getAsset', 'getFilePath'), array(), '', false);
+        $file = $this->getMock('Mage_Core_Model_Theme_File', array('getAsset', 'getFilePath'), array(), '', false);
         $file->expects($this->once())
             ->method('getAsset')
             ->will($this->returnValue($asset));
