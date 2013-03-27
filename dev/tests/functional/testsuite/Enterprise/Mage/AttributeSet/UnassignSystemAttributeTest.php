@@ -33,11 +33,8 @@ class Enterprise_Mage_AttributeSet_UnassignSystemAttributeTest
             array('custom_layout_update'),
             array('enable_googlecheckout'),
             array('gallery'),
-            array('gift_message_available'),
             array('gift_wrapping_available'),
             array('gift_wrapping_price'),
-            array('group_price'),
-            array('image'),
             array('is_recurring'),
             array('is_returnable'),
             array('media_gallery'),
@@ -59,7 +56,6 @@ class Enterprise_Mage_AttributeSet_UnassignSystemAttributeTest
             array('special_price'),
             array('special_to_date'),
             array('thumbnail'),
-            array('tier_price'),
             array('url_key')
         );
     }
@@ -73,19 +69,23 @@ class Enterprise_Mage_AttributeSet_UnassignSystemAttributeTest
     {
         return array(
             array('allow_open_amount'),
+            array('category_ids'),
             array('description'),
+            array('gift_message_available'),
             array('giftcard_amounts'),
+            array('group_price'),
+            array('image'),
             array('name'),
             array('price'),
             array('price_view'),
+            array('quantity_and_stock_status'),
             array('short_description'),
             array('sku'),
             array('status'),
             array('tax_class_id'),
+            array('tier_price'),
             array('visibility'),
             array('weight'),
-            array('quantity_and_stock_status'),
-            array('category_ids')
         );
     }
 }

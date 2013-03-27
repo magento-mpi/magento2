@@ -82,7 +82,7 @@ jQuery(function ($) {
         /*
          * Initialization of notification widget
          */
-        $(document).mage('notification');
+        $('body').mage('notification');
 
         $('.content-header:not(.skip-header)').mage('floatingHeader');
     };

@@ -66,7 +66,9 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
         $countryMock->expects($this->any())
             ->method('getName')
             ->will($this->returnValue($mockConfig['country_name']));
-        $countryFactoryMock = $this->getMock('Mage_Directory_Model_CountryFactory', array(), array(), '', false);
+        $countryFactoryMock = $this->getMock(
+            'Mage_Directory_Model_CountryFactory', array('create'), array(), '', false
+        );
         $countryFactoryMock->expects($this->any())->method('create')->will($this->returnValue($countryMock));
 
         return $countryFactoryMock;

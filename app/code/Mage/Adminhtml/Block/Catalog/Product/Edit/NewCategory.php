@@ -69,10 +69,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
             'suggestOptions' => array(
                 'source' => $this->getUrl('adminhtml/catalog_category/suggestCategories'),
                 'valueField' => '#new_category_parent',
-                'template' => '#category_ids-template',
-                'control' => 'jstree',
-                'multiselect' => true,
                 'className' => 'category-select',
+                'multiselect' => true,
+                'showAll' => true,
             ),
             'saveCategoryUrl' => $this->getUrl('adminhtml/catalog_category/save'),
         ));

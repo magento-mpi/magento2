@@ -55,7 +55,7 @@ all_tags:
             confirmation_for_massaction_delete: Are you sure?
             select_items_to_delete: Please select items.
             tag_already_exists: //li[@class='error-msg' and contains(.,'Tag already exists.')]
-            required_name: //*[@class='mage-error' and @for='name' and text()='This field is required.' and not(contains(@style, 'display: none;'))]
+            required_name: //*[@class='mage-error' and @for='name' and text()='This is a required field.' and not(contains(@style, 'display: none;'))]
 
 all_tags_index:
     mca: tag/index/

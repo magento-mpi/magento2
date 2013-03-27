@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 /* @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier */
+$element = $this->getElement();
 ?>
 <?php $_htmlId      = $this->getElement()->getHtmlId() ?>
 <?php $_htmlClass   = $this->getElement()->getClass() ?>
@@ -20,16 +21,21 @@
 
 <?php $_showWebsite = $this->isShowWebsiteColumn(); ?>
 <?php $_showWebsite= $this->isMultiWebsites(); ?>
-<div class="field" id="attribute-<?php echo $_htmlId?>-container">
+<div class="field" id="attribute-<?php echo $_htmlId?>-container" data-element-id="<?php echo $_htmlId?>"
+     data-apply-to="<?php echo $this->escapeHtml(
+         $this->helper('Mage_Core_Helper_Data')->jsonEncode(
+             $element->hasEntityAttribute() ? $element->getEntityAttribute()->getApplyTo() : array()
+         )
+     )?>">
     <label class="label"><span><?php echo $this->getElement()->getLabel() ?></span></label>
     <div class="control">
-        <table cellspacing="0" class="data-table" id="tiers_table">
+        <table cellspacing="0" class="data-table tiers_table" id="tiers_table">
             <thead>
                 <tr>
-                    <th <?php if (!$_showWebsite): ?>style="display:none"<?php endif; ?>><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Website') ?></th>
-                    <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Customer Group') ?></th>
-                    <th><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Qty') ?></th>
-                    <th><?php echo $this->getPriceColumnHeader(Mage::helper('Mage_Catalog_Helper_Data')->__('Price')) ?></th>
+                    <th class="col-websites" <?php if (!$_showWebsite): ?>style="display:none"<?php endif; ?>><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Website') ?></th>
+                    <th class="col-customer-group"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Customer Group') ?></th>
+                    <th class="col-qty required"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Quantity') ?></th>
+                    <th class="col-price required"><?php echo $this->getPriceColumnHeader(Mage::helper('Mage_Catalog_Helper_Data')->__('Price')) ?></th>
                     <th class="col-delete"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Action') ?></th>
                 </tr>
             </thead>
@@ -44,19 +50,19 @@
 <script type="text/javascript">
 //<![CDATA[
 var tierPriceRowTemplate = '<tr>'
-    + '<td<?php if (!$_showWebsite): ?> style="display:none"<?php endif; ?>>'
+    + '<td class="col-websites"<?php if (!$_showWebsite): ?> style="display:none"<?php endif; ?>>'
     + '<select class="<?php echo $_htmlClass ?> required-entry" name="<?php echo $_htmlName ?>[{{index}}][website_id]" id="tier_price_row_{{index}}_website">'
     <?php foreach ($this->getWebsites() as $_websiteId => $_info): ?>
     + '<option value="<?php echo $_websiteId ?>"><?php echo $this->jsQuoteEscape($this->escapeHtml($_info['name'])) ?><?php if (!empty($_info['currency'])): ?> [<?php echo $this->escapeHtml($_info['currency']) ?>]<?php endif; ?></option>'
     <?php endforeach ?>
     + '</select></td>'
-    + '<td><select class="<?php echo $_htmlClass ?> custgroup required-entry" name="<?php echo $_htmlName ?>[{{index}}][cust_group]" id="tier_price_row_{{index}}_cust_group">'
+    + '<td class="col-customer-group"><select class="<?php echo $_htmlClass ?> custgroup required-entry" name="<?php echo $_htmlName ?>[{{index}}][cust_group]" id="tier_price_row_{{index}}_cust_group">'
     <?php foreach ($this->getCustomerGroups() as $_groupId=>$_groupName): ?>
     + '<option value="<?php echo $_groupId ?>"><?php echo $this->jsQuoteEscape($this->escapeHtml($_groupName)) ?></option>'
     <?php endforeach ?>
     + '</select></td>'
-    + '<td class="col-qty"><input class="<?php echo $_htmlClass ?> qty required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[{{index}}][price_qty]" value="{{qty}}" id="tier_price_row_{{index}}_qty" />'
-    + ' <small class="nobr"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__("and above")?></small></td>'
+    + '<td class="col-qty"><small class="nobr" title="<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__("and above")?>"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__("and above")?></small><input class="<?php echo $_htmlClass ?> qty required-entry validate-greater-than-zero" type="text" name="<?php echo $_htmlName ?>[{{index}}][price_qty]" value="{{qty}}" id="tier_price_row_{{index}}_qty" />'
+    + '</td>'
     + '<td class="col-price"><input class="<?php echo $_htmlClass ?> required-entry <?php echo $_priceValueValidation ?>" type="text" name="<?php echo $_htmlName ?>[{{index}}][price]" value="{{price}}" id="tier_price_row_{{index}}_price" /></td>'
     + '<td class="col-delete"><input type="hidden" name="<?php echo $_htmlName ?>[{{index}}][delete]" class="delete" value="" id="tier_price_row_{{index}}_delete" />'
     + '<button title="<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__("Delete Tier") ?>" type="button" class="action- scalable delete icon-btn delete-product-option" id="tier_price_row_{{index}}_delete_button" onclick="return tierPriceControl.deleteItem(event);">'

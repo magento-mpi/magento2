@@ -2,7 +2,7 @@
 /**
  * Magento object manager. Responsible for instantiating objects taking itno account:
  * - constructor arguments (using configured, and provided parameters)
- * - class shareability
+ * - class instances life style (singleton, transient)
  * - interface preferences
  *
  * Intentionally contains multiple concerns for optimum performance

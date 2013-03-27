@@ -105,7 +105,6 @@ class Mage_Catalog_Model_Product_Visibility extends Varien_Object
     static public function getAllOptions()
     {
         $res = array();
-        $res[] = array('value'=>'', 'label'=> Mage::helper('Mage_Catalog_Helper_Data')->__('-- Please Select --'));
         foreach (self::getOptionArray() as $index => $value) {
             $res[] = array(
                'value' => $index,
