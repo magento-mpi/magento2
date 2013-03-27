@@ -48,72 +48,54 @@
      * Update category content area
      */
     function updateContent(url, params, refreshTree) {
-        if (!params) {
-            params = {};
-        }
-        if (!params.form_key) {
-            params.form_key = FORM_KEY;
-        }
-
-        jQuery('.page-actions').floatingHeader('destroy');
-
-       /*if(params.node_name)
-       {
-           var currentNode = tree.getNodeById(tree.currentNodeId);
-           currentNode.setText(params.node_name);
-       }*/
-
-        var categoryContainer = $('category-edit-container');
-        var thisObj = this;
-        new Ajax.Request(url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true' ), {
-            parameters:  params,
-            evalScripts: true,
-            onComplete: function () {
-                /**
-                 * This func depends on variables, that came in response, and were eval'ed in onSuccess() callback.
-                 * Since prototype's Element.update() evals javascripts in 10 msec, we should exec our func after it.
-                 */
-                setTimeout(function() {
-                    try {
-                        if (refreshTree) {
-                            thisObj.refreshTreeArea();
-                        }
-                        jQuery('.page-actions').floatingHeader({ 'title': '.category-edit-title'});
-                    } catch (e) {
-                        alert(e.message);
-                    };
-                }, 25);
-            },
-            onSuccess: function(transport) {
-                try {
-                    if (transport.responseText.isJSON()) {
-                        var response = transport.responseText.evalJSON();
-                        var needUpdate = true;
-                        if (response.error) {
-                            alert(response.message);
-                            needUpdate = false;
-                        }
-                        if(response.ajaxExpired && response.ajaxRedirect) {
-                            setLocation(response.ajaxRedirect);
-                            needUpdate = false;
-                        }
-                        if (needUpdate){
-                            if (response.content){
-                                $(categoryContainer).update(response.content);
-                            }
-                            if (response.messages) {
-                                jQuery('.messages').html(response.messages);
-                            }
-                        }
-                    } else {
-                        $(categoryContainer).update(transport.responseText);
-                    }
-                }
-                catch (e) {
-                    $(categoryContainer).update(transport.responseText);
-                }
-            }
+        var win = this;
+        var params = jQuery.extend(params || {}, {
+            form_key: FORM_KEY
         });
+
+        if (params.node_name) {
+            this.tree.getNodeById(tree.currentNodeId).currentNode.setText(params.node_name);
+        }
+
+        (function($){
+            var $categoryContainer = $('#category-edit-container');
+            $.ajax({
+                url: url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true' ),
+                data: params,
+                context: $('body'),
+                showLoader: true
+            }).done(function(data){
+                if (data.content) {
+                    $('.page-actions').floatingHeader('destroy');
+                    try {
+                        $('#category-edit-container .wysiwyg-editor').each(function(index, element) {
+                            tinyMCE.execCommand('mceRemoveControl', false, $(element).attr('id'));
+                        });
+                        $categoryContainer.html('');
+                    } catch(e) {
+                        alert(e.message);
+                    }
+                    $categoryContainer.html(data.content).trigger('contentUpdated');
+                    setTimeout(function() {
+                        $('#category-edit-container .wysiwyg-editor').each(function(index, element) {
+                            tinyMCE.execCommand('mceRemoveControl', false, $(element).attr('id'));
+                            tinyMCE.execCommand('mceAddControl', true, $(element).attr('id'));
+                        });
+                        $('.page-actions').floatingHeader({ 'title': '.category-edit-title'});
+                        try {
+                            if (refreshTree) {
+                                win.refreshTreeArea();
+                            }
+                        } catch (e) {
+                            alert(e.message);
+                        };
+                    }, 25);
+                }
+                if (data.messages && data.messages.length > 0) {
+                    $('.messages').html(data.messages);
+                }
+            });
+        })(win.jQuery);
     }
 
     /**

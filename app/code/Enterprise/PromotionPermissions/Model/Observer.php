@@ -121,7 +121,7 @@ class Enterprise_PromotionPermissions_Model_Observer
                 if (!$this->_canEditCatalogRules) {
                     $block->removeButton('delete');
                     $block->removeButton('save');
-                    $block->removeButton('save_and_continue');
+                    $block->removeButton('save_and_continue_edit');
                     $block->removeButton('save_apply');
                     $block->removeButton('reset');
                 }
@@ -143,7 +143,7 @@ class Enterprise_PromotionPermissions_Model_Observer
                 if (!$this->_canEditSalesRules) {
                     $block->removeButton('delete');
                     $block->removeButton('save');
-                    $block->removeButton('save_and_continue');
+                    $block->removeButton('save_and_continue_edit');
                     $block->removeButton('reset');
                 }
                 break;
@@ -206,7 +206,7 @@ class Enterprise_PromotionPermissions_Model_Observer
             case 'promo_catalog_edit_tabs' :
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditCatalogRules) {
                     $relatedBannersBlock = $block->getChildBlock('catalogrule.related.banners');
-                    if (!is_null($relatedBannersBlock)) {
+                    if ($relatedBannersBlock) {
                         $relatedBannersBlock->unsetChild('banners_grid_serializer');
                     }
                 }

@@ -116,32 +116,37 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
     {
         if (!$this->_getProduct()->getUpsellReadonly()) {
             $this->addColumn('in_products', array(
-                'header_css_class' => 'a-center',
                 'type'      => 'checkbox',
                 'name'      => 'in_products',
                 'values'    => $this->_getSelectedProducts(),
                 'align'     => 'center',
-                'index'     => 'entity_id'
+                'index'     => 'entity_id',
+                'header_css_class'  => 'col-select',
+                'column_css_class'  => 'col-select'
             ));
         }
 
         $this->addColumn('entity_id', array(
             'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('ID'),
             'sortable'  => true,
-            'width'     => 60,
-            'index'     => 'entity_id'
+            'index'     => 'entity_id',
+            'header_css_class'  => 'col-id',
+            'column_css_class'  => 'col-id'
         ));
         $this->addColumn('name', array(
             'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Name'),
-            'index'     => 'name'
+            'index'     => 'name',
+            'header_css_class'  => 'col-name',
+            'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('type', array(
             'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Type'),
-            'width'     => 100,
             'index'     => 'type_id',
             'type'      => 'options',
             'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getOptionArray(),
+            'header_css_class'  => 'col-type',
+            'column_css_class'  => 'col-type'
         ));
 
         $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
@@ -151,50 +156,57 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
 
         $this->addColumn('set_name', array(
             'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Attrib. Set Name'),
-            'width'     => 130,
             'index'     => 'attribute_set_id',
             'type'      => 'options',
             'options'   => $sets,
+            'header_css_class'  => 'col-attr-name',
+            'column_css_class'  => 'col-attr-name'
         ));
 
         $this->addColumn('status', array(
             'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Status'),
-            'width'     => 90,
             'index'     => 'status',
             'type'      => 'options',
             'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getOptionArray(),
+            'header_css_class'  => 'col-status',
+            'column_css_class'  => 'col-status'
         ));
 
         $this->addColumn('visibility', array(
             'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Visibility'),
-            'width'     => 90,
             'index'     => 'visibility',
             'type'      => 'options',
             'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getOptionArray(),
+            'header_css_class'  => 'col-visibility',
+            'column_css_class'  => 'col-visibility'
         ));
 
         $this->addColumn('sku', array(
             'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
-            'width'     => 80,
-            'index'     => 'sku'
+            'index'     => 'sku',
+            'header_css_class'  => 'col-sku',
+            'column_css_class'  => 'col-sku'
         ));
 
         $this->addColumn('price', array(
             'header'        => Mage::helper('Mage_Catalog_Helper_Data')->__('Price'),
             'type'          => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
-            'index'         => 'price'
+            'index'         => 'price',
+            'header_css_class'  => 'col-price',
+            'column_css_class'  => 'col-price'
         ));
 
         $this->addColumn('position', array(
             'header'            => Mage::helper('Mage_Catalog_Helper_Data')->__('Position'),
             'name'              => 'position',
             'type'              => 'number',
-            'width'             => 60,
             'validate_class'    => 'validate-number',
             'index'             => 'position',
             'editable'          => !$this->_getProduct()->getUpsellReadonly(),
-            'edit_only'         => !$this->_getProduct()->getId()
+            'edit_only'         => !$this->_getProduct()->getId(),
+            'header_css_class'  => 'col-position',
+            'column_css_class'  => 'col-position'
         ));
 
         return parent::_prepareColumns();

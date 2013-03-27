@@ -10,22 +10,16 @@
 class Magento_ObjectManager_Definition_Runtime implements Magento_ObjectManager_Definition
 {
     /**
-     * Definition reader
-     *
-     * @var Magento_Di_Definition_RuntimeDefinition
+     * @var array
      */
-    protected $_reader;
+    protected $_definitions = array();
 
     /**
-     * @param Magento_Di_Definition_RuntimeDefinition $reader
-     * @param Magento_Di_Generator $generator
+     * @param Magento_Code_Reader_ClassReader $reader
      */
-    public function __construct(
-        Magento_Di_Definition_RuntimeDefinition $reader = null,
-        Magento_Di_Generator $generator = null
-    ) {
-        $this->_reader = $reader ?: new Magento_Di_Definition_RuntimeDefinition_Zend();
-        $this->_generator = $generator ?: new Magento_Di_Generator();
+    public function __construct(Magento_Code_Reader_ClassReader $reader = null)
+    {
+        $this->_reader = $reader ?: new Magento_Code_Reader_ClassReader();
     }
 
     /**
@@ -42,13 +36,13 @@ class Magento_ObjectManager_Definition_Runtime implements Magento_ObjectManager_
      * );
      *
      * @param string $className
-     * @return array
+     * @return array|null
      */
     public function getParameters($className)
     {
-        if (!class_exists($className)) {
-            $this->_generator->generateClass($className);
+        if (!array_key_exists($className, $this->_definitions)) {
+            $this->_definitions[$className] = $this->_reader->getConstructor($className);
         }
-        return $this->_reader->getMethodParameters($className, '__construct');
+        return $this->_definitions[$className];
     }
 }

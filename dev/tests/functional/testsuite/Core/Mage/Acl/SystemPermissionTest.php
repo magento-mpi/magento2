@@ -75,23 +75,26 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
      */
     public function systemPermissions($testData)
     {
+        $this->markTestIncomplete('MAGETWO-8428:Exception on page if admin user edit his own role and fatal
+                                   error on login page');
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testData);
         // Verify that navigation menu has only 2 child elements
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
-        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
-            'Count of child Navigation Menu not equal 1, should be equal 1');
+        $this->assertEquals(5, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
+            'Count of child Navigation Menu not equal 5, should be equal 5');
         $this->navigate('manage_roles');
         $editedRole = $this->loadDataSet('AdminUserRole', 'edit_admin_user_role_name',
-            array('resource_1' => 'System/Configuration'), array('roleName' => $testData['role_name']));
+            array('resource_1' => 'System/Configuration'), array('roleName' => $testData['role_name'],
+                  'newRoleName' => $testData['role_name']));
         //Data
         $this->adminUserHelper()->editRole($editedRole);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('system_configuration');
-        $this->assertEquals(2, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
-            'Count of child Navigation Menu not equal 2, should be equal 2');
+        $this->assertEquals(6, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
+            'Count of child Navigation Menu not equal 6, should be equal 6');
         $tabElement = $this->loadDataSet('SystemConfigurationMenu', 'configuration_menu_default');
         //verify that this tab equal to resource from ACL tree
         foreach ($tabElement as $tab => $tabName) {
@@ -114,7 +117,8 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testData);
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom');
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
+                                         array('resource_1' => 'System/Configuration'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');
@@ -132,5 +136,64 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
             array('roleName' => $testData['role_name']));
         $this->adminUserHelper()->deleteRole($dataForDeleteOwnRole);
         $this->assertMessagePresent('error', 'delete_self_assigned_role');
+    }
+
+    /**
+     * <p>1. Do following checks for full-powered admin:</p>
+     * <p>  - "Sing Out" link is available</p>
+     * <p>  - "Account Setting" link is available</p>
+     * <p>  - fields on "My Account" page are editable</p>
+     * <p>2. Create role restricted to Catalog and Sales modules</p>
+     *
+     * @test
+     */
+    public function createSalesOnlyRole()
+    {
+        $this->loginAdminUser();
+        //Additional check for powerful admins
+        $this->assertTrue($this->controlIsPresent('link', 'log_out'));
+        $this->assertTrue($this->controlIsPresent('link', 'account_settings'));
+        $this->navigate('my_account');
+        $this->assertTrue($this->controlIsEditable('field', 'user_name'));
+
+        $this->navigate('manage_roles');
+        $roleSource = $this->loadDataSet('AdminUserRole', 'catalog_sales_role');
+        $this->adminUserHelper()->createRole($roleSource);
+        $this->assertMessagePresent('success', 'success_saved_role');
+        return $roleSource['role_info_tab']['role_name'];
+    }
+
+    /**
+     * <p>Create admin user restricted to Catalog and Sales modules only.</p>
+     *
+     * @test
+     * @depends createSalesOnlyRole
+     */
+    public function createSalesOnlyUser($roleName)
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_admin_users');
+        $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user', array('role_name' => $roleName));
+        $this->adminUserHelper()->createAdminUser($userData);
+        $this->assertMessagePresent('success', 'success_saved_user');
+
+        return $userData;
+    }
+
+    /**
+     * <p>1. Log in as user restricted to Catalog and Sales</p>
+     * <p>2. Check that link "Sign Out" is available</p>
+     * <p>3. Check that link "Account Setting" is absent.</p>
+     *
+     * @test
+     * @depends createSalesOnlyUser
+     */
+    public function loginSalesOnlyUser($loginData)
+    {
+        $this->admin('log_in_to_admin', false);
+        $this->adminUserHelper()->loginAdmin($loginData);
+        $this->assertTrue($this->controlIsPresent('link', 'log_out'));
+        $this->assertFalse($this->controlIsPresent('link', 'account_settings'));
+        $this->logoutAdminUser();
     }
 }

@@ -47,6 +47,7 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
      */
     public function checkPromotionsFullRights()
     {
+        $this->markTestSkipped('MAGETWO-7422');
         //Preconditions
         //create specific role with full rights to Promotions Menu
         $this->navigate('manage_roles');
@@ -135,6 +136,7 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
      */
     public function checkPromotionsShoppingCartRulesCreateRights()
     {
+        $this->markTestSkipped('MAGETWO-7422');
         //Preconditions
         //create specific role with only Shopping Cart Price Rule Create rights
         $this->navigate('manage_roles');
@@ -268,6 +270,7 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
      */
     public function checkAutomatedEmailReminderRulesReadRights()
     {
+        $this->markTestSkipped('MAGETWO-8413');
         //Preconditions
         //create specific role with only read rights to Automated Email Reminder Rules
         $this->navigate('manage_roles');
@@ -312,10 +315,11 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
      */
     public function createShoppingCartPriceRulesWithCustomRoleScopes()
     {
+        $this->markTestSkipped('MAGETWO-7422');
         //Preconditions
         //create specific role with create rights to Shopping Cart Price
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
             array('resource_1' => 'Promotions/Shopping Cart Price Rules'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
@@ -348,7 +352,7 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
         //Preconditions
         //create specific role with create rights to Create Automated Reminder Rule
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
             array('resource_1' => 'Promotions/Automated Email Reminder Rules'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
@@ -366,7 +370,6 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
         $this->navigate('manage_automated_email_reminder_rules');
         $emailRule = $this->loadDataSet('AutomatedEmailRule', 'create_automated_email_rule');
         $this->priceRulesHelper()->saveAndContinueEditRule($emailRule, 'edit_automated_email_reminder_rules');
-        $this->saveForm('save_rule');
         $this->assertMessagePresent('success', 'success_saved_rule');
     }
 }

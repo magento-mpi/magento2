@@ -61,7 +61,7 @@ var catalogWysiwygEditor = {
         });
 
         content.evalScripts.bind(content).defer();
-
+        tinyMCE.editors[elementId].save();
         $(elementId+'_editor').value = $(elementId).value;
     },
     okDialogWindow : function(dialogWindow) {
@@ -75,6 +75,7 @@ var catalogWysiwygEditor = {
                     $(dialogWindow.options.firedElementId).value = $(dialogWindow.options.firedElementId+'_editor').value;
                 }
             }
+            tinyMCE.editors[dialogWindow.options.firedElementId].load();
         }
         this.closeDialogWindow(dialogWindow);
     },

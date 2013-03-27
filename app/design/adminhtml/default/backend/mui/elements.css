@@ -856,7 +856,7 @@
     top: 50%;
     left: 50%;
     margin: -12px 0 0 -12px;
-    background: url(images/ajax-loader.gif) no-repeat center;
+    background: #fff url(images/ajax-loader.gif) no-repeat center;
 }
 
 .loading-message {
@@ -1018,7 +1018,7 @@ table.loading:after {
     z-index: 999;
 }
 
-.ie8 .fade {
+.eq-ie8 .fade {
     background: transparent;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = #99000000, endColorstr = #99000000);
 }
