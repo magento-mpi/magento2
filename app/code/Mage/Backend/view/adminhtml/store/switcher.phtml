@@ -10,7 +10,68 @@
 ?>
 <?php /* @var $this Mage_Core_Block_Template */ ?>
 <?php if ($websites = $this->getWebsites()): ?>
-<div class="store-switcher">
+
+    <div class="store-switcher-alt">
+        <strong class="store-selected" data-toggle="dropdown">Russian Store View</strong>
+        <ul class="dropdown-menu">
+            <li class="store-switcher-website">
+                <strong>Main Website</strong>
+                <ul>
+                    <li class="store-switcher-store">
+                        <strong>Main Store</strong>
+                        <ul>
+                            <li class="store-switcher-store-view">
+                                <a href="#">English</a>
+                            </li>
+                            <li class="store-switcher-store-view">
+                                <a href="#">UK</a>
+                            </li>
+                            <li class="store-switcher-store-view">
+                                <a href="#">Russian Store View</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="store-switcher-store">
+                        <strong>Second Store</strong>
+                        <ul>
+                            <li class="store-switcher-store-view">
+                                <a href="#">English</a>
+                            </li>
+                            <li class="store-switcher-store-view">
+                                <a href="#">Russian Store View</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="store-switcher-website">
+                <strong>Second Website</strong>
+                <ul>
+                    <li class="store-switcher-store">
+                        <strong>Main Store</strong>
+                        <ul>
+                            <li class="store-switcher-store-view">
+                                <a href="#">English</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="store-switcher-store">
+                        <strong>Second Store</strong>
+                        <ul>
+                            <li class="store-switcher-store-view">
+                                <a href="#">English</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="manage-stores">
+                <a href="#">Manage stores...</a>
+            </li>
+        </ul>
+    </div>
+
+<div class="store-switcher hidden">
     <label for="store_switcher"><?php echo $this->__('Choose Store View:') ?></label>
     <select name="store_switcher" id="store_switcher" onchange="return switchStore(this);"<?php echo $this->getUiId()?>>
     <?php if ($this->hasDefaultOption()): ?>
@@ -26,7 +87,7 @@
                         <optgroup label="<?php echo $this->escapeHtml($website->getName()) ?>"></optgroup>
                     <?php endif; ?>
                     <?php if ($showGroup == false): ?>
-                        <?php $showGroup = true; ?>
+                        <?php $showGroup = true; ?>onselectstart="return false;
                         <optgroup label="&nbsp;&nbsp;&nbsp;<?php echo $this->escapeHtml($group->getName()) ?>">
                     <?php endif; ?>
                     <option value="<?php echo $this->escapeHtml($store->getId()) ?>"<?php if ($this->getStoreId() == $store->getId()): ?> selected="selected"<?php endif; ?>>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->escapeHtml($store->getName()) ?></option>

@@ -15,12 +15,14 @@
         <reference name="menu">
             <action method="setActive"><itemId>Mage_Catalog::catalog_products</itemId></action>
         </reference>
-        <reference name="content">
-            <block type="Mage_Adminhtml_Block_Catalog_Product" name="products_list">
-                <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" as="store_switcher">
-                    <action method="setUseConfirm"><params>0</params></action>
-                </block>
+        <reference name="page-title">
+            <block type="Mage_Backend_Block_Store_Switcher" name="store.switcher">
+                <action method="setUseConfirm"><params>1</params></action>
             </block>
+            <action method="setTitleClass"><class>complex</class></action>
+        </reference>
+        <reference name="content">
+            <block type="Mage_Adminhtml_Block_Catalog_Product" name="products_list"></block>
         </reference>
     </adminhtml_catalog_product_index>
 
@@ -77,8 +79,11 @@
 
     <adminhtml_catalog_product_edit>
         <update handle="adminhtml_catalog_product_new"/>
-        <reference name="left">
-            <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" before="-"/>
+        <reference name="page-title">
+            <block type="Mage_Backend_Block_Store_Switcher" name="store.switcher">
+                <action method="setUseConfirm"><params>1</params></action>
+            </block>
+            <action method="setTitleClass"><class>complex</class></action>
         </reference>
     </adminhtml_catalog_product_edit>
 
