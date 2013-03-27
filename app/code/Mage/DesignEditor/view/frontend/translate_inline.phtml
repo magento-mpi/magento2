@@ -55,19 +55,9 @@
                 ajaxUrl: '<?php echo $this->getAjaxUrl() ?>',
                 area: '<?php echo $this->getArea() ?>',
                 translateMode: '<?php echo $this->getTranslateMode() ?>',
-                onSubmitComplete: function() {
-                    $body.translateInlineDialogVde('toggleStyle');
-                    $textTranslations.translateInlineVde('show');
-                    $imageTranslations.translateInlineImageVde('show');
-                    $scriptTranslations.translateInlineScriptVde('show');
-                },
-
-                onCancel: function() {
-                    $body.translateInlineDialogVde('toggleStyle');
-                    $textTranslations.translateInlineVde('show');
-                    $imageTranslations.translateInlineImageVde('show');
-                    $scriptTranslations.translateInlineScriptVde('show');
-                }
+                textTranslations: $textTranslations,
+                imageTranslations: $imageTranslations,
+                scriptTranslations: $scriptTranslations
             });
 
             $textTranslations.translateInlineVde({
@@ -140,9 +130,6 @@
                 frameUrl: '<?php echo $this->getFrameUrl() ?>',
                 refreshVdeCanvas: <?php if ($this->getRefreshCanvas()): ?>false<?php else: ?>true<?php endif; ?>,
                 frameBody: $body,
-                textTranslations: $textTranslations,
-                imageTranslations: $imageTranslations,
-                scriptTranslations: $scriptTranslations
             });
         });
     })(jQuery);

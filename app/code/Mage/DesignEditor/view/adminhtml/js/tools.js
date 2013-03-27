@@ -134,9 +134,6 @@
             }
             else {
                 this.options.frameBody.translateInlineDialogVde('toggleStyle', mode);
-                this.options.textTranslations.translateInlineVde('toggleIcon', mode);
-                this.options.imageTranslations.translateInlineImageVde('toggleIcon', mode);
-                this.options.scriptTranslations.translateInlineScriptVde('toggleIcon', mode);
             }
          },
 
