@@ -200,11 +200,12 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 Mage::throwException($this->__('Theme with id "%d" is not found.', $themeId));
             }
             $filesJs = $serviceModel->uploadJsFile('js_files_uploader', $theme);
+            $temporary = $filesJs->getUploadedJsFile()->getIsTemporary() ? $filesJs->getUploadedJsFile()->getId() : '';
 
             $filesData = array(
                 'id'        => $filesJs->getUploadedJsFile()->getId(),
                 'name'      => $filesJs->getUploadedJsFile()->getFileName(),
-                'temporary' => $filesJs->getUploadedJsFile()->getIsTemporary() ? $filesJs->getId() : ''
+                'temporary' => $temporary
             );
 
             $result = array('error' => false, 'file' => $filesData);
