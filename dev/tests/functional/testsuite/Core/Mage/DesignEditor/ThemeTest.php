@@ -232,7 +232,6 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      */
     public function assignThemeFromNavigationMode()
     {
-        $this->markTestIncomplete('Incomplete test with wrong logic. Functionality will be changed');
         //Data
         $themeData = $this->loadDataSet('Theme', 'all_fields');
         $this->themeHelper()->createTheme($themeData);
@@ -243,19 +242,57 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->navigate('design_editor_selector');
         $this->waitForPageToLoad();
         $this->addParameter('id', $themeData['id']);
-        $this->clickButton('edit_theme_button');
+        $this->designEditorHelper()->mouseOver('theme_thumbnail');
+        $this->clickButton('preview_theme_button');
         $this->_windowId = $this->selectLastWindow();
         $this->addParameter('id', $themeData['id']);
-        $this->validatePage('preview_theme_in_design');
-        $this->designEditorHelper()->selectModeSwitcher('Disabled');
         $this->validatePage('preview_theme_in_navigation');
-        $this->clickButtonAndConfirm('save_and_assign', 'confirmation_for_assign_to_default_in_nm');
+        $this->clickButton('select');
+        $this->clickButtonAndConfirm('save_and_assign', 'confirmation_for_assign_to_default', false);
         //Verify
-        $this->assertTrue($this->checkCurrentPage('assigned_theme_default_in_design'));
         $this->closeWindow($this->_windowId);
         $this->_windowId = null;
         $this->selectLastWindow();
         $this->validatePage('design_editor_selector');
+        $this->navigate('design_editor_selector');
+        $this->addParameter('id', $themeData['id']);
+        $xpathAssignedStoreviews = $this->_getControlXpath('pageelement', 'theme_assigned_storeview');
+        $xpathAssignedStoreviews = sprintf($xpathAssignedStoreviews, $themeData['id'], 'Default Store View');
+        $this->elementIsPresent($xpathAssignedStoreviews);
+    }
+
+    /**
+     * <p>Assign physical theme from navigation mode</p>
+     * Present one store view only
+     * @test
+     */
+    public function assignPhysicalThemeFromNavigationMode()
+    {
+        //Data
+        $themeData['id'] = $this->themeHelper()->getThemeIdByTitle('Magento Fixed Design');
+        $this->navigate('manage_stores');
+        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        //Steps
+        $this->navigate('design_editor_selector');
+        $this->waitForAjax();
+        $this->addParameter('id', $themeData['id']);
+        $this->designEditorHelper()->mouseOver('theme_thumbnail');
+        $this->clickButton('preview_demo_button');
+        $this->_windowId = $this->selectLastWindow();
+        $this->addParameter('id', $themeData['id']);
+        $this->validatePage('preview_theme_in_navigation');
+        $this->clickControlAndConfirm('pageelement', 'assign', 'confirmation_for_assign_to_default_in_nm');
+        $this->validatePage('assigned_theme_default_in_design');
+        //Verify
+        $this->closeWindow($this->_windowId);
+        $this->_windowId = null;
+        $this->selectLastWindow();
+        $this->validatePage('design_editor_selector');
+        $this->navigate('design_editor_selector');
+        $this->addParameter('id', $themeData['id']);
+        $xpathAssignedStoreviews = $this->_getControlXpath('pageelement', 'theme_assigned_storeview');
+        $xpathAssignedStoreviews = sprintf($xpathAssignedStoreviews, $themeData['id'], 'Default Store View');
+        $this->elementIsPresent($xpathAssignedStoreviews);
     }
 
     /**

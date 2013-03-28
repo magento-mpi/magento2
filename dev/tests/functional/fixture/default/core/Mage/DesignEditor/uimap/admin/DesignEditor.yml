@@ -52,14 +52,17 @@ preview_theme_in_navigation:
     title: Editor / Design / System / Magento Admin
     uimap:
         buttons:
-            assign_this_theme: //button[contains(@title, 'Assign this Theme')]
+            select: //div[@id='vde_toolbar_buttons']//button[@data-toggle='dropdown']
+            save_and_assign: //div[@id='vde_toolbar_buttons']//span[contains(text(), 'Save and Assign')]
         links:
             quit: //div[@id='vde_toolbar_buttons']//a[contains(@href, 'quit/')]
         pageelements:
             vde_toolbar_row: //div[@id='vde_toolbar_row']
             mode_switcher: //div[@id='vde_toolbar_row']//label[@for='product-online-switcher']
+            assign: //button[contains(@title, 'Assign')]
         messages:
-            confirmation_for_assign_to_default_in_nm: You are about to apply current changes for your live store, are you sure want to do this?
+            confirmation_for_assign_to_default_in_nm: "You are about to apply this theme for your live store, are you sure want to do this?\n\nNote: copy of the current theme will be created automatically and assigned to your store, so you can change your copy as you wish"
+            confirmation_for_assign_to_default: You are about to apply current changes for your live store, are you sure want to do this?
 
 preview_theme_in_design:
     mca: system_design_editor/launch/theme_id/%id%/mode/design/
@@ -77,7 +80,6 @@ preview_theme_in_design:
                             vde_toolbar_row: //div[@id='vde_toolbar_row']
                         links:
                             view_layout: //div[@id='vde_toolbar_buttons']//a[@title='View Layout']
-                            quit: //div[@id='vde_toolbar_buttons']//a[contains(@href, 'quit/')]
                         dropdowns:
                             page: //div[@id='vde_handles_hierarchy']//span[@class='vde_toolbar_cell_value']
                             view_option: //div[@id='vde_view_options']//div[@class='vde_toolbar_cell_title']
