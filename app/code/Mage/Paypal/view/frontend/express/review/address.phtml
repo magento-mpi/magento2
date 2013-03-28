@@ -119,14 +119,14 @@
 <script type="text/javascript">
     (function($) {
         head.js(
+            "<?php echo $this->getViewFileUrl('Mage_Checkout::js/region-updater.js') ?>",
             "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>",
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
-            "<?php echo $this->getViewFileUrl('Mage_Checkout::js/region-updater.js') ?>",
             function() {
                 $('#<?php echo $prefix ?>\\:country_id').regionUpdater({
-                    regionListId: '<?php echo $prefix ?>\\:region_id',
+                    regionListId: '#<?php echo $prefix ?>\\:region_id',
                     regionInputId: '#<?php echo $prefix ?>\\:region',
                     postcodeId: '#<?php echo $prefix ?>\\:postcode',
                     regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?>,
