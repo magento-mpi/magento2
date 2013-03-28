@@ -140,9 +140,9 @@ class Mage_Core_Model_Theme_Service
             throw new UnexpectedValueException('Theme is not recognized. Requested id: ' . $themeId);
         }
 
-        $themeLatestVersion = $theme->getLatestVersion();
-        if ($themeLatestVersion !== $theme) {
-            $this->_themeCopyService->copy($themeLatestVersion, $theme);
+        $stagingVersion = $theme->getStagingVersion();
+        if ($stagingVersion) {
+            $this->_themeCopyService->copy($stagingVersion, $theme);
         }
 
         $themeCustomization = $theme->isVirtual() ? $theme : $this->createThemeCustomization($theme);

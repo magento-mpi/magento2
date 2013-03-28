@@ -60,12 +60,10 @@ class Mage_Core_Model_Theme_Domain_Virtual
     public function getStagingTheme()
     {
         if (!$this->_stagingTheme) {
-            $themeLatestVersion = $this->_theme->getLatestVersion();
-            if ($themeLatestVersion === $this->_theme) {
+            $this->_stagingTheme = $this->_theme->getStagingVersion();
+            if (!$this->_stagingTheme) {
                 $this->_stagingTheme = $this->_createStagingTheme();
                 $this->_themeCopyService->copy($this->_theme, $this->_stagingTheme);
-            } else {
-                $this->_stagingTheme = $themeLatestVersion;
             }
         }
         return $this->_stagingTheme;

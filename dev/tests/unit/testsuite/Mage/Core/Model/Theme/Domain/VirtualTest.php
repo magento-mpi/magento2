@@ -23,8 +23,8 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
     {
         $themeStaging = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false, false);
 
-        $theme = $this->getMock('Mage_Core_Model_Theme', array('getLatestVersion'), array(), '', false, false);
-        $theme->expects($this->once())->method('getLatestVersion')->will($this->returnValue($themeStaging));
+        $theme = $this->getMock('Mage_Core_Model_Theme', array('getStagingVersion'), array(), '', false, false);
+        $theme->expects($this->once())->method('getStagingVersion')->will($this->returnValue($themeStaging));
 
         $themeFactory = $this->getMock('Mage_Core_Model_Theme_Factory', array('create'), array(), '', false);
         $themeFactory->expects($this->never())->method('create');
@@ -45,8 +45,8 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
      */
     public function testGetStagingThemeNew()
     {
-        $theme = $this->getMock('Mage_Core_Model_Theme', array('getLatestVersion'), array(), '', false, false);
-        $theme->expects($this->once())->method('getLatestVersion')->will($this->returnValue($theme));
+        $theme = $this->getMock('Mage_Core_Model_Theme', array('getStagingVersion'), array(), '', false, false);
+        $theme->expects($this->once())->method('getStagingVersion')->will($this->returnValue(null));
         /** @var $theme Varien_Object */
         $theme->setData(array(
             'id'                    => 'fixture_theme_id',

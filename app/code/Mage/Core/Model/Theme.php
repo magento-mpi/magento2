@@ -316,9 +316,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     /**
      * Retrieve theme instance representing the latest changes to a theme
      *
-     * @return Mage_Core_Model_Theme
+     * @return Mage_Core_Model_Theme|null
      */
-    public function getLatestVersion()
+    public function getStagingVersion()
     {
         if ($this->getId()) {
             $collection = $this->getCollection();
@@ -329,7 +329,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
                 return $stagingTheme;
             }
         }
-        return $this;
+        return null;
     }
 
     /**
