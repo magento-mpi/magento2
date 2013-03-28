@@ -14,6 +14,11 @@
  */
 class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest extends PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
+        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_TRANSLATE);
+    }
+
     /**
      * Remove test website
      */

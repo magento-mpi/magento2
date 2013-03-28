@@ -13,6 +13,7 @@ class Enterprise_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCas
      */
     public function testRunSchedule()
     {
+        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_TRANSLATE);
         $productModel = Mage::getModel('Mage_Catalog_Model_Product');
         $product = $productModel->loadByAttribute('sku', 'product_100500'); // fixture
         $this->assertFalse($product);

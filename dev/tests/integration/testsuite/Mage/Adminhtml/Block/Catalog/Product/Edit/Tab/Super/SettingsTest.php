@@ -20,6 +20,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_SettingsTest extends M
      */
     public function testGetContinueUrl($productId, $expectedUrl)
     {
+        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_TRANSLATE);
         $product = $this->getMockBuilder('Mage_Catalog_Model_Product')
             ->disableOriginalConstructor()
             ->setMethods(array('getId'))
