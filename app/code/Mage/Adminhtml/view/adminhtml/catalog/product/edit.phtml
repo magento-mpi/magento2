@@ -194,7 +194,7 @@ jQuery(function($) {
             var nameMapper = function() {
                 return $(this).attr('name');
             };
-
+            var activeTabId = $('.ui-tabs-active>a').attr('id');
             //add new tab tabs or reorder
             $page.find('#product_info_tabs .tabs').each(function(i, tabContainer) {
                 $newPage.find('#product_info_tabs .tabs').each(function(j, newTabContainer) {
@@ -295,8 +295,12 @@ jQuery(function($) {
                     });
                 });
             });
-
-           $('#product_info_tabs').tabs('refresh').tabs("option", "active", 0);
+            if (!$('#' + activeTabId).closest('li').hasClass(removedElementClass)) {
+                $('#' + activeTabId).trigger('click');
+            } else {
+                $('#product_info_tabs').tabs("option", "active", 0);
+            }
+            $('#product_info_tabs').tabs('refresh');
         });
 
     });
