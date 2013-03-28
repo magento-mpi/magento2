@@ -153,19 +153,12 @@ class Saas_Saas_Model_DisabledConfiguration_Config
     }
 
     /**
-     * Get configuration options mentioned in file
+     * Get list of disabled configuration options from file
      *
-     * @param Magento_Filesystem $filesystem
      * @return mixed
-     * @throws LogicException
      */
-    public static function getPlainList($filesystem)
+    public static function getPlainList()
     {
-        $filePath = __DIR__ . '/disabled_configuration.php';
-
-        if (!$filesystem->has($filePath)) {
-            throw new LogicException('File with disabled configuration options was not found');
-        }
-        return include $filePath;
+        return include __DIR__ . '/disabled_configuration.php';
     }
 }

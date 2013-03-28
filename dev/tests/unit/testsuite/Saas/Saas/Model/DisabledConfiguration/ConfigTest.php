@@ -72,6 +72,18 @@ class Saas_Saas_Model_DisabledConfiguration_ConfigTest extends PHPUnit_Framework
                 array('o//t'),
                 '\'o//t\' is incorrect path'
             ),
+            'Trailing slash with section only' => array(
+                array('o/'),
+                '\'o/\' is incorrect path'
+            ),
+            'Trailing slash with section/group only' => array(
+                array('o/t/'),
+                '\'o/t/\' is incorrect path'
+            ),
+            'Trailing slash with full path' => array(
+                array('o/t/t/'),
+                '\'o/t/t/\' is incorrect path'
+            ),
         );
     }
 
@@ -96,13 +108,12 @@ class Saas_Saas_Model_DisabledConfiguration_ConfigTest extends PHPUnit_Framework
     }
 
     /**
-     * @expectedException LengthException
+     * @expectedException InvalidArgumentException
      * @expectedExceptionMessage 'section/group' is incorrect section path
      */
-    public function testIsSectionDisabledLengthException()
+    public function testIsSectionDisabledChunkLengthException()
     {
-        $configStructure = $this->getMock('Mage_Backend_Model_Config_Structure', array(), array(), '', false);
-        $this->_model->isSectionDisabled('section/group', $configStructure);
+        $this->_model->isSectionDisabled('section/group');
     }
 
     /**
@@ -112,92 +123,30 @@ class Saas_Saas_Model_DisabledConfiguration_ConfigTest extends PHPUnit_Framework
     {
         $this->setExpectedException('InvalidArgumentException', $expectedMessage);
 
-        $configStructure = $this->getMock('Mage_Backend_Model_Config_Structure', array(), array(), '', false);
-        $this->_model->isSectionDisabled($disabledList[0], $configStructure);
+        $this->_model->isSectionDisabled($disabledList[0]);
+    }
+
+    public function testIsSectionDisabled()
+    {
+        $this->assertTrue($this->_model->isSectionDisabled('o'));
+        $this->assertFalse($this->_model->isSectionDisabled('wrong_section'));
     }
 
     /**
-     * @expectedException LogicException
-     * @expectedExceptionMessage 'section' should extend Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
+     * @dataProvider isGroupDisabledChunkLengthExceptionDataProvider
      */
-    public function testIsSectionDisabledLogicException()
+    public function testIsGroupDisabledChunkLengthException($path, $expectedMessage)
     {
-        $simpleConfigElement =
-            $this->getMock('Mage_Backend_Model_Config_Structure_ElementAbstract', array(), array(), '', false);
-        $configStructure =
-            $this->getMock('Mage_Backend_Model_Config_Structure', array('getElement'), array(), '', false);
-        $configStructure->expects($this->once())
-            ->method('getElement')
-            ->with('section')
-            ->will($this->returnValue($simpleConfigElement));
-        $this->_model->isSectionDisabled('section', $configStructure);
+        $this->setExpectedException('InvalidArgumentException', $expectedMessage);
+        $this->_model->isGroupDisabled($path);
     }
 
-    public function testIsSectionDisabledInList()
-    {
-        $configStructure = $this->getMock('Mage_Backend_Model_Config_Structure', array(), array(), '', false);
-        $this->assertTrue($this->_model->isSectionDisabled('o', $configStructure));
-    }
-
-    /**
-     * @dataProvider isSectionDisabledGeneralDataProvider
-     */
-    public function testIsSectionDisabledGeneral($isGroupDisabled, $hasChildren, $expectedResult)
-    {
-        $groupConfigElement =
-            $this->getMock('Mage_Backend_Model_Config_Structure_Element_Group', array('getPath'), array(), '', false);
-        $groupConfigElement->expects($this->any())
-            ->method('getPath')
-            ->will($this->returnValue('section/group'));
-
-        $compositeConfig = $this->getMock(
-            'Mage_Backend_Model_Config_Structure_Element_Section',
-            array('getChildren', 'hasChildren'), array(), '', false
-        );
-        $compositeConfig->expects($this->any())
-            ->method('hasChildren')
-            ->will($this->returnValue($hasChildren));
-
-        $compositeConfig->expects($this->any())
-            ->method('getChildren')
-            ->will($this->returnValue(array($groupConfigElement)));
-
-        $configStructure =
-            $this->getMock('Mage_Backend_Model_Config_Structure', array('getElement'), array(), '', false);
-        $configStructure->expects($this->once())
-            ->method('getElement')
-            ->with('section')
-            ->will($this->returnValue($compositeConfig));
-
-        $model = $this->getMock(
-            'Saas_Saas_Model_DisabledConfiguration_Config',
-            array('isGroupDisabled'),
-            array($this->_disabledList)
-        );
-        $model->expects($this->any())
-            ->method('isGroupDisabled')
-            ->will($this->returnValue($isGroupDisabled));
-
-        $this->assertEquals($expectedResult, $model->isSectionDisabled('section', $configStructure));
-    }
-
-    public function isSectionDisabledGeneralDataProvider()
+    public function isGroupDisabledChunkLengthExceptionDataProvider()
     {
         return array(
-            'has children, children are disabled' => array(true, true, true),
-            'has children, children are not disabled' => array(false, true, false),
-            'doesn\'t have children' => array(true, false, false),
+            'field exists' => array('section/group/field', "'section/group/field' is incorrect group path"),
+            'group does not exist' => array('section', "'section' is incorrect group path")
         );
-    }
-
-    /**
-     * @expectedException LengthException
-     * @expectedExceptionMessage 'section/group/field' is incorrect group path
-     */
-    public function testIsGroupDisabledLengthException()
-    {
-        $configStructure = $this->getMock('Mage_Backend_Model_Config_Structure', array(), array(), '', false);
-        $this->_model->isGroupDisabled('section/group/field', $configStructure);
     }
 
     /**
@@ -206,102 +155,32 @@ class Saas_Saas_Model_DisabledConfiguration_ConfigTest extends PHPUnit_Framework
     public function testIsGroupDisabledIncorrectPathException($disabledList, $expectedMessage)
     {
         $this->setExpectedException('InvalidArgumentException', $expectedMessage);
-
-        $configStructure = $this->getMock('Mage_Backend_Model_Config_Structure', array(), array(), '', false);
-        $this->_model->isGroupDisabled($disabledList[0], $configStructure);
-    }
-
-    /**
-     * @expectedException LogicException
-     * @expectedExceptionMessage 's/g' should extend Mage_Backend_Model_Config_Structure_Element_CompositeAbstract
-     */
-    public function testIsGroupDisabledLogicException()
-    {
-        $simpleConfigElement =
-            $this->getMock('Mage_Backend_Model_Config_Structure_ElementAbstract', array(), array(), '', false);
-        $configStructure =
-            $this->getMock('Mage_Backend_Model_Config_Structure', array('getElement'), array(), '', false);
-        $configStructure->expects($this->once())
-            ->method('getElement')
-            ->with('s/g')
-            ->will($this->returnValue($simpleConfigElement));
-        $this->_model->isGroupDisabled('s/g', $configStructure);
+        $this->_model->isGroupDisabled($disabledList[0]);
     }
 
     /**
      * @dataProvider isGroupDisabledInListDataProvider
      */
-    public function testIsGroupDisabledInList($groupPath)
+    public function testIsGroupDisabled($groupPath, $expectedResult)
     {
-        $configStructure = $this->getMock('Mage_Backend_Model_Config_Structure', array(), array(), '', false);
-        $this->assertTrue($this->_model->isGroupDisabled($groupPath, $configStructure));
+        $this->assertEquals($expectedResult, $this->_model->isGroupDisabled($groupPath));
     }
 
     public function isGroupDisabledInListDataProvider()
     {
         return array(
-            'group in list' => array('oo/tt'),
-            'section in list' => array('o/ttt')
+            'group in list' => array('oo/tt', true),
+            'section in list' => array('o/ttt', true),
+            'not in list with the same section part' => array('oo/wrong_group', false),
+            'not in list with the same group part' => array('wrong_section/tt', false),
         );
     }
 
     /**
-     * @dataProvider isGroupDisabledGeneralDataProvider
-     */
-    public function testIsGroupDisabledGeneral($isFieldDisabled, $hasChildren, $expectedResult)
-    {
-        $groupConfigElement =
-            $this->getMock('Mage_Backend_Model_Config_Structure_Element_Field', array('getPath'), array(), '', false);
-        $groupConfigElement->expects($this->any())
-            ->method('getPath')
-            ->will($this->returnValue('section/group/field'));
-
-        $compositeConfig = $this->getMock(
-            'Mage_Backend_Model_Config_Structure_Element_Section',
-            array('getChildren', 'hasChildren'), array(), '', false
-        );
-
-        $compositeConfig->expects($this->any())
-            ->method('hasChildren')
-            ->will($this->returnValue($hasChildren));
-
-        $compositeConfig->expects($this->any())
-            ->method('getChildren')
-            ->will($this->returnValue(array($groupConfigElement)));
-
-        $configStructure =
-            $this->getMock('Mage_Backend_Model_Config_Structure', array('getElement'), array(), '', false);
-        $configStructure->expects($this->once())
-            ->method('getElement')
-            ->with('section/group')
-            ->will($this->returnValue($compositeConfig));
-
-        $model = $this->getMock(
-            'Saas_Saas_Model_DisabledConfiguration_Config',
-            array('isFieldDisabled'),
-            array($this->_disabledList)
-        );
-        $model->expects($this->any())
-            ->method('isFieldDisabled')
-            ->will($this->returnValue($isFieldDisabled));
-
-        $this->assertEquals($expectedResult, $model->isGroupDisabled('section/group', $configStructure));
-    }
-
-    public function isGroupDisabledGeneralDataProvider()
-    {
-        return array(
-            'has children, children are disabled' => array(true, true, true),
-            'has children, children are not disabled' => array(false, true, false),
-            'doesn\'t have children' => array(false, false, false),
-        );
-    }
-
-    /**
-     * @expectedException LengthException
+     * @expectedException InvalidArgumentException
      * @expectedExceptionMessage 'section/group' is incorrect field path
      */
-    public function testIsFieldDisabledLengthException()
+    public function testIsFieldDisabledChunkLengthException()
     {
         $this->_model->isFieldDisabled('section/group');
     }
@@ -330,21 +209,17 @@ class Saas_Saas_Model_DisabledConfiguration_ConfigTest extends PHPUnit_Framework
             'field in list' => array('ooo/ttt/ttt', true),
             'group in list' => array('oo/tt_/not_important', true),
             'section in list' => array('o/not_important/not_important', true),
+            'not in list with the same section/group part' => array('ooo/ttt/wrong_part', false),
             'not in list' => array('not/in/list', false),
+            'not in list with the same field part' => array('not/in/ttt', false),
+            'not in list with the same group/field part' => array('not/in/list', false),
         );
     }
 
-    /**
-     * @expectedException LogicException
-     * @expectedExceptionMessage File with disabled configuration options was not found
-     */
-    public function testGetDisabledConfigurationException()
+    public function testGetPlainList()
     {
-        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-        $filesystem->expects($this->once())
-            ->method('has')
-            ->will($this->returnValue(false));
-
-        Saas_Saas_Model_DisabledConfiguration_Config::getDisabledConfiguration($filesystem);
+        $list = Saas_Saas_Model_DisabledConfiguration_Config::getPlainList();
+        $this->assertInternalType('array', $list);
+        $this->assertNotEmpty($list);
     }
 }
