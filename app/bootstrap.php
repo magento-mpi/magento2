@@ -91,3 +91,5 @@ HTML;
         Magento_Profiler::applyConfig($profilerConfig);
     }
 }
+set_error_handler(Mage::DEFAULT_ERROR_HANDLER);
+date_default_timezone_set(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
