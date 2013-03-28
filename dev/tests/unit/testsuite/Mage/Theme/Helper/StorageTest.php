@@ -149,7 +149,6 @@ class Mage_Theme_Helper_StorageTest extends PHPUnit_Framework_TestCase
 
         $expectedStorageRoot = implode(Magento_Filesystem::DIRECTORY_SEPARATOR, array(
             $this->_customizationPath,
-            Mage_Core_Model_Theme_File::PATH_PREFIX_CUSTOMIZED,
             Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE
         ));
         $this->assertEquals($expectedStorageRoot, $this->_storageHelper->getStorageRoot());

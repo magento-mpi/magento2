@@ -32,6 +32,6 @@ class Mage_Webapi_Model_Authorization_Role_Factory
      */
     public function createRole(array $arguments = array())
     {
-        return $this->_objectManager->create(self::ROLE_CLASS_NAME, $arguments, false);
+        return $this->_objectManager->create(self::ROLE_CLASS_NAME, $arguments);
     }
 }

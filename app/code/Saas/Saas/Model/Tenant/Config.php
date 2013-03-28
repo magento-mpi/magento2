@@ -38,25 +38,38 @@ class Saas_Saas_Model_Tenant_Config
     private $_mediaDir;
 
     /**
+     * Name of dir for static view files
+     *
+     * @var
+     */
+    private $_staticDir;
+
+    /**
      * Constructor
      *
      * @param string $rootDir
      * @param array $tenantData
-     * @throws LogicException
+     * @throws InvalidArgumentException
      */
     public function __construct($rootDir, array $tenantData)
     {
         $this->_rootDir = $rootDir;
         if (!array_key_exists('tenantConfiguration', $tenantData)) {
-            throw new LogicException('Missing key "tenantConfiguration"');
+            throw new InvalidArgumentException('Missing key "tenantConfiguration"');
         }
         $this->_configArray = $tenantData['tenantConfiguration'];
         $this->_config = $this->_mergeConfig(array($this->_getLocalConfig(), $this->_getModulesConfig()));
+
         $dirName = (string)$this->_config->getNode('global/web/dir/media');
         if (!$dirName) {
-            throw new LogicException('Media directory name is not set');
+            throw new InvalidArgumentException('Media directory name is not set');
         }
         $this->_mediaDir = "media/{$dirName}";
+
+        if (empty($tenantData['version_hash'])) {
+            throw new InvalidArgumentException('Version hash is not specified');
+        }
+        $this->_staticDir = 'skin/' . $tenantData['version_hash'];
     }
 
     /**
@@ -85,10 +98,12 @@ class Saas_Saas_Model_Tenant_Config
         return array(
             Mage::PARAM_APP_DIRS => array(
                 Mage_Core_Model_Dir::MEDIA => "{$this->_rootDir}/{$this->_mediaDir}",
+                Mage_Core_Model_Dir::STATIC_VIEW => "{$this->_rootDir}/{$this->_staticDir}",
                 Mage_Core_Model_Dir::VAR_DIR => "{$this->_rootDir}/var/{$varDirWorkaround}",
             ),
             Mage::PARAM_APP_URIS => array(
                 Mage_Core_Model_Dir::MEDIA => $this->_mediaDir,
+                Mage_Core_Model_Dir::STATIC_VIEW => $this->_staticDir,
             ),
             Mage::PARAM_CUSTOM_LOCAL_CONFIG => $this->_config->getXmlString(),
         );

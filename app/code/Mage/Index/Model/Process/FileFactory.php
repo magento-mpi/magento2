@@ -37,6 +37,6 @@ class Mage_Index_Model_Process_FileFactory
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create(self::CLASS_NAME, $arguments, false);
+        return $this->_objectManager->create(self::CLASS_NAME, $arguments);
     }
 }

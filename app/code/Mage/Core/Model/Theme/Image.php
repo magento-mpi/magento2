@@ -24,16 +24,6 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
     const PREVIEW_IMAGE_HEIGHT = 200;
 
     /**
-     * Preview image directory
-     */
-    const IMAGE_DIR_PREVIEW = 'preview';
-
-    /**
-     * Origin image directory
-     */
-    const IMAGE_DIR_ORIGIN = 'origin';
-
-    /**
      * @var Mage_Core_Helper_Data
      */
     protected $_helper;
@@ -139,41 +129,25 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
     }
 
     /**
-     * Get directory path for origin image
-     *
-     * @return string
-     */
-    public function getImagePathOrigin()
-    {
-        return $this->_getPreviewImagePublishedRootDir() . DIRECTORY_SEPARATOR . self::IMAGE_DIR_ORIGIN;
-    }
-
-    /**
-     * Get themes root directory absolute path
-     *
-     * @return string
-     */
-    protected function _getPreviewImagePublishedRootDir()
-    {
-        /** @var $dir Mage_Core_Model_Dir */
-        $dir = $this->_objectManager->get('Mage_Core_Model_Dir');
-        $dirPath = $dir->getDir(Mage_Core_Model_Dir::THEME);
-        $this->_filesystem->setIsAllowCreateDirectories(true);
-        $this->_filesystem->ensureDirectoryExists($dirPath);
-        $this->_filesystem->setWorkingDirectory($dirPath);
-        return $dirPath;
-    }
-
-    /**
      * Get preview image directory url
      *
      * @return string
      */
     public function getPreviewImageDirectoryUrl()
     {
-        return $this->_objectManager->get('Mage_Core_Model_App')->getStore()->getBaseUrl(
-            Mage_Core_Model_Store::URL_TYPE_MEDIA
-        ) . Mage_Core_Model_Dir::THEME . '/' . self::IMAGE_DIR_PREVIEW . '/';
+        /** @var $app Mage_Core_Model_App */
+        $app = $this->_objectManager->get('Mage_Core_Model_App');
+        return $app->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . $this->_getPreviewPath() . '/';
+    }
+
+    /**
+     * Get path for preview images
+     *
+     * @return string
+     */
+    private function _getPreviewPath()
+    {
+        return 'theme/preview';
     }
 
     /**
@@ -198,11 +172,16 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
         $upload->setAllowRenameFiles(true);
         $upload->setFilesDispersion(false);
 
-        if (!$upload->save($this->getImagePathOrigin())) {
+        /** @var $dir Mage_Core_Model_Dir */
+        $dir = $this->_objectManager->get('Mage_Core_Model_Dir');
+        $tmpDir = $dir->getDir(Mage_Core_Model_Dir::MEDIA)
+            . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR . 'origin';
+
+        if (!$upload->save($tmpDir)) {
             Mage::throwException($this->_helper->__('Image can not be saved.'));
         }
 
-        $fileName = $this->getImagePathOrigin() . DS . $upload->getUploadedFileName();
+        $fileName = $tmpDir . DIRECTORY_SEPARATOR . $upload->getUploadedFileName();
         $this->removePreviewImage()->createPreviewImage($fileName);
         $this->_filesystem->delete($fileName);
         return true;
@@ -240,7 +219,10 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
      */
     protected function _getImagePathPreview()
     {
-        return $this->_getPreviewImagePublishedRootDir() . DIRECTORY_SEPARATOR . self::IMAGE_DIR_PREVIEW;
+        /** @var $dir Mage_Core_Model_Dir */
+        $dir = $this->_objectManager->get('Mage_Core_Model_Dir');
+        return $dir->getDir(Mage_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR
+            . str_replace('/', DIRECTORY_SEPARATOR, $this->_getPreviewPath());
     }
 
     /**

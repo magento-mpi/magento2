@@ -21,6 +21,11 @@ class Mage_Core_Model_Theme_Domain_Virtual
     protected $_theme;
 
     /**
+     * @var Mage_Core_Model_Theme_Factory $themeFactory
+     */
+    protected $_themeFactory;
+
+    /**
      * Staging theme model instance
      *
      * @var Mage_Core_Model_Theme
@@ -28,22 +33,23 @@ class Mage_Core_Model_Theme_Domain_Virtual
     protected $_stagingTheme;
 
     /**
-     * Model to create 'staging' copy of current 'virtual' theme
-     *
-     * @var Mage_Core_Model_Theme_Copy_VirtualToStaging
+     * @var Mage_Core_Model_Theme_CopyService
      */
-    protected $_copyModelVS;
+    protected $_themeCopyService;
 
     /**
      * @param Mage_Core_Model_Theme $theme
-     * @param Mage_Core_Model_Theme_Copy_VirtualToStaging $copyModelVS
+     * @param Mage_Core_Model_Theme_Factory $themeFactory
+     * @param Mage_Core_Model_Theme_CopyService $themeCopyService
      */
     public function __construct(
         Mage_Core_Model_Theme $theme,
-        Mage_Core_Model_Theme_Copy_VirtualToStaging $copyModelVS
+        Mage_Core_Model_Theme_Factory $themeFactory,
+        Mage_Core_Model_Theme_CopyService $themeCopyService
     ) {
         $this->_theme = $theme;
-        $this->_copyModelVS = $copyModelVS;
+        $this->_themeFactory = $themeFactory;
+        $this->_themeCopyService = $themeCopyService;
     }
 
     /**
@@ -54,23 +60,13 @@ class Mage_Core_Model_Theme_Domain_Virtual
     public function getStagingTheme()
     {
         if (!$this->_stagingTheme) {
-            $stagingTheme = $this->_getStagingTheme();
-            $this->_stagingTheme =  $stagingTheme->getId() ? $stagingTheme : $this->_createStagingTheme();
+            $this->_stagingTheme = $this->_theme->getStagingVersion();
+            if (!$this->_stagingTheme) {
+                $this->_stagingTheme = $this->_createStagingTheme();
+                $this->_themeCopyService->copy($this->_theme, $this->_stagingTheme);
+            }
         }
         return $this->_stagingTheme;
-    }
-
-    /**
-     * Get staging theme
-     *
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _getStagingTheme()
-    {
-        return $this->_theme->getCollection()
-            ->addFieldToFilter('parent_id', $this->_theme->getId())
-            ->addFieldToFilter('type', Mage_Core_Model_Theme::TYPE_STAGING)
-            ->getFirstItem();
     }
 
     /**
@@ -80,6 +76,20 @@ class Mage_Core_Model_Theme_Domain_Virtual
      */
     protected function _createStagingTheme()
     {
-        return $this->_copyModelVS->copy($this->_theme);
+        $stagingTheme = $this->_themeFactory->create();
+        $stagingTheme->setData(array(
+            'parent_id'            => $this->_theme->getId(),
+            'theme_path'           => null,
+            'theme_version'        => $this->_theme->getThemeVersion(),
+            'theme_title'          => sprintf('%s - Staging', $this->_theme->getThemeTitle()),
+            'preview_image'        => $this->_theme->getPreviewImage(),
+            'magento_version_from' => $this->_theme->getMagentoVersionFrom(),
+            'magento_version_to'   => $this->_theme->getMagentoVersionTo(),
+            'is_featured'          => $this->_theme->getIsFeatured(),
+            'area'                 => $this->_theme->getArea(),
+            'type'                 => Mage_Core_Model_Theme::TYPE_STAGING
+        ));
+        $stagingTheme->save();
+        return $stagingTheme;
     }
 }

@@ -121,6 +121,10 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             array(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK, false, true,  'http://localhost/index.php/'),
             array(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK, true,  false, 'http://localhost/'),
             array(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK, true,  true,  'http://localhost/'),
+            array(Mage_Core_Model_Store::URL_TYPE_STATIC, false, false, 'http://localhost/pub/static/'),
+            array(Mage_Core_Model_Store::URL_TYPE_STATIC, false, true,  'http://localhost/pub/static/'),
+            array(Mage_Core_Model_Store::URL_TYPE_STATIC, true,  false, 'http://localhost/pub/static/'),
+            array(Mage_Core_Model_Store::URL_TYPE_STATIC, true,  true,  'http://localhost/pub/static/'),
             array(Mage_Core_Model_Store::URL_TYPE_LIB, false, false, 'http://localhost/pub/lib/'),
             array(Mage_Core_Model_Store::URL_TYPE_LIB, false, true,  'http://localhost/pub/lib/'),
             array(Mage_Core_Model_Store::URL_TYPE_LIB, true,  false, 'http://localhost/pub/lib/'),
@@ -142,6 +146,10 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         ));
         $this->_model->load('default');
 
+        $this->assertEquals(
+            'http://localhost/static/',
+            $this->_model->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_STATIC)
+        );
         $this->assertEquals(
             'http://localhost/lib/',
             $this->_model->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LIB)
