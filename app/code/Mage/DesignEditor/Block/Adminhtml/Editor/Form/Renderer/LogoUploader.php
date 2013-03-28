@@ -74,23 +74,25 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
      * Get logo image
      *
      * @param Mage_Core_Model_Store $store
-     * @return string|bool
+     * @return string|null
      */
     public function getLogoImage($store)
     {
-        return (null !== $store) ? $this->_storeConfig->getConfig('design/header/logo_src', $store->getId()) : null;
+        $image = null;
+        if (null !== $store) {
+            $image = basename($this->_storeConfig->getConfig('design/header/logo_src', $store->getId()));
+        }
+        return $image;
     }
 
     /**
      * Get stores list
      *
-     * @return mixed
+     * @return Mage_Core_Model_Store|null
      */
     public function getStoresList()
     {
         $stores = Mage::getObjectManager()->get('Mage_Core_Model_Theme_Service')->getStoresByThemes();
-        return isset($stores[$this->getThemeId()])
-            ? $stores[$this->getThemeId()]
-            : null;
+        return isset($stores[$this->getThemeId()]) ? $stores[$this->getThemeId()] : null;
     }
 }
