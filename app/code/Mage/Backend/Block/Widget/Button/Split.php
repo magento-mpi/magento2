@@ -85,7 +85,7 @@ class Mage_Backend_Block_Widget_Button_Split extends Mage_Backend_Block_Widget
             $classes[] = $disabled;
         }
         $attributes = array(
-            'id'        => $this->getId(),
+            'id'        => $this->getId() . '-button',
             'title'     => $title,
             'class'     => join(' ', $classes),
             'disabled'  => $disabled,
@@ -161,19 +161,7 @@ class Mage_Backend_Block_Widget_Button_Split extends Mage_Backend_Block_Widget
         if ($disabled) {
             $classes[] = $disabled;
         }
-        $attributes = array(
-            'id'        => isset($option['id']) ? $this->getId() . '-' . $option['id'] : '',
-            'title'     => $title,
-            'class'     => join(' ', $classes),
-            'onclick'   => isset($option['onclick']) ? $option['onclick'] : '',
-            'style'     => isset($option['style']) ? $option['style'] : '',
-            'disabled'  => $disabled,
-        );
-
-        if (isset($option['data_attribute'])) {
-            $this->_getDataAttributes($option['data_attribute'], $attributes);
-        }
-
+        $attributes = $this->_prepareOptionAttributes($option, $title, $classes, $disabled);
         $html = $this->_getAttributesString($attributes);
         $html .= $this->getUiId(isset($option['id']) ? $option['id'] : 'item' . '-' . $key);
 
@@ -207,6 +195,33 @@ class Mage_Backend_Block_Widget_Button_Split extends Mage_Backend_Block_Widget
                 $attributes['data-' . $key] = json_encode($attr);
             }
         }
+    }
+
+    /**
+     * Prepare option attributes
+     *
+     * @param array $option
+     * @param string $title
+     * @param string $classes
+     * @param string $disabled
+     * @return array
+     */
+    protected function _prepareOptionAttributes($option, $title, $classes, $disabled)
+    {
+        $attributes = array(
+            'id'        => isset($option['id']) ? $this->getId() . '-' . $option['id'] : '',
+            'title'     => $title,
+            'class'     => join(' ', $classes),
+            'onclick'   => isset($option['onclick']) ? $option['onclick'] : '',
+            'style'     => isset($option['style']) ? $option['style'] : '',
+            'disabled'  => $disabled,
+        );
+
+        if (isset($option['data_attribute'])) {
+            $this->_getDataAttributes($option['data_attribute'], $attributes);
+        }
+
+        return $attributes;
     }
 
     /**
