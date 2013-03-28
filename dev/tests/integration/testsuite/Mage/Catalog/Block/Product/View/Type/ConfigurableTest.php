@@ -28,6 +28,7 @@ class Mage_Catalog_Block_Product_View_Type_ConfigurableTest extends PHPUnit_Fram
 
     protected function setUp()
     {
+        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_TRANSLATE);
         $this->_product = Mage::getModel('Mage_Catalog_Model_Product');
         $this->_product->load(1);
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Catalog_Block_Product_View_Type_Configurable');

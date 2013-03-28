@@ -25,6 +25,7 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_TRANSLATE);
         Mage::getDesign()->setDefaultDesignTheme();
         $this->_helper = Mage::helper('Mage_Catalog_Helper_Product_View');
         $request = new Magento_Test_Request();
