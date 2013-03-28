@@ -31,7 +31,7 @@ AdminOrder.prototype = {
             this.dataArea = new OrderFormArea('data', $(this.getAreaId('data')), this);
             this.itemsArea = Object.extend(new OrderFormArea('items', $(this.getAreaId('items')), this), {
                 addControlButton: function(button){
-                    var controlButtonArea = $(this.node).select('.form-buttons')[0];
+                    var controlButtonArea = $(this.node).select('.actions')[0];
                     if (typeof controlButtonArea != 'undefined') {
                         var buttons = controlButtonArea.childElements();
                         for (var i = 0; i < buttons.length; i++) {
@@ -946,7 +946,7 @@ AdminOrder.prototype = {
                 if ('message' != id || response[id]) {
                     var wrapper = new Element('div');
                     wrapper.update(response[id] ? response[id] : '');
-                    $(this.getAreaId(id)).update(Prototype.Browser.IE ? wrapper.outerHTML : wrapper);
+                    $(this.getAreaId(id)).update(wrapper.innerHTML);
                 }
                 if ($(this.getAreaId(id)).callback) {
                     this[$(this.getAreaId(id)).callback]();
@@ -1118,14 +1118,7 @@ AdminOrder.prototype = {
 
         parentEl.setStyle({position: 'relative'});
         el.setStyle({
-            display: show ? 'none' : '',
-            position: 'absolute',
-            backgroundColor: '#999999',
-            opacity: 0.8,
-            width: parentEl.getWidth() + 'px',
-            height: parentEl.getHeight() + 'px',
-            top: 0,
-            left: 0
+            display: show ? 'none' : ''
         });
     },
 
@@ -1235,7 +1228,7 @@ ControlButton.prototype = {
     initialize: function(label){
         this._label = label;
         this._node = new Element('button', {
-            'class': 'scalable add',
+            'class': 'scalable action-add',
             'type':  'button'
         });
     },

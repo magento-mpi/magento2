@@ -40,7 +40,8 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_roles');
         $roleSource =
-            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom', array('resource_1' => 'Newsletter'));
+            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+                array('resource_acl' => 'communications'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');
@@ -72,8 +73,8 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 4 child elements
-        $this->assertEquals(4, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
-            'Count of Top Navigation Menu elements not equal 1, should be equal');
+        $this->assertEquals(6, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
+            'Count of Top Navigation Menu elements not equal 6, should be equal');
         $this->assertTrue($this->buttonIsPresent('add_new_template'),
             'There is no "Add New Template" button on the page');
         $this->clickButton('add_new_template');
@@ -125,6 +126,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
      */
     public function editNewsletterResourceOneRole($loginData, $newsData)
     {
+        $this->markTestIncomplete('MAGETWO-8369: There is no ability to edit existing Newsletter Template');
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $newNewsletterData = $this->loadDataSet('Newsletter', 'edit_newsletter');
@@ -160,7 +162,7 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
         $this->validatePage('newsletter_queue');
         //$this->assertMessagePresent('success', 'success_put_in_queue_newsletter');
         $this->assertNotNull($this->search(array('filter_queue_subject' => $newData['newsletter_template_subject']),
-                'newsletter_templates_grid'),
+                'newsletter_queue'),
             'Template (Subject:' . $newData['newsletter_template_subject'] . ') is not presented in queue grid');
     }
 

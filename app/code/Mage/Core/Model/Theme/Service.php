@@ -21,6 +21,11 @@ class Mage_Core_Model_Theme_Service
     protected $_themeFactory;
 
     /**
+     * @var Mage_Core_Model_Theme_CopyService
+     */
+    protected $_themeCopyService;
+
+    /**
      * @var Mage_Core_Model_Design_Package
      */
     protected $_design;
@@ -84,6 +89,7 @@ class Mage_Core_Model_Theme_Service
 
     /**
      * @param Mage_Core_Model_Theme_Factory $themeFactory
+     * @param Mage_Core_Model_Theme_CopyService $themeCopyService
      * @param Mage_Core_Model_Design_Package $design
      * @param Mage_Core_Model_App $app
      * @param Mage_Core_Helper_Data $helper
@@ -94,6 +100,7 @@ class Mage_Core_Model_Theme_Service
      */
     public function __construct(
         Mage_Core_Model_Theme_Factory $themeFactory,
+        Mage_Core_Model_Theme_CopyService $themeCopyService,
         Mage_Core_Model_Design_Package $design,
         Mage_Core_Model_App $app,
         Mage_Core_Helper_Data $helper,
@@ -103,6 +110,7 @@ class Mage_Core_Model_Theme_Service
         Mage_Core_Model_Cache_Type_Config $configCacheType
     ) {
         $this->_themeFactory = $themeFactory;
+        $this->_themeCopyService = $themeCopyService;
         $this->_design       = $design;
         $this->_app          = $app;
         $this->_helper       = $helper;
@@ -131,6 +139,12 @@ class Mage_Core_Model_Theme_Service
         if (!$theme->getId()) {
             throw new UnexpectedValueException('Theme is not recognized. Requested id: ' . $themeId);
         }
+
+        $stagingVersion = $theme->getStagingVersion();
+        if ($stagingVersion) {
+            $this->_themeCopyService->copy($stagingVersion, $theme);
+        }
+
         $themeCustomization = $theme->isVirtual() ? $theme : $this->createThemeCustomization($theme);
 
         $isUnassigned = false;
@@ -223,6 +237,9 @@ class Mage_Core_Model_Theme_Service
         $themeCustomization = $this->_themeFactory->create()->setData($themeData);
         $themeCustomization->getThemeImage()->createPreviewImageCopy();
         $themeCustomization->save();
+
+        $this->_themeCopyService->copy($theme, $themeCustomization);
+
         return $themeCustomization;
     }
 

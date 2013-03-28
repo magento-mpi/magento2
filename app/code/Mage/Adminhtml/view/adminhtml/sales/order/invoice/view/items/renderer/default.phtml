@@ -11,9 +11,9 @@
 <?php $_item = $this->getItem() ?>
 <?php $_item->setStoreId($_item->getInvoice()->getStoreId()) ?>
 <?php $this->setPriceDataObject($_item) ?>
-<tr class="border">
-    <td><?php echo $this->getColumnHtml($_item, 'name') ?></td>
-    <td class="a-right">
+<tr>
+    <td class="col-product"><?php echo $this->getColumnHtml($_item, 'name') ?></td>
+    <td class="col-price">
         <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Mage_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
             <span class="price-excl-tax">
                 <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices()): ?>
@@ -30,7 +30,6 @@
                 <?php else: ?>
                     <?php echo $this->displayPrices($_item->getBasePrice(), $_item->getPrice()) ?>
                 <?php endif; ?>
-
 
                 <?php if (Mage::helper('Mage_Weee_Helper_Data')->getApplied($_item)): ?>
                     <br />
@@ -108,10 +107,9 @@
                 <?php endif; ?>
             </span>
         <?php endif; ?>
-
     </td>
-    <td class="a-center"><?php echo $_item->getQty()*1 ?></td>
-    <td class="a-right">
+    <td class="col-qty"><?php echo $_item->getQty()*1 ?></td>
+    <td class="col-subtotal">
         <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Mage_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
             <span class="price-excl-tax">
                 <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices()): ?>
@@ -128,7 +126,6 @@
                 <?php else: ?>
                     <?php echo $this->displayPrices($_item->getBaseRowTotal(), $_item->getRowTotal()) ?>
                 <?php endif; ?>
-
 
                 <?php if (Mage::helper('Mage_Weee_Helper_Data')->getApplied($_item)): ?>
                     <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 1, 'sales', $_item->getStoreId())): ?>
@@ -177,7 +174,6 @@
                     <?php echo $this->displayPrices($_baseIncl-$_item->getBaseWeeeTaxRowDisposition(), $_incl-$_item->getWeeeTaxRowDisposition()) ?>
                 <?php endif; ?>
 
-
                 <?php if (Mage::helper('Mage_Weee_Helper_Data')->getApplied($_item)): ?>
 
                     <br />
@@ -206,9 +202,9 @@
             </span>
         <?php endif; ?>
     </td>
-    <td class="a-right"><?php echo $this->displayPriceAttribute('tax_amount') ?></td>
-    <td class="a-right"><?php echo $this->displayPriceAttribute('discount_amount') ?></td>
-    <td class="a-right last">
+    <td class="col-tax"><?php echo $this->displayPriceAttribute('tax_amount') ?></td>
+    <td class="col-discount"><?php echo $this->displayPriceAttribute('discount_amount') ?></td>
+    <td class="col-total last">
         <?php echo $this->displayPrices(
             $_item->getBaseRowTotal() + $_item->getBaseTaxAmount() + $_item->getBaseHiddenTaxAmount() + $_item->getBaseWeeeTaxAppliedRowAmnt() - $_item->getBaseDiscountAmount(),
             $_item->getRowTotal() + $_item->getTaxAmount() + $_item->getHiddenTaxAmount() + $_item->getWeeeTaxAppliedRowAmount() - $_item->getDiscountAmount()

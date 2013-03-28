@@ -27,7 +27,8 @@ function toggleApplyVisibility(select) {
 
 function checkOptionsPanelVisibility(){
     if($('matage-options-panel')){
-        var panel = $('matage-options-panel');
+        var panel = $('matage-options-panel').up('.fieldset');
+
         if($('frontend_input') && ($('frontend_input').value=='select' || $('frontend_input').value=='multiselect')){
             panel.show();
         }

@@ -79,46 +79,34 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createAttributeOnProductTab($attrData, $saveInAttributeSet = '')
     {
-        // Defining and adding %fieldSetId% for Uimap pages.
-        $locator = $this->_getControlXpath('button', 'create_new_attribute', $this->_getActiveTabUimap());
-        $identifier = explode('_', $this->getElement($locator)->attribute('id'));
-        foreach ($identifier as $value) {
-            if (is_numeric($value)) {
-                $this->addParameter('tabId', $value);
-                break;
-            }
-        }
-        $productId = $this->defineIdFromUrl();
-        $pageName = 'new_product_attribute_from_product_page';
-        if (!is_null($productId)) {
-            $this->addParameter('productId', $productId);
-            $pageName = 'new_product_attribute_from_saved_product_page';
-        }
-        //Steps. Click 'Create New Attribute' button, select opened window.
+        //Steps Click 'Create New Attribute' button.
+        $saveButton = $saveInAttributeSet ? 'save_in_new_attribute_set' : 'save_attribute' ;
+        $currentPage = $this->getCurrentPage();
         $this->clickButton('create_new_attribute', false);
-        $this->selectLastWindow();
-        $this->validatePage($pageName);
-        $this->fillForm($attrData, 'properties');
-        $this->fillForm($attrData, 'manage_labels_options');
+        $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'add_new_attribute_iframe');
+        $this->pleaseWait();
+        $this->frame('create_new_attribute_container');
+        $this->setCurrentPage('new_product_attribute');
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'attribute_properties');
+        $this->fillTab($attrData, 'properties', false);
+        if (!$this->fillTab($attrData, 'manage_labels_options', false)) {
+            $this->openTab('manage_labels_options');
+        }
         $this->storeViewTitles($attrData);
         $this->attributeOptions($attrData);
-        //$this->addParameter('attributeId', 0);
+        $waitCondition = $this->getBasicXpathMessagesExcludeCurrent(array('error', 'validation'));
+        if (isset($attrData['attribute_code'])) {
+            $this->addParameter('elementId', 'attribute-' . $attrData['attribute_code'] . '-container');
+            $waitCondition[] = $this->_getControlXpath('pageelement', 'element_by_id');
+        }
+        $this->clickButton($saveButton, false);
         if ($saveInAttributeSet) {
-            $messagesXpath = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
-            $this->clickButton('save_in_new_attribute_set', false);
             $this->alertText($saveInAttributeSet);
             $this->acceptAlert();
-            $this->waitForElementVisible($messagesXpath);
-            $this->addParameter('setId', $this->defineParameterFromUrl('new_attribute_set_id'));
-        } else {
-            $this->saveForm('save_attribute', false);
         }
-        $this->window('');
-        if (isset($attrData['attribute_code'])) {
-            $this->addParameter('elementId', $attrData['attribute_code']);
-            $this->waitForElement("//*[contains(@id,'" . $attrData['attribute_code'] . "')]");
-        }
-        $this->validatePage();
+        $this->waitForElementVisible($waitCondition);
+        $this->frame(null);
+        $this->setCurrentPage($currentPage);
     }
 
     /**

@@ -13,9 +13,9 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Adminhtml::system">
+                <resource id="Mage_Adminhtml::content">
                     <resource id="Mage_Adminhtml::design">
-                        <resource id="Mage_DesignEditor::editor" module="Mage_DesignEditor" title="Editor" sortOrder="20" />
+                        <resource id="Mage_DesignEditor::editor" module="Mage_DesignEditor" title="The Designer" sortOrder="10" />
                     </resource>
                 </resource>
             </resource>

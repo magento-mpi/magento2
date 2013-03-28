@@ -87,8 +87,14 @@ class Core_Mage_Newsletter_Helper extends Mage_Selenium_AbstractHelper
         if (empty($newsletterData)) {
             return;
         }
-        if (isset($newsletterData['newsletter_content_data']) && $this->buttonIsPresent('convert_to_plain_text')) {
-            $this->clickButtonAndConfirm('convert_to_plain_text', 'confirmation_convert_to_plain_text', false);
+        if (isset($newsletterData['newsletter_content_data'])) {
+
+            if ($fieldName == 'newsletter_edit_form') {
+                $this->clickButtonAndConfirm('convert_to_plain_text', 'confirmation_convert_to_plain_text', false);
+            } else {
+                $this->clickButton('show_hide_editor', false);
+                $this->waitForControlEditable('field', 'newsletter_content_data');
+            }
         }
         $this->fillFieldset($newsletterData, $fieldName);
     }
@@ -161,6 +167,8 @@ class Core_Mage_Newsletter_Helper extends Mage_Selenium_AbstractHelper
             $this->fail('$newNewsData parameter is empty');
         }
         $newsletterXpath = $this->search($this->convertToFilter($newsData), 'newsletter_templates_grid');
+        $parentXpath = $this->_getControlXpath('fieldset', 'newsletter_templates_grid');
+        $newsletterXpath = str_replace($parentXpath, '', $newsletterXpath);
         $this->addParameter('prexpath', $newsletterXpath);
         $this->fillDropdown('queue_newsletter', 'Queue Newsletter...');
         $this->waitForPageToLoad();

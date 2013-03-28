@@ -1,2 +1,3 @@
 Saas/UnitPrice/Block/Catalog/Product/View/Type
 Saas/PrintedTemplate/Model
+Saas/PrintedTemplate/Block/Widget/Form/Renderer/Fieldset/Composite

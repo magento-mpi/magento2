@@ -19,6 +19,11 @@ abstract class Mage_Launcher_Controller_BasePageTestCaseAbstract extends PHPUnit
     protected $_controller;
 
     /**
+     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_objectManagerMock;
+
+    /**
      * Retrieve mocked page controller instance
      *
      * @param Mage_Core_Controller_Request_Http $request
@@ -44,7 +49,7 @@ abstract class Mage_Launcher_Controller_BasePageTestCaseAbstract extends PHPUnit
     {
         $request = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
         $response = $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false);
-        $objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
         $frontController = $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false);
         $layoutFactory = $this->getMock('Mage_Core_Model_Layout_Factory', array(), array(), '', false);
         $backendHelper = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
@@ -53,7 +58,7 @@ abstract class Mage_Launcher_Controller_BasePageTestCaseAbstract extends PHPUnit
         $this->_controller = $this->_getMockedPageControllerInstance(
             $request,
             $response,
-            $objectManager,
+            $this->_objectManagerMock,
             $frontController,
             $layoutFactory,
             null,

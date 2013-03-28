@@ -100,7 +100,7 @@ class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_Tag
      */
     public function canShowTab()
     {
-        return $this->_authSession->isAllowed('Mage_Tag::tag');
+        return $this->_authSession->isAllowed('Mage_Tag::tag_all');
     }
 
     /**

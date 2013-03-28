@@ -274,7 +274,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     {
         return $this->getUrl('*/*/downloadCss', array(
             'theme_id' => $themeId,
-            'file'     => $this->_helperFactory->get('Mage_Theme_Helper_Data')->urlEncode($fileId)
+            'file'     => $this->_helperFactory->get('Mage_Core_Helper_Data')->urlEncode($fileId)
         ));
     }
 }

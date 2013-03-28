@@ -3,7 +3,7 @@
 #
 app/bootstrap.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Edit/Tab/Options/Popup/Grid.php
-app/code/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Weight/Renderer.php
+app/code/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Weight.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Options/Ajax.php
 app/code/Mage/Adminhtml/Block/Cms/Page/Edit/Tab/Design.php
 app/code/Mage/Adminhtml/Block/Customer/Edit/Tab/Account.php
@@ -40,9 +40,8 @@ app/code/Mage/Core/Model/Abstract.php
 app/code/Mage/Core/Model/Config
 app/code/Mage/Core/Model/Cache
 app/code/Mage/Core/Model/Design.php
+app/code/Mage/Core/Model/Design/FileResolution
 app/code/Mage/Core/Model/Design/Fallback
-app/code/Mage/Core/Model/Design/Fallback.php
-app/code/Mage/Core/Model/Design/FallbackInterface.php
 app/code/Mage/Core/Model/Design/Source/Design.php
 app/code/Mage/Core/Model/Dir.php
 app/code/Mage/Core/Model/EntryPoint
@@ -51,12 +50,15 @@ app/code/Mage/Core/Model/Layout/Factory.php
 app/code/Mage/Core/Model/Layout/Update.php
 app/code/Mage/Core/Model/Layout/Argument
 app/code/Mage/Core/Model/ObjectManager
+app/code/Mage/Core/Model/Page
+app/code/Mage/Core/Model/Page.php
 app/code/Mage/Core/Model/Resource/Setup/Migration.php
 app/code/Mage/Core/Model/Resource/Theme
 app/code/Mage/Core/Model/Resource/Theme.php
 app/code/Mage/Core/Model/ShellAbstract.php
 app/code/Mage/Core/Model/Theme
 app/code/Mage/Core/Model/Theme.php
+app/code/Mage/Core/Model/ThemeInterface.php
 app/code/Mage/Core/Model/Translate.php
 app/code/Mage/Core/Model/Translate/Expr.php
 app/code/Mage/Core/Helper/Abstract.php
@@ -74,6 +76,7 @@ app/code/Mage/Log/Model/Resource/Helper
 app/code/Mage/Log/Model/Resource/Shell.php
 app/code/Mage/Log/Model/Shell.php
 app/code/Mage/Page/Helper/Robots.php
+app/code/Mage/Page/Model/Asset
 app/code/Mage/Reports/Block/Adminhtml/Customer
 app/code/Mage/Reports/Block/Adminhtml/Product
 app/code/Mage/Reports/Model/Resource/Accounts
