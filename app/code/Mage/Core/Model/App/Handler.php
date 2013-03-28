@@ -34,7 +34,7 @@ class Mage_Core_Model_App_Handler implements Magento_Http_HandlerInterface
     {
         $response->headersSentThrowsException = Mage::$headersSentThrowsException;
         set_error_handler(Mage::DEFAULT_ERROR_HANDLER);
-        date_default_timezone_set(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
+        date_default_timezone_set(Mage_Core_Model_LocaleInterface::DEFAULT_TIMEZONE);
         $this->_app->setRequest($request)->setResponse($response)->run();
     }
 }
