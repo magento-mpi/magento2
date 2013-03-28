@@ -78,6 +78,20 @@ Ext.EventManager.onDocumentReady(function() {
     $('role_resources').value = tree.getChecked().join(',');
 });
 
+
+var aclTree = {};
+
+aclTree.CheckboxRenderer = function() {
+    aclTree.CheckboxRenderer.superclass.constructor.apply(this, arguments);
+};
+
+Ext.extend(aclTree.CheckboxRenderer, Ext.tree.CheckboxNodeUI, {
+    render : function(bulkRender){
+        aclTree.CheckboxRenderer.superclass.render.apply(this, arguments);
+        jQuery(this.wrap).attr('data-ui-id', this.node.attributes.id);
+    }
+});
+
 function resourceClick(node, e){
     node.getUI().check(!node.getUI().checked());
     varienElementMethods.setHasChanges(Event.element(e), e);
@@ -88,7 +102,7 @@ function bildResourcesTree(parent, config){
 
     if (parent && config && config.length){
         for (var i = 0; i < config.length; i++){
-            config[i].uiProvider = Ext.tree.CheckboxNodeUI;
+            config[i].uiProvider = aclTree.CheckboxRenderer;
             var node = new Ext.tree.TreeNode(config[i]);
             parent.appendChild(node);
             if(config[i].children){

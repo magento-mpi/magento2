@@ -174,7 +174,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 'response' => $eventResponse,
                 'controller' => $this
             ));
-
+            $this->getResponse()->setHeader('Content-type', 'application/json', true);
             $this->getResponse()->setBody(
                 Mage::helper('Mage_Core_Helper_Data')->jsonEncode($eventResponse->getData())
             );

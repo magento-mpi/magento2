@@ -38,6 +38,9 @@ return array(
         '/pub/lib/mage/validation.js',
         '/pub/lib/mage/validation/validation.js',
         '/pub/lib/mage/translate-inline-vde.js'
+        '/pub/lib/mage/validation/validation.js',
+        '/pub/lib/mage/backend/suggest.js'
+        '/pub/lib/mage/backend/tree-suggest.js'
     ),
     'test' => array('/dev/tests/js/testsuite'),
     'JsTestDriver' => '{{path_to_jstestdriver_jar}}'

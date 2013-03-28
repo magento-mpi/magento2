@@ -134,7 +134,7 @@
             var concat = /\?/.test(url) ? ['&', '='] : ['/', '/'];
             url = url.replace(/[\/&]+$/, '');
             $.each(params, function(key, value) {
-                url += concat[0] + key + concat[1] + encodeURIComponent(value);
+                url += concat[0] + key + concat[1] + window.encodeURIComponent(value);
             });
             return url + (concat[0] === '/' ? '/' : '');
         },

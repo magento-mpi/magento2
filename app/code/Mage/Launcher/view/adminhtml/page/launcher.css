@@ -2064,12 +2064,17 @@
     border-bottom: 1px solid #ededed;
 }
 
+.add-product > h3 {
+    margin: 20px;
+}
+
 .add-product > .entry-edit + .entry-edit .fieldset {
     margin: 0;
     padding: 0;
 }
 
-.add-product #media_gallery_content {
+.add-product #media_gallery_content,
+.add-product .action-manage-images {
     display: none;
 }
 
@@ -2082,7 +2087,7 @@
 }
 
 .add-product .field-quantity_and_stock_status input[type="text"] {
-    width: 36%;
+    width: 140px;
 }
 
 .add-product .field-quantity_and_stock_status select {

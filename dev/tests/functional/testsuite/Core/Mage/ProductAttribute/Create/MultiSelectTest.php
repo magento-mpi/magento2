@@ -76,7 +76,7 @@ class Core_Mage_ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_Te
      */
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
-        $this->markTestIncomplete('MAGETWO-5787');
+        $this->markTestIncomplete('MAGETWO-8616');
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
@@ -142,9 +142,6 @@ class Core_Mage_ProductAttribute_Create_MultiSelectTest extends Mage_Selenium_Te
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_multiselect',
             array('attribute_code' => $wrongAttributeCode));
         //Steps
-        if ($validationMessage == 'wrong_length_attribute_code') {
-            $this->markTestIncomplete('MAGETWO-7215');
-        }
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('validation', $validationMessage);
