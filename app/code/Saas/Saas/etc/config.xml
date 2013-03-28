@@ -3,8 +3,6 @@
 /**
  * {license_notice}
  *
- * @category    Saas
- * @package     Saas_Saas
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,20 @@
 <config>
     <modules>
         <Saas_Saas>
-            <version>0.1.0</version>
+            <version>2.0.0.0</version>
             <active>false</active>
         </Saas_Saas>
     </modules>
+    <global>
+        <di>
+            <preferences>
+                <Mage_Core_Model_Cache>Saas_Saas_Model_Cache</Mage_Core_Model_Cache>
+            </preferences>
+            <Saas_Saas_Model_Cache>
+                <parameters>
+                    <config>Mage_Core_Model_Config_Proxy</config>
+                </parameters>
+            </Saas_Saas_Model_Cache>
+        </di>
+    </global>
 </config>
