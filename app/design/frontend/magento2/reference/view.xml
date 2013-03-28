@@ -28,13 +28,9 @@
         <var name="customer_account_product_review_page:type">image</var>
         <var name="customer_account_product_review_page:width">285</var>
         <var name="customer_account_product_review_page:ratio">1</var>
-        <var name="customer_account_product_review_page:width">285</var>
-        <var name="customer_account_product_review_page:ratio">1</var>
         <var name="customer_account_product_review_page:height">285</var>
 
         <var name="category_page_list:type">small_image</var>
-        <var name="category_page_list:width">180</var>
-        <var name="category_page_list:ratio">1</var>
         <var name="category_page_list:width">180</var>
         <var name="category_page_list:ratio">1</var>
         <var name="category_page_list:height">230</var>
@@ -72,7 +68,7 @@
         <var name="product_page_more_views:type">thumbnail</var>
         <var name="product_page_more_views:width">90</var>
         <var name="product_page_more_views:ratio">1</var>
-        <var name="product_page_more_views:height"></var>
+        <var name="product_page_more_views:height"/>
 
         <var name="side_column_widget_product_thumbnail:type">thumbnail</var>
         <var name="side_column_widget_product_thumbnail:width">50</var>
@@ -179,16 +175,20 @@
         <var name="mini_cart_product_thumbnail:ratio">1</var>
         <var name="mini_cart_product_thumbnail:height"/>
 
-        <var name="shopping_cart_product_thumbnail:type">thumbnail</var>
-        <var name="shopping_cart_product_thumbnail:width">80</var>
-        <var name="shopping_cart_product_thumbnail:ratio">1</var>
-        <var name="shopping_cart_product_thumbnail:height"/>
-
         <var name="new_products_images_only_widget:type">small_image</var>
         <var name="new_products_images_only_widget:width">78</var>
         <var name="new_products_images_only_widget:ratio">1</var>
         <var name="new_products_images_only_widget:height"/>
 
+        <var name="cart_page_product_thumbnail:type">thumbnail</var>
+        <var name="cart_page_product_thumbnail:width">80</var>
+        <var name="cart_page_product_thumbnail:ratio">1</var>
+        <var name="cart_page_product_thumbnail:height"/>
+
+        <var name="product_stock_alert_email_product_image:type">small_image</var>
+        <var name="product_stock_alert_email_product_image:width">76</var>
+        <var name="product_stock_alert_email_product_image:ratio">1</var>
+        <var name="product_stock_alert_email_product_image:height"/>
     </vars>
     <vars module="Mage_Bundle">
         <var name="product_summary_image_size">58</var>         <!-- New Product image size used for summary block-->
@@ -280,4 +280,5 @@
         <var name="small-links">#675f55</var>
         <var name="small-links-hover">#c2c2c2</var>
     </vars>
+
 </view>

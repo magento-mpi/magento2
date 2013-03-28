@@ -17,7 +17,7 @@ $canApplyMsrp = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_item->g
 <tr class="item info">
     <td class="col item">
         <?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product photo"><?php endif;?>
-        <?php echo $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image')->init($_item->getProduct(), 'shopping_cart_product_thumbnail')->toHtml(); ?>
+        <?php echo $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image')->init($_item->getProduct(), 'cart_page_product_thumbnail')->toHtml(); ?>
         <?php if ($this->hasProductUrl()):?></a><?php endif;?>
         <div class="product details">
             <strong class="product name">

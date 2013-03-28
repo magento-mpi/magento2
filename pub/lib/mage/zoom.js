@@ -227,7 +227,7 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
                 wH = vp.h - ( wrapper.outerHeight() - wrapper.height());
             } else {
                 wH = wrapper.outerHeight();
-                mt = ((vp.h - wH) / 2) >> 0
+                mt = ((vp.h - wH) / 2) >> 0;
             }
 
             wrapper.css({
@@ -422,9 +422,8 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
             @see <a href="http://jsperf.com/math-ceil-vs-bitwise">Math.ceil vs Bitwise</a>
          */
         ceil: function(n){
-            var f = (n << 0),
-                f = f === n ? f : f + 1;
-            return f;
+            var f = (n << 0);
+            return f === n ? f : f + 1;
         }
 
     },
@@ -451,8 +450,8 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
 
             /** @TODO: parametrize placeholder image */
             var equalsInCollection = this.filter('a[href="' + this.filter(settings.main.selector).attr('href') + '"]'),
-                isExcluded = (equalsInCollection.length === 1
-                    && equalsInCollection.attr('href').indexOf('/images/catalog/product/placeholder/') === -1);
+                isExcluded = (equalsInCollection.length === 1 &&
+                    equalsInCollection.attr('href').indexOf('/images/catalog/product/placeholder/') === -1);
 
             /** Determine current position of item in thumbnails if it is NOT excluded from thumbnails list */
             var index = (!isExcluded) ? this.not(settings.main.selector)
@@ -1148,11 +1147,11 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
         },
 
         slidePrev:function(event){
-            method.triggerSlider('prev')
+            method.triggerSlider('prev');
         },
 
         slideNext:function(event){
-            method.triggerSlider('next')
+            method.triggerSlider('next');
         },
 
         triggerSlider: function(direction){
