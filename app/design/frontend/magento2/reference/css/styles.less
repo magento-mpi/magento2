@@ -351,7 +351,7 @@ a > span {
     margin-bottom:30px;
 }
 
-.column.main {}
+.column.main { min-height: 500px; }
 .column.left { padding-right:10px; }
 .column.right { padding-left:10px; }
 
@@ -1029,6 +1029,112 @@ a > span {
 
 
 /*
+ *    MESSAGES
+ *
+----------------------------------------------------------------------------- */
+.page.messages {
+    .pageWidth();
+    margin:15px auto;
+}
+.message() {
+    display: block;
+    .clearfix();
+    padding:13px 60px 12px 20px;
+    margin:3px 0 3px;
+    border-radius: 3px;
+    position: relative;
+    line-height: 16px;
+    z-index: 1;
+    >*:first-child:before {
+        position: absolute;
+        width:31px;
+        text-align: center;
+        right:0;
+        top:0;
+        font-family: "icons";
+        color:#fff;
+        font-size: 20px;
+        line-height: 41px;
+        height:41px;
+        float:right;
+        display: block;
+        padding:0;
+        border-radius: 3px;
+    }
+    >*:first-child:after {
+        content:'';
+        border-top: 5px solid rgba(255,255,255,0);
+        border-right: 5px solid;
+        border-bottom: 5px solid  rgba(255,255,255,0);
+        height:0;
+        width:0;
+        overflow: hidden;
+        position: absolute;
+        display: block;
+        position: absolute;
+        top:15px;
+        right:31px;
+    }
+}
+.successMsg() {
+    background: #d3edd5;
+    color:#1b6720;
+    >*:first-child:before {
+        content: "\e013";
+        background: #42b649;
+    }
+    >*:first-child:after {
+        border-right-color:#42b649;
+    }
+}
+.noticeMsg() {
+    background: #ffedb8;
+    color:#926e00;
+    >*:first-child:before {
+        content: "\e00e";
+        background: #ffc000;
+    }
+    >*:first-child:after {
+        border-right-color:#ffc000;
+    }
+}
+.errorMsg() {
+    background: #ffd9d0;
+    color:#911c00;
+    >*:first-child:before {
+        content: "\e00e";
+        background: #ff3200;
+    }
+    >*:first-child:after {
+        border-right-color:#ff3200;
+    }
+}
+
+.success-msg,
+.notice-msg,
+.note-msg,
+.error-msg {
+    .message();
+}
+
+ul.messages,
+ul.messages ul {
+    padding:0;
+    margin:0;
+    list-style-type: none;
+}
+.success-msg {
+    .successMsg();
+}
+.notice-msg,
+.note-msg {
+    .noticeMsg();
+}
+.error-msg {
+    .errorMsg();
+}
+
+/*
  *    Mage_CatalogSearch
  *
 ----------------------------------------------------------------------------- */
@@ -1259,6 +1365,8 @@ select {
                 float:right;
             }
         }
+        .field.fullname + .field.company,
+        .field.name-lastname + .field.company,
         .field.country,
         .field.taxvat {
             margin:0 40% 30px 0;
@@ -1299,6 +1407,26 @@ select {
         width:100%;
         height:100%;
         background: rgba(255,255,255,0.1);
+    }
+    .actions .action { visibility: hidden; width:1px; overflow: hidden; }
+}
+.load.indicator {
+    display: inline-block;
+    padding:8px;
+    vertical-align: middle;
+    span {
+        display: block;
+        line-height: 16px;
+        &:before {
+            content:'';
+            margin-right:5px;
+            display: inline-block;
+            width:16px;
+            height:16px;
+            background:url(../images/loader.gif) no-repeat 0 0;
+            background-color:@secondary1;
+            vertical-align: top;
+        }
     }
 }
 
@@ -1350,6 +1478,7 @@ select {
         margin-left:-50px;
     }
 }
+
 .fieldset.guest {
     .fieldsetStyle();
     > .field {
@@ -1357,7 +1486,23 @@ select {
     }
 }
 
-/* Step Billing */
+/* Step Review */
+
+.checkout.submit.order {
+    .actions {
+        margin-top:15px;
+        .clearfix();
+        .primary { float:right; }
+        .secondary { float:left; line-height: 32px; }
+    }
+}
+.order.data.items {
+    tfoot tr:first-child td { border-top:3px solid @primary2;  padding-top:15px; }
+    tr.total td { padding-top:5px; padding-bottom:5px; text-align: right; }
+    tr.total:last-child td { padding-bottom: 20px; }
+    tr.grand.total td { vertical-align: middle; }
+    tr.grand.total .amount { font-size: 24px; color:@secondary1; }
+}
 
 
 /*
@@ -1385,11 +1530,16 @@ select {
 
     }
 }
-.cart.items.data {
+.items.data {
     width:100%;
     thead tr:last-child th { padding-bottom:10px; }
     th.col.item > span { display: none; }
-    td.col.qty { width:40px; padding-top:10px;}
+    td.col.qty { 
+        width:40px; padding-top:10px; text-align: center;
+        .review & {
+            padding-top:16px;
+        }
+    }
     th.col.qty { text-transform: uppercase; }
     input.qty {width:40px; text-align: center}
     td.col.price,
@@ -1430,7 +1580,7 @@ select {
             margin:0 0 10px;
         }
     }
-    .cart.item.options {
+    .item.options {
         dt {
             font-weight: 400;
             display: inline;
@@ -2067,6 +2217,8 @@ select {
         }
         .action.edit {
             font-size:12px;
+        }
+        .product.options.wrapper + .action.edit {
             &:before {
                 content:' | ';
                 display: inline-block;

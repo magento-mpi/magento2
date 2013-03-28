@@ -14,12 +14,14 @@
 $cssClass = $this->getCssClass() ? ' ' . $this->getCssClass() : '';
 $prefix = $this->getPrefix() ? '<span class="prefix">' . $this->getPrefix() . '</span>' : '';
 $suffix = $this->getSuffix() ? '<span class="suffix">' . $this->getSuffix() . '</span>' : '';
+$title = '';
+if (trim($this->getPageTitle())) {
+    $title = $prefix . '<span class="base">' . $this->getPageTitle() . '</span>' . $suffix;
+}
 ?>
+<?php if ($title): ?>
 <hgroup class="page title<?php echo $cssClass; ?>">
-    <h1 class="title">
-        <?php echo $prefix ?>
-        <span class="base"><?php echo $this->getPageTitle(); ?></span>
-        <?php echo $suffix ?>
-    </h1>
+    <h1 class="title"><?php echo $title ?></h1>
     <?php echo $this->getChildHtml(); ?>
 </hgroup>
+<?php endif; ?>

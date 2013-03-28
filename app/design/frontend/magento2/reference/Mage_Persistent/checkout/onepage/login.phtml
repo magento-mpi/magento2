@@ -108,8 +108,8 @@
             <input type="hidden" name="checkout_method" id="login:register" value="register" checked="checked" />
         <?php endif; ?>
         <div class="actions">
-            <span class="please-wait" style="display:none;">
-                <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo $this->__('Loading next step...') ?>
+            <span class="please-wait load indicator" style="display:none;">
+                <span><?php echo $this->__('Loading next step...') ?></span>
             </span>
             <?php if ($this->isAllowedGuestCheckout()): ?>
                 <button id="onepage-guest-register-button" type="button" class="action continue" data-checkout='{"isGuestCheckoutAllowed":true}'><span><?php echo $this->__('Continue') ?></span></button>

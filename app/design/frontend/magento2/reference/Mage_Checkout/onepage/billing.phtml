@@ -200,8 +200,8 @@
 </fieldset>
 <div class="buttons-set form-buttons btn-only" id="billing-buttons-container">
     <button type="button" class="button"><span><span><?php echo $this->__('Continue') ?></span></span></button>
-    <span id="billing-please-wait" class="please-wait" style="display:none;">
-        <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo $this->__('Loading next step...') ?>
+    <span id="billing-please-wait" class="please-wait load indicator" style="display:none;">
+        <span><?php echo $this->__('Loading next step...') ?></span>
     </span>
 </div>
 <p class="required"><?php echo $this->__('* Required Fields') ?></p>
