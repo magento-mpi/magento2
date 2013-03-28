@@ -13,14 +13,19 @@
  *
  * @method Mage_Core_Model_Theme save()
  * @method string getPackageCode()
- * @method string getThemePath()
  * @method string getParentThemePath()
  * @method string getParentId()
- * @method string getArea()
  * @method string getThemeTitle()
+ * @method string getThemeVersion()
+ * @method string getPreviewImage()
+ * @method string getMagentoVersionFrom()
+ * @method string getMagentoVersionTo()
+ * @method bool getIsFeatured()
  * @method int getThemeId()
- * @method Mage_Core_Model_Theme setAssignedStores(array $stores)
+ * @method int getType()
  * @method array getAssignedStores()
+ * @method Mage_Core_Model_Resource_Theme_Collection getCollection()
+ * @method Mage_Core_Model_Theme setAssignedStores(array $stores)
  * @method Mage_Core_Model_Theme addData(array $data)
  * @method Mage_Core_Model_Theme setParentId(int $id)
  * @method Mage_Core_Model_Theme setParentTheme($parentTheme)
@@ -32,12 +37,21 @@
  * @method Mage_Core_Model_Theme setThemeTitle(string $themeTitle)
  * @method Mage_Core_Model_Theme setMagentoVersionFrom(string $versionFrom)
  * @method Mage_Core_Model_Theme setMagentoVersionTo(string $versionTo)
+ * @method Mage_Core_Model_Theme setType(string $type)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
-    implements Mage_Core_Model_Theme_Customization_CustomizedInterface
+    implements Mage_Core_Model_ThemeInterface, Mage_Core_Model_Theme_Customization_CustomizedInterface
 {
+    /**#@+
+     * Theme types group
+     */
+    const TYPE_PHYSICAL = 0;
+    const TYPE_VIRTUAL = 1;
+    const TYPE_STAGING = 2;
+    /**#@-*/
+
     /**
      * Cache tag for empty theme
      */
@@ -49,9 +63,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     const PATH_SEPARATOR = '/';
 
     /**
-     * Path prefix to customized theme files
+     * Filename of view configuration
      */
-    const PATH_PREFIX_CUSTOMIZATION = 'customization';
+    const FILENAME_VIEW_CONFIG = 'view.xml';
 
     /**
      * Labels collection array
@@ -88,12 +102,35 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected $_themeImage;
 
     /**
+     * @var Mage_Core_Model_Theme_Domain_Factory
+     */
+    protected $_domainFactory;
+
+    /**
+     * @var Mage_Core_Model_Resource_Theme_File_Collection
+     */
+    protected $_themeFiles;
+
+    /**
+     * All possible types of a theme
+     *
+     * @var array
+     */
+    public static $types = array(
+        self::TYPE_PHYSICAL,
+        self::TYPE_VIRTUAL,
+        self::TYPE_STAGING,
+    );
+
+    /**
      * @param Mage_Core_Model_Context $context
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Theme_Factory $themeFactory
      * @param Mage_Core_Helper_Data $helper
      * @param Mage_Core_Model_Theme_Image $themeImage
      * @param Mage_Core_Model_Resource_Theme $resource
+     * @param Mage_Core_Model_Theme_Domain_Factory $domainFactory
+     * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Resource_Theme_Collection $resourceCollection
      * @param array $data
      *
@@ -106,6 +143,8 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         Mage_Core_Helper_Data $helper,
         Mage_Core_Model_Theme_Image $themeImage,
         Mage_Core_Model_Resource_Theme $resource,
+        Mage_Core_Model_Theme_Domain_Factory $domainFactory,
+        Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Resource_Theme_Collection $resourceCollection = null,
         array $data = array()
     ) {
@@ -113,8 +152,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         $this->_objectManager = $objectManager;
         $this->_themeFactory = $themeFactory;
         $this->_helper = $helper;
-        $this->_themeImage = $themeImage;
-        $this->_themeImage->setTheme($this);
+        $this->_domainFactory = $domainFactory;
+        $this->_dirs = $dirs;
+        $this->_themeImage = $themeImage->setTheme($this);
     }
 
     /**
@@ -169,7 +209,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function isDeletable()
     {
-        return $this->isVirtual();
+        return $this->isEditable();
     }
 
     /**
@@ -179,7 +219,27 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function isEditable()
     {
-        return $this->isVirtual();
+        return self::TYPE_PHYSICAL != $this->getType();
+    }
+
+    /**
+     * Check theme is virtual
+     *
+     * @return bool
+     */
+    public function isVirtual()
+    {
+        return self::TYPE_VIRTUAL == $this->getType();
+    }
+
+    /**
+     * Check theme is visible in backend
+     *
+     * @return bool
+     */
+    public function isVisible()
+    {
+        return in_array($this->getType(), array(self::TYPE_PHYSICAL, self::TYPE_VIRTUAL));
     }
 
     /**
@@ -187,20 +247,39 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      *
      * @return bool
      */
-    public function isVirtual()
+    public function isPresentInFilesystem()
     {
         $collection = $this->getCollectionFromFilesystem()->addDefaultPattern('*')->getItems();
-        return !($this->getThemePath() && isset($collection[$this->getFullPath()]));
+        return $this->getThemePath() && isset($collection[$this->getFullPath()]);
     }
 
     /**
-     * Check is theme has child themes
+     * Check is theme has child virtual themes
      *
      * @return bool
      */
     public function hasChildThemes()
     {
-        return (bool)$this->getCollection()->addFieldToFilter('parent_id', array('eq' => $this->getId()))->getSize();
+        return (bool)$this->getCollection()
+            ->addTypeFilter(Mage_Core_Model_Theme::TYPE_VIRTUAL)
+            ->addFieldToFilter('parent_id', array('eq' => $this->getId()))
+            ->getSize();
+    }
+
+    /**
+     * Get directory where themes files are stored
+     *
+     * @return string
+     */
+    public function getThemeFilesPath()
+    {
+        if ($this->getType() == self::TYPE_PHYSICAL) {
+            $physicalThemesDir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
+            $dir = sprintf('%s/%s', $physicalThemesDir, $this->getFullPath());
+        } else {
+            $dir = $this->getCustomizationPath();
+        }
+        return $dir;
     }
 
     /**
@@ -212,13 +291,45 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         $customPath = $this->getData('customization_path');
         if ($this->getId() && empty($customPath)) {
-            /** @var $modelDir Mage_Core_Model_Dir */
-            $modelDir = $this->_objectManager->get('Mage_Core_Model_Dir');
-            $customPath = $modelDir->getDir(Mage_Core_Model_Dir::THEME) . DIRECTORY_SEPARATOR
-                . self::PATH_PREFIX_CUSTOMIZATION . DIRECTORY_SEPARATOR . $this->getId();
+            $customPath = $this->_dirs->getDir(Mage_Core_Model_Dir::MEDIA)
+                . Magento_Filesystem::DIRECTORY_SEPARATOR . 'theme_customization'
+                . Magento_Filesystem::DIRECTORY_SEPARATOR . $this->getId();
             $this->setData('customization_path', $customPath);
         }
         return $customPath;
+    }
+
+    /**
+     * Retrieve collection of files that belong to a theme
+     *
+     * @return Mage_Core_Model_Resource_Theme_File_Collection
+     */
+    public function getFiles()
+    {
+        if (!$this->_themeFiles) {
+            $this->_themeFiles = $this->_objectManager->create('Mage_Core_Model_Resource_Theme_File_Collection');
+            $this->_themeFiles->addThemeFilter($this);
+        }
+        return $this->_themeFiles;
+    }
+
+    /**
+     * Retrieve theme instance representing the latest changes to a theme
+     *
+     * @return Mage_Core_Model_Theme|null
+     */
+    public function getStagingVersion()
+    {
+        if ($this->getId()) {
+            $collection = $this->getCollection();
+            $collection->addFieldToFilter('parent_id', $this->getId());
+            $collection->addFieldToFilter('type', self::TYPE_STAGING);
+            $stagingTheme = $collection->getFirstItem();
+            if ($stagingTheme->getId()) {
+                return $stagingTheme;
+            }
+        }
+        return null;
     }
 
     /**
@@ -263,22 +374,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Include customized files on default handle
-     *
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _applyCustomizationFiles()
-    {
-        if (!$this->isCustomized()) {
-            return $this;
-        }
-        /** @var $link Mage_Core_Model_Theme_Customization_Link */
-        $link = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Link');
-        $link->setThemeId($this->getId())->changeCustomFilesUpdate();
-        return $this;
-    }
-
-    /**
      * Check if theme object data was changed.
      *
      * @return bool
@@ -306,10 +401,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected function _afterSave()
     {
         $this->saveThemeCustomization();
-        if ($this->isCustomized()) {
-            $this->_applyCustomizationFiles();
-        }
-
         $this->_checkAssignedThemeChanged();
         return parent::_afterSave();
     }
@@ -367,9 +458,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get parent theme model
-     *
-     * @return Mage_Core_Model_Theme|null
+     * {@inheritdoc}
      */
     public function getParentTheme()
     {
@@ -411,7 +500,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         }
 
         $this->getThemeImage()->uploadPreviewImage('preview_image');
-        $this->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->save();
+        $this->setType(self::TYPE_VIRTUAL)->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->save();
         return $this;
     }
 
@@ -427,6 +516,22 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         }
 
         return $this->getId() . $this->getThemePath();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArea()
+    {
+        return $this->getData('area');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getThemePath()
+    {
+        return $this->getData('theme_path');
     }
 
     /**
@@ -485,6 +590,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
             $themeCollection = $this->getCollection();
             $themeCollection->setOrder('theme_title', Varien_Data_Collection::SORT_ORDER_ASC)
+                ->filterVisibleThemes()
                 ->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
                 ->walk('checkThemeCompatible');
             $this->_labelsCollection = $themeCollection->toOptionArray();
@@ -512,5 +618,41 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function __clone()
     {
         $this->unsetData()->setOrigData();
+    }
+
+    /**
+     * Get one of theme domain models
+     *
+     * @param int|null $type
+     * @return Mage_Core_Model_Theme_Domain_Physical|Mage_Core_Model_Theme_Domain_Virtual|
+     * Mage_Core_Model_Theme_Domain_Staging
+     * @throws Mage_Core_Exception
+     */
+    public function getDomainModel($type = null)
+    {
+        if ($type !== null && $type != $this->getType()) {
+            throw new Mage_Core_Exception($this->_helper->__(
+                'Invalid domain model "%s" requested for theme "%s" of type "%s"',
+                $type,
+                $this->getId(),
+                $this->getType()
+            ));
+        }
+
+        return $this->_domainFactory->create($this);
+    }
+
+    /**
+     * Get path to custom view configuration file
+     *
+     * @return string
+     */
+    public function getCustomViewConfigPath()
+    {
+        $config = $this->getCustomizationPath();
+        if (!empty($config)) {
+            $config .= Magento_Filesystem::DIRECTORY_SEPARATOR . self::FILENAME_VIEW_CONFIG;
+        }
+        return $config;
     }
 }

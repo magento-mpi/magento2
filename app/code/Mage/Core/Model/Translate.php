@@ -26,7 +26,7 @@ class Mage_Core_Model_Translate
     /**
      * Cache tag
      */
-    const CACHE_TAG         = 'translate';
+    const CACHE_TAG         = Mage_Core_Model_Cache_Type_Translate::CACHE_TAG;
 
     /**
      * Configuration area key
@@ -601,7 +601,7 @@ class Mage_Core_Model_Translate
      */
     protected function _canUseCache()
     {
-        return Mage::app()->useCache('translate');
+        return Mage::app()->useCache(Mage_Core_Model_Cache_Type_Translate::TYPE_IDENTIFIER);
     }
 
     /**

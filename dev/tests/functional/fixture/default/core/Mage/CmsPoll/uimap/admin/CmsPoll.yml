@@ -41,7 +41,7 @@ poll_manager:
         messages: &pollMesssages
             success_saved_poll: //li[normalize-space(@class)='success-msg' and contains(.,'The poll has been saved.')]
             success_deleted_poll: //li[normalize-space(@class)='success-msg' and contains(.,'The poll has been deleted.')]
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_required_field: "//label[@class='mage-error' and @for='%fieldId%']"
             existing_poll: //li[normalize-space(@class)='error-msg' and contains(.,'Poll with the same question already exists.')]
             duplicate_poll_answer: //li[normalize-space(@class)='error-msg' and contains(.,'Your answers contain duplicates.')]
             add_answers: //li[normalize-space(@class)='error-msg' and contains(.,'Please, add some answers to this poll first.')]
@@ -73,19 +73,21 @@ new_poll:
                         fieldsets:
                             -
                                 assigned_answers:
-                                    xpath: //div[contains(div/div/h4,'Assigned Answers')]
+                                    xpath: //div[@data-ui-id='poll-edit-tabs-tab-content-answers-section']
                                     buttons:
                                         add_new_answer: //button[span='Add New Answer']
                                     pageelements:
-                                        assigned_answers_block: //div[@id='poll_answer_fieldset_%answerId%']
+                                        assigned_answers_block: //tr[@id='poll_answer_item_%answerId%']
                             -
                                 assigned_answers_set:
-                                    xpath: //div[@class='fieldset fieldset-wide']
+                                    xpath: //tbody[@id='poll_answers_list']/tr
                                     fields:
-                                        answer_title: //input[@id='answer_%answerId%']
-                                        votes_count: //input[@id='answer_votes_%answerId%']
-                                    buttons:
-                                        delete: //div[@id='poll_answer_fieldset_%answerId%']//button[span='Delete']
+                                        answer_title: //input[@name='answer[%answerId%][title]']
+                                        votes_count: //input[@name='answer[%answerId%][votes]']
+#                                    buttons:
+#@TODO need to implement xPath for this element
+#                                        delete: //tr[@id='poll_answer_item_%answerId%']//button[@data-ui-id='poll-edit-tab-answers-list-deletebutton']=======
+#                                        delete: //button[span='Delete']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
@@ -109,3 +111,4 @@ edit_poll:
             delete_poll: //button[span='Delete Poll']
             save_poll: //button[@data-ui-id='poll-edit-save-button']
         messages: *pollMesssages
+

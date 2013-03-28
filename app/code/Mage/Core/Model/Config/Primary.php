@@ -48,18 +48,21 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
     /**
      * @param string $baseDir
      * @param array $params
+     * @param Mage_Core_Model_Dir $dir
+     * @param Mage_Core_Model_Config_LoaderInterface $loader
      */
-    public function __construct($baseDir, array $params)
-    {
+    public function __construct(
+        $baseDir, array $params, Mage_Core_Model_Dir $dir = null, Mage_Core_Model_Config_LoaderInterface $loader = null
+    ) {
         parent::__construct('<config/>');
         $this->_params = $params;
-        $this->_dir = new Mage_Core_Model_Dir(
+        $this->_dir = $dir ?: new Mage_Core_Model_Dir(
             new Magento_Filesystem(new Magento_Filesystem_Adapter_Local()),
             $baseDir,
             $this->getParam(Mage::PARAM_APP_URIS, array()),
             $this->getParam(Mage::PARAM_APP_DIRS, array())
         );
-        $this->_loader = new Mage_Core_Model_Config_Loader_Primary(
+        $this->_loader = $loader ?: new Mage_Core_Model_Config_Loader_Primary(
             new Mage_Core_Model_Config_Loader_Local(
                 $this->_dir->getDir(Mage_Core_Model_Dir::CONFIG),
                 $this->getParam(Mage::PARAM_CUSTOM_LOCAL_CONFIG),
@@ -127,11 +130,28 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
     /**
      * Retrieve class definition config
      *
-     * @return array
+     * @return string
      */
-    public function getDefinitionConfig()
+    public function getDefinitionPath()
     {
-        return (array) $this->getNode('global/di/definitions');
+        $pathInfo = (array) $this->getNode('global/di/definitions');
+        if (isset($pathInfo['path'])) {
+            return $pathInfo['path'];
+        } else if (isset($pathInfo['relativePath'])) {
+            return $this->_dir->getDir(Mage_Core_Model_Dir::ROOT) . DIRECTORY_SEPARATOR . $pathInfo['relativePath'];
+        } else {
+            return $this->_dir->getDir(Mage_Core_Model_Dir::DI) . DIRECTORY_SEPARATOR . 'definitions.php';
+        }
+    }
+
+    /**
+     * Retrieve definition format
+     *
+     * @return string
+     */
+    public function getDefinitionFormat()
+    {
+        return (string) $this->getNode('global/di/definitions/format');
     }
 
     /**
@@ -143,6 +163,11 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
     {
         Magento_Profiler::start('initial');
         $objectManager->configure(array(
+            'Mage_Core_Model_App_State' => array(
+                'parameters' => array(
+                    'mode' => $this->getParam(Mage::PARAM_MODE, Mage_Core_Model_App_State::MODE_DEFAULT),
+                ),
+            ),
             'Mage_Core_Model_Config_Loader_Local' => array(
                 'parameters' => array(
                     'customFile' => $this->getParam(Mage::PARAM_CUSTOM_LOCAL_FILE),
@@ -154,10 +179,15 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
                     'allowedModules' => $this->getParam(Mage::PARAM_ALLOWED_MODULES, array())
                 )
             ),
-            'Mage_Core_Model_Cache' => array(
+            'Mage_Core_Model_Cache_Frontend_Factory' => array(
                 'parameters' => array(
-                    'options' => $this->getParam(Mage::PARAM_CACHE_OPTIONS, array()),
-                    'banCache' => $this->getParam(Mage::PARAM_BAN_CACHE, false),
+                    'enforcedOptions' => $this->getParam(Mage::PARAM_CACHE_OPTIONS, array()),
+                    'decorators' => $this->_getCacheFrontendDecorators(),
+                )
+            ),
+            'Mage_Core_Model_Cache_Types' => array(
+                'parameters' => array(
+                    'banAll' => $this->getParam(Mage::PARAM_BAN_CACHE, false),
                 )
             ),
             'Mage_Core_Model_StoreManager' => array(
@@ -187,5 +217,27 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
         }
 
         Magento_Profiler::stop('global_primary');
+    }
+
+    /**
+     * Retrieve cache frontend decorators configuration
+     *
+     * @return array
+     */
+    protected function _getCacheFrontendDecorators()
+    {
+        $result = array();
+        // mark all cache entries with a special tag to be able to clean only cache belonging to the application
+        $result[] = array(
+            'class' => 'Magento_Cache_Frontend_Decorator_TagMarker',
+            'parameters' => array('tag' => Mage_Core_Model_AppInterface::CACHE_TAG),
+        );
+        if (Magento_Profiler::isEnabled()) {
+            $result[] = array(
+                'class' => 'Magento_Cache_Frontend_Decorator_Profiler',
+                'parameters' => array('backendPrefixes' => array('Zend_Cache_Backend_', 'Varien_Cache_Backend_')),
+            );
+        }
+        return $result;
     }
 }

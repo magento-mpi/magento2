@@ -38,7 +38,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Condit
             ->setNewChildUrl($url);
         $fieldset = $form->addFieldset('conditions_fieldset', array(
             'legend' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
-            'class' => 'form-list',
+            'class' => 'fieldset',
         ))->setRenderer($renderer);
 
         $fieldset->addField('conditions', 'text', array(

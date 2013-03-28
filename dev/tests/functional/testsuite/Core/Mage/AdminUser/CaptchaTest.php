@@ -24,7 +24,7 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
         if ($this->getCurrentPage() != $this->_pageAfterAdminLogin) {
             if ($this->controlIsPresent('field', 'captcha')) {
                 $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
-                                   'password'  => $this->getConfigHelper()->getDefaultPassword(), 'captcha' => 1111);
+                    'password' => $this->getConfigHelper()->getDefaultPassword(), 'captcha' => 1111);
                 $this->adminUserHelper()->loginAdmin($loginData);
                 $this->assertTrue($this->checkCurrentPage($this->_pageAfterAdminLogin), $this->getMessagesOnPage());
             } else {
@@ -32,8 +32,24 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
             }
         }
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('Captcha/default_admin_captcha');
-        $this->systemConfigurationHelper()->configure('Captcha/enable_admin_captcha');
+        $parameters = $this->fixtureDataToArray('Captcha/enable_admin_captcha');
+        if (isset($parameters['configuration_scope'])) {
+            $this->selectStoreScope('dropdown', 'current_configuration_scope', $parameters['configuration_scope']);
+        }
+        foreach ($parameters as $value) {
+            if (!is_array($value)) {
+                continue;
+            }
+            $settings = (isset($value['configuration'])) ? $value['configuration'] : array();
+            if (!empty($value['tab_name'])) {
+                $this->systemConfigurationHelper()->openConfigurationTab($value['tab_name']);
+                foreach ($settings as $fieldsetName => $fieldsetData) {
+                    $this->systemConfigurationHelper()->expandFieldSet($fieldsetName);
+                    $this->systemConfigurationHelper()->fillFieldset($fieldsetData, $fieldsetName);
+                }
+                $this->clickButton('save_config');
+            }
+        }
     }
 
     public function tearDownAfterTestClass()

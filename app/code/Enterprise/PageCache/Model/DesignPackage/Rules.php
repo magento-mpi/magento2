@@ -35,12 +35,12 @@ class Enterprise_PageCache_Model_DesignPackage_Rules
 
     /**
      * @param Mage_Core_Model_Design $design
-     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Design_PackageInterface $designPackage
      * @param Enterprise_PageCache_Model_Cache $fpcCache
      */
     public function __construct(
         Mage_Core_Model_Design $design,
-        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Design_PackageInterface $designPackage,
         Enterprise_PageCache_Model_Cache $fpcCache
     ) {
         $this->_design = $design;

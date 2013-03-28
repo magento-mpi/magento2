@@ -17,7 +17,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
     protected $_model;
 
     /**
-     * @var Magento_ObjectManager_Zend
+     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 

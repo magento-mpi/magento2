@@ -54,7 +54,7 @@ api_users:
         messages: &pageMessages
             success_user_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The API user has been saved.')]
             success_user_deleted: //li[normalize-space(@class)='success-msg' and contains(.,'The API user has been deleted.')]
-            api_user_empty_required_field: "%fieldXpath%/following-sibling::*[text()='This field is required.' and not(contains(@style,'display: none;'))]"
+            api_user_empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             user_exist: //li[normalize-space(@class)='error-msg' and contains(.,'API Key already exists.')]
             confirmation_for_delete: Are you sure you want to do this?
 
@@ -70,7 +70,7 @@ add_new_api_user:
                         fieldsets:
                             -
                                 api_new_user_grid:
-                                    xpath: //div[@id='base_fieldset']
+                                    xpath: //fieldset[@id='base_fieldset']
                                     fields:
                                         api_user_api_key: //input[@id='api_key']
                                         api_user_api_secret: //input[@id='secret']
@@ -98,7 +98,7 @@ add_new_api_user:
         messages: *pageMessages
 
 edit_api_user:
-    mca: webapi_user/edit/user_id/%userId%/
+    mca: webapi_user/edit/user_id/%id%/
     title: %apiKey% / API Users / Web Services / System / Magento Admin
     uimap:
         form: *edit_api_user

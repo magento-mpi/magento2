@@ -65,11 +65,11 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Sales/Orders/Actions'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'Sales/Invoices';
-        $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'Sales/Shipments';
-        $roleSource['role_resources_tab']['role_resources']['resource_4'] = 'Sales/Credit Memos';
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'sales_order'));
+        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'sales_orders_invoice';
+        $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'sales_orders_ship';
+        $roleSource['role_resources_tab']['role_resources']['resource_4'] = 'sales_orders_credit_memos';
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
 
@@ -116,8 +116,8 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 4 child elements
-        $this->assertEquals(4, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
-            'Count of child Navigation Menu not equal 4, should be equal 4');
+        $this->assertEquals(2, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
+            'Count of child Navigation Menu not equal 2');
     }
 
     /**
@@ -136,6 +136,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function createOrderOneRole($testAdminUser, $orderData)
     {
+        $this->markTestSkipped('MAGETWO-7635');
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->navigate('manage_sales_orders');

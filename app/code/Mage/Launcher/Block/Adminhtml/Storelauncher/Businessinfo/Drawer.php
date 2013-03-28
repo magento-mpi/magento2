@@ -99,7 +99,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
 
         $storeInfo->addField('store_phone', 'text', array(
             'name' => 'groups[general][store_information][fields][phone][value]',
-            'label' => $helper->__('Store Contact Phone Number'),
+            'label' => $helper->__('Store Phone Number'),
             'required' => false,
             'value' => $addressData['phone']
         ));
@@ -268,6 +268,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         $businessAddress->addField('vat_number', 'text', array(
             'name' => 'groups[general][store_information][fields][merchant_vat_number][value]',
             'label' => $helper->__('VAT Number'),
+            'note' => 'Required for countries in European Union.',
             'required' => false,
             'value' => $addressData['merchant_vat_number']
         ));
@@ -286,7 +287,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
 
         $businessAddress->addField('use_for_shipping', 'checkbox', array(
             'name' => 'use_for_shipping',
-            'label' => $helper->__('Use this address as the point of origin for shipping'),
+            'label' => $helper->__('Use this as my store shipping address'),
             'required' => false,
             'value' => 0,
             'checked' => $addressData['use_for_shipping']

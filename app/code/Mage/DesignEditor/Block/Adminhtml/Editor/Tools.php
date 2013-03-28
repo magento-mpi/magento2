@@ -29,6 +29,18 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Core_Block_Tem
     }
 
     /**
+     * Return theme identification number
+     *
+     * @return int|null
+     */
+    protected function getThemeId()
+    {
+        /** @var $helper Mage_DesignEditor_Helper_Data */
+        $helper = $this->_helperFactory->get('Mage_DesignEditor_Helper_Data');
+        return $helper->getEditableThemeId();
+    }
+
+    /**
      * Get save url
      *
      * @return string
@@ -36,7 +48,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Core_Block_Tem
     public function getSaveUrl()
     {
         return $this->getUrl('*/system_design_editor_tools/saveQuickStyles',
-            array('theme_id' => Mage::registry('theme')->getId())
+            array('theme_id' => $this->getThemeId())
         );
     }
 }

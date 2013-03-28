@@ -53,8 +53,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font
             'name'  => $colorHtmlId,
             'value' => $colorData['value'],
             'title' => $colorTitle,
-            'class' => '123class',
-            'css_class' => '456class',
             'label' => null,
         ));
 

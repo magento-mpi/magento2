@@ -10,7 +10,7 @@
 
 
 /**
- * Reward resource setup model
+ * Rma resource setup model
  *
  * @category    Enterprise
  * @package     Enterprise_Rma

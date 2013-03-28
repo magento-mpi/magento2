@@ -221,7 +221,7 @@
         populateQty: function(optionId, selectionId) {
             if (selectionId === '' || selectionId === 'none' || selectionId === undefined) {
                 this.showQtyInput(optionId, '0', false);
-            } else if (this.options.optionConfig.options[optionId].selections[selectionId].customQty === 1) {
+            } else if (this.options.optionConfig.options[optionId].selections[selectionId].customQty === '1') {
                 this.showQtyInput(optionId, this.options.optionConfig.options[optionId].selections[selectionId].qty, true);
             } else {
                 this.showQtyInput(optionId, this.options.optionConfig.options[optionId].selections[selectionId].qty, false);

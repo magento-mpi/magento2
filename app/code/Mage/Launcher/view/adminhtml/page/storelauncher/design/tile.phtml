@@ -11,27 +11,47 @@
 /** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Tile */
 ?>
 
-<article class="tile-store-settings tile-design <?php echo $this->getTileStateStyle(); ?>" id="tile-<?php echo $this->getTileCode()?>">
+<article class="tile-store-settings tile-design <?php echo $this->getTileStateStyle(); ?>"
+         id="tile-<?php echo $this->getTileCode()?>"
+         tabindex="0">
     <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Store Design') ?></h2>
     <div class="tile-teaser">
         <p>
             <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Choose how you want your store to look.') ?>
         </p>
-        <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
-                data-save-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/save') ?>"
-                data-load-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/load') ?>">
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Open Design') ?>
-        </button>
+        <div class="actions">
+            <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
+                    data-save-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/save') ?>"
+                    data-load-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/load') ?>">
+                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Open Store Design') ?>
+            </button>
+        </div>
     </div>
 
     <div class="tile-done">
         <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
         <p><strong><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('You have already configured Design') ?></strong></p>
-        <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
-                data-save-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/save') ?>"
-                data-load-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/load') ?>">
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Design Settings') ?>
-        </button>
+        <ul class="checklist">
+        <?php $themeName = $this->getThemeName(); ?>
+        <?php if (!empty($themeName)) :?>
+            <li class="completed">
+                "<?php echo $this->escapeHtml($themeName); ?>" <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('theme is applied') ?>
+            </li>
+        <?php endif; ?>
+        <?php if ($this->getIsLogoUploaded()) :?>
+            <li class="completed">
+                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Logo is uploaded') ?>
+            </li>
+        <?php endif; ?>
+        </ul>
+        <div class="actions">
+            <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
+                    data-save-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/save') ?>"
+                    data-load-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/load') ?>">
+                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Design Settings') ?>
+            </button>
+            <a class="action-design-editor" href="<?php echo $this->getUrl('adminhtml/system_design_editor/index') ?>"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Design Editor') ?></a>
+        </div>
         <?php endif; ?>
     </div>
 </article>

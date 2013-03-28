@@ -47,11 +47,13 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
      */
     public function checkPromotionsFullRights()
     {
+        $this->markTestSkipped('MAGETWO-7422');
         //Preconditions
         //create specific role with full rights to Promotions Menu
         $this->navigate('manage_roles');
         $roleSource =
-            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom', array('resource_1' => 'Promotions'));
+            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+                array('resource_acl' => 'promotions'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with full rights to Promotions Menu
@@ -94,8 +96,8 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
         //Preconditions
         //create specific role with only to Catalog Read Promotions  rights
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Promotions/Catalog Price Rules/Edit Catalog Price Rules'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'catalog_price_edit'));
         $this->adminUserHelper()->createRestrictedRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with only to Catalog Read Promotions rights
@@ -135,11 +137,12 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
      */
     public function checkPromotionsShoppingCartRulesCreateRights()
     {
+        $this->markTestSkipped('MAGETWO-7422');
         //Preconditions
         //create specific role with only Shopping Cart Price Rule Create rights
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Promotions/Shopping Cart Price Rules'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_1' => 'Promotions/Cart Price Rules'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with Create rights to Shopping Cart Price Rules Menu
@@ -183,8 +186,8 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
         //Preconditions
         //create specific role with only Shopping Cart Price Rule Read rights
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Promotions/Shopping Cart Price Rules/Edit Shopping Cart Price Rules'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'shopping_cart_edit'));
         $this->adminUserHelper()->createRestrictedRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with  Only Read rights to Shopping Cart Price Rules Menu
@@ -227,8 +230,8 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
         //Preconditions
         //create specific role with only Shopping Cart Price Rule Create rights
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Promotions/Automated Email Reminder Rules'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'email_reminder_edit'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with Create rights Automated Email Reminder Rules Menu
@@ -268,11 +271,12 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
      */
     public function checkAutomatedEmailReminderRulesReadRights()
     {
+        $this->markTestSkipped('MAGETWO-8413');
         //Preconditions
         //create specific role with only read rights to Automated Email Reminder Rules
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Promotions/Automated Email Reminder Rules/Edit Automated Email Reminder Rules'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_1' => 'Marketing/Communications/Email Reminders'));
         $this->adminUserHelper()->createRestrictedRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with  Only Read rights to Automated Email Reminder Rules
@@ -312,10 +316,11 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
      */
     public function createShoppingCartPriceRulesWithCustomRoleScopes()
     {
+        $this->markTestSkipped('MAGETWO-7422');
         //Preconditions
         //create specific role with create rights to Shopping Cart Price
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
             array('resource_1' => 'Promotions/Shopping Cart Price Rules'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
@@ -348,8 +353,8 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
         //Preconditions
         //create specific role with create rights to Create Automated Reminder Rule
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
-            array('resource_1' => 'Promotions/Automated Email Reminder Rules'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+                array('resource_acl' => 'email_reminder_full'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with Create rights to Shopping Cart Price Rule
@@ -366,7 +371,6 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
         $this->navigate('manage_automated_email_reminder_rules');
         $emailRule = $this->loadDataSet('AutomatedEmailRule', 'create_automated_email_rule');
         $this->priceRulesHelper()->saveAndContinueEditRule($emailRule, 'edit_automated_email_reminder_rules');
-        $this->saveForm('save_rule');
         $this->assertMessagePresent('success', 'success_saved_rule');
     }
 }

@@ -46,7 +46,7 @@ abstract class Magento_ObjectManager_Definition_Compiled implements Magento_Obje
      * );
      *
      * @param string $className
-     * @return array
+     * @return array|null
      */
     public function getParameters($className)
     {

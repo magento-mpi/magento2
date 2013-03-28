@@ -27,7 +27,8 @@ function toggleApplyVisibility(select) {
 
 function checkOptionsPanelVisibility(){
     if($('matage-options-panel')){
-        var panel = $('matage-options-panel');
+        var panel = $('matage-options-panel').up('.fieldset');
+
         if($('frontend_input') && ($('frontend_input').value=='select' || $('frontend_input').value=='multiselect')){
             panel.show();
         }
@@ -288,11 +289,10 @@ function saveAttributeInNewSet(promptMessage)
         return;
     }
 
-    var rules = ['required-entry', 'validate-no-html-tags'], validator;
+    var rules = ['required-entry', 'validate-no-html-tags'];
     for (var i = 0; i < rules.length; i++) {
-        validator = Validation.get(rules[i]);
-        if (!validator.test(newAttributeSetName)) {
-            alert(validator.error);
+        if (!jQuery.validator.methods[rules[i]](newAttributeSetName)) {
+            alert(jQuery.validator.messages[rules[i]]);
             return;
         }
     }

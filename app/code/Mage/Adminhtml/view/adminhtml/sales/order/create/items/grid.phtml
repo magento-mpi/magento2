@@ -27,14 +27,14 @@
             <col width="80" />
             <thead>
                 <tr class="headings">
-                    <th class="no-link"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Product') ?></th>
-                    <th class="no-link"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Price') ?></th>
-                    <th class="no-link"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Qty') ?></th>
-                    <th class="no-link"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Subtotal') ?></th>
-                    <th class="no-link"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Discount') ?></th>
-                    <th class="no-link"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Row Subtotal') ?></th>
+                    <th class="no-link"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Product') ?></span></th>
+                    <th class="no-link"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Price') ?></span></th>
+                    <th class="no-link"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Qty') ?></span></th>
+                    <th class="no-link"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Subtotal') ?></span></th>
+                    <th class="no-link"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Discount') ?></span></th>
+                    <th class="no-link"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Row Subtotal') ?></span></th>
 
-                    <th class="no-link last"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Action') ?></th>
+                    <th class="no-link last"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Action') ?></span></th>
                 </tr>
             </thead>
             <tbody>
@@ -63,14 +63,14 @@
             <col width="80" />
             <thead>
                 <tr class="headings">
-                    <th class="no-link" colspan="2"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Product') ?></th>
-                    <th class="no-link"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Price') ?></th>
-                    <th class="no-link"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Qty') ?></th>
-                    <th class="no-link"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Subtotal') ?></th>
-                    <th class="no-link"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Discount') ?></th>
-                    <th class="no-link"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Row Subtotal') ?></th>
+                    <th class="no-link" colspan="2"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Product') ?></span></th>
+                    <th class="no-link"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Price') ?></span></th>
+                    <th class="no-link"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Qty') ?></span></th>
+                    <th class="no-link"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Subtotal') ?></span></th>
+                    <th class="no-link"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Discount') ?></span></th>
+                    <th class="no-link"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Row Subtotal') ?></span></th>
 
-                    <th class="no-link last"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Action') ?></th>
+                    <th class="no-link last"><span><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Action') ?></span></th>
                 </tr>
             </thead>
             <tfoot>
@@ -90,8 +90,8 @@
                 <?php foreach ($_items as $_item):$i++ ?>
                 <tbody class="<?php echo ($i%2)?'even':'odd' ?>">
                     <tr>
-                        <td class="first">
-                            <h5 class="title"><span id="order_item_<?php echo $_item->getId() ?>_title"><?php echo $this->escapeHtml($_item->getName()) ?></span></h5>
+                        <td>
+                            <span id="order_item_<?php echo $_item->getId() ?>_title"><?php echo $this->escapeHtml($_item->getName()) ?></span>
                             <div>
                                 <strong><?php echo $this->helper('Mage_Sales_Helper_Data')->__('SKU') ?>:</strong>
                                 <?php echo implode('<br />', Mage::helper('Mage_Catalog_Helper_Data')->splitSku($this->escapeHtml($_item->getSku()))); ?>
@@ -401,17 +401,10 @@
                 <?php endforeach; ?>
         </table>
     </div>
-    <table cellspacing="0" width="100%">
-        <col width="50%" />
-        <col width="50%" />
-        <tr>
-            <td class="a-left"><small><?php echo $this->getInclExclTaxMessage(); ?></small></td>
-            <td class="a-right"><?php echo $this->getButtonHtml($this->helper('Mage_Sales_Helper_Data')->__('Update Items and Qty\'s'),'order.itemsUpdate()'); ?></td>
-        </tr>
-    </table>
-    <br />
-    <div id="order-coupons"><?php echo $this->getChildHtml();?></div>
-    <div class="clear"></div>
+    <p><small><?php echo $this->getInclExclTaxMessage(); ?></small></p>
+    <p><?php echo $this->getButtonHtml($this->helper('Mage_Sales_Helper_Data')->__('Update Items and Qty\'s'),'order.itemsUpdate()'); ?></p>
+    <div class="order-coupons" id="order-coupons"><?php echo $this->getChildHtml();?></div>
+    <div class="clearfix"></div>
     <script type="text/javascript">order.itemsOnchangeBind()</script>
 </div>
 

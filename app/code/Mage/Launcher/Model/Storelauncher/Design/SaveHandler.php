@@ -18,6 +18,8 @@
 class Mage_Launcher_Model_Storelauncher_Design_SaveHandler
     extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
+    const XML_PATH_LOGO = 'design/header/logo_src';
+
     /**
      * Helper factory
      *
@@ -104,7 +106,7 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandler
             if (strrpos($file, '.tmp') == strlen($file) - 4) {
                 $file = substr($file, 0, strlen($file) - 4);
             }
-            $configPath = 'design/header/logo_src';
+            $configPath = self::XML_PATH_LOGO;
             $configScope = Mage_Core_Model_Config::SCOPE_STORES;
             $scopeId = $store->getId();
             $config = $this->_configLoader->getConfigByPath('design/header', $configScope, $scopeId);

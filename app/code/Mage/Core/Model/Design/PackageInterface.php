@@ -29,11 +29,6 @@ interface Mage_Core_Model_Design_PackageInterface
     const PUBLIC_THEME_DIR  = '_theme';
     /**#@-*/
 
-    /**
-     * Public directory which contain theme files
-     */
-    const PUBLIC_BASE_THEME_DIR = 'static';
-
     /**#@+
      * Extensions group for static files
      */
@@ -72,25 +67,10 @@ interface Mage_Core_Model_Design_PackageInterface
     const XML_PATH_ALLOW_DUPLICATION = 'global/design/theme/allow_view_files_duplication';
 
     /**
-     * Path to config node that allows automatically updating map files in runtime
-     */
-    const XML_PATH_ALLOW_MAP_UPDATE = 'global/dev/design_fallback/allow_map_update';
-
-    /**
-     * Sub-directory where to store maps of view files fallback (if used)
-     */
-    const FALLBACK_MAP_DIR = 'maps/fallback';
-
-    /**
      * PCRE that matches non-absolute URLs in CSS content
      */
     const REGEX_CSS_RELATIVE_URLS
         = '#url\s*\(\s*(?(?=\'|").)(?!http\://|https\://|/|data\:)(.+?)(?:[\#\?].*?|[\'"])?\s*\)#';
-
-    /**
-     * Filename of view configuration
-     */
-    const FILENAME_VIEW_CONFIG = 'view.xml';
 
     /**
      * Set package area
@@ -186,20 +166,14 @@ interface Mage_Core_Model_Design_PackageInterface
     public function getViewFileUrl($file, array $params = array());
 
     /**
-     * Get URLs to CSS files optimized based on configuration settings
+     * Get url to public file
      *
-     * @param array $files
-     * @return array
+     * @param string $file
+     * @param bool|null $isSecure
+     * @return string
+     * @throws Magento_Exception
      */
-    public function getOptimalCssUrls($files);
-
-    /**
-     * Get URLs to JS files optimized based on configuration settings
-     *
-     * @param array $files
-     * @return array
-     */
-    public function getOptimalJsUrls($files);
+    public function getPublicFileUrl($file, $isSecure = null);
 
     /**
      * Return directory for theme files publication
@@ -207,6 +181,23 @@ interface Mage_Core_Model_Design_PackageInterface
      * @return string
      */
     public function getPublicDir();
+
+    /**
+     * Return whether view files merging is allowed or not
+     *
+     * @return bool
+     */
+    public function isMergingViewFilesAllowed();
+
+    /**
+     * Merge files, located under the same folder, into one and return file name of merged file
+     *
+     * @param array $files list of names relative to the same folder
+     * @param string $contentType
+     * @return string
+     * @throws Magento_Exception if not existing file requested for merge
+     */
+    public function mergeFiles($files, $contentType);
 
     /**
      * Render view config object for current package and theme

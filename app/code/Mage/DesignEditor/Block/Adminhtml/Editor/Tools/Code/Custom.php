@@ -77,7 +77,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
      */
     public function getCustomCssContent($theme)
     {
-        /** @var $cssFile Mage_Core_Model_Theme_Files */
+        /** @var $cssFile Mage_Core_Model_Theme_File */
         $cssFile = $theme->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Css::TYPE)->getFirstItem();
         return $cssFile->getContent();
     }

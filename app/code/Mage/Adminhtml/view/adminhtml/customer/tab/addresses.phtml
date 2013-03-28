@@ -95,7 +95,6 @@
                         ->setFieldNameSuffix('address['.$_templatePrefix.']');
             ?>
             <?php echo $this->getForm()->getHtml() ?>
-            <div class="address-item-edit-actions"><?php echo $this->getCancelButtonHtml() ?></div>
         </div>
 
 
@@ -170,14 +169,6 @@ addressesModel.prototype = {
         if( initial ) {
             this.itemCount = this.itemList.length;
         }
-        // if(!this.itemList.length){
-        //     if($('no_address_message')){
-        //         $('no_address_message').show();
-        //     }
-        //     else {
-        //         this.formContainer.innerHTML+= '<div id="no_address_message"><?php echo addslashes(Mage::helper('Mage_Customer_Helper_Data')->__('This customer has no saved addresses.')) ?></div>'
-        //     }
-        // }
     },
 
     initItem : function(item){
@@ -204,9 +195,7 @@ addressesModel.prototype = {
     addNewAddress : function(event){
         if(this.canCreateNewAddress){
             this.itemCount++;
-            // if($('no_address_message')){
-            //     $('no_address_message').hide();
-            // }
+
             // preventing duplication of ids for fields and blocks
             while ($$("div[id='form_address_item_" + this.itemCount + "']").length) {
                 this.itemCount++;
@@ -472,7 +461,6 @@ addressesModel.prototype = {
     },
 
     bindCountryRegionRelation : function(parentId){
-        //alert('OK');
         if(parentId){
             var countryElements = $(parentId).getElementsByClassName('countries');
         }
@@ -587,7 +575,12 @@ addressesModel.prototype = {
         var regionRequired = this.requiredStateForCountries.indexOf(this.countryEl.value) >= 0;
 
         elements.each(function(currentElement) {
-            Validation.reset(currentElement);
+            var form = currentElement.form,
+                validationInstance = form ? jQuery(form).data('validation') : null;
+
+            if (validationInstance) {
+                validationInstance.clearError(currentElement);
+            }
             label = $$('label[for="' + currentElement.id + '"]')[0];
             if (label) {
                 wildCard = label.down('em') || label.down('span.required');

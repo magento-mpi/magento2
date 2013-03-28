@@ -85,7 +85,7 @@
                     rmaPleaseWait.show();
                 },
                 success: function(data) {
-                    trackInfoTbody.html(data);
+                    trackInfoTbody.html(data).trigger('contentUpdated');
                 },
                 complete: function() {
                     rmaPleaseWait.hide();

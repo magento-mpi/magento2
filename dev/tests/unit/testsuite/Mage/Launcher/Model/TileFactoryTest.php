@@ -26,8 +26,7 @@ class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->with(
                 $this->equalTo('Mage_Launcher_Model_Tile'),
-                $this->equalTo(array()),
-                $this->equalTo(false)
+                $this->equalTo(array())
             )
             ->will($this->returnValue($tile));
 
@@ -87,8 +86,7 @@ class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->with(
                 $this->equalTo('Mage_Launcher_Model_Tile'),
-                $this->equalTo(array()),
-                $this->equalTo(false)
+                $this->equalTo(array())
             )
             ->will($this->returnValue($tile));
 
@@ -96,8 +94,7 @@ class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->with(
                 $this->equalTo('Mage_Launcher_Model_Tile_StateResolver'),
-                $this->equalTo(array()),
-                $this->equalTo(false)
+                $this->equalTo(array())
             )
             ->will($this->returnValue($stateResolverStub));
 
@@ -105,8 +102,7 @@ class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->with(
                 $this->equalTo('Mage_Launcher_Model_Tile_SaveHandler'),
-                $this->equalTo(array()),
-                $this->equalTo(false)
+                $this->equalTo(array())
             )
             ->will($this->returnValue($saveHandlerStub));
 

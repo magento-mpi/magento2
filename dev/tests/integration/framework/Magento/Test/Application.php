@@ -66,11 +66,11 @@ class Magento_Test_Application
     protected $_initParams = array();
 
     /**
-     * Whether a developer mode is enabled or not
+     * Mode to run application
      *
-     * @var bool
+     * @var string
      */
-    protected $_isDeveloperMode = false;
+    protected $_appMode;
 
     /**
      * Constructor
@@ -80,27 +80,29 @@ class Magento_Test_Application
      * @param Varien_Simplexml_Element $localXml
      * @param array $globalEtcFiles
      * @param array $moduleEtcFiles
-     * @param bool $isDeveloperMode
+     * @param string $appMode
      */
     public function __construct(
         Magento_Test_Db_DbAbstract $dbInstance, $installDir, Varien_Simplexml_Element $localXml,
-        array $globalEtcFiles, array $moduleEtcFiles, $isDeveloperMode
+        array $globalEtcFiles, array $moduleEtcFiles, $appMode
     ) {
         $this->_db              = $dbInstance;
         $this->_localXml        = $localXml;
         $this->_globalEtcFiles  = $globalEtcFiles;
         $this->_moduleEtcFiles  = $moduleEtcFiles;
-        $this->_isDeveloperMode = $isDeveloperMode;
+        $this->_appMode = $appMode;
 
         $this->_installDir = $installDir;
         $this->_installEtcDir = "$installDir/etc";
 
         $this->_initParams = array(
             Mage::PARAM_APP_DIRS => array(
-                Mage_Core_Model_Dir::CONFIG     => $this->_installEtcDir,
-                Mage_Core_Model_Dir::VAR_DIR    => $installDir,
-                Mage_Core_Model_Dir::MEDIA      => "$installDir/media",
+                Mage_Core_Model_Dir::CONFIG      => $this->_installEtcDir,
+                Mage_Core_Model_Dir::VAR_DIR     => $installDir,
+                Mage_Core_Model_Dir::MEDIA       => "$installDir/media",
+                Mage_Core_Model_Dir::STATIC_VIEW => "$installDir/static",
             ),
+            Mage::PARAM_MODE => $appMode
         );
     }
 
@@ -150,11 +152,13 @@ class Magento_Test_Application
     public function initialize($overriddenParams = array())
     {
         $overriddenParams[Mage::PARAM_BASEDIR] = BP;
-        Mage::setIsDeveloperMode($this->_isDeveloperMode);
+        $overriddenParams[Mage::PARAM_MODE] = $this->_appMode;
         Mage::$headersSentThrowsException = false;
         $config = new Mage_Core_Model_Config_Primary(BP, $this->_customizeParams($overriddenParams));
         if (!Mage::getObjectManager()) {
-            $objectManager = new Magento_Test_ObjectManager(new Magento_ObjectManager_Definition_Runtime(), $config);
+            $definition = new Magento_ObjectManager_Definition_Runtime();
+            $definitionDecorator = new Magento_Code_Generator_DefinitionDecorator($definition);
+            $objectManager = new Magento_Test_ObjectManager($definitionDecorator, $config);
             Mage::setObjectManager($objectManager);
         } else {
             $config->configure(Mage::getObjectManager());
@@ -214,7 +218,7 @@ class Magento_Test_Application
         $this->_ensureDirExists($this->_installDir);
         $this->_ensureDirExists($this->_installEtcDir);
         $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'media');
-        $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'theme');
+        $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'static');
 
         /* Copy configuration files */
         $etcDirsToFilesMap = array(
@@ -249,7 +253,10 @@ class Magento_Test_Application
         $updater->updateData();
 
         /* Enable configuration cache by default in order to improve tests performance */
-        Mage::app()->getCacheInstance()->saveOptions(array('config' => 1));
+        /** @var $cacheTypes Mage_Core_Model_Cache_Types */
+        $cacheTypes = Mage::getObjectManager()->get('Mage_Core_Model_Cache_Types');
+        $cacheTypes->setEnabled(Mage_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, true);
+        $cacheTypes->persist();
 
         /* Fill installation date in local.xml to indicate that application is installed */
         $localXml = file_get_contents($targetLocalXml);
@@ -289,6 +296,7 @@ class Magento_Test_Application
         $resource = Mage::registry('_singleton/Mage_Core_Model_Resource');
 
         Mage::reset();
+        Mage::setObjectManager($objectManager);
         Varien_Data_Form::setElementRenderer(null);
         Varien_Data_Form::setFieldsetRenderer(null);
         Varien_Data_Form::setFieldsetElementRenderer(null);

@@ -32,7 +32,7 @@
                 <full_page translate="label,description" module="Enterprise_PageCache">
                     <label>Page Cache</label>
                     <description>Full page caching.</description>
-                    <tags>FPC</tags>
+                    <class>Enterprise_PageCache_Model_Cache_Type</class>
                 </full_page>
             </types>
         </cache>
@@ -45,14 +45,6 @@
             </related_cache_types>
         </widget>
         <events>
-            <core_clean_cache>
-                <observers>
-                    <enterprise_pagecache>
-                        <class>Enterprise_PageCache_Model_Observer</class>
-                        <method>cleanExpiredCache</method>
-                    </enterprise_pagecache>
-                </observers>
-            </core_clean_cache>
             <design_editor_activate>
                 <observers>
                     <enterprise_pagecache>

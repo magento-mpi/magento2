@@ -64,25 +64,8 @@
 <?php endforeach;?>
 <?php endif; ?>
 <?php endforeach;?>
-        GwsValidationResult = null;
-        Validation.add('validate-one-gws-store', 'Please select one of the options.', function(v, elm) {
-            if ($('gws_is_all').value == 1) {
-                return true; // not touching GwsValidationResult intentionally
-            }
-            // prevent cycling validation for all checkboxes
-            if (null !== GwsValidationResult) {
-                return GwsValidationResult;
-            }
-            GwsValidationResult = false;
-            var inputs = $('gws_container').select('input.gws_store_group');
-            for (var i = 0; i < inputs.length; i++) {
-                if (inputs[i].checked) {
-                    GwsValidationResult = true;
-                    return GwsValidationResult;
-                }
-            }
-            return GwsValidationResult;
-        });
+        jQuery.mage.extend('validation', 'validation',
+            '<?php echo $this->getViewFileUrl('Enterprise_AdminGws::permissions/rolesedit/validation-rules.js'); ?>');
 
         // checkboxes relation logic
         <?php if ($this->getGwsIsAll()):?>
@@ -108,12 +91,10 @@
                 this.stores = [];
                 $('gws_container').select('input.gws_store_group').each(function(store) {
                     this.stores.push(store);
-                    Event.observe(store, 'click', this.forceRevalidate);
                 }.bind(this));
             },
 
             isWebsiteChecked : function() {
-                this.forceRevalidate();
                 // disable checkboxes of all stores if any of a website is checked
                 for (var k = 0; k < this.websites.length; k++) {
                     if (this.websites[k].checked) {
@@ -143,10 +124,6 @@
                         }
                     }
                 }
-            },
-
-            forceRevalidate : function() {
-                GwsValidationResult = null;
             }
         }
 

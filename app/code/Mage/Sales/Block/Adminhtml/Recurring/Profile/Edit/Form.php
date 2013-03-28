@@ -95,11 +95,13 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Mage_Backen
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
+
         $form->setFieldsetRenderer(
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
         );
-        $form->setFieldsetElementRenderer($this->getLayout()
-            ->createBlock('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element'));
+        $form->setFieldsetElementRenderer(
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element')
+        );
 
         /**
          * if there is a parent element defined, it will be replaced by a hidden element with the same name

@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>1.6.0.0.21</version>
+            <version>1.6.0.0.22</version>
             <active>true</active>
             <depends>
                 <Mage_Eav/>
@@ -212,6 +212,17 @@
                         <weight/>
                         <category_ids/>
                         <quantity_and_stock_status/>
+                        <available_sort_by/>
+                        <default_sort_by/>
+                        <filter_price_range/>
+                        <image/>
+                        <category_ids/>
+                        <media_gallery_content/>
+                        <group_price/>
+                        <tier_price/>
+                        <recurring_profileinit_may_fail/>
+                        <gift_message_available/>
+                        <inventory_manage_stock/>
                     </unassignable>
                     <used_in_autogeneration>
                         <name/>
@@ -228,9 +239,6 @@
             <content>
                 <tempate_filter>Mage_Catalog_Model_Template_Filter</tempate_filter>
             </content>
-            <suggested_categories>
-                <limit>10</limit>
-            </suggested_categories>
         </catalog>
         <eav_attributes>
             <catalog_product>
@@ -406,7 +414,7 @@
             <fields_masks>
                 <sku>{{name}}</sku>
                 <meta_title>{{name}}</meta_title>
-                <meta_keyword>{{name}},{{sku}}</meta_keyword>
+                <meta_keyword>{{name}}</meta_keyword>
                 <meta_description>{{name}} {{description}}</meta_description>
             </fields_masks>
             <frontend>

@@ -436,7 +436,7 @@ tag_details:
 report_review_customer:
     mca: report_review/customer/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_review/customer/')]
-    title: Customer Reviews / Reviews / Reports / Magento Admin
+    title: Customers Reviews / Reviews / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -454,7 +454,7 @@ report_review_customer:
 report_review_product:
     mca: report_review/product/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_review/product/')]
-    title: Product Reviews / Reviews / Reports / Magento Admin
+    title: Products Reviews / Reviews / Reports / Magento Admin
     uimap:
         form:
             fieldsets:

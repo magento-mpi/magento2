@@ -37,11 +37,9 @@ class Mage_Core_Model_Config_Cache
     protected $_baseFactory;
 
     /**
-     * Cache object
-     *
-     * @var Mage_Core_Model_CacheInterface
+     * @var Mage_Core_Model_Cache_Type_Config
      */
-    protected $_cache;
+    protected $_configCacheType;
 
     /**
      * Configuration sections
@@ -72,19 +70,19 @@ class Mage_Core_Model_Config_Cache
     protected $_loadedConfig = null;
 
     /**
-     * @param Mage_Core_Model_CacheInterface $cache
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_Config_Sections $configSections
      * @param Mage_Core_Model_Config_ContainerFactory $containerFactory
      * @param Mage_Core_Model_Config_BaseFactory $baseFactory
      */
     public function __construct(
-        Mage_Core_Model_CacheInterface $cache,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
         Mage_Core_Model_Config_Sections $configSections,
         Mage_Core_Model_Config_ContainerFactory $containerFactory,
         Mage_Core_Model_Config_BaseFactory $baseFactory
     ) {
         $this->_containerFactory = $containerFactory;
-        $this->_cache = $cache;
+        $this->_configCacheType = $configCacheType;
         $this->_configSections = $configSections;
         $this->_cacheLockId = $this->_cacheId . '.lock';
         $this->_baseFactory = $baseFactory;
@@ -97,18 +95,15 @@ class Mage_Core_Model_Config_Cache
      * @param   string $sectionName
      * @param   Varien_Simplexml_Element $source
      * @param   int $recursionLevel
-     * @param   array $tags
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    protected function _saveSectionCache($idPrefix, $sectionName, $source, $recursionLevel = 0, $tags = array())
+    protected function _saveSectionCache($idPrefix, $sectionName, $source, $recursionLevel = 0)
     {
         if ($source && $source->$sectionName) {
             $cacheId = $idPrefix . '_' . $sectionName;
             if ($recursionLevel > 0) {
                 foreach ($source->$sectionName->children() as $subSectionName => $node) {
-                    $this->_saveSectionCache(
-                        $cacheId, $subSectionName, $source->$sectionName, $recursionLevel-1, $tags
-                    );
+                    $this->_saveSectionCache($cacheId, $subSectionName, $source->$sectionName, $recursionLevel-1);
                 }
             }
             $this->_cachePartsForSave[$cacheId] = $source->$sectionName->asNiceXml('', false);
@@ -120,7 +115,7 @@ class Mage_Core_Model_Config_Cache
      */
     protected function _lock()
     {
-        $this->_cache->save(time(), $this->_cacheLockId, array(), 60);
+        $this->_configCacheType->save((string)time(), $this->_cacheLockId, array(), 60);
     }
 
     /**
@@ -128,7 +123,7 @@ class Mage_Core_Model_Config_Cache
      */
     protected function _unlock()
     {
-        $this->_cache->remove($this->_cacheLockId);
+        $this->_configCacheType->remove($this->_cacheLockId);
     }
 
     /**
@@ -138,7 +133,7 @@ class Mage_Core_Model_Config_Cache
      */
     protected function _isLocked()
     {
-        return !!$this->_cache->load($this->_cacheLockId);
+        return (bool)$this->_configCacheType->load($this->_cacheLockId);
     }
 
     /**
@@ -166,17 +161,13 @@ class Mage_Core_Model_Config_Cache
      */
     public function load()
     {
-        $canUse = $this->_cache->canUse('config');
         if (!$this->_loadedConfig) {
-            $config = ($canUse && false == $this->_isLocked())
-                ? $this->_cache->load($this->_cacheId)
-                : false;
-
+            $config = (false == $this->_isLocked()) ? $this->_configCacheType->load($this->_cacheId) : false;
             if ($config) {
                 $this->_loadedConfig = $this->_containerFactory->create(array('sourceData' => $config));
             }
         }
-        return $canUse && $this->_loadedConfig ? $this->_loadedConfig: false;
+        return $this->_loadedConfig ? $this->_loadedConfig : false;
     }
 
     /**
@@ -186,14 +177,12 @@ class Mage_Core_Model_Config_Cache
      */
     public function save(Mage_Core_Model_Config_Base $config)
     {
-        if ($this->_cache->canUse('config') && false == $this->_isLocked()) {
+        if (false == $this->_isLocked()) {
             $cacheSections = $this->_configSections->getSections();
             $xml = clone $config->getNode();
             if (!empty($cacheSections)) {
                 foreach ($cacheSections as $sectionName => $level) {
-                    $this->_saveSectionCache(
-                        $this->_cacheId, $sectionName, $xml, $level, array(Mage_Core_Model_Config::CACHE_TAG)
-                    );
+                    $this->_saveSectionCache($this->_cacheId, $sectionName, $xml, $level);
                     unset($xml->$sectionName);
                 }
             }
@@ -201,9 +190,7 @@ class Mage_Core_Model_Config_Cache
             $this->_lock();
             $this->clean();
             foreach ($this->_cachePartsForSave as $cacheId => $cacheData) {
-                $this->_cache->save(
-                    $cacheData, $cacheId, array(Mage_Core_Model_Config::CACHE_TAG), $this->_cacheLifetime
-                );
+                $this->_configCacheType->save((string)$cacheData, $cacheId, array(), $this->_cacheLifetime);
             }
             unset($this->_cachePartsForSave);
             $this->_unlock();
@@ -218,7 +205,7 @@ class Mage_Core_Model_Config_Cache
     public function clean()
     {
         $this->_loadedConfig = null;
-        return $this->_cache->clean(array(Mage_Core_Model_Config::CACHE_TAG));
+        return $this->_configCacheType->clean();
     }
 
     /**
@@ -231,15 +218,10 @@ class Mage_Core_Model_Config_Cache
     public function getSection($sectionKey)
     {
         $cacheId = $this->_cacheId . '_' . $sectionKey;
-        $result = false;
-        if ($this->_cache->canUse('config')) {
-            $xmlString = $this->_cache->load($cacheId);
-            if ($xmlString) {
-                $result = $this->_baseFactory->create($xmlString);
-            } else {
-                throw new Mage_Core_Model_Config_Cache_Exception();
-            }
+        $xmlString = $this->_configCacheType->load($cacheId);
+        if ($xmlString) {
+            return $this->_baseFactory->create($xmlString);
         }
-        return $result;
+        throw new Mage_Core_Model_Config_Cache_Exception();
     }
 }
