@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Mage_Attributes_CustomerAddressAttribute_DropDownTest extends Mage_Selenium_TestCase
+class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_DropDownTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>

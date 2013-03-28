@@ -968,7 +968,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                         list($path) = explode($categoryNode, $categoryPath);
                         $this->fail("'$categoryNode' category with path = '$path' could not found.");
                     } else {
-                        $this->createNewCategory($categoryPath);
+                        $this->createNewCategory($categoryPath, true);
                         $this->waitUntil(
                             function ($testCase) use ($selectedQty) {
                                 /** @var Mage_Selenium_TestCase $testCase */
