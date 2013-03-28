@@ -232,7 +232,6 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         //Verify
         $this->validatePage('preview_theme_in_navigation');
         $this->assertTrue($this->controlIsPresent('pageelement', 'vde_toolbar_row'));
-//        $this->clickControl('link', 'quit');
         $this->closeWindow($this->_windowId);
         $this->_windowId = null;
         $this->selectLastWindow();
