@@ -32,7 +32,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             );
             $themeCss->saveData($theme);
             $response = array('error' => false, 'content' => $cssFileContent);
-            $this->_session->addSuccess($this->__('Success: Theme custom css was saved.'));
+            $this->_session->addSuccess($this->__('Custom.css file has been successfully saved.'));
         } catch (Mage_Core_Exception $e) {
             $this->_session->addError($e->getMessage());
             $response = array('error' => true, 'message' => $e->getMessage());
@@ -62,7 +62,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             );
             $theme->setCustomization($themeCss)->save();
             $response = array('error' => false);
-            $this->_session->addSuccess($this->__('Theme custom css was saved.'));
+            $this->_session->addSuccess($this->__('Custom.css file has been successfully saved.'));
         } catch (Mage_Core_Exception $e) {
             $this->_session->addError($e->getMessage());
             $response = array('error' => true, 'message' => $e->getMessage());
