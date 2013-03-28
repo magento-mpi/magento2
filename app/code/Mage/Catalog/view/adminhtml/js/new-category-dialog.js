@@ -65,12 +65,14 @@
                 buttons: [{
                     text: 'Create Category',
                     'class': 'action-create primary',
-                    id: 'mage-new-category-dialog-save-button',
+                    'data-action': 'save',
                     click: function() {
                         if (!newCategoryForm.validate()) {
                             return;
                         }
 
+                        var thisButton = $(event.target);
+                        thisButton.prop('disabled', true);
                         $.ajax({
                             type: 'POST',
                             url: widget.options.saveCategoryUrl,
@@ -102,13 +104,18 @@
                                         $('#new_category_messages').html(data.messages);
                                     }
                                 }
+                            )
+                            .complete(
+                                function () {
+                                    thisButton.prop('disabled', false);
+                                }
                             );
                     }
                 },
                 {
                     text: 'Cancel',
                     'class': 'action-cancel',
-                    id: 'mage-new-category-dialog-close-button',
+                    'data-action': 'cancel',
                     click: function() {
                         $(this).dialog('close');
                     }

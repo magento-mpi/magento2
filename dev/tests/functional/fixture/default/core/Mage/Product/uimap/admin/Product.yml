@@ -189,8 +189,8 @@ new_product:
                                         parent_category: //input[@id='new_category_parent-suggest'][not(@class='mage-suggest-state-loading')]
                                     buttons:
                                         new_category_close: ///a[span='close']
-                                        new_category_save: //button[@id='mage-new-category-dialog-save-button']
-                                        new_category_cancel: //button[@id='mage-new-category-dialog-close-button']
+                                        new_category_save: //button[@data-action='save']
+                                        new_category_cancel: //button[@data-action='cancel']
                             -
                                 parent_categories_list:
                                     xpath: //div[div/span='Create Category']//div[@class='mage-suggest-dropdown']
