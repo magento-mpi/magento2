@@ -116,8 +116,34 @@ button.primary:visited,
 .primary:visited,
 .popup-window .add-widget,
 .popup-window .add-widget:visited {
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.1);
+    border: 1px solid #e4731c;
     color: #fff;
-    background: #f47b20;
+    text-shadow: 0 1px 1px #8e3b05;
+    background: #f58227;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y1ODIyNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmMDcyMWMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #f58227 0%, #f0721c 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f58227), color-stop(100%,#f0721c));
+    background: -webkit-linear-gradient(top, #f58227 0%,#f0721c 100%);
+    background: -o-linear-gradient(top, #f58227 0%,#f0721c 100%);
+    background: -ms-linear-gradient(top, #f58227 0%,#f0721c 100%);
+    background: linear-gradient(to bottom, #f58227 0%,#f0721c 100%);
+}
+
+.eq-ie8 input[type=button].primary,
+.eq-ie8 input[type=submit].primary,
+.eq-ie8 input[type=reset].primary,
+.eq-ie8 button.primary,
+.eq-ie8 input[type=button].primary:visited,
+.eq-ie8 input[type=submit].primary:visited,
+.eq-ie8 input[type=reset].primary:visited,
+.eq-ie8 button.primary:visited,
+.eq-ie8 .primary,
+.eq-ie8 .primary:visited,
+.eq-ie8 .popup-window .add-widget,
+.eq-ie8 .popup-window .add-widget:visited,
+.page-login button.primary {
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f58227', endColorstr='#f0721c',GradientType=0 );
 }
 
 input[type=button].primary:hover,
@@ -131,10 +157,33 @@ button.primary:focus,
 .primary:hover,
 .primary:focus,
 .popup-window .add-widget:hover,
-.popup-window .add-widget:focus {
-    background: #e2701a;
+.popup-window .add-widget:focus{
     color: #fff;
-    text-shadow: 0 -1px 2px #955326;
+    background: #e47821;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2U0NzgyMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkZTY4MTciIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #e47821 0%, #de6817 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e47821), color-stop(100%,#de6817));
+    background: -webkit-linear-gradient(top, #e47821 0%,#de6817 100%);
+    background: -o-linear-gradient(top, #e47821 0%,#de6817 100%);
+    background: -ms-linear-gradient(top, #e47821 0%,#de6817 100%);
+    background: linear-gradient(to bottom, #e47821 0%,#de6817 100%);
+}
+
+.eq-ie8 input[type=button].primary:hover,
+.eq-ie8 input[type=submit].primary:hover,
+.eq-ie8 input[type=reset].primary:hover,
+.eq-ie8 button.primary:hover,
+.eq-ie8 input[type=button].primary:focus,
+.eq-ie8 input[type=submit].primary:focus,
+.eq-ie8 input[type=reset].primary:focus,
+.eq-ie8 button.primary:focus,
+.eq-ie8 .primary:hover,
+.eq-ie8 .primary:focus,
+.eq-ie8 .popup-window .add-widget:hover,
+.eq-ie8 .popup-window .add-widget:focus,
+.page-login button.primary:hover,
+.page-login button.primary:focus {
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e47821', endColorstr='#de6817',GradientType=0 );
 }
 
 input[type=button].primary:active,
@@ -147,25 +196,55 @@ input[type=reset].primary.active,
 button.primary.active,
 .primary:active,
 .primary.active,
-.popup-window .add-widget:active {
-    box-shadow: 0 1px 5px #955326 inset;
+.popup-window .add-widget:active,
+.page-login button.primary:active {
+    background: #e2701a;
+    box-shadow: 0 1px 2px #bf5f16 inset;
+    text-shadow: 0 -1px 1px #bf5f16;
+}
+
+.eq-ie8 input[type=button].primary:active,
+.eq-ie8 input[type=submit].primary:active,
+.eq-ie8 input[type=reset].primary:active,
+.eq-ie8 button.primary:active,
+.eq-ie8 input[type=button].primary.active,
+.eq-ie8 input[type=submit].primary.active,
+.eq-ie8 input[type=reset].primary.active,
+.eq-ie8 button.primary.active,
+.eq-ie8 .primary:active,
+.eq-ie8 .primary.active,
+.eq-ie8 .popup-window .add-widget:active {
+    filter: none;
 }
 
 input[type=button].primary[disabled],
+input[type=button].primary[disabled]:hover,
 input[type=submit].primary[disabled],
+input[type=submit].primary[disabled]:hover,
 input[type=reset].primary[disabled],
+input[type=reset].primary[disabled]:hover,
 button.primary[disabled],
+button.primary[disabled]:hover,
 input[type=button].primary.disabled,
+input[type=button].primary.disabled:hover,
 input[type=submit].primary.disabled,
+input[type=submit].primary.disabled:hover,
 input[type=reset].primary.disabled,
+input[type=reset].primary.disabled:hover,
 button.primary.disabled,
+button.primary.disabled:hover,
 .primary[disabled],
-.primary.disabled {
+.primary[disabled]:hover,
+.primary.disabled,
+.primary.disabled:hover {
     cursor: not-allowed;
-    opacity: 0.65;
+    color: #fff;
+    opacity: 0.6;
     box-shadow: none;
+    border: 1px solid #e4731c;
     text-shadow: none;
-    background: #d98236 !important;
+    background: #f47b20 !important;
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=60);
 }
 
 /*
@@ -255,6 +334,77 @@ button.primary.disabled,
     text-shadow: none;
 }
 
+.eq-ie8 .customer-current-activity .action-refresh,
+.eq-ie8 .pager .action-next,
+.eq-ie8 .pager .action-previous,
+.eq-ie8 .pager .action-next:hover,
+.eq-ie8 .pager .action-previous:hover,
+.eq-ie8 .pager .action-next.disabled:focus,
+.eq-ie8 .pager .action-previous.disabled:focus,
+.eq-ie8 .pager .action-next.disabled:active,
+.eq-ie8 .pager .action-previous.disabled:active,
+.eq-ie8 .data-table .action-.delete,
+.eq-ie8 .data-table .action-.delete:hover,
+.eq-ie8 .data-table .action-.delete:active,
+.eq-ie8 .data-table .action-.delete.active,
+.eq-ie8 .data-table .action-delete,
+.eq-ie8 .data-table .action-delete:hover,
+.eq-ie8 .data-table .action-delete:active,
+.eq-ie8 .data-table .action-delete.active,
+.eq-ie8 #product-variations-matrix .action-choose,
+.eq-ie8 #product-variations-matrix .action-choose:hover,
+.eq-ie8 #product-variations-matrix .action-choose:active,
+.eq-ie8 #product-variations-matrix .action-choose.active,
+.eq-ie8 .image-panel .action-close,
+.eq-ie8 .eq-ie8 .image-panel .action-close:hover,
+.eq-ie8 .image-panel .action-close:active,
+.eq-ie8 .image-panel .action-close.active,
+.eq-ie8 .image-panel-controls .action-remove,
+.eq-ie8 .image-panel-controls .action-remove:hover,
+.eq-ie8 .image-panel-controls .action-remove:active,
+.eq-ie8 .image-panel-controls .action-remove.active,
+.eq-ie8 .suggest-expandable .action-show-all,
+.eq-ie8 .suggest-expandable .action-show-all:hover,
+.eq-ie8 .suggest-expandable .action-show-all:active,
+.eq-ie8 .suggest-expandable .action-show-all.active,
+.eq-ie8 .fieldset-wrapper-title .action-add,
+.eq-ie8 .fieldset-wrapper-title .action-add:hover,
+.eq-ie8 .fieldset-wrapper-title .action-add:active,
+.eq-ie8 .fieldset-wrapper-title .action-add.active,
+.eq-ie8 .custom-file > .action-add,
+.eq-ie8 .custom-file > .action-add:hover,
+.eq-ie8 .custom-file > .action-add:active,
+.eq-ie8 .custom-file > .action-add.active,
+.eq-ie8 .vde-tools-header .action-close,
+.eq-ie8 .vde-tools-header .action-close:hover,
+.eq-ie8 .vde-tools-header .action-close:active,
+.eq-ie8 .vde-tools-header .action-close.active,
+.eq-ie8 .image .action-delete,
+.eq-ie8 .image .action-delete:hover,
+.eq-ie8 .image .action-delete:active,
+.eq-ie8 .image .action-delete.active,
+.eq-ie8 .fieldset-wrapper-title .actions .action-delete,
+.eq-ie8 .fieldset-wrapper-title .actions .action-delete:hover,
+.eq-ie8 .fieldset-wrapper-title .actions .action-delete:active,
+.eq-ie8 .fieldset-wrapper-title .actions .action-delete.active,
+.eq-ie8 .address-list-item-actions .action-delete,
+.eq-ie8 .address-list-item-actions .action-delete:hover,
+.eq-ie8 .address-list-item-actions .action-delete:active,
+.eq-ie8 .address-list-item-actions .action-delete.active,
+.eq-ie8 .notification .action-close,
+.eq-ie8 .notification .action-close:hover,
+.eq-ie8 .notification .action-close:active,
+.eq-ie8 .notification .action-close.active {
+    border: none;
+    border-radius: 0;
+    background: none;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    text-shadow: none;
+    filter: none;
+}
+
 .data-table .action-.delete:disabled,
 .data-table .action-delete:disabled,
 #product-variations-matrix .action-choose:disabled,
@@ -288,13 +438,49 @@ button.primary.disabled,
 .notifications [class^="action-"].active,
 .notifications [class^="action-"]:disabled,
 .notification .action-close:disabled {
-    border: none;
+    border: 0;
     border-radius: 0;
     background: none;
     margin: 0;
     padding: 0;
     box-shadow: none;
     text-shadow: none;
+}
+
+.eq-ie8 .data-table .action-.delete:disabled,
+.eq-ie8 .data-table .action-delete:disabled,
+.eq-ie8 #product-variations-matrix .action-choose:disabled,
+.eq-ie8 .image-panel .action-close:disabled,
+.eq-ie8 .image-panel-controls .action-remove:disabled,
+.eq-ie8 .suggest-expandable .action-show-all:disabled,
+.eq-ie8 .fieldset-wrapper-title .action-add:disabled,
+.eq-ie8 #store-view-window [class^='action-close'],
+.eq-ie8 #store-view-window [class^='action-close']:hover,
+.eq-ie8 #store-view-window [class^='action-close']:active,
+.eq-ie8 #store-view-window [class^='action-close'].active,
+.eq-ie8 #store-view-window [class^='action-close']:disabled,
+.eq-ie8 .custom-file > .action-add:disabled,
+.eq-ie8 .vde-tools-header .action-close:disabled,
+.eq-ie8 .image .action-delete:disabled,
+.eq-ie8 .fieldset-wrapper-title .actions .action-delete:disabled,
+.eq-ie8 .address-list-item-actions .action-delete:disabled,
+.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back,
+.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
+.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
+.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back.active,
+.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:disabled,
+.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back,
+.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
+.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back:active,
+.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back.active,
+.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back:disabled,
+.eq-ie8 .notifications [class^="action-"],
+.eq-ie8 .notifications [class^="action-"]:hover,
+.eq-ie8 .notifications [class^="action-"]:active,
+.eq-ie8 .notifications [class^="action-"].active,
+.eq-ie8 .notifications [class^="action-"]:disabled,
+.eq-ie8 .notification .action-close:disabled {
+    filter: none;
 }
 
 /*
@@ -332,7 +518,7 @@ button.primary.disabled,
     border: 1px solid #cac2b5;
     border-radius: 3px;
     background: #fff;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
     z-index: 990;
 }
 
@@ -484,6 +670,7 @@ button.primary.disabled,
     color: #676056;
     font-size: 12px;
     padding: 5px 4px;
+    filter: none;
 }
 
 .suggest-expandable .actions-split .action-toggle span {
@@ -597,9 +784,10 @@ button.primary.disabled,
 }
 
 .actions-split > .action-toggle {
-    border-left: 1px solid #c8c3b5;
+    border-left: 1px solid #c5c0b9;
     border-radius: 0 5px 5px 0;
-    padding: 5px 7px;
+    margin-left: -1px;
+    padding: 4px 7px;
 }
 
 .actions-split > .action-toggle > span {
@@ -622,7 +810,12 @@ button.primary.disabled,
 }
 
 .actions-split > .action-toggle.primary {
-    border-left: 1px solid #bd6f2c;
+    border-left: 1px solid #e1721d;
+}
+
+.actions-split > .action-toggle.primary:hover {
+    background: #e2701a;
+    margin-left: -1px;
 }
 
 .actions-split.active .dropdown-menu {

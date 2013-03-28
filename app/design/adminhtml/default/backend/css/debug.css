@@ -711,16 +711,80 @@ th.required:before {
 .adminhtml-user-role-index .page-actions .add,
 .adminhtml-tax-rule-index .page-actions .add,
 .adminhtml-tax-rate-index .page-actions .add {
-    width: 33px;
-    height: 33px;
-    border-radius: 18px;
-    border: 1px solid #db6b17;
-    background: #f37b21;
+    width: 32px;
+    height: 32px;
     overflow: hidden;
     position: relative;
     z-index: 1;
     padding: 0;
     text-align: center;
+    border-radius: 18px;
+    border: 1px solid #e4731c;
+    background: #f58228;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y1ODIyOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmMzczMWMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #f58228 0%, #f3731c 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f58228), color-stop(100%,#f3731c));
+    background: -webkit-linear-gradient(top, #f58228 0%,#f3731c 100%);
+    background: -o-linear-gradient(top, #f58228 0%,#f3731c 100%);
+    background: -ms-linear-gradient(top, #f58228 0%,#f3731c 100%);
+    background: linear-gradient(to bottom, #f58228 0%,#f3731c 100%);
+}
+
+.eq-ie8 .adminhtml-sales-order-index .page-actions .add,
+.eq-ie8 .adminhtml-rma-index .page-actions .add,
+.eq-ie8 .adminhtml-giftwrapping-index .page-actions .add,
+.eq-ie8 .adminhtml-rma-item-attribute-index .page-actions .add,
+.eq-ie8 .adminhtml-checkout-agreement-index .page-actions .add,
+/* catalog */
+.eq-ie8 .adminhtml-catalog-product-index .page-actions .actions-split > .action-default,
+.eq-ie8 .adminhtml-catalog-event-index .page-actions .add,
+.eq-ie8 .adminhtml-catalog-product-attribute-index .page-actions .add,
+.eq-ie8 .adminhtml-catalog-product-set-index .page-actions .add,
+.eq-ie8 .adminhtml-urlrewrite-index .page-actions .add,
+.eq-ie8 .adminhtml-targetrule-index .page-actions .add,
+.eq-ie8 .adminhtml-catalog-search-index .page-actions .add,
+.eq-ie8 .adminhtml-catalog-product-review-index .page-actions .add,
+.eq-ie8 .adminhtml-rating-index .page-actions .add,
+.eq-ie8 .adminhtml-tag-index .page-actions .add,
+.eq-ie8 .adminhtml-googleshopping-types-index .page-actions .add,
+.eq-ie8 .adminhtml-sitemap-index .page-actions .add,
+/* customers */
+.eq-ie8 .adminhtml-customer-index .page-actions .add,
+.eq-ie8 .adminhtml-customer-attribute-index .page-actions .add,
+.eq-ie8 .adminhtml-customer-address-attribute-index .page-actions .add,
+.eq-ie8 .adminhtml-customer-group-index .page-actions .add,
+.eq-ie8 .adminhtml-customersegment-index .page-actions .add,
+.eq-ie8 .adminhtml-reward-rate-index .page-actions .add,
+.eq-ie8 .adminhtml-giftcardaccount-index .page-actions .add,
+.eq-ie8 .adminhtml-giftregistry-index .page-actions .add,
+.eq-ie8 .adminhtml-invitation-index .page-actions .add,
+/* promotions */
+.eq-ie8 .adminhtml-promo-catalog-index .page-actions .add,
+.eq-ie8 .adminhtml-promo-quote-index .page-actions .add,
+.eq-ie8 .adminhtml-reminder-index .page-actions .add,
+/* newsletter */
+.eq-ie8 .adminhtml-newsletter-template-index .page-actions .add,
+/* cms */
+.eq-ie8 .adminhtml-cms-page-index .page-actions .add,
+.eq-ie8 .adminhtml-cms-block-index .page-actions .add,
+.eq-ie8 .adminhtml-widget-instance-index .page-actions .add,
+.eq-ie8 .adminhtml-banner-index .page-actions .add,
+.eq-ie8 .adminhtml-poll-index .page-actions .add,
+/* reports */
+.eq-ie8 .adminhtml-paypal-reports-index .page-actions .task,
+/* system */
+.eq-ie8 .adminhtml-api-user-index .page-actions .add,
+.eq-ie8 .adminhtml-api-role-index .page-actions .add,
+.eq-ie8 .adminhtml-webapi-user-index .page-actions .add,
+.eq-ie8 .adminhtml-webapi-role-index .page-actions .add,
+.eq-ie8 .adminhtml-system-design-index .page-actions .add,
+.eq-ie8 .adminhtml-system-email-template-index .page-actions .add,
+.eq-ie8 .adminhtml-system-variable-index .page-actions .add,
+.eq-ie8 .adminhtml-user-index .page-actions .add,
+.eq-ie8 .adminhtml-user-role-index .page-actions .add,
+.eq-ie8 .adminhtml-tax-rule-index .page-actions .add,
+.eq-ie8 .adminhtml-tax-rate-index .page-actions .add {
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f58228', endColorstr='#f3731c',GradientType=0 );
 }
 
 .adminhtml-sales-order-index .page-actions .add:hover,
@@ -777,8 +841,72 @@ th.required:before {
 .adminhtml-user-role-index .page-actions .add:hover,
 .adminhtml-tax-rule-index .page-actions .add:hover,
 .adminhtml-tax-rate-index .page-actions .add:hover {
-    border: 1px solid #db6b17;
-    background: #db6e1c;
+    border: 1px solid #e4731c;
+    background: #e47821;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2U0NzgyMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkZjY4MTciIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #e47821 0%, #df6817 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e47821), color-stop(100%,#df6817));
+    background: -webkit-linear-gradient(top, #e47821 0%,#df6817 100%);
+    background: -o-linear-gradient(top, #e47821 0%,#df6817 100%);
+    background: -ms-linear-gradient(top, #e47821 0%,#df6817 100%);
+    background: linear-gradient(to bottom, #e47821 0%,#df6817 100%);
+}
+
+.eq-ie8 .adminhtml-sales-order-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-rma-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-giftwrapping-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-rma-item-attribute-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-checkout-agreement-index .page-actions .add:hover,
+/* catalog */
+.eq-ie8 .adminhtml-catalog-product-index .page-actions .actions-split > .action-default:hover,
+.eq-ie8 .adminhtml-catalog-event-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-catalog-product-attribute-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-catalog-product-set-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-urlrewrite-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-targetrule-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-catalog-search-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-catalog-product-review-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-rating-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-tag-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-googleshopping-types-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-sitemap-index .page-actions .add:hover,
+/* customers */
+.eq-ie8 .adminhtml-customer-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-customer-attribute-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-customer-address-attribute-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-customer-group-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-customersegment-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-reward-rate-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-giftcardaccount-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-giftregistry-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-invitation-index .page-actions .add:hover,
+/* promotions */
+.eq-ie8 .adminhtml-promo-catalog-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-promo-quote-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-reminder-index .page-actions .add:hover,
+/* newsletter */
+.eq-ie8 .adminhtml-newsletter-template-index .page-actions .add:hover,
+/* cms */
+.eq-ie8 .adminhtml-cms-page-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-cms-block-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-widget-instance-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-banner-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-poll-index .page-actions .add:hover,
+/* reports */
+.eq-ie8 .adminhtml-paypal-reports-index .page-actions .task:hover,
+/* system */
+.eq-ie8 .adminhtml-api-user-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-api-role-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-webapi-user-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-webapi-role-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-system-design-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-system-email-template-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-system-variable-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-user-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-user-role-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-tax-rule-index .page-actions .add:hover,
+.eq-ie8 .adminhtml-tax-rate-index .page-actions .add:hover {
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e47821', endColorstr='#df6817',GradientType=0 );
 }
 
 .adminhtml-sales-order-index .page-actions .add:active,
@@ -835,10 +963,11 @@ th.required:before {
 .adminhtml-user-role-index .page-actions .add:active,
 .adminhtml-tax-rule-index .page-actions .add:active,
 .adminhtml-tax-rate-index .page-actions .add:active {
-    background: #e77018;
-    -webkit-box-shadow: inset 0px 1px 2px 1px rgba(185, 90, 19, 1);
-    box-shadow: inset 0px 1px 2px 1px rgba(185, 90, 19, 1);
-    text-shadow: 0 -1px 0 #db6b17;
+    background: #e2701av;
+    -webkit-box-shadow: inset 0px 1px 1px 1px rgba(185, 90, 19, 1);
+    box-shadow: inset 0px 1px 1px 1px rgba(185, 90, 19, 1);
+    text-shadow: 0 -1px 0 #d06516;
+    filter: none;
 }
 
 .adminhtml-sales-order-index .page-actions .add > span,
@@ -897,8 +1026,8 @@ th.required:before {
 .adminhtml-tax-rate-index .page-actions .add > span {
     text-indent: -999em;
     display: block;
-    width: 33px;
-    height: 33px;
+    width: 32px;
+    height: 32px;
 }
 
 .adminhtml-sales-order-index .page-actions .add > span:before,
@@ -962,41 +1091,67 @@ th.required:before {
     content: '\e02d';
     color: #fff;
     position: absolute;
-    line-height: 24px;
-    height: 33px;
-    width: 31px;
-    overflow: hidden;
+    line-height: 30px;
+    height: 30px;
+    width: 30px;
     text-align: center;
-    top: 3px;
+    vertical-align: middle;
+    top: 0;
     left: 0;
+    overflow: hidden;
 }
 
 .adminhtml-catalog-product-index .actions-split > .action-toggle,
 .adminhtml-catalog-product-index .actions-split > .action-toggle:focus {
-    border: 1px solid #ada59b;
+    border: 1px solid #c5c0b9;
     border-radius: 0 20px 20px 0;
-    box-shadow: 0 1px 0 0 #e2ded5, inset 0 1px 0 0 #fbfaf8;
-    padding: 2px 5px 2px 9px;
+    box-shadow: 0 1px 0 0 #f3f2f1, inset 0 1px 0 0 #f4f1ec;
+    color: #55504a;
     background: transparent;
+    margin: 6px 0 0 -6px;
+    padding: 1px 5px 1px 10px;
     text-shadow: none;
-    color: #998675;
-    margin: 4px 0 0 -6px;
+    background: #f1eee7;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2YxZWVlNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlYmU3ZGMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #f1eee7 0%, #ebe7dc 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f1eee7), color-stop(100%,#ebe7dc));
+    background: -webkit-linear-gradient(top, #f1eee7 0%,#ebe7dc 100%);
+    background: -o-linear-gradient(top, #f1eee7 0%,#ebe7dc 100%);
+    background: -ms-linear-gradient(top, #f1eee7 0%,#ebe7dc 100%);
+    background: linear-gradient(to bottom, #f1eee7 0%,#ebe7dc 100%);
+}
+
+.eq-ie8 .adminhtml-catalog-product-index .actions-split > .action-toggle,
+.eq-ie8 .adminhtml-catalog-product-index .actions-split > .action-toggle:focus {
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1eee7', endColorstr='#ebe7dc',GradientType=0 );
 }
 
 .adminhtml-catalog-product-index .actions-split > .action-toggle:hover {
-    background: #dcd6c6;
-    color: #736357;
+    margin-left: -6px;
     text-shadow: none;
+    background: #dfdbd4;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2RmZGJkNCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkM2NkYzMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #dfdbd4 0%, #d3cdc3 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#dfdbd4), color-stop(100%,#d3cdc3));
+    background: -webkit-linear-gradient(top, #dfdbd4 0%,#d3cdc3 100%);
+    background: -o-linear-gradient(top, #dfdbd4 0%,#d3cdc3 100%);
+    background: -ms-linear-gradient(top, #dfdbd4 0%,#d3cdc3 100%);
+    background: linear-gradient(to bottom, #dfdbd4 0%,#d3cdc3 100%);
+}
+
+.eq-ie8 .adminhtml-catalog-product-index .actions-split > .action-toggle:hover {
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dfdbd4', endColorstr='#d3cdc3',GradientType=0 );
 }
 
 .adminhtml-catalog-product-index .actions-split.active {
     background: #fff;
-    padding: 5px 0 6px 7px;
+    padding: 5px 4px 6px 7px;
     margin: -6px -4px -6px -8px;
     border: solid #bab4ab;
     border-width: 1px 1px 0;
     border-radius: 5px 5px 0 0;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    filter: none
 }
 
 .adminhtml-catalog-product-index .actions-split.active > .action-toggle,
@@ -1006,8 +1161,12 @@ th.required:before {
     border-radius: 0;
     box-shadow: none;
     text-shadow: none;
-    padding: 2px 5px 2px 9px;
-    color: #736357;
+    padding: 1px 5px 1px 11px;
+}
+
+.eq-ie8 .adminhtml-catalog-product-index .actions-split.active > .action-toggle,
+.eq-ie8 .adminhtml-catalog-product-index .actions-split.active > .action-toggle:hover {
+    filter: none;
 }
 
 .adminhtml-catalog-product-index .actions-split.active:before {

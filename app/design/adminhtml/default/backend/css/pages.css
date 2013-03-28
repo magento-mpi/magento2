@@ -19,7 +19,17 @@
     overflow: hidden;
     padding: 5px 6px 3px;
     margin-left: 12px;
-    color: #7a7976;;
+    color: #7a7976;
+}
+
+.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back,
+.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
+.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
+.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back,
+.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
+.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back:active {
+    filter: none;
+    border: 0;
 }
 
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,

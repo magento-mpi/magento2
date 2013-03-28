@@ -504,6 +504,7 @@
     color: #676056;
     text-shadow: 0 1px 0 #fff;
     box-shadow: none;
+    filter: none;
 }
 
 .search button[type="submit"]:hover,
