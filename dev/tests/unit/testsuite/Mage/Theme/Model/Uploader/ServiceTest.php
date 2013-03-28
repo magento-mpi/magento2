@@ -146,7 +146,7 @@ class Mage_Theme_Model_Uploader_ServiceTest extends PHPUnit_Framework_TestCase
         $file['tmp_name'] = 'file.name';
 
         /** @var $theme Mage_Core_Model_Theme */
-        $theme = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
+        $theme = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false, false);
 
         /** @var $service Mage_Theme_Model_Uploader_Service */
         $service = $this->getMock(

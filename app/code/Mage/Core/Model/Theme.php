@@ -13,10 +13,8 @@
  *
  * @method Mage_Core_Model_Theme save()
  * @method string getPackageCode()
- * @method string getThemePath()
  * @method string getParentThemePath()
  * @method string getParentId()
- * @method string getArea()
  * @method string getThemeTitle()
  * @method string getThemeVersion()
  * @method string getPreviewImage()
@@ -44,7 +42,7 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
-    implements Mage_Core_Model_Theme_Customization_CustomizedInterface
+    implements Mage_Core_Model_ThemeInterface, Mage_Core_Model_Theme_Customization_CustomizedInterface
 {
     /**#@+
      * Theme types group
@@ -65,9 +63,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     const PATH_SEPARATOR = '/';
 
     /**
-     * Path prefix to customized theme files
+     * Filename of view configuration
      */
-    const PATH_PREFIX_CUSTOMIZATION = 'customization';
+    const FILENAME_VIEW_CONFIG = 'view.xml';
 
     /**
      * Labels collection array
@@ -107,6 +105,11 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * @var Mage_Core_Model_Theme_Domain_Factory
      */
     protected $_domainFactory;
+
+    /**
+     * @var Mage_Core_Model_Resource_Theme_File_Collection
+     */
+    protected $_themeFiles;
 
     /**
      * All possible types of a theme
@@ -288,11 +291,45 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     {
         $customPath = $this->getData('customization_path');
         if ($this->getId() && empty($customPath)) {
-            $customPath = $this->_dirs->getDir(Mage_Core_Model_Dir::THEME) . Magento_Filesystem::DIRECTORY_SEPARATOR
-                . self::PATH_PREFIX_CUSTOMIZATION . Magento_Filesystem::DIRECTORY_SEPARATOR . $this->getId();
+            $customPath = $this->_dirs->getDir(Mage_Core_Model_Dir::MEDIA)
+                . Magento_Filesystem::DIRECTORY_SEPARATOR . 'theme_customization'
+                . Magento_Filesystem::DIRECTORY_SEPARATOR . $this->getId();
             $this->setData('customization_path', $customPath);
         }
         return $customPath;
+    }
+
+    /**
+     * Retrieve collection of files that belong to a theme
+     *
+     * @return Mage_Core_Model_Resource_Theme_File_Collection
+     */
+    public function getFiles()
+    {
+        if (!$this->_themeFiles) {
+            $this->_themeFiles = $this->_objectManager->create('Mage_Core_Model_Resource_Theme_File_Collection');
+            $this->_themeFiles->addThemeFilter($this);
+        }
+        return $this->_themeFiles;
+    }
+
+    /**
+     * Retrieve theme instance representing the latest changes to a theme
+     *
+     * @return Mage_Core_Model_Theme|null
+     */
+    public function getStagingVersion()
+    {
+        if ($this->getId()) {
+            $collection = $this->getCollection();
+            $collection->addFieldToFilter('parent_id', $this->getId());
+            $collection->addFieldToFilter('type', self::TYPE_STAGING);
+            $stagingTheme = $collection->getFirstItem();
+            if ($stagingTheme->getId()) {
+                return $stagingTheme;
+            }
+        }
+        return null;
     }
 
     /**
@@ -337,22 +374,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Include customized files on default handle
-     *
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _applyCustomizationFiles()
-    {
-        if (!$this->isCustomized()) {
-            return $this;
-        }
-        /** @var $update Mage_Core_Model_Theme_Customization_Update */
-        $update = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Update');
-        $update->setThemeId($this->getId())->updateCustomFilesUpdate();
-        return $this;
-    }
-
-    /**
      * Check if theme object data was changed.
      *
      * @return bool
@@ -380,10 +401,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected function _afterSave()
     {
         $this->saveThemeCustomization();
-        if ($this->isCustomized()) {
-            $this->_applyCustomizationFiles();
-        }
-
         $this->_checkAssignedThemeChanged();
         return parent::_afterSave();
     }
@@ -441,9 +458,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get parent theme model
-     *
-     * @return Mage_Core_Model_Theme|null
+     * {@inheritdoc}
      */
     public function getParentTheme()
     {
@@ -501,6 +516,22 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         }
 
         return $this->getId() . $this->getThemePath();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArea()
+    {
+        return $this->getData('area');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getThemePath()
+    {
+        return $this->getData('theme_path');
     }
 
     /**
@@ -609,5 +640,19 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
         }
 
         return $this->_domainFactory->create($this);
+    }
+
+    /**
+     * Get path to custom view configuration file
+     *
+     * @return string
+     */
+    public function getCustomViewConfigPath()
+    {
+        $config = $this->getCustomizationPath();
+        if (!empty($config)) {
+            $config .= Magento_Filesystem::DIRECTORY_SEPARATOR . self::FILENAME_VIEW_CONFIG;
+        }
+        return $config;
     }
 }

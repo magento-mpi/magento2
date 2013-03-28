@@ -38,6 +38,6 @@ class Mage_Launcher_Model_PageFactory
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Mage_Launcher_Model_Page', $arguments, false);
+        return $this->_objectManager->create('Mage_Launcher_Model_Page', $arguments);
     }
 }

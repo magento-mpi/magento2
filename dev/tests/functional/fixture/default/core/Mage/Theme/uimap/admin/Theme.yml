@@ -35,8 +35,8 @@ theme_list:
                             page: //input[@name='page']
                         pageelements:
                             theme_grid: //table[@id='theme_grid_table']
-                            theme_grid_theme_path_empty_column: //table[@id='theme_grid_table']/tbody/tr/td[normalize-space(@class)='theme-path' and not(contains(., '/'))]
-                            theme_grid_theme_row_by_title: //table[@id='theme_grid_table']/tbody/tr[td[normalize-space(@class)='theme-title' and normalize-space(text())='%s']]
+                            theme_grid_theme_path_empty_column: //table[@id='theme_grid_table']/tbody/tr/td[normalize-space(@class)='theme-path col-theme_path' and not(contains(., '/'))]
+                            theme_grid_theme_row_by_title: //table[@id='theme_grid_table']/tbody/tr[td[normalize-space(@class)='theme-title col-theme_title' and normalize-space(text())='%s']]
         buttons:
             add_new_theme: //button[span='Add New Theme']
         messages:
@@ -97,17 +97,17 @@ edit_theme:
                                     xpath: //form[@id='edit_form']//fieldset[@id='theme_css']
                                     links:
                                         mage_catalog_widget: //div[@id='theme_css_view_Framework files']/a[contains(text(),'Mage_Catalog::widgets.css')]
-                                        mage_catalog_zoom: //div[@id='theme_css_view_Framework files']/a[contains(text(),'Mage_Catalog::zoom.css')]
-                                        mage_cms_widgets: //div[@id='theme_css_view_Framework files']/a[contains(text(),'Mage_Cms::widgets.css')]
                                         mage_oauth_css_oauth_simple: //div[@id='theme_css_view_Framework files']/a[contains(text(),'Mage_Oauth::css/oauth-simple.css')]
-                                        mage_page_css_tabs: //div[@id='theme_css_view_Framework files']/a[contains(text(),'Mage_Page::css/tabs.css')]
-                                        mage_reports_widgets: //div[@id='theme_css_view_Framework files']/a[contains(text(),'Mage_Reports::widgets.css')]
-                                        mage_widget_widgets: //div[@id='theme_css_view_Framework files']/a[contains(text(),'Mage_Widget::widgets.css')]
                                         social_facebook_css_facebook: //div[@id='theme_css_view_Framework files']/a[contains(text(),'Social_Facebook::css/facebook.css')]
                                         mage_calendar: //div[@id='theme_css_view_Library files']/a[contains(text(),'mage/calendar.css')]
                                         css_print: //div[@id='theme_css_view_']/a[contains(text(), 'css/print.css')]
                                         css_style_ie: //div[@id='theme_css_view_']/a[contains(text(), 'css/styles-ie.css')]
                                         css_style: //div[@id='theme_css_view_']/a[contains(text(), 'css/styles.css')]
+                                        js_jqzoom_css_jquery: //div[@id='theme_css_view_']/a[contains(text(), 'js/jqzoom/css/jquery.jqzoom.css')]
+                                        mage_cms_widgets: //div[@id='theme_css_view_']/a[contains(text(), 'Mage_Cms::widgets.css')]
+                                        mage_page_css_tabs: //div[@id='theme_css_view_']/a[contains(text(), 'Mage_Page::css/tabs.css')]
+                                        mage_reports_widgets: //div[@id='theme_css_view_']/a[contains(text(), 'Mage_Reports::widgets.css')]
+                                        mage_widget_widgets: //div[@id='theme_css_view_']/a[contains(text(), 'Mage_Widget::widgets.css')]
                             -
                                 custom_css:
                                     xpath: //form[@id='edit_form']//fieldset[@id='custom_css']
