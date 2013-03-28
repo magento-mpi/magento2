@@ -46,13 +46,17 @@ class Saas_Saas_Model_Cache extends Mage_Core_Model_Cache
      */
     public function invalidateType($typeCode)
     {
-        $this->_eventManager->dispatch('refresh_cache');
+        if (!is_array($typeCode)) {
+            $typeCode = array($typeCode);
+        }
+
+        $this->_eventManager->dispatch('refresh_cache', array('cache_types' => $typeCode));
 
         return $this->_callOriginInvalidateType($typeCode);
     }
 
     /**
-     * @param $typeCode
+     * @param array $typeCode
      * @return Mage_Core_Model_CacheInterface
      */
     protected function  _callOriginInvalidateType($typeCode)

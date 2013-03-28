@@ -18,18 +18,24 @@ class Saas_Backend_Model_Cache_ObserverTest extends PHPUnit_Framework_TestCase
     protected $_observerMock;
 
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_helperMock;
+
+    /**
      * @var Saas_Backend_Model_Cache_Observer
      */
     protected $_modelCacheObserver;
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), null, false);
-        $this->_observerMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), null, false);
+        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_observerMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
+        $this->_helperMock = $this->getMock('Saas_Saas_Helper_Data', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_modelCacheObserver = $objectManagerHelper->getObject('Saas_Backend_Model_Cache_Observer', array(
-            'request' => $this->_requestMock,
+            'request' => $this->_requestMock, 'saasHelper' => $this->_helperMock
         ));
     }
 
@@ -38,7 +44,7 @@ class Saas_Backend_Model_Cache_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_requestMock->expects($this->once())->method('getControllerName')->will($this->returnValue('cache'));
         $this->_requestMock->expects($this->once())->method('getControllerModule')
             ->will($this->returnValue('Mage_Adminhtml'));
-        $this->_requestMock->expects($this->once())->method('setRouteName')->with('noRoute');
+        $this->_helperMock->expects($this->once())->method('customizeNoRoutForward')->with($this->_requestMock);
 
         $this->_modelCacheObserver->disableAdminhtmlCacheController($this->_observerMock);
     }
@@ -46,13 +52,13 @@ class Saas_Backend_Model_Cache_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $controller
      * @param string $module
-     * @dataProvider dataProviderForNotDisabledAdminhtmlCacheControllerWrongModule
+     * @dataProvider dataProviderForNotDisabledAdminhtmlCacheController
      */
     public function testNotDisabledAdminhtmlCacheController($controller, $module)
     {
         $this->_requestMock->expects($this->any())->method('getControllerName')->will($this->returnValue($controller));
         $this->_requestMock->expects($this->any())->method('getControllerModule')->will($this->returnValue($module));
-        $this->_requestMock->expects($this->never())->method('setRouteName');
+        $this->_helperMock->expects($this->never())->method('customizeNoRoutForward');
 
         $this->_modelCacheObserver->disableAdminhtmlCacheController($this->_observerMock);
     }
@@ -60,12 +66,12 @@ class Saas_Backend_Model_Cache_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function dataProviderForNotDisabledAdminhtmlCacheControllerWrongModule()
+    public function dataProviderForNotDisabledAdminhtmlCacheController()
     {
         return array(
             array('index', 'Mage_Adminhtml'),
             array('cache', 'Mage_Checkout'),
-            array('unknown', 'unknown')
+            array('unknown', 'unknown'),
         );
     }
 }

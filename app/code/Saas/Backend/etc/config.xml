@@ -21,10 +21,10 @@
         <events>
             <adminhtml_controller_action_predispatch_start>
                 <observers>
-                    <saas_backend>
+                    <disable_adminhtml_cache_controller>
                         <class>Saas_Backend_Model_Cache_Observer</class>
                         <method>disableAdminhtmlCacheController</method>
-                    </saas_backend>
+                    </disable_adminhtml_cache_controller>
                 </observers>
             </adminhtml_controller_action_predispatch_start>
         </events>

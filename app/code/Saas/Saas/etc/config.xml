@@ -16,10 +16,6 @@
             <active>false</active>
         </Saas_Saas>
     </modules>
-    <workers>
-        <events>
-        </events>
-    </workers>
     <global>
         <di>
             <preferences>
@@ -27,7 +23,6 @@
             </preferences>
             <Saas_Saas_Model_Cache>
                 <parameters>
-                    <cacheTypes>Mage_Core_Model_Cache_Types_Proxy</cacheTypes>
                     <config>Mage_Core_Model_Config_Proxy</config>
                 </parameters>
             </Saas_Saas_Model_Cache>

@@ -31,7 +31,7 @@ class Saas_Saas_Model_CacheTest extends PHPUnit_Framework_TestCase
                 $this->getMock('Mage_Core_Model_ConfigInterface', array(), array(), '', false),
                 $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false),
                 $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false),
-                $this->_eventManagerMock
+                $this->_eventManagerMock,
             ))
             ->setMethods(array('_callOriginInvalidateType'))
             ->getMock();
