@@ -188,7 +188,10 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
                         } else {
                             $('#' + getKeyByValue(fieldsAssociations, id)).val($(this).val());
                         }
-                        fireEvent(document.getElementById('inventory_manage_stock'), 'change');
+
+                        if ($('#inventory_manage_stock').length) {
+                            fireEvent($('#inventory_manage_stock').get(0), 'change');
+                        }
                     };
                     //Get key by value from object
                     var getKeyByValue = function(object, value) {
