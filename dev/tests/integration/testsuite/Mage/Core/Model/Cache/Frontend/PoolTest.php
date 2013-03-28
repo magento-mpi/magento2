@@ -29,7 +29,7 @@ class Mage_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider cacheBackendsDataProvider
      */
-    public function testDbCacheAdapter($cacheBackendName)
+    public function testGetCache($cacheBackendName)
     {
         $cacheTypePath = Mage_Core_Model_Cache_Frontend_Pool::XML_PATH_SETTINGS_DEFAULT . '/backend';
         $oldCacheBackend = (string)$this->_configPrimary->getNode($cacheTypePath);
