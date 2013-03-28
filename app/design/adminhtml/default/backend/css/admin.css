@@ -3075,10 +3075,12 @@ table tbody tr:nth-child(odd):hover th {
     text-decoration: none;
 }
 
+.store-switcher-alt .store-switcher-all,
 .store-switcher-alt .manage-stores {
     padding: 0;
 }
 
+.store-switcher-alt .store-switcher-all > a,
 .store-switcher-alt .manage-stores > a {
     display: block;
     padding: 8px 15px;
