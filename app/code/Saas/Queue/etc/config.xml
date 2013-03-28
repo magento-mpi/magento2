@@ -41,11 +41,11 @@
         <events>
             <refresh_cache>
                 <observers>
-                    <saas_saas>
+                    <saas_queue>
                         <asynchronous>true</asynchronous>
                         <class>Saas_Queue_Model_Worker_Cache</class>
                         <method>refreshCache</method>
-                    </saas_saas>
+                    </saas_queue>
                 </observers>
             </refresh_cache>
         </events>
