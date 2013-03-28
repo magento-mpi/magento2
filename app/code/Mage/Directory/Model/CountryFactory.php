@@ -38,6 +38,6 @@ class Mage_Directory_Model_CountryFactory
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Mage_Directory_Model_Country', $arguments);
+        return $this->_objectManager->create('Mage_Directory_Model_Country', $arguments, false);
     }
 }

@@ -19,14 +19,15 @@ class Mage_Core_Model_Theme_Domain_StagingTest extends PHPUnit_Framework_TestCas
      */
     public function testUpdateFromStagingTheme()
     {
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false, false);
-        $copyStV = $this->getMock('Mage_Core_Model_Theme_Copy_StagingToVirtual', array('copy'), array(), '', false);
-        $copyStV->expects($this->once())
-            ->method('copy')
-            ->with($themeMock)
-            ->will($this->returnSelf());
+        $parentTheme = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false, false);
 
-        $stagingTheme = new Mage_Core_Model_Theme_Domain_Staging($themeMock, $copyStV);
-        $this->assertSame($stagingTheme, $stagingTheme->updateFromStagingTheme());
+        $theme = $this->getMock('Mage_Core_Model_Theme', array('getParentTheme'), array(), '', false, false);
+        $theme->expects($this->once())->method('getParentTheme')->will($this->returnValue($parentTheme));
+
+        $themeCopyService = $this->getMock('Mage_Core_Model_Theme_CopyService', array('copy'), array(), '', false);
+        $themeCopyService->expects($this->once())->method('copy')->with($theme, $parentTheme);
+
+        $object = new Mage_Core_Model_Theme_Domain_Staging($theme, $themeCopyService);
+        $this->assertSame($object, $object->updateFromStagingTheme());
     }
 }
