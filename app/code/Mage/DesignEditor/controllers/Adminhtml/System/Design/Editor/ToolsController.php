@@ -307,7 +307,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $storeLogo = $this->_objectManager->get('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader');
             $storeLogo->setScope('stores')->setScopeId($store->getId())->setPath('design/header/logo_src')->save();
 
-            $response = array('error' => false, 'content' => array('name' => $storeLogo->getValue()));
+            $response = array('error' => false, 'content' => array('name' => basename($storeLogo->getValue())));
         } catch (Mage_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
