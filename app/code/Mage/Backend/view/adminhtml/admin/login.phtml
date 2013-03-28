@@ -32,10 +32,10 @@
     <script src="<?php echo $this->getViewFileUrl('jquery/jquery-ui.js') ?>"></script>
     <script src="<?php echo $this->getViewFileUrl('jquery/jquery.tmpl.min.js') ?>"></script>
     <script src="<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>"></script>
+    <script src="<?php echo $this->getViewFileUrl('mage/translate.js') ?>"></script>
     <script src="<?php echo $this->getViewFileUrl('mage/validation.js') ?>"></script>
     <script src="<?php echo $this->getViewFileUrl('mage/backend/validation.js') ?>"></script>
     <script src="<?php echo $this->getViewFileUrl('mage/backend/form.js') ?>"></script>
-    <script src="<?php echo $this->getViewFileUrl('mage/translate.js') ?>"></script>
 
     <script src="<?php echo $this->getViewFileUrl('prototype/prototype.js') ?>"></script>
     <script src="<?php echo $this->getViewFileUrl('scriptaculous/effects.js') ?>"></script>
@@ -73,7 +73,11 @@
                 </fieldset>
             </form>
             <script type="text/javascript">
-                jQuery('#login-form').form().validation();
+                jQuery(document).ready(function(){
+                    var t = jQuery('#login-form');
+                    var f = t.form();
+                    f.validation();
+                });
             </script>
     </div>
     <footer class="footer">
