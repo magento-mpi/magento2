@@ -20,13 +20,13 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Core_Model_CacheInterface */
     protected $_cacheMock;
 
-    /** @var Mage_Core_Service_Config_Soap */
+    /** @var Mage_Webapi_Model_Config_Soap */
     protected $_resourceConfigMock;
 
     protected function setUp()
     {
         /** Prepare arguments for SUT constructor. */
-        $this->_resourceConfigMock = $this->getMockBuilder('Mage_Core_Service_Config_Soap')
+        $this->_resourceConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')
             ->disableOriginalConstructor()->getMock();
 
         $this->_wsdlMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl')

@@ -22,7 +22,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * API Resource config instance.
      * Used to retrieve complex types data.
      *
-     * @var Mage_Core_Service_Config_Soap
+     * @var Mage_Webapi_Model_Config_Soap
      */
     protected $_apiConfig;
 
@@ -44,7 +44,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     /**
      * Construct auto discover with resource config and list of requested resources.
      *
-     * @param Mage_Core_Service_Config_Soap $apiConfig
+     * @param Mage_Webapi_Model_Config_Soap $apiConfig
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
      * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Core_Model_CacheInterface $cache
@@ -52,7 +52,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * @throws InvalidArgumentException
      */
     public function __construct(
-        Mage_Core_Service_Config_Soap $apiConfig,
+        Mage_Webapi_Model_Config_Soap $apiConfig,
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
         Mage_Webapi_Helper_Config $helper,
         Mage_Core_Model_CacheInterface $cache
@@ -76,7 +76,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         /** Sort requested resources by names to prevent caching of the same wsdl file more than once. */
         ksort($requestedResources);
         $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedResources));
-        if ($this->_cache->canUse(Mage_Core_Service_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cache->canUse(Mage_Core_Service_Config::WEBSERVICE_CACHE_NAME)) {
             $cachedWsdlContent = $this->_cache->load($cacheId);
             if ($cachedWsdlContent !== false) {
                 return $cachedWsdlContent;
@@ -94,8 +94,8 @@ class Mage_Webapi_Model_Soap_AutoDiscover
 
         $wsdlContent = $this->generate($resources, $endpointUrl);
 
-        if ($this->_cache->canUse(Mage_Core_Service_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
-            $this->_cache->save($wsdlContent, $cacheId, array(Mage_Core_Service_ConfigAbstract::WEBSERVICE_CACHE_TAG));
+        if ($this->_cache->canUse(Mage_Core_Service_Config::WEBSERVICE_CACHE_NAME)) {
+            $this->_cache->save($wsdlContent, $cacheId, array(Mage_Core_Service_Config::WEBSERVICE_CACHE_TAG));
         }
 
         return $wsdlContent;

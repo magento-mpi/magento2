@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Mage_Core_Service_Config_ReaderAbstract
+class Mage_Core_Service_Config_Reader
 {
     /**
      * Cache ID for resource config.
@@ -25,7 +25,7 @@ abstract class Mage_Core_Service_Config_ReaderAbstract
     protected $_directoryScanner;
 
     /**
-     * @var Mage_Core_Service_Config_Reader_ClassReflectorAbstract
+     * @var Mage_Core_Service_Config_Reader_ClassReflector
      */
     protected $_classReflector;
 
@@ -45,6 +45,11 @@ abstract class Mage_Core_Service_Config_ReaderAbstract
     protected $_configHelper;
 
     /**
+     * @var Mage_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
+
+    /**
      * @var array
      */
     protected $_data = array();
@@ -52,29 +57,25 @@ abstract class Mage_Core_Service_Config_ReaderAbstract
     /**
      * Construct config reader.
      *
-     * @param Mage_Core_Service_Config_Reader_ClassReflectorAbstract $classReflector
+     * @param Mage_Core_Service_Config_Reader_ClassReflector $classReflector
      * @param Mage_Core_Model_Config $appConfig
      * @param Mage_Core_Model_CacheInterface $cache
      * @param Mage_Webapi_Helper_Config $configHelper
+     * @param Mage_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
-        Mage_Core_Service_Config_Reader_ClassReflectorAbstract $classReflector,
+        Mage_Core_Service_Config_Reader_ClassReflector $classReflector,
         Mage_Core_Model_Config $appConfig,
         Mage_Core_Model_CacheInterface $cache,
-        Mage_Webapi_Helper_Config $configHelper
+        Mage_Webapi_Helper_Config $configHelper,
+        Mage_Core_Model_Event_Manager $eventManager
     ) {
         $this->_classReflector = $classReflector;
         $this->_applicationConfig = $appConfig;
         $this->_cache = $cache;
         $this->_configHelper = $configHelper;
+        $this->_eventManager = $eventManager;
     }
-
-    /**
-     * Retrieve cache ID.
-     *
-     * @return string
-     */
-    abstract public function getCacheId();
 
     /**
      * Get current directory scanner. Initialize if it was not initialized previously.
@@ -139,8 +140,9 @@ abstract class Mage_Core_Service_Config_ReaderAbstract
                 $className = $class->getName();
                 if (preg_match(self::RESOURCE_CLASS_PATTERN, $className)) {
                     $serverReflection = new Zend\Server\Reflection;
+                    $classReflection = $serverReflection->reflectClass($className);
                     $serviceAnnotation = $this->_configHelper->getAnnotationValue(
-                        $serverReflection->reflectClass($className),
+                        $classReflection,
                         'Service'
                     );
                     if (!is_string($serviceAnnotation)) {
@@ -150,11 +152,15 @@ abstract class Mage_Core_Service_Config_ReaderAbstract
                         continue;
                     }
                     $classData = $this->_classReflector->reflectClassMethods($className);
-                    $this->_addData($classData);
+                    $this->addData($classData);
                 }
             }
             $postReflectionData = $this->_classReflector->getPostReflectionData();
-            $this->_addData($postReflectionData);
+            $this->addData($postReflectionData);
+            $this->_eventManager->dispatch(
+                'core_service_config_reader_reflect_class_data_after',
+                array('service_config' => $this)
+            );
 
             if (!isset($this->_data['resources'])) {
                 throw new LogicException('Cannot populate config - no action controllers were found.');
@@ -171,7 +177,7 @@ abstract class Mage_Core_Service_Config_ReaderAbstract
      *
      * @param array $data
      */
-    protected function _addData($data)
+    public function addData($data)
     {
         $this->_data = array_merge_recursive($this->_data, $data);
     }
@@ -184,7 +190,7 @@ abstract class Mage_Core_Service_Config_ReaderAbstract
     protected function _loadDataFromCache()
     {
         $isLoaded = false;
-        if ($this->_cache->canUse(Mage_Core_Service_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cache->canUse(Mage_Core_Service_Config::WEBSERVICE_CACHE_NAME)) {
             $cachedData = $this->_cache->load($this->getCacheId());
             if ($cachedData !== false) {
                 $this->_data = unserialize($cachedData);
@@ -199,12 +205,22 @@ abstract class Mage_Core_Service_Config_ReaderAbstract
      */
     protected function _saveDataToCache()
     {
-        if ($this->_cache->canUse(Mage_Core_Service_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cache->canUse(Mage_Core_Service_Config::WEBSERVICE_CACHE_NAME)) {
             $this->_cache->save(
                 serialize($this->_data),
                 $this->getCacheId(),
-                array(Mage_Core_Service_ConfigAbstract::WEBSERVICE_CACHE_TAG)
+                array(Mage_Core_Service_Config::WEBSERVICE_CACHE_TAG)
             );
         }
+    }
+
+    /**
+     * Retrieve cache ID.
+     *
+     * @return string
+     */
+    public function getCacheId()
+    {
+        return self::CONFIG_CACHE_ID;
     }
 }

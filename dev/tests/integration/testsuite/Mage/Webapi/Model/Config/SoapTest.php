@@ -1,6 +1,6 @@
 <?php
 /**
- * File with unit tests for API configuration class: Mage_Core_Service_Config_Soap.
+ * File with unit tests for API configuration class: Mage_Webapi_Model_Config_Soap.
  *
  * {license_notice}
  *
@@ -31,7 +31,7 @@ require_once __DIR__ . '/../_files/autodiscovery/reference_to_invalid_type/class
 class Mage_Core_Service_Config_SoapTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Service_Config_Soap
+     * @var Mage_Webapi_Model_Config_Soap
      */
     protected $_apiConfig;
 
@@ -516,7 +516,7 @@ class Mage_Core_Service_Config_SoapTest extends PHPUnit_Framework_TestCase
      * Create resource config initialized with classes found in the specified directory.
      *
      * @param string $pathToResources
-     * @return Mage_Core_Service_Config_Soap
+     * @return Mage_Webapi_Model_Config_Soap
      */
     protected function _createResourceConfig($pathToResources)
     {
@@ -525,14 +525,14 @@ class Mage_Core_Service_Config_SoapTest extends PHPUnit_Framework_TestCase
         /** @var Mage_Core_Model_CacheInterface $cache */
         $cache = $this->getMock('Mage_Core_Model_CacheInterface');
 
-        /** @var Mage_Core_Service_Config_Reader_Soap $reader */
-        $reader = $objectManager->create('Mage_Core_Service_Config_Reader_Soap', array(
+        /** @var Mage_Core_Service_Config_Reader $reader */
+        $reader = $objectManager->create('Mage_Core_Service_Config_Reader', array(
             'cache' => $cache
         ));
         $reader->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToResources));
 
         /** Initialize SUT. */
-        $apiConfig = $objectManager->create('Mage_Core_Service_Config_Soap', array('reader' => $reader));
+        $apiConfig = $objectManager->create('Mage_Webapi_Model_Config_Soap', array('reader' => $reader));
         return $apiConfig;
     }
 

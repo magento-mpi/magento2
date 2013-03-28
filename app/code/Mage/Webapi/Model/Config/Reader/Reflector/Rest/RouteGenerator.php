@@ -9,7 +9,7 @@ use Zend\Server\Reflection\ReflectionMethod;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Service_Config_Reader_Rest_RouteGenerator
+class Mage_Webapi_Model_Config_Reader_Reflector_Rest_RouteGenerator
 {
     const ANNOTATION_HTTP_PATH = 'Path';
     const ANNOTATION_HTTP_METHOD = 'Method';

@@ -23,7 +23,7 @@ include __DIR__ . '/../../_files/Controller/AutoDiscover/ModuleB.php';
  */
 class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Core_Service_Config_Soap */
+    /** @var Mage_Webapi_Model_Config_Rest */
     protected $_config;
 
     /** @var Mage_Webapi_Model_Soap_AutoDiscover */
@@ -72,14 +72,14 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $objectManager = Mage::getObjectManager();
         $this->_helper = $objectManager->get('Mage_Webapi_Helper_Config');
         $reader = $objectManager->create(
-            'Mage_Core_Service_Config_Reader_Soap',
+            'Mage_Core_Service_Config_Reader',
             array(
                 'cache' => $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false)
             )
         );
         $reader->setDirectoryScanner($directoryScanner);
-        $this->_config = new Mage_Core_Service_Config_Soap($reader, $this->_helper, $app);
-        $objectManager->addSharedInstance($this->_config, 'Mage_Core_Service_Config_Soap');
+        $this->_config = new Mage_Webapi_Model_Config_Rest($reader, $this->_helper, $app);
+        $objectManager->addSharedInstance($this->_config, 'Mage_Webapi_Model_Config_Rest');
         $wsdlFactory = new Mage_Webapi_Model_Soap_Wsdl_Factory($objectManager);
         $cache = $this->getMock('Mage_Core_Model_CacheInterface');
         $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(

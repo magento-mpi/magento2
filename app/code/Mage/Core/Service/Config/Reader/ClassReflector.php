@@ -4,14 +4,14 @@ use Zend\Server\Reflection,
     Zend\Server\Reflection\ReflectionMethod;
 
 /**
- * Abstract class reflector for config reader.
+ * Class reflector for service config reader.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Mage_Core_Service_Config_Reader_ClassReflectorAbstract
+class Mage_Core_Service_Config_Reader_ClassReflector
 {
     const METHOD_TYPE_ANNOTATION = 'Type';
     const METHOD_TYPE_CALL = 'call';
@@ -23,17 +23,25 @@ abstract class Mage_Core_Service_Config_Reader_ClassReflectorAbstract
     protected $_typeProcessor;
 
     /**
+     * @var Mage_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
+
+    /**
      * Construct reflector.
      *
      * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Core_Service_Config_Reader_TypeProcessor $typeProcessor
+     * @param Mage_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
         Mage_Webapi_Helper_Config $helper,
-        Mage_Core_Service_Config_Reader_TypeProcessor $typeProcessor
+        Mage_Core_Service_Config_Reader_TypeProcessor $typeProcessor,
+        Mage_Core_Model_Event_Manager $eventManager
     ) {
         $this->_helper = $helper;
         $this->_typeProcessor = $typeProcessor;
+        $this->_eventManager = $eventManager;
     }
 
     /**
@@ -41,7 +49,13 @@ abstract class Mage_Core_Service_Config_Reader_ClassReflectorAbstract
      *
      * @return array
      */
-    abstract public function getPostReflectionData();
+    public function getPostReflectionData()
+    {
+        return array(
+            'types' => $this->_typeProcessor->getTypesData(),
+            'type_to_class_map' => $this->_typeProcessor->getTypeToClassMap(),
+        );
+    }
 
     /**
      * Reflect methods in given class and set retrieved data into reader.
@@ -55,7 +69,14 @@ abstract class Mage_Core_Service_Config_Reader_ClassReflectorAbstract
             'controller' => $className,
         );
         foreach ($this->_getServiceMethodsReflection($className) as $methodReflection) {
-            $data['methods'][$methodReflection->getName()] = $this->extractMethodData($methodReflection);
+            $methodData = $this->extractMethodData($methodReflection);
+            // TODO: Temporary solution
+            $methodDataObject = new Varien_Object($methodData);
+            $this->_eventManager->dispatch(
+                'core_service_config_reader_reflect_method_data',
+                array('method_data' => $methodDataObject, 'method_reflection' => $methodReflection)
+            );
+            $data['methods'][$methodReflection->getName()] = $methodDataObject->getData();
         }
 
         return array(
