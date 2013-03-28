@@ -7,6 +7,9 @@
  */
 class Mage_AdminNotification_Model_Resource_Inbox_Collection_CriticalTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Mage_AdminNotification_Model_Resource_Inbox_Collection_Critical
+     */
     protected $_model;
 
     protected function setUp()

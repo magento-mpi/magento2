@@ -42,13 +42,6 @@ class Mage_AdminNotification_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_latestNotice;
 
     /**
-     * Last Critical Notice object
-     *
-     * @var Mage_AdminNotification_Model_Inbox
-     */
-    protected $_latestCritical;
-
-    /**
      * count of unread notes by type
      *
      * @var array
