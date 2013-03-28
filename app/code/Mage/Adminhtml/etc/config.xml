@@ -49,11 +49,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <di>
-            <preferences>
-                <Mage_Core_Model_LocaleInterface>Mage_Backend_Model_Locale</Mage_Core_Model_LocaleInterface>
-            </preferences>
-        </di>
         <events>
             <admin_system_config_changed_section_admin>
                 <observers>
