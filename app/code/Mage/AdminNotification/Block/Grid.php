@@ -24,8 +24,8 @@ class Mage_AdminNotification_Block_Grid extends Mage_Backend_Block_Widget_Grid_E
     public function __construct(
         Mage_Core_Block_Template_Context $context,
         Mage_AdminNotification_Model_InboxFactory $inboxFactory,
-        array $data = array())
-    {
+        array $data = array()
+    ) {
         parent::__construct($context, $data);
         $this->_inboxFactory = $inboxFactory;
     }
