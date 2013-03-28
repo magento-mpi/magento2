@@ -86,13 +86,23 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
     protected $_defaultCgiGatewayUrl = 'http://www.ups.com:80/using/services/rave/qcostcgi.cgi';
 
     /**
-     * Default urls for shipment
+     * Test urls for shipment
      *
      * @var array
      */
     protected $_defaultUrls = array(
         'ShipConfirm' => 'https://wwwcie.ups.com/ups.app/xml/ShipConfirm',
         'ShipAccept'  => 'https://wwwcie.ups.com/ups.app/xml/ShipAccept',
+    );
+
+    /**
+     * Live urls for shipment
+     *
+     * @var array
+     */
+    protected $_liveUrls = array(
+        'ShipConfirm' => 'https://onlinetools.ups.com/ups.app/xml/ShipConfirm',
+        'ShipAccept'  => 'https://onlinetools.ups.com/ups.app/xml/ShipAccept',
     );
 
     /**
@@ -1543,7 +1553,7 @@ XMLAuth;
 
         $debugData = array('request' => $xmlRequest->asXML());
         try {
-            $url = $this->_defaultUrls['ShipAccept'];
+            $ch = curl_init($this->getShipAcceptUrl());
 
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -1583,6 +1593,21 @@ XMLAuth;
     }
 
     /**
+     * Get ship accept url
+     *
+     * @return string
+     */
+    public function getShipAcceptUrl()
+    {
+        if ($this->getConfigData('is_account_live')) {
+            $url = $this->_liveUrls['ShipAccept'];
+        } else {
+            $url = $this->_defaultUrls['ShipAccept'];
+        }
+        return $url;
+    }
+
+    /**
      * Do shipment request to carrier web service, obtain Print Shipping Labels and process errors in response
      *
      * @param Varien_Object $request
@@ -1596,10 +1621,7 @@ XMLAuth;
         $xmlResponse = $this->_getCachedQuotes($xmlRequest);
 
         if ($xmlResponse === null) {
-            $url = $this->getConfigData('url');
-            if (!$url) {
-                $url = $this->_defaultUrls['ShipConfirm'];
-            }
+            $url = $this->getShipConfirmUrl();
 
             $debugData = array('request' => $xmlRequest);
             $ch = curl_init();
@@ -1639,6 +1661,26 @@ XMLAuth;
         } else {
             return $this->_sendShipmentAcceptRequest($response);
         }
+    }
+
+    /**
+     * Get ship confirm url
+     *
+     * @return string
+     */
+    public function getShipConfirmUrl()
+    {
+        $url = $this->getConfigData('url');
+        if (!$url) {
+            if ($this->getConfigData('is_account_live')) {
+                $url = $this->_liveUrls['ShipConfirm'];
+                return $url;
+            } else {
+                $url = $this->_defaultUrls['ShipConfirm'];
+                return $url;
+            }
+        }
+        return $url;
     }
 
     /**
