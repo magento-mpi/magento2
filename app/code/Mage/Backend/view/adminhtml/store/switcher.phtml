@@ -10,97 +10,56 @@
 ?>
 <?php /* @var $this Mage_Core_Block_Template */ ?>
 <?php if ($websites = $this->getWebsites()): ?>
-
     <div class="store-switcher-alt">
-        <strong class="store-selected" data-toggle="dropdown">Russian Store View</strong>
-        <ul class="dropdown-menu">
+        <input type="hidden" name="store_switcher" id="store_switcher" onchange="return switchStore(this);"<?php echo $this->getUiId()?>>
+        <strong class="store-selected" data-toggle="dropdown">
+            <?php if ($this->hasDefaultOption()): ?>
+                <?php echo $this->getDefaultStoreName() ?>
+            <?php endif; ?>
+        </strong>
+
+        <ul class="dropdown-menu" id="store_switcher_list">
+            <?php if ($this->hasDefaultOption()): ?>
+                <li class="store-switcher-all">
+                    <a data-value=""
+                       href="#">
+                        <?php echo $this->getDefaultStoreName() ?>
+                    </a>
+                </li>
+
+            <?php endif; ?>
+
+            <?php foreach ($websites as $website): ?>
             <li class="store-switcher-website">
-                <strong>Main Website</strong>
+                <strong><?php echo $this->escapeHtml($website->getName()) ?></strong>
                 <ul>
-                    <li class="store-switcher-store">
-                        <strong>Main Store</strong>
-                        <ul>
-                            <li class="store-switcher-store-view">
-                                <a href="#">English</a>
-                            </li>
-                            <li class="store-switcher-store-view">
-                                <a href="#">UK</a>
-                            </li>
-                            <li class="store-switcher-store-view">
-                                <a href="#">Russian Store View</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="store-switcher-store">
-                        <strong>Second Store</strong>
-                        <ul>
-                            <li class="store-switcher-store-view">
-                                <a href="#">English</a>
-                            </li>
-                            <li class="store-switcher-store-view">
-                                <a href="#">Russian Store View</a>
-                            </li>
-                        </ul>
-                    </li>
+                <?php foreach ($website->getGroups() as $group): ?>
+                <li class="store-switcher-store">
+                    <strong><?php echo $this->escapeHtml($group->getName()) ?></strong>
+                    <ul>
+                        <?php foreach ($this->getStores($group) as $store): ?>
+                        <li class="store-switcher-store-view">
+                            <a data-value="<?php echo $this->escapeHtml($store->getId()) ?>"
+                               href="#">
+                                <?php echo $this->escapeHtml($store->getName()) ?>
+                             </a>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </li>
+                <?php endforeach; ?>
                 </ul>
             </li>
-            <li class="store-switcher-website">
-                <strong>Second Website</strong>
-                <ul>
-                    <li class="store-switcher-store">
-                        <strong>Main Store</strong>
-                        <ul>
-                            <li class="store-switcher-store-view">
-                                <a href="#">English</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="store-switcher-store">
-                        <strong>Second Store</strong>
-                        <ul>
-                            <li class="store-switcher-store-view">
-                                <a href="#">English</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li class="manage-stores">
-                <a href="#">Manage stores...</a>
-            </li>
+            <?php endforeach; ?>
         </ul>
     </div>
-
-<div class="store-switcher hidden">
-    <label for="store_switcher"><?php echo $this->__('Choose Store View:') ?></label>
-    <select name="store_switcher" id="store_switcher" onchange="return switchStore(this);"<?php echo $this->getUiId()?>>
-    <?php if ($this->hasDefaultOption()): ?>
-        <option value=""><?php echo $this->getDefaultStoreName() ?></option>
-    <?php endif; ?>
-        <?php foreach ($websites as $website): ?>
-            <?php $showWebsite = false; ?>
-            <?php foreach ($website->getGroups() as $group): ?>
-                <?php $showGroup = false; ?>
-                <?php foreach ($this->getStores($group) as $store): ?>
-                    <?php if ($showWebsite == false): ?>
-                        <?php $showWebsite = true; ?>
-                        <optgroup label="<?php echo $this->escapeHtml($website->getName()) ?>"></optgroup>
-                    <?php endif; ?>
-                    <?php if ($showGroup == false): ?>
-                        <?php $showGroup = true; ?>onselectstart="return false;
-                        <optgroup label="&nbsp;&nbsp;&nbsp;<?php echo $this->escapeHtml($group->getName()) ?>">
-                    <?php endif; ?>
-                    <option value="<?php echo $this->escapeHtml($store->getId()) ?>"<?php if ($this->getStoreId() == $store->getId()): ?> selected="selected"<?php endif; ?>>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->escapeHtml($store->getName()) ?></option>
-                <?php endforeach; ?>
-                <?php if ($showGroup): ?>
-                    </optgroup>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        <?php endforeach; ?>
-    </select>
-    <?php echo $this->getHintHtml() ?>
-</div>
 <script type="text/javascript">
+    (function($) {
+        var $swither = $('#store_switcher_list');
+        $swither.on('click', '[data-value]', function(event) {
+            $('#store_switcher').val($(event.target).data('value')).trigger('change');
+        });
+    })(jQuery)
     function switchStore(obj) {
         var storeParam = obj.value ? 'store/' + obj.value + '/' : '';
         if (obj.switchParams) {

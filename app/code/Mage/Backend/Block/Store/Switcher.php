@@ -265,7 +265,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
      */
     protected function _toHtml()
     {
-        if (!$this->_application->isSingleStoreMode()) {
+        if ($this->isShow()) {
             return parent::_toHtml();
         }
         return '';
