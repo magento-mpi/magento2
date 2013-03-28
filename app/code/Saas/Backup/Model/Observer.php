@@ -15,7 +15,7 @@ class Saas_Backup_Model_Observer
     private $_request;
 
     /**
-     * @var Mage_Backend_Model_Url
+     * @var Saas_Saas_Helper_Data
      */
     private $_saasHelper;
 
@@ -40,8 +40,8 @@ class Saas_Backup_Model_Observer
      */
     public function limitBackupFunctionality(Varien_Event_Observer $observer)
     {
-        if ($this->_request->getControllerModule() == 'Mage_Adminhtml'
-            && $this->_request->getControllerName() == 'system_backup'
+        if ($this->_request->getControllerName() == 'system_backup'
+            && $this->_request->getControllerModule() == 'Mage_Adminhtml'
         ) {
             $this->_saasHelper->customizeNoRoutForward($this->_request);
         }

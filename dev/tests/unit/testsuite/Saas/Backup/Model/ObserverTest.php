@@ -50,4 +50,30 @@ class Saas_Backup_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_modelBackupObserver->limitBackupFunctionality($this->_eventObserverMock);
     }
+
+    /**
+     * @param string $module
+     * @param string $controller
+     * @dataProvider dataProviderForNonLimitBackupFunctionality
+     */
+    public function testNonLimitBackupFunctionality($module, $controller)
+    {
+        $this->_requestMock->expects($this->any())->method('getControllerModule')->will($this->returnValue($module));
+        $this->_requestMock->expects($this->any())->method('getControllerName')->will($this->returnValue($controller));
+        $this->_saasHelperMock->expects($this->never())->method('customizeNoRoutForward');
+
+        $this->_modelBackupObserver->limitBackupFunctionality($this->_eventObserverMock);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForNonLimitBackupFunctionality()
+    {
+        return array(
+            array('Mage_Adminhtml', 'unknown'),
+            array('unknown', 'system_backup'),
+            array('unknown', 'unknown')
+        );
+    }
 }
