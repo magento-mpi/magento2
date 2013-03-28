@@ -79,12 +79,11 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
     public function getConfirmMessageDelete()
     {
         if ($this->_service->isThemeAssignedToStore($this->getTheme())) {
-            $confirmMessage = $this->__('Are you sure you want to delete the selected JavaScript file? This operation'
-                . ' cannot be undone. It will affect the theme and frontend design if the theme is currently assigned'
-                . '  to the store front');
+            $confirmMessage = $this->__('Are you sure you want to delete the selected JavaScript file?'
+                . ' This change will affect frontend design and cannot be undone.');
         } else {
-            $confirmMessage = $this->__('Are you sure you want to delete the selected JavaScript file? This operation'
-                . 'cannot be undone. It will affect the theme.');
+            $confirmMessage = $this->__('Are you sure you want to delete the selected JavaScript file?'
+                . ' This change will affect the theme and cannot be undone.');
         }
         return $confirmMessage;
     }
