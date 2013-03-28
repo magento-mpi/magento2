@@ -2,14 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Mage_AdminNotification_Block_Security extends Mage_Backend_Block_Template
 {
+    // Cache kay for saving verification result
+    const VERIFICATION_RESULT_CACHE_KEY = 'configuration_files_access_level_verification';
+
     /**
      * @var Mage_Core_Model_Config
      */
@@ -19,6 +19,18 @@ class Mage_AdminNotification_Block_Security extends Mage_Backend_Block_Template
      * @var Varien_Http_Adapter_CurlFactory
      */
     protected $_curlFactory;
+
+    /**
+     * File path for verification
+     * @var string
+     */
+    private $_filePath = 'app/etc/local.xml';
+
+    /**
+     * Time out for HTTP verification request
+     * @var int
+     */
+    private $_verificationTimeOut  = 2;
 
     /**
      * @param Mage_Core_Block_Template_Context $context
@@ -36,22 +48,6 @@ class Mage_AdminNotification_Block_Security extends Mage_Backend_Block_Template
         $this->_config = $config;
         $this->_curlFactory = $curlFactory;
     }
-
-
-    // Cache kay for saving verification result
-    const VERIFICATION_RESULT_CACHE_KEY = 'configuration_files_access_level_verification';
-
-    /**
-     * File path for verification
-     * @var string
-     */
-    private $_filePath = 'app/etc/local.xml';
-
-    /**
-     * Time out for HTTP verification request
-     * @var int
-     */
-    private $_verificationTimeOut  = 2;
 
     /**
      * Check verification result and return true if system must to show notification message

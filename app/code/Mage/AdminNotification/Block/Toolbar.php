@@ -18,7 +18,7 @@ class Mage_AdminNotification_Block_Toolbar extends Mage_Backend_Block_Template
      */
     protected function _getHelper()
     {
-        return $this->_helperFactory->get('Mage_AdminNotification_Helper_Data');
+        return $this->helper('Mage_AdminNotification_Helper_Data');
     }
 
     /**

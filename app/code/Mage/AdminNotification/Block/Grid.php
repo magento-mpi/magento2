@@ -58,7 +58,7 @@ class Mage_AdminNotification_Block_Grid extends Mage_Backend_Block_Widget_Grid_E
     protected function _prepareColumns()
     {
         /** @var $helper Mage_AdminNotification_Helper_Data */
-        $helper = $this->_helperFactory->get('Mage_AdminNotification_Helper_Data');
+        $helper = $this->helper('Mage_AdminNotification_Helper_Data');
         $this->addColumn('severity', array(
             'header'    =>  $helper->__('Severity'),
             'width'     => '60px',
