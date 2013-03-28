@@ -144,6 +144,7 @@ class Mage_Backend_Block_Widget_Button_Split extends Mage_Backend_Block_Widget
      * @param string $key
      * @param array $option
      * @return string
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function getOptionAttributesHtml($key, $option)
     {
@@ -205,6 +206,7 @@ class Mage_Backend_Block_Widget_Button_Split extends Mage_Backend_Block_Widget
      * @param string $classes
      * @param string $disabled
      * @return array
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _prepareOptionAttributes($option, $title, $classes, $disabled)
     {
