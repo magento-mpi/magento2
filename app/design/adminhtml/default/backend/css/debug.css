@@ -234,6 +234,10 @@ label.mage-error {
     text-align: right;
 }
 
+.accordion .config .label label {
+    padding-top: 6px;
+}
+
 .accordion .config td {
     background: none;
     border: 0;
