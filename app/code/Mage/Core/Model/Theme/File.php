@@ -188,7 +188,9 @@ class Mage_Core_Model_Theme_File extends Mage_Core_Model_Abstract
     }
 
     /**
-     * @return Mage_Core_Model_Page_Asset_AssetInterface
+     * Retrieve a page asset representing a theme file
+     *
+     * @return Mage_Core_Model_Page_Asset_AssetInterface|null
      */
     public function getAsset()
     {

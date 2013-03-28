@@ -107,6 +107,11 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected $_domainFactory;
 
     /**
+     * @var Mage_Core_Model_Resource_Theme_File_Collection
+     */
+    protected $_themeFiles;
+
+    /**
      * All possible types of a theme
      *
      * @var array
@@ -292,6 +297,39 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             $this->setData('customization_path', $customPath);
         }
         return $customPath;
+    }
+
+    /**
+     * Retrieve collection of files that belong to a theme
+     *
+     * @return Mage_Core_Model_Resource_Theme_File_Collection
+     */
+    public function getFiles()
+    {
+        if (!$this->_themeFiles) {
+            $this->_themeFiles = $this->_objectManager->create('Mage_Core_Model_Resource_Theme_File_Collection');
+            $this->_themeFiles->addThemeFilter($this);
+        }
+        return $this->_themeFiles;
+    }
+
+    /**
+     * Retrieve theme instance representing the latest changes to a theme
+     *
+     * @return Mage_Core_Model_Theme
+     */
+    public function getLatestVersion()
+    {
+        if ($this->getId()) {
+            $collection = $this->getCollection();
+            $collection->addFieldToFilter('parent_id', $this->getId());
+            $collection->addFieldToFilter('type', self::TYPE_STAGING);
+            $stagingTheme = $collection->getFirstItem();
+            if ($stagingTheme->getId()) {
+                return $stagingTheme;
+            }
+        }
+        return $this;
     }
 
     /**
