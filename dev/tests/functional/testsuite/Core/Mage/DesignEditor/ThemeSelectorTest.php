@@ -53,21 +53,21 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
      * <p>Test Theme selector page when no customization themes</p>
      *
      * @TestlinkId TL-MAGE-6478
-     * @te st
+     * @test
      */
     public function firstEntranceWithoutVirtualThemes()
     {
         $this->navigate('design_editor_selector');
         $this->waitForAjax();
-        $this->assertTrue($this->controlIsPresent('pageelement', 'header_available_themes'));
         $this->assertTrue($this->controlIsPresent('pageelement', 'theme_list'), 'Theme list not present');
+//        $this->assertTrue($this->controlIsPresent('pageelement', 'header_available_themes'), 'Header not present');
     }
 
     /**
      * <p>Test Theme selector page when customized themes present</p>
      *
      * @TestlinkId TL-MAGE-6481
-     * @te st
+     * @test
      */
     public function firstEntranceWithVirtualTheme()
     {
@@ -92,7 +92,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
     /**
      * <p>Assign theme to default store view</p>
      * Present one store view only
-     * @t est
+     * @test
      */
     public function assignThemeToDefaultStoreView()
     {
@@ -106,8 +106,15 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         $this->waitForAjax();
         $this->addParameter('id', $themeId);
         $this->designEditorHelper()->mouseOver('theme_thumbnail');
-        $this->clickControlAndConfirm('link', 'assign_theme', 'confirmation_for_assign');
-        $this->clickControl('link', 'quit');
+        $this->clickControlAndConfirm('link', 'assign_theme', 'confirmation_for_assign_to_default');
+        $this->_windowId = $this->selectLastWindow();
+        $this->validatePage('assigned_theme_default_in_design');
+//        $this->clickControl('link', 'quit');
+        $this->closeWindow($this->_windowId);
+        $this->_windowId = null;
+        $this->selectLastWindow();
+        $this->validatePage('design_editor_selector');
+
         //Verify
         $this->addParameter('id', $themeId);
         $xpathAssignedStoreviews = $this->_getControlXpath('pageelement', 'theme_assigned_storeview');
@@ -117,7 +124,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Assign theme to store view</p>
-     * @te st
+     * @test
      */
     public function assignThemeWithMultipleStoreViews()
     {
@@ -158,29 +165,29 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         $this->fillCheckbox($storeViewName, 'Yes', $xpathStoreViewInput);
 
         $this->clickControl('button', 'store_assign_done');
-        $this->validatePage('assigned_theme_in_design');
-        $this->clickControl('link', 'quit'); //This is bug with open VDE in the same window. Delete row after fix.
-//        $this->navigate('store_launcher');
-        //Verify
-        $this->navigate('design_editor_selector');
         $this->waitForPageToLoad();
+        $this->_windowId = $this->selectLastWindow();
+        $this->validatePage('assigned_theme_in_design');
+        $this->closeWindow($this->_windowId);
+        $this->_windowId = null;
+        $this->selectLastWindow();
+        //Verify
+        $this->validatePage('design_editor_selector');
         $this->addParameter('id', $themeId);
         $xpathAssignedStoreviews = $this->_getControlXpath('pageelement', 'theme_assigned_storeview');
         $this->elementIsPresent(sprintf($xpathAssignedStoreviews, $themeId, 'Default Store View'));
         $this->elementIsPresent(sprintf($xpathAssignedStoreviews, $themeId, $dataStoreView['store_view_name']));
-        $this->navigate('manage_stores');
-        //Clean after test
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
     }
 
     /**
      * <p>Cancel multiple assign operation</p>
-     * @te st
+     * @test
      */
     public function cancelMultipleAssignTheme()
     {
         //Data
         $this->navigate('manage_stores');
+        $this->clickButton('reset_filter');
         $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
         $dataStoreView = $this->loadDataSet('StoreView', 'generic_store_view');
         $this->storeHelper()->createStore($dataStoreView, 'store_view');
@@ -191,6 +198,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         $this->navigate('design_editor_selector');
         $this->waitForPageToLoad();
         $this->addParameter('id', $themeData['id']);
+        $this->designEditorHelper()->mouseOver('theme_thumbnail');
         $this->clickButton('assign_theme_button');
         $this->clickButton('store_assign_close');
         $this->assertFalse($this->buttonIsPresent('assign_theme_button'));
@@ -224,10 +232,12 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         //Verify
         $this->validatePage('preview_theme_in_navigation');
         $this->assertTrue($this->controlIsPresent('pageelement', 'vde_toolbar_row'));
-        $this->clickControl('link', 'quit');
-        $this->_windowId = $this->selectLastWindow();
+//        $this->clickControl('link', 'quit');
+        $this->closeWindow($this->_windowId);
+        $this->_windowId = null;
+        $this->selectLastWindow();
         $this->validatePage('design_editor_selector');
-        $this->assertTrue($this->controlIsPresent('pageelement', 'header_available_themes'));
+        $this->assertTrue($this->controlIsPresent('pageelement', 'theme_list'));
     }
 
     /**
