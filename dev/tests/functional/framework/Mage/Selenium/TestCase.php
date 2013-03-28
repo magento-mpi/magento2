@@ -2024,14 +2024,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function getFile($url)
     {
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_HEADER, true);
+        $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 60);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 120);
+        curl_setopt($curl, CURLOPT_COOKIE, 'PHPSESSID=' . $this->cookie()->get('PHPSESSID'));
         $data = curl_exec($curl);
+        if (curl_errno($curl)) {
+            $error = 'Error connection[' . curl_errno($curl) . '] to ' . $url . ': ' . curl_error($curl);
+            throw new RuntimeException($error);
+        }
         $data = substr($data, curl_getinfo($curl, CURLINFO_HEADER_SIZE));
         $info = curl_getinfo($curl);
         if (!$info) {

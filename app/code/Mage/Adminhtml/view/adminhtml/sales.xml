@@ -168,6 +168,7 @@
                             <header translate="true" module="Mage_Sales">G.T. (Purchased)</header>
                             <type>currency</type>
                             <currency>order_currency_code</currency>
+                            <rate>1</rate>
                             <index>grand_total</index>
                             <header_css_class>col-gtpurchased</header_css_class>
                             <column_css_class>col-gtpurchased</column_css_class>

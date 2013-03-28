@@ -39,5 +39,6 @@
         <Saas_Queue><active>true</active></Saas_Queue>
         <Saas_Saas><active>true</active></Saas_Saas>
         <Saas_UnitPrice><active>true</active></Saas_UnitPrice>
+        <Saas_Index><active>true</active></Saas_Index>
     </modules>
 </config>
