@@ -25,5 +25,9 @@
         <reference name="header">
             <block type="Mage_AdminNotification_Block_ToolbarEntry" template="toolbar_entry.phtml" />
         </reference>
+        <reference name="head">
+            <action method="addCss"><file>Mage_Core::prototype/magento.css</file></action>
+            <action method="addJs"><file>Mage_AdminNotification::toolbar_entry.js</file></action>
+        </reference>
     </default>
 </layout>

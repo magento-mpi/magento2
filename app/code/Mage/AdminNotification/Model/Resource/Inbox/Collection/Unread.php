@@ -15,13 +15,13 @@
  * @package     Mage_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_AdminNotification_Model_Resource_Inbox_UnreadNotificationCollection
+class Mage_AdminNotification_Model_Resource_Inbox_Collection_Unread
     extends Mage_AdminNotification_Model_Resource_Inbox_Collection
 {
     /**
      * Init collection select
      *
-     * @return Mage_AdminNotification_Model_Resource_Inbox_LatestUnreadCollection
+     * @return Mage_AdminNotification_Model_Resource_Inbox_Collection_Unread
      */
     protected function _initSelect()
     {

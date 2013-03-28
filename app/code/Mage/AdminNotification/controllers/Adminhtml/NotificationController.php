@@ -26,22 +26,12 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
 
     public function markAsReadAction()
     {
-        if ($id = $this->getRequest()->getParam('id')) {
+        $notificationId = (int)$this->getRequest()->getParam('id');
+        if ($notificationId) {
             $session = Mage::getSingleton('Mage_Backend_Model_Session');
-            $model = Mage::getModel('Mage_AdminNotification_Model_Inbox')
-                ->load($id);
-
-            if (!$model->getId()) {
-                $session->addError(
-                    Mage::helper('Mage_AdminNotification_Helper_Data')->__('Unable to proceed. Please, try again.')
-                );
-                $this->_redirect('*/*/');
-                return ;
-            }
-
             try {
-                $model->setIsRead(1)
-                    ->save();
+                $this->_objectManager->create('Mage_AdminNotification_Model_NotificationService')
+                    ->markAsRead($notificationId);
                 $session->addSuccess(
                     Mage::helper('Mage_AdminNotification_Helper_Data')->__('The message has been marked as read.')
                 );
@@ -71,12 +61,8 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
         $notificationId = (int)$this->getRequest()->getPost('id');
         $responseData = array();
         try {
-            $notification = $this->_objectManager->create('Mage_AdminNotification_Model_Inbox')->load($notificationId);
-            if (!$notification->getId()) {
-                throw new Mage_Core_Exception('Wrong notification ID specified.');
-            }
-            $notification->setIsRead(1);
-            $notification->save();
+            $this->_objectManager->create('Mage_AdminNotification_Model_NotificationService')
+                ->markAsRead($notificationId);
             $responseData['success'] = true;
         } catch (Exception $e) {
             $responseData['success'] = false;

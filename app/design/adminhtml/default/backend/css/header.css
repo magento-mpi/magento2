@@ -304,6 +304,43 @@
     margin-top: 12px;
 }
 
+.header-panel .notifications > .dropdown-menu .notification-description {
+    max-height: 40px;
+    overflow: hidden;
+    display: block;
+}
+
+.header-panel .notifications > .dropdown-menu .notification-entry .notification-dialog-content {
+    display: none;
+}
+
+.ui-dialog .notification-dialog-content strong {
+    display: block;
+    color: #f58220;
+    font-family: "CallunaSans";
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.ui-dialog .notification-dialog-content .notification-description {
+    display: block;
+    font-family: "Helvetica";
+    padding: 9px 0px;
+}
+
+.ui-dialog .notification-dialog-content time {
+    display: block;
+    text-align: right;
+}
+
+.ui-dialog .notification-dialog-content .actions {
+    padding-bottom: 20px;
+}
+
+.ui-dialog .notification-dialog-content.ui-dialog-content {
+    padding-bottom: 25px;
+}
+
 .header-panel .notifications > .dropdown-menu strong,
 .header-panel .account > .dropdown-menu a,
 .header-panel .search .autocomplete-results .title {
@@ -313,6 +350,10 @@
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 5px;
+}
+
+.header-panel .notifications > .dropdown-menu > li:hover {
+    cursor: pointer;
 }
 
 .header-panel .notifications > .dropdown-menu > li:hover .action-close {
