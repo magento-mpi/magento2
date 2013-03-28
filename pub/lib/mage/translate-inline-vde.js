@@ -16,7 +16,7 @@
             translateForm: {
                 template: '#translate-inline-dialog-form-template',
                 data: {
-                    id: 'translate-inline-dialog-form'
+                    selector: '#translate-inline-dialog-form'
                 }
             },
             dialogClass: "translate-dialog",
@@ -40,9 +40,6 @@
                 }
             }],
 
-            positionDialog: function(element, dialog) { },
-            templateName: "translateInlineDialogVdeTemplate",
-            dataAttrName: "translate",
             area: "vde",
             ajaxUrl: null,
             textTranslations: null,
@@ -152,7 +149,7 @@
                     }
                 }
             });
-            this._on(content.find('#' + this.options.translateForm.data.id), {
+            this._on(content.find(this.options.translateForm.data.selector), {
                 submit: function(e) {
                     e.preventDefault();
                     this._formSubmit();
@@ -175,8 +172,6 @@
          */
         _formSubmitComplete: function() {
          // TODO: need to replace with merged version
-            $('[data-container="spinner"]').addClass('hidden');
-
             var self = this;
             this.element.find('[data-translate-input-index]').each($.proxy(function(count, elem) {
                 var index = $(elem).data('translate-input-index'),
