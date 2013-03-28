@@ -132,9 +132,7 @@ class Mage_Adminhtml_RatingController extends Mage_Adminhtml_Controller_Action
 
     protected function _initEnityId()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Reviews and Ratings'))
-             ->_title($this->__('Manage Ratings'));
+        $this->_title($this->__('Manage Ratings'));
 
         Mage::register('entityId', Mage::getModel('Mage_Rating_Model_Rating_Entity')->getIdByCode('product'));
     }

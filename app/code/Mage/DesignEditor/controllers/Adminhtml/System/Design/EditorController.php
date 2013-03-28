@@ -371,7 +371,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     protected function _setTitle()
     {
-        $this->_title($this->__('System'))->_title($this->__('Design'))->_title($this->__('Editor'));
+        $this->_title($this->__('Editor'));
     }
 
     /**

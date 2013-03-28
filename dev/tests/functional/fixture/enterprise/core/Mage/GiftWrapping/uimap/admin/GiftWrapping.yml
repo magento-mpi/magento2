@@ -11,7 +11,7 @@
 manage_gift_wrapping:
     mca: giftwrapping/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'giftwrapping/')]
-    title: Manage Gift Wrapping / Sales / Magento Admin
+    title: Manage Gift Wrapping / Other Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -52,7 +52,7 @@ manage_gift_wrapping:
 
 add_gift_wrapping:
     mca: giftwrapping/new/
-    title: New Gift Wrapping / Manage Gift Wrapping / Sales / Magento Admin
+    title: New Gift Wrapping / Manage Gift Wrapping / Other Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -82,7 +82,7 @@ add_gift_wrapping:
 
 edit_gift_wrapping:
     mca: giftwrapping/edit/id/%id%/
-    title: Edit Gift Wrapping "%elementTitle%" / Manage Gift Wrapping / Sales / Magento Admin
+    title: Edit Gift Wrapping "%elementTitle%" / Manage Gift Wrapping / Other Settings / Stores / Magento Admin
     uimap:
         form: &editGiftWrappingForm
             fieldsets:

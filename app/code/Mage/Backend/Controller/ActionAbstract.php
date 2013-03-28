@@ -108,7 +108,16 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
      */
     protected function _setActiveMenu($itemId)
     {
-        $this->getLayout()->getBlock('menu')->setActive($itemId);
+        /** @var $menuBlock Mage_Backend_Block_Menu */
+        $menuBlock = $this->getLayout()->getBlock('menu');
+        $menuBlock->setActive($itemId);
+        $parents = $menuBlock->getMenuModel()->getParentItems($itemId);
+        $parents = array_reverse($parents);
+        foreach ($parents as $item) {
+            /** @var $item Mage_Backend_Model_Menu_Item */
+            //$this->_title($item->getTitle());
+            array_unshift($this->_titles, $item->getTitle());
+        }
         return $this;
     }
 
