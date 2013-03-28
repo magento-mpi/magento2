@@ -11,10 +11,6 @@
 
 /**
  * UPS shipping implementation
- *
- * @category   Mage
- * @package    Mage_Usa
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Usa_Model_Shipping_Carrier_Ups
     extends Mage_Usa_Model_Shipping_Carrier_Abstract
@@ -30,8 +26,6 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
 
     /**
      * Delivery Confirmation level based on origin/destination
-     *
-     * @var int
      */
     const DELIVERY_CONFIRMATION_SHIPMENT = 1;
     const DELIVERY_CONFIRMATION_PACKAGE = 2;
@@ -46,23 +40,23 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
     /**
      * Rate request data
      *
-     * @var Mage_Shipping_Model_Rate_Request|null
+     * @var Mage_Shipping_Model_Rate_Request
      */
-    protected $_request = null;
+    protected $_request;
 
     /**
      * Raw rate request data
      *
-     * @var Varien_Object|null
+     * @var Varien_Object
      */
-    protected $_rawRequest = null;
+    protected $_rawRequest;
 
     /**
      * Rate result data
      *
-     * @var Mage_Shipping_Model_Rate_Result|null
+     * @var Mage_Shipping_Model_Rate_Result
      */
-    protected $_result = null;
+    protected $_result;
 
     /**
      * Base currency rate
@@ -76,7 +70,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
      *
      * @var string
      */
-    protected $_xmlAccessRequest = null;
+    protected $_xmlAccessRequest;
 
     /**
      * Default cgi gateway url
@@ -143,14 +137,14 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
     {
         $this->_request = $request;
 
-        $r = new Varien_Object();
+        $rowRequest = new Varien_Object();
 
         if ($request->getLimitMethod()) {
-            $r->setAction($this->getCode('action', 'single'));
-            $r->setProduct($request->getLimitMethod());
+            $rowRequest->setAction($this->getCode('action', 'single'));
+            $rowRequest->setProduct($request->getLimitMethod());
         } else {
-            $r->setAction($this->getCode('action', 'all'));
-            $r->setProduct('GND'.$this->getConfigData('dest_type'));
+            $rowRequest->setAction($this->getCode('action', 'all'));
+            $rowRequest->setProduct('GND' . $this->getConfigData('dest_type'));
         }
 
         if ($request->getUpsPickup()) {
@@ -158,21 +152,21 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
         } else {
             $pickup = $this->getConfigData('pickup');
         }
-        $r->setPickup($this->getCode('pickup', $pickup));
+        $rowRequest->setPickup($this->getCode('pickup', $pickup));
 
         if ($request->getUpsContainer()) {
             $container = $request->getUpsContainer();
         } else {
             $container = $this->getConfigData('container');
         }
-        $r->setContainer($this->getCode('container', $container));
+        $rowRequest->setContainer($this->getCode('container', $container));
 
         if ($request->getUpsDestType()) {
             $destType = $request->getUpsDestType();
         } else {
             $destType = $this->getConfigData('dest_type');
         }
-        $r->setDestType($this->getCode('dest_type', $destType));
+        $rowRequest->setDestType($this->getCode('dest_type', $destType));
 
         if ($request->getOrigCountry()) {
             $origCountry = $request->getOrigCountry();
@@ -183,7 +177,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             );
         }
 
-        $r->setOrigCountry(Mage::getModel('Mage_Directory_Model_Country')->load($origCountry)->getIso2Code());
+        $rowRequest->setOrigCountry(Mage::getModel('Mage_Directory_Model_Country')->load($origCountry)->getIso2Code());
 
         if ($request->getOrigRegionCode()) {
             $origRegionCode = $request->getOrigRegionCode();
@@ -196,21 +190,21 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
         if (is_numeric($origRegionCode)) {
             $origRegionCode = Mage::getModel('Mage_Directory_Model_Region')->load($origRegionCode)->getCode();
         }
-        $r->setOrigRegionCode($origRegionCode);
+        $rowRequest->setOrigRegionCode($origRegionCode);
 
         if ($request->getOrigPostcode()) {
-            $r->setOrigPostal($request->getOrigPostcode());
+            $rowRequest->setOrigPostal($request->getOrigPostcode());
         } else {
-            $r->setOrigPostal(Mage::getStoreConfig(
+            $rowRequest->setOrigPostal(Mage::getStoreConfig(
                 Mage_Shipping_Model_Shipping::XML_PATH_STORE_ZIP,
                 $request->getStoreId()
             ));
         }
 
         if ($request->getOrigCity()) {
-            $r->setOrigCity($request->getOrigCity());
+            $rowRequest->setOrigCity($request->getOrigCity());
         } else {
-            $r->setOrigCity(Mage::getStoreConfig(
+            $rowRequest->setOrigCity(Mage::getStoreConfig(
                 Mage_Shipping_Model_Shipping::XML_PATH_STORE_CITY,
                 $request->getStoreId()
             ));
@@ -225,7 +219,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
 
         //for UPS, puero rico state for US will assume as puerto rico country
         if ($destCountry == self::USA_COUNTRY_ID
-            && ($request->getDestPostcode()=='00912' || $request->getDestRegionCode()==self::PUERTORICO_COUNTRY_ID)
+            && ($request->getDestPostcode() == '00912' || $request->getDestRegionCode() == self::PUERTORICO_COUNTRY_ID)
         ) {
             $destCountry = self::PUERTORICO_COUNTRY_ID;
         }
@@ -235,12 +229,12 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             $destCountry = self::GUAM_COUNTRY_ID;
         }
 
-        $r->setDestCountry(Mage::getModel('Mage_Directory_Model_Country')->load($destCountry)->getIso2Code());
+        $rowRequest->setDestCountry(Mage::getModel('Mage_Directory_Model_Country')->load($destCountry)->getIso2Code());
 
-        $r->setDestRegionCode($request->getDestRegionCode());
+        $rowRequest->setDestRegionCode($request->getDestRegionCode());
 
         if ($request->getDestPostcode()) {
-            $r->setDestPostal($request->getDestPostcode());
+            $rowRequest->setDestPostal($request->getDestPostcode());
         } else {
 
         }
@@ -249,32 +243,30 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
 
         $weight = $this->_getCorrectWeight($weight);
 
-        $r->setWeight($weight);
+        $rowRequest->setWeight($weight);
         if ($request->getFreeMethodWeight()!=$request->getPackageWeight()) {
-            $r->setFreeMethodWeight($request->getFreeMethodWeight());
+            $rowRequest->setFreeMethodWeight($request->getFreeMethodWeight());
         }
 
-        $r->setValue($request->getPackageValue());
-        $r->setValueWithDiscount($request->getPackageValueWithDiscount());
+        $rowRequest->setValue($request->getPackageValue());
+        $rowRequest->setValueWithDiscount($request->getPackageValueWithDiscount());
 
         if ($request->getUpsUnitMeasure()) {
             $unit = $request->getUpsUnitMeasure();
         } else {
             $unit = $this->getConfigData('unit_of_measure');
         }
-        $r->setUnitMeasure($unit);
+        $rowRequest->setUnitMeasure($unit);
+        $rowRequest->setIsReturn($request->getIsReturn());
+        $rowRequest->setBaseSubtotalInclTax($request->getBaseSubtotalInclTax());
 
-        $r->setIsReturn($request->getIsReturn());
-
-        $r->setBaseSubtotalInclTax($request->getBaseSubtotalInclTax());
-
-        $this->_rawRequest = $r;
+        $this->_rawRequest = $rowRequest;
 
         return $this;
     }
 
     /**
-     * Get correct weigt.
+     * Get correct weight
      *
      * Namely:
      * Checks the current weight to comply with the minimum weight standards set by the carrier.
@@ -287,12 +279,12 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
     {
         $minWeight = $this->getConfigData('min_package_weight');
 
-        if($weight < $minWeight){
+        if ($weight < $minWeight) {
             $weight = $minWeight;
         }
 
         //rounds a number to one significant figure
-        $weight = ceil($weight*10) / 10;
+        $weight = ceil($weight * 10) / 10;
 
         return $weight;
     }
@@ -304,7 +296,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
      */
     public function getResult()
     {
-       return $this->_result;
+        return $this->_result;
     }
 
     /**
@@ -316,10 +308,11 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
     {
         switch ($this->getConfigData('type')) {
             case 'UPS':
-               return $this->_getCgiQuotes();
-
+                return $this->_getCgiQuotes();
             case 'UPS_XML':
-               return $this->_getXmlQuotes();
+                return $this->_getXmlQuotes();
+            default:
+                break;
         }
         return null;
     }
@@ -348,24 +341,27 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
      */
     protected function _getCgiQuotes()
     {
-        $r = $this->_rawRequest;
+        $rowRequest = $this->_rawRequest;
+        if (Mage_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID == $rowRequest->getDestCountry()) {
+            $destPostal = substr($rowRequest->getDestPostal(), 0, 5);
+        } else {
+            $destPostal = $rowRequest->getDestPostal();
+        }
 
         $params = array(
             'accept_UPS_license_agreement' => 'yes',
-            '10_action'      => $r->getAction(),
-            '13_product'     => $r->getProduct(),
-            '14_origCountry' => $r->getOrigCountry(),
-            '15_origPostal'  => $r->getOrigPostal(),
-            'origCity'       => $r->getOrigCity(),
-            '19_destPostal'  => Mage_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID == $r->getDestCountry() ?
-                substr($r->getDestPostal(), 0, 5) :
-                $r->getDestPostal(),
-            '22_destCountry' => $r->getDestCountry(),
-            '23_weight'      => $r->getWeight(),
-            '47_rate_chart'  => $r->getPickup(),
-            '48_container'   => $r->getContainer(),
-            '49_residential' => $r->getDestType(),
-            'weight_std'     => strtolower($r->getUnitMeasure()),
+            '10_action'      => $rowRequest->getAction(),
+            '13_product'     => $rowRequest->getProduct(),
+            '14_origCountry' => $rowRequest->getOrigCountry(),
+            '15_origPostal'  => $rowRequest->getOrigPostal(),
+            'origCity'       => $rowRequest->getOrigCity(),
+            '19_destPostal'  => $destPostal,
+            '22_destCountry' => $rowRequest->getDestCountry(),
+            '23_weight'      => $rowRequest->getWeight(),
+            '47_rate_chart'  => $rowRequest->getPickup(),
+            '48_container'   => $rowRequest->getContainer(),
+            '49_residential' => $rowRequest->getDestType(),
+            'weight_std'     => strtolower($rowRequest->getUnitMeasure()),
         );
         $params['47_rate_chart'] = $params['47_rate_chart']['label'];
 
@@ -379,15 +375,14 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
                 }
                 $client = new Zend_Http_Client();
                 $client->setUri($url);
-                $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
+                $client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
                 $client->setParameterGet($params);
                 $response = $client->request();
                 $responseBody = $response->getBody();
 
                 $debugData['result'] = $responseBody;
                 $this->_setCachedQuotes($params, $responseBody);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
                 $responseBody = '';
             }
@@ -404,15 +399,17 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
      * @param string $origin
      * @return array|bool
      */
-    public function getShipmentByCode($code, $origin = null){
-        if($origin===null){
+    public function getShipmentByCode($code, $origin = null)
+    {
+        if ($origin === null) {
             $origin = $this->getConfigData('origin_shipment');
         }
-        $arr = $this->getCode('originShipment',$origin);
-        if(isset($arr[$code]))
+        $arr = $this->getCode('originShipment', $origin);
+        if (isset($arr[$code])) {
             return $arr[$code];
-        else
+        } else {
             return false;
+        }
     }
 
 
@@ -426,29 +423,31 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
     {
         $costArr = array();
         $priceArr = array();
-        $errorTitle = Mage::helper('Mage_Usa_Helper_Data')->__('Unknown error');
-        if (strlen(trim($response))>0) {
+        if (strlen(trim($response)) > 0) {
             $rRows = explode("\n", $response);
             $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
             foreach ($rRows as $rRow) {
-                $r = explode('%', $rRow);
-                switch (substr($r[0],-1)) {
+                $row = explode('%', $rRow);
+                switch (substr($row[0], -1)) {
                     case 3: case 4:
-                        if (in_array($r[1], $allowedMethods)) {
-                            $responsePrice = Mage::app()->getLocale()->getNumber($r[8]);
-                            $costArr[$r[1]] = $responsePrice;
-                            $priceArr[$r[1]] = $this->getMethodPrice($responsePrice, $r[1]);
+                        if (in_array($row[1], $allowedMethods)) {
+                            $responsePrice = Mage::app()->getLocale()->getNumber($row[8]);
+                            $costArr[$row[1]] = $responsePrice;
+                            $priceArr[$row[1]] = $this->getMethodPrice($responsePrice, $row[1]);
                         }
                         break;
                     case 5:
-                        $errorTitle = $r[1];
+                        $errorTitle = $row[1];
+                        Mage::log(Mage::helper('Mage_Usa_Helper_Data')->__('Unknown error') . ': ' . $errorTitle);
                         break;
                     case 6:
-                        if (in_array($r[3], $allowedMethods)) {
-                            $responsePrice = Mage::app()->getLocale()->getNumber($r[10]);
-                            $costArr[$r[3]] = $responsePrice;
-                            $priceArr[$r[3]] = $this->getMethodPrice($responsePrice, $r[3]);
+                        if (in_array($row[3], $allowedMethods)) {
+                            $responsePrice = Mage::app()->getLocale()->getNumber($row[10]);
+                            $costArr[$row[3]] = $responsePrice;
+                            $priceArr[$row[3]] = $this->getMethodPrice($responsePrice, $row[3]);
                         }
+                        break;
+                    default:
                         break;
                 }
             }
@@ -456,7 +455,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
         }
 
         $result = Mage::getModel('Mage_Shipping_Model_Rate_Result');
-        $defaults = $this->getDefaults();
+
         if (empty($priceArr)) {
             $error = Mage::getModel('Mage_Shipping_Model_Rate_Result_Error');
             $error->setCarrier('ups');
@@ -464,13 +463,13 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
-            foreach ($priceArr as $method=>$price) {
+            foreach ($priceArr as $method => $price) {
                 $rate = Mage::getModel('Mage_Shipping_Model_Rate_Result_Method');
                 $rate->setCarrier('ups');
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
-                $method_arr = $this->getCode('method', $method);
-                $rate->setMethodTitle($method_arr);
+                $methodArray = $this->getCode('method', $method);
+                $rate->setMethodTitle($methodArray);
                 $rate->setCost($costArr[$method]);
                 $rate->setPrice($price);
                 $result->append($rate);
@@ -487,15 +486,14 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
      * @param string $code
      * @return array|bool
      */
-    public function getCode($type, $code='')
+    public function getCode($type, $code = '')
     {
         $codes = array(
-            'action'=>array(
-                'single'=>'3',
-                'all'=>'4',
+            'action' => array(
+                'single' => '3',
+                'all' => '4',
             ),
-
-            'originShipment'=>array(
+            'originShipment' => array(
                 // United States Domestic Shipments
                 'United States Domestic Shipments' => array(
                     '01' => Mage::helper('Mage_Usa_Helper_Data')->__('UPS Next Day Air'),
@@ -766,7 +764,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
 
         if (!isset($codes[$type])) {
             return false;
-        } elseif (''===$code) {
+        } elseif ('' === $code) {
             return $codes[$type];
         }
 
@@ -789,24 +787,27 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
         $this->setXMLAccessRequest();
         $xmlRequest=$this->_xmlAccessRequest;
 
-        $r = $this->_rawRequest;
+        $rowRequest = $this->_rawRequest;
+        if (Mage_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID == $rowRequest->getDestCountry()) {
+            $destPostal = substr($rowRequest->getDestPostal(), 0, 5);
+        } else {
+            $destPostal = $rowRequest->getDestPostal();
+        }
         $params = array(
             'accept_UPS_license_agreement' => 'yes',
-            '10_action'      => $r->getAction(),
-            '13_product'     => $r->getProduct(),
-            '14_origCountry' => $r->getOrigCountry(),
-            '15_origPostal'  => $r->getOrigPostal(),
-            'origCity'       => $r->getOrigCity(),
-            'origRegionCode' => $r->getOrigRegionCode(),
-            '19_destPostal'  => Mage_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID == $r->getDestCountry() ?
-                substr($r->getDestPostal(), 0, 5) :
-                $r->getDestPostal(),
-            '22_destCountry' => $r->getDestCountry(),
-            'destRegionCode' => $r->getDestRegionCode(),
-            '23_weight'      => $r->getWeight(),
-            '47_rate_chart'  => $r->getPickup(),
-            '48_container'   => $r->getContainer(),
-            '49_residential' => $r->getDestType(),
+            '10_action'      => $rowRequest->getAction(),
+            '13_product'     => $rowRequest->getProduct(),
+            '14_origCountry' => $rowRequest->getOrigCountry(),
+            '15_origPostal'  => $rowRequest->getOrigPostal(),
+            'origCity'       => $rowRequest->getOrigCity(),
+            'origRegionCode' => $rowRequest->getOrigRegionCode(),
+            '19_destPostal'  => $destPostal,
+            '22_destCountry' => $rowRequest->getDestCountry(),
+            'destRegionCode' => $rowRequest->getDestRegionCode(),
+            '23_weight'      => $rowRequest->getWeight(),
+            '47_rate_chart'  => $rowRequest->getPickup(),
+            '48_container'   => $rowRequest->getContainer(),
+            '49_residential' => $rowRequest->getDestType(),
         );
 
         if ($params['10_action'] == '4') {
@@ -814,11 +815,11 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             $serviceCode = null; // Service code is not relevant when we're asking ALL possible services' rates
         } else {
             $params['10_action'] = 'Rate';
-            $serviceCode = $r->getProduct() ? $r->getProduct() : '';
+            $serviceCode = $rowRequest->getProduct() ? $rowRequest->getProduct() : '';
         }
         $serviceDescription = $serviceCode ? $this->getShipmentByCode($serviceCode) : '';
 
-$xmlRequest .= <<< XMLRequest
+        $xmlRequest .= <<< XMLRequest
 <?xml version="1.0"?>
 <RatingServiceSelectionRequest xml:lang="en-US">
   <Request>
@@ -844,7 +845,7 @@ XMLRequest;
                 "</Service>";
         }
 
-      $xmlRequest .= <<< XMLRequest
+        $xmlRequest .= <<< XMLRequest
       <Shipper>
 XMLRequest;
 
@@ -852,7 +853,7 @@ XMLRequest;
             $xmlRequest .= "<ShipperNumber>{$shipper}</ShipperNumber>";
         }
 
-        if ($r->getIsReturn()) {
+        if ($rowRequest->getIsReturn()) {
             $shipperCity = '';
             $shipperPostalCode = $params['19_destPostal'];
             $shipperCountryCode = $params['22_destCountry'];
@@ -864,7 +865,7 @@ XMLRequest;
             $shipperStateProvince = $params['origRegionCode'];
         }
 
-$xmlRequest .= <<< XMLRequest
+        $xmlRequest .= <<< XMLRequest
       <Address>
           <City>{$shipperCity}</City>
           <PostalCode>{$shipperPostalCode}</PostalCode>
@@ -880,12 +881,11 @@ $xmlRequest .= <<< XMLRequest
           <StateProvinceCode>{$params['destRegionCode']}</StateProvinceCode>
 XMLRequest;
 
-          $xmlRequest .= ($params['49_residential']==='01'
-                  ? "<ResidentialAddressIndicator>{$params['49_residential']}</ResidentialAddressIndicator>"
-                  : ''
-          );
+        if ($params['49_residential'] === '01') {
+            $xmlRequest .= "<ResidentialAddressIndicator>{$params['49_residential']}</ResidentialAddressIndicator>";
+        }
 
-$xmlRequest .= <<< XMLRequest
+        $xmlRequest .= <<< XMLRequest
       </Address>
     </ShipTo>
 
@@ -901,16 +901,17 @@ $xmlRequest .= <<< XMLRequest
     <Package>
       <PackagingType><Code>{$params['48_container']}</Code></PackagingType>
       <PackageWeight>
-         <UnitOfMeasurement><Code>{$r->getUnitMeasure()}</Code></UnitOfMeasurement>
+         <UnitOfMeasurement><Code>{$rowRequest->getUnitMeasure()}</Code></UnitOfMeasurement>
         <Weight>{$params['23_weight']}</Weight>
       </PackageWeight>
     </Package>
 XMLRequest;
+
         if ($this->getConfigFlag('negotiated_active')) {
             $xmlRequest .= "<RateInformation><NegotiatedRatesIndicator/></RateInformation>";
         }
 
-$xmlRequest .= <<< XMLRequest
+        $xmlRequest .= <<< XMLRequest
   </Shipment>
 </RatingServiceSelectionRequest>
 XMLRequest;
@@ -927,12 +928,11 @@ XMLRequest;
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlRequest);
                 curl_setopt($ch, CURLOPT_TIMEOUT, 30);
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, (boolean)$this->getConfigFlag('mode_xml'));
-                $xmlResponse = curl_exec ($ch);
+                $xmlResponse = curl_exec($ch);
 
                 $debugData['result'] = $xmlResponse;
                 $this->_setCachedQuotes($xmlRequest, $xmlResponse);
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
                 $xmlResponse = '';
             }
@@ -962,19 +962,19 @@ XMLRequest;
     /**
      * Prepare shipping rate result based on response
      *
-     * @param mixed $response
+     * @param mixed $xmlResponse
      * @return Mage_Shipping_Model_Rate_Result
      */
     protected function _parseXmlResponse($xmlResponse)
     {
         $costArr = array();
         $priceArr = array();
-        if (strlen(trim($xmlResponse))>0) {
+        if (strlen(trim($xmlResponse)) > 0) {
             $xml = new Varien_Simplexml_Config();
             $xml->loadString($xmlResponse);
             $arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/ResponseStatusCode/text()");
             $success = (int)$arr[0];
-            if ($success===1) {
+            if ($success === 1) {
                 $arr = $xml->getXpath("//RatingServiceSelectionResponse/RatedShipment");
                 $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
 
@@ -986,7 +986,7 @@ XMLRequest;
 
                 $allowedCurrencies = Mage::getModel('Mage_Directory_Model_Currency')->getConfigAllowCurrencies();
 
-                foreach ($arr as $shipElement){
+                foreach ($arr as $shipElement) {
                     $code = (string)$shipElement->Service->Code;
                     if (in_array($code, $allowedMethods)) {
 
@@ -998,12 +998,16 @@ XMLRequest;
 
                         //convert price with Origin country currency code to base currency code
                         $successConversion = true;
-                        $responseCurrencyCode = (string) $shipElement->TotalCharges->CurrencyCode;
+                        $responseCurrencyCode = (string)$shipElement->TotalCharges->CurrencyCode;
                         if ($responseCurrencyCode) {
                             if (in_array($responseCurrencyCode, $allowedCurrencies)) {
-                                $cost = (float) $cost * $this->_getBaseCurrencyRate($responseCurrencyCode);
+                                $cost = (float)$cost * $this->_getBaseCurrencyRate($responseCurrencyCode);
                             } else {
-                                $errorTitle = Mage::helper('Mage_Directory_Helper_Data')->__('Can\'t convert rate from "%s-%s".', $responseCurrencyCode, $this->_request->getPackageCurrency()->getCode());
+                                $errorTitle = Mage::helper('Mage_Directory_Helper_Data')->__(
+                                    'Can\'t convert rate from "%s-%s".',
+                                    $responseCurrencyCode,
+                                    $this->_request->getPackageCurrency()->getCode()
+                                );
                                 $error = Mage::getModel('Mage_Shipping_Model_Rate_Result_Error');
                                 $error->setCarrier('ups');
                                 $error->setCarrierTitle($this->getConfigData('title'));
@@ -1029,12 +1033,12 @@ XMLRequest;
         }
 
         $result = Mage::getModel('Mage_Shipping_Model_Rate_Result');
-        $defaults = $this->getDefaults();
+
         if (empty($priceArr)) {
             $error = Mage::getModel('Mage_Shipping_Model_Rate_Result_Error');
             $error->setCarrier('ups');
             $error->setCarrierTitle($this->getConfigData('title'));
-            if(!isset($errorTitle)){
+            if (!isset($errorTitle)) {
                 $errorTitle = Mage::helper('Mage_Usa_Helper_Data')->__('Cannot retrieve shipping rates');
             }
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
@@ -1045,8 +1049,8 @@ XMLRequest;
                 $rate->setCarrier('ups');
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
-                $method_arr = $this->getShipmentByCode($method);
-                $rate->setMethodTitle($method_arr);
+                $methodArr = $this->getShipmentByCode($method);
+                $rate->setMethodTitle($methodArr);
                 $rate->setCost($costArr[$method]);
                 $rate->setPrice($price);
                 $result->append($rate);
@@ -1063,19 +1067,16 @@ XMLRequest;
      */
     public function getTracking($trackings)
     {
-        $return = array();
-
         if (!is_array($trackings)) {
             $trackings = array($trackings);
         }
 
-        if ($this->getConfigData('type')=='UPS') {
+        if ($this->getConfigData('type') == 'UPS') {
             $this->_getCgiTracking($trackings);
-        } elseif ($this->getConfigData('type')=='UPS_XML'){
+        } elseif ($this->getConfigData('type') == 'UPS_XML') {
             $this->setXMLAccessRequest();
             $this->_getXmlTracking($trackings);
         }
-
         return $this->_result;
     }
 
@@ -1086,16 +1087,16 @@ XMLRequest;
      */
     protected function setXMLAccessRequest()
     {
-        $userid = $this->getConfigData('username');
-        $userid_pass = $this->getConfigData('password');
-        $access_key = $this->getConfigData('access_license_number');
+        $userId = $this->getConfigData('username');
+        $userIdPass = $this->getConfigData('password');
+        $accessKey = $this->getConfigData('access_license_number');
 
         $this->_xmlAccessRequest =  <<<XMLAuth
 <?xml version="1.0"?>
 <AccessRequest xml:lang="en-US">
-  <AccessLicenseNumber>$access_key</AccessLicenseNumber>
-  <UserId>$userid</UserId>
-  <Password>$userid_pass</Password>
+  <AccessLicenseNumber>$accessKey</AccessLicenseNumber>
+  <UserId>$userId</UserId>
+  <Password>$userIdPass</Password>
 </AccessRequest>
 XMLAuth;
     }
@@ -1111,8 +1112,7 @@ XMLAuth;
         //ups no longer support tracking for data streaming version
         //so we can only reply the popup window to ups.
         $result = Mage::getModel('Mage_Shipping_Model_Tracking_Result');
-        $defaults = $this->getDefaults();
-        foreach($trackings as $tracking){
+        foreach ($trackings as $tracking) {
             $status = Mage::getModel('Mage_Shipping_Model_Tracking_Result_Status');
             $status->setCarrier('ups');
             $status->setCarrierTitle($this->getConfigData('title'));
@@ -1120,8 +1120,7 @@ XMLAuth;
             $status->setPopup(1);
             $status->setUrl("http://wwwapps.ups.com/WebTracking/processInputRequest?HTMLVersion=5.0&error_carried=true"
                 . "&tracknums_displayed=5&TypeOfInquiryNumber=T&loc=en_US&InquiryNumber1=$tracking"
-                . "&AgreeToTermsAndConditions=yes"
-            );
+                . "&AgreeToTermsAndConditions=yes");
             $result->append($status);
         }
 
@@ -1139,13 +1138,13 @@ XMLAuth;
     {
         $url = $this->getConfigData('tracking_xml_url');
 
-        foreach($trackings as $tracking){
-            $xmlRequest=$this->_xmlAccessRequest;
+        foreach ($trackings as $tracking) {
+            $xmlRequest = $this->_xmlAccessRequest;
 
-/*
-* RequestOption==>'activity' or '1' to request all activities
-*/
-$xmlRequest .=  <<<XMLAuth
+/**
+ * RequestOption==>'activity' or '1' to request all activities
+ */
+        $xmlRequest .=  <<<XMLAuth
 <?xml version="1.0" ?>
 <TrackRequest xml:lang="en-US">
     <Request>
@@ -1160,17 +1159,16 @@ XMLAuth;
 
             try {
                 $ch = curl_init();
-                   curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_HEADER, 0);
                 curl_setopt($ch, CURLOPT_POST, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlRequest);
                 curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-                $xmlResponse = curl_exec ($ch);
+                $xmlResponse = curl_exec($ch);
                 $debugData['result'] = $xmlResponse;
-                curl_close ($ch);
-            }
-            catch (Exception $e) {
+                curl_close($ch);
+            } catch (Exception $e) {
                 $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
                 $xmlResponse = '';
             }
@@ -1185,11 +1183,11 @@ XMLAuth;
     /**
      * Parse xml tracking response
      *
-     * @param string $trackingvalue
-     * @param string $response
+     * @param string $trackingValue
+     * @param string $xmlResponse
      * @return null
      */
-    protected function _parseXmlTrackingResponse($trackingvalue, $xmlResponse)
+    protected function _parseXmlTrackingResponse($trackingValue, $xmlResponse)
     {
         $errorTitle = 'Unable to retrieve tracking';
         $resultArr = array();
@@ -1201,7 +1199,7 @@ XMLAuth;
             $arr = $xml->getXpath("//TrackResponse/Response/ResponseStatusCode/text()");
             $success = (int)$arr[0][0];
 
-            if($success===1){
+            if ($success === 1) {
                 $arr = $xml->getXpath("//TrackResponse/Shipment/Service/Description/text()");
                 $resultArr['service'] = (string)$arr[0];
 
@@ -1218,7 +1216,7 @@ XMLAuth;
 
                 $activityTags = $xml->getXpath("//TrackResponse/Shipment/Package/Activity");
                 if ($activityTags) {
-                    $i=1;
+                    $index = 1;
                     foreach ($activityTags as $activityTag) {
                         $addArr=array();
                         if (isset($activityTag->ActivityLocation->Address->City)) {
@@ -1242,26 +1240,26 @@ XMLAuth;
                         $timeArr[] = substr($time,2,2);
                         $timeArr[] = substr($time,-2,2);
 
-                        if($i==1){
+                        if ($index === 1) {
                            $resultArr['status'] = (string)$activityTag->Status->StatusType->Description;
-                           $resultArr['deliverydate'] = implode('-',$dateArr);//YYYY-MM-DD
-                           $resultArr['deliverytime'] = implode(':',$timeArr);//HH:MM:SS
+                           $resultArr['deliverydate'] = implode('-', $dateArr);//YYYY-MM-DD
+                           $resultArr['deliverytime'] = implode(':', $timeArr);//HH:MM:SS
                            $resultArr['deliverylocation'] = (string)$activityTag->ActivityLocation->Description;
                            $resultArr['signedby'] = (string)$activityTag->ActivityLocation->SignedForByName;
                            if ($addArr) {
-                            $resultArr['deliveryto']=implode(', ',$addArr);
+                            $resultArr['deliveryto']=implode(', ', $addArr);
                            }
-                        }else{
-                           $tempArr=array();
+                        } else {
+                           $tempArr = array();
                            $tempArr['activity'] = (string)$activityTag->Status->StatusType->Description;
                            $tempArr['deliverydate'] = implode('-',$dateArr);//YYYY-MM-DD
                            $tempArr['deliverytime'] = implode(':',$timeArr);//HH:MM:SS
                            if ($addArr) {
-                            $tempArr['deliverylocation']=implode(', ',$addArr);
+                            $tempArr['deliverylocation']=implode(', ', $addArr);
                            }
                            $packageProgress[] = $tempArr;
                         }
-                        $i++;
+                        $index++;
                     }
                     $resultArr['progressdetail'] = $packageProgress;
                 }
@@ -1275,20 +1273,18 @@ XMLAuth;
             $this->_result = Mage::getModel('Mage_Shipping_Model_Tracking_Result');
         }
 
-        $defaults = $this->getDefaults();
-
         if ($resultArr) {
             $tracking = Mage::getModel('Mage_Shipping_Model_Tracking_Result_Status');
             $tracking->setCarrier('ups');
             $tracking->setCarrierTitle($this->getConfigData('title'));
-            $tracking->setTracking($trackingvalue);
+            $tracking->setTracking($trackingValue);
             $tracking->addData($resultArr);
             $this->_result->append($tracking);
         } else {
             $error = Mage::getModel('Mage_Shipping_Model_Tracking_Result_Error');
             $error->setCarrier('ups');
             $error->setCarrierTitle($this->getConfigData('title'));
-            $error->setTracking($trackingvalue);
+            $error->setTracking($trackingValue);
             $error->setErrorMessage($errorTitle);
             $this->_result->append($error);
         }
@@ -1303,10 +1299,12 @@ XMLAuth;
     public function getResponse()
     {
         $statuses = '';
-        if ($this->_result instanceof Mage_Shipping_Model_Tracking_Result){
-            if ($trackings = $this->_result->getAllTrackings()) {
+        if ($this->_result instanceof Mage_Shipping_Model_Tracking_Result) {
+            $trackings = $this->_result->getAllTrackings();
+            if ($trackings) {
                 foreach ($trackings as $tracking){
-                    if($data = $tracking->getAllData()){
+                    $data = $tracking->getAllData();
+                    if ($data) {
                         if (isset($data['status'])) {
                             $statuses .= Mage::helper('Mage_Usa_Helper_Data')->__($data['status']);
                         } else {
@@ -1504,6 +1502,8 @@ XMLAuth;
                 case self::DELIVERY_CONFIRMATION_SHIPMENT:
                     $serviceOptionsNode = $shipmentPart->addChild('ShipmentServiceOptions');
                     break;
+                default:
+                    break;
             }
             if (!is_null($serviceOptionsNode)) {
                 $serviceOptionsNode
@@ -1520,18 +1520,16 @@ XMLAuth;
         if ($request->getPackagingType() != $this->getCode('container', 'ULE')
             && $request->getShipperAddressCountryCode() == Mage_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID
             && ($request->getRecipientAddressCountryCode() == 'CA' //Canada
-                || $request->getRecipientAddressCountryCode() == 'PR' //Puerto Rico
-        )) {
+                || $request->getRecipientAddressCountryCode() == 'PR') //Puerto Rico
+        ) {
             $invoiceLineTotalPart = $shipmentPart->addChild('InvoiceLineTotal');
             $invoiceLineTotalPart->addChild('CurrencyCode', $request->getBaseCurrencyCode());
             $invoiceLineTotalPart->addChild('MonetaryValue', ceil($packageParams->getCustomsValue()));
         }
 
         $labelPart = $xmlRequest->addChild('LabelSpecification');
-        $labelPart->addChild('LabelPrintMethod')
-                ->addChild('Code', 'GIF');
-        $labelPart->addChild('LabelImageFormat')
-                ->addChild('Code', 'GIF');
+        $labelPart->addChild('LabelPrintMethod')->addChild('Code', 'GIF');
+        $labelPart->addChild('LabelImageFormat')->addChild('Code', 'GIF');
 
         $this->setXMLAccessRequest();
         $xmlRequest = $this->_xmlAccessRequest . $xmlRequest->asXml();
@@ -1550,19 +1548,17 @@ XMLAuth;
         $request = $xmlRequest->addChild('Request');
             $request->addChild('RequestAction', 'ShipAccept');
         $xmlRequest->addChild('ShipmentDigest', $shipmentConfirmResponse->ShipmentDigest);
-
         $debugData = array('request' => $xmlRequest->asXML());
+
         try {
             $ch = curl_init($this->getShipAcceptUrl());
-
-            $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $this->_xmlAccessRequest . $xmlRequest->asXML());
             curl_setopt($ch, CURLOPT_TIMEOUT, 30);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, (boolean)$this->getConfigFlag('mode_xml'));
-            $xmlResponse = curl_exec ($ch);
+            $xmlResponse = curl_exec($ch);
 
             $debugData['result'] = $xmlResponse;
             $this->_setCachedQuotes($xmlRequest, $xmlResponse);
@@ -1612,6 +1608,7 @@ XMLAuth;
      *
      * @param Varien_Object $request
      * @return Varien_Object
+     * @throws Exception
      */
     protected function _doShipmentRequest(Varien_Object $request)
     {
@@ -1691,26 +1688,22 @@ XMLAuth;
      */
     public function getContainerTypes(Varien_Object $params = null)
     {
-        if ($params == null) {
+        if ($params === null) {
             return $this->_getAllowedContainers($params);
         }
         $method             = $params->getMethod();
         $countryShipper     = $params->getCountryShipper();
         $countryRecipient   = $params->getCountryRecipient();
 
-        if (($countryShipper == self::USA_COUNTRY_ID
-            && $countryRecipient == self::CANADA_COUNTRY_ID)
-            || ($countryShipper == self::CANADA_COUNTRY_ID
-            && $countryRecipient == self::USA_COUNTRY_ID)
-            || ($countryShipper == self::MEXICO_COUNTRY_ID
-            && $countryRecipient == self::USA_COUNTRY_ID)
+        if (($countryShipper == self::USA_COUNTRY_ID && $countryRecipient == self::CANADA_COUNTRY_ID)
+            || ($countryShipper == self::CANADA_COUNTRY_ID && $countryRecipient == self::USA_COUNTRY_ID)
+            || ($countryShipper == self::MEXICO_COUNTRY_ID && $countryRecipient == self::USA_COUNTRY_ID)
             && $method == '11' // UPS Standard
         ) {
             $containerTypes = array();
             if ($method == '07' // Worldwide Express
                 || $method == '08' // Worldwide Expedited
                 || $method == '65' // Worldwide Saver
-
             ) {
                 // Worldwide Expedited
                 if ($method != '08') {
@@ -1721,7 +1714,7 @@ XMLAuth;
                     );
                 }
                 $containerTypes = $containerTypes + array(
-                    '03'     => Mage::helper('Mage_Usa_Helper_Data')->__('UPS Tube'),
+                    '03'    => Mage::helper('Mage_Usa_Helper_Data')->__('UPS Tube'),
                     '04'    => Mage::helper('Mage_Usa_Helper_Data')->__('PAK'),
                     '2a'    => Mage::helper('Mage_Usa_Helper_Data')->__('Small Express Box'),
                     '2b'    => Mage::helper('Mage_Usa_Helper_Data')->__('Medium Express Box'),
@@ -1793,6 +1786,9 @@ XMLAuth;
                     1 => Mage::helper('Mage_Usa_Helper_Data')->__('Signature Required'),
                     2 => Mage::helper('Mage_Usa_Helper_Data')->__('Adult Signature Required'),
                 );
+                break;
+            default:
+                break;
         }
         array_unshift($deliveryConfirmationTypes, Mage::helper('Mage_Usa_Helper_Data')->__('Not Required'));
 
@@ -1818,15 +1814,15 @@ XMLAuth;
      * Get delivery confirmation level based on origin/destination
      * Return null if delivery confirmation is not acceptable
      *
-     * @var string $countyDest
+     * @var string $countyDestination
      * @return int|null
      */
-    protected function _getDeliveryConfirmationLevel($countyDest = null) {
-        if (is_null($countyDest)) {
+    protected function _getDeliveryConfirmationLevel($countyDestination = null) {
+        if (is_null($countyDestination)) {
             return null;
         }
 
-        if ($countyDest == Mage_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID) {
+        if ($countyDestination == Mage_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID) {
             return self::DELIVERY_CONFIRMATION_PACKAGE;
         }
 
