@@ -64,11 +64,7 @@
             <word>staging</word>
         </item>
         <item>
-            <path>app/code/Mage/Core/Model/Theme/Copy/StagingToVirtual.php</path>
-            <word>staging</word>
-        </item>
-        <item>
-            <path>app/code/Mage/Core/Model/Theme/Copy/VirtualToStaging.php</path>
+            <path>app/code/Mage/Core/Model/Theme/Service.php</path>
             <word>staging</word>
         </item>
         <item>
