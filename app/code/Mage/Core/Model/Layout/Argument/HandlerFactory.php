@@ -60,6 +60,6 @@ class Mage_Core_Model_Layout_Argument_HandlerFactory
             throw new InvalidArgumentException('Argument handler ' . $type . ' is not exists');
         }
 
-        return $this->_objectManager->create($this->_handlerFactories[$type], array(), false);
+        return $this->_objectManager->create($this->_handlerFactories[$type], array());
     }
 }

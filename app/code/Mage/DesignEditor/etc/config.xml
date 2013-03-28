@@ -127,6 +127,16 @@
                 </white_list>
             </container>
         </design_editor>
+        <events>
+            <controller_action_layout_generate_blocks_after>
+                <observers>
+                    <vde_editor>
+                        <class>Mage_DesignEditor_Model_Observer</class>
+                        <method>clearJs</method>
+                    </vde_editor>
+                </observers>
+            </controller_action_layout_generate_blocks_after>
+        </events>
     </vde>
     <admin>
         <routers>

@@ -17,27 +17,6 @@ class Mage_Catalog_Model_Resource_Product_Option_ValueTest extends PHPUnit_Frame
     protected $_object;
 
     /**
-     * Store old display_errors ini option value here
-     *
-     * @var int
-     */
-    protected $_oldDisplayErrors;
-
-    /**
-     * Store old error_reporting ini option value here
-     *
-     * @var int
-     */
-    protected $_oldErrorLevel;
-
-    /**
-     * Store old isDeveloperMode value here
-     *
-     * @var boolean
-     */
-    protected $_oldIsDeveloperMode;
-
-    /**
      * Option value title data
      *
      * @var array
@@ -50,24 +29,12 @@ class Mage_Catalog_Model_Resource_Product_Option_ValueTest extends PHPUnit_Frame
 
     protected function setUp()
     {
-        parent::setUp();
-
         $this->_object = new Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value();
-
-        $this->_oldDisplayErrors  = ini_get('display_errors');
-        $this->_oldErrorLevel = error_reporting();
-        $this->_oldIsDeveloperMode = Mage::getIsDeveloperMode();
     }
 
     protected function tearDown()
     {
-        ini_set('display_errors', $this->_oldDisplayErrors);
-        error_reporting($this->_oldErrorLevel);
-        Mage::setIsDeveloperMode($this->_oldIsDeveloperMode);
-
         unset($this->_object);
-
-        parent::tearDown();
     }
 
     /**
@@ -83,11 +50,6 @@ class Mage_Catalog_Model_Resource_Product_Option_ValueTest extends PHPUnit_Frame
             null,
             self::$valueTitleData
         );
-
-        // we have to set strict error reporting mode and enable mage developer mode to convert notice to exception
-        error_reporting(E_ALL | E_STRICT);
-        ini_set('display_errors', 1);
-        Mage::setIsDeveloperMode(true);
 
         $this->_object->saveValueTitles($object);
     }

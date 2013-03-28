@@ -36,8 +36,7 @@ class Mage_Webapi_Model_Soap_Wsdl_Factory
             array(
                 'name' => $wsdlName,
                 'uri' => $endpointUrl,
-            ),
-            false
+            )
         );
     }
 }

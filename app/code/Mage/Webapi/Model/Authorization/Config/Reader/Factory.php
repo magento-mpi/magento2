@@ -32,6 +32,6 @@ class Mage_Webapi_Model_Authorization_Config_Reader_Factory
      */
     public function createReader(array $arguments = array())
     {
-        return $this->_objectManager->create(self::READER_CLASS_NAME, $arguments, false);
+        return $this->_objectManager->create(self::READER_CLASS_NAME, $arguments);
     }
 }

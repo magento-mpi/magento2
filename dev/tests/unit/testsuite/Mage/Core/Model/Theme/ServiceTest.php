@@ -43,7 +43,9 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_themeMock));
         $this->_configCacheTypeMock = $this->getMock('Mage_Core_Model_Cache_Type_Config', array(), array(), '', false);
-        $this->_model = new Mage_Core_Model_Theme_Service($this->_themeFactoryMock,
+        $this->_model = new Mage_Core_Model_Theme_Service(
+            $this->_themeFactoryMock,
+            $this->getMock('Mage_Core_Model_Theme_CopyService', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_App', array(), array(), '', false),
             $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false),
@@ -183,11 +185,12 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
 
         $writerMock = $this->getMock('Mage_Core_Model_Config_Storage_WriterInterface', array(), array(), '', false);
         $configCacheTypeMock = $this->getMock('Mage_Core_Model_Cache_Type_Config', array(), array(), '', false);
+        $copyServiceMock = $this->getMock('Mage_Core_Model_Theme_CopyService', array(), array(), '', false);
         /** @var $themeService Mage_Core_Model_Theme_Service */
-        $themeService = $this->getMock('Mage_Core_Model_Theme_Service', array('_getThemeCustomizations'),
-            array($themeFactoryMock, $designMock, $appMock, $helperMock,
-                $layoutUpdateMock, $eventManagerMock, $writerMock, $configCacheTypeMock)
-        );
+        $themeService = $this->getMock('Mage_Core_Model_Theme_Service', array('_getThemeCustomizations'), array(
+            $themeFactoryMock, $copyServiceMock, $designMock, $appMock, $helperMock, $layoutUpdateMock,
+            $eventManagerMock, $writerMock, $configCacheTypeMock
+        ));
         $themeService->expects($this->once())
             ->method('_getThemeCustomizations')
             ->will($this->returnValue($themesMock));
