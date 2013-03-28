@@ -1725,6 +1725,10 @@
     width: auto;
 }
 
+[class^=" adminhtml-sales-"] .order-information .fieldset-wrapper > .fieldset-wrapper-title .title {
+    width: 100%;
+}
+
 #order-data .actions .action-add,
 #order-data .actions .action-add:active,
 #order-data .actions .action-add:hover,
