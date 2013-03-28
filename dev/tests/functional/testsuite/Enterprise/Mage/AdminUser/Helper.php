@@ -51,9 +51,9 @@ class Enterprise_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
     {
         $roleWebsites = (isset($roleResources['role_scopes'])) ? $roleResources['role_scopes'] : array();
         $roleAccess = (isset($roleResources['role_resources'])) ? $roleResources['role_resources'] : array();
-
+        $aclResource = (isset($roleAccess['resource_acl'])) ? $roleAccess['resource_acl'] : array();
         $this->fillRoleScopes($roleWebsites);
-        $this->fillAndClearRoleAccess($roleAccess, $separator);
+        $this->fillAndClearRoleAccess($roleAccess, $aclResource, $separator);
     }
 
     /**
@@ -63,7 +63,7 @@ class Enterprise_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
      * @param string $separator
      *
      */
-    public function fillAndClearRoleAccess(array $roleAccess, $separator = '/')
+    public function fillAndClearRoleAccess(array $roleAccess, $aclResource, $separator = '/')
     {
         if (!empty($roleAccess)) {
             if (isset($roleAccess['resource_access'])) {
@@ -71,11 +71,17 @@ class Enterprise_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
                 unset($roleAccess['resource_access']);
             }
             if (!empty($roleAccess)) {
-                foreach ($roleAccess as $category) {
+                if (isset($roleAccess['resource_acl'])) {
+                    $this->clickControl('checkbox', $aclResource, false);
+                    $this->clickControl('checkbox', $aclResource, false);
+                    unset($roleAccess['resource_acl']);
+                } else {
                     /* Fill Checkbox*/
-                    $this->categoryHelper()->selectCategory($category, 'role_resources', $separator);
-                    /*Clear checkbox that restrict Role Scope*/
-                    $this->categoryHelper()->selectCategory($category, 'role_resources', $separator);
+                    foreach ($roleAccess as $category) {
+                        $this->categoryHelper()->selectCategory($category, 'role_resources', $separator);
+                        /*Clear checkbox that restrict Role Scope*/
+                        $this->categoryHelper()->selectCategory($category, 'role_resources', $separator);
+                    }
                 }
             }
         }

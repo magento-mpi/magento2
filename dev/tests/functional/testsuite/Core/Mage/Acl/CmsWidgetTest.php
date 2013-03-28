@@ -35,8 +35,8 @@ class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
         //create specific role with test roleResource
         $this->loginAdminUser();
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'CMS/Widgets'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'cms_widgets'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -68,8 +68,8 @@ class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 1 child elements
-        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
-            'Count of Top Navigation Menu elements not equal 1, should be equal');
+        $this->assertEquals(2, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
+            'Count of Top Navigation Menu elements not equal 2, should be equal');
         // Verify  that necessary elements are present on page
         $elements = $this->loadDataSet('CmsWidgetElements', 'manage_cms_widget_elements');
         $resultElementsArray = array();
@@ -104,6 +104,7 @@ class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
      */
     public function createNewWidget($loginData)
     {
+        $this->markTestSkipped('Need CMS creation flow  refactored');
         //Steps
         $this->admin('log_in_to_admin');
         $this->adminUserHelper()->loginAdmin($loginData);

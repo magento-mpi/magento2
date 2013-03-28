@@ -40,7 +40,7 @@ manage_cms_static_blocks:
              success_saved_block: //li[normalize-space(@class)='success-msg' and contains(.,'The block has been saved.')]
              success_deleted_block: //li[normalize-space(@class)='success-msg' and contains(.,'The block has been deleted.')]
              confirmation_for_delete: Are you sure you want to do this?
-             empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This field is required.')]
+             empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
              specify_valid_xml_identifier: "//label[@class='mage-error' and @for='%fieldId%' and contains(.,'Please enter a valid URL. For example http://www.example.com or www.example.com')]"
              already_existing_identifier: "//li[@class='error-msg' and contains(.,'A block identifier with the same properties already exists in the selected store.')]"
              widget_validation_message: //div[@id='widget_window']//div[@class='validation-advice']
@@ -102,7 +102,7 @@ edit_cms_static_block:
                             cache_lifetime: //input[@name='parameters[cache_lifetime]']
                         buttons:
                             submit_widget_insert: //button[span='Insert Widget']
-                            select_option: //button[@data-ui-id='widget-button-3']
+                            select_option: //button[contains(span,'Select')]
                             close_widget_insertion: //div[@id='widget_window_close']
                         pageelements:
                             chosen_option: //label[@class='widget-option-label']
