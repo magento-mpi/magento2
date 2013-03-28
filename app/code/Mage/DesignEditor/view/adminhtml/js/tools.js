@@ -13,9 +13,10 @@
     $.widget("vde.translateInlineToggle", {
 
         _create: function () {
-            this.element.find('[data-translate-selected="text"]').on('click', $.proxy(this._onClickText, this));
-            this.element.find('[data-translate-selected="script"]').on('click', $.proxy(this._onClickScript, this));
-            this.element.find('[data-translate-selected="alt"]').on('click', $.proxy(this._onClickAlt, this));
+            var that = this;
+            this.element.find('[data-translate-selected]').on('click', function(){
+                that._toggle($(this).data('translateSelected'));
+            });
 
             this.element.find('[vde-translate]')
                 .on('mouseover', $.proxy(this._onMouseOver, this))
@@ -84,27 +85,6 @@
                 this.element.find('[data-tip="translate"]').addClass('hidden');
 
             clearTimeout(this.downTimer);
-        },
-
-        /**
-         * Toggle text editing.
-         */
-        _onClickText: function () {
-            this._toggle("text");
-        },
-
-        /**
-         * Toggle script editing.
-         */
-        _onClickScript: function () {
-            this._toggle("script");
-        },
-
-        /**
-         * Toggle alt editing.
-         */
-        _onClickAlt: function () {
-            this._toggle("alt");
         },
 
         /**
