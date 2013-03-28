@@ -70,9 +70,6 @@ HTML;
         }
         exit;
     }
-    if (isset($_SERVER['MAGE_IS_DEVELOPER_MODE'])) {
-        Mage::setIsDeveloperMode(true);
-    }
     if (!empty($_SERVER['MAGE_PROFILER'])) {
         $profilerConfigData = $_SERVER['MAGE_PROFILER'];
 

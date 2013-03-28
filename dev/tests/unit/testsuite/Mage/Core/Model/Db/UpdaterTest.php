@@ -12,7 +12,7 @@ class Mage_Core_Model_Db_UpdaterTest extends PHPUnit_Framework_TestCase
      *
      * @dataProvider updateSchemeAndDataConfigDataProvider
      */
-    public function testUpdateSchemeAndDataConfig($configXml, $isDevMode, $expectedUpdates)
+    public function testUpdateSchemeAndDataConfig($configXml, $appMode, $expectedUpdates)
     {
         // Configuration
         $configuration = new Varien_Simplexml_Config($configXml);
@@ -41,8 +41,8 @@ class Mage_Core_Model_Db_UpdaterTest extends PHPUnit_Framework_TestCase
             ->method('isInstalled')
             ->will($this->returnValue(true));
         $appState->expects($this->any())
-            ->method('isDeveloperMode')
-            ->will($this->returnValue($isDevMode));
+            ->method('getMode')
+            ->will($this->returnValue($appMode));
         $updater = new Mage_Core_Model_Db_Updater($modulesConfig, $factory, $appState);
 
         // Run and verify
@@ -56,22 +56,22 @@ class Mage_Core_Model_Db_UpdaterTest extends PHPUnit_Framework_TestCase
         return array(
             'updates (default config)' => array(
                 file_get_contents($fixturePath . 'config.xml'),
-                false,
+                Mage_Core_Model_App_State::MODE_DEVELOPER,
                 true
             ),
             'no updates when skipped' => array(
                 file_get_contents($fixturePath . 'config_skip_updates.xml'),
-                false,
+                Mage_Core_Model_App_State::MODE_DEFAULT,
                 false
             ),
             'updates when skipped, if in dev mode' => array(
                 file_get_contents($fixturePath . 'config_skip_updates.xml'),
-                true,
+                Mage_Core_Model_App_State::MODE_DEVELOPER,
                 true
             ),
             'skipped updates, even in dev mode' => array(
                 file_get_contents($fixturePath . 'config_skip_updates_even_in_dev_mode.xml'),
-                true,
+                Mage_Core_Model_App_State::MODE_DEVELOPER,
                 false
             )
         );

@@ -10,7 +10,7 @@
 
 require __DIR__ . '/../../../app/bootstrap.php';
 
-$generator = new Magento_Di_Generator();
+$generator = new Magento_Code_Generator();
 $generatedEntities = $generator->getGeneratedEntities();
 if (!isset($argv[1]) || in_array($argv[1], array('-?', '/?', '-help', '--help'))) {
     $message = " * Usage: php entity_generator.php [" . implode('|', $generatedEntities)
@@ -43,7 +43,7 @@ switch ($entityType) {
 }
 
 try {
-    if (Magento_Di_Generator::GENERATION_SUCCESS == $generator->generateClass($className)) {
+    if (Magento_Code_Generator::GENERATION_SUCCESS == $generator->generateClass($className)) {
         print("Class {$className} was successfully generated.\n");
     } else {
         print("Can't generate class {$className}. This class either not generated entity, or it already exists.\n");

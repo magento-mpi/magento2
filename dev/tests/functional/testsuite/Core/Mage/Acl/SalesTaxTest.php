@@ -41,7 +41,8 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
         $this->navigate('manage_roles');
         //Create new role with specific Resource
         $roleSource =
-            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom', array('resource_1' => 'System/Tax Management'));
+            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+                array('resource_acl' => 'stores_manage_tax'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //Create admin user with specific role
@@ -103,7 +104,8 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
         $this->navigate('manage_roles');
         //Create new role with specific Resource
         $roleSource =
-            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom', array('resource_1' => 'System/Tax Management'));
+            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+                array('resource_acl' => 'stores_manage_tax'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //Create admin user with specific role

@@ -36,7 +36,7 @@ class Mage_Index_Model_Process_FileFactoryTest extends PHPUnit_Framework_TestCas
         $objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
         $objectManagerMock->expects($this->once())
             ->method('create')
-            ->with(self::EXPECTED_CLASS_NAME, $this->_arguments, false)
+            ->with(self::EXPECTED_CLASS_NAME, $this->_arguments)
             ->will($this->returnValue(self::CREATE_RESULT));
 
         $factory = new Mage_Index_Model_Process_FileFactory($objectManagerMock);

@@ -11,14 +11,7 @@
 /** @var $this Mage_Catalog_Model_Resource_Setup */
 
 $attribute = $this->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'category_ids');
-
 if ($attribute) {
-    $this->addAttributeToSet(
-        $attribute['entity_type_id'],
-        $this->getAttributeSetId($attribute['entity_type_id'], 'Minimal'),
-        $this->getGeneralGroupName(),
-        $attribute['attribute_id']
-    );
     $properties = array(
         'sort_order' => 9,
         'is_visible' => true,

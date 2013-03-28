@@ -47,8 +47,8 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
     {
         $this->loginAdminUser();
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'CMS/Static Blocks'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'cms_block'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');
@@ -78,8 +78,8 @@ class Core_Mage_Acl_CmsStaticBlocksResourceOneRoleTest extends Mage_Selenium_Tes
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 1 child elements
-        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
-            'Count of Top Navigation Menu elements not equal 1, should be equal');
+        $this->assertEquals(2, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
+            'Count of Top Navigation Menu elements not equal 2, should be equal');
         // Verify  that necessary elements are present on page
         $elements = $this->loadDataSet('CmsStaticBlockPageElements', 'manage_cms_static_blocks_page_elements');
         $resultElementsArray = array();

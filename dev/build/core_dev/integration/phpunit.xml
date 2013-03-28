@@ -24,7 +24,7 @@
         <const name="TESTS_GLOBAL_CONFIG_FILES" value="../../../app/etc/*.xml"/>
         <const name="TESTS_MODULE_CONFIG_FILES" value="../../../app/etc/modules/*.xml;etc/modules/*.xml"/>
         <const name="TESTS_CLEANUP" value="enabled"/>
-        <const name="TESTS_MAGENTO_DEVELOPER_MODE" value="{{developer_mode}}"/>
+        <const name="TESTS_MAGENTO_MODE" value="{{app_mode}}"/>
     </php>
     <listeners>
         <listener class="Magento_Test_Event_PhpUnit"/>
