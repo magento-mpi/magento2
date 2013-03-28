@@ -456,7 +456,7 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
 
     /**
      * depends testGetCssFiles
-     * @expectedException Mage_Core_Exception
+     * @expectedException LogicException
      * @expectedExceptionMessage Invalid view file directory "some_path/test.test"
      */
     public function testGetGroupedCssFilesException()

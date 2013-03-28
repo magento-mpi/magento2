@@ -217,26 +217,24 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
 
         $selectedFileUrl = $this->getControlAttribute('link', $linkName, 'href');
         $downloadedFileContent = $this->getFile($selectedFileUrl);
-        if ($downloadedFileContent !== $expectedContent) {
-            $this->fail('File was not downloaded.');
-        }
+        $this->assertEquals($expectedContent, $downloadedFileContent, 'File was not downloaded or not equal to expected.');
     }
 
     public function allThemeCss()
     {
         return array(
             array('Mage_Catalog--widgets.css', 'mage_catalog_widget'),
-            array('Mage_Catalog--zoom.css', 'mage_catalog_zoom'),
-            array('Mage_Cms--widgets.css', 'mage_cms_widgets'),
             array('Mage_Oauth--css_oauth-simple.css', 'mage_oauth_css_oauth_simple'),
-            array('Mage_Page--css_tabs.css', 'mage_page_css_tabs'),
-            array('Mage_Reports--widgets.css', 'mage_reports_widgets'),
-            array('Mage_Widget--widgets.css', 'mage_widget_widgets'),
             array('Social_Facebook--css_facebook.css', 'social_facebook_css_facebook'),
             array('mage_calendar.css', 'mage_calendar'),
             array('css_print.css', 'css_print'),
             array('css_styles-ie.css', 'css_style_ie'),
-            array('css_styles.css', 'css_style')
+            array('css_styles.css', 'css_style'),
+            array('js_jqzoom_css_jquery.jqzoom.css', 'js_jqzoom_css_jquery'),
+            array('Mage_Cms--widgets.css', 'mage_cms_widgets'),
+            array('Mage_Page--css_tabs.css', 'mage_page_css_tabs'),
+            array('Mage_Reports--widgets.css', 'mage_reports_widgets'),
+            array('Mage_Widget--widgets.css', 'mage_widget_widgets')
             );
     }
 

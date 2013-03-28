@@ -54,7 +54,7 @@ class Mage_Launcher_Model_Storelauncher_Product_SaveHandler implements Mage_Laun
         $preparedData = $this->prepareData($data);
         try {
             /** @var $product Mage_Catalog_Model_Product */
-            $product = $this->_objectManager->create('Mage_Catalog_Model_Product', array(), false)
+            $product = $this->_objectManager->create('Mage_Catalog_Model_Product', array())
                 ->setStoreId(Mage_Core_Model_App::ADMIN_STORE_ID)
                 // only simple product can be created via Product Tile
                 ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)

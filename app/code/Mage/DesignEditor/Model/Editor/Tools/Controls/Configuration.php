@@ -270,17 +270,6 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     }
 
     /**
-     * Return path to view.xml in customization
-     *
-     * @return string
-     */
-    public function getCustomViewConfigPath()
-    {
-        return $this->_theme->getCustomizationPath() . DIRECTORY_SEPARATOR
-            . Mage_Core_Model_Design_Package::FILENAME_VIEW_CONFIG;
-    }
-
-    /**
      * Save customized DOM of view configuration
      *
      * @param DOMDocument $config
@@ -288,9 +277,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
      */
     protected function _saveViewConfiguration(DOMDocument $config)
     {
-        $targetPath = $this->getCustomViewConfigPath();
-        $params = array('area' => Mage_Core_Model_Design_Package::DEFAULT_AREA, 'themeModel' => $this->_theme);
-        $this->_design->dropPublicationCache($params);
+        $targetPath = $this->_theme->getCustomViewConfigPath();
         $this->_filesystem->setIsAllowCreateDirectories(true)->write($targetPath, $config->saveXML());
         return $this;
     }

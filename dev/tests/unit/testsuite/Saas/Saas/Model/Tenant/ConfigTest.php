@@ -17,9 +17,9 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider constructExceptionDataProvider
      */
-    public function testConstuctException($configData, $expectedMessage)
+    public function testConstructException($configData, $expectedException, $expectedMessage)
     {
-        $this->setExpectedException('LogicException', $expectedMessage);
+        $this->setExpectedException($expectedException, $expectedMessage);
         new Saas_Saas_Model_Tenant_Config(__DIR__, $configData);
     }
 
@@ -29,11 +29,23 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
     public function constructExceptionDataProvider()
     {
         return array(
-            'no tenantConfiguration' => array(array(), 'Missing key "tenantConfiguration"'),
-            'no local' => array(array('tenantConfiguration' => array()),'Local Configuration does not exist'),
-            'no media dir' => array(
+            'no tenantConfiguration' => array(array(), 'InvalidArgumentException', 'Missing key "tenantConfiguration"'),
+            'no local'               => array(
+                array('tenantConfiguration' => array()),
+                'LogicException',
+                'Local Configuration does not exist'
+            ),
+            'no media dir'           => array(
                 array('tenantConfiguration' => array('local' => self::_wrapXml(''))),
+                'InvalidArgumentException',
                 'Media directory name is not set'
+            ),
+            'no version hash'          => array(
+                array('tenantConfiguration' => array('local' => self::_wrapXml(
+                    self::XML_MEDIA_DIR
+                ))),
+                'InvalidArgumentException',
+                'Version hash is not specified'
             ),
         );
     }
@@ -41,7 +53,10 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetMediaDirFile()
     {
         $fileName = uniqid();
-        $configData = array('tenantConfiguration' => array('local' => self::_wrapXml(self::XML_MEDIA_DIR)));
+        $configData = array(
+            'tenantConfiguration' => array('local' => self::_wrapXml(self::XML_MEDIA_DIR)),
+            'version_hash'          => '1234567',
+        );
         $config = new Saas_Saas_Model_Tenant_Config(__DIR__, $configData);
         $result = $config->getMediaDirFile($fileName);
         $this->assertStringStartsWith(__DIR__, $result);
@@ -51,9 +66,10 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetApplicationParameters()
     {
-        $configData = array('tenantConfiguration' => array(
-            'local' => self::_wrapXml(self::XML_MEDIA_DIR . self::XML_SAAS_ON)
-        ));
+        $configData = array(
+            'tenantConfiguration' => array('local' => self::_wrapXml(self::XML_MEDIA_DIR . self::XML_SAAS_ON)),
+            'version_hash'        => '1234567',
+        );
         $config = new Saas_Saas_Model_Tenant_Config(__DIR__, $configData);
         $result = $config->getApplicationParams();
         $this->assertArrayHasKey(Mage::PARAM_APP_DIRS, $result);
@@ -73,14 +89,17 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetTenantModules($fixture, $expectedResult)
     {
-        $configData = array('tenantConfiguration' => array(
-            'local' => self::_wrapXml(self::XML_MEDIA_DIR),
-            'modules' => self::_wrapXml(self::XML_MEDIA_DIR . $fixture['modules']),
-            'tenantModules' => isset($fixture['tenantModules'])
-                ? self::_wrapXml(self::XML_MEDIA_DIR . $fixture['tenantModules']) : null,
-            'groupModules' => isset($fixture['groupModules'])
-                ? self::_wrapXml(self::XML_MEDIA_DIR . $fixture['groupModules']) : null,
-        ));
+        $configData = array(
+            'tenantConfiguration' => array(
+                'local'         => self::_wrapXml(self::XML_MEDIA_DIR),
+                'modules'       => self::_wrapXml(self::XML_MEDIA_DIR . $fixture['modules']),
+                'tenantModules' => isset($fixture['tenantModules'])
+                    ? self::_wrapXml(self::XML_MEDIA_DIR . $fixture['tenantModules']) : null,
+                'groupModules'  => isset($fixture['groupModules'])
+                    ? self::_wrapXml(self::XML_MEDIA_DIR . $fixture['groupModules']) : null,
+            ),
+            'version_hash'        => '1234567',
+        );
         $config = new Saas_Saas_Model_Tenant_Config(__DIR__, $configData);
         $result = $config->getApplicationParams();
         $result = $result[Mage::PARAM_CUSTOM_LOCAL_CONFIG];

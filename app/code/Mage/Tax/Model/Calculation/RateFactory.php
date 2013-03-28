@@ -38,6 +38,6 @@ class Mage_Tax_Model_Calculation_RateFactory
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Mage_Tax_Model_Calculation_Rate', $arguments, false);
+        return $this->_objectManager->create('Mage_Tax_Model_Calculation_Rate', $arguments);
     }
 }

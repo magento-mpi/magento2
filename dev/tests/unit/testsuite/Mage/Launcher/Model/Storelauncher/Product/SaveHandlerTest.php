@@ -198,7 +198,7 @@ class Mage_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
         $objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
         $objectManager->expects($this->once())
             ->method('create')
-            ->with('Mage_Catalog_Model_Product', array(), false)
+            ->with('Mage_Catalog_Model_Product', array())
             ->will($this->returnValue($product));
         return new Mage_Launcher_Model_Storelauncher_Product_SaveHandler($app, $objectManager);
     }
