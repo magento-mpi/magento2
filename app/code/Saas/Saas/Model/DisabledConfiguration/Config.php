@@ -1,15 +1,10 @@
 <?php
 /**
- * {license_notice}
+ * Class for retrieving disabled fields/groups/sections in system configuration
  *
- * @category    Saas
- * @package     Saas_DisabledConfiguration
+ * {license_notice}
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Manages disabled fields/groups/sections in system configuration
  */
 class Saas_Saas_Model_DisabledConfiguration_Config
 {
@@ -56,28 +51,19 @@ class Saas_Saas_Model_DisabledConfiguration_Config
      * Get structured list from plain
      *
      * @param array $plainList
-     * @return array
-     * @throws LengthException
      */
     protected function _getStructure(array $plainList)
     {
-        $list = array();
         foreach ($plainList as $path) {
-            $this->_validatePath($path);
-            $chunks = explode('/', $path);
-            switch (count($chunks)) {
-                case 1:
-                    $this->_sections[$path] = $path;
-                    break;
-                case 2:
-                    $this->_groups[$path] = $path;
-                    break;
-                case 3:
-                    $this->_fields[$path] = $path;
-                    break;
+            list( , $group, $field) = $this->_parsePath($path);
+            if ($field) {
+                $this->_fields[$path] = $path;
+            } elseif ($group) {
+                $this->_groups[$path] = $path;
+            } else {
+                $this->_sections[$path] = $path;
             }
         }
-        return $list;
     }
 
     /**
@@ -94,113 +80,76 @@ class Saas_Saas_Model_DisabledConfiguration_Config
     /**
      * Get whether passed section is disabled
      *
-     * @param $sectionXpath
-     * @param Mage_Backend_Model_Config_Structure $configStructure
+     * @param $path
      * @return bool
-     * @throws LogicException
-     * @throws LengthException
+     * @throws InvalidArgumentException
      */
-    public function isSectionDisabled($sectionXpath, Mage_Backend_Model_Config_Structure $configStructure)
+    public function isSectionDisabled($path)
     {
-        $this->_validatePath($sectionXpath);
-        $chunks = explode('/', $sectionXpath);
-        if (count($chunks) !== 1) {
-            throw new LengthException("'$sectionXpath' is incorrect section path");
+        list($section, $group, ) = $this->_parsePath($path);
+        if ($group) {
+            throw new InvalidArgumentException("'$path' is incorrect section path");
         }
-        if (isset($this->_sections[$sectionXpath])) {
-            return true;
-        }
-
-        $section = $configStructure->getElement($sectionXpath);
-        if (!($section instanceof Mage_Backend_Model_Config_Structure_Element_CompositeAbstract)) {
-            throw new LogicException(
-                "'$sectionXpath' should extend Mage_Backend_Model_Config_Structure_Element_CompositeAbstract"
-            );
-        }
-
-        if ($section->hasChildren()) {
-            foreach ($section->getChildren() as $child) {
-                if (!$this->isGroupDisabled($child->getPath(), $configStructure)) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
+        return isset($this->_sections[$section]);
     }
 
     /**
      * Get whether passed group is disabled
      *
-     * @param $groupXpath
-     * @param Mage_Backend_Model_Config_Structure $configStructure
+     * @param $path
      * @return bool
-     * @throws LogicException
-     * @throws LengthException
+     * @throws InvalidArgumentException
      */
-    public function isGroupDisabled($groupXpath, Mage_Backend_Model_Config_Structure $configStructure)
+    public function isGroupDisabled($path)
     {
-        $this->_validatePath($groupXpath);
-        $chunks = explode('/', $groupXpath);
-        if (count($chunks) !== 2) {
-            throw new LengthException("'$groupXpath' is incorrect group path");
+        list($section, $group, $field) = $this->_parsePath($path);
+        if (!$group || $field) {
+            throw new InvalidArgumentException("'$path' is incorrect group path");
         }
-        if (isset($this->_groups[$groupXpath]) || isset($this->_sections[$chunks[0]])) {
-            return true;
-        }
-
-        $group = $configStructure->getElement($groupXpath);
-        if (!($group instanceof Mage_Backend_Model_Config_Structure_Element_CompositeAbstract)) {
-            throw new LogicException(
-                "'$groupXpath' should extend Mage_Backend_Model_Config_Structure_Element_CompositeAbstract"
-            );
-        }
-
-        if ($group->hasChildren()) {
-            foreach ($group->getChildren() as $child) {
-                if (!$this->isFieldDisabled($child->getPath())) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
+        return (isset($this->_groups[$path]) || isset($this->_sections[$section]));
     }
 
     /**
      * Get whether passed field is disabled
      *
-     * @param string $fieldXpath
+     * @param string $path
      * @return bool
-     * @throws LengthException
+     * @throws InvalidArgumentException
      */
-    public function isFieldDisabled($fieldXpath)
+    public function isFieldDisabled($path)
     {
-        $this->_validatePath($fieldXpath);
-        $chunks = explode('/', $fieldXpath);
-        if (count($chunks) !== 3) {
-            throw new LengthException("'$fieldXpath' is incorrect field path");
+        list($section, $group, $field) = $this->_parsePath($path);
+        if (!$field) {
+            throw new InvalidArgumentException("'$path' is incorrect field path");
         }
+
         return (
-            isset($this->_fields[$fieldXpath])
-            || isset($this->_groups[$chunks[0] . '/' . $chunks[1]])
-            || isset($this->_sections[$chunks[0]])
+            isset($this->_fields[$path])
+            || isset($this->_groups[$section . '/' . $group])
+            || isset($this->_sections[$section])
         );
     }
 
     /**
-     * Validate path.
+     * Validate path and split it into parts.
      * It's not a xPath validation, it's more strict
      *
      * @param string $path
+     * @return array
      * @throws InvalidArgumentException
      */
-    protected function _validatePath($path)
+    protected function _parsePath($path)
     {
-        $regexp = '/^(([a-zA-Z0-9_])+\/){1,3}$/';;
+        $regexp = '/^(([a-z\d_])+\/){1,3}$/i';
         if (!preg_match($regexp, $path . '/')) {
             throw new InvalidArgumentException("'$path' is incorrect path");
         }
+        $chunks = explode('/', $path);
+        return array(
+            $chunks[0],
+            isset($chunks[1]) ? $chunks[1] : null,
+            isset($chunks[2]) ? $chunks[2] : null,
+        );
     }
 
     /**
@@ -210,9 +159,9 @@ class Saas_Saas_Model_DisabledConfiguration_Config
      * @return mixed
      * @throws LogicException
      */
-    public static function getDisabledConfiguration($filesystem)
+    public static function getPlainList($filesystem)
     {
-        $filePath = __DIR__ . '/disabledConfiguration.php';
+        $filePath = __DIR__ . '/disabled_configuration.php';
 
         if (!$filesystem->has($filePath)) {
             throw new LogicException('File with disabled configuration options was not found');

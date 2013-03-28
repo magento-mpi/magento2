@@ -23,7 +23,7 @@ class Saas_Saas_Model_ObjectManager_Configurator extends Mage_Core_Model_ObjectM
         $objectManager->configure(array(
             'Saas_Saas_Model_DisabledConfiguration_Config' => array(
                 'parameters' => array('plainList' =>
-                    Saas_Saas_Model_DisabledConfiguration_Config::getDisabledConfiguration(
+                    Saas_Saas_Model_DisabledConfiguration_Config::getPlainList(
                         new Magento_Filesystem(new Magento_Filesystem_Adapter_Local)
                     ))
             ),

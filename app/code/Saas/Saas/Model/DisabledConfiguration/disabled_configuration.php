@@ -1,16 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Saas
- * @package     Saas_Saas
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
  * List of system config options, that are disabled for an end-user. These options are not present at the system
  * configuration page, and there is no ability to change them.
+ *
+ * {license_notice}
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 return array(
     'web/url/use_store',
