@@ -88,7 +88,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     public function testGetProcessedTemplate()
     {
         $this->_setBlueThemeForFixtureStore();
-        $expectedViewUrl = 'theme/static/frontend/default/demo_blue/en_US/Mage_Page/favicon.ico';
+        $expectedViewUrl = 'static/frontend/default/demo_blue/en_US/Mage_Page/favicon.ico';
         $this->_model->setTemplateText('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplate());
         $this->_model->setDesignConfig(array(
@@ -118,7 +118,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->setTemplateText('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsWith(
-            'theme/static/frontend/default/modern/en_US/Mage_Page/favicon.ico',
+            'static/frontend/default/modern/en_US/Mage_Page/favicon.ico',
             $this->_model->getProcessedTemplate()
         );
     }
@@ -131,7 +131,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     public function testGetProcessedTemplateSubject()
     {
         $this->_setBlueThemeForFixtureStore();
-        $expectedViewUrl = 'theme/static/frontend/default/demo_blue/en_US/Mage_Page/favicon.ico';
+        $expectedViewUrl = 'static/frontend/default/demo_blue/en_US/Mage_Page/favicon.ico';
         $this->_model->setTemplateSubject('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplateSubject(array()));
         $this->_model->setDesignConfig(array(

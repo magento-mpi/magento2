@@ -44,7 +44,7 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerFactoryAbstract
         if (!isset($saveHandlerMap[$saveHandlerId])) {
             throw new Mage_Launcher_Exception('Illegal configuration save handler ID specified.');
         }
-        return $this->_objectManager->create($saveHandlerMap[$saveHandlerId], $arguments, false);
+        return $this->_objectManager->create($saveHandlerMap[$saveHandlerId], $arguments);
     }
 
     /**

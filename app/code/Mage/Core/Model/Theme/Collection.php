@@ -14,6 +14,16 @@
 class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
 {
     /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
+
+    /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * Model of collection item
      *
      * @var string
@@ -35,29 +45,29 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     protected $_targetDirs = array();
 
     /**
-     * @var Magento_Filesystem
-     */
-    protected $_filesystem;
-
-    /**
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_Dir $dir
+     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_Dir $dirs
      */
-    public function __construct(Magento_Filesystem $filesystem, Mage_Core_Model_Dir $dir)
-    {
+    public function __construct(
+        Magento_Filesystem $filesystem,
+        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_Dir $dirs
+    ) {
         $this->_filesystem = $filesystem;
-        $this->setBaseDir($dir->getDir(Mage_Core_Model_Dir::THEMES));
+        $this->_objectManager = $objectManager;
+        $this->setBaseDir($dirs->getDir(Mage_Core_Model_Dir::THEMES));
         parent::__construct();
     }
 
     /**
      * Retrieve collection empty item
      *
-     * @return Mage_Core_Model_Theme
+     * @return Varien_Object|Mage_Core_Model_ThemeInterface
      */
     public function getNewEmptyItem()
     {
-        return Mage::getObjectManager()->create($this->_itemObjectClass);
+        return $this->_objectManager->create($this->_itemObjectClass);
     }
 
     /**
@@ -179,11 +189,11 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     protected function _updateRelations()
     {
         $themeItems = $this->getItems();
-        /** @var $theme Mage_Core_Model_Theme */
+        /** @var $theme Varien_Object|Mage_Core_Model_ThemeInterface */
         foreach ($themeItems as $theme) {
             $parentThemePath = $theme->getParentThemePath();
             if ($parentThemePath) {
-                $id = $theme->getArea() . '/' . $parentThemePath;
+                $id = $theme->getArea() . Mage_Core_Model_Theme::PATH_SEPARATOR . $parentThemePath;
                 if (isset($themeItems[$id])) {
                     $theme->setParentTheme($themeItems[$id]);
                 }

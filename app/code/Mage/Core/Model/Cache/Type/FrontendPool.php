@@ -58,7 +58,7 @@ class Mage_Core_Model_Cache_Type_FrontendPool
                 'Mage_Core_Model_Cache_Type_AccessProxy', array(
                     'frontend' => $frontendInstance,
                     'identifier' => $identifier,
-                ), false
+                )
             );
             $this->_instances[$identifier] = $frontendInstance;
         }
