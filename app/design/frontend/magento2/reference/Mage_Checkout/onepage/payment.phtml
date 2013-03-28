@@ -21,8 +21,8 @@
         <div class="secondary">
             <a class="action back" href="#"><span><?php echo $this->__('Back') ?></span></a>
         </div>
-        <span id="payment-please-wait" class="please-wait" style="display:none">
-            <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo $this->__('Loading next step...') ?>
+        <span id="payment-please-wait" class="please-wait load indicator" style="display:none">
+            <span><?php echo $this->__('Loading next step...') ?></span>
         </span>
     </div>
 </form>

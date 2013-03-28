@@ -19,10 +19,10 @@
     <?php echo $this->renderTotals('footer', $_colspan); ?>
     <?php if ($this->needDisplayBaseGrandtotal()):?>
     <tr>
-        <td class="a-right" colspan="<?php echo $_colspan; ?>">
+        <td class="col label" colspan="<?php echo $_colspan; ?>">
             <small><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Your credit card will be charged for') ?></small>
         </td>
-        <td class="a-right">
+        <td class="col total">
             <small><?php echo $this->displayBaseGrandtotal() ?></small>
         </td>
     </tr>

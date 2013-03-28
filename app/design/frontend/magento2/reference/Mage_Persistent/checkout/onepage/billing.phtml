@@ -182,8 +182,8 @@
 <?php endif; ?>
 <div class="actions buttons-set form-buttons btn-only" id="billing-buttons-container">
     <div class="primary"><button type="button" class="button action continue"><span><?php echo $this->__('Continue') ?></span></button></div>
-    <span id="billing-please-wait" class="please-wait" style="display:none;">
-        <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo $this->__('Loading next step...') ?>
+    <span id="billing-please-wait" class="please-wait load indicator" style="display:none;">
+        <span><?php echo $this->__('Loading next step...') ?></span>
     </span>
 </div>
 </form>
