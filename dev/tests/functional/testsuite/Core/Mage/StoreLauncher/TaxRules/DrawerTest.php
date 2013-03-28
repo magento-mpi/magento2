@@ -35,7 +35,7 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
         $changeState = ('tile-store-settings tile-tax tile-complete' == $tileState) ? true : false;
         if ($changeState) {
             $this->storeLauncherHelper()->setTileState('tax', Core_Mage_StoreLauncher_Helper::$STATE_TODO);
-            $this->refresh();
+            $this->admin();
         }
     }
 
