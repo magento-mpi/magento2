@@ -38,5 +38,20 @@
                 <Enterprise_Queue_Model_Queue_HandlerInterface>Saas_Queue_Model_Queue_DefaultHandler</Enterprise_Queue_Model_Queue_HandlerInterface>
             </preferences>
         </di>
+        <events>
+            <refresh_cache>
+                <observers>
+                    <saas_queue>
+                        <asynchronous>true</asynchronous>
+                        <class>Saas_Queue_Model_Worker_Cache</class>
+                        <method>refreshCache</method>
+                    </saas_queue>
+                </observers>
+            </refresh_cache>
+        </events>
     </global>
+    <workers>
+        <events>
+        </events>
+    </workers>
 </config>
