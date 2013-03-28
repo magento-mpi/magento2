@@ -1018,7 +1018,7 @@ XMLRequest;
 
                         if ($successConversion) {
                             $costArr[$code] = $cost;
-                            $priceArr[$code] = $this->getMethodPrice(floatval($cost),$code);
+                            $priceArr[$code] = $this->getMethodPrice(floatval($cost), $code);
                         }
                     }
                 }
@@ -1230,15 +1230,15 @@ XMLAuth;
                         }
                         $dateArr = array();
                         $date = (string)$activityTag->Date;//YYYYMMDD
-                        $dateArr[] = substr($date,0,4);
-                        $dateArr[] = substr($date,4,2);
-                        $dateArr[] = substr($date,-2,2);
+                        $dateArr[] = substr($date, 0, 4);
+                        $dateArr[] = substr($date, 4, 2);
+                        $dateArr[] = substr($date, -2, 2);
 
                         $timeArr = array();
                         $time = (string)$activityTag->Time;//HHMMSS
-                        $timeArr[] = substr($time,0,2);
-                        $timeArr[] = substr($time,2,2);
-                        $timeArr[] = substr($time,-2,2);
+                        $timeArr[] = substr($time, 0, 2);
+                        $timeArr[] = substr($time, 2, 2);
+                        $timeArr[] = substr($time, -2, 2);
 
                         if ($index === 1) {
                            $resultArr['status'] = (string)$activityTag->Status->StatusType->Description;
@@ -1252,8 +1252,8 @@ XMLAuth;
                         } else {
                            $tempArr = array();
                            $tempArr['activity'] = (string)$activityTag->Status->StatusType->Description;
-                           $tempArr['deliverydate'] = implode('-',$dateArr);//YYYY-MM-DD
-                           $tempArr['deliverytime'] = implode(':',$timeArr);//HH:MM:SS
+                           $tempArr['deliverydate'] = implode('-', $dateArr);//YYYY-MM-DD
+                           $tempArr['deliverytime'] = implode(':', $timeArr);//HH:MM:SS
                            if ($addArr) {
                             $tempArr['deliverylocation']=implode(', ', $addArr);
                            }
@@ -1302,7 +1302,7 @@ XMLAuth;
         if ($this->_result instanceof Mage_Shipping_Model_Tracking_Result) {
             $trackings = $this->_result->getAllTrackings();
             if ($trackings) {
-                foreach ($trackings as $tracking){
+                foreach ($trackings as $tracking) {
                     $data = $tracking->getAllData();
                     if ($data) {
                         if (isset($data['status'])) {
@@ -1327,13 +1327,13 @@ XMLAuth;
      */
     public function getAllowedMethods()
     {
-         $allowed = explode(',', $this->getConfigData('allowed_methods'));
-         $arr = array();
-         $isByCode = $this->getConfigData('type') == 'UPS_XML';
-         foreach ($allowed as $k) {
-             $arr[$k] = $isByCode ? $this->getShipmentByCode($k) : $this->getCode('method', $k);
-         }
-         return $arr;
+        $allowed = explode(',', $this->getConfigData('allowed_methods'));
+        $arr = array();
+        $isByCode = $this->getConfigData('type') == 'UPS_XML';
+        foreach ($allowed as $code) {
+            $arr[$code] = $isByCode ? $this->getShipmentByCode($code) : $this->getCode('method', $code);
+        }
+        return $arr;
     }
 
     /**
@@ -1817,7 +1817,8 @@ XMLAuth;
      * @var string $countyDestination
      * @return int|null
      */
-    protected function _getDeliveryConfirmationLevel($countyDestination = null) {
+    protected function _getDeliveryConfirmationLevel($countyDestination = null)
+    {
         if (is_null($countyDestination)) {
             return null;
         }
