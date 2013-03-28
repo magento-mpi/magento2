@@ -72,7 +72,7 @@
 
             if (checkPageCompleted()) {
                 popupElem
-                    .closest('.fade')
+                    .closest('.store-launcher-fade')
                     .fadeIn(400, function() {
                         popupElem.animate({
                             top: '50%'
@@ -94,7 +94,7 @@
                 .animate({
                     top: '-100%'
                 })
-                .closest('.fade')
+                .closest('.store-launcher-fade')
                 .fadeOut();
         });
 

@@ -2357,7 +2357,7 @@
 }
 
 /* Store tour */
-.fade  {
+.store-launcher-fade  {
     background: #000;
     background: rgba(0, 0, 0, .8);
     min-width: 1000px;
@@ -2371,15 +2371,15 @@
     z-index: 1305;
 }
 
-.store-tour-wrapper.fade {
+.store-tour-wrapper.store-launcher-fade {
     z-index: 1298;
 }
 
-.welcome-screen-wrapper.fade {
+.welcome-screen-wrapper.store-launcher-fade {
     z-index: 1300;
 }
 
-.eq-ie8 .fade {
+.eq-ie8 .store-launcher-fade {
     background: url(images/fade-bg.png) 0 0 repeat transparent;
 }
 
