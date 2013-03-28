@@ -18,13 +18,12 @@ class Mage_Core_Model_Locale_ValidatorTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $localeModelMock = $this->getMock('Mage_Core_Model_LocaleInterface', array());
+        $localeConfigMock = $this->getMock('Mage_Core_Model_Locale_Config', array());
+        $localeConfigMock->expects($this->any())
+            ->method('getAllowedLocales')
+            ->will($this->returnValue(array('en_US', 'de_DE', 'es_ES')));
 
-        $localeModelMock->expects($this->any())
-            ->method('getLocale')
-            ->will($this->returnValue(new Zend_Locale()));
-
-        $this->_validatorModel = new Mage_Core_Model_Locale_Validator($localeModelMock);
+        $this->_validatorModel = new Mage_Core_Model_Locale_Validator($localeConfigMock);
     }
 
     /**
