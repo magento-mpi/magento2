@@ -32,7 +32,9 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
         $themeCopyService = $this->getMock('Mage_Core_Model_Theme_CopyService', array('copy'), array(), '', false);
         $themeCopyService->expects($this->never())->method('copy');
 
-        $object = new Mage_Core_Model_Theme_Domain_Virtual($theme, $themeFactory, $themeCopyService);
+        $service = $this->getMock('Mage_Core_Model_Theme_Service', array(), array(), '', false);
+
+        $object = new Mage_Core_Model_Theme_Domain_Virtual($theme, $themeFactory, $themeCopyService, $service);
 
         $this->assertSame($themeStaging, $object->getStagingTheme());
         $this->assertSame($themeStaging, $object->getStagingTheme());
@@ -81,7 +83,9 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
         $themeCopyService = $this->getMock('Mage_Core_Model_Theme_CopyService', array('copy'), array(), '', false);
         $themeCopyService->expects($this->once())->method('copy')->with($theme, $themeStaging);
 
-        $object = new Mage_Core_Model_Theme_Domain_Virtual($theme, $themeFactory, $themeCopyService);
+        $service = $this->getMock('Mage_Core_Model_Theme_Service', array(), array(), '', false);
+
+        $object = new Mage_Core_Model_Theme_Domain_Virtual($theme, $themeFactory, $themeCopyService, $service);
 
         $this->assertSame($themeStaging, $object->getStagingTheme());
         $this->assertSame($themeStaging, $object->getStagingTheme());
