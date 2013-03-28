@@ -182,7 +182,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             $this->loadLayout();
             $this->getLayout()->getBlock('sales_creditmemo_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
-            $this->_setActiveMenu('Mage_Sales::sales_order')
+            $this->_setActiveMenu('Mage_Sales::sales_creditmemo')
                 ->renderLayout();
         } else {
             $this->_forward('noRoute');

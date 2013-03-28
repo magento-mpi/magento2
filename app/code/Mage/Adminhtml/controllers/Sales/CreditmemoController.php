@@ -38,9 +38,9 @@ class Mage_Adminhtml_Sales_CreditmemoController extends Mage_Adminhtml_Controlle
     /**
      *  Index page
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         $this->_title($this->__('Credit Memos'));
-
         parent::indexAction();
     }
 }
