@@ -190,7 +190,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             $this->_saveProductIndexes($storeId, $productIndexes);
         }
 
-        // Reset only product-specific queries and redusults.
+        // Reset only product-specific queries and results.
         $this->resetSearchResults($storeId, $productIds);
 
         return $this;
@@ -296,7 +296,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
 
             $adapter->update(
                 $this->getTable('catalogsearch_query'),
-                array('is_processed=?' => 0),
+                array('is_processed' => 0),
                 $select->getPart(Zend_Db_Select::WHERE)
             );
         }
