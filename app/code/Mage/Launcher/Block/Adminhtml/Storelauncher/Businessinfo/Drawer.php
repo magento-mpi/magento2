@@ -34,9 +34,9 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
     /**
      * Validate VAT Number
      *
-     * @var Mage_Adminhtml_Block_Customer_System_Config_Validatevat
+     * @var Mage_Adminhtml_Block_Customer_System_Config_ValidatevatFactory
      */
-    protected $_validateVatBlock;
+    protected $_validateVatFactory;
 
     /**
      * @param Mage_Core_Block_Template_Context $context
@@ -57,7 +57,8 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         parent::__construct($context, $linkTracker, $data);
         $this->_countryModel = $countryModel;
         $this->_regionModel = $regionModel;
-        $this->_validateVatBlock = $validateVat->createVatValidator();
+        /** As it's optional dependency, we instantiate VAT validator just in case we need it */
+        $this->_validateVatFactory = $validateVat;
     }
 
     /**
@@ -105,9 +106,6 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
         ));
 
         $storeInfo->setAdvancedLabel($helper->__('Add Store Email Addresses'));
-
-
-
 
         $generalContact = $storeInfo->addFieldset('general_contact',
             array('legend' => $helper->__('General Contact')), false, true);
@@ -264,26 +262,28 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
                 . '</script>',
         ));
 
+        if ($this->_storeConfig->getConfig('general/locale/code') != 'en_US') {
+            $vatValidator = $this->_validateVatFactory->createVatValidator();
+            $businessAddress->addField('vat_number', 'text', array(
+                'name' => 'groups[general][store_information][fields][merchant_vat_number][value]',
+                'label' => $helper->__('VAT Number'),
+                'note' => 'Required for countries in European Union.',
+                'required' => false,
+                'value' => $addressData['merchant_vat_number']
+            ));
 
-        $businessAddress->addField('vat_number', 'text', array(
-            'name' => 'groups[general][store_information][fields][merchant_vat_number][value]',
-            'label' => $helper->__('VAT Number'),
-            'note' => 'Required for countries in European Union.',
-            'required' => false,
-            'value' => $addressData['merchant_vat_number']
-        ));
+            $businessAddress->addField('validate_vat_number', 'button', array(
+                'name' => 'validate_vat_number',
+                'required' => false,
+                'value' => $helper->__('Validate VAT Number')
+            ));
 
-        $businessAddress->addField('validate_vat_number', 'button', array(
-            'name' => 'validate_vat_number',
-            'required' => false,
-            'value' => $helper->__('Validate VAT Number')
-        ));
-
-        // Set custom renderer for VAT field
-        $vatIdElement = $form->getElement('validate_vat_number');
-        $this->_validateVatBlock->setMerchantCountryField('country_id');
-        $this->_validateVatBlock->setMerchantVatNumberField('vat_number');
-        $vatIdElement->setRenderer($this->_validateVatBlock);
+            // Set custom renderer for VAT field
+            $vatIdElement = $form->getElement('validate_vat_number');
+            $vatValidator->setMerchantCountryField('country_id');
+            $vatValidator->setMerchantVatNumberField('vat_number');
+            $vatIdElement->setRenderer($vatValidator);
+        }
 
         $businessAddress->addField('use_for_shipping', 'checkbox', array(
             'name' => 'use_for_shipping',
