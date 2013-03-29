@@ -37,6 +37,11 @@ class Mage_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
     const TEST_DATE_TO_EXPIRE = 123;
 
     /**
+     * Test data for the translation mode
+     */
+    const TEST_TRANSLATION_MODE = 'text';
+
+    /**
      * @var array
      */
     protected $_disabledCacheTypes = array('type1', 'type2');
@@ -185,5 +190,53 @@ class Mage_DesignEditor_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         $this->_model = new Mage_DesignEditor_Helper_Data($this->_context, $configurationMock, $backendSession);
         $this->assertEquals(self::TEST_DATE_TO_EXPIRE, $this->_model->getDaysToExpire());
+    }
+
+    public function testIsVdeRequest()
+    {
+        $configurationMock = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
+        $backendSession = $this->getMockBuilder('Mage_Backend_Model_Session')->disableOriginalConstructor()->getMock();
+
+        $this->_model = new Mage_DesignEditor_Helper_Data($this->_context, $configurationMock, $backendSession);
+
+        $request = new Mage_Core_Controller_Request_Http();
+        /** todo SDW Works with an empty request? */
+
+        $this->assertEquals(true, $this->_model->isVdeRequest($request));
+    }
+
+    public function testIsNotVdeRequest()
+    {
+        $configurationMock = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
+        $backendSession = $this->getMockBuilder('Mage_Backend_Model_Session')->disableOriginalConstructor()->getMock();
+
+        $this->_model = new Mage_DesignEditor_Helper_Data($this->_context, $configurationMock, $backendSession);
+
+        $this->assertEquals(false, $this->_model->isVdeRequest());
+    }
+
+    public function testIsAllowed()
+    {
+        $configurationMock = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
+        $backendSession = $this->getMockBuilder('Mage_Backend_Model_Session')->disableOriginalConstructor()->getMock();
+
+        $this->_model = new Mage_DesignEditor_Helper_Data($this->_context, $configurationMock, $backendSession);
+
+        $request = new Mage_Core_Controller_Request_Http();
+        $request->setParam(Mage_DesignEditor_Helper_Data::TRANSLATION_MODE, self::TEST_TRANSLATION_MODE);
+        $this->_model->setTranslationMode($request);
+
+        $this->assertEquals(self::TEST_TRANSLATION_MODE, $this->_model->getTranslationMode());
+        $this->assertEquals(true, $this->_model->isAllowed());
+    }
+
+    public function testIsNotAllowed()
+    {
+        $configurationMock = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
+        $backendSession = $this->getMockBuilder('Mage_Backend_Model_Session')->disableOriginalConstructor()->getMock();
+
+        $this->_model = new Mage_DesignEditor_Helper_Data($this->_context, $configurationMock, $backendSession);
+
+        $this->assertEquals(false, $this->_model->isAllowed());
     }
 }
