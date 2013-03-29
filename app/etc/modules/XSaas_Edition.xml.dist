@@ -35,6 +35,7 @@
         <Saas_PageCache><active>true</active></Saas_PageCache>
         <Saas_PrintedTemplate><active>true</active></Saas_PrintedTemplate>
         <Saas_Saas><active>true</active></Saas_Saas>
+        <Saas_Sales><active>true</active></Saas_Sales>
         <Saas_UnitPrice><active>true</active></Saas_UnitPrice>
     </modules>
 </config>
