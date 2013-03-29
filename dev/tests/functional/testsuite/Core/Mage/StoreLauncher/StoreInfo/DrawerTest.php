@@ -19,36 +19,22 @@
 class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCase
 {
     /**
-     * Restore flag
-     *
-     * @var bool
-     */
-    protected $_restoreRequired = false;
-
-    /**
      * <p>Preconditions:</p>
      * <p>1. Login to Backend</p>
      * <p>2. Navigate to Store Launcher page</p>
      */
     protected function assertPreConditions()
     {
-        $this->currentWindow()->maximize();
         $this->loginAdminUser();
-    }
-
-    /**
-     * Restore settings
-     */
-    protected function tearDownAfterTest()
-    {
-        if ($this->_restoreRequired) {
-            $this->loginAdminUser();
+        $tileState = $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'bussines_info_tile', 'class');
+        $changeState = ('tile-store-settings tile-store-info tile-complete' == $tileState) ? true : false;
+        if ($changeState) {
             $this->navigate('system_configuration');
             $config = $this->loadDataSet('ShippingSettings', 'store_information_empty');
             $this->systemConfigurationHelper()->configure($config);
             $config = $this->loadDataSet('General', 'general_default_emails');
             $this->systemConfigurationHelper()->configure($config);
-            $this->_restoreRequired = false;
+            $this->admin();
         }
     }
 
@@ -69,11 +55,10 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
         $data = $this->loadDataSet('StoreInfo', 'store_info');
         $this->fillFieldset($data, 'bussines_info_drawer_form');
         $helper->saveDrawer();
-        $this->_restoreRequired = true;
 
-        $this->addParameter('addressData', 'Business Address');
-        $helper->mouseOverDrawer('bussines_info_tile');
-        $this->assertTrue($this->controlIsVisible('pageelement', 'bussines_info_text'), 'Tile state is not changed');
+        $this->assertEquals('tile-store-settings tile-store-info tile-complete',
+            $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'bussines_info_tile', 'class'),
+            'Tile state is not Equal to Complete');
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('general_general');
         $this->systemConfigurationHelper()->expandFieldSet('store_information');
@@ -103,17 +88,12 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
         $data = $this->loadDataSet('StoreInfo', 'store_info');
         $this->fillFieldset($data, 'bussines_info_drawer_form');
         $helper->saveDrawer();
-        $this->_restoreRequired = true;
 
-        $this->addParameter('addressData', 'Business Address');
-        $helper->mouseOverDrawer('bussines_info_tile');
-        $this->assertTrue($this->controlIsVisible('pageelement', 'bussines_info_text'), 'Tile state is not changed');
-        unset($data['store_name']);
-        unset($data['store_contact_telephone']);
-        unset($data['billing_vat_number']);
-        foreach ($data as $key => $value)
+        $validateData = $this->loadDataSet('StoreInfo', 'store_info_complete_validate', null,
+                array('email' => $data['store_contact_email'], 'storeName' => $data['store_name']));
+        foreach ($validateData as $key => $value)
         {
-            $this->addParameter('addressData', $value);
+            $this->addParameter('listInfo', $value);
             $helper->mouseOverDrawer('bussines_info_tile');
             if (!$this->controlIsVisible('pageelement', 'bussines_info_text')) {
                 $this->addVerificationMessage("Displayed data is invalid. There is no '$value' on Tile");
@@ -165,7 +145,6 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
         $this->waitForElementVisible($this->_getControlXpath('pageelement', 'additional_content'));
         $this->fillFieldset($data, 'bussines_info_drawer_form');
         $helper->saveDrawer();
-        $this->_restoreRequired = true;
 
         $helper->openDrawer('bussines_info_tile');
         $validateData = $this->loadDataSet('StoreInfo', 'store_info_email_validate', null, array('email' => $email));

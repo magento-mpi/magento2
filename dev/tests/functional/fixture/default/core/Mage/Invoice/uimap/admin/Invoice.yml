@@ -111,8 +111,8 @@ create_invoice:
                         buttons:
                             submit_invoice: //button[span='Submit Invoice']
         buttons:
-            back: //p[@class='form-buttons']//button[span='Back']
-            reset: //p[@class='form-buttons']//button[span='Reset']
+            back: //div[@class='page-actions']//button[span='Back']
+            reset: //div[@class='page-actions']//button[span='Reset']
         messages: *invoiceMessage
 
 view_invoice:
@@ -160,8 +160,8 @@ view_invoice:
                             price_totals_line_index_name: //tbody/descendant::tr[%index%]/*[1]
                             price_totals_line_index_value: //tbody/descendant::tr[%index%]/*[2]
         buttons:
-            back: //p[@class='form-buttons']//button[span='Back']
-            send_email: //p[@class='form-buttons']//button[span='Send Email']
-            credit_memo: //p[@class='form-buttons']//button[span='Credit Memo']
-            print: //p[@class='form-buttons']//button[span='Print']
+            back: //div[@class='page-actions']//button[span='Back']
+            send_email: //div[@class='page-actions']//button[span='Send Email']
+            credit_memo: //div[@class='page-actions']//button[span='Credit Memo']
+            print: //div[@class='page-actions']//button[span='Print']
         messages: *invoiceMessage
