@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<!-- Sections fixute -->
+<config>
+    <system>
+        <tab id="test_tab">
+            <label>Test Tab</label>
+        </tab>
+        <section id="permitted_section">
+            <label>Permitted Section</label>
+            <tab>test_tab</tab>
+            <resource>Saas_Saas::permitted_section</resource>
+        </section>
+        <section id="disabled_section">
+            <label>Disabled Section</label>
+            <tab>test_tab</tab>
+            <resource>Saas_Saas::disabled_section</resource>
+        </section>
+    </system>
+</config>

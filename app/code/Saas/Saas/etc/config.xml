@@ -22,5 +22,15 @@
                 <Mage_Backend_Model_Config_Structure_Converter>Saas_Saas_Model_DisabledConfiguration_Structure_Converter_Filter</Mage_Backend_Model_Config_Structure_Converter>
             </preferences>
         </di>
+        <events>
+            <core_config_data_save_before>
+                <observers>
+                    <saas_saas>
+                        <class>Saas_Saas_Model_DisabledConfiguration_Observer</class>
+                        <method>checkConfigSaveAllowed</method>
+                    </saas_saas>
+                </observers>
+            </core_config_data_save_before>
+        </events>
     </adminhtml>
 </config>
