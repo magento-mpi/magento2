@@ -238,8 +238,8 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(Mage_Core_Model_Theme::TYPE_VIRTUAL, true),
-            array(Mage_Core_Model_Theme::TYPE_STAGING,true),
-            array(Mage_Core_Model_Theme::TYPE_PHYSICAL,false)
+            array(Mage_Core_Model_Theme::TYPE_STAGING, true),
+            array(Mage_Core_Model_Theme::TYPE_PHYSICAL, false)
         );
     }
 

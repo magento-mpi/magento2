@@ -207,40 +207,34 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
      */
     public function downloadThemeCss($fileName, $linkName, $themeData)
     {
+        //Data
+        $fileUrl = $this->getConfigHelper()->getPathToTestFiles($fileName);
+        $expectedContent = file_get_contents($fileUrl);
         //Steps:
         $this->navigate('theme_list');
         $this->themeHelper()->openTheme($themeData);
         $this->openTab('css_editor');
-        $this->clickControl('link', $linkName, false);
-        //Verify:
-        $appConfig = $this->getApplicationConfig();
-        if (!array_key_exists('downloadDir', $appConfig)) {
-            $this->fail('downloadDir is not set in application config');
-        }
-        $downloadDir  = $appConfig['downloadDir'];
-        $filePath = $downloadDir . DIRECTORY_SEPARATOR . $fileName;
-        while (!file_exists($filePath)) {
-            sleep(1);
-        }
-        $this->assertTrue(file_exists($filePath), 'File was not downloaded');
-        $this->assertTrue(unlink($filePath), 'File was not deleted');
+
+        $selectedFileUrl = $this->getControlAttribute('link', $linkName, 'href');
+        $downloadedFileContent = $this->getFile($selectedFileUrl);
+        $this->assertEquals($expectedContent, $downloadedFileContent, 'File was not downloaded or not equal to expected.');
     }
 
     public function allThemeCss()
     {
         return array(
             array('Mage_Catalog--widgets.css', 'mage_catalog_widget'),
-            array('Mage_Catalog--zoom.css', 'mage_catalog_zoom'),
-            array('Mage_Cms--widgets.css', 'mage_cms_widgets'),
             array('Mage_Oauth--css_oauth-simple.css', 'mage_oauth_css_oauth_simple'),
-            array('Mage_Page--css_tabs.css', 'mage_page_css_tabs'),
-            array('Mage_Reports--widgets.css', 'mage_reports_widgets'),
-            array('Mage_Widget--widgets.css', 'mage_widget_widgets'),
             array('Social_Facebook--css_facebook.css', 'social_facebook_css_facebook'),
             array('mage_calendar.css', 'mage_calendar'),
             array('css_print.css', 'css_print'),
             array('css_styles-ie.css', 'css_style_ie'),
-            array('css_styles.css', 'css_style')
+            array('css_styles.css', 'css_style'),
+            array('js_jqzoom_css_jquery.jqzoom.css', 'js_jqzoom_css_jquery'),
+            array('Mage_Cms--widgets.css', 'mage_cms_widgets'),
+            array('Mage_Page--css_tabs.css', 'mage_page_css_tabs'),
+            array('Mage_Reports--widgets.css', 'mage_reports_widgets'),
+            array('Mage_Widget--widgets.css', 'mage_widget_widgets')
             );
     }
 

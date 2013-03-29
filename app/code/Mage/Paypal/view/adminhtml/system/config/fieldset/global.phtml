@@ -370,7 +370,7 @@ PaypalConfig.prototype = {
     {
         var elem = $('paypal_account_business_account');
 
-        if (jQuery.validator.validateElement(elem) || !elem.value) {
+        if (!jQuery.validator.validateElement(elem) || !elem.value) {
             this.disableMethod('wps', true);
             this.disableMethod('ec', true);
             this.disabledMethods.push('wps','ec');
