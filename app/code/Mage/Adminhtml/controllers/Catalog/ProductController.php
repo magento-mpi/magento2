@@ -439,6 +439,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function superGroupAction()
     {
+        $this->_initProduct();
         $this->loadLayout(false);
         $this->renderLayout();
     }

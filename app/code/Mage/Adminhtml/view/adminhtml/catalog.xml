@@ -448,7 +448,8 @@ Layout handle for grouped products
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="in_products">
                         <arguments>
-                            <type>checkbox</type>
+                            <type>skiplist</type>
+                            <renderer>Mage_Backend_Block_Widget_Grid_Column_Renderer_Checkbox</renderer>
                             <index>entity_id</index>
                             <header_css_class>col-select</header_css_class>
                             <column_css_class>col-select</column_css_class>

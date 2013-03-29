@@ -92,7 +92,7 @@
                             $selectionGrid.dialog('close');
                         }
                     }, {
-                        text: 'Apply Changes',
+                        text: 'Add Products',
                         'class': 'add',
                         click: function() {
                             bSelection.gridSelection.get(optionIndex).each(

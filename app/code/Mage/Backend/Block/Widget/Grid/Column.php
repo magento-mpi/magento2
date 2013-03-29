@@ -91,6 +91,7 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
         'checkbox' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Checkbox',
         'radio' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Radio',
         'store' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Store',
+        'skiplist' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Skiplist',
         'theme' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Theme',
         'default' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Text',
     );
