@@ -19,5 +19,3 @@ app/code/Mage/Adminhtml/view/adminhtml/sales/order/create/scripts.js
 app/code/Mage/Adminhtml/view/adminhtml/sales/order/giftoptions_tooltip.js
 app/code/Mage/Adminhtml/view/adminhtml/sales/order/shipment/packaging.js
 app/code/Mage/Adminhtml/view/adminhtml/variables.js
-app/design/frontend/magento2/reference/js/ie9.js
-app/design/frontend/magento2/reference/js/selectivizr-min.js

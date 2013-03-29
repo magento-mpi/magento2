@@ -15,6 +15,8 @@ return array(
     'app/code/Zend',
     'app/design/frontend/*/*/js/dnd.js',
     'app/design/frontend/*/*/js/modernizr.js',
+    'app/design/frontend/magento2/reference/js/ie9.js',
+    'app/design/frontend/magento2/reference/js/selectivizr-min.js',
     'app/design/frontend/enterprise/fixed/js/jqzoom',
     'app/etc/local.xml',
     'dev/build/publication/license',
