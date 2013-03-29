@@ -224,6 +224,17 @@ label.mage-error {
     display: none;
 }
 
+.eq-ie8 .accordion .config legend {
+    position: absolute;
+    left: -999em;
+    display: block;
+    width: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
 .accordion .config table {
     width: 100%;
 }

@@ -1743,11 +1743,8 @@
 }
 
 #order-data .actions .action-add,
-#order-data .actions .action-add:active,
-#order-data .actions .action-add:hover,
 #order-data .actions .action-delete,
-#order-data .actions .action-delete:active,
-#order-data .actions .action-delete:hover {
+#order-customer-selector .actions .action-add {
     margin: 0 0 0 20px;
 }
 

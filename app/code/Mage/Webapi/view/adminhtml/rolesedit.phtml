@@ -10,14 +10,11 @@
  * @var Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource $this
  */
 ?>
-<div class="entry-edit">
-    <div class="entry-edit-head">
-        <h4 class="icon-head head-edit-form fieldset-legend"><?php
-            echo $this->__('Roles Resources') ?></h4>
-    </div>
-    <input type="hidden" name="resource" id="role_resources" value="">
-    <fieldset>
+<fieldset class="fieldset">
 
+    <legend class="legend"><span><?php echo $this->__('Roles Resources') ?></span></legend>
+
+    <input type="hidden" name="resource" id="role_resources" value="">
         <span class="field-row">
             <label for="all"><?php echo $this->__('Resource Access') ?></label>
             <select id="all" name="all" onchange="$('resources_container').toggle()" class="select">
@@ -34,9 +31,7 @@
                 <div class="tree x-tree" id="resource-tree"></div>
             </div>
         </span>
-
-    </fieldset>
-</div>
+</fieldset>
 <!-- Draw Resources Tree -->
 <script type="text/javascript">
 <?php if ($this->isEverythingAllowed()): ?>

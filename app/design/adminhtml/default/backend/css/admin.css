@@ -3082,6 +3082,9 @@ table tbody tr:nth-child(odd):hover th {
     margin: 0 0 6px;
     display:block;
 }
+.dashboard-container .field-store-switcher {
+    padding: 20px 0;
+}
 
 .toolbar .field-store-switcher {
     padding: 0;

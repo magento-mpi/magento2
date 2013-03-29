@@ -11,6 +11,7 @@
 <?php /* @var $this Mage_Adminhtml_Block_Sales_Order_Create_Store_Select */ ?>
 <div class="store-scope form-inline">
     <div class="tree-store-scope">
+    <?php $showHelpHint = 0; ?>
     <?php foreach ($this->getWebsiteCollection() as $_website): ?>
         <?php $showWebsite=false; ?>
         <?php foreach ($this->getGroupCollection($_website) as $_group): ?>
@@ -21,7 +22,10 @@
                     <div class="field field-website_label">
                         <label class="label" for=""><span><?php echo $this->escapeHtml($_website->getName()) ?></span></label>
                         <div class="control"></div>
-                        <?php echo $this->getHintHtml() ?>
+                        <?php if ($showHelpHint == 0):
+                            echo $this->getHintHtml();
+                            $showHelpHint = 1;
+                        endif; ?>
                     </div>
                 <?php endif; ?>
                 <?php if ($showGroup == false): ?>
