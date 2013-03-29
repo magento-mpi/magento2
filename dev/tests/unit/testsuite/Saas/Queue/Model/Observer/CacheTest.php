@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Queue_Model_Worker_CacheTest extends PHPUnit_Framework_TestCase
+class Saas_Queue_Model_Observer_CacheTest extends PHPUnit_Framework_TestCase
 {
     /*
      * @var PHPUnit_Framework_MockObject_MockObject $_cache
@@ -13,14 +13,14 @@ class Saas_Queue_Model_Worker_CacheTest extends PHPUnit_Framework_TestCase
     protected $_cache;
 
     /**
-     * @var Saas_Queue_Model_Worker_Cache $_jobCache
+     * @var Saas_Queue_Model_Observer_Cache $_jobCache
      */
     protected $_jobCache;
 
     public function setUp()
     {
         $this->_cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
-        $this->_jobCache = new Saas_Queue_Model_Worker_Cache($this->_cache);
+        $this->_jobCache = new Saas_Queue_Model_Observer_Cache($this->_cache);
     }
 
     public function testUseInEmailNotification()
@@ -39,7 +39,7 @@ class Saas_Queue_Model_Worker_CacheTest extends PHPUnit_Framework_TestCase
         $observer->setEvent($event);
 
         $this->_cache->expects($this->exactly(count($types)))->method('cleanType');
-        $this->_jobCache->refreshCache($observer);
+        $this->_jobCache->processRefreshCache($observer);
     }
 
     /**
@@ -58,7 +58,7 @@ class Saas_Queue_Model_Worker_CacheTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($types));
 
         $this->_cache->expects($this->exactly(count($types)))->method('cleanType');
-        $this->_jobCache->refreshCache($observer);
+        $this->_jobCache->processRefreshCache($observer);
     }
 
     /**
@@ -72,7 +72,7 @@ class Saas_Queue_Model_Worker_CacheTest extends PHPUnit_Framework_TestCase
             ->method('getTypes')
             ->will($this->returnValue($types));
         $this->_cache->expects($this->exactly(count($types)))->method('cleanType');
-        $this->_jobCache->refreshAllCache();
+        $this->_jobCache->processRefreshAllCache();
     }
 
     public function cacheTypesDataProvider()

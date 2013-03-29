@@ -39,15 +39,18 @@
             </preferences>
         </di>
         <events>
-            <refresh_cache>
+            <application_process_refresh_cache>
                 <observers>
                     <saas_queue>
                         <asynchronous>true</asynchronous>
-                        <class>Saas_Queue_Model_Worker_Cache</class>
-                        <method>refreshCache</method>
+                        <class>Saas_Queue_Model_Observer_Cache</class>
+                        <method>processRefreshCache</method>
+                        <params>
+                            <task_name>refresh_cache</task_name>
+                        </params>
                     </saas_queue>
                 </observers>
-            </refresh_cache>
+            </application_process_refresh_cache>
         </events>
     </global>
     <workers>
