@@ -870,6 +870,11 @@
     margin-right: 8px;
 }
 
+#node_properties_fieldset #node_preview {
+    position: relative;
+    top: 6px;
+}
+
 /*
     CMS -> Widgets
 -------------------------------------- */
