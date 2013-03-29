@@ -59,7 +59,8 @@ var Product = {};
                 '&attribute[frontend_label]=' +
                 window.encodeURIComponent(name) +
                 '&attribute[attribute_code]=' +
-                window.encodeURIComponent(name.replace(/[^a-z0-9]+/g, '_').toLowerCase());
+                window.encodeURIComponent(name.replace(/[^a-z0-9]+/g, '_').toLowerCase())
+                + "&attribute[apply_to]=simple,configurable,virtual";
         }
     });
 })(jQuery);
