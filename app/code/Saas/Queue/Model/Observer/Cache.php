@@ -11,7 +11,7 @@
 /**
  * Executing jobs to refresh cache
  */
-class Saas_Queue_Model_Worker_Cache extends Saas_Queue_Model_WorkerAbstract
+class Saas_Queue_Model_Observer_Cache extends Saas_Queue_Model_ObserverAbstract
 {
     /**
      * @var Mage_Core_Model_CacheInterface $_cache
@@ -43,7 +43,7 @@ class Saas_Queue_Model_Worker_Cache extends Saas_Queue_Model_WorkerAbstract
      * @param  Varien_Event_Observer $observer
      * @return Saas_Queue_Model_Worker_Cache
      */
-    public function refreshCache(Varien_Event_Observer $observer)
+    public function processRefreshCache(Varien_Event_Observer $observer)
     {
         $cacheTypes = $observer->getEvent()->getCacheTypes();
         if ($cacheTypes) {
@@ -51,7 +51,7 @@ class Saas_Queue_Model_Worker_Cache extends Saas_Queue_Model_WorkerAbstract
                 $this->_cache->cleanType($type);
             }
         } else {
-            $this->refreshAllCache();
+            $this->processRefreshAllCache();
         }
         return $this;
     }
@@ -61,7 +61,7 @@ class Saas_Queue_Model_Worker_Cache extends Saas_Queue_Model_WorkerAbstract
      *
      * @return Saas_Queue_Model_Worker_Cache
      */
-    public function refreshAllCache()
+    public function processRefreshAllCache()
     {
         foreach ($this->_cache->getTypes() as $type => $typeDescription) {
             $this->_cache->cleanType($type);

@@ -21,7 +21,10 @@ class Saas_Saas_Model_CacheTest extends PHPUnit_Framework_TestCase
 
     public function testInvalidateType()
     {
-        $this->_eventManagerMock->expects($this->once())->method('dispatch')->with($this->equalTo('refresh_cache'));
+        $this->_eventManagerMock
+            ->expects($this->once())
+            ->method('dispatch')
+            ->with($this->equalTo('application_process_refresh_cache'));
         $objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
         $objectManager->expects($this->once())
             ->method('get')

@@ -24,7 +24,10 @@ class Saas_Saas_Model_Cache extends Mage_Core_Model_Cache
         }
 
         $eventManager = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
-        $eventManager->dispatch('refresh_cache', array('cache_types' => $typeCode));
+        $eventManager->dispatch(
+            'application_process_refresh_cache',
+            array('cache_types' => $typeCode)
+        );
         return $this->_callOriginInvalidateType($typeCode);
     }
 

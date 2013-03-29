@@ -12,7 +12,7 @@
  * Abstract class for all job dispatchers
  * TODO: implement email sending
  */
-abstract class Saas_Queue_Model_WorkerAbstract
+abstract class Saas_Queue_Model_ObserverAbstract
 {
     /**
      * Check whether worker instance should notify by email
