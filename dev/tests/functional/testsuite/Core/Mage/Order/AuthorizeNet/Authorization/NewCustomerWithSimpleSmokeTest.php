@@ -159,6 +159,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      */
     public function fullRefund($captureType, $refundType, $orderData)
     {
+        $this->markTestIncomplete('MAGETWO-8704');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -192,6 +193,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
      */
     public function partialRefund($captureType, $refundType, $orderData, $sku)
     {
+        $this->markTestIncomplete('MAGETWO-8704');
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
         $creditMemo = $this->loadDataSet('SalesOrder', 'products_to_refund', array('return_filter_sku' => $sku));

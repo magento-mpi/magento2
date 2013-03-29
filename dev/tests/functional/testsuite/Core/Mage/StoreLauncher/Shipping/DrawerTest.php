@@ -23,27 +23,16 @@ class Core_Mage_StoreLauncher_Shipping_DrawerTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        //Data
-        $shippingConfig = $this->loadDataSet('ShippingMethod', 'shipping_disable');
-        //Step
-        $this->currentWindow()->maximize();
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($shippingConfig);
-        $this->admin();
-    }
-
-    /**
-     * Restore shipping settings
-     */
-    protected function tearDownAfterTest()
-    {
         $this->loginAdminUser();
         $tileState = $this->getControlAttribute('fieldset', 'shipping_tile', 'class');
         $changeState = ('tile-store-settings tile-shipping tile-complete' == $tileState) ? true : false;
         if ($changeState) {
             $this->storeLauncherHelper()->setTileState('shipping', Core_Mage_StoreLauncher_Helper::$STATE_TODO);
         }
+        $shippingConfig = $this->loadDataSet('ShippingMethod', 'shipping_disable');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($shippingConfig);
+        $this->admin();
     }
 
     /**
@@ -60,10 +49,8 @@ class Core_Mage_StoreLauncher_Shipping_DrawerTest extends Mage_Selenium_TestCase
         $this->storeLauncherHelper()->openDrawer('shipping_tile');
         $this->storeLauncherHelper()->saveDrawer();
         //Verification
-        $this->storeLauncherHelper()->mouseOverDrawer('shipping_tile');
-        $this->assertTrue($this->controlIsVisible('button', 'open_shipping_drawer'), 'Tile state is changed');
         $this->assertEquals('tile-store-settings tile-shipping tile-todo',
-            $this->getControlAttribute('fieldset', 'shipping_tile', 'class'), 'Tile state is not Equal to TODO');
+            $this->getControlAttribute('fieldset', 'shipping_tile', 'class'), 'Tile state is not Equal to Complete');
     }
 
     /**
@@ -82,9 +69,8 @@ class Core_Mage_StoreLauncher_Shipping_DrawerTest extends Mage_Selenium_TestCase
         $this->controlIsVisible('pageelement', 'shipping_disabled_content');
         $this->storeLauncherHelper()->saveDrawer();
         //Verification
-        $this->storeLauncherHelper()->mouseOverDrawer('shipping_tile');
-        $this->assertTrue($this->controlIsVisible('button', 'configure_other_shipping_method'),
-            'Tile state is not changed');
+        $this->assertEquals('tile-store-settings tile-shipping tile-complete',
+            $this->getControlAttribute('fieldset', 'shipping_tile', 'class'), 'Tile state is not Equal to Complete');
     }
 
     /**
@@ -112,9 +98,8 @@ class Core_Mage_StoreLauncher_Shipping_DrawerTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_shipping');
         $this->storeLauncherHelper()->saveDrawer();
         //Verification
-        $this->storeLauncherHelper()->mouseOverDrawer('shipping_tile');
-        $this->assertTrue($this->controlIsVisible('button', 'configure_other_shipping_method'),
-            'Tile state is not changed');
+        $this->assertEquals('tile-store-settings tile-shipping tile-complete',
+            $this->getControlAttribute('fieldset', 'shipping_tile', 'class'), 'Tile state is not Equal to Complete');
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('sales_shipping_methods');
         $this->systemConfigurationHelper()->expandFieldSet($shippingMethod);
