@@ -18,7 +18,6 @@
             </depends>
         </Saas_Sales>
     </modules>
-
     <global>
         <resources>
             <saas_sales_setup>
@@ -32,8 +31,8 @@
             <adminhtml_controller_action_predispatch_start>
                 <observers>
                     <saas_sales_disable_adminhtml_recurring_profile_controller>
-                        <class>Saas_Sales_Model_Recurring_Profile_Backend_Observer</class>
-                        <method>disableSalesRecurringProfile</method>
+                        <class>Saas_Sales_Model_Recurring_Profile_Observer</class>
+                        <method>disableSalesRecurringProfileBackend</method>
                     </saas_sales_disable_adminhtml_recurring_profile_controller>
                 </observers>
             </adminhtml_controller_action_predispatch_start>
@@ -41,13 +40,12 @@
                 <observers>
                     <saas_sales_disable_recurring_profile_controller>
                         <class>Saas_Sales_Model_Recurring_Profile_Observer</class>
-                        <method>disableSalesRecurringProfile</method>
+                        <method>disableSalesRecurringProfileFrontend</method>
                     </saas_sales_disable_recurring_profile_controller>
                 </observers>
             </controller_action_predispatch_sales>
         </events>
     </global>
-
     <frontend>
         <layout>
             <updates>

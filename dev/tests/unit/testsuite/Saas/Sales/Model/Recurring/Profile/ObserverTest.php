@@ -39,7 +39,44 @@ class Saas_Sales_Model_Recurring_Profile_ObserverTest extends PHPUnit_Framework_
         );
     }
 
-    public function testDisabledSalesRecurringProfileController()
+    public function testDisabledSalesRecurringProfileBackendControllerBackend()
+    {
+        $this->_requestMock->expects($this->once())->method('getControllerName')
+            ->will($this->returnValue('sales_recurring_profile'));
+        $this->_requestMock->expects($this->once())->method('getControllerModule')
+            ->will($this->returnValue('Mage_Adminhtml'));
+        $this->_helperMock->expects($this->once())->method('customizeNoRoutForward')->with($this->_requestMock);
+
+        $this->_modelCacheObserver->disableSalesRecurringProfileBackend($this->_observerMock);
+    }
+
+    /**
+     * @param string $controller
+     * @param string $module
+     * @dataProvider dataProviderForNotDisabledSalesRecurringProfileBackendControllerBackend
+     */
+    public function testNotDisabledSalesRecurringProfileBackendControllerBackend($controller, $module)
+    {
+        $this->_requestMock->expects($this->any())->method('getControllerName')->will($this->returnValue($controller));
+        $this->_requestMock->expects($this->any())->method('getControllerModule')->will($this->returnValue($module));
+        $this->_helperMock->expects($this->never())->method('customizeNoRoutForward');
+
+        $this->_modelCacheObserver->disableSalesRecurringProfileBackend($this->_observerMock);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForNotDisabledSalesRecurringProfileBackendControllerBackend()
+    {
+        return array(
+            array('unknown', 'Mage_Adminhtml'),
+            array('sales_recurring_profile', 'unknown'),
+            array('unknown', 'unknown'),
+        );
+    }
+
+    public function testDisabledSalesRecurringProfileControllerFrontend()
     {
         $this->_requestMock->expects($this->once())->method('getControllerName')
             ->will($this->returnValue('recurring_profile'));
@@ -47,27 +84,27 @@ class Saas_Sales_Model_Recurring_Profile_ObserverTest extends PHPUnit_Framework_
             ->will($this->returnValue('Mage_Sales'));
         $this->_helperMock->expects($this->once())->method('customizeNoRoutForward')->with($this->_requestMock);
 
-        $this->_modelCacheObserver->disableSalesRecurringProfile($this->_observerMock);
+        $this->_modelCacheObserver->disableSalesRecurringProfileFrontend($this->_observerMock);
     }
 
     /**
      * @param string $controller
      * @param string $module
-     * @dataProvider dataProviderForNotDisabledSalesRecurringProfileController
+     * @dataProvider dataProviderForNotDisabledSalesRecurringProfileControllerFrontend
      */
-    public function testNotDisabledSalesRecurringProfileController($controller, $module)
+    public function testNotDisabledSalesRecurringProfileControllerFrontend($controller, $module)
     {
         $this->_requestMock->expects($this->any())->method('getControllerName')->will($this->returnValue($controller));
         $this->_requestMock->expects($this->any())->method('getControllerModule')->will($this->returnValue($module));
         $this->_helperMock->expects($this->never())->method('customizeNoRoutForward');
 
-        $this->_modelCacheObserver->disableSalesRecurringProfile($this->_observerMock);
+        $this->_modelCacheObserver->disableSalesRecurringProfileFrontend($this->_observerMock);
     }
 
     /**
      * @return array
      */
-    public function dataProviderForNotDisabledSalesRecurringProfileController()
+    public function dataProviderForNotDisabledSalesRecurringProfileControllerFrontend()
     {
         return array(
             array('unknown', 'Mage_Sales'),
