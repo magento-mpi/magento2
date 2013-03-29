@@ -80,7 +80,7 @@
          */
         _onMouseUp: function () {
             if (this.element.find('[data-translate-menu]').hasClass('hidden'))
-                this._toggle($('[data-translate-edit]').data('translate-edit'));
+                this._toggle(this.element.find('[data-translate-edit]').data('translate-edit'));
             else
                 this.element.find('[data-tip="translate"]').addClass('hidden');
 
@@ -157,6 +157,7 @@
 
             toolbarButton.data('translate-edit', mode);
 
+            var that = this;
             this.element.find('[data-translate-selected]').each(function() {
                 if ($(this).data('translate-selected') === mode) {
                     // Check to see if turning off (selecting the already highlighted option).
@@ -181,7 +182,7 @@
                     }
 
                     // Update tooltip text.
-                    $('[data-tip-text]').text("Toggle " + $(this).find('[data-translate-label]').html());
+                    that.element.find('[data-tip-text]').text("Toggle " + $(this).find('[data-translate-label]').html());
                 }
                 else {
                     var translateOptionMode = $(this).data('translate-selected');
