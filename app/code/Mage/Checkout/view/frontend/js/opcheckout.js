@@ -476,7 +476,9 @@
     $.widget('mage.opcheckout', $.mage.opcheckout, {
         options: {
             review: {
-                continueSelector: '#review-buttons-container .button'
+                continueSelector: '#review-buttons-container .button',
+                container: '#opc-review',
+                submitContainer: '#checkout-review-submit'
             }
         },
 
@@ -489,6 +491,14 @@
                         this._ajaxContinue(
                             this.options.review.saveUrl,
                             $(this.options.payment.form).serialize());
+                    }
+                }, this))
+                .on('contentUpdated', this.options.review.container, $.proxy(function() {
+                    var paypalIframe = this.element.find(this.options.review.container)
+                        .find('[data-container="paypal-iframe"]');
+                    if (paypalIframe.length) {
+                        paypalIframe.show();
+                        $(this.options.review.submitContainer).hide();
                     }
                 }, this));
         }
