@@ -11,7 +11,7 @@
 index_management:
     mca: process/list/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'process/list/')]
-    title: Index Management / System / Magento Admin
+    title: Index Management / Tools / System / Magento Admin
     uimap:
         form:
             fieldsets:

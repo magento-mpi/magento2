@@ -249,7 +249,7 @@ edit_cms_widget:
 
 save_and_continue_edit_cms_widget:
     mca: widget_instance/edit/instance_id/%id%/back/edit/tab/%tab%
-    title: %elementTitle% / Widgets / CMS / Magento Admin
+    title: %elementTitle% / Widgets / Elements / Content / Magento Admin
     uimap:
         form: *addWidgetOptions
         buttons:

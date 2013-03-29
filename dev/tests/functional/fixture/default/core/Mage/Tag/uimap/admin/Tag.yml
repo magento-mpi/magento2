@@ -181,7 +181,7 @@ new_tag:
 pending_tags:
     mca: tag/pending
     click_xpath: //div[@class='submenu']//a[normalize-space(span)='Pending Tags']
-    title: Pending Tags / Tags / Catalog / Magento Admin
+    title: Pending Tags / Magento Admin
     uimap:
         form:
             fieldsets:

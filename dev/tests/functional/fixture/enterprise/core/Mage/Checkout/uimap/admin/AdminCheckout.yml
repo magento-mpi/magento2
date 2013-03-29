@@ -118,7 +118,7 @@ edit_order:
 
 create_order_for_new_customer_sku:
     mca: sales_order_create/processData/
-    title: New Order / Orders / Sales / Magento Admin
+    title: New Order / Orders / Operations / Sales / Magento Admin
     uimap:
         form:
             fieldsets: &newOrderForNewCustomerFieldsets
