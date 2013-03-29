@@ -1121,6 +1121,10 @@ option.placeholder {
     width: 100%;
 }
 
+.control .input-file {
+    margin-top: 4px;
+}
+
 /* TODO: remove styles for images when images will be replaced by font icons */
 .control > .hasDatepicker + img {
     margin: -3px 0 0 5px;
