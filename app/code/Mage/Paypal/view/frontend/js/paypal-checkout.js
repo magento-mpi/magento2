@@ -25,6 +25,8 @@
                 if (this.options.isCatalogProduct) {
                     $(this.options.paypalCheckoutSelector).val(returnUrl);
                     $(this.options.productAddToCartForm).submit();
+                } else {
+                    $.mage.redirect(returnUrl);
                 }
             }, this));
         }

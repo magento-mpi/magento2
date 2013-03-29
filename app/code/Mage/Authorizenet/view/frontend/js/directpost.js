@@ -12,18 +12,22 @@
     "use strict";
     $.widget('mage.directpost', {
         options: {
-            placeOrderSelector: '[role="review-save"]',
+            placeOrderSelector: '[data-role="review-save"]',
             paymentFormSelector: '#co-payment-form',
             updateSelectorPrefix: '#checkout-',
             updateSelectorSuffix: '-load',
-            ccNumberSelector: '[data-container="an-cc-number"]',
-            ccMonthSelector: '[data-container="an-cc-month"]',
-            ccYearSelector: '[data-container="an-cc-year"]',
-            ccCvvSelector: '[data-container="an-cc-cvv"]',
+            ccNumberSelector: '[data-container="cc-number"]',
+            ccMonthSelector: '[data-container="cc-month"]',
+            ccYearSelector: '[data-container="cc-year"]',
+            ccCvvSelector: '[data-container="cc-cvv"]',
             iframeSelector: '[data-container="authorize-net-iframe"]',
             hiddenFormTmpl: '<form target="${target}" action="${action}" method="POST" enctype="application/x-www-form-urlencoded" class="no-display">' +
                             '{{each(key, val) inputs}} <input value="${val}" name="${key}" type="hidden"> {{/each}}' +
-                            '</form>'
+                            '</form>',
+            reviewAgreementForm: null,
+            cgiUrl: null,
+            orderSaveUrl: null,
+            controller: null
         },
 
         _create: function() {
@@ -106,19 +110,19 @@
          * @private
          */
         _preparePaymentData: function(data) {
-            var year = $(this.options.ccYearSelector).val(),
-                month = parseInt($(this.options.ccMonthSelector).val(), 10);
+            var year = this.element.find(this.options.ccYearSelector).val(),
+                month = parseInt(this.element.find(this.options.ccMonthSelector).val(), 10);
             if (year.length > 2) {
                 year = year.substring(2);
             }
-            if ($(this.options.ccCvvSelector).length) {
-                data.x_card_code = $(this.options.ccCvvSelector).val();
+            if (this.element.find(this.options.ccCvvSelector).length) {
+                data.x_card_code = this.element.find(this.options.ccCvvSelector).val();
             }
             if (month < 10) {
                 month = '0' + month;
             }
             data.x_exp_date = month + '/' + year;
-            data.x_card_num = $(this.options.ccNumberSelector).val();
+            data.x_card_num = this.element.find(this.options.ccNumberSelector).val();
             return data;
         }
     });
