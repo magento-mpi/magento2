@@ -25,6 +25,11 @@
             <preferences>
                 <Mage_CatalogRule_Model_Rule_Job>Saas_CatalogRule_Model_Rule_Job</Mage_CatalogRule_Model_Rule_Job>
             </preferences>
+            <Saas_CatalogRule_Model_Rule_Job>
+                <parameters>
+                    <helper>Mage_CatalogRule_Helper_Data</helper>
+                </parameters>
+            </Saas_CatalogRule_Model_Rule_Job>
         </di>
         <events>
             <catalogrule_apply_all>
