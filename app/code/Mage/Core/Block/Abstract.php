@@ -767,7 +767,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * @param   bool $showTime
      * @return  string
      */
-    public function formatDate($date = null, $format =  Mage_Core_Model_Locale::FORMAT_TYPE_SHORT, $showTime = false)
+    public function formatDate($date = null, $format =  Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false)
     {
         return $this->helper('Mage_Core_Helper_Data')->formatDate($date, $format, $showTime);
     }
@@ -780,7 +780,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * @param   bool $showDate
      * @return  string
      */
-    public function formatTime($time = null, $format =  Mage_Core_Model_Locale::FORMAT_TYPE_SHORT, $showDate = false)
+    public function formatTime($time = null, $format =  Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false)
     {
         return $this->helper('Mage_Core_Helper_Data')->formatTime($time, $format, $showDate);
     }

@@ -49,6 +49,8 @@ app/code/Mage/Core/Model/Layout.php
 app/code/Mage/Core/Model/Layout/Factory.php
 app/code/Mage/Core/Model/Layout/Update.php
 app/code/Mage/Core/Model/Layout/Argument
+app/code/Mage/Core/Model/Locale
+app/code/Mage/Core/Model/LocaleInterface.php
 app/code/Mage/Core/Model/ObjectManager
 app/code/Mage/Core/Model/Page
 app/code/Mage/Core/Model/Page.php

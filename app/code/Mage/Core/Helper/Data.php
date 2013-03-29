@@ -58,10 +58,10 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_encryptor = null;
 
     protected $_allowedFormats = array(
-        Mage_Core_Model_Locale::FORMAT_TYPE_FULL,
-        Mage_Core_Model_Locale::FORMAT_TYPE_LONG,
-        Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM,
-        Mage_Core_Model_Locale::FORMAT_TYPE_SHORT
+        Mage_Core_Model_LocaleInterface::FORMAT_TYPE_FULL,
+        Mage_Core_Model_LocaleInterface::FORMAT_TYPE_LONG,
+        Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
+        Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT
     );
 
     /**
@@ -164,11 +164,11 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
      * Format date using current locale options and time zone.
      *
      * @param   date|Zend_Date|null $date
-     * @param   string              $format   See Mage_Core_Model_Locale::FORMAT_TYPE_* constants
+     * @param   string              $format   See Mage_Core_Model_LocaleInterface::FORMAT_TYPE_* constants
      * @param   bool                $showTime Whether to include time
      * @return  string
      */
-    public function formatDate($date = null, $format = Mage_Core_Model_Locale::FORMAT_TYPE_SHORT, $showTime = false)
+    public function formatDate($date = null, $format = Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false)
     {
         if (!in_array($format, $this->_allowedFormats, true)) {
             return $date;
@@ -203,7 +203,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
      * @param   bool                $showDate
      * @return  string
      */
-    public function formatTime($time = null, $format = Mage_Core_Model_Locale::FORMAT_TYPE_SHORT, $showDate = false)
+    public function formatTime($time = null, $format = Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false)
     {
         if (!in_array($format, $this->_allowedFormats, true)) {
             return $time;
