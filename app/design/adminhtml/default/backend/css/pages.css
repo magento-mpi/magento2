@@ -595,6 +595,10 @@
 /*
     Customer
 ---------------------------------------*/
+#customer_info_tabs_account_content #_accountsendemail {
+    margin-top: 8px;
+}
+
 .customer-information:before,
 .customer-information:after {
     content: "";
