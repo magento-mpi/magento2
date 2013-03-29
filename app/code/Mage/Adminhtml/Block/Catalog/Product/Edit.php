@@ -312,10 +312,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
                     'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Save & Duplicate'),
                     'data_attribute' => array(
                         'mage-init' => array(
-                            'button' => array('event' => '', 'target' => '#product-edit-form'),
+                            'button' => array('event' => 'saveAndClone', 'target' => '#product-edit-form'),
                         ),
                     ),
-                    'onclick' => $this->_isProductNew() ? '' : 'setLocation(\'' . $this->getDuplicateUrl() . '\')',
                 );
             }
         }

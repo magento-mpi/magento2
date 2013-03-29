@@ -68,7 +68,27 @@ jQuery(function($) {
             $(this).val($(this).val().substr(0, maxLength));
         }
     });
-    $form.mage('form').mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
+    $form.mage('form', {
+        handlersData: {
+            save: {},
+            saveAndContinueEdit: {
+                action: {
+                    args: {back: 'edit'}
+                }
+            },
+            saveAndNew: {
+                action: {
+                    args: {back: 'new'}
+                }
+            },
+            saveAndClone: {
+                action: {
+                    args: {back: 'clone'}
+                }
+            }
+        }
+    });
+    $form.mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
 
     $('#product_info_tabs').on('tabsbeforeactivate tabscreate', function (event, ui) {
         var action = $(ui.newPanel || ui.panel).find('#attribute-name-container').length ? 'show' : 'hide';
