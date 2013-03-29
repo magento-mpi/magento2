@@ -23,6 +23,7 @@ class Core_Mage_Agcc_DefaultValuesTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('customers_promotions');
+        $this->systemConfigurationHelper()->expandFieldSet('auto_generated_specific_coupon_codes');
     }
 
     /**

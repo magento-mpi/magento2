@@ -112,7 +112,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
         } else {
             $this->clickButton('insert_widget', false);
         }
-        $this->waitForElement($this->_getControlXpath('dropdown', 'widget_type'));
+        $this->waitForControlVisible('dropdown', 'widget_type');
         $this->fillFieldset($widgetData, 'widget_insertion');
         if ($chooseOption) {
             $this->selectOptionItem($chooseOption);

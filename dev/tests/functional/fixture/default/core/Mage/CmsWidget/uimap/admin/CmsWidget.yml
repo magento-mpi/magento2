@@ -248,7 +248,7 @@ edit_cms_widget:
         messages: *cmsWidgetMessages
 
 save_and_continue_edit_cms_widget:
-    mca: widget_instance/edit/instance_id/%id%/back/edit/tab/%tab%
+    mca: widget_instance/edit/instance_id/%id%/back/edit/active_tab/%tab%/
     title: %elementTitle% / Widgets / CMS / Magento Admin
     uimap:
         form: *addWidgetOptions

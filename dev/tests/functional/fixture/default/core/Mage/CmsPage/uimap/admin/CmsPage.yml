@@ -243,18 +243,6 @@ create_cms_page:
             save_and_continue_edit: //button[@data-ui-id='cms-page-edit-saveandcontinue-button']
         messages: *pageMessages
 
-create_cms_page_with_sharp:
-    mca: cms_page/new/#
-    title: New Page / Manage Content / Pages / CMS / Magento Admin
-    uimap:
-        form: *createPage
-        buttons:
-            back: //button[@id="back"]
-            reset: //button[@id="reset"]
-            save_page: //button[@data-ui-id='cms-page-edit-save-button']
-            save_and_continue_edit: //button[@data-ui-id='cms-page-edit-saveandcontinue-button']
-        messages: *pageMessages
-
 edit_cms_page:
     mca: cms_page/edit/page_id/%id%/
     title: %elementTitle% / Manage Content / Pages / CMS / Magento Admin

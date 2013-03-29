@@ -388,7 +388,7 @@ create_order_for_new_customer:
         messages: *orderMessages
 
 reorder_create_new_order:
-    mca: sales_order_create/reorder/order_id/%id%
+    mca: sales_order_create/reorder/order_id/%id%/
     title: New Order / Orders / Sales / Magento Admin
     uimap: &create_order_for_new_customer
 

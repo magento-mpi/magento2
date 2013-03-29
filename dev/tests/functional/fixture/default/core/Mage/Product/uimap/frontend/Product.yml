@@ -274,6 +274,6 @@ product_review_category:
     uimap: *productReview
 
 product_page_id:
-    mca: catalog/product/view/id/%id%
+    mca: catalog/product/view/id/%id%/
     title: %productTitle%
     uimap: *product

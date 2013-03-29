@@ -189,7 +189,7 @@ edit_product_attribute_save_and_continue:
     uimap: *edit_product_attribute
 
 new_product_attribute_save_and_continue:
-    mca: catalog_product_attribute/edit/back/edit/tab/%tab%
+    mca: catalog_product_attribute/edit/back/edit/active_tab/%tab%/
     title: New Attribute / Manage Attributes / Attributes / Catalog / Magento Admin
     uimap:
         form: *newProductAttributeForm
