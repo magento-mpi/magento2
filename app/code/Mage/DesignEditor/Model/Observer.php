@@ -81,6 +81,44 @@ class Mage_DesignEditor_Model_Observer
     }
 
     /**
+     * Remove non-VDE JavaScript assets in design mode
+     * Applicable in combination with enabled 'vde_design_mode' flag for 'head' block
+     *
+     * @param Varien_Event_Observer $event
+     */
+    public function clearJs(Varien_Event_Observer $event)
+    {
+        /** @var $layout Mage_Core_Model_Layout */
+        $layout = $event->getEvent()->getLayout();
+        $blockHead = $layout->getBlock('head');
+        if (!$blockHead || !$blockHead->getData('vde_design_mode')) {
+            return;
+        }
+
+        /** @var $page Mage_Core_Model_Page */
+        $page = $this->_objectManager->get('Mage_Core_Model_Page');
+
+        /** @var $pageAssets Mage_Page_Model_Asset_GroupedCollection */
+        $pageAssets = $page->getAssets();
+
+        $vdeAssets = array();
+        foreach ($pageAssets->getGroups() as $group) {
+            if ($group->getProperty('flag_name') == 'vde_design_mode') {
+                $vdeAssets = array_merge($vdeAssets, $group->getAll());
+            }
+        }
+
+        /** @var $nonVdeAssets Mage_Core_Model_Page_Asset_AssetInterface[] */
+        $nonVdeAssets = array_diff_key($pageAssets->getAll(), $vdeAssets);
+
+        foreach ($nonVdeAssets as $assetId => $asset) {
+            if ($asset->getContentType() == Mage_Core_Model_Design_Package::CONTENT_TYPE_JS) {
+                $pageAssets->remove($assetId);
+            }
+        }
+    }
+
+    /**
      * Save quick styles
      *
      * @param Varien_Event_Observer $event

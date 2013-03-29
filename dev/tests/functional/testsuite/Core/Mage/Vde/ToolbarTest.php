@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Core_Mage_Vde_PageTypeTest extends Mage_Selenium_TestCase
+class Core_Mage_Vde_ToolbarTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {

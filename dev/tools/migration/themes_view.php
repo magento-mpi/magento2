@@ -7,9 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 require_once __DIR__ . '/../../../app/bootstrap.php';
-Mage::setIsDeveloperMode(true);
 
 try {
     Mage::getConfig()->cleanCache();

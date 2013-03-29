@@ -248,7 +248,7 @@
     height: auto;
     margin: auto;
     overflow: hidden;
-    background: #fff url(../mui/images/ajax-loader-big.gif) no-repeat 50% 50%;
+    background: #fff url(../images/ajax-loader-big.gif) no-repeat 50% 50%;
     z-index: 5;
     text-indent: -999em;
 }

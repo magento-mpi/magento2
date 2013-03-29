@@ -102,7 +102,7 @@ manage_sales_orders:
             not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,"appears to be a DNS hostname but cannot match against hostname schema for TLD")]
             hostname_not_valid: //li[normalize-space(@class)='error-msg' and contains(.,'appears to be a local network name but local network names are not allowed')]
             not_valid_email: //*[text()='Please enter a valid email address. For example johndoe@domain.com.']
-            order_id: "//*[contains(@class,'head-sales-order')][contains(text(), 'Order #')]"
+            order_id: //div[@id='order-header']/h1[@class='title']
             #confirmation
             confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?
             confirmation_for_edit: Are you sure? This order will be canceled and a new one will be created instead
@@ -650,17 +650,17 @@ view_order:
                                         filter_created_at_from: //input[@name='created_at[from]']
                                         filter_created_at_to: //input[@name='created_at[to]']
         buttons:
-            back: //p[@class='form-buttons']//button[span='Back']
-            edit: //p[@class='form-buttons']//button[span='Edit']
-            cancel: //p[@class='form-buttons']//button[span='Cancel']
-            send_email: //p[@class='form-buttons']//button[span='Send Email']
-            hold: //p[@class='form-buttons']//button[span='Hold']
-            unhold: //p[@class='form-buttons']//button[span='Unhold']
-            credit_memo: //p[@class='form-buttons']//button[span='Credit Memo']
-            invoice: //p[@class='form-buttons']//button[span='Invoice']
-            ship: //p[@class='form-buttons']//button[span='Ship']
-            reorder: //p[@class='form-buttons']//button[span='Reorder']
-            void: //p[@class='form-buttons']//button[span='Void']
+            back: //div[@class='page-actions-inner']//button[span='Back']
+            edit: //div[@class='page-actions-inner']//button[span='Edit']
+            cancel: //div[@class='page-actions-inner']//button[span='Cancel']
+            send_email: //div[@class='page-actions-inner']//button[span='Send Email']
+            hold: //div[@class='page-actions-inner']//button[span='Hold']
+            unhold: //div[@class='page-actions-inner']//button[span='Unhold']
+            credit_memo: //div[@class='page-actions-inner']//button[span='Credit Memo']
+            invoice: //div[@class='page-actions-inner']//button[span='Invoice']
+            ship: //div[@class='page-actions-inner']//button[span='Ship']
+            reorder: //div[@class='page-actions-inner']//button[span='Reorder']
+            void: //div[@class='page-actions-inner']//button[span='Void']
         messages: *orderMessages
 
 edit_order:

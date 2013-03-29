@@ -24,6 +24,7 @@ return array(
     'dev/tests/static/testsuite/Php/Exemplar/_files/phpcs',
     'dev/tests/static/testsuite/Php/Exemplar/_files/phpmd/input',
     'dev/tests/static/testsuite/Php/Exemplar/_files/phpmd_ruleset.xsd',
+    'dev/tests/unit/testsuite/tools/view/Generator/_files/ThemeDeployment/run/source',
     'downloader/js/prototype.js',
     'lib/Apache',
     'lib/PEAR',

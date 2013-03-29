@@ -31,6 +31,8 @@ class Core_Mage_CheckoutOnePage_Guest_WithProductsTest extends Mage_Selenium_Tes
         $virtual = $this->loadDataSet('Product', 'virtual_product_visible');
         //Steps and Verification
         $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
