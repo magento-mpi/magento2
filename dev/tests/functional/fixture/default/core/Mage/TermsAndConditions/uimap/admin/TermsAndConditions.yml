@@ -64,8 +64,8 @@ create_condition:
                             store_view: //select[@name='stores[]']
                         required: [condition_name, status, show_content_as, store_view, checkbox_text, content]
         buttons:
-            back: //p[@class='form-buttons']//button[span='Back']
-            reset: //p[@class='form-buttons']//button[span='Reset']
+            back: //div[@class='page-actions']//button[span='Back']
+            reset: //div[@class='page-actions']//button[span='Reset']
             save_condition: //button[@data-ui-id='checkout-agreement-edit-save-button']
         messages: *conditionMessages
 
@@ -75,8 +75,8 @@ edit_condition:
     uimap:
         form: *salesNewCondition
         buttons:
-            back: //p[@class='form-buttons']//button[span='Back']
-            reset: //p[@class='form-buttons']//button[span='Reset']
+            back: //div[@class='page-actions']//button[span='Back']
+            reset: //div[@class='page-actions']//button[span='Reset']
             delete_condition: //button[@id='delete']
             save_condition: //button[@data-ui-id='checkout-agreement-edit-save-button']
         messages: *conditionMessages

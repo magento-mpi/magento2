@@ -27,6 +27,7 @@ class Core_Mage_Order_PurchaseOrder_NewCustomerWithSimpleSmokeTest extends Mage_
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->systemConfigurationHelper()->configure('PaymentMethod/purchaseorder');
     }
 
@@ -67,9 +68,11 @@ class Core_Mage_Order_PurchaseOrder_NewCustomerWithSimpleSmokeTest extends Mage_
     {
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_purchaseorder');
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku' => $simpleSku,
-                                              'payment_data' => $paymentData));
+        $orderData = $this->loadDataSet(
+            'SalesOrder',
+            'order_newcustomer_checkmoney_flatrate_usa',
+            array('filter_sku' => $simpleSku, 'payment_data' => $paymentData)
+        );
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
