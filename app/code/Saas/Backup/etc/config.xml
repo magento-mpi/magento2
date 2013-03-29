@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Saas_Backup>
+            <version>2.0.0.0</version>
+            <active>false</active>
+            <depends>
+                <Mage_Adminhtml/>
+            </depends>
+        </Saas_Backup>
+    </modules>
+    <global>
+        <events>
+            <controller_action_predispatch_adminhtml>
+                <observers>
+                    <saas_backup>
+                        <class>Saas_Backup_Model_Observer</class>
+                        <method>limitBackupFunctionality</method>
+                    </saas_backup>
+                </observers>
+            </controller_action_predispatch_adminhtml>
+        </events>
+    </global>
+</config>
