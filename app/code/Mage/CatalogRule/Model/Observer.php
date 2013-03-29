@@ -70,6 +70,7 @@ class Mage_CatalogRule_Model_Observer
      * Apply all catalog price rules
      *
      * Fire the same name process as catalog rule model
+     * Event name "apply_catalog_price_rules"
      *
      * @param  Varien_Event_Observer $observer
      * @return Mage_CatalogRule_Model_Observer
