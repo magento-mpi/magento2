@@ -72,6 +72,11 @@ class Mage_DesignEditor_Model_Translate_InlineVdeTest extends PHPUnit_Framework_
         $this->assertEquals($mode, $this->_helperData->getTranslationMode());
     }
 
+    /**
+     * Define the valid translation modes.
+     *
+     * @return array
+     */
     public function textTranslationMode()
     {
         return array(
@@ -94,6 +99,11 @@ class Mage_DesignEditor_Model_Translate_InlineVdeTest extends PHPUnit_Framework_
         $this->assertEquals($expectedText, $actualText);
     }
 
+    /**
+     * Define the expected text.
+     *
+     * @return array
+     */
     public function processResponseBodyTextDataProvider()
     {
         return array(
@@ -129,6 +139,11 @@ class Mage_DesignEditor_Model_Translate_InlineVdeTest extends PHPUnit_Framework_
         }
     }
 
+    /**
+     * Define html text for test.
+     *
+     * @return array
+     */
     public function processResponseBodyHtmlDataProvider()
     {
         $originalText = file_get_contents(__DIR__ . '/_files/_inline_page_original.html');

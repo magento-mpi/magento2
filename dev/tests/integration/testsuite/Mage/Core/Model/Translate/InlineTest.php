@@ -95,7 +95,7 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
     public function testProcessResponseBody($originalText, $expectedText)
     {
         $actualText = $originalText;
-        $this->_model->processResponseBody($actualText);
+        $this->_model->processResponseBody($actualText, false);
         $this->markTestIncomplete('Bug MAGE-2494');
 
         $expected = new DOMDocument;
