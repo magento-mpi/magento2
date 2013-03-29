@@ -40,5 +40,6 @@
         <Saas_Backup><active>true</active></Saas_Backup>
         <Saas_Customer><active>true</active></Saas_Customer>
         <Saas_Newsletter><active>true</active></Saas_Newsletter>
+        <Enterprise_ImportExport><active>false</active></Enterprise_ImportExport>
     </modules>
 </config>
