@@ -36,5 +36,6 @@
         <Saas_PrintedTemplate><active>true</active></Saas_PrintedTemplate>
         <Saas_Saas><active>true</active></Saas_Saas>
         <Saas_UnitPrice><active>true</active></Saas_UnitPrice>
+        <Enterprise_ImportExport><active>false</active></Enterprise_ImportExport>
     </modules>
 </config>
