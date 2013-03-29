@@ -16,4 +16,11 @@
             <active>false</active>
         </Saas_Saas>
     </modules>
+    <adminhtml>
+        <di>
+            <preferences>
+                <Mage_Backend_Model_Config_Structure_Converter>Saas_Saas_Model_DisabledConfiguration_Structure_Converter_Filter</Mage_Backend_Model_Config_Structure_Converter>
+            </preferences>
+        </di>
+    </adminhtml>
 </config>
