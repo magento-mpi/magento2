@@ -17,6 +17,7 @@ Mage/Paypal
 Mage/Paygate
 Mage/Downloadable
 Mage/Core/Model/Resource/Helper
+Mage/Core/Model/Url/RewriteFactory
 Mage/Catalog/Model/Resource/Product/Indexer
 Mage/CatalogInventory/Model/Resource/Indexer/Stock
 Mage/Sales/Model/Order
