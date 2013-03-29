@@ -3734,10 +3734,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $this->validatePage($this->_pageAfterAdminLogin);
         if ($this->_pageAfterAdminLogin == 'store_launcher' &&
-            $this->controlIsVisible('pageelement', 'welcome_popup')) {
-                $this->waitForControlVisible('pageelement', 'welcome_popup_displayed');
-                $this->clickButton('back_to_storelauncher', false);
-                $this->waitForElementInvisible($this->_getControlXpath('pageelement', 'welcome_popup'));
+            $this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup')) {
+            $this->waitForControlStopsMoving(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup');
+            $this->clickButton('back_to_storelauncher', false);
+            $this->waitForElementInvisible($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup'));
         }
         return $this;
     }
@@ -4336,10 +4336,39 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function runMassAction($action, $select = null)
     {
+        if ($this->controlIsVisible('message', 'no_records_found')) {
+            return;
+        }
         if ($select) {
             $this->clickControl(self::FIELD_TYPE_LINK, 'mass_action_select_' . strtolower($select));
         }
         $this->fillDropdown('mass_action_select_action', $action);
         $this->clickButtonAndConfirm('submit', 'confirmation_for_delete');
+    }
+
+    /**
+     * Wait for Visual JS effects to be finished
+     *
+     * @param $controlType
+     * @param $controlName
+     * @param $timeout
+     */
+    public function waitForControlStopsMoving($controlType, $controlName, $timeout = null)
+    {
+        if (is_null($timeout)) {
+            $timeout = $this->_browserTimeout;
+        }
+        $element = $this->getControlElement($controlType, $controlName);
+        $this->waitUntil(
+            function() use ($element) {
+                /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
+                $elementLocation = $element->location();
+                usleep(100000);
+                if ($elementLocation == $element->location()) {
+                    return true;
+                }
+            },
+            $timeout * 1000
+        );
     }
 }

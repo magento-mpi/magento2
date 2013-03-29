@@ -11,40 +11,40 @@
 
 @font-face {
     font-family: 'CallunaSans';
-    src: url('Mage_Backend::fonts/calluna/CallunaSansLight-webfont.woff');
-    src: url('Mage_Backend::fonts/calluna/CallunaSansLight-webfont.eot?#iefix') format('embedded-opentype'), url('Mage_Backend::fonts/calluna/CallunaSansLight-webfont.svg#webfont85gDAx2H') format('svg'), url('Mage_Backend::fonts/calluna/CallunaSansLight-webfont.woff') format('woff'), url('Mage_Backend::fonts/calluna/CallunaSansLight-webfont.ttf') format('truetype');
+    src: url('../fonts/calluna/CallunaSansLight-webfont.woff');
+    src: url('../fonts/calluna/CallunaSansLight-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/calluna/CallunaSansLight-webfont.svg#webfont85gDAx2H') format('svg'), url('../fonts/calluna/CallunaSansLight-webfont.woff') format('woff'), url('../fonts/calluna/CallunaSansLight-webfont.ttf') format('truetype');
     font-style: normal;
     font-weight: 200;
 }
 
 @font-face {
     font-family: 'CallunaSans';
-    src: url('Mage_Backend::fonts/calluna/CallunaSansRegular-webfont.woff');
-    src: url('Mage_Backend::fonts/calluna/CallunaSansRegular-webfont.eot?#iefix') format('embedded-opentype'), url('Mage_Backend::fonts/calluna/CallunaSansRegular-webfont.svg#webfont85gDAx2D') format('svg'), url('Mage_Backend::fonts/calluna/CallunaSansRegular-webfont.woff') format('woff'), url('Mage_Backend::fonts/calluna/CallunaSansRegular-webfont.ttf') format('truetype');
+    src: url('../fonts/calluna/CallunaSansRegular-webfont.woff');
+    src: url('../fonts/calluna/CallunaSansRegular-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/calluna/CallunaSansRegular-webfont.svg#webfont85gDAx2D') format('svg'), url('../fonts/calluna/CallunaSansRegular-webfont.woff') format('woff'), url('../fonts/calluna/CallunaSansRegular-webfont.ttf') format('truetype');
     font-style: normal;
     font-weight: 400;
 }
 
 @font-face {
     font-family: 'CallunaSans';
-    src: url('Mage_Backend::fonts/calluna/CallunaSansSemiBold-webfont.woff');
-    src: url('Mage_Backend::fonts/calluna/CallunaSansSemiBold-webfont.eot?#iefix') format('embedded-opentype'), url('Mage_Backend::fonts/calluna/CallunaSansSemiBold-webfont.svg#webfont85gDAx2A') format('svg'), url('Mage_Backend::fonts/calluna/CallunaSansSemiBold-webfont.woff') format('woff'), url('Mage_Backend::fonts/calluna/CallunaSansSemiBold-webfont.ttf') format('truetype');
+    src: url('../fonts/calluna/CallunaSansSemiBold-webfont.woff');
+    src: url('../fonts/calluna/CallunaSansSemiBold-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/calluna/CallunaSansSemiBold-webfont.svg#webfont85gDAx2A') format('svg'), url('../fonts/calluna/CallunaSansSemiBold-webfont.woff') format('woff'), url('../fonts/calluna/CallunaSansSemiBold-webfont.ttf') format('truetype');
     font-style: normal;
     font-weight: 500;
 }
 
 @font-face {
     font-family: 'CallunaSans';
-    src: url('Mage_Backend::fonts/calluna/CallunaSansBold-webfont.woff');
-    src: url('Mage_Backend::fonts/calluna/CallunaSansBold-webfont.eot?#iefix') format('embedded-opentype'), url('Mage_Backend::fonts/calluna/CallunaSansBold-webfont.svg#webfont85gDAx2C') format('svg'), url('Mage_Backend::fonts/calluna/CallunaSansBold-webfont.woff') format('woff'), url('Mage_Backend::fonts/calluna/CallunaSansBold-webfont.ttf') format('truetype');
+    src: url('../fonts/calluna/CallunaSansBold-webfont.woff');
+    src: url('../fonts/calluna/CallunaSansBold-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/calluna/CallunaSansBold-webfont.svg#webfont85gDAx2C') format('svg'), url('../fonts/calluna/CallunaSansBold-webfont.woff') format('woff'), url('../fonts/calluna/CallunaSansBold-webfont.ttf') format('truetype');
     font-style: normal;
     font-weight: 600;
 }
 
 @font-face {
     font-family: 'admin-icons';
-    src: url('Mage_Backend::fonts/icons/admin-icons.eot');
-    src: url('Mage_Backend::fonts/icons/admin-icons.eot?#iefix') format('embedded-opentype'), url('Mage_Backend::fonts/icons/admin-icons.svg#admin-icons') format('svg'), url('Mage_Backend::fonts/icons/admin-icons.woff') format('woff'), url('Mage_Backend::fonts/icons/admin-icons.ttf') format('truetype');
+    src: url('../fonts/icons/admin-icons.eot');
+    src: url('../fonts/icons/admin-icons.eot?#iefix') format('embedded-opentype'), url('../fonts/icons/admin-icons.svg#admin-icons') format('svg'), url('../fonts/icons/admin-icons.woff') format('woff'), url('../fonts/icons/admin-icons.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -64,7 +64,7 @@ body, html {
 
 body {
     position: relative;
-    background: url(Mage_Backend::images/body-bg.jpg);
+    background: url(../images/body-bg.jpg);
     height: auto;
 }
 
@@ -3241,7 +3241,7 @@ table tbody tr:nth-child(odd):hover th {
     vertical-align: bottom;
     width: 34px;
     height: 17px;
-    background: url(Mage_Backend::images/switcher.png) no-repeat;
+    background: url(../images/switcher.png) no-repeat;
     content: '';
 }
 
