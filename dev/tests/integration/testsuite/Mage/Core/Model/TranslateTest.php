@@ -41,10 +41,13 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             ->method('getLocaleFileName')
             ->will($this->returnValue(implode(DIRECTORY_SEPARATOR, $pathChunks)));
 
+        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_FRONTEND, Mage_Core_Model_App_Area::PART_TRANSLATE);
         Mage::getConfig()->setModuleDir('Mage_Core', 'locale', dirname(__FILE__) . '/_files/Mage/Core/locale');
         Mage::getConfig()->setModuleDir('Mage_Catalog', 'locale', dirname(__FILE__) . '/_files/Mage/Catalog/locale');
-        $this->_model = Mage::getModel('Mage_Core_Model_Translate', array('designPackage' => $this->_designModel));
-        $this->_model->init('frontend');
+
+        Mage::getObjectManager()->addSharedInstance($this->_designModel, 'Mage_Core_Model_Design_Package');
+        $this->_model = Mage::getModel('Mage_Core_Model_Translate');
+        $this->_model->init();
     }
 
     public function testGetModulesConfig()
@@ -68,8 +71,14 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             $modulesConfig->$checkedNode->asXML()
         );
 
-        $this->_model->init('non_existing_area');
+        /** @var $translateConfig Mage_Core_Model_Translate_Config */
+        $translateConfig = Mage::getObjectManager()->get('Mage_Core_Model_Translate_Config');
+        $translateConfig->setArea('non_existing_area');
+
+        $this->_model->init();
         $this->assertEquals(array(), $this->_model->getModulesConfig());
+
+        $translateConfig->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND);
     }
 
     public function testGetConfig()
@@ -139,9 +148,10 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
         Mage::getConfig()->setModuleDir('Mage_Core', 'locale', dirname(__FILE__) . '/_files/Mage/Core/locale');
         Mage::getConfig()->setModuleDir('Mage_Catalog', 'locale', dirname(__FILE__) . '/_files/Mage/Catalog/locale');
-        $this->_model = Mage::getModel('Mage_Core_Model_Translate', array('designPackage' => $this->_designModel));
-        $this->_model->init('frontend');
 
+        Mage::getObjectManager()->addSharedInstance($this->_designModel, 'Mage_Core_Model_Design_Package');
+        $this->_model = Mage::getModel('Mage_Core_Model_Translate');
+        $this->_model->init();
 
         $actualTranslation = $this->_model->translate(array($inputText));
         $this->assertEquals($expectedTranslation, $actualTranslation);
@@ -193,7 +203,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
     {
         $model = Mage::getModel('Mage_Core_Model_Translate');
         $model->setLocale('en_AU');
-        $model->init('frontend');
+        $model->init();
         $this->assertEquals($expectedTranslation, $model->translate(array($inputText)));
     }
 
