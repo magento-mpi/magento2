@@ -88,6 +88,9 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
+    /**
+     * @return array
+     */
     public function withEmptyRequiredFieldsDataProvider()
     {
         return array(
@@ -106,7 +109,6 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      */
     public function withoutAnswer()
     {
-        $this->fail("MAGETWO-8485");
         //Data
         $pollData = $this->loadDataSet('CmsPoll', 'poll_open', array('assigned_answers_set' => '%noValue%'));
         //Steps
@@ -124,7 +126,6 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      */
     public function identicalAnswer()
     {
-        $this->fail("MAGETWO-8485");
         //Data
         $pollData = $this->loadDataSet('CmsPoll', 'poll_open', array('answer_title' => 'duplicate'));
         //Steps
