@@ -70,6 +70,7 @@ app/code/Mage/ImportExport/Model/Import/Entity/CustomerComposite.php
 app/code/Mage/ImportExport/Model/Import/Entity/Product/Option.php
 app/code/Mage/ImportExport/Model/Resource/Customer/Storage.php
 app/code/Mage/ImportExport/Model/Resource/Import/CustomerComposite/Data.php
+app/code/Mage/ImportExport/controllers/Adminhtml/ImportController.php
 app/code/Mage/Index/Model/Indexer/Abstract.php
 app/code/Mage/Index/Model/Shell.php
 app/code/Mage/Log/Model/Resource/Helper
