@@ -33,6 +33,5 @@
         <!-- System -->
         <remove id="Mage_Connect::system_extensions" />
         <remove id="Mage_Adminhtml::system_tools" />
-        <remove id="Enterprise_Pci::system_crypt_key" />
     </menu>
 </config>
