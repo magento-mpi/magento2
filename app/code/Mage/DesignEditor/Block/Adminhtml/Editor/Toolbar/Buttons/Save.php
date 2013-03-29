@@ -185,7 +185,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
             ),
         );
 
-        return $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode($data));
+        return $this->_encode($data);
     }
 
     /**
@@ -209,7 +209,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
             ),
         );
 
-        return $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode($data));
+        return $this->_encode($data);
     }
 
     /**
@@ -233,6 +233,17 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
             ),
         );
 
+        return $this->_encode($data);
+    }
+
+    /**
+     * Get encoded data string
+     *
+     * @param array $data
+     * @return string
+     */
+    protected function _encode($data)
+    {
         return $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode($data));
     }
 }

@@ -208,6 +208,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
      */
     public function getHomeLink()
     {
-        return Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl();
+        return $this->helper('Mage_Backend_Helper_Data')->getHomePageUrl();
     }
 }
