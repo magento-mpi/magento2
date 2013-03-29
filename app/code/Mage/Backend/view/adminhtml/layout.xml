@@ -13,6 +13,32 @@
     <default>
         <reference name="root" after="header">
             <block type="Mage_Backend_Block_Menu" name="menu" as="menu" template="Mage_Backend::menu.phtml" />
+            <block type="Mage_Backend_Block_System_Messages" name="notifications" as="notifications" label="Notifications" after="header" template="Mage_Backend::system/messages.phtml">
+                <arguments>
+                    <messages>
+                        <baseUrl>
+                            <class>Mage_Adminhtml_Block_Notification_Baseurl</class>
+                            <sortOrder>1</sortOrder>
+                            <priority>critical</priority>
+                        </baseUrl>
+                        <cache>
+                            <class>Mage_Adminhtml_Block_Cache_Notifications</class>
+                            <sortOrder>1</sortOrder>
+                            <priority>critical</priority>
+                        </cache>
+                        <survey>
+                            <class>Mage_Adminhtml_Block_Notification_Survey</class>
+                            <sortOrder>1</sortOrder>
+                            <priority>critical</priority>
+                        </survey>
+                        <security>
+                            <class>Mage_Adminhtml_Block_Notification_Security</class>
+                            <sortOrder>1</sortOrder>
+                            <priority>critical</priority>
+                        </security>
+                    </messages>
+                </arguments>
+            </block>
         </reference>
     </default>
 
