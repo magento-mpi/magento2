@@ -139,7 +139,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
             'add_attribute',
             'Mage_Backend_Block_Widget_Button',
             array(
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Attribute'),
+                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Create New Variation Set'),
+                'class' => 'new-variation-set',
                 'data_attribute' => array(
                     'mage-init' => array(
                         'configurableAttribute' => array(
@@ -147,7 +148,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
                                 '*/catalog_product_attribute/new',
                                 array(
                                     'store' => $this->_getProduct()->getStoreId(),
-                                    'product_tab' => '_variation',
+                                    'product_tab' => 'variations',
                                     'popup' => 1,
                                     '_query' => array(
                                         'attribute' => array(

@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created extends
     public function getAttributesBlockJson()
     {
         $result = array();
-        if ($this->getRequest()->getParam('product_tab') == '_variation') {
+        if ($this->getRequest()->getParam('product_tab') == 'variations') {
             /** @var $attribute Mage_Eav_Model_Entity_Attribute */
             $attribute =
                 Mage::getModel('Mage_Eav_Model_Entity_Attribute')->load($this->getRequest()->getParam('attribute'));

@@ -64,7 +64,7 @@
          * Hide loader
          */
         hide: function() {
-            this.loader.hide();
+            this.loader && this.loader.hide();
         },
 
         /**

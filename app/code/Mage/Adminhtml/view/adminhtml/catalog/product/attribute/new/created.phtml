@@ -13,11 +13,12 @@
 (function ($) {
     var data = <?php echo $this->getAttributesBlockJson() ?>;
     var set = data.set || { id:$('#attribute_set_id').val()};
-    $('#create_new_attribute').dialog('close');
-    $('#product-edit-form').trigger('changeAttributeSet', set);
-    if (data.tab == '_variation') {
+    if (data.tab == 'variations') {
         $('#configurable-attributes-container').trigger('add', data.attribute);
+    } else {
+        $('#product-edit-form').trigger('changeAttributeSet', set);
     }
+    $('#create_new_attribute').dialog('close');
 })(window.parent.jQuery);
 </script>
 <div class="a-center">

@@ -56,10 +56,10 @@ var Product = {};
             return this.options.url +
                 (/\?/.test(this.options.url) ? '&' : '?') +
                 'set=' + window.encodeURIComponent($('#attribute_set_id').val()) +
-                '&attribute[attribute_code]=' +
-                window.encodeURIComponent(name) +
                 '&attribute[frontend_label]=' +
-                window.encodeURIComponent(name.replace(/[a-z0-9]+/g, '_').toLowerCase());
+                window.encodeURIComponent(name) +
+                '&attribute[attribute_code]=' +
+                window.encodeURIComponent(name.replace(/[^a-z0-9]+/g, '_').toLowerCase());
         }
     });
 })(jQuery);
