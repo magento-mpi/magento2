@@ -9,9 +9,6 @@
 -->
 <config>
     <menu>
-        <!-- Sales -->
-        <remove id="Mage_Sales::sales_recurring_profile" />
-
         <!-- Customers -->
         <remove id="Mage_Customer::customer_online" />
         <remove id="Enterprise_CustomerSegment::customer_customersegment" />
