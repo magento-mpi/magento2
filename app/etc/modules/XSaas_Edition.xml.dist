@@ -37,6 +37,7 @@
         <Saas_Saas><active>true</active></Saas_Saas>
         <Saas_Sales><active>true</active></Saas_Sales>
         <Saas_UnitPrice><active>true</active></Saas_UnitPrice>
+        <Saas_Customer><active>true</active></Saas_Customer>
         <Saas_Newsletter><active>true</active></Saas_Newsletter>
     </modules>
 </config>
