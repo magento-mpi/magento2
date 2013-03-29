@@ -10,11 +10,6 @@ class Enterprise_Queue_Model_Queue_Adapter_GearmanTest extends PHPUnit_Framework
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_clientMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_helperGearmanMock;
 
     /**
@@ -24,16 +19,12 @@ class Enterprise_Queue_Model_Queue_Adapter_GearmanTest extends PHPUnit_Framework
 
     protected function setUp()
     {
-        $this->_clientMock = $this->getMock('GearmanClient', array(), array(), '', false);
-        $this->_clientMock->expects($this->once())->method('addServers')->with('127.0.0.1:4730');
-
         $this->_helperGearmanMock = $this->getMock('Enterprise_Queue_Helper_Gearman', array(), array(), '', false);
         $this->_helperGearmanMock->expects($this->once())->method('getServers')
             ->will($this->returnValue('127.0.0.1:4730'));
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_adapterGearman = $objectManagerHelper->getObject('Enterprise_Queue_Model_Queue_Adapter_Gearman', array(
-            'client' => $this->_clientMock,
             'helperGearman' => $this->_helperGearmanMock,
         ));
     }
@@ -43,7 +34,6 @@ class Enterprise_Queue_Model_Queue_Adapter_GearmanTest extends PHPUnit_Framework
         $data = array('123');
         $preparedData = '{prepared_data}';
 
-        $this->_clientMock->expects($this->once())->method('doBackground')->with('some_event', $preparedData);
         $this->_helperGearmanMock->expects($this->once())->method('encodeData')->with($data)
             ->will($this->returnValue($preparedData));
 
