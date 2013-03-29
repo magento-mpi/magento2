@@ -9,7 +9,7 @@
  */
 ?>
 <?php if (!$this->getJsFiles()->count()): ?>
-    <li><?php echo $this->__('No files found') ?></li>
+    <li id="no-js-files-found"><?php echo $this->__('No files found') ?></li>
 <?php else: ?>
     <?php /** @var $file Mage_Core_Model_Theme_File */ ?>
     <?php foreach ($this->getJsFiles() as $file): ?>
