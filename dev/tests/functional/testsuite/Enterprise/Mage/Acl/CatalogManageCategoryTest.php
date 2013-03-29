@@ -44,7 +44,7 @@ class Enterprise_Mage_Acl_CatalogManageCategoryTest extends Mage_Selenium_TestCa
         //create specific role with test roleResource
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
-            array('resource_1' => 'Catalog/Manage Categories'));
+            array('resource_acl' => 'products_inventory_categories'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role

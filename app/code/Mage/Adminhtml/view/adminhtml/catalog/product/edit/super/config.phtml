@@ -157,7 +157,7 @@ jQuery(function($) {
                     return;
                 }
                 var $gridRow = $(event.target).closest('tr'),
-                    associatedSelector = '[data-column-id="%s"]';
+                    associatedSelector = '[data-column="%s"]';
 
                 if ($gridRow.find(associatedSelector.replace('%s', 'entity_id')).length) {
                     var $matrixRow = $button.parents('tr'),

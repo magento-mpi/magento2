@@ -28,7 +28,6 @@ order_data:
         email: %noValue%
     store_view: Default Store View
     account_data:
-        customer_group: General
         customer_email: customer_for_order_%randomize%@unknown-domain.com
     products_to_add:
         product_1:

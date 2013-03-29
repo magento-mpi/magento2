@@ -29,7 +29,7 @@ class Enterprise_Mage_Acl_BugVerifications_CatalogPriceRuleTest extends Mage_Sel
         $this->loginAdminUser();
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
-            array('resource_1' => 'Promotions/Catalog Price Rules'));
+            array('resource_acl' => 'promotions'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with  rights to Catalog Price Rules Menu

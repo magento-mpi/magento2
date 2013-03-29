@@ -21,22 +21,20 @@ class Mage_Core_Model_Theme_Domain_Staging
     protected $_theme;
 
     /**
-     * Model to update current 'virtual' theme with changes taken form associated 'staging' theme
-     *
-     * @var Mage_Core_Model_Theme_Copy_StagingToVirtual
+     * @var Mage_Core_Model_Theme_CopyService
      */
-    protected $_copyModelSV;
+    protected $_themeCopyService;
 
     /**
      * @param Mage_Core_Model_Theme $theme
-     * @param Mage_Core_Model_Theme_Copy_StagingToVirtual $copyModelSV
+     * @param Mage_Core_Model_Theme_CopyService $themeCopyService
      */
     public function __construct(
         Mage_Core_Model_Theme $theme,
-        Mage_Core_Model_Theme_Copy_StagingToVirtual $copyModelSV
+        Mage_Core_Model_Theme_CopyService $themeCopyService
     ) {
         $this->_theme = $theme;
-        $this->_copyModelSV = $copyModelSV;
+        $this->_themeCopyService = $themeCopyService;
     }
 
     /**
@@ -46,7 +44,7 @@ class Mage_Core_Model_Theme_Domain_Staging
      */
     public function updateFromStagingTheme()
     {
-        $this->_copyModelSV->copy($this->_theme);
+        $this->_themeCopyService->copy($this->_theme, $this->_theme->getParentTheme());
         return $this;
     }
 }

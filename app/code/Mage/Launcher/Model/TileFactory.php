@@ -59,7 +59,7 @@ class Mage_Launcher_Model_TileFactory
      */
     public function create($tileCode = null, array $arguments = array())
     {
-        $tile = $this->_objectManager->create('Mage_Launcher_Model_Tile', $arguments, false);
+        $tile = $this->_objectManager->create('Mage_Launcher_Model_Tile', $arguments);
         if (isset($tileCode)) {
             $tile->loadByTileCode($tileCode);
             if ($tile->getId()) {
@@ -139,11 +139,11 @@ class Mage_Launcher_Model_TileFactory
         $tileCode = $tile->getTileCode();
 
         $resolverClassName = $this->getStateResolverClassName($pageCode, $tileCode);
-        $stateResolver = $this->_objectManager->create($resolverClassName, array(), false);
+        $stateResolver = $this->_objectManager->create($resolverClassName, array());
         $tile->setStateResolver($stateResolver);
 
         $handlerClassName = $this->getSaveHandlerClassName($pageCode, $tileCode);
-        $saveHandler = $this->_objectManager->create($handlerClassName, array(), false);
+        $saveHandler = $this->_objectManager->create($handlerClassName, array());
         $tile->setSaveHandler($saveHandler);
     }
 }
