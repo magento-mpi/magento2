@@ -20,7 +20,7 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_themeFilesMock;
+    protected $_themeMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -47,11 +47,22 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->method('current')
             ->will($this->returnValue($this->_cacheFrontendMock))
         ;
-        $this->_themeFilesMock = $this->getMock('Mage_Core_Model_Theme_Files', array(), array(), '', false);
+
+        $this->_themeMock = $this->getMock('Mage_Core_Model_Theme', array('getFiles'), array(), '', false);
+
+        $designPackageMock = $this->getMock(
+            'Mage_Core_Model_Design_Package', array('getDesignTheme'), array(), '', false
+        );
+        $designPackageMock
+            ->expects($this->any())
+            ->method('getDesignTheme')
+            ->will($this->returnValue($this->_themeMock))
+        ;
+
         $this->_assetsMock = $this->getMock('Mage_Core_Model_Page_Asset_Collection');
 
         $this->_model = new Mage_Core_Model_Observer(
-            $this->_frontendPoolMock, $this->_themeFilesMock, new Mage_Core_Model_Page($this->_assetsMock)
+            $this->_frontendPoolMock, $designPackageMock, new Mage_Core_Model_Page($this->_assetsMock)
         );
     }
 
@@ -59,7 +70,7 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         $this->_cacheFrontendMock = null;
         $this->_frontendPoolMock = null;
-        $this->_themeFilesMock = null;
+        $this->_themeMock = null;
         $this->_assetsMock = null;
         $this->_model = null;
     }
@@ -84,7 +95,7 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testApplyThemeCustomization()
     {
         $asset = new Mage_Core_Model_Page_Asset_Remote('http://127.0.0.1/test.css');
-        $file = $this->getMock('Mage_Core_Model_Theme_Files', array('getAsset', 'getFilePath'), array(), '', false);
+        $file = $this->getMock('Mage_Core_Model_Theme_File', array('getAsset', 'getFilePath'), array(), '', false);
         $file->expects($this->once())
             ->method('getAsset')
             ->will($this->returnValue($asset));
@@ -92,8 +103,8 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->method('getFilePath')
             ->will($this->returnValue('test.css'));
 
-        $this->_themeFilesMock->expects($this->once())
-            ->method('getCollection')
+        $this->_themeMock->expects($this->once())
+            ->method('getFiles')
             ->will($this->returnValue(array($file)));
 
         $this->_assetsMock->expects($this->once())

@@ -33,7 +33,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         /** @var $session Mage_Backend_Model_Session */
         $session = $this->_objectManager->get('Mage_Backend_Model_Session');
         $formDataFromSession = $session->getThemeData();
-        $this->_isThemeEditable = $this->_getCurrentTheme()->isVirtual();
+        $this->_isThemeEditable = $this->_getCurrentTheme()->isEditable();
         $formData = $this->_getCurrentTheme()->getData();
         if ($formDataFromSession && isset($formData['theme_id'])) {
             unset($formDataFromSession['preview_image']);

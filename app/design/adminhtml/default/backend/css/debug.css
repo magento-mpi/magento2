@@ -44,11 +44,8 @@ ul.messages > li {
 }
 
 ul.messages li li {
-    padding: 10px 26px 10px 32px;
-    border: 0;
-    -moz-border-radius: 0;
-    -webkit-border-radius: 0;
-    border-radius: 0;
+    padding: 10px 26px 10px 35px;
+    border-radius: 5px;
     color: #676056;
     text-shadow: none;
     position: relative;
@@ -63,7 +60,7 @@ ul.messages li li:first-child {
 
 ul.messages li li:before {
     position: absolute;
-    left: 8px;
+    left: 11px;
     top: 50%;
     margin-top: -11px;
     background: none;
@@ -93,18 +90,14 @@ ul.messages li.error-msg li:before {
 }
 
 ul.messages li.success-msg li {
-    border-color: #185b00;
-    background: #e6ecc0;
+    border-color: #ceceb6;
+    background: #e4eecb;
     color: #185b00;
 }
 
 ul.messages li.success-msg li:before {
     content: '\e067';
     color: #185b00;
-}
-
-label.mage-error {
-    color: red;
 }
 
 /*
@@ -331,13 +324,15 @@ label.mage-error {
 }
 
 /* TODO: styles for required TH fields */
-th.required:before {
+th.required:after {
     color: red;
     content: "*";
+    margin-left: 5px;
 }
 
 /* TODO: set color for messages in Cache Storage Management */
 .grid-severity-critical,
+.grid-severity-major,
 .grid-severity-notice,
 .grid-severity-minor {
     display: block;
@@ -347,6 +342,12 @@ th.required:before {
 }
 
 .grid-severity-critical {
+    border-color: #6e1313;
+    background: #f7bfbf;
+    color: #6e1313;
+}
+
+.grid-severity-major {
     border-color: #963535;
     background: #f3dcd8;
     color: #963535;
@@ -356,15 +357,6 @@ th.required:before {
     border-color: #185b00;
     background: #e6ecc0;
     color: #185b00;
-}
-
-/* TODO: Store views tree */
-.tree-store-scope .field {
-    margin: 0;
-}
-
-.tree-store-scope .field .label {
-    padding-top: 0;
 }
 
 /*
@@ -437,31 +429,31 @@ th.required:before {
     position: relative;
     z-index: 1;
     padding: 0;
+    border: 0;
     text-align: center;
 }
 
 .adminhtml-sales-order-index .page-actions .add > span {
     text-indent: -999em;
     display: block;
-    padding: 0;
+    width: 36px;
+    height: 36px;
 }
 
 .adminhtml-sales-order-index .page-actions .add > span:before {
-    display: block;
     text-indent: 0;
     content: '+';
     font-weight: normal;
-    font-size: 36px;
+    font-size: 38px;
     color: #fff;
     position: absolute;
-    line-height: 36px;
+    line-height: 28px;
     height: 36px;
     width: 36px;
     overflow: hidden;
     text-align: center;
-    top: -4px;
-    left: -1px;
-    vertical-align: top;
+    top: 0;
+    left: 0;
 }
 
 .adminhtml-sales-order-index .grid-actions {
@@ -476,6 +468,8 @@ th.required:before {
     background: transparent;
     border: 0;
     border-radius: 0;
+    max-width: 1300px;
+    min-width: 960px;
 }
 
 .sidebar-actions {
@@ -484,6 +478,10 @@ th.required:before {
 
 .sidebar-actions button {
     margin: 0 0 5px;
+}
+
+.adminhtml-sales-order-create-index .grid table .action-configure {
+    float: right;
 }
 
 /*
@@ -610,8 +608,8 @@ th.required:before {
 }
 
 /*
-    Catalog Manage Products
+    URL Rewrite
 -------------------------------------- */
-.adminhtml-catalog-product-index .page-actions {
-    float: right;
+.field-url-rewrite-option-select {
+    padding-top: 13px;
 }

@@ -76,23 +76,26 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
     protected function _prepareColumns()
     {
         $this->addColumn('is_selected', array(
-            'header_css_class' => 'a-center',
             'type'      => 'checkbox',
             'name'      => 'in_selected',
             'align'     => 'center',
             'values'    => $this->_getSelectedProducts(),
             'index'     => 'entity_id',
+            'header_css_class'=> 'col-select',
+            'column_css_class'=> 'col-select'
         ));
         $this->addColumn('name', array(
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Product Name'),
             'index'     => 'name',
-            'column_css_class'=> 'name'
+            'header_css_class'=> 'col-name',
+            'column_css_class'=> 'name col-name'
         ));
         $this->addColumn('sku', array(
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('SKU'),
             'width'     => '80px',
             'index'     => 'sku',
-            'column_css_class'=> 'sku'
+            'header_css_class'=> 'col-sku',
+            'column_css_class'=> 'sku col-sku'
         ));
         $this->addColumn('price', array(
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Price'),
@@ -100,7 +103,9 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
             'type'      => 'currency',
             'currency_code' => $this->getStore()->getCurrentCurrencyCode(),
             'rate'      => $this->getStore()->getBaseCurrency()->getRate($this->getStore()->getCurrentCurrencyCode()),
-            'index'     => 'price'
+            'index'     => 'price',
+            'header_css_class'=> 'col-price',
+            'column_css_class'=> 'col-price'
         ));
         return parent::_prepareColumns();
     }

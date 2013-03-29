@@ -46,6 +46,8 @@ try {
         $options['l'] = array($options['l']);
     }
     $list = array();
+    $patternList = array();
+    $ignoreList = array();
     foreach ($options['l'] as $file) {
         if (!is_file($file) || !is_readable($file)) {
             throw new Exception("Specified file with patterns does not exist or cannot be read: '{$file}'");
@@ -54,14 +56,21 @@ try {
         foreach ($patterns as $pattern) {
             if (empty($pattern) || 0 === strpos($pattern, '#')) { // comments start from #
                 continue;
+            } elseif (0 === strpos($pattern, '~')) { //pattern that must be ignored start from ~
+                $pattern = substr($pattern, 1);
+                $ignoreList[$pattern] = $workingDir . DIRECTORY_SEPARATOR . $pattern;
             }
             $pattern = $workingDir . DIRECTORY_SEPARATOR . $pattern;
-            $items = glob($pattern, GLOB_BRACE);
-            if (empty($items)) {
-                throw new Exception("glob() pattern '{$pattern}' returned empty result.");
-            }
-            $list = array_merge($list, $items);
+            $patternList[$pattern] = $pattern;
         }
+    }
+    $patternList = array_diff($patternList, $ignoreList);
+    foreach ($patternList as $pattern) {
+        $items = glob($pattern, GLOB_BRACE);
+        if (empty($items)) {
+            throw new Exception("glob() pattern '{$pattern}' returned empty result.");
+        }
+        $list = array_merge($list, $items);
     }
     if (empty($list)) {
         throw new Exception('List of files or directories to delete is empty.');

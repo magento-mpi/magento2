@@ -101,7 +101,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPUnit
      */
     public function testGetJsFiles()
     {
-        $filesCollection = $this->getMockBuilder('Mage_Core_Model_Resource_Theme_Files_Collection')
+        $filesCollection = $this->getMockBuilder('Mage_Core_Model_Resource_Theme_File_Collection')
             ->disableOriginalConstructor()
             ->getMock();
 

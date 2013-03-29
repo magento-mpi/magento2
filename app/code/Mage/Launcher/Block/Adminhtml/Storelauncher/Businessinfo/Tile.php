@@ -96,4 +96,21 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile extends Mage
     {
         return (string)$this->_storeConfig->getConfig('trans_email/ident_general/email');
     }
+
+    /**
+     * Check Business Address is configured
+     *
+     * @return boolean
+     */
+    public function isBusinessAddressConfigured()
+    {
+        $addressValues = $this->getAddress();
+        if (!empty($addressValues['address-street-line1'])
+            && !empty($addressValues['address-city'])
+            && !empty($addressValues['address-country-name'])
+        ) {
+            return true;
+        }
+        return false;
+    }
 }

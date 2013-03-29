@@ -75,7 +75,7 @@
                 if (!this.rows || !this.rows.length) {
                     return;
                 }
-                $(event.target).parent().find('td.selected-products input[type="checkbox"]').click();
+                $(event.target).parent().find('td.col-select input[type="checkbox"]').click();
                 return false;
             };
         },
@@ -131,7 +131,7 @@
 
         _getSelectedIds: function () {
             var ids = [];
-            $.each(this.$popup.find('.selected-products input[type="checkbox"]:checked'),
+            $.each(this.$popup.find('td.col-select input[type="checkbox"]:checked'),
                 function () {
                     ids.push($(this).val());
                 }

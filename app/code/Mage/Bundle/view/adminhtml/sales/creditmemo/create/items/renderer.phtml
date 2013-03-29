@@ -33,7 +33,7 @@
     <?php if ($_item->getOrderItem()->getParentItem()): ?>
         <?php if ($_prevOptionId != $attributes['option_id']): ?>
         <tr>
-            <td><div class="option-label"><?php echo $attributes['option_label'] ?></div></td>
+            <td class="col-product"><div class="option-label"><?php echo $attributes['option_label'] ?></div></td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
@@ -48,16 +48,17 @@
     <?php endif; ?>
     <tr<?php echo (++$_index==$_count && !$_showlastRow)?' class="border"':'' ?>>
         <?php if (!$_item->getOrderItem()->getParentItem()): ?>
-        <td><h5 class="title"><?php echo $this->escapeHtml($_item->getName()) ?></h5>
+        <td class="col-product">
+            <div class="product-title"><?php echo $this->escapeHtml($_item->getName()) ?></div>
             <div>
                 <strong><?php echo $this->helper('Mage_Sales_Helper_Data')->__('SKU') ?>:</strong>
                 <?php echo implode('<br />', Mage::helper('Mage_Catalog_Helper_Data')->splitSku($this->escapeHtml($_item->getSku()))); ?>
             </div>
         </td>
         <?php else: ?>
-        <td><div class="option-value"><?php echo $this->getValueHtml($_item)?></div></td>
+        <td class="col-product"><div class="option-value"><?php echo $this->getValueHtml($_item)?></div></td>
         <?php endif; ?>
-        <td class="a-right">
+        <td class="col-price">
             <?php if ($this->canShowPriceInfo($_item)): ?>
                 <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Mage_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
                     <span class="price-excl-tax">
@@ -157,7 +158,7 @@
                 &nbsp;
             <?php endif; ?>
         </td>
-        <td>
+        <td class="col-ordered-qty">
             <?php if ($this->canShowPriceInfo($_item)): ?>
                 <table cellspacing="0" class="qty-table">
                     <tr>
@@ -207,7 +208,7 @@
             <?php endif; ?>
         </td>
         <?php if ($this->canParentReturnToStock($_item)) : ?>
-        <td class="a-center">
+        <td class="col-return-to-stock">
             <?php if ($this->canShowPriceInfo($_item)): ?>
                 <?php if ($this->canReturnItemToStock($_item)) : ?>
                     <input type="checkbox" name="creditmemo[items][<?php echo $_item->getOrderItemId() ?>][back_to_stock]" value="1"<?php if ($_item->getBackToStock()):?> checked="checked"<?php endif;?> />
@@ -217,7 +218,7 @@
             <?php endif; ?>
         </td>
         <?php endif; ?>
-        <td class="a-center">
+        <td class="col-refund">
             <?php if ($this->canShowPriceInfo($_item)): ?>
                 <?php if ($this->canEditQty()) : ?>
                     <input type="text" class="input-text qty-input" name="creditmemo[items][<?php echo $_item->getOrderItemId() ?>][qty]" value="<?php echo $_item->getQty()*1 ?>" />
@@ -228,7 +229,7 @@
                 &nbsp;
             <?php endif; ?>
         </td>
-        <td class="a-right">
+        <td class="col-subtotal">
             <?php if ($this->canShowPriceInfo($_item)): ?>
                 <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Mage_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
                     <span class="price-excl-tax">
@@ -328,21 +329,21 @@
                 &nbsp;
             <?php endif; ?>
         </td>
-        <td class="a-right">
+        <td class="col-tax-amount">
             <?php if ($this->canShowPriceInfo($_item)): ?>
                 <?php echo $this->displayPriceAttribute('tax_amount') ?>
             <?php else: ?>
                 &nbsp;
             <?php endif; ?>
         </td>
-        <td class="a-right">
+        <td class="col-discont">
             <?php if ($this->canShowPriceInfo($_item)): ?>
                 <?php echo $this->displayPriceAttribute('discount_amount') ?>
             <?php else: ?>
                 &nbsp;
             <?php endif; ?>
         </td>
-        <td class="a-right last">
+        <td class="col-total last">
             <?php if ($this->canShowPriceInfo($_item)): ?>
                 <?php echo $this->displayPrices(
                     $_item->getBaseRowTotal()+$_item->getBaseTaxAmount()-$_item->getBaseDiscountAmount()+$_item->getBaseWeeeTaxAppliedRowAmnt(),
@@ -356,7 +357,7 @@
 <?php endforeach; ?>
 <?php if($_showlastRow): ?>
     <tr class="border">
-        <td>
+        <td class="col-product">
             <?php if ($this->getOrderOptions($_item->getOrderItem())): ?>
                 <dl class="item-options">
                 <?php foreach ($this->getOrderOptions($_item->getOrderItem()) as $option): ?>

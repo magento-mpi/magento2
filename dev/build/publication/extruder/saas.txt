@@ -5,7 +5,6 @@ saas
 app/code/Saas
 app/code/Mage/Launcher
 app/etc/modules/XSaas_Edition.xml.dist
-dev/tests/integration/etc/modules/XSaas_Edition.xml.dist
 dev/tests/integration/testsuite/Saas
 dev/tests/integration/testsuite/Mage/Launcher
 dev/tests/js/testsuite/saas

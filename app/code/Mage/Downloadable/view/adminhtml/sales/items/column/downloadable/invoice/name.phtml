@@ -10,7 +10,7 @@
 ?>
 
 <?php if ($_item = $this->getItem()): ?>
-    <h5 class="title"><?php echo $_item->getName() ?></h5>
+    <div class="product-title"><?php echo $_item->getName() ?></div>
     <div><strong><?php echo $this->helper('Mage_Sales_Helper_Data')->__('SKU') ?>:</strong> <?php echo implode('<br />', Mage::helper('Mage_Catalog_Helper_Data')->splitSku($this->escapeHtml($this->getSku()))); ?></div>
     <?php if ($this->getOrderOptions()): ?>
         <dl class="item-options">

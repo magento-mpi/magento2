@@ -22,13 +22,22 @@ store_launcher:
                         pageelements:
                             page_title: //div[@class='page-title']//h1[@class='title']
                 -
+                    welcome_screen:
+                        xpath: //div[@class='welcome-screen']
+                        buttons:
+                            exit_tour: //button[@id='action-toggle-welcome-screen-mode']
+                            close_popup: //button[@id='action-close-welcome-screen-wellcome-popup']
+                            back_to_storelauncher: //button[@id='welcome-screen-action-back-to-storelauncher']
+                        pageelements:
+                            welcome_popup: //div[@id='welcome-screen-welcome-popup']
+                -
                     common_tile:
                         xpath:
                         buttons:
                             open_drawer: //div[@class='tile-teaser']//button[@class='action-open-drawer']
                             edit_drawer: //div[@class='tile-done']//button[@class='action-open-drawer']
                         links:
-                            additional_action: //div[@class='tile-done']//a[@class='action-more-settings']
+                            additional_action: //div[@class='tile-done']//p[@class='tile-more-info']/a
                 -
                     common_drawer:
                         xpath: //div[@id='drawer']
@@ -46,7 +55,7 @@ store_launcher:
                         pageelements:
                             title: //h2
                             text: //div[@class='tile-teaser']//p
-                            bussines_info_text: //div[@class='tile-done' and contains(., '%addressData%')]
+                            bussines_info_text: //div[@class='tile-done']//ul[@class='checklist']/li[@class='completed' and contains(text(),'%listInfo%')]
                 -
                     bussines_info_drawer_form:
                         xpath: //section[@class='drawer-content']//form[@class='store-info-form']
@@ -79,7 +88,6 @@ store_launcher:
                         xpath: //article[@id='tile-tax']
                         buttons:
                             confirm_info: //button[normalize-space()='Set Tax Rules']
-                            edit_store_info: //button[normalize-space()='Set Additional Tax Rules']
                         pageelements:
                             title: //h2
                             text: //div[@class='tile-teaser']//p
@@ -200,11 +208,11 @@ store_launcher:
                             shipping_country: //select[@id='country_id']
                             shipping_origin_state: //select[@id='region_id']
                         buttons:
-                            submit_flat_rate: //div[@id='flat-rate-config']//button[span='Submit']
-                            submit_fedex: //div[@id='fedex-config']//button[span='Submit']
-                            submit_usps: //div[@id='usps-config']//button[span='Submit']
-                            submit_dhl: //div[@id='dhl-config']//button[span='Submit']
-                            submit_ups: //div[@id='ups-config']//button[span='Submit']
+                            submit_flat_rate: //div[@id='flat-rate-config']//button[span='Save Flat Rate Settings']
+                            submit_fedex: //div[@id='fedex-config']//button[span='Save FedEx Settings']
+                            submit_usps: //div[@id='usps-config']//button[span='Save USPS Settings']
+                            submit_dhl: //div[@id='dhl-config']//button[span='Save DHL Settings']
+                            submit_ups: //div[@id='ups-config']//button[span='Save UPS Settings']
                             edit_address: //button[@id='action-origin-address-edit']
                             save_address: //button[@id='action-origin-address-save']
                             cancel_address: //button[@id='action-origin-address-cancel']
@@ -241,26 +249,33 @@ store_launcher:
                             general_stock_availability: //select[@name='product[quantity_and_stock_status][is_in_stock]']
 #=============================================Required for productHelper()->selectProductCategories()==================
                 -
-                    category_search:
-                        xpath: //*[@id='attribute-category_ids-container']//div[@class='mage-suggest-dropdown']/ul[@role='menu']
+                    categories_list:
+                        xpath: //div[@id='attribute-category_ids-container']//div[@class='mage-suggest-dropdown']
                         links:
-                            category: //*[@role='menuitem']//span[text()='%categoryPath%']
-                            selected_category: //*[@class='category-selected ui-menu-item']/*[@title='%categoryPath%']
+                            root_category: /div/ul/li/a[text()='%categoryName%']
+                            sub_category: //li[a/@data-suggest-option='%categoryId%']/ul/li/a[text()='%categoryName%']
+                            expand_category: //li[contains(@class,'jstree-closed')][a/@data-suggest-option='%categoryId%']/ins
+                            found_category: //a[span/text()='%categoryName%'][.//span='%categoryPath%']
+                            any_sub_category: //li[a/@data-suggest-option='%categoryId%']/ul/li/a
+                            category: //a[@data-suggest-option='%categoryId%']
                         pageelements:
-                            category_list: //*[@class='ui-menu-item']
+                            no_category_found: //span[text()='No records found.']
+                            category_node: //li[a/@data-suggest-option='%categoryId%']
                 -
                     chosen_category:
-                        xpath: //*[@class='category-selector-search-choice button']
+                        xpath: //div[@id='attribute-category_ids-container']//li[@class='mage-suggest-choice button']
                         links:
-                            delete_category: "[div='%categoryName%']//*[@class='category-selector-search-choice-close']"
+                            chosen_category_delete: "[div='%categoryName%']/span[@class='mage-suggest-choice-close']"
                         pageelements:
-                            category_name: /*[text()='%categoryName%']
+                            chosen_category_name: /div[text()='%categoryName%']
 #=============================================Required for productHelper()->selectProductCategories()==================
+        pageelements:
+            active_hub_menu: //*[@id='nav']/li[contains(@class, 'active')]//a[contains(@href, 'launcher/hub/')]
         messages: &newTaxRuleMessages
             success_saved_shipping: //div[normalize-space(@class)='message-validation success' and contains(.,'Configuration has been successfully saved.')]
-            enter_not_negative_number: "//label[(@for)='%fieldId%' and contains(.,'Please select one of the above options.')]"
+            enter_not_negative_number: "//label[(@for)='%fieldId%' and contains(.,'Please enter a number 0 or greater in this field.')]"
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
-            empty_required_field:  //label[@class='mage-error' and contains(.,'This field is required.')]
+            empty_required_field:  //label[@class='mage-error' and contains(.,'This is a required field.')]
             confirmation_for_delete_class: Do you really want to delete this tax class?
             confirmation_for_delete_rate: Do you really want to delete this tax rate?
 

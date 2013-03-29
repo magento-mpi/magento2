@@ -12,7 +12,7 @@
 class Mage_Core_Model_Design_Fallback_List_LocaleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Design_Fallback_List_File
+     * @var Mage_Core_Model_Design_Fallback_List_Locale
      */
     protected $_model;
 
@@ -41,10 +41,8 @@ class Mage_Core_Model_Design_Fallback_List_LocaleTest extends PHPUnit_Framework_
         $actualResult = $this->_model->getPatternDirs($params);
 
         $expectedResult = array(
-            str_replace('/', DIRECTORY_SEPARATOR,
-                $dir->getDir(Mage_Core_Model_Dir::THEMES) . '/area/theme_path/locale/locale'),
-            str_replace('/', DIRECTORY_SEPARATOR,
-                $dir->getDir(Mage_Core_Model_Dir::THEMES) . '/area/parent_theme_path/locale/locale'),
+            $dir->getDir(Mage_Core_Model_Dir::THEMES) . '/area/theme_path/locale/locale',
+            $dir->getDir(Mage_Core_Model_Dir::THEMES) . '/area/parent_theme_path/locale/locale',
         );
 
         $this->assertSame($expectedResult, $actualResult);

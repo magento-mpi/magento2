@@ -40,7 +40,7 @@ class Enterprise_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
         //create specific role with test roleResource
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
-                                          array('resource_1' => 'CMS/Polls'));
+                                          array('resource_acl' => 'cms_polls'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -74,9 +74,9 @@ class Enterprise_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
                 $this->_getControlXpath('pageelement', 'navigation_menu_items'))),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 1 child elements
-        $this->assertEquals('1', count($this->getElements(
+        $this->assertEquals('2', count($this->getElements(
                 $this->_getControlXpath('pageelement', 'navigation_children_menu_items'))),
-            'Count of Top Navigation Menu elements not equal 1, should be equal');
+            'Count of Top Navigation Menu elements not equal 2, should be equal');
         // Verify  that necessary elements are present on page
         $elements = $this->loadDataSet('CmsPollElements', 'manage_cms_poll_elements');
         $resultElementsArray = array();

@@ -56,11 +56,21 @@
         </item>
         <item>
             <!-- Must be refactored to be modular -->
+            <word>Enterprise_Rma</word>
+            <path>app/code/Enterprise/Enterprise/data/enterprise_enterprise_setup/data-upgrade-1.11.0.2-1.11.0.3.php</path>
+        </item>
+        <item>
+            <!-- Must be refactored to be modular -->
             <path>app/code/Mage/User/data/user_setup/data-upgrade-1.6.1.1-1.6.1.2.php</path>
         </item>
         <item>
             <!-- Must be refactored to be modular to support saas edition -->
             <path>dev/tools/migration</path>
+        </item>
+        <item>
+            <!-- Must be refactored to be modular -->
+            <word>GiftWrapping</word>
+            <path>app/design/adminhtml/default/backend/css/pages.css</path>
         </item>
         <item>
             <!-- Must be removed, when CustomerSegment is removed as well -->
@@ -77,6 +87,11 @@
             <!-- Must be refactored  -->
             <word>TargetRule</word>
             <path>app/code/Enterprise/PageCache/Model/Container/CatalogProductItem.php</path>
+        </item>
+        <item>
+            <!-- Must be refactored  -->
+            <word>TargetRule</word>
+            <path>app/code/Mage/Launcher/view/adminhtml/page/promotestore/relatedproducts/drawer.phtml</path>
         </item>
         <item>
             <!-- Must be refactored  -->

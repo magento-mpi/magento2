@@ -19,9 +19,11 @@
                         <resource id="Find_Feed::import_items" module="Find_Feed" title="Manage Items" sortOrder="20" />
                     </resource>
                 </resource>
-                <resource id="Mage_Adminhtml::system">
-                    <resource id="Mage_Adminhtml::config">
-                        <resource id="Find_Feed::config_feed" title="Feed" />
+                <resource id="Mage_Adminhtml::stores">
+                    <resource id="Mage_Adminhtml::stores_settings">
+                        <resource id="Mage_Adminhtml::config">
+                            <resource id="Find_Feed::config_feed" title="Feed" />
+                        </resource>
                     </resource>
                 </resource>
             </resource>

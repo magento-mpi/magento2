@@ -46,7 +46,7 @@ class Mage_Core_Model_Design_Fallback_List_FileTest extends PHPUnit_Framework_Te
         $actualResult = $this->_model->getPatternDirs($params);
 
         /**
-         * This is array of all possible paths. Dataprovider returns indexes of this array as an expected result
+         * This is array of all possible paths. Data provider returns indexes of this array as an expected result
          * Indexes added for easier reading
          */
         $fullExpectedResult = array(
@@ -57,8 +57,9 @@ class Mage_Core_Model_Design_Fallback_List_FileTest extends PHPUnit_Framework_Te
             4 => $dir->getDir(Mage_Core_Model_Dir::MODULES) . '/namespace/module/view/area'
         );
 
+        $expectedArray = array();
         foreach ($expectedIndexes as $index) {
-            $expectedArray[] = str_replace('/', DIRECTORY_SEPARATOR, $fullExpectedResult[$index]);
+            $expectedArray[] = $fullExpectedResult[$index];
         }
 
         $this->assertSame($expectedArray, $actualResult);

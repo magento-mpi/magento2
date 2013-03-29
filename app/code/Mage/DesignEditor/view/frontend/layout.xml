@@ -29,8 +29,9 @@
             </reference>
         </reference>
 
-        <reference name="before_body_end">
-            <block type="Mage_DesignEditor_Block_Toolbar_History" name="design_editor_toolbar_history" template="toolbar/history.phtml"/>
-        </reference>
+        <!--@todo History toolbar is temporary disabled-->
+        <!--<reference name="before_body_end">-->
+            <!--<block type="Mage_DesignEditor_Block_Toolbar_History" name="design_editor_toolbar_history" template="toolbar/history.phtml"/>-->
+        <!--</reference>-->
     </designeditor_page_type>
 </layout>

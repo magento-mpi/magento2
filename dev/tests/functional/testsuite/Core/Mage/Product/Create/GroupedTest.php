@@ -57,9 +57,6 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInGrouped()
     {
-        if ($this->getBrowser() == 'chrome') {
-            $this->markTestIncomplete('MAGETWO-7272');
-        }
         //Data
         $productData = $this->loadDataSet('Product', 'grouped_product');
         $productSearch =
@@ -114,12 +111,11 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
         $field = key($emptyField);
         $product = $this->loadDataSet('Product', 'grouped_product_required', $emptyField);
         //Steps
-        $this->productHelper()->createProduct($product, 'grouped', false);
+        $this->productHelper()->createProduct($product, 'grouped');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->addFieldIdToMessage($fieldType, $field);
-//        $this->assertMessagePresent('validation', 'empty_required_field');
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->addFieldIdToMessage($fieldType, $field);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function withRequiredFieldsEmptyDataProvider()
@@ -143,8 +139,6 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadDataSet('Product', 'grouped_product_required',
             array('general_name'              => $this->generate('string', 32, ':punct:'),
-                  'general_description'       => $this->generate('string', 32, ':punct:'),
-                  'autosettings_short_description' => $this->generate('string', 32, ':punct:'),
                   'general_sku'               => $this->generate('string', 32, ':punct:')));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
@@ -171,8 +165,6 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadDataSet('Product', 'grouped_product_required',
             array('general_name'              => $this->generate('string', 255, ':alnum:'),
-                  'general_description'       => $this->generate('string', 255, ':alnum:'),
-                  'autosettings_short_description' => $this->generate('string', 255, ':alnum:'),
                   'general_sku'               => $this->generate('string', 64, ':alnum:')));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
@@ -217,6 +209,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
     public function groupedWithSimpleProduct()
     {
         //Data
+        $this->markTestIncomplete('MAGETWO-7277');
         $simpleData = $this->loadDataSet('Product', 'simple_product_required');
         $groupedData = $this->loadDataSet('Product', 'grouped_product_required',
             array('associated_search_sku' => $simpleData['general_sku']));
@@ -249,6 +242,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
     public function groupedWithVirtualProduct()
     {
         //Data
+        $this->markTestIncomplete('MAGETWO-7277');
         $virtualData = $this->loadDataSet('Product', 'virtual_product_required');
         $groupedData = $this->loadDataSet('Product', 'grouped_product_required',
             array('associated_search_sku' => $virtualData['general_sku']));
@@ -281,6 +275,7 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
     public function groupedWithDownloadableProduct()
     {
         //Data
+        $this->markTestIncomplete('MAGETWO-7277');
         $downloadableData = $this->loadDataSet('Product', 'downloadable_product_required',
             array('downloadable_links_purchased_separately' => 'No'));
         $groupedData = $this->loadDataSet('Product', 'grouped_product_required',

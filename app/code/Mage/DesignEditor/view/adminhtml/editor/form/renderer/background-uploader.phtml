@@ -15,23 +15,27 @@ $element = $this->getElement();
 ?>
 
 <?php $imageUploader = $element->getImageUploaderElement(); ?>
-<div style="padding:8px; border-radius:5px; background:#32312c;">
+<div class="custom-file">
     <div id="<?php echo $imageUploader->getHtmlId(); ?>-uploader">
-        <div  class="no-display" id="<?php echo $imageUploader->getHtmlId(); ?>-container">
-            <?php echo $imageUploader->toHtml() ?>
+        <div class="no-display" id="<?php echo $imageUploader->getHtmlId(); ?>-container">
+            <div class="action-add">
+                <?php echo $imageUploader->toHtml() ?>
+            </div>
+            <label for="<?php echo $imageUploader->getHtmlId(); ?>"><?php echo $this->__('Upload an Image'); ?></label>
         </div>
-
-        <div class="no-display" id="<?php echo $imageUploader->getHtmlId(); ?>-template">
-            <div class="file-row">
-                <span class="label">{{name}}</span>
-                <span id="{{remove-id}}">remove</span>
+        <div class="uploaded-file-wrapper">
+            <div class="no-display uploaded-image" id="<?php echo $imageUploader->getHtmlId(); ?>-template">
+                <div class="file-row">
+                    <span class="label">{{name}}</span>
+                    <button class="action-delete" id="{{remove-id}}">
+                        <span><?php echo $this->__('Remove'); ?></span>
+                    </button>
+                </div>
+            </div>
+            <div class="no-display tile-background" id="<?php echo $imageUploader->getHtmlId(); ?>-tile-container">
+                <?php echo $element->getCheckboxElement()->toHtml() ?>
             </div>
         </div>
-    </div>
-
-    <div class="no-display" id="<?php echo $imageUploader->getHtmlId(); ?>-tile-container">
-        <hr />
-        <?php echo $element->getCheckboxElement()->toHtml() ?>
     </div>
 
     <script type="text/javascript">

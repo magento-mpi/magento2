@@ -120,7 +120,7 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag extends Mage_Backend_Block_
         if (!$this->getCustomer()) {
             return false;
         }
-        return $this->getCustomer()->getId() && $this->_authSession->isAllowed('Mage_Tag::tag');
+        return $this->getCustomer()->getId() && $this->_authSession->isAllowed('Mage_Tag::tag_all');
     }
 
     /**

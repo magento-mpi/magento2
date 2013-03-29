@@ -59,7 +59,6 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
         }
 
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Review::catalog_reviews_ratings_reviews_pending');
 
         Mage::register('usePendingFilter', true);
         $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Review_Main'));
