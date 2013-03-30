@@ -18,6 +18,7 @@ Mage/Paygate
 Mage/Downloadable
 Mage/Core/Model/Resource/Helper
 Mage/Core/Model/Url/RewriteFactory
+Mage/Core/Model/Layout/Merge/Factory
 Mage/Catalog/Model/Resource/Product/Indexer
 Mage/CatalogInventory/Model/Resource/Indexer/Stock
 Mage/Sales/Model/Order
