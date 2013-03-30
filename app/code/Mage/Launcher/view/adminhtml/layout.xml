@@ -45,14 +45,14 @@
             <action method="addJs"><file>jquery/fileUploader/jquery.iframe-transport.js</file></action>
             <action method="addJs"><file>jquery/fileUploader/jquery.fileupload.js</file></action>
             <action method="addJs"><file>jquery/fileUploader/load-image.min.js</file></action>
-            <action method="addJs"><file>:jquery/fileUploader/canvas-to-blob.min.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/canvas-to-blob.min.js</file></action>
             <action method="addJs"><file>jquery/fileUploader/jquery.fileupload-fp.js</file></action>
 
             <!--Product Tile-->
             <action method="addJs"><file>Mage_Adminhtml::catalog/base-image-uploader.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/category-selector.css</file></action>
             <action method="addJs"><file>json2.js</file></action>
-            <action method="addJs"><file>:mage/backend/suggest.js</file></action>
+            <action method="addJs"><file>mage/backend/suggest.js</file></action>
             <action method="addJs"><file>jquery/jstree/jquery.hotkeys.js</file></action>
             <action method="addJs"><file>jquery/jstree/jquery.jstree.js</file></action>
             <action method="addJs"><file>mage/backend/tree-suggest.js</file></action>
