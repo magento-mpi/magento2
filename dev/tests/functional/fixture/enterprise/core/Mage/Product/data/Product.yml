@@ -31,6 +31,7 @@ gift_card_required:
     product_online_status: Enabled
     general_name: Gift Card Required(%randomize%)
     general_sku: giftcard_sku_req_%randomize%
+    general_weight: %noValue%
     general_giftcard_data:
         general_card_type: %noValue%
         general_amounts: *giftCardAmounts
@@ -52,6 +53,8 @@ frontend_gift_card_validation:
     general_categories: Default Category
     general_gift_card_amounts: *giftCardAmounts
     general_gift_card_allow_open_amount: Yes
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 2
     inventory_max_allowed_qty_default: No

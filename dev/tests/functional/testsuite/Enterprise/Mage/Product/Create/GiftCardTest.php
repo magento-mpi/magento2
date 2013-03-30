@@ -291,7 +291,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required',
-            array('prices_gift_card_amount' => $invalidPrice));
+            array('general_giftcard_amount' => $invalidPrice));
         //Steps
         $this->productHelper()->createProduct($productData, 'giftcard');
         //Verifying
