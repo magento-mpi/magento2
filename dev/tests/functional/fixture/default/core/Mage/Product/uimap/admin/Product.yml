@@ -339,7 +339,7 @@ new_product:
                                     buttons:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
-                                        add_selected_products: //button[span='Apply Changes']
+                                        add_selected_products: //button[span='Add Products']
                                         cancel_select_products: //button[span='Cancel']
                                     links:
                                         close_select_product_grid: //a[span='close']
@@ -815,6 +815,11 @@ new_product_save_and_continue:
 
 edit_product_save_and_continue:
     mca: catalog_product/edit/id/%id%/back/edit/active_tab/%tab%/
+    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    uimap: *editProduct
+
+edit_duplicated_product:
+    mca: catalog_product/edit/id/%id%/active_tab/%tab%/
     title: %elementTitle% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 

@@ -3695,7 +3695,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @throws RuntimeException
      * @return Mage_Selenium_TestCase
      */
-    public function pleaseWait($waitDisappear = 30)
+    public function pleaseWait($waitDisappear = 40)
     {
         $this->waitUntil(
             function ($testCase) {
