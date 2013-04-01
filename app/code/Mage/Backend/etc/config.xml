@@ -20,6 +20,13 @@
         </Mage_Backend>
     </modules>
     <global>
+        <resources>
+            <backend_setup>
+                <setup>
+                    <module>Mage_Backend</module>
+                </setup>
+            </backend_setup>
+        </resources>
         <areas>
             <adminhtml>
                 <base_controller>Mage_Backend_Controller_ActionAbstract</base_controller>

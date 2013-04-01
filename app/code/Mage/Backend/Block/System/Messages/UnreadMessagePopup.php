@@ -10,22 +10,22 @@ class Mage_Backend_Block_System_Messages_UnreadMessagePopup extends Mage_Backend
     /**
      * System Message list
      *
-     * @var Mage_Backend_Model_System_MessageList
+     * @var Mage_Backend_Model_System_MessagingService
      */
-    protected $_messageList;
+    protected $_messagingService;
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Backend_Model_System_MessageList $messageList
+     * @param Mage_Backend_Model_System_MessagingService $messagingService
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Backend_Model_System_MessageList $messageList,
+        Mage_Backend_Model_System_MessagingService $messagingService,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        $this->_messageList = $messageList;
+        $this->_messagingService = $messagingService;
     }
 
     /**
@@ -33,9 +33,19 @@ class Mage_Backend_Block_System_Messages_UnreadMessagePopup extends Mage_Backend
      */
     public function _toHtml()
     {
-        if (count($this->_messageList->getUnread())) {
+        if (count($this->_messagingService->hasUnread())) {
             return parent::_toHtml();
         }
         return '';
+    }
+
+    /**
+     * Retrieve list of unread messages
+     *
+     * @return mixed
+     */
+    public function getUnreadMessages()
+    {
+        return $this->_messagingService->getUnread();
     }
 }

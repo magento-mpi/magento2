@@ -9,6 +9,9 @@
  */
 interface Mage_Backend_Model_System_MessageInterface
 {
+    const SEVERITY_CRITICAL = 1;
+    const SEVERITY_MAJOR = 2;
+
     /**
      * Check whether
      *
