@@ -114,7 +114,7 @@ edit_admin_user:
         buttons:
             back: //button[@data-ui-id='adminhtml-user-edit-back-button']
             reset: //button[@data-ui-id='adminhtml-user-edit-reset-button']
-            delete_user: //button[data-ui-id='adminhtml-user-edit-delete-button']
+            delete_user: //button[@data-ui-id='adminhtml-user-edit-delete-button']
             save_admin_user: //button[@data-ui-id='adminhtml-user-edit-save-button']
         messages: *adminUserMessages
 
@@ -357,7 +357,7 @@ admin_edit_role:
 my_account:
     mca: system_account/
     click_xpath: //a[@data-ui-id='header-user-account-settings']
-    title: My Account / System / Magento Admin
+    title: My Account / Magento Admin
     uimap:
         form: &myAccount
             fieldsets:
