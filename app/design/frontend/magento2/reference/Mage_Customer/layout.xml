@@ -69,7 +69,7 @@ Layout for customer login page
             <!-- customer.form.login.extra -->
             <container name="customer.login.container" label="Customer Login Container" htmlTag="div" htmlClass="login container">
                 <block type="Mage_Customer_Block_Form_Login" name="customer_form_login" template="form/login.phtml">
-                    <container name="form.additional.info" label="invisible" as="form.additional.info" />
+                    <container name="form.additional.info" label="invisible" as="form_additional_info" />
                 </block>
                 <block type="Mage_Customer_Block_Form_Login" name="customer.new" template="newcustomer.phtml"/>
             </container>
@@ -102,6 +102,7 @@ New customer registration
         <container name="customer.form.register.fields.before" label="Form Fields Before" htmlTag="div" htmlClass="rewards"/>
         <reference name="content">
             <block type="Mage_Customer_Block_Form_Register" name="customer_form_register" template="form/register.phtml">
+                <container name="form.additional.info" label="invisible" as="form_additional_info" />
                 <action method="append"><element>customer.form.register.fields.before</element><alias>form_fields_before</alias></action>
             </block>
         </reference>
@@ -117,7 +118,9 @@ New customer registration
             <action method="setHeaderTitle" translate="title" module="Mage_Customer"><title>Password forgotten</title></action>
         </reference>
         <reference name="content">
-            <block type="Mage_Customer_Block_Account_Forgotpassword" name="forgotPassword" template="form/forgotpassword.phtml"/>
+            <block type="Mage_Customer_Block_Account_Forgotpassword" name="forgotPassword" template="form/forgotpassword.phtml">
+                <container name="form.additional.info" label="invisible" as="form_additional_info" />
+            </block>
         </reference>
     </customer_account_forgotpassword>
 

@@ -154,7 +154,7 @@
             </div>
         </div>
         <?php endif; ?>
-        <?php echo $this->getChildHtml('form.additional.info'); ?>
+        <?php echo $this->getChildHtml('form_additional_info'); ?>
         <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
             <div  class="field save choice">
                 <input type="checkbox" name="billing[save_in_address_book]" value="1" title="<?php echo $this->__('Save in address book') ?>" id="billing:save_in_address_book" <?php if ($this->getAddress()->getSaveInAddressBook()):?> checked="checked"<?php endif;?> class="checkbox" />
