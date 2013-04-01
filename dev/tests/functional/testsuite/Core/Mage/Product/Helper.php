@@ -874,6 +874,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             unset($generalTab['general_bundle_items']);
         }
         if (isset($generalTab['general_grouped_data'])) {
+            $this->markTestIncomplete('MAGETWO-7278');
+            $this->markTestIncomplete('MAGETWO-7277');
             $this->addProductsToGroup($generalTab['general_grouped_data']);
             unset($generalTab['general_grouped_data']);
         }
