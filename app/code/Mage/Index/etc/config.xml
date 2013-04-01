@@ -124,9 +124,7 @@
             <Mage_Backend_Model_System_MessageList>
                 <parameters>
                     <messages>
-                        <indexer>
-                            <class>Mage_Index_Model_System_Message_IndexOutdated</class>
-                        </indexer>
+                        <indexer>Mage_Index_Model_System_Message_IndexOutdated</indexer>
                     </messages>
                 </parameters>
             </Mage_Backend_Model_System_MessageList>

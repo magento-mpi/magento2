@@ -15,6 +15,8 @@ class Mage_Backend_Model_System_MessageList
     protected $_messageClasses;
 
     /**
+     * List of messages
+     *
      * @var array
      */
     protected $_messages;
@@ -39,23 +41,23 @@ class Mage_Backend_Model_System_MessageList
     protected function _loadMessages()
     {
         if (!$this->_messages) {
-            $objectManager = $this->_objectManager;
-            foreach ($this->_messageClasses as $messageConfig) {
-                if (!isset($messageConfig['class'])) {
-                    throw new InvalidArgumentException('Message class for message ' . $key . ' is not set');
-                }
-                $message = $objectManager->get($messageConfig['class']);
+            foreach ($this->_messageClasses as $key => $messageClass) {
+                throw new InvalidArgumentException('Message class for message "' . $key . '" is not set');
+                $message = $this->_objectManager->get($messageClass);
                 $this->_messages[$message->getIdentity()] = $message;
             }
         }
     }
 
     /**
+     * Retrieve message by
+     *
      * @param string $identity
      * @return null|Mage_Backend_Model_System_MessageInterface
      */
     public function getMessageByIdentity($identity)
     {
+        $this->_loadMessages();
         return isset($this->_messages[$identity]) ? $this->_messages[$identity] : null;
     }
 
