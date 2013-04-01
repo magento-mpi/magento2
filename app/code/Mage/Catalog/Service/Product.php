@@ -229,29 +229,29 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
         foreach ($schema as $field) {
             if (in_array($field, $priceTypes)) {
                 $data[$field] = array(
-                    'amount' => '',
-                    'currencyCode' => '',
-                    'formattedPrice' => '',
+                    'amount' => $product->getPrice(),
+                    'currencyCode' => Mage::getObjectManager()->get('Mage_Core_Model_StoreManager')->getStore()->getCurrentCurrencyCode(),
+                    'formattedPrice' => Mage::helper('Mage_Core_Helper_Data')->currency($product->getPrice(),true,false),
                 );
             } else if ($field === 'specialPrice') {
                 $data[$field] = array(
-                    'specialPrice' => '',
-                    'specialFromDate' => '',
-                    'specialToDate' => '',
+                    'specialPrice' => $product->getSpecialPrice(),
+                    'specialFromDate' => $product->getSpecialFromDate(),
+                    'specialToDate' => $product->getSpecialToDate(),
                 );
             } else if ($field === 'images') {
                 $data[$field] = array(
                     'image' => array(
-                        'url' => '',
-                        'label' => '',
+                        'url' => $product->getData('image'),
+                        'label' => $product->getData('image_label'),
                     ),
                     'smallImage' => array(
-                        'url' => '',
-                        'label' => '',
+                        'url' => $product->getData('small_image'),
+                        'label' => $product->getData('small_image_label'),
                     ),
                     'thumbnail' => array(
-                        'url' => '',
-                        'label' => '',
+                        'url' => $product->getData('thumbnail'),
+                        'label' => $product->getData('thumbnail_label'),
                     ),
                 );
             } else if ($field === 'mediaGallery') {
@@ -285,9 +285,10 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
                     )
                 );
             } else if ($field === 'quantityAndStockStatus') {
+                $quantityAndStockStatus = $product->getData('quantity_and_stock_status');
                 $data[$field] = array(
-                    'isInStock' => '',
-                    'qty' => '',
+                    'isInStock' => $quantityAndStockStatus['is_in_stock'],
+                    'qty' => $quantityAndStockStatus['qty']
                 );
             } else if ($field === 'bundle') {
                 $data[$field] = array(
