@@ -14,7 +14,7 @@
     $.widget('vde.themeControl', {
         options: {
             themeData: null,
-            saveEventName: 'quickEditSave',
+            saveEventName: 'quickEditSave',     //@TODO is it used at all?
             isActive: false
         },
 
@@ -24,6 +24,13 @@
          */
         _init: function() {
             this.options._textControl.on('click.editThemeTitle', $.proxy(this._onEdit, this));
+            this.options._editThemeNameControl.on('click.toggleEditThemeTitle', $.proxy(function() {
+                if (this.options.isActive) {
+                    this._cancelEdit();
+                } else {
+                    this._onEdit();
+                }
+            }, this));
             this.options._saveTitleBtn.on('click.submitForm', $.proxy(function() {
                 this.options._formControl.trigger('submit');
                 return false;
@@ -47,7 +54,8 @@
          * @protected
          */
         _create: function() {
-            this.options._textControl = this.widget().find('.theme-title');
+            this.options._textControl = this.widget().find('.theme-assigned-data > .theme-title');
+            this.options._editThemeNameControl = this.widget().find('.edit-theme-title');
             this.options._inputControl = this.widget().find('.edit-theme-title-form');
             this.options._formControl = this.widget().find('.edit-theme-title-form');
             this.options._saveTitleBtn = this.widget().find('.action-save');
@@ -65,8 +73,8 @@
                 return;
             }
             this.options.isActive = true;
-            this.options._textControl.fadeOut();
-            this.options._inputControl.fadeIn().focus();
+            this.options._textControl.hide();
+            this.options._inputControl.show().focus();
             this._setThemeTitle(this.options.themeData.theme_title);
         },
 
@@ -143,8 +151,8 @@
          */
         _cancelEdit: function() {
             this.options.isActive = false;
-            this.options._textControl.fadeIn();
-            this.options._inputControl.fadeOut();
+            this.options._textControl.show();
+            this.options._inputControl.hide();
         }
     });
 
