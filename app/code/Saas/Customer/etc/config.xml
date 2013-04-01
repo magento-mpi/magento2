@@ -12,6 +12,11 @@
         <Saas_Customer>
             <version>2.0.0.0</version>
             <active>false</active>
+            <depends>
+                <Mage_Customer/>
+                <Mage_Backend/>
+                <Saas_Saas/>
+            </depends>
         </Saas_Customer>
     </modules>
     <global>

@@ -14,7 +14,8 @@
             <active>false</active>
             <depends>
                 <Mage_Newsletter/>
-                <Mage_Core/>
+                <Mage_Backend/>
+                <Saas_Saas/>
             </depends>
         </Saas_Newsletter>
     </modules>

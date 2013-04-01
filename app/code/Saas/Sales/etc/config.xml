@@ -13,8 +13,8 @@
             <version>2.0.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Backend />
-                <Mage_Sales />
+                <Mage_Backend/>
+                <Mage_Sales/>
                 <Saas_Saas/>
             </depends>
         </Saas_Sales>

@@ -13,7 +13,9 @@
             <version>2.0.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Adminhtml/>
+                <Mage_Backup/>
+                <Mage_Backend/>
+                <Saas_Saas/>
             </depends>
         </Saas_Backup>
     </modules>
@@ -21,10 +23,10 @@
         <events>
             <controller_action_predispatch_adminhtml>
                 <observers>
-                    <saas_backup>
+                    <limit_backup_functionality>
                         <class>Saas_Backup_Model_Observer</class>
                         <method>limitBackupFunctionality</method>
-                    </saas_backup>
+                    </limit_backup_functionality>
                 </observers>
             </controller_action_predispatch_adminhtml>
         </events>
