@@ -12,7 +12,7 @@
  * Save button block
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
-    extends Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_BlockAbstract
+    extends Mage_Backend_Block_Widget_Button_Split
 {
     /**
      * Current theme used for preview
@@ -20,6 +20,33 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
      * @var Mage_Core_Model_Theme
      */
     protected $_theme;
+
+    /**
+     * Init save button
+     *
+     * @return $this
+     * @throws InvalidArgumentException
+     */
+    public function init()
+    {
+        $theme = $this->getTheme();
+        $themeType = $theme->getType();
+        if ($themeType == Mage_Core_Model_Theme::TYPE_PHYSICAL) {
+            $this->_initPhysical();
+        } else if ($themeType == Mage_Core_Model_Theme::TYPE_VIRTUAL) {
+            if ($theme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)->isAssigned()) {
+                $this->_initAssigned();
+            } else {
+                $this->_initUnAssigned();
+            }
+        } else {
+            throw new InvalidArgumentException(
+                sprintf('Invalid theme of a "%s" type passed to save button block', $themeType)
+            );
+        }
+
+        return $this;
+    }
 
     /**
      * Get current theme
@@ -49,24 +76,25 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     }
 
     /**
-     * Get 'data-mage-init' attribute value for 'Save' button
+     * Whether button is disabled
      *
-     * @return string
+     * @return mixed
      */
-    public function getSaveInitData()
+    public function getDisabled()
     {
-        $data = array(
-            'button' => array(
-                'event'     => 'save',
-                'target'    => 'body',
-                'eventData' => array(
-                    'theme_id' => $this->getTheme()->getId(),
-                    'save_url' => $this->getSaveUrl(),
-                )
-            ),
-        );
+        return false;
+    }
 
-        return $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode($data));
+    /**
+     * Disable actions-split functionality if no options provided
+     *
+     *
+     * @return bool
+     */
+    public function hasSplit()
+    {
+        $options = $this->getOptions();
+        return is_array($options) && count($options) > 0;
     }
 
     /**
@@ -80,12 +108,119 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     }
 
     /**
+     * Init 'Save' button for 'physical' theme
+     *
+     * @return $this
+     */
+    protected function _initPhysical()
+    {
+        $this->setData(array(
+            'label'          => $this->__('Assign'),
+            'data_attribute' => array('mage-init' => $this->_getAssignInitData()),
+            'options'        => array()
+        ));
+
+        return $this;
+    }
+
+    /**
+     * Init 'Save' button for 'virtual' theme assigned to a store
+     *
+     * @return $this
+     */
+    protected function _initAssigned()
+    {
+        $this->setData(array(
+            'label'          => $this->__('Save'),
+            'data_attribute' => array('mage-init' => $this->_getSaveAndAssignInitData()),
+            'options'        => array()
+        ));
+
+        return $this;
+    }
+
+    /**
+     * Init 'Save' button for 'virtual' theme assigned to a store
+     *
+     * @return $this
+     */
+    protected function _initUnAssigned()
+    {
+        $this->setData(array(
+            'label'          => $this->__('Save'),
+            'data_attribute' => array('mage-init' => $this->_getSaveInitData()),
+            'options'        => array(
+                array(
+                    'label'          => $this->__('Save'),
+                    'data_attribute' => array('mage-init' => $this->_getSaveInitData()),
+                    'disabled'       => true
+                ),
+                array(
+                    'label'          => $this->__('Save and Assign'),
+                    'data_attribute' => array('mage-init' => $this->_getSaveAndAssignInitData())
+                ),
+            )
+        ));
+
+        return $this;
+    }
+
+    /**
+     * Get 'data-mage-init' attribute value for 'Save' button
+     *
+     * @return string
+     */
+    protected function _getSaveInitData()
+    {
+        $message = "You are about to apply current changes for your live store, are you sure want to do this?";
+        $data = array(
+            'button' => array(
+                'event'     => 'save',
+                'target'    => 'body',
+                'eventData' => array(
+                    'theme_id' => $this->getTheme()->getId(),
+                    'save_url' => $this->getSaveUrl(),
+                    'confirm_message' => $this->__($message)
+                )
+            ),
+        );
+
+        return $this->_encode($data);
+    }
+
+    /**
+     * Get 'data-mage-init' attribute value for 'Save' button
+     *
+     * @return string
+     */
+    protected function _getAssignInitData()
+    {
+        $message = "You are about to apply this theme for your live store, are you sure want to do this?\n\n" .
+            'Note: copy of the current theme will be created automatically and assigned to your store, ' .
+            'so you can change your copy as you wish';
+        $data = array(
+            'button' => array(
+                'event'     => 'assign',
+                'target'    => 'body',
+                'eventData' => array(
+                    'theme_id'        => $this->getTheme()->getId(),
+                    'confirm_message' => $this->__($message)
+                )
+            ),
+        );
+
+        return $this->_encode($data);
+    }
+
+    /**
      * Get 'data-mage-init' attribute value for 'Save and Assign' button
      *
      * @return string
      */
-    public function getSaveAndAssignInitData()
+    protected function _getSaveAndAssignInitData()
     {
+        $message = "You are about to apply current changes for your live store, are you sure want to do this?";
+
         $data = array(
             'button' => array(
                 'event'     => 'save-and-assign',
@@ -93,20 +228,22 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
                 'eventData' => array(
                     'theme_id' => $this->getTheme()->getId(),
                     'save_url' => $this->getSaveUrl(),
+                    'confirm_message' => $this->__($message)
                 )
             ),
         );
 
-        return $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode($data));
+        return $this->_encode($data);
     }
 
     /**
-     * Whether button save is enable
+     * Get encoded data string
      *
-     * @return bool
+     * @param array $data
+     * @return string
      */
-    public function isEnable()
+    protected function _encode($data)
     {
-        return $this->getTheme()->isEditable();
+        return $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode($data));
     }
 }

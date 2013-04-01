@@ -91,6 +91,8 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     protected function _addAssignButtonHtml($themeBlock)
     {
         $themeId = $themeBlock->getTheme()->getId();
+        $message = $this->__('You are about to apply this theme for your live store, are you really want to do this?');
+
         /** @var $assignButton Mage_Backend_Block_Widget_Button */
         $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $assignButton->setData(array(
@@ -101,12 +103,13 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
                         'event' => 'assign',
                         'target' => 'body',
                         'eventData' => array(
-                            'theme_id' => $themeId
+                            'theme_id'        => $themeId,
+                            'confirm_message' =>  $message
                         )
                     ),
                 ),
             ),
-            'class'   => 'save action-theme-assign',
+            'class'   => 'save action-theme-assign primary',
             'target'  => '_blank'
         ));
 
@@ -125,6 +128,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
         /** @var $previewButton Mage_Backend_Block_Widget_Button */
         $previewButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $previewButton->setData(array(
+            'id'        => 'theme-preview-' . $themeBlock->getTheme()->getId(),
             'label'     => $this->__('Preview Theme'),
             'class'     => 'action-theme-preview',
             'data_attribute' => array(
@@ -155,7 +159,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
         /** @var $editButton Mage_Backend_Block_Widget_Button */
         $editButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $editButton->setData(array(
-            'label'     => $this->__('Edit Theme'),
+            'label'     => $this->__('Edit'),
             'class'     => 'add action-edit',
             'data_attribute' => array(
                 'mage-init' => array(

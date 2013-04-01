@@ -35,7 +35,7 @@ design_editor_selector:
             confirmation_for_assign_to_default: You are about to apply this theme for your live store, are you really want to do this?
         buttons:
             assign_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Assign to a Storeview')]
-            edit_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Edit Theme')]
+            edit_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Edit')]
             delete_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Remove')]
             preview_demo_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Theme Demo')]
             preview_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Preview Theme')]

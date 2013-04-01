@@ -162,6 +162,7 @@
                 <negotiated_active>0</negotiated_active>
                 <mode_xml>1</mode_xml>
                 <type>UPS</type>
+                <is_account_live>0</is_account_live>
             </ups>
             <usps>
                 <active>0</active>

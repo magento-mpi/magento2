@@ -15,23 +15,36 @@
 ?>
 
 <li class="theme" id="theme-id-<?php echo $this->getTheme()->getId() ?>" data-widget-options="<?php echo $this->escapeHtml($this->getOptionsJson()); ?>">
-    <form action="" method="post" class="edit-theme-title-form">
-        <input type="text" value="<?php echo $themeTitle ?>" data-title-original="<?php echo $themeTitle ?>" required autofocus />
-        <?php echo $this->getQuickSaveButton()->toHtml() ?>
-    </form>
-    <h4 class="theme-title" title="<?php echo $themeTitle ?>"><?php echo $themeTitle ?></h4>
-    <?php if ($this->getTheme()->getAssignedStores()): ?>
-    <p class="theme-assigned-to-storeview">
-        <span><?php echo $this->__('Store View applied to: ')?></span>
-        <strong title="<?php echo implode(', ', $this->getStoresTitles()) ?>"><?php echo implode(', ', $this->getStoresTitles()) ?></strong>
-    </p>
-    <?php endif; ?>
     <div class="theme-content">
-        <img src="<?php echo $this->getTheme()->getThemeImage()->getPreviewImageUrl() ?>" alt="<?php echo $themeTitle ?>"/>
+        <img class="theme-preview-image" src="<?php echo $this->getTheme()->getThemeImage()->getPreviewImageUrl() ?>" alt="<?php echo $themeTitle ?>"/>
         <article class="theme-data">
+            <h4 class="theme-title" title="<?php echo $themeTitle ?>"><?php echo $themeTitle ?></h4>
             <div class="actions">
+                <button type="button" class="action-duplicate">
+                    <span><?php echo $this->__('Duplicate'); ?></span>
+                </button>
                 <?php echo $this->getButtonsHtml() ?>
             </div>
         </article>
     </div>
+    <?php if ($this->getTheme()->getAssignedStores()): ?>
+        <div class="theme-assigned-data">
+            <form action="" method="post" class="edit-theme-title-form">
+                <input type="text" value="<?php echo $themeTitle ?>" data-title-original="<?php echo $themeTitle ?>" required autofocus />
+                <?php echo $this->getQuickSaveButton()->toHtml() ?>
+            </form>
+            <h4 class="theme-title" title="<?php echo $themeTitle ?>"><?php echo $themeTitle ?></h4>
+            <span class="edit-theme-title"><?php echo $this->__('Edit Theme Name'); ?></span>
+            <p class="theme-assigned-to-storeview">
+                <span><?php echo $this->__('Assigned to: ')?></span>
+                <span><?php echo implode(', ', $this->getStoresTitles()) ?></span>
+            </p>
+            <div class="actions">
+                <button type="button" class="action-duplicate">
+                    <span><?php echo $this->__('Duplicate'); ?></span>
+                </button>
+                <?php echo $this->getButtonsHtml() ?>
+            </div>
+        </div>
+    <?php endif; ?>
 </li>
