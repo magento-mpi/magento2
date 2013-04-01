@@ -82,4 +82,5 @@ return array(
     array('XML_PATH_SKIP_PROCESS_MODULES_UPDATES', 'Mage_Core_Model_App',
         'Mage_Core_Model_Db_UpdaterInterface::XML_PATH_SKIP_PROCESS_MODULES_UPDATES'
     ),
+    array('DEFAULT_TIMEZONE', 'Mage_Core_Model_Locale', 'Mage::DEFAULT_TIMEZONE'),
 );
