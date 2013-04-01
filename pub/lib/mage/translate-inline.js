@@ -22,18 +22,18 @@
             modal: true,
             dialogClass: "dialog",
             width: 650,
-            title: "Translate",
+            title: $.mage.__('Translate'),
             height: 470,
             zIndex: 2100,
             buttons: [{
-                text: 'Submit',
+                text: $.mage.__('Submit'),
                 'class': 'form-button button',
                 click: function(e) {
                     $(this).translateInline('submit');
                 }
             },
             {
-                text: 'Close',
+                text: $.mage.__('Close'),
                 'class': 'form-button button',
                 click: function() {
                     $(this).translateInline('close');
