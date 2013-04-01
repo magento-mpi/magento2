@@ -19,7 +19,7 @@
             var highlight = this.settings.highlight;
             this.settings.highlight = function (element) {
                 highlight.apply(this, arguments);
-                $(element).trigger('highlight.validate');
+                $(element).trigger('highlight');
             };
         },
 
