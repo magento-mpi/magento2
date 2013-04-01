@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Mage_Backend_Block_System_Messages_NewMessagePopup extends Mage_Backend_Block_Template
+class Mage_Backend_Block_System_Messages_UnreadMessagePopup extends Mage_Backend_Block_Template
 {
     /**
      * System Message list
@@ -33,7 +33,7 @@ class Mage_Backend_Block_System_Messages_NewMessagePopup extends Mage_Backend_Bl
      */
     public function _toHtml()
     {
-        if ($this->_messageList->getNew()) {
+        if (count($this->_messageList->getUnread())) {
             return parent::_toHtml();
         }
         return '';
