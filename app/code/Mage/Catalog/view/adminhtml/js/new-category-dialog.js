@@ -66,12 +66,12 @@
                     text: 'Create Category',
                     'class': 'action-create primary',
                     'data-action': 'save',
-                    click: function() {
+                    click: function(event) {
                         if (!newCategoryForm.validate()) {
                             return;
                         }
 
-                        var thisButton = $(event.target);
+                        var thisButton = $(event.target).closest('[data-action=save]');
                         thisButton.prop('disabled', true);
                         $.ajax({
                             type: 'POST',
