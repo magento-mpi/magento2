@@ -35,6 +35,11 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object implements Mage_Co
      */
     protected $_routers = array();
 
+    /**
+     * @param Mage_Core_Controller_Varien_Router_Factory $routerFactory
+     * @param Mage_Core_Model_Url_RewriteFactory $rewriteFactory
+     * @param array $data
+     */
     public function __construct(
         Mage_Core_Controller_Varien_Router_Factory $routerFactory,
         Mage_Core_Model_Url_RewriteFactory $rewriteFactory,
