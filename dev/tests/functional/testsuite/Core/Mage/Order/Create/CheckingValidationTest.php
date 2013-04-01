@@ -337,7 +337,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $xpath = $this->_getControlXpath('dropdown', 'card_type');
         $this->addParameter('fieldXpath', $xpath);
         $this->assertMessagePresent('validation', 'card_type_doesnt_match');
-        $this->assertEquals(1, count($this->getParsedMessages('error')));
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**

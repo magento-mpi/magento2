@@ -114,7 +114,7 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function verifyGiftCardAmounts(array $giftCardData)
     {
-        $rowQty = count($this->getControlElements('pageelement', 'general_giftcard_amount_line', null, false));
+        $rowQty = $this->getControlCount('pageelement', 'general_giftcard_amount_line');
         $needCount = count($giftCardData);
         if ($needCount != $rowQty) {
             $this->addVerificationMessage(
