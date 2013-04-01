@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Saas_Downloadable>
+            <version>2.0.0.0</version>
+            <active>false</active>
+            <depends>
+                <Saas_Saas/>
+            </depends>
+        </Saas_Downloadable>
+    </modules>
+    <global>
+        <events>
+            <controller_action_predispatch_adminhtml>
+                <observers>
+                    <disable_report_product_downloads>
+                        <class>Saas_Downloadable_Model_Observer</class>
+                        <method>disableReportProductDownloads</method>
+                    </disable_report_product_downloads>
+                </observers>
+            </controller_action_predispatch_adminhtml>
+        </events>
+    </global>
+</config>

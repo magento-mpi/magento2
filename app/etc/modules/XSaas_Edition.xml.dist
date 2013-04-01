@@ -36,5 +36,7 @@
         <Saas_PrintedTemplate><active>true</active></Saas_PrintedTemplate>
         <Saas_Saas><active>true</active></Saas_Saas>
         <Saas_UnitPrice><active>true</active></Saas_UnitPrice>
+        <Mage_Downloadable><active>false</active></Mage_Downloadable>
+        <Saas_Downloadable><active>true</active></Saas_Downloadable>
     </modules>
 </config>
