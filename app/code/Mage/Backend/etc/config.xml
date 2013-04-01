@@ -136,6 +136,9 @@
                         <baseurl>
                             <class>Mage_Backend_Model_System_Message_Baseurl</class>
                         </baseurl>
+                        <security>
+                            <class>Mage_Backend_Model_System_Message_Security</class>
+                        </security>
                     </messages>
                 </parameters>
             </Mage_Backend_Model_System_MessageList>

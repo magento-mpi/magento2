@@ -100,7 +100,6 @@ Supported layout update handles (special):
             <container name="notifications" as="notifications" label="Notifications">
                 <block type="Mage_Adminhtml_Block_Cache_Notifications" name="cache_notifications" template="system/cache/notifications.phtml"/>
                 <block type="Mage_Adminhtml_Block_Notification_Survey" name="notification_survey" template="notification/survey.phtml"/>
-                <block type="Mage_Adminhtml_Block_Notification_Security" name="notification_security" as="notification_security" template="notification/security.phtml"/>
             </container>
             <block type="Mage_Adminhtml_Block_Widget_Breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
 

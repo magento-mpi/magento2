@@ -36,7 +36,7 @@ interface Mage_Backend_Model_System_MessageInterface
     /**
      * Retrieve problem management url
      *
-     * @return string
+     * @return string|null
      */
     public function getLink();
 
