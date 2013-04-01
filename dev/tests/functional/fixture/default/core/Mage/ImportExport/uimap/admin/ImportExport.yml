@@ -14,7 +14,7 @@
 import:
     mca: import/
     click_xpath: //*[@class='navigation']//a[contains(@href, '/import/')]
-    title: Import / Import/Export / Magento Admin
+    title: Import / Import/Export / Data Transfer / System / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -51,7 +51,7 @@ import:
 export:
     mca: export
     click_xpath: //*[@class='navigation']//a[contains(@href, '/export/')]
-    title: Export / Import/Export / Magento Admin
+    title: Export / Import/Export / Data Transfer / System / Magento Admin
     uimap:
         form:
             fieldsets:

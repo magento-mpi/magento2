@@ -12,7 +12,7 @@
 manage_products:
     mca: catalog_product/
     click_xpath: //div[@class='submenu']//a[contains(@href, '/catalog_product/')]
-    title: Manage Products / Catalog / Magento Admin
+    title: Manage Products / Inventory / Products / Magento Admin
     uimap: &manageProductsUimap
         form:
             fieldsets:
@@ -79,13 +79,13 @@ manage_products:
 manage_products_store:
     mca: catalog_product/index/store/%storeId%/
     click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_product/')]
-    title: Manage Products / Catalog / Magento Admin
+    title: Manage Products / Inventory / Products / Magento Admin
     uimap: *manageProductsUimap
 
 # Add New Product page
 new_product:
     mca: catalog_product/new/set/%setId%/type/%productType%/
-    title: New Product / Manage Products / Catalog / Magento Admin
+    title: New Product / Manage Products / Inventory / Products / Magento Admin
     uimap: &newProduct
         form: &newProductCreationForm
             fieldsets: &new_product_fieldsets
@@ -728,7 +728,7 @@ new_product:
 # Edit Product page
 edit_product:
     mca: catalog_product/edit/id/%id%/
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
     uimap: &editProduct
         form:
             fieldsets: *new_product_fieldsets
@@ -810,22 +810,22 @@ edit_product:
 
 new_product_save_and_continue:
     mca: catalog_product/edit/id/%id%/set/%setId%/type/%productType%/back/edit/active_tab/%tab%
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
     uimap: *editProduct
 
 edit_product_save_and_continue:
     mca: catalog_product/edit/id/%id%/back/edit/active_tab/%tab%
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
     uimap: *editProduct
 
 new_product_after_changed_attribute_set:
     mca: catalog_product/new/type/%productType%/?set=%setId%
-    title: New Product / Manage Products / Catalog / Magento Admin
+    title: New Product / Manage Products / Inventory / Products / Magento Admin
     uimap: *newProduct
 
 edit_product_after_changed_attribute_set:
     mca: catalog_product/edit/id/%id%/?set=%setId%
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
     uimap: *editProduct
 
 updating_products:

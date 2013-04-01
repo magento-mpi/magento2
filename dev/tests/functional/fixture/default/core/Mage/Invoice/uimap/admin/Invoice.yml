@@ -14,7 +14,7 @@
 manage_sales_invoices:
     mca: sales_invoice/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_invoice/')]
-    title: Invoices / Sales / Magento Admin
+    title: Invoices / Operations / Sales / Magento Admin
     uimap:
         form: &salesInvoices
             fieldsets:
@@ -51,7 +51,7 @@ manage_sales_invoices:
 
 create_invoice:
     mca: sales_order_invoice/new/order_id/%id%/
-    title: New Invoice / Invoices / Sales / Magento Admin
+    title: New Invoice / Invoices / Operations / Sales / Magento Admin
     uimap:
         form: &orderInvoice
             fieldsets:
@@ -117,7 +117,7 @@ create_invoice:
 
 view_invoice:
     mca: sales_invoice/view/invoice_id/%id%/
-    title: %elementTitle% / Invoices / Sales / Magento Admin
+    title: %elementTitle% / Invoices / Operations / Sales / Magento Admin
     uimap:
         form: &viewInvoice
             fieldsets:

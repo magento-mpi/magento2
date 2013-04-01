@@ -97,7 +97,7 @@ edit_gift_wrapping:
 
 edit_gift_wrapping_after_save_and_continue:
     mca: giftwrapping/edit/id/%id%/store/%store%/
-    title: Edit Gift Wrapping "%elementTitle%" / Manage Gift Wrapping / Sales / Magento Admin
+    title: Edit Gift Wrapping "%elementTitle%" / Manage Gift Wrapping / Other Settings / Stores / Magento Admin
     uimap:
         form: *editGiftWrappingForm
         buttons: *editGiftWrappingButtons

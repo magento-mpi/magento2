@@ -12,7 +12,7 @@
 manage_sales_credit_memos:
     mca: sales_creditmemo/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_creditmemo/')]
-    title: Credit Memos / Sales / Magento Admin
+    title: Credit Memos / Operations / Sales / Magento Admin
     uimap:
         form: &salesCreditmemos
             fieldsets:
@@ -50,7 +50,7 @@ manage_sales_credit_memos:
 
 create_credit_memo:
     mca: sales_order_creditmemo/new/order_id/%id%/
-    title: New Memo / Credit Memos / Sales / Magento Admin
+    title: New Memo / Credit Memos / Operations / Sales / Magento Admin
     uimap: &orderCreditmemo
         form:
             fieldsets:
@@ -121,12 +121,12 @@ create_credit_memo:
 
 create_credit_memo_for_invoice:
     mca: sales_order_creditmemo/new/order_id/%id%/invoice_id/%invoice_id%/
-    title: New Memo for %elementTitle% / Credit Memos / Sales / Magento Admin
+    title: New Memo for %elementTitle% / Credit Memos / Operations / Sales / Magento Admin
     uimap: *orderCreditmemo
 
 view_credit_memo:
     mca: sales_creditmemo/view/creditmemo_id/%id%/
-    title: View Memo / Credit Memos / Sales / Magento Admin
+    title: View Memo / Credit Memos / Operations / Sales / Magento Admin
     uimap:
         form: &viewCreditmemo
             fieldsets:
