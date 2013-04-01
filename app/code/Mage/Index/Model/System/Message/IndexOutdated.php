@@ -8,13 +8,85 @@
 class Mage_Index_Model_System_Message_IndexOutdated implements Mage_Backend_Model_System_MessageInterface
 {
     /**
+     * @var Mage_Core_Model_Helper_Factory
+     */
+    protected $_helperFactory;
+
+    /**
+     * @var Mage_Index_Model_Indexer
+     */
+    protected $_indexer;
+
+    /**
+     * @var Mage_Core_Model_UrlInterface
+     */
+    protected $_urlBuilder;
+
+    /**
+     * @var Mage_Core_Model_Authorization
+     */
+    protected $_authorization;
+
+    /**
+     * @var array
+     */
+    protected $_indexes;
+
+    /**
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Index_Model_Indexer $indexer
+     * @param Mage_Core_Model_UrlInterface $urlBuilder
+     * @param Mage_Core_Model_Authorization $authorization
+     */
+    public function __construct(
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Index_Model_Indexer $indexer,
+        Mage_Core_Model_UrlInterface $urlBuilder,
+        Mage_Core_Model_Authorization $authorization
+    ) {
+        $this->_helperFactory = $helperFactory;
+        $this->_indexer = $indexer;
+        $this->_urlBuilder = $urlBuilder;
+        $this->_authorization = $authorization;
+    }
+
+    /**
+     * @return array
+     */
+    protected function _getProcessesForReindex()
+    {
+        if (!$this->_indexes) {
+            $processes = $this->_indexer->getProcessesCollection()->addEventsStats();
+            /** @var $process Mage_Index_Model_Process */
+            foreach ($processes as $process) {
+                if (($process->getStatus() == Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX
+                    || $process->getEvents() > 0) && $process->getIndexer()->isVisible()
+                ) {
+                    $this->_indexes[] = $process->getIndexer()->getName();
+                }
+            }
+        }
+        return $this->_indexes;
+    }
+
+    /**
+     * Retrieve unique message identity
+     *
+     * @return string
+     */
+    public function getIdentity()
+    {
+        return md5('OUTDATED_INDEXES' . implode(':', $this->_getProcessesForReindex()));
+    }
+
+    /**
      * Check whether
      *
      * @return bool
      */
     public function isDisplayed()
     {
-        return true;
+        return $this->_authorization->isAllowed('Mage_Index::index') && $this->_getProcessesForReindex();
     }
 
     /**
@@ -24,11 +96,8 @@ class Mage_Index_Model_System_Message_IndexOutdated implements Mage_Backend_Mode
      */
     public function getText()
     {
-        return '<div class="message message-system"><div class="message-inner"><div class="message-content">' .
-            '<strong>' . $this->helper('Mage_Index_Helper_Data')->__('One or more of the Indexes are not up to date:') . '</strong>' .
-            'SOME TEXT' .
-            $this->helper("Mage_Index_Helper_Data")->__('Click here to go to <a href="%s">Index Management</a> and rebuild required indexes.', $this->getManageUrl()) .
-            '</div></div></div>';
+        $indexList = implode(', ', $this->_getProcessesForReindex());
+        return $this->_helperFactory->get('Mage_Index_Helper_Data')->__('One or more of the Indexes are not up to date: %s', $indexList);
     }
 
     /**
@@ -39,5 +108,15 @@ class Mage_Index_Model_System_Message_IndexOutdated implements Mage_Backend_Mode
     public function getSeverity()
     {
         return self::SEVERITY_CRITICAL;
+    }
+
+    /**
+     * Get index management url
+     *
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->_urlBuilder->getUrl('adminhtml/process/list');
     }
 }

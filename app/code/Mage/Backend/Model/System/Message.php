@@ -44,4 +44,23 @@ class Mage_Backend_Model_System_Message extends Mage_Core_Model_Abstract
         return $this->_getData('severity');
     }
 
+    /**
+     * Retrieve unique message identity
+     *
+     * @return string
+     */
+    public function getIdentity()
+    {
+        return $this->_getData('identity');
+    }
+
+    /**
+     * Retrieve problem management url
+     *
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->_getData('link');
+    }
 }

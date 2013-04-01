@@ -40,14 +40,13 @@ class Mage_Backend_Model_System_MessageList
     {
         if (!$this->_messages) {
             $objectManager = $this->_objectManager;
-            $messages = array();
-             array_walk($this->_messageClasses, function($messageConfig, $key) use ($objectManager, &$messages) {
+            foreach ($this->_messageClasses as $messageConfig) {
                 if (!isset($messageConfig['class'])) {
                     throw new InvalidArgumentException('Message class for message ' . $key . ' is not set');
                 }
-                $messages[] = $objectManager->get($messageConfig['class']);
-            });
-            $this->_messages = $messages;
+                $message = $objectManager->get($messageConfig['class']);
+                $this->_messages[$message->getIdentity()] = $message;
+            }
         }
     }
 

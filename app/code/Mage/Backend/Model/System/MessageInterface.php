@@ -13,6 +13,13 @@ interface Mage_Backend_Model_System_MessageInterface
     const SEVERITY_MAJOR = 2;
 
     /**
+     * Retrieve unique message identity
+     *
+     * @return string
+     */
+    public function getIdentity();
+
+    /**
      * Check whether
      *
      * @return bool
@@ -25,6 +32,13 @@ interface Mage_Backend_Model_System_MessageInterface
      * @return string
      */
     public function getText();
+
+    /**
+     * Retrieve problem management url
+     *
+     * @return string
+     */
+    public function getLink();
 
     /**
      * Retrieve message severity
