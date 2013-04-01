@@ -137,10 +137,11 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
     {
         //Create new Role
         $userData = $this->loadDataSet('ApiUsers', 'new_api_users_create');
+        $roleData = $this->loadDataSet('ApiRoles', 'api_role_new');
 
         $this->navigate('api_roles_management');
         $this->clickButton('add_new_role', true);
-        $this->fillField('role_name', $userData['role_name']);
+        $this->fillField('role_name', $roleData['role_name']);
         $this->openTab('resources');
         $this->fillDropdown('role_access', 'All');
         $this->clickButton('save');
@@ -155,10 +156,10 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
 
         // Set role
         $this->openTab('user_role');
-        $this->fillField('role_name', $userData['role_name']);
+        $this->fillField('role_name', $roleData['role_name']);
         $this->clickButton('search', false);
         $this->waitForAjax();
-        $this->addParameter('roleName', $userData['role_name']);
+        $this->addParameter('roleName', $roleData['role_name']);
         $this->clickControl('radiobutton', 'select_role', false);
 
         //Save data
