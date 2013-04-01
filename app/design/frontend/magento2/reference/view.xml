@@ -194,28 +194,28 @@
         <var name="product_summary_image_size">58</var>         <!-- New Product image size used for summary block-->
     </vars>
     <vars module="Mage_DesignEditor">
-        <var name="store-name:font-picker">Tahoma, Geneva, sans-serif</var>
-        <var name="store-name:color-picker">#ccc</var>
-        <var name="store-name:logo-uploader"> </var>
-        <var name="header-background:color-picker">transparent</var>
-        <var name="header-background:image-uploader"> </var>
+        <var name="store-name:font-picker">"marvel"</var>
+        <var name="store-name:color-picker">#837d75</var>
+        <var name="store-name:logo-uploader"></var>
+        <var name="header-background:color-picker">#d6d7d2</var>
+        <var name="header-background:image-uploader">header-bg.jpg</var>
         <var name="header-background:tile">repeat</var>
 
         <var name="menu-background">#f8f8f8</var>
         <var name="menu-stroke">#c2c2c2</var>
         <var name="menu-links">#675f55</var>
-        <var name="menu-links-hover">#f47a1F</var>
+        <var name="menu-links-hover">#f47a1f</var>
 
         <var name="header-links">#837d75</var>
         <var name="header-links-hover">#675f55</var>
         <var name="header-scroll-bar-background">#ffffff</var>
         <var name="header-scroll-bar-handle">#e5e5e5</var>
         <var name="search-field">#ffffff</var>
+        <var name="search-field-text">#675f55</var>
         <var name="search-field-stroke">#c2c2c2</var>
 
-
         <var name="page-background:color-picker">#ffffff</var>
-        <var name="page-background:image-uploader"> </var>
+        <var name="page-background:image-uploader"></var>
         <var name="page-background:tile">no-repeat</var>
 
         <var name="form-background">#f8f8f8</var>
@@ -224,20 +224,20 @@
         <var name="form2-stroke">#c2c2c2</var>
 
         <var name="form-field-stroke">#c2c2c2</var>
-        <var name="form-field-stroke-clicked">#999</var>
+        <var name="form-field-stroke-clicked">#999999</var>
         <var name="image-stroke-keylines">#e5e5e5</var>
         <var name="scroll-bar-background">#f8f8f8</var>
         <var name="scroll-bar-handle">#c2c2c2</var>
 
         <var name="radio-checkbox-icon">#675f55</var>
         <var name="radio-checkbox-background">#e5e5e5</var>
-        <var name="radio-checkbox-stroke">#999</var>
+        <var name="radio-checkbox-stroke">#999999</var>
 
         <var name="button-background">#f47a1f</var>
-        <var name="button-text">#fff</var>
-        <var name="button-color">#ff953b</var>
+        <var name="button-text">#ffffff</var>
+        <var name="button-hover">#ff953b</var>
         <var name="icons">#c2c2c2</var>
-        <var name="icons-hover">#999</var>
+        <var name="icons-hover">#999999</var>
         <var name="icons2">#837d75</var>
 
         <var name="accents">#55c2e6</var>
@@ -247,34 +247,35 @@
 
 
         <var name="tooltip-text">#675f55</var>
-        <var name="tooltip-box">#fff</var>
+        <var name="tooltip-box">#ffffff</var>
         <var name="tooltip-stroke">#c2c2c2</var>
-        <var name="tooltip2-text">#fff</var>
-        <var name="tooltip2-box">#000</var>
+        <var name="tooltip2-text">#ffffff</var>
+        <var name="tooltip2-box">#000000</var>
         <var name="tooltip2-stroke">#c2c2c2</var>
 
         <var name="error-box">#ff3200</var>
-        <var name="error-icon">#fff</var>
+        <var name="error-icon">#ffffff</var>
+        <var name="success-box">#d3edd5</var>
+        <var name="success-icon">#ffffff</var>
+        <var name="notice-box">#ffedb8</var>
+        <var name="notice-icon">#ffffff</var>
 
-        <var name="success-box">#42b649</var>
-        <var name="success-icon">#fff</var>
 
+        <var name="banner-text:font-picker">"marvel", Arial, sans-serif</var>
+        <var name="banner-text:color-picker">#675f55</var>
+        <var name="page-headings:font-picker">"sourcesanspro", Arial, sans-serif</var>
+        <var name="page-headings:color-picker">#675f55</var>
+        <var name="menu:font-picker">"sourcesanspro", Arial, sans-serif</var>
+        <var name="menu:color-picker">#675f55</var>
 
-        <var name="banner-text:font-picker">Marvel Regular</var>
-        <var name="banner-text:color-picker">#123456</var>
-        <var name="page-headings:font-picker">Source Sans Pro, Light</var>
-        <var name="page-headings:color-picker">#123456</var>
-        <var name="menu:font-picker">Source Sans Pro, Semibold</var>
-        <var name="menu:color-picker">#123456</var>
-
-        <var name="body-text:font-picker">Source Sans Pro, Regular</var>
+        <var name="body-text:font-picker">"sourcesanspro", Arial, sans-serif</var>
         <var name="body-text:color-picker">#675f55</var>
 
-        <var name="buttons:font-picker">Source Sans Pro, Semibold</var>
-        <var name="buttons:color-picker">#123456</var>
+        <var name="buttons:font-picker">"sourcesanspro", Arial, sans-serif</var>
+        <var name="buttons:color-picker">#ffffff</var>
 
         <var name="text-links">#675f55</var>
-        <var name="text-links-hover">#c2c2c2</var>
+        <var name="text-links-hover">#f47a1f</var>
         <var name="text-links-active">#f47a1f</var>
         <var name="text-links-product">#675f55</var>
         <var name="small-links">#675f55</var>

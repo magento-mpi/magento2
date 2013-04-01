@@ -53,141 +53,6 @@
   font-weight: 400;
   font-style: normal;
 }
-body {
-  position: relative;
-  padding-bottom: 50px;
-}
-.temp {
-  opacity: 0;
-  -webkit-transition: opacity 0.2s linear 0.2s;
-  -moz-transition: opacity 0.2s linear 0.2s;
-  -ms-transition: opacity 0.2s linear 0.2s;
-  -o-transition: opacity 0.2s linear 0.2s;
-  transition: opacity 0.2s linear 0.2s;
-  width: 100%;
-  padding: 5px;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-  border-top: 1px solid #999999;
-  background: #cccccc;
-  position: fixed;
-  z-index: 999;
-  bottom: 0;
-  left: 0;
-}
-.temp:hover {
-  opacity: 1;
-}
-.temp dt {
-  padding: 5px;
-  font-weight: 700;
-}
-.temp dt:after {
-  content: ' {';
-}
-.temp dd {
-  padding: 0 5px;
-  font-size: 13px;
-  margin-left: 0;
-}
-.temp dd a {
-  white-space: nowrap;
-}
-.temp dd:after {
-  content: '}';
-  font-weight: 700;
-}
-.temp .options {
-  display: none;
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-  background: #cccccc;
-  border: 1px solid #999999;
-  border-bottom: 0;
-  padding: 10px;
-}
-.temp .options ul {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-  margin-left: 20px;
-}
-.temp .options ul > li {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-}
-.temp button span:before {
-  font-family: "MUI-Icons";
-  font-size: 16px;
-  line-height: 16px;
-  height: 16px;
-  overflow: hidden;
-  content: "\e07e";
-  font-style: normal;
-  speak: none;
-  font-weight: normal;
-  -webkit-font-smoothing: antialiased;
-  display: inline-block;
-  vertical-align: middle;
-  text-align: center;
-}
-.temp button span:before {
-  vertical-align: top;
-  margin-top: 2px;
-  margin-right: 5px;
-}
-.temp.active .options {
-  display: block;
-}
-.product.name:first-letter,
-.product.description:first-letter {
-  text-transform: capitalize;
-}
-.col1-layout:before {
-  position: fixed;
-  top: 0;
-  right: 0;
-  font-size: 11px;
-  background: rgba(0, 0, 0, 0.4);
-  color: #fff;
-  content: '.col1-layout ';
-}
-.col2-left-layout:before {
-  position: fixed;
-  top: 0;
-  right: 0;
-  font-size: 11px;
-  background: rgba(0, 0, 0, 0.4);
-  color: #fff;
-  content: '.col2-left-layout ';
-}
-.col2-right-layout:before {
-  position: fixed;
-  top: 0;
-  right: 0;
-  font-size: 11px;
-  background: rgba(0, 0, 0, 0.4);
-  color: #fff;
-  content: '.col2-right-layout ';
-}
-.col3-layout:before {
-  position: fixed;
-  top: 0;
-  right: 0;
-  font-size: 11px;
-  background: rgba(0, 0, 0, 0.4);
-  color: #fff;
-  content: '.col3-layout ';
-}
 /*CSS3 transition*/
 /*all .25s ease|linear|ease-in|ease-out|ease-in-out|cubic-bezier*/
 /*.box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
@@ -291,7 +156,6 @@ input,
 select,
 textarea {
   color: #675f55;
-  color: #675f55;
   font: 400 14px/1.33 "sourcesanspro";
 }
 html {
@@ -303,8 +167,6 @@ html {
 a,
 a:visited,
 a > span {
-  color: #675f55;
-  color: #675f55;
   color: #332e29;
   text-decoration: none;
 }
@@ -412,7 +274,7 @@ a > span:hover {
   box-sizing: border-box;
 }
 .col2-left-layout .column.main {
-  float: right!important;
+  float: right !important;
   display: inline;
   float: left;
   width: 83.33333333333334%;
@@ -449,7 +311,7 @@ a > span:hover {
   box-sizing: border-box;
 }
 .col3-layout .column.main {
-  float: none!important;
+  float: none !important;
   display: inline-block !important;
   vertical-align: top;
   display: inline;
@@ -470,7 +332,6 @@ a > span:hover {
   clear: both;
 }
 .col3-layout .column.left {
-  float: left;
   display: inline;
   float: left;
   width: 16.666666666666664%;
@@ -480,7 +341,7 @@ a > span:hover {
   box-sizing: border-box;
 }
 .col3-layout .column.right {
-  float: none!important;
+  float: none !important;
   display: inline-block !important;
   display: inline;
   float: left;
@@ -808,7 +669,7 @@ a > span:hover {
   background-position: 0 0;
 }
 .page.bottom .place.communication .social.link.tweeter:after {
-  background-position: -48px 0;
+  background-position: -33 px-15px 0;
 }
 .page.bottom .place.communication .social.link.pinterest:after {
   background-position: -95px 0;
@@ -903,7 +764,7 @@ a > span:hover {
 .header .panel .switcher {
   margin-right: 25px;
 }
-.header .panel .switcher :last-child {
+.header .panel .switcher:last-child {
   margin-right: 0;
 }
 .switcher .label {
@@ -920,7 +781,6 @@ a > span:hover {
 }
 .switcher .options > ul {
   padding: 0;
-  margin: 0;
   list-style-type: none;
   margin: 0;
   padding: 5px 10px;
@@ -1162,7 +1022,6 @@ a > span:hover {
   display: none;
 }
 .block.add.review .fieldset {
-  margin: 0;
   letter-spacing: -0.31em;
   /* webkit */
 
@@ -1190,9 +1049,9 @@ a > span:hover {
   border-bottom: 1px solid;
   border-color: #d7d7d7;
 }
-.block.add.review .fieldset > .legend  + br {
+.block.add.review .fieldset > .legend + br {
   clear: both;
-  display: block!important;
+  display: block !important;
 }
 .block.add.review .fieldset > .legend span {
   line-height: 1.2;
@@ -1267,12 +1126,17 @@ a > span:hover {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  outline: none;
   height: 32px;
   line-height: 1;
 }
 .no-borderradius .block.add.review .fieldset > .field:not(.ratings) .addon .addbefore,
 .no-borderradius .block.add.review .fieldset > .field:not(.ratings) .addon .addafter {
   padding-top: 8px;
+}
+.block.add.review .fieldset > .field:not(.ratings) .addon .addbefore:focus,
+.block.add.review .fieldset > .field:not(.ratings) .addon .addafter:focus {
+  border-color: #999;
 }
 .control .block.add.review .fieldset > .field:not(.ratings) .addon .addbefore,
 .control .block.add.review .fieldset > .field:not(.ratings) .addon .addafter {
@@ -1281,6 +1145,22 @@ a > span:hover {
 .block.add.review .fieldset > .field:not(.ratings) .addon .addbefore:disabled,
 .block.add.review .fieldset > .field:not(.ratings) .addon .addafter:disabled {
   opacity: 0.5;
+}
+.block.add.review .fieldset > .field:not(.ratings) .addon .addbefore::-webkit-input-placeholder,
+.block.add.review .fieldset > .field:not(.ratings) .addon .addafter::-webkit-input-placeholder {
+  line-height: 1.333;
+}
+.block.add.review .fieldset > .field:not(.ratings) .addon .addbefore:-moz-placeholder,
+.block.add.review .fieldset > .field:not(.ratings) .addon .addafter:-moz-placeholder {
+  line-height: 1.333;
+}
+.block.add.review .fieldset > .field:not(.ratings) .addon .addbefore::-moz-placeholder,
+.block.add.review .fieldset > .field:not(.ratings) .addon .addafter::-moz-placeholder {
+  line-height: 1.333;
+}
+.block.add.review .fieldset > .field:not(.ratings) .addon .addbefore:-ms-input-placeholder,
+.block.add.review .fieldset > .field:not(.ratings) .addon .addafter:-ms-input-placeholder {
+  line-height: 1.333;
 }
 .block.add.review .fieldset > .field:not(.ratings) .note {
   padding-left: 15px;
@@ -1439,8 +1319,8 @@ a > span:hover {
   color: #f47a1f;
   opacity: 1;
 }
-.field.ratings .field.rating .control label:hover  ~ label:before {
-  opacity: 0!important;
+.field.ratings .field.rating .control label:hover ~ label:before {
+  opacity: 0 !important;
 }
 .field.ratings .field.rating .control .rating-1 {
   z-index: 6;
@@ -1544,7 +1424,6 @@ a > span:hover {
   height: 0;
   width: 0;
   overflow: hidden;
-  position: absolute;
   display: block;
   position: absolute;
   top: 15px;
@@ -1672,6 +1551,7 @@ textarea {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  outline: none;
   height: auto;
   padding: 10px;
   resize: vertical;
@@ -1680,6 +1560,9 @@ textarea {
 }
 .no-borderradius textarea {
   padding-top: 8px;
+}
+textarea:focus {
+  border-color: #999;
 }
 .control textarea {
   width: 100%;
@@ -1704,12 +1587,17 @@ input[type="text"] {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  outline: none;
   height: 32px;
   line-height: 1;
 }
 .no-borderradius input[type="password"],
 .no-borderradius input[type="text"] {
   padding-top: 8px;
+}
+input[type="password"]:focus,
+input[type="text"]:focus {
+  border-color: #999;
 }
 .control input[type="password"],
 .control input[type="text"] {
@@ -1718,6 +1606,22 @@ input[type="text"] {
 input[type="password"]:disabled,
 input[type="text"]:disabled {
   opacity: 0.5;
+}
+input[type="password"]::-webkit-input-placeholder,
+input[type="text"]::-webkit-input-placeholder {
+  line-height: 1.333;
+}
+input[type="password"]:-moz-placeholder,
+input[type="text"]:-moz-placeholder {
+  line-height: 1.333;
+}
+input[type="password"]::-moz-placeholder,
+input[type="text"]::-moz-placeholder {
+  line-height: 1.333;
+}
+input[type="password"]:-ms-input-placeholder,
+input[type="text"]:-ms-input-placeholder {
+  line-height: 1.333;
 }
 select {
   -moz-box-sizing: border-box;
@@ -1735,10 +1639,14 @@ select {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  outline: none;
   padding: 5px 10px 4px;
 }
 .no-borderradius select {
   padding-top: 8px;
+}
+select:focus {
+  border-color: #999;
 }
 .control select {
   width: 100%;
@@ -1815,6 +1723,10 @@ select:disabled {
   width: 100%;
   border-radius: 3px 0 0 3px;
   border-right: 0;
+  border-color: #c2c2c2;
+}
+.block.search input:focus {
+  border-color: #c2c2c2;
 }
 .block.search .action.advanced {
   display: none;
@@ -2385,7 +2297,6 @@ select:disabled {
 }
 .cart.summary .block input[type="text"] {
   padding: 0 5px;
-  height: ;
   font-size: 12px;
   height: 30px;
 }
@@ -2975,15 +2886,6 @@ select:disabled {
 }
 .products.minilist .item {
   padding: 0 20px;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
   vertical-align: top;
   text-align: left;
   white-space: normal;
@@ -3026,7 +2928,7 @@ select:disabled {
   margin-bottom: 10px;
 }
 .products.minilist .item .product.photo .photo.container {
-  overflow: visible!important;
+  overflow: visible !important;
   margin: 0 auto;
 }
 .products.minilist .item .product.photo .photo.image {
@@ -3220,7 +3122,6 @@ select:disabled {
   font-weight: 600;
   color: #fff;
   line-height: 1.7em;
-  padding: 0;
   vertical-align: middle;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -3368,7 +3269,6 @@ select:disabled {
   position: absolute;
   display: block;
   top: 51px;
-  bottom: 0;
   left: 0;
   bottom: 0;
   right: 0;
@@ -3465,9 +3365,6 @@ select:disabled {
   margin-left: -10px;
   color: #675f55;
 }
-.navigation > ul > .level-top > a:after > span {
-  color: #675f55;
-}
 .navigation > ul > .level-top > a > span {
   color: #837d75;
 }
@@ -3489,6 +3386,7 @@ select:disabled {
   left: 0;
   top: 100%;
   background: #f8f8f8;
+  border-bottom: 1px solid #c2c2c2;
   width: 100%;
   z-index: 1;
 }
@@ -3521,8 +3419,8 @@ select:disabled {
   margin-right: 30px;
   vertical-align: top;
   /*&:first-child:before {
-                        display: none;
-                    }*/
+                    display: none;
+                }*/
 
 }
 .navigation > ul > .level-top > .submenu > ul li.column > ul {
@@ -3670,9 +3568,6 @@ select:disabled {
   float: left;
   width: 33.33333333333333%;
   margin: 0 0%;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
   display: inline-block;
   vertical-align: top;
   -webkit-box-sizing: border-box;
@@ -4153,7 +4048,6 @@ select:disabled {
   overflow: hidden;
   float: left;
   padding: 6px;
-  color: ;
 }
 .toolbar .action.sort span {
   width: 12px;
@@ -4323,7 +4217,7 @@ select:disabled {
 .products.wrapper.grid .products.list .item.product {
   display: inline;
   float: left;
-  width: 20%;
+  width: 16.666666666666664%;
   margin: 0 0%;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -4410,7 +4304,7 @@ select:disabled {
 }
 .products.wrapper.list .products.list .secondary {
   bottom: 0;
-  top: auto!important;
+  top: auto !important;
   margin-left: 18px;
   border-width: 1px 0 0;
   right: 20px;
@@ -4583,12 +4477,17 @@ select:disabled {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  outline: none;
   height: 32px;
   line-height: 1;
 }
 .no-borderradius .fieldset > .field .addon .addbefore,
 .no-borderradius .fieldset > .field .addon .addafter {
   padding-top: 8px;
+}
+.fieldset > .field .addon .addbefore:focus,
+.fieldset > .field .addon .addafter:focus {
+  border-color: #999;
 }
 .control .fieldset > .field .addon .addbefore,
 .control .fieldset > .field .addon .addafter {
@@ -4597,6 +4496,22 @@ select:disabled {
 .fieldset > .field .addon .addbefore:disabled,
 .fieldset > .field .addon .addafter:disabled {
   opacity: 0.5;
+}
+.fieldset > .field .addon .addbefore::-webkit-input-placeholder,
+.fieldset > .field .addon .addafter::-webkit-input-placeholder {
+  line-height: 1.333;
+}
+.fieldset > .field .addon .addbefore:-moz-placeholder,
+.fieldset > .field .addon .addafter:-moz-placeholder {
+  line-height: 1.333;
+}
+.fieldset > .field .addon .addbefore::-moz-placeholder,
+.fieldset > .field .addon .addafter::-moz-placeholder {
+  line-height: 1.333;
+}
+.fieldset > .field .addon .addbefore:-ms-input-placeholder,
+.fieldset > .field .addon .addafter:-ms-input-placeholder {
+  line-height: 1.333;
 }
 .fieldset > .field .note {
   padding-left: 15px;
@@ -4725,12 +4640,17 @@ select:disabled {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  outline: none;
   height: 32px;
   line-height: 1;
 }
 .no-borderradius .product.main.info .product.options.wrapper .field .addon .addbefore,
 .no-borderradius .product.main.info .product.options.wrapper .field .addon .addafter {
   padding-top: 8px;
+}
+.product.main.info .product.options.wrapper .field .addon .addbefore:focus,
+.product.main.info .product.options.wrapper .field .addon .addafter:focus {
+  border-color: #999;
 }
 .control .product.main.info .product.options.wrapper .field .addon .addbefore,
 .control .product.main.info .product.options.wrapper .field .addon .addafter {
@@ -4739,6 +4659,22 @@ select:disabled {
 .product.main.info .product.options.wrapper .field .addon .addbefore:disabled,
 .product.main.info .product.options.wrapper .field .addon .addafter:disabled {
   opacity: 0.5;
+}
+.product.main.info .product.options.wrapper .field .addon .addbefore::-webkit-input-placeholder,
+.product.main.info .product.options.wrapper .field .addon .addafter::-webkit-input-placeholder {
+  line-height: 1.333;
+}
+.product.main.info .product.options.wrapper .field .addon .addbefore:-moz-placeholder,
+.product.main.info .product.options.wrapper .field .addon .addafter:-moz-placeholder {
+  line-height: 1.333;
+}
+.product.main.info .product.options.wrapper .field .addon .addbefore::-moz-placeholder,
+.product.main.info .product.options.wrapper .field .addon .addafter::-moz-placeholder {
+  line-height: 1.333;
+}
+.product.main.info .product.options.wrapper .field .addon .addbefore:-ms-input-placeholder,
+.product.main.info .product.options.wrapper .field .addon .addafter:-ms-input-placeholder {
+  line-height: 1.333;
 }
 .product.main.info .product.options.wrapper .field .note {
   padding-left: 15px;
@@ -4761,7 +4697,7 @@ select:disabled {
   font-weight: 600;
   padding: 0 0 5px;
 }
-.type-configurable .product.main.info .product.options.wrapper  select {
+.type-configurable .product.main.info .product.options.wrapper select {
   min-width: 40%;
   width: auto;
   padding: 2px;
@@ -5412,11 +5348,11 @@ img[align="right"] {
 .customer.menu .customer .action.switch {
   vertical-align: middle;
 }
-.customer.menu  + li {
+.customer.menu + li {
   display: none;
 }
 .customer.menu + li {
-  display: none!important;
+  display: none !important;
 }
 .login.container {
   background: #f8f8f8;
@@ -5516,7 +5452,6 @@ img[align="right"] {
   line-height: 16px;
 }
 .form.login .fieldset.login {
-  margin: 0;
   letter-spacing: -0.31em;
   /* webkit */
 
@@ -5684,8 +5619,8 @@ img[align="right"] {
   background: #fff;
   margin: -30px -10px 30px -30px;
 }
-.form.password.forget .fieldset .legend  + br,
-.form.create.account .fieldset .legend  + br {
+.form.password.forget .fieldset .legend + br,
+.form.create.account .fieldset .legend + br {
   display: block;
   clear: both;
 }
@@ -5757,6 +5692,7 @@ img[align="right"] {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  outline: none;
   height: 32px;
   line-height: 1;
 }
@@ -5765,6 +5701,12 @@ img[align="right"] {
 .no-borderradius .form.password.forget .fieldset > .field .addon .addafter,
 .no-borderradius .form.create.account .fieldset > .field .addon .addafter {
   padding-top: 8px;
+}
+.form.password.forget .fieldset > .field .addon .addbefore:focus,
+.form.create.account .fieldset > .field .addon .addbefore:focus,
+.form.password.forget .fieldset > .field .addon .addafter:focus,
+.form.create.account .fieldset > .field .addon .addafter:focus {
+  border-color: #999;
 }
 .control .form.password.forget .fieldset > .field .addon .addbefore,
 .control .form.create.account .fieldset > .field .addon .addbefore,
@@ -5777,6 +5719,30 @@ img[align="right"] {
 .form.password.forget .fieldset > .field .addon .addafter:disabled,
 .form.create.account .fieldset > .field .addon .addafter:disabled {
   opacity: 0.5;
+}
+.form.password.forget .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
+.form.create.account .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
+.form.password.forget .fieldset > .field .addon .addafter::-webkit-input-placeholder,
+.form.create.account .fieldset > .field .addon .addafter::-webkit-input-placeholder {
+  line-height: 1.333;
+}
+.form.password.forget .fieldset > .field .addon .addbefore:-moz-placeholder,
+.form.create.account .fieldset > .field .addon .addbefore:-moz-placeholder,
+.form.password.forget .fieldset > .field .addon .addafter:-moz-placeholder,
+.form.create.account .fieldset > .field .addon .addafter:-moz-placeholder {
+  line-height: 1.333;
+}
+.form.password.forget .fieldset > .field .addon .addbefore::-moz-placeholder,
+.form.create.account .fieldset > .field .addon .addbefore::-moz-placeholder,
+.form.password.forget .fieldset > .field .addon .addafter::-moz-placeholder,
+.form.create.account .fieldset > .field .addon .addafter::-moz-placeholder {
+  line-height: 1.333;
+}
+.form.password.forget .fieldset > .field .addon .addbefore:-ms-input-placeholder,
+.form.create.account .fieldset > .field .addon .addbefore:-ms-input-placeholder,
+.form.password.forget .fieldset > .field .addon .addafter:-ms-input-placeholder,
+.form.create.account .fieldset > .field .addon .addafter:-ms-input-placeholder {
+  line-height: 1.333;
 }
 .form.password.forget .fieldset > .field .note,
 .form.create.account .fieldset > .field .note {
@@ -5966,7 +5932,7 @@ img[align="right"] {
   font-size: 40px;
   margin-top: -48px;
 }
-.col3-layout .home.banners .banner.link.style3 .text  b {
+.col3-layout .home.banners .banner.link.style3 .text b {
   font-size: 60px;
 }
 .home.banners .banner.link.style4 .text {

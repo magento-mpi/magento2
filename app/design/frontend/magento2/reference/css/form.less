@@ -26,6 +26,10 @@
       -webkit-background-clip: padding-box;
       -moz-background-clip:    padding;
       background-clip:         padding-box;
+    outline: none;
+    &:focus {
+        border-color: #999;
+    }
     .control & {
         width:100%;
     }
@@ -37,6 +41,18 @@
     .controlStyling();
     height:32px;
     line-height:1;
+    &::-webkit-input-placeholder {
+        line-height: 1.333;
+    }
+    &:-moz-placeholder {
+        line-height: 1.333;
+    }
+    &::-moz-placeholder {
+        line-height: 1.333;
+    }
+    &:-ms-input-placeholder {
+        line-height: 1.333;
+    }
 }
 .textArea() {
     .controlStyling();
