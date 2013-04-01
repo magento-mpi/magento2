@@ -130,6 +130,15 @@
             <Mage_Backend_Model_Config_Structure_Element_Group_Proxy>
                 <shared>0</shared>
             </Mage_Backend_Model_Config_Structure_Element_Group_Proxy>
+            <Mage_Backend_Model_System_MessageList>
+                <parameters>
+                    <messages>
+                        <baseurl>
+                            <class>Mage_Backend_Model_System_Message_Baseurl</class>
+                        </baseurl>
+                    </messages>
+                </parameters>
+            </Mage_Backend_Model_System_MessageList>
         </di>
     </adminhtml>
 </config>

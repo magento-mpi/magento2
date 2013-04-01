@@ -8,7 +8,7 @@
 class Mage_Index_Model_System_Message_IndexOutdated implements Mage_Backend_Model_System_MessageInterface
 {
     /**
-     * @var Mage_Core_Model_Helper_Factory
+     * @var Mage_Core_Model_Factory_Helper
      */
     protected $_helperFactory;
 
