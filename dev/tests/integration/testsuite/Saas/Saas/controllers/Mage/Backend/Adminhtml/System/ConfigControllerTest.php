@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-class Saas_Saas_Adminhtml_System_ConfigControllerTest extends Mage_Backend_Utility_Controller
+class Saas_Saas_Mage_Backend_Adminhtml_System_ConfigControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
      * @param $action
@@ -16,10 +16,22 @@ class Saas_Saas_Adminhtml_System_ConfigControllerTest extends Mage_Backend_Utili
      */
     public function testRemoveRestrictedOptions($action, array $restrictedOptions, array $absentSelectors)
     {
-        /** @var $cacheTypes Mage_Core_Model_Cache_Types */
-        $cacheTypes = $this->_objectManager->get('Mage_Core_Model_Cache_Types');
-        $cacheTypes->setEnabled(Mage_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, false);
+        $this->_injectCustomConverter($restrictedOptions);
 
+        $this->dispatch($action);
+        $body = $this->getResponse()->getBody();
+        foreach ($absentSelectors as $selector) {
+            $this->assertSelectEquals($selector['selector'], $selector['content'], 0, $body, $selector['message']);
+        }
+    }
+
+    /**
+     * Injects custom converter filter, configured with a fixture list of disabled controls
+     *
+     * @param array $restrictedOptions
+     */
+    protected function _injectCustomConverter($restrictedOptions)
+    {
         $config = new Saas_Saas_Model_DisabledConfiguration_Config($restrictedOptions);
         $this->_objectManager->configure(array(
             'Saas_Saas_Model_DisabledConfiguration_Structure_Converter_Filter' => array(
@@ -27,11 +39,10 @@ class Saas_Saas_Adminhtml_System_ConfigControllerTest extends Mage_Backend_Utili
             )
         ));
 
-        $this->dispatch($action);
-        $body = $this->getResponse()->getBody();
-        foreach ($absentSelectors as $selector) {
-            $this->assertSelectEquals($selector['selector'], $selector['content'], 0, $body, $selector['message']);
-        }
+        // Disable cache of already composed config, so it will be processed again, using the saas converter
+        /** @var $cacheTypes Mage_Core_Model_Cache_Types */
+        $cacheTypes = $this->_objectManager->get('Mage_Core_Model_Cache_Types');
+        $cacheTypes->setEnabled(Mage_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, false);
     }
 
     /**
@@ -84,12 +95,8 @@ class Saas_Saas_Adminhtml_System_ConfigControllerTest extends Mage_Backend_Utili
      */
     public function testRemoveRestrictedOptionsSection()
     {
-        $config = new Saas_Saas_Model_DisabledConfiguration_Config(array('web'));
-        $this->_objectManager->configure(array(
-            'Saas_Saas_Model_DisabledConfiguration_Structure_Converter_Filter' => array(
-                'parameters' => array('disabledConfig' => $config),
-            )
-        ));
+        $this->_injectCustomConverter(array('web'));
+
         $this->dispatch('/backend/admin/system_config/edit/section/web');
         $body = $this->getResponse()->getBody();
         $this->assertContains('Access denied', $body);

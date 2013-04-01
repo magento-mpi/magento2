@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Saas
- * @package     unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
