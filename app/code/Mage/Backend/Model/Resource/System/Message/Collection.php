@@ -23,6 +23,11 @@ class Mage_Backend_Model_Resource_System_Message_Collection extends Mage_Core_Mo
     protected $_unreadMessages = array();
 
     /**
+     * @var array
+     */
+    protected $_countBySeverity = array();
+
+    /**
      * @param Mage_Backend_Model_System_MessageList $messageList
      * @param null $resource
      */
@@ -95,7 +100,11 @@ class Mage_Backend_Model_Resource_System_Message_Collection extends Mage_Core_Mo
             $message = $this->_messageList->getMessageByIdentity($item->getIdentity());
             $item->setText($message->getText());
             $item->setLink($message->getLink());
-            $this->_countBySeverity[$message->getSeverity()]++;
+            if (array_key_exists($message->getSeverity(), $this->_countBySeverity)) {
+                $this->_countBySeverity[$message->getSeverity()]++;
+            } else {
+                $this->_countBySeverity[$message->getSeverity()] = 1;
+            }
         }
         return $this;
     }
