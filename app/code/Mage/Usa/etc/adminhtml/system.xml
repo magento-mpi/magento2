@@ -366,6 +366,10 @@
                     <label>UPS Type</label>
                     <source_model>Mage_Usa_Model_Shipping_Carrier_Ups_Source_Type</source_model>
                 </field>
+                <field id="is_account_live" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Live account</label>
+                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                </field>
                 <field id="unit_of_measure" translate="label comment" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Weight Unit</label>
                     <source_model>Mage_Usa_Model_Shipping_Carrier_Ups_Source_Unitofmeasure</source_model>
