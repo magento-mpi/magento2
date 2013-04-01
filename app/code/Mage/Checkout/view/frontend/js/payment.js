@@ -19,29 +19,32 @@
         },
 
         _create: function() {
-            if (this.options.checkoutPrice < this.options.minBalance) {
-                this._disablePaymentMethods();
-            }
             this.element.find('dd [name^="payment["]').prop('disabled', true).end()
                 .on('click', this.options.continueSelector, $.proxy(this._submitHandler, this))
                 .on('updateCheckoutPrice', $.proxy(function(event, data) {
-                    //updating the checkoutPrice
-                    if (data.price) {
-                        this.options.checkoutPrice += data.price;
-                    }
-                    //updating total price
-                    if (data.totalPrice) {
-                        data.totalPrice = this.options.checkoutPrice;
-                    }
-                    if (this.options.checkoutPrice < this.options.minBalance) {
-                        // Add free input field, hide and disable unchecked checkbox payment method and all radio button payment methods
-                        this._disablePaymentMethods();
-                    } else {
-                        // Remove free input field, show all payment method
-                        this._enablePaymentMethods();
-                    }
+                //updating the checkoutPrice
+                if (data.price) {
+                    this.options.checkoutPrice += data.price;
+                }
+                //updating total price
+                if (data.totalPrice) {
+                    data.totalPrice = this.options.checkoutPrice;
+                }
+                if (this.options.checkoutPrice < this.options.minBalance) {
+                    // Add free input field, hide and disable unchecked checkbox payment method and all radio button payment methods
+                    this._disablePaymentMethods();
+                } else {
+                    // Remove free input field, show all payment method
+                    this._enablePaymentMethods();
+                }
             }, this))
-                .on('click', 'dt input:radio', $.proxy(this._paymentMethodHandler, this));
+                .on('click', 'dt input:radio', $.proxy(this._paymentMethodHandler, this))
+
+            if (this.options.checkoutPrice < this.options.minBalance) {
+                this._disablePaymentMethods();
+            } else {
+                this._enablePaymentMethods();
+            }
         },
 
         /**
@@ -95,6 +98,7 @@
         _enablePaymentMethods: function() {
             this.element.find('input[name="payment[method]"]').prop('disabled', false).end()
                 .find('input[name="payment[method]"][value="free"]').remove().end()
+                .find('dt input:radio:checked').trigger('click').end()
                 .find('input[id^="use"][name^="payment[use"]:not(:checked)').prop('disabled', false).parent().show();
             this.element.find(this.options.methodsContainer).show();
         },
