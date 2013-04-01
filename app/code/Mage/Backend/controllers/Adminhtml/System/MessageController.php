@@ -12,10 +12,13 @@ class Mage_Backend_Adminhtml_System_MessageController extends Mage_Backend_Contr
     {
         $severity = $this->getRequest()->getParam('severity');
         /** @var $messageService Mage_Backend_Model_System_MessagingService */
-        $messageService = $this->_objectManager->get('Mage_Backend_Model_Resource_System_Message_Collection');
-        $messageList = $messageService->getItems($severity);
+        $messageCollection = $this->_objectManager
+            ->get('Mage_Backend_Model_Resource_System_Message_Collection_Nonsynchronized');
+        if ($severity) {
+            $messageCollection->setSeverity($severity);
+        }
         $this->getResponse()
             ->setHeader('Content-Type', 'application/json')
-            ->setBody($this->_getHelper('Mage_Core_Helper_Data')->jsonEncode($messageList));
+            ->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($messageCollection));
     }
 }

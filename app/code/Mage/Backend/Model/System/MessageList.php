@@ -42,7 +42,9 @@ class Mage_Backend_Model_System_MessageList
     {
         if (!$this->_messages) {
             foreach ($this->_messageClasses as $key => $messageClass) {
-                throw new InvalidArgumentException('Message class for message "' . $key . '" is not set');
+                if (!$messageClass) {
+                    throw new InvalidArgumentException('Message class for message "' . $key . '" is not set');
+                }
                 $message = $this->_objectManager->get($messageClass);
                 $this->_messages[$message->getIdentity()] = $message;
             }
