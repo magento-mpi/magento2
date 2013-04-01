@@ -465,10 +465,10 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
      *
      * @magentoAppIsolation enabled
      */
-    public function testGetViewUrl()
+    public function testGetViewFileUrl()
     {
         $this->assertStringStartsWith(
-            'http://localhost/pub/media/theme/static/frontend/', $this->_block->getViewFileUrl()
+            'http://localhost/pub/static/frontend/', $this->_block->getViewFileUrl()
         );
         $this->assertStringEndsWith('css/styles.css', $this->_block->getViewFileUrl('css/styles.css'));
 

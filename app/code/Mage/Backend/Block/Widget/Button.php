@@ -61,12 +61,37 @@ class Mage_Backend_Block_Widget_Button extends Mage_Backend_Block_Widget
         if (!$title) {
             $title = $this->getLabel();
         }
+        $classes = array();
+        $classes[] = 'action-';
+        $classes[] = 'scalable';
+        if ($this->getClass()) {
+            $classes[] = $this->getClass();
+        }
+        if ($disabled) {
+            $classes[] = $disabled;
+        }
+
+        return $this->_attributesToHtml(
+            $this->_prepareAttributes($title, $classes, $disabled)
+        );
+    }
+
+    /**
+     * Prepare attributes
+     *
+     * @param string $title
+     * @param array $classes
+     * @param string $disabled
+     * @return array
+     */
+    protected function _prepareAttributes($title, $classes, $disabled)
+    {
         $attributes = array(
             'id'        => $this->getId(),
             'name'      => $this->getElementName(),
             'title'     => $title,
             'type'      => $this->getType(),
-            'class'     => 'action- scalable ' . $this->getClass() . ' ' . $disabled,
+            'class'     => join(' ', $classes),
             'onclick'   => $this->getOnClick(),
             'style'     => $this->getStyle(),
             'value'     => $this->getValue(),
@@ -77,7 +102,17 @@ class Mage_Backend_Block_Widget_Button extends Mage_Backend_Block_Widget
                 $attributes['data-' . $key] = json_encode($attr);
             }
         }
+        return $attributes;
+    }
 
+    /**
+     * Attributes list to html
+     *
+     * @param array $attributes
+     * @return string
+     */
+    protected function _attributesToHtml($attributes)
+    {
         $html = '';
         foreach ($attributes as $attributeKey => $attributeValue) {
             if ($attributeValue === null || $attributeValue == '') {

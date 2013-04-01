@@ -18,7 +18,6 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
      */
     public function testViewFilesFromThemes($theme, $file)
     {
-        $this->markTestIncomplete('MAGETWO-7955');
         try {
             $params = array(
                 'area'       => $theme->getArea(),
@@ -47,7 +46,7 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
                 }
             }
         } catch (Exception $e) {
-            trigger_error($e->getMessage(), E_USER_ERROR);
+            $this->fail($e->getMessage());
         }
     }
 

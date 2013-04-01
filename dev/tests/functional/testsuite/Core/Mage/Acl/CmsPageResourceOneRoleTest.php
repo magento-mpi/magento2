@@ -76,7 +76,7 @@
         $this->loginAdminUser();
         $this->navigate('manage_roles');
         $roleSource =
-            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom', array('resource_1' => 'CMS/Pages'));
+            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl', array('resource_acl' => 'cms_pages'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');

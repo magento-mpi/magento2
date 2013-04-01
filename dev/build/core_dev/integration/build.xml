@@ -21,8 +21,8 @@
         <condition property="db_table_prefix" value="">
             <not><isset property="db_table_prefix"/></not>
         </condition>
-        <condition property="developer_mode" value="enabled">
-            <not><isset property="developer_mode"/></not>
+        <condition property="app_mode" value="developer">
+            <not><isset property="app_mode"/></not>
         </condition>
         <copy file="${basedir}/dev/build/core_dev/integration/local-${db_vendor_name}.xml" todir="${product_root_dir}/dev/tests/integration/etc" overwrite="true"/>
         <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="_database_credential_substitution">
@@ -34,7 +34,7 @@
         <copy file="${basedir}/dev/build/core_dev/integration/phpunit.xml" todir="${product_root_dir}/dev/tests/integration" overwrite="true"/>
         <replace file="${product_root_dir}/dev/tests/integration/phpunit.xml">
             <replacefilter token="{{local_config_file}}" value="etc/local-${db_vendor_name}.xml"/>
-            <replacefilter token="{{developer_mode}}" value="${developer_mode}"/>
+            <replacefilter token="{{app_mode}}" value="${app_mode}"/>
         </replace>
     </target>
 
@@ -57,7 +57,7 @@
 
     <target name="integration_tests_ee_mysql" depends="_enterprise_edition" description="Integration tests on MySQL for EE">
         <antcall target="_integration_tests_magento">
-            <param name="developer_mode" value="disabled"/>
+            <param name="app_mode" value="default"/>
         </antcall>
     </target>
 
@@ -73,7 +73,7 @@
 
     <target name="integration_tests_ee_xd_mysql" depends="_enterprise_edition" description="Integration tests with Xdebug on MySQL for EE">
         <antcall target="_integration_tests_magento_xdebug">
-            <param name="developer_mode" value="disabled"/>
+            <param name="app_mode" value="default"/>
         </antcall>
     </target>
 
@@ -101,7 +101,7 @@
 
     <target name="integration_tests_ce_mysql" depends="_community_edition" description="Integration tests on MySQL for CE">
         <antcall target="_integration_tests_magento">
-            <param name="developer_mode" value="disabled"/>
+            <param name="app_mode" value="default"/>
         </antcall>
     </target>
 
@@ -117,7 +117,7 @@
 
     <target name="integration_tests_ce_xd_mysql" depends="_community_edition" description="Integration tests with Xdebug on MySQL for CE">
         <antcall target="_integration_tests_magento_xdebug">
-            <param name="developer_mode" value="disabled"/>
+            <param name="app_mode" value="default"/>
         </antcall>
     </target>
 
@@ -127,7 +127,7 @@
 
     <target name="integration_tests_saas_mysql" depends="_saas_edition" description="Integration tests on MySQL for GO">
         <antcall target="_integration_tests_magento">
-            <param name="developer_mode" value="disabled"/>
+            <param name="app_mode" value="default"/>
         </antcall>
     </target>
 
@@ -143,7 +143,7 @@
 
     <target name="integration_integrity_tests_ee_mysql" depends="_enterprise_edition" description="Integration integrity tests on MySQL for EE">
         <antcall target="_integration_integrity_tests_magento">
-            <param name="developer_mode" value="disabled"/>
+            <param name="app_mode" value="default"/>
         </antcall>
     </target>
 
@@ -153,7 +153,7 @@
 
     <target name="integration_integrity_tests_ce_mysql" depends="_community_edition" description="Integration integrity tests on MySQL for CE">
         <antcall target="_integration_integrity_tests_magento">
-            <param name="developer_mode" value="disabled"/>
+            <param name="app_mode" value="default"/>
         </antcall>
     </target>
 
@@ -163,7 +163,7 @@
 
     <target name="integration_integrity_tests_saas_mysql" depends="_saas_edition" description="Integration integrity tests on MySQL for Go">
         <antcall target="_integration_integrity_tests_magento">
-            <param name="developer_mode" value="disabled"/>
+            <param name="app_mode" value="default"/>
         </antcall>
     </target>
 

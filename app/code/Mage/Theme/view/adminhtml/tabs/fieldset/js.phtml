@@ -23,7 +23,7 @@
     </div>
 </div>
 
-<ul class="js-files-container ui-sortable">
+<ul id="js-files-container" class="js-files-container ui-sortable">
     <?php echo $this->getChildBlock('theme.edit.tabs.tab.js.items')->setJsFiles($this->getJsFiles())->toHtml(); ?>
 </ul>
 

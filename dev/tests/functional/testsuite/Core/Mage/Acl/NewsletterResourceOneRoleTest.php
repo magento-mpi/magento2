@@ -40,7 +40,8 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_roles');
         $roleSource =
-            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom', array('resource_1' => 'Newsletter'));
+            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+                array('resource_acl' => 'communications'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');
@@ -72,8 +73,8 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 4 child elements
-        $this->assertEquals(4, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
-            'Count of Top Navigation Menu elements not equal 1, should be equal');
+        $this->assertEquals(6, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
+            'Count of Top Navigation Menu elements not equal 6, should be equal');
         $this->assertTrue($this->buttonIsPresent('add_new_template'),
             'There is no "Add New Template" button on the page');
         $this->clickButton('add_new_template');

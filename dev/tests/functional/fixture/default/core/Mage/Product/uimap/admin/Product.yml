@@ -269,13 +269,13 @@ new_product:
                                         next_page: //a[@data-ui-id='admin-product-edit-tab-super-config-grid-next']
                                         product_page: //input[@data-ui-id='admin-product-edit-tab-super-config-grid-current-page']
                                     pageelements:
-                                        associated_product_id: //td[normalize-space(@data-column-id)='entity_id']
-                                        associated_product_name: //td[normalize-space(@data-column-id)='name']
-                                        associated_price: //td[contains(@data-column-id,'price')]
-                                        associated_sku: //td[normalize-space(@data-column-id)='sku']
-                                        associated_quantity: //td[normalize-space(@data-column-id)='qty']
+                                        associated_product_id: //td[normalize-space(@data-column)='entity_id']
+                                        associated_product_name: //td[normalize-space(@data-column)='name']
+                                        associated_price: //td[contains(@data-column,'price')]
+                                        associated_sku: //td[normalize-space(@data-column)='sku']
+                                        associated_quantity: //td[normalize-space(@data-column)='qty']
                                         associated_inventory: //td[6]
-                                        associated_weight: //td[normalize-space(@data-column-id)='weight']
+                                        associated_weight: //td[normalize-space(@data-column)='weight']
                                         opened_product_page: //input[@data-ui-id='admin-product-edit-tab-super-config-grid-current-page'][@value='%pageIndex%']
                             -
                                 grouped_associated_products:

@@ -39,19 +39,19 @@ class Mage_Core_Controller_Response_Http extends Zend_Controller_Response_Http
 
         if (substr(php_sapi_name(), 0, 3) == 'cgi') {
             $statusSent = false;
-            foreach ($this->_headersRaw as $i=>$header) {
+            foreach ($this->_headersRaw as $index => $header) {
                 if (stripos($header, 'status:')===0) {
                     if ($statusSent) {
-                        unset($this->_headersRaw[$i]);
+                        unset($this->_headersRaw[$index]);
                     } else {
                         $statusSent = true;
                     }
                 }
             }
-            foreach ($this->_headers as $i=>$header) {
-                if (strcasecmp($header['name'], 'status')===0) {
+            foreach ($this->_headers as $index => $header) {
+                if (strcasecmp($header['name'], 'status') === 0) {
                     if ($statusSent) {
-                        unset($this->_headers[$i]);
+                        unset($this->_headers[$index]);
                     } else {
                         $statusSent = true;
                     }
