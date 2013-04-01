@@ -43,5 +43,7 @@
         <Enterprise_ImportExport><active>false</active></Enterprise_ImportExport>
         <Mage_Connect><active>false</active></Mage_Connect>
         <Saas_Design><active>true</active></Saas_Design>
+        <Mage_Downloadable><active>false</active></Mage_Downloadable>
+        <Saas_Downloadable><active>true</active></Saas_Downloadable>
     </modules>
 </config>

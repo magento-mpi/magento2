@@ -17,7 +17,6 @@
 
         <!-- Reports -->
         <remove id="Enterprise_CustomerSegment::report_customers_segment" />
-        <remove id="Mage_Downloadable::report_products_downloads" />
 
         <!-- Stores -->
         <remove id="Enterprise_GiftRegistry::customer_enterprise_giftregistry" />
