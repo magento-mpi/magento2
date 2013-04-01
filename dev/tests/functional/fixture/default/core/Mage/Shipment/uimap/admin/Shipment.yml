@@ -51,10 +51,10 @@ create_shipment:
             fieldsets:
                 -
                     order_number:
-                        xpath: xpath: //div[@class='order-information']
+                        xpath: //div[@class='order-information']
                 -
                     account_information:
-                        xpath: xpath: //div[@class='order-account-information']
+                        xpath: //div[@class='order-account-information']
                 -
                     billing_address:
                         xpath: //div[@class='order-billing-address']
