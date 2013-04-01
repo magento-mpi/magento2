@@ -557,10 +557,7 @@ button.primary.disabled,
     overflow: auto;
 }
 
-.mage-suggest-dropdown li a,
-.mage-suggest-dropdown .jstree li a:hover,
-.mage-suggest-dropdown .jstree .jstree-hovered,
-.mage-suggest-dropdown .jstree .jstree-clicked {
+.mage-suggest-dropdown li a {
     display: block;
 }
 
