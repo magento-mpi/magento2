@@ -72,7 +72,7 @@ class Mage_Core_Model_Locale implements Mage_Core_Model_LocaleInterface
         if (!$this->_defaultLocale) {
             $locale = Mage::getStoreConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
             if (!$locale) {
-                $locale = Mage::DEFAULT_LOCALE;
+                $locale = Mage_Core_Model_LocaleInterface::DEFAULT_LOCALE;
             }
             $this->_defaultLocale = $locale;
         }

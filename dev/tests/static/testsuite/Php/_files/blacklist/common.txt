@@ -21,4 +21,3 @@ dev/tests/static/testsuite/Php/Exemplar/_files/phpcs/input
 dev/tests/static/testsuite/Php/Exemplar/_files/phpmd/input
 app/code/Mage/Theme/view/adminhtml/tabs/fieldset/js_items.phtml
 app/code/Mage/Theme/view/adminhtml/browser/content/files.phtml
-var/generation

@@ -186,7 +186,6 @@ button.primary.disabled,
     Reset 'button view' for actions
 -------------------------------------- */
 .customer-current-activity .action-refresh,
-.customer-current-activity .action-refresh,
 .pager .action-next,
 .pager .action-previous,
 .pager .action-next:hover,
@@ -1270,7 +1269,7 @@ input.mage-error ~ .addafter {
     width: 8px;
     height: 14px;
     line-height: 14px;
-    background: url(Mage_Backend::images/dragable-handler-vertical.gif) no-repeat 0 0;
+    background: url(../images/dragable-handler-vertical.gif) no-repeat 0 0;
     cursor: pointer;
     color: #b2b0ad;
 }
