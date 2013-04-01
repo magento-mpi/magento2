@@ -86,7 +86,7 @@ create_automated_email_reminder_rule:
             save_and_continue_edit: //button[@id='save_and_continue_edit']
 
 edit_automated_email_reminder_rules:
-    mca: reminder/edit/id/%id%/back/edit/tab/enterprise_reminder_rule_tabs_general_section/
+    mca: reminder/edit/id/%id%/back/edit/active_tab/general_section/
     title: %elementTitle% / Reminder Rules / Communications / Marketing / Magento Admin
     uimap:
         buttons:

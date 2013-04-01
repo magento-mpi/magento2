@@ -341,7 +341,7 @@ edit_customer_save_and_continue:
     uimap: *edit_customer-uimap
 
 new_customer_with_error:
-    mca: customer/new/tab/customer_info_tabs_account
+    mca: customer/new/active_tab/account
     title: New Customer / Manage Customers / Customers / Magento Admin
     uimap: *edit_customer-uimap
 
