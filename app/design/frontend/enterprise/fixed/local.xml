@@ -32,10 +32,4 @@
             <action method="addCss"><file>css/print.css</file><params>media="print"</params></action>
         </reference>
     </restriction_index_stub>
-
-    <catalog_product_view_type_bundle>
-        <reference name="product.info">
-            <block type="Enterprise_GiftRegistry_Block_Product_View" name="product.customize.button"/>
-        </reference>
-    </catalog_product_view_type_bundle>
 </layout>
