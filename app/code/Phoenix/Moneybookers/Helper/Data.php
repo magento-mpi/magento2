@@ -49,7 +49,7 @@ class Phoenix_Moneybookers_Helper_Data extends Mage_Payment_Helper_Data
                     'email_addr'  => Mage::getStoreConfig(self::XML_PATH_EMAIL),
                     'url'         => Mage::getBaseUrl(),
                     'customer_id' => Mage::getStoreConfig(self::XML_PATH_CUSTOMER_ID),
-                    'language'    => Mage::getModel('Mage_Core_Model_Locale')->getDefaultLocale()
+                    'language'    => Mage::getModel('Mage_Core_Model_LocaleInterface')->getDefaultLocale()
                 )
             );
 

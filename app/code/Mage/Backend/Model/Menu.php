@@ -102,6 +102,7 @@ class Mage_Backend_Model_Menu extends ArrayObject
      * @param string $itemId
      * @param string $toItemId
      * @param int $sortIndex
+     * @throws InvalidArgumentException
      */
     public function move($itemId, $toItemId, $sortIndex = null)
     {
@@ -231,8 +232,8 @@ class Mage_Backend_Model_Menu extends ArrayObject
             }
             if ($item->hasChildren()) {
                 if ($this->_findParentItems($item->getChildren(), $itemId, $parents)) {
-                   $parents[] = $item;
-                   return true;
+                    $parents[] = $item;
+                    return true;
                 }
             }
         }

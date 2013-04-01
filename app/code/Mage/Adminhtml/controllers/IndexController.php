@@ -78,18 +78,6 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
     }
 
     /**
-     * Change locale action
-     */
-    public function changeLocaleAction()
-    {
-        $locale = $this->getRequest()->getParam('locale');
-        if ($locale) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->setLocale($locale);
-        }
-        $this->_redirectReferer();
-    }
-
-    /**
      * Check if user has permissions to access this controller
      *
      * @return boolean
