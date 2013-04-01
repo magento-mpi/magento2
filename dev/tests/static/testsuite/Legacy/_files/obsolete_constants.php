@@ -38,7 +38,7 @@ return array(
     array('DEFAULT_ERROR_HANDLER', 'Mage_Core_Model_App', 'Mage::DEFAULT_ERROR_HANDLER'),
     array('DEFAULT_LOCALE', 'Mage_Core_Model_Locale', 'Mage_Core_Model_LocaleInterface::DEFAULT_LOCALE'),
     array('DEFAULT_THEME_NAME', 'Mage_Core_Model_Design_Package'),
-    array('DEFAULT_TIMEZONE', 'Mage_Core_Model_Locale', 'Mage_Core_Model_LocaleInterface::DEFAULT_TIMEZONE'),
+    array('DEFAULT_TIMEZONE', 'Mage_Core_Model_Locale', 'Mage::DEFAULT_TIMEZONE'),
     array('DEFAULT_VALUE_TABLE_PREFIX'),
     array('ENTITY_PRODUCT', 'Mage_Review_Model_Review'),
     array('EXCEPTION_CODE_IS_GROUPED_PRODUCT'),
@@ -102,6 +102,5 @@ return array(
     array('XML_PATH_SKIP_PROCESS_MODULES_UPDATES', 'Mage_Core_Model_App',
         'Mage_Core_Model_Db_UpdaterInterface::XML_PATH_SKIP_PROCESS_MODULES_UPDATES'
     ),
-    array('DEFAULT_TIMEZONE', 'Mage_Core_Model_Locale', 'Mage::DEFAULT_TIMEZONE'),
 );
 
