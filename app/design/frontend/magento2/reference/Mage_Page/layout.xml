@@ -25,7 +25,7 @@
             <container name="after_body_start" as="after_body_start" label="Page Top"/>
 
             <container name="header-container" label="Page Header Container" as="header-container" htmlTag="header" htmlClass="header">
-                <container name="header-panel" label="Page Header Panel" htmlTag="div" htmlClass="panel">
+                <container name="header.panel" label="Page Header Panel" htmlTag="div" htmlClass="panel">
                     <!-- <block type="Mage_Page_Block_Html_Header" name="welcome">
                         <action method="setShowPart"><value>welcome</value></action>
                     </block> -->

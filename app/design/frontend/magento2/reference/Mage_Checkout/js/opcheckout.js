@@ -18,7 +18,7 @@
                 loginRegisterSelector: '#login\\:register',
                 loginFormSelector: '#login-form',
                 continueSelector: '#onepage-guest-register-button',
-                registerCustomerPasswordSelector: '#register-customer-password',
+                registerCustomerPasswordSelector: '#co-billing-form .field.password,#co-billing-form .field.confirm',
                 suggestRegistration: false
             },
             sectionSelectorPrefix: '#opc-',

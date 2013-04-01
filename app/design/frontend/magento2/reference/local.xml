@@ -35,7 +35,7 @@
             <action method="addJs"><file>js/selectivizr-min.js</file><params/><if>lt IE 9</if></action>
         </reference>
         <reference name="page.bottom">
-             <container name="place.communication" label="Newsletter Placeholder" htmlTag="div" htmlClass="place communication" />
+            <container name="place.communication" label="Newsletter Placeholder" htmlTag="div" htmlClass="place communication" />
         </reference>
 
         <move element="form.subscribe" destination="place.communication" after="-" />
@@ -53,6 +53,7 @@
         <remove name="tags_popular" />
         <remove name="catalog.compare.sidebar"/>
         <remove name="product_tag_list" />
+
         <remove name="checkout_cart_link" />
         <reference name="header">
             <block type="Mage_Page_Block_Template_Links" name="header.links" after="minicart" as="header-links">

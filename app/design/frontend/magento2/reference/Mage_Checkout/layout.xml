@@ -316,6 +316,7 @@ One page checkout main layout
             <block type="Mage_Checkout_Block_Onepage" name="checkout.onepage" template="onepage.phtml">
                 <block type="Mage_Checkout_Block_Onepage_Login" name="checkout.onepage.login" as="login" template="onepage/login.phtml">
                     <container name="checkout.onepage.login.before" as="login_before" label="Login/Registration Before" htmlTag="div"/>
+                    <container name="form.login.additional.info" label="invisible" as="form_additional_info" />
                 </block>
                 <block type="Mage_Checkout_Block_Onepage_Billing" name="checkout.onepage.billing" as="billing" template="onepage/billing.phtml">
                     <block type="Enterprise_Customer_Block_Form" template="form/userattributes.phtml" name="customer_form_customer_user_defined_attributes">
@@ -324,6 +325,7 @@ One page checkout main layout
                     <block type="Enterprise_Customer_Block_Form" template="form/userattributes.phtml" name="customer_form_billing_address_user_defined_attributes">
                         <action method="setFormCode"><code>customer_register_address</code></action>
                     </block>
+                    <container name="form.billing.additional.info" label="invisible" as="form_additional_info" />
                 </block>
                 <block type="Mage_Checkout_Block_Onepage_Shipping" name="checkout.onepage.shipping" as="shipping" template="onepage/shipping.phtml">
                     <block type="Enterprise_Customer_Block_Form" template="form/userattributes.phtml" name="customer_form_shipping_address_user_defined_attributes">

@@ -191,7 +191,6 @@ strong { font-weight: 700; }
 
 @pageMainBg : #fff;
 
-
 @headerBg : #d6d7d2;
 @headerBgImage : url(../images/header-bg.jpg);
 
@@ -1303,6 +1302,7 @@ select {
                     margin:0;
                     padding:0;
                     &:after {
+                        display: none;
                         content: "\e02d";
                         font-family:"MUI-icons";
                         float:right;
@@ -1320,8 +1320,15 @@ select {
                     color:@primary6;
                     margin-bottom:0;
                     h2:after {
+                        display: block;
                         content: "\e03a";
                     }
+                }
+            }
+            &.allow > .step-title {
+                cursor:pointer;
+                h2:after {
+                    display: block;
                 }
             }
             > .step {
@@ -1372,8 +1379,10 @@ select {
             margin:0 40% 30px 0;
         }
 
+        .field.confirm,
         .field.password {
-            margin:20px 30% 0 0;
+            margin-top:20px;
+            margin-bottom:20px;
         }
         .field.choice {
             width:100%;
@@ -1457,7 +1466,7 @@ select {
             }
         }
     }
-    button.action {
+    button.action:not(.reload) {
         .primaryAction();
     }
     .actions {
@@ -1934,8 +1943,18 @@ select {
             }
             .subtitle {
                 display: none;
+                &.empty {
+                    display: block;
+                    margin:0 -330px 0 0;
+                    text-align: left;
+                    font-weight: 400;
+                    float:right;
+                    width:310px;
+                    clear:right;
+                }
             }
         }
+        .minicart.empty.text,
         > .title,
         > .content .subtotal,
         > .content .disclaimer,
@@ -1945,6 +1964,9 @@ select {
             float:right;
             width:310px;
             clear:right;
+        }
+        .minicart.empty.text {
+            margin-top:15px;
         }
         > .title strong {
             font-weight: 400;
@@ -2004,6 +2026,10 @@ select {
     p {
         clear:both;
     }
+}
+
+.block.minicart.empty > .title {
+    display: none;
 }
 
 /* Product options */
