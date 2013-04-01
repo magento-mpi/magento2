@@ -80,6 +80,7 @@ class Mage_Backend_Model_Resource_System_Message_Collection extends Mage_Core_Mo
                         unset($this->_items[$persistedKey]);
                         $reloadRequired = true;
                     }
+                    $persistedMessage->setPersisted(true);
                     break;
                 }
             }
