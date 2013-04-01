@@ -22,7 +22,7 @@ interface Mage_Backend_Model_System_MessageInterface
     /**
      * Retrieve message text
      *
-     * @return text
+     * @return string
      */
     public function getText();
 

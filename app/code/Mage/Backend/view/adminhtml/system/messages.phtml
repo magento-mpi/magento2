@@ -1,0 +1,12 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Mage_Backend_Block_System_Messages */ ?>
+<?php foreach ($this->getMessageList() as $message) : ?>
+    <?php echo $message->getText(); ?>
+<?php endforeach; ?>

@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 class Mage_Index_Model_System_Message_IndexOutdated implements Mage_Backend_Model_System_MessageInterface
 {
     /**
@@ -15,22 +14,22 @@ class Mage_Index_Model_System_Message_IndexOutdated implements Mage_Backend_Mode
      */
     public function isDisplayed()
     {
-        // TODO: Implement isDisplayed() method.
+        return true;
     }
 
     /**
      * Retrieve message text
      *
-     * @return text
+     * @return string
      */
     public function getText()
     {
-        $title = $this->helper('Mage_Index_Helper_Data')->__('One or more of the Indexes are not up to date:');
-        return '<strong>' . $this->helper('Mage_Index_Helper_Data')->__('One or more of the Indexes are not up to date:') ?></strong>
-<?php echo implode(', ', $_processes)?>.
-<?php echo $this->helper('Mage_Index_Helper_Data')->__('Click here to go to <a href="%s">Index Management</a> and rebuild required indexes.', $this->getManageUrl());?>
-
-}
+        return '<div class="message message-system"><div class="message-inner"><div class="message-content">' .
+            '<strong>' . $this->helper('Mage_Index_Helper_Data')->__('One or more of the Indexes are not up to date:') . '</strong>' .
+            'SOME TEXT' .
+            $this->helper("Mage_Index_Helper_Data")->__('Click here to go to <a href="%s">Index Management</a> and rebuild required indexes.', $this->getManageUrl()) .
+            '</div></div></div>';
+    }
 
     /**
      * Retrieve message severity

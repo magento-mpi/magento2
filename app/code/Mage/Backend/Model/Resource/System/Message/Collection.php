@@ -64,7 +64,7 @@ class Mage_Backend_Model_Resource_System_Message_Collection extends Mage_Core_Mo
         }
         parent::load($printQuery, $logQuery);
         $messages = $this->_messageList->asArray();
-        $reloadRequied = false;
+        $reloadRequired = false;
         foreach ($messages as $message) {
             $persisted = false;
             foreach ($this->_items as $persistedKey => $persistedMessage) {
@@ -73,7 +73,7 @@ class Mage_Backend_Model_Resource_System_Message_Collection extends Mage_Core_Mo
                     if (!$message->isDisplayed()) {
                         $persistedMessage->delete();
                         unset($this->_items[$persistedKey]);
-                        $reloadRequied = true;
+                        $reloadRequired = true;
                     }
                     break;
                 }
@@ -81,13 +81,13 @@ class Mage_Backend_Model_Resource_System_Message_Collection extends Mage_Core_Mo
             if (!$persisted && $message->isDisplayed()) {
                 $item = $this->getNewEmptyItem();
                 $item->setText($message->getText())
-                    ->setSeverity($message->setSeverity())
+                    ->setSeverity($message->getSeverity())
                     ->save();
                 $this->_unreadMessages[] = $item;
-                $reloadRequied = true;
+                $reloadRequired = true;
             }
         }
-        if ($reloadRequied) {
+        if ($reloadRequired) {
             $this->clear();
             parent::load($printQuery, $logQuery);
         }
