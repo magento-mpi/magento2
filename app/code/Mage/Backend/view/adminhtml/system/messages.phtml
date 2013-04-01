@@ -11,7 +11,7 @@
     <?php if ($this->hasMessages()): ?>
         <?php $lastCritical = $this->getLastCritical();?>
         <?php if ($lastCritical): ?>
-            <div class="message"><?php echo $lastCritical->getText();?> <a href="<?php echo $lastCritical->getLink();?>"><?php echo $this->__('Go there now');?></a></div>
+            <div class="message"><?php echo $lastCritical->getText();?><?php if ($lastCritical->getLink()):?> <a href="<?php echo $lastCritical->getLink();?>"><?php echo $this->__('Go there now');?></a><?php endif;?></div>
         <?php endif; ?>
         <div class="message_links">
             System Messages:

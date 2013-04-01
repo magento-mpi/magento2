@@ -102,6 +102,6 @@ class Mage_Backend_Model_System_Message_Survey implements Mage_Backend_Model_Sys
      */
     public function getSeverity()
     {
-        return Mage_Backend_Model_System_MessageInterface::SEVERITY_CRITICAL;
+        return Mage_Backend_Model_System_MessageInterface::SEVERITY_MAJOR;
     }
 }
