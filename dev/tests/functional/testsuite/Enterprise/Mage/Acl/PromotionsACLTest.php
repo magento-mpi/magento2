@@ -47,7 +47,7 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
      */
     public function checkPromotionsFullRights()
     {
-        $this->markTestSkipped('MAGETWO-7422');
+        $this->markTestIncomplete('MAGETWO-7422');
         //Preconditions
         //create specific role with full rights to Promotions Menu
         $this->navigate('manage_roles');
@@ -137,7 +137,7 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
      */
     public function checkPromotionsShoppingCartRulesCreateRights()
     {
-        $this->markTestSkipped('MAGETWO-7422');
+        $this->markTestIncomplete('MAGETWO-7422');
         //Preconditions
         //create specific role with only Shopping Cart Price Rule Create rights
         $this->navigate('manage_roles');
@@ -271,7 +271,7 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
      */
     public function checkAutomatedEmailReminderRulesReadRights()
     {
-        $this->markTestSkipped('MAGETWO-8413');
+        $this->markTestIncomplete('MAGETWO-8413');
         //Preconditions
         //create specific role with only read rights to Automated Email Reminder Rules
         $this->navigate('manage_roles');
@@ -316,7 +316,7 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
      */
     public function createShoppingCartPriceRulesWithCustomRoleScopes()
     {
-        $this->markTestSkipped('MAGETWO-7422');
+        $this->markTestIncomplete('MAGETWO-7422');
         //Preconditions
         //create specific role with create rights to Shopping Cart Price
         $this->navigate('manage_roles');
