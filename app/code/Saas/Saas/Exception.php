@@ -7,4 +7,5 @@
  */
 
 class Saas_Saas_Exception extends Exception
-{}
+{
+}
