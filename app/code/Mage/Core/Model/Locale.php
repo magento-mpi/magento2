@@ -19,7 +19,6 @@ class Mage_Core_Model_Locale
      * Default locale name
      */
     const DEFAULT_LOCALE    = 'en_US';
-    const DEFAULT_TIMEZONE  = 'UTC';
     const DEFAULT_CURRENCY  = 'USD';
 
     /**
@@ -127,7 +126,7 @@ class Mage_Core_Model_Locale
      */
     public function getTimezone()
     {
-        return self::DEFAULT_TIMEZONE;
+        return Mage::DEFAULT_TIMEZONE;
     }
 
     /**
@@ -495,7 +494,7 @@ class Mage_Core_Model_Locale
     {
         $dateObj = $this->storeDate($store, $date, $includeTime);
         $dateObj->set($date, $format);
-        $dateObj->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
+        $dateObj->setTimezone(Mage::DEFAULT_TIMEZONE);
         return $dateObj;
     }
 

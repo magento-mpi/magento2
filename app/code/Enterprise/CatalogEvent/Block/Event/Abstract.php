@@ -110,7 +110,7 @@ abstract class Enterprise_CatalogEvent_Block_Event_Abstract extends Mage_Core_Bl
     {
         $date = new Zend_Date($this->_getLocale()->getLocale());
         // changing timezone to UTC
-        $date->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
+        $date->setTimezone(Mage::DEFAULT_TIMEZONE);
 
         $dateString = $event->getData('date_' . $type);
         $date->set($dateString, Varien_Date::DATETIME_INTERNAL_FORMAT);

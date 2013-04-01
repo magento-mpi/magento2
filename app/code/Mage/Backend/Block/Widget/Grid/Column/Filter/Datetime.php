@@ -43,7 +43,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Mage_Backend
                 Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_TIMEZONE)
             );
             $datetimeTo->addDay(1)->subSecond(1);
-            $datetimeTo->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
+            $datetimeTo->setTimezone(Mage::DEFAULT_TIMEZONE);
         }
         return $value;
     }
@@ -74,7 +74,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Mage_Backend
                 );
 
                 //convert store date to default date in UTC timezone without DST
-                $dateObj->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
+                $dateObj->setTimezone(Mage::DEFAULT_TIMEZONE);
 
                 return $dateObj;
             } catch (Exception $e) {

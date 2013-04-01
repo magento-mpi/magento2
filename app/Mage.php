@@ -74,6 +74,11 @@ final class Mage
     const EDITION_GO           = 'Go';
 
     /**
+     * Default timezone
+     */
+    const DEFAULT_TIMEZONE  = 'UTC';
+
+    /**
      * Registry collection
      *
      * @var array

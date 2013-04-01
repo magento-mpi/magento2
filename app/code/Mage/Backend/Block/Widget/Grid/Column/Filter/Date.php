@@ -151,7 +151,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Date extends Mage_Backend_Blo
             $dateObj->set($date, Zend_Date::DATE_SHORT, $locale);
 
             //convert store date to default date in UTC timezone without DST
-            $dateObj->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
+            $dateObj->setTimezone(Mage::DEFAULT_TIMEZONE);
 
             return $dateObj;
         } catch (Exception $e) {

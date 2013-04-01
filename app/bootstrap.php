@@ -92,4 +92,4 @@ HTML;
     }
 }
 set_error_handler(Mage::DEFAULT_ERROR_HANDLER);
-date_default_timezone_set(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
+date_default_timezone_set(Mage::DEFAULT_TIMEZONE);
