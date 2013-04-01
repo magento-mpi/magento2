@@ -93,7 +93,7 @@ class Core_Mage_Tags_CustomerCreateTest extends Core_Mage_Tags_TagsFixtureAbstra
      */
     public function searchTags($columnName, $testData)
     {
-        $this->markTestSkipped('Skipped due to bug MAGETWO-2854');
+        $this->markTestIncomplete('Skipped due to bug MAGETWO-2854');
         //Setup
         $this->loginAdminUser();
         $this->navigate('manage_customers');
