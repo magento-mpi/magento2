@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Saas_Sales_Model_Observer extends Saas_Saas_Model_Observer_Controller_Limitations_Abstract
+class Saas_Sales_Model_Observer extends Saas_Saas_Model_Observer_Controller_LimitationAbstract
 {
     /**
      * Redirects to noRoute from actions of admin sales transactions controller
