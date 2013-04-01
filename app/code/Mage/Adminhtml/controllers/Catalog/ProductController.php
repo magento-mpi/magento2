@@ -800,7 +800,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                             Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getSku()))
                     );
                 }
-                if($redirectBack === 'clone') {
+                if($redirectBack === 'duplicate') {
                     $newProduct = $product->duplicate();
                 }
 
@@ -820,7 +820,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 'set'  => $product->getAttributeSetId(),
                 'type' => $product->getTypeId()
             ));
-        } elseif ($redirectBack === 'clone' && isset($newProduct)) {
+        } elseif ($redirectBack === 'duplicate' && isset($newProduct)) {
             $this->_redirect(
                 '*/*/edit',
                 array(
