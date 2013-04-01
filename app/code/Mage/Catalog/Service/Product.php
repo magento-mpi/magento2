@@ -226,11 +226,13 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
 
         $priceTypes = array('price', 'cost', 'groupPrice', 'tierPrice', 'minimalPrice', 'msrp', 'giftWrappingPrice');
 
+        $currCode = Mage::getObjectManager()->get('Mage_Core_Model_StoreManager')->getStore()->getCurrentCurrencyCode();
+
         foreach ($schema as $field) {
             if (in_array($field, $priceTypes)) {
                 $data[$field] = array(
                     'amount' => $product->getPrice(),
-                    'currencyCode' => Mage::getObjectManager()->get('Mage_Core_Model_StoreManager')->getStore()->getCurrentCurrencyCode(),
+                    'currencyCode' => $currCode,
                     'formattedPrice' => Mage::helper('Mage_Core_Helper_Data')->currency($product->getPrice(),true,false),
                 );
             } else if ($field === 'specialPrice') {
@@ -255,6 +257,7 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
                     ),
                 );
             } else if ($field === 'mediaGallery') {
+                // Is this only Base image??
                 $data[$field] = array(
                     'images' => array(
                         array(
@@ -292,21 +295,21 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
                 );
             } else if ($field === 'bundle') {
                 $data[$field] = array(
-                    'priceType' => '',
-                    'skuType' => '',
-                    'weightType' => '',
+                    'priceType' => $product->getData('price_type'),
+                    'skuType' => $product->getData('sku_type'),
+                    'weightType' => $product->getData('weight_type'),
                     'priceView' => array(
                         'value' => '',
                         'label' => '',
                     ),
-                    'shipmentType' => '',
+                    'shipmentType' => $product->getData('shipment_type'),
                 );
             } else if ($field === 'downloadable') {
                 $data[$field] = array(
-                    'linksPurchasedSeparately' => '',
-                    'samplesTitle' => '',
-                    'linksTitle' => '',
-                    'shipmentType' => '',
+                    'linksPurchasedSeparately' => $product->getData('links_purchased_separately'),
+                    'samplesTitle' => $product->getData('samples_title'),
+                    'linksTitle' => $product->getData('links_title'),
+                    'shipmentType' => $product->getData('shipment_type'),
                 );
             } else if ($field === 'giftcard') {
                 $data[$field] = array(
@@ -319,29 +322,29 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
                             )
                         )
                     ),
-                    'allowOpenAmount' => '',
+                    'allowOpenAmount' => $product->getData('allow_open_amount'),
                     'openAmountMin' => array(
-                        'amount' => '',
-                        'currencyCode' => '',
-                        'formattedPrice' => '',
+                        'amount' => $product->getData('open_amount_min'),
+                        'currencyCode' => $currCode,
+                        'formattedPrice' => Mage::helper('Mage_Core_Helper_Data')->currency($product->getData('open_amount_min'),true,false),
                     ),
                     'openAmountMax' => array(
-                        'amount' => '',
-                        'currencyCode' => '',
-                        'formattedPrice' => '',
+                        'amount' => $product->getData('open_amount_max'),
+                        'currencyCode' => $currCode,
+                        'formattedPrice' => Mage::helper('Mage_Core_Helper_Data')->currency($product->getData('open_amount_max'),true,false),
                     ),
                     'giftcardType' => array(
                         'value' => '',
                         'label' => '',
                     ),
-                    'isRedeemable' => '',
-                    'useConfigIsRedeemable' => '',
-                    'lifetime' => '',
-                    'useConfigLifetime' => '',
-                    'emailTemplate' => '',
-                    'useConfigEmailTemplate' => '',
-                    'allowMessage' => '',
-                    'useConfigAllowMessage' => '',
+                    'isRedeemable' => $product->getData('is_redeemable'),
+                    'useConfigIsRedeemable' => $product->getData('use_config_is_redeemable'),
+                    'lifetime' => $product->getData('lifetime'),
+                    'useConfigLifetime' => $product->getData('use_config_lifetime'),
+                    'emailTemplate' => $product->getData('email_template'),
+                    'useConfigEmailTemplate' => $product->getData('use_config_email_template'),
+                    'allowMessage' => $product->getData('allow_message'),
+                    'useConfigAllowMessage' => $product->getData('use_config_allow_message'),
                 );
             } else if ($field === 'targetRules') {
                 $data[$field] = array(
