@@ -30,7 +30,7 @@ class Saas_Saas_Mage_Backend_Adminhtml_System_ConfigControllerTest extends Mage_
      *
      * @param array $restrictedOptions
      */
-    protected function _injectCustomConverter($restrictedOptions)
+    protected function _injectCustomConverter(array $restrictedOptions)
     {
         $config = new Saas_Saas_Model_DisabledConfiguration_Config($restrictedOptions);
         $this->_objectManager->configure(array(
