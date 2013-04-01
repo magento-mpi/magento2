@@ -21,9 +21,9 @@ class Saas_Queue_Helper_Gearman extends Mage_Core_Helper_Abstract
 
     /**
      * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Config $config
+     * @param Mage_Core_Model_ConfigInterface $config
      */
-    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_Config $config)
+    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_ConfigInterface $config)
     {
         $this->_config = $config;
 

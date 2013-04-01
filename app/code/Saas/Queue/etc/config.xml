@@ -37,6 +37,11 @@
             <preferences>
                 <Enterprise_Queue_Model_Queue_HandlerInterface>Saas_Queue_Model_Queue_DefaultHandler</Enterprise_Queue_Model_Queue_HandlerInterface>
             </preferences>
+            <Saas_Queue_Model_Observer_Config>
+                <parameters>
+                    <config>Mage_Core_Model_Config</config>
+                </parameters>
+            </Saas_Queue_Model_Observer_Config>
         </di>
         <events>
             <application_process_refresh_cache>
@@ -51,6 +56,19 @@
                     </saas_queue>
                 </observers>
             </application_process_refresh_cache>
+            <application_process_regenerate_config>
+                <observers>
+                    <saas_queue>
+                        <asynchronous>1</asynchronous>
+                        <priority>1</priority>
+                        <class>Saas_Queue_Model_Observer_Config</class>
+                        <method>processRebuildConfig</method>
+                        <params>
+                            <task_name>regenerate_config</task_name>
+                        </params>
+                    </saas_queue>
+                </observers>
+            </application_process_regenerate_config>
         </events>
     </global>
     <workers>

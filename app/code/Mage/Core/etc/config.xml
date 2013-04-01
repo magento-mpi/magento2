@@ -90,6 +90,14 @@
                     </theme_registration_observer>
                 </observers>
             </theme_registration_from_filesystem>
+            <application_process_regenerate_config>
+                <observers>
+                    <mage_core>
+                        <class>Mage_Core_Model_Config</class>
+                        <method>reinit</method>
+                    </mage_core>
+                </observers>
+            </application_process_regenerate_config>
         </events>
         <di>
             <preferences>
