@@ -298,7 +298,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
         $rowQty = $this->getControlCount('pageelement', 'general_giftcard_amount_line');
         for ($i = 0; $i < $rowQty; $i++) {
             $this->addParameter('giftCardId', $i);
-            $this->addFieldIdToMessage('field', 'prices_gift_card_amount');
+            $this->addFieldIdToMessage('field', 'general_giftcard_amount');
             $this->assertMessagePresent('validation', 'enter_zero_or_greater');
         }
         $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
@@ -332,7 +332,6 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData, 'giftcard');
         //Verifying
-        $this->addParameter('fieldId', 'qty');
         $this->addFieldIdToMessage('field', 'general_qty');
         $this->assertMessagePresent('validation', 'enter_valid_number');
     }
@@ -345,5 +344,4 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
             array('g3648GJTest'),
         );
     }
-
 }

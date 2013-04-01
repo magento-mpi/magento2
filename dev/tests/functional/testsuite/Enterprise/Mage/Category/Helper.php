@@ -79,19 +79,20 @@ class Enterprise_Mage_Category_Helper extends Core_Mage_Category_Helper
     /**
      * @param array $permissions
      */
-    public function addNewCategoryPermissions($permissions = array())
+    public function addNewCategoryPermissions(array $permissions)
     {
         foreach ($permissions as $permission) {
-            $count = count($this->getControlElements('fieldset', 'new_category_permission'));
+            $count = $this->getControlCount('fieldset', 'new_category_permission');
             $this->addParameter('row', $count + 1);
             $this->clickButton('new_permission', false);
-            $this->waitForElement($this->_getControlXpath('button', 'delete_permissions'));
-            if (!empty($permission)) {
-                if (isset($permission['website']) && !$this->controlIsPresent('dropdown', 'website')) {
-                    unset ($permission['website']);
-                }
-                $this->fillFieldset($permission, 'new_category_permission');
+            $this->waitForControlVisible('button', 'delete_permissions');
+            if (empty($permission)) {
+                continue;
             }
+            if (isset($permission['website']) && !$this->controlIsVisible('dropdown', 'website')) {
+                unset ($permission['website']);
+            }
+            $this->fillFieldset($permission, 'new_category_permission');
         }
     }
 }

@@ -120,8 +120,8 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
         $this->addParameter('fieldId', $fieldId);
-        $this->assertMessagePresent('error', 'empty_required_field');
-        $this->assertEquals( 1 , $this->count($this->assertMessagePresent('error', 'empty_required_field')));
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function withRequiredFieldsEmptyDataProvider()
