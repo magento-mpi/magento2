@@ -7,4 +7,10 @@
  */
 
 /** @var $this Mage_Catalog_Model_Resource_Setup */
-$this->deleteTableRow('eav_attribute_group', 'attribute_group_id', 11);
+$idField = 'attribute_group_id';
+$attributeGroupId = intval($this->getTableRow('eav_attribute_group', 'attribute_group_name', 'Recurring Profile',
+    $idField, 'attribute_group_code', 'recurring-profile'));
+
+if ($attributeGroupId) {
+    $this->deleteTableRow('eav_attribute_group', $idField, $id);
+}
