@@ -79,20 +79,20 @@
                 bSelection.gridSelectedProductSkus = productSkus;
                 $selectionGrid.dialog({
                     title: $optionBox.find('input[name$="[title]"]').val() === '' ?
-                        'Add Products to New Option' :
-                        'Add Products to Option "' +
+                        $.mage.__('Add Products to New Option') :
+                        $.mage.__('Add Products to Option "') +
                             $('<div>').text($optionBox.find('input[name$="[title]"]').val()).html() + '"',
                     autoOpen: false,
                     minWidth: 980,
                     modal: true,
                     resizable: true,
                     buttons: [{
-                        text: 'Cancel',
+                        text: $.mage.__('Cancel'),
                         click: function() {
                             $selectionGrid.dialog('close');
                         }
                     }, {
-                        text: 'Add Products',
+                        text: $.mage.__('Add Selected Products'),
                         'class': 'add',
                         click: function() {
                             bSelection.gridSelection.get(optionIndex).each(
