@@ -45,7 +45,7 @@ class Core_Mage_Vde_SaveChangesTest extends Mage_Selenium_TestCase
      */
     public function removeExistingBlock()
     {
-        $this->markTestSkipped('Test can not be implemented due to affect Frontend design');
+        $this->markTestIncomplete('Test can not be implemented due to affect Frontend design');
         // Open the proper page in the Design Mode
         $this->vdeHelper()
             ->switchToDesignMode()
