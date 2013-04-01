@@ -18,11 +18,6 @@
 class Mage_AdminNotification_Block_ToolbarEntry extends Mage_Backend_Block_Template
 {
     /**
-     * The number of latest notifications shown in notification toolbar entry
-     */
-    const SHOWN_NOTIFICATION_COUNT = 5;
-
-    /**
      * Collection of latest unread notifications
      *
      * @var Mage_AdminNotification_Model_Resource_Inbox_Collection
@@ -41,9 +36,6 @@ class Mage_AdminNotification_Block_ToolbarEntry extends Mage_Backend_Block_Templ
     ) {
         parent::__construct($context, $data);
         $this->_notificationList = $notificationList;
-        // set view-specific limitations to notification collection
-        $this->_notificationList->setCurPage(1);
-        $this->_notificationList->setPageSize(self::SHOWN_NOTIFICATION_COUNT);
     }
 
     /**
@@ -64,5 +56,19 @@ class Mage_AdminNotification_Block_ToolbarEntry extends Mage_Backend_Block_Templ
     public function getLatestUnreadNotifications()
     {
         return $this->_notificationList;
+    }
+
+    /**
+     * Format notification date (show only time if notification has been added today)
+     *
+     * @param string $dateString
+     * @return string
+     */
+    public function formatNotificationDate($dateString)
+    {
+        if (date('Ymd') == date('Ymd', strtotime($dateString))) {
+            return $this->formatTime($dateString, Mage_Core_Model_Locale::FORMAT_TYPE_SHORT, false);
+        }
+        return $this->formatDate($dateString, Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true);
     }
 }

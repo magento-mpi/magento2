@@ -214,6 +214,11 @@ button.primary.disabled,
 .mage-new-category-dialog .action-cancel:active,
 .mage-new-category-dialog .action-cancel.active,
 .mage-new-category-dialog .action-cancel[disabled],
+.notification-entry-dialog .action-cancel,
+.notification-entry-dialog .action-cancel:hover,
+.notification-entry-dialog .action-cancel:active,
+.notification-entry-dialog .action-cancel.active,
+.notification-entry-dialog .action-cancel[disabled],
 .image-panel .action-close,
 .image-panel .action-close:hover,
 .image-panel .action-close:active,
@@ -379,6 +384,7 @@ button.primary.disabled,
 /*
     Actions as links
 -------------------------------------- */
+.notification-entry-dialog .action-cancel,
 .mage-new-category-dialog .action-cancel {
     background: none;
     border: none;
@@ -389,6 +395,7 @@ button.primary.disabled,
     text-decoration: underline;
 }
 
+.notification-entry-dialog .action-cancel:hover,
 .mage-new-category-dialog .action-cancel:hover {
     color: #000;
     border-bottom-color: #000;
@@ -957,7 +964,7 @@ textarea[readonly] {
     color:#676056;
 }
 
-select[disabled].multiselect > option[selected] { 
+select[disabled].multiselect > option[selected] {
     color: #fff;
     background: #6d6d6d;
 }

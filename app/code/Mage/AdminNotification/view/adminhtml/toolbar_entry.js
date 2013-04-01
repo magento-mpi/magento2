@@ -49,18 +49,36 @@
         // Show popup with notification details
         var showNotificationDetails = function(notificationEntry) {
             var popupElement = notificationEntry.find('.notification-dialog-content').clone();
+            var notificationId = notificationEntry.attr('data-notification-id');
             popupElement.dialog({
                 title: popupElement.attr('data-title'),
                 minWidth: 500,
-                modal: true
+                modal: true,
+                dialogClass: 'notification-entry-dialog',
+                buttons: [
+                    {
+                        text: popupElement.attr('data-cancel-caption'),
+                        'class': 'action-cancel',
+                        click: function(event) {
+                            $(this).dialog('close');
+                        }
+                    },
+                    {
+                        text: popupElement.attr('data-acknowledge-caption'),
+                        'class': 'action-acknowledge primary',
+                        click: function(event) {
+                            markNotificationAsRead(notificationId);
+                            removeNotificationFromList(notificationEntry);
+                            $(this).dialog('close');
+                        }
+                    }
+                ]
             });
             popupElement.dialog('open');
         };
 
         // Show notification description when corresponding item is clicked
         $('.notifications .dropdown-menu .notification-entry').on('click.showNotification', function(event) {
-            var notificationId = $(this).attr('data-notification-id');
-            markNotificationAsRead(notificationId);
             // hide notification dropdown
             $('.notifications .notifications-icon').trigger('click.toggleDropdown');
             showNotificationDetails($(this));

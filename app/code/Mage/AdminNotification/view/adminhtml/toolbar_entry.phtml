@@ -21,16 +21,16 @@
             <li class="notification-entry" data-notification-id="<?php echo $this->escapeHtml($notification->getId()); ?>">
                 <strong><?php echo $this->escapeHtml($notification->getTitle()); ?></strong>
                 <span class="notification-description"><?php echo $this->escapeHtml($notification->getDescription()); ?></span>
-                <time><?php echo $this->escapeHtml($this->formatDate($notification->getDateAdded(), Mage_Core_Model_Locale::FORMAT_TYPE_SHORT, true)); ?></time>
+                <time><?php echo $this->escapeHtml($this->formatNotificationDate($notification->getDateAdded())); ?></time>
                 <button class="action-close"><?php echo $this->__('Close'); ?></button>
 
-                <div class="notification-dialog-content" data-title="<?php echo $this->__('Notification'); ?>">
+                <div class="notification-dialog-content" data-title="<?php echo $this->__('Notification'); ?>" data-cancel-caption="<?php echo  $this->__('Cancel'); ?>" data-acknowledge-caption="<?php echo $this->__('Acknowledge'); ?>">
                     <strong><?php echo $this->escapeHtml($notification->getTitle()); ?></strong>
                     <span class="notification-description"><?php echo $this->escapeHtml($notification->getDescription()); ?></span>
                     <div class="actions">
                         <a class="notification-url" href="<?php echo $notification->getUrl(); ?>" target="_blank"><?php echo $this->__('Read Details'); ?></a>
                     </div>
-                    <time><?php echo $this->escapeHtml($this->formatDate($notification->getDateAdded(), Mage_Core_Model_Locale::FORMAT_TYPE_SHORT, true)); ?></time>
+                    <time><?php echo $this->escapeHtml($this->formatNotificationDate($notification->getDateAdded())); ?></time>
                 </div>
 
             </li>

@@ -310,8 +310,30 @@
     display: block;
 }
 
+.header-panel .notifications > .dropdown-menu .notification-entry {
+    display: none;
+}
+
+.header-panel .notifications > .dropdown-menu .notification-entry:nth-child(-n+5) {
+    display: block;
+}
+
 .header-panel .notifications > .dropdown-menu .notification-entry .notification-dialog-content {
     display: none;
+}
+
+.notification-entry-dialog .ui-dialog-buttonset {
+    text-align: left;
+}
+
+.notification-entry-dialog .ui-dialog-buttonpane {
+    margin: 0px;
+    padding: 0px 24px 22px 24px;
+}
+
+.notification-entry-dialog .ui-dialog-buttonset button[class^="action-"] {
+    margin: 0 22px 0 0;
+    vertical-align: middle;
 }
 
 .ui-dialog .notification-dialog-content strong {
@@ -337,9 +359,6 @@
     padding-bottom: 20px;
 }
 
-.ui-dialog .notification-dialog-content.ui-dialog-content {
-    padding-bottom: 25px;
-}
 
 .header-panel .notifications > .dropdown-menu strong,
 .header-panel .account > .dropdown-menu a,
