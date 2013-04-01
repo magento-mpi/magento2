@@ -68,7 +68,7 @@ class Mage_Backend_Model_Resource_System_Message_Collection extends Mage_Core_Mo
         foreach ($messages as $message) {
             $persisted = false;
             foreach ($this->_items as $persistedKey => $persistedMessage) {
-                if ($message->getText() == $persistedMessage->getText()) {
+                if ($message->getIdentity() == $persistedMessage->getIdentity()) {
                     $persisted = true;
                     if (!$message->isDisplayed()) {
                         $persistedMessage->delete();
@@ -80,7 +80,7 @@ class Mage_Backend_Model_Resource_System_Message_Collection extends Mage_Core_Mo
             }
             if (!$persisted && $message->isDisplayed()) {
                 $item = $this->getNewEmptyItem();
-                $item->setText($message->getText())
+                $item->setIdentity($message->getIdentity())
                     ->setSeverity($message->getSeverity())
                     ->save();
                 $this->_unreadMessages[] = $item;
@@ -91,7 +91,20 @@ class Mage_Backend_Model_Resource_System_Message_Collection extends Mage_Core_Mo
             $this->clear();
             parent::load($printQuery, $logQuery);
         }
+        foreach ($this->_items as $item) {
+            $message = $this->_messageList->getMessageByIdentity($item->getIdentity());
+            $item->setText($message->getText());
+            $item->setLink($message->getLink());
+            $this->_countBySeverity[$message->getSeverity()]++;
+        }
         return $this;
+    }
+
+    public function getItemsBySeverity($severity)
+    {
+        $this->addFieldToFilter('severity', array('eq' => $severity));
+        parent::load();
+        return $this->getItems();
     }
 
     /**
@@ -100,5 +113,10 @@ class Mage_Backend_Model_Resource_System_Message_Collection extends Mage_Core_Mo
     public function getUnread()
     {
         return $this->_unreadMessages;
+    }
+
+    public function getCountBySeverity($severity)
+    {
+        return isset($this->_countBySeverity[$severity]) ? $this->_countBySeverity[$severity] : 0;
     }
 }

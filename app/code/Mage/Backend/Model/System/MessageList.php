@@ -51,6 +51,15 @@ class Mage_Backend_Model_System_MessageList
     }
 
     /**
+     * @param string $identity
+     * @return null|Mage_Backend_Model_System_MessageInterface
+     */
+    public function getMessageByIdentity($identity)
+    {
+        return isset($this->_messages[$identity]) ? $this->_messages[$identity] : null;
+    }
+
+    /**
      * Retrieve list of all messages
      *
      * @return Mage_Backend_Model_System_MessageInterface[]

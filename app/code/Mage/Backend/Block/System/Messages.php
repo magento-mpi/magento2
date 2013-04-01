@@ -44,8 +44,42 @@ class Mage_Backend_Block_System_Messages extends Mage_Backend_Block_Template
      *
      * @return Mage_Backend_Model_System_MessageInterface[]
      */
-    public function getMessageList()
+    public function getLastCritical()
     {
-        return $this->_messages->getItems();
+        $items = array_values($this->_messages->getItems());
+        if (isset($items[0]) && $items[0]->getSeverity() == Mage_Backend_Model_System_Message::SEVERITY_CRITICAL) {
+            return $items[0];
+        }
+        return null;
+    }
+
+    /**
+     * Retrieve number of critical messages
+     *
+     * @return int
+     */
+    public function getCriticalCount()
+    {
+        return $this->_messages->getCountBySeverity(Mage_Backend_Model_System_Message::SEVERITY_CRITICAL);
+    }
+
+    /**
+     * Retrieve number of major messages
+     *
+     * @return int
+     */
+    public function getMajorCount()
+    {
+        return $this->_messages->getCountBySeverity(Mage_Backend_Model_System_Message::SEVERITY_MAJOR);
+    }
+
+    /**
+     * Check whether system messages are present
+     *
+     * @return bool
+     */
+    public function hasMessages()
+    {
+        return (bool) count($this->_messages->getItems());
     }
 }

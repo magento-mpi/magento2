@@ -7,6 +7,20 @@
  */
 ?>
 <?php /** @var $this Mage_Backend_Block_System_Messages */ ?>
-<?php foreach ($this->getMessageList() as $message) : ?>
-    <?php echo $message->getText(); ?>
-<?php endforeach; ?>
+<div id="system_messages">
+    <?php if ($this->hasMessages()): ?>
+        <?php $lastCritical = $this->getLastCritical();?>
+        <?php if ($lastCritical): ?>
+            <div class="message"><?php echo $lastCritical->getText();?> <a href="<?php echo $lastCritical->getLink();?>"><?php echo $this->__('Go there now');?></a></div>
+        <?php endif; ?>
+        <div class="message_links">
+            System Messages:
+            <?php if ($this->getCriticalCount()): ?>
+                <a href="">Critical (<?php echo $this->getCriticalCount();?>)</a>
+            <?php endif;?>
+            <?php if ($this->getMajorCount()): ?>
+                <a href="">Major (<?php echo $this->getMajorCount();?>)</a>
+            <?php endif;?>
+        </div>
+    <?php endif; ?>
+</div>
