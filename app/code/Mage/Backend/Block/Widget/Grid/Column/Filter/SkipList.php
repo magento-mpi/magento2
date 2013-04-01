@@ -15,7 +15,7 @@
  * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Block_Widget_Grid_Column_Filter_Skiplist
+class Mage_Backend_Block_Widget_Grid_Column_Filter_SkipList
     extends Mage_Backend_Block_Widget_Grid_Column_Filter_Abstract
 {
     public function getCondition()

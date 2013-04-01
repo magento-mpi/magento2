@@ -90,8 +90,8 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
         'massaction' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Massaction',
         'checkbox' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Checkbox',
         'radio' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Radio',
+        'skiplist' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_SkipList',
         'store' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Store',
-        'skiplist' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Skiplist',
         'theme' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Theme',
         'default' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Text',
     );
