@@ -43,7 +43,7 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return $simple['general_name'];
+        return $simple['general_sku'];
     }
 
     /**
