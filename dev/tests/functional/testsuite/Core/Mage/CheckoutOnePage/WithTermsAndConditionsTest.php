@@ -62,6 +62,8 @@ class Core_Mage_CheckoutOnePage_WithTermsAndConditionsTest extends Mage_Selenium
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         $termsData = $this->loadDataSet('TermsAndConditions', 'generic_terms_all', array('status' => 'Enabled'));
         //Steps and Verification
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
