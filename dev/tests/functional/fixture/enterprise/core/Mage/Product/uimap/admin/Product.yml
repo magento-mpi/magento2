@@ -29,7 +29,7 @@ new_product:
                                 general_amounts:
                                     xpath: //*[@id='giftcard_amounts_table']
                                     pageelements:
-                                        general_giftcard_amount_line: //*[@id='giftcard_amounts_table']/tbody/tr
+                                        general_giftcard_amount_line: //tbody/tr
                                     fields:
                                         general_giftcard_amount: //input[@name='product[giftcard_amounts][%giftCardId%][price]']
                                     dropdowns:
