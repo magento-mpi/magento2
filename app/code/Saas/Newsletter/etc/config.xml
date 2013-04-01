@@ -13,22 +13,20 @@
             <version>2.0.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Newsletter/>
                 <Mage_Backend/>
                 <Saas_Saas/>
             </depends>
         </Saas_Newsletter>
     </modules>
     <global>
-        <events>
-            <adminhtml_controller_action_predispatch_start>
-                <observers>
-                    <limit_newsletter_functionality>
-                        <class>Saas_Newsletter_Model_Observer</class>
-                        <method>limitNewsletterFunctionality</method>
-                    </limit_newsletter_functionality>
-                </observers>
-            </adminhtml_controller_action_predispatch_start>
-        </events>
+        <di>
+            <Saas_Saas_Model_Limitation_Specification_Chain>
+                <parameters>
+                    <specificationNames>
+                        <backend_newsletter>Saas_Newsletter_Model_Limitation_Specification_Backend_Newsletter</backend_newsletter>
+                    </specificationNames>
+                </parameters>
+            </Saas_Saas_Model_Limitation_Specification_Chain>
+        </di>
     </global>
 </config>

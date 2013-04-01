@@ -15,24 +15,19 @@
             <depends>
                 <Mage_Adminhtml/>
                 <Saas_Saas/>
-                <Mage_Theme/>
             </depends>
         </Saas_Design>
     </modules>
     <global>
-        <events>
-            <controller_action_predispatch_adminhtml>
-                <observers>
-                    <saas_limit_themes>
-                        <class>Saas_Design_Model_Observer</class>
-                        <method>limitThemesFunctionality</method>
-                    </saas_limit_themes>
-                    <saas_disable_design_schedule>
-                        <class>Saas_Design_Model_Observer</class>
-                        <method>disableScheduleFunctionality</method>
-                    </saas_disable_design_schedule>
-                </observers>
-            </controller_action_predispatch_adminhtml>
-        </events>
+        <di>
+            <Saas_Saas_Model_Limitation_Specification_Chain>
+                <parameters>
+                    <specificationNames>
+                        <backend_schedule>Saas_Design_Model_Limitation_Specification_Backend_Schedule</backend_schedule>
+                        <backend_themes>Saas_Design_Model_Limitation_Specification_Backend_Themes</backend_themes>
+                    </specificationNames>
+                </parameters>
+            </Saas_Saas_Model_Limitation_Specification_Chain>
+        </di>
     </global>
 </config>

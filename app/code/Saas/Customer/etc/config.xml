@@ -13,22 +13,20 @@
             <version>2.0.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Customer/>
                 <Mage_Backend/>
                 <Saas_Saas/>
             </depends>
         </Saas_Customer>
     </modules>
     <global>
-        <events>
-            <adminhtml_controller_action_predispatch_start>
-                <observers>
-                    <saas_customer_online_observer>
-                        <class>Saas_Customer_Model_Customer_Online_Observer</class>
-                        <method>disableCustomerOnlineController</method>
-                    </saas_customer_online_observer>
-                </observers>
-            </adminhtml_controller_action_predispatch_start>
-        </events>
+        <di>
+            <Saas_Saas_Model_Limitation_Specification_Chain>
+                <parameters>
+                    <specificationNames>
+                        <backend_customer_online>Saas_Customer_Model_Limitation_Specification_Backend_CustomerOnline</backend_customer_online>
+                    </specificationNames>
+                </parameters>
+            </Saas_Saas_Model_Limitation_Specification_Chain>
+        </di>
     </global>
 </config>

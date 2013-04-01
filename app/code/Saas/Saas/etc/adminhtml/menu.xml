@@ -10,7 +10,6 @@
 <config>
     <menu>
         <!-- Customers -->
-        <remove id="Mage_Customer::customer_online" />
         <remove id="Enterprise_CustomerSegment::customer_customersegment" />
 
         <!-- Marketing -->
@@ -23,9 +22,5 @@
         <!-- Stores -->
         <remove id="Enterprise_GiftRegistry::customer_enterprise_giftregistry" />
         <remove id="Enterprise_Reward::customer_reward" />
-
-        <!-- System -->
-        <remove id="Mage_Connect::system_extensions" />
-        <remove id="Enterprise_Pci::system_crypt_key" />
     </menu>
 </config>
