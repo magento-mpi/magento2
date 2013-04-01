@@ -62,7 +62,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $userSearch = array('filter_role_name' => $roleId, 'action' => 'Save');
         $this->searchAndOpen($userSearch, 'action_logs_grid');
         //Check that log info page is opened
-        $this->assertEquals('View Entry / Report / Admin Actions Logs / System / Magento Admin',
+        $this->assertEquals('View Entry / Action Log / System / Magento Admin',
             $this->title(), 'Wrong page');
 
         return ($fieldData);
@@ -92,7 +92,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $userSearch = array('filter_role_name' => $roleId, 'action' => 'Edit');
         $this->searchAndOpen($userSearch, 'action_logs_grid');
         //Check that log info page is opened
-        $this->assertEquals('View Entry / Report / Admin Actions Logs / System / Magento Admin',
+        $this->assertEquals('View Entry / Action Log / System / Magento Admin',
             $this->title(), 'Wrong page');
     }
 
@@ -123,7 +123,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $userSearch = array('filter_role_name' => $roleId, 'action' => 'Delete');
         $this->searchAndOpen($userSearch, 'action_logs_grid');
         //Check that log info page is opened
-        $this->assertEquals('View Entry / Report / Admin Actions Logs / System / Magento Admin',
+        $this->assertEquals('View Entry / Action Log / System / Magento Admin',
             $this->title(), 'Wrong page');
     }
 
@@ -174,7 +174,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->validatePage();
 
         //Check page title
-        $this->assertSame('View Entry / Report / Admin Actions Logs / System / Magento Admin',
+        $this->assertSame('View Entry / Action Log / System / Magento Admin',
             $this->title(), 'Wrong page');
 
         return $userData;
@@ -205,7 +205,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->validatePage();
 
         //Check page title
-        $this->assertSame('View Entry / Report / Admin Actions Logs / System / Magento Admin',
+        $this->assertSame('View Entry / Action Log / System / Magento Admin',
             $this->title(), 'Wrong page');
     }
 
@@ -235,7 +235,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->validatePage();
 
         //Check page title
-        $this->assertSame('View Entry / Report / Admin Actions Logs / System / Magento Admin',
+        $this->assertSame('View Entry / Action Log / System / Magento Admin',
             $this->title(), 'Wrong page');
     }
 }

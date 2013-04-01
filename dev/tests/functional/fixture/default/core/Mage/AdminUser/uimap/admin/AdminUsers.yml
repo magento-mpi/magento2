@@ -119,7 +119,7 @@ edit_admin_user:
         messages: *adminUserMessages
 
 new_admin_user_with_error:
-    mca: user/edit/tab/page_tabs_main_section/
+    mca: user/edit/active_tab/main_section
     title: New User / Users / Permissions / System / Magento Admin
     uimap:
         form: *adminUserForm
