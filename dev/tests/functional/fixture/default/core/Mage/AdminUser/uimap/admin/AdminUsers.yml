@@ -375,10 +375,5 @@ my_account:
                             interface_locale: //select[@id='interface_locale']
         buttons:
             save_account: //button[@data-ui-id='system-account-edit-save-button']
-<<<<<<< HEAD
             reset_filter: //button[@data-ui-id='system-account-edit-reset-button']
         messages: *adminUserMessages
-=======
-            reset_filter: //button[span='Reset Filter']
-        messages: *adminUserMessages
->>>>>>> origin/master

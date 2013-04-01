@@ -13,7 +13,7 @@
 manage_cms_banners:
     mca: banner/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'banner/')]
-    title: : Banners / Elements / Content / Magento Admin
+    title: Banners / Elements / Content / Magento Admin
     uimap:
         form:
             fieldsets:

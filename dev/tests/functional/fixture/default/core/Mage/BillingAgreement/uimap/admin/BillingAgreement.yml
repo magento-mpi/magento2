@@ -12,7 +12,7 @@
 manage_sales_billing_agreements:
     mca: sales_billing_agreement/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_billing_agreement/')]
-    title: Billing Agreements / Operations / Sales / Magento Admin
+    title: Billing Agreements / Operations / Sales / Magento Admin
     uimap:
         form: &salesBillingAgreements
             fieldsets:

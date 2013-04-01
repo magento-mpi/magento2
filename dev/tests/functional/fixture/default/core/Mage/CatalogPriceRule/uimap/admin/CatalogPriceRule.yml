@@ -12,7 +12,7 @@
 manage_catalog_price_rules:
     mca: promo_catalog/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'promo_catalog/')]
-    title: Catalog Price Rules /Promotions / Marketing / Magento Admin
+    title: Catalog Price Rules / Promotions / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -57,7 +57,7 @@ manage_catalog_price_rules:
 
 add_new_rule:
     mca: promo_catalog/new/
-    title: New Rule / Catalog Price Rules /Promotions / Marketing / Magento Admin
+    title: New Rule / Catalog Price Rules / Promotions / Marketing / Magento Admin
     uimap:
         form: &addNewRule
             tabs:
@@ -152,7 +152,7 @@ add_new_rule:
 
 edit_rule_page:
     mca: promo_catalog/edit/id/%id%/
-    title: %elementTitle% / Catalog Price Rules /Promotions / Marketing / Magento Admin
+    title: %elementTitle% / Catalog Price Rules / Promotions / Marketing / Magento Admin
     uimap:
         form: *addNewRule
         buttons:
