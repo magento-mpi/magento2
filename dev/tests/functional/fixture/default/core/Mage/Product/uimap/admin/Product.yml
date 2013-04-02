@@ -245,7 +245,7 @@ new_product:
                                         option_line: //tbody/tr
                             -
                                 variations_matrix_grid:
-                                    xpath: //div[@id='product-variations-matrix']//table
+                                    xpath: //div[@data-role='product-variations-matrix']//table
                                     checkboxes:
                                         include_variation: //tbody/tr[%attributeSearch%]//input[@name='associated_product_ids[]']
                                         assigned_product: //tbody/tr[td/text()='%productSku%'][%attributeSearch%]//input[@checked='checked']
@@ -253,7 +253,7 @@ new_product:
                                         variations_matrix_header: //thead/tr
                                         variation_line: //tbody/tr
                                         attribute_header: //thead//th[text()='%attributeTitle%']
-                                        variation_price: //tbody/tr[%attributeSearch%]//td[@class='col-price associated-matrix-product-price']
+                                        variation_price: //tbody/tr[%attributeSearch%]//td[@data-column='price']
                                     buttons:
                                         choose: //tbody/tr[%attributeSearch%]//button[@title='Choose']
                                     fields:

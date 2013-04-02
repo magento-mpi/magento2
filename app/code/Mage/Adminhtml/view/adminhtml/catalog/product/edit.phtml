@@ -53,6 +53,9 @@
     <div id="product-edit-form-tabs"></div>
     <?php echo $this->getChildHtml('product-type-tabs') ?>
     <input type="hidden" id="attribute_set_id" value="<?php echo $this->getProduct()->getAttributeSetId()?>"/>
+<?php if($this->getProductId()): ?>
+    <input type="hidden" data-role="product-id" value="<?php echo $this->getProduct()->getId()?>"/>
+<?php endif;?>
     <input type="hidden" id="product_type_id" value="<?php echo $this->getProduct()->getTypeId()?>"/>
     <input type="hidden" id="attribute_set_id" value="<?php echo $this->getProduct()->getAttributeSetId()?>"/>
 </form>
@@ -175,7 +178,11 @@ jQuery(function($) {
 
     $form.data('autogenerator', new Autogenerator(masks).bindAll());
 
-    $('.widget-button-save .item-default, #save-split-button-duplicate-button[onclick=""]').parent().hide();
+    $('.widget-button-save .item-default').parent().hide();
+    if (!$('[data-role=product-id]').val()) { // hide "Save & Duplicate" action for new product
+        $('#save-split-button-duplicate-button').parent().hide();
+    }
+
     $(window).load(function() {
         if ($.trim($('#name').val()) == '') {
             $('#name').focus();

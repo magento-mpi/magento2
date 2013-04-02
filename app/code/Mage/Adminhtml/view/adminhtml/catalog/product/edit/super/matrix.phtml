@@ -83,8 +83,8 @@ $productByUsedAttributes = $this->getAssociatedProducts();
 
                 <tr class="<?php echo $isEven ? 'even' : '' ?>">
                     <td class="col-display">
-                        <input type="checkbox" name="associated_product_ids[]"
-                               value="<?php echo $product->getId()?>" class="checkbox associated-matrix-product-id"
+                        <input type="checkbox" name="associated_product_ids[]" data-column="entity_id"
+                               value="<?php echo $product->getId()?>" class="checkbox"
                                checked="checked"/>
                     </td>
                     <td class="col-image">
@@ -102,7 +102,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                                  style="width:55px;height:55px" />
                         <?php endif; ?>
                     </td>
-                    <td class="col-name associated-matrix-product-name">
+                    <td class="col-name" data-column="name">
                         <a href="<?php echo $this->getEditProductUrl($product->getId())?>"
                            target="_blank"><?php echo $this->escapeHtml($product->getName())?></a>
 
@@ -112,11 +112,11 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                         </button>
                     </td>
                     <td class="col-sku">
-                        <span class="associated-matrix-product-sku"><?php echo $this->escapeHtml($product->getSku())?></span>
+                        <span data-column="sku"><?php echo $this->escapeHtml($product->getSku())?></span>
                     </td>
-                    <td class="col-price associated-matrix-product-price"><?php echo $price ?></td>
-                    <td class="col-qty associated-matrix-product-qty"><?php echo $product->getStockItem()->getQty()?></td>
-                    <td class="col-weight associated-matrix-product-weight"><?php echo $product->getWeight()?></td>
+                    <td class="col-price" data-column="price"><?php echo $price ?></td>
+                    <td class="col-qty" data-column="qty"><?php echo $product->getStockItem()->getQty()?></td>
+                    <td class="col-weight" data-column="weight"><?php echo $product->getWeight()?></td>
                     <?php
                     foreach ($usedProductAttributes as $attribute) {
                         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
@@ -148,7 +148,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                 <tr class="<?php echo $isEven ? 'even' : '' ?>">
                     <td class="col-display">
                         <input type="checkbox" name="associated_product_ids[]" value=""
-                               class="checkbox associated-matrix-product-id"<?php echo $checked?> />
+                               class="checkbox" data-column="entity_id" <?php echo $checked?> />
                     </td>
                     <td class="col-image">
                         <div class="action-upload">
@@ -161,7 +161,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                                    value="" type="hidden"/>
                         </div>
                     </td>
-                    <td class="col-name associated-matrix-product-name">
+                    <td class="col-name" data-column="name">
                         <input type="text"
                                id="variations-matrix-<?php echo $key?>-name"
                                name="variations-matrix[<?php echo $key?>][name]"
@@ -175,24 +175,24 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                             <span><?php echo $this->__('Choose'); ?></span>
                         </button>
                     </td>
-                    <td class="col-sku associated-matrix-product-sku">
+                    <td class="col-sku" data-column="sku">
                         <input type="text"
                                id="variations-matrix-<?php echo $key?>-sku"
                                name="variations-matrix[<?php echo $key?>][sku]"
                                value="<?php echo $this->escapeHtml($this->_getProduct()->getSku()), '-', implode('-', $attributeLabels)?>"
                                class="<?php echo $this->getAttributeFrontendClass('sku'); ?>"<?php echo $disabled?>/>
                     </td>
-                    <td class="col-price associated-matrix-product-price">
+                    <td class="col-price" data-column="price">
                         <?php echo $price ?>
                     </td>
-                    <td class="col-qty associated-matrix-product-qty">
+                    <td class="col-qty" data-column="qty">
                         <input type="text"
                                id="variations-matrix-<?php echo $key?>-qty"
                                name="variations-matrix[<?php echo $key?>][quantity_and_stock_status][qty]"
                                class="validate-number"
                                value=""<?php echo $disabled?>>
                     </td>
-                    <td class="col-weight associated-matrix-product-weight">
+                    <td class="col-weight" data-column="weight">
                         <input type="text"
                                id="variations-matrix-<?php echo $key?>-weight"
                                name="variations-matrix[<?php echo $key?>][weight]"
@@ -253,7 +253,7 @@ jQuery(function ($) {
                         parentElement.find('.action-upload').hide();
                         $.tmpl('<img src="${url}" style="width:55px;height:55px"/>', data.result).appendTo(parentElement);
                         parentElement.find('img').on('click', function (event) {
-                            if ($(event.target).closest('tr').find('.associated-matrix-product-id').is(':checked')) {
+                            if ($(event.target).closest('tr').find('[data-column=entity_id]').is(':checked')) {
                                 $(event.target).closest('.col-image').find('[name=image]').trigger('click');
                             }
                         });
