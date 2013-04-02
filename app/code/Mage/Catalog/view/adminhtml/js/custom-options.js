@@ -30,7 +30,7 @@
                     var selectTypesFlag = false;
                     var selectTypeElements = $('#' + optionContainerElm.id + ' .select-type-title');
                     selectTypeElements.each(function () {
-                        if ($(this).attr('id') && $(this).closest('tr').is(':visible')) {
+                        if (!$(this).closest('tr').hasClass('ignore-validate')) {
                             selectTypesFlag = true;
                         }
                     });
