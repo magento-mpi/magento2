@@ -12,7 +12,7 @@ class Saas_Saas_Model_Limitation_Specification_Composite implements Saas_Saas_Mo
     /**
      * @var array
      */
-    protected $_specifications;
+    protected $_specifications = array();
 
     /**
      * @param Saas_Saas_Model_Limitation_Specification_Factory $specificationFactory
@@ -35,10 +35,12 @@ class Saas_Saas_Model_Limitation_Specification_Composite implements Saas_Saas_Mo
      */
     public function isSatisfiedBy(Mage_Core_Controller_Request_Http $request)
     {
-        /** @var $specification Saas_Saas_Model_Limitation_SpecificationInterface */
-        foreach ($this->_specifications as $specification) {
-            if (!$specification->isSatisfiedBy($request)) {
-                return false;
+        if ($this->_specifications) {
+            /** @var $specification Saas_Saas_Model_Limitation_SpecificationInterface */
+            foreach ($this->_specifications as $specification) {
+                if (!$specification->isSatisfiedBy($request)) {
+                    return false;
+                }
             }
         }
         return true;
