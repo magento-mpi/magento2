@@ -22,8 +22,6 @@ class Saas_Saas_Model_DisabledConfiguration_Config
      */
     public function __construct(array $plainList)
     {
-        $this->_plainList = $plainList;
-
         foreach ($plainList as $path) {
             $this->_validatePath($path);
             $this->_optimizedList[] = $path . '/';
