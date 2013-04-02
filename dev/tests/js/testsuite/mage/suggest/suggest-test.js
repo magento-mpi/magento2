@@ -480,16 +480,10 @@ SuggestTest.prototype.testClose = function() {
     });
 
     suggestInstance.close($.Event('close'));
-    assertEquals(suggestInstance.element.val(), '');
     assertNull(suggestInstance._renderedContext);
     assertTrue(suggestInstance.dropdown.is(':hidden'));
     assertFalse(suggestInstance.dropdown.children().length > 0);
     assertTrue(closeTriggered);
-
-    suggestInstance.option.multiselect = true;
-    suggestInstance.element.val('test');
-    suggestInstance.close($.Event('close'));
-    assertEquals(suggestInstance.element.val(), '');
 };
 SuggestTest.prototype.testSetTemplate = function() {
     /*:DOC += <script type="text/template" id="test-template"><div>${test}</div></script>*/
