@@ -35,7 +35,7 @@ design_editor_selector:
             confirmation_for_assign_to_default: You are about to apply this theme for your live store, are you really want to do this?
         buttons:
             assign_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Assign to a Storeview')]
-            edit_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Edit Theme')]
+            edit_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Edit')]
             delete_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Remove')]
             preview_demo_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Theme Demo')]
             preview_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Preview Theme')]
@@ -311,16 +311,16 @@ preview_theme_in_design:
                                         update_css: //button[@class='action-update']
 
 assigned_theme_default_in_design:
-    mca: system_design_editor/launch/store_id/0/theme_id/%id%
+    mca: system_design_editor/launch/store_id/0/theme_id/%id%/
     title: Editor / Design / System / Magento Admin
     uimap: *themeInDesign
 
 assigned_theme_in_design:
-    mca: system_design_editor/launch/store_id/%storeId%/theme_id/%storeId%
+    mca: system_design_editor/launch/store_id/%storeId%/theme_id/%storeId%/
     title: Editor / Design / System / Magento Admin
     uimap: *themeInDesign
 
 save_and_assign_theme_default_in_design:
-    mca: system_design_editor/launch/theme_id/%id%/store_id/0/theme_id/%id%
+    mca: system_design_editor/launch/theme_id/%id%/store_id/0/theme_id/%id%/
     title: Editor / Design / System / Magento Admin
     uimap: *themeInDesign

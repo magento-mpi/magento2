@@ -26,7 +26,6 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
     public function createWidget($widgetData)
     {
         $settings = (isset($widgetData['settings'])) ? $widgetData['settings'] : array();
-            $this->_widgetSettings($widgetData);
         $frontProperties = (isset($widgetData['frontend_properties'])) ? $widgetData['frontend_properties'] : array();
 
         $this->clickButton('add_new_widget_instance');
@@ -63,7 +62,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
         $waitCondition = array(
             $this->_getMessageXpath('general_validation'),
             $this->_getControlXpath('fieldset', 'layout_updates_header',
-            $this->getUimapPage('admin', 'add_widget_options'))
+                $this->getUimapPage('admin', 'add_widget_options'))
         );
         $this->clickButton('continue', false);
         $this->waitForElement($waitCondition);

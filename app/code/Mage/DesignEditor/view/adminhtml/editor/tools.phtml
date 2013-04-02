@@ -21,33 +21,14 @@
     <div class="vde-tools-content">
         <div class="vde-tools-content-inner">
             <div class="vde-tools-handler-container"></div>
-            <?php echo join('', $this->getTabs()) ?>
+            <?php echo join('', $this->getTabContents()) ?>
         </div>
     </div>
     <footer class="vde-tools-footer">
         <div class="vde-tools-footer-inner">
             <div class="vde-tools-tabs">
                 <ul class="vde-tab-controls">
-                    <li class="item item-design">
-                        <a href="#vde-tab-quick-styles" data-toggle="tab" title="<?php echo $this->__('Quick Styles'); ?>">
-                            <span><?php echo $this->__('Quick Styles'); ?></span>
-                        </a>
-                    </li>
-                    <li class="item item-block">
-                        <a href="#vde-tab-block" data-toggle="tab" title="<?php echo $this->__('Block'); ?>">
-                            <span><?php echo $this->__('Block'); ?></span>
-                        </a>
-                    </li>
-                    <li class="item item-settings">
-                        <a href="#vde-tab-settings" data-toggle="tab" title="<?php echo $this->__('Settings'); ?>">
-                            <span><?php echo $this->__('Settings'); ?></span>
-                        </a>
-                    </li>
-                    <li class="item item-code">
-                        <a href="#vde-tab-code" data-toggle="tab" title="<?php echo $this->__('Code'); ?>">
-                            <span><?php echo $this->__('Code'); ?></span>
-                        </a>
-                    </li>
+                    <?php echo join('', $this->getTabHandles()) ?>
                 </ul>
             </div>
             <div data-translate-container class="vde-tools-menu">
@@ -87,6 +68,11 @@
 (function($) {
     'use strict';
 
+    $(function () {
+      $('body').on('click.tab.data-api', '[data-toggle="tab-disabled"]', function (e) {
+        e.preventDefault();
+      })
+    })
     $('.vde-tools').toolsPanel();
     $('#vde-tab-quick-styles .element-font-picker select,' +
       '#vde-tab-quick-styles .element-color-picker input,' +

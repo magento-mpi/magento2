@@ -241,7 +241,7 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
         $this->systemConfigurationHelper()->configure($config);
         $this->clearInvalidedCache();
         $this->frontend();
-        $this->assertFalse($this->controlIsPresent('pageelement', 'front_navigation_menu'),
+        $this->assertFalse($this->controlIsPresent('fieldset', 'categories_menu'),
             'Navigation menu should be absent');
     }
 
@@ -265,7 +265,7 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
         $this->clearInvalidedCache();
         $this->frontend();
         $this->customerHelper()->frontLoginCustomer($testData['user']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'front_navigation_menu'),
+        $this->assertTrue($this->controlIsPresent('fieldset', 'categories_menu'),
             'Navigation menu must be present');
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
         $url = $this->url();
@@ -293,13 +293,13 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
         $this->clearInvalidedCache();
         $this->frontend();
         $this->assertFalse($this->controlIsPresent('button', 'go_search'),
-            'Button "Add go_search cart" should be absent');
+            'Button "go_search" should be absent');
         $this->assertFalse($this->controlIsPresent('field', 'search'), 'Field "search" should be absent');
         $this->assertFalse($this->controlIsPresent('link', 'advanced_search'),
             'Link "advanced_search" should be absent');
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->assertTrue($this->controlIsPresent('button', 'go_search'),
-            'Button "Add go_search cart" must be present');
+            'Button "go_search" must be present');
         $this->assertTrue($this->controlIsPresent('field', 'search'), 'Field "search" must be present');
         $this->assertTrue($this->controlIsPresent('link', 'advanced_search'), 'Link "advanced_search" must be present');
     }

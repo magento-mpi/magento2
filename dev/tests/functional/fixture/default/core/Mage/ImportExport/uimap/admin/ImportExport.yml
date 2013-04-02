@@ -49,7 +49,7 @@ import:
             import: //button[span='Import']
 
 export:
-    mca: export
+    mca: export/
     click_xpath: //*[@class='navigation']//a[contains(@href, '/export/')]
     title: Export / Import/Export / Magento Admin
     uimap:

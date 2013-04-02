@@ -436,6 +436,9 @@ simple_product_required:
     general_name: Simple Product Required(%randomize%)
     general_sku: simple_sku_req_%randomize%
     general_price: 9.99
+    general_tax_class: %noValue%
+    general_qty: %noValue%
+    general_stock_availability: %noValue%
     general_weight: 1.13
     general_description: %noValue%
     autosettings_short_description: %noValue%

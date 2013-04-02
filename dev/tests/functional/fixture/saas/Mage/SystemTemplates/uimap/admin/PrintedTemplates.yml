@@ -143,7 +143,7 @@ new_printed_templates:
         messages: *templateMessages
 
 edit_printed_templates:
-    mca: template/edit/id/%id%
+    mca: template/edit/id/%id%/
     title: %templateName% / Printed Templates / System / Magento Admin
     uimap:
         form:

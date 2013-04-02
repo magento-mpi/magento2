@@ -21,7 +21,6 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_Tabs extends Mage_Backend
         parent::_construct();
         $this->setId('theme_selector_tabs');
         $this->setDestElementId('theme_selector');
-        $this->setTitle($this->__('Design & Theme Gallery'));
         $this->setIsHoriz(true);
     }
 

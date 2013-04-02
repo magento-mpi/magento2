@@ -14,7 +14,7 @@
         options: {
             openedPanelClass: 'opened',
             activeTabClass: 'active',
-            panelDefaultHeight: 500,
+            panelDefaultHeight: 300,
             panelMinHeight: 100,
             panelMaxHeight: 700,
             showHidePanelAnimationSpeed: 300,
@@ -107,7 +107,7 @@
         },
 
         _toggleClassIfScrollBarExist: function(elem) {
-            elem.toggleClass(this.options.scrollExistClass, elem.get(0).scrollHeight > elem.height());
+            elem.toggleClass(this.options.scrollExistClass, elem.height() < $('.vde-tab-data', elem).height() + $('.vde-tools-header').height() );
         },
 
         _getActiveResizableAreaInner: function() {

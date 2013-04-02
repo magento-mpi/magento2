@@ -16,7 +16,7 @@
 
 default_new_theme:
     theme:
-        theme_parent_id: Magento Blank
+        theme_parent_id: Magento Fixed Design
         theme_version: 0.0.0.1
         theme_title: virtual_%randomize%
     requirements:

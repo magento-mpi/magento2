@@ -226,8 +226,3 @@ create_cms_static_block:
             save_block: //button[@data-ui-id='cms-block-edit-save-button']
             save_and_continue_edit: //button[@data-ui-id='cms-block-edit-saveandcontinue-button']
         messages: *staticBlockMessages
-
-create_cms_static_block_updated:
-    mca: cms_block/new/#
-    title: New Block / Static Blocks / CMS / Magento Admin
-    uimap: *createStaticBlockUimap

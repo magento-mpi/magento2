@@ -123,6 +123,9 @@
         },
 
         _onSave: function(event, eventData) {
+            if (eventData.confirm_message && !confirm(eventData.confirm_message)) {
+                return;
+            }
             if (!eventData.save_url) {
                 throw Error('Save url is not defined');
             }
@@ -164,13 +167,21 @@
         },
 
         _onSaveAndAssign: function(event, eventData) {
-            eventData.onSaveSuccess = function(response) {
+            //NOTE: Line below makes copy of eventData to have an ability to unset 'confirm_message' later
+            // and to not miss this 'confirm_message' for next calls of method
+            var tempData = jQuery.extend({}, eventData);
+
+            if (tempData.confirm_message && !confirm(tempData.confirm_message)) {
+                return;
+            }
+            tempData.confirm_message = null;
+            tempData.onSaveSuccess = function(response) {
                 if (response.error) {
                     alert($.mage.__('Error') + ': "' + response.message + '".');
                 }
             }
-            $(event.target).trigger('save', eventData);
-            $(event.target).trigger('assign', eventData);
+            $(event.target).trigger('save', tempData);
+            $(event.target).trigger('assign', tempData);
         },
 
         saveTemporaryLayoutChanges: function(themeId, saveChangesUrl, modeUrl) {
@@ -356,19 +367,6 @@
         body.on('refreshIframe', function() {
             frames[0].contentWindow.location.reload(true);
         });
-
-        //TODO Some code related to saving and assignment
-        if (frames.get(0)) {
-            var historyObject = frames.get(0).contentWindow.vdeHistoryObject;
-            if (historyObject && historyObject.getItems().length != 0) {
-                //data.layoutUpdate = this._preparePostItems(historyObject.getItems());
-            }
-            var frameUrl = frames.attr('src');
-            var urlParts = frameUrl.split('handle');
-            if (urlParts.length > 1) {
-                //data.handle = frameUrl.split('handle')[1].replace(/\//g, '');
-            }
-        }
     });
 
 })( jQuery );

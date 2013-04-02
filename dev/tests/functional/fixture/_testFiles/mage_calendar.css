@@ -69,7 +69,7 @@
 }
 .ui-datepicker td span, .ui-datepicker td a {
     display: block;
-    padding: .2em;
+    padding: 4px;
     text-align: right;
     text-decoration: none;
     color: #000000;

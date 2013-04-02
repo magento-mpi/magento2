@@ -11,7 +11,7 @@
  * @license     {license_link}
  *
  */
-class Enterprise_Mage_Various_ChangingStoreViewOnFrontend extends Mage_Selenium_TestCase
+class Enterprise_Mage_Various_ChangingStoreViewOnFrontendTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Bug Cover<p/>
