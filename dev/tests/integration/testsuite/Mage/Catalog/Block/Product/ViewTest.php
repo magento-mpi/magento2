@@ -28,7 +28,6 @@ class Mage_Catalog_Block_Product_ViewTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_TRANSLATE);
         $this->_block = Mage::getObjectManager()->create('Mage_Catalog_Block_Product_View');
         $this->_product = Mage::getModel('Mage_Catalog_Model_Product');
         $this->_product->load(1);
