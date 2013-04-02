@@ -44,6 +44,7 @@ class Core_Mage_Acl_PromotionsACLTest extends Mage_Selenium_TestCase
      */
     public function checkPromotionsFullRights()
     {
+        $this->markTestIncomplete('MAGETWO-7422');
         //Preconditions
         //create specific role with full rights to Promotions Menu
         $this->navigate('manage_roles');
@@ -123,6 +124,7 @@ class Core_Mage_Acl_PromotionsACLTest extends Mage_Selenium_TestCase
      */
     public function checkPromotionsShoppingCartOnlyRights()
     {
+        $this->markTestIncomplete('MAGETWO-7422');
         //Preconditions
         //create specific role with full rights to Promotion Menu
         $this->navigate('manage_roles');

@@ -57,46 +57,46 @@ create_invoice:
             fieldsets:
                 -
                     order_number:
-                        xpath: //div[@class='entry-edit'][./div/a[contains(.,'Order #')]]
+                        xpath: //div[@class='order-information']
                 -
                     account_information:
-                        xpath: //div[@class='entry-edit'][./div/h4='Account Information']
+                        xpath: //div[@class='order-account-information']
                 -
                     billing_address:
-                        xpath: //div[@class='entry-edit'][./div/h4='Billing Address']
+                        xpath: //div[@class='order-billing-address']
                 -
                     shipping_address:
-                        xpath: //div[@class='entry-edit'][./div/h4='Shipping Address']
+                        xpath: //div[@class='order-shipping-address' and contains(.,'Shipping Address')]
                 -
                     payment_information:
-                        xpath: //div[@class='entry-edit'][./div/h4='Payment Information']
+                        xpath: //div[@class='order-payment-method']
                 -
                     shipping_information:
-                        xpath: //div[@class='entry-edit'][./div/h4='Shipping Information']
+                        xpath: //div[@class='order-shipping-address' and contains(.,'Shipping Information')]
                 -
                     items_to_invoice:
-                        xpath: //div[@id='invoice_item_container']/div[@class='grid np']
+                        xpath: //div[@id='invoice_item_container']//div[@class='grid']
                         fields:
-                            qty_to_invoice: //tbody[@class='even'][//*[contains(text(),'%sku%')]]//input[@class='input-text qty-input']
+                            qty_to_invoice: //tbody[@class='even'][//*[contains(.,'%sku%')]]//input[@class='input-text qty-input']
                         buttons:
                             update_qty: //button[contains(span,'Update Qty')]
                         pageelements:
-                            product_table_head: //table[@class='data order-tables']/thead
-                            product_line:  //table[@class='data order-tables']/tbody
+                            product_table_head: //table[@class='data']/thead
+                            product_line: //table[@class='data']/tbody
                 -
                     product_line_to_invoice:
-                        xpath: //div[@id='invoice_item_container']/div[@class='grid np']//tbody[@class]
+                        xpath: //div[@id='invoice_item_container']//div[@class='grid']//tbody[@class]
                         fields:
                             product_sku: "[%productNumber%]//*[strong='SKU:']"
                             product_qty: "[%productNumber%]//td[4]"
                 -
                     invoice_history:
-                        xpath: //div[@class='box-left entry-edit'][./div/h4='Invoice History']
+                        xpath: //div[@class='order-comments-history']
                         fields:
                             invoice_comments: //textarea[@name='invoice[comment_text]']
                 -
                     invoice_totals:
-                        xpath: //div[@class='box-right entry-edit'][./div/h4='Invoice Totals']
+                        xpath: //div[@class='order-totals']
                         dropdowns:
                             amount: //select[@name='invoice[capture_case]']
                         checkboxes:
@@ -109,10 +109,10 @@ create_invoice:
                             price_totals_line_index_name: //tbody/descendant::tr[%index%]/*[1]
                             price_totals_line_index_value: //tbody/descendant::tr[%index%]/*[2]
                         buttons:
-                            submit_invoice: //button[span='Submit Invoice']
+                            submit_invoice: //button[@data-ui-id='order-items-submit-button']
         buttons:
-            back: //p[@class='form-buttons']//button[span='Back']
-            reset: //p[@class='form-buttons']//button[span='Reset']
+            back: //div[@class='page-actions']//button[span='Back']
+            reset: //div[@class='page-actions']//button[span='Reset']
         messages: *invoiceMessage
 
 view_invoice:
@@ -123,36 +123,36 @@ view_invoice:
             fieldsets:
                 -
                     order_number:
-                        xpath: //div[@class='entry-edit'][./div/a[contains(.,'Order #')]]
+                        xpath: //div[@class='order-information']
                 -
                     account_information:
-                        xpath: //div[@class='entry-edit'][./div/h4='Account Information']
+                        xpath: //div[@class='order-account-information']
                 -
                     billing_address:
-                        xpath: //div[@class='entry-edit'][./div/h4='Billing Address']
+                        xpath: //div[@class='order-billing-address']
                 -
                     shipping_address:
-                        xpath: //div[@class='entry-edit'][./div/h4='Shipping Address']
+                        xpath: //div[@class='order-shipping-address' and contains(.,'Shipping Address')]
                 -
                     payment_information:
-                        xpath: //div[@class='entry-edit'][./div/h4='Payment Information']
+                        xpath: //div[@class='order-payment-method']
                 -
                     shipping_information:
-                        xpath: //div[@class='entry-edit'][./div/h4='Shipping Information']
+                        xpath: //div[@class='order-shipping-address' and contains(.,'Shipping Information')]
                 -
                     items_invoiced:
-                        xpath: //div[@id='invoice_item_container']/div[@class='grid np']
+                        xpath: //div[@id='invoice_item_container']/div[@class='grid']
                         pageelements:
                             product_table_head: //table[@class='data order-tables']/thead
-                            product_line:  //table[@class='data order-tables']/tbody
+                            product_line: //table[@class='data order-tables']/tbody
                 -
                     invoice_history:
-                        xpath: //div[@class='box-left entry-edit'][./div/h4='Invoice History']
+                        xpath: //div[@class='order-comments-history']
                         fields:
-                            invoice_comments: //textarea[@name='invoice[comment_text]']
+                            invoice_comments: //textarea[@name='comment[comment]']
                 -
                     invoice_totals:
-                        xpath: //div[@class='box-right entry-edit'][./div/h4='Invoice Totals']
+                        xpath: //div[@class='order-totals']
                         pageelements:
                             price_totals: //tbody
                             price_totals_line: //tbody/descendant::tr
@@ -160,8 +160,8 @@ view_invoice:
                             price_totals_line_index_name: //tbody/descendant::tr[%index%]/*[1]
                             price_totals_line_index_value: //tbody/descendant::tr[%index%]/*[2]
         buttons:
-            back: //p[@class='form-buttons']//button[span='Back']
-            send_email: //p[@class='form-buttons']//button[span='Send Email']
-            credit_memo: //p[@class='form-buttons']//button[span='Credit Memo']
-            print: //p[@class='form-buttons']//button[span='Print']
+            back: //div[@class='page-actions']//button[span='Back']
+            send_email: //div[@class='page-actions']//button[span='Send Email']
+            credit_memo: //div[@class='page-actions']//button[span='Credit Memo']
+            print: //div[@class='page-actions']//button[span='Print']
         messages: *invoiceMessage

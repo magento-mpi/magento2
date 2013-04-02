@@ -15,8 +15,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Saas_Mage_Unitprice_GeneralConfiguration_EnableUnitPriceTest
-    extends Mage_Selenium_TestCase
+class Saas_Mage_Unitprice_GeneralConfiguration_EnableUnitPriceTest extends Mage_Selenium_TestCase
 {
     protected static $_productNameSimple;
 

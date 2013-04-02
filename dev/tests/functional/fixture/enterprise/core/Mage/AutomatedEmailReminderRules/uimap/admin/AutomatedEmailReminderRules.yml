@@ -82,12 +82,14 @@ create_automated_email_reminder_rule:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_rule: //button[span='Save Rule' or span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_rule: //button[@id='save']
+            save_and_continue_edit: //button[@id='save_and_continue_edit']
 
 edit_automated_email_reminder_rules:
-    mca: reminder/edit/id/%id%/back/edit
+    mca: reminder/edit/id/%id%/back/edit/active_tab/enterprise_reminder_rule_tabs_general_section/
     title: %elementTitle% / Reminder Rules / Promotions / Magento Admin
     uimap:
         buttons:
-            save_rule: //button[span='Save Rule' or span='Save']
+            save_rule: //button[@id='save']
+        messages:
+            success_saved_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The reminder rule has been saved.')]

@@ -116,6 +116,16 @@
                 progress: function(e, data) {
                     var progress = parseInt(data.loaded / data.total * 100, 10);
                     $dropPlaceholder.find('.progress-bar').addClass('in-progress').text(progress + '%');
+                },
+                start: function(event) {
+                    var uploaderContainer = $(event.target).closest('.image-placeholder');
+
+                    uploaderContainer.addClass('loading');
+                },
+                stop: function(event) {
+                    var uploaderContainer = $(event.target).closest('.image-placeholder');
+
+                    uploaderContainer.removeClass('loading');
                 }
             });
         }

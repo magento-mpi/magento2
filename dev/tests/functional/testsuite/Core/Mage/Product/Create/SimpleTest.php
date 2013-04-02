@@ -56,16 +56,13 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     /**
      * Creating product with all fields
      *
-     * @ depends onlyRequiredFieldsInSimple
+     * @depends onlyRequiredFieldsInSimple
      *
      * @TestlinkId TL-MAGE-3411
      * @test
      */
     public function allFieldsInSimple()
     {
-        if ($this->getBrowser() == 'chrome') {
-            $this->markTestIncomplete('MAGETWO-7272');
-        }
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product');
         $productSearch =
@@ -126,12 +123,11 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $field = key($emptyField);
         $product = $this->loadDataSet('Product', 'simple_product_required', $emptyField);
         //Steps
-        $this->productHelper()->createProduct($product, 'simple', false);
+        $this->productHelper()->createProduct($product, 'simple');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->addFieldIdToMessage($fieldType, $field);
-//        $this->assertMessagePresent('validation', 'empty_required_field');
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->addFieldIdToMessage($fieldType, $field);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function withRequiredFieldsEmptyDataProvider()
@@ -156,8 +152,6 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required',
             array('general_name'              => $this->generate('string', 32, ':punct:'),
-                  'general_description'       => $this->generate('string', 32, ':punct:'),
-                  'autosettings_short_description' => $this->generate('string', 32, ':punct:'),
                   'general_sku'               => $this->generate('string', 32, ':punct:')));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
@@ -184,8 +178,6 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required',
             array('general_name'              => $this->generate('string', 255, ':alnum:'),
-                  'general_description'       => $this->generate('string', 255, ':alnum:'),
-                  'autosettings_short_description' => $this->generate('string', 255, ':alnum:'),
                   'general_sku'               => $this->generate('string', 64, ':alnum:'),
                   'general_weight'            => 99999999.9999));
         $productSearch =
@@ -228,7 +220,6 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      */
     public function invalidWeightInSimple()
     {
-        $this->markTestIncomplete('MAGETWO-6022');
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required',
             array('general_weight' => $this->generate('string', 9, ':punct:')));
@@ -305,12 +296,11 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $productData['prices_tier_price_data'][] =
             $this->loadDataSet('Product', 'prices_tier_price_1', array($emptyTierPrice => '%noValue%'));
         //Steps
-        $this->productHelper()->createProduct($productData, 'simple', false);
+        $this->productHelper()->createProduct($productData, 'simple');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->addFieldIdToMessage('field', $emptyTierPrice);
-//        $this->assertMessagePresent('validation', 'empty_required_field');
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->addFieldIdToMessage('field', $emptyTierPrice);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyTierPriceFieldsDataProvider()
@@ -362,15 +352,14 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      */
     public function invalidQtyInSimple($invalidQty)
     {
-        $this->markTestIncomplete('MAGETWO-3360');
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required', array('general_qty' => $invalidQty));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->addFieldIdToMessage('field', 'inventory_qty');
+        $this->addFieldIdToMessage('field', 'general_qty');
         $this->assertMessagePresent('validation', 'enter_valid_number');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
     }
 
     public function invalidQtyDataProvider()

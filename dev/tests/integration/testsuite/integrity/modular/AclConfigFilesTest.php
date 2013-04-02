@@ -53,7 +53,7 @@ class Integrity_Modular_AclConfigFilesTest extends PHPUnit_Framework_TestCase
         $result = $domConfig->validate($this->_schemeFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {
-            $message .= "{$error->message} Line: {$error->line}\n";
+            $message .= "$error\n";
         }
         $this->assertTrue($result, $message);
     }

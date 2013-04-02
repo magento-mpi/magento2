@@ -21,6 +21,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select extends
 {
 
     protected $_template = 'catalog/product/edit/options/type/select.phtml';
+
     /**
      * Class constructor
      */
@@ -37,13 +38,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select extends
         $this->addChild('add_select_row_button', 'Mage_Adminhtml_Block_Widget_Button', array(
             'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Add New Row'),
             'class' => 'add add-select-row',
-            'id'    => 'add_select_row_button_{{option_id}}'
+            'id'    => 'product_option_${option_id}_add_select_row'
         ));
 
         $this->addChild('delete_select_row_button', 'Mage_Adminhtml_Block_Widget_Button', array(
             'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Row'),
             'class' => 'delete delete-select-row icon-btn',
-            'id'    => 'delete_select_row_button'
+            'id'    => 'product_option_${id}_select_${select_id}_delete'
         ));
 
         return parent::_prepareLayout();
@@ -62,8 +63,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select extends
     public function getPriceTypeSelectHtml()
     {
         $this->getChildBlock('option_price_type')
-            ->setData('id', 'product_option_{{id}}_select_{{select_id}}_price_type')
-            ->setName('product[options][{{id}}][values][{{select_id}}][price_type]');
+            ->setData('id', 'product_option_${id}_select_${select_id}_price_type')
+            ->setName('product[options][${id}][values][${select_id}][price_type]');
 
         return parent::getPriceTypeSelectHtml();
     }

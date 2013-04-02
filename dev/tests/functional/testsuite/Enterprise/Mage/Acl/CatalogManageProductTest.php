@@ -44,7 +44,7 @@ class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCas
         //create specific role with test roleResource
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
-            array('resource_1' => 'Catalog/Manage Products'));
+            array('resource_acl' => 'products_catalog'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -116,7 +116,7 @@ class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCas
         //create specific role with test roleResource
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
-            array('resource_1' => 'Catalog/Manage Products/Edit Product Status'));
+            array('resource_acl' => 'products_catalog'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -150,7 +150,7 @@ class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCas
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_products');
         // Verifying visibility Price column
-        if ($this->controlIsPresent('pageelement', 'product_grid_columns_price')) {
+        if ($this->controlIsVisible('pageelement', 'product_grid_columns_price')) {
             $this->fail("This user doesn't have permission to watch Column Price");
         }
         //Data

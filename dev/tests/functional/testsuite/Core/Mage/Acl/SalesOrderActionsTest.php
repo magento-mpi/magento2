@@ -66,10 +66,11 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
      */
     public function permissionCreateOrder($testData)
     {
+        $this->markTestIncomplete('MAGETTWO-7635');
         // Preconditions
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Sales/Orders/Actions/Create'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'sales_orders_create'));
         $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'Sales/Orders/Actions/View';
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
@@ -119,6 +120,7 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
      */
     public function createOrderForTest($testData)
     {
+        $this->markTestIncomplete('MAGETTWO-7635');
         $orderData = $this->loadDataSet('SalesOrderActions', 'order_data',
             array('filter_sku' => $testData['sku'], 'email' => $testData['email']));
         //Steps And Verifying
@@ -144,8 +146,8 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     {
         // Preconditions
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Sales/Orders/Actions/Invoice'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'sales_orders_invoice'));
         $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'Sales/Orders/Actions/View';
         $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'Sales/Invoices';
         $this->adminUserHelper()->createRole($roleSource);
@@ -190,8 +192,8 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     public function permissionHoldOrder($orderId)
     {
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Sales/Orders/Actions/Hold'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'sales_orders_hold'));
         $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'Sales/Orders/Actions/View';
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
@@ -239,9 +241,9 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     public function permissionUnholdOrder($orderId)
     {
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Sales/Orders/Actions/Unhold'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'Sales/Orders/Actions/View';
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'sales_orders_unhold'));
+        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'sales_orders_view';
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -286,10 +288,10 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     public function permissionShipOrder($orderId)
     {
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Sales/Orders/Actions/Ship'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'Sales/Orders/Actions/View';
-        $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'Sales/Shipments';
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'sales_orders_ship'));
+        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'sales_orders_view';
+        $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'sales_orders_ship';
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -335,10 +337,10 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     public function permissionCreditMemoOrder($orderId)
     {
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Sales/Orders/Actions/Credit Memos'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'Sales/Orders/Actions/View';
-        $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'Sales/Credit Memos';
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'sales_orders_credit_memos'));
+        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'sales_orders_view';
+        $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'sales_orders_credit_memos';
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -384,10 +386,10 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     public function permissionReorderOrder($orderId)
     {
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Sales/Orders/Actions/Reorder'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'Sales/Orders/Actions/View';
-        $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'Sales/Orders/Actions/Create';
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'sales_orders_reorder'));
+        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'sales_orders_view';
+        $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'sales_orders_create';
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -437,10 +439,10 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     public function permissionEditOrder($orderId)
     {
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Sales/Orders/Actions/Edit'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'Sales/Orders/Actions/View';
-        $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'Sales/Orders/Actions/Create';
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'sales_orders_edit'));
+        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'sales_orders_view';
+        $roleSource['role_resources_tab']['role_resources']['resource_3'] = 'sales_orders_create';
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role
@@ -488,9 +490,9 @@ class Core_Mage_Acl_SalesOrderActionsTest extends Mage_Selenium_TestCase
     public function permissionCancelOrder($orderId)
     {
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Sales/Orders/Actions/Cancel'));
-        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'Sales/Orders/Actions/View';
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'sales_orders_cancel'));
+        $roleSource['role_resources_tab']['role_resources']['resource_2'] = 'sales_orders_view';
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role

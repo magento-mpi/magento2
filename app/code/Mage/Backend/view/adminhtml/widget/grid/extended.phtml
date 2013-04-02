@@ -61,10 +61,11 @@ $numColumns = sizeof($this->getColumns());
 
                 <?php $_curPage = $this->getCollection()->getCurPage() ?>
                 <?php $_lastPage = $this->getCollection()->getLastPageNumber() ?>
+
                 <?php if ($_curPage > 1): ?>
-                    <a href="#" title="<?php echo $this->__('Previous page') ?>" class="action-previous" onclick="<?php echo $this->getJsObjectName() ?>.setPage('<?php echo ($_curPage - 1) ?>');return false;">Previous Page</a>
+                    <a href="#" title="<?php echo $this->__('Previous page') ?>" class="action-previous" onclick="<?php echo $this->getJsObjectName() ?>.setPage('<?php echo ($_curPage - 1) ?>');return false;"><?php echo $this->__('Previous page') ?></a>
                 <?php else: ?>
-                    <span class="action-previous disabled">Previous Page</span>
+                    <span class="action-previous disabled"><?php echo $this->__('Previous page') ?></span>
                 <?php endif; ?>
 
                 <input type="text" name="<?php echo $this->getVarNamePage() ?>" value="<?php echo $_curPage ?>"
@@ -72,9 +73,9 @@ $numColumns = sizeof($this->getColumns());
                        onkeypress="<?php echo $this->getJsObjectName() ?>.inputPage(event, '<?php echo $_lastPage ?>')"/>
 
                 <?php if ($_curPage < $_lastPage): ?>
-                    <a href="#" title="<?php echo $this->__('Next page') ?>" class="action-next" onclick="<?php echo $this->getJsObjectName() ?>.setPage('<?php echo ($_curPage + 1) ?>');return false;">Next Page</a>
+                    <a href="#" title="<?php echo $this->__('Next page') ?>" class="action-next" onclick="<?php echo $this->getJsObjectName() ?>.setPage('<?php echo ($_curPage + 1) ?>');return false;"><?php echo $this->__('Next page') ?></a>
                 <?php else: ?>
-                    <span class="action-next disabled">Next page</span>
+                    <span class="action-next disabled"><?php echo $this->__('Next page') ?></span>
                 <?php endif; ?>
 
                 <?php echo $this->__('of %s pages', $this->getCollection()->getLastPageNumber()) ?>
@@ -98,14 +99,15 @@ $numColumns = sizeof($this->getColumns());
                             selected="selected"<?php endif; ?>>200
                     </option>
                 </select>
-                <?php echo $this->__('per page') ?><span class="separator">|</span>
+                <?php echo $this->__('per page') ?>
+                <span class="separator">|</span>
                 <?php echo $this->__('Total %d records found', $this->getCollection()->getSize()) ?>
                 <span id="<?php echo $this->getHtmlId() ?>-total-count"
                       class="no-display"><?php echo $this->getCollection()->getSize() ?></span>
                 <?php if ($this->getRssLists()): ?>
-                <?php foreach ($this->getRssLists() as $_rss): ?>
-                    <span class="separator">|</span><a href="<?php echo $_rss->getUrl() ?>"
-                                                       class="link-feed"><?php echo $_rss->getLabel() ?></a>
+                    <?php foreach ($this->getRssLists() as $_rss): ?>
+                        <span class="separator">|</span>
+                        <a href="<?php echo $_rss->getUrl() ?>" class="link-feed"><?php echo $_rss->getLabel() ?></a>
                     <?php endforeach ?>
                 <?php endif; ?>
             </div>
@@ -116,99 +118,97 @@ $numColumns = sizeof($this->getColumns());
         <?php echo $this->getMassactionBlockHtml() ?>
         <?php endif ?>
     <div class="grid">
-        <div class="hor-scroll">
-            <table cellspacing="0" class="data" id="<?php echo $this->getId() ?>_table">
-                <?php
-                /* This part is commented to remove all <col> tags from the code. */
-                /* foreach ($this->getColumns() as $_column): ?>
-                <col <?php echo $_column->getHtmlProperty() ?> />
-                <?php endforeach; */ ?>
-                <?php if ($this->getHeadersVisibility() || $this->getFilterVisibility()): ?>
-                <thead>
-                    <?php if ($this->getHeadersVisibility()): ?>
-                <tr class="headings">
-                    <?php foreach ($this->getColumns() as $_column): ?>
-                    <th<?php echo $_column->getHeaderHtmlProperty() ?>>
-                        <span><?php echo $_column->getHeaderHtml() ?></span>
-                    </th>
-                    <?php endforeach; ?>
-                </tr>
-                    <?php endif; ?>
-                    <?php if ($this->getFilterVisibility()): ?>
-                <tr class="filter">
+        <table cellspacing="0" class="data" id="<?php echo $this->getId() ?>_table">
+            <?php
+            /* This part is commented to remove all <col> tags from the code. */
+            /* foreach ($this->getColumns() as $_column): ?>
+            <col <?php echo $_column->getHtmlProperty() ?> />
+            <?php endforeach; */ ?>
+            <?php if ($this->getHeadersVisibility() || $this->getFilterVisibility()): ?>
+            <thead>
+                <?php if ($this->getHeadersVisibility()): ?>
+            <tr class="headings">
+                <?php foreach ($this->getColumns() as $_column): ?>
+                <th<?php echo $_column->getHeaderHtmlProperty() ?>>
+                    <span><?php echo $_column->getHeaderHtml() ?></span>
+                </th>
+                <?php endforeach; ?>
+            </tr>
+                <?php endif; ?>
+                <?php if ($this->getFilterVisibility()): ?>
+            <tr class="filter">
+                <?php $i = 0;foreach ($this->getColumns() as $_column): ?>
+                <th<?php echo $_column->getHeaderHtmlProperty() ?>><?php echo $_column->getFilterHtml() ?></th>
+                <?php endforeach; ?>
+            </tr>
+                <?php endif ?>
+            </thead>
+            <?php endif; ?>
+            <?php if ($this->getCountTotals()): ?>
+            <tfoot>
+            <tr class="totals">
+                <?php foreach ($this->getColumns() as $_column): ?>
+                <th class="<?php echo $_column->getCssProperty() ?>"><?php echo ($_column->hasTotalsLabel()) ? $_column->getTotalsLabel() : $_column->getRowField($_column->getGrid()->getTotals()) ?>
+                    &nbsp;</th>
+                <?php endforeach; ?>
+            </tr>
+            </tfoot>
+            <?php endif; ?>
+
+            <tbody>
+                <?php if (($this->getCollection()->getSize() > 0) && (!$this->getIsCollapsed())): ?>
+                <?php foreach ($this->getCollection() as $_index => $_item): ?>
+                <tr title="<?php echo $this->getRowUrl($_item) ?>"<?php if ($_class = $this->getRowClass($_item)): ?>
+                    class="<?php echo $_class; ?>"<?php endif;?> >
                     <?php $i = 0;foreach ($this->getColumns() as $_column): ?>
-                    <th<?php echo $_column->getHeaderHtmlProperty() ?>><?php echo $_column->getFilterHtml() ?></th>
+
+                    <?php if ($this->shouldRenderCell($_item, $_column)): ?>
+                        <?php $_rowspan = $this->getRowspan($_item, $_column); ?>
+                        <td <?php echo ($_rowspan ? 'rowspan="' . $_rowspan . '" ' : '') ?>class="<?php echo $_column->getCssProperty() ?> <?php echo ++$i == $numColumns ? 'last' : '' ?>">
+                            <?php echo (($_html = $_column->getRowField($_item)) != '' ? $_html : '&nbsp;') ?>
+                        </td>
+                        <?php if ($this->shouldRenderEmptyCell($_item, $_column)): ?>
+                            <td colspan="<?php echo $this->getEmptyCellColspan($_item)?>"
+                                class="last"><?php echo $this->getEmptyCellLabel()?></td>
+                            <?php endif; ?>
+                        <?php endif; ?>
+
                     <?php endforeach; ?>
                 </tr>
-                    <?php endif ?>
-                </thead>
-                <?php endif; ?>
-                <?php if ($this->getCountTotals()): ?>
-                <tfoot>
-                <tr class="totals">
-                    <?php foreach ($this->getColumns() as $_column): ?>
-                    <th class="<?php echo $_column->getCssProperty() ?>"><?php echo ($_column->hasTotalsLabel()) ? $_column->getTotalsLabel() : $_column->getRowField($_column->getGrid()->getTotals()) ?>
-                        &nbsp;</th>
-                    <?php endforeach; ?>
-                </tr>
-                </tfoot>
-                <?php endif; ?>
-
-                <tbody>
-                    <?php if (($this->getCollection()->getSize() > 0) && (!$this->getIsCollapsed())): ?>
-                    <?php foreach ($this->getCollection() as $_index => $_item): ?>
-                    <tr title="<?php echo $this->getRowUrl($_item) ?>"<?php if ($_class = $this->getRowClass($_item)): ?>
-                        class="<?php echo $_class; ?>"<?php endif;?> >
-                        <?php $i = 0;foreach ($this->getColumns() as $_column): ?>
-
-                        <?php if ($this->shouldRenderCell($_item, $_column)): ?>
-                            <?php $_rowspan = $this->getRowspan($_item, $_column); ?>
-                            <td <?php echo ($_rowspan ? 'rowspan="' . $_rowspan . '" ' : '') ?>class="<?php echo $_column->getCssProperty() ?> <?php echo ++$i == $numColumns ? 'last' : '' ?>">
-                                <?php echo (($_html = $_column->getRowField($_item)) != '' ? $_html : '&nbsp;') ?>
-                            </td>
-                            <?php if ($this->shouldRenderEmptyCell($_item, $_column)): ?>
-                                <td colspan="<?php echo $this->getEmptyCellColspan($_item)?>"
-                                    class="last"><?php echo $this->getEmptyCellLabel()?></td>
-                                <?php endif; ?>
-                            <?php endif; ?>
-
-                        <?php endforeach; ?>
-                    </tr>
-                        <?php if ($_multipleRows = $this->getMultipleRows($_item)): ?>
-                            <?php foreach ($_multipleRows as $_i): ?>
-                            <tr>
-                                <?php $i = 0;foreach ($this->getMultipleRowColumns($_i) as $_column): ?>
-                                <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$i == $numColumns - 1 ? 'last' : '' ?>">
-                                    <?php echo (($_html = $_column->getRowField($_i)) != '' ? $_html : '&nbsp;') ?>
-                                </td>
-                                <?php endforeach; ?>
-                            </tr>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-
-                        <?php if ($this->shouldRenderSubTotal($_item)): ?>
-                        <tr class="subtotals">
-                            <?php $i = 0; foreach ($this->getSubTotalColumns() as $_column): ?>
-                            <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$i == $numColumns ? 'last' : '' ?>">
-                                <?php echo ($_column->hasSubtotalsLabel() ? $_column->getSubtotalsLabel() :
-                                $_column->getRowField($this->getSubTotalItem($_item))
-                            );
-                                ?>
+                    <?php if ($_multipleRows = $this->getMultipleRows($_item)): ?>
+                        <?php foreach ($_multipleRows as $_i): ?>
+                        <tr>
+                            <?php $i = 0;foreach ($this->getMultipleRowColumns($_i) as $_column): ?>
+                            <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$i == $numColumns - 1 ? 'last' : '' ?>">
+                                <?php echo (($_html = $_column->getRowField($_i)) != '' ? $_html : '&nbsp;') ?>
                             </td>
                             <?php endforeach; ?>
                         </tr>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    <?php elseif ($this->getEmptyText()): ?>
-                <tr>
-                    <td class="empty-text <?php echo $this->getEmptyTextClass() ?>"
-                        colspan="<?php echo $numColumns ?>"><?php echo $this->getEmptyText() ?></td>
-                </tr>
-                    <?php endif; ?>
-                </tbody>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
 
-            </table>
-        </div>
+                    <?php if ($this->shouldRenderSubTotal($_item)): ?>
+                    <tr class="subtotals">
+                        <?php $i = 0; foreach ($this->getSubTotalColumns() as $_column): ?>
+                        <td class="<?php echo $_column->getCssProperty() ?> <?php echo ++$i == $numColumns ? 'last' : '' ?>">
+                            <?php echo ($_column->hasSubtotalsLabel() ? $_column->getSubtotalsLabel() :
+                            $_column->getRowField($this->getSubTotalItem($_item))
+                        );
+                            ?>
+                        </td>
+                        <?php endforeach; ?>
+                    </tr>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php elseif ($this->getEmptyText()): ?>
+            <tr>
+                <td class="empty-text <?php echo $this->getEmptyTextClass() ?>"
+                    colspan="<?php echo $numColumns ?>"><?php echo $this->getEmptyText() ?></td>
+            </tr>
+                <?php endif; ?>
+            </tbody>
+
+        </table>
     </div>
     <?php if ($this->canDisplayContainer()): ?>
 </div>

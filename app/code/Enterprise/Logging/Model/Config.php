@@ -35,10 +35,13 @@ class Enterprise_Logging_Model_Config
      * Load config from cache or merged from logging.xml files
      *
      * @param Mage_Core_Model_Config_Modules_Reader $configReader
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      */
-    public function __construct(Mage_Core_Model_Config_Modules_Reader $configReader)
-    {
-        $configXml = Mage::app()->loadCache('enterprise_logging_config');
+    public function __construct(
+        Mage_Core_Model_Config_Modules_Reader $configReader,
+        Mage_Core_Model_Cache_Type_Config $configCacheType
+    ) {
+        $configXml = $configCacheType->load('enterprise_logging_config');
         if ($configXml) {
             $this->_xmlConfig = new Varien_Simplexml_Config($configXml);
         } else {
@@ -46,10 +49,7 @@ class Enterprise_Logging_Model_Config
             $config->loadString('<?xml version="1.0"?><logging></logging>');
             $configReader->loadModulesConfiguration('logging.xml', $config);
             $this->_xmlConfig = $config;
-            if (Mage::app()->useCache('config')) {
-                Mage::app()->saveCache($config->getXmlString(), 'enterprise_logging_config',
-                    array(Mage_Core_Model_Config::CACHE_TAG));
-            }
+            $configCacheType->save($config->getXmlString(), 'enterprise_logging_config');
         }
     }
 

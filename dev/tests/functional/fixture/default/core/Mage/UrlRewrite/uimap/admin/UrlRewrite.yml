@@ -13,7 +13,7 @@
 
 url_rewrite_management:
     mca: urlrewrite/
-    click_xpath: //div[@class='submenu']//a[span='URL Rewrite Management']
+    click_xpath: //*[@id='nav']//a[contains(@href, 'urlrewrite/')]
     title: Rewrite Rules / Magento Admin
     uimap:
         form:
@@ -45,11 +45,11 @@ url_rewrite_management:
             success_deleted_url_rewrite: //li[normalize-space(@class)='success-msg' and contains(.,'The URL Rewrite has been deleted.')]
             id_path_exist: //li[normalize-space(@class)='error-msg' and contains(.,'ID Path for Specified Store already exists.')]
             req_path_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Request Path for Specified Store already exists.')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This field is required.' and not(contains(@style,'display: none;'))]"
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
 
 add_new_urlrewrite_category:
-    mca: urlrewrite/edit/category
+    mca: urlrewrite/edit/category/
     title: URL Rewrite / Rewrite Rules / Magento Admin
     uimap:
         form:
@@ -76,7 +76,7 @@ add_new_urlrewrite_category:
         messages: *pageMessages
 
 add_new_urlrewrite_product:
-    mca: urlrewrite/edit/product
+    mca: urlrewrite/edit/product/
     title: URL Rewrite / Rewrite Rules / Magento Admin
     uimap:
         form:
@@ -104,7 +104,7 @@ add_new_urlrewrite_product:
         messages: *pageMessages
 
 urlrewrite_product_category_selection:
-    mca: urlrewrite/edit/product/%id%/category
+    mca: urlrewrite/edit/product/%id%/category/
     title: URL Rewrite / Rewrite Rules / Magento Admin
     uimap:
         form:

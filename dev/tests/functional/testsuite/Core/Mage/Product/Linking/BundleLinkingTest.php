@@ -95,7 +95,6 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      */
     public function crossSellsInStock($linkingType, $testData)
     {
-        $this->markTestIncomplete('MAGETWO-7169');
         //Data
         $assignType = 'cross_sells';
         $assignProductType = 'bundle';
@@ -230,7 +229,6 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      */
     public function crossSellsOutStock($linkingType, $testData)
     {
-        $this->markTestIncomplete('MAGETWO-7169');
         //Data
         $assignType = 'cross_sells';
         $assignProductType = 'bundle';

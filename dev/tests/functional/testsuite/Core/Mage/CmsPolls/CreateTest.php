@@ -88,6 +88,9 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
+    /**
+     * @return array
+     */
     public function withEmptyRequiredFieldsDataProvider()
     {
         return array(
@@ -135,7 +138,6 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      * <p>Closed poll is not displayed</p>
      *
      * @test
-     * @depends createNew
      * @TestlinkId TL-MAGE-3216
      */
     public function closedIsNotDisplayed()
@@ -166,7 +168,6 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
      * <p>Vote a poll</p>
      *
      * @test
-     * @depends createNew
      * @TestlinkId TL-MAGE-3219
      */
     public function votePoll()

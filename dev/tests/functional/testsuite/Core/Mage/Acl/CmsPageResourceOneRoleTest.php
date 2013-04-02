@@ -76,7 +76,7 @@
         $this->loginAdminUser();
         $this->navigate('manage_roles');
         $roleSource =
-            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom', array('resource_1' => 'CMS/Pages'));
+            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl', array('resource_acl' => 'cms_pages'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');
@@ -106,8 +106,8 @@
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 1 child elements
-        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
-            'Count of Top Navigation Menu elements not equal 1, should be equal');
+        $this->assertEquals(2, $this->getControlCount('pageelement', 'navigation_children_menu_items'),
+            'Count of Children elements not equal 2 should be equal');
         // Verify  that necessary elements are present on page
         $elements = $this->loadDataSet('CmsPageElements', 'manage_cms_pages_elements');
         $resultElementsArray = array();
@@ -147,10 +147,11 @@
         $this->cmsPagesHelper()->createCmsPage($pageData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_cms_page');
-        $this->cmsPagesHelper()->frontValidatePage($pageData);
+        //comment due to bug MAGETWO-8415
+        //$this->cmsPagesHelper()->frontValidatePage($pageData);
 
-        return array('filter_title'   => $pageData['page_information']['page_title'],
-                     'filter_url_key' => $pageData['page_information']['url_key']);
+        return array('filter_title' => $pageData['page_information']['page_title'],
+            'filter_url_key' => $pageData['page_information']['url_key']);
     }
 
     /**
@@ -174,7 +175,7 @@
         $this->cmsPagesHelper()->openCmsPage($searchPageData);
         $randomName = array('page_title' => $this->generate('string', 15));
         $this->fillFieldset($randomName, 'page_information_fieldset');
-        $this->addParameter('pageName', $randomName['page_title']);
+        $this->addParameter('elementTitle', $randomName['page_title']);
         $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         $this->assertMessagePresent('success', 'success_saved_cms_page');
         $this->validatePage('save_and_continue_edit_cms_page');

@@ -8,20 +8,19 @@
  * @license     {license_link}
  */
 ?>
-<?php echo $this->getFormInitScripts() ?>
-<div class="content-header">
-    <?php echo $this->getHeaderHtml() ?>
-    <p class="content-buttons form-buttons"><?php echo $this->getButtonsHtml('header') ?></p>
+<div class="tag-title">
+    <?php echo $this->getFormInitScripts() ?>
+    <div class="page-actions">
+        <?php echo $this->getButtonsHtml('header') ?>
+    </div>
+    <?php if( !$this->isSingleStoreMode() ): ?>
+        <?php echo $this->getStoreSwitcherHtml() ?>
+    <?php endif; ?>
 </div>
-<?php if( !$this->isSingleStoreMode() ): ?>
-    <?php echo $this->getStoreSwitcherHtml() ?>
-<?php endif; ?>
 
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="edit_form">
     <?php echo $this->getFormHtml() ?>
-
     <?php echo $this->getTagAssignAccordionHtml() ?>
-
 </form>
 
 <?php if ($this->hasFooterButtons()): ?>

@@ -9,11 +9,10 @@
  */
 ?>
 <?php $_item = $this->getItem() ?>
-<tr class="border">
-    <td><?php echo $this->getColumnHtml($_item, 'name') ?></td>
-    <td><?php echo $this->getColumnHtml($_item, 'qty') ?></td>
-
-    <td class="<?php if ($this->isShipmentRegular()): ?>last<?php endif; ?> a-center">
+<tr>
+    <td class="col-product"><?php echo $this->getColumnHtml($_item, 'name') ?></td>
+    <td class="col-ordered-qty"><?php echo $this->getColumnHtml($_item, 'qty') ?></td>
+    <td class="col-qty <?php if ($this->isShipmentRegular()): ?>last<?php endif; ?>">
         <?php if ($this->canShipPartiallyItem()): ?>
             <input type="text" class="input-text" name="shipment[items][<?php echo $_item->getOrderItemId() ?>]" value="<?php echo $_item->getQty()*1 ?>" />
         <?php else: ?>
@@ -21,7 +20,7 @@
         <?php endif; ?>
     </td>
     <?php if (!$this->canShipPartiallyItem()): ?>
-    <td class="a-center last">
+    <td class="col-ship last">
         <input type="hidden" name="shipment[items][<?php echo $_item->getOrderItemId() ?>]" value="0" />
         <input type="checkbox" name="shipment[items][<?php echo $_item->getOrderItemId() ?>]" value="<?php echo $_item->getQty()*1 ?>" checked />
     </td>

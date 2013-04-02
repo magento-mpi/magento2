@@ -38,8 +38,8 @@
             </control>
             <control name="store-name:logo-uploader">
                 <type>logo-uploader</type>
-                <selector>.logo</selector>
-                <attribute>background-image</attribute>
+                <selector></selector>
+                <attribute></attribute>
                 <var>Mage_DesignEditor::store-name:logo-uploader</var>
             </control>
         </components>

@@ -57,7 +57,8 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
         $this->productHelper()->createProduct($simple);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
-        return $simple['general_name'];
+
+        return $simple['general_sku'];
     }
 
     /**
@@ -72,7 +73,6 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
      */
     public function orderAuthorizeNetDPSmoke($simpleSku)
     {
-        $this->markTestIncomplete('MAGETWO-2856');
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_authorizenetdp');
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',

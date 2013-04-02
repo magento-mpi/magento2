@@ -15,7 +15,7 @@ class Mage_Backend_Model_Menu_Factory
     protected $_logger;
 
     /**
-     * @var Magento_ObjectManager_Zend
+     * @var Magento_ObjectManager
      */
     protected $_factory;
 

@@ -38,7 +38,7 @@ manage_cms_widgets:
         messages: &cmsWidgetMessages
             successfully_saved_widget: //li[normalize-space(@class)='success-msg' and contains(.,'The widget instance has been saved.')]
             successfully_deleted_widget: //li[normalize-space(@class)='success-msg' and contains(.,'The widget instance has been deleted.')]
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             confirmation_for_delete: Are you sure you want to do this?
 
 create_cms_widget:
@@ -248,7 +248,7 @@ edit_cms_widget:
         messages: *cmsWidgetMessages
 
 save_and_continue_edit_cms_widget:
-    mca: widget_instance/edit/instance_id/%id%/back/edit/tab/%tab%
+    mca: widget_instance/edit/instance_id/%id%/back/edit/active_tab/%tab%/
     title: %elementTitle% / Widgets / CMS / Magento Admin
     uimap:
         form: *addWidgetOptions

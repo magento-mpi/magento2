@@ -1,69 +1,62 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/*jshint browser:true jquery:true */
 ;(function($, document) {
     'use strict';
+    var ESC_KEY_CODE = '27';
+
+    $(document).on('click.dropdown', function(event) {
+        var $target = $(event.target);
+        if (!$target.is('[data-toggle="dropdown"].active, [data-toggle="dropdown"].active *, ' +
+           '[data-toggle="dropdown"].active + .dropdown-menu, [data-toggle="dropdown"].active + .dropdown-menu *,' +
+           '[data-toggle="dropdown"].active + [data-target="dropdown"],' +
+           '[data-toggle="dropdown"].active + [data-target="dropdown"] *')
+        ) {
+            $('[data-toggle="dropdown"].active').trigger('close.dropdown')
+        }
+    });
+    $(document).on('keyup.dropdown', function(event) {
+        if (event.keyCode == ESC_KEY_CODE) {
+            $('[data-toggle="dropdown"].active').trigger('close.dropdown')
+        }
+    });
 
     $.fn.dropdown = function(options) {
-        var defaults = {
+        var options = $.extend({
             parent: null,
             btnArrow: '.arrow',
             activeClass: 'active'
-        };
-
-        var options = $.extend({}, defaults, options);
-        var actionElem = $(this),
-            self = this;
-
-        this.openDropdown = function(elem) {
-            elem
-                .addClass(options.activeClass)
-                .parent()
-                    .addClass(options.activeClass);
-
-            $(options.btnArrow, elem).text('▲');
-        };
-
-        this.closeDropdown = function(elem) {
-            elem
-                .removeClass(options.activeClass)
-                .parent()
-                    .removeClass(options.activeClass);
-
-            $(options.btnArrow, elem).text('▼');
-        };
-
-        /* Reset all dropdowns */
-        this.reset = function(params) {
-            var params = params || {},
-                dropdowns = params.elems || actionElem;
-
-            dropdowns.each(function(index, elem) {
-                self.closeDropdown($(elem));
-            });
-        };
-
-        /* document Event bindings */
-        $(document).on('click.hideDropdown', this.reset);
-        $(document).on('keyup.hideDropdown', function(e) {
-            var ESC_CODE = '27';
-
-            if (e.keyCode == ESC_CODE) {
-                self.reset();
-            }
-        });
+        }, options);
 
         return this.each(function() {
             var elem = $(this),
                 parent = elem.parent(),
-                menu = $('.dropdown-menu', parent);
+                menu = $('[data-target="dropdown"]', parent) || $('.dropdown-menu', parent);
 
-            elem.on('click.toggleDropdown', function() {
-                self.reset({elems: actionElem.not(elem)});
-                self[elem.hasClass('active') ? 'closeDropdown' : 'openDropdown'](elem);
-
-                return false;
+            elem.on('open.dropdown', function(event) {
+                elem
+                    .addClass(options.activeClass)
+                    .parent()
+                    .addClass(options.activeClass)
+                elem.find(options.btnArrow).text('▲');
             });
 
-            menu.on('click.preventMenuClosing', function(e) {
-                e.stopPropagation();
+            elem.on('close.dropdown', function(event) {
+                elem
+                    .removeClass(options.activeClass)
+                    .parent()
+                    .removeClass(options.activeClass);
+                elem.find(options.btnArrow).text('▼');
+            });
+
+            elem.on('click.dropdown', function(event) {
+                elem.trigger(elem.hasClass('active') ? 'close.dropdown' : 'open.dropdown');
+                return false;
             });
         });
     };

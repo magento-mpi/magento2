@@ -16,7 +16,7 @@ simple_product:
     general_qty: 10
     general_stock_availability: In Stock
     general_weight: 1.29
-    general_description: Description for Simple Product
+    general_description: %noValue%
 
 default_category:
     general_categories: Default Category

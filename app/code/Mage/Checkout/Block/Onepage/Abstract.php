@@ -15,12 +15,31 @@
  */
 abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Template
 {
+    /**
+     * @var Mage_Core_Model_Cache_Type_Config
+     */
+    protected $_configCacheType;
+
     protected $_customer;
     protected $_checkout;
     protected $_quote;
     protected $_countryCollection;
     protected $_regionCollection;
     protected $_addressesCollection;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_configCacheType = $configCacheType;
+    }
 
     /**
      * Get logged in customer
@@ -90,7 +109,6 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
         return count($this->getCustomer()->getAddresses());
     }
 
-/* */
     public function getAddressesHtmlSelect($type)
     {
         if ($this->isCustomerLoggedIn()) {
@@ -162,21 +180,15 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
 
     public function getCountryOptions()
     {
-        $options    = false;
-        $useCache   = Mage::app()->useCache('config');
-        if ($useCache) {
-            $cacheId    = 'DIRECTORY_COUNTRY_SELECT_STORE_' . Mage::app()->getStore()->getCode();
-            $cacheTags  = array('config');
-            if ($optionsCache = Mage::app()->loadCache($cacheId)) {
-                $options = unserialize($optionsCache);
-            }
+        $options = false;
+        $cacheId = 'DIRECTORY_COUNTRY_SELECT_STORE_' . Mage::app()->getStore()->getCode();
+        if ($optionsCache = $this->_configCacheType->load($cacheId)) {
+            $options = unserialize($optionsCache);
         }
 
         if ($options == false) {
             $options = $this->getCountryCollection()->toOptionArray();
-            if ($useCache) {
-                Mage::app()->saveCache(serialize($options), $cacheId, $cacheTags);
-            }
+            $this->_configCacheType->save(serialize($options), $cacheId);
         }
         return $options;
     }
@@ -201,5 +213,4 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     {
         return true;
     }
-/* */
 }

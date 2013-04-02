@@ -42,8 +42,8 @@ class Core_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
     public function roleResourceAccessCmsPool()
     {
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'CMS/Polls'));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'cms_polls'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with specific role

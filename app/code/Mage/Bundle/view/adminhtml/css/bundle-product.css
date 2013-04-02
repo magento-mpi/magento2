@@ -7,57 +7,6 @@
  * @license     {license_link}
  */
 
-#bundle_product_container .fieldset-alt {
-    display: table-row;
-    border: 0;
-    padding: 0;
-    margin-bottom: 30px;
-}
-
-#bundle_product_container .fieldset-alt > .field {
-    display: table-cell;
-    vertical-align: bottom;
-    padding-right: 4%;
-}
-
-#bundle_product_container .fieldset-alt > .field.no-display {
-    display: none;
-}
-
-#bundle_product_container .fieldset-alt .control {
-    width: 100%;
-}
-
-#bundle_product_container .field-option-title {
-    width: 50%;
-}
-
-#bundle_product_container .field-option-store-view {
-    width: 20%;
-}
-
-#bundle_product_container .field-option-input-type {
-    width: 20%;
-}
-
-#bundle_product_container .field-option-input-type select {
-    width: 100%;
-}
-
-#bundle_product_container .field-option-req {
-    width: 105px;
-    white-space: nowrap;
-}
-
-#bundle_product_container .field-option-req .control {
-    padding-bottom: 5px;
-}
-
-#bundle_product_container .field-option-position,
-#bundle_product_container .field-option-position .control {
-    width: 60px;
-}
-
 #product_bundle_container {
     margin: 0 0 30px;
 }
@@ -70,17 +19,18 @@
     text-align: right;
 }
 
-#bundle_product_container .col-draggable .draggable-handle {
-    position: relative;
-    top: 0;
-    float: left;
+#bundle_product_container .col-name {
+    width: 25%;
 }
 
+#bundle_product_container .field-option-req .control {
+    top: 39px;
+}
 
 /* Sku, Price, Weight Fields */
 .field-sku .control .sku {
     display: inline-block;
-    width: 36%;
+    width: 140px;
     margin-right: 15px;
 }
 
@@ -96,7 +46,7 @@
     display: table;
     direction: rtl;
     float: left;
-    width: 36%;
+    width: 140px;
     margin-right: 15px;
 }
 
@@ -111,7 +61,7 @@
 }
 
 .field-weight .weight {
-    width: 36%;
+    width: 140px;
     margin-right: 15px;
     float: left;
 }

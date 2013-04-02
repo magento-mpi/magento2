@@ -493,7 +493,7 @@ zerosubtotal_enable:
             zero_subtotal_checkout:
                 zsc_title: No Payment Information Required
                 zsc_enabled: Yes
-                zsc_new_order_status: %noValue%
+                zsc_new_order_status: Pending
                 zsc_automatically_invoice_all_items: %noValue%
                 zsc_payment_from_applicable_countries: All Allowed Countries
                 zsc_payment_from_specific_coutries: %noValue%

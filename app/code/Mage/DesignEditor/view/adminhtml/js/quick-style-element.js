@@ -12,10 +12,8 @@
     $.widget('vde.quickStyleElement', {
         options: {
             changeEvent: 'change.quickStyleElement',
+            focusEvent: 'focus.quickStyleElement',
             saveQuickStylesUrl: null
-        },
-
-        _create: function() {
         },
 
         _init: function() {
@@ -24,14 +22,23 @@
 
         _bind: function() {
             this.element.on(this.options.changeEvent, $.proxy(this._onChange, this));
+            this.element.on(this.options.focusEvent, $.proxy(this._onFocus, this));
         },
+
+        _onFocus: function() {
+            this.oldValue = $(this.element).val();
+        },
+
         _onChange: function() {
             if (this.element.attr('type') == 'checkbox') {
                 this.element.trigger('quickStyleElementBeforeChange');
             }
 
-            this._send();
+            if (this.oldValue != $(this.element).val() || this.element.attr('type') == 'checkbox') {
+                this._send()
+            }
         },
+
         _send: function() {
             var data = {
                 id: this.element.attr('id'),

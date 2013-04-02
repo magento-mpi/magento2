@@ -121,11 +121,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->setWebsiteIds($configProduct->getWebsiteIds());
         }
 
-        if ($setId != $this->_getSession()->getAttributeSetId()) {
-            $this->_initProductSave($product);
-            $this->_getSession()->setAttributeSetId($setId);
-        }
-
         Mage::register('product', $product);
         Mage::register('current_product', $product);
         Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->setStoreId($this->getRequest()->getParam('store'));
@@ -183,7 +178,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function newAction()
     {
-        if (!$this->getRequest()->getParam('set') || !$this->getRequest()->getParam('type')) {
+        if (!$this->getRequest()->getParam('set')) {
             $this->_forward('noroute');
             return;
         }
@@ -204,14 +199,14 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         } else {
             $_additionalLayoutPart = '';
             if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE
-                && !($product->getTypeInstance()->getUsedProductAttributeIds($product)))
-            {
+                && !($product->getTypeInstance()->getUsedProductAttributeIds($product))
+            ) {
                 $_additionalLayoutPart = '_new';
             }
             $this->loadLayout(array(
                 'default',
                 strtolower($this->getFullActionName()),
-                'adminhtml_catalog_product_'.$product->getTypeId() . $_additionalLayoutPart
+                'adminhtml_catalog_product_' . $product->getTypeId() . $_additionalLayoutPart
             ));
             $this->_setActiveMenu('Mage_Catalog::catalog_products');
         }
@@ -444,6 +439,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function superGroupAction()
     {
+        $this->_initProduct();
         $this->loadLayout(false);
         $this->renderLayout();
     }
@@ -804,6 +800,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                             Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getSku()))
                     );
                 }
+                if($redirectBack === 'duplicate') {
+                    $newProduct = $product->duplicate();
+                }
+
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage())
                     ->setProductData($data);
@@ -820,6 +820,15 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 'set'  => $product->getAttributeSetId(),
                 'type' => $product->getTypeId()
             ));
+        } elseif ($redirectBack === 'duplicate' && isset($newProduct)) {
+            $this->_redirect(
+                '*/*/edit',
+                array(
+                    'id' => $newProduct->getId(),
+                    'back' => null,
+                    '_current' => true
+                )
+            );
         } elseif ($redirectBack) {
             $this->_redirect('*/*/edit', array(
                 'id'       => $productId,
@@ -893,9 +902,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
     public function addAttributeAction()
     {
-        $this->_getSession()->addNotice(
-            Mage::helper('Mage_Catalog_Helper_Data')->__('Please click on the Close Window button if it is not closed automatically.')
-        );
         $this->loadLayout('popup');
         $this->_initProduct();
         $this->_addContent(
@@ -906,9 +912,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
     public function createdAction()
     {
-        $this->_getSession()->addNotice(
-            Mage::helper('Mage_Catalog_Helper_Data')->__('Please click on the Close Window button if it is not closed automatically.')
-        );
         $this->loadLayout('popup');
         $this->_addContent(
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Created')

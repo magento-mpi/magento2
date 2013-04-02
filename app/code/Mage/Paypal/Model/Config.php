@@ -372,11 +372,15 @@ class Mage_Paypal_Model_Config
     public function __get($key)
     {
         $underscored = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $key));
-        $value = Mage::getStoreConfig($this->_getSpecificConfigPath($underscored), $this->_storeId);
-        $value = $this->_prepareValue($underscored, $value);
-        $this->$key = $value;
-        $this->$underscored = $value;
-        return $value;
+        $path = $this->_getSpecificConfigPath($underscored);
+        if ($path !== null) {
+            $value = Mage::getStoreConfig($path, $this->_storeId);
+            $value = $this->_prepareValue($underscored, $value);
+            $this->$key = $value;
+            $this->$underscored = $value;
+            return $value;
+        }
+        return null;
     }
 
     /**

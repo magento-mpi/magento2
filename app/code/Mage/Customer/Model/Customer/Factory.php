@@ -32,6 +32,6 @@ class Mage_Customer_Model_Customer_Factory
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create(self::CUSTOMER_CLASS_NAME, $arguments, false);
+        return $this->_objectManager->create(self::CUSTOMER_CLASS_NAME, $arguments);
     }
 }

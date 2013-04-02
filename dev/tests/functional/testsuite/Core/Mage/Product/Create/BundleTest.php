@@ -71,9 +71,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function allFieldsForDynamic()
     {
-        if ($this->getBrowser() == 'chrome') {
-            $this->markTestIncomplete('MAGETWO-7272');
-        }
         //Data
         $productData = $this->loadDataSet('Product', 'dynamic_bundle');
         $productSearch =
@@ -97,9 +94,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function allFieldsForFixed()
     {
-        if ($this->getBrowser() == 'chrome') {
-            $this->markTestIncomplete('MAGETWO-7272');
-        }
         //Data
         $productData = $this->loadDataSet('Product', 'fixed_bundle');
         $productSearch =
@@ -156,12 +150,11 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
         $field = key($emptyField);
         $productData = $this->loadDataSet('Product', 'fixed_bundle_required', $emptyField);
         //Steps
-        $this->productHelper()->createProduct($productData, 'bundle', false);
+        $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->addFieldIdToMessage($fieldType, $field);
-//        $this->assertMessagePresent('validation', 'empty_required_field');
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->addFieldIdToMessage($fieldType, $field);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyRequiredFieldInBundleDataProvider()
@@ -174,7 +167,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
             array(array('general_weight' => '%noValue%'), 'field'),
             array(array('general_price_type' => '-- Select --'), 'dropdown'),
             array(array('general_price' => '%noValue%'), 'field'),
-            array(array('general_tax_class' => '-- Please Select --'), 'dropdown')
         );
     }
 
@@ -185,14 +177,15 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * @depends requiredFieldsForDynamicSmoke
      * @TestlinkId TL-MAGE-3361
      */
-    public function specialCharactersInRequiredFields()
+    public function specialCharactersInBaseFields()
     {
         //Data
         $productData = $this->loadDataSet('Product', 'dynamic_bundle_required',
-            array('general_name'              => $this->generate('string', 32, ':punct:'),
-                  'general_description'       => $this->generate('string', 32, ':punct:'),
-                  'autosettings_short_description' => $this->generate('string', 32, ':punct:'),
-                  'general_sku'               => $this->generate('string', 32, ':punct:')));
+            array(
+                 'general_name' => $this->generate('string', 32, ':punct:'),
+                 'general_sku' => $this->generate('string', 32, ':punct:')
+            )
+        );
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
@@ -212,15 +205,16 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * @depends requiredFieldsForDynamicSmoke
      * @TestlinkId TL-MAGE-3358
      */
-    public function longValuesInRequiredFields()
+    public function longValuesInBaseFields()
     {
         //Data
         $productData = $this->loadDataSet('Product', 'fixed_bundle_required',
-            array('general_name'              => $this->generate('string', 255, ':alnum:'),
-                  'general_description'       => $this->generate('string', 255, ':alnum:'),
-                  'autosettings_short_description' => $this->generate('string', 255, ':alnum:'),
-                  'general_sku'               => $this->generate('string', 64, ':alnum:'),
-                  'general_weight'            => 99999999.9999));
+            array(
+                 'general_name' => $this->generate('string', 255, ':alnum:'),
+                 'general_sku' => $this->generate('string', 64, ':alnum:'),
+                 'general_weight' => 99999999.9999,
+            )
+        );
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
@@ -260,7 +254,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      */
     public function invalidWeightInBundle()
     {
-        $this->markTestIncomplete('MAGETWO-6022');
         //Data
         $productData = $this->loadDataSet('Product', 'fixed_bundle_required',
             array('general_weight' => $this->generate('string', 9, ':punct:')));
@@ -333,12 +326,11 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
         $productData['prices_tier_price_data'][] =
             $this->loadDataSet('Product', 'prices_tier_price_1', array($emptyTierPrice => '%noValue%'));
         //Steps
-        $this->productHelper()->createProduct($productData, 'bundle', false);
+        $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->addFieldIdToMessage('field', $emptyTierPrice);
-//        $this->assertMessagePresent('validation', 'empty_required_field');
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->addFieldIdToMessage('field', $emptyTierPrice);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyTierPriceFieldsInBundleDataProvider()
@@ -388,15 +380,15 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'dynamic_bundle_required');
-        $productData['general_bundle_items']['item_1'] =
-            $this->loadDataSet('Product', 'bundle_item_1', array('bundle_items_default_title' => '%noValue%'));
+        $productData['general_bundle_items']['item_1'] = $this->loadDataSet('Product', 'bundle_item_1',
+            array('bundle_items_default_title' => '%noValue%', 'bundle_items_position' => '%noValue%')
+        );
         //Steps
-        $this->productHelper()->createProduct($productData, 'bundle', false);
+        $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->addFieldIdToMessage('field', 'bundle_items_default_title');
-//        $this->assertMessagePresent('success', 'empty_required_field');
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->addFieldIdToMessage('field', 'bundle_items_default_title');
+        $this->assertMessagePresent('success', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**

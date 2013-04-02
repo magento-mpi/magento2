@@ -18,25 +18,43 @@
 class Mage_Widget_Model_Widget extends Varien_Object
 {
     /**
+     * @var Mage_Core_Model_Config_Modules_Reader
+     */
+    protected $_configReader;
+
+    /**
+     * @var Mage_Core_Model_Cache_Type_Config
+     */
+    protected $_configCacheType;
+
+    /**
+     * @param Mage_Core_Model_Config_Modules_Reader $configReader
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     */
+    public function __construct(
+        Mage_Core_Model_Config_Modules_Reader $configReader,
+        Mage_Core_Model_Cache_Type_Config $configCacheType
+    ) {
+        $this->_configReader = $configReader;
+        $this->_configCacheType = $configCacheType;
+    }
+
+    /**
      * Load Widgets XML config from widget.xml files and cache it
      *
      * @return Varien_Simplexml_Config
      */
     public function getXmlConfig()
     {
-        $cachedXml = Mage::app()->loadCache('widget_config');
+        $cacheId = 'widget_config';
+        $cachedXml = $this->_configCacheType->load($cacheId);
         if ($cachedXml) {
             $xmlConfig = new Varien_Simplexml_Config($cachedXml);
         } else {
-            $config = new Varien_Simplexml_Config();
-            $config->loadString('<?xml version="1.0"?><widgets></widgets>');
-            Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader')
-                ->loadModulesConfiguration('widget.xml', $config);
-            $xmlConfig = $config;
-            if (Mage::app()->useCache('config')) {
-                Mage::app()->saveCache($config->getXmlString(), 'widget_config',
-                    array(Mage_Core_Model_Config::CACHE_TAG));
-            }
+            $xmlConfig = new Varien_Simplexml_Config();
+            $xmlConfig->loadString('<?xml version="1.0"?><widgets></widgets>');
+            $this->_configReader->loadModulesConfiguration('widget.xml', $xmlConfig);
+            $this->_configCacheType->save($xmlConfig->getXmlString(), $cacheId);
         }
         return $xmlConfig;
     }

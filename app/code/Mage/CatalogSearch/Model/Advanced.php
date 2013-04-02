@@ -11,7 +11,6 @@
 /**
  * Catalog advanced search model
  *
- * @method Mage_CatalogSearch_Model_Resource_Advanced _getResource()
  * @method Mage_CatalogSearch_Model_Resource_Advanced getResource()
  * @method int getEntityTypeId()
  * @method Mage_CatalogSearch_Model_Advanced setEntityTypeId(int $value)
@@ -58,36 +57,30 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
     protected $_productCollection;
 
     /**
-     * Initialize resource model
-     *
+     * @var Mage_CatalogSearch_Helper_Data
      */
-    protected function _construct()
-    {
-        $this->_getEngine();
-        $this->_init('Mage_CatalogSearch_Model_Resource_Advanced');
-    }
-
-    protected function _getEngine()
-    {
-        if ($this->_engine == null) {
-            $this->_engine = Mage::helper('Mage_CatalogSearch_Helper_Data')->getEngine();
-        }
-
-        return $this->_engine;
-    }
+    protected $_helper;
 
     /**
-     * Retrieve resource instance wrapper
+     * Initialize dependencies
      *
-     * @return Mage_CatalogSearch_Model_Resource_Advanced
+     * @param Mage_Core_Model_Context $context
+     * @param Mage_CatalogSearch_Helper_Data $helper
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param array $data
      */
-    protected function _getResource()
-    {
-        $resourceName = $this->_engine->getResourceName();
-        if ($resourceName) {
-            $this->_resourceName = $resourceName;
-        }
-        return parent::_getResource();
+    public function __construct(
+        Mage_Core_Model_Context $context,
+        Mage_CatalogSearch_Helper_Data $helper,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Varien_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_helper = $helper;
+        $this->_engine = $helper->getEngine();
+        $this->_setResourceModel($this->_engine->getResourceName());
+        parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -120,6 +113,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
      *
      * @param   array $values
      * @return  Mage_CatalogSearch_Model_Advanced
+     * @throws Mage_Core_Exception
      */
     public function addFilters($values)
     {
@@ -178,7 +172,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
         if ($allConditions) {
             $this->getProductCollection()->addFieldsToFilter($allConditions);
         } else if (!$hasConditions) {
-            Mage::throwException(Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Please specify at least one search term.'));
+            throw new Mage_Core_Exception($this->_helper->__('Please specify at least one search term.'));
         }
 
         return $this;
@@ -199,6 +193,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
             if (isset($value['from']) && isset($value['to'])) {
                 if (!empty($value['from']) || !empty($value['to'])) {
                     if (isset($value['currency'])) {
+                        /** @var $currencyModel Mage_Directory_Model_Currency */
                         $currencyModel = Mage::getModel('Mage_Directory_Model_Currency')->load($value['currency']);
                         $from = $currencyModel->format($value['from'], array(), false);
                         $to = $currencyModel->format($value['to'], array(), false);
@@ -212,10 +207,10 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
                             ($currencyModel ? $from : $value['from']), ($currencyModel ? $to : $value['to']));
                     } elseif (strlen($value['from']) > 0) {
                         // and more
-                        $value = Mage::helper('Mage_CatalogSearch_Helper_Data')->__('%s and greater', ($currencyModel ? $from : $value['from']));
+                        $value = $this->_helper->__('%s and greater', ($currencyModel ? $from : $value['from']));
                     } elseif (strlen($value['to']) > 0) {
                         // to
-                        $value = Mage::helper('Mage_CatalogSearch_Helper_Data')->__('up to %s', ($currencyModel ? $to : $value['to']));
+                        $value = $this->_helper->__('up to %s', ($currencyModel ? $to : $value['to']));
                     }
                 } else {
                     return $this;
@@ -240,8 +235,8 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
                 $value = $value['label'];
         } else if ($attribute->getFrontendInput() == 'boolean') {
             $value = $value == 1
-                ? Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Yes')
-                : Mage::helper('Mage_CatalogSearch_Helper_Data')->__('No');
+                ? $this->_helper->__('Yes')
+                : $this->_helper->__('No');
         }
 
         $this->_searchCriterias[] = array('name' => $name, 'value' => $value);

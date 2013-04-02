@@ -32,7 +32,9 @@
     <div class="textarea-container">
         <textarea name="custom_code" id="custom_code" cols="30" rows="10"><?php echo $this->getCustomCssContent($this->getTheme()) ?></textarea>
     </div>
-    <button class="action-update" title="<?php echo $this->__('Update'); ?>"><?php echo $this->__('Update'); ?></button>
+    <button class="action-update" title="<?php echo $this->__('Update'); ?>">
+        <span><?php echo $this->__('Update'); ?></span>
+    </button>
 </div>
 
 
@@ -40,6 +42,13 @@
     (function ($) {
         $('#vde-tab-custom').customCssPanel({
             saveCustomCssUrl: '<?php echo $this->getSaveCustomCssUrl($this->getTheme()) ?>'
+        });
+
+        $(document).ready(function() {
+            var eventData = {
+                elements: {focus: ['#vde-tab-custom .action-update', '#custom_code', '#css_file_uploader']}
+            };
+            $('body').trigger('registerElements', eventData);
         });
 
         $( '#' + '<?php echo $this->getFileElementName() ?>' ).fileupload({
