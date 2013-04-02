@@ -8,14 +8,14 @@
  * @license     {license_link}
  */
 ?>
-<?php /* @var $this Mage_Core_Block_Template */ ?>
+<?php /* @var $this Mage_Backend_Block_Store_Switcher */ ?>
 <?php if ($websites = $this->getWebsites()): ?>
     <div class="store-switcher-alt">
-        <input type="hidden" name="store_switcher" id="store_switcher" onchange="return switchStore(this);"<?php echo $this->getUiId()?>>
+        <input type="hidden" name="store_switcher" id="store_switcher"
+            value="<?php echo $this->escapeHtml($this->getStoreId()) ?>"
+            onchange="return switchStore(this);"<?php echo $this->getUiId()?>>
         <strong class="store-selected" data-toggle="dropdown">
-            <?php if ($this->hasDefaultOption()): ?>
-                <?php echo $this->getDefaultStoreName() ?>
-            <?php endif; ?>
+            <?php echo $this->getCurentStoreName() ?>
         </strong>
 
         <ul class="dropdown-menu" id="store_switcher_list">
@@ -39,10 +39,14 @@
                     <ul>
                         <?php foreach ($this->getStores($group) as $store): ?>
                         <li class="store-switcher-store-view">
+                        <?php if ($store->getId() == $this->getStoreId()) { ?>
+                            <strong><?php echo $this->escapeHtml($store->getName()) ?></strong>
+                        <?php } else { ?>
                             <a data-value="<?php echo $this->escapeHtml($store->getId()) ?>"
                                href="#">
                                 <?php echo $this->escapeHtml($store->getName()) ?>
                              </a>
+                        <?php }?>
                         </li>
                         <?php endforeach; ?>
                     </ul>
@@ -57,7 +61,10 @@
     (function($) {
         var $swither = $('#store_switcher_list');
         $swither.on('click', '[data-value]', function(event) {
-            $('#store_switcher').val($(event.target).data('value')).trigger('change');
+            var val = $(event.target).data('value');
+            if (val != $('#store_switcher').val()) {
+                $('#store_switcher').val(val).trigger('change');
+            }
         });
     })(jQuery)
     function switchStore(obj) {
