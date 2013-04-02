@@ -37,7 +37,7 @@
 
         _cancelPaymentAuthorizations: function(event, hideConfirm) {
             if (!hideConfirm && !window.confirm(this.options.cancelConfirmationMessage)) {
-                window.alert("No confirmation");
+                window.alert($.mage.__("No confirmation"));
                 return;
             }
             // this is a global selector due to the fact it is a sibling of the widget's html
@@ -56,7 +56,7 @@
                     } else {
                         var msg = response.error_message;
                         if (msg) {
-                            window.alert(msg);
+                            window.alert($.mage.__(msg));
                         }
                     }
                 }

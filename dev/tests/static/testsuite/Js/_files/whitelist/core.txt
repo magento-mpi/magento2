@@ -19,3 +19,4 @@ app/code/Mage/Paypal
 app/code/Mage/GiftMessage
 app/code/Mage/Sales
 app/code/Mage/Authorizenet
+app/code/Mage/Paygate
