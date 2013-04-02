@@ -81,7 +81,6 @@ return array(
     'sales/minimum_order/multi_address',
     'sales/minimum_order/multi_address_description',
     'sales/minimum_order/multi_address_error_message',
-    'sales/product_sku',
 
     'sales_email/enterprise_rma',
     'sales_email/enterprise_rma_auth',
