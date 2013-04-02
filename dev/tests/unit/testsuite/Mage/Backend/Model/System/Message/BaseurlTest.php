@@ -54,7 +54,7 @@ class Mage_Backend_Model_System_Message_BaseurlTest extends PHPUnit_Framework_Te
         $this->_urlBuilderMock = $this->getMock('Mage_Core_Model_UrlInterface');
         $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMock('Mage_Core_Model_StoreManager', array(), array(), '', false);
-        $configDataFactoryMock = $this->getMock('Mage_Core_Model_Config_DataFactory', array('create'),
+        $configFactoryMock = $this->getMock('Mage_Core_Model_Config_DataFactory', array('create'),
             array(), '', false
         );
         $this->_configDataMock = $this->getMock('Mage_Core_Model_Config_Data',
@@ -69,7 +69,7 @@ class Mage_Backend_Model_System_Message_BaseurlTest extends PHPUnit_Framework_Te
         $this->_dataCollectionMock->expects($this->any())
             ->method('getIterator')->will($this->returnValue($this->_iteratorMock));
 
-        $configDataFactoryMock->expects($this->any())
+        $configFactoryMock->expects($this->any())
             ->method('create')->will($this->returnValue($this->_configDataMock));
         $this->_configDataMock->expects($this->any())
             ->method('getCollection')->will($this->returnValue($this->_dataCollectionMock));
@@ -78,7 +78,7 @@ class Mage_Backend_Model_System_Message_BaseurlTest extends PHPUnit_Framework_Te
             'config' => $this->_configMock,
             'urlBuilder' => $this->_urlBuilderMock,
             'helperFactory' => $this->_helperFactoryMock,
-            'configDataFactory' => $configDataFactoryMock,
+            'configDataFactory' => $configFactoryMock,
             'storeManager' => $this->_storeManagerMock,
         );
         $this->_model = $helper->getObject('Mage_Backend_Model_System_Message_Baseurl', $arguments);
