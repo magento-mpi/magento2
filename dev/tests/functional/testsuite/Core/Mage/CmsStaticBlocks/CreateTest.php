@@ -81,8 +81,11 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
      */
     public function withExistingIdentifier($setData)
     {
-        $this->_blockToBeDeleted = $this->loadDataSet('CmsStaticBlock', 'search_static_block',
-            array('filter_block_identifier' => $setData['block_identifier']));
+        $this->_blockToBeDeleted = $this->loadDataSet(
+            'CmsStaticBlock',
+            'search_static_block',
+            array('filter_block_identifier' => $setData['block_identifier'])
+        );
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
@@ -99,16 +102,22 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->productHelper()->createSimpleProduct(true);
-        $setData = $this->loadDataSet('CmsStaticBlock', 'static_block_with_all_widgets',
+        $setData = $this->loadDataSet(
+            'CmsStaticBlock',
+            'static_block_with_all_widgets',
             array('category_path' => $productData['category']['path'],
-                  'filter_sku'    => $productData['simple']['product_sku']));
+                'filter_sku'    => $productData['simple']['product_sku'])
+        );
         //Steps
         $this->navigate('manage_cms_static_blocks');
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_block');
-        $this->_blockToBeDeleted = $this->loadDataSet('CmsStaticBlock', 'search_static_block',
-            array('filter_block_identifier' => $setData['block_identifier']));
+        $this->_blockToBeDeleted = $this->loadDataSet(
+            'CmsStaticBlock',
+            'search_static_block',
+            array('filter_block_identifier' => $setData['block_identifier'])
+        );
     }
 
     /**
@@ -125,14 +134,20 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $setData = $this->loadDataSet('CmsStaticBlock', 'new_static_block', $specialValue);
-        $blockToOpen = $this->loadDataSet('CmsStaticBlock', 'search_static_block',
-            array('filter_block_identifier' => $setData['block_identifier']));
+        $blockToOpen = $this->loadDataSet(
+            'CmsStaticBlock',
+            'search_static_block',
+            array('filter_block_identifier' => $setData['block_identifier'])
+        );
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_block');
-        $this->_blockToBeDeleted = $this->loadDataSet('CmsStaticBlock', 'search_static_block',
-            array('filter_block_identifier' => $setData['block_identifier']));
+        $this->_blockToBeDeleted = $this->loadDataSet(
+            'CmsStaticBlock',
+            'search_static_block',
+            array('filter_block_identifier' => $setData['block_identifier'])
+        );
         //Steps
         $this->cmsStaticBlocksHelper()->openStaticBlock($blockToOpen);
         //Verifying
