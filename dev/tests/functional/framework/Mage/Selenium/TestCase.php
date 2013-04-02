@@ -2204,6 +2204,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         } catch (Exception $e) {
             $this->getElement($locator)->click();
         }
+        $this->waitForAjax();
         if ($willChangePage) {
             $this->waitForPageToLoad();
             $this->addParameter('id', $this->defineIdFromUrl());
@@ -2980,11 +2981,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $fieldsetUimap = $this->_findUimapElement('fieldset', $fieldsetName);
         $fieldsetLocator = $fieldsetUimap->getXpath($this->_paramsHelper);
-        $resetButtonElement = $this->getElement($this->_getControlXpath('button', 'reset_filter', $fieldsetUimap));
-        $jsName = $resetButtonElement->attribute('onclick');
-        $jsName = preg_replace('/\.[\D]+\(\)/', '', $jsName);
-        $scriptXpath = "//script[contains(text(),\"$jsName.useAjax = ''\")]";
-        $pageToLoad = $this->elementIsPresent($scriptXpath);
+        $trLocator = $fieldsetLocator . $this->formSearchXpath($data);
+        if ($this->elementIsPresent($trLocator)) {
+            return $trLocator;
+        }
+        $resetButtonElement = $this->getControlElement('button', 'reset_filter', $fieldsetUimap);
+        $useAjax = preg_replace('/\.[\D]+\(\)/', '', $resetButtonElement->attribute('onclick')) . ".useAjax = ''";
+        $pageToLoad = $this->elementIsPresent('//script[contains(text(),"' . $useAjax . '")]');
         $this->focusOnElement($resetButtonElement);
         $resetButtonElement->click();
         if (!$pageToLoad) {
@@ -2993,26 +2996,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->waitForPageToLoad();
             $this->validatePage();
         }
-        $qtyElementsInTable = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'qtyElementsInTable');
-
-        //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
-        list(, , $totalCount) = explode('|', $this->getElement($fieldsetLocator . "//div[@class='pager']")->text());
-        $totalCount = trim(preg_replace('/[A-Za-z]+/', '', $totalCount));
-        $pagerLocator = $fieldsetLocator . $qtyElementsInTable . "[not(text()='" . $totalCount . "')]";
-
-        $trLocator = $this->formSearchXpath($data);
-
-        $element = $this->elementIsPresent($fieldsetLocator . $trLocator);
-        if (!$element && $totalCount > 20) {
-            // Fill in search form and click 'Search' button
-            $this->fillFieldset($data, $fieldsetName);
-            $searchElement = $this->getElement($this->_getControlXpath('button', 'search', $fieldsetUimap));
-            $this->focusOnElement($searchElement);
-            $searchElement->click();
-            $this->waitForElement($pagerLocator);
-            $element = $this->elementIsPresent($fieldsetLocator . $trLocator);
+        if ($this->elementIsPresent($trLocator)) {
+            return $trLocator;
         }
-        return ($element) ? $fieldsetLocator . $trLocator : null;
+        $this->addParameter('tableXpath', $fieldsetLocator);
+        $waitConditions = array($this->_getMessageXpath('specific_table_no_records_found'), $trLocator);
+        // Fill in search form and click 'Search' button
+        $this->fillFieldset($data, $fieldsetName);
+        $searchElement = $this->getControlElement('button', 'search', $fieldsetUimap);
+        $this->focusOnElement($searchElement);
+        $searchElement->click();
+        $this->waitForElementVisible($waitConditions);
+
+        return $this->elementIsPresent($trLocator) ? $trLocator : null;
     }
 
     /**

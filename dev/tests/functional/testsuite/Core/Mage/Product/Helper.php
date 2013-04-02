@@ -2384,11 +2384,14 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $this->clickButton('add_selected_products', false);
         $this->waitForControlNotVisible(self::UIMAP_TYPE_FIELDSET, 'select_associated_product_option');
-        $countAfter = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'grouped_assigned_products');
-        if ($countBefore + count($formedData['items']) != $countAfter) {
-            $this->$this->markTestIncomplete('MAGETWO-7278,MAGETWO-7277');
+        try {
+            $actualQty = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'grouped_assigned_products');
+            $this->assertEquals($countBefore + count($formedData['items']), $actualQty,
+                'Products are not assigned to Grouped product');
+        } catch (Exception $e) {
+            $this->$this->markTestIncomplete('MAGETWO-7278,MAGETWO-7277,MAGETWO-8852');
         }
-        if(!empty($formedData['qty'])) {
+        if (!empty($formedData['qty'])) {
             foreach ($formedData['qty'] as $productName => $qty) {
                 $this->addParameter('productSku', $productName);
                 $this->fillField('associated_product_default_qty', $qty);
