@@ -22,7 +22,7 @@ class Enterprise_Queue_Model_Queue_Adapter_Gearman implements Enterprise_Queue_M
     /**
      * @param Enterprise_Queue_Helper_Gearman $helperGearman
      */
-    public function __construct(Enterprise_Queue_Helper_Gearman $helperGearman = null)
+    public function __construct(Enterprise_Queue_Helper_Gearman $helperGearman)
     {
         $this->_helperGearman = $helperGearman;
 
