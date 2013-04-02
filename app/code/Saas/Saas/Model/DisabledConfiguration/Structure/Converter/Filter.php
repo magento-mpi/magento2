@@ -37,25 +37,29 @@ class Saas_Saas_Model_DisabledConfiguration_Structure_Converter_Filter
     public function convert(DOMNode $root)
     {
         $result = parent::convert($root);
-        $systemConfig = $result['config']['system'];
-        foreach ($systemConfig['sections'] as $sectionId => $section) {
-            if ($this->_disabledConfig->isSectionDisabled($sectionId)) {
-                unset($systemConfig['sections'][$sectionId]);
-                continue;
-            }
-            foreach ($section['children'] as $groupId => $group) {
-                if ($this->_disabledConfig->isGroupDisabled($sectionId . '/' . $groupId)) {
-                    unset($systemConfig['sections'][$sectionId]['children'][$groupId]);
-                    continue;
-                }
-                foreach (array_keys($group['children']) as $fieldId) {
-                    if ($this->_disabledConfig->isFieldDisabled($sectionId . '/' . $groupId . '/' . $fieldId)) {
-                        unset($systemConfig['sections'][$sectionId]['children'][$groupId]['children'][$fieldId]);
-                    }
-                }
+
+        if (isset($result['config']['system']['sections'])) {
+            $this->_filterDisabledEntries(null, $result['config']['system']['sections']);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Recursively remove disabled options
+     *
+     * @param string $currentPath
+     * @param array $entries
+     */
+    protected function _filterDisabledEntries($currentPath, array &$entries)
+    {
+        foreach ($entries as $entryId => &$entry) {
+            $entryPath = ($currentPath ? $currentPath . '/' : '') . $entryId;
+            if ($this->_disabledConfig->isPathDisabled($entryPath)) {
+                unset($entries[$entryId]);
+            } else if (is_array($entry) && isset($entry['children'])) {
+                $this->_filterDisabledEntries($entryPath, $entry['children']);
             }
         }
-        $result['config']['system'] = $systemConfig;
-        return $result;
     }
 }

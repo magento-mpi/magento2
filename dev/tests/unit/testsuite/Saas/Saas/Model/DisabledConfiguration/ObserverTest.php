@@ -21,10 +21,10 @@ class Saas_Saas_Model_DisabledConfiguration_ObserverTest extends PHPUnit_Framewo
             array('path/to/permitted_field', false),
             array('path/to/disabled_field', true),
         );
-        $disabledConfig = $this->getMock('Saas_Saas_Model_DisabledConfiguration_Config', array('isFieldDisabled'),
+        $disabledConfig = $this->getMock('Saas_Saas_Model_DisabledConfiguration_Config', array('isPathDisabled'),
             array(), '', false);
         $disabledConfig->expects($this->once())
-            ->method('isFieldDisabled')
+            ->method('isPathDisabled')
             ->with($fieldPath)
             ->will($this->returnValueMap($isDisabledValueMap));
         $model = new Saas_Saas_Model_DisabledConfiguration_Observer($disabledConfig);

@@ -31,7 +31,7 @@ class Saas_Saas_Model_DisabledConfiguration_Observer
     {
         /** @var $object Mage_Core_Model_Config_Data */
         $object = $observer->getEvent()->getConfigData();
-        if ($this->_disabledConfig->isFieldDisabled($object->getPath())) {
+        if ($this->_disabledConfig->isPathDisabled($object->getPath())) {
             throw new Saas_Saas_Exception('Modification is not permitted');
         }
     }
