@@ -69,7 +69,7 @@
                 });
                 return false;
             });
-            this.$grid.on('click', '.grouped-product-delete button', function () {
+            this.$grid.on('click', '[data-column=actions] button', function () {
                 $(this).closest('tr').hide().addClass('ignore-validate');
                 widget._updatePopupGrid();
                 widget._updateHiddenField(widget._getSelectedIds());

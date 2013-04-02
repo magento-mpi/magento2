@@ -400,16 +400,13 @@ Layout handle for grouped products
                             <sortable>0</sortable>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="delete">
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="actions">
                         <arguments>
-                            <header translate="true" module="Mage_Catalog">Delete</header>
                             <type>button</type>
                             <button_type>button</button_type>
-                            <column_css_class>grouped-product-delete</column_css_class>
+                            <button_class>action- delete</button_class>
                             <renderer>Mage_Backend_Block_Widget_Grid_Column_Renderer_Button</renderer>
                             <sortable>0</sortable>
-                            <header_css_class>col-actions</header_css_class>
-                            <column_css_class>col-actions</column_css_class>
                         </arguments>
                     </block>
                 </block>
