@@ -13,8 +13,11 @@
     <default>
         <reference name="root">
             <block type="Mage_Backend_Block_Menu" name="menu" as="menu" template="Mage_Backend::menu.phtml" />
-            <block type="Mage_Backend_Block_System_Messages" name="notifications" as="notifications" label="Notifications" after="header" template="Mage_Backend::system/messages.phtml"/>
-            <block type="Mage_Backend_Block_System_Messages_UnreadMessagePopup" name="unread_notifications" as="unread_notifications" label="Unread Notifications" after="notifications" template="Mage_Backend::system/messages/popup.phtml"/>
+
+        </reference>
+        <reference name="notifications">
+            <block type="Mage_Backend_Block_System_Messages" name="system_messages" as="system_messages" label="System Messages" before="-" template="Mage_Backend::system/messages.phtml"/>
+            <block type="Mage_Backend_Block_System_Messages_UnreadMessagePopup" name="unread_system_messages" as="unread_system_messages" label="Unread System Messages" after="system_messsages" template="Mage_Backend::system/messages/popup.phtml"/>
         </reference>
         <reference name="head">
             <action method="addJs"><file>Mage_Backend::system/notification.js</file></action>

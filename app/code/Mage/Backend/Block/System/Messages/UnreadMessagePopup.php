@@ -8,6 +8,16 @@
 class Mage_Backend_Block_System_Messages_UnreadMessagePopup extends Mage_Backend_Block_Template
 {
     /**
+     * List of item classes per severity
+     *
+     * @var array
+     */
+    protected $_itemClasses = array(
+        Mage_Backend_Model_System_MessageInterface::SEVERITY_CRITICAL => 'error',
+        Mage_Backend_Model_System_MessageInterface::SEVERITY_MAJOR => 'warning'
+    );
+
+    /**
      * System Message list
      *
      * @var Mage_Backend_Model_Resource_System_Message_Collection
@@ -28,8 +38,9 @@ class Mage_Backend_Block_System_Messages_UnreadMessagePopup extends Mage_Backend
         $this->_messages = $messages;
     }
 
-
     /**
+     * Render block
+     *
      * @return string
      */
     protected function _toHtml()
@@ -63,5 +74,16 @@ class Mage_Backend_Block_System_Messages_UnreadMessagePopup extends Mage_Backend
         } else {
             return $this->__('You have %d new system message', $messageCount);
         }
+    }
+
+    /**
+     * Retrieve item class by severity
+     *
+     * @param Mage_Backend_Model_System_MessageInterface $message
+     * @return mixed
+     */
+    public function getItemClass(Mage_Backend_Model_System_MessageInterface $message)
+    {
+        return $this->_itemClasses[$message->getSeverity()];
     }
 }
