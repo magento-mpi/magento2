@@ -28,7 +28,7 @@
                     <strong><?php echo $this->escapeHtml($notification->getTitle()); ?></strong>
                     <span class="notification-description"><?php echo $this->escapeHtml($notification->getDescription()); ?></span>
                     <div class="actions">
-                        <a class="notification-url" href="<?php echo $notification->getUrl(); ?>" target="_blank"><?php echo $this->__('Read Details'); ?></a>
+                        <a class="notification-url" href="<?php echo $this->escapeUrl($notification->getUrl()); ?>" target="_blank"><?php echo $this->__('Read Details'); ?></a>
                     </div>
                     <time><?php echo $this->escapeHtml($this->formatNotificationDate($notification->getDateAdded())); ?></time>
                 </div>
