@@ -104,7 +104,7 @@ class Mage_Api_Model_Server
             if (!isset($handlers->$handler)) {
                 Mage::throwException(Mage::helper('Mage_Api_Helper_Data')->__('Invalid webservice handler specified.'));
             }
-            $handlerClassName = Mage::getConfig()->getModelClassName((string) $handlers->$handler->model);
+            $handlerClassName = (string) $handlers->$handler->model;
 
             $this->_adapter->setHandler($handlerClassName);
         } else {
