@@ -1590,8 +1590,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $this->assertEmptyPageErrors();
         $expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
-        if (!is_null($expectedTitle) && $expectedTitle !== $this->title()) {
-            $errorMessage = $this->locationToString() . 'Title for page "' . $page . '" is unexpected.';
+        $actualTitle = $this->title();
+        if (!is_null($expectedTitle) && $expectedTitle !== $actualTitle) {
+            $errorMessage = $this->locationToString() . 'Title for page "' . $page . '" is unexpected:'
+                . "('$expectedTitle' != '$actualTitle')";
             $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
             if (strlen($messagesOnPage) > 0) {
                 $errorMessage .= "\nMessages on current page:\n" . $messagesOnPage;
