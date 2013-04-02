@@ -34,7 +34,7 @@ class Saas_Saas_Model_DisabledConfiguration_Structure_Converter_FilterTest exten
     public static function convertDataProvider()
     {
         // Normal convert
-        $baseConfig = array(
+        $config = array(
             'config' => array(
                 'system' => array(
                     'sections' => array(
@@ -86,36 +86,23 @@ class Saas_Saas_Model_DisabledConfiguration_Structure_Converter_FilterTest exten
         );
 
         // No sections
-        $baseConfigNoSections = $baseConfig;
-        unset($baseConfigNoSections['config']['system']['sections']);
-        $expectedNoSections = $expected;
-        unset($expectedNoSections['config']['system']['sections']);
+        $configNoSections['config']['system']['sections'] = array();
+        $expectedNoSections = $configNoSections;
 
         // No groups
-        $baseConfigNoGroups = $baseConfig;
-        unset($baseConfigNoGroups['config']['system']['sections']['section_allowed']['children']);
-        unset($baseConfigNoGroups['config']['system']['sections']['section_restricted']['children']);
-        $expectedNoGroups = $expected;
-        unset($expectedNoGroups['config']['system']['sections']['section_allowed']['children']);
+        $configNoGroups['config']['system']['sections']['section_id'] = array();
+        $expectedNoGroups = $configNoGroups;
 
         // No fields
-        $baseConfigNoFields = $baseConfig;
-        unset($baseConfigNoFields['config']['system']['sections']['section_allowed']['children']['group_allowed']
-            ['children']);
-        unset($baseConfigNoFields['config']['system']['sections']['section_allowed']['children']['group_restricted']
-            ['children']);
-        unset($baseConfigNoFields['config']['system']['sections']['section_restricted']['children']['group_allowed']
-            ['children']);
-        $expectedNoFields = $expected;
-        unset($expectedNoFields['config']['system']['sections']['section_allowed']['children']['group_allowed']
-            ['children']);
+        $configNoFields['config']['system']['sections']['section_id']['children']['group_id'] = array();
+        $expectedNoFields = $configNoFields;
 
         // Data sets
         return array(
-            'normal convert' => array($baseConfig, $restrictedOptions, $expected),
-            'no sections' => array($baseConfigNoSections, $restrictedOptions, $expectedNoSections),
-            'no groups' => array($baseConfigNoGroups, $restrictedOptions, $expectedNoGroups),
-            'no fields' => array($baseConfigNoFields, $restrictedOptions, $expectedNoFields),
+            'normal convert' => array($config, $restrictedOptions, $expected),
+            'no sections' => array($configNoSections, array(), $expectedNoSections),
+            'no groups' => array($configNoGroups, array(), $expectedNoGroups),
+            'no fields' => array($configNoFields, array(), $expectedNoFields),
         );
     }
 }

@@ -39,7 +39,7 @@ class Saas_Saas_Model_DisabledConfiguration_Structure_Converter_Filter
         $result = parent::convert($root);
 
         if (isset($result['config']['system']['sections'])) {
-            $this->_filterDisabledEntries(null, $result['config']['system']['sections']);
+            $this->_filterDisabledEntries($result['config']['system']['sections']);
         }
 
         return $result;
@@ -48,18 +48,19 @@ class Saas_Saas_Model_DisabledConfiguration_Structure_Converter_Filter
     /**
      * Recursively remove disabled options
      *
-     * @param string $currentPath
      * @param array $entries
+     * @param string $currentPath
      */
-    protected function _filterDisabledEntries($currentPath, array &$entries)
+    protected function _filterDisabledEntries(array &$entries, $currentPath = '')
     {
         foreach ($entries as $entryId => &$entry) {
-            $entryPath = ($currentPath ? $currentPath . '/' : '') . $entryId;
+            $entryPath = $currentPath . $entryId;
             if ($this->_disabledConfig->isPathDisabled($entryPath)) {
                 unset($entries[$entryId]);
             } else if (is_array($entry) && isset($entry['children'])) {
-                $this->_filterDisabledEntries($entryPath, $entry['children']);
+                $this->_filterDisabledEntries($entry['children'], $entryPath . '/');
             }
         }
+        unset($entry);
     }
 }

@@ -23,7 +23,6 @@ class Saas_Saas_Model_DisabledConfiguration_Config
     public function __construct(array $plainList)
     {
         foreach ($plainList as $path) {
-            $this->_validatePath($path);
             $this->_optimizedList[] = $path . '/';
         }
     }
@@ -31,14 +30,12 @@ class Saas_Saas_Model_DisabledConfiguration_Config
     /**
      * Get whether passed path is disabled
      *
-     * @param $path
+     * @param string $path
      * @return bool
      * @throws InvalidArgumentException
      */
     public function isPathDisabled($path)
     {
-        $this->_validatePath($path);
-
         $path .= '/';
         foreach ($this->_optimizedList as $disabledPath) {
             if (substr($path, 0, strlen($disabledPath)) == $disabledPath) {
@@ -46,20 +43,6 @@ class Saas_Saas_Model_DisabledConfiguration_Config
             }
         }
         return false;
-    }
-
-    /**
-     * Validate path to have "a/b/c..." notation
-     *
-     * @param string $path
-     * @throws InvalidArgumentException
-     */
-    protected function _validatePath($path)
-    {
-        $regexp = '/^(([a-z\d_])+\/)+$/i';
-        if (!preg_match($regexp, $path . '/')) {
-            throw new InvalidArgumentException("'$path' is incorrect path");
-        }
     }
 
     /**
