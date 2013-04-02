@@ -94,7 +94,9 @@ Default layout, loads most of the pages
                     </container>
                 </block>
             </container>
-            <block type="Mage_Checkout_Block_Cart_Crosssell" name="checkout.cart.crosssell" as="crosssell" template="cart/crosssell.phtml"/>
+            <block type="Mage_Checkout_Block_Cart_Crosssell" name="checkout.cart.crosssell" template="Mage_Catalog::product/list/items.phtml" after="-">
+                <action method="setType"><type>crosssell</type></action>
+            </block>
         </reference>
         <container name="additional.product.info" label="Additional Product Info"/>
     </checkout_cart_index>

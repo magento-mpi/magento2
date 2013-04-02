@@ -13,11 +13,11 @@
     <catalog_product_view>
         <reference name="content.aside">
             <!-- remove name="catalog.product.related" / -->
-            <block type="Enterprise_TargetRule_Block_Catalog_Product_List_Related" name="catalog.product.related" as="relatedProducts" template="Mage_Catalog::product/list/items.phtml">
+            <block type="Enterprise_TargetRule_Block_Catalog_Product_List_Related" name="catalog.product.related" template="Mage_Catalog::product/list/items.phtml">
                 <action method="setType"><type>related-rule</type></action>
             </block>
             <!-- remove name="product.info.upsell" / -->
-            <block type="Enterprise_TargetRule_Block_Catalog_Product_List_Upsell" name="product.info.upsell" as="upsell_products" template="Mage_Catalog::product/list/items.phtml">
+            <block type="Enterprise_TargetRule_Block_Catalog_Product_List_Upsell" name="product.info.upsell" template="Mage_Catalog::product/list/items.phtml">
                 <action method="setType"><type>upsell-rule</type></action>
             </block>
         </reference>

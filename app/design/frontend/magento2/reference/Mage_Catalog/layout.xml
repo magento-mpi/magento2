@@ -210,9 +210,12 @@ Product view
         </reference>
 
         <reference name="content.aside">
-            <block type="Mage_Catalog_Block_Product_List_Related" name="catalog.product.related" as="relatedProducts" template="product/list/related.phtml"/>
-            <block type="Mage_Catalog_Block_Product_List_Upsell" name="product.info.upsell" as="upsell_products" template="product/list/upsell.phtml">
-                <action method="setItemLimit"><type>upsell</type><limit>4</limit></action>
+            <block type="Mage_Catalog_Block_Product_List_Related" name="catalog.product.related" template="Mage_Catalog::product/list/items.phtml">
+                <action method="setType"><type>related</type></action>
+            </block>
+            <block type="Mage_Catalog_Block_Product_List_Upsell" name="product.info.upsell" template="Mage_Catalog::product/list/items.phtml">
+                <action method="setType"><type>upsell</type></action>
+                <action method="setItemLimit"><type>upsell</type><limit>3</limit></action>
             </block>
             <block type="Mage_Catalog_Block_Product_View_Additional" name="product.info.additional" as="product_additional_data"/>
         </reference>

@@ -32,6 +32,24 @@ switch($type=$this->getType()) {
     }
     break;
 
+    case 'related':
+    if ($exist = $this->getItems()->getSize()) {
+        $type = 'related';
+        $class = $type;
+
+        $imageBlock =  $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image');
+        $image ='related_products_list';
+        $title = $this->__('Related Products');
+        $items = $this->getItems();
+
+        $showWishlist = true;
+        $showCompare = true;
+        $showCart = false;
+        $rating = false;
+        $description = false;
+    }
+    break;
+
     case 'upsell-rule':
     if ($exist = $this->hasItems()) {
         $type = 'upsell';
@@ -50,6 +68,24 @@ switch($type=$this->getType()) {
     }
     break;
 
+    case 'upsell':
+    if ($exist = count($this->getItemCollection()->getItems())) {
+        $type = 'upsell';
+        $class = $type;
+
+        $imageBlock =  $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image');
+        $image ='upsell_products_list';
+        $title = $this->__('You may also be interested in the following product(s)');
+        $items = $this->getItemCollection()->getItems();
+
+        $showWishlist = false;
+        $showCompare = false;
+        $showCart = false;
+        $rating = false;
+        $description = false;
+    }
+    break;
+
     case 'crosssell-rule':
     if ($exist = $this->hasItems()) {
         $type = 'crosssell';
@@ -59,6 +95,24 @@ switch($type=$this->getType()) {
         $image ='cart_cross_sell_products';
         $title = $this->__('Based on your selection, you may be interested in the following items:');
         $items = $this->getItemCollection();
+
+        $showWishlist = true;
+        $showCompare = true;
+        $showCart = true;
+        $rating = 'short';
+        $description = false;
+    }
+    break;
+
+    case 'crosssell':
+    if ($exist = $this->getItemCount()) {
+        $type = 'crosssell';
+        $class = $type;
+
+        $imageBlock =  $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image');
+        $image ='cart_cross_sell_products';
+        $title = $this->__('Based on your selection, you may be interested in the following items:');
+        $items = $this->getItems();
 
         $showWishlist = true;
         $showCompare = true;
