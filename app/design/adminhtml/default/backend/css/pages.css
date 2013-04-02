@@ -932,6 +932,10 @@
     margin-left: 5px;
 }
 
+#export_filter_grid .grid select {
+    margin-bottom: 0;
+}
+
 #export_filter_grid .grid table td:first-child,
 #export_filter_grid .grid tr th:first-child {
     border-left: 0;
