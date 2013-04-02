@@ -23,9 +23,7 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
      */
     public function indexAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Magento Connect'))
-             ->_title($this->__('Package Extensions'));
+        $this->_title($this->__('Package Extensions'));
 
         $this->_forward('edit');
     }
@@ -36,10 +34,7 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
      */
     public function editAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Magento Connect'))
-             ->_title($this->__('Package Extensions'))
-             ->_title($this->__('Edit Extension'));
+        $this ->_title($this->__('Edit Extension'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Connect::system_extensions_custom');

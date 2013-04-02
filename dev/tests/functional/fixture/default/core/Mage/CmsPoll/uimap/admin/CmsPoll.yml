@@ -12,7 +12,7 @@
 poll_manager:
     mca: poll/
     click_xpath: //ul[@id='nav']//a[contains(@href, '/poll/')]
-    title: Polls / CMS / Magento Admin
+    title: Polls / Elements / Content / Magento Admin
     uimap:
         form: &searchPoll
             fieldsets:
@@ -50,7 +50,7 @@ poll_manager:
 # Add New Poll page
 new_poll:
     mca: poll/new/
-    title: New Poll / Polls / CMS / Magento Admin
+    title: New Poll / Polls / Elements / Content / Magento Admin
     uimap:
         form: &newPollCreationForm
             tabs:
@@ -97,7 +97,7 @@ new_poll:
 # Edit Poll page
 edit_poll:
     mca: poll/edit/id/%id%/
-    title: %elementTitle% / Polls / CMS / Magento Admin
+    title: %elementTitle% / Polls / Elements / Content / Magento Admin
     uimap:
         form:
             tabs:

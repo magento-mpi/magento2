@@ -229,8 +229,8 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
         $result = array();
         // mark all cache entries with a special tag to be able to clean only cache belonging to the application
         $result[] = array(
-            'class' => 'Magento_Cache_Frontend_Decorator_TagMarker',
-            'parameters' => array('tag' => Mage_Core_Model_AppInterface::CACHE_TAG),
+            'class' => 'Magento_Cache_Frontend_Decorator_TagScope',
+            'parameters' => array('tag' => 'MAGE'),
         );
         if (Magento_Profiler::isEnabled()) {
             $result[] = array(

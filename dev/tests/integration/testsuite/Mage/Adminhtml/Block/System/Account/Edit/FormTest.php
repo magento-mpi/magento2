@@ -69,6 +69,11 @@ class Mage_Adminhtml_Block_System_Account_Edit_FormTest extends Mage_Backend_Are
                 'type' => 'password',
                 'required' => false
             ),
+            'interface_locale' => array(
+                'name' => 'interface_locale',
+                'type' => 'select',
+                'required' => false
+            ),
         );
 
         foreach ($expectedFieldset as $fieldId => $field) {

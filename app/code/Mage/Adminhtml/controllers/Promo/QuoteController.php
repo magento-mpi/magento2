@@ -13,7 +13,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
 {
     protected function _initRule()
     {
-        $this->_title($this->__('Promotions'))->_title($this->__('Shopping Cart Price Rules'));
+        $this->_title($this->__('Shopping Cart Price Rules'));
 
         Mage::register('current_promo_quote_rule', Mage::getModel('Mage_SalesRule_Model_Rule'));
         $id = (int)$this->getRequest()->getParam('id');
@@ -38,7 +38,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
 
     public function indexAction()
     {
-        $this->_title($this->__('Promotions'))->_title($this->__('Shopping Cart Price Rules'));
+        $this->_title($this->__('Shopping Cart Price Rules'));
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('Mage_SalesRule_Helper_Data')->__('Catalog'), Mage::helper('Mage_SalesRule_Helper_Data')->__('Catalog'))

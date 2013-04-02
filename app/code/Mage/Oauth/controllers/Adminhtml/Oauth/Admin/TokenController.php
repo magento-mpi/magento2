@@ -38,9 +38,7 @@ class Mage_Oauth_Adminhtml_Oauth_Admin_TokenController extends Mage_Adminhtml_Co
      */
     public function preDispatch()
     {
-        $this->_title($this->__('System'))
-                ->_title($this->__('Permissions'))
-                ->_title($this->__('My Applications'));
+        $this->_title($this->__('My Applications'));
         parent::preDispatch();
         return $this;
     }

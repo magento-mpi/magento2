@@ -107,13 +107,13 @@ paypal_reports:
 report_shopcart_product:
     mca: report_shopcart/product/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_shopcart/product/')]
-    title: Products in Carts / Shopping Cart / Reports / Magento Admin
+    title: Products in Carts / Marketing / Reports / Magento Admin
 
 # Shopping Cart: Abandoned carts page
 report_shopcart_abandoned:
     mca: report_shopcart/abandoned/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_shopcart/abandoned/')]
-    title: Abandoned Carts / Shopping Cart / Reports / Magento Admin
+    title: Abandoned Carts / Marketing / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -394,7 +394,7 @@ tags_submitted_to_product:
 report_tag_popular:
     mca: report_tag/popular/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_tag/popular/')]
-    title: Popular / Tags / Reports / Magento Admin
+    title: Popular / Tags / Reports / Tags / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -472,7 +472,7 @@ report_review_product:
 report_search:
     mca: report/search/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report/search/')]
-    title: Search Terms / Reports / Magento Admin
+    title: Search Terms / Marketing / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -499,7 +499,7 @@ report_search:
 report_statistics:
     mca: report_statistics/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_statistics/')]
-    title: Refresh Statistics / Sales / Reports / Magento Admin
+    title: Refresh Statistics / Statistics / Reports / Magento Admin
     uimap:
         form:
             fieldsets:

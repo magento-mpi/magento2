@@ -20,9 +20,7 @@ class Enterprise_Pci_Adminhtml_LocksController extends Mage_Adminhtml_Controller
      */
     public function indexAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Permissions'))
-             ->_title($this->__('Locked Users'));
+        $this->_title($this->__('Locked Users'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Enterprise_Pci::system_acl_locks');

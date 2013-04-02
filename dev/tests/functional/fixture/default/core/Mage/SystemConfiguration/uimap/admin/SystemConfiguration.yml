@@ -14,7 +14,7 @@
 system_configuration:
     mca: system_config/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'system_config/')]
-    title: Configuration / System / Magento Admin
+    title: Configuration / Settings / Stores / Magento Admin
     uimap: &system_configuration_uimap
         form:
             fieldsets:
@@ -3802,25 +3802,25 @@ system_configuration:
 
 system_configuration_tabs:
     mca: system_config/edit/section/%tabName%/
-    title: Configuration / System / Magento Admin
+    title: Configuration / Settings / Stores / Magento Admin
     uimap: *system_configuration_uimap
 
 system_configuration_website:
     mca: system_config/edit/section/%tabName%/website/%webSite%/
-    title: Configuration / System / Magento Admin
+    title: Configuration / Settings / Stores / Magento Admin
     uimap: *system_configuration_uimap
 
 system_configuration_store:
     mca: system_config/edit/section/%tabName%/website/%webSite%/store/%storeName%/
-    title: Configuration / System / Magento Admin
+    title: Configuration / Settings / Stores / Magento Admin
     uimap: *system_configuration_uimap
 
 system_configuration_country:
     mca: system_config/edit/section/payment/country/%country%/
-    title: Configuration / System / Magento Admin
+    title: Configuration / Settings / Stores / Magento Admin
     uimap: *system_configuration_uimap
 
 system_configuration_website_base:
     mca: system_config/edit/website/base/
-    title: Configuration / System / Magento Admin
+    title: Configuration / Settings / Stores / Magento Admin
     uimap: *system_configuration_uimap

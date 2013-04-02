@@ -72,7 +72,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 $files = $helper->getGroupedCssFiles($theme);
                 $tab->setFiles($files);
             }
-            $this->_setActiveMenu('Mage_Adminhtml::system_design_theme');
+            $this->_setActiveMenu('Mage_Theme::system_design_theme');
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
