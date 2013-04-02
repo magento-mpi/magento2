@@ -39,7 +39,7 @@
         _createTrigger: function(appendTo) {
             return $.tmpl(this.widgetName, this.options)
                 .css(this._getCss())
-                .attr('data-role', 'edit-trigger-element')
+                .data('role', 'edit-trigger-element')
                 .appendTo(appendTo);
         },
         _initTrigger: function() {

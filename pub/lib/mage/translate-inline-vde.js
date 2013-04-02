@@ -427,9 +427,9 @@
         /**
          * Invokes the action (e.g. activate the inline dialog)
          */
-        _invokeAction: function(e) {
+        _invokeAction: function(event) {
             this._detachIcon();
-            this.options.onClick(e, this);
+            this.options.onClick(event, this);
         },
 
         /**
