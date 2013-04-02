@@ -72,7 +72,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      */
     public function withRequiredFields()
     {
-        $this->fail("MAGETWO-8415");
+        $this->markTestIncomplete('MAGETWO-8415');
         //Data
         $pageData = $this->loadDataSet('CmsPage', 'new_cms_page_req');
         //Steps
@@ -96,7 +96,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      */
     public function withAllFields($data)
     {
-        $this->fail("MAGETWO-8415");
+        $this->markTestIncomplete('MAGETWO-8415');
         //Data
         $pageData = $this->loadDataSet('CmsPage', 'new_page_all_fields', $data);
         //Steps

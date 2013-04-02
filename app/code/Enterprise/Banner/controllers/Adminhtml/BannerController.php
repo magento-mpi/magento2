@@ -17,7 +17,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
      */
     public function indexAction()
     {
-        $this->_title($this->__('CMS'))->_title($this->__('Banners'));
+        $this->_title($this->__('Banners'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Enterprise_Banner::cms_enterprise_banner');
@@ -207,7 +207,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
      */
     protected function _initBanner($idFieldName = 'banner_id')
     {
-        $this->_title($this->__('CMS'))->_title($this->__('Banners'));
+        $this->_title($this->__('Banners'));
 
         $id = (int)$this->getRequest()->getParam($idFieldName);
         $model = Mage::getModel('Enterprise_Banner_Model_Banner');

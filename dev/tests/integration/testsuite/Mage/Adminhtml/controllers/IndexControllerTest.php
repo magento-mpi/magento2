@@ -12,18 +12,6 @@
 class Mage_Adminhtml_IndexControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
-     * @covers Mage_Adminhtml_IndexController::changeLocaleAction
-     */
-    public function testChangeLocaleAction()
-    {
-        $expected = 'de_DE';
-        $this->getRequest()->setParam('locale', $expected);
-        $this->dispatch('backend/admin/index/changeLocale');
-        $actual = Mage::getSingleton('Mage_Backend_Model_Session')->getLocale();
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
      * @covers Mage_Adminhtml_IndexController::globalSearchAction
      */
     public function testGlobalSearchAction()

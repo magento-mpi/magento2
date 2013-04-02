@@ -103,7 +103,7 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
         //Save data
         $this->clickButton('save', false);
         $this->waitForPageToLoad();
-        $this->addParameter('userId', $this->defineParameterFromUrl('user_id'));
+        $this->addParameter('id', $this->defineParameterFromUrl('user_id'));
         $this->waitForAjax();
         $this->assertMessagePresent('error', 'user_exist');
     }
@@ -168,7 +168,7 @@ class Core_Mage_ApiUsers_CreateTest extends Mage_Selenium_TestCase
         $userSearch = array('filter_api_users_api_key' => $userData['api_user_api_key']);
         $this->searchAndOpen($userSearch, 'api_users_grid', false);
         $this->waitForPageToLoad();
-        $this->addParameter('userId', $this->defineParameterFromUrl('user_id'));
+        $this->addParameter('id', $this->defineParameterFromUrl('user_id'));
         $this->addParameter('apiKey', $userData['api_user_api_key']);
         $this->validatePage();
 

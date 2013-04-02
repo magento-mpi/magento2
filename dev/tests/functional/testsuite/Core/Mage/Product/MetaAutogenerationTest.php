@@ -113,7 +113,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->productHelper()->openProductTab('meta_information');
-        $this->assertEquals($testData, $this->getControlAttribute('field', $metaField, 'value'));
+        $this->assertEquals(trim($testData), $this->getControlAttribute('field', $metaField, 'value'));
     }
 
     /**

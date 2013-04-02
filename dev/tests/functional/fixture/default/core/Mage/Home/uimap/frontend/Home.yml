@@ -10,7 +10,7 @@
 ---
 #
 home:
-    mca: home
+    mca: home/
     title: Home page
     uimap: &homePage
         form:

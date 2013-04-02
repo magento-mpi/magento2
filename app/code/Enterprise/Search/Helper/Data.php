@@ -269,7 +269,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
             return false;
         }
 
-        $locale = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+        $locale = Mage::app()->getStore()->getConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
         $languageSuffix = $this->getLanguageSuffix($locale);
 
         $field = $attribute->getAttributeCode();
@@ -285,7 +285,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
         } elseif ($backendType == 'datetime') {
             $field = 'attr_datetime_'. $field;
 
-            $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+            $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
             if (is_array($value)) {
                 foreach ($value as &$val) {
                     if (!is_empty_date($val)) {

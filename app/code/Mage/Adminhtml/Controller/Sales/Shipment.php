@@ -32,7 +32,7 @@ class Mage_Adminhtml_Controller_Sales_Shipment extends Mage_Adminhtml_Controller
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('Mage_Sales::sales_order')
+            ->_setActiveMenu('Mage_Sales::sales_shipment')
             ->_addBreadcrumb($this->__('Sales'), $this->__('Sales'))
             ->_addBreadcrumb($this->__('Shipments'),$this->__('Shipments'));
         return $this;
@@ -43,7 +43,7 @@ class Mage_Adminhtml_Controller_Sales_Shipment extends Mage_Adminhtml_Controller
      */
     public function indexAction()
     {
-        $this->_title($this->__('Sales'))->_title($this->__('Shipments'));
+        $this->_title($this->__('Shipments'));
 
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Sales_Shipment'))

@@ -42,7 +42,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
-        $this->_title($this->__('Catalog'))->_title($this->__('XML Sitemaps'));
+        $this->_title($this->__('XML Sitemaps'));
         $this->_initAction();
         $this->renderLayout();
     }
@@ -61,7 +61,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
      */
     public function editAction()
     {
-        $this->_title($this->__('Catalog'))->_title($this->__('XML Sitemaps'));
+        $this->_title($this->__('XML Sitemaps'));
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('sitemap_id');
