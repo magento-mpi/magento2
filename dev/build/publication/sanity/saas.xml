@@ -29,6 +29,7 @@
         <word>Enterprise_Persistent</word>
         <word>PricePermissions</word>
         <word>PromotionPermissions</word>
+        <word>Enterprise_Checkout</word>
         <word>Enterprise_Reminder</word>
         <word>Enterprise_Rma</word>
         <word>Enterprise_Tag</word>
@@ -99,12 +100,6 @@
             <path>app/code/Enterprise/PageCache/etc/cache.xml</path>
         </item>
         <item>
-            <!-- Must be modified to remove dependency on module, which doesn't exist in Saas -->
-            <word>CatalogEvent</word>
-            <word>Enterprise_Wishlist</word>
-            <path>app/code/Saas/PrintedTemplate/Model/Observer.php</path>
-        </item>
-        <item>
             <!-- Must be removed, when Oauth is removed as well -->
             <word>CatalogEvent</word>
             <path>app/design/frontend/enterprise/fixed/Mage_Oauth/layout.xml</path>
@@ -124,6 +119,7 @@
             <word>TargetRule</word>
             <word>Enterprise_Reminder</word>
             <word>Mage_Ogone</word>
+            <word>Enterprise_Checkout</word>
             <path>dev/tests/static/testsuite/Legacy/_files/</path>
         </item>
         <item>
