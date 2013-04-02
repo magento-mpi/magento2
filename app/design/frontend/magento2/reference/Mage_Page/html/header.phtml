@@ -12,7 +12,7 @@
  */
 ?>
 
-<?php switch($this->getShowPart()): 
+<?php switch($this->getShowPart()):
     case 'logo': ?>
         <?php /* Temporary tweek to show theme name instead of standard "Magento commerce" title */ ?>
         <?php $storeName = ($this->getLogoAlt() == 'Magento Commerce' && $this->getThemeName()) ? $this->getThemeName() : $this->getLogoAlt();?>
@@ -37,7 +37,7 @@
         <?php if(Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()): ?>
             <li class="customer menu">
                 <div class="customer">
-                    <?php echo $this->getWelcome(); ?>
+                    <span data-toggle="dropdown"><?php echo $this->getWelcome(); ?></span>
                 <?php /*
                 <div class="customer"><?php echo Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getName(); ?></p>
                 */ ?>

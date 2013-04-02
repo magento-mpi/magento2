@@ -701,18 +701,28 @@ a > span:hover {
   border-color: #dedede;
   padding: 30px 0;
 }
-.footer .content {
+.footer > .content {
   padding-left: 10px;
   padding-right: 10px;
   margin: 0 auto;
   min-width: 1005px;
   max-width: 1005px;
-  text-align: center;
+  text-align: left;
 }
 .footer .links {
   display: inline-block;
   padding: 0;
-  margin: 0 3px 0 0;
+  margin: 1px 3px 19px 0;
+}
+.footer .links ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+.footer .links ul > li {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
 }
 .footer .links li {
   list-style: none;
@@ -746,6 +756,7 @@ a > span:hover {
   padding-top: 10px;
 }
 .footer .bugs {
+  margin-top: 25px;
   font-size: 11px;
 }
 .footer .bugs a {
@@ -1132,6 +1143,13 @@ a > span:hover {
   outline: none;
   height: 32px;
   line-height: 1;
+  /*    &:-moz-placeholder {
+        line-height: 32px;
+    }
+    &::-moz-placeholder {
+        line-height: 32px;
+    }*/
+
 }
 .no-borderradius .block.add.review .fieldset > .field:not(.ratings) .addon .addbefore,
 .no-borderradius .block.add.review .fieldset > .field:not(.ratings) .addon .addafter {
@@ -1151,14 +1169,6 @@ a > span:hover {
 }
 .block.add.review .fieldset > .field:not(.ratings) .addon .addbefore::-webkit-input-placeholder,
 .block.add.review .fieldset > .field:not(.ratings) .addon .addafter::-webkit-input-placeholder {
-  line-height: 1.333;
-}
-.block.add.review .fieldset > .field:not(.ratings) .addon .addbefore:-moz-placeholder,
-.block.add.review .fieldset > .field:not(.ratings) .addon .addafter:-moz-placeholder {
-  line-height: 1.333;
-}
-.block.add.review .fieldset > .field:not(.ratings) .addon .addbefore::-moz-placeholder,
-.block.add.review .fieldset > .field:not(.ratings) .addon .addafter::-moz-placeholder {
   line-height: 1.333;
 }
 .block.add.review .fieldset > .field:not(.ratings) .addon .addbefore:-ms-input-placeholder,
@@ -1594,6 +1604,13 @@ input[type="text"] {
   outline: none;
   height: 32px;
   line-height: 1;
+  /*    &:-moz-placeholder {
+        line-height: 32px;
+    }
+    &::-moz-placeholder {
+        line-height: 32px;
+    }*/
+
 }
 .no-borderradius input[type="password"],
 .no-borderradius input[type="text"] {
@@ -1613,14 +1630,6 @@ input[type="text"]:disabled {
 }
 input[type="password"]::-webkit-input-placeholder,
 input[type="text"]::-webkit-input-placeholder {
-  line-height: 1.333;
-}
-input[type="password"]:-moz-placeholder,
-input[type="text"]:-moz-placeholder {
-  line-height: 1.333;
-}
-input[type="password"]::-moz-placeholder,
-input[type="text"]::-moz-placeholder {
   line-height: 1.333;
 }
 input[type="password"]:-ms-input-placeholder,
@@ -3158,7 +3167,10 @@ select:disabled {
  *    Mage_Newsletter
  *
 ----------------------------------------------------------------------------- */
-.page.bottom .block.newsletter .title {
+.block.newsletter {
+  text-align: left;
+}
+.block.newsletter .title {
   display: none;
 }
 .block.newsletter .field {
@@ -3199,6 +3211,10 @@ select:disabled {
 }
 .block.newsletter input[type="text"] {
   width: 100%;
+}
+.footer .block.newsletter {
+  width: 310px;
+  float: right;
 }
 .action.subscribe {
   border: none;
@@ -4498,6 +4514,13 @@ select:disabled {
   outline: none;
   height: 32px;
   line-height: 1;
+  /*    &:-moz-placeholder {
+        line-height: 32px;
+    }
+    &::-moz-placeholder {
+        line-height: 32px;
+    }*/
+
 }
 .no-borderradius .fieldset > .field .addon .addbefore,
 .no-borderradius .fieldset > .field .addon .addafter {
@@ -4517,14 +4540,6 @@ select:disabled {
 }
 .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .fieldset > .field .addon .addafter::-webkit-input-placeholder {
-  line-height: 1.333;
-}
-.fieldset > .field .addon .addbefore:-moz-placeholder,
-.fieldset > .field .addon .addafter:-moz-placeholder {
-  line-height: 1.333;
-}
-.fieldset > .field .addon .addbefore::-moz-placeholder,
-.fieldset > .field .addon .addafter::-moz-placeholder {
   line-height: 1.333;
 }
 .fieldset > .field .addon .addbefore:-ms-input-placeholder,
@@ -4661,6 +4676,13 @@ select:disabled {
   outline: none;
   height: 32px;
   line-height: 1;
+  /*    &:-moz-placeholder {
+        line-height: 32px;
+    }
+    &::-moz-placeholder {
+        line-height: 32px;
+    }*/
+
 }
 .no-borderradius .product.main.info .product.options.wrapper .field .addon .addbefore,
 .no-borderradius .product.main.info .product.options.wrapper .field .addon .addafter {
@@ -4680,14 +4702,6 @@ select:disabled {
 }
 .product.main.info .product.options.wrapper .field .addon .addbefore::-webkit-input-placeholder,
 .product.main.info .product.options.wrapper .field .addon .addafter::-webkit-input-placeholder {
-  line-height: 1.333;
-}
-.product.main.info .product.options.wrapper .field .addon .addbefore:-moz-placeholder,
-.product.main.info .product.options.wrapper .field .addon .addafter:-moz-placeholder {
-  line-height: 1.333;
-}
-.product.main.info .product.options.wrapper .field .addon .addbefore::-moz-placeholder,
-.product.main.info .product.options.wrapper .field .addon .addafter::-moz-placeholder {
   line-height: 1.333;
 }
 .product.main.info .product.options.wrapper .field .addon .addbefore:-ms-input-placeholder,
@@ -5714,6 +5728,13 @@ img[align="right"] {
   outline: none;
   height: 32px;
   line-height: 1;
+  /*    &:-moz-placeholder {
+        line-height: 32px;
+    }
+    &::-moz-placeholder {
+        line-height: 32px;
+    }*/
+
 }
 .no-borderradius .form.password.forget .fieldset > .field .addon .addbefore,
 .no-borderradius .form.create.account .fieldset > .field .addon .addbefore,
@@ -5743,18 +5764,6 @@ img[align="right"] {
 .form.create.account .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .form.password.forget .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.create.account .fieldset > .field .addon .addafter::-webkit-input-placeholder {
-  line-height: 1.333;
-}
-.form.password.forget .fieldset > .field .addon .addbefore:-moz-placeholder,
-.form.create.account .fieldset > .field .addon .addbefore:-moz-placeholder,
-.form.password.forget .fieldset > .field .addon .addafter:-moz-placeholder,
-.form.create.account .fieldset > .field .addon .addafter:-moz-placeholder {
-  line-height: 1.333;
-}
-.form.password.forget .fieldset > .field .addon .addbefore::-moz-placeholder,
-.form.create.account .fieldset > .field .addon .addbefore::-moz-placeholder,
-.form.password.forget .fieldset > .field .addon .addafter::-moz-placeholder,
-.form.create.account .fieldset > .field .addon .addafter::-moz-placeholder {
   line-height: 1.333;
 }
 .form.password.forget .fieldset > .field .addon .addbefore:-ms-input-placeholder,

@@ -14,7 +14,11 @@
  * @see Mage_Checkout_Block_Cart_Sidebar
  */
 ?>
-<div data-block="minicart" class="minicart wrapper">
+<?php if ($this->getInList()): ?>
+    <li data-block="minicart" class="minicart wrapper">
+<?php else:  ?>
+    <div data-block="minicart" class="minicart wrapper">
+<?php endif; ?>
 <?php $_cartQty = $this->getSummaryCount() ?>
 <?php if (!$this->getIsLinkMode() || !$this->getIsNeedToDisplaySideBar()): ?>
     <a data-toggle="dropdown" class="action showcart" href="<?php echo $this->getUrl('checkout/cart'); ?>">
@@ -113,7 +117,11 @@
             });
     })(jQuery);
 </script>
-</div>
+<?php if ($this->getInList()): ?>
+    </li>
+<?php else:  ?>
+    </div>
+<?php endif; ?>
 
 <?php /*
 <div class="minicart wrapper">

@@ -637,14 +637,17 @@ a > span {
     border-top: 1px solid;
     .borderColor(@footerBg);
     padding: 30px 0;
-    .content {
+    > .content {
         .pageWidth;
-        text-align: center;
+        text-align: left;
     }
     .links {
+        ul {
+            .resetList();
+        }
         display: inline-block;
         padding: 0;
-        margin: 0 3px 0 0;
+        margin: 1px 3px 19px 0;
         li {
             list-style: none;
             list-style-image: none;
@@ -671,6 +674,7 @@ a > span {
         padding-top: 10px;
     }
     .bugs {
+        margin-top:25px;
         font-size: 11px;
         a {
             font-weight: bold;
@@ -2489,7 +2493,8 @@ select {
 
 .block.newsletter {
     @fit : 45px;
-    .page.bottom & .title {
+    text-align: left;
+    .title {
         display: none;
     }
     .field {
@@ -2515,8 +2520,13 @@ select {
     input[type="text"] {
         width: 100%;
     }
+    .footer & {
+        width:310px;
+        float:right;
+    }
 
 }
+
 
 .action.subscribe {
     .resetAction;

@@ -27,9 +27,9 @@
 <action method="addCss"><file>mui/components.css</file></action>
 <action method="addCss"><file>mui/utils.css</file></action> -->
             <action method="addCss"><file>css/styles.css</file></action>
-            <action method="addJs"><file>lib/modernizr.js</file></action>
+            <action method="addJs"><file>js/head.js</file></action>
             <action method="addJs"><file>jquery/jquery.hoverIntent.js</file></action>
-            <action method="addJs"><file>jquery/jquery.dropdowns.js</file></action>
+            <action method="addJs"><file>js/jquery.dropdowns.js</file></action>
             <action method="addJs"><file>js/theme.js</file></action>
             <action method="addJs"><file>js/tabs.js</file></action>
             <action method="addJs"><file>js/selectivizr-min.js</file><params/><if>lt IE 9</if></action>
@@ -38,7 +38,7 @@
             <container name="place.communication" label="Newsletter Placeholder" htmlTag="div" htmlClass="place communication" />
         </reference>
 
-        <move element="form.subscribe" destination="place.communication" after="-" />
+        <!-- <move element="form.subscribe" destination="place.communication" after="-" /> -->
         <move element="place.communication" destination="page.bottom" after="-" />
         <move element="external.pagecache.cookie" destination="content.bottom" after="-" />
 
