@@ -102,6 +102,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/'.$this->_controller.'/save', array('_current'=>true, 'back'=>null));
+        return $this->getUrl(
+            '*/'.$this->_controller.'/save',
+            array(
+                '_current' => true,
+                'back' => null,
+                'product_tab' => $this->getRequest()->getParam('product_tab')
+            )
+        );
     }
 }

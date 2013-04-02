@@ -42,8 +42,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     protected function _initProduct()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Manage Products'));
+        $this->_title($this->__('Manage Products'));
 
         $productId  = (int) $this->getRequest()->getParam('id');
         /** @var $product Mage_Catalog_Model_Product */
@@ -162,14 +161,14 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function indexAction()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Manage Products'));
+        $this->_title($this->__('Manage Products'));
         /** @var $limitation Mage_Catalog_Model_Product_Limitation */
         $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Product_Limitation');
         if ($limitation->isCreateRestricted()) {
             $this->_getSession()->addNotice($limitation->getCreateRestrictedMessage());
         }
         $this->loadLayout();
+        $this->_setActiveMenu('Mage_Catalog::catalog_products');
         $this->renderLayout();
     }
 
@@ -439,6 +438,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function superGroupAction()
     {
+        $this->_initProduct();
         $this->loadLayout(false);
         $this->renderLayout();
     }
@@ -799,6 +799,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                             Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getSku()))
                     );
                 }
+                if($redirectBack === 'duplicate') {
+                    $newProduct = $product->duplicate();
+                }
+
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage())
                     ->setProductData($data);
@@ -815,6 +819,15 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 'set'  => $product->getAttributeSetId(),
                 'type' => $product->getTypeId()
             ));
+        } elseif ($redirectBack === 'duplicate' && isset($newProduct)) {
+            $this->_redirect(
+                '*/*/edit',
+                array(
+                    'id' => $newProduct->getId(),
+                    'back' => null,
+                    '_current' => true
+                )
+            );
         } elseif ($redirectBack) {
             $this->_redirect('*/*/edit', array(
                 'id'       => $productId,

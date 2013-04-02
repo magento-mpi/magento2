@@ -37,7 +37,7 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
      */
     public function indexAction()
     {
-        $this->_title($this->__('System'))->_title($this->__('Manage Currency Rates'));
+        $this->_title($this->__('Manage Currency Rates'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Mage_CurrencySymbol::system_currency_rates');
@@ -86,7 +86,7 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
             try {
                 foreach ($data as $currencyCode => $rate) {
                     foreach( $rate as $currencyTo => $value ) {
-                        $value = abs(Mage::getSingleton('Mage_Core_Model_Locale')->getNumber($value));
+                        $value = abs(Mage::getSingleton('Mage_Core_Model_LocaleInterface')->getNumber($value));
                         $data[$currencyCode][$currencyTo] = $value;
                         if( $value == 0 ) {
                             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addWarning(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Invalid input data for %s => %s rate', $currencyCode, $currencyTo));

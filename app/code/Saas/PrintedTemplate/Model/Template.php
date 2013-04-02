@@ -439,7 +439,7 @@ class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
 
         if (!file_exists($filePath)) {  // If no template specified as  store default locale, use en_US
             $filePath = $localeDir . DS
-                . Mage_Core_Model_Locale::DEFAULT_LOCALE
+                . Mage_Core_Model_LocaleInterface::DEFAULT_LOCALE
                 . DS . 'template' . DS . $type . DS . $file;
         }
 

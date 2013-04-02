@@ -27,8 +27,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
     {
         $this->loadLayout()->_setActiveMenu('Enterprise_GiftWrapping::sales_enterprise_giftwrapping');
 
-        $this->_title(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Sales'))
-            ->_title(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Manage Gift Wrapping'));
+        $this->_title(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Manage Gift Wrapping'));
         return $this;
     }
 

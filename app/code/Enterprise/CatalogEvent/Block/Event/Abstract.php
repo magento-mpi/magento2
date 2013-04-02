@@ -61,7 +61,7 @@ abstract class Enterprise_CatalogEvent_Block_Event_Abstract extends Mage_Core_Bl
     public function getEventTime($type, $event, $format = null)
     {
         if ($format === null) {
-            $format = $this->_getLocale()->getTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
+            $format = $this->_getLocale()->getTimeFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
         }
 
         return $this->_getEventDate($type, $event, $format);
@@ -78,7 +78,7 @@ abstract class Enterprise_CatalogEvent_Block_Event_Abstract extends Mage_Core_Bl
     public function getEventDate($type, $event, $format = null)
     {
         if ($format === null) {
-            $format = $this->_getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
+            $format = $this->_getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
         }
 
         return $this->_getEventDate($type, $event, $format);
@@ -110,12 +110,12 @@ abstract class Enterprise_CatalogEvent_Block_Event_Abstract extends Mage_Core_Bl
     {
         $date = new Zend_Date($this->_getLocale()->getLocale());
         // changing timezone to UTC
-        $date->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
+        $date->setTimezone(Mage::DEFAULT_TIMEZONE);
 
         $dateString = $event->getData('date_' . $type);
         $date->set($dateString, Varien_Date::DATETIME_INTERNAL_FORMAT);
 
-        if (($timezone = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_TIMEZONE))) {
+        if (($timezone = Mage::app()->getStore()->getConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE))) {
             // changing timezone to default store timezone
             $date->setTimezone($timezone);
         }
@@ -139,7 +139,7 @@ abstract class Enterprise_CatalogEvent_Block_Event_Abstract extends Mage_Core_Bl
     /**
      * Retrieve current locale
      *
-     * @return Mage_Core_Model_Locale
+     * @return Mage_Core_Model_LocaleInterface
      */
     protected function _getLocale()
     {

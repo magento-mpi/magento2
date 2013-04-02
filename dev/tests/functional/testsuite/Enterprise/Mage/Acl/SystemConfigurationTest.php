@@ -56,7 +56,7 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
         $tabElement = $this->loadDataSet('SystemConfigurationMenu', 'configuration_menu_default');
         $xpath = $this->_getControlXpath('tab', 'all_tabs');
         //verify that only one tab is presented on page
-        $this->assertEquals(1, count($this->getElements($xpath)),
+        $this->assertEquals(1, $this->getControlCount('tab', 'all_tabs'),
             'Not only "' . $tabName . '" is presented on page.');
         //verify that this tab equal to resource from ACL tree
         foreach ($tabElement[$tabName] as $fieldset => $fieldsetName) {

@@ -333,7 +333,7 @@ class Core_Mage_Store_SingleStoreMode_MultiStoreModeWithEnableSingleStoreModeTes
      */
     public function verificationManageContent()
     {
-        $this->markTestSkipped('Skipped due to bug MAGETWO-7394');
+        $this->markTestIncomplete('Skipped due to bug MAGETWO-7394');
         $this->navigate('manage_cms_pages');
         $this->assertTrue($this->controlIsPresent('button', 'add_new_page'),
             'There is no "Add New Page" button on the page');

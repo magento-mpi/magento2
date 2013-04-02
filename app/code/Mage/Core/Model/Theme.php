@@ -223,13 +223,23 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Check theme is virtual
+     * Check if theme is virtual
      *
      * @return bool
      */
     public function isVirtual()
     {
-        return self::TYPE_VIRTUAL == $this->getType();
+        return $this->getType() == self::TYPE_VIRTUAL;
+    }
+
+    /**
+     * Check if theme is physical
+     *
+     * @return bool
+     */
+    public function isPhysical()
+    {
+        return $this->getType() == self::TYPE_PHYSICAL;
     }
 
     /**

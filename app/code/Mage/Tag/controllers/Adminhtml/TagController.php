@@ -62,9 +62,7 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Tags'))
-             ->_title($this->__('All Tags'));
+        $this->_title($this->__('All Tags'));
 
         $this->_initAction()
             ->_addBreadcrumb(
@@ -110,8 +108,7 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     public function editAction()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Tags'));
+        $this->_title($this->__('Tags'));
 
         if (! (int) $this->getRequest()->getParam('store')) {
             return $this->_redirect(
@@ -137,7 +134,7 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 
         Mage::register('tag_tag', $model);
 
-        $this->_initAction()->renderLayout();
+        $this->_initAction()->_setActiveMenu('Mage_Tag::catalog_tag_all')->renderLayout();
     }
 
     /**
@@ -234,9 +231,7 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     public function pendingAction()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Tags'))
-             ->_title($this->__('Pending Tags'));
+        $this->_title($this->__('Pending Tags'));
 
         $this->_initAction()
             ->_addBreadcrumb(
@@ -252,7 +247,7 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     public function assignedAction()
     {
-        $this->_title($this->__('Tags'))->_title($this->__('Assigned'));
+        $this->_title($this->__('Assigned'));
 
         $this->_initTag();
         $this->loadLayout();

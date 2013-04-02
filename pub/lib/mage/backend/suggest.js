@@ -372,7 +372,6 @@
          * @param {Object} e - event object
          */
         close: function(e) {
-            this.element.val('');
             this._renderedContext = null;
             this.dropdown.hide().empty();
             this._trigger('close', e);
@@ -948,16 +947,6 @@
                 .on('removeOption', $.proxy(function(e) {
                     this.removeOption(e, item);
                 }, this));
-        },
-
-        /**
-         * @override
-         */
-        close: function() {
-            this._superApply(arguments);
-            if (this.options.multiselect) {
-                this.element.val('');
-            }
         }
     });
 })(jQuery);

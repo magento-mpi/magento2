@@ -26,7 +26,7 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
                 $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
                     'password' => $this->getConfigHelper()->getDefaultPassword(), 'captcha' => 1111);
                 $this->adminUserHelper()->loginAdmin($loginData);
-                $this->assertTrue($this->checkCurrentPage('dashboard'), $this->getMessagesOnPage());
+                $this->assertTrue($this->checkCurrentPage($this->_pageAfterAdminLogin), $this->getMessagesOnPage());
             } else {
                 $this->loginAdminUser();
             }
@@ -60,7 +60,7 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
                 $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
                                    'password'  => $this->getConfigHelper()->getDefaultPassword(), 'captcha' => 1111);
                 $this->adminUserHelper()->loginAdmin($loginData);
-                $this->assertTrue($this->checkCurrentPage('store_launcher'), $this->getMessagesOnPage());
+                $this->assertTrue($this->checkCurrentPage($this->_pageAfterAdminLogin), $this->getMessagesOnPage());
             } else {
                 $this->loginAdminUser();
             }
@@ -134,7 +134,7 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
-        $this->assertTrue($this->checkCurrentPage('store_launcher'), $this->getParsedMessages());
+        $this->assertTrue($this->checkCurrentPage($this->_pageAfterAdminLogin), $this->getParsedMessages());
         $this->logoutAdminUser();
 
         return $loginData;
@@ -156,7 +156,7 @@ class Core_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase
                            'password'  => $this->getConfigHelper()->getDefaultPassword(), 'captcha' => '1111');
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->assertTrue($this->checkCurrentPage('store_launcher'), $this->getMessagesOnPage());
+        $this->assertTrue($this->checkCurrentPage($this->_pageAfterAdminLogin), $this->getMessagesOnPage());
         $this->navigate('manage_admin_users');
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying

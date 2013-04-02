@@ -164,6 +164,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      */
     public function existSkuInConfigurable($productData)
     {
+        $this->markTestIncomplete('MAGETWO-8716');
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable', false);
         $this->addParameter('elementTitle', $productData['general_name']);
@@ -434,6 +435,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      */
     public function configurableWithSimpleProduct($attrData)
     {
+        $this->markTestIncomplete('MAGETWO-8716');
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_required');
         $simple['general_user_attr']['dropdown'][$attrData['attribute_code']] =
@@ -470,6 +472,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      */
     public function configurableWithVirtualProduct($attrData)
     {
+        $this->markTestIncomplete('MAGETWO-8716');
         //Data
         $virtual = $this->loadDataSet('Product', 'virtual_product_required');
         $virtual['general_user_attr']['dropdown'][$attrData['attribute_code']] =
@@ -506,6 +509,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
      */
     public function configurableWithDownloadableProduct($attrData)
     {
+        $this->markTestIncomplete('MAGETWO-8716');
         //Data
         $download = $this->loadDataSet('Product', 'downloadable_product_required',
             array('downloadable_links_purchased_separately' => 'No'));

@@ -188,6 +188,32 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider isPhysicalDataProvider
+     * @param int $type
+     * @param string $isPhysical
+     * @covers Mage_Core_Model_Theme::isPhysical
+     */
+    public function testIsPhysical($type, $isPhysical)
+    {
+        /** @var $themeModel Mage_Core_Model_Theme */
+        $themeModel = $this->getMock('Mage_Core_Model_Theme', null, array(), '', false);
+        $themeModel->setType($type);
+        $this->assertEquals($isPhysical, $themeModel->isPhysical());
+    }
+
+    /**
+     * @return array
+     */
+    public function isPhysicalDataProvider()
+    {
+        return array(
+            array('type' => Mage_Core_Model_Theme::TYPE_VIRTUAL, 'isPhysical' => false),
+            array('type' => Mage_Core_Model_Theme::TYPE_STAGING, 'isPhysical' => false),
+            array('type' => Mage_Core_Model_Theme::TYPE_PHYSICAL, 'isPhysical' => true)
+        );
+    }
+
+    /**
      * @dataProvider isVisibleDataProvider
      * @param int $type
      * @param string $isVisible
