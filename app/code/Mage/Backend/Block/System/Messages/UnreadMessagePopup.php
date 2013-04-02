@@ -10,22 +10,22 @@ class Mage_Backend_Block_System_Messages_UnreadMessagePopup extends Mage_Backend
     /**
      * System Message list
      *
-     * @var Mage_Backend_Model_System_MessagingService
+     * @var Mage_Backend_Model_Resource_System_Message_Collection
      */
-    protected $_messagingService;
+    protected $_messages;
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Backend_Model_System_MessagingService $messagingService
+     * @param Mage_Backend_Model_Resource_System_Message_Collection_Synchronized $messages
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Backend_Model_System_MessagingService $messagingService,
+        Mage_Backend_Model_Resource_System_Message_Collection_Synchronized $messages,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        $this->_messagingService = $messagingService;
+        $this->_messages = $messages;
     }
 
     /**
@@ -33,7 +33,7 @@ class Mage_Backend_Block_System_Messages_UnreadMessagePopup extends Mage_Backend
      */
     public function _toHtml()
     {
-        if (count($this->_messagingService->hasUnread())) {
+        if (count($this->_messages->getUnread())) {
             return parent::_toHtml();
         }
         return '';
@@ -46,6 +46,6 @@ class Mage_Backend_Block_System_Messages_UnreadMessagePopup extends Mage_Backend
      */
     public function getUnreadMessages()
     {
-        return $this->_messagingService->getUnread();
+        return $this->_messages->getUnread();
     }
 }

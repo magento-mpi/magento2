@@ -106,7 +106,7 @@ class Mage_Backend_Model_System_Message_Baseurl implements Mage_Backend_Model_Sy
      */
     public function getIdentity()
     {
-        return md5('OUTDATED_INDEXES' . $this->_getConfigUrl());
+        return md5('BASE_URL' . $this->_getConfigUrl());
     }
 
     /**

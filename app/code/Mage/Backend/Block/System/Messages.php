@@ -10,18 +10,18 @@ class Mage_Backend_Block_System_Messages extends Mage_Backend_Block_Template
     /**
      * Message list
      *
-     * @var Mage_Backend_Model_System_MessageList
+     * @var Mage_Backend_Model_Resource_System_Message_Collection_Synchronized
      */
     protected $_messages;
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Backend_Model_Resource_System_Message_Collection $messages
+     * @param Mage_Backend_Model_Resource_System_Message_Collection_Synchronized $messages
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Backend_Model_Resource_System_Message_Collection $messages,
+        Mage_Backend_Model_Resource_System_Message_Collection_Synchronized $messages,
         array $data = array()
     ) {
         parent::__construct($context, $data);

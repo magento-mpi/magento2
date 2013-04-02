@@ -28,9 +28,9 @@ class Mage_Index_Model_System_Message_IndexOutdated implements Mage_Backend_Mode
     protected $_authorization;
 
     /**
-     * @var array
+     * @var array|null
      */
-    protected $_indexes;
+    protected $_indexes = null;
 
     /**
      * @param Mage_Core_Model_Factory_Helper $helperFactory
@@ -55,7 +55,8 @@ class Mage_Index_Model_System_Message_IndexOutdated implements Mage_Backend_Mode
      */
     protected function _getProcessesForReindex()
     {
-        if (!$this->_indexes) {
+        if ($this->_indexes === null) {
+            $this->_indexes = array();
             $processes = $this->_indexer->getProcessesCollection()->addEventsStats();
             /** @var $process Mage_Index_Model_Process */
             foreach ($processes as $process) {

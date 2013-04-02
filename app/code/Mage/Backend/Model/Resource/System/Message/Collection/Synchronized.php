@@ -6,7 +6,8 @@
  * @license   {license_link}
  */
 
-class Mage_Backend_Model_Resource_System_Messages_Syncronized extends Mage_Backend_Model_System_Message_Collection
+class Mage_Backend_Model_Resource_System_Message_Collection_Synchronized
+    extends Mage_Backend_Model_Resource_System_Message_Collection
 {
     /**
      * Retrieve unread message list
