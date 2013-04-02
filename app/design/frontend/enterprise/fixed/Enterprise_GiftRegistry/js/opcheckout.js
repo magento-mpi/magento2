@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    one page checkout first step
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,16 +19,15 @@
 
         _create: function() {
             this._super();
-            if (this.options.giftRegistry.enable) {
-                this._injectElement();
-            }
+            this._injectElement();
         },
         /**
          * injecting template for shipping and billing form
          * @private
          */
         _injectElement: function() {
-            $(this.options.giftRegistry.radioTemplateSelector).tmpl().appendTo($(this.options.giftRegistry.listContainerSelector, this.options.billing.form).last('li'));
+            $(this.options.giftRegistry.radioTemplateSelector).tmpl()
+                .appendTo($(this.options.giftRegistry.listContainerSelector, this.options.billing.form).last('li'));
             $(this.options.giftRegistry.checkboxTemplateSelector).tmpl()
                 .appendTo($(this.options.giftRegistry.listContainerSelector, this.options.shipping.form).last('li'))
                 .on('click', $.proxy(this._checkboxHandler, this));
@@ -74,4 +71,4 @@
             }
         }
     });
-})(jQuery, window);
+})(jQuery);

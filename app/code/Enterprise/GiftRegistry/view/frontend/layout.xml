@@ -136,12 +136,6 @@
         </reference>
     </catalog_product_view_type_bundle>
 
-    <checkout_onepage_index>
-        <reference name="content">
-            <block type="Enterprise_GiftRegistry_Block_Customer_Checkout" name="giftregistry.customer.checkout" template="customer/checkout/onepage.phtml"/>
-        </reference>
-    </checkout_onepage_index>
-
     <checkout_multishipping_addresses>
         <reference name="content">
             <block type="Enterprise_GiftRegistry_Block_Customer_Checkout" name="giftregistry.customer.checkout" template="customer/checkout/multishipping.phtml"/>
