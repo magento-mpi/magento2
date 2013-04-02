@@ -3678,6 +3678,11 @@ table tbody tr:nth-child(odd):hover th {
     margin-left: 30px;
 }
 
+.grid-actions .filter-actions button {
+    float: left;
+    margin-left: 4px;
+}
+
 .grid-actions .pager select {
     width: 5em;
     margin: 0 4px;
