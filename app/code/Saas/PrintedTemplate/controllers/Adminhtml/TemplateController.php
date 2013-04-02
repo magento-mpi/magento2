@@ -23,7 +23,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
     public function indexAction()
     {
         $this->_getSession()->addNotice($this->__('Please make sure that popups are allowed.'));
-        $this->_title($this->__('System'))->_title($this->__('Printed Templates'));
+        $this->_title($this->__('Printed Templates'));
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
@@ -93,7 +93,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
      */
     protected function _initTemplate($idFieldName = 'template_id')
     {
-        $this->_title($this->__('System'))->_title($this->__('Printed Templates'));
+        $this->_title($this->__('Printed Templates'));
 
         $fieldId = (int)$this->getRequest()->getParam($idFieldName);
         $model = Mage::getModel('Saas_PrintedTemplate_Model_Template');

@@ -203,7 +203,7 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Mage_Core_Block_Templat
     public function getCalendarDateHtml($name, $id, $value = null, $formatType = null, $class = '')
     {
         if (is_null($formatType)) {
-            $formatType = Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM;
+            $formatType = Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM;
         }
 
         $calendar = $this->getLayout()->createBlock('Mage_Core_Block_Html_Date')

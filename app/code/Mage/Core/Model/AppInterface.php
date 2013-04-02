@@ -101,7 +101,7 @@ interface Mage_Core_Model_AppInterface extends Mage_Core_Model_StoreManagerInter
     /**
      * Retrieve application locale object
      *
-     * @return Mage_Core_Model_Locale
+     * @return Mage_Core_Model_LocaleInterface
      */
     public function getLocale();
 

@@ -13,7 +13,7 @@
 manage_stores:
     mca: system_store/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'system_store')]
-    title: Stores / System / Magento Admin
+    title: Stores / Settings / Stores / Magento Admin
     uimap: &manage_stores
         form:
             fieldsets:
@@ -50,13 +50,13 @@ manage_stores:
 
 manage_stores_items_per_page:
     mca: system_store/limit/%limit%/
-    title: Stores / System / Magento Admin
+    title: Stores / Settings / Stores / Magento Admin
     uimap: *manage_stores
 
 # 'New Store View' Page
 new_store_view:
     mca: system_store/newStore/
-    title: New Store View / Stores / System / Magento Admin
+    title: New Store View / Stores / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -83,7 +83,7 @@ new_store_view:
 # 'Edit Store View' Page
 edit_store_view:
     mca: system_store/editStore/store_id/%id%/
-    title: %elementTitle% / Stores / System / Magento Admin
+    title: %elementTitle% / Stores / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -111,7 +111,7 @@ edit_store_view:
 # 'New Website' Page
 new_website:
     mca: system_store/newWebsite/
-    title: New Website / Stores / System / Magento Admin
+    title: New Website / Stores / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -135,7 +135,7 @@ new_website:
 # 'Edit Website' Page
 edit_website:
     mca: system_store/editWebsite/website_id/%id%/
-    title: %elementTitle% / Stores / System / Magento Admin
+    title: %elementTitle% / Stores / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -164,7 +164,7 @@ edit_website:
 # 'New Store' Page
 new_store:
     mca: system_store/newGroup/
-    title: New Store / Stores / System / Magento Admin
+    title: New Store / Stores / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -187,7 +187,7 @@ new_store:
 # 'Edit Store' Page
 edit_store:
     mca: system_store/editGroup/group_id/%id%/
-    title: %elementTitle% / Stores / System / Magento Admin
+    title: %elementTitle% / Stores / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -212,7 +212,7 @@ edit_store:
 # 'Delete Store' Page
 detele_store:
     mca: system_store/deleteGroup/item_id/%id%/
-    title: Delete Store / Stores / System / Magento Admin
+    title: Delete Store / Stores / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -230,7 +230,7 @@ detele_store:
 # 'Delete Website' Page
 detele_website:
     mca: system_store/deleteWebsite/item_id/%id%/
-    title: Delete Website / Stores / System / Magento Admin
+    title: Delete Website / Stores / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -248,7 +248,7 @@ detele_website:
 # 'Delete Store View' Page
 detele_store_view:
     mca: system_store/deleteStore/item_id/%id%/
-    title: Delete Store View / Stores / System / Magento Admin
+    title: Delete Store View / Stores / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:

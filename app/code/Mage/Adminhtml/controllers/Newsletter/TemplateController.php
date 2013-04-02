@@ -34,7 +34,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
      */
     protected function _setTitle()
     {
-        return $this->_title($this->__('Newsletter'))->_title($this->__('Newsletter Templates'));
+        return $this->_title($this->__('Newsletter Templates'));
     }
 
     /**

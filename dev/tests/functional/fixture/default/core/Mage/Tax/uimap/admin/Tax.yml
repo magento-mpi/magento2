@@ -15,7 +15,7 @@
 manage_tax_zones_and_rates:
     mca: tax_rate/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'tax_rate') and not(contains(@href, 'importExport'))]
-    title: Manage Tax Zones and Rates / Tax / Sales / Magento Admin
+    title: Manage Tax Zones and Rates / Taxes / Stores / Magento Admin
     uimap:
         form: &searchTaxRatesGrid
             fieldsets:
@@ -48,7 +48,7 @@ manage_tax_zones_and_rates:
 # 'New Tax Rate' Page
 create_tax_rate:
     mca: tax_rate/add/
-    title: New Rate / Manage Tax Zones and Rates / Tax / Sales / Magento Admin
+    title: New Rate / Manage Tax Zones and Rates / Taxes / Stores / Magento Admin
     uimap:
         form: &newTaxRatesForm
             fieldsets:
@@ -92,7 +92,7 @@ create_tax_rate:
 # 'Edit Tax Rate' Page
 edit_tax_rate:
     mca: tax_rate/edit/rate/%rate%/
-    title: %elementTitle% / Manage Tax Zones and Rates / Tax / Sales / Magento Admin
+    title: %elementTitle% / Manage Tax Zones and Rates / Taxes / Stores / Magento Admin
     uimap:
         form: &editTaxRatesForm
             fieldsets:
@@ -127,7 +127,7 @@ edit_tax_rate:
 manage_import_export_tax_rates:
     mca: tax_rate/importExport/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'tax_rate/import')]
-    title: Import and Export Tax Rates / Manage Tax Zones and Rates / Tax / Sales / Magento Admin
+    title: Import and Export Tax Rates / Manage Tax Zones and Rates / Data Transfer / System / Magento Admin
     uimap:
         form: &salesImportExportTaxRates
             fieldsets:
@@ -152,7 +152,7 @@ manage_import_export_tax_rates:
 manage_tax_rule:
     mca: tax_rule/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'tax_rule')]
-    title: Manage Tax Rules / Tax / Sales / Magento Admin
+    title: Manage Tax Rules / Taxes / Stores / Magento Admin
     uimap:
         form: &searchTaxRulesGrid
             fieldsets:
@@ -185,7 +185,7 @@ manage_tax_rule:
 # Add New Tax Rule page
 create_tax_rule:
     mca: tax_rule/new/
-    title: New Rule / Manage Tax Rules / Tax / Sales / Magento Admin
+    title: New Rule / Manage Tax Rules / Taxes / Stores / Magento Admin
     uimap:
         form: &create_tax_rule-form
             fieldsets:
@@ -241,7 +241,7 @@ create_tax_rule:
 # Edit Tax Rule page
 edit_tax_rule:
     mca: tax_rule/edit/rule/%rule%/
-    title: %elementTitle% / Manage Tax Rules / Tax / Sales / Magento Admin
+    title: %elementTitle% / Manage Tax Rules / Taxes / Stores / Magento Admin
     uimap:
         form: *create_tax_rule-form
         buttons:
