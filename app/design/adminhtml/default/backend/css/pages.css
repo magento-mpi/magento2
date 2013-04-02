@@ -932,6 +932,19 @@
     margin-left: 5px;
 }
 
+#export_filter_grid .grid table td:first-child,
+#export_filter_grid .grid tr th:first-child {
+    border-left: 0;
+}
+
+#export_filter_grid .data thead {
+    border-left: 1px solid #837F79;
+}
+
+#export_filter_grid .data tbody {
+    border-left: 1px solid #c0bbaf;
+}
+
 /*
     Reports
 -------------------------------------- */
