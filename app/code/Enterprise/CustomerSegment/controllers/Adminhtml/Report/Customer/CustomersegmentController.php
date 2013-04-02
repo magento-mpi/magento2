@@ -33,7 +33,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('Mage_Reports::report_customers')
+            ->_setActiveMenu('Enterprise_CustomerSegment::report_customers_segment')
             ->_addBreadcrumb(
                 Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Reports'),
                 Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Reports')
@@ -107,9 +107,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
      */
     public function segmentAction()
     {
-        $this->_title($this->__('Reports'))
-             ->_title($this->__('Customers'))
-             ->_title($this->__('Customer Segments'));
+        $this->_title($this->__('Customer Segments'));
 
         $this->_initAction()
             ->_addContent(
@@ -124,9 +122,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
      */
     public function detailAction()
     {
-        $this->_title($this->__('Reports'))
-             ->_title($this->__('Customers'))
-             ->_title($this->__('Customer Segments'));
+        $this->_title($this->__('Customer Segments'));
 
         if ($this->_initSegment()) {
 

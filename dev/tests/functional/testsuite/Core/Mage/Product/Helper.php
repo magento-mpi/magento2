@@ -554,39 +554,37 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function saveProduct($additionalAction = 'close', $saveNewAttributeInSet = 'current')
     {
-        if ($this->controlIsVisible('button', 'save_disabled')) {
-            $this->fail('Save button is disabled');
+        if ($additionalAction == 'continueEdit') {
+            $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+            return;
         }
-        if ($additionalAction != 'continueEdit') {
-            $this->waitForControlVisible('button', 'save_split_select');
-            $this->clickButton('save_split_select', false);
-            $this->addParameter('additionalAction', $additionalAction);
-            $this->waitForControlVisible('button', 'save_product_by_action');
-            $waitConditions = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
-            $waitConditions[] = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'choose_affected_attribute_set');
-            $this->clickButton('save_product_by_action', false);
+        $this->waitForControlVisible('button', 'save_split_select');
+        $this->clickButton('save_split_select', false);
+        $this->addParameter('additionalAction', $additionalAction);
+        $this->waitForControlVisible('button', 'save_product_by_action');
+        $waitConditions = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
+        $waitConditions[] = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'choose_affected_attribute_set');
+        $this->clickButton('save_product_by_action', false);
+        $this->waitForAjax();
+        $this->waitForElementVisible($waitConditions);
+        if ($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'choose_affected_attribute_set')) {
+            if (strtolower($saveNewAttributeInSet) == 'current') {
+                $this->fillRadiobutton('current_attribute_set', 'Yes');
+            } elseif ($saveNewAttributeInSet === null) {
+                return;
+            } else {
+                $this->fillRadiobutton('new_attribute_set', 'Yes');
+                $this->fillField('new_attribute_set_name', $saveNewAttributeInSet);
+            }
+            $this->clickButton('confirm', false);
+            array_pop($waitConditions);
             $this->waitForAjax();
             $this->waitForElementVisible($waitConditions);
-            if ($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'choose_affected_attribute_set')) {
-                if (strtolower($saveNewAttributeInSet) == 'current') {
-                    $this->fillRadiobutton('current_attribute_set', 'Yes');
-                } elseif ($saveNewAttributeInSet === null) {
-                    return;
-                } else {
-                    $this->fillRadiobutton('new_attribute_set', 'Yes');
-                    $this->fillField('new_attribute_set_name', $saveNewAttributeInSet);
-                }
-                $this->clickButton('confirm', false);
-                array_pop($waitConditions);
-                $this->waitForAjax();
-                $this->waitForElementVisible($waitConditions);
-            }
-            $this->addParameter('id', $this->defineIdFromUrl());
-            $this->addParameter('store', $this->defineParameterFromUrl('store'));
-            $this->validatePage();
-        } else {
-            $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         }
+        $this->addParameter('id', $this->defineIdFromUrl());
+        $this->addParameter('store', $this->defineParameterFromUrl('store'));
+        $this->addParameter('tab', $this->defineParameterFromUrl('tab'));
+        $this->validatePage();
     }
 
     /**
@@ -968,7 +966,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                         list($path) = explode($categoryNode, $categoryPath);
                         $this->fail("'$categoryNode' category with path = '$path' could not found.");
                     } else {
-                        $this->createNewCategory($categoryPath);
+                        $this->createNewCategory($categoryPath, true);
                         $this->waitUntil(
                             function ($testCase) use ($selectedQty) {
                                 /** @var Mage_Selenium_TestCase $testCase */
@@ -2378,6 +2376,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $formedData = $this->formGroupedData($data);
         $this->clickButton('add_products_to_group', false);
+        $this->pleaseWait();
         $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'select_associated_product_option');
         foreach ($formedData['items'] as $product) {
             $this->searchAndChoose($product, 'select_associated_product_option');

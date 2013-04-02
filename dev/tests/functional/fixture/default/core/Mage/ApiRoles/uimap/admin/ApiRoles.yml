@@ -29,7 +29,7 @@
 api_roles_management:
     mca: webapi_role/
     click_xpath: //*[@class='navigation']//a[contains(@href, '/webapi_role/')]
-    title: API Roles / Web Api / System / Magento Admin
+    title: API Roles / REST / System / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -58,7 +58,7 @@ api_roles_management:
 
 new_role:
     mca: webapi_role/edit/
-    title: New API Role / API Roles / Web Api / System / Magento Admin
+    title: New API Role / API Roles / REST / System / Magento Admin
     uimap:
         form:
             tabs:
@@ -93,7 +93,7 @@ new_role:
 
 edit_role:
     mca: webapi_role/edit/role_id/%id%/
-    title: Edit API Role / API Roles / Web Api / System / Magento Admin
+    title: Edit API Role / API Roles / REST / System / Magento Admin
     uimap:
         form:
             tabs:

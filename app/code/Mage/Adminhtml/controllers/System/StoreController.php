@@ -36,8 +36,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
     public function indexAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Stores'));
+        $this->_title($this->__('Stores'));
 
         /** @var $limitation Mage_Core_Model_Store_Limitation */
         $limitation = $this->_objectManager->get('Mage_Core_Model_Store_Limitation');
@@ -86,8 +85,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
     public function editStoreAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Stores'));
+        $this->_title($this->__('Stores'));
 
         $session = $this->_getSession();
         if ($session->getPostData()) {
@@ -240,9 +238,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
     public function deleteWebsiteAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Stores'))
-             ->_title($this->__('Delete Website'));
+        $this->_title($this->__('Delete Website'));
 
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);
@@ -272,9 +268,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
     public function deleteGroupAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Stores'))
-             ->_title($this->__('Delete Store'));
+        $this->_title($this->__('Delete Store'));
 
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);
@@ -304,9 +298,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
     public function deleteStoreAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Stores'))
-             ->_title($this->__('Delete Store View'));
+        $this->_title($this->__('Delete Store View'));
 
         $session = $this->_getSession();
         $itemId = $this->getRequest()->getParam('item_id', null);

@@ -147,7 +147,7 @@
 
     function updatePriceAmountValidation() {
         if($('allow_open_amount')) {
-            if ($('allow_open_amount').value == 1) {
+            if ($('allow_open_amount').checked) {
                 jQuery('#giftcard_amounts_total').trigger('resetElement');
                 Element.removeClassName($('giftcard_amounts_total'), 'required-entry');
             } else {

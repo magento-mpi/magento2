@@ -843,6 +843,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
      */
     public function verifyAssignmentAfterDoubleGeneration($attributeData)
     {
+        $this->markTestIncomplete('MAGETWO-8716');
         //Data for creation
         $assignOptionTitle = $attributeData['attribute1']['option_1']['admin_option_name'];
         $newOptionTitle = $attributeData['attribute1']['option_2']['admin_option_name'];

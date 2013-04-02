@@ -13,7 +13,7 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
 {
     public function indexAction()
     {
-        $this->_title($this->__('System'))->_title($this->__('Design'));
+        $this->_title($this->__('Design'));
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Adminhtml::system_design_schedule');
         $this->renderLayout();
@@ -32,10 +32,10 @@ class Mage_Adminhtml_System_DesignController extends Mage_Adminhtml_Controller_A
 
     public function editAction()
     {
-        $this->_title($this->__('System'))->_title($this->__('Design'));
+        $this->_title($this->__('Design'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Adminhtml::system');
+        $this->_setActiveMenu('Mage_Adminhtml::system_design_schedule');
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $id  = (int) $this->getRequest()->getParam('id');

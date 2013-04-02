@@ -79,3 +79,4 @@ Mage/Connect/Block/Adminhtml/Extension/Custom/Edit
 Mage/Tax/Model/Sales/Total/Quote/Nominal
 Mage/Theme/Block/Adminhtml/System/Design/Theme/Edit
 Mage/User/Block/User/Edit
+var/generation

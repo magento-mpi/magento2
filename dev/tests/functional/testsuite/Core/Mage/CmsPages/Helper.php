@@ -112,7 +112,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
         } else {
             $this->clickButton('insert_widget', false);
         }
-        $this->waitForElement($this->_getControlXpath('dropdown', 'widget_type'));
+        $this->waitForControlVisible('dropdown', 'widget_type');
         $this->fillFieldset($widgetData, 'widget_insertion');
         if ($chooseOption) {
             $this->selectOptionItem($chooseOption);
@@ -142,8 +142,9 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
 
         $rowNames = array('Title', 'Product Name');
         $title = 'Not Selected';
+        $xpath = $this->_getControlXpath('pageelement', 'every_popup');
         if (array_key_exists('category_path', $optionData)) {
-            $this->addParameter('widgetParam', "//div[@id='widget-chooser_content']");
+            $this->addParameter('widgetParam', $xpath);
             $nodes = explode('/', $optionData['category_path']);
             $title = end($nodes);
             $this->categoryHelper()->selectCategory($optionData['category_path'], $name);
@@ -153,7 +154,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
         if (count($optionData) > 0) {
             $xpathTR = $this->search($optionData, $name);
             $this->assertNotEquals(null, $xpathTR, 'Element is not found');
-            $names = $this->getTableHeadRowNames("//div[@id='widget-chooser_content']//table[@id]");
+            $names = $this->getTableHeadRowNames($xpath . "//table[@id]");
             foreach ($rowNames as $value) {
                 if (in_array($value, $names)) {
                     $this->addParameter('cellIndex', array_search($value, $names) + 1);

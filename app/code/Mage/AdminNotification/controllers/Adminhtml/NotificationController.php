@@ -13,7 +13,7 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
 {
     public function indexAction()
     {
-        $this->_title($this->__('System'))->_title($this->__('Notifications'));
+        $this->_title($this->__('Notifications'));
 
         $this->loadLayout()
             ->_setActiveMenu('Mage_AdminNotification::system_adminnotification')

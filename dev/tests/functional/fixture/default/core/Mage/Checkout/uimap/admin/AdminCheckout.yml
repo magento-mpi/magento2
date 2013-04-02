@@ -14,7 +14,7 @@
 manage_sales_orders:
     mca: sales_order/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_order/')]
-    title: Orders / Sales / Magento Admin
+    title: Orders / Operations / Sales / Magento Admin
     uimap:
         form: &orderGridMassactionForm
             fieldsets:
@@ -83,8 +83,7 @@ manage_sales_orders:
             invalid_coupon_code: //li[normalize-space(@class)='error-msg' and contains(.,'"%code%" coupon code is not valid.')]
             no_shipping: //strong[text()='Sorry, no quotes are available for this order at this time.']
             no_payment: //label[text()='No Payment Information Required']
-            empty_required_field: //label[(@for)='%field_id%' and contains(., 'This is a required field.')]
-            required_field_empty: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             shipping_must_be_specified: //li[normalize-space(@class)='error-msg' and contains(.,'Shipping method must be specified.')]
             error_specify_order_items: //li[normalize-space(@class)='error-msg' and contains(.,'You need to specify order items.')]
             empty_payment_method: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not available.')]
@@ -124,7 +123,7 @@ manage_sales_orders:
 # 'New Order' page
 create_order_for_new_customer:
     mca: sales_order_create/
-    title: New Order / Orders / Sales / Magento Admin
+    title: New Order / Orders / Operations / Sales / Magento Admin
     uimap: &create_order_for_new_customer
         form:
             fieldsets:
@@ -389,13 +388,13 @@ create_order_for_new_customer:
         messages: *orderMessages
 
 reorder_create_new_order:
-    mca: sales_order_create/reorder/order_id/%id%
-    title: New Order / Orders / Sales / Magento Admin
+    mca: sales_order_create/reorder/order_id/%id%/
+    title: New Order / Orders / Operations / Sales / Magento Admin
     uimap: &create_order_for_new_customer
 
 create_order_for_existing_customer:
     mca: sales_order_create/index/customer_id/%id%/
-    title: New Order / Orders / Sales / Magento Admin
+    title: New Order / Orders / Operations / Sales / Magento Admin
     uimap:
         form: &newOrderForExistCustomerForm
             fieldsets:
@@ -475,7 +474,7 @@ create_order_for_existing_customer:
 
 view_order:
     mca: sales_order/view/order_id/%id%/
-    title: '%elementTitle% / Orders / Sales / Magento Admin'
+    title: '%elementTitle% / Orders / Operations / Sales / Magento Admin'
     uimap:
         form: &orderView
             tabs:
@@ -665,7 +664,7 @@ view_order:
 
 edit_order:
     mca: sales_order_edit/
-    title: Edit Order / Orders / Sales / Magento Admin
+    title: Edit Order / Orders / Operations / Sales / Magento Admin
     uimap:
         form: *newOrderForExistCustomerForm
         messages: *orderMessages

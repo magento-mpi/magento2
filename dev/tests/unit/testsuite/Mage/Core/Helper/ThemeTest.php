@@ -31,8 +31,10 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         /** @var $dirs Mage_Core_Model_Dir */
         $dirs = $this->getMock('Mage_Core_Model_Dir', null, array(), '', false);
 
-        /** @var $layoutMergeFactory Mage_Core_Model_Layout_Merge_Factory */
-        $layoutMergeFactory = $this->getMock('Mage_Core_Model_Layout_Merge_Factory', null, array(), '', false);
+        /** @var $layoutMergeFactory Mage_Core_Model_Layout_MergeFactory */
+        $layoutMergeFactory = $this->getMock('Mage_Core_Model_Layout_MergeFactory', array('create'),
+            array(), '', false
+        );
 
         /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
         $themeCollection = $this->getMock('Mage_Core_Model_Resource_Theme_Collection', null, array(), '', false);
@@ -513,7 +515,7 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $layoutStr
-     * @return Mage_Core_Model_Layout_Merge_Factory|PHPUnit_Framework_MockObject_MockObject
+     * @return Mage_Core_Model_Layout_MergeFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getLayoutMergeFactory($layoutStr)
     {
@@ -527,8 +529,8 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             ->method('getFileLayoutUpdatesXml')
             ->will($this->returnValue($layoutElement));
 
-        /** @var $layoutMergeFactory Mage_Core_Model_Layout_Merge_Factory */
-        $layoutMergeFactory = $this->getMock('Mage_Core_Model_Layout_Merge_Factory',
+        /** @var $layoutMergeFactory Mage_Core_Model_Layout_MergeFactory */
+        $layoutMergeFactory = $this->getMock('Mage_Core_Model_Layout_MergeFactory',
             array('create'), array(), '', false
         );
         $layoutMergeFactory->expects($this->any())
@@ -599,8 +601,10 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         $dirs = $this->_getDirs();
 
         // 5. Get layout merge model and factory
-        /** @var $layoutMergeFactory Mage_Core_Model_Layout_Merge_Factory|PHPUnit_Framework_MockObject_MockObject */
-        $layoutMergeFactory = $this->getMock('Mage_Core_Model_Layout_Merge_Factory', null, array(), '', false);
+        /** @var $layoutMergeFactory Mage_Core_Model_Layout_MergeFactory|PHPUnit_Framework_MockObject_MockObject */
+        $layoutMergeFactory = $this->getMock('Mage_Core_Model_Layout_MergeFactory',
+            array('create'), array(), '', false
+        );
 
         /** @var $context Mage_Core_Helper_Context */
         $context = $this->getMock('Mage_Core_Helper_Context', null, array(), '', false);

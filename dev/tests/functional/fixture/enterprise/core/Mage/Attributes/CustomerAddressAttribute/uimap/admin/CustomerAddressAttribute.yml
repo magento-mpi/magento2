@@ -12,9 +12,9 @@
 
 # Manage  Customer Address Attributes page
 manage_customer_address_attributes:
-    mca: customer_address_attribute
+    mca: customer_address_attribute/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_address_attribute')]
-    title: Manage Customer Address Attributes / Magento Admin
+    title: Manage Customer Address Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &searchCustomerAttributeGrid
             fieldsets:
@@ -54,7 +54,7 @@ manage_customer_address_attributes:
 # Add New Address Attribute page
 new_customer_address_attribute:
     mca: customer_address_attribute/new/
-    title: New Attribute / Manage Customer Address Attributes / Magento Admin
+    title: New Attribute / Manage Customer Address Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &newAddressAttributeForm
             tabs:
@@ -136,7 +136,7 @@ new_customer_address_attribute:
 # Manage Customer Address  Attributes page
 edit_customer_address_attribute:
     mca: customer_address_attribute/edit/attribute_id/%id%/
-    title: %elementTitle% / Manage Customer Address Attributes / Magento Admin
+    title: %elementTitle% / Manage Customer Address Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &editAddressAttributeForm
             tabs:

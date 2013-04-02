@@ -12,7 +12,7 @@
 manage_products:
     mca: catalog_product/
     click_xpath: //div[@class='submenu']//a[contains(@href, '/catalog_product/')]
-    title: Manage Products / Catalog / Magento Admin
+    title: Manage Products / Inventory / Products / Magento Admin
     uimap: &manageProductsUimap
         form:
             fieldsets:
@@ -79,13 +79,13 @@ manage_products:
 manage_products_store:
     mca: catalog_product/index/store/%storeId%/
     click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_product/')]
-    title: Manage Products / Catalog / Magento Admin
+    title: Manage Products / Inventory / Products / Magento Admin
     uimap: *manageProductsUimap
 
 # Add New Product page
 new_product:
     mca: catalog_product/new/set/%setId%/type/%productType%/
-    title: New Product / Manage Products / Catalog / Magento Admin
+    title: New Product / Manage Products / Inventory / Products / Magento Admin
     uimap: &newProduct
         form: &newProductCreationForm
             fieldsets: &new_product_fieldsets
@@ -134,7 +134,7 @@ new_product:
                         fieldsets:
                             -
                                 product_general:
-                                    xpath: //div[div/strong/span='Product Details']
+                                    xpath: //div[*/*/span='Product Details']
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                         new_category: //button[span='New Category']
@@ -189,8 +189,8 @@ new_product:
                                         parent_category: //input[@id='new_category_parent-suggest'][not(@class='mage-suggest-state-loading')]
                                     buttons:
                                         new_category_close: ///a[span='close']
-                                        new_category_save: //button[@id='mage-new-category-dialog-save-button']
-                                        new_category_cancel: //button[@id='mage-new-category-dialog-close-button']
+                                        new_category_save: //button[@data-action='save']
+                                        new_category_cancel: //button[@data-action='cancel']
                             -
                                 parent_categories_list:
                                     xpath: //div[div/span='Create Category']//div[@class='mage-suggest-dropdown']
@@ -228,7 +228,7 @@ new_product:
                                         configurable_attributes_list: "//div[@class='mage-suggest-dropdown'][not(contains(@style,'display: none;'))]"
                             -
                                 product_variation_attribute:
-                                    xpath: //div[div/strong/span='%attributeTitle%']
+                                    xpath: //div[*/*/span='%attributeTitle%']
                                     checkboxes:
                                         include_variation_attribute: //tr[td='%attributeOption%']//input[@type='checkbox' and contains(@name,'[include]')]
                                         use_default_label: //label[span='Use Default']
@@ -339,7 +339,7 @@ new_product:
                                     buttons:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
-                                        add_selected_products: //button[span='Apply Changes']
+                                        add_selected_products: //button[span='Add Products']
                                         cancel_select_products: //button[span='Cancel']
                                     links:
                                         close_select_product_grid: //a[span='close']
@@ -357,7 +357,7 @@ new_product:
                         fieldsets:
                             -
                                 product_prices:
-                                    xpath: //div[div/strong/span='Advanced Pricing']
+                                    xpath: //div[*/*/span='Advanced Pricing']
                                     buttons:
                                         prices_group_add_group_price: //button[span='Add Group Price']
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
@@ -389,7 +389,7 @@ new_product:
                                         prices_tier_price_price: //input[@id='tier_price_row_%tierPriceId%_price']
                             -
                                 recurring_profile:
-                                    xpath: //div[div/strong/span='Recurring Profile']
+                                    xpath: //div[*/*/span='Recurring Profile']
                                     dropdowns:
                                         prices_enable_recurring_profile: //select[@id='is_recurring']
                                         prices_customer_define_start_date: //select[@id='recurring_profilestart_date_is_editable']
@@ -412,7 +412,7 @@ new_product:
                         fieldsets:
                             -
                                 product_meta_information:
-                                    xpath: //div[div/strong/span='Search Optimization']
+                                    xpath: //div[*/*/span='Search Optimization']
                                     buttons:
                                         create_new_attribute: //button[span='Add Attribute']
                                     fields:
@@ -426,14 +426,14 @@ new_product:
                         fieldsets:
                             -
                                 product_images:
-                                    xpath: //div[div/strong/span='Image Management']
+                                    xpath: //div[*/*/span='Image Management']
                 -
                     design: &designTab
                         xpath: //a[@title='Design']
                         fieldsets:
                             -
                                 product_design:
-                                    xpath: //div[div/strong/span='Design']
+                                    xpath: //div[*/*/span='Design']
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     dropdowns:
@@ -728,7 +728,7 @@ new_product:
 # Edit Product page
 edit_product:
     mca: catalog_product/edit/id/%id%/
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
     uimap: &editProduct
         form:
             fieldsets: *new_product_fieldsets
@@ -809,23 +809,28 @@ edit_product:
         messages: *productMesssages
 
 new_product_save_and_continue:
-    mca: catalog_product/edit/id/%id%/set/%setId%/type/%productType%/back/edit/active_tab/%tab%
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    mca: catalog_product/edit/id/%id%/set/%setId%/type/%productType%/back/edit/active_tab/%tab%/
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
     uimap: *editProduct
 
 edit_product_save_and_continue:
-    mca: catalog_product/edit/id/%id%/back/edit/active_tab/%tab%
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    mca: catalog_product/edit/id/%id%/back/edit/active_tab/%tab%/
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
+    uimap: *editProduct
+
+edit_duplicated_product:
+    mca: catalog_product/edit/id/%id%/active_tab/%tab%/
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
     uimap: *editProduct
 
 new_product_after_changed_attribute_set:
     mca: catalog_product/new/type/%productType%/?set=%setId%
-    title: New Product / Manage Products / Catalog / Magento Admin
+    title: New Product / Manage Products / Inventory / Products / Magento Admin
     uimap: *newProduct
 
 edit_product_after_changed_attribute_set:
     mca: catalog_product/edit/id/%id%/?set=%setId%
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
     uimap: *editProduct
 
 updating_products:

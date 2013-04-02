@@ -927,16 +927,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (empty($tabsWithErrors)) {
             $validationMessages = $this->getElements($messageLocator, false);
             foreach ($validationMessages as $message) {
+                if (!$message->displayed()) {
+                    continue;
+                }
                 $fieldIdentifier = $message->attribute('for');
-                $fieldNameElement = $this->elementIsPresent("//label[@for='$fieldIdentifier']");
+                $fieldNameElement = $this->elementIsPresent("//label[@class='label'][@for='$fieldIdentifier']");
                 $fieldName = ($fieldNameElement) ? trim($fieldNameElement->text(), " *\t\n\r") : $fieldIdentifier;
                 $messages[] = '"' . $fieldName . '": ' . $message->text();
             }
         } else {
             foreach ($tabsWithErrors as $tab) {
                 $isTabOpened = $this->getChildElement($tab, '..')->attribute('aria-selected');
-                $this->pleaseWait();
-                if ($isTabOpened == 'false') {
+                $isTabActive = strpos($tab->attribute('class'), 'active');
+                if ($isTabOpened == 'false' || $isTabActive === false) {
                     $waitAjax = strpos($tab->attribute('class'), 'ajax');
                     $this->focusOnElement($tab);
                     $tab->click();
@@ -1156,9 +1159,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             } else {
                 $error = '"' . $message . '" message(s) is on the page.';
             }
-            $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
-            if ($messagesOnPage) {
-                $error .= "\n" . $messagesOnPage;
+            if ($result['found']) {
+                $error .= "\n" . $result['found'];
             }
             $this->fail($error);
         }
@@ -1581,19 +1583,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $this->getCurrentLocationArea();
         if ($page) {
-            $this->assertTrue($this->checkCurrentPage($page), $this->getMessagesOnPage());
+            $this->checkCurrentPage($page);
+            $this->assertEmptyVerificationErrors();
         } else {
             $page = $this->_findCurrentPageFromUrl();
         }
         $this->assertEmptyPageErrors();
         $expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
-        if (!is_null($expectedTitle)) {
+        if (!is_null($expectedTitle) && $expectedTitle !== $this->title()) {
             $errorMessage = $this->locationToString() . 'Title for page "' . $page . '" is unexpected.';
             $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
             if (strlen($messagesOnPage) > 0) {
                 $errorMessage .= "\nMessages on current page:\n" . $messagesOnPage;
             }
-            $this->assertSame($expectedTitle, $this->title(), $errorMessage);
+            $this->fail($errorMessage);
         }
         $this->setCurrentPage($page);
     }
@@ -3692,7 +3695,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @throws RuntimeException
      * @return Mage_Selenium_TestCase
      */
-    public function pleaseWait($waitDisappear = 30)
+    public function pleaseWait($waitDisappear = 40)
     {
         $this->waitUntil(
             function ($testCase) {
