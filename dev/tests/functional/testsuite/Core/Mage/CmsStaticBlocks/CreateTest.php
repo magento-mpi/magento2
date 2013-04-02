@@ -214,6 +214,7 @@ class Core_Mage_CmsStaticBlocks_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying
+        $this->addFieldIdToMessage('field', 'block_identifier');
         $this->assertMessagePresent('validation', 'specify_valid_xml_identifier');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
