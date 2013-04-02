@@ -191,6 +191,11 @@ jQuery(function($) {
     });
 
     $form.on('changeAttributeSet', function(event, data) {
+        if (data.label) {
+            $('#product-template-suggest-container .action-toggle>span').text(data.label);
+        }
+        $('#product-template-suggest').suggest('option', "currentlySelected", data.id).val('');
+
         var uri = document.location.href.replace(/(\/|&|\?)?\bset(\/|=)\d+/g, '').replace(/#[^#]*$/, '');
         uri += /\?/.test(uri) ? '&' : '?';
         uri += 'set=' + window.encodeURIComponent(data.id);
