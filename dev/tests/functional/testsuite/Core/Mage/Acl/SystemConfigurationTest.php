@@ -21,6 +21,9 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $config = $this->loadDataSet('SingleStoreMode', 'disable_single_store_mode');
+        $this->systemConfigurationHelper()->configure($config);
     }
 
     protected function tearDownAfterTest()

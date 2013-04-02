@@ -25,6 +25,10 @@ frontend_header:
                             log_out: //a[@title='Log Out']
                         dropdowns:
                             your_language: //select[@id='select-language']
+                        buttons:
+                            go_search: //button[@title='Search']
+                        fields:
+                            search: //input[@id='search']
                 -
                     global_footer:
                         xpath: //div[@class='footer']
@@ -38,6 +42,11 @@ frontend_header:
                             orders_and_returns: //a[@title='Orders and Returns']
                             contact_us: //a[@title='Contact Us']
                             select_store: //ul[@id='select-store']/li//a[text()='%store%']
+                -
+                    categories_menu:
+                        xpath: //ul[@id='nav']
+                        buttons:
+                            category_button: //a[span='%catName%']
                 -
                     general_elements:
                         xpath:

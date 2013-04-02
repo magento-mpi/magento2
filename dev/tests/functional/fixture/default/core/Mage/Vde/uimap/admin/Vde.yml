@@ -10,7 +10,7 @@
 ---
 # Visual Design Editor page
 vde_design:
-    mca: system_design_editor/launch/theme_id/%themeId%/mode/design
+    mca: system_design_editor/launch/theme_id/%themeId%/mode/design/
     title: Editor / Design / System / Magento Admin
     uimap:
         form:
@@ -52,7 +52,7 @@ vde_design:
             confirm_assign: You are about to change this theme for your live store, are you sure want to do this?
 
 vde_navigation:
-    mca: system_design_editor/launch/theme_id/%themeId%/mode/navigation
+    mca: system_design_editor/launch/theme_id/%themeId%/mode/navigation/
     title: Editor / Design / System / Magento Admin
     uimap:
             form:

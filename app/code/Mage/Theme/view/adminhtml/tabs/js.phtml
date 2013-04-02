@@ -11,6 +11,21 @@
 <?php /** @var $this Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js */ ?>
 <?php echo $this->getFormHtml(); ?>
 
+<li class="no-display" id="js-uploaded-file-template">
+    <input class="up" type="button" value="">
+    <input class="down" type="button" value="">
+    <input type="hidden" name="js_order[${id}]" value="1">
+    <div class="js-file">
+        ${name}
+        <div class="remove-js">
+            <input type="checkbox" id="remove_js_files_${id}" name="js_removed_files[]" value="${id}" />
+            <label for="remove_js_files_${id}"><?php echo $this->__('Remove') ?></label>
+        </div>
+    </div>
+
+    <input type="hidden" name="js_uploaded_files[]" value="${temporary}" />
+</li>
+
 <script type="text/javascript">
     (function ($) {
 
@@ -52,17 +67,26 @@
              * @param e
              * @param data
              */
-            done: function (e, data) {
+        done: function (e, data) {
+                $('#no-js-files-found').remove();
+
                 var progressSelector = '#' + data.fileId + ' .progressbar-container .progressbar';
                 $(progressSelector).css('width','100%');
 
-                var contentArea = $('.js-files-container');
                 $(this).val('');
 
                 if (!data.result.error) {
-                    $(progressSelector).removeClass('upload-progress').addClass('upload-success')
+                    $(progressSelector).removeClass('upload-progress').addClass('upload-success');
+
                     $('#' + data.fileId).delay(2000).fadeOut(2000);
-                    contentArea.html(data.result.content);
+                    var progressTmpl = $('#js-uploaded-file-template').clone();
+                    progressTmpl.attr('id', data.fileId + 'asd');
+
+                    var fileInfoHtml = progressTmpl.tmpl(data.result.file);
+
+                    progressTmpl.html(fileInfoHtml) ;
+                    progressTmpl.removeClass('no-display');
+                    progressTmpl.appendTo('#js-files-container');
                 } else {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
                 }

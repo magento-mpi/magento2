@@ -18,17 +18,6 @@
  */
 class Mage_Backend_Model_Observer
 {
-
-    public function bindLocale($observer)
-    {
-        if ($locale=$observer->getEvent()->getLocale()) {
-            if ($choosedLocale = Mage::getSingleton('Mage_Backend_Model_Session')->getLocale()) {
-                $locale->setLocaleCode($choosedLocale);
-            }
-        }
-        return $this;
-    }
-
     /**
      * Prepare massaction separated data
      *
@@ -52,7 +41,7 @@ class Mage_Backend_Model_Observer
      */
     public function clearCacheConfigurationFilesAccessLevelVerification()
     {
-        Mage::app()->removeCache(Mage_Adminhtml_Block_Notification_Security::VERIFICATION_RESULT_CACHE_KEY);
+        Mage::app()->removeCache(Mage_AdminNotification_Block_Security::VERIFICATION_RESULT_CACHE_KEY);
         return $this;
     }
 }

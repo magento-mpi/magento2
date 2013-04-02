@@ -52,7 +52,8 @@ class Core_Mage_OrderShipment_Helper extends Mage_Selenium_AbstractHelper
             for ($i = 1; $i <= $productCount; $i++) {
                 $this->addParameter('productNumber', $i);
                 $prodSku = $this->getControlAttribute('field', 'product_sku', 'text');
-                $prodSku = trim(preg_replace('/SKU:|\\n/', '', $prodSku));
+                $pointer = 'SKU: ';
+                $prodSku = substr($prodSku, strpos($prodSku, $pointer) + strlen($pointer));
                 $prodQty = $this->getControlAttribute('field', 'product_qty', 'selectedValue');
                 $verify[$prodSku] = $prodQty;
             }

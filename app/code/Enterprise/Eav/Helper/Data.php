@@ -446,7 +446,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getDateFormat()
     {
-        return Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        return Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

@@ -47,7 +47,7 @@ class Core_Mage_Order_Create_ExistCustomerTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        return array('sku'   => $simple['general_name'],
+        return array('sku'   => $simple['general_sku'],
                      'email' => $userData['email']);
     }
 

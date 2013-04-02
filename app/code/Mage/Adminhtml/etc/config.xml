@@ -50,14 +50,6 @@
     </admin>
     <adminhtml>
         <events>
-            <core_locale_set_locale>
-                <observers>
-                    <bind_locale>
-                        <class>Mage_Adminhtml_Model_Observer</class>
-                        <method>bindLocale</method>
-                    </bind_locale>
-                </observers>
-            </core_locale_set_locale>
             <admin_system_config_changed_section_admin>
                 <observers>
                     <bind_locale>
@@ -98,9 +90,6 @@
                 <adminhtml module="Mage_Adminhtml">
                     <file>main.xml</file>
                 </adminhtml>
-                <adminnotification module="Mage_Adminhtml">
-                    <file>adminnotification.xml</file>
-                </adminnotification>
                 <backup module="Mage_Adminhtml">
                     <file>backup.xml</file>
                 </backup>

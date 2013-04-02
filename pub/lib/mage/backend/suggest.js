@@ -39,7 +39,7 @@
             events: {},
             appendMethod: 'after',
             controls: {
-                selector: ':ui-menu',
+                selector: ':ui-menu, :mage-menu',
                 eventsMap: {
                     focus: ['menufocus'],
                     blur: ['menublur'],
@@ -372,7 +372,6 @@
          * @param {Object} e - event object
          */
         close: function(e) {
-            this.element.val('');
             this._renderedContext = null;
             this.dropdown.hide().empty();
             this._trigger('close', e);
@@ -761,7 +760,7 @@
         _getOptions: function() {
             return this.valueField.find('option');
         },
-        
+
         /**
          * @override
          */
@@ -948,16 +947,6 @@
                 .on('removeOption', $.proxy(function(e) {
                     this.removeOption(e, item);
                 }, this));
-        },
-
-        /**
-         * @override
-         */
-        close: function() {
-            this._superApply(arguments);
-            if (this.options.multiselect) {
-                this.element.val('');
-            }
         }
     });
 })(jQuery);

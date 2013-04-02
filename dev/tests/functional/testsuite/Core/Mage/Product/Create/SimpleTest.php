@@ -357,9 +357,9 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
-        $this->addFieldIdToMessage('field', 'inventory_qty');
+        $this->addFieldIdToMessage('field', 'general_qty');
         $this->assertMessagePresent('validation', 'enter_valid_number');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
     }
 
     public function invalidQtyDataProvider()
