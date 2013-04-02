@@ -36,8 +36,3 @@ compare_products:
             close_window: //button[span="Close Window"]
         links:
             print_this_page: //a[text()='Print This Page']
-
-compare_products_index:
-    mca: catalog/product_compare/index/#
-    title: Products Comparison List - Magento Commerce
-    uimap: *compare_products

@@ -63,6 +63,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     public function editAction()
     {
         $id = $this->getRequest()->getParam('attribute_id');
+        /** @var $model Mage_Catalog_Model_Resource_Eav_Attribute */
         $model = Mage::getModel('Mage_Catalog_Model_Resource_Eav_Attribute')
             ->setEntityTypeId($this->_entityTypeId);
         if ($id) {
@@ -88,6 +89,10 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
         $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getAttributeData(true);
         if (! empty($data)) {
             $model->addData($data);
+        }
+        $attributeData = $this->getRequest()->getParam('attribute');
+        if (!empty($attributeData) && $id === null) {
+            $model->addData($attributeData);
         }
 
         Mage::register('entity_attribute', $model);
@@ -331,7 +336,8 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                     $requestParams = array(
                         'id'       => $this->getRequest()->getParam('product'),
                         'attribute'=> $model->getId(),
-                        '_current' => true
+                        '_current' => true,
+                        'product_tab' => $this->getRequest()->getParam('product_tab'),
                     );
                     if ($isNewAttributeSet) {
                         $requestParams['new_attribute_set_id'] = $attributeSetId;

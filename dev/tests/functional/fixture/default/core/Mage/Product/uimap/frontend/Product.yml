@@ -201,7 +201,7 @@ product_page:
             compare_list_cleared: //li[normalize-space(@class)='success-msg' and contains(.//span,'The comparison list was cleared.')]
             product_removed_from_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product %productName% has been removed from comparison list.')]
             accepted_review: //li[normalize-space(@class)='success-msg' and contains(.//span,'Your review has been accepted for moderation.')]
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
 
 product_review:
     mca: review/product/list/id/%id%/
@@ -274,6 +274,6 @@ product_review_category:
     uimap: *productReview
 
 product_page_id:
-    mca: catalog/product/view/id/%id%
+    mca: catalog/product/view/id/%id%/
     title: %productTitle%
     uimap: *product

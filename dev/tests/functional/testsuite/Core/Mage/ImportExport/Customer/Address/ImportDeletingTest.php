@@ -18,7 +18,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_TestCase
+class Core_Mage_ImportExport_Customer_Address_ImportDeletingTest extends Mage_Selenium_TestCase
 {
     static protected $_customerData = array();
 

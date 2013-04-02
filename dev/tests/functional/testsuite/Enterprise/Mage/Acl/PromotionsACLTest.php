@@ -47,7 +47,7 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
      */
     public function checkPromotionsFullRights()
     {
-        $this->markTestSkipped('MAGETWO-7422');
+        $this->markTestIncomplete('MAGETWO-7422');
         //Preconditions
         //create specific role with full rights to Promotions Menu
         $this->navigate('manage_roles');
@@ -67,8 +67,8 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verify that only Promotions menu is available
-        $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $this->assertEquals(1, count($this->getElements($xpath)), "You have some extra menu items");
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
+            "You have some extra menu items");
         //verify rights to create Catalog Price Rule
         $this->navigate('manage_catalog_price_rules');
         $priceRuleData = $this->loadDataSet('CatalogPriceRule', 'test_catalog_rule');
@@ -111,8 +111,8 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verify that only Promotion menu is available
-        $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $this->assertEquals(1, count($this->getElements($xpath)), "You have some extra menu items");
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
+            "You have some extra menu items");
         //verify Read access rights to  Catalog Price Rule
         $this->navigate('manage_catalog_price_rules');
         // verify No rights to create Catalog Price Rule
@@ -137,7 +137,7 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
      */
     public function checkPromotionsShoppingCartRulesCreateRights()
     {
-        $this->markTestSkipped('MAGETWO-7422');
+        $this->markTestIncomplete('MAGETWO-7422');
         //Preconditions
         //create specific role with only Shopping Cart Price Rule Create rights
         $this->navigate('manage_roles');
@@ -156,8 +156,8 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verify that only Promotion menu is available
-        $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $this->assertEquals(1, count($this->getElements($xpath)), "You have some extra menu items");
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
+            "You have some extra menu items");
         //verify Create rights to Shopping Cart Price Rule
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_required_fields');
@@ -201,8 +201,8 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verify that only Promotion menu is available
-        $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $this->assertEquals(1, count($this->getElements($xpath)), "You have some extra menu items");
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
+            "You have some extra menu items");
         //verify Read rights to create Shopping Cart Price Rule
         $this->navigate('manage_shopping_cart_price_rules');
         // verify No rights to create Shopping Cart Price Rule
@@ -245,8 +245,8 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verify that only Promotion menu is available
-        $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $this->assertEquals(1, count($this->getElements($xpath)), "You have some extra menu items");
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
+            "You have some extra menu items");
         //verify Create rights to Automated Email Reminder Rules
         $this->navigate('manage_automated_email_reminder_rules');
         $this->priceRulesHelper()->createEmailReminderRule();
@@ -271,7 +271,7 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
      */
     public function checkAutomatedEmailReminderRulesReadRights()
     {
-        $this->markTestSkipped('MAGETWO-8413');
+        $this->markTestIncomplete('MAGETWO-8413');
         //Preconditions
         //create specific role with only read rights to Automated Email Reminder Rules
         $this->navigate('manage_roles');
@@ -290,8 +290,8 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verify that only Promotion menu is available
-        $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $this->assertEquals(1, count($this->getElements($xpath)), "You have some extra menu items");
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
+            "You have some extra menu items");
         //verify Read Rights to Automated Email Reminder Rules
         $this->navigate('manage_automated_email_reminder_rules');
         // verify No rights to create Automated Email Reminder Rules
@@ -316,7 +316,7 @@ class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase
      */
     public function createShoppingCartPriceRulesWithCustomRoleScopes()
     {
-        $this->markTestSkipped('MAGETWO-7422');
+        $this->markTestIncomplete('MAGETWO-7422');
         //Preconditions
         //create specific role with create rights to Shopping Cart Price
         $this->navigate('manage_roles');

@@ -39,7 +39,7 @@ class Core_Mage_ImportExport_Customer_ImportValidationTest extends Mage_Selenium
      */
     public function importFileWithNotSupportedExtensions($dataFileName)
     {
-        $this->markTestSkipped('Skipped due to bug MAGETWO-1766');
+        $this->markTestIncomplete('Skipped due to bug MAGETWO-1766');
         $customerDataRow = $this->loadDataSet('ImportExport', 'generic_customer_csv',
             array(
                 'email' => 'test_admin_' . $this->generate('string', 5) . '@unknown-domain.com',

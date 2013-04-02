@@ -49,7 +49,7 @@ url_rewrite_management:
             confirmation_for_delete: Are you sure you want to do this?
 
 add_new_urlrewrite_category:
-    mca: urlrewrite/edit/category
+    mca: urlrewrite/edit/category/
     title: URL Rewrite / Rewrite Rules / Magento Admin
     uimap:
         form:
@@ -76,7 +76,7 @@ add_new_urlrewrite_category:
         messages: *pageMessages
 
 add_new_urlrewrite_product:
-    mca: urlrewrite/edit/product
+    mca: urlrewrite/edit/product/
     title: URL Rewrite / Rewrite Rules / Magento Admin
     uimap:
         form:
@@ -104,7 +104,7 @@ add_new_urlrewrite_product:
         messages: *pageMessages
 
 urlrewrite_product_category_selection:
-    mca: urlrewrite/edit/product/%id%/category
+    mca: urlrewrite/edit/product/%id%/category/
     title: URL Rewrite / Rewrite Rules / Magento Admin
     uimap:
         form:

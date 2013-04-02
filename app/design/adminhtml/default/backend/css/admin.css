@@ -551,6 +551,12 @@ button.primary.disabled,
     padding: 0;
 }
 
+.field-category_ids .mage-suggest-dropdown,
+.field-new_category_parent .mage-suggest-dropdown {
+    max-height: 200px;
+    overflow: auto;
+}
+
 .mage-suggest-dropdown li a {
     display: block;
 }
@@ -952,12 +958,13 @@ input[readonly],
 select[readonly],
 textarea[readonly] {
     cursor: not-allowed;
-    background-color: #eee;
-    border-color: #ddd;
-    color:#676056;
+    background-color: #fff;
+    border-color: #eee;
+    box-shadow: none;
+    color: #999;
 }
 
-select[disabled].multiselect > option[selected] { 
+select[disabled].multiselect > option[selected] {
     color: #fff;
     background: #6d6d6d;
 }
@@ -1064,7 +1071,7 @@ fieldset.field [class^='fields-group-'] .field .control {
 }
 
 /* TODO: remove styles for images when images will be replaced by font icons */
-.control > .hasDatepicker + img {
+.control .hasDatepicker + img {
     margin: -3px 0 0 5px;
     vertical-align: middle;
 }
@@ -1575,14 +1582,17 @@ input.mage-error ~ .addafter {
 }
 
 .field .control input[type='text'][disabled],
-.field .control input[type='text'][disabled] ~ .addafter {
+.field .control input[type='text'][disabled] ~ .addafter,
+.field .control select[disabled],
+.field .control select[disabled] ~ .addafter {
     background-color: #fff;
     border-color: #eee;
     box-shadow: none;
     color: #999;
 }
 
-.field .control input[type='text'][disabled] ~ .addafter strong {
+.field .control input[type='text'][disabled] ~ .addafter strong,
+.field .control select[disabled] ~ .addafter strong {
     background-color: #fff;
 }
 
@@ -3040,12 +3050,12 @@ table tbody tr:nth-child(odd):hover th {
     width: 6px;
     margin-left: -7px;
     content: '';
-    background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.06) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.06))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.06) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.06) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.06) 100%); /* IE10+ */
-    background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.06) 100%); /* W3C */
+    background: -moz-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.06) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(0, 0, 0, 0)), color-stop(100%, rgba(0, 0, 0, 0.06))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.06) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.06) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.06) 100%); /* IE10+ */
+    background: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.06) 100%); /* W3C */
     z-index: 2;
 }
 
@@ -3454,6 +3464,7 @@ table tbody tr:nth-child(odd):hover th {
     white-space: nowrap;
     text-indent: 100%;
 }
+
 .eq-ie8 .switcher.checked .switcher-label:after {
     background-position: -34px 0;
     content: 'on';
@@ -4010,7 +4021,7 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .eq-ie8 .massaction {
-    border-bottom:  2px solid #504d46;
+    border-bottom: 2px solid #504d46;
 }
 
 .massaction ul {
@@ -4380,7 +4391,7 @@ table .col-draggable .draggable-handle {
 .adminhtml-rma-new .data-table tbody tr th,
 [class^=" adminhtml-sales-transactions-"] .data-table tbody tr th,
 [class^=" adminhtml-sales-"] .order-payment-method .data-table tbody tr th,
-[class^=" adminhtml-sales-billing-agreement-"] .log-details .data-table tbody tr th{
+[class^=" adminhtml-sales-billing-agreement-"] .log-details .data-table tbody tr th {
     font-weight: bold;
 }
 
@@ -4604,6 +4615,109 @@ table .col-draggable .draggable-handle {
     margin-right: 3px;
     position: relative;
     top: 2px;
+}
+
+/*
+    Product Massaction page
+    TODO: css code below should be removed after element.html refactoring
+-------------------------------------- */
+.attributes-edit-form .attribute-change-checkbox {
+    white-space: nowrap;
+    display: block;
+}
+
+.attributes-edit-form .attribute-change-checkbox > label > input {
+    width: auto;
+}
+
+.attributes-edit-form .field:last-child,
+.attributes-edit-form .field-name,
+.attributes-edit-form .field-price,
+.attributes-edit-form .field-special_price,
+.attributes-edit-form .field-meta_title,
+.attributes-edit-form .field-visibility,
+.attributes-edit-form .field-custom_design,
+.attributes-edit-form .field-page_layout,
+.attributes-edit-form .field-options_container,
+.attributes-edit-form .field-country_of_manufacture,
+.attributes-edit-form .field-msrp_display_actual_price_type,
+.attributes-edit-form .field-tax_class_id,
+.attributes-edit-form .field-is_returnable,
+.attributes-edit-form .field-msrp,
+.attributes-edit-form .field-gift_wrapping_price {
+    margin-bottom: 50px;
+}
+
+.attributes-edit-form .field .control {
+    position: relative;
+}
+
+.attributes-edit-form .field-name .attribute-change-checkbox,
+.attributes-edit-form .field-meta_title .attribute-change-checkbox,
+.attributes-edit-form .field-gift_wrapping_price .attribute-change-checkbox,
+.attributes-edit-form .field .control select + .addafter {
+    position: absolute;
+    left: 0;
+    top: 35px;
+}
+
+.attributes-edit-form .field-price .attribute-change-checkbox,
+.attributes-edit-form .field-special_price .attribute-change-checkbox,
+.attributes-edit-form .field-msrp .attribute-change-checkbox {
+    position: absolute;
+    top: 35px;
+}
+
+.attributes-edit-form .field-special_from_date > .control .input-text,
+.attributes-edit-form .field-special_to_date > .control .input-text,
+.attributes-edit-form .field-news_from_date > .control .input-text,
+.attributes-edit-form .field-news_to_date > .control .input-text,
+.attributes-edit-form .field-custom_design_from > .control .input-text,
+.attributes-edit-form .field-custom_design_to > .control .input-text {
+    border-width: 1px;
+    border-radius: 4px;
+    width: 130px;
+}
+
+.attributes-edit-form .field-special_from_date .attribute-change-checkbox,
+.attributes-edit-form .field-special_to_date .attribute-change-checkbox,
+.attributes-edit-form .field-news_from_date .attribute-change-checkbox,
+.attributes-edit-form .field-news_to_date .attribute-change-checkbox,
+.attributes-edit-form .field-custom_design_from .attribute-change-checkbox,
+.attributes-edit-form .field-custom_design_to .attribute-change-checkbox {
+    margin-top: 5px;
+}
+
+.attributes-edit-form .field-weight .fields-group-2 .control {
+    width: 160px;
+}
+
+.attributes-edit-form .field-weight .fields-group-2 .control > input {
+    width: 130px;
+    float: left;
+}
+
+.attributes-edit-form .field-weight .fields-group-2 .control > input + .addafter {
+    position: absolute;
+    top: 35px;
+}
+
+.attributes-edit-form .field-weight .fields-group-2 .control .addafter strong {
+    line-height: 26px;
+}
+
+.attributes-edit-form .field .control select {
+    border-radius: 4px;
+}
+
+.attributes-edit-form .field-gift_message_available .addon > .select,
+.attributes-edit-form .field-gift_wrapping_available .addon > .select {
+    margin-bottom: 25px;
+}
+.attributes-edit-form .field-gift_message_available .addon > input[type="checkbox"],
+.attributes-edit-form .field-gift_wrapping_available .addon > input[type="checkbox"] {
+    width: auto;
+    margin-right: 5px;
 }
 
 /*
