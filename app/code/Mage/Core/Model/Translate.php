@@ -163,16 +163,13 @@ class Mage_Core_Model_Translate
      */
     public function init()
     {
-        $area = $this->_translateConfig->getArea();
+        /** @var $area  */
+        $area = $this->_translateConfig->getArea()->getAreaCode();
         $forceReload = $this->_translateConfig->getForceReload();
 
         $this->setConfig(array(self::CONFIG_KEY_AREA => $area));
 
-        /** @var $translateFactory Mage_Core_Model_Translate_Factory */
-        $translateFactory = $this->_objectManager->get('Mage_Core_Model_Translate_Factory');
-        $this->_translateObject = $translateFactory->createFromConfig($this->_translateConfig);
-
-        $this->_translateInline = $this->_translateObject->isAllowed(
+        $this->_translateInline = $this->getTranslateObject()->isAllowed(
             $area == Mage_Backend_Helper_Data::BACKEND_AREA_CODE ? 'admin' : null);
 
         if (!$forceReload) {
@@ -267,7 +264,7 @@ class Mage_Core_Model_Translate
     public function isAllowed($store = null)
     {
         /** @todo see jira entry MAGETWO-8296 */
-        return $this->_translateObject->isAllowed($store);
+        return $this->getTranslateObject()->isAllowed($store);
     }
 
     /**
@@ -278,7 +275,7 @@ class Mage_Core_Model_Translate
      */
     public function processAjaxPost($translate)
     {
-        return $this->_translateObject->processAjaxPost($translate);
+        return $this->getTranslateObject()->processAjaxPost($translate);
     }
 
     /**
@@ -291,7 +288,7 @@ class Mage_Core_Model_Translate
     public function processResponseBody(&$body,
         $isJson = Mage_Core_Model_Translate_InlineAbstract::JSON_FLAG_DEFAULT_STATE
     ) {
-        return $this->_translateObject->processResponseBody($body, $isJson);
+        return $this->getTranslateObject()->processResponseBody($body, $isJson);
     }
 
     /**
@@ -688,5 +685,19 @@ class Mage_Core_Model_Translate
             $translated = $text;
         }
         return $translated;
+    }
+
+    /**
+     * Returns the translate interface object.
+     *
+     * @return Mage_Core_Model_Translate_TranslateInterface
+     */
+    private function getTranslateObject()
+    {
+        if (null === $this->_translateObject) {
+            $translateFactory = $this->_objectManager->get('Mage_Core_Model_Translate_Factory');
+            $this->_translateObject = $translateFactory->createFromConfig($this->_translateConfig);
+        }
+        return $this->_translateObject;
     }
 }

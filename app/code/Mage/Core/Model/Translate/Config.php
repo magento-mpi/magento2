@@ -43,13 +43,16 @@ class Mage_Core_Model_Translate_Config
      */
     public function getArea()
     {
+        if (null === $this->_area) {
+            $this->_area = Mage::getObjectManager()->get('Mage_Core_Model_App_Area');
+        }
         return $this->_area;
     }
 
     /**
      * This method sets the area for the current translation.
      *
-     * @param mixed|Mage_Core_Model_App_Area $area
+     * @param Mage_Core_Model_App_Area $area
      */
     public function setArea($area)
     {

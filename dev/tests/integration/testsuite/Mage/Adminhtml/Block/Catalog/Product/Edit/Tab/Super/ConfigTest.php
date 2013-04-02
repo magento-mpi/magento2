@@ -28,7 +28,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_ConfigTest extends Mag
      */
     public function testGetSelectedAttributesForConfigurableProductType()
     {
-        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_TRANSLATE);
         Mage::register('current_product', Mage::getModel('Mage_Catalog_Model_Product')->load(1));
         Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text', 'head');
         $usedAttribute = Mage::getSingleton('Mage_Catalog_Model_Entity_Attribute')->loadByCode(

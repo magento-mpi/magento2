@@ -73,14 +73,17 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             $modulesConfig->$checkedNode->asXML()
         );
 
+        /** @var $app Mage_Core_Model_App */
+        $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
+
         /** @var $translateConfig Mage_Core_Model_Translate_Config */
         $translateConfig = Mage::getObjectManager()->get('Mage_Core_Model_Translate_Config');
-        $translateConfig->setArea('non_existing_area');
+        $translateConfig->setArea($app->getArea('non_existing_area'));
 
         $this->_model->init();
         $this->assertEquals(array(), $this->_model->getModulesConfig());
 
-        $translateConfig->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND);
+        $translateConfig->setArea($app->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND));
     }
 
     public function testGetConfig()

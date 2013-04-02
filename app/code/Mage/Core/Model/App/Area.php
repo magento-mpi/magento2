@@ -137,6 +137,16 @@ class Mage_Core_Model_App_Area
     }
 
     /**
+     * Returns the area code for this app area instance.
+     *
+     * @return string
+     */
+    public function getAreaCode()
+    {
+        return $this->_code;
+    }
+
+    /**
      * Analyze user-agent information to override custom design settings
      *
      * @param Zend_Controller_Request_Http $request
@@ -250,7 +260,7 @@ class Mage_Core_Model_App_Area
 
         /** @var _translateConfig Mage_Core_Model_Translate_Config */
         $this->_translateConfig = $objectManager->get('Mage_Core_Model_Translate_Config');
-        $this->_translateConfig->setArea($this->_code);
+        $this->_translateConfig->setArea($this);
 
         $eventManager = $objectManager->get('Mage_Core_Model_Event_Manager');
         $eventManager->dispatch('translate_initialization_before', array(
