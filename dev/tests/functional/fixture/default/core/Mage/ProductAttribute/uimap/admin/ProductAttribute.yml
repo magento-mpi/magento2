@@ -112,7 +112,7 @@ new_product_attribute:
                                     required: [admin_title]
                             -
                                 manage_options:
-                                    xpath: "//*[@id='matage-options-panel' and not(@style='display: none;')]//thead"
+                                    xpath: "//*[@id='manage-options-panel' and not(@style='display: none;')]//thead"
                                     buttons:
                                         add_option: /..//button[@id='add_new_option_button']
                                         delete_option: //td[contains(input/@name,'option[delete][option_%fieldOptionNumber%]')]/button
@@ -157,7 +157,7 @@ edit_product_attribute:
                                     required: [admin_title]
                             -
                                 manage_options:
-                                    xpath: //div[@id='matage-options-panel']
+                                    xpath: //div[@id='manage-options-panel']
                                     buttons:
                                         add_option: //button[@id='add_new_option_button']
                                         delete_option: //td[contains(input/@name,'option[delete][%fieldOptionNumber%]')]/button
