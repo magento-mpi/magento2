@@ -800,8 +800,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                             Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getSku()))
                     );
                 }
-                if($redirectBack === 'duplicate') {
+                if ($redirectBack === 'duplicate') {
                     $newProduct = $product->duplicate();
+                    $this->_getSession()->addSuccess($this->__('The product has been duplicated.'));
                 }
 
             } catch (Mage_Core_Exception $e) {
