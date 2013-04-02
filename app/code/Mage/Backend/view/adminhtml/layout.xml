@@ -13,7 +13,6 @@
     <default>
         <reference name="root">
             <block type="Mage_Backend_Block_Menu" name="menu" as="menu" template="Mage_Backend::menu.phtml" />
-
         </reference>
         <reference name="notifications">
             <block type="Mage_Backend_Block_System_Messages" name="system_messages" as="system_messages" label="System Messages" before="-" template="Mage_Backend::system/messages.phtml"/>
