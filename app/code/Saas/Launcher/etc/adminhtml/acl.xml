@@ -14,11 +14,6 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Saas_Launcher::hub" title="Hub" sortOrder="10" module="Saas_Launcher" />
-                <resource id="Mage_Adminhtml::stores">
-                    <resource id="Mage_Adminhtml::stores_other_settings">
-                        <resource id="Mage_Adminhtml::launcher" module="Saas_Launcher" title="Launcher" sortOrder="50" />
-                    </resource>
-                </resource>
             </resource>
         </resources>
     </acl>

@@ -12,7 +12,5 @@
 <config>
     <menu>
         <update id="Mage_Adminhtml::dashboard" title="Hub" module="Saas_Launcher" sortOrder="10" action="launcher/hub" resource="Saas_Launcher::hub"/>
-        <add id="Saas_Launcher::launcher" title="Launcher" module="Saas_Launcher" sortOrder="50" parent="Mage_Adminhtml::other_settings" action="launcher/storelauncher_index/index" resource="Saas_Launcher::launcher"/>
-        <add id="Saas_Launcher::promotestore" title="Promote Store" module="Saas_Launcher" sortOrder="60" parent="Mage_Adminhtml::other_settings" action="launcher/promotestore_index/index" resource="Saas_Launcher::launcher"/>
     </menu>
 </config>

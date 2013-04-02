@@ -9,7 +9,7 @@
  */
 
 /**
- * Magento Launcher Exception
+ * Launcher Exception
  *
  * @category    Mage
  * @package     Saas_Launcher
