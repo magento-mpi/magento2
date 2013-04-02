@@ -3,8 +3,6 @@
 /**
  * {license_notice}
  *
- * @category    Saas
- * @package     Saas_Saas
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,30 @@
 <config>
     <modules>
         <Saas_Saas>
-            <version>0.1.0</version>
+            <version>2.0.0.0</version>
             <active>false</active>
         </Saas_Saas>
     </modules>
+    <global>
+        <events>
+            <controller_action_predispatch>
+                <observers>
+                    <saas_limit_functionality>
+                        <class>Saas_Saas_Model_Limitation_Observer</class>
+                        <method>limitFunctionality</method>
+                    </saas_limit_functionality>
+                </observers>
+            </controller_action_predispatch>
+        </events>
+        <di>
+            <preferences>
+                <Saas_Saas_Model_Limitation_SpecificationInterface>Saas_Saas_Model_Limitation_Specification_Composite</Saas_Saas_Model_Limitation_SpecificationInterface>
+            </preferences>
+            <Saas_Saas_Model_Limitation_Specification_Composite>
+                <parameters>
+                    <specificationFactory>Saas_Saas_Model_Limitation_Specification_Factory</specificationFactory>
+                </parameters>
+            </Saas_Saas_Model_Limitation_Specification_Composite>
+        </di>
+    </global>
 </config>
