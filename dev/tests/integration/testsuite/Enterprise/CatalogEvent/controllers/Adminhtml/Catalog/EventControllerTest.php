@@ -27,6 +27,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventControllerTest extends Mage
      */
     public function testEditActionMultipleStore()
     {
+        $this->markTestIncomplete('MAGETWO-8903');
         /** @var $event Enterprise_CatalogEvent_Model_Event */
         $event = Mage::getModel('Enterprise_CatalogEvent_Model_Event');
         $event->load(Enterprise_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE, 'display_state');
