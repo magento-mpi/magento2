@@ -39,7 +39,7 @@
             events: {},
             appendMethod: 'after',
             controls: {
-                selector: ':mage-menu, :mage-menu',
+                selector: ':ui-menu, :mage-menu',
                 eventsMap: {
                     focus: ['menufocus'],
                     blur: ['menublur'],
