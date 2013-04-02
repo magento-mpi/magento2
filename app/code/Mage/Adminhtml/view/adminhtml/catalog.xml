@@ -356,7 +356,7 @@ Layout handle for grouped products
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="info">
                         <arguments>
-                            <type>grip</type>
+                            <type>draggable-handle</type>
                             <index>entity_id</index>
                             <sortable>0</sortable>
                             <inline_css>draggable-handle</inline_css>

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Block_Widget_Grid_Column_Renderer_Grip
+class Mage_Backend_Block_Widget_Grid_Column_Renderer_DraggableHandle
     extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**

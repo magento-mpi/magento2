@@ -1277,8 +1277,8 @@ input.mage-error ~ .addafter {
     width: 8px;
     height: 14px;
     line-height: 14px;
-    background: url(Mage_Backend::images/dragable-handler-vertical.gif) no-repeat 0 0;
-    cursor: pointer;
+    background: url(Mage_Backend::images/draggable-handle-vertical.gif) no-repeat 0 0;
+    cursor: ns-resize;
     color: #b2b0ad;
 }
 

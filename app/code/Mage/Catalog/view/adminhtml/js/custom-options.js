@@ -41,7 +41,7 @@
             if (!this.options.isReadonly) {
                 this.element.sortable({
                     axis: 'y',
-                    handle: '[data-role="grip"]',
+                    handle: '[data-role=draggable-handle]',
                     items: '#product_options_container_top > div',
                     update: this._updateOptionBoxPositions,
                     tolerance: 'pointer'
@@ -206,7 +206,7 @@
             if (!this.options.isReadonly) {
                 this.element.find('[id^=product_option_][id$=_type_select] tbody').sortable({
                     axis: 'y',
-                    handle: '[data-role="grip"]',
+                    handle: '[data-role=draggable-handle]',
                     helper: function (event, ui) {
                         ui.children().each(function () {
                             $(this).width($(this).width());
