@@ -438,6 +438,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function superGroupAction()
     {
+        $this->_initProduct();
         $this->loadLayout(false);
         $this->renderLayout();
     }
@@ -798,6 +799,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                             Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getSku()))
                     );
                 }
+                if($redirectBack === 'duplicate') {
+                    $newProduct = $product->duplicate();
+                }
+
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage())
                     ->setProductData($data);
@@ -814,6 +819,15 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 'set'  => $product->getAttributeSetId(),
                 'type' => $product->getTypeId()
             ));
+        } elseif ($redirectBack === 'duplicate' && isset($newProduct)) {
+            $this->_redirect(
+                '*/*/edit',
+                array(
+                    'id' => $newProduct->getId(),
+                    'back' => null,
+                    '_current' => true
+                )
+            );
         } elseif ($redirectBack) {
             $this->_redirect('*/*/edit', array(
                 'id'       => $productId,

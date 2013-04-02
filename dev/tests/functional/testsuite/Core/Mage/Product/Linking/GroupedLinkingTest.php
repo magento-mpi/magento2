@@ -55,9 +55,6 @@ class Core_Mage_Product_Linking_GroupedLinkingTest extends Mage_Selenium_TestCas
      */
     public function relatedInStock($linkingType, $testData)
     {
-        if ($linkingType == 'grouped') {
-            $this->markTestIncomplete('MAGETWO-7277');
-        }
         //Data
         $assignType = 'related';
         $assignProductType = 'grouped';
@@ -98,11 +95,7 @@ class Core_Mage_Product_Linking_GroupedLinkingTest extends Mage_Selenium_TestCas
      */
     public function crossSellsInStock($linkingType, $testData)
     {
-        if ($linkingType == 'grouped') {
-            $this->markTestIncomplete('MAGETWO-7277');
-        }
         //Data
-        $this->markTestIncomplete('MAGETWO-7277');
         $assignType = 'cross_sells';
         $assignProductType = 'grouped';
         list($linking, $forLinking) = $testData;
@@ -147,9 +140,6 @@ class Core_Mage_Product_Linking_GroupedLinkingTest extends Mage_Selenium_TestCas
      */
     public function upSellsInStock($linkingType, $testData)
     {
-        if ($linkingType == 'grouped') {
-            $this->markTestIncomplete('MAGETWO-7277');
-        }
         //Data
         $assignType = 'up_sells';
         $assignProductType = 'grouped';
@@ -240,7 +230,6 @@ class Core_Mage_Product_Linking_GroupedLinkingTest extends Mage_Selenium_TestCas
     public function crossSellsOutStock($linkingType, $testData)
     {
         //Data
-        $this->markTestIncomplete('MAGETWO-7277');
         $assignType = 'cross_sells';
         $assignProductType = 'grouped';
         list($linking, $forLinking) = $testData;

@@ -13,6 +13,7 @@ return array(
     array('BACKORDERS_BELOW'),
     array('BACKORDERS_YES'),
     array('CACHE_TAG', 'Mage_Api_Model_Config', 'Mage_Api_Model_Cache_Type::CACHE_TAG'),
+    array('CACHE_TAG', 'Mage_Core_Model_AppInterface'),
     array('CACHE_TAG', 'Mage_Core_Model_Resource_Db_Collection_Abstract',
         'Mage_Core_Model_Cache_Type_Collection::CACHE_TAG'
     ),

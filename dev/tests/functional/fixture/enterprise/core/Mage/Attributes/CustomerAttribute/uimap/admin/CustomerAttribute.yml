@@ -11,7 +11,7 @@
 
 # Manage Customer Attributes page
 manage_customer_attributes:
-    mca: customer_attribute
+    mca: customer_attribute/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_attribute')]
     title: Manage Customer Attributes / Stores / Magento Admin
     uimap:

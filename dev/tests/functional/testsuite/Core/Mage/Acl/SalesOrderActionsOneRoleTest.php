@@ -136,7 +136,7 @@ class Core_Mage_Acl_SalesOrderActionsOneRoleTest extends Mage_Selenium_TestCase
      */
     public function createOrderOneRole($testAdminUser, $orderData)
     {
-        $this->markTestSkipped('MAGETWO-7635');
+        $this->markTestIncomplete('MAGETWO-7635');
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($testAdminUser);
         $this->navigate('manage_sales_orders');

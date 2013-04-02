@@ -50,7 +50,7 @@ guest_view_order:
                             return: //a[text()='Return']
 
 guest_create_rma:
-    mca: rma/guest/create/order_id/%id%
+    mca: rma/guest/create/order_id/%id%/
     title: Create New Return
     uimap:
         form:

@@ -189,7 +189,7 @@ edit_product_attribute_save_and_continue:
     uimap: *edit_product_attribute
 
 new_product_attribute_save_and_continue:
-    mca: catalog_product_attribute/edit/back/edit/tab/%tab%
+    mca: catalog_product_attribute/edit/back/edit/active_tab/%tab%/
     title: New Attribute / Manage Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: *newProductAttributeForm
@@ -205,21 +205,3 @@ product_attribute:
             save_attribute: //button[@data-ui-id='attribute-edit-content-save-button']
             save_and_continue_edit: //button[@data-ui-id='attribute-edit-content-save-and-edit-button-button']
         messages: *productAttributeMessages
-
-# Add New Product Attribute from Product page and save it in new attribute set
-new_product_attribute_from_saved_product_page:
-    mca: catalog_product_attribute/new/group/%tabId%/product_tab/group_%tabId%/store/0/product/%productId%/set/%setId%/type/%productType%/popup/1/
-    title: New Attribute / Manage Attributes / Attributes / Stores / Magento Admin
-    uimap:
-        form: *newProductAttributeForm
-        buttons:
-            close_window: //button[span='Close Window']
-            reset: //button[span='Reset']
-            save_attribute: //button[@data-ui-id='attribute-edit-content-save-button']
-            save_in_new_attribute_set: //button[@id='save_in_new_set']
-        messages: *productAttributeMessages
-
-saved_product_attribute_from_product_page:
-    mca: catalog_product/addAttribute/attribute/%attributeId%/group/%tabId%/product_tab/group_%tabId%/store/0/set/%setId%/type/%productType%/popup/1/
-    title: Manage Products / Catalog / Magento Admin
-    uimap: *edit_product_attribute

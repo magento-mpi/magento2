@@ -42,7 +42,7 @@ manage_cms_banners:
             success_saved_cms_banner: //li[normalize-space(@class)='success-msg' and contains(.,'The banner has been saved.')]
             success_deleted_cms_banner: //li[normalize-space(@class)='success-msg' and contains(.,'The banner has been deleted.')]
             empty_content_field: //li[normalize-space(@class)='error-msg' and contains(.,'Please specify default content for at least one store view.')]
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_required_field: //label[(@for)='%fieldId%' and contains(.,'This is a required field.')]
             confirmation_for_delete: Are you sure you want to do this?
             confirmation_for_mass_delete: Are you sure you want to delete these banners?
 

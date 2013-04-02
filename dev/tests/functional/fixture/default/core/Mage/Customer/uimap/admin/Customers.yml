@@ -336,12 +336,12 @@ edit_customer:
         messages: *customerMessages
 
 edit_customer_save_and_continue:
-    mca: customer/edit/id/%id%/back/edit/tab/%tab%/
+    mca: customer/edit/id/%id%/back/edit/active_tab/%tab%/
     title: %elementTitle% / Manage Customers / Customers / Magento Admin
     uimap: *edit_customer-uimap
 
 new_customer_with_error:
-    mca: customer/new/active_tab/account
+    mca: customer/new/active_tab/account/
     title: New Customer / Manage Customers / Customers / Magento Admin
     uimap: *edit_customer-uimap
 

@@ -83,8 +83,7 @@ manage_sales_orders:
             invalid_coupon_code: //li[normalize-space(@class)='error-msg' and contains(.,'"%code%" coupon code is not valid.')]
             no_shipping: //strong[text()='Sorry, no quotes are available for this order at this time.']
             no_payment: //label[text()='No Payment Information Required']
-            empty_required_field: //label[(@for)='%field_id%' and contains(., 'This is a required field.')]
-            required_field_empty: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             shipping_must_be_specified: //li[normalize-space(@class)='error-msg' and contains(.,'Shipping method must be specified.')]
             error_specify_order_items: //li[normalize-space(@class)='error-msg' and contains(.,'You need to specify order items.')]
             empty_payment_method: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not available.')]
@@ -102,7 +101,7 @@ manage_sales_orders:
             not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,"appears to be a DNS hostname but cannot match against hostname schema for TLD")]
             hostname_not_valid: //li[normalize-space(@class)='error-msg' and contains(.,'appears to be a local network name but local network names are not allowed')]
             not_valid_email: //*[text()='Please enter a valid email address. For example johndoe@domain.com.']
-            order_id: //div[@id='order-header']/h1[@class='title']
+            order_id: //h1[@class='title']
             #confirmation
             confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?
             confirmation_for_edit: Are you sure? This order will be canceled and a new one will be created instead
@@ -152,7 +151,7 @@ create_order_for_new_customer:
                             choose_main_store: //span[label/text()='%storeName%']/input
                 -
                     select_products_to_add: &selectProductsToAdd
-                        xpath: //div[div/h4[contains(text(),'Please Select Products to Add')]]
+                        xpath: //div[@id='order-search']
                         buttons:
                             add_selected_products_to_order: //button[span='Add Selected Product(s) to Order']
                             reset_filter: //button[span='Reset Filter']
@@ -187,8 +186,8 @@ create_order_for_new_customer:
                         dropdowns:
                             action: //tr[td/@class='first'][contains(.,'%sku%')]//select
                         fields:
-                            product_qty: //tr[td/@class='first'][contains(.,'%sku%')]//input[@class='input-text item-qty']
-                            custom_price: //tr[td/@class='first'][contains(.,'%sku%')]//div[label='Custom Price*']/../input
+                            product_qty: //tr[contains(.,'%sku%')]//input[@class='input-text item-qty']
+                            custom_price: //tr[contains(.,'%sku%')]//div[label='Custom Price*']/../input
                         links:
                             gift_options: //tr[td/@class='first'][contains(.,'%sku%')]/..//a[text()='Gift Options']
                 -
@@ -389,7 +388,7 @@ create_order_for_new_customer:
         messages: *orderMessages
 
 reorder_create_new_order:
-    mca: sales_order_create/reorder/order_id/%id%
+    mca: sales_order_create/reorder/order_id/%id%/
     title: New Order / Orders / Operations / Sales / Magento Admin
     uimap: &create_order_for_new_customer
 
@@ -503,7 +502,7 @@ view_order:
                                     xpath: //div[@class='entry-edit'][./div/h4='Shipping & Handling Information']
                             -
                                 items_ordered:
-                                    xpath: //div[@class='grid np']
+                                    xpath: //div[@class='grid']
                                     fields:
                                         qty_ordered: //tbody[@class][tr[contains(.,'%sku%')]]//tr[td='Ordered'][td/strong='%orderedQty%']
                                         qty_invoiced: //tbody[@class][tr[contains(.,'%sku%')]]//tr[td='Invoiced'][td/strong='%invoicedQty%']

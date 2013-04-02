@@ -57,7 +57,8 @@ class Core_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage
         $this->productHelper()->createProduct($simple);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
-        return $simple['general_name'];
+
+        return $simple['general_sku'];
     }
 
     /**

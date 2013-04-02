@@ -97,11 +97,3 @@ edit_attribute_set:
             reset: //*[@data-ui-id='catalog-product-attribute-set-main-reset-button']
             back: //*[@data-ui-id='catalog-product-attribute-set-main-back-button']
         messages: *messages
-
-edit_attribute_set_with_sharp:
-    mca: catalog_product_set/edit/id/%id%/#
-    title: %elementTitle% / Manage Attribute Sets / Attributes / Stores / Magento Admin
-    uimap:
-        form: *editAttributeSet
-        buttons: *editAttributeButtons
-        messages: *messages

@@ -10,5 +10,5 @@
 #
 ---
 access_denied:
-    mca: index/denied
+    mca: index/denied/
     title: Magento Admin

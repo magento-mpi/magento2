@@ -92,7 +92,7 @@ create_tax_rate:
 # 'Edit Tax Rate' Page
 edit_tax_rate:
     mca: tax_rate/edit/rate/%rate%/
-    title: %elementTitle% /  Manage Tax Zones and Rates / Taxes / Stores / Magento Admin
+    title: %elementTitle% / Manage Tax Zones and Rates / Taxes / Stores / Magento Admin
     uimap:
         form: &editTaxRatesForm
             fieldsets:

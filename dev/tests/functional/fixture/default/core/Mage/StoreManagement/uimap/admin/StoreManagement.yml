@@ -49,7 +49,7 @@ manage_stores:
             success_deleted_website: //li[normalize-space(@class)='success-msg' and contains(., 'The website has been deleted')]
 
 manage_stores_items_per_page:
-    mca: system_store/limit/%limit%
+    mca: system_store/limit/%limit%/
     title: Stores / Settings / Stores / Magento Admin
     uimap: *manage_stores
 

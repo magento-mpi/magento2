@@ -16,7 +16,7 @@ require_once 'TagsFixtureAbstract.php';
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Tags_CustomerCreateTest extends Core_Mage_Tags_TagsFixtureAbstract
+class Core_Mage_Tags_CustomerTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
 {
     /**
      * @return array
@@ -93,7 +93,7 @@ class Core_Mage_Tags_CustomerCreateTest extends Core_Mage_Tags_TagsFixtureAbstra
      */
     public function searchTags($columnName, $testData)
     {
-        $this->markTestSkipped('Skipped due to bug MAGETWO-2854');
+        $this->markTestIncomplete('Skipped due to bug MAGETWO-2854');
         //Setup
         $this->loginAdminUser();
         $this->navigate('manage_customers');
