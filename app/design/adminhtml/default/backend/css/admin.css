@@ -213,6 +213,11 @@ button.primary.disabled,
 .mage-new-category-dialog .action-cancel:active,
 .mage-new-category-dialog .action-cancel.active,
 .mage-new-category-dialog .action-cancel[disabled],
+.notification-entry-dialog .action-cancel,
+.notification-entry-dialog .action-cancel:hover,
+.notification-entry-dialog .action-cancel:active,
+.notification-entry-dialog .action-cancel.active,
+.notification-entry-dialog .action-cancel[disabled],
 .image-panel .action-close,
 .image-panel .action-close:hover,
 .image-panel .action-close:active,
@@ -310,6 +315,14 @@ button.primary.disabled,
     text-shadow: none;
 }
 
+.fade.critical-notification {
+    display: block;
+}
+
+.fade.critical-notification .popup {
+    top: 200px;
+}
+
 .data-table .action-.delete:disabled,
 .data-table .action-delete:disabled,
 #product-variations-matrix .action-choose:disabled,
@@ -378,6 +391,7 @@ button.primary.disabled,
 /*
     Actions as links
 -------------------------------------- */
+.notification-entry-dialog .action-cancel,
 .mage-new-category-dialog .action-cancel {
     background: none;
     border: none;
@@ -388,6 +402,7 @@ button.primary.disabled,
     text-decoration: underline;
 }
 
+.notification-entry-dialog .action-cancel:hover,
 .mage-new-category-dialog .action-cancel:hover {
     color: #000;
     border-bottom-color: #000;

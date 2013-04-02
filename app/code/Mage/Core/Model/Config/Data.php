@@ -26,6 +26,8 @@
  * @category    Mage
  * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 class Mage_Core_Model_Config_Data extends Mage_Core_Model_Abstract
 {
@@ -91,11 +93,11 @@ class Mage_Core_Model_Config_Data extends Mage_Core_Model_Abstract
         }
         return (string) Mage::getConfig()->getNode('default/' . $path);
     }
-    
+
 
     /**
      * Get value by key for new user data from <section>/groups/<group>/fields/<field>
-     * 
+     *
      * @return string
      */
     public function getFieldsetDataValue($key)
