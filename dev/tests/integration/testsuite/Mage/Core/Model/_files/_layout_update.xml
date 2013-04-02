@@ -29,7 +29,6 @@
       </block>
       <block type="Mage_Adminhtml_Block_Page_Header" name="header" as="header"/>
       <block type="Mage_Backend_Block_Menu" name="menu" as="menu"/>
-      <block type="Mage_Core_Block_Text_List" name="notifications" as="notifications" />
       <block type="Mage_Core_Block_Messages" name="messages" as="messages"/>
       <block type="Mage_Core_Block_Text" as="no_name"/>
    </block>
@@ -48,9 +47,5 @@
     <remove name="test.nonexisting.block"/>
     <reference name="test.nonexisting.block">
         <action method="getSomething"/>
-    </reference>
-    <reference name="notifications">
-       <block type="Mage_Index_Block_Adminhtml_Notifications" name="index_notifications" template="index/notifications.phtml" before="-"/>
-       <block class="Mage_Index_Block_Adminhtml_Notifications" name="index_notifications_copy" template="index/notifications.phtml" after="-"/>
     </reference>
 </layout>
