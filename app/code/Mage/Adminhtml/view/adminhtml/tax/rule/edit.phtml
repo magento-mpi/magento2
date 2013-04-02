@@ -59,11 +59,13 @@
         this.isEntityEditable = this.settings.is_entity_editable || false;
 
         this.edit = function() {
-            var that = $(this),
-                    index = that.parent().index(),
-                    select = that.closest('.mselect-list').prev(),
-                    id = select.find('option').eq(index).attr('value'),
-                    item;
+            var listItem = $(this).closest('.mselect-list-item');
+                that = listItem.children('.mselect-edit');
+
+            var index = listItem.index(),
+                select = that.closest('.mselect-list').prev(),
+                id = select.find('option').eq(index).attr('value'),
+                item;
 
             for(var i = 0, c = taxRateCollection.length; i < c; i++) {
                 if (taxRateCollection[i].tax_calculation_rate_id == id) {
