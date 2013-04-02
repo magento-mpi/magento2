@@ -215,6 +215,7 @@
             return postResult;
         },
         _destroy: function() {
+            $('body').off(this.options.saveEvent + ' ' + this.options.saveAndAssignEvent);
             this.element.find( this.options.cellSelector ).each( function(i, element) {
                 $(element).data('vde_menu').destroy();
             });

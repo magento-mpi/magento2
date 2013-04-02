@@ -846,8 +846,9 @@ SuggestTest.prototype.testCreateOption = function() {
     var suggestInstance = this.suggestCreate();
 
     var option = suggestInstance._createOption(this.uiHash.item);
-    assertEquals(jQuery('<div />').append(option).html(),
-        '<option value="1" selected="selected">Test Label</option>');
+    assertEquals(option.val(), "1");
+    assertEquals(option.prop('selected'), true);
+    assertEquals(option.text(), "Test Label");
     assertNotUndefined(option.data('renderedOption'));
 };
 SuggestTest.prototype.testAddOption = function() {
