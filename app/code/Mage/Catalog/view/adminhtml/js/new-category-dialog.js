@@ -23,7 +23,7 @@
             var widget = this;
             $('#new_category_parent').before($('<input>', {
                 id: 'new_category_parent-suggest',
-                placeholder: 'start typing to search category'
+                placeholder: $.mage.__('start typing to search category')
             }));
             $('#new_category_parent-suggest').treeSuggest(this.options.suggestOptions)
                 .on('suggestbeforeselect', function (event, ui) {
@@ -35,13 +35,13 @@
             /* @todo rewrite using jQuery validation */
             /* Validation doesn't work for this invisible <select> after recent changes for some reason */
             $('#new_category_parent').css({border: 0, height: 0,padding: 0, width: 0}).show();
-            Validation.add('validate-parent-category', 'Choose existing category.', function() {
+            Validation.add('validate-parent-category', $.mage.__('Choose existing category.'), function() {
                 return $('#new_category_parent').val() || $('#new_category_parent-suggest').val() === '';
             });
             var newCategoryForm = new Validation(this.element.get(0));
 
             this.element.dialog({
-                title: 'Create Category',
+                title: $.mage.__('Create Category'),
                 autoOpen: false,
                 minWidth: 560,
                 dialogClass: 'mage-new-category-dialog form-inline',
@@ -63,7 +63,7 @@
                     $('#category_ids-suggest').focus();
                 },
                 buttons: [{
-                    text: 'Create Category',
+                    text: $.mage.__('Create Category'),
                     'class': 'action-create primary',
                     'data-action': 'save',
                     click: function(event) {
@@ -113,7 +113,7 @@
                     }
                 },
                 {
-                    text: 'Cancel',
+                    text: $.mage.__('Cancel'),
                     'class': 'action-cancel',
                     'data-action': 'cancel',
                     click: function() {
