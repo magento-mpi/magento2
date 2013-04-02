@@ -10,7 +10,7 @@
 <div id="system_messages_list" title="<?php echo $this->escapeHtml($this->getPopupTitle()); ?>">
     <ul class="message-system-list">
         <?php foreach ($this->getUnreadMessages() as $message): ?>
-            <li class="error">
+            <li class="<?php echo $this->getItemClass($message);?>">
                 <?php echo $message->getText();?><?php if ($message->getLink()): ?> <a href="<?php echo $this->escapeUrl($message->getLink());?>"><?php echo $this->__('Go there now');?></a><?php endif; ?>
             </li>
         <?php endforeach;?>
