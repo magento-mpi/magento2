@@ -8,14 +8,16 @@
  * @license     {license_link}
  */
 ?>
-<script id="pbridge-input" type="text/x-jquery-tmpl">
+<script data-template="pbridge-input" type="text/x-jquery-tmpl">
     <input {{each $data}}${$index}="${$value}"{{/each}} />
 </script>
 <div id="payment-method-message" style="font: normal normal normal 11px/1.35 Arial, Helvetica, sans-serif;color: #444;float: left;font-size: 12px;font-weight: bold;padding: 2px 15px 0px 0px;text-align: left;"></div>
 <script type="text/javascript">
-    //<![CDATA[
     (function($) {
-        $.template('pBridgeInput', $('#pbridge-input', $(document)));
+        $.template('pBridgeInput', $('[data-template="pbridge-input"]', $(document)));
+        /*
+         * @TODO Code of setPaymentMethod need to be moved to opcheckout widget
+         */
         function setPaymentMethod() {
             var jsonParams = <?php echo $this->getJsonHiddenPbridgeParams() ?>;
             if (jsonParams.original_payment_method) {
@@ -56,7 +58,13 @@
                     }
                     var message = $('#payment-method-message', $(document));
                     if(message.length) {
-                        message.html('<?php echo Mage::helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Your payment information has been submitted to the server. If you need to make changes, please click <a style="color: #1E75B4" href="#" onclick="parent.reloadIframe(paymentObj.currentMethod); return false;">here</a> .')) ?>');
+                        // @TODO refactor payment method message - remove <a> from js code, remove inline color style and use a CSS class instead
+                        message.html('<?php echo Mage::helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Your payment information has been submitted to the server. If you need to make changes, please click <a style="color: #1E75B4" href="#">here</a> .')) ?>')
+                            .find('a').on('click', function(e) {
+                                e.preventDefault();
+                                e.stopImmediatePropagation();
+                                pbridgeReload.trigger('click');
+                            });
                     }
                 } catch (e) {}
             }
@@ -65,5 +73,4 @@
             setPaymentMethod();
         });
     })(parent.jQuery);
-    //]]>
 </script>
