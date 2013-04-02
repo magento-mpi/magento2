@@ -23,18 +23,26 @@ class Mage_Backend_Model_System_Message_Survey implements Mage_Backend_Model_Sys
     protected $_authorization;
 
     /**
+     * @var Mage_Core_Model_UrlInterface
+     */
+    protected $_urlBuilder;
+
+    /**
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Backend_Model_Auth_Session $authSession
      * @param Mage_Core_Model_Authorization $authorization
+     * @param Mage_Core_Model_UrlInterface $urlBuilder
      */
     public function __construct(
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Backend_Model_Auth_Session $authSession,
-        Mage_Core_Model_Authorization $authorization
+        Mage_Core_Model_Authorization $authorization,
+        Mage_Core_Model_UrlInterface $urlBuilder
     ) {
         $this->_helperFactory = $helperFactory;
         $this->_authorization = $authorization;
         $this->_authSession = $authSession;
+        $this->_urlBuilder = $urlBuilder;
     }
 
     /**
@@ -82,7 +90,17 @@ class Mage_Backend_Model_System_Message_Survey implements Mage_Backend_Model_Sys
      */
     public function getText()
     {
-        return $this->_helperFactory->get('Mage_Backend_Helper_Data')->__('We appreciate our merchants\' feedback, please <a href="#" onclick="surveyAction(\'yes\'); return false;">take our survey</a> to provide insight on the features you would like included in Magento. <a href="#" onclick="surveyAction(\'no\'); return false;">Remove this notification</a>');
+        $params = array(
+            'actionLink' => array(
+                'event' => 'surveyYes',
+                'eventData' => array(
+                    'surveyUrl' => Mage_AdminNotification_Model_Survey::getSurveyUrl(),
+                    'surveyAction' => $this->_urlBuilder->getUrl('*/survey/index', array('_current' => true)),
+                    'decision' => 'yes',
+                ),
+            ),
+        );
+        return $this->_helperFactory->get('Mage_Backend_Helper_Data')->__('We appreciate our merchants\' feedback, please <a href="#" data-mage-init=%s>take our survey</a> to provide insight on the features you would like included in Magento.', json_encode($params, JSON_FORCE_OBJECT));
     }
 
     /**

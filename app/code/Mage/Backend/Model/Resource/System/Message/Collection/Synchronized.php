@@ -16,62 +16,38 @@ class Mage_Backend_Model_Resource_System_Message_Collection_Synchronized
      */
     protected $_unreadMessages = array();
 
-    /**
-     * @var array
-     */
-    protected $_countBySeverity = array();
-
-    /**
-     * Load synchronized messages
-     *
-     * @param bool $printQuery
-     * @param bool $logQuery
-     * @return $this|Varien_Data_Collection_Db
-     */
-    public function load($printQuery = false, $logQuery = false)
+    public function _afterLoad()
     {
-        if ($this->isLoaded()) {
-            return $this;
-        }
-        parent::load($printQuery, $logQuery);
         $messages = $this->_messageList->asArray();
-        $reloadRequired = false;
+        $persisted = array();
+        $unread = array();
         foreach ($messages as $message) {
-            $persisted = false;
-            foreach ($this->_items as $persistedKey => $persistedMessage) {
-                if ($message->getIdentity() == $persistedMessage->getIdentity()) {
-                    $persisted = true;
-                    if (!$message->isDisplayed()) {
-                        $persistedMessage->delete();
-                        unset($this->_items[$persistedKey]);
-                        $reloadRequired = true;
+            if ($message->isDisplayed()) {
+                foreach ($this->_items as $persistedKey => $persistedMessage) {
+                    if ($message->getIdentity() == $persistedMessage->getIdentity()) {
+                        $persisted[$persistedKey] = $persistedMessage;
+                        continue 2;
                     }
-                    $persistedMessage->setPersisted(true);
-                    break;
                 }
-            }
-            if (!$persisted && $message->isDisplayed()) {
-                $item = $this->getNewEmptyItem();
-                $item->setIdentity($message->getIdentity())
-                    ->setSeverity($message->getSeverity())
-                    ->save();
-                $this->_unreadMessages[] = $item;
-                $reloadRequired = true;
+                $unread[] = $message;
             }
         }
-        if ($reloadRequired) {
+        $removed = array_diff_key($this->_items, $persisted);
+        foreach ($removed as $removedItem) {
+            $removedItem->delete();
+        }
+        foreach ($unread as $unreadItem ) {
+            $item = $this->getNewEmptyItem();
+            $item->setIdentity($unreadItem->getIdentity())
+                ->setSeverity($unreadItem->getSeverity())
+                ->save();
+        }
+        if (count($removed) || count($unread)) {
+            $this->_unreadMessages = $unread;
             $this->clear();
-            parent::load($printQuery, $logQuery);
-        }
-        foreach ($this->_items as $item) {
-            $message = $this->_messageList->getMessageByIdentity($item->getIdentity());
-            $item->setText($message->getText());
-            $item->setLink($message->getLink());
-            if (array_key_exists($message->getSeverity(), $this->_countBySeverity)) {
-                $this->_countBySeverity[$message->getSeverity()]++;
-            } else {
-                $this->_countBySeverity[$message->getSeverity()] = 1;
-            }
+            $this->load();
+        } else {
+            parent::_afterLoad();
         }
         return $this;
     }
@@ -82,14 +58,5 @@ class Mage_Backend_Model_Resource_System_Message_Collection_Synchronized
     public function getUnread()
     {
         return $this->_unreadMessages;
-    }
-
-    /**
-     * @param int $severity
-     * @return int
-     */
-    public function getCountBySeverity($severity)
-    {
-        return isset($this->_countBySeverity[$severity]) ? $this->_countBySeverity[$severity] : 0;
     }
 }
