@@ -4481,12 +4481,29 @@ tr.dynamic-grid input.input-text {
     Customer Reviews
 -------------------------------------- */
 .field-detailed_rating .control-value {
-    width: 100%;
+    padding: 0;
+}
+
+.field-detailed_rating .nested {
+    padding: 0;
+}
+
+.field-detailed_rating .field-rating {
+    margin: 15px 0 0 0;
+}
+
+.field-detailed_rating .field-rating:first-child {
+    margin-top: 0;
+}
+
+.field-detailed_rating .field-rating .label {
+    width: 75px;
 }
 
 .field-detailed_rating .field-rating .control {
     unicode-bidi: bidi-override;
     direction: rtl;
+    width: 125px;
 }
 
 .field-detailed_rating input[type="radio"] {
