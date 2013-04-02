@@ -41,7 +41,7 @@ class Mage_Backend_Model_Observer
      */
     public function clearCacheConfigurationFilesAccessLevelVerification()
     {
-        Mage::app()->removeCache(Mage_Adminhtml_Block_Notification_Security::VERIFICATION_RESULT_CACHE_KEY);
+        Mage::app()->removeCache(Mage_AdminNotification_Block_Security::VERIFICATION_RESULT_CACHE_KEY);
         return $this;
     }
 }
