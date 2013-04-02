@@ -64,7 +64,8 @@ class Core_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
     public function closeDrawer()
     {
         $this->clickButton('close_drawer', false);
-        return $this->waitForElementInvisible($this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'common_drawer'));
+        $this->waitForControlNotVisible(self::UIMAP_TYPE_FIELDSET, 'common_drawer');
+        return true;
     }
 
     /**
@@ -74,7 +75,8 @@ class Core_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->clickButton('save_my_settings', false);
         $this->waitForAjax();
-        return $this->waitForElementInvisible($this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'common_drawer'));
+        $this->waitForControlNotVisible(self::UIMAP_TYPE_FIELDSET, 'common_drawer');
+        return true;
     }
 
     /**

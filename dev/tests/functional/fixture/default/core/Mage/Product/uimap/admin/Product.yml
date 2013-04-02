@@ -289,7 +289,7 @@ new_product:
                                         move_grouped_product: //tr[td[normalize-space(text())='%productSku%']]//*[@class='ui-icon ui-icon-grip-dotted-vertical']
                                     pageelements:
                                         selected_grouped_product: //tr[td[normalize-space(text())='%productSku%']]
-                                        grouped_assigned_products: //tr[not(contains(@style,'display: none;'))]/td[contains(@class, 'grouped-product-sku')]
+                                        grouped_assigned_products: //tr[not(contains(@style,'display: none;'))]/td[@data-column='sku']
                             -
                                 bundle_items:
                                     xpath: //*[@id='bundle_product-wrapper']

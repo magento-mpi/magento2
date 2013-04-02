@@ -2675,26 +2675,28 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string|array $locator XPath locator or array of locator's
      * @param int $timeout Timeout period in seconds (by default = null)
      *
-     * @return bool
+     * @throws RuntimeException
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element
      */
-    public function waitForElementInvisible($locator, $timeout = null)
+    public function waitForElementNotVisible($locator, $timeout = null)
     {
         if (is_null($timeout)) {
             $timeout = $this->_browserTimeout;
         }
         if (is_array($locator)) {
+            $output = "\nNone of the elements are invisible on the page. \nLocators: \n" . implode("\n", $locator);
             $locator = self::combineLocatorsToOne($locator);
+        } else {
+            $output = "\nElement is visible on the page. \nLocator: " . $locator;
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-            /**
-             * @var PHPUnit_Extensions_Selenium2TestCase_Element $availableElement
-             */
+            /** @var PHPUnit_Extensions_Selenium2TestCase_Element $availableElement */
             $availableElements = $this->getElements($locator, false);
             foreach ($availableElements as $availableElement) {
                 try {
                     if (!$availableElement->displayed()) {
-                        return true;
+                        return $availableElement;
                     }
                 } catch (RuntimeException $e) {
                 }
@@ -2702,7 +2704,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             usleep(500000);
         }
         $this->assertEmptyPageErrors();
-        return false;
+        throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);
+    }
+
+    /**
+     * Wait for control is not visible
+     *
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
+     * @param string $controlName Name of a control from UIMap
+     * @param int|null $timeout
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+    public function waitForControlNotVisible($controlType, $controlName, $timeout = null)
+    {
+        $locator = $this->_getControlXpath($controlType, $controlName);
+        return $this->waitForElementNotVisible($locator, $timeout);
     }
 
     /**
@@ -3737,10 +3753,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $this->validatePage($this->_pageAfterAdminLogin);
         if ($this->_pageAfterAdminLogin == 'store_launcher' &&
-            $this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup')) {
+            $this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup')
+        ) {
             $this->waitForControlStopsMoving(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup');
             $this->clickButton('back_to_storelauncher', false);
-            $this->waitForElementInvisible($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup'));
+            $this->waitForControlNotVisible(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup');
         }
         return $this;
     }

@@ -126,20 +126,18 @@ class Core_Mage_BatchUpdates_Product_MassActionTest extends Mage_Selenium_TestCa
             $this->productHelper()->createProduct($productData);
             $this->assertMessagePresent('success', 'success_saved_product');
         }
-        for ($i = 1; $i <= $productQty; $i++) {
-            $this->searchAndChoose($searchData[$i], 'product_grid');
+        foreach ($searchData as $search) {
+            $this->searchAndChoose($search, 'product_grid');
         }
         $this->addParameter('qtyUpdatedAtrProducts', $productQty);
         $this->fillDropdown('mass_action_select_action', 'Update Attributes');
-        $this->addParameter('storeId', '0');
         $this->clickButton('submit');
         //Data
-        $dataForAttributesTab = $this->loadDataSet('Product', 'product_update_attributes_tab');
-        $dataForInventoryTab = $this->loadDataSet('Product', 'product_update_inventory_tab');
-        $dataForWebsitesTab = $this->loadDataSet('Product', 'product_update_websites_tab');
+        $attributesTab = $this->loadDataSet('Product', 'product_update_attributes_tab');
+        $inventoryTab = $this->loadDataSet('Product', 'product_update_inventory_tab');
+        $websitesTab = $this->loadDataSet('Product', 'product_update_websites_tab');
         //Steps
-        $this->productHelper()->updateThroughMassAction($dataForAttributesTab, $dataForInventoryTab,
-        $dataForWebsitesTab);
+        $this->productHelper()->updateThroughMassAction($attributesTab, $inventoryTab, $websitesTab);
         $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_updated_products_attributes_massaction');
@@ -172,7 +170,7 @@ class Core_Mage_BatchUpdates_Product_MassActionTest extends Mage_Selenium_TestCa
         $this->addParameter('storeId', '0');
         $this->clickButton('submit');
         //Verifying
-        foreach($excludedAttributes as $controlName => $controlType) {
+        foreach ($excludedAttributes as $controlName => $controlType) {
             $this->assertFalse($this->controlIsVisible($controlType, $controlName));
         }
     }

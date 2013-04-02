@@ -29,11 +29,11 @@ manage_sales_orders:
                         dropdowns:
                             filter_massaction: //select[@id='sales_order_grid_massaction-select']
                             filter_status: //*[@id='sales_order_grid_filter_status']
+                            filter_purchased_from: //select[@name='store_id']
                             view_per_page: //select[@name='limit']
                         fields:
                             page: //input[@name='page']
                             filter_order_id: //*[@id='sales_order_grid_filter_real_order_id']
-                            filter_purchased_from: //input[@name='store_id']
                             filter_created_from: //input[@name='created_at[from]']
                             filter_created_to: //input[@name='filter_created_at[to]']
                             filter_billing_name: //input[@name='billing_name']

@@ -662,9 +662,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function updateThroughMassAction(array $forAttributesTab, array $forInventoryTab, array $forWebsitesTab)
     {
-        $this->fillTab($forAttributesTab, 'attributes', 'attributes');
-        $this->fillTab($forInventoryTab, 'inventory', 'inventory');
-        $this->fillTab($forWebsitesTab, 'websites', 'add_product');
+        $this->fillTab($forAttributesTab, 'attributes');
+        $this->fillTab($forInventoryTab, 'inventory');
+        $this->fillTab($forWebsitesTab, 'websites');
     }
 
     /**
@@ -2375,6 +2375,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function addProductsToGroup(array $data)
     {
         $formedData = $this->formGroupedData($data);
+        $countBefore = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'grouped_assigned_products');
         $this->clickButton('add_products_to_group', false);
         $this->pleaseWait();
         $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'select_associated_product_option');
@@ -2382,7 +2383,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->searchAndChoose($product, 'select_associated_product_option');
         }
         $this->clickButton('add_selected_products', false);
-        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'grouped_associated_products');
+        $this->waitForControlNotVisible(self::UIMAP_TYPE_FIELDSET, 'select_associated_product_option');
+        $countAfter = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'grouped_assigned_products');
+        if ($countBefore + count($formedData['items']) != $countAfter) {
+            $this->$this->markTestIncomplete('MAGETWO-7278,MAGETWO-7277');
+        }
         if(!empty($formedData['qty'])) {
             foreach ($formedData['qty'] as $productName => $qty) {
                 $this->addParameter('productSku', $productName);
