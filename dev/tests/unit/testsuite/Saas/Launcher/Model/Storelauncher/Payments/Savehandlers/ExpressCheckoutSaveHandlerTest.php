@@ -3,25 +3,25 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_ExpressCheckoutSaveHandlerTest
-    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
+class Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_ExpressCheckoutSaveHandlerTest
+    extends Saas_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
 {
     /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Backend_Model_Config $backendConfigModel
-     * @return Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
+     * @return Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
     public function getSaveHandlerInstance(
         Mage_Core_Model_Config $config,
         Mage_Backend_Model_Config $backendConfigModel
     ) {
-        return new Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_ExpressCheckoutSaveHandler(
+        return new Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_ExpressCheckoutSaveHandler(
             $config,
             $backendConfigModel
         );

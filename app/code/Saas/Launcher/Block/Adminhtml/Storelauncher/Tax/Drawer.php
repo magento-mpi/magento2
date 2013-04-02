@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Tax Drawer Block
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer extends Mage_Launcher_Block_Adminhtml_Drawer
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer extends Saas_Launcher_Block_Adminhtml_Drawer
 {
     /**
      * Tax rule collection
@@ -26,13 +26,13 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer extends Mage_Launch
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Launcher_Model_LinkTracker $linkTracker
+     * @param Saas_Launcher_Model_LinkTracker $linkTracker
      * @param Mage_Tax_Model_Resource_Calculation_Rule_Collection $taxRuleCollection
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Launcher_Model_LinkTracker $linkTracker,
+        Saas_Launcher_Model_LinkTracker $linkTracker,
         Mage_Tax_Model_Resource_Calculation_Rule_Collection $taxRuleCollection,
         array $data = array()
     ) {
@@ -48,7 +48,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer extends Mage_Launch
      */
     public function getTileHeader()
     {
-        return $this->helper('Mage_Launcher_Helper_Data')->__('Tax Rules');
+        return $this->helper('Saas_Launcher_Helper_Data')->__('Tax Rules');
     }
 
     /**

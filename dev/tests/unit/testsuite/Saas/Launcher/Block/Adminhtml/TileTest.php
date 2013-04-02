@@ -3,28 +3,28 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test class for Mage_Launcher_Block_Adminhtml_Tile
+ * Test class for Saas_Launcher_Block_Adminhtml_Tile
  */
-class Mage_Launcher_Block_Adminhtml_TileTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Block_Adminhtml_TileTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Launcher_Block_Adminhtml_Tile */
+    /** @var Saas_Launcher_Block_Adminhtml_Tile */
     protected $_block;
-    /** @var Mage_Launcher_Model_Tile */
+    /** @var Saas_Launcher_Model_Tile */
     protected $_tile;
 
 
     protected function setUp()
     {
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
-        $this->_block = $objectManager->getObject('Mage_Launcher_Block_Adminhtml_Tile');
-        $this->_tile = $objectManager->getObject('Mage_Launcher_Model_Tile');
+        $this->_block = $objectManager->getObject('Saas_Launcher_Block_Adminhtml_Tile');
+        $this->_tile = $objectManager->getObject('Saas_Launcher_Model_Tile');
         $this->_block->setTile($this->_tile);
     }
 
@@ -35,7 +35,7 @@ class Mage_Launcher_Block_Adminhtml_TileTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Launcher_Block_Adminhtml_Tile::getTileCode
+     * @covers Saas_Launcher_Block_Adminhtml_Tile::getTileCode
      */
     public function testGetTileCode()
     {
@@ -46,7 +46,7 @@ class Mage_Launcher_Block_Adminhtml_TileTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Launcher_Block_Adminhtml_Tile::getTileState
+     * @covers Saas_Launcher_Block_Adminhtml_Tile::getTileState
      */
     public function testGetTileState()
     {

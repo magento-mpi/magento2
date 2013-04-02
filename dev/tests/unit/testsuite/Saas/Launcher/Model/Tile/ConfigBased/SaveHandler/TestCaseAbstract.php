@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -12,11 +12,11 @@
 /**
  * Abstract test case for configuration data save handlers tests
  */
-abstract class Mage_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
+abstract class Saas_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
     extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
+     * @var Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
     protected $_saveHandler;
 
@@ -37,7 +37,7 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
     /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Backend_Model_Config $backendConfigModel
-     * @return Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
+     * @return Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
     abstract public function getSaveHandlerInstance(
         Mage_Core_Model_Config $config,
@@ -72,7 +72,7 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
 
     /**
      * @dataProvider prepareDataInvalidInputDataProvider
-     * @expectedException Mage_Launcher_Exception
+     * @expectedException Saas_Launcher_Exception
      * @param array $data
      */
     public function testPrepareDataThrowsExceptionWhenInputDataIsInvalid(array $data)
@@ -132,7 +132,7 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
 
     /**
      * @dataProvider prepareDataInvalidInputDataProvider
-     * @expectedException Mage_Launcher_Exception
+     * @expectedException Saas_Launcher_Exception
      * @param array $data
      */
     public function testSaveDoesNotCatchExceptionsThrownByPrepareData(array $data)

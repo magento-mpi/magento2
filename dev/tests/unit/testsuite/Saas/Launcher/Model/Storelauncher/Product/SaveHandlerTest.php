@@ -3,16 +3,16 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Launcher_Model_Storelauncher_Product_SaveHandler
+     * @var Saas_Launcher_Model_Storelauncher_Product_SaveHandler
      */
     protected $_saveHandler;
 
@@ -20,7 +20,7 @@ class Mage_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
     {
         $app = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
         $objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
-        $this->_saveHandler = new Mage_Launcher_Model_Storelauncher_Product_SaveHandler($app, $objectManager);
+        $this->_saveHandler = new Saas_Launcher_Model_Storelauncher_Product_SaveHandler($app, $objectManager);
     }
 
     protected function tearDown()
@@ -84,7 +84,7 @@ class Mage_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
     }
 
     /**
-     * @expectedException Mage_Launcher_Exception
+     * @expectedException Saas_Launcher_Exception
      * @expectedExceptionMessage Product data is invalid.
      */
     public function testPrepareDataThrowsExceptionWhenRequestDataIsInvalid()
@@ -107,7 +107,7 @@ class Mage_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
      * @dataProvider prepareDataDataProvider
      * @param array $data
      * @param array $preparedData
-     * @expectedException Mage_Launcher_Exception
+     * @expectedException Saas_Launcher_Exception
      * @expectedExceptionMessage Product data is invalid:
      */
     public function testSaveThrowsExceptionWhenProductDataValidationFails(array $data, array $preparedData)
@@ -121,7 +121,7 @@ class Mage_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
      *
      * @param array $preparedData
      * @param bool $isDataValid Mage_Catalod_Model_Product::validate() method call result
-     * @return Mage_Launcher_Model_Storelauncher_Product_SaveHandler
+     * @return Saas_Launcher_Model_Storelauncher_Product_SaveHandler
      */
     public function getSaveHandlerInstanceForSaveMethodTest(array $preparedData, $isDataValid = true)
     {
@@ -162,7 +162,7 @@ class Mage_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
         } else {
             $product->expects($this->once())
                 ->method('validate')
-                ->will($this->throwException(new Mage_Launcher_Exception('Product data is invalid:')));
+                ->will($this->throwException(new Saas_Launcher_Exception('Product data is invalid:')));
         }
         $product->expects($this->once())
             ->method('setWebsiteIds')
@@ -200,11 +200,11 @@ class Mage_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
             ->method('create')
             ->with('Mage_Catalog_Model_Product', array())
             ->will($this->returnValue($product));
-        return new Mage_Launcher_Model_Storelauncher_Product_SaveHandler($app, $objectManager);
+        return new Saas_Launcher_Model_Storelauncher_Product_SaveHandler($app, $objectManager);
     }
 
     /**
-     * @expectedException Mage_Launcher_Exception
+     * @expectedException Saas_Launcher_Exception
      * @expectedExceptionMessage Product data is invalid.
      */
     public function testSaveDoesNotCatchExceptionThrownByPrepareData()

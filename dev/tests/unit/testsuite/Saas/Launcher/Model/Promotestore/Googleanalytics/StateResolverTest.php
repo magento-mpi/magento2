@@ -3,16 +3,16 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Promotestore_Googleanalytics_StateResolverTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Model_Promotestore_Googleanalytics_StateResolverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Mage_Launcher_Model_Promotestore_Googleanalytics_StateResolver::isTileComplete
+     * @covers Saas_Launcher_Model_Promotestore_Googleanalytics_StateResolver::isTileComplete
      * @param string $accountId
      * @param int $expectedState
      * @dataProvider getTestDataIsTileComplete
@@ -27,7 +27,7 @@ class Mage_Launcher_Model_Promotestore_Googleanalytics_StateResolverTest extends
     }
 
     /**
-     * @covers Mage_Launcher_Model_Promotestore_Googleanalytics_StateResolver::getPersistentState
+     * @covers Saas_Launcher_Model_Promotestore_Googleanalytics_StateResolver::getPersistentState
      * @param string $accountId
      * @param int $expectedState
      * @dataProvider getTestData
@@ -42,7 +42,7 @@ class Mage_Launcher_Model_Promotestore_Googleanalytics_StateResolverTest extends
     }
 
     /**
-     * @covers Mage_Launcher_Model_Promotestore_Googleanalytics_StateResolver::handleSystemConfigChange
+     * @covers Saas_Launcher_Model_Promotestore_Googleanalytics_StateResolver::handleSystemConfigChange
      * @param string $accountId
      * @param int $expectedState
      * @dataProvider getTestData
@@ -52,7 +52,7 @@ class Mage_Launcher_Model_Promotestore_Googleanalytics_StateResolverTest extends
         $stateResolver = $this->_getStateResolverWithEmail($accountId);
         $this->assertEquals(
             $expectedState,
-            $stateResolver->handleSystemConfigChange('google', Mage_Launcher_Model_Tile::STATE_TODO)
+            $stateResolver->handleSystemConfigChange('google', Saas_Launcher_Model_Tile::STATE_TODO)
         );
     }
 
@@ -64,9 +64,9 @@ class Mage_Launcher_Model_Promotestore_Googleanalytics_StateResolverTest extends
     public function getTestData()
     {
         return array(
-            array('', Mage_Launcher_Model_Tile::STATE_TODO),
-            array(null, Mage_Launcher_Model_Tile::STATE_TODO),
-            array('accountId', Mage_Launcher_Model_Tile::STATE_COMPLETE),
+            array('', Saas_Launcher_Model_Tile::STATE_TODO),
+            array(null, Saas_Launcher_Model_Tile::STATE_TODO),
+            array('accountId', Saas_Launcher_Model_Tile::STATE_COMPLETE),
         );
     }
 
@@ -88,7 +88,7 @@ class Mage_Launcher_Model_Promotestore_Googleanalytics_StateResolverTest extends
      * Get State Resolver with specified accountId
      *
      * @param string $accountId
-     * @return Mage_Launcher_Model_Promotestore_Googleanalytics_StateResolver
+     * @return Saas_Launcher_Model_Promotestore_Googleanalytics_StateResolver
      */
     protected function _getStateResolverWithEmail($accountId)
     {
@@ -105,6 +105,6 @@ class Mage_Launcher_Model_Promotestore_Googleanalytics_StateResolverTest extends
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        return new Mage_Launcher_Model_Promotestore_Googleanalytics_StateResolver($app);
+        return new Saas_Launcher_Model_Promotestore_Googleanalytics_StateResolver($app);
     }
 }

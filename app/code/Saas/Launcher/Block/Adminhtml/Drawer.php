@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,14 +11,14 @@
 /**
  * Base Drawer Block
  *
- * @method Mage_Launcher_Model_Tile getTile()
- * @method Mage_Launcher_Block_Adminhtml_Drawer setTile(Mage_Launcher_Model_Tile $value)
+ * @method Saas_Launcher_Model_Tile getTile()
+ * @method Saas_Launcher_Block_Adminhtml_Drawer setTile(Saas_Launcher_Model_Tile $value)
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_Form
+class Saas_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_Form
 {
     /**
      * Display value for secret configuration parameters
@@ -26,7 +26,7 @@ class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
     const SECRET_DATA_DISPLAY_VALUE = '******';
 
     /**
-     * @var Mage_Launcher_Model_LinkTracker
+     * @var Saas_Launcher_Model_LinkTracker
      */
     protected $_linkTracker;
 
@@ -40,12 +40,12 @@ class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Launcher_Model_LinkTracker $linkTracker
+     * @param Saas_Launcher_Model_LinkTracker $linkTracker
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Launcher_Model_LinkTracker $linkTracker,
+        Saas_Launcher_Model_LinkTracker $linkTracker,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -56,14 +56,14 @@ class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
     /**
      * Get Tile Code
      *
-     * @throws Mage_Launcher_Exception
+     * @throws Saas_Launcher_Exception
      * @return string
      */
     public function getTileCode()
     {
         $tile = $this->getTile();
         if (!isset($tile)) {
-            throw new Mage_Launcher_Exception('Tile was not set.');
+            throw new Saas_Launcher_Exception('Tile was not set.');
         }
         return $tile->getCode();
     }
@@ -71,14 +71,14 @@ class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
     /**
      * Get Tile State
      *
-     * @throws Mage_Launcher_Exception
+     * @throws Saas_Launcher_Exception
      * @return int
      */
     public function getTileState()
     {
         $tile = $this->getTile();
         if (!isset($tile)) {
-            throw new Mage_Launcher_Exception('Tile was not set.');
+            throw new Saas_Launcher_Exception('Tile was not set.');
         }
         return $tile->getState();
     }
@@ -117,7 +117,7 @@ class Mage_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
      * Get link tracker object
      * @param string $route
      * @param array $params
-     * @return Mage_Launcher_Model_LinkTracker
+     * @return Saas_Launcher_Model_LinkTracker
      */
     public function getTrackerLink($route = '', $params = array())
     {

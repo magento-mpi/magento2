@@ -3,34 +3,34 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile */
+/** @var $this Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile */
 ?>
 <article class="tile-store-settings tile-payments <?php echo $this->getTileStateStyle(); ?>" id="tile-<?php echo $this->getTileCode()?>" tabindex="0">
-    <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Payments') ?></h2>
+    <h2><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Payments') ?></h2>
     <div class="tile-teaser">
         <p>
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Offer customers ways to pay you.') ?>
+            <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Offer customers ways to pay you.') ?>
         </p>
         <div class="actions">
             <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                     data-save-url="<?php echo $this->getUrl('*/storelauncher_payments_drawer/save') ?>"
                     data-load-url="<?php echo $this->getUrl('*/storelauncher_payments_drawer/load') ?>">
-                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Open Payments') ?></span>
+                <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Open Payments') ?></span>
             </button>
         </div>
     </div>
 
     <div class="tile-done">
-        <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
+        <?php if ($this->getTileState() == Saas_Launcher_Model_Tile::STATE_COMPLETE) :?>
         <ul class="checklist">
             <?php foreach($this->getConfiguredMethods() as $method): ?>
                 <li class="completed">
-                    "<?php echo $method ?>" <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('is configured') ?>
+                    "<?php echo $method ?>" <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('is configured') ?>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -38,7 +38,7 @@
             <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                     data-save-url="<?php echo $this->getUrl('*/storelauncher_payments_drawer/save') ?>"
                     data-load-url="<?php echo $this->getUrl('*/storelauncher_payments_drawer/load') ?>">
-                <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit Payments') ?></span>
+                <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Edit Payments') ?></span>
             </button>
         </div>
         <footer class="tile-more-info">

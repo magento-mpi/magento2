@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends Mage_Backend_Area_TestCase
+class Saas_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends Mage_Backend_Area_TestCase
 {
     /** @var array $_carriers Array of predefined carrierrs */
     protected $_activeCarriers = array(
@@ -22,13 +22,13 @@ class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends Mage_Ba
 
     /**
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Mage/Launcher/_files/config_bootstrap.php
+     * @magentoDataFixture Saas/Launcher/_files/config_bootstrap.php
      */
     public function testSave()
     {
         Mage::getConfig()->setCurrentAreaCode('adminhtml');
-        /** @var Mage_Launcher_Model_Storelauncher_Shipping_SaveHandler */
-        $shippingSaveHandler = Mage::getModel('Mage_Launcher_Model_Storelauncher_Shipping_SaveHandler');
+        /** @var Saas_Launcher_Model_Storelauncher_Shipping_SaveHandler */
+        $shippingSaveHandler = Mage::getModel('Saas_Launcher_Model_Storelauncher_Shipping_SaveHandler');
 
         $shippingSaveHandler->save(array('shipping_enabled' => true));
         $activeCarries = $this->_getActiveShippingCarriers();

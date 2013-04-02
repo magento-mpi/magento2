@@ -3,19 +3,19 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test class for Mage_Launcher_Block_Adminhtml_Drawer
+ * Test class for Saas_Launcher_Block_Adminhtml_Drawer
  */
-class Mage_Launcher_Block_Adminhtml_DrawerTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Block_Adminhtml_DrawerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Launcher_Block_Adminhtml_Drawer
+     * @var Saas_Launcher_Block_Adminhtml_Drawer
      */
     protected $_drawer;
 
@@ -23,7 +23,7 @@ class Mage_Launcher_Block_Adminhtml_DrawerTest extends PHPUnit_Framework_TestCas
     {
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $linkTracker = $this->getMock(
-            'Mage_Launcher_Model_LinkTracker',
+            'Saas_Launcher_Model_LinkTracker',
             array('save', 'load'), array(), '', false
         );
 
@@ -33,11 +33,11 @@ class Mage_Launcher_Block_Adminhtml_DrawerTest extends PHPUnit_Framework_TestCas
             'urlBuilder' => $urlBuilder,
             'linkTracker' => $linkTracker
         );
-        $this->_drawer = $objectManager->getObject('Mage_Launcher_Block_Adminhtml_Drawer', $arguments);
+        $this->_drawer = $objectManager->getObject('Saas_Launcher_Block_Adminhtml_Drawer', $arguments);
     }
 
     /**
-     * @covers Mage_Launcher_Block_Adminhtml_Drawer::getTrackerLink
+     * @covers Saas_Launcher_Block_Adminhtml_Drawer::getTrackerLink
      */
     public function testGetTrackerLink()
     {
@@ -58,7 +58,7 @@ class Mage_Launcher_Block_Adminhtml_DrawerTest extends PHPUnit_Framework_TestCas
      * @param array $secondLinkParams
      * @param array $secondLinkExpected
      * @dataProvider getTrackerLinkConsequentDataProvider
-     * @covers Mage_Launcher_Block_Adminhtml_Drawer::getTrackerLink
+     * @covers Saas_Launcher_Block_Adminhtml_Drawer::getTrackerLink
      */
     public function testGetTrackerLinkConsequent($firstLinkParams, $firstLinkExpected,
         $secondLinkParams, $secondLinkExpected
@@ -128,7 +128,7 @@ class Mage_Launcher_Block_Adminhtml_DrawerTest extends PHPUnit_Framework_TestCas
      * Retrieve drawer instance for getConfigValue method test
      *
      * @param array $configMap
-     * @return Mage_Launcher_Block_Adminhtml_Drawer
+     * @return Saas_Launcher_Block_Adminhtml_Drawer
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     protected function _getDrawerInstanceForGetConfigValueTest(array $configMap)
@@ -149,7 +149,7 @@ class Mage_Launcher_Block_Adminhtml_DrawerTest extends PHPUnit_Framework_TestCas
             'storeConfig' => $config,
         );
 
-        return $objectManagerHelper->getObject('Mage_Launcher_Block_Adminhtml_Drawer', $arguments);
+        return $objectManagerHelper->getObject('Saas_Launcher_Block_Adminhtml_Drawer', $arguments);
     }
 
     /**
@@ -193,7 +193,7 @@ class Mage_Launcher_Block_Adminhtml_DrawerTest extends PHPUnit_Framework_TestCas
             array(
                 array('valid/config/path' => 'config_value'),
                 'valid/config/path',
-                Mage_Launcher_Block_Adminhtml_Drawer::SECRET_DATA_DISPLAY_VALUE
+                Saas_Launcher_Block_Adminhtml_Drawer::SECRET_DATA_DISPLAY_VALUE
             ),
             array(
                 array(),

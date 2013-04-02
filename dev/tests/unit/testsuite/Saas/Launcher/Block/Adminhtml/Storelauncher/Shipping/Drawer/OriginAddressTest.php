@@ -3,21 +3,21 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test class for Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
+ * Test class for Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddressTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddressTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Origin Address Block
      *
-     * @var Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
+     * @var Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
      */
     protected $_addressBlock;
 
@@ -77,7 +77,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddressT
         );
 
         $this->_addressBlock = $objectManagerHelper->getObject(
-            'Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress',
+            'Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress',
             $arguments
         );
 

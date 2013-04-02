@@ -3,23 +3,23 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test class for Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer
+ * Test class for Saas_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_DrawerTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Tax_DrawerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Retrieve tax drawer block instance
      *
      * @param boolean $isTileComplete
      * @param int $taxRuleCount
-     * @return Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer
+     * @return Saas_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer
      */
     protected function _getDrawerBlockInstance($isTileComplete, $taxRuleCount)
     {
@@ -37,14 +37,14 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_DrawerTest extends PHPUnit
             ->will($this->returnValue($taxRuleCount));
 
         $drawerBlock = $objectManagerHelper->getObject(
-            'Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer',
+            'Saas_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer',
             array(
                 'taxRuleCollection' => $taxRuleCollection,
             )
         );
         // inject associated tile into drawer block instance
-        /** @var $tile PHPUnit_Framework_MockObject_MockObject|Mage_Launcher_Model_Tile */
-        $tile = $this->getMock('Mage_Launcher_Model_Tile', array('isComplete'), array(), '', false);
+        /** @var $tile PHPUnit_Framework_MockObject_MockObject|Saas_Launcher_Model_Tile */
+        $tile = $this->getMock('Saas_Launcher_Model_Tile', array('isComplete'), array(), '', false);
         $tile->expects($this->any())
             ->method('isComplete')
             ->will($this->returnValue($isTileComplete));

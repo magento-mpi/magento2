@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Storelauncher_Product_StateResolverTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Model_Storelauncher_Product_StateResolverTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param int $collectionSize
@@ -28,7 +28,7 @@ class Mage_Launcher_Model_Storelauncher_Product_StateResolverTest extends PHPUni
         $productCollection->expects($this->once())
             ->method('getSize')
             ->will($this->returnValue($collectionSize));
-        $stateResolver = new Mage_Launcher_Model_Storelauncher_Product_StateResolver($productCollection);
+        $stateResolver = new Saas_Launcher_Model_Storelauncher_Product_StateResolver($productCollection);
 
         // product tile is considered to be complete if at least one product has been created
         $this->assertEquals($expectedResult, $stateResolver->isTileComplete());

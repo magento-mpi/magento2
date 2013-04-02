@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,26 +11,26 @@
 /**
  * Base Tile Block
  *
- * @method Mage_Launcher_Model_Tile getTile()
- * @method Mage_Launcher_Block_Adminhtml_Tile setTile(Mage_Launcher_Model_Tile $value)
+ * @method Saas_Launcher_Model_Tile getTile()
+ * @method Saas_Launcher_Block_Adminhtml_Tile setTile(Saas_Launcher_Model_Tile $value)
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Adminhtml_Tile extends Mage_Backend_Block_Abstract
+class Saas_Launcher_Block_Adminhtml_Tile extends Mage_Backend_Block_Abstract
 {
     /**
      * Get Tile Code
      *
-     * @throws Mage_Launcher_Exception
+     * @throws Saas_Launcher_Exception
      * @return string
      */
     public function getTileCode()
     {
         $tile = $this->getTile();
         if (!isset($tile)) {
-            throw new Mage_Launcher_Exception('Tile was not set.');
+            throw new Saas_Launcher_Exception('Tile was not set.');
         }
         return $tile->getTileCode();
     }
@@ -38,14 +38,14 @@ class Mage_Launcher_Block_Adminhtml_Tile extends Mage_Backend_Block_Abstract
     /**
      * Get Tile State
      *
-     * @throws Mage_Launcher_Exception
+     * @throws Saas_Launcher_Exception
      * @return int
      */
     public function getTileState()
     {
         $tile = $this->getTile();
         if (!isset($tile)) {
-            throw new Mage_Launcher_Exception('Tile was not set.');
+            throw new Saas_Launcher_Exception('Tile was not set.');
         }
         return $tile->getState();
     }
@@ -59,16 +59,16 @@ class Mage_Launcher_Block_Adminhtml_Tile extends Mage_Backend_Block_Abstract
     {
         $tileStyle = '';
         switch ($this->getTileState()) {
-            case Mage_Launcher_Model_Tile::STATE_TODO :
+            case Saas_Launcher_Model_Tile::STATE_TODO :
                 $tileStyle = 'tile-todo';
                 break;
-            case Mage_Launcher_Model_Tile::STATE_COMPLETE :
+            case Saas_Launcher_Model_Tile::STATE_COMPLETE :
                 $tileStyle = 'tile-complete';
                 break;
-            case Mage_Launcher_Model_Tile::STATE_SKIPPED :
+            case Saas_Launcher_Model_Tile::STATE_SKIPPED :
                 $tileStyle = 'tile-skipped';
                 break;
-            case Mage_Launcher_Model_Tile::STATE_DISMISSED :
+            case Saas_Launcher_Model_Tile::STATE_DISMISSED :
                 $tileStyle = 'tile-dismissed';
                 break;
             default:

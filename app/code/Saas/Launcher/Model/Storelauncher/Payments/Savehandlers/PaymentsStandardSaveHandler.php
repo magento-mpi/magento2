@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * PayPal Payments Standard configuration save handler
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_PaymentsStandardSaveHandler
-    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
+class Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_PaymentsStandardSaveHandler
+    extends Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
     /**
      * Retrieve the list of names of the related configuration sections
@@ -33,18 +33,18 @@ class Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_PaymentsStandardSa
      *
      * @param array $data
      * @return array prepared data
-     * @throws Mage_Launcher_Exception
+     * @throws Saas_Launcher_Exception
      */
     public function prepareData(array $data)
     {
         $preparedData = array();
         if (!isset($data['groups']['account']['fields']['business_account']['value'])) {
-            throw new Mage_Launcher_Exception('Email address is required.');
+            throw new Saas_Launcher_Exception('Email address is required.');
         }
         $accountEmail = trim($data['groups']['account']['fields']['business_account']['value']);
 
         if (!Zend_Validate::is($accountEmail, 'EmailAddress')) {
-            throw new Mage_Launcher_Exception('Email address must have correct format.');
+            throw new Saas_Launcher_Exception('Email address must have correct format.');
         }
 
         $preparedData['paypal']['account']['fields']['business_account']['value'] = $accountEmail;

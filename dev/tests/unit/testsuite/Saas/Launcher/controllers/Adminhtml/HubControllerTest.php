@@ -3,22 +3,22 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require_once 'Mage/Launcher/controllers/Adminhtml/HubController.php';
+require_once 'Saas/Launcher/controllers/Adminhtml/HubController.php';
 
-class Mage_Launcher_Adminhtml_HubControllerTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Adminhtml_HubControllerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Launcher_Adminhtml_HubController|PHPUnit_Framework_MockObject_MockObject
+     * @var Saas_Launcher_Adminhtml_HubController|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_controller;
 
     /**
-     * @var Mage_Launcher_Helper_Data
+     * @var Saas_Launcher_Helper_Data
      */
     protected $_helperLauncherMock;
 
@@ -34,14 +34,14 @@ class Mage_Launcher_Adminhtml_HubControllerTest extends PHPUnit_Framework_TestCa
         $objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false, false);
         $frontControllerMock = $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false, false);
         $layoutMock = $this->getMock('Mage_Core_Model_Layout_Factory', array(), array(), '', false, false);
-        $this->_helperLauncherMock = $this->getMock('Mage_Launcher_Helper_Data', array(), array(), '', false, false);
+        $this->_helperLauncherMock = $this->getMock('Saas_Launcher_Helper_Data', array(), array(), '', false, false);
         $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false, false);
         $sessionMock = $this->getMock('Mage_Backend_Model_Session', array(), array(), '', false, false);
 
         $helperMock->expects($this->any())->method('getUrl')->will($this->returnArgument(0));
 
         $this->_controller = $this->getMock(
-            'Mage_Launcher_Adminhtml_HubController', array('getLayout'),
+            'Saas_Launcher_Adminhtml_HubController', array('getLayout'),
             array(
                 $requestMock,
                 $this->_responseMock,
@@ -76,8 +76,8 @@ class Mage_Launcher_Adminhtml_HubControllerTest extends PHPUnit_Framework_TestCa
     public function indexActionDataProvider()
     {
         return array(
-            array(Mage_Launcher_Helper_Data::LAUNCHER_PHASE_PROMOTE_STORE, '*/promotestore_index/index'),
-            array(Mage_Launcher_Helper_Data::LAUNCHER_PHASE_STORE_LAUNCHER, '*/storelauncher_index/index'),
+            array(Saas_Launcher_Helper_Data::LAUNCHER_PHASE_PROMOTE_STORE, '*/promotestore_index/index'),
+            array(Saas_Launcher_Helper_Data::LAUNCHER_PHASE_STORE_LAUNCHER, '*/storelauncher_index/index'),
         );
     }
 }

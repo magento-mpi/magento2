@@ -3,12 +3,12 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/** @var $installer Mage_Launcher_Model_Resource_Setup */
+/** @var $installer Saas_Launcher_Model_Resource_Setup */
 
 $installer = $this;
 $installer->startSetup();

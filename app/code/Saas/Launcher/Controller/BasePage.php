@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Base page controller
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Controller_BasePage extends Mage_Backend_Controller_ActionAbstract
+class Saas_Launcher_Controller_BasePage extends Mage_Backend_Controller_ActionAbstract
 {
     /**
      * Index Action

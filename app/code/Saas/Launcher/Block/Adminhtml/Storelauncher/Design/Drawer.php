@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Design Drawer Block
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Mage_Launcher_Block_Adminhtml_Drawer
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Saas_Launcher_Block_Adminhtml_Drawer
 {
     /**
      * @var Mage_Core_Model_Theme_Service
@@ -29,14 +29,14 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Mage_Lau
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Launcher_Model_LinkTracker $linkTracker
+     * @param Saas_Launcher_Model_LinkTracker $linkTracker
      * @param Mage_Core_Model_Theme_Service $themeService
      * @param Magento_ObjectManager $objectManager
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Launcher_Model_LinkTracker $linkTracker,
+        Saas_Launcher_Model_LinkTracker $linkTracker,
         Mage_Core_Model_Theme_Service $themeService,
         Magento_ObjectManager $objectManager,
         array $data = array()
@@ -53,7 +53,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Mage_Lau
      */
     public function getTileHeader()
     {
-        return $this->helper('Mage_Launcher_Helper_Data')->__('Store Design');
+        return $this->helper('Saas_Launcher_Helper_Data')->__('Store Design');
     }
 
     /**
@@ -95,7 +95,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Mage_Lau
     public function getThemesBlocks()
     {
         $themesBlocks = array();
-        /** @var $block Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme */
+        /** @var $block Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme */
         $block = $this->getChildBlock('theme-preview');
         foreach ($this->getThemes() as $theme) {
             $themeBlock = clone $block;
@@ -117,7 +117,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Mage_Lau
         $helper = $this->_helperFactory->get('Mage_Core_Helper_File_Storage_Database');
 
         $folderName = Mage_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR;
-        $storeLogoPath = $this->getConfigValue(Mage_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO,
+        $storeLogoPath = $this->getConfigValue(Saas_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO,
             $this->_getCurrentStoreId());
         $logoUrl = $this->_urlBuilder->getBaseUrl(array('_type' => Mage_Core_Model_Store::URL_TYPE_MEDIA))
             . $folderName . '/' . $storeLogoPath;
@@ -158,7 +158,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Mage_Lau
      */
     protected function _getCurrentStoreId()
     {
-        $store = $this->_helperFactory->get('Mage_Launcher_Helper_Data')->getCurrentStoreView();
+        $store = $this->_helperFactory->get('Saas_Launcher_Helper_Data')->getCurrentStoreView();
         $storeId = $store ? $store->getId() : null;
         return $storeId;
     }

@@ -3,26 +3,26 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * @magentoDataFixture Mage/Launcher/_files/pages.php
- * @magentoDataFixture Mage/Launcher/_files/config_bootstrap.php
+ * @magentoDataFixture Saas/Launcher/_files/pages.php
+ * @magentoDataFixture Saas/Launcher/_files/config_bootstrap.php
  */
-class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Launcher_Model_TileFactory
+     * @var Saas_Launcher_Model_TileFactory
      */
     protected $_tileFactory;
 
     protected function setUp()
     {
-        $this->_tileFactory = Mage::getModel('Mage_Launcher_Model_TileFactory');
+        $this->_tileFactory = Mage::getModel('Saas_Launcher_Model_TileFactory');
     }
 
     /**
@@ -33,13 +33,13 @@ class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
     public function testCreate($tileCode, $isEmpty)
     {
         $tile = $this->_tileFactory->create($tileCode);
-        $this->assertInstanceOf('Mage_Launcher_Model_Tile', $tile);
+        $this->assertInstanceOf('Saas_Launcher_Model_Tile', $tile);
         if ($isEmpty) {
             $this->assertNull($tile->getStateResolver());
             $this->assertNull($tile->getSaveHandler());
         } else {
-            $this->assertInstanceOf('Mage_Launcher_Model_Tile_StateResolverStub', $tile->getStateResolver());
-            $this->assertInstanceOf('Mage_Launcher_Model_Tile_SaveHandlerStub', $tile->getSaveHandler());
+            $this->assertInstanceOf('Saas_Launcher_Model_Tile_StateResolverStub', $tile->getStateResolver());
+            $this->assertInstanceOf('Saas_Launcher_Model_Tile_SaveHandlerStub', $tile->getSaveHandler());
         }
     }
 
@@ -58,8 +58,8 @@ class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Launcher_Model_TileFactory::create
-     * @expectedException Mage_Launcher_Exception
+     * @covers Saas_Launcher_Model_TileFactory::create
+     * @expectedException Saas_Launcher_Exception
      * @expectedExceptionMessage Tile is not defined for specified tile code: "tile_100".
      * @param string $tileCode
      */
@@ -71,11 +71,11 @@ class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
     public function testGetStateResolverClassName()
     {
         $className = $this->_tileFactory->getStateResolverClassName('landing_page_1', 'tile_1');
-        $this->assertEquals('Mage_Launcher_Model_Tile_StateResolverStub', $className);
+        $this->assertEquals('Saas_Launcher_Model_Tile_StateResolverStub', $className);
     }
 
     /**
-     * @expectedException Mage_Launcher_Exception
+     * @expectedException Saas_Launcher_Exception
      * @expectedExceptionMessage State Resolver is not defined for tile with code "tile_100".
      */
     public function testGetStateResolverClassNameThrowsExceptionWhenClassNameIsNotDefined()
@@ -87,11 +87,11 @@ class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
     public function testGetSaveHandlerClassName()
     {
         $className = $this->_tileFactory->getSaveHandlerClassName('landing_page_1', 'tile_1');
-        $this->assertEquals('Mage_Launcher_Model_Tile_SaveHandlerStub', $className);
+        $this->assertEquals('Saas_Launcher_Model_Tile_SaveHandlerStub', $className);
     }
 
     /**
-     * @expectedException Mage_Launcher_Exception
+     * @expectedException Saas_Launcher_Exception
      * @expectedExceptionMessage Save Handler is not defined for tile with code "tile_100".
      */
     public function testGetSaveHandlerClassNameThrowsExceptionWhenClassNameIsNotDefined()
@@ -102,22 +102,22 @@ class Mage_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
 
     public function testSetStateResolverAndSaveHandler()
     {
-        $tile = Mage::getModel('Mage_Launcher_Model_Tile');
+        $tile = Mage::getModel('Saas_Launcher_Model_Tile');
         $tile->loadByTileCode('tile_1');
         $this->_tileFactory->setStateResolverAndSaveHandler($tile);
 
-        $this->assertInstanceOf('Mage_Launcher_Model_Tile_StateResolverStub', $tile->getStateResolver());
-        $this->assertInstanceOf('Mage_Launcher_Model_Tile_SaveHandlerStub', $tile->getSaveHandler());
+        $this->assertInstanceOf('Saas_Launcher_Model_Tile_StateResolverStub', $tile->getStateResolver());
+        $this->assertInstanceOf('Saas_Launcher_Model_Tile_SaveHandlerStub', $tile->getSaveHandler());
     }
 
     /**
-     * @covers Mage_Launcher_Model_TileFactory::setStateResolverAndSaveHandler
-     * @expectedException Mage_Launcher_Exception
+     * @covers Saas_Launcher_Model_TileFactory::setStateResolverAndSaveHandler
+     * @expectedException Saas_Launcher_Exception
      * @expectedExceptionMessage State Resolver is not defined for tile with code "tile_50".
      */
     public function testSetStateResolverAndSaveHandlerThrowsException()
     {
-        $tile = Mage::getModel('Mage_Launcher_Model_Tile');
+        $tile = Mage::getModel('Saas_Launcher_Model_Tile');
         $tile->loadByTileCode('tile_50');
         $this->_tileFactory->setStateResolverAndSaveHandler($tile);
     }

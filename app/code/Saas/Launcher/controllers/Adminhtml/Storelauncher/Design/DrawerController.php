@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,16 +12,16 @@
  * BusinessInfo Drawer controller
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Adminhtml_Storelauncher_Design_DrawerController
-    extends Mage_Launcher_Controller_BaseDrawer
+class Saas_Launcher_Adminhtml_Storelauncher_Design_DrawerController
+    extends Saas_Launcher_Controller_BaseDrawer
 {
     /**
      * Launcher Helper
      *
-     * @var Mage_Launcher_Helper_Data
+     * @var Saas_Launcher_Helper_Data
      */
     protected  $_helperFactory;
 
@@ -63,8 +63,8 @@ class Mage_Launcher_Adminhtml_Storelauncher_Design_DrawerController
                 $this->_helperFactory->get('Mage_Catalog_Helper_Image'), 'validateUploadFile');
             $uploader->setAllowRenameFiles(true);
 
-            /** @var $helper Mage_Launcher_Helper_Data */
-            $helper = $this->_helperFactory->get('Mage_Launcher_Helper_Data');
+            /** @var $helper Saas_Launcher_Helper_Data */
+            $helper = $this->_helperFactory->get('Saas_Launcher_Helper_Data');
 
             $result = $uploader->save($helper->getTmpLogoPath());
 
@@ -81,7 +81,7 @@ class Mage_Launcher_Adminhtml_Storelauncher_Design_DrawerController
             );
         }
 
-        $this->getResponse()->setBody($this->_helperFactory->get('Mage_Launcher_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_helperFactory->get('Saas_Launcher_Helper_Data')->jsonEncode($result));
     }
 
     /**
@@ -96,20 +96,20 @@ class Mage_Launcher_Adminhtml_Storelauncher_Design_DrawerController
         try {
             $logoCaption = (string)$this->getRequest()->getPost('generated_logo_caption');
             if (empty($logoCaption)) {
-                throw new Mage_Launcher_Exception('Logo caption must not be empty.');
+                throw new Saas_Launcher_Exception('Logo caption must not be empty.');
             }
-            /** @var $launcherHelper Mage_Launcher_Helper_Data */
-            $launcherHelper = $this->_helperFactory->get('Mage_Launcher_Helper_Data');
+            /** @var $launcherHelper Saas_Launcher_Helper_Data */
+            $launcherHelper = $this->_helperFactory->get('Saas_Launcher_Helper_Data');
 
             $imageAdapterType = $this->_helperFactory->get('Mage_Core_Helper_Data')->getImageAdapterType();
             $logoImage = new Varien_Image(null, $imageAdapterType);
             $logoImage->createPngFromString($logoCaption,
                 Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf');
-            $logoImage->save($launcherHelper->getTmpLogoPath(), Mage_Launcher_Helper_Data::GENERATED_LOGO_NAME);
+            $logoImage->save($launcherHelper->getTmpLogoPath(), Saas_Launcher_Helper_Data::GENERATED_LOGO_NAME);
 
             $responseData = array(
-                'url' => $launcherHelper->getTmpLogoUrl(Mage_Launcher_Helper_Data::GENERATED_LOGO_NAME),
-                'file' => Mage_Launcher_Helper_Data::GENERATED_LOGO_NAME . '.tmp',
+                'url' => $launcherHelper->getTmpLogoUrl(Saas_Launcher_Helper_Data::GENERATED_LOGO_NAME),
+                'file' => Saas_Launcher_Helper_Data::GENERATED_LOGO_NAME . '.tmp',
             );
             $responseContent = $this->_composeAjaxResponseContent('', true, $responseData);
         } catch (Exception $exception) {

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * Save handler for Design Tile
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Storelauncher_Design_SaveHandler
-    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
+class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
+    extends Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
     const XML_PATH_LOGO = 'design/header/logo_src';
 
@@ -85,17 +85,17 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandler
      *
      * @param array $data
      * @return array
-     * @throws Mage_Launcher_Exception
+     * @throws Saas_Launcher_Exception
      */
     public function prepareData(array $data)
     {
         if (!isset($data['groups']['design']['theme']['fields']['theme_id']['value']) ||
             !is_numeric($data['groups']['design']['theme']['fields']['theme_id']['value'])
         ) {
-            throw new Mage_Launcher_Exception('Theme is required.');
+            throw new Saas_Launcher_Exception('Theme is required.');
         }
-        /** @var $helper Mage_Launcher_Helper_Data */
-        $helper = $this->_helperFactory->get('Mage_Launcher_Helper_Data');
+        /** @var $helper Saas_Launcher_Helper_Data */
+        $helper = $this->_helperFactory->get('Saas_Launcher_Helper_Data');
         $store = $helper->getCurrentStoreView();
         if ($store) {
             $this->_backendConfigModel->setStore($store->getCode());

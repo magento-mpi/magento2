@@ -3,18 +3,18 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-require_once 'Mage/Launcher/Controller/BasePage.php';
+require_once 'Saas/Launcher/Controller/BasePage.php';
 
-abstract class Mage_Launcher_Controller_BasePageTestCaseAbstract extends PHPUnit_Framework_TestCase
+abstract class Saas_Launcher_Controller_BasePageTestCaseAbstract extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Launcher_Controller_BasePage|PHPUnit_Framework_MockObject_MockObject
+     * @var Saas_Launcher_Controller_BasePage|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_controller;
 
@@ -33,7 +33,7 @@ abstract class Mage_Launcher_Controller_BasePageTestCaseAbstract extends PHPUnit
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param string|null $areaCode
      * @param array $invokeArgs
-     * @return Mage_Launcher_Controller_BasePage
+     * @return Saas_Launcher_Controller_BasePage
      */
     abstract protected function _getMockedPageControllerInstance(
         Mage_Core_Controller_Request_Http $request,

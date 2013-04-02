@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-abstract class Mage_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstract
+abstract class Saas_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstract
     extends PHPUnit_Framework_TestCase
 {
     /**
@@ -19,7 +19,7 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstrac
 
     /**
      * @param Mage_Core_Model_App $app
-     * @return Mage_Launcher_Model_Tile_StateResolver
+     * @return Saas_Launcher_Model_Tile_StateResolver
      */
     protected abstract function _getStateResolverInstance(Mage_Core_Model_App $app);
 
@@ -40,8 +40,8 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstrac
     public function handleSystemConfigChangeDataProvider()
     {
         return array(
-            array(Mage_Launcher_Model_Tile::STATE_COMPLETE),
-            array(Mage_Launcher_Model_Tile::STATE_TODO),
+            array(Saas_Launcher_Model_Tile::STATE_COMPLETE),
+            array(Saas_Launcher_Model_Tile::STATE_TODO),
         );
     }
 
@@ -68,8 +68,8 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstrac
     {
         $stateResolver = $this->_getStateResolverForIsTileCompleteTest($configSettings);
         $expectedResult = ($isTileComplete)
-            ? Mage_Launcher_Model_Tile::STATE_COMPLETE
-            : Mage_Launcher_Model_Tile::STATE_TODO;
+            ? Saas_Launcher_Model_Tile::STATE_COMPLETE
+            : Saas_Launcher_Model_Tile::STATE_TODO;
         $this->assertEquals(
             $expectedResult,
             $stateResolver->getPersistentState()
@@ -80,7 +80,7 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstrac
      * Retrieve State Resolver instance for isTileComplete test
      *
      * @param array $configSettings
-     * @return Mage_Launcher_Model_Tile_StateResolver
+     * @return Saas_Launcher_Model_Tile_StateResolver
      */
     protected function _getStateResolverForIsTileCompleteTest(array $configSettings)
     {

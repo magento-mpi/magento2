@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Launcher controller
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Adminhtml_Storelauncher_IndexController extends Mage_Launcher_Controller_BasePage
+class Saas_Launcher_Adminhtml_Storelauncher_IndexController extends Saas_Launcher_Controller_BasePage
 {
     /**
      * Core Config Model
@@ -34,7 +34,7 @@ class Mage_Launcher_Adminhtml_Storelauncher_IndexController extends Mage_Launche
     /**
      * Launcher Helper
      *
-     * @var Mage_Launcher_Helper_Data
+     * @var Saas_Launcher_Helper_Data
      */
     protected  $_launcherHelper;
 
@@ -46,7 +46,7 @@ class Mage_Launcher_Adminhtml_Storelauncher_IndexController extends Mage_Launche
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param Mage_Core_Model_Config $configModel
      * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
-     * @param Mage_Launcher_Helper_Data $launcherHelper,
+     * @param Saas_Launcher_Helper_Data $launcherHelper,
      * @param string $areaCode
      * @param array $invokeArgs
      */
@@ -58,7 +58,7 @@ class Mage_Launcher_Adminhtml_Storelauncher_IndexController extends Mage_Launche
         Mage_Core_Model_Layout_Factory $layoutFactory,
         Mage_Core_Model_Config $configModel,
         Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
-        Mage_Launcher_Helper_Data $launcherHelper,
+        Saas_Launcher_Helper_Data $launcherHelper,
         $areaCode = null,
         array $invokeArgs = array()
     ) {
@@ -76,13 +76,13 @@ class Mage_Launcher_Adminhtml_Storelauncher_IndexController extends Mage_Launche
     public function launchAction()
     {
         $responseContent = array();
-        /** @var $page Mage_Launcher_Model_Page */
-        $page = $this->_objectManager->create('Mage_Launcher_Model_Page')->loadByPageCode('store_launcher');
+        /** @var $page Saas_Launcher_Model_Page */
+        $page = $this->_objectManager->create('Saas_Launcher_Model_Page')->loadByPageCode('store_launcher');
         if ($page->isComplete()) {
             $this->_configWriter->save('design/head/demonotice', 0);
             $this->_configWriter->save(
-                Mage_Launcher_Helper_Data::CONFIG_PATH_LAUNCHER_PHASE,
-                Mage_Launcher_Helper_Data::LAUNCHER_PHASE_PROMOTE_STORE
+                Saas_Launcher_Helper_Data::CONFIG_PATH_LAUNCHER_PHASE,
+                Saas_Launcher_Helper_Data::LAUNCHER_PHASE_PROMOTE_STORE
             );
             $this->_configModel->reinit();
             $responseContent = array(
@@ -103,10 +103,10 @@ class Mage_Launcher_Adminhtml_Storelauncher_IndexController extends Mage_Launche
      */
     public function showScreenAction()
     {
-        $launcherFlag = $this->_objectManager->get('Mage_Launcher_Model_Storelauncher_Flag');
+        $launcherFlag = $this->_objectManager->get('Saas_Launcher_Model_Storelauncher_Flag');
         $launcherFlag->loadSelf()->setState(1);
         $launcherFlag->save();
-        $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
+        $responseContent = Mage::helper('Saas_Launcher_Helper_Data')->jsonEncode(array(
             'success' => true,
             'error_message' => '',
         ));

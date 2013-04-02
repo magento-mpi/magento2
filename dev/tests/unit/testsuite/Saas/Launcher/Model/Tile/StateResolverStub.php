@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -12,7 +12,7 @@
 /**
  * Concrete state resolver stub
  */
-class Mage_Launcher_Model_Tile_StateResolverStub implements Mage_Launcher_Model_Tile_StateResolver
+class Saas_Launcher_Model_Tile_StateResolverStub implements Saas_Launcher_Model_Tile_StateResolver
 {
     /**
      * Resolve state
@@ -34,7 +34,7 @@ class Mage_Launcher_Model_Tile_StateResolverStub implements Mage_Launcher_Model_
      */
     public function handleSystemConfigChange($sectionName, $currentState)
     {
-        return Mage_Launcher_Model_Tile::STATE_COMPLETE;
+        return Saas_Launcher_Model_Tile::STATE_COMPLETE;
     }
 
     /**
@@ -44,6 +44,6 @@ class Mage_Launcher_Model_Tile_StateResolverStub implements Mage_Launcher_Model_
      */
     public function getPersistentState()
     {
-        return Mage_Launcher_Model_Tile::STATE_COMPLETE;
+        return Saas_Launcher_Model_Tile::STATE_COMPLETE;
     }
 }

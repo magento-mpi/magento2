@@ -3,16 +3,16 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test class for Mage_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile
+ * Test class for Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_Payments_TileTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_TileTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Data array, used in configCallback method
@@ -51,9 +51,9 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Payments_TileTest extends PHPU
             'storeConfig' => $this->_config,
         );
 
-        /** @var $tileBlock Mage_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile */
+        /** @var $tileBlock Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile */
         $tileBlock = $objectManagerHelper->getObject(
-            'Mage_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile',
+            'Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile',
             $arguments
         );
 

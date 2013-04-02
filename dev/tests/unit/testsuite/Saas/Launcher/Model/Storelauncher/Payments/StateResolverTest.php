@@ -3,22 +3,22 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Storelauncher_Payments_StateResolverTest
-    extends Mage_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstract
+class Saas_Launcher_Model_Storelauncher_Payments_StateResolverTest
+    extends Saas_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstract
 {
     /**
      * @param Mage_Core_Model_App $app
-     * @return Mage_Launcher_Model_Storelauncher_Payments_StateResolver
+     * @return Saas_Launcher_Model_Storelauncher_Payments_StateResolver
      */
     protected function _getStateResolverInstance(Mage_Core_Model_App $app)
     {
-        return new Mage_Launcher_Model_Storelauncher_Payments_StateResolver($app);
+        return new Saas_Launcher_Model_Storelauncher_Payments_StateResolver($app);
     }
 
     /**

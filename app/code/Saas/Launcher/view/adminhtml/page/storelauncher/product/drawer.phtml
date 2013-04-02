@@ -3,16 +3,16 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer */
+/** @var $this Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer */
 ?>
 <form action="" id="drawer-form" class="add-product-form" method="post">
     <div class="add-product">
-        <h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Add a Product') ?></h2>
+        <h2 class="title"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Add a Product') ?></h2>
         <?php  echo $this->getGeneralTabContent();?>
         <?php echo $this->getChildBlock('new-category')->setUseContainer(false)->toHtml();?>
         <?php echo $this->getChildBlock('wysiwyg-editor')->setUseContainer(false)->toHtml();?>
@@ -21,20 +21,20 @@
         <?php echo $this->getChildBlock('product_edit')->setUseContainer(false)->toHtml();?>
     </div>
     <div class="import-products">
-        <h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Import Products to Catalog') ?></h2>
+        <h2 class="title"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Import Products to Catalog') ?></h2>
         <ul class="import-options">
             <li>
-                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Create the relevant product') ?>
+                <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Create the relevant product') ?>
                 <a target="_blank" href="<?php echo $this->getUrl('adminhtml/catalog_category'); ?>"><?php echo $this->__('categories'); ?></a>
-                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('for your products') ?>
+                <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('for your products') ?>
             </li>
             <li>
                 <a target="_blank" href="<?php echo $this->getUrl('adminhtml/export'); ?>"><?php echo $this->__('Export the guideline'); ?></a>
-                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('for products') ?>
+                <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('for products') ?>
             </li>
             <li>
                 <a target="_blank" href="<?php echo $this->getUrl('adminhtml/import'); ?>"><?php echo $this->__('Import the products'); ?></a>
-                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('to the system') ?>
+                <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('to the system') ?>
             </li>
         </ul>
     </div>

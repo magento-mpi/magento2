@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Landing page tile model
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
+class Saas_Launcher_Model_Tile extends Mage_Core_Model_Abstract
 {
     /**
      * Possible tile states
@@ -35,14 +35,14 @@ class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
     /**
      * State resolver associated with current tile
      *
-     * @var Mage_Launcher_Model_Tile_StateResolver|null
+     * @var Saas_Launcher_Model_Tile_StateResolver|null
      */
     protected $_stateResolver;
 
     /**
      * Save handler associated with current tile
      *
-     * @var Mage_Launcher_Model_Tile_SaveHandler|null
+     * @var Saas_Launcher_Model_Tile_SaveHandler|null
      */
     protected $_saveHandler;
 
@@ -50,20 +50,20 @@ class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
-     * @param Mage_Launcher_Model_Tile_StateResolver $resolver
-     * @param Mage_Launcher_Model_Tile_SaveHandler $handler
+     * @param Saas_Launcher_Model_Tile_StateResolver $resolver
+     * @param Saas_Launcher_Model_Tile_SaveHandler $handler
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Context $context,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
-        Mage_Launcher_Model_Tile_StateResolver $resolver = null,
-        Mage_Launcher_Model_Tile_SaveHandler $handler = null,
+        Saas_Launcher_Model_Tile_StateResolver $resolver = null,
+        Saas_Launcher_Model_Tile_SaveHandler $handler = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
-        $this->_init('Mage_Launcher_Model_Resource_Tile');
+        $this->_init('Saas_Launcher_Model_Resource_Tile');
         $this->_stateResolver = $resolver;
         $this->_saveHandler = $handler;
     }
@@ -72,7 +72,7 @@ class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
      * Load landing page tile by Tile code
      *
      * @param string $tileCode
-     * @return Mage_Launcher_Model_Tile
+     * @return Saas_Launcher_Model_Tile
      */
     public function loadByTileCode($tileCode)
     {
@@ -112,10 +112,10 @@ class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
     /**
      * Set state resolver associated with current tile
      *
-     * @param Mage_Launcher_Model_Tile_StateResolver|null $stateResolver
-     * @return Mage_Launcher_Model_Tile
+     * @param Saas_Launcher_Model_Tile_StateResolver|null $stateResolver
+     * @return Saas_Launcher_Model_Tile
      */
-    public function setStateResolver(Mage_Launcher_Model_Tile_StateResolver $stateResolver)
+    public function setStateResolver(Saas_Launcher_Model_Tile_StateResolver $stateResolver)
     {
         $this->_stateResolver = $stateResolver;
         return $this;
@@ -124,7 +124,7 @@ class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
     /**
      * Retrieve state resolver associated with current tile
      *
-     * @return Mage_Launcher_Model_Tile_StateResolver|null
+     * @return Saas_Launcher_Model_Tile_StateResolver|null
      */
     public function getStateResolver()
     {
@@ -134,10 +134,10 @@ class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
     /**
      * Set save handler associated with the current tile
      *
-     * @param Mage_Launcher_Model_Tile_SaveHandler|null $saveHandler
-     * @return Mage_Launcher_Model_Tile
+     * @param Saas_Launcher_Model_Tile_SaveHandler|null $saveHandler
+     * @return Saas_Launcher_Model_Tile
      */
-    public function setSaveHandler(Mage_Launcher_Model_Tile_SaveHandler $saveHandler)
+    public function setSaveHandler(Saas_Launcher_Model_Tile_SaveHandler $saveHandler)
     {
         $this->_saveHandler = $saveHandler;
         return $this;
@@ -146,7 +146,7 @@ class Mage_Launcher_Model_Tile extends Mage_Core_Model_Abstract
     /**
      * Retrieve save handler associated with the current tile
      *
-     * @return Mage_Launcher_Model_Tile_SaveHandler|null
+     * @return Saas_Launcher_Model_Tile_SaveHandler|null
      */
     public function getSaveHandler()
     {

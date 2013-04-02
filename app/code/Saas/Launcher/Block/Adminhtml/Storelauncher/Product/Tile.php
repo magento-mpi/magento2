@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Product Tile Block
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Tile extends Mage_Launcher_Block_Adminhtml_Tile
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile extends Saas_Launcher_Block_Adminhtml_Tile
 {
     /**
      * Retrieve the number of products created in the system
@@ -30,7 +30,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Tile extends Mage_Laun
     /**
      * Get Tile State
      *
-     * @throws Mage_Launcher_Exception
+     * @throws Saas_Launcher_Exception
      * @return int
      */
     public function getTileState()

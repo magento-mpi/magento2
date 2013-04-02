@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,11 +14,11 @@
  * Classes that extend this class are responsible for saving of a particular part of configuration
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
-    implements Mage_Launcher_Model_Tile_SaveHandler
+abstract class Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
+    implements Saas_Launcher_Model_Tile_SaveHandler
 {
     /**
      * Config sections that the tile have to save
@@ -55,7 +55,7 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      *
      * @param array $data
      * @return null
-     * @throws Mage_Launcher_Exception
+     * @throws Saas_Launcher_Exception
      */
     public function save(array $data)
     {

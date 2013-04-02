@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,15 +12,15 @@
  * Getting Started Tour Block
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_WelcomeScreen extends Mage_Backend_Block_Template
+class Saas_Launcher_Block_Adminhtml_Storelauncher_WelcomeScreen extends Mage_Backend_Block_Template
 {
     /**
      * Flag stores the state whether Welcome Tour has been shown for customer or not
      *
-     * @var Mage_Launcher_Model_Storelauncher_Flag
+     * @var Saas_Launcher_Model_Storelauncher_Flag
      */
     protected $_launcherFlag;
 
@@ -33,13 +33,13 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_WelcomeScreen extends Mage_Bac
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Launcher_Model_Storelauncher_Flag $flag
+     * @param Saas_Launcher_Model_Storelauncher_Flag $flag
      * @param Mage_Backend_Model_Auth_Session $session
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Launcher_Model_Storelauncher_Flag $flag,
+        Saas_Launcher_Model_Storelauncher_Flag $flag,
         Mage_Backend_Model_Auth_Session $session,
         array $data = array()
     ) {

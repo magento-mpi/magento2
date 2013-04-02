@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Businessinfo Drawer Block
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Mage_Launcher_Block_Adminhtml_Drawer
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Saas_Launcher_Block_Adminhtml_Drawer
 {
     /**
      * Countries
@@ -40,7 +40,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Launcher_Model_LinkTracker $linkTracker
+     * @param Saas_Launcher_Model_LinkTracker $linkTracker
      * @param Mage_Directory_Model_Config_Source_Country $countryModel
      * @param Mage_Directory_Model_Region $regionModel
      * @param Mage_Adminhtml_Block_Customer_System_Config_ValidatevatFactory $validateVat
@@ -48,7 +48,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Launcher_Model_LinkTracker $linkTracker,
+        Saas_Launcher_Model_LinkTracker $linkTracker,
         Mage_Directory_Model_Config_Source_Country $countryModel,
         Mage_Directory_Model_Region $regionModel,
         Mage_Adminhtml_Block_Customer_System_Config_ValidatevatFactory $validateVat,
@@ -76,7 +76,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
             'class' => 'store-info-form',
         ));
 
-        $helper = $this->helper('Mage_Launcher_Helper_Data');
+        $helper = $this->helper('Saas_Launcher_Helper_Data');
 
         $storeInfo = $form->addFieldset('store_info', array(
             'legend' => $helper->__('Store Info'),
@@ -397,6 +397,6 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Ma
      */
     public function getTileHeader()
     {
-        return $this->helper('Mage_Launcher_Helper_Data')->__('Store Info');
+        return $this->helper('Saas_Launcher_Helper_Data')->__('Store Info');
     }
 }

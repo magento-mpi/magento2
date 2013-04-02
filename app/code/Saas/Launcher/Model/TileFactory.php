@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Landing page tile factory
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_TileFactory
+class Saas_Launcher_Model_TileFactory
 {
     /**
      * Pattern of XML path to <state_resolver> node
@@ -54,18 +54,18 @@ class Mage_Launcher_Model_TileFactory
      *
      * @param string $tileCode
      * @param array $arguments
-     * @return Mage_Launcher_Model_Tile
-     * @throws Mage_Launcher_Exception
+     * @return Saas_Launcher_Model_Tile
+     * @throws Saas_Launcher_Exception
      */
     public function create($tileCode = null, array $arguments = array())
     {
-        $tile = $this->_objectManager->create('Mage_Launcher_Model_Tile', $arguments);
+        $tile = $this->_objectManager->create('Saas_Launcher_Model_Tile', $arguments, false);
         if (isset($tileCode)) {
             $tile->loadByTileCode($tileCode);
             if ($tile->getId()) {
                 $this->setStateResolverAndSaveHandler($tile);
             } else {
-                throw new Mage_Launcher_Exception('Tile is not defined for specified tile code: "' . $tileCode . '".');
+                throw new Saas_Launcher_Exception('Tile is not defined for specified tile code: "' . $tileCode . '".');
             }
         }
         return $tile;
@@ -77,7 +77,7 @@ class Mage_Launcher_Model_TileFactory
      * @param string $pageCode
      * @param string $tileCode
      * @return string
-     * @throws Mage_Launcher_Exception
+     * @throws Saas_Launcher_Exception
      */
     public function getStateResolverClassName($pageCode, $tileCode)
     {
@@ -95,7 +95,7 @@ class Mage_Launcher_Model_TileFactory
      * @param string $pageCode
      * @param string $tileCode
      * @return string
-     * @throws Mage_Launcher_Exception
+     * @throws Saas_Launcher_Exception
      */
     public function getSaveHandlerClassName($pageCode, $tileCode)
     {
@@ -115,14 +115,14 @@ class Mage_Launcher_Model_TileFactory
      * @param string $tileCode
      * @param string $sectionPath
      * @return string
-     * @throws Mage_Launcher_Exception
+     * @throws Saas_Launcher_Exception
      */
     protected function _getClassName($entity, $pageCode, $tileCode, $sectionPath)
     {
         $className = (string)$this->_applicationConfig->getNode(sprintf($sectionPath, $pageCode, $tileCode));
 
         if (empty($className)) {
-            throw new Mage_Launcher_Exception($entity . ' is not defined for tile with code "' . $tileCode . '".');
+            throw new Saas_Launcher_Exception($entity . ' is not defined for tile with code "' . $tileCode . '".');
         }
 
         return $className;
@@ -131,9 +131,9 @@ class Mage_Launcher_Model_TileFactory
     /**
      * Add corresponding state resolver and save handler to successfully loaded tile
      *
-     * @param Mage_Launcher_Model_Tile $tile
+     * @param Saas_Launcher_Model_Tile $tile
      */
-    public function setStateResolverAndSaveHandler(Mage_Launcher_Model_Tile $tile)
+    public function setStateResolverAndSaveHandler(Saas_Launcher_Model_Tile $tile)
     {
         $pageCode = $tile->getPageCode();
         $tileCode = $tile->getTileCode();

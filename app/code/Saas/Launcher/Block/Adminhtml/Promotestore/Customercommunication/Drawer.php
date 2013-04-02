@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * Customercommunication Drawer Block
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Adminhtml_Promotestore_Customercommunication_Drawer
-    extends Mage_Launcher_Block_Adminhtml_Drawer
+class Saas_Launcher_Block_Adminhtml_Promotestore_Customercommunication_Drawer
+    extends Saas_Launcher_Block_Adminhtml_Drawer
 {
     /**
      * Get Translated Tile Header
@@ -25,6 +25,6 @@ class Mage_Launcher_Block_Adminhtml_Promotestore_Customercommunication_Drawer
      */
     public function getTileHeader()
     {
-        return $this->helper('Mage_Launcher_Helper_Data')->__('Customer Communication');
+        return $this->helper('Saas_Launcher_Helper_Data')->__('Customer Communication');
     }
 }

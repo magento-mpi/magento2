@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -12,7 +12,7 @@
 /**
  * Concrete save handler stub
  */
-class Mage_Launcher_Model_Tile_SaveHandlerStub implements Mage_Launcher_Model_Tile_SaveHandler
+class Saas_Launcher_Model_Tile_SaveHandlerStub implements Saas_Launcher_Model_Tile_SaveHandler
 {
     /**
      * Save function

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * Save handler for BusinessInfo Tile
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandler
-    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
+class Saas_Launcher_Model_Storelauncher_Businessinfo_SaveHandler
+    extends Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
     /**
      * Retrieve the list of names of the related configuration sections
@@ -33,17 +33,17 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_SaveHandler
      *
      * @param array $data
      * @return array
-     * @throws Mage_Launcher_Exception
+     * @throws Saas_Launcher_Exception
      */
     public function prepareData(array $data)
     {
         if (!isset($data['groups']['trans_email']['ident_general']['fields']['email']['value'])) {
-            throw new Mage_Launcher_Exception('Store Contact Email address is required.');
+            throw new Saas_Launcher_Exception('Store Contact Email address is required.');
         }
 
         $storeContactEmail = trim($data['groups']['trans_email']['ident_general']['fields']['email']['value']);
         if (!Zend_Validate::is($storeContactEmail, 'EmailAddress')) {
-            throw new Mage_Launcher_Exception('Email address must have correct format.');
+            throw new Saas_Launcher_Exception('Email address must have correct format.');
         }
 
         $groups = $data['groups'];

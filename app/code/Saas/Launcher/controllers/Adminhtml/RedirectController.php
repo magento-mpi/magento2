@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Redirect controller
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Adminhtml_RedirectController extends Mage_Backend_Controller_ActionAbstract
+class Saas_Launcher_Adminhtml_RedirectController extends Mage_Backend_Controller_ActionAbstract
 {
     /**
      * Index action
@@ -24,7 +24,7 @@ class Mage_Launcher_Adminhtml_RedirectController extends Mage_Backend_Controller
     {
         $id = $this->getRequest()->getParam('id');
 
-        $link = $id ? Mage::getModel('Mage_Launcher_Model_LinkTracker')->load($id) : null;
+        $link = $id ? Mage::getModel('Saas_Launcher_Model_LinkTracker')->load($id) : null;
 
         if (!$link || !$link->getId()) {
             return $this->_forward('noroute');

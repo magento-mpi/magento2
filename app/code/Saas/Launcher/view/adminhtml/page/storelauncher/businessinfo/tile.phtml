@@ -3,51 +3,51 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile */
+/** @var $this Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile */
 ?>
 <article class="tile-store-settings tile-store-info <?php echo $this->getTileStateStyle(); ?>" id="tile-<?php echo $this->getTileCode()?>" tabindex="0">
-    <h2><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Store Info') ?></h2>
+    <h2><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Store Info') ?></h2>
     <div class="tile-teaser">
         <p>
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Review your business name and contact information.') ?>
+            <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Review your business name and contact information.') ?>
         </p>
         <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                 data-save-url="<?php echo $this->getUrl('*/storelauncher_businessinfo_drawer/save') ?>"
                 data-load-url="<?php echo $this->getUrl('*/storelauncher_businessinfo_drawer/load') ?>">
-            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Open Store Info') ?></span>
+            <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Open Store Info') ?></span>
         </button>
     </div>
 
     <div class="tile-done">
-        <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
+        <?php if ($this->getTileState() == Saas_Launcher_Model_Tile::STATE_COMPLETE) :?>
         <ul class="checklist">
             <?php $storeName = $this->getStoreName(); ?>
             <?php if (!empty($storeName)) :?>
             <li class="completed">
-                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Your Store Name is') ?> <?php echo $this->escapeHtml($storeName); ?>
+                <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Your Store Name is') ?> <?php echo $this->escapeHtml($storeName); ?>
             </li>
             <?php endif; ?>
             <?php $generalEmail = $this->getGeneralEmail(); ?>
             <?php if (!empty($generalEmail)) :?>
             <li class="completed">
-                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Your General Email is ') ?><?php echo $this->escapeHtml($generalEmail); ?>
+                <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Your General Email is ') ?><?php echo $this->escapeHtml($generalEmail); ?>
             </li>
             <?php endif; ?>
             <?php if ($this->isBusinessAddressConfigured()) :?>
             <li class="completed">
-                <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Your Business Address is configured') ?>
+                <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Your Business Address is configured') ?>
             </li>
             <?php endif; ?>
         </ul>
         <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                 data-save-url="<?php echo $this->getUrl('*/storelauncher_businessinfo_drawer/save') ?>"
                 data-load-url="<?php echo $this->getUrl('*/storelauncher_businessinfo_drawer/load') ?>">
-            <span><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Edit Store Info') ?></span>
+            <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Edit Store Info') ?></span>
         </button>
         <footer class="tile-more-info">
             <p class="tile-more-info-label"><?php echo $this->escapeHtml($this->__('See all your store settings at:')); ?></p>

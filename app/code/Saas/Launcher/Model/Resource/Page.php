@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,26 +12,26 @@
  * Landing page resource model
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
+class Saas_Launcher_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
      * Tile Collection Prototype
      *
-     * @var Mage_Launcher_Model_Resource_Tile_Collection
+     * @var Saas_Launcher_Model_Resource_Tile_Collection
      */
     protected $_tileCollectionBase;
 
     /**
      * Class constructor
      *
-     * @param Mage_Launcher_Model_Resource_Tile_Collection $tileCollectionBase
+     * @param Saas_Launcher_Model_Resource_Tile_Collection $tileCollectionBase
      * @param Mage_Core_Model_Resource $resource
      */
     public function __construct(
-        Mage_Launcher_Model_Resource_Tile_Collection $tileCollectionBase,
+        Saas_Launcher_Model_Resource_Tile_Collection $tileCollectionBase,
         Mage_Core_Model_Resource $resource
     ) {
         parent::__construct($resource);

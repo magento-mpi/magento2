@@ -3,15 +3,15 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require_once 'Mage/Launcher/controllers/Adminhtml/Promotestore/IndexController.php';
+require_once 'Saas/Launcher/controllers/Adminhtml/Promotestore/IndexController.php';
 
-class Mage_Launcher_Adminhtml_Promotestore_IndexControllerTest
-    extends Mage_Launcher_Controller_BasePageTestCaseAbstract
+class Saas_Launcher_Adminhtml_Promotestore_IndexControllerTest
+    extends Saas_Launcher_Controller_BasePageTestCaseAbstract
 {
     /**
      * Retrieve mocked page controller instance
@@ -23,7 +23,7 @@ class Mage_Launcher_Adminhtml_Promotestore_IndexControllerTest
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param string|null $areaCode
      * @param array $invokeArgs
-     * @return Mage_Launcher_Controller_BasePage
+     * @return Saas_Launcher_Controller_BasePage
      */
     protected function _getMockedPageControllerInstance(
         Mage_Core_Controller_Request_Http $request,
@@ -35,7 +35,7 @@ class Mage_Launcher_Adminhtml_Promotestore_IndexControllerTest
         array $invokeArgs = array()
     ) {
         return $this->getMock(
-            'Mage_Launcher_Adminhtml_Promotestore_IndexController',
+            'Saas_Launcher_Adminhtml_Promotestore_IndexController',
             array(
                 'loadLayout',
                 'getLayout',

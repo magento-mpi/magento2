@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,12 +16,12 @@
                 <landing_page_1>
                     <tiles>
                         <tile_1>
-                            <state_resolver>Mage_Launcher_Model_Tile_StateResolverStub</state_resolver>
-                            <save_handler>Mage_Launcher_Model_Tile_SaveHandlerStub</save_handler>
+                            <state_resolver>Saas_Launcher_Model_Tile_StateResolverStub</state_resolver>
+                            <save_handler>Saas_Launcher_Model_Tile_SaveHandlerStub</save_handler>
                         </tile_1>
                         <tile_2>
-                            <state_resolver>Mage_Launcher_Model_Tile_StateResolverStub</state_resolver>
-                            <save_handler>Mage_Launcher_Model_Tile_SaveHandlerStub</save_handler>
+                            <state_resolver>Saas_Launcher_Model_Tile_StateResolverStub</state_resolver>
+                            <save_handler>Saas_Launcher_Model_Tile_SaveHandlerStub</save_handler>
                         </tile_2>
                     </tiles>
                 </landing_page_1>

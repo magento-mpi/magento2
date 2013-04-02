@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * DHL International configuration save handler
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_DhlSaveHandler
-    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
+class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_DhlSaveHandler
+    extends Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
     /**
      * Retrieve the list of names of the related configuration sections
@@ -33,19 +33,19 @@ class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_DhlSaveHandler
      *
      * @param array $data
      * @return array prepared data
-     * @throws Mage_Launcher_Exception
+     * @throws Saas_Launcher_Exception
      */
     public function prepareData(array $data)
     {
         $preparedData = array();
         if (empty($data['groups']['dhlint']['fields']['id']['value'])) {
-            throw new Mage_Launcher_Exception('Access ID is required.');
+            throw new Saas_Launcher_Exception('Access ID is required.');
         }
         if (empty($data['groups']['dhlint']['fields']['account']['value'])) {
-            throw new Mage_Launcher_Exception('Account Number is required.');
+            throw new Saas_Launcher_Exception('Account Number is required.');
         }
         if (empty($data['groups']['dhlint']['fields']['password']['value'])) {
-            throw new Mage_Launcher_Exception('Password is required.');
+            throw new Saas_Launcher_Exception('Password is required.');
         }
 
         $preparedData['carriers']['dhlint']['fields']['id']['value'] =

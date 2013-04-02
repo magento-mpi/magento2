@@ -3,26 +3,26 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * @magentoDataFixture Mage/Launcher/_files/pages.php
- * @magentoDataFixture Mage/Launcher/_files/config_bootstrap.php
+ * @magentoDataFixture Saas/Launcher/_files/pages.php
+ * @magentoDataFixture Saas/Launcher/_files/config_bootstrap.php
  */
-class Mage_Launcher_Model_PageTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Model_PageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Launcher_Model_Page
+     * @var Saas_Launcher_Model_Page
      */
     protected $_page;
 
     protected function setUp()
     {
-        $this->_page = Mage::getModel('Mage_Launcher_Model_Page');
+        $this->_page = Mage::getModel('Saas_Launcher_Model_Page');
     }
 
     public function testLoadByCode()
@@ -42,7 +42,7 @@ class Mage_Launcher_Model_PageTest extends PHPUnit_Framework_TestCase
     {
         $this->assertNull($this->_page->getTiles());
         $this->_page->loadByPageCode('landing_page_1');
-        $this->assertInstanceOf('Mage_Launcher_Model_Resource_Tile_Collection', $this->_page->getTiles());
+        $this->assertInstanceOf('Saas_Launcher_Model_Resource_Tile_Collection', $this->_page->getTiles());
         // 2 tiles were provided by fixture
         $this->assertEquals(2, $this->_page->getTiles()->getSize());
     }
@@ -60,7 +60,7 @@ class Mage_Launcher_Model_PageTest extends PHPUnit_Framework_TestCase
     public function testSaveCannotPersistTwoPagesWithTheSameCode()
     {
         // page landing_page_1 has been already created by fixture
-        $page = Mage::getModel('Mage_Launcher_Model_Page');
+        $page = Mage::getModel('Saas_Launcher_Model_Page');
         $page->setPageCode('landing_page_1')
             ->save();
     }

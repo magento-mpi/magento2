@@ -3,18 +3,18 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Storelauncher_Shipping_StateResolverTest
-    extends Mage_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstract
+class Saas_Launcher_Model_Storelauncher_Shipping_StateResolverTest
+    extends Saas_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstract
 {
     /**
      * @param Mage_Core_Model_App $app
-     * @return Mage_Launcher_Model_Storelauncher_Shipping_StateResolver
+     * @return Saas_Launcher_Model_Storelauncher_Shipping_StateResolver
      */
     protected function _getStateResolverInstance(Mage_Core_Model_App $app)
     {
@@ -23,7 +23,7 @@ class Mage_Launcher_Model_Storelauncher_Shipping_StateResolverTest
             ->method('getPost')
             ->with($this->equalTo('shipping_enabled'), $this->equalTo(null))
             ->will($this->returnValue('1'));
-        return new Mage_Launcher_Model_Storelauncher_Shipping_StateResolver($app, $request);
+        return new Saas_Launcher_Model_Storelauncher_Shipping_StateResolver($app, $request);
     }
 
     public function testIsTileCompleteWhenShippingEnabledCheckboxIsNotChecked()
@@ -33,7 +33,7 @@ class Mage_Launcher_Model_Storelauncher_Shipping_StateResolverTest
         $request->expects($this->any())->method('getPost')
             ->with($this->equalTo('shipping_enabled'), $this->equalTo(null))
             ->will($this->returnValue('0'));
-        $stateResolver = new Mage_Launcher_Model_Storelauncher_Shipping_StateResolver($app, $request);
+        $stateResolver = new Saas_Launcher_Model_Storelauncher_Shipping_StateResolver($app, $request);
         $this->assertEquals(true, $stateResolver->isTileComplete());
     }
 
@@ -122,7 +122,7 @@ class Mage_Launcher_Model_Storelauncher_Shipping_StateResolverTest
      * Get Shipping State Resolver Mock object
      *
      * @param array $configSettings
-     * @return Mage_Launcher_Model_Storelauncher_Shipping_StateResolver
+     * @return Saas_Launcher_Model_Storelauncher_Shipping_StateResolver
      */
     protected function _getShippingStateResolverForConfiguredMethodsTest(array $configSettings)
     {
@@ -141,7 +141,7 @@ class Mage_Launcher_Model_Storelauncher_Shipping_StateResolverTest
             ->method('getStore')
             ->will($this->returnValue($store));
         $request = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
-        $stateResolver = new Mage_Launcher_Model_Storelauncher_Shipping_StateResolver($app, $request);
+        $stateResolver = new Saas_Launcher_Model_Storelauncher_Shipping_StateResolver($app, $request);
         return $stateResolver;
     }
 

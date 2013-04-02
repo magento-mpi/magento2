@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Promotestore_Googleanalytics_SaveHandlerTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Model_Promotestore_Googleanalytics_SaveHandlerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Save function test
@@ -45,7 +45,7 @@ class Mage_Launcher_Model_Promotestore_Googleanalytics_SaveHandlerTest extends P
         // Mock core configuration model
         $config = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
 
-        $saveHandler = new Mage_Launcher_Model_Promotestore_Googleanalytics_SaveHandler(
+        $saveHandler = new Saas_Launcher_Model_Promotestore_Googleanalytics_SaveHandler(
             $config,
             $backendConfigModel
 
@@ -72,7 +72,7 @@ class Mage_Launcher_Model_Promotestore_Googleanalytics_SaveHandlerTest extends P
         // Mock core configuration model
         $config = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
 
-        $saveHandler = new Mage_Launcher_Model_Promotestore_Googleanalytics_SaveHandler(
+        $saveHandler = new Saas_Launcher_Model_Promotestore_Googleanalytics_SaveHandler(
             $config,
             $backendConfigModel
         );

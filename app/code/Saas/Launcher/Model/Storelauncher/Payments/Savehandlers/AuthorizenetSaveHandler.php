@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * Authorize.net configuration save handler
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_AuthorizenetSaveHandler
-    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
+class Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_AuthorizenetSaveHandler
+    extends Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
     /**
      * Retrieve the list of names of the related configuration sections
@@ -33,16 +33,16 @@ class Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_AuthorizenetSaveHa
      *
      * @param array $data
      * @return array prepared data
-     * @throws Mage_Launcher_Exception
+     * @throws Saas_Launcher_Exception
      */
     public function prepareData(array $data)
     {
         $preparedData = array();
         if (empty($data['groups']['authorizenet']['fields']['login']['value'])) {
-            throw new Mage_Launcher_Exception('API Login ID is required.');
+            throw new Saas_Launcher_Exception('API Login ID is required.');
         }
         if (empty($data['groups']['authorizenet']['fields']['trans_key']['value'])) {
-            throw new Mage_Launcher_Exception('Transaction Key is required.');
+            throw new Saas_Launcher_Exception('Transaction Key is required.');
         }
 
         $preparedData['payment']['authorizenet']['fields']['login']['value'] =

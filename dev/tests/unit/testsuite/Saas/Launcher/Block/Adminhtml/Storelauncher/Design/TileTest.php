@@ -3,21 +3,21 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test class for Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Tile
+ * Test class for Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Tile
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Tile Block
      *
-     * @var Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Tile
+     * @var Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Tile
      */
     protected $_tileBlock;
 
@@ -38,7 +38,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
     /**
      * Launcher helper mock
      *
-     * @var Mage_Launcher_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var Saas_Launcher_Helper_Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_launcherHelperMock;
 
@@ -63,7 +63,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
 
         $this->_storeMock = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
 
-        $this->_launcherHelperMock = $this->getMock('Mage_Launcher_Helper_Data', array(), array(), '', false);
+        $this->_launcherHelperMock = $this->getMock('Saas_Launcher_Helper_Data', array(), array(), '', false);
 
         $arguments = array(
             'storeConfig' => $config,
@@ -72,7 +72,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
         );
 
         $this->_tileBlock = $objectManagerHelper->getObject(
-            'Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Tile',
+            'Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Tile',
             $arguments
         );
 
@@ -104,17 +104,17 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
         return array(
             1 => array(
                 Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID => '118',
-                Mage_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO => 'stores/1/dragons.png'
+                Saas_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO => 'stores/1/dragons.png'
             ),
             null => array(
                 Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID => '272',
-                Mage_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO => 'default/magento.png'
+                Saas_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO => 'default/magento.png'
             ),
         );
     }
 
     /**
-     * @covers Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Tile::getIsLogoUploaded
+     * @covers Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Tile::getIsLogoUploaded
      * @dataProvider getIsLogoUploadedDataProvider
      */
     public function testGetIsLogoUploaded($store, $expected)
@@ -145,7 +145,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
     }
 
     /**
-     * @covers Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Tile::getThemeName
+     * @covers Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Tile::getThemeName
      * @dataProvider getThemeNameDataProvider
      */
     public function testGetThemeName($store, $themeId, $themeExists, $expected)

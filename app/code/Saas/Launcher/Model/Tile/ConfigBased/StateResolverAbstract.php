@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,11 +14,11 @@
  * Class that extends this state resolver must at least override its isTileComplete method
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Launcher_Model_Tile_ConfigBased_StateResolverAbstract
-    extends Mage_Launcher_Model_Tile_MinimalStateResolver
+abstract class Saas_Launcher_Model_Tile_ConfigBased_StateResolverAbstract
+    extends Saas_Launcher_Model_Tile_MinimalStateResolver
 {
     /**
      * @var Mage_Core_Model_App
@@ -52,10 +52,10 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_StateResolverAbstract
     {
         if (in_array($sectionName, $this->_sections)) {
             if ($this->isTileComplete()) {
-                return Mage_Launcher_Model_Tile::STATE_COMPLETE;
+                return Saas_Launcher_Model_Tile::STATE_COMPLETE;
             }
-            if ($currentState == Mage_Launcher_Model_Tile::STATE_COMPLETE) {
-                return Mage_Launcher_Model_Tile::STATE_TODO;
+            if ($currentState == Saas_Launcher_Model_Tile::STATE_COMPLETE) {
+                return Saas_Launcher_Model_Tile::STATE_TODO;
             }
         }
         return $currentState;

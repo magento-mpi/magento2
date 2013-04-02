@@ -3,26 +3,26 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * @magentoDataFixture Mage/Launcher/_files/pages.php
- * @magentoDataFixture Mage/Launcher/_files/config_bootstrap.php
+ * @magentoDataFixture Saas/Launcher/_files/pages.php
+ * @magentoDataFixture Saas/Launcher/_files/config_bootstrap.php
  */
-class Mage_Launcher_Model_TileTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Model_TileTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Launcher_Model_Tile
+     * @var Saas_Launcher_Model_Tile
      */
     protected $_tile;
 
     protected function setUp()
     {
-        $this->_tile = Mage::getModel('Mage_Launcher_Model_TileFactory')->create();
+        $this->_tile = Mage::getModel('Saas_Launcher_Model_TileFactory')->create();
     }
 
     public function testLoadByTileCode()
@@ -54,7 +54,7 @@ class Mage_Launcher_Model_TileTest extends PHPUnit_Framework_TestCase
     public function testSaveCannotPersistTwoTilesWithTheSameCode()
     {
         // tile tile_1 has been already created by fixture
-        $tile = Mage::getModel('Mage_Launcher_Model_Tile');
+        $tile = Mage::getModel('Saas_Launcher_Model_Tile');
         $tile->setTileCode('tile_1')
             ->save();
     }

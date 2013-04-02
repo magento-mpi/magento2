@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Configuration save handler factory
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerFactoryAbstract
+abstract class Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerFactoryAbstract
 {
     /**
      * @var Magento_ObjectManager
@@ -35,14 +35,14 @@ abstract class Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerFactoryAbstract
      *
      * @param string $saveHandlerId
      * @param array $arguments
-     * @return Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
-     * @throws Mage_Launcher_Exception
+     * @return Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
+     * @throws Saas_Launcher_Exception
      */
     public function create($saveHandlerId, array $arguments = array())
     {
         $saveHandlerMap = $this->getSaveHandlerMap();
         if (!isset($saveHandlerMap[$saveHandlerId])) {
-            throw new Mage_Launcher_Exception('Illegal configuration save handler ID specified.');
+            throw new Saas_Launcher_Exception('Illegal configuration save handler ID specified.');
         }
         return $this->_objectManager->create($saveHandlerMap[$saveHandlerId], $arguments);
     }

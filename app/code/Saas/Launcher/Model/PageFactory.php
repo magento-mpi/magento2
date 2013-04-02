@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Landing page factory
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_PageFactory
+class Saas_Launcher_Model_PageFactory
 {
     /**
      * @var Magento_ObjectManager
@@ -34,10 +34,10 @@ class Mage_Launcher_Model_PageFactory
      * Create new tile model
      *
      * @param array $arguments
-     * @return Mage_Launcher_Model_Page
+     * @return Saas_Launcher_Model_Page
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Mage_Launcher_Model_Page', $arguments);
+        return $this->_objectManager->create('Saas_Launcher_Model_Page', $arguments, false);
     }
 }

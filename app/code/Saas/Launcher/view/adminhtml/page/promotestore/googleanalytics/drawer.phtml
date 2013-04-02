@@ -3,16 +3,16 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/** @var $this Mage_Launcher_Block_Adminhtml_Promotestore_Googleanalytics_Drawer */
+/** @var $this Saas_Launcher_Block_Adminhtml_Promotestore_Googleanalytics_Drawer */
 ?>
 <form id="drawer-form">
     <article class="entry">
-            <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_TODO) :?>
+            <?php if ($this->getTileState() == Saas_Launcher_Model_Tile::STATE_TODO) :?>
                 <div class="field field-google_analytics_account">
                     <label class="label" for="google_analytics_account">
                         <span><?php echo $this->__('Log in to your Google account.') ?></span>
@@ -27,7 +27,7 @@
                     </div>
                 </div>
             <?php endif; ?>
-            <?php if ($this->getTileState() == Mage_Launcher_Model_Tile::STATE_COMPLETE) :?>
+            <?php if ($this->getTileState() == Saas_Launcher_Model_Tile::STATE_COMPLETE) :?>
                 <ul class="promote-actions">
                     <li class="completed"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'google', '_fragment' => 'google_analytics-link'))?>" target="_blank"><?php echo $this->__('Edit Google Analytics Settings'); ?></a></li>
                 </ul>

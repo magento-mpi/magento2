@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,10 +15,10 @@
  * It can be used by tiles that do not store any information when drawer 'Save' button is clicked
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Tile_MinimalSaveHandler implements Mage_Launcher_Model_Tile_SaveHandler
+class Saas_Launcher_Model_Tile_MinimalSaveHandler implements Saas_Launcher_Model_Tile_SaveHandler
 {
     /**
      * Save data related to tile

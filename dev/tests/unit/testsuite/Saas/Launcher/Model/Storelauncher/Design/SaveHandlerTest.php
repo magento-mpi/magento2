@@ -3,14 +3,14 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest
-    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
+class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
+    extends Saas_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
 {
     /**
      * Helper factory
@@ -50,7 +50,7 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest
             ->method('getCode')
             ->will($this->returnValue('default'));
 
-        $helperMock = $this->getMock('Mage_Launcher_Helper_Data', array(), array(), '', false);
+        $helperMock = $this->getMock('Saas_Launcher_Helper_Data', array(), array(), '', false);
         $helperMock->expects($this->any())
             ->method('getCurrentStoreView')
             ->will($this->returnValue($store));
@@ -61,7 +61,7 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest
         $this->_helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper',
             array(), array(), '', false, false
         );
-        $this->_helperFactory->expects($this->any())->method('get')->with('Mage_Launcher_Helper_Data')
+        $this->_helperFactory->expects($this->any())->method('get')->with('Saas_Launcher_Helper_Data')
             ->will($this->returnValue($helperMock));
 
         $this->_configLoader = $this->getMock('Mage_Backend_Model_Config_Loader',
@@ -72,8 +72,8 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest
             ->with($this->equalTo('design/header'), $this->equalTo(Mage_Core_Model_Config::SCOPE_STORES),
                 $this->equalTo(1))
             ->will($this->returnValue(array (
-                Mage_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO => array (
-                    'path' => Mage_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO,
+                Saas_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO => array (
+                    'path' => Saas_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO,
                     'value' => 'default/design_logo_1.png',
                     'config_id' => '69',
                 ),
@@ -84,7 +84,7 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest
         );
         $this->_configWriter->expects($this->any())
             ->method('save')
-            ->with($this->equalTo(Mage_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO),
+            ->with($this->equalTo(Saas_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO),
                 $this->isEmpty(), Mage_Core_Model_Config::SCOPE_STORES, 1)
             ->will($this->returnSelf());
 
@@ -118,13 +118,13 @@ class Mage_Launcher_Model_Storelauncher_Design_SaveHandlerTest
     /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Backend_Model_Config $backendConfigModel
-     * @return Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
+     * @return Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
     public function getSaveHandlerInstance(
         Mage_Core_Model_Config $config,
         Mage_Backend_Model_Config $backendConfigModel
     ) {
-        return new Mage_Launcher_Model_Storelauncher_Design_SaveHandler(
+        return new Saas_Launcher_Model_Storelauncher_Design_SaveHandler(
             $config,
             $backendConfigModel,
             $this->_helperFactory,

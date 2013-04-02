@@ -3,21 +3,21 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test class for Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer
+ * Test class for Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Drawer Block
      *
-     * @var Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer
+     * @var Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer
      */
     protected $_drawerBlock;
 
@@ -44,7 +44,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extend
         );
 
         $this->_drawerBlock = $objectManagerHelper->getObject(
-            'Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer',
+            'Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer',
             $arguments
         );
 
@@ -78,8 +78,8 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extend
     {
         $this->_configMap = $configMap;
         // mock tile instance
-        /** @var $tile PHPUnit_Framework_MockObject_MockObject|Mage_Launcher_Model_Tile */
-        $tile = $this->getMock('Mage_Launcher_Model_Tile', array('getState'), array(), '', false);
+        /** @var $tile PHPUnit_Framework_MockObject_MockObject|Saas_Launcher_Model_Tile */
+        $tile = $this->getMock('Saas_Launcher_Model_Tile', array('getState'), array(), '', false);
         $tile->expects($this->any())
             ->method('getState')
             ->will($this->returnValue($tileState));
@@ -143,9 +143,9 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extend
 
 
         return array(
-            array($expectedResult0, $configMap0, Mage_Launcher_Model_Tile::STATE_COMPLETE),
-            array($expectedResult1, $configMap1, Mage_Launcher_Model_Tile::STATE_COMPLETE),
-            array($expectedResult2, $configMap2, Mage_Launcher_Model_Tile::STATE_TODO),
+            array($expectedResult0, $configMap0, Saas_Launcher_Model_Tile::STATE_COMPLETE),
+            array($expectedResult1, $configMap1, Saas_Launcher_Model_Tile::STATE_COMPLETE),
+            array($expectedResult2, $configMap2, Saas_Launcher_Model_Tile::STATE_TODO),
         );
     }
 }

@@ -3,25 +3,25 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Storelauncher_Payments_SaveHandlerTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Model_Storelauncher_Payments_SaveHandlerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Launcher_Model_Storelauncher_Payments_SaveHandler
+     * @var Saas_Launcher_Model_Storelauncher_Payments_SaveHandler
      */
     protected $_saveHandler;
 
     protected function setUp()
     {
         // Mock payment save handler factory
-        $saveHandlerFactory = $this->getMock('Mage_Launcher_Model_Storelauncher_Payments_PaymentSaveHandlerFactory',
+        $saveHandlerFactory = $this->getMock('Saas_Launcher_Model_Storelauncher_Payments_PaymentSaveHandlerFactory',
             array(), array(), '', false);
-        $this->_saveHandler = new Mage_Launcher_Model_Storelauncher_Payments_SaveHandler($saveHandlerFactory);
+        $this->_saveHandler = new Saas_Launcher_Model_Storelauncher_Payments_SaveHandler($saveHandlerFactory);
     }
 
     protected function tearDown()
@@ -34,7 +34,7 @@ class Mage_Launcher_Model_Storelauncher_Payments_SaveHandlerTest extends PHPUnit
         $data = array('payment_method' => 'paypal_express_checkout');
         // Mock payments save handler
         $paymentSaveHandler = $this->getMock(
-            'Mage_Launcher_Model_Storelauncher_Payments_Savehandlers_ExpressCheckoutSaveHandler',
+            'Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_ExpressCheckoutSaveHandler',
             array(),
             array(),
             '',
@@ -47,7 +47,7 @@ class Mage_Launcher_Model_Storelauncher_Payments_SaveHandlerTest extends PHPUnit
 
         // Mock payment save handler factory
         $saveHandlerFactory = $this->getMock(
-            'Mage_Launcher_Model_Storelauncher_Payments_PaymentSaveHandlerFactory',
+            'Saas_Launcher_Model_Storelauncher_Payments_PaymentSaveHandlerFactory',
             array('create'),
             array(),
             '',
@@ -58,12 +58,12 @@ class Mage_Launcher_Model_Storelauncher_Payments_SaveHandlerTest extends PHPUnit
             ->with('paypal_express_checkout')
             ->will($this->returnValue($paymentSaveHandler));
 
-        $saveHandler = new Mage_Launcher_Model_Storelauncher_Payments_SaveHandler($saveHandlerFactory);
+        $saveHandler = new Saas_Launcher_Model_Storelauncher_Payments_SaveHandler($saveHandlerFactory);
         $saveHandler->savePaymentMethod($data);
     }
 
     /**
-     * @expectedException Mage_Launcher_Exception
+     * @expectedException Saas_Launcher_Exception
      * @expectedExceptionMessage Illegal payment method ID specified.
      */
     public function testSavePaymentMethodThrowsExceptionWhenPaymentMethodHasIllegalId()

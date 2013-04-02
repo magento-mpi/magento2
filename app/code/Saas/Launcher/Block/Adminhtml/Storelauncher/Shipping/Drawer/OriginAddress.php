@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Shipping Origin Block
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
     extends Mage_Backend_Block_Widget_Form
 {
     /**
@@ -73,7 +73,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
             'id' => 'shipping-origin-form'
         ));
 
-        $helper = $this->helper('Mage_Launcher_Helper_Data');
+        $helper = $this->helper('Saas_Launcher_Helper_Data');
 
         $fieldset = $form->addFieldset('origin_address_fieldset', array());
         $fieldset->addField('street_line1', 'text', array(

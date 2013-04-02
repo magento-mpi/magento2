@@ -3,23 +3,23 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_PageTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Model_PageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Launcher_Model_Page
+     * @var Saas_Launcher_Model_Page
      */
     protected $_page;
 
     protected function setUp()
     {
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
-        $this->_page = $objectManager->getObject('Mage_Launcher_Model_Page');
+        $this->_page = $objectManager->getObject('Saas_Launcher_Model_Page');
     }
 
     protected function tearDown()
@@ -31,7 +31,7 @@ class Mage_Launcher_Model_PageTest extends PHPUnit_Framework_TestCase
      * @param boolean $isComplete expected result
      * @param array $tileCompleteFlags states of tiles associated with the tested page
      * @dataProvider isCompleteDataProvider
-     * @covers Mage_Launcher_Model_Page::isComplete
+     * @covers Saas_Launcher_Model_Page::isComplete
      */
     public function testIsComplete($isComplete, $tileCompleteFlags)
     {
@@ -58,7 +58,7 @@ class Mage_Launcher_Model_PageTest extends PHPUnit_Framework_TestCase
      * Retrieve mocked tile collection
      *
      * @param array $tileCompleteFlags states of tiles associated with the tested page
-     * @return Mage_Launcher_Model_Resource_Tile_Collection|PHPUnit_Framework_MockObject_MockObject
+     * @return Saas_Launcher_Model_Resource_Tile_Collection|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getMockedTileCollection($tileCompleteFlags)
     {
@@ -66,7 +66,7 @@ class Mage_Launcher_Model_PageTest extends PHPUnit_Framework_TestCase
         $tiles = array();
         foreach ($tileCompleteFlags as $isTileComplete) {
             $tile = $this->getMock(
-                'Mage_Launcher_Model_Tile',
+                'Saas_Launcher_Model_Tile',
                 array('isComplete'),
                 array(),
                 '',
@@ -81,7 +81,7 @@ class Mage_Launcher_Model_PageTest extends PHPUnit_Framework_TestCase
 
         // Mock tile collection
         $tileCollection = $this->getMock(
-            'Mage_Launcher_Model_Resource_Tile_Collection',
+            'Saas_Launcher_Model_Resource_Tile_Collection',
             array('load', 'getItems', 'getIterator'),
             array(),
             '',

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * State resolver for Googleanalytics Tile
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Promotestore_Googleanalytics_StateResolver
-    extends Mage_Launcher_Model_Tile_ConfigBased_StateResolverAbstract
+class Saas_Launcher_Model_Promotestore_Googleanalytics_StateResolver
+    extends Saas_Launcher_Model_Tile_ConfigBased_StateResolverAbstract
 {
     /**
      * Constructor

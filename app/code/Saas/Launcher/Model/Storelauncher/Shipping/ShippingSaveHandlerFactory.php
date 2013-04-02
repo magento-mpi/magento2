@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * Shipping configuration save handler factory
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Storelauncher_Shipping_ShippingSaveHandlerFactory
-    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerFactoryAbstract
+class Saas_Launcher_Model_Storelauncher_Shipping_ShippingSaveHandlerFactory
+    extends Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerFactoryAbstract
 {
     /**
      * Retrieve save handler ID - save handler class name map
@@ -26,11 +26,11 @@ class Mage_Launcher_Model_Storelauncher_Shipping_ShippingSaveHandlerFactory
     public function getSaveHandlerMap()
     {
         return array(
-            'carriers_flatrate' => 'Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandler',
-            'carriers_ups' => 'Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_UpsSaveHandler',
-            'carriers_usps' => 'Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_UspsSaveHandler',
-            'carriers_fedex' => 'Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_FedexSaveHandler',
-            'carriers_dhlint' => 'Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_DhlSaveHandler',
+            'carriers_flatrate' => 'Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandler',
+            'carriers_ups' => 'Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_UpsSaveHandler',
+            'carriers_usps' => 'Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_UspsSaveHandler',
+            'carriers_fedex' => 'Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FedexSaveHandler',
+            'carriers_dhlint' => 'Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_DhlSaveHandler',
         );
     }
 }

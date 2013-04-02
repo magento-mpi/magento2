@@ -3,22 +3,22 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test class for Mage_Launcher_Block_Adminhtml_Storelauncher_Page
+ * Test class for Saas_Launcher_Block_Adminhtml_Storelauncher_Page
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_PageTest extends Mage_Backend_Area_TestCase
+class Saas_Launcher_Block_Adminhtml_Storelauncher_PageTest extends Mage_Backend_Area_TestCase
 {
     public function testGetPage()
     {
-        /** @var $block Mage_Launcher_Block_Adminhtml_Storelauncher_Page */
-        $block = Mage::getObjectManager()->create('Mage_Launcher_Block_Adminhtml_Storelauncher_Page');
+        /** @var $block Saas_Launcher_Block_Adminhtml_Storelauncher_Page */
+        $block = Mage::getObjectManager()->create('Saas_Launcher_Block_Adminhtml_Storelauncher_Page');
 
-        $this->assertInstanceOf('Mage_Launcher_Model_Page', $block->getPage());
+        $this->assertInstanceOf('Saas_Launcher_Model_Page', $block->getPage());
     }
 }

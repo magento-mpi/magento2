@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Landing Page Block
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Adminhtml_Page extends Mage_Backend_Block_Abstract
+class Saas_Launcher_Block_Adminhtml_Page extends Mage_Backend_Block_Abstract
 {
     /**
      * Page Code
@@ -25,25 +25,25 @@ class Mage_Launcher_Block_Adminhtml_Page extends Mage_Backend_Block_Abstract
     protected $_pageCode = '';
 
     /**
-     * @var Mage_Launcher_Model_PageFactory
+     * @var Saas_Launcher_Model_PageFactory
      */
     protected $_pageFactory;
 
     /**
      * Page Model
      *
-     * @var Mage_Launcher_Model_Page
+     * @var Saas_Launcher_Model_Page
      */
     protected $_page;
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Launcher_Model_PageFactory $pageFactory
+     * @param Saas_Launcher_Model_PageFactory $pageFactory
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Launcher_Model_PageFactory $pageFactory,
+        Saas_Launcher_Model_PageFactory $pageFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -53,7 +53,7 @@ class Mage_Launcher_Block_Adminhtml_Page extends Mage_Backend_Block_Abstract
     /**
      * Retrieve Landing Page model
      *
-     * @return Mage_Launcher_Model_Page
+     * @return Saas_Launcher_Model_Page
      */
     public function getPage()
     {
@@ -66,8 +66,8 @@ class Mage_Launcher_Block_Adminhtml_Page extends Mage_Backend_Block_Abstract
     /**
      * Set Page Model
      *
-     * @param $page Mage_Launcher_Model_Page
-     * @return Mage_Launcher_Block_Adminhtml_Page
+     * @param $page Saas_Launcher_Model_Page
+     * @return Saas_Launcher_Block_Adminhtml_Page
      */
     public function setPage($page)
     {
@@ -92,8 +92,8 @@ class Mage_Launcher_Block_Adminhtml_Page extends Mage_Backend_Block_Abstract
         foreach($tiles as $item) {
             $block = $this->getLayout()->getBlock($this->_getTileBlockName($item->getTileCode()));
             if (!$block) {
-                /** @var $block Mage_Launcher_Block_Adminhtml_Tile */
-                $block = $this->getLayout()->createBlock('Mage_Launcher_Block_Adminhtml_Tile',
+                /** @var $block Saas_Launcher_Block_Adminhtml_Tile */
+                $block = $this->getLayout()->createBlock('Saas_Launcher_Block_Adminhtml_Tile',
                     $this->_getTileBlockName($item->getTileCode()));
             }
             $block->setTile($item);

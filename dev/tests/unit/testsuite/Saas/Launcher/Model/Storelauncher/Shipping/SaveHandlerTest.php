@@ -3,16 +3,16 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Launcher_Model_Storelauncher_Shipping_SaveHandler
+     * @var Saas_Launcher_Model_Storelauncher_Shipping_SaveHandler
      */
     protected $_saveHandler;
 
@@ -21,11 +21,11 @@ class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends PHPUnit
         // Mock core configuration model
         $config = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         // Mock shipping save handler factory
-        $saveHandlerFactory = $this->getMock('Mage_Launcher_Model_Storelauncher_Shipping_ShippingSaveHandlerFactory',
+        $saveHandlerFactory = $this->getMock('Saas_Launcher_Model_Storelauncher_Shipping_ShippingSaveHandlerFactory',
             array(), array(), '', false);
         // Mock backend config model
         $backendConfigModel = $this->getMock('Mage_Backend_Model_Config', array(), array(), '', false);
-        $this->_saveHandler = new Mage_Launcher_Model_Storelauncher_Shipping_SaveHandler(
+        $this->_saveHandler = new Saas_Launcher_Model_Storelauncher_Shipping_SaveHandler(
             $config,
             $backendConfigModel,
             $saveHandlerFactory
@@ -54,7 +54,7 @@ class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends PHPUnit
         $data = array('shipping_method' => 'carriers_flatrate');
         // Mock shipping save handler
         $shippingSaveHandler = $this->getMock(
-            'Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandler',
+            'Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandler',
             array(),
             array(),
             '',
@@ -70,7 +70,7 @@ class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends PHPUnit
             ->will($this->returnValue($shippingSaveHandler));
 
         // Mock shipping save handler factory
-        $saveHandlerFactory = $this->getMock('Mage_Launcher_Model_Storelauncher_Shipping_ShippingSaveHandlerFactory',
+        $saveHandlerFactory = $this->getMock('Saas_Launcher_Model_Storelauncher_Shipping_ShippingSaveHandlerFactory',
             array('create'), array(), '', false);
 
         $saveHandlerFactory->expects($this->once())
@@ -81,7 +81,7 @@ class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends PHPUnit
         // Mock core configuration model
         $config = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
 
-        $saveHandler = new Mage_Launcher_Model_Storelauncher_Shipping_SaveHandler(
+        $saveHandler = new Saas_Launcher_Model_Storelauncher_Shipping_SaveHandler(
             $config,
             $backendConfigModel,
             $saveHandlerFactory
@@ -90,7 +90,7 @@ class Mage_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends PHPUnit
     }
 
     /**
-     * @expectedException Mage_Launcher_Exception
+     * @expectedException Saas_Launcher_Exception
      * @expectedExceptionMessage Illegal shipping method ID specified.
      */
     public function testSaveShippingMethodThrowsExceptionWhenShippingMethodHasIllegalId()

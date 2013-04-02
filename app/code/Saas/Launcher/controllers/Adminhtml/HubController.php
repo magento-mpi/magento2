@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,15 +12,15 @@
  * Hub controller
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Adminhtml_HubController extends Mage_Backend_Controller_ActionAbstract
+class Saas_Launcher_Adminhtml_HubController extends Mage_Backend_Controller_ActionAbstract
 {
     /**
      * Launcher Helper
      *
-     * @var Mage_Launcher_Helper_Data
+     * @var Saas_Launcher_Helper_Data
      */
     protected  $_launcherHelper;
 
@@ -30,7 +30,7 @@ class Mage_Launcher_Adminhtml_HubController extends Mage_Backend_Controller_Acti
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
-     * @param Mage_Launcher_Helper_Data $launcherHelper
+     * @param Saas_Launcher_Helper_Data $launcherHelper
      * @param null $areaCode
      * @param array $invokeArgs
      */
@@ -40,7 +40,7 @@ class Mage_Launcher_Adminhtml_HubController extends Mage_Backend_Controller_Acti
         Magento_ObjectManager $objectManager,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Layout_Factory $layoutFactory,
-        Mage_Launcher_Helper_Data $launcherHelper,
+        Saas_Launcher_Helper_Data $launcherHelper,
         $areaCode = null,
         array $invokeArgs = array()
     ) {
@@ -55,7 +55,7 @@ class Mage_Launcher_Adminhtml_HubController extends Mage_Backend_Controller_Acti
      */
     public function indexAction()
     {
-        if ($this->_launcherHelper->getLauncherPhase() == Mage_Launcher_Helper_Data::LAUNCHER_PHASE_PROMOTE_STORE) {
+        if ($this->_launcherHelper->getLauncherPhase() == Saas_Launcher_Helper_Data::LAUNCHER_PHASE_PROMOTE_STORE) {
             $this->_redirect('*/promotestore_index/index');
         } else {
             $this->_redirect('*/storelauncher_index/index');

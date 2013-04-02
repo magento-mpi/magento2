@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Storelauncher_Tax_SaveHandlerTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Model_Storelauncher_Tax_SaveHandlerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Save function test
@@ -31,7 +31,7 @@ class Mage_Launcher_Model_Storelauncher_Tax_SaveHandlerTest extends PHPUnit_Fram
         $taxRule->expects($this->exactly($timesToCall))
             ->method('save');
 
-        $saveHandler = new Mage_Launcher_Model_Storelauncher_Tax_SaveHandler(
+        $saveHandler = new Saas_Launcher_Model_Storelauncher_Tax_SaveHandler(
             $taxRule
         );
         $saveHandler->save($data);

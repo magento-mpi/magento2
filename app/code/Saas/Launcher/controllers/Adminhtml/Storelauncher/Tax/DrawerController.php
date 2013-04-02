@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * Tax Drawer controller
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Adminhtml_Storelauncher_Tax_DrawerController
-    extends Mage_Launcher_Controller_BaseDrawer
+class Saas_Launcher_Adminhtml_Storelauncher_Tax_DrawerController
+    extends Saas_Launcher_Controller_BaseDrawer
 {
     /**
      * Retrieve Drawer Content Action
@@ -48,16 +48,16 @@ class Mage_Launcher_Adminhtml_Storelauncher_Tax_DrawerController
             /** @var $taxRatePopUpBlock Mage_Adminhtml_Block_Tax_Rate_Form */
             $taxRatePopUpBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tax_Rate_Form');
 
-            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
+            $responseContent = Mage::helper('Saas_Launcher_Helper_Data')->jsonEncode(array(
                 'success' => true,
                 'error_message' => '',
                 'tax_rate_field' => $taxRateElement->toHtml(),
                 'tax_rate_collection' => $taxRatePopUpBlock->getRateCollection(),
             ));
         } catch (Exception $e) {
-            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(array(
+            $responseContent = Mage::helper('Saas_Launcher_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error_message' => Mage::helper('Mage_Launcher_Helper_Data')->__($e->getMessage()),
+                'error_message' => Mage::helper('Saas_Launcher_Helper_Data')->__($e->getMessage()),
                 'tax_rate_field' => '',
                 'tax_rate_collection' => '',
             ));

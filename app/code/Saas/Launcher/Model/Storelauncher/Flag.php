@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Flag stores status whether Getting Started tour has been shown to admin user
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Storelauncher_Flag extends Mage_Core_Model_Flag
+class Saas_Launcher_Model_Storelauncher_Flag extends Mage_Core_Model_Flag
 {
     /**
      * Flag code

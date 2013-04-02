@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Storelauncher_Tax_SystemObserverTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Model_Storelauncher_Tax_SystemObserverTest extends PHPUnit_Framework_TestCase
 {
     public function testHandleTaxRuleSave()
     {
@@ -22,7 +22,7 @@ class Mage_Launcher_Model_Storelauncher_Tax_SystemObserverTest extends PHPUnit_F
     {
         // Mock tax tile
         $tile = $this->getMock(
-            'Mage_Launcher_Model_Tile',
+            'Saas_Launcher_Model_Tile',
             array('setState', 'save'),
             array(),
             '',
@@ -32,14 +32,14 @@ class Mage_Launcher_Model_Storelauncher_Tax_SystemObserverTest extends PHPUnit_F
         // Tax tile must change its state to complete when any tax rule has been saved
         $tile->expects($this->once())
             ->method('setState')
-            ->with($this->equalTo(Mage_Launcher_Model_Tile::STATE_COMPLETE))
+            ->with($this->equalTo(Saas_Launcher_Model_Tile::STATE_COMPLETE))
             ->will($this->returnValue($tile));
         $tile->expects($this->once())
             ->method('save');
 
         // Return mocked tile when factory method is called
         $tileFactory = $this->getMock(
-            'Mage_Launcher_Model_TileFactory',
+            'Saas_Launcher_Model_TileFactory',
             array('create'),
             array(),
             '',
@@ -53,6 +53,6 @@ class Mage_Launcher_Model_Storelauncher_Tax_SystemObserverTest extends PHPUnit_F
             )
             ->will($this->returnValue($tile));
 
-        return new Mage_Launcher_Model_Storelauncher_Tax_SystemObserver($tileFactory);
+        return new Saas_Launcher_Model_Storelauncher_Tax_SystemObserver($tileFactory);
     }
 }

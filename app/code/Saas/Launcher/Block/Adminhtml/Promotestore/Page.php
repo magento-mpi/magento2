@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Promote Store Landing Page Block
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Adminhtml_Promotestore_Page extends Mage_Launcher_Block_Adminhtml_Page
+class Saas_Launcher_Block_Adminhtml_Promotestore_Page extends Saas_Launcher_Block_Adminhtml_Page
 {
     /**
      * Page Code

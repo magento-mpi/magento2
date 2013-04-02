@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Link Tracker model
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_LinkTracker extends Mage_Core_Model_Abstract
+class Saas_Launcher_Model_LinkTracker extends Mage_Core_Model_Abstract
 {
     /**
      * Url Builder
@@ -47,7 +47,7 @@ class Mage_Launcher_Model_LinkTracker extends Mage_Core_Model_Abstract
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
         $this->_urlBuilder = $urlBuilder;
-        $this->_init('Mage_Launcher_Model_Resource_LinkTracker');
+        $this->_init('Saas_Launcher_Model_Resource_LinkTracker');
     }
 
     /**

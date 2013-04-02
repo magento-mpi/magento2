@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Save handler for Product Tile
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Storelauncher_Product_SaveHandler implements Mage_Launcher_Model_Tile_SaveHandler
+class Saas_Launcher_Model_Storelauncher_Product_SaveHandler implements Saas_Launcher_Model_Tile_SaveHandler
 {
     /**
      * Application instance
@@ -47,7 +47,7 @@ class Mage_Launcher_Model_Storelauncher_Product_SaveHandler implements Mage_Laun
      * Save product related data
      *
      * @param array $data Request data
-     * @throws Mage_Launcher_Exception
+     * @throws Saas_Launcher_Exception
      */
     public function save(array $data)
     {
@@ -65,7 +65,7 @@ class Mage_Launcher_Model_Storelauncher_Product_SaveHandler implements Mage_Laun
             $product->validate();
             $product->save();
         } catch (Exception $e) {
-            throw new Mage_Launcher_Exception('Product data is invalid: ' . $e->getMessage());
+            throw new Saas_Launcher_Exception('Product data is invalid: ' . $e->getMessage());
         }
     }
 
@@ -85,12 +85,12 @@ class Mage_Launcher_Model_Storelauncher_Product_SaveHandler implements Mage_Laun
      *
      * @param array $data
      * @return array
-     * @throws Mage_Launcher_Exception
+     * @throws Saas_Launcher_Exception
      */
     public function prepareData(array $data)
     {
         if (!isset($data['product']) || !is_array($data['product'])) {
-            throw new Mage_Launcher_Exception('Product data is invalid.');
+            throw new Saas_Launcher_Exception('Product data is invalid.');
         }
         // prevent ID overriding
         unset($data['product'][Mage_Eav_Model_Entity::DEFAULT_ENTITY_ID_FIELD]);

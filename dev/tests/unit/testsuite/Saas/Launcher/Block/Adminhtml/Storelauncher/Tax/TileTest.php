@@ -3,22 +3,22 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test class for Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Tile
+ * Test class for Saas_Launcher_Block_Adminhtml_Storelauncher_Tax_Tile
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_TileTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Tax_TileTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Retrieve tax tile block instance
      *
      * @param int $taxRuleCount
-     * @return Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Tile
+     * @return Saas_Launcher_Block_Adminhtml_Storelauncher_Tax_Tile
      */
     protected function _getTileBlockInstance($taxRuleCount)
     {
@@ -30,7 +30,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_TileTest extends PHPUnit_F
         $taxRuleCollection->expects($this->any())->method('getSize')->will($this->returnValue($taxRuleCount));
 
         $tileBlock = $objectManagerHelper->getObject(
-            'Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Tile',
+            'Saas_Launcher_Block_Adminhtml_Storelauncher_Tax_Tile',
             array(
                 'taxRuleCollection' => $taxRuleCollection,
             )

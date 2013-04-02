@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Save handler for Tax Tile
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Storelauncher_Tax_SaveHandler extends Mage_Launcher_Model_Tile_MinimalSaveHandler
+class Saas_Launcher_Model_Storelauncher_Tax_SaveHandler extends Saas_Launcher_Model_Tile_MinimalSaveHandler
 {
     /**
      * Tax rule prototype

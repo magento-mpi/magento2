@@ -3,21 +3,21 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test class for Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer
+ * Test class for Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Drawer Block
      *
-     * @var Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer
+     * @var Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer
      */
     protected $_drawerBlock;
 
@@ -31,7 +31,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
     /**
      * Launcher helper mock
      *
-     * @var Mage_Launcher_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var Saas_Launcher_Helper_Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_launcherHelperMock;
 
@@ -63,12 +63,12 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
         $layout->expects($this->any())
             ->method('getChildName')
             ->with(null, 'theme-preview')
-            ->will($this->returnValue('Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme'));
+            ->will($this->returnValue('Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme'));
         $layout->expects($this->any())
             ->method('getBlock')
-            ->with('Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme')
+            ->with('Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme')
             ->will($this->returnValue(
-                $this->getMock('Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme',
+                $this->getMock('Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme',
                     array(), array(), '', false)
             )
         );
@@ -87,7 +87,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
             ->method('getCode')
             ->will($this->returnValue('default'));
 
-        $this->_launcherHelperMock = $this->getMock('Mage_Launcher_Helper_Data', array(), array(), '', false);
+        $this->_launcherHelperMock = $this->getMock('Saas_Launcher_Helper_Data', array(), array(), '', false);
         $this->_launcherHelperMock->expects($this->any())
             ->method('getCurrentStoreView')
             ->will($this->returnValue($store));
@@ -116,7 +116,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
         );
 
         $this->_drawerBlock = $objectManagerHelper->getObject(
-            'Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer',
+            'Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer',
             $arguments
         );
 
@@ -136,7 +136,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
     {
         $themes = array();
         for ($iterationIndex = 0; $iterationIndex < 5; $iterationIndex++) {
-            $themes[] = $this->getMock('Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme',
+            $themes[] = $this->getMock('Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme',
                 array(), array(), '', false);
         }
         return $themes;
@@ -163,7 +163,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
     public function helperCallback($name)
     {
         switch ($name) {
-            case 'Mage_Launcher_Helper_Data':
+            case 'Saas_Launcher_Helper_Data':
                 return $this->_launcherHelperMock;
             case 'Mage_Core_Helper_File_Storage_Database':
                 return $this->_fileDbHelperMock;
@@ -192,13 +192,13 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
     protected function _getConfigSourceLogo()
     {
         return array(
-            1 => array(Mage_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO => 'dragons.png'),
-            null => array(Mage_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO => 'magento.png'),
+            1 => array(Saas_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO => 'dragons.png'),
+            null => array(Saas_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO => 'magento.png'),
         );
     }
 
     /**
-     * @covers Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer::getThemesBlocks
+     * @covers Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer::getThemesBlocks
      */
     public function testGetThemesBlocks()
     {
@@ -207,7 +207,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_DrawerTest extends PHPU
     }
 
     /**
-     * @covers Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer::getCurrentThemeId
+     * @covers Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer::getCurrentThemeId
      */
     public function testGetCurrentThemeId()
     {

@@ -3,16 +3,16 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test class for Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile
+ * Test class for Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Data array, used in configCallback method
@@ -29,7 +29,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
     protected $_config;
 
     /**
-     * @var Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile
+     * @var Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile
      */
     protected $_tileBlock;
 
@@ -54,7 +54,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_tileBlock = $objectManagerHelper->getObject(
-            'Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile',
+            'Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile',
             array(
                 'storeConfig' => $this->_config,
             )
@@ -102,7 +102,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
      * Build Mock object
      *
      * @param array $regions Array of Regions for Current Country
-     * @return Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile
+     * @return Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile
      */
     protected function _getBusinessInfoTileBlockForGetAddressTest($regions)
     {
@@ -160,7 +160,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
         );
 
         $tileBlock = $objectManagerHelper->getObject(
-            'Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile',
+            'Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile',
             $arguments
         );
 
@@ -170,7 +170,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
     /**
      * @dataProvider testGetAddressWithoutCountryDataProvider
      * @param array $expectedData
-     * @covers Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile::getAddress
+     * @covers Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile::getAddress
      */
     public function testGetAddressEmptyCountry(array $expectedData)
     {
@@ -190,7 +190,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
         );
 
         $tileBlock = $objectManagerHelper->getObject(
-            'Mage_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile',
+            'Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile',
             $arguments
         );
 

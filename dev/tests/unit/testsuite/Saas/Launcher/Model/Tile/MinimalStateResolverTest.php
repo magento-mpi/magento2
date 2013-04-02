@@ -3,22 +3,22 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Tile_MinimalStateResolverTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Model_Tile_MinimalStateResolverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Launcher_Model_Tile_MinimalStateResolver
+     * @var Saas_Launcher_Model_Tile_MinimalStateResolver
      */
     protected $_stateResolver;
 
     protected function setUp()
     {
-        $this->_stateResolver = new Mage_Launcher_Model_Tile_MinimalStateResolver();
+        $this->_stateResolver = new Saas_Launcher_Model_Tile_MinimalStateResolver();
     }
 
     public function testIsTileComplete()
@@ -40,8 +40,8 @@ class Mage_Launcher_Model_Tile_MinimalStateResolverTest extends PHPUnit_Framewor
     public function handleSystemConfigChangeDataProvider()
     {
         return array(
-            array(Mage_Launcher_Model_Tile::STATE_COMPLETE),
-            array(Mage_Launcher_Model_Tile::STATE_TODO),
+            array(Saas_Launcher_Model_Tile::STATE_COMPLETE),
+            array(Saas_Launcher_Model_Tile::STATE_TODO),
         );
     }
 }

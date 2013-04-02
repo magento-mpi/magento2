@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,10 +14,10 @@
  * This save handler can be used by tiles that are considered to be complete when drawer 'Save' button is clicked
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Tile_MinimalStateResolver implements Mage_Launcher_Model_Tile_StateResolver
+class Saas_Launcher_Model_Tile_MinimalStateResolver implements Saas_Launcher_Model_Tile_StateResolver
 {
     /**
      * Resolve state
@@ -50,8 +50,8 @@ class Mage_Launcher_Model_Tile_MinimalStateResolver implements Mage_Launcher_Mod
     public function getPersistentState()
     {
         if ($this->isTileComplete()) {
-            return Mage_Launcher_Model_Tile::STATE_COMPLETE;
+            return Saas_Launcher_Model_Tile::STATE_COMPLETE;
         }
-        return Mage_Launcher_Model_Tile::STATE_TODO;
+        return Saas_Launcher_Model_Tile::STATE_TODO;
     }
 }

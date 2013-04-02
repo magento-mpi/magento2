@@ -3,17 +3,17 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer */
+/** @var $this Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer */
 ?>
 <form action="" id="drawer-form" class="design-config-form" method="post">
     <div class="themes-list">
         <h2 class="title">
-            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('First choose a store theme, then customize it for your business') ?>
+            <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('First choose a store theme, then customize it for your business') ?>
         </h2>
         <ul class="themes">
             <?php foreach ($this->getThemesBlocks() as $theme):?>
@@ -151,7 +151,7 @@
                 }
             },
             fail: function(e, data) {
-                insertValidationMessage('<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('There was an error processing your request.'); ?>', 'error')
+                insertValidationMessage('<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('There was an error processing your request.'); ?>', 'error')
             },
             add: function(e, data) {
                 $(this).fileupload('process', data).done(function () {
@@ -164,7 +164,7 @@
         $('#action-generate-logo').on('click.generateLogo', function(e) {
             var logoCaption = $('#generated_logo_caption').val();
             if (logoCaption.length == 0) {
-                insertValidationMessage('<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Logo caption must not be empty.'); ?>', 'error')
+                insertValidationMessage('<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Logo caption must not be empty.'); ?>', 'error')
                 return;
             }
             $.ajax({
@@ -183,7 +183,7 @@
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    insertValidationMessage('<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('There was an error processing your request.'); ?>', 'error')
+                    insertValidationMessage('<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('There was an error processing your request.'); ?>', 'error')
                 }
             });
         });
@@ -196,7 +196,7 @@
                 .drawerPages('headerButtonCreate', {
                     name: 'skip',
                     id: 'button_skip',
-                    title: '<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Skip This for Now'); ?>',
+                    title: '<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Skip This for Now'); ?>',
                     click: function() {
                         $('#drawer').drawerPages('drawerPageSwitch', 'theme-config');
                     },

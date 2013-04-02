@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * UPS configuration save handler
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_UpsSaveHandler
-    extends Mage_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
+class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_UpsSaveHandler
+    extends Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
 {
     /**
      * Retrieve the list of names of the related configuration sections
@@ -33,20 +33,20 @@ class Mage_Launcher_Model_Storelauncher_Shipping_Savehandlers_UpsSaveHandler
      *
      * @param array $data
      * @return array prepared data
-     * @throws Mage_Launcher_Exception
+     * @throws Saas_Launcher_Exception
      */
     public function prepareData(array $data)
     {
         $preparedData = array();
         if (empty($data['groups']['ups']['fields']['access_license_number']['value'])) {
-            throw new Mage_Launcher_Exception('Access License Number is required.');
+            throw new Saas_Launcher_Exception('Access License Number is required.');
         }
         if (empty($data['groups']['ups']['fields']['password']['value'])) {
-            throw new Mage_Launcher_Exception('Password is required.');
+            throw new Saas_Launcher_Exception('Password is required.');
         }
 
         if (empty($data['groups']['ups']['fields']['username']['value'])) {
-            throw new Mage_Launcher_Exception('User ID is required.');
+            throw new Saas_Launcher_Exception('User ID is required.');
         }
 
         $preparedData['carriers']['ups']['fields']['access_license_number']['value'] =

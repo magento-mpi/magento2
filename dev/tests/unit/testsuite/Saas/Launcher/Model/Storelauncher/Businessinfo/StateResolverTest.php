@@ -3,16 +3,16 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolverTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Model_Storelauncher_Businessinfo_StateResolverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver::isTileComplete
+     * @covers Saas_Launcher_Model_Storelauncher_Businessinfo_StateResolver::isTileComplete
      * @param string $email
      * @param int $expectedState
      * @dataProvider getTestDataIsTileComplete
@@ -27,7 +27,7 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolverTest extends P
     }
 
     /**
-     * @covers Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver::getPersistentState
+     * @covers Saas_Launcher_Model_Storelauncher_Businessinfo_StateResolver::getPersistentState
      * @param string $email
      * @param int $expectedState
      * @dataProvider getTestData
@@ -42,7 +42,7 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolverTest extends P
     }
 
     /**
-     * @covers Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver::isTileComplete
+     * @covers Saas_Launcher_Model_Storelauncher_Businessinfo_StateResolver::isTileComplete
      * @param string $email
      * @param int $expectedState
      * @dataProvider getTestData
@@ -52,7 +52,7 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolverTest extends P
         $stateResolver = $this->_getStateResolverWithEmail($email);
         $this->assertEquals(
             $expectedState,
-            $stateResolver->handleSystemConfigChange('trans_email', Mage_Launcher_Model_Tile::STATE_TODO)
+            $stateResolver->handleSystemConfigChange('trans_email', Saas_Launcher_Model_Tile::STATE_TODO)
         );
     }
 
@@ -65,11 +65,11 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolverTest extends P
     {
         return array(
             array(
-                Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver::DEFAULT_EMAIL_ADDRESS,
-                Mage_Launcher_Model_Tile::STATE_TODO
+                Saas_Launcher_Model_Storelauncher_Businessinfo_StateResolver::DEFAULT_EMAIL_ADDRESS,
+                Saas_Launcher_Model_Tile::STATE_TODO
             ),
-            array('test@example.com', Mage_Launcher_Model_Tile::STATE_COMPLETE),
-            array(null, Mage_Launcher_Model_Tile::STATE_TODO),
+            array('test@example.com', Saas_Launcher_Model_Tile::STATE_COMPLETE),
+            array(null, Saas_Launcher_Model_Tile::STATE_TODO),
         );
     }
 
@@ -91,7 +91,7 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolverTest extends P
      * Get State Resolver with specified General email
      *
      * @param string $email
-     * @return Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver
+     * @return Saas_Launcher_Model_Storelauncher_Businessinfo_StateResolver
      */
     protected function _getStateResolverWithEmail($email)
     {
@@ -108,6 +108,6 @@ class Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolverTest extends P
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        return new Mage_Launcher_Model_Storelauncher_Businessinfo_StateResolver($app);
+        return new Saas_Launcher_Model_Storelauncher_Businessinfo_StateResolver($app);
     }
 }

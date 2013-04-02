@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Design Drawer Theme Block
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme extends Mage_Backend_Block_Template
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme extends Mage_Backend_Block_Template
 {
     /**
      * Get preview url for selected theme

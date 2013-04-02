@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,22 +12,22 @@
  * Tax tile system observer
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Model_Storelauncher_Tax_SystemObserver
+class Saas_Launcher_Model_Storelauncher_Tax_SystemObserver
 {
     /**
-     * @var Mage_Launcher_Model_TileFactory
+     * @var Saas_Launcher_Model_TileFactory
      */
     protected $_tileFactory;
 
     /**
      * Class constructor
      *
-     * @param Mage_Launcher_Model_TileFactory $tileFactory
+     * @param Saas_Launcher_Model_TileFactory $tileFactory
      */
-    public function __construct(Mage_Launcher_Model_TileFactory $tileFactory)
+    public function __construct(Saas_Launcher_Model_TileFactory $tileFactory)
     {
         $this->_tileFactory = $tileFactory;
     }
@@ -42,6 +42,6 @@ class Mage_Launcher_Model_Storelauncher_Tax_SystemObserver
     {
         // Successful save of any tax rule has to change the state of tax tile to complete
         // This logic is put directly into observer (without delegation to state resolver) because it is trivial
-        $this->_tileFactory->create('tax', array())->setState(Mage_Launcher_Model_Tile::STATE_COMPLETE)->save();
+        $this->_tileFactory->create('tax', array())->setState(Saas_Launcher_Model_Tile::STATE_COMPLETE)->save();
     }
 }

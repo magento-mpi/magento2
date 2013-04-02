@@ -3,27 +3,27 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test class for Mage_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile
+ * Test class for Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_Payments_TileTest extends Mage_Backend_Area_TestCase
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_TileTest extends Mage_Backend_Area_TestCase
 {
     /**
      * Tile block
      *
-     * @var Mage_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile
+     * @var Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_block = Mage::getObjectManager()->create('Mage_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile');
+        $this->_block = Mage::getObjectManager()->create('Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile');
     }
 
     protected function tearDown()

@@ -3,16 +3,16 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test class for Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme
+ * Test class for Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_ThemeTest extends PHPUnit_Framework_TestCase
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_ThemeTest extends PHPUnit_Framework_TestCase
 {
     public function testGetThemesBlocks()
     {
@@ -33,9 +33,9 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_ThemeTest extend
             'urlBuilder' => $urlBuilder,
         );
 
-        /** @var $themeBlock Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme */
+        /** @var $themeBlock Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme */
         $themeBlock = $objectManagerHelper->getObject(
-            'Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme',
+            'Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme',
             $arguments
         );
 

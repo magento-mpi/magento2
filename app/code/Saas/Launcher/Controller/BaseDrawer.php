@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +12,12 @@
  * Base Drawer controller
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Controller_BaseDrawer
+class Saas_Launcher_Controller_BaseDrawer
     extends Mage_Backend_Controller_ActionAbstract
-    implements Mage_Launcher_Controller_Drawer
+    implements Saas_Launcher_Controller_Drawer
 {
     /**
      * Drawer Block Class Name, has to be set in all child classes
@@ -76,7 +76,7 @@ class Mage_Launcher_Controller_BaseDrawer
      * Set Drawer Block Name
      *
      * @param string $drawerBlock
-     * @return Mage_Launcher_Controller_BaseDrawer
+     * @return Saas_Launcher_Controller_BaseDrawer
      */
     public function setDrawerBlockName($drawerBlock)
     {
@@ -98,7 +98,7 @@ class Mage_Launcher_Controller_BaseDrawer
      * Set Tile Block Name
      *
      * @param string $tileBlock
-     * @return Mage_Launcher_Controller_BaseDrawer
+     * @return Saas_Launcher_Controller_BaseDrawer
      */
     public function setTileBlockName($tileBlock)
     {
@@ -117,24 +117,24 @@ class Mage_Launcher_Controller_BaseDrawer
             $layout = $this->loadLayout();
 
             $data = $this->getRequest()->getParams();
-            /** @var $tileModel Mage_Launcher_Model_Tile */
-            $tileModel = Mage::getModel('Mage_Launcher_Model_TileFactory')->create($data['tileCode']);
+            /** @var $tileModel Saas_Launcher_Model_Tile */
+            $tileModel = Mage::getModel('Saas_Launcher_Model_TileFactory')->create($data['tileCode']);
             $tileModel->refreshState($data);
 
-            /** @var $tileBlock Mage_Launcher_Block_Adminhtml_Tile */
+            /** @var $tileBlock Saas_Launcher_Block_Adminhtml_Tile */
             $tileBlock = $layout->getLayout()->getBlock($data['tileCode'] . '.tile');
             if (empty($tileBlock)) {
-                /** @var $tileBlock Mage_Launcher_Block_Adminhtml_Tile */
+                /** @var $tileBlock Saas_Launcher_Block_Adminhtml_Tile */
                 $tileBlock = $this->getLayout()->createBlock($this->_tileBlockName);
             }
 
             $tileBlock->setTile($tileModel);
 
-            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(
+            $responseContent = Mage::helper('Saas_Launcher_Helper_Data')->jsonEncode(
                 $tileBlock->getResponseContent()
             );
         } catch (Exception $e) {
-            $responseContent = $this->_composeAjaxResponseContent(Mage::helper('Mage_Launcher_Helper_Data') ->__($e->getMessage()), false);
+            $responseContent = $this->_composeAjaxResponseContent(Mage::helper('Saas_Launcher_Helper_Data') ->__($e->getMessage()), false);
         }
         $this->getResponse()->setBody($responseContent);
     }
@@ -147,24 +147,24 @@ class Mage_Launcher_Controller_BaseDrawer
         $responseContent = '';
         try {
             $tileCode = $this->getRequest()->getParam('tileCode');
-            /** @var $tileModel Mage_Launcher_Model_Tile */
-            $tileModel = Mage::getModel('Mage_Launcher_Model_TileFactory')->create($tileCode);
+            /** @var $tileModel Saas_Launcher_Model_Tile */
+            $tileModel = Mage::getModel('Saas_Launcher_Model_TileFactory')->create($tileCode);
 
             $layout = $this->loadLayout();
-            /** @var $drawerBlock Mage_Launcher_Block_Adminhtml_Drawer */
+            /** @var $drawerBlock Saas_Launcher_Block_Adminhtml_Drawer */
             $drawerBlock = $layout->getLayout()->getBlock($tileCode . '.drawer');
             if (empty($drawerBlock)) {
-                /** @var $drawerBlock Mage_Launcher_Block_Adminhtml_Drawer */
+                /** @var $drawerBlock Saas_Launcher_Block_Adminhtml_Drawer */
                 $drawerBlock = $this->getLayout()->createBlock($this->_drawerBlockName);
             }
 
             $drawerBlock->setTile($tileModel);
 
-            $responseContent = Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode(
+            $responseContent = Mage::helper('Saas_Launcher_Helper_Data')->jsonEncode(
                 $drawerBlock->getResponseContent()
             );
         } catch (Exception $e) {
-            $responseContent = $this->_composeAjaxResponseContent(Mage::helper('Mage_Launcher_Helper_Data') ->__($e->getMessage()), false);
+            $responseContent = $this->_composeAjaxResponseContent(Mage::helper('Saas_Launcher_Helper_Data') ->__($e->getMessage()), false);
         }
         $this->getResponse()->setBody($responseContent);
     }
@@ -187,6 +187,6 @@ class Mage_Launcher_Controller_BaseDrawer
         }
         $responseData = array_merge($responseData, $additionalData);
 
-        return Mage::helper('Mage_Launcher_Helper_Data')->jsonEncode($responseData);
+        return Mage::helper('Saas_Launcher_Helper_Data')->jsonEncode($responseData);
     }
 }

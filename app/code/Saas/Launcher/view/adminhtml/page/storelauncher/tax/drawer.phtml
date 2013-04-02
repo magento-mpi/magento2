@@ -3,12 +3,12 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer */
+/** @var $this Saas_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer */
 ?>
 <form action="" id="drawer-form" class="<?php if ($this->isUseTaxControlSwitchedOff()) : ?>ignore-validate<?php endif; ?>" method="post">
     <?php echo $this->getBlockHtml('formkey')?>
@@ -43,9 +43,9 @@
     </div>
 
     <div class="no-tax-info <?php if (!$this->isUseTaxControlSwitchedOff()) : ?>hidden<?php endif; ?>" id="tax-rule-disabled">
-        <h2 class="title"><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('You have disabled Tax Rules') ?></h2>
-        <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('You can always choose to enable Tax Rates again if you disabled it by mistake.') ?></p>
-        <p><?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Consult your local laws regarding taxes. We can recommend tax rates based on your business location if you are in the US.') ?></p>
+        <h2 class="title"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('You have disabled Tax Rules') ?></h2>
+        <p><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('You can always choose to enable Tax Rates again if you disabled it by mistake.') ?></p>
+        <p><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Consult your local laws regarding taxes. We can recommend tax rates based on your business location if you are in the US.') ?></p>
     </div>
 
     <div class="tax-rule-config <?php if ($this->isUseTaxControlSwitchedOff()) : ?>disabled<?php endif; ?>" id="tax-rule-config">

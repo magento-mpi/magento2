@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Product Drawer Block
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Mage_Launcher_Block_Adminhtml_Drawer
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_Launcher_Block_Adminhtml_Drawer
 {
      /**
       * Product Model
@@ -47,7 +47,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Mage_La
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Launcher_Model_LinkTracker $linkTracker
+     * @param Saas_Launcher_Model_LinkTracker $linkTracker
      * @param Mage_Catalog_Model_Product $productModel
      * @param Mage_Core_Model_Translate_Inline $translateInline
      * @param Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection $attrSetGroupColl
@@ -55,7 +55,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Mage_La
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Launcher_Model_LinkTracker $linkTracker,
+        Saas_Launcher_Model_LinkTracker $linkTracker,
         Mage_Catalog_Model_Product $productModel,
         Mage_Core_Model_Translate_Inline $translateInline,
         Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection $attrSetGroupColl,
@@ -76,7 +76,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Mage_La
      */
     public function getTileHeader()
     {
-        return $this->helper('Mage_Launcher_Helper_Data')->__('Product');
+        return $this->helper('Saas_Launcher_Helper_Data')->__('Product');
     }
 
     /**

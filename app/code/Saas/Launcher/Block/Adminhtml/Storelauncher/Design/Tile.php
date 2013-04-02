@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Launcher
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,15 +12,15 @@
  * Design Tile Block
  *
  * @category   Mage
- * @package    Mage_Launcher
+ * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Tile extends Mage_Launcher_Block_Adminhtml_Tile
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Tile extends Saas_Launcher_Block_Adminhtml_Tile
 {
     /**
      * Launcher Helper
      *
-     * @var Mage_Launcher_Helper_Data
+     * @var Saas_Launcher_Helper_Data
      */
     protected  $_launcherHelper;
 
@@ -31,13 +31,13 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Tile extends Mage_Launc
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Launcher_Helper_Data $launcherHelper
+     * @param Saas_Launcher_Helper_Data $launcherHelper
      * @param Mage_Core_Model_Theme_Service $themeService
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Launcher_Helper_Data $launcherHelper,
+        Saas_Launcher_Helper_Data $launcherHelper,
         Mage_Core_Model_Theme_Service $themeService,
         array $data = array()
     ) {
@@ -53,7 +53,7 @@ class Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Tile extends Mage_Launc
      */
     public function getIsLogoUploaded()
     {
-        $logo = $this->_storeConfig->getConfig(Mage_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO,
+        $logo = $this->_storeConfig->getConfig(Saas_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO,
             $this->_launcherHelper->getCurrentStoreView());
         return !empty($logo);
     }
