@@ -26,6 +26,9 @@
             </controller_action_predispatch>
         </events>
         <di>
+            <preferences>
+                <Saas_Saas_Model_Limitation_SpecificationInterface>Saas_Saas_Model_Limitation_Specification_Composite</Saas_Saas_Model_Limitation_SpecificationInterface>
+            </preferences>
             <Saas_Saas_Model_Limitation_Specification_Composite>
                 <parameters>
                     <specificationFactory>Saas_Saas_Model_Limitation_Specification_Factory</specificationFactory>

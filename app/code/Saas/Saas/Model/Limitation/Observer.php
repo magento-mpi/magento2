@@ -26,12 +26,12 @@ class Saas_Saas_Model_Limitation_Observer
 
     /**
      * @param Mage_Core_Controller_Request_Http $request
-     * @param Saas_Saas_Model_Limitation_Specification_Composite $specification
+     * @param Saas_Saas_Model_Limitation_SpecificationInterface $specification
      * @param Saas_Saas_Helper_Data $saasHelper
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
-        Saas_Saas_Model_Limitation_Specification_Composite $specification,
+        Saas_Saas_Model_Limitation_SpecificationInterface $specification,
         Saas_Saas_Helper_Data $saasHelper
     ) {
         $this->_request = $request;
