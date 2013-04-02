@@ -18,9 +18,9 @@ admin_header:
                              choose_store_view: //select[@id='store_switcher']
                 -
                     incoming_message:
-                        xpath: //*[@id='message-popup-window' and @class='message-popup show']
+                        xpath: //div[header/h2='Incoming Message']
                         buttons:
-                            close: //a[span='close']
+                            close: //span[text()='Close']
                 -
                     global_header:
                         xpath: //div[contains(a/@class,'logo')]

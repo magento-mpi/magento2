@@ -3745,7 +3745,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->waitForElement(array($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'admin_logo'),
                                         $this->_getMessageXpath('general_error'),
                                         $this->_getMessageXpath('general_validation')));
-            if ($this->controlIsPresent('link', 'go_to_notifications') && $this->controlIsPresent('button', 'close')) {
+            if ($this->controlIsVisible('link', 'go_to_notifications') && $this->controlIsVisible('button', 'close')) {
                 $this->clickControl('button', 'close', false);
             }
         }
