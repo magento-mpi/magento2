@@ -72,6 +72,7 @@ class Mage_Backend_Model_System_Message_Survey implements Mage_Backend_Model_Sys
      */
     public function isDisplayed()
     {
+        return true;
         if ($this->_authSession->getHideSurveyQuestion()
             || false == $this->_authorization->isAllowed(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL)
             || Mage_AdminNotification_Model_Survey::isSurveyViewed()

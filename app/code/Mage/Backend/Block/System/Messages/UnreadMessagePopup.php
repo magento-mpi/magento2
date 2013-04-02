@@ -28,10 +28,11 @@ class Mage_Backend_Block_System_Messages_UnreadMessagePopup extends Mage_Backend
         $this->_messages = $messages;
     }
 
+
     /**
      * @return string
      */
-    public function _toHtml()
+    protected function _toHtml()
     {
         if (count($this->_messages->getUnread())) {
             return parent::_toHtml();

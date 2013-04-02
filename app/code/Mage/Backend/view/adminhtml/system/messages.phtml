@@ -8,20 +8,9 @@
 ?>
 <?php /** @var $this Mage_Backend_Block_System_Messages */ ?>
 
-<script>
-    jQuery(function() {
-        jQuery( "#system_messages_list" ).dialog({
-            autoOpen: false,
-            modal: true,
-            resizable: false,
-            width: 650
-        });
-    });
-</script>
-
+<?php $lastCritical = $this->getLastCritical();?>
 <div id="system_messages" class="message-system<?php if ($lastCritical): ?> message-system-unread<?php endif; ?>">
     <div class="message-system-inner">
-        <?php $lastCritical = $this->getLastCritical();?>
         <?php if ($lastCritical): ?>
             <ul class="message-system-list">
                 <li class="error"><!--  warning  -->
@@ -35,26 +24,13 @@
         <div class="message-system-short">
             System Messages:
             <?php if ($this->getCriticalCount()): ?>
-                <span class="error"><a href="#" title="Critical System Messages" onclick="jQuery('#system_messages_list').dialog('open')"><?php echo $this->getCriticalCount();?></a></span>
+                <span class="error"><a href="#" title="Critical System Messages"><?php echo $this->getCriticalCount();?></a></span>
             <?php endif;?>
             <?php if ($this->getMajorCount()): ?>
-               <span class="warning"><a href="#" title="Major System Messages" onclick="jQuery('#system_messages_list').dialog('open')"><?php echo $this->getMajorCount();?></a></span>
+               <span class="warning"><a href="#" title="Major System Messages"><?php echo $this->getMajorCount();?></a></span>
             <?php endif;?>
         </div>
+        <div id="message-system-all" title="<?php echo $this->__('System messags');?>" data-mage-init="{systemMessageDialog:{autoOpen:false, width: 600, ajaxUrl: &quot;<?php echo $this->getMessagesUrl();?>&quot;}}"></div>
     </div>
 </div>
 
-<div id="system_messages_list" title="You have 3 new system messages">
-    <ul class="message-system-list">
-    <?php foreach ($this->getMessageList() as $message): ?>
-        <li class="error">
-            <?php echo $message->getText();?>
-            <a href="#">Go there now</a>
-        </li>
-        <li class="warning">
-            <?php echo $message->getText();?>
-            <a href="#">Go there now</a>
-        </li>
-    <?php endforeach;?>
-    </ul>
-</div>

@@ -82,4 +82,9 @@ class Mage_Backend_Block_System_Messages extends Mage_Backend_Block_Template
     {
         return (bool) count($this->_messages->getItems());
     }
+
+    public function getMessagesUrl()
+    {
+        return $this->getUrl('adminhtml/system_message/list');
+    }
 }
