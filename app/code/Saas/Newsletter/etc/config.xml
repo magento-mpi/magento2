@@ -18,15 +18,15 @@
             </depends>
         </Saas_Newsletter>
     </modules>
-    <global>
+    <adminhtml>
         <di>
-            <Saas_Saas_Model_Limitation_Specification_Chain>
+            <Saas_Saas_Model_Limitation_Specification_Composite>
                 <parameters>
                     <specificationNames>
                         <backend_newsletter>Saas_Newsletter_Model_Limitation_Specification_Backend_Newsletter</backend_newsletter>
                     </specificationNames>
                 </parameters>
-            </Saas_Saas_Model_Limitation_Specification_Chain>
+            </Saas_Saas_Model_Limitation_Specification_Composite>
         </di>
-    </global>
+    </adminhtml>
 </config>

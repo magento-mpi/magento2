@@ -16,7 +16,7 @@ class Saas_Backup_Model_Limitation_Specification_Backend_SystemBackup
      * @param Mage_Core_Controller_Request_Http $request
      * @return bool
      */
-    public function isAllowed(Mage_Core_Controller_Request_Http $request)
+    public function isSatisfiedBy(Mage_Core_Controller_Request_Http $request)
     {
         return $request->getControllerName() != 'system_backup' || $request->getControllerModule() != 'Mage_Adminhtml';
     }

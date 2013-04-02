@@ -30,20 +30,20 @@ class Saas_Sales_Model_Limitation_Specification_Backend_SalesTest extends PHPUni
     /**
      * @param string $module
      * @param string $controller
-     * @dataProvider dataProviderForIsAllowed
+     * @dataProvider dataProviderForIsSatisfiedBy
      */
-    public function testIsAllowed($module, $controller)
+    public function testIsSatisfiedBy($module, $controller)
     {
         $this->_requestMock->expects($this->any())->method('getControllerModule')->will($this->returnValue($module));
         $this->_requestMock->expects($this->any())->method('getControllerName')->will($this->returnValue($controller));
 
-        $this->assertTrue($this->_modelSpecification->isAllowed($this->_requestMock));
+        $this->assertTrue($this->_modelSpecification->isSatisfiedBy($this->_requestMock));
     }
 
     /**
      * @return array
      */
-    public function dataProviderForIsAllowed()
+    public function dataProviderForIsSatisfiedBy()
     {
         return array(
             array('Mage_Adminhtml', 'unknown'),
@@ -59,6 +59,6 @@ class Saas_Sales_Model_Limitation_Specification_Backend_SalesTest extends PHPUni
         $this->_requestMock->expects($this->any())->method('getControllerName')
             ->will($this->returnValue('sales_transactions'));
 
-        $this->assertFalse($this->_modelSpecification->isAllowed($this->_requestMock));
+        $this->assertFalse($this->_modelSpecification->isSatisfiedBy($this->_requestMock));
     }
 }

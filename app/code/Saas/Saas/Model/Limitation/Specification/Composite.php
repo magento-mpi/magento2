@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Saas_Model_Limitation_Specification_Chain implements Saas_Saas_Model_Limitation_SpecificationInterface
+class Saas_Saas_Model_Limitation_Specification_Composite implements Saas_Saas_Model_Limitation_SpecificationInterface
 {
     /**
      * @var array
@@ -33,11 +33,11 @@ class Saas_Saas_Model_Limitation_Specification_Chain implements Saas_Saas_Model_
      * @param Mage_Core_Controller_Request_Http $request
      * @return bool
      */
-    public function isAllowed(Mage_Core_Controller_Request_Http $request)
+    public function isSatisfiedBy(Mage_Core_Controller_Request_Http $request)
     {
         /** @var $specification Saas_Saas_Model_Limitation_SpecificationInterface */
         foreach ($this->_specifications as $specification) {
-            if (!$specification->isAllowed($request)) {
+            if (!$specification->isSatisfiedBy($request)) {
                 return false;
             }
         }

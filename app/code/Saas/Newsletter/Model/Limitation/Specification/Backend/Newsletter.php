@@ -16,7 +16,7 @@ class Saas_Newsletter_Model_Limitation_Specification_Backend_Newsletter
      * @param Mage_Core_Controller_Request_Http $request
      * @return bool
      */
-    public function isAllowed(Mage_Core_Controller_Request_Http $request)
+    public function isSatisfiedBy(Mage_Core_Controller_Request_Http $request)
     {
         if ('Mage_Adminhtml' == $request->getControllerModule()) {
             $controllerParts = explode('_', $request->getControllerName());

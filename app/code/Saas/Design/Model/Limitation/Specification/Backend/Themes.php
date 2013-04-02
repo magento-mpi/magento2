@@ -16,7 +16,7 @@ class Saas_Design_Model_Limitation_Specification_Backend_Themes
      * @param Mage_Core_Controller_Request_Http $request
      * @return bool
      */
-    public function isAllowed(Mage_Core_Controller_Request_Http $request)
+    public function isSatisfiedBy(Mage_Core_Controller_Request_Http $request)
     {
         return $request->getControllerName() != 'system_design_theme'
             || $request->getControllerModule() != 'Mage_Theme_Adminhtml'

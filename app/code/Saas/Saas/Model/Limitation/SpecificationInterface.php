@@ -15,5 +15,5 @@ interface Saas_Saas_Model_Limitation_SpecificationInterface
      * @param Mage_Core_Controller_Request_Http $request
      * @return bool
      */
-    public function isAllowed(Mage_Core_Controller_Request_Http $request);
+    public function isSatisfiedBy(Mage_Core_Controller_Request_Http $request);
 }

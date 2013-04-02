@@ -16,7 +16,7 @@ class Saas_Sales_Model_Limitation_Specification_Frontend_Recurring
      * @param Mage_Core_Controller_Request_Http $request
      * @return bool
      */
-    public function isAllowed(Mage_Core_Controller_Request_Http $request)
+    public function isSatisfiedBy(Mage_Core_Controller_Request_Http $request)
     {
         return $request->getControllerName() != 'recurring_profile'
             || $request->getControllerModule() != 'Mage_Sales';

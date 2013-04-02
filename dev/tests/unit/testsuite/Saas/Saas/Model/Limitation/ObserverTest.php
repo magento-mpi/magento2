@@ -35,8 +35,8 @@ class Saas_Saas_Model_Limitation_ObserverTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
-        $this->_modelSpecificationChainMock = $this->getMock('Saas_Saas_Model_Limitation_Specification_Chain', array(),
-            array(), '', false);
+        $this->_modelSpecificationChainMock = $this->getMock('Saas_Saas_Model_Limitation_Specification_Composite',
+            array(), array(), '', false);
         $this->_saasHelperMock = $this->getMock('Saas_Saas_Helper_Data', array(), array(), '', false);
         $this->_eventObserverMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
 
@@ -53,7 +53,7 @@ class Saas_Saas_Model_Limitation_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testLimitFunctionality()
     {
-        $this->_modelSpecificationChainMock->expects($this->once())->method('isAllowed')->with($this->_requestMock)
+        $this->_modelSpecificationChainMock->expects($this->once())->method('isSatisfiedBy')->with($this->_requestMock)
             ->will($this->returnValue(false));
         $this->_saasHelperMock->expects($this->once())->method('customizeNoRoutForward')->with($this->_requestMock);
 
@@ -62,7 +62,7 @@ class Saas_Saas_Model_Limitation_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testNonLimitFunctionality()
     {
-        $this->_modelSpecificationChainMock->expects($this->once())->method('isAllowed')->with($this->_requestMock)
+        $this->_modelSpecificationChainMock->expects($this->once())->method('isSatisfiedBy')->with($this->_requestMock)
             ->will($this->returnValue(true));
         $this->_saasHelperMock->expects($this->never())->method('customizeNoRoutForward');
 

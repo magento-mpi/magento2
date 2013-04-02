@@ -31,21 +31,21 @@ class Saas_Downloadable_Model_Limitation_Specification_Backend_ReportProductTest
      * @param string $module
      * @param string $controller
      * @param string $action
-     * @dataProvider dataProviderForIsAllowed
+     * @dataProvider dataProviderForIsSatisfiedBy
      */
-    public function testIsAllowed($module, $controller, $action)
+    public function testIsSatisfiedBy($module, $controller, $action)
     {
         $this->_requestMock->expects($this->any())->method('getControllerModule')->will($this->returnValue($module));
         $this->_requestMock->expects($this->any())->method('getControllerName')->will($this->returnValue($controller));
         $this->_requestMock->expects($this->any())->method('getActionName')->will($this->returnValue($action));
 
-        $this->assertTrue($this->_modelSpecification->isAllowed($this->_requestMock));
+        $this->assertTrue($this->_modelSpecification->isSatisfiedBy($this->_requestMock));
     }
 
     /**
      * @return array
      */
-    public function dataProviderForIsAllowed()
+    public function dataProviderForIsSatisfiedBy()
     {
         return array(
             array('Mage_Adminhtml', 'unknown', 'unknown'),
@@ -71,7 +71,7 @@ class Saas_Downloadable_Model_Limitation_Specification_Backend_ReportProductTest
         $this->_requestMock->expects($this->any())->method('getActionName')
             ->will($this->returnValue($action));
 
-        $this->assertFalse($this->_modelSpecification->isAllowed($this->_requestMock));
+        $this->assertFalse($this->_modelSpecification->isSatisfiedBy($this->_requestMock));
     }
 
     /**

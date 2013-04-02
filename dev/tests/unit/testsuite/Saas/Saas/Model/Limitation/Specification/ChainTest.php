@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Saas_Saas_Model_Limitation_Specification_ChainTest extends PHPUnit_Framework_TestCase
+class Saas_Saas_Model_Limitation_Specification_CompositeTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -47,7 +47,7 @@ class Saas_Saas_Model_Limitation_Specification_ChainTest extends PHPUnit_Framewo
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_modelSpecificationChain = $objectManagerHelper->getObject(
-            'Saas_Saas_Model_Limitation_Specification_Chain',
+            'Saas_Saas_Model_Limitation_Specification_Composite',
             array(
                 'specificationFactory' => $this->_modelSpecificationFactoryMock,
                 'specificationNames' => array('modelSpecificationFirstClassName', 'modelSpecificationSecondClassName'),
@@ -56,25 +56,25 @@ class Saas_Saas_Model_Limitation_Specification_ChainTest extends PHPUnit_Framewo
     }
 
     /**
-     * @param bool $isAllowedFirst
-     * @param bool $isAllowedSecond
+     * @param bool $isSatisfiedByFirst
+     * @param bool $isSatisfiedBySecond
      * @param bool $result
-     * @dataProvider dataProviderForIsAllowed
+     * @dataProvider dataProviderForIsSatisfiedBy
      */
-    public function testIsAllowed($isAllowedFirst, $isAllowedSecond, $result)
+    public function testIsSatisfiedBy($isSatisfiedByFirst, $isSatisfiedBySecond, $result)
     {
-        $this->_modelSpecificationFirstMock->expects($this->once())->method('isAllowed')->with($this->_requestMock)
-            ->will($this->returnValue($isAllowedFirst));
-        $this->_modelSpecificationSecondMock->expects($this->once())->method('isAllowed')->with($this->_requestMock)
-            ->will($this->returnValue($isAllowedSecond));
+        $this->_modelSpecificationFirstMock->expects($this->once())->method('isSatisfiedBy')->with($this->_requestMock)
+            ->will($this->returnValue($isSatisfiedByFirst));
+        $this->_modelSpecificationSecondMock->expects($this->once())->method('isSatisfiedBy')->with($this->_requestMock)
+            ->will($this->returnValue($isSatisfiedBySecond));
 
-        $this->assertEquals($result, $this->_modelSpecificationChain->isAllowed($this->_requestMock));
+        $this->assertEquals($result, $this->_modelSpecificationChain->isSatisfiedBy($this->_requestMock));
     }
 
     /**
      * @return array
      */
-    public function dataProviderForIsAllowed()
+    public function dataProviderForIsSatisfiedBy()
     {
         return array(
             array(true, true, true),
@@ -84,10 +84,10 @@ class Saas_Saas_Model_Limitation_Specification_ChainTest extends PHPUnit_Framewo
 
     public function testBreakIfIsNotAllowed()
     {
-        $this->_modelSpecificationFirstMock->expects($this->once())->method('isAllowed')->with($this->_requestMock)
+        $this->_modelSpecificationFirstMock->expects($this->once())->method('isSatisfiedBy')->with($this->_requestMock)
             ->will($this->returnValue(false));
-        $this->_modelSpecificationSecondMock->expects($this->never())->method('isAllowed');
+        $this->_modelSpecificationSecondMock->expects($this->never())->method('isSatisfiedBy');
 
-        $this->assertFalse($this->_modelSpecificationChain->isAllowed($this->_requestMock));
+        $this->assertFalse($this->_modelSpecificationChain->isSatisfiedBy($this->_requestMock));
     }
 }

@@ -16,7 +16,7 @@ class Saas_Pci_Model_Limitation_Specification_Backend_CryptKey
      * @param Mage_Core_Controller_Request_Http $request
      * @return bool
      */
-    public function isAllowed(Mage_Core_Controller_Request_Http $request)
+    public function isSatisfiedBy(Mage_Core_Controller_Request_Http $request)
     {
         return $request->getControllerName() != 'crypt_key'
             || $request->getControllerModule() != 'Enterprise_Pci_Adminhtml';

@@ -16,21 +16,21 @@
     </modules>
     <global>
         <events>
-            <controller_action_predispatch_adminhtml>
+            <controller_action_predispatch>
                 <observers>
                     <saas_limit_functionality>
                         <class>Saas_Saas_Model_Limitation_Observer</class>
                         <method>limitFunctionality</method>
                     </saas_limit_functionality>
                 </observers>
-            </controller_action_predispatch_adminhtml>
+            </controller_action_predispatch>
         </events>
         <di>
-            <Saas_Saas_Model_Limitation_Specification_Chain>
+            <Saas_Saas_Model_Limitation_Specification_Composite>
                 <parameters>
                     <specificationFactory>Saas_Saas_Model_Limitation_Specification_Factory</specificationFactory>
                 </parameters>
-            </Saas_Saas_Model_Limitation_Specification_Chain>
+            </Saas_Saas_Model_Limitation_Specification_Composite>
         </di>
     </global>
 </config>
