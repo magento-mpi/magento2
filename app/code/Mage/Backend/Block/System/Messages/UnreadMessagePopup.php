@@ -49,4 +49,19 @@ class Mage_Backend_Block_System_Messages_UnreadMessagePopup extends Mage_Backend
     {
         return $this->_messages->getUnread();
     }
+
+    /**
+     * Retrieve popup title
+     *
+     * @return string
+     */
+    public function getPopupTitle()
+    {
+        $messageCount = count($this->_messages->getUnread());
+        if ($messageCount > 1) {
+            return $this->__('You have %d new system messages', $messageCount);
+        } else {
+            return $this->__('You have %d new system message', $messageCount);
+        }
+    }
 }

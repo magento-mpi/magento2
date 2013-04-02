@@ -16,7 +16,7 @@
                 <li class="error"><!--  warning  -->
                     <?php echo $lastCritical->getText();?>
                     <?php if ($lastCritical->getLink()):?> 
-                        <a href="<?php echo $lastCritical->getLink();?>"><?php echo $this->__('Go there now');?></a>
+                        <a href="<?php echo $this->escapeUrl($lastCritical->getLink());?>"><?php echo $this->escapeHtml($this->__('Go there now'));?></a>
                     <?php endif; ?>
                 </li>
             </ul>
@@ -24,13 +24,13 @@
         <div class="message-system-short">
             System Messages:
             <?php if ($this->getCriticalCount()): ?>
-                <span class="error"><a href="#" title="Critical System Messages"><?php echo $this->getCriticalCount();?></a></span>
+                <span class="error"><a href="#" title="<?php echo $this->escapeHtml($this->__('Critical System Messages'));?>"><?php echo $this->getCriticalCount();?></a></span>
             <?php endif;?>
             <?php if ($this->getMajorCount()): ?>
-               <span class="warning"><a href="#" title="Major System Messages"><?php echo $this->getMajorCount();?></a></span>
+               <span class="warning"><a href="#" title="<?php echo $this->escapeHtml($this->__('Major System Messages'));?>"><?php echo $this->getMajorCount();?></a></span>
             <?php endif;?>
         </div>
-        <div id="message-system-all" title="<?php echo $this->__('System messags');?>" data-mage-init="{systemMessageDialog:{autoOpen:false, width: 600, ajaxUrl: &quot;<?php echo $this->getMessagesUrl();?>&quot;}}"></div>
+        <div id="message-system-all" title="<?php echo $this->escapeHtml($this->__('System messages'));?>" data-mage-init="{systemMessageDialog:{autoOpen:false, width: 600, ajaxUrl: &quot;<?php echo $this->jsQuoteEscape($this->getMessagesUrl());?>&quot;}}"></div>
     </div>
 </div>
 

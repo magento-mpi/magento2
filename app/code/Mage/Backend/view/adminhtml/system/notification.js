@@ -8,7 +8,7 @@
 (function ($) {
     $.template(
         'systemMessageDialog',
-        '<li class="{{if severity == 1}}warning{{else}}warning{{/if}}">{{html text}}{{if link}} <a href="${link}">Go there now</a>{{/if}}</li>'
+        '<li class="{{if severity == 1}}error{{else}}warning{{/if}}">{{html text}}{{if link}} <a href="${link}">Go there now</a>{{/if}}</li>'
     );
 
     $.widget('mage.systemMessageDialog', $.ui.dialog, {
@@ -42,7 +42,7 @@
             })
         });
 
-        $('#system_messages .message-system-short .error').on('click', function(e) {
+        $('#system_messages .message-system-short .error').on('click', function() {
             $('#message-system-all').systemMessageDialog('open', 1);
         });
         $('#system_messages .message-system-short .warning').on('click', function() {

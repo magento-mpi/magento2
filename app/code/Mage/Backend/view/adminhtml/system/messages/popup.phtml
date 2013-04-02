@@ -7,12 +7,11 @@
  */
 ?>
 <?php /** @var $this Mage_Backend_Block_System_Messages_UnreadMessagePopup */ ?>
-<?php $messageCount = count($this->getUnreadMessages()); ?>
-<div id="system_messages_list" title="<?php echo $this->__('You have %d new system messages', $messageCount); ?>">
+<div id="system_messages_list" title="<?php echo $this->escapeHtml($this->getPopupTitle()); ?>">
     <ul class="message-system-list">
         <?php foreach ($this->getUnreadMessages() as $message): ?>
             <li class="error">
-                <?php echo $message->getText();?><?php if ($message->getLink()): ?> <a href="<?php echo $message->getLink();?>"><?php echo $this->__('Go there now');?></a><?php endif; ?>
+                <?php echo $message->getText();?><?php if ($message->getLink()): ?> <a href="<?php echo $this->escapeUrl($message->getLink());?>"><?php echo $this->__('Go there now');?></a><?php endif; ?>
             </li>
         <?php endforeach;?>
     </ul>
