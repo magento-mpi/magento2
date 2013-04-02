@@ -15,9 +15,6 @@
             <ul class="message-system-list">
                 <li class="error"><!--  warning  -->
                     <?php echo $lastCritical->getText();?>
-                    <?php if ($lastCritical->getLink()):?> 
-                        <a href="<?php echo $this->escapeUrl($lastCritical->getLink());?>"><?php echo $this->escapeHtml($this->__('Go there now'));?></a>
-                    <?php endif; ?>
                 </li>
             </ul>
         <?php endif; ?>

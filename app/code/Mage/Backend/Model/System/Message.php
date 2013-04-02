@@ -53,14 +53,4 @@ class Mage_Backend_Model_System_Message extends Mage_Core_Model_Abstract
     {
         return $this->_getData('identity');
     }
-
-    /**
-     * Retrieve problem management url
-     *
-     * @return string
-     */
-    public function getLink()
-    {
-        return $this->_getData('link');
-    }
 }

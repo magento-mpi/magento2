@@ -16,6 +16,11 @@ class Mage_Backend_Model_Resource_System_Message_Collection_Synchronized
      */
     protected $_unreadMessages = array();
 
+    /**
+     * Store new messages in database and remove outdated messages
+     *
+     * @return $this|Mage_Core_Model_Resource_Db_Abstract
+     */
     public function _afterLoad()
     {
         $messages = $this->_messageList->asArray();
@@ -53,6 +58,8 @@ class Mage_Backend_Model_Resource_System_Message_Collection_Synchronized
     }
 
     /**
+     * Retrieve list of unread messages
+     *
      * @return Mage_Backend_Model_System_MessageInterface[]
      */
     public function getUnread()

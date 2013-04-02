@@ -100,7 +100,11 @@ class Mage_Index_Model_System_Message_IndexOutdated implements Mage_Backend_Mode
     {
         $data = $this->_getProcessesForReindex() ?: array();
         $indexList = implode(', ', $data);
-        return $this->_helperFactory->get('Mage_Index_Helper_Data')->__('One or more of the Indexes are not up to date: %s', $indexList);
+        $url = $this->_urlBuilder->getUrl('adminhtml/process/list');
+        $helper = $this->_helperFactory->get('Mage_Index_Helper_Data');
+        $text = $helper->__('One or more of the Indexes are not up to date: %s', $indexList) . '. ';
+        $text .= $helper->__('Please go to <a href="%s">Index Management</a> and rebuild required indexes.', $url);
+        return $text;
     }
 
     /**

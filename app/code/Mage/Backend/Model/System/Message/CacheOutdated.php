@@ -89,8 +89,8 @@ class Mage_Backend_Model_System_Message_CacheOutdated implements Mage_Backend_Mo
     {
         /** @var $helper Mage_Backend_Helper_Data */
         $helper = $this->_helperFactory->get('Mage_Backend_Helper_Data');
-        $message = $helper->__('One or more of the Cache Types are invalidated: %s. ', implode(', ', $this->_getCacheTypesForRefresh()));
-        $message .= $helper->__('Click here to go to Cache Management and refresh cache types.');
+        $message = $helper->__('One or more of the Cache Types are invalidated: %s. ', implode(', ', $this->_getCacheTypesForRefresh())) . ' ';
+        $message .= $helper->__('Please go to <a href="%s">Cache Management</a> and refresh cache types.', $this->_urlBuilder->getUrl('adminhtml/cache'));
         return $message;
     }
 

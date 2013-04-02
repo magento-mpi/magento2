@@ -59,7 +59,6 @@ class Mage_Backend_Model_Resource_System_Message_Collection extends Mage_Core_Mo
             $message = $this->_messageList->getMessageByIdentity($item->getIdentity());
             if ($message) {
                 $item->setText($message->getText());
-                $item->setLink($message->getLink());
                 if (array_key_exists($message->getSeverity(), $this->_countBySeverity)) {
                     $this->_countBySeverity[$message->getSeverity()]++;
                 } else {

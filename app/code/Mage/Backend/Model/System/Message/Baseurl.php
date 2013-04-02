@@ -126,7 +126,7 @@ class Mage_Backend_Model_System_Message_Baseurl implements Mage_Backend_Model_Sy
      */
     public function getText()
     {
-        return $this->_helperFactory->get('Mage_Backend_Helper_Data')->__('{{base_url}} is not recommended to use in a production environment to declare the Base Unsecure URL / Base Secure URL. It is highly recommended to change this value in your Magento configuration.');
+        return $this->_helperFactory->get('Mage_Backend_Helper_Data')->__('{{base_url}} is not recommended to use in a production environment to declare the Base Unsecure URL / Base Secure URL. It is highly recommended to change this value in your Magento <a href="%s">configuration</a>.', $this->_getConfigUrl());
     }
 
     /**
@@ -137,15 +137,5 @@ class Mage_Backend_Model_System_Message_Baseurl implements Mage_Backend_Model_Sy
     public function getSeverity()
     {
         return self::SEVERITY_CRITICAL;
-    }
-
-    /**
-     * Get index management url
-     *
-     * @return string
-     */
-    public function getLink()
-    {
-        return $this->_getConfigUrl();
     }
 }

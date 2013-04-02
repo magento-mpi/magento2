@@ -144,16 +144,6 @@ class Mage_Backend_Model_System_Message_Security implements Mage_Backend_Model_S
     }
 
     /**
-     * Retrieve problem management url
-     *
-     * @return string|null
-     */
-    public function getLink()
-    {
-        return null;
-    }
-
-    /**
      * Retrieve message severity
      *
      * @return int

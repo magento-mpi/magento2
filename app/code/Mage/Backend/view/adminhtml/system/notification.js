@@ -8,7 +8,7 @@
 (function ($) {
     $.template(
         'systemMessageDialog',
-        '<li class="{{if severity == 1}}error{{else}}warning{{/if}}">{{html text}}{{if link}} <a href="${link}">Go there now</a>{{/if}}</li>'
+        '<li class="{{if severity == 1}}error{{else}}warning{{/if}}">{{html text}}</li>'
     );
 
     $.widget('mage.systemMessageDialog', $.ui.dialog, {

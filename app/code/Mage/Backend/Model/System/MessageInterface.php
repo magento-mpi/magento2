@@ -34,13 +34,6 @@ interface Mage_Backend_Model_System_MessageInterface
     public function getText();
 
     /**
-     * Retrieve problem management url
-     *
-     * @return string|null
-     */
-    public function getLink();
-
-    /**
      * Retrieve message severity
      *
      * @return int

@@ -16,6 +16,4 @@ class Mage_Backend_Model_Resource_System_Message_Collection_Nonsynchronized
     {
         $this->_init('Mage_Backend_Model_System_Message', 'Mage_Backend_Model_Resource_System_Message');
     }
-
-
 }

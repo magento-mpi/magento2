@@ -20,7 +20,7 @@ class Mage_Backend_Adminhtml_System_MessageController extends Mage_Backend_Contr
         $result = array();
         foreach ($messageCollection->getItems() as $item) {
             $result[] = array(
-                'severity' => $item->getSeverity(), 'text' => $item->getText(), 'link' => $item->getLink()
+                'severity' => $item->getSeverity(), 'text' => $item->getText()
             );
         }
         $this->getResponse()

@@ -11,7 +11,7 @@
     <ul class="message-system-list">
         <?php foreach ($this->getUnreadMessages() as $message): ?>
             <li class="<?php echo $this->getItemClass($message);?>">
-                <?php echo $message->getText();?><?php if ($message->getLink()): ?> <a href="<?php echo $this->escapeUrl($message->getLink());?>"><?php echo $this->__('Go there now');?></a><?php endif; ?>
+                <?php echo $message->getText();?>
             </li>
         <?php endforeach;?>
     </ul>
