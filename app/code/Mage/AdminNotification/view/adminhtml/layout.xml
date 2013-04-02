@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+
+<layout>
+    <default>
+        <reference name="root">
+            <container name="notifications" as="notifications" label="Notifications" after="header">
+                <block type="Mage_AdminNotification_Block_Baseurl" name="notification_baseurl" as="notification_baseurl" template="notification/baseurl.phtml"/>
+                <block type="Mage_AdminNotification_Block_Cache_Notifications" name="cache_notifications" template="cache/notifications.phtml"/>
+                <block type="Mage_AdminNotification_Block_Survey" name="notification_survey" template="notification/survey.phtml"/>
+                <block type="Mage_AdminNotification_Block_Security" name="notification_security" as="notification_security" template="notification/security.phtml"/>
+                <block type="Mage_AdminNotification_Block_Toolbar" name="notification_toolbar" as="notification_toolbar" acl="Mage_AdminNotification::show_toolbar" template="notification/toolbar.phtml" />
+                <block type="Mage_AdminNotification_Block_Window" name="notification_window" as="notification_window" acl="Mage_AdminNotification::show_toolbar" template="notification/window.phtml" />
+            </container>
+        </reference>
+        <reference name="header">
+            <block type="Mage_AdminNotification_Block_ToolbarEntry" template="toolbar_entry.phtml" />
+        </reference>
+        <reference name="head">
+            <action method="addCss"><file>Mage_Core::prototype/magento.css</file></action>
+            <action method="addJs"><file>Mage_AdminNotification::toolbar_entry.js</file></action>
+        </reference>
+    </default>
+</layout>

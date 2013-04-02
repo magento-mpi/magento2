@@ -82,7 +82,7 @@ class Mage_Backend_Model_Config extends Varien_Object
      * @param Mage_Backend_Model_Config_Structure $configStructure
      * @param Mage_Core_Model_Resource_Transaction_Factory $transactionFactory
      * @param Mage_Backend_Model_Config_Loader $configLoader
-     * @param Mage_Core_Model_Config_Data_Factory $configDataFactory
+     * @param Mage_Core_Model_Config_DataFactory $configDataFactory
      * @param array $data
      */
     public function __construct(
@@ -92,7 +92,7 @@ class Mage_Backend_Model_Config extends Varien_Object
         Mage_Backend_Model_Config_Structure $configStructure,
         Mage_Core_Model_Resource_Transaction_Factory $transactionFactory,
         Mage_Backend_Model_Config_Loader $configLoader,
-        Mage_Core_Model_Config_Data_Factory $configDataFactory,
+        Mage_Core_Model_Config_DataFactory $configDataFactory,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;

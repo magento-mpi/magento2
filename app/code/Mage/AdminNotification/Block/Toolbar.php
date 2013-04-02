@@ -1,24 +1,16 @@
 <?php
 /**
+ * Adminhtml AdminNotification toolbar
+ *
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_AdminNotification
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Adminhtml AdminNotification toolbar
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Adminhtml_Block_Notification_Toolbar extends Mage_Adminhtml_Block_Template
+class Mage_AdminNotification_Block_Toolbar extends Mage_Backend_Block_Template
 {
-
     /**
      * Retrieve helper
      *
@@ -26,7 +18,7 @@ class Mage_Adminhtml_Block_Notification_Toolbar extends Mage_Adminhtml_Block_Tem
      */
     protected function _getHelper()
     {
-        return Mage::helper('Mage_AdminNotification_Helper_Data');
+        return $this->helper('Mage_AdminNotification_Helper_Data');
     }
 
     /**
@@ -58,8 +50,7 @@ class Mage_Adminhtml_Block_Notification_Toolbar extends Mage_Adminhtml_Block_Tem
      */
     public function getCriticalCount()
     {
-        return $this->_getHelper()
-            ->getUnreadNoticeCount(Mage_AdminNotification_Model_Inbox::SEVERITY_CRITICAL);
+        return $this->_getHelper()->getUnreadNoticeCount(Mage_AdminNotification_Model_Inbox::SEVERITY_CRITICAL);
     }
 
     /**
@@ -69,8 +60,7 @@ class Mage_Adminhtml_Block_Notification_Toolbar extends Mage_Adminhtml_Block_Tem
      */
     public function getMajorCount()
     {
-        return $this->_getHelper()
-            ->getUnreadNoticeCount(Mage_AdminNotification_Model_Inbox::SEVERITY_MAJOR);
+        return $this->_getHelper()->getUnreadNoticeCount(Mage_AdminNotification_Model_Inbox::SEVERITY_MAJOR);
     }
 
     /**
@@ -80,8 +70,7 @@ class Mage_Adminhtml_Block_Notification_Toolbar extends Mage_Adminhtml_Block_Tem
      */
     public function getMinorCount()
     {
-        return $this->_getHelper()
-            ->getUnreadNoticeCount(Mage_AdminNotification_Model_Inbox::SEVERITY_MINOR);
+        return $this->_getHelper()->getUnreadNoticeCount(Mage_AdminNotification_Model_Inbox::SEVERITY_MINOR);
     }
 
     /**
@@ -91,8 +80,7 @@ class Mage_Adminhtml_Block_Notification_Toolbar extends Mage_Adminhtml_Block_Tem
      */
     public function getNoticeCount()
     {
-        return $this->_getHelper()
-            ->getUnreadNoticeCount(Mage_AdminNotification_Model_Inbox::SEVERITY_NOTICE);
+        return $this->_getHelper()->getUnreadNoticeCount(Mage_AdminNotification_Model_Inbox::SEVERITY_NOTICE);
     }
 
     /**
@@ -112,8 +100,7 @@ class Mage_Adminhtml_Block_Notification_Toolbar extends Mage_Adminhtml_Block_Tem
      */
     public function getLatestNotice()
     {
-        return  $this->_getHelper()
-            ->getLatestNotice()->getTitle();
+        return  $this->_getHelper()->getLatestNotice()->getTitle();
     }
 
     /**
