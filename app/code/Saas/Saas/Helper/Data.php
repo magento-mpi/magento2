@@ -34,22 +34,20 @@ class Saas_Saas_Helper_Data
      *
      * @param Mage_Core_Controller_Request_Http $request
      * @see Mage_Core_Controller_Varien_Router_Default::match
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function customizeNoRoutForward(Mage_Core_Controller_Request_Http $request)
     {
-        $noRoute        = explode('/', $this->_storeManager->getStore()->getConfig('web/default/no_route'));
+        $noRoute        = $this->_getNoRouteParams();
         $moduleName     = isset($noRoute[0]) && $noRoute[0] ? $noRoute[0] : 'core';
         $controllerName = isset($noRoute[1]) ? $noRoute[1] : 'index';
         $actionName     = isset($noRoute[2]) ? $noRoute[2] : 'index';
 
-        if ($this->_storeManager->getStore()->isAdmin()) {
-            $adminFrontName = (string)$this->_config->getNode('admin/routers/adminhtml/args/frontName');
-            if ($adminFrontName != $moduleName) {
-                $moduleName     = 'core';
-                $controllerName = 'index';
-                $actionName     = 'noRoute';
-                $this->_storeManager->setCurrentStore($this->_storeManager->getDefaultStoreView());
-            }
+        if ($this->_isAdminStoreWithCustomAdminFrontName($moduleName)) {
+            $moduleName     = 'core';
+            $controllerName = 'index';
+            $actionName     = 'noRoute';
+            $this->_updateCurrentStore();
         }
 
         $request->initForward()
@@ -57,5 +55,42 @@ class Saas_Saas_Helper_Data
             ->setControllerName($controllerName)
             ->setActionName($actionName)
             ->setDispatched(false);
+    }
+
+    /**
+     * @param $moduleName
+     * @return bool
+     */
+    protected function _isAdminStoreWithCustomAdminFrontName($moduleName)
+    {
+        return $this->_storeManager->getStore()->isAdmin() && $this->_getAdminFrontName() != $moduleName;
+    }
+
+    /**
+     * Get no route params
+     *
+     * @return array
+     */
+    protected function _getNoRouteParams()
+    {
+        return explode('/', $this->_storeManager->getStore()->getConfig('web/default/no_route'));
+    }
+
+    /**
+     * Get admin front name
+     *
+     * @return string
+     */
+    protected function _getAdminFrontName()
+    {
+        return (string)$this->_config->getNode('admin/routers/adminhtml/args/frontName');;
+    }
+
+    /**
+     * Update current store
+     */
+    protected function _updateCurrentStore()
+    {
+        $this->_storeManager->setCurrentStore($this->_storeManager->getDefaultStoreView());
     }
 }
