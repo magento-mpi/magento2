@@ -17,12 +17,12 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Core_Model_Translate $translator
+     * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Controller_Request_Http $request
      */
-    public function __construct(Mage_Core_Model_Translate $translator, Mage_Core_Controller_Request_Http $request)
+    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Controller_Request_Http $request)
     {
-        parent::__construct($translator);
+        parent::__construct($context);
         $this->_request = $request;
     }
 
