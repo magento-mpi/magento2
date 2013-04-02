@@ -19,6 +19,10 @@
     text-align: right;
 }
 
+#bundle_product_container .col-name {
+    width: 25%;
+}
+
 #bundle_product_container .field-option-req .control {
     top: 39px;
 }

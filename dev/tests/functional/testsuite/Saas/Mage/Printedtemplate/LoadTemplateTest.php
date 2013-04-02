@@ -8,8 +8,7 @@
  * @license     {license_link}
  */
 
-class Saas_Mage_Printedtemplate_LoadTemplateTest
-    extends Mage_Selenium_TestCase
+class Saas_Mage_Printedtemplate_LoadTemplateTest extends Mage_Selenium_TestCase
 {
 
     /**

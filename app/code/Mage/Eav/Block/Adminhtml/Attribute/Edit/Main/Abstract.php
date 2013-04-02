@@ -26,6 +26,9 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
         return $this;
     }
 
+    /**
+     * @return Mage_Catalog_Model_Resource_Eav_Attribute
+     */
     public function getAttributeObject()
     {
         if (null === $this->_attribute) {

@@ -169,6 +169,6 @@ share_wishlist:
         messages: *wishlistMessages
 
 share_wishlist_index:
-    mca: wishlist/index/share/wishlist_id/%id%
+    mca: wishlist/index/share/wishlist_id/%id%/
     title: Wishlist Sharing
     uimap: *shareWishlist

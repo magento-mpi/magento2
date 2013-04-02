@@ -45,7 +45,7 @@ theme_list:
 
 # New Theme page
 new_theme:
-    mca: system_design_theme/new
+    mca: system_design_theme/new/
     title: Magento Admin
     uimap:
         form:
@@ -81,7 +81,7 @@ new_theme:
 
 # Edit Theme Page
 edit_theme:
-    mca: system_design_theme/edit/id/%id%
+    mca: system_design_theme/edit/id/%id%/
     title: Magento Admin
     uimap:
         form:

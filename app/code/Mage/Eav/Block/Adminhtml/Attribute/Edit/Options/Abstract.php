@@ -49,7 +49,8 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
     public function canManageOptionDefaultOnly()
     {
         $attribute = $this->getAttributeObject();
-        return !$attribute->getCanManageOptionLabels() && !$attribute->getIsUserDefined() && $attribute->usesSource();
+        return !$attribute->getCanManageOptionLabels() && !$attribute->getIsUserDefined()
+            && $attribute->getSourceModel();
     }
 
     /**

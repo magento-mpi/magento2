@@ -18,7 +18,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_ImportExport_EmptyValues_AddressTest extends Mage_Selenium_TestCase
+class Core_Mage_ImportExport_Customer_Address_EmptyValuesTest extends Mage_Selenium_TestCase
 {
     /**
      * Preconditions:

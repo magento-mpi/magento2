@@ -42,10 +42,13 @@
                     }
                 }, {
                     id: 'grouped-product-dialog-apply-button',
-                    text: 'Apply Changes',
+                    text: 'Add Products',
                     'class': 'add',
                     click: function () {
-                        var ids = widget._getSelectedIds();
+                        var ids = $.merge(
+                            widget._getSelectedIds(),
+                            $.parseJSON(widget.options.$hiddenInput.attr('data-ids'))
+                        );
                         widget._displayGridRow(ids);
                         widget._updateHiddenField(ids);
                         $(this).dialog('close');
@@ -57,7 +60,13 @@
         _bindEventHandlers: function () {
             var widget = this;
             $('#grouped-add-products').on('click', function () {
-                $('#grouped-product-popup').dialog('open');
+                var ids = widget.options.$hiddenInput.attr('data-ids');
+                widget.options.gridPopup.reloadParams = {
+                    filter: {'in_products': $.parseJSON(ids.length ? ids : [0])}
+                };
+                widget.options.gridPopup.reload(null, function(){
+                    $('#grouped-product-popup').dialog('open');
+                });
                 return false;
             });
             this.$grid.on('click', '.grouped-product-delete button', function () {
@@ -100,20 +109,21 @@
                     gridData[$idContainer.val()] = data;
                 }
             });
+            widget.options.$hiddenInput.attr('data-ids', JSON.stringify(ids));
             widget.options.$hiddenInput.val(JSON.stringify(gridData));
         },
 
         _displayGridRow: function (ids) {
-            var displayedRows = 0;
+            var displayRows = false;
             $.each(this.$grid.find('input[name="entity_id"]'), function () {
                 var $idContainer = $(this),
                     inArray = $.inArray($idContainer.val(), ids) !== -1;
                 $idContainer.closest('tr').toggle(inArray).toggleClass('ignore-validate', !inArray);
                 if (inArray) {
-                    displayedRows++;
+                    displayRows = true;
                 }
             });
-            this._updateGridVisibility(displayedRows);
+            this._updateGridVisibility(displayRows);
         },
 
         _initGridWithData: function (gridData) {
