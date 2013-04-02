@@ -558,12 +558,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->saveAndContinueEdit('button', 'save_and_continue_edit');
             return;
         }
+        $waitConditions = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
+        $waitConditions[] = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'choose_affected_attribute_set');
         $this->waitForControlVisible('button', 'save_split_select');
         $this->clickButton('save_split_select', false);
         $this->addParameter('additionalAction', $additionalAction);
         $this->waitForControlVisible('button', 'save_product_by_action');
-        $waitConditions = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
-        $waitConditions[] = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'choose_affected_attribute_set');
         $this->clickButton('save_product_by_action', false);
         $this->waitForAjax();
         $this->waitForElementVisible($waitConditions);
@@ -966,7 +966,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                         list($path) = explode($categoryNode, $categoryPath);
                         $this->fail("'$categoryNode' category with path = '$path' could not found.");
                     } else {
-                        $this->createNewCategory($categoryPath, true);
+                        $this->createNewCategory($categoryPath);
                         $this->waitUntil(
                             function ($testCase) use ($selectedQty) {
                                 /** @var Mage_Selenium_TestCase $testCase */
@@ -1037,6 +1037,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createNewCategory($categoryPath, $nameIsSet = false)
     {
+        $this->markTestIncomplete('MAGETWO-8857');
         $explodeCategoryPath = explode('/', $categoryPath);
         $categoryName = array_pop($explodeCategoryPath);
         $parentPath = implode('/', $explodeCategoryPath);
@@ -2389,7 +2390,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->assertEquals($countBefore + count($formedData['items']), $actualQty,
                 'Products are not assigned to Grouped product');
         } catch (Exception $e) {
-            $this->$this->markTestIncomplete('MAGETWO-7278,MAGETWO-7277,MAGETWO-8852');
+            $this->markTestIncomplete('MAGETWO-7278,MAGETWO-7277,MAGETWO-8852');
         }
         if (!empty($formedData['qty'])) {
             foreach ($formedData['qty'] as $productName => $qty) {
