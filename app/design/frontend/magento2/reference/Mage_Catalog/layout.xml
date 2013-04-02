@@ -137,7 +137,7 @@ Product view
         <update handle="page_calendar"/>
 
         <block type="Mage_Catalog_Block_Product_View" name="product.info.form" template="product/view/form.phtml">
-            <container name="product.info.form.content" label="invisible" as="product.info.form.content">
+            <container name="product.info.form.content" label="invisible" as="product_info_form_content">
                 <block type="Mage_Catalog_Block_Product_View" name="product.info.addtocart" as="addtocart" template="product/view/addtocart.phtml"/>
             </container>
             <block type="Mage_Core_Block_Template" name="product.info.form.options" as="options_container">

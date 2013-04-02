@@ -32,7 +32,7 @@
         <input type="hidden" name="related_product" id="related-products-field" value="" />
         <?php echo $this->getChildHtml('form_top'); ?>
         <?php if (!$this->hasOptions()):?>
-            <?php echo $this->getChildHtml('product.info.form.content'); ?>
+            <?php echo $this->getChildHtml('product_info_form_content'); ?>
         <?php else:?>
             <?php if ($_product->isSaleable() && $this->getOptionsContainer() == 'container1'):?>
                 <?php echo $this->getChildChildHtml('options_container') ?>
