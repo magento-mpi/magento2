@@ -97,8 +97,7 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
         $productValues = array();
         $tableRowNames = $this->shoppingCartHelper()->getColumnNamesAndNumbers($tableHeadName);
         $productLine = $this->_getControlXpath('pageelement', $productTableLine);
-
-        $productCount = count($this->getElements($productLine));
+        $productCount = $this->getControlCount('pageelement', $productTableLine);
         for ($index = 1; $index <= $productCount; $index++) {
             foreach ($tableRowNames as $key => $value) {
                 if (in_array($key, $skipFields)) {
@@ -221,8 +220,9 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
      */
     public function isShoppingCartEmpty()
     {
-        if (count($this->getElementsByXpath($this->_getControlXpath('pageelement', 'table_row'))) == 1
-            && $this->controlIsVisible('pageelement', 'no_items')) {
+        if ($this->getControlCount('pageelement', 'table_row') == 1
+            && $this->controlIsVisible('pageelement', 'no_items')
+        ) {
             return true;
         }
         return false;
@@ -255,7 +255,7 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
             if (!$this->isAttentionTableEmpty()) {
                 $xpath = $this->_getControlXpath('pageelement', 'error_table_grid');
                 foreach ($productsToRemove as $key => $productSku) {
-                    $count = count($this->getElementsByXpath($xpath));
+                    $count = $this->getControlCount('pageelement', 'error_table_grid');
                     $i = 1;
                     $productSku = 'sku_' . trim($productSku);
                     while ($i <= $count) {

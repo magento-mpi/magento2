@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Mage_ImportExport_EmptyValues_FinanceTest extends Mage_Selenium_TestCase
+class Enterprise_Mage_ImportExport_Customer_Finance_EmptyValuesTest extends Mage_Selenium_TestCase
 {
     /**
      * Preconditions:

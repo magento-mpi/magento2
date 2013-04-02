@@ -12,7 +12,7 @@
 
 # Manage  Customer Address Attributes page
 manage_customer_address_attributes:
-    mca: customer_address_attribute
+    mca: customer_address_attribute/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_address_attribute')]
     title: Manage Customer Address Attributes / Magento Admin
     uimap:

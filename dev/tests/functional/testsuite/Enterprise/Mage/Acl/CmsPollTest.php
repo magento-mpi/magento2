@@ -70,12 +70,10 @@ class Enterprise_Mage_Acl_CmsPollTest extends Mage_Selenium_TestCase
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('poll_manager');
-        $this->assertEquals('1', count($this->getElements(
-                $this->_getControlXpath('pageelement', 'navigation_menu_items'))),
+        $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),
             'Count of Top Navigation Menu elements not equal 1, should be equal');
         // Verify that navigation menu has only 1 child elements
-        $this->assertEquals('2', count($this->getElements(
-                $this->_getControlXpath('pageelement', 'navigation_children_menu_items'))),
+        $this->assertEquals(2,  $this->getControlCount('pageelement', 'navigation_children_menu_items'),
             'Count of Top Navigation Menu elements not equal 2, should be equal');
         // Verify  that necessary elements are present on page
         $elements = $this->loadDataSet('CmsPollElements', 'manage_cms_poll_elements');

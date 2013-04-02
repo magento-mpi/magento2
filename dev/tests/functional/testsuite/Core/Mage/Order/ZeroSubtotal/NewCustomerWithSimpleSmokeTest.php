@@ -59,7 +59,8 @@ class Core_Mage_Order_ZeroSubtotal_NewCustomerWithSimpleSmokeTest extends Mage_S
         $this->productHelper()->createProduct($simple);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        return $simple['general_name'];
+
+        return $simple['general_sku'];
     }
 
     /**
