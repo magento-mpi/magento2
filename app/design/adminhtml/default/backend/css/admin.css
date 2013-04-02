@@ -316,6 +316,14 @@ button.primary.disabled,
     text-shadow: none;
 }
 
+.fade.critical-notification {
+    display: block;
+}
+
+.fade.critical-notification .popup {
+    top: 200px;
+}
+
 .data-table .action-.delete:disabled,
 .data-table .action-delete:disabled,
 #product-variations-matrix .action-choose:disabled,

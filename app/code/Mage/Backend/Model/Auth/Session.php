@@ -61,7 +61,7 @@ class Mage_Backend_Model_Auth_Session
     public function init($namespace, $sessionName = null)
     {
         parent::init($namespace, $sessionName);
-        $this->isFirstPageAfterLogin();
+        // @todo implement solution that keeps is_first_visit flag in session during redirects
         return $this;
     }
 
