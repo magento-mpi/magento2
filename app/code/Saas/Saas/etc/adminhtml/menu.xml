@@ -27,7 +27,6 @@
         <remove id="Mage_Downloadable::report_products_downloads" />
 
         <!-- Stores -->
-        <remove id="Enterprise_GiftRegistry::customer_enterprise_giftregistry" />
         <remove id="Enterprise_Reward::customer_reward" />
 
         <!-- System -->
