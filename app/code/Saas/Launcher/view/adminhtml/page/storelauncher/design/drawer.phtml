@@ -26,11 +26,13 @@
         <div class="store-logo">
             <div class="store-logo-config <?php if ($this->getLogoUrl()): ?> hidden <?php endif; ?>">
                 <h3 class="title"><?php echo $this->__('Upload your store logo or enter your store name'); ?></h3>
+                <?php if ($this->getLogoUrl()) :?>
                 <button type="button"
                         class="action-use-existing-logo"
                         id="action-use-existing-logo">
                     <span><?php echo $this->__('Use Existing Logo'); ?></span>
                 </button>
+                <?php endif; ?>
                 <div class="store-logo-config-data">
                     <div class="store-logo-upload">
                         <div class="store-logo-upload-drop-zone" id="store-logo-upload-drop-zone">
