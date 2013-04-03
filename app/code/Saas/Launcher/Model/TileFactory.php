@@ -59,7 +59,7 @@ class Saas_Launcher_Model_TileFactory
      */
     public function create($tileCode = null, array $arguments = array())
     {
-        $tile = $this->_objectManager->create('Saas_Launcher_Model_Tile', $arguments, false);
+        $tile = $this->_objectManager->create('Saas_Launcher_Model_Tile', $arguments);
         if (isset($tileCode)) {
             $tile->loadByTileCode($tileCode);
             if ($tile->getId()) {
