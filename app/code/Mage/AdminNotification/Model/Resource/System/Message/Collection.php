@@ -25,7 +25,7 @@ class Mage_AdminNotification_Model_Resource_System_Message_Collection
 
     /**
      * @param Mage_AdminNotification_Model_System_MessageList $messageList
-     * @param null $resource
+     * @param mixed $resource
      */
     public function __construct(Mage_AdminNotification_Model_System_MessageList $messageList, $resource = null)
     {
@@ -44,6 +44,8 @@ class Mage_AdminNotification_Model_Resource_System_Message_Collection
     }
 
     /**
+     * Initialize db query
+     *
      * @return Mage_Core_Model_Resource_Db_Collection_Abstract|void
      */
     protected function _initSelect()
@@ -54,6 +56,8 @@ class Mage_AdminNotification_Model_Resource_System_Message_Collection
     }
 
     /**
+     * Initialize system messages after load
+     *
      * @return Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _afterLoad()
@@ -76,7 +80,7 @@ class Mage_AdminNotification_Model_Resource_System_Message_Collection
     /**
      * Set message severity filter
      *
-     * @param $severity
+     * @param int $severity
      * @return Mage_Core_Model_Resource_Db_Abstract
      */
     public function setSeverity($severity)
