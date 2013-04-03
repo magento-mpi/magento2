@@ -44,7 +44,7 @@
                             <?php echo $this->escapeHtml($website->getName()) ?>
                         </label>
                             <?php if (count($website->getGroups())): ?>
-                            <ul id="gws_website_<?php echo $websiteId ?>_groups" style="margin-left:1.5em">
+                            <ul id="gws_website_<?php echo $websiteId ?>_groups">
                                 <?php foreach ($website->getGroups() as $group): ?>
                                 <li>
                                     <input class="gws_store_group validate-one-gws-store" type="checkbox" name="gws_store_groups[]" value="<?php echo $group->getId() ?>" id="gws_store_group_<?php echo $group->getId() ?>" <?php echo (in_array($group->getId(), $this->getRole()->getGwsStoreGroups()) ? 'checked="checked" ' : '') ?>/><label for="gws_store_group_<?php echo $group->getId() ?>">
