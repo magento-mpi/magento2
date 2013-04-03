@@ -25,7 +25,7 @@
                 id: 'new_category_parent-suggest',
                 placeholder: 'start typing to search category'
             }));
-            $('#new_category_parent-suggest').treeSuggest(this.options.suggestOptions)
+            $('#new_category_parent-suggest').mage('treeSuggest', this.options.suggestOptions)
                 .on('suggestbeforeselect', function (event, ui) {
                     clearParentCategory();
                     $(event.target).treeSuggest('close');
