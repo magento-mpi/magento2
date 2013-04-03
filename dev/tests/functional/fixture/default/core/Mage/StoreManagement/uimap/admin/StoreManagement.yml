@@ -13,7 +13,7 @@
 manage_stores:
     mca: system_store/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'system_store')]
-    title: Stores / System / Magento Admin
+    title: Stores / Settings / Stores / Magento Admin
     uimap: &manage_stores
         form:
             fieldsets:
@@ -56,7 +56,7 @@ manage_stores_items_per_page:
 # 'New Store View' Page
 new_store_view:
     mca: system_store/newStore/
-    title: New Store View / Stores / System / Magento Admin
+    title: New Store View / Stores / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -83,7 +83,7 @@ new_store_view:
 # 'Edit Store View' Page
 edit_store_view:
     mca: system_store/editStore/store_id/%id%/
-    title: %elementTitle% / Stores / System / Magento Admin
+    title: %elementTitle% / Stores / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -248,7 +248,7 @@ detele_website:
 # 'Delete Store View' Page
 detele_store_view:
     mca: system_store/deleteStore/item_id/%id%/
-    title: Delete Store View / Stores / System / Magento Admin
+    title: Delete Store View / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
