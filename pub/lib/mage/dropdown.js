@@ -1,10 +1,11 @@
 /**
  * {license_notice}
  *
+ * @category    mage
+ * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /*jshint browser:true jquery:true */
 ;(function($, document) {
     'use strict';
