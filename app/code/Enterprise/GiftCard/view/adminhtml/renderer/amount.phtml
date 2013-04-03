@@ -127,10 +127,10 @@
         deleteItem : function(prefix, event) {
             var tr = Event.findElement(event, 'tr');
             if (tr) {
-                Element.select(tr, '.action-delete').each(function(elem){elem.value='1'});
+                Element.select(tr, '.delete').each(function(elem){elem.value='1'});
                 Element.select(tr, ['input', 'select']).each(function(elem){elem.hide()});
                 Element.hide(tr);
-                Element.addClassName(tr, 'hidden template');
+                Element.addClassName(tr, 'ignore-validate');
             }
             itemsCount--;
             this.updateTotalAmounts();
