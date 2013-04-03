@@ -49,5 +49,6 @@
         <Saas_Newsletter><active>true</active></Saas_Newsletter>
         <Saas_Design><active>true</active></Saas_Design>
         <Saas_Pci><active>true</active></Saas_Pci>
+        <Saas_Core><active>true</active></Saas_Core>
     </modules>
 </config>

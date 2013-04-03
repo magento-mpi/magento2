@@ -45,7 +45,7 @@ return function (array $params)
     $appParams[Mage::PARAM_MODE] = Mage_Core_Model_App_State::MODE_PRODUCTION; // Default mode for Saas web-node
 
     Magento_Profiler::start('mage');
-    $entryPoint = new Saas_Saas_Model_EntryPoint_Http(
+    $entryPoint = new Saas_Core_Model_EntryPoint_Http(
         new Mage_Core_Model_Config_Primary($rootDir, $appParams)
     );
     $entryPoint->processRequest();

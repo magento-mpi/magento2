@@ -8,9 +8,9 @@
  */
 
 /**
- * Test class for Saas_Saas_Model_Config_Storage_Modules
+ * Test class for Saas_Core_Model_Config_Storage_Modules
  */
-class Saas_Saas_Model_Config_Storage_ModulesTest extends PHPUnit_Framework_TestCase
+class Saas_Core_Model_Config_Storage_ModulesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Core_Model_Config_Storage
@@ -47,7 +47,7 @@ class Saas_Saas_Model_Config_Storage_ModulesTest extends PHPUnit_Framework_TestC
             array(), array(), '', false, false);
         $this->_factoryMock = $this->getMock('Mage_Core_Model_Config_BaseFactory',
             array(), array(), '', false, false);
-        $this->_model = new Saas_Saas_Model_Config_Storage_Modules($this->_cacheMock, $this->_loaderMock,
+        $this->_model = new Saas_Core_Model_Config_Storage_Modules($this->_cacheMock, $this->_loaderMock,
             $this->_factoryMock);
     }
 

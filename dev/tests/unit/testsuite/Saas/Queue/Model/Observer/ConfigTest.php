@@ -44,6 +44,6 @@ class Saas_Queue_Model_Observer_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $observer = new Varien_Event_Observer();
         $this->_configMock->expects($this->once())->method('reinit');
-        $this->_model->processRebuildConfig($observer);
+        $this->_model->processReinitConfig($observer);
     }
 }

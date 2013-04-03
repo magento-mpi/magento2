@@ -8,12 +8,12 @@
  */
 
 /**
- * Test class for Saas_Saas_Model_Config_Storage
+ * Test class for Saas_Core_Model_Config_Storage
  */
-class Saas_Saas_Model_Config_StorageTest extends PHPUnit_Framework_TestCase
+class Saas_Core_Model_Config_StorageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Saas_Saas_Model_Config_Storage
+     * @var Saas_Core_Model_Config_Storage
      */
     protected $_model;
 
@@ -54,7 +54,7 @@ class Saas_Saas_Model_Config_StorageTest extends PHPUnit_Framework_TestCase
             array(), array(), '', false, false);
         $this->_eventFactoryMock = $this->getMock('Varien_EventFactory',
             array(), array(), '', false, false);
-        $this->_model = new Saas_Saas_Model_Config_Storage($this->_cacheMock, $this->_resourcesConfigMock,
+        $this->_model = new Saas_Core_Model_Config_Storage($this->_cacheMock, $this->_resourcesConfigMock,
             $this->_queueHandlerMock, $this->_eventFactoryMock);
     }
 
@@ -81,7 +81,7 @@ class Saas_Saas_Model_Config_StorageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Saas_Saas_Model_Config_Exception
+     * @expectedException Saas_Core_Model_Config_Exception
      */
     public function testGetConfigurationWithoutData()
     {

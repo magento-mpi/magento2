@@ -3,13 +3,15 @@
  * {license_notice}
  *
  * @category    Saas
- * @package     Saas_Saas
+ * @package     Saas_Queue
  * @copyright   {copyright}
  * @license     {license_link}
  */
 class Saas_Queue_Model_Observer_Config extends Saas_Queue_Model_ObserverAbstract
 {
     /**
+     * Instance of config model
+     *
      * @var Mage_Core_Model_Config
      */
     protected $_config;
@@ -36,9 +38,9 @@ class Saas_Queue_Model_Observer_Config extends Saas_Queue_Model_ObserverAbstract
      * Rebuild whole config and save to fast storage task
      *
      * @param  Varien_Event_Observer $observer
-     * @return Saas_Saas_Model_Worker_Config
+     * @return Saas_Queue_Model_Observer_Config
      */
-    public function processRebuildConfig(Varien_Event_Observer $observer)
+    public function processReinitConfig(Varien_Event_Observer $observer)
     {
         $this->_config->reinit();
         return $this;
