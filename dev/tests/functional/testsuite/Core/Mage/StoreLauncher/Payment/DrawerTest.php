@@ -25,7 +25,7 @@ class Core_Mage_StoreLauncher_Payment_DrawerTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->currentWindow()->maximize();
+        $this->markTestIncomplete('MAGETWO-8724');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $paypalConfig = $this->loadDataSet('PaymentMethod', 'paypal_disable');

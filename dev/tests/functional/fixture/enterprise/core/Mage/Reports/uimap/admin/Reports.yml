@@ -12,7 +12,7 @@
 # Invitations General page
 reports_invitations_general:
     mca: report_invitation/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_invitation/') and (span='General')]
+    click_xpath: //*[@id='nav']//a[contains(@href, 'report_invitation/index')]
     title: General / Invitations / Reports / Magento Admin
     uimap:
         form:

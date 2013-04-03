@@ -82,6 +82,7 @@ $numColumns = sizeof($this->getColumns());
 </div>
 <?php if ($this->canDisplayContainer()): ?>
     <script type="text/javascript">
+        jQuery.mage.load('validation');
         //<![CDATA[
             <?php echo $this->getJsObjectName() ?> = new varienGrid('<?php echo $this->getId() ?>', '<?php echo $this->getGridUrl() ?>', '<?php echo $this->getVarNamePage() ?>', '<?php echo $this->getVarNameSort() ?>', '<?php echo $this->getVarNameDir() ?>', '<?php echo $this->getVarNameFilter() ?>');
             <?php echo $this->getJsObjectName() ?>.useAjax = '<?php if ($this->getUseAjax()): echo $this->getUseAjax(); endif; ?>';
@@ -94,7 +95,11 @@ $numColumns = sizeof($this->getColumns());
 
         function validateFilterDate() {
             if (period_date_from && period_date_to) {
-                return Validation.validate(period_date_from) && Validation.validate(period_date_to);
+                var valid = true;
+                jQuery(period_date_from).add(period_date_to).each(function() {
+                    valid = jQuery.validator.validateElement(this) && valid;
+                });
+                return valid;
             }
             else {
                 return true;

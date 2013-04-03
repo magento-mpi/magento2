@@ -879,9 +879,9 @@ div.autocomplete ul li { padding:.5em .7em; min-height:32px; cursor:pointer; tex
     z-index: 1;
 }
 .mage-suggest.category-select .mage-suggest-inner {background: transparent; position: static; border: none; border-radius: 0px; box-shadow: none;}
-.mage-suggest.category-select .category-selector-choices {background: #fff; border: 1px solid #ddd; border-radius: 5px; box-shadow: none; overflow: hidden;}
-.mage-suggest.category-select .category-selector-choices li {float: left; margin: 5px 0 5px 7px;}
-.mage-suggest.category-select .category-selector-search-field input {
+.mage-suggest.category-select .mage-suggest-choices {background: #fff; border: 1px solid #ddd; border-radius: 5px; box-shadow: none; overflow: hidden;}
+.mage-suggest.category-select .mage-suggest-choices li {float: left; margin: 5px 0 5px 7px;}
+.mage-suggest.category-select .mage-suggest-search-field input {
     background: none repeat scroll 0 0 transparent !important;
     border: 0 none;
     box-shadow: none;
@@ -909,6 +909,7 @@ div.autocomplete ul li { padding:.5em .7em; min-height:32px; cursor:pointer; tex
 }
 .mage-suggest-dropdown .jstree a {
     padding: 2px 3px;
+    display: inline-block;
 }
 .mage-suggest-dropdown .jstree .jstree-hovered {
     border: none;

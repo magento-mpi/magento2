@@ -124,9 +124,9 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
         $associated['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_1']['admin_option_name'];
         $configurable = $this->loadDataSet('Product', 'configurable_product_required',
-            array('associated_product_name' => $associated['general_name'],
-                  'associated_sku'          => $associated['general_sku']),
-            array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
+            array('associated_name' => $associated['general_name'],
+                  'associated_sku' => $associated['general_sku']),
+            array('var1_attr_value1' => $attrData['option_1']['admin_option_name'],
                   'general_attribute_1' => $attrData['admin_title']));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $associated['general_sku']));
         //Steps
@@ -227,7 +227,7 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
             $this->searchAndChoose(${'searchData' . $i}, 'product_grid');
         }
         $this->addParameter('qtyDeletedProducts', $productQty);
-        $this->fillDropdown('product_massaction', 'Delete');
+        $this->fillDropdown('mass_action_select_action', 'Delete');
         $this->clickButtonAndConfirm('submit', 'confirmation_for_delete');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_products_massaction');

@@ -122,13 +122,36 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     /**
      * Class constructor
      *
-     * @param array $arguments
-     * @throws InvalidArgumentException
+     * @param Mage_Core_Model_Resource $resource
      */
     public function __construct(Mage_Core_Model_Resource $resource)
     {
         $this->_resources = $resource;
         parent::__construct();
+    }
+
+    /**
+     * Provide variables to serialize
+     *
+     * @return array
+     */
+    public function __sleep()
+    {
+        $properties = array_keys(get_object_vars($this));
+        if (Mage::getIsSerializable()) {
+            $properties = array_diff($properties, array('_resources', '_connections'));
+        }
+        return $properties;
+    }
+
+    /**
+     * Restore global dependencies
+     */
+    public function __wakeup()
+    {
+        if (Mage::getIsSerializable()) {
+            $this->_resources = Mage::getSingleton('Mage_Core_Model_Resource');
+        }
     }
 
     /**
@@ -155,8 +178,8 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     protected function _setResource($connections, $tables = null)
     {
         if (is_array($connections)) {
-            foreach ($connections as $k=>$v) {
-                $this->_connections[$k] = $this->_resources->getConnection($v);
+            foreach ($connections as $key => $value) {
+                $this->_connections[$key] = $this->_resources->getConnection($value);
             }
         } else if (is_string($connections)) {
             $this->_resourcePrefix = $connections;
@@ -165,8 +188,8 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
         if (is_null($tables) && is_string($connections)) {
             $this->_resourceModel = $this->_resourcePrefix;
         } else if (is_array($tables)) {
-            foreach ($tables as $k => $v) {
-                $this->_tables[$k] = $this->_resources->getTableName($v);
+            foreach ($tables as $key => $value) {
+                $this->_tables[$key] = $this->_resources->getTableName($value);
             }
         } else if (is_string($tables)) {
             $this->_resourceModel = $tables;
@@ -176,7 +199,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
 
     /**
      * Set main entity table name and primary key field name
-     * If field name is ommited {table_name}_id will be used
+     * If field name is omitted {table_name}_id will be used
      *
      * @param string $mainTable
      * @param string|null $idFieldName
@@ -185,7 +208,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     protected function _setMainTable($mainTable, $idFieldName = null)
     {
         $this->_mainTable = $mainTable;
-        if (is_null($idFieldName)) {
+        if (null === $idFieldName) {
             $idFieldName = $mainTable . '_id';
         }
 

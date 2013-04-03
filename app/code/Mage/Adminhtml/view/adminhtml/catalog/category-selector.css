@@ -13,13 +13,23 @@
     width: 67.999999997%;
 }
 
+.mage-new-category-dialog .category-select {
+    width: 100%;
+    padding: 0;
+}
+
+.field-category_ids .mage-suggest-inner {
+    padding-right: 27px;
+}
+
 .field-category_ids .addon > button {
     float: right;
     margin-left: 2.127659574%;
     width: 28.4%;
 }
 
-.field-category_ids .category-select:after {
+.field-category_ids .category-select:after,
+.mage-new-category-dialog .category-select:after {
     position: absolute;
     top: 0;
     right: 5px;
@@ -33,26 +43,59 @@
     color: #b2b2b2;
 }
 
-.category-selector-choices {
+/* Category Selector in "Create New Category" popup */
+.mage-new-category-dialog .mage-suggest {
+    border: none;
+    box-shadow: none;
+}
+.mage-new-category-dialog .mage-suggest .mage-suggest-inner {
+    padding: 0;
+}
+
+.mage-new-category-dialog .mage-suggest-search-field > input.mage-suggest-state-loading {
+    padding-right: 15px;
+}
+
+.mage-new-category-dialog .mage-suggest-choices {
+    position: relative;
+    padding: 2px 22px 2px 2px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.mage-new-category-dialog .ui-dialog-content {
+    overflow: visible;
+}
+
+.mage-new-category-dialog .mage-suggest-inner {
+    padding: 2px 22px 2px 2px;
+}
+
+.mage-suggest-choices {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.category-selector-choices > li {
+.mage-suggest-choices > li {
     display: inline-block;
 }
 
-.category-selector-search-field {
-    width: 50%;
+.mage-suggest-search-field {
+    width: 100%;
     white-space: nowrap;
     margin: 0;
     padding: 0;
 }
 
-.category-selector-search-field > input,
-.category-selector-search-field > input:focus,
-.category-selector-search-field > input:active {
+.mage-suggest-search-field > input,
+.mage-suggest-search-field > input:focus,
+.mage-suggest-search-field > input:active {
+    width: 100%;
     height: 22px;
     line-height: 22px;
     outline: 0 none;
@@ -61,11 +104,14 @@
     padding: 0 3px;
 }
 
-.category-selector-search-field > input.ui-autocomplete-loading {
+.mage-suggest-search-field > input.mage-suggest-state-loading {
     background: #fff url('images/spinner.gif') no-repeat 100%;
+    padding-right: 19px;
+    position: relative;
+    z-index: 1;
 }
 
-.category-selector-search-choice {
+.mage-suggest-choice {
     position: relative;
     background: #cdecf6;
     border: 1px solid #a7cedb;
@@ -79,17 +125,11 @@
     transition: background .3s;
 }
 
-.category-selector-search-choice:hover {
+.mage-suggest-choice:hover {
     background: #aae3f5;
 }
 
-.category-selector-search-choice > input {
-}
-
-.category-selector-search-choice > div {
-}
-
-.category-selector-search-choice-close {
+.mage-suggest-choice-close {
     position: absolute;
     top: 0;
     right: 0;
@@ -101,11 +141,11 @@
     cursor: pointer;
 }
 
-.category-selector-search-choice-close:hover {
+.mage-suggest-choice-close:hover {
     color: #000;
 }
 
-.category-selector-search-choice-close:before {
+.mage-suggest-choice-close:before {
     font-family: 'MUI-Icons';
     font-style: normal;
     speak: none;
@@ -115,7 +155,9 @@
     font-size: 6px;
 }
 
-.category-selector-input {
+.mage-suggest-no-records {
+    display: inline-block;
+    padding: 10px;
 }
 
 .ui-helper-hidden-accessible {

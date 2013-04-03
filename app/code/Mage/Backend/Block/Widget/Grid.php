@@ -119,6 +119,10 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
             $this->setSaveParametersInSession($this->getData('save_parameters_in_session'));
         }
 
+        if ($this->hasData('grid_css_class')) {
+            $this->setGridCssClass($this->getData('grid_css_class'));
+        }
+
         $this->setPagerVisibility($this->hasData('pager_visibility')? (bool) $this->getData('pager_visibility') : true);
 
         $this->setData(

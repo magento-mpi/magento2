@@ -19,6 +19,36 @@
 class Mage_Core_Model_Observer
 {
     /**
+     * @var Mage_Core_Model_Cache_Frontend_Pool
+     */
+    private $_cacheFrontendPool;
+
+    /**
+     * @var Mage_Core_Model_Theme
+     */
+    private $_currentTheme;
+
+    /**
+     * @var Mage_Core_Model_Page_Asset_Collection
+     */
+    private $_pageAssets;
+
+    /**
+     * @param Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
+     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Page $page
+     */
+    public function __construct(
+        Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,
+        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Page $page
+    ) {
+        $this->_cacheFrontendPool = $cacheFrontendPool;
+        $this->_currentTheme = $designPackage->getDesignTheme();
+        $this->_pageAssets = $page->getAssets();
+    }
+
+    /**
      * Check if synchronize process is finished and generate notification message
      *
      * @param  Varien_Event_Observer $observer
@@ -86,8 +116,11 @@ class Mage_Core_Model_Observer
      */
     public function cleanCache(Mage_Cron_Model_Schedule $schedule)
     {
-        Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_OLD);
-        Mage::dispatchEvent('core_clean_cache');
+        /** @var $cacheFrontend Magento_Cache_FrontendInterface */
+        foreach ($this->_cacheFrontendPool as $cacheFrontend) {
+            // Magento cache frontend does not support the 'old' cleaning mode, that's why backend is used directly
+            $cacheFrontend->getBackend()->clean(Zend_Cache::CLEANING_MODE_OLD);
+        }
     }
 
     /**
@@ -106,5 +139,20 @@ class Mage_Core_Model_Observer
             Mage::logException($e);
         }
         return $this;
+    }
+
+    /**
+     * @param Varien_Event_Observer $observer
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function applyThemeCustomization(Varien_Event_Observer $observer)
+    {
+        /** @var $themeFile Mage_Core_Model_Theme_File */
+        foreach ($this->_currentTheme->getFiles() as $themeFile) {
+            $asset = $themeFile->getAsset();
+            if ($asset) {
+                $this->_pageAssets->add($themeFile->getFilePath(), $asset);
+            }
+        }
     }
 }

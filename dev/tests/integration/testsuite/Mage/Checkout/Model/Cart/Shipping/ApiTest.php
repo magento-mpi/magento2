@@ -20,6 +20,7 @@ class Mage_Checkout_Model_Cart_Shipping_ApiTest extends PHPUnit_Framework_TestCa
     /**
      * Test retrieving of shipping methods applicable to the shopping cart.
      *
+     * @magentoConfigFixture current_store carriers/flatrate/active 1
      */
     public function testGetShippingMethodsList()
     {
@@ -49,6 +50,7 @@ class Mage_Checkout_Model_Cart_Shipping_ApiTest extends PHPUnit_Framework_TestCa
     /**
      * Test assigning shipping method to quote.
      *
+     * @magentoConfigFixture current_store carriers/flatrate/active 1
      * @magentoDbIsolation enabled
      */
     public function testSetShippingMethod()

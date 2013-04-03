@@ -10,68 +10,129 @@
 
 /** @var $this Mage_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer */
 ?>
-<form action="" id="drawer-form" method="post">
-<div class="themes-list-wrapper">
-<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('First choose a store theme, then customize it for your business') ?>
-
-<ul class="themes-list">
-    <?php foreach ($this->getThemesBlocks() as $theme):?>
-        <?php echo $theme->toHtml() ?>
-    <?php endforeach; ?>
-</ul>
-
-</div>
-
-<div class="theme-page hidden">
-    <input type="hidden" name="groups[design][theme][fields][theme_id][value]" id="theme-id" value="<?php echo $this->getCurrentThemeId(); ?>">
-    <h2><?php echo $this->__('You\'ve created your store theme, name, and logo'); ?></h2>
-    <dl class="theme-selected-thumbnail">
-        <dt>
-            <?php echo $this->__('Your Theme'); ?> <a href="#" class="button btn-edit edit-theme" id="edit-theme"><?php echo $this->__('Edit'); ?></a>
-        </dt>
-        <dd>
-            <img src="<?php echo $this->getCurrentTheme()->getThemeImage()->getPreviewImageUrl() ?>" id="theme-image">
-        </dd>
-    </dl>
-    <dl class="theme-selected-info">
-        <dt><?php echo $this->__('Store Name'); ?></dt>
-        <dd class="theme-selected-name">
-            <div id="field-store-name-1" >
-                <input type="text" id="store-name-1" name="store_information" value="<?php echo $this->getConfigValue('general/store_information/name'); ?>" class="input-text">
-            </div>
-            <div class="logo-uploaded-preview">
-                <div class="current-logo current-logo-bg-1">
-                    <div class="current-logo-inner">
-                        <img alt="<?php echo $this->__('My Store Name'); ?>" src="<?php echo $this->getLogoUrl(); ?>"/>
+<form action="" id="drawer-form" class="design-config-form" method="post">
+    <div class="themes-list">
+        <h2 class="title">
+            <?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('First choose a store theme, then customize it for your business') ?>
+        </h2>
+        <ul class="themes">
+            <?php foreach ($this->getThemesBlocks() as $theme):?>
+                <?php echo $theme->toHtml() ?>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <div class="theme-config hidden">
+        <input type="hidden" name="groups[design][theme][fields][theme_id][value]" id="theme-id" value="<?php echo $this->getCurrentThemeId(); ?>">
+        <div class="store-logo">
+            <div class="store-logo-config <?php if ($this->getLogoUrl()): ?> hidden <?php endif; ?>">
+                <h3 class="title"><?php echo $this->__('Upload your store logo or enter your store name'); ?></h3>
+                <button type="button"
+                        class="action-use-existing-logo"
+                        id="action-use-existing-logo">
+                    <span><?php echo $this->__('Use Existing Logo'); ?></span>
+                </button>
+                <div class="store-logo-config-data">
+                    <div class="store-logo-upload">
+                        <div class="store-logo-upload-drop-zone" id="store-logo-upload-drop-zone">
+                            <p class="image-placeholder-text">
+                                <?php echo $this->__('click or drag and drop to upload logo'); ?>
+                            </p>
+                        </div>
+                        <input type="file"
+                               id="design_header_logo_upload"
+                               name="logo_upload"
+                               class="input-file-upload"
+                               data-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/uploadLogo'); ?>"/>
                     </div>
-                    <input type="hidden" id="design_header_logo_src" name="logo_src"/>
-                </div>
-                <div class="logo-background-switcher">
-                    <span><?php echo $this->__('Logo Preview Options'); ?></span>
-                    <ul>
-                        <li class="logo-bg-1 active"></li>
-                        <li class="logo-bg-2"></li>
-                        <li class="logo-bg-3"></li>
-                        <li class="logo-bg-4"></li>
-                    </ul>
+                    <span class="alternative-label">or</span>
+                    <div id="field-store-name" class="field field-store-name with-addon no-label">
+                        <div class="control">
+                            <div class="addon">
+                                <input type="text"
+                                       id="store-name"
+                                       name="store_information"
+                                       value="<?php echo $this->getConfigValue('general/store_information/name'); ?>"
+                                       placeholder="My Store Name"
+                                       class="input-text" />
+                                <div class="addafter">
+                                    <button type="button"
+                                            class="action-generate-logo"
+                                            id="action-generate-logo">
+                                        <span><?php echo $this->__('Generate Logo'); ?></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="file-upload">
-                <div class="file-upload-drop-zone" style="border:1px solid black;"><?php echo $this->__('click or drag and drop to upload logo'); ?></div>
-                <input type="file" id="design_header_logo_upload" name="logo_upload" class="input-file-upload" data-url="<?php echo $this->getUrl('*/storelauncher_design_drawer/uploadLogo'); ?>"/>
+            <div class="store-logo-preview <?php if (!$this->getLogoUrl()): ?> hidden <?php endif; ?>" id="store-logo-preview">
+                <h3 class="title">
+                    <?php echo $this->__('Logo Preview'); ?>
+                </h3>
+                <button type="button"
+                        class="action-new-logo"
+                        id="action-new-logo">
+                    <span><?php echo $this->__('Change Logo'); ?></span>
+                </button>
+                <div class="store-logo-preview-data">
+                    <div class="current-logo current-logo-bg-1">
+                        <div class="current-logo-inner">
+                            <img alt="<?php echo $this->__('My Store Name'); ?>" src="<?php echo $this->getLogoUrl(); ?>"/>
+                        </div>
+                        <input type="hidden" id="design_header_logo_src" name="logo_src"/>
+                    </div>
+                    <div class="store-logo-bg-switcher">
+                        <span><?php echo $this->__('Logo Preview Options'); ?></span>
+                        <ul>
+                            <li class="logo-bg-1 active"></li>
+                            <li class="logo-bg-2"></li>
+                            <li class="logo-bg-3"></li>
+                            <li class="logo-bg-4"></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-        </dd>
-    </dl>
-</div>
+        </div>
+        <div class="theme-assigned">
+            <h3 class="title">
+                <?php echo $this->__('Your Theme'); ?>
+            </h3>
+            <button type="button"
+                    class="action-another-theme"
+                    id="action-another-theme">
+                <span><?php echo $this->__('Back to Theme Gallery'); ?></span>
+            </button>
+            <div class="theme-assigned-thumbnail">
+                <img src="<?php echo $this->getCurrentTheme()->getThemeImage()->getPreviewImageUrl() ?>" id="theme-image">
+            </div>
+        </div>
+    </div>
 </form>
 
 <?php echo $this->getChildHtml('store_design.widget'); ?>
 <script type="text/javascript">
     (function($) {
-        var dropPlaceholder = $('.file-upload-drop-zone');
-        dropPlaceholder.on('click.uploadFile',function(e) {
-            $(this).next().trigger(e);
-        });
+        var logoUploadDropZone = $('#store-logo-upload-drop-zone'),
+            messagePlaceholder = $('.store-logo-config-data'),
+            showUploadedImage = function(url) {
+                $('#store-logo-preview').removeClass('hidden');
+                $('.store-logo-config').addClass('hidden');
+                $('.current-logo-inner').find('img').attr('src', url);
+            },
+            insertValidationMessage = function(messageText, messageType) {
+                $('<div class="message-validation ' + messageType + '">' + messageText + '</div>')
+                    .insertAfter(messagePlaceholder);
+                delay && clearTimeout(delay);
+                var delay = setTimeout(function() {
+                    $('.message-validation').slideUp(400);
+                }, 3000);
+            };
+
+        logoUploadDropZone
+            .on('click.uploadFile', function(e) {
+                $(this).next().trigger(e);
+            });
         $('#design_header_logo_upload').fileupload({
             dataType: 'json',
             formData: {
@@ -79,45 +140,25 @@
                 form_key: FORM_KEY
             },
             sequentialUploads: false,
-            dropZone: dropPlaceholder,
+            dropZone: logoUploadDropZone,
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
             done: function(e, data) {
                 if (data.result.success == true) {
-                    showLogoUploadMessage();
                     showUploadedImage(data.result.url);
                     $('#design_header_logo_src').val(data.result.file)
                 } else {
-                    showLogoUploadMessage(data.result.error);
+                    insertValidationMessage(data.result.error, 'error')
                 }
             },
             fail: function(e, data) {
-                showLogoUploadMessage('<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('There was an error processing your request.'); ?>');
+                insertValidationMessage('<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('There was an error processing your request.'); ?>', 'error')
             },
             add: function(e, data) {
-                $('#load-logo-errors').addClass('hidden');
                 $(this).fileupload('process', data).done(function () {
                     data.submit();
                 });
             }
         });
-        $('logo-uploaded-preview').addClass('hidden');
-
-        var showLogoUploadMessage = function(message) {
-            var messageContainer = $('#logo-upload-errors');
-            if (message) {
-                alert(message);
-                messageContainer
-                    .text(message)
-                    .removeClass('hidden');
-            } else {
-                messageContainer
-                    .addClass('hidden');
-            }
-        },
-        showUploadedImage = function(url) {
-            $('.logo-uploaded-preview').removeClass('hidden');
-            $('.current-logo-inner').find('img').attr('src', url);
-        };
 
         $(document).ready(function() {
             'use strict';
@@ -129,7 +170,7 @@
                     id: 'button_skip',
                     title: '<?php echo Mage::helper('Mage_Launcher_Helper_Data')->__('Skip This for Now'); ?>',
                     click: function() {
-                        $('#drawer').drawerPages('drawerPageSwitch', 'theme-page');
+                        $('#drawer').drawerPages('drawerPageSwitch', 'theme-config');
                     },
                     afterShow: function() {
                         if (!currentThemeId) {
@@ -138,29 +179,63 @@
                     }
                 })
                 .drawerPages('drawerPageAdd', {
-                    name: 'themes-list',
-                    page: '.themes-list-wrapper',
+                    name: 'themes',
+                    page: '.themes-list',
                     buttons: ['skip', 'close']
                 })
                 .drawerPages('drawerPageAdd', {
-                    name: 'theme-page',
-                    page: '.theme-page',
+                    name: 'theme-config',
+                    page: '.theme-config',
                     buttons: ['save', 'close']
                 })
-                .drawerPages('drawerPageSwitch', currentThemeId ? 'theme-page' : 'themes-list')
-            ;
-            $('.edit-theme')
-                .on('click', function() {
-                    $('#drawer').drawerPages('drawerPageSwitch', 'themes-list');
-                    return false;
+                .drawerPages('drawerPageSwitch', currentThemeId ? 'theme-config' : 'themes');
+
+            $('#action-new-logo')
+                .on('click.newLogo', function() {
+                    $('#store-logo-preview').addClass('hidden');
+                    $('.store-logo-config').removeClass('hidden');
                 });
-            $('.btn-theme-choose')
-                .on('click', function(event) {
+
+            $('#action-use-existing-logo')
+                .on('click.newLogo', function() {
+                    $('#store-logo-preview').removeClass('hidden');
+                    $('.store-logo-config').addClass('hidden');
+                });
+
+            $('#action-another-theme')
+                .on('click.anotherTheme', function() {
+                    $('#drawer').drawerPages('drawerPageSwitch', 'themes');
+                });
+
+            $('.action-theme-assign')
+                .on('click.themeAssign', function(event) {
                     event.preventDefault();
-                    $('#drawer').drawerPages('drawerPageSwitch', 'theme-page');
-                    $('#theme-image').attr('src' , $(this).attr('data-theme-img-src'));
+                    $('#drawer').drawerPages('drawerPageSwitch', 'theme-config');
+                    $('#theme-image').attr('src', $(this).attr('data-theme-img-src'));
                     $('#theme-id').val($(this).attr('data-theme-id'));
-                    return false;
+                });
+
+            $('.store-logo-bg-switcher li')
+                .on('click.switchLogoBg',function() {
+                    var elem = $(this),
+                        bgClass = elem
+                            .attr('class')
+                            .replace('active', '')
+                            .replace(' ', ''),
+                        logo = $('.current-logo'),
+                        bgClassOld = logo
+                            .attr('class')
+                            .replace('current-logo', '')
+                            .replace(' ', '');
+
+                    logo
+                        .addClass('current-' + bgClass)
+                        .removeClass(bgClassOld);
+
+                    elem
+                        .addClass('active')
+                        .siblings()
+                        .removeClass('active');
                 });
         });
     })(jQuery);

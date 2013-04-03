@@ -13,8 +13,10 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Cms::cms">
-                    <resource id="Mage_Widget::widget_instance" module="Mage_Widget" title="Widgets" sortOrder="15" />
+                <resource id="Mage_Adminhtml::content">
+                    <resource id="Mage_Adminhtml::content_elements">
+                        <resource id="Mage_Widget::widget_instance" module="Mage_Widget" title="Frontend Apps" sortOrder="50" />
+                    </resource>
                 </resource>
             </resource>
         </resources>

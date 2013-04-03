@@ -98,7 +98,7 @@
                 type: 'POST',
                 dataType: 'json',
                 data: this.element.serialize(),
-                context: $(document),
+                context: $('body'),
                 success: $.proxy(this._onSuccess, this),
                 error: $.proxy(this._onError, this),
                 showLoader: true
@@ -117,7 +117,6 @@
             if (response.attribute) {
                 attributes[response.attribute] = response.message;
             }
-
             for (var attributeCode in attributes) {
                 if (attributes.hasOwnProperty(attributeCode)) {
                     $('#' + attributeCode)
@@ -128,6 +127,8 @@
             }
             if (!response.error) {
                 this.element[0].submit();
+            } else {
+                $('.messages').html(response.message);
             }
         },
 

@@ -30,6 +30,5 @@ class Mage_Backend_Model_Config_Source_Admin_PageTest extends Mage_Backend_Utili
 
         $this->assertEquals('Mage_Adminhtml::dashboard', $options->item(0)->getAttribute('value'),
             'First element is not Dashboard');
-        $this->assertContains('Configuration', $options->item($optionsCount - 1)->nodeValue);
     }
 }

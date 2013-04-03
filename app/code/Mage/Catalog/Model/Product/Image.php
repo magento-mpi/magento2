@@ -295,7 +295,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
             // check if placeholder defined in config
             $isConfigPlaceholder = Mage::getStoreConfig("catalog/placeholder/{$this->getDestinationSubdir()}_placeholder");
             $configPlaceholder   = '/placeholder/' . $isConfigPlaceholder;
-            if ($isConfigPlaceholder && $this->_fileExists($baseDir . $configPlaceholder)) {
+            if (!empty($isConfigPlaceholder) && $this->_fileExists($baseDir . $configPlaceholder)) {
                 $file = $configPlaceholder;
             } else {
                 $this->_newFile = true;
@@ -482,7 +482,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
      */
     public function saveFile()
     {
-        if ($this->_isBaseFilePlaceholder) {
+        if ($this->_isBaseFilePlaceholder && $this->_newFile === true) {
             return $this;
         }
         $filename = $this->getNewFile();

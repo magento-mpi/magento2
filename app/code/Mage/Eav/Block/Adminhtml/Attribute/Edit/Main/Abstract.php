@@ -26,6 +26,9 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
         return $this;
     }
 
+    /**
+     * @return Mage_Catalog_Model_Resource_Eav_Attribute
+     */
     public function getAttributeObject()
     {
         if (null === $this->_attribute) {
@@ -68,7 +71,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
             'name'  => 'attribute_code',
             'label' => Mage::helper('Mage_Eav_Helper_Data')->__('Attribute Code'),
             'title' => Mage::helper('Mage_Eav_Helper_Data')->__('Attribute Code'),
-            'note'  => Mage::helper('Mage_Eav_Helper_Data')->__('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less then %s symbols', Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH),
+            'note'  => Mage::helper('Mage_Eav_Helper_Data')->__('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %s symbols', Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH),
             'class' => $validateClass,
             'required' => true,
         ));

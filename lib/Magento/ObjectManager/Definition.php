@@ -23,7 +23,7 @@ interface Magento_ObjectManager_Definition
      * );
      *
      * @param string $className
-     * @return array
+     * @return array|null
      */
     public function getParameters($className);
 }

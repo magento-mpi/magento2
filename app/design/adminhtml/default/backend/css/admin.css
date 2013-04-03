@@ -11,40 +11,40 @@
 
 @font-face {
     font-family: 'CallunaSans';
-    src: url('Mage_Backend::fonts/calluna/CallunaSansLight-webfont.woff');
-    src: url('Mage_Backend::fonts/calluna/CallunaSansLight-webfont.eot?#iefix') format('embedded-opentype'), url('Mage_Backend::fonts/calluna/CallunaSansLight-webfont.svg#webfont85gDAx2H') format('svg'), url('Mage_Backend::fonts/calluna/CallunaSansLight-webfont.woff') format('woff'), url('Mage_Backend::fonts/calluna/CallunaSansLight-webfont.ttf') format('truetype');
+    src: url('../fonts/calluna/CallunaSansLight-webfont.woff');
+    src: url('../fonts/calluna/CallunaSansLight-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/calluna/CallunaSansLight-webfont.svg#webfont85gDAx2H') format('svg'), url('../fonts/calluna/CallunaSansLight-webfont.woff') format('woff'), url('../fonts/calluna/CallunaSansLight-webfont.ttf') format('truetype');
     font-style: normal;
     font-weight: 200;
 }
 
 @font-face {
     font-family: 'CallunaSans';
-    src: url('Mage_Backend::fonts/calluna/CallunaSansRegular-webfont.woff');
-    src: url('Mage_Backend::fonts/calluna/CallunaSansRegular-webfont.eot?#iefix') format('embedded-opentype'), url('Mage_Backend::fonts/calluna/CallunaSansRegular-webfont.svg#webfont85gDAx2D') format('svg'), url('Mage_Backend::fonts/calluna/CallunaSansRegular-webfont.woff') format('woff'), url('Mage_Backend::fonts/calluna/CallunaSansRegular-webfont.ttf') format('truetype');
+    src: url('../fonts/calluna/CallunaSansRegular-webfont.woff');
+    src: url('../fonts/calluna/CallunaSansRegular-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/calluna/CallunaSansRegular-webfont.svg#webfont85gDAx2D') format('svg'), url('../fonts/calluna/CallunaSansRegular-webfont.woff') format('woff'), url('../fonts/calluna/CallunaSansRegular-webfont.ttf') format('truetype');
     font-style: normal;
     font-weight: 400;
 }
 
 @font-face {
     font-family: 'CallunaSans';
-    src: url('Mage_Backend::fonts/calluna/CallunaSansSemiBold-webfont.woff');
-    src: url('Mage_Backend::fonts/calluna/CallunaSansSemiBold-webfont.eot?#iefix') format('embedded-opentype'), url('Mage_Backend::fonts/calluna/CallunaSansSemiBold-webfont.svg#webfont85gDAx2A') format('svg'), url('Mage_Backend::fonts/calluna/CallunaSansSemiBold-webfont.woff') format('woff'), url('Mage_Backend::fonts/calluna/CallunaSansSemiBold-webfont.ttf') format('truetype');
+    src: url('../fonts/calluna/CallunaSansSemiBold-webfont.woff');
+    src: url('../fonts/calluna/CallunaSansSemiBold-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/calluna/CallunaSansSemiBold-webfont.svg#webfont85gDAx2A') format('svg'), url('../fonts/calluna/CallunaSansSemiBold-webfont.woff') format('woff'), url('../fonts/calluna/CallunaSansSemiBold-webfont.ttf') format('truetype');
     font-style: normal;
     font-weight: 500;
 }
 
 @font-face {
     font-family: 'CallunaSans';
-    src: url('Mage_Backend::fonts/calluna/CallunaSansBold-webfont.woff');
-    src: url('Mage_Backend::fonts/calluna/CallunaSansBold-webfont.eot?#iefix') format('embedded-opentype'), url('Mage_Backend::fonts/calluna/CallunaSansBold-webfont.svg#webfont85gDAx2C') format('svg'), url('Mage_Backend::fonts/calluna/CallunaSansBold-webfont.woff') format('woff'), url('Mage_Backend::fonts/calluna/CallunaSansBold-webfont.ttf') format('truetype');
+    src: url('../fonts/calluna/CallunaSansBold-webfont.woff');
+    src: url('../fonts/calluna/CallunaSansBold-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/calluna/CallunaSansBold-webfont.svg#webfont85gDAx2C') format('svg'), url('../fonts/calluna/CallunaSansBold-webfont.woff') format('woff'), url('../fonts/calluna/CallunaSansBold-webfont.ttf') format('truetype');
     font-style: normal;
     font-weight: 600;
 }
 
 @font-face {
     font-family: 'admin-icons';
-    src: url('Mage_Backend::fonts/icons/admin-icons.eot');
-    src: url('Mage_Backend::fonts/icons/admin-icons.eot?#iefix') format('embedded-opentype'), url('Mage_Backend::fonts/icons/admin-icons.svg#admin-icons') format('svg'), url('Mage_Backend::fonts/icons/admin-icons.woff') format('woff'), url('Mage_Backend::fonts/icons/admin-icons.ttf') format('truetype');
+    src: url('../fonts/icons/admin-icons.eot');
+    src: url('../fonts/icons/admin-icons.eot?#iefix') format('embedded-opentype'), url('../fonts/icons/admin-icons.svg#admin-icons') format('svg'), url('../fonts/icons/admin-icons.woff') format('woff'), url('../fonts/icons/admin-icons.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -64,7 +64,7 @@ body, html {
 
 body {
     position: relative;
-    background: url(Mage_Backend::images/body-bg.jpg);
+    background: url(../images/body-bg.jpg);
     height: auto;
 }
 
@@ -185,80 +185,85 @@ button.primary.disabled,
 /*
     Reset 'button view' for actions
 -------------------------------------- */
+.customer-current-activity .action-refresh,
+.customer-current-activity .action-refresh,
 .pager .action-next,
 .pager .action-previous,
 .pager .action-next:hover,
 .pager .action-previous:hover,
-.action-.delete,
-.action-.delete:hover,
-.action-.delete:active,
-.action-.delete.active,
-.action-.delete:disabled,
+.data-table .action-.delete,
+.data-table .action-.delete:hover,
+.data-table .action-.delete:active,
+.data-table .action-.delete.active,
+.data-table .action-delete,
+.data-table .action-delete:hover,
+.data-table .action-delete:active,
+.data-table .action-delete.active,
 #product-variations-matrix .action-choose,
 #product-variations-matrix .action-choose:hover,
 #product-variations-matrix .action-choose:active,
 #product-variations-matrix .action-choose.active,
-#product-variations-matrix .action-choose:disabled,
+#product-variations-matrix .action-choose[disabled],
+.action-manage-images,
+.action-manage-images:hover,
+.action-manage-images:active,
+.action-manage-images.active,
+.action-manage-images[disabled],
+.mage-new-category-dialog .action-cancel,
+.mage-new-category-dialog .action-cancel:hover,
+.mage-new-category-dialog .action-cancel:active,
+.mage-new-category-dialog .action-cancel.active,
+.mage-new-category-dialog .action-cancel[disabled],
 .image-panel .action-close,
 .image-panel .action-close:hover,
 .image-panel .action-close:active,
 .image-panel .action-close.active,
-.image-panel .action-close:disabled,
+.image-panel .action-close[disabled],
 .image-panel-controls .action-remove,
 .image-panel-controls .action-remove:hover,
 .image-panel-controls .action-remove:active,
 .image-panel-controls .action-remove.active,
-.image-panel-controls .action-remove:disabled,
+.image-panel-controls .action-remove[disabled],
+.vde-image-sizing .action-connect,
+.vde-image-sizing .action-connect:hover,
+.vde-image-sizing .action-connect:active,
+.vde-image-sizing .action-connect.active,
+.vde-image-sizing .action-connect:disabled,
 .suggest-expandable .action-show-all,
 .suggest-expandable .action-show-all:hover,
 .suggest-expandable .action-show-all:active,
 .suggest-expandable .action-show-all.active,
-.suggest-expandable .action-show-all:disabled,
+.suggest-expandable .action-show-all[disabled],
 .fieldset-wrapper-title .action-add,
 .fieldset-wrapper-title .action-add:hover,
 .fieldset-wrapper-title .action-add:active,
 .fieldset-wrapper-title .action-add.active,
-.fieldset-wrapper-title .action-add:disabled,
-#store-view-window [class^='action-close'],
-#store-view-window [class^='action-close']:hover,
-#store-view-window [class^='action-close']:active,
-#store-view-window [class^='action-close'].active,
-#store-view-window [class^='action-close']:disabled,
+.fieldset-wrapper-title .action-add[disabled],
 .custom-file > .action-add,
 .custom-file > .action-add:hover,
 .custom-file > .action-add:active,
 .custom-file > .action-add.active,
-.custom-file > .action-add:disabled,
+.custom-file > .action-add[disabled],
 .vde-tools-header .action-close,
 .vde-tools-header .action-close:hover,
 .vde-tools-header .action-close:active,
 .vde-tools-header .action-close.active,
-.vde-tools-header .action-close:disabled,
-.action-delete,
-.action-delete:hover,
-.action-delete:active,
-.action-delete.active,
-.action-delete:disabled,
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back,
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back.active,
-[class^=" adminhtml-catalog-product-"] .page-actions .action-back:disabled,
-[class^=" adminhtml-newsletter-"] .page-actions .action-back,
-[class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
-[class^=" adminhtml-newsletter-"] .page-actions .action-back:active,
-[class^=" adminhtml-newsletter-"] .page-actions .action-back.active,
-[class^=" adminhtml-newsletter-"] .page-actions .action-back:disabled,
-.notifications [class^="action-"],
-.notifications [class^="action-"]:hover,
-.notifications [class^="action-"]:active,
-.notifications [class^="action-"].active,
-.notifications [class^="action-"]:disabled,
+.image .action-delete,
+.image .action-delete:hover,
+.image .action-delete:active,
+.image .action-delete.active,
+.fieldset-wrapper-title .actions .action-delete,
+.fieldset-wrapper-title .actions .action-delete:hover,
+.fieldset-wrapper-title .actions .action-delete:active,
+.fieldset-wrapper-title .actions .action-delete.active,
+.address-list-item-actions .action-delete,
+.address-list-item-actions .action-delete:hover,
+.address-list-item-actions .action-delete:active,
+.address-list-item-actions .action-delete.active,
 .notification .action-close,
 .notification .action-close:hover,
 .notification .action-close:active,
-.notification .action-close.active,
-.notification .action-close:disabled {
+.notification .action-close.active {
     border: none;
     border-radius: 0;
     background: none;
@@ -266,6 +271,127 @@ button.primary.disabled,
     padding: 0;
     box-shadow: none;
     text-shadow: none;
+}
+
+.data-table .action-.delete:disabled,
+.data-table .action-delete:disabled,
+#product-variations-matrix .action-choose:disabled,
+.image-panel .action-close:disabled,
+.image-panel-controls .action-remove:disabled,
+.suggest-expandable .action-show-all:disabled,
+.fieldset-wrapper-title .action-add:disabled,
+#store-view-window [class^='action-close'],
+#store-view-window [class^='action-close']:hover,
+#store-view-window [class^='action-close']:active,
+#store-view-window [class^='action-close'].active,
+#store-view-window [class^='action-close']:disabled,
+.custom-file > .action-add:disabled,
+.image .action-delete,
+.image .action-delete:hover,
+.image .action-delete:active,
+.image .action-delete.active,
+.fieldset-wrapper-title .actions .action-delete,
+.fieldset-wrapper-title .actions .action-delete:hover,
+.fieldset-wrapper-title .actions .action-delete:active,
+.fieldset-wrapper-title .actions .action-delete.active,
+.address-list-item-actions .action-delete,
+.address-list-item-actions .action-delete:hover,
+.address-list-item-actions .action-delete:active,
+.address-list-item-actions .action-delete.active,
+.notification .action-close,
+.notification .action-close:hover,
+.notification .action-close:active,
+.notification .action-close.active {
+    border: none;
+    border-radius: 0;
+    background: none;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+.data-table .action-.delete:disabled,
+.data-table .action-delete:disabled,
+#product-variations-matrix .action-choose:disabled,
+.image-panel .action-close:disabled,
+.image-panel-controls .action-remove:disabled,
+.suggest-expandable .action-show-all:disabled,
+.fieldset-wrapper-title .action-add:disabled,
+#store-view-window [class^='action-close'],
+#store-view-window [class^='action-close']:hover,
+#store-view-window [class^='action-close']:active,
+#store-view-window [class^='action-close'].active,
+#store-view-window [class^='action-close']:disabled,
+.custom-file > .action-add:disabled,
+.vde-tools-header .action-close:disabled,
+.vde-image-sizing .action-reset,
+.vde-image-sizing .action-reset:hover,
+.vde-image-sizing .action-reset:active,
+.vde-image-sizing .action-reset.active,
+.vde-image-sizing .action-reset[disabled],
+.image .action-delete:disabled,
+.fieldset-wrapper-title .actions .action-delete:disabled,
+.address-list-item-actions .action-delete:disabled,
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back,
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back.active,
+[class^=" adminhtml-catalog-product-"] .page-actions .action-back[disabled],
+[class^=" adminhtml-newsletter-"] .page-actions .action-back,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back:active,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back.active,
+[class^=" adminhtml-newsletter-"] .page-actions .action-back[disabled],
+.notifications [class^="action-"],
+.notifications [class^="action-"]:hover,
+.notifications [class^="action-"]:active,
+.notifications [class^="action-"].active,
+.notifications [class^="action-"][disabled],
+.notification .action-close,
+.notification .action-close:hover,
+.notification .action-close:active,
+.notification .action-close.active,
+.notification .action-close[disabled] {
+    border: none;
+    border-radius: 0;
+    background: none;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+.vde-image-sizing .action-connect,
+.vde-image-sizing .action-connect:hover,
+.vde-image-sizing .action-connect:active,
+.vde-image-sizing .action-connect.active,
+.vde-image-sizing .action-connect:disabled {
+    border: none;
+    border-radius: 0;
+    background: none;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+/*
+    Actions as links
+-------------------------------------- */
+.mage-new-category-dialog .action-cancel {
+    background: none;
+    border: none;
+    color: #6d665e;
+    font-weight: normal;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.mage-new-category-dialog .action-cancel:hover {
+    color: #000;
+    border-bottom-color: #000;
 }
 
 /*
@@ -285,6 +411,7 @@ button.primary.disabled,
     right: 0;
     bottom: 0;
     opacity: 0;
+    font-size: 10em;
 }
 
 /*
@@ -424,11 +551,29 @@ button.primary.disabled,
     padding: 0;
 }
 
+.field-category_ids .mage-suggest-dropdown,
+.field-new_category_parent .mage-suggest-dropdown {
+    max-height: 200px;
+    overflow: auto;
+}
+
 .mage-suggest-dropdown li a {
     display: block;
+}
+
+.mage-suggest-dropdown li a,
+.mage-suggest-dropdown .jstree li a:hover,
+.mage-suggest-dropdown .jstree .jstree-hovered,
+.mage-suggest-dropdown .jstree .jstree-clicked {
     padding: 6px 10px 5px;
     text-decoration: none;
     color: #333;
+}
+
+.mage-suggest-dropdown .jstree li a:hover,
+.mage-suggest-dropdown .jstree .jstree-hovered,
+.mage-suggest-dropdown .jstree .jstree-clicked {
+    border: none;
 }
 
 .mage-suggest-dropdown li a.ui-state-focus {
@@ -443,8 +588,32 @@ button.primary.disabled,
     display: inline-block;
 }
 
+.mage-suggest-dropdown .jstree .mage-suggest-selected > a {
+    color: #000000;
+    background: #F1FFEB;
+}
+
+.mage-suggest-dropdown .jstree .mage-suggest-selected > a:hover,
+.mage-suggest-dropdown .jstree .mage-suggest-selected > .jstree-hovered,
+.mage-suggest-dropdown .jstree .mage-suggest-selected > .jstree-clicked,
+.mage-suggest-dropdown .jstree .mage-suggest-selected.mage-suggest-not-active > .jstree-hovered,
+.mage-suggest-dropdown .jstree .mage-suggest-selected.mage-suggest-not-active > .jstree-clicked {
+    background: #E5FFD9;
+}
+
+.mage-suggest-dropdown .jstree .mage-suggest-not-active > a {
+    color: #D4D4D4;
+}
+
+.mage-suggest-dropdown .jstree .mage-suggest-not-active > a:hover,
+.mage-suggest-dropdown .jstree .mage-suggest-not-active > .jstree-hovered,
+.mage-suggest-dropdown .jstree .mage-suggest-not-active > .jstree-clicked {
+    background: #F5F5F5;
+}
+
 .mage-suggest-dropdown .category-path {
     font-size: 11px;
+    margin-left: 10px;
     color: #9ba8b5;
 }
 
@@ -507,7 +676,8 @@ button.primary.disabled,
     z-index: 1;
 }
 
-.suggest-expandable .mage-suggest-inner > input[type="search"].ui-autocomplete-loading {
+.suggest-expandable .mage-suggest-inner > input.ui-autocomplete-loading,
+.suggest-expandable .mage-suggest-inner > input.mage-suggest-state-loading {
     background: #fff url(../mui/images/ajax-loader-small.gif) no-repeat 190px 50%;
 }
 
@@ -530,7 +700,7 @@ button.primary.disabled,
 .suggest-expandable .action-show-all:hover,
 .suggest-expandable .action-show-all:active,
 .suggest-expandable .action-show-all:focus,
-.suggest-expandable .action-show-all:disabled {
+.suggest-expandable .action-show-all[disabled] {
     border-top: 1px solid #e5e5e5;
     display: block;
     width: 100%;
@@ -614,13 +784,19 @@ button.primary.disabled,
     Action delete icon
 -------------------------------------- */
 /* TODO: replase ".action-.delete" to ".action-delete" after buttons refactoring */
-.action-.delete span,
-.action-delete span {
+.data-table .action-.delete span,
+.data-table .action-delete span,
+.image .action-delete span,
+.fieldset-wrapper-title .actions .action-delete span,
+.address-list-item-actions .action-delete span {
     display: none;
 }
 
-.action-.delete:before,
-.action-delete:before {
+.data-table .action-.delete:before,
+.data-table .action-delete:before,
+.image .action-delete:before,
+.fieldset-wrapper-title .actions .action-delete:before,
+.address-list-item-actions .action-delete:before {
     font-family: 'MUI-Icons';
     font-style: normal;
     speak: none;
@@ -631,39 +807,42 @@ button.primary.disabled,
     color: #b7b3ad;
 }
 
-.action-.delete:hover:before,
-.action-delete:hover:before {
+.data-table .action-.delete:hover:before,
+.data-table .action-delete:hover:before,
+.image .action-delete:hover:before,
+.fieldset-wrapper-title .actions .action-delete:hover:before,
+.address-list-item-actions .action-delete:hover:before {
     color: #7e7e7e;
 }
 
-input.action-.delete[type="button"],
-input.action-.delete[type="submit"],
-input.action-.delete[type="reset"],
-button.action-.delete,
-input.action-.delete[type="button"]:visited,
-input.action-.delete[type="submit"]:visited,
-input.action-.delete[type="reset"]:visited,
-button.action-.delete:visited,
-input.action-.delete[type="button"]:hover,
-input.action-.delete[type="submit"]:hover,
-input.action-.delete[type="reset"]:hover,
-button.action-.delete:hover,
-input.action-.delete[type="button"]:active,
-input.action-.delete[type="submit"]:active,
-input.action-.delete[type="reset"]:active,
-button.action-.delete:active {
+.data-table input.action-.delete[type="button"],
+.data-table input.action-.delete[type="submit"],
+.data-table input.action-.delete[type="reset"],
+.data-table button.action-.delete,
+.data-table input.action-.delete[type="button"]:visited,
+.data-table input.action-.delete[type="submit"]:visited,
+.data-table input.action-.delete[type="reset"]:visited,
+.data-table button.action-.delete:visited,
+.data-table input.action-.delete[type="button"]:hover,
+.data-table input.action-.delete[type="submit"]:hover,
+.data-table input.action-.delete[type="reset"]:hover,
+.data-table button.action-.delete:hover,
+.data-table input.action-.delete[type="button"]:active,
+.data-table input.action-.delete[type="submit"]:active,
+.data-table input.action-.delete[type="reset"]:active,
+.data-table button.action-.delete:active {
     background: transparent;
     padding: 3px 7px 0;
 }
 
-input.action-.delete[type=button]:hover:before,
-input.action-.delete[type=submit]:hover:before,
-input.action-.delete[type=reset]:hover:before,
-button.action-.delete:hover:before,
-input.action-.delete[type=button]:focus:before,
-input.action-.delete[type=submit]:focus:before,
-input.action-.delete[type=reset]:focus:before,
-button.action-.delete:focus:before {
+.data-table input.action-.delete[type=button]:hover:before,
+.data-table input.action-.delete[type=submit]:hover:before,
+.data-table input.action-.delete[type=reset]:hover:before,
+.data-table button.action-.delete:hover:before,
+.data-table input.action-.delete[type=button]:focus:before,
+.data-table input.action-.delete[type=submit]:focus:before,
+.data-table input.action-.delete[type=reset]:focus:before,
+.data-table button.action-.delete:focus:before {
     background: transparent;
     color: #a5a29d;
 }
@@ -724,7 +903,7 @@ textarea,
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     border-radius: 4px;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 textarea,
@@ -779,8 +958,15 @@ input[readonly],
 select[readonly],
 textarea[readonly] {
     cursor: not-allowed;
-    background-color: #eee;
-    border-color: #ddd;
+    background-color: #fff;
+    border-color: #eee;
+    box-shadow: none;
+    color: #999;
+}
+
+select[disabled].multiselect > option[selected] {
+    color: #fff;
+    background: #6d6d6d;
 }
 
 textarea:-moz-placeholder,
@@ -816,13 +1002,18 @@ option.placeholder {
     padding-top: 6px;
 }
 
-.form-inline .label + .control {
+.form-inline .label ~ .control {
     width: 60%;
 }
 
 .form-inline .no-label .control {
     margin-left: 20%;
     width: 60%;
+}
+
+fieldset.field [class^='fields-group-'] .field .control {
+    width: auto;
+    margin: 0 0 0 20px;
 }
 
 .form-inline .field-service {
@@ -853,12 +1044,17 @@ option.placeholder {
     width: 100%;
 }
 
+.control > input[type="button"] {
+    width: auto;
+}
+
 .control > input.hasDatepicker {
     width: 130px;
 }
 
 .control > input[type="radio"],
-.control > input[type="checkbox"] {
+.control > input[type="checkbox"],
+.control > input[type="file"] {
     width: auto;
 }
 
@@ -875,9 +1071,45 @@ option.placeholder {
 }
 
 /* TODO: remove styles for images when images will be replaced by font icons */
-.control > .hasDatepicker + img {
+.control .hasDatepicker + img {
     margin: -3px 0 0 5px;
     vertical-align: middle;
+}
+
+.nobr {
+    white-space: nowrap;
+}
+
+/*
+    Form Validation
+-------------------------------------- */
+label.mage-error {
+    color: red;
+    text-align: left;
+}
+
+textarea.mage-error,
+select.mage-error,
+input.mage-error {
+    border-color: #fa7973 !important;
+    box-shadow: 0 0 8px rgba(250, 121, 115, 0.6) !important;
+}
+
+input.mage-error ~ .addafter {
+    border-color: #fa7973 !important;
+    box-shadow: 0 0 8px rgba(250, 121, 115, 0.6) !important;
+}
+
+/*
+    Forms for Store Scope
+-------------------------------------- */
+.form-inline .field-store_id .label + .control,
+.form-inline .field-store_ids .label + .control,
+.form-inline .field-website_ids .label + .control,
+.form-inline .field-website_id .label + .control,
+.form-inline .field-select_stores .label + .control,
+.form-inline .field-stores .label + .control {
+    width: auto;
 }
 
 /*
@@ -921,13 +1153,14 @@ option.placeholder {
 .fieldset-wrapper > .fieldset-wrapper-title {
     float: none;
 }
+
 .fieldset-wrapper > .fieldset-wrapper-title .title,
 .fieldset > .legend span {
     font-family: 'CallunaSans', Arial, sans-serif;
     font-size: 18px;
     color: #666;
     font-weight: normal;
-    padding: 7px 0 10px 10px;
+    padding: 7px 0 10px;
     display: inline-block;
 }
 
@@ -954,6 +1187,7 @@ option.placeholder {
     position: relative;
     padding-left: 22px;
     cursor: pointer;
+    float: left;
 }
 
 .collapsable-wrapper .fieldset-wrapper-title > .title:before {
@@ -1012,6 +1246,7 @@ option.placeholder {
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    min-height: 39px;
 }
 
 .fieldset .fieldset-wrapper .fieldset-wrapper-title .actions,
@@ -1037,30 +1272,20 @@ option.placeholder {
     padding-left: 22px;
 }
 
+.fieldset-wrapper .draggable-handle,
 .fieldset .draggable-handle {
-    position: absolute;
-    left: 10px;
-    top: 12px;
     width: 8px;
     height: 14px;
     line-height: 14px;
-    background: none;
+    background: url(Mage_Backend::images/dragable-handler-vertical.gif) no-repeat 0 0;
     cursor: pointer;
     color: #b2b0ad;
 }
 
-.fieldset .draggable-handle:hover {
-    color: #7e7e7e;
-}
-
-.fieldset .draggable-handle:before {
-    font-family: 'MUI-Icons';
-    font-style: normal;
-    speak: none;
-    font-weight: normal;
-    -webkit-font-smoothing: antialiased;
-    content: '\e022';
-    font-size: 16px;
+.fieldset-wrapper-title > .draggable-handle {
+    position: absolute;
+    left: 10px;
+    top: 12px;
 }
 
 .fieldset .fieldset-wrapper .fieldset-wrapper-content,
@@ -1069,16 +1294,18 @@ option.placeholder {
 }
 
 /* Sortable fieldsets */
-.ui-sortable .entry-edit .fieldset-wrapper-title {
+.ui-sortable .entry-edit .fieldset-wrapper-title,
+#product_options_container_top .fieldset-wrapper-title {
     padding-left: 30px;
 }
 
 .ui-sortable .entry-edit .fieldset-wrapper-title > .title {
 }
 
-.fieldset-wrapper-title > .actions {
+.fieldset-wrapper-title > .actions,
+.fieldset .legend > .actions {
     float: right;
-    padding-top: 6px;
+    padding-top: 8px;
 }
 
 .fieldset > .legend + br {
@@ -1097,11 +1324,33 @@ option.placeholder {
     margin: 0 0 29px;
 }
 
-.fieldset .legend > span {
+.eq-ie8 .fieldset-alt,
+.eq-ie8 .fieldset-alt > .fieldset {
+    display: block;
+    width: 100%;
+}
+
+.eq-ie8 .fieldset-alt > .field {
+    display: inline-block;
+}
+
+.fieldset .comment {
+    margin: 0 0 29px 10px;
 }
 
 .fieldset .field {
     margin: 0 0 29px;
+}
+
+.fieldset .field .options-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.fieldset .field .options-list input[type="checkbox"],
+.fieldset .field .options-list input[type="radio"] {
+    margin-right: 5px;
 }
 
 [class^="fields-group-"] .field {
@@ -1134,9 +1383,22 @@ option.placeholder {
 }
 
 .fieldset-alt {
+    position: relative;
+    display: table-row;
+    border: 0;
+    padding: 0;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
-.fieldset-alt .field {
+.fieldset-alt > .field {
+    display: table-cell;
+    vertical-align: top;
+    padding-right: 4%;
+}
+
+.fieldset-alt > .field.no-display {
+    display: none;
 }
 
 .fieldset-alt .field > .label {
@@ -1147,8 +1409,39 @@ option.placeholder {
     margin: 0 0 10px;
 }
 
-.fieldset-alt .field > .control {
+.fieldset-alt .label + .control {
+    width: 100%;
+}
 
+.fieldset-alt .field-option-title {
+    width: 50%;
+}
+
+.fieldset-alt .field-option-store-view {
+    width: 20%;
+}
+
+.fieldset-alt .field-option-input-type {
+    width: 20%;
+}
+
+.fieldset-alt .field-option-input-type select {
+    width: 100%;
+}
+
+.fieldset-alt .field-option-req {
+    width: 105px;
+    white-space: nowrap;
+}
+
+.fieldset-alt .field-option-req .control {
+    position: relative;
+    top: 32px;
+}
+
+.fieldset-alt .field-option-position,
+.fieldset-alt .field-option-position .control {
+    width: 60px;
 }
 
 /* "Use default" checkbox */
@@ -1185,13 +1478,12 @@ option.placeholder {
 
 .multiselect-alt .item {
     position: relative;
-    padding: 6px 25px 5px;
-    border-bottom: 1px solid #fff;
+    border-top: 1px solid #fff;
     cursor: pointer;
 }
 
-.multiselect-alt .item:last-child {
-    border-bottom: 0;
+.multiselect-alt .item:first-child {
+    border-top: 0;
 }
 
 .multiselect-alt .item.selected {
@@ -1202,7 +1494,13 @@ option.placeholder {
     background: #afdef2;
 }
 
-.multiselect-alt .item.selected:before {
+.multiselect-alt label {
+    display: block;
+    cursor: pointer;
+    padding: 6px 25px 5px;
+}
+
+.multiselect-alt .item.selected label:before {
     position: absolute;
     left: 8px;
     top: 1px;
@@ -1221,13 +1519,12 @@ option.placeholder {
     text-shadow: 0 -1px 1px #60727b;
 }
 
-.multiselect-alt label {
-    display: block;
-    cursor: pointer;
-}
-
 .multiselect-alt input[type="checkbox"] {
-    display: none;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
 }
 
 /*
@@ -1254,12 +1551,12 @@ option.placeholder {
     border-width: 1px 0 1px 1px;
 }
 
-.addon input:focus + label {
+.addon input:focus ~ .addafter {
     border-color: #75b9f0;
     box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
 }
 
-.addon input + label strong {
+.addon input ~ .addafter strong {
     background: #fff;
     display: block;
     line-height: 24px;
@@ -1267,10 +1564,11 @@ option.placeholder {
     padding-left: 4px;
     padding-right: 4px;
     position: relative;
-    top: 1px;
+    font-size: 12px;
+    top: 0;
 }
 
-.addon input:focus + label strong {
+.addon input:focus ~ .addafter strong {
     margin-top: 0;
 }
 
@@ -1283,13 +1581,19 @@ option.placeholder {
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.075) inset;
 }
 
-.field .control input[type='text']:disabled + .addafter {
-    background: #eee;
-    border-color: #ddd;
+.field .control input[type='text'][disabled],
+.field .control input[type='text'][disabled] ~ .addafter,
+.field .control select[disabled],
+.field .control select[disabled] ~ .addafter {
+    background-color: #fff;
+    border-color: #eee;
+    box-shadow: none;
+    color: #999;
 }
 
-.field .control input[type='text']:disabled + .addafter strong {
-    background: #eee;
+.field .control input[type='text'][disabled] ~ .addafter strong,
+.field .control select[disabled] ~ .addafter strong {
+    background-color: #fff;
 }
 
 .field-price .addon,
@@ -1336,16 +1640,16 @@ option.placeholder {
     box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
 }
 
-.field-price input:focus + label,
-.field-special_price input:focus + label,
-.field-msrp input:focus + label {
+.field-price input:focus ~ label.addafter,
+.field-special_price input:focus ~ label.addafter,
+.field-msrp input:focus ~ label.addafter {
     box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
 }
 
-.field-price input + label strong,
-.field-special_price input + label strong,
-.field-msrp input + label strong {
-    margin-left: 3px;
+.field-price input ~ label.addafter strong,
+.field-special_price input ~ label.addafter strong,
+.field-msrp input ~ label.addafter strong {
+    margin-left: 2px;
     margin-right: -2px;
 }
 
@@ -1495,6 +1799,21 @@ table tbody tr:hover th,
 table tbody tr:nth-child(odd):hover td,
 table tbody tr:nth-child(odd):hover th {
     background-color: #fff;
+}
+
+/*
+    X-tree styles
+-------------------------------------- */
+.x-tree-node .leaf .x-tree-node-icon {
+    background-image: url(../images/fam_leaf.png);
+}
+
+.x-tree-node .system-leaf .x-tree-node-icon {
+    background-image: url(../images/fam_application_form_delete.png);
+}
+
+.x-tree-node-ct {
+    overflow: hidden;
 }
 
 /*
@@ -1740,48 +2059,54 @@ table tbody tr:nth-child(odd):hover th {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
 }
 
-/* Old loading popup */
-/* TODO: remove this popup after refactoring of "varienLoader.js" file */
+/* Loading mask */
 .loading-old,
 .loading-mask {
-    border: 1px solid #d85909;
-    position: fixed;
-    z-index: 1015;
-    width: 200px !important;
-    height: auto !important;
-    background: rgba(255, 255, 255, .8);
-    left: 50% !important;
-    top: 40% !important;
-    margin-left: -100px;
-    color: #d85909;
-    font-size: 14px;
-    font-weight: bold;
-    text-align: center;
-    padding: 100px 0 10px;
+    background: rgba(255, 255, 255, .4);
+    z-index: 999;
 }
 
-.loading-old:after,
-.loading-mask:after {
-    position: absolute;
-    left: 50%;
-    top: 40%;
-    background-image: url(../mui/images/ajax-loader-big.gif);
-    width: 64px;
-    height: 64px;
-    margin: -32px 0 0 -32px;
-    content: '';
-    z-index: 2;
+.loading-old {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .loading-old .loader,
 .loading-mask .loader {
-    position: relative !important;
-    left: auto !important;
-    top: auto !important;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 160px;
+    height: 160px;
+    color: #5e5b56;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    background: #e5e2dd url(../mui/images/ajax-loader-big.gif) no-repeat 50% 30%;
+    border-radius: 5px;
+    opacity: .95;
+}
+
+.eq-ie8 .loading-old .loader {
+    bottom: auto;
+    right: auto;
+    margin: auto;
+    left: auto;
 }
 
 .loading-mask img {
     display: none;
+}
+
+.loading-old p,
+.loading-mask p {
+    margin-top: 118px;
 }
 
 .eq-ie8 .loading-old,
@@ -2274,9 +2599,7 @@ table tbody tr:nth-child(odd):hover th {
     z-index: 2;
 }
 
-/*.navigation .level-0.item-stores > a span:before, */
-/* TODO: place the gear icon to the "Stores" nav item when it appears */
-.navigation .level-0.item-system > a span:before {
+.navigation .level-0.item-stores > a span:before {
     position: absolute;
     left: -22px;
     top: -1px;
@@ -2431,6 +2754,8 @@ table tbody tr:nth-child(odd):hover th {
     color: #676056;
     display: inline-block;
     margin: 0;
+    width: 100%;
+    word-wrap: break-word;
 }
 
 .page-title-inner .title > h3 {
@@ -2703,7 +3028,7 @@ table tbody tr:nth-child(odd):hover th {
 .col-1-layout {
     position: relative;
     background: #f5f2ed;
-    border: 1px solid #b7b2a6;
+    border: 1px solid #d5d0ca;
     border-radius: 5px;
     min-width: 960px;
     max-width: 1300px;
@@ -2722,9 +3047,15 @@ table tbody tr:nth-child(odd):hover th {
     left: 20%;
     top: 0;
     bottom: 0;
-    width: 1px;
+    width: 6px;
+    margin-left: -7px;
     content: '';
-    box-shadow: -2px 0 7px #777;
+    background: -moz-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.06) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(0, 0, 0, 0)), color-stop(100%, rgba(0, 0, 0, 0.06))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.06) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.06) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.06) 100%); /* IE10+ */
+    background: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.06) 100%); /* W3C */
     z-index: 2;
 }
 
@@ -2734,7 +3065,7 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .adminhtml-dashboard-index .main-col {
-    width: 58%;
+    width: 60%;
 }
 
 /* Sidebar and main column vertical separator */
@@ -2744,7 +3075,7 @@ table tbody tr:nth-child(odd):hover th {
     top: 0;
     bottom: 0;
     width: 1px;
-    background: #d2ccc2;
+    background: #ded9d3;
     content: '';
 }
 
@@ -2767,16 +3098,22 @@ table tbody tr:nth-child(odd):hover th {
 /* Sidebar title and store view switcher*/
 /* TODO: temporary styles */
 .side-col h3,
-.side-col > .switcher {
+.side-col > .store-switcher {
     padding: 0 17px;
     margin-top: 16px;
 }
 
-.side-col > .switcher {
+.side-col .ui-tabs h3 {
+    margin-bottom: 5px;
+    color: #524c44;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.side-col > .store-switcher {
     padding-top: 6px;
 }
 
-.side-col > .switcher > a {
+.side-col > .store-switcher > a {
     white-space: nowrap;
 }
 
@@ -2785,12 +3122,12 @@ table tbody tr:nth-child(odd):hover th {
 -------------------------------------- */
 /* TODO: for "Product" page only while refactoring */
 
-.side-col .ui-accordion-header {
+.side-col .ui-tabs .ui-accordion-header {
     position: relative;
-    margin: 10px 0 3px;
+    margin: 10px 0 0;
     padding: 5px 20px;
     cursor: pointer;
-    color: #575149;
+    color: #524c44;
     text-shadow: 0 1px 0 #fff;
 }
 
@@ -2810,12 +3147,6 @@ table tbody tr:nth-child(odd):hover th {
 
 .side-col .ui-accordion-header:hover:before {
     color: #777;
-}
-
-.side-col .ui-accordion-header.ui-state-focus {
-}
-
-.side-col .ui-accordion-header-active {
 }
 
 .side-col .ui-accordion-header-active:before {
@@ -2869,7 +3200,8 @@ table tbody tr:nth-child(odd):hover th {
     box-shadow: 0 1px 2px #ccc inset;
 }
 
-.side-col .tabs > .ui-state-active a:after {
+.side-col .tabs > .ui-state-active a:after,
+.side-col .tabs > .ui-state-active a:before {
     position: absolute;
     top: 50%;
     right: 0;
@@ -2882,25 +3214,35 @@ table tbody tr:nth-child(odd):hover th {
     -webkit-font-smoothing: antialiased;
     content: '\e02b'; /* left turned triangle icon */
     font-size: 22px;
-    text-shadow: -1px 1px 0 #bdbbb7;
     color: #f5f2ed;
     overflow: hidden;
+    z-index: 4;
+}
+
+.side-col .tabs > .ui-state-active a:before {
+    color: #bdbbb7;
+    margin-top: -13px;
     z-index: 3;
 }
 
-.side-col .tabs span.changed,
 .side-col .tabs span.error,
 .side-col .tabs span.loader {
+    display: none;
     position: absolute;
-    right: 15px;
-    top: 9px;
+    right: 12px;
+    top: 7px;
     width: 16px;
     height: 16px;
+    font-size: 16px;
 }
 
 .side-col .tab-item-link.changed {
     font-style: italic;
-    color: #19a3d1;
+}
+
+.side-col .tab-item-link.error span.error,
+.side-col .ui-tabs-loading span.loader {
+    display: block;
 }
 
 .side-col .tab-item-link.error span.error:after {
@@ -2913,8 +3255,12 @@ table tbody tr:nth-child(odd):hover th {
     color: #d87e34;
 }
 
-.side-col .tab-item-link.ui-tabs-loading span.loader:after {
+.side-col .ui-tabs-loading span.loader:after {
     background: url(../mui/images/ajax-loader-small.gif) no-repeat 50% 50%;
+    display: block;
+    content: '';
+    width: 16px;
+    height: 16px;
 }
 
 /* TODO: styles for navigation on System > Configuration page */
@@ -3096,7 +3442,7 @@ table tbody tr:nth-child(odd):hover th {
     vertical-align: bottom;
     width: 34px;
     height: 17px;
-    background: url(Mage_Backend::images/switcher.png) no-repeat;
+    background: url(../images/switcher.png) no-repeat;
     content: '';
 }
 
@@ -3112,8 +3458,16 @@ table tbody tr:nth-child(odd):hover th {
     content: attr(data-text-on);
 }
 
+.eq-ie8 .switcher-label:after {
+    content: 'off';
+    overflow: hidden;
+    white-space: nowrap;
+    text-indent: 100%;
+}
+
 .eq-ie8 .switcher.checked .switcher-label:after {
     background-position: -34px 0;
+    content: 'on';
 }
 
 .eq-ie8 .switcher.checked .switcher-label:before {
@@ -3139,6 +3493,14 @@ table tbody tr:nth-child(odd):hover th {
     margin: 6px 10px 0 0;
 }
 
+.page-actions .store-switcher {
+    float: left;
+}
+
+.adminhtml-catalog-product-index .page-actions {
+    padding-top: 0;
+}
+
 /* TODO: refactor trees */
 .x-tree ul {
     margin: 0;
@@ -3155,13 +3517,12 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .page-actions.fixed .page-actions-inner {
-    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIxJSIgc3RvcC1jb2xvcj0iI2Y3ZjJlYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjYwJSIgc3RvcC1jb2xvcj0iI2ZjZmFmNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-    background: -moz-linear-gradient(top, rgba(247, 242, 236, 1) 1%, rgba(252, 250, 247, 1) 70%, rgba(255, 255, 255, 0) 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, rgba(247, 242, 236, 1)), color-stop(70%, rgba(252, 250, 247, 1)), color-stop(100%, rgba(255, 255, 255, 0)));
-    background: -webkit-linear-gradient(top, rgba(247, 242, 236, 1) 1%, rgba(252, 250, 247, 1) 70%, rgba(255, 255, 255, 0) 100%);
-    background: -o-linear-gradient(top, rgba(247, 242, 236, 1) 1%, rgba(252, 250, 247, 1) 70%, rgba(255, 255, 255, 0) 100%);
-    background: -ms-linear-gradient(top, rgba(247, 242, 236, 1) 1%, rgba(252, 250, 247, 1) 70%, rgba(255, 255, 255, 0) 100%);
-    background: linear-gradient(to bottom, rgba(247, 242, 236, 1) 1%, rgba(252, 250, 247, 1) 70%, rgba(255, 255, 255, 0) 100%);
+    background: -moz-linear-gradient(top,  rgba(245,242,237,1) 0%, rgba(245,242,237,1) 56%, rgba(245,242,237,0) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(245,242,237,1)), color-stop(56%,rgba(245,242,237,1)), color-stop(100%,rgba(245,242,237,0))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(245,242,237,1) 0%,rgba(245,242,237,1) 56%,rgba(245,242,237,0) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(245,242,237,1) 0%,rgba(245,242,237,1) 56%,rgba(245,242,237,0) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(245,242,237,1) 0%,rgba(245,242,237,1) 56%,rgba(245,242,237,0) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(245,242,237,1) 0%,rgba(245,242,237,1) 56%,rgba(245,242,237,0) 100%); /* W3C */
     padding: 11px 20px 11px;
     min-height: 36px;
     margin: 0 auto;
@@ -3170,7 +3531,7 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .lt-ie9 .page-actions.fixed .page-actions-inner {
-    background: #f7f2ec;
+    background: #f5f2ed;
 }
 
 .page-actions.fixed .page-actions-inner:before {
@@ -3179,6 +3540,9 @@ table tbody tr:nth-child(odd):hover th {
     font-family: 'CallunaSans';
     font-size: 20px;
     max-width: 50%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /*
@@ -3186,6 +3550,10 @@ table tbody tr:nth-child(odd):hover th {
 -------------------------------------- */
 
 /* Grid - General */
+.grid-container {
+    margin-bottom: 10px;
+}
+
 .grid {
     border-bottom: 0;
     font-size: 13px;
@@ -3229,6 +3597,7 @@ table tbody tr:nth-child(odd):hover th {
 
 .grid th, .grid td {
     padding: 2px 4px 2px 4px;
+    vertical-align: top;
 }
 
 .grid th {
@@ -3250,13 +3619,8 @@ table tbody tr:nth-child(odd):hover th {
 
 .grid table td {
     border: solid #c0bbaf;
-    border-width: 0 1px 1px 0;
-    padding: 5px;
-}
-
-.grid table td:first-child,
-.grid table td:last-child {
     border-width: 0 1px 1px;
+    padding: 5px;
 }
 
 .grid table.border td {
@@ -3319,7 +3683,7 @@ table tbody tr:nth-child(odd):hover th {
     background: -o-linear-gradient(top, rgba(246, 243, 236, 1) 0%, rgba(237, 234, 225, 1) 100%);
     background: -ms-linear-gradient(top, rgba(246, 243, 236, 1) 0%, rgba(237, 234, 225, 1) 100%);
     background: linear-gradient(to bottom, rgba(246, 243, 236, 1) 0%, rgba(237, 234, 225, 1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f6f3ec', endColorstr = '#edeae1', GradientType = 0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f3ec', endColorstr='#edeae1', GradientType=0);
     padding: 7px 8px 8px;
     position: relative;
 }
@@ -3436,7 +3800,13 @@ table tbody tr:nth-child(odd):hover th {
     margin-left: -3px;
 }
 
-/* Grid - Headings */
+.grid-actions .link-feed {
+    white-space: nowrap;
+}
+
+/*
+    Grid - Headings
+-------------------------------------- */
 .grid tr.headings th {
     font-size: 13px;
     border-right: 1px solid #837f79;
@@ -3460,7 +3830,8 @@ table tbody tr:nth-child(odd):hover th {
     border-color: #504841;
 }
 
-.grid tr.headings th.no-link:hover > span {
+.grid tr.headings th.no-link:hover > span,
+.grid tr.headings th.col-select:hover > span {
     border-color: transparent;
 }
 
@@ -3574,6 +3945,12 @@ table tbody tr:nth-child(odd):hover th {
     text-align: left;
 }
 
+.grid .action-select {
+    background: #fff;
+    border: 1px solid #ccc;
+    margin: 0;
+}
+
 .grid .filter .range .range-line {
     margin-bottom: 3px;
 }
@@ -3583,13 +3960,16 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .grid .filter .range input {
-    width: 56px;
     margin-top: 0;
+    vertical-align: middle;
 }
 
 .grid .filter .range select {
-    width: 56px;
     margin: 0;
+}
+
+.grid .filter .date {
+    position: relative;
 }
 
 .grid .filter .date img {
@@ -3597,6 +3977,34 @@ table tbody tr:nth-child(odd):hover th {
     height: 15px;
     cursor: pointer;
     vertical-align: middle;
+    margin-left: 5px;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+}
+
+.eq-ie8 .grid .filter .date img {
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+}
+
+.grid .filter .date:before {
+    position: absolute;
+    left: 61px;
+    top: 2px;
+    margin-top: 0;
+    text-shadow: none;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+    content: '\e06a'; /* icon calendar  */
+    color: #cac3b4;
+    z-index: 1;
 }
 
 .grid .head-massaction select {
@@ -3605,11 +4013,15 @@ table tbody tr:nth-child(odd):hover th {
 
 /* Grid - Mass Action */
 .massaction {
-    color: #CAC3B4;
+    color: #cac3b4;
     padding: 7px 8px;
     background: #666158;
     box-shadow: 0 1px 2px 0 #504d46 inset, 0 -1px 2px 0 #504d46 inset;
     overflow: hidden;
+}
+
+.eq-ie8 .massaction {
+    border-bottom: 2px solid #504d46;
 }
 
 .massaction ul {
@@ -3622,14 +4034,14 @@ table tbody tr:nth-child(odd):hover th {
     display: inline-block;
 }
 
-.massaction li:after {
+.massaction li:before {
     color: #837F79;
     content: '|';
     display: inline-block;
     margin: 0 5px;
 }
 
-.massaction li:last-child:after {
+.massaction li:first-child:before {
     display: none;
 }
 
@@ -3657,10 +4069,17 @@ table tbody tr:nth-child(odd):hover th {
     background: #faebe7;
 }
 
-.massaction .entry-edit .field-row,
-.massaction .entry-edit .outer-span {
+.massaction .entry-edit .field-row {
     display: inline-block;
     vertical-align: middle;
+}
+
+.eq-ie8 .massaction .entry-edit .field-row:first-child {
+    margin-right: 1px;
+}
+
+.eq-ie8 .massaction .entry-edit .field-row {
+    display: inline;
 }
 
 .massaction .entry-edit .field-row button {
@@ -3675,7 +4094,10 @@ table tbody tr:nth-child(odd):hover th {
     color: #cac3b4;
     line-height: 26px;
     margin: 0 5px 0 20px;
+    padding: 0;
     vertical-align: middle;
+    width: auto;
+    float: none;
 }
 
 .massaction .entry-edit .validation-advice {
@@ -3756,6 +4178,69 @@ tr.dynamic-grid input.input-text {
 }
 
 /*
+    TODO: change ids to 'table.data' after refactoring of all templates for grids
+    Manage Products Grid
+-------------------------------------- */
+#cross_sell_product_grid table.data,
+#up_sell_product_grid table.data,
+#related_product_grid table.data,
+#productGrid_table,
+.ui-dialog .data {
+    word-wrap: break-word;
+    table-layout: fixed;
+}
+
+table .col-draggable {
+    width: 1%;
+}
+
+table .col-default,
+table .col-select,
+table .col-qty,
+table .col-actions,
+table .col-id {
+    width: 5%;
+}
+
+table .col-visibility,
+table .col-status,
+table .col-websites,
+table .col-position {
+    width: 7%;
+}
+
+table .col-type,
+table .col-price {
+    width: 8%;
+}
+
+table .col-name,
+table .col-sku {
+    width: 15%;
+}
+
+table .col-attr-name {
+    width: 120px;
+}
+
+table .col-draggable .draggable-handle {
+    position: relative;
+    top: 0;
+    float: left;
+}
+
+.grid table .col-id,
+.grid table thead th.col-price,
+.grid table thead th.col-qty,
+.grid table thead th.col-number {
+    text-align: left;
+}
+
+.ui-dialog .selection-search table .col-select {
+    width: 25px;
+}
+
+/*
     Data table
 -------------------------------------- */
 .data-table {
@@ -3777,7 +4262,6 @@ tr.dynamic-grid input.input-text {
 }
 
 .data-table td,
-.data-table tbody tr:not(:last-child) td,
 .data-table tbody tr td {
     background: #fff;
     padding: 5px 7px;
@@ -3787,12 +4271,15 @@ tr.dynamic-grid input.input-text {
     border-width: 0 0 1px;
 }
 
+.eq-ie8 .data-table td,
+.eq-ie8 .data-table tbody tr td {
+    border-width: 0 0 1px;
+}
+
 .data-table tbody tr.selected td,
 .data-table tbody tr.selected th,
 .data-table tbody tr:hover td,
-.data-table tbody tr:hover th,
-.data-table tbody tr:nth-child(odd) th,
-.data-table tbody tr:nth-child(odd):hover th {
+.data-table tbody tr:hover th {
     background: #fff;
 }
 
@@ -3801,8 +4288,16 @@ tr.dynamic-grid input.input-text {
     background: #fbfaf6;
 }
 
+.data-table tbody tr.odd td {
+    background: #fbfaf6;
+}
+
 .data-table tfoot tr:last-child td {
     border: 0;
+}
+
+.eq-ie8 .data-table tfoot tr td {
+    border: none;
 }
 
 .data-table input[type="text"] {
@@ -3878,15 +4373,25 @@ tr.dynamic-grid input.input-text {
     Data table - alternative view
 -------------------------------------- */
 .invitation_information .data-table,
-.invitee_information .data-table, 
+.invitee_information .data-table,
 .inviter_information .data-table,
-.customer-information .data-table {
-    width:100%;
+.customer-information .data-table,
+.order-information .data-table,
+.order-account-information .data-table,
+.adminhtml-rma-new .data-table {
+    width: 100%;
 }
+
 .invitation_information .data-table tbody tr th,
 .invitee_information .data-table tbody tr th,
 .inviter_information .data-table tbody tr th,
-.customer-information .data-table tbody tr th {
+.customer-information .data-table tbody tr th,
+.order-information .data-table tbody tr th,
+.order-account-information .data-table tbody tr th,
+.adminhtml-rma-new .data-table tbody tr th,
+[class^=" adminhtml-sales-transactions-"] .data-table tbody tr th,
+[class^=" adminhtml-sales-"] .order-payment-method .data-table tbody tr th,
+[class^=" adminhtml-sales-billing-agreement-"] .log-details .data-table tbody tr th {
     font-weight: bold;
 }
 
@@ -3897,7 +4402,19 @@ tr.dynamic-grid input.input-text {
 .inviter_information .data-table tbody tr td,
 .inviter_information .data-table tbody tr th,
 .customer-information .data-table tbody tr td,
-.customer-information .data-table tbody tr th {
+.customer-information .data-table tbody tr th,
+.order-information .data-table tbody tr td,
+.order-information .data-table tbody tr th,
+.order-account-information .data-table tbody tr td,
+.order-account-information .data-table tbody tr th,
+[class^=" adminhtml-rma-"] .data-table tbody tr td,
+[class^=" adminhtml-rma-"] .data-table tbody tr th,
+[class^=" adminhtml-sales-transactions-"] .data-table tbody tr th,
+[class^=" adminhtml-sales-transactions-"] .data-table tbody tr td,
+[class^=" adminhtml-sales-"] .order-payment-method .data-table tbody tr th,
+[class^=" adminhtml-sales-"] .order-payment-method .data-table tbody tr td,
+[class^=" adminhtml-sales-billing-agreement-"] .log-details .data-table tbody tr th,
+[class^=" adminhtml-sales-billing-agreement-"] .log-details .data-table tbody tr td {
     background-color: #fff;
     border: 0;
     padding: 9px 10px 10px;
@@ -3912,7 +4429,19 @@ tr.dynamic-grid input.input-text {
 .inviter_information .data-table tbody tr:nth-child(2n+1) td,
 .inviter_information .data-table tbody tr:nth-child(2n+1) th,
 .customer-information .data-table tbody tr:nth-child(2n+1) td,
-.customer-information .data-table tbody tr:nth-child(2n+1) th {
+.customer-information .data-table tbody tr:nth-child(2n+1) th,
+.order-information .data-table tbody tr:nth-child(2n+1) td,
+.order-information .data-table tbody tr:nth-child(2n+1) th,
+.order-account-information .data-table tbody tr:nth-child(2n+1) td,
+.order-account-information .data-table tbody tr:nth-child(2n+1) th,
+[class^=" adminhtml-rma-"] .data-table tbody tr:nth-child(2n+1) td,
+[class^=" adminhtml-rma-"] .data-table tbody tr:nth-child(2n+1) th,
+[class^=" adminhtml-sales-transactions-"] .data-table tbody tr:nth-child(2n+1) th,
+[class^=" adminhtml-sales-transactions-"] .data-table tbody tr:nth-child(2n+1) td,
+[class^=" adminhtml-sales-"] .order-payment-method .data-table tbody tr:nth-child(2n+1) th,
+[class^=" adminhtml-sales-"] .order-payment-method .data-table tbody tr:nth-child(2n+1) td,
+[class^=" adminhtml-sales-billing-agreement-"] .log-details .data-table tbody tr:nth-child(2n+1) th,
+[class^=" adminhtml-sales-billing-agreement-"] .log-details .data-table tbody tr:nth-child(2n+1) td {
     background-color: #fbfaf6;
 }
 
@@ -3951,6 +4480,7 @@ tr.dynamic-grid input.input-text {
 .col-weight,
 .col-actions,
 .col-price,
+.col-price > input,
 .col-id,
 .col-total,
 .col-average {
@@ -4063,6 +4593,134 @@ tr.dynamic-grid input.input-text {
 }
 
 /*
+    Tree Store Scope
+-------------------------------------- */
+.tree-store-scope .buttons-set {
+    margin-bottom: 9px;
+}
+
+.tree-store-scope .buttons-set button {
+    margin-right: 4px;
+}
+
+.tree-store-scope .field {
+    margin: 0 0 5px;
+}
+
+.tree-store-scope .field .label {
+    padding-top: 0;
+}
+
+.tree-store-scope .field input[type="checkbox"] {
+    margin-right: 3px;
+    position: relative;
+    top: 2px;
+}
+
+/*
+    Product Massaction page
+    TODO: css code below should be removed after element.html refactoring
+-------------------------------------- */
+.attributes-edit-form .attribute-change-checkbox {
+    white-space: nowrap;
+    display: block;
+}
+
+.attributes-edit-form .attribute-change-checkbox > label > input {
+    width: auto;
+}
+
+.attributes-edit-form .field:last-child,
+.attributes-edit-form .field-name,
+.attributes-edit-form .field-price,
+.attributes-edit-form .field-special_price,
+.attributes-edit-form .field-meta_title,
+.attributes-edit-form .field-visibility,
+.attributes-edit-form .field-custom_design,
+.attributes-edit-form .field-page_layout,
+.attributes-edit-form .field-options_container,
+.attributes-edit-form .field-country_of_manufacture,
+.attributes-edit-form .field-msrp_display_actual_price_type,
+.attributes-edit-form .field-tax_class_id,
+.attributes-edit-form .field-is_returnable,
+.attributes-edit-form .field-msrp,
+.attributes-edit-form .field-gift_wrapping_price {
+    margin-bottom: 50px;
+}
+
+.attributes-edit-form .field .control {
+    position: relative;
+}
+
+.attributes-edit-form .field-name .attribute-change-checkbox,
+.attributes-edit-form .field-meta_title .attribute-change-checkbox,
+.attributes-edit-form .field-gift_wrapping_price .attribute-change-checkbox,
+.attributes-edit-form .field .control select + .addafter {
+    position: absolute;
+    left: 0;
+    top: 35px;
+}
+
+.attributes-edit-form .field-price .attribute-change-checkbox,
+.attributes-edit-form .field-special_price .attribute-change-checkbox,
+.attributes-edit-form .field-msrp .attribute-change-checkbox {
+    position: absolute;
+    top: 35px;
+}
+
+.attributes-edit-form .field-special_from_date > .control .input-text,
+.attributes-edit-form .field-special_to_date > .control .input-text,
+.attributes-edit-form .field-news_from_date > .control .input-text,
+.attributes-edit-form .field-news_to_date > .control .input-text,
+.attributes-edit-form .field-custom_design_from > .control .input-text,
+.attributes-edit-form .field-custom_design_to > .control .input-text {
+    border-width: 1px;
+    border-radius: 4px;
+    width: 130px;
+}
+
+.attributes-edit-form .field-special_from_date .attribute-change-checkbox,
+.attributes-edit-form .field-special_to_date .attribute-change-checkbox,
+.attributes-edit-form .field-news_from_date .attribute-change-checkbox,
+.attributes-edit-form .field-news_to_date .attribute-change-checkbox,
+.attributes-edit-form .field-custom_design_from .attribute-change-checkbox,
+.attributes-edit-form .field-custom_design_to .attribute-change-checkbox {
+    margin-top: 5px;
+}
+
+.attributes-edit-form .field-weight .fields-group-2 .control {
+    width: 160px;
+}
+
+.attributes-edit-form .field-weight .fields-group-2 .control > input {
+    width: 130px;
+    float: left;
+}
+
+.attributes-edit-form .field-weight .fields-group-2 .control > input + .addafter {
+    position: absolute;
+    top: 35px;
+}
+
+.attributes-edit-form .field-weight .fields-group-2 .control .addafter strong {
+    line-height: 26px;
+}
+
+.attributes-edit-form .field .control select {
+    border-radius: 4px;
+}
+
+.attributes-edit-form .field-gift_message_available .addon > .select,
+.attributes-edit-form .field-gift_wrapping_available .addon > .select {
+    margin-bottom: 25px;
+}
+.attributes-edit-form .field-gift_message_available .addon > input[type="checkbox"],
+.attributes-edit-form .field-gift_wrapping_available .addon > input[type="checkbox"] {
+    width: auto;
+    margin-right: 5px;
+}
+
+/*
     Widgets
 -------------------------------------- */
 .widget-layout-updates .fieldset-wrapper,
@@ -4108,11 +4766,12 @@ tr.dynamic-grid input.input-text {
 }
 
 .widget-layout-updates .chooser_container {
-    padding: 0 10px 18px;
+    padding: 0 10px;
+    margin-bottom: 18px;
 }
 
 .widget-layout-updates .chooser_container p {
-    margin: 0;
+    margin: 0 0 18px;
 }
 
 .widget-layout-updates .chooser_container p img,
@@ -4151,6 +4810,13 @@ tr.dynamic-grid input.input-text {
     font-size: 12px;
     color: #666;
     margin-bottom: 13px;
+}
+
+/*
+    WYSIWYG
+-------------------------------------- */
+.action-wysiwyg {
+    margin: 10px 0;
 }
 
 /*

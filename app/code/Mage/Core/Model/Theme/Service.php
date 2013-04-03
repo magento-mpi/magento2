@@ -10,6 +10,8 @@
 
 /**
  * Theme Service model
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Theme_Service
 {
@@ -17,6 +19,11 @@ class Mage_Core_Model_Theme_Service
      * @var Mage_Core_Model_Theme_Factory
      */
     protected $_themeFactory;
+
+    /**
+     * @var Mage_Core_Model_Theme_CopyService
+     */
+    protected $_themeCopyService;
 
     /**
      * @var Mage_Core_Model_Design_Package
@@ -33,7 +40,7 @@ class Mage_Core_Model_Theme_Service
      *
      * @var bool
      */
-    protected $_isCustomizationsExist;
+    protected $_isCustomized;
 
     /**
      * Theme customizations which are assigned to store views or as default
@@ -41,7 +48,7 @@ class Mage_Core_Model_Theme_Service
      * @see self::_prepareThemeCustomizations()
      * @var array
      */
-    protected $_assignedThemeCustomizations;
+    protected $_assignedThemeC;
 
     /**
      * Theme customizations which are not assigned to store views or as default
@@ -49,7 +56,7 @@ class Mage_Core_Model_Theme_Service
      * @see self::_prepareThemeCustomizations()
      * @var array
      */
-    protected $_unassignedThemeCustomizations;
+    protected $_unassignedThemeC;
 
     /**
      * @var Mage_Core_Helper_Data
@@ -76,30 +83,41 @@ class Mage_Core_Model_Theme_Service
     protected $_configWriter;
 
     /**
+     * @var Mage_Core_Model_Cache_Type_Config
+     */
+    protected $_configCacheType;
+
+    /**
      * @param Mage_Core_Model_Theme_Factory $themeFactory
+     * @param Mage_Core_Model_Theme_CopyService $themeCopyService
      * @param Mage_Core_Model_Design_Package $design
      * @param Mage_Core_Model_App $app
      * @param Mage_Core_Helper_Data $helper
      * @param Mage_DesignEditor_Model_Resource_Layout_Update $layoutUpdate
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      */
     public function __construct(
         Mage_Core_Model_Theme_Factory $themeFactory,
+        Mage_Core_Model_Theme_CopyService $themeCopyService,
         Mage_Core_Model_Design_Package $design,
         Mage_Core_Model_App $app,
         Mage_Core_Helper_Data $helper,
         Mage_DesignEditor_Model_Resource_Layout_Update $layoutUpdate,
         Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Core_Model_Config_Storage_WriterInterface $configWriter
+        Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
+        Mage_Core_Model_Cache_Type_Config $configCacheType
     ) {
         $this->_themeFactory = $themeFactory;
+        $this->_themeCopyService = $themeCopyService;
         $this->_design       = $design;
         $this->_app          = $app;
         $this->_helper       = $helper;
         $this->_layoutUpdate = $layoutUpdate;
         $this->_eventManager = $eventManager;
         $this->_configWriter = $configWriter;
+        $this->_configCacheType = $configCacheType;
     }
 
     /**
@@ -122,25 +140,21 @@ class Mage_Core_Model_Theme_Service
             throw new UnexpectedValueException('Theme is not recognized. Requested id: ' . $themeId);
         }
 
+        $stagingVersion = $theme->getStagingVersion();
+        if ($stagingVersion) {
+            $this->_themeCopyService->copy($stagingVersion, $theme);
+        }
+
         $themeCustomization = $theme->isVirtual() ? $theme : $this->createThemeCustomization($theme);
 
-        $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
+        $isUnassigned = false;
+        $this->_unassignThemeFormStores($themeId, $stores, $scope, $isUnassigned);
+        $this->_assignThemeToStores($themeCustomization->getId(), $stores, $scope, $isUnassigned);
 
-        // Unassign given theme from stores that were unchecked
-        /** @var $config Mage_Core_Model_Config_Data */
-        foreach ($this->_getAssignedScopesCollection($scope, $configPath) as $config) {
-            if ($config->getValue() == $themeId && !in_array($config->getScopeId(), $stores)) {
-                $this->_configWriter->delete($configPath, $scope, $config->getScopeId());
-            }
+        if ($isUnassigned) {
+            $this->_configCacheType->clean();
         }
 
-        if (count($stores) > 0) {
-            foreach ($stores as $storeId) {
-                $this->_configWriter->save($configPath, $themeCustomization->getId(), $scope, $storeId);
-            }
-
-            $this->_app->cleanCache(Mage_Core_Model_Config::CACHE_TAG);
-        }
         $this->_makeTemporaryLayoutUpdatesPermanent($themeId, $stores);
         $this->_app->cleanCache(array('layout', Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG));
 
@@ -159,6 +173,49 @@ class Mage_Core_Model_Theme_Service
     }
 
     /**
+     * Unassign given theme from stores that were unchecked
+     *
+     * @param int $themeId
+     * @param array $stores
+     * @param string $scope
+     * @param bool $isUnassigned
+     * @return Mage_Core_Model_Theme_Service
+     */
+    protected function _unassignThemeFormStores($themeId, $stores, $scope, &$isUnassigned)
+    {
+        $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
+        /** @var $config Mage_Core_Model_Config_Data */
+        foreach ($this->_getAssignedScopesCollection($scope, $configPath) as $config) {
+            if ($config->getValue() == $themeId && !in_array($config->getScopeId(), $stores)) {
+                $this->_configWriter->delete($configPath, $scope, $config->getScopeId());
+                $isUnassigned = true;
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Assign given theme to stores
+     *
+     * @param int $themeId
+     * @param array $stores
+     * @param string $scope
+     * @param bool $isUnassigned
+     * @return Mage_Core_Model_Theme_Service
+     */
+    protected function _assignThemeToStores($themeId, $stores, $scope, &$isUnassigned)
+    {
+        $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
+        if (count($stores) > 0) {
+            foreach ($stores as $storeId) {
+                $this->_configWriter->save($configPath, $themeId, $scope, $storeId);
+                $isUnassigned = true;
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Create theme customization
      *
      * @param Mage_Core_Model_Theme $theme
@@ -174,11 +231,15 @@ class Mage_Core_Model_Theme_Service
         $themeData['theme_path'] = null;
         $themeData['theme_title'] = $theme->getThemeTitle() . ' - ' . $this->_helper->__('Copy') . ' #'
             . ($themeCopyCount + 1);
+        $themeData['type'] = Mage_Core_Model_Theme::TYPE_VIRTUAL;
 
         /** @var $themeCustomization Mage_Core_Model_Theme */
         $themeCustomization = $this->_themeFactory->create()->setData($themeData);
         $themeCustomization->getThemeImage()->createPreviewImageCopy();
         $themeCustomization->save();
+
+        $this->_themeCopyService->copy($theme, $themeCustomization);
+
         return $themeCustomization;
     }
 
@@ -217,34 +278,34 @@ class Mage_Core_Model_Theme_Service
      */
     public function isCustomizationsExist()
     {
-        if ($this->_isCustomizationsExist === null) {
-            $this->_isCustomizationsExist = false;
-            /** @var $theme Mage_Core_Model_Theme */
-            foreach ($this->_themeFactory->create()->getCollection() as $theme) {
-                if ($theme->isVirtual()) {
-                    $this->_isCustomizationsExist = true;
-                    break;
-                }
-            }
+        if ($this->_isCustomized === null) {
+            $this->_isCustomized = (bool)$this->_themeFactory->create()->getCollection()
+                ->addTypeFilter(Mage_Core_Model_Theme::TYPE_VIRTUAL)
+                ->getSize();
         }
-        return $this->_isCustomizationsExist;
+        return $this->_isCustomized;
     }
 
     /**
-     * Return frontend theme collection by page. Theme customizations are not included, only physical themes.
+     * Return frontend physical theme collection.
+     * All themes or per page if set page and page size (page size is optional)
      *
      * @param int $page
      * @param int $pageSize
      * @return Mage_Core_Model_Resource_Theme_Collection
      */
-    public function getThemes($page, $pageSize)
-    {
+    public function getPhysicalThemes(
+        $page = null,
+        $pageSize = Mage_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE
+    ) {
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
         $collection = $this->_themeFactory->create()->getCollection();
         $collection->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
-            ->addFilter('theme_path', 'theme_path IS NOT NULL', 'string')
-            ->setPageSize($pageSize);
-        return $collection->setCurPage($page);
+            ->addTypeFilter(Mage_Core_Model_Theme::TYPE_PHYSICAL);
+        if ($page) {
+            $collection->setPageSize($pageSize)->setCurPage($page);
+        }
+        return $collection;
     }
 
     /**
@@ -260,21 +321,6 @@ class Mage_Core_Model_Theme_Service
     }
 
     /**
-     * Return frontend theme collection by page. Theme customizations are not included, only phisical themes.
-     *
-     * @return Mage_Core_Model_Resource_Theme_Collection
-     */
-    public function getAllThemes()
-    {
-        /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-        $collection = $this->_themeFactory->create()->getCollection();
-        $collection->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
-            ->addFilter('theme_path', 'theme_path IS NOT NULL', 'string');
-        return $collection;
-    }
-
-
-    /**
      * Return theme customizations which are assigned to store views
      *
      * @see self::_prepareThemeCustomizations()
@@ -282,10 +328,10 @@ class Mage_Core_Model_Theme_Service
      */
     public function getAssignedThemeCustomizations()
     {
-        if (is_null($this->_assignedThemeCustomizations)) {
+        if (is_null($this->_assignedThemeC)) {
             $this->_prepareThemeCustomizations();
         }
-        return $this->_assignedThemeCustomizations;
+        return $this->_assignedThemeC;
     }
 
     /**
@@ -296,10 +342,10 @@ class Mage_Core_Model_Theme_Service
      */
     public function getUnassignedThemeCustomizations()
     {
-        if (is_null($this->_unassignedThemeCustomizations)) {
+        if (is_null($this->_unassignedThemeC)) {
             $this->_prepareThemeCustomizations();
         }
-        return $this->_unassignedThemeCustomizations;
+        return $this->_unassignedThemeC;
     }
 
     /**
@@ -328,15 +374,15 @@ class Mage_Core_Model_Theme_Service
         $themeCustomizations = $this->_getThemeCustomizations();
         $assignedThemes = $this->getStoresByThemes();
 
-        $this->_assignedThemeCustomizations = array();
-        $this->_unassignedThemeCustomizations = array();
+        $this->_assignedThemeC = array();
+        $this->_unassignedThemeC = array();
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($themeCustomizations as $theme) {
             if (isset($assignedThemes[$theme->getId()])) {
                 $theme->setAssignedStores($assignedThemes[$theme->getId()]);
-                $this->_assignedThemeCustomizations[$theme->getId()] = $theme;
+                $this->_assignedThemeC[$theme->getId()] = $theme;
             } else {
-                $this->_unassignedThemeCustomizations[$theme->getId()] = $theme;
+                $this->_unassignedThemeC[$theme->getId()] = $theme;
             }
         }
         return $this;
@@ -352,7 +398,7 @@ class Mage_Core_Model_Theme_Service
         /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
         $collection = $this->_themeFactory->create()->getCollection();
         $collection->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
-            ->addFilter('theme_path', 'theme_path IS NULL', 'string');
+            ->addTypeFilter(Mage_Core_Model_Theme::TYPE_VIRTUAL);
         return $collection;
     }
 
@@ -378,5 +424,22 @@ class Mage_Core_Model_Theme_Service
         }
 
         return $storesByThemes;
+    }
+
+    /**
+     * Is theme assigned to specific store
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @param Mage_Core_Model_Store $store
+     * @return bool
+     */
+    public function isThemeAssignedToSpecificStore($theme, $store)
+    {
+        $themeId = $this->_design->getConfigurationDesignTheme(
+            Mage_Core_Model_App_Area::AREA_FRONTEND,
+            array('store' => $store)
+        );
+
+        return $theme->getId() == $themeId;
     }
 }

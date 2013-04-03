@@ -64,6 +64,7 @@
             <target name="_sanity_check"/>
         </antcall>
     </target>
+
     <target name="static_tests_ce" description="Static tests for CE">
         <antcall>
             <param name="license_replacement_enabled" value="true"/>
@@ -73,7 +74,8 @@
             <target name="_sanity_check"/>
         </antcall>
     </target>
-    <target name="static_tests_go" description="Static tests for Go">
+
+    <target name="static_tests_saas" description="Static tests for Go">
         <antcall>
             <param name="license_replacement_enabled" value="true"/>
             <param name="product_edition_code" value="saas"/>
@@ -94,8 +96,26 @@
         </exec>
     </target>
 
-    <target name="code_legacy_tests" description="Code Legacy Tests">
+    <target name="code_legacy_tests_ee" description="Code Legacy Tests for Enterprise Edition">
         <antcall>
+            <param name="product_edition_code" value="ee"/>
+            <target name="_product_edition"/>
+            <target name="_code_legacy_tests"/>
+        </antcall>
+    </target>
+
+    <target name="code_legacy_tests_ce" description="Code Legacy Tests for Community Edition">
+        <antcall>
+            <param name="product_edition_code" value="ce"/>
+            <target name="_product_edition"/>
+            <target name="_code_legacy_tests"/>
+        </antcall>
+    </target>
+
+    <target name="code_legacy_tests_saas" description="Code Legacy Tests for Go Edition">
+        <antcall>
+            <param name="product_edition_code" value="saas"/>
+            <target name="_product_edition"/>
             <target name="_code_legacy_tests"/>
         </antcall>
     </target>

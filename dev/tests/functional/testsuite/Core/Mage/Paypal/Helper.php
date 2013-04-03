@@ -81,6 +81,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openPaypalTab($tabName = '')
     {
+        $this->markTestIncomplete('MAGETWO-8455');
         $page = $this->getUimapPage('paypal_developer', 'paypal_developer_logged_in');
         $this->getControlElement('tab', $tabName, $page)->click();
         $this->waitForNewPage();
@@ -94,6 +95,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
      */
     public function paypalDeveloperLogin()
     {
+        $this->markTestIncomplete('MAGETWO-8455');
         try {
             $this->goToArea('paypal_developer', 'paypal_developer_home', false);
         } catch (Exception $e) {

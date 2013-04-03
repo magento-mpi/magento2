@@ -42,8 +42,11 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $category = $this->loadDataSet('Category', 'sub_category_required');
-        $product = $this->loadDataSet('Product', 'simple_product_visible',
-            array('general_categories' => $category['parent_category'] . '/' . $category['name']));
+        $product = $this->loadDataSet(
+            'Product',
+            'simple_product_visible',
+            array('general_categories' => $category['parent_category'] . '/' . $category['name'])
+        );
         //Steps
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
@@ -69,6 +72,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      */
     public function withRequiredFields()
     {
+        $this->markTestIncomplete('MAGETWO-8415');
         //Data
         $pageData = $this->loadDataSet('CmsPage', 'new_cms_page_req');
         //Steps
@@ -92,6 +96,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      */
     public function withAllFields($data)
     {
+        $this->markTestIncomplete('MAGETWO-8415');
         //Data
         $pageData = $this->loadDataSet('CmsPage', 'new_page_all_fields', $data);
         //Steps
@@ -110,7 +115,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @dataProvider withEmptyRequiredFieldsDataProvider
-     * @depends withRequiredFields
+     * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3211
      */
     public function withEmptyRequiredFields($fieldName, $fieldType)
@@ -118,8 +123,12 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
         //Data
         $pageData = $this->loadDataSet('CmsPage', 'new_cms_page_req', array($fieldName => '%noValue%'));
         if ($fieldName == 'widget_type') {
-            $this->overrideDataByCondition('widget_1', array($fieldName => '-- Please Select --'), $pageData,
-                'byFieldKey');
+            $this->overrideDataByCondition(
+                'widget_1',
+                array($fieldName => '-- Please Select --'),
+                $pageData,
+                'byFieldKey'
+            );
         }
 
         //Steps
@@ -128,9 +137,6 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
         //Verification
         if ($fieldName == 'content') {
             $fieldName = 'editor_disabled';
-        }
-        if ($fieldName == 'filter_url_key') {
-            $fieldName = 'chosen_option';
         }
         $this->addFieldIdToMessage($fieldType, $fieldName);
         $this->assertMessagePresent('validation', 'empty_required_field');
@@ -174,7 +180,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @dataProvider withWrongUrlKeyDataProvider
-     * @depends withRequiredFields
+     * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3214
      */
     public function withWrongUrlKey($urlValue, $messageType)
@@ -208,15 +214,18 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @dataProvider withSpecialValueInFieldsDataProvider
-     * @depends withRequiredFields
+     * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5298
      */
     public function withSpecialValueInFields($fieldData)
     {
         //Data
         $pageData = $this->loadDataSet('CmsPage', 'new_cms_page_req', $fieldData);
-        $search = $this->loadDataSet('CmsPage', 'search_cms_page',
-            array('filter_url_key' => $pageData['page_information']['url_key']));
+        $search = $this->loadDataSet(
+            'CmsPage',
+            'search_cms_page',
+            array('filter_url_key' => $pageData['page_information']['url_key'])
+        );
         //Steps
         $this->navigate('manage_cms_pages');
         $this->cmsPagesHelper()->createCmsPage($pageData);

@@ -7,23 +7,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 ?>
 <?php $_htmlId      = $this->getElement()->getHtmlId() ?>
 <?php $_htmlClass   = $this->getElement()->getClass() ?>
 <?php $_htmlName    = $this->getElement()->getName() ?>
 <?php $_readonly    = $this->getElement()->getReadonly() ?>
 <?php $_multiWebsite= $this->isMultiWebsites(); ?>
-<div class="field" id="attribute-<?php echo $_htmlId?>-container">
+<div id="attribute-<?php echo $_htmlId?>-container" data-element-id="<?php echo $_htmlId?>" class="field"
+     data-apply-to="<?php echo $this->escapeHtml(
+         $this->helper('Mage_Core_Helper_Data')->jsonEncode(
+             $this->getElement()->hasEntityAttribute() ? $this->getElement()->getEntityAttribute()->getApplyTo() : array()
+         )
+     )?>">
     <label class="label"><span><?php echo $this->getElement()->getLabel() ?></span></label>
     <div class="control">
         <table class="data-table" id="<?php echo $_htmlId; ?>_table">
             <thead>
                 <tr class="headings">
-                    <?php if ($_multiWebsite): ?>
-                    <th class="col-website">
+                    <th class="col-website <?php if (!$_multiWebsite): ?>no-display<?php endif; ?>">
                         <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Website') ?>
                     </th>
-                    <?php endif; ?>
                     <th class="col-amount required-entry">
                         <?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Amount') ?>
                     </th>
@@ -32,8 +36,7 @@
                     </th>
                 </tr>
                 <tr id="<?php echo $_htmlId ?>_add_template" class="template no-display">
-                    <?php if ($_multiWebsite): ?>
-                    <td class="col-website">
+                    <td class="col-website <?php if (!$_multiWebsite): ?>no-display<?php endif; ?>">
                         <select
                             disabled="no-template"
                             class="<?php echo $_htmlClass ?> required-entry"
@@ -44,7 +47,6 @@
                             <?php endforeach ?>
                         </select>
                     </td>
-                    <?php endif; ?>
                     <td class="col-amount">
                         <input
                             disabled="no-template"
@@ -145,7 +147,7 @@
 
     function updatePriceAmountValidation() {
         if($('allow_open_amount')) {
-            if ($('allow_open_amount').value == 1) {
+            if ($('allow_open_amount').checked) {
                 jQuery('#giftcard_amounts_total').trigger('resetElement');
                 Element.removeClassName($('giftcard_amounts_total'), 'required-entry');
             } else {

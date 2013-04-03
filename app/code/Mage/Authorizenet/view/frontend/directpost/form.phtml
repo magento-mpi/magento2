@@ -95,7 +95,7 @@ $_orderUrl = $this->helper('Mage_Authorizenet_Helper_Data')->getPlaceOrderFrontU
 if ($('directpost-cvv-what-is-this')) {
     $('directpost-cvv-what-is-this').observe('click', toggleCvvToolTip);
 }
-new Validation('co-directpost-form');
+jQuery('#co-directpost-form').mage('validation');
 function toggleCvvToolTip(event){
     if($('directpost-tool-tip')){
         $('directpost-tool-tip').setStyle({

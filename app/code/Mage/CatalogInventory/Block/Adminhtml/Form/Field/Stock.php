@@ -50,7 +50,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
     protected function _createQtyElement()
     {
         $element = Mage::getModel('Varien_Data_Form_Element_Text');
-        $element->setId(self::QUANTITY_FIELD_HTML_ID)->setName('qty');
+        $element->setId(self::QUANTITY_FIELD_HTML_ID)->setName('qty')->addClass('validate-number input-text');
         return $element;
     }
 
@@ -89,9 +89,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
         if (is_array($value) && isset($value['qty'])) {
             $this->_qty->setValue($value['qty']);
         }
-        if (is_array($value) && isset($value['is_in_stock'])) {
-            parent::setValue($value['is_in_stock']);
-        }
+        parent::setValue(is_array($value) && isset($value['is_in_stock']) ? $value['is_in_stock'] : $value);
         return $this;
     }
 
@@ -148,7 +146,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
             <script>
                 jQuery(function($) {
                     var qty = $('#{$quantityFieldId}'),
-                        productType = $('#type_id').val(),
+                        productType = $('#product_type_id').val(),
                         stockAvailabilityField = $('#{$inStockFieldId}'),
                         manageStockField = $('#inventory_manage_stock'),
                         useConfigManageStockField = $('#inventory_use_config_manage_stock');
@@ -166,7 +164,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
                         if (manageStockValue) {
                             stockAvailabilityField.prop('disabled', false);
                         } else {
-                            stockAvailabilityField.prop('disabled', true).val(0);
+                            stockAvailabilityField.prop('disabled', true);
                         }
                         if (manageStockField.val() != manageStockValue) {
                             if (useConfigManageStockField.val() == 1) {
@@ -189,6 +187,10 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
                             $('#' + fieldsAssociations[id]).val($(this).val());
                         } else {
                             $('#' + getKeyByValue(fieldsAssociations, id)).val($(this).val());
+                        }
+
+                        if ($('#inventory_manage_stock').length) {
+                            fireEvent($('#inventory_manage_stock').get(0), 'change');
                         }
                     };
                     //Get key by value from object

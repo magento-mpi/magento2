@@ -23,6 +23,7 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
 
     public function setUpBeforeTests()
     {
+        $this->markTestIncomplete('MAGETWO-8719');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Tax/default_tax_config');

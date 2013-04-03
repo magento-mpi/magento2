@@ -11,43 +11,45 @@
 /*global Validation*/
 (function($) {
     'use strict';
-    $.widget('mage.treeSuggestOneChoice', $.mage.treeSuggest, {
-        /**
-         * @override
-         * @todo refactor parent widget to make this possible without method overriding
-         */
-        _selectItem: function() {
-            $(this.elementWrapper).siblings('.category-selector-search-choice').trigger('removeOption');
-            this._superApply(arguments);
-            this._hideDropdown();
-        }
-    });
+
+    var clearParentCategory = function () {
+        $('#new_category_parent').find('option').each(function(){
+            $('#new_category_parent-suggest').treeSuggest('removeOption', null, this);
+        });
+    };
 
     $.widget('mage.newCategoryDialog', {
         _create: function () {
             var widget = this;
-            $('#new_category_parent').after($('<input>', {
+            $('#new_category_parent').before($('<input>', {
                 id: 'new_category_parent-suggest',
                 placeholder: 'start typing to search category'
             }));
-            $('#new_category_parent-suggest').treeSuggestOneChoice(this.options.suggestOptions);
+            $('#new_category_parent-suggest').treeSuggest(this.options.suggestOptions)
+                .on('suggestbeforeselect', function (event, ui) {
+                    clearParentCategory();
+                    $(event.target).treeSuggest('close');
+                    $('#new_category_name').focus();
+                });
 
             /* @todo rewrite using jQuery validation */
+            /* Validation doesn't work for this invisible <select> after recent changes for some reason */
+            $('#new_category_parent').css({border: 0, height: 0,padding: 0, width: 0}).show();
             Validation.add('validate-parent-category', 'Choose existing category.', function() {
                 return $('#new_category_parent').val() || $('#new_category_parent-suggest').val() === '';
             });
             var newCategoryForm = new Validation(this.element.get(0));
 
             this.element.dialog({
-                title: 'Create New Category',
+                title: 'Create Category',
                 autoOpen: false,
                 minWidth: 560,
-                dialogClass: 'mage-new-category-dialog',
+                dialogClass: 'mage-new-category-dialog form-inline',
                 modal: true,
                 multiselect: true,
                 resizable: false,
                 open: function() {
-                    var enteredName = $('#category_ids + .category-selector-container .category-selector-input').val();
+                    var enteredName = $('#category_ids-suggest').val();
                     $('#new_category_name').val(enteredName);
                     if (enteredName === '') {
                         $('#new_category_name').focus();
@@ -56,23 +58,21 @@
                 },
                 close: function() {
                     $('#new_category_name, #new_category_parent').val('');
+                    clearParentCategory();
                     newCategoryForm.reset();
-                    $('#category_ids + .category-selector-container .category-selector-input').focus();
+                    $('#category_ids-suggest').focus();
                 },
                 buttons: [{
-                    text: 'Cancel',
-                    id: 'mage-new-category-dialog-close-button',
-                    click: function() {
-                        $(this).dialog('close');
-                    }
-                }, {
-                    text: 'Save',
-                    id: 'mage-new-category-dialog-save-button',
-                    click: function() {
+                    text: 'Create Category',
+                    'class': 'action-create primary',
+                    'data-action': 'save',
+                    click: function(event) {
                         if (!newCategoryForm.validate()) {
                             return;
                         }
 
+                        var thisButton = $(event.target).closest('[data-action=save]');
+                        thisButton.prop('disabled', true);
                         $.ajax({
                             type: 'POST',
                             url: widget.options.saveCategoryUrl,
@@ -93,18 +93,31 @@
                             .success(
                                 function (data) {
                                     if (!data.error) {
-                                        $('#category_ids-suggest').treeSuggest('selectItem', {
+                                        $('#category_ids-suggest').trigger('select', {
                                             id: data.category.entity_id,
                                             label: data.category.name
                                         });
                                         $('#new_category_name, #new_category_parent').val('');
-                                        $('#category_ids + .category-selector-container .category-selector-input').val('');
+                                        $('#category_ids-suggest').val('');
                                         widget.element.dialog('close');
                                     } else {
                                         $('#new_category_messages').html(data.messages);
                                     }
                                 }
+                            )
+                            .complete(
+                                function () {
+                                    thisButton.prop('disabled', false);
+                                }
                             );
+                    }
+                },
+                {
+                    text: 'Cancel',
+                    'class': 'action-cancel',
+                    'data-action': 'cancel',
+                    click: function() {
+                        $(this).dialog('close');
                     }
                 }]
             });

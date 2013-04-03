@@ -26,9 +26,11 @@ class Mage_Sales_Model_Order_Invoice_Config extends Mage_Sales_Model_Order_Total
 
     /**
      * Constructor
+     *
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      */
-    public function __construct()
+    public function __construct(Mage_Core_Model_Cache_Type_Config $configCacheType)
     {
-        parent::__construct(Mage::getConfig()->getNode('global/sales/order_invoice'));
+        parent::__construct($configCacheType, Mage::getConfig()->getNode('global/sales/order_invoice'));
     }
 }

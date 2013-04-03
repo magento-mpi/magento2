@@ -33,7 +33,7 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
 
 
     /**
-     * Check whether reminder rules should be enabled
+     * Check whether gift registry is enabled
      *
      * @return bool
      */

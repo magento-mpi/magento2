@@ -77,20 +77,13 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
     protected $_defaultAttributeSetName = 'Default';
 
     /**
-     * List of excluded attribute set ids
-     *
-     * @var array
-     */
-    protected $_excludedAttributeSetIds = array();
-
-    /**
      * Clean cache
      *
      * @return Mage_Eav_Model_Entity_Setup
      */
     public function cleanCache()
     {
-        $this->_cache->clean(array('eav'));
+        $this->_cache->clean(array(Mage_Eav_Model_Cache_Type::CACHE_TAG));
         return $this;
     }
 
@@ -163,7 +156,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         }
 
         $this->addAttributeSet($code, $this->_defaultAttributeSetName);
-        $this->addAttributeGroup($code, $this->_defaultGroupName, $this->getGeneralGroupName());
+        $this->addAttributeGroup($code, $this->_defaultGroupName, $this->_generalGroupName);
 
         return $this;
     }
@@ -278,7 +271,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         } else {
             $this->_conn->insert($this->getTable('eav_attribute_set'), $data);
 
-            $this->addAttributeGroup($entityTypeId, $name, $this->getGeneralGroupName());
+            $this->addAttributeGroup($entityTypeId, $name, $this->_generalGroupName);
         }
 
         return $this;
@@ -667,7 +660,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
            !Zend_Validate::is($data['attribute_code'], 'StringLength', array('max' => $attributeCodeMaxLength)))
         {
             throw Mage::exception('Mage_Eav',
-                Mage::helper('Mage_Eav_Helper_Data')->__('Maximum length of attribute code must be less then %s symbols', $attributeCodeMaxLength)
+                Mage::helper('Mage_Eav_Helper_Data')->__('Maximum length of attribute code must be less than %s symbols', $attributeCodeMaxLength)
             );
         }
 
@@ -709,9 +702,6 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $select = $this->_conn->select()
                 ->from($this->getTable('eav_attribute_set'))
                 ->where('entity_type_id = :entity_type_id');
-            if (!empty($this->_excludedAttributeSetIds)) {
-                $select->where('attribute_set_id NOT IN (?)', $this->_excludedAttributeSetIds);
-            }
             $sets = $this->_conn->fetchAll($select, array('entity_type_id' => $entityTypeId));
             foreach ($sets as $set) {
                 if (!empty($attr['group'])) {
@@ -721,7 +711,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                         $attr['group'], $code, $sortOrder);
                 } else {
                     $this->addAttributeToSet($entityTypeId, $set['attribute_set_id'],
-                        $this->getGeneralGroupName(), $code, $sortOrder);
+                        $this->_generalGroupName, $code, $sortOrder);
                 }
             }
         }
@@ -732,18 +722,6 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $this->addAttributeOption($option);
         }
 
-        return $this;
-    }
-
-    /**
-     * Set attribute set ids which should be excluded for attributes assigning
-     *
-     * @param array $ids
-     * @return Mage_Eav_Model_Entity_Setup
-     */
-    public function setExcludedAttributeSetIds(array $ids)
-    {
-        $this->_excludedAttributeSetIds = $ids;
         return $this;
     }
 
@@ -1496,15 +1474,5 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         }
 
         return $this;
-    }
-
-    /**
-     * Retrieve general group name
-     *
-     * @return string
-     */
-    public function getGeneralGroupName()
-    {
-        return $this->_generalGroupName;
     }
 }

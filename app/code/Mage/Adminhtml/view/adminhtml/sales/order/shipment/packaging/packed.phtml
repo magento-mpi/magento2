@@ -10,26 +10,21 @@
 ?>
 
 <div id="packed_window" style="display:none;" class="packed-window">
-    <div class="entry-edit">
-        <div class="entry-edit-head">
-            <h4 class="icon-head fieldset-legend"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Packages') ?></h4>
+    <div class="popup-window-wrapper">
+        <div class="popup-window-title">
+            <span class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Packages') ?></span>
         </div>
         <div class="packed-content">
+            <div class="popup-window-content">
             <?php foreach ($this->getPackages() as $packageId => $package): ?>
                 <div class="package">
                     <?php $package = new Varien_Object($package) ?>
                     <?php $params = new Varien_Object($package->getParams()) ?>
-                    <h4><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Package') . ' ' . $packageId ?></h4>
+                    <div class="package-number popup-fieldset-title">
+                        <div class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Package') . ' ' . $packageId ?></div>
+                    </div>
                     <div class="package-info">
                         <table class="package-options" cellspacing="0">
-                            <colgroup>
-                                <col width="100" />
-                                <col width="*" />
-                                <col width="60" />
-                                <col width="70" />
-                                <col width="70" />
-                                <col width="*" />
-                            </colgroup>
                             <tbody>
                                 <tr>
                                     <th><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Type') ?></th>
@@ -118,63 +113,54 @@
                             </tbody>
                         </table>
                     </div>
-                    <strong><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Items in the Package') ?></strong>
+                    <div class="package-number popup-fieldset-title">
+                        <div class="title"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Items in the Package') ?></div>
+                    </div>
                     <div class="grid">
-                        <div class="hor-scroll">
-                            <table cellspacing="0" class="data">
-                                <colgroup>
-                                    <col>
-                                    <col width="100">
+                        <table cellspacing="0" class="data">
+                            <thead>
+                            <tr class="headings">
+                                <th class="col-product no-link"><span><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Product') ?></span></th>
+                                <th class="col-weight no-link"><span><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Weight') ?></span></th>
+                                <?php if ($this->displayCustomsValue()): ?>
+                                    <th class="col-custom no-link"><span><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Customs Value') ?></span></th>
+                                <?php endif; ?>
+                                <th class="col-qty_ordered no-link"><span><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Qty Ordered') ?></span></th>
+                                <th class="col-qty no-link last"><span><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Qty') ?></span></th>
+                            </tr>
+                            </thead>
+                            <tbody id="">
+                            <?php foreach($package->getItems() as $itemId => $item) : ?>
+                                <?php $item = new Varien_Object($item) ?>
+                                <tr title="#" id="" class="">
+                                    <td class="col-product name">
+                                        <?php echo $item->getName(); ?>
+                                    </td>
+                                    <td class="col-weight weight ">
+                                        <?php echo $item->getWeight(); ?>
+                                    </td>
                                     <?php if ($this->displayCustomsValue()): ?>
-                                        <col width="100">
+                                        <td class="col-custom "><?php echo $this->displayCustomsPrice($item->getCustomsValue()) ?></td>
                                     <?php endif; ?>
-                                    <col width="100">
-                                    <col width="100">
-                                </colgroup>
-                                <thead>
-                                <tr class="headings">
-                                    <th class=" no-link"><span class="nobr"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Product') ?></span></th>
-                                    <th class=" no-link"><span class="nobr"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Weight') ?></span></th>
-                                    <?php if ($this->displayCustomsValue()): ?>
-                                        <th class=" no-link"><span class="nobr"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Customs Value') ?></span></th>
-                                    <?php endif; ?>
-                                    <th class=" no-link"><span class="nobr"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Qty Ordered') ?></span></th>
-                                    <th class=" no-link last"><span class="nobr"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Qty') ?></span></th>
+                                    <td class="col-qty_ordered">
+                                        <?php echo $this->getQtyOrderedItem($item->getOrderItemId()); ?>
+                                    </td>
+                                    <td class="col-qty last">
+                                        <?php echo $item->getQty()*1; ?>
+                                    </td>
                                 </tr>
-                                </thead>
-
-                                <tbody id="">
-                                <?php foreach($package->getItems() as $itemId => $item) : ?>
-                                    <?php $item = new Varien_Object($item) ?>
-                                    <tr title="#" id="" class="">
-                                        <td class="name">
-                                            <?php echo $item->getName(); ?>
-                                        </td>
-                                        <td class="a-center weight ">
-                                            <?php echo $item->getWeight(); ?>
-                                        </td>
-                                        <?php if ($this->displayCustomsValue()): ?>
-                                            <td class="a-right"><?php echo $this->displayCustomsPrice($item->getCustomsValue()) ?></td>
-                                        <?php endif; ?>
-                                        <td class="a-right">
-                                            <?php echo $this->getQtyOrderedItem($item->getOrderItemId()); ?>
-                                        </td>
-                                        <td class="a-right last">
-                                            <?php echo $item->getQty()*1; ?>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             <?php endforeach; ?>
+            </div>
         </div>
-        <div class="buttons-set a-right">
+        <div class="popup-window-buttons-set">
             <?php echo $this->getPrintButton() ?>
-            <button type="button" class="scalable SavePackagesBtn save" onclick="hidePackedWindow();" title="<?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Products should be added to package(s)')?>">
-                <span><span><span><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('OK') ?></span></span></span>
+            <button type="button" class="action-ok SavePackagesBtn save" onclick="hidePackedWindow();" title="<?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Products should be added to package(s)')?>">
+                <span><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('OK') ?></span>
             </button>
         </div>
     </div>

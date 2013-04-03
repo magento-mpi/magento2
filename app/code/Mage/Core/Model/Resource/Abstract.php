@@ -21,6 +21,7 @@ abstract class Mage_Core_Model_Resource_Abstract
      * @var Varien_Db_Adapter_Interface
      */
     protected $_writeAdapter;
+
     /**
      * Main constructor
      */
@@ -94,7 +95,7 @@ abstract class Mage_Core_Model_Resource_Abstract
             if (isset(self::$_commitCallbacks[$adapterKey])) {
                 $callbacks = self::$_commitCallbacks[$adapterKey];
                 self::$_commitCallbacks[$adapterKey] = array();
-                foreach ($callbacks as $index => $callback) {
+                foreach ($callbacks as $callback) {
                     call_user_func($callback);
                 }
             }

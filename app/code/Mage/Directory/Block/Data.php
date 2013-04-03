@@ -17,6 +17,25 @@
  */
 class Mage_Directory_Block_Data extends Mage_Core_Block_Template
 {
+    /**
+     * @var Mage_Core_Model_Cache_Type_Config
+     */
+    protected $_configCacheType;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_configCacheType = $configCacheType;
+    }
+
     public function getLoadrRegionUrl()
     {
         return $this->getUrl('directory/json/childRegion');
@@ -40,14 +59,12 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
         if (is_null($defValue)) {
             $defValue = $this->getCountryId();
         }
-        $cacheKey = 'DIRECTORY_COUNTRY_SELECT_STORE_'.Mage::app()->getStore()->getCode();
-        if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
+        $cacheKey = 'DIRECTORY_COUNTRY_SELECT_STORE_' . Mage::app()->getStore()->getCode();
+        if ($cache = $this->_configCacheType->load($cacheKey)) {
             $options = unserialize($cache);
         } else {
             $options = $this->getCountryCollection()->toOptionArray();
-            if (Mage::app()->useCache('config')) {
-                Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
-            }
+            $this->_configCacheType->save(serialize($options), $cacheKey);
         }
         $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName($name)
@@ -79,14 +96,12 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
     public function getRegionHtmlSelect()
     {
         Magento_Profiler::start('TEST: '.__METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
-        $cacheKey = 'DIRECTORY_REGION_SELECT_STORE'.Mage::app()->getStore()->getId();
-        if (Mage::app()->useCache('config') && $cache = Mage::app()->loadCache($cacheKey)) {
+        $cacheKey = 'DIRECTORY_REGION_SELECT_STORE' . Mage::app()->getStore()->getId();
+        if ($cache = $this->_configCacheType->load($cacheKey)) {
             $options = unserialize($cache);
         } else {
             $options = $this->getRegionCollection()->toOptionArray();
-            if (Mage::app()->useCache('config')) {
-                Mage::app()->saveCache(serialize($options), $cacheKey, array('config'));
-            }
+            $this->_configCacheType->save(serialize($options), $cacheKey);
         }
         $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setName('region')

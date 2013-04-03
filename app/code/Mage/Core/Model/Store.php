@@ -37,22 +37,24 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     /**#@+
      * Configuration paths
      */
-    const XML_PATH_STORE_STORE_NAME        = 'general/store_information/name';
-    const XML_PATH_STORE_STORE_PHONE       = 'general/store_information/phone';
-    const XML_PATH_STORE_IN_URL            = 'web/url/use_store';
-    const XML_PATH_USE_REWRITES            = 'web/seo/use_rewrites';
-    const XML_PATH_UNSECURE_BASE_URL       = 'web/unsecure/base_url';
-    const XML_PATH_SECURE_BASE_URL         = 'web/secure/base_url';
-    const XML_PATH_SECURE_IN_FRONTEND      = 'web/secure/use_in_frontend';
-    const XML_PATH_SECURE_IN_ADMINHTML     = 'web/secure/use_in_adminhtml';
-    const XML_PATH_SECURE_BASE_LINK_URL    = 'web/secure/base_link_url';
-    const XML_PATH_UNSECURE_BASE_LINK_URL  = 'web/unsecure/base_link_url';
-    const XML_PATH_SECURE_BASE_LIB_URL     = 'web/secure/base_lib_url';
-    const XML_PATH_UNSECURE_BASE_LIB_URL   = 'web/unsecure/base_lib_url';
-    const XML_PATH_SECURE_BASE_MEDIA_URL   = 'web/secure/base_media_url';
-    const XML_PATH_UNSECURE_BASE_MEDIA_URL = 'web/unsecure/base_media_url';
-    const XML_PATH_OFFLOADER_HEADER        = 'web/secure/offloader_header';
-    const XML_PATH_PRICE_SCOPE             = 'catalog/price/scope';
+    const XML_PATH_STORE_STORE_NAME         = 'general/store_information/name';
+    const XML_PATH_STORE_STORE_PHONE        = 'general/store_information/phone';
+    const XML_PATH_STORE_IN_URL             = 'web/url/use_store';
+    const XML_PATH_USE_REWRITES             = 'web/seo/use_rewrites';
+    const XML_PATH_UNSECURE_BASE_URL        = 'web/unsecure/base_url';
+    const XML_PATH_SECURE_BASE_URL          = 'web/secure/base_url';
+    const XML_PATH_SECURE_IN_FRONTEND       = 'web/secure/use_in_frontend';
+    const XML_PATH_SECURE_IN_ADMINHTML      = 'web/secure/use_in_adminhtml';
+    const XML_PATH_SECURE_BASE_LINK_URL     = 'web/secure/base_link_url';
+    const XML_PATH_UNSECURE_BASE_LINK_URL   = 'web/unsecure/base_link_url';
+    const XML_PATH_SECURE_BASE_LIB_URL      = 'web/secure/base_lib_url';
+    const XML_PATH_UNSECURE_BASE_LIB_URL    = 'web/unsecure/base_lib_url';
+    const XML_PATH_SECURE_BASE_STATIC_URL   = 'web/secure/base_static_url';
+    const XML_PATH_UNSECURE_BASE_STATIC_URL = 'web/unsecure/base_static_url';
+    const XML_PATH_SECURE_BASE_MEDIA_URL    = 'web/secure/base_media_url';
+    const XML_PATH_UNSECURE_BASE_MEDIA_URL  = 'web/unsecure/base_media_url';
+    const XML_PATH_OFFLOADER_HEADER         = 'web/secure/offloader_header';
+    const XML_PATH_PRICE_SCOPE              = 'catalog/price/scope';
     /**#@- */
 
     /**
@@ -61,7 +63,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     const PRICE_SCOPE_GLOBAL              = 0;
     const PRICE_SCOPE_WEBSITE             = 1;
 
-    /**
+    /**#@+
      * Possible URL types
      */
     const URL_TYPE_LINK                   = 'link';
@@ -69,6 +71,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     const URL_TYPE_WEB                    = 'web';
     const URL_TYPE_LIB                    = 'lib';
     const URL_TYPE_MEDIA                  = 'media';
+    const URL_TYPE_STATIC                 = 'static';
+    /**#@-*/
 
     /**
      * Code constants
@@ -100,6 +104,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      * A placeholder for generating base URL
      */
     const BASE_URL_PLACEHOLDER            = '{{base_url}}';
+
+    /**
+     * @var Mage_Core_Model_Cache_Type_Config
+     */
+    protected $_configCacheType;
 
     /**
      * Cache flag
@@ -215,6 +224,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 
     /**
      * @param Mage_Core_Model_Context $context
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_Url $urlModel
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
@@ -222,12 +232,14 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function __construct(
         Mage_Core_Model_Context $context,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
         Mage_Core_Model_Url $urlModel,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_urlModel = $urlModel;
+        $this->_configCacheType = $configCacheType;
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
@@ -401,24 +413,18 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         if ($this->_configCache === null) {
             $code = $this->getCode();
             if ($code) {
-                $cache = Mage::getObjectManager()->get('Mage_Core_Model_CacheInterface');
-                if ($cache->canUse('config')) {
-                    $cacheId = 'store_' . $code . '_config_cache';
-                    $data = $cache->load($cacheId);
-                    if ($data) {
-                        $data = unserialize($data);
-                    } else {
-                        $data = array();
-                        foreach ($this->_configCacheBaseNodes as $node) {
-                            $data[$node] = $this->getConfig($node);
-                        }
-                        $cache->save(serialize($data), $cacheId, array(
-                            self::CACHE_TAG,
-                            Mage_Core_Model_Config::CACHE_TAG
-                        ), false);
+                $cacheId = 'store_' . $code . '_config_cache';
+                $data = $this->_configCacheType->load($cacheId);
+                if ($data) {
+                    $data = unserialize($data);
+                } else {
+                    $data = array();
+                    foreach ($this->_configCacheBaseNodes as $node) {
+                        $data[$node] = $this->getConfig($node);
                     }
-                    $this->_configCache = $data;
+                    $this->_configCacheType->save(serialize($data), $cacheId, array(self::CACHE_TAG), false);
                 }
+                $this->_configCache = $data;
             }
         }
         return $this;
@@ -578,6 +584,15 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
                     if (!$url) {
                         $url = $this->getBaseUrl(self::URL_TYPE_WEB, $secure)
                             . $dirs->getUri(Mage_Core_Model_Dir::PUB_LIB);
+                    }
+                    break;
+
+                case self::URL_TYPE_STATIC:
+                    $path = $secure ? self::XML_PATH_SECURE_BASE_STATIC_URL : self::XML_PATH_UNSECURE_BASE_STATIC_URL;
+                    $url = $this->getConfig($path);
+                    if (!$url) {
+                        $url = $this->getBaseUrl(self::URL_TYPE_WEB, $secure)
+                            . $dirs->getUri(Mage_Core_Model_Dir::STATIC_VIEW);
                     }
                     break;
 
@@ -1186,7 +1201,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected function _afterDelete()
     {
         parent::_afterDelete();
-        Mage::getConfig()->removeCache();
+        $this->_configCacheType->clean();
         return $this;
     }
 
