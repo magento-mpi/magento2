@@ -13,7 +13,7 @@
 order_statuses:
     mca: sales_order_status/
     click_xpath: //*[@id='nav']//a[contains(@href, 'sales_order_status')]
-    title: Order Statuses / Settings / Stores / Magento Admin
+    title: Order Status / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -43,7 +43,7 @@ order_statuses:
 # 'New Order Status' Page
 new_order_status:
     mca: sales_order_status/new/
-    title: Create New Order Status / Order Statuses / Settings / Stores / Magento Admin
+    title: Create New Order Status / Order Status / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -70,7 +70,7 @@ new_order_status:
 # 'Assign Order Status to State' Page
 assign_order_status:
     mca: sales_order_status/assign/
-    title: Assign Order Status to State / Order Statuses / Settings / Stores / Magento Admin
+    title: Assign Order Status to State / Order Status / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
