@@ -32,7 +32,7 @@ class Mage_Tax_Model_ClassTest extends PHPUnit_Framework_TestCase
             ->setClassTypeFilter(Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
             ->getFirstItem();
 
-        $product = Mage::getModel('Mage_Catalog_Model_Product')
+        Mage::getModel('Mage_Catalog_Model_Product')
             ->setTypeId('simple')->setAttributeSetId(4)
             ->setName('Simple Product')->setSku(uniqid())->setPrice(10)
             ->setMetaTitle('meta title')->setMetaKeyword('meta keyword')->setMetaDescription('meta description')
