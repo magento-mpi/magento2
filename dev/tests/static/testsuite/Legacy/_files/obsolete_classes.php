@@ -720,7 +720,7 @@ return array(
     array('Varien_File_Uploader_Image'),
     array('Varien_Profiler', 'Magento_Profiler'),
     array('Mage_Adminhtml_Block_Notification_Window', 'Mage_AdminNotification_Block_Window'),
-    array('Mage_Adminhtml_Block_Notification_Toolbar', 'Mage_AdminNotification_Block_Toolbar'),
+    array('Mage_Adminhtml_Block_Notification_Toolbar'),
     array('Mage_Adminhtml_Block_Notification_Survey'),
     array('Mage_Adminhtml_Block_Notification_Security'),
     array('Mage_Adminhtml_Block_Notification_Inbox'),
