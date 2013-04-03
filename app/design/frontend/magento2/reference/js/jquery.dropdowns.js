@@ -1,3 +1,9 @@
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
 ;(function($, document) {
     'use strict';
 

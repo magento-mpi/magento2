@@ -26,6 +26,7 @@
 <action method="addCss"><file>mui/form.css</file></action>
 <action method="addCss"><file>mui/components.css</file></action>
 <action method="addCss"><file>mui/utils.css</file></action> -->
+            <!-- <action method="addLinkRel"><rel>stylesheet</rel><href>//magento2.loc/app/design/frontend/magento2/reference/css/styles.css</href></action> -->
             <action method="addCss"><file>css/styles.css</file></action>
             <action method="addJs"><file>js/head.js</file></action>
             <action method="addJs"><file>jquery/jquery.hoverIntent.js</file></action>
@@ -143,9 +144,9 @@
         <reference name="content.top">
             <block type="Mage_Core_Block_Template" name="default_home_page" template="Mage_Cms::default/home.phtml"/>
         </reference>
-        <reference name="page.bottom">
-            <block type="Mage_Core_Block_Template" name="footer.banners" template="Mage_Cms::default/footerbanners.phtml" after="-"/>
-        </reference>
+<!--         <reference name="page.bottom">
+    <block type="Mage_Core_Block_Template" name="footer.banners" template="Mage_Cms::default/footerbanners.phtml" after="-"/>
+</reference> -->
     </cms_index_index>
 
     <print>

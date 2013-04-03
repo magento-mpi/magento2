@@ -799,7 +799,7 @@ a > span:hover {
   padding: 5px 10px;
   position: absolute;
   top: 100%;
-  left: 0;
+  right: 0;
   margin-left: -11px;
   min-width: 100%;
   float: left;
@@ -1143,12 +1143,14 @@ a > span:hover {
   outline: none;
   height: 32px;
   line-height: 1;
-  /*    &:-moz-placeholder {
+  /*
+    &:-moz-placeholder {
         line-height: 32px;
     }
     &::-moz-placeholder {
         line-height: 32px;
-    }*/
+    }
+*/
 
 }
 .no-borderradius .block.add.review .fieldset > .field:not(.ratings) .addon .addbefore,
@@ -1604,12 +1606,14 @@ input[type="text"] {
   outline: none;
   height: 32px;
   line-height: 1;
-  /*    &:-moz-placeholder {
+  /*
+    &:-moz-placeholder {
         line-height: 32px;
     }
     &::-moz-placeholder {
         line-height: 32px;
-    }*/
+    }
+*/
 
 }
 .no-borderradius input[type="password"],
@@ -2986,6 +2990,7 @@ select:disabled {
   position: absolute;
   margin-left: -5px;
   margin-top: -1.35em;
+  bottom: 0;
 }
 .action.delete {
   display: inline-block;
@@ -4514,12 +4519,14 @@ select:disabled {
   outline: none;
   height: 32px;
   line-height: 1;
-  /*    &:-moz-placeholder {
+  /*
+    &:-moz-placeholder {
         line-height: 32px;
     }
     &::-moz-placeholder {
         line-height: 32px;
-    }*/
+    }
+*/
 
 }
 .no-borderradius .fieldset > .field .addon .addbefore,
@@ -4676,12 +4683,14 @@ select:disabled {
   outline: none;
   height: 32px;
   line-height: 1;
-  /*    &:-moz-placeholder {
+  /*
+    &:-moz-placeholder {
         line-height: 32px;
     }
     &::-moz-placeholder {
         line-height: 32px;
-    }*/
+    }
+*/
 
 }
 .no-borderradius .product.main.info .product.options.wrapper .field .addon .addbefore,
@@ -5333,13 +5342,13 @@ img[align="right"] {
  *    Mage_Customer
  *
 ----------------------------------------------------------------------------- */
-.customer.menu .customer {
-  display: inline-block;
+.customer.welcome {
+  display: inline-block !important;
   position: relative;
-  color: #837d75;
   z-index: 1;
+  cursor: pointer;
 }
-.customer.menu .customer menu > ul {
+.customer.welcome .menu > ul {
   font-weight: 600;
   font-size: 12px;
   margin: 0;
@@ -5360,15 +5369,15 @@ img[align="right"] {
   -o-transition: visibility 0s linear 0.2s, opacity 0.2s linear 0s;
   transition: visibility 0s linear 0.2s, opacity 0.2s linear 0s;
 }
-.customer.menu .customer menu > ul li {
+.customer.welcome .menu > ul li {
   margin: 5px 0;
   display: block;
   white-space: nowrap;
 }
-.customer.menu .customer.active {
+.customer.welcome.active {
   z-index: 9999;
 }
-.customer.menu .customer.active menu > ul {
+.customer.welcome.active .menu > ul {
   visibility: visible;
   opacity: 1;
   -webkit-transition-delay: 0s;
@@ -5377,13 +5386,37 @@ img[align="right"] {
   -o-transition-delay: 0s;
   transition-delay: 0s;
 }
-.customer.menu .customer .action.switch {
-  vertical-align: middle;
+.header .content .customer.welcome .customer.link span {
+  color: #837d75;
 }
-.customer.menu  + li {
+.header .content .customer.welcome .customer.link span:after {
+  font-family: "MUI-Icons";
+  font-size: 16px;
+  line-height: 16px;
+  height: 16px;
+  overflow: hidden;
+  content: "\e02c";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.header .content .customer.welcome .customer.link:focus span,
+.header .content .customer.welcome .customer.link:hover span,
+.header .content .customer.welcome .customer.link.active span {
+  color: #675f55;
+  outline: 0;
+}
+.header .content .customer.welcome .customer.link.active span:after {
+  content: "\e029";
+}
+.customer.welcome  + li {
   display: none;
 }
-.customer.menu + li {
+.customer.welcome + li {
   display: none !important;
 }
 .login.container {
@@ -5728,12 +5761,14 @@ img[align="right"] {
   outline: none;
   height: 32px;
   line-height: 1;
-  /*    &:-moz-placeholder {
+  /*
+    &:-moz-placeholder {
         line-height: 32px;
     }
     &::-moz-placeholder {
         line-height: 32px;
-    }*/
+    }
+*/
 
 }
 .no-borderradius .form.password.forget .fieldset > .field .addon .addbefore,

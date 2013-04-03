@@ -35,18 +35,15 @@
 
     <?php case 'customer': ?>
         <?php if(Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()): ?>
-            <li class="customer menu">
-                <div class="customer">
-                    <span data-toggle="dropdown"><?php echo $this->getWelcome(); ?></span>
-                <?php /*
-                <div class="customer"><?php echo Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getName(); ?></p>
-                */ ?>
-                <button type="button" data-toggle="dropdown" class="action switch">
-                    <span><?php echo $this->__('Options')?></span>
-                </button>
-                <menu data-target="dropdown">
+            <li class="customer welcome">
+                <a href="#" class="customer link">
+                    <span><?php echo $this->getWelcome(); ?></span>
+                </a>
+                <?php if($this->getChildHtml()):?>
+                <menu class="menu">
                     <?php echo $this->getChildHtml();?>
                 </menu>
+                <?php endif; ?>
             </li>
         <?php endif; ?>
     <?php break; ?>

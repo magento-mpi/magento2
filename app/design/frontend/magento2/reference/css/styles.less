@@ -717,7 +717,7 @@ a > span {
             padding: 5px 10px;
             position: absolute;
             top: 100%;
-            left: 0;
+            right: 0;
             margin-left: -11px;
             min-width: 100%;
             float: left;
@@ -770,6 +770,7 @@ a > span {
         .transitionDelay(0s);
     }
 }
+
 
 /* Banner */
 .header .panel .widget {
@@ -2403,6 +2404,7 @@ select {
             position: absolute;
             margin-left: -5px;
             margin-top: -1.35em;
+            bottom:0;
         }
     }
 }
@@ -3904,45 +3906,56 @@ and (max-width : 768px) {
  *    Mage_Customer
  *
 ----------------------------------------------------------------------------- */
-.customer.menu {
-    .customer {
-        display: inline-block;
-        position: relative;
-        color: @primary5;
-        z-index: 1;
-        menu > ul {
-            font-weight: 600;
-            font-size: 12px;
-            margin: 0;
-            padding: 5px 10px;
-            position: absolute;
-            top: 100%;
-            margin-left: -11px; //min-width: 100%;
-            float: left;
-            right: 0;
-            text-align: left;
-            background: @primary1;
-            border: 1px solid darken(@headerBg, 5%);
-            visibility: hidden;
-            opacity: 0;
-            @tparams: visibility 0s linear .2s, opacity .2s linear 0s;
-            .transitions(@tparams);
-            li {
-                margin: 5px 0;
-                display: block;
-                white-space: nowrap;
-            }
+.customer.welcome {
+    display: inline-block!important;
+    position: relative;
+    z-index: 1;
+    cursor:pointer;
+    .menu > ul {
+        font-weight: 600;
+        font-size: 12px;
+        margin: 0;
+        padding: 5px 10px;
+        position: absolute;
+        top: 100%;
+        margin-left: -11px; //min-width: 100%;
+        float: left;
+        right: 0;
+        text-align: left;
+        background: @primary1;
+        border: 1px solid darken(@headerBg, 5%);
+        visibility: hidden;
+        opacity: 0;
+        @tparams: visibility 0s linear .2s, opacity .2s linear 0s;
+        .transitions(@tparams);
+        li {
+            margin: 5px 0;
+            display: block;
+            white-space: nowrap;
         }
-        &.active {
-            z-index: 9999;
-            menu > ul {
-                visibility: visible;
-                opacity: 1;
-                .transitionDelay(0s);
-            }
+    }
+    &.active {
+        z-index: 9999;
+        .menu > ul {
+            visibility: visible;
+            opacity: 1;
+            .transitionDelay(0s);
         }
-        .action.switch {
-            vertical-align: middle;
+    }
+    .header .content & .customer.link {
+        span {
+            color: @primary5;
+            @content : "\e02c";
+            .iconAfter(@content,16px);
+        }
+        &:focus span,
+        &:hover span,
+        &.active span {
+            color: @primary6;
+            outline: 0;
+        }
+        &.active span:after {
+            content: "\e029";
         }
     }
     & + li {
@@ -3950,7 +3963,7 @@ and (max-width : 768px) {
     }
 }
 
-.customer.menu + li {
+.customer.welcome + li {
     display: none !important;
 }
 

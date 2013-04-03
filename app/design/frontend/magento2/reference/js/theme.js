@@ -246,6 +246,9 @@
         checkWrap();
         //$('.navigation .level-top > .submenu').hide();
         $('.navigation .level-top').hoverIntent(config).find('> .submenu').hide();
+        if ($('.customer.welcome').length > 0) {
+            $('.customer.welcome > .customer').dropdown({menu:'.customer.welcome > .menu'});
+        };
 
         if ($('.checkout-cart-index').length > 0) {
             $('.cart.summary > .block > .title').dropdown({autoclose:false, menu:'.title + .content'});
