@@ -47,9 +47,9 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
         $design = $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false);
         $translator = $this->getMock('Mage_Core_Model_Translate', array(),
             array(
+                $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false, false),
                 $this->getMock('Mage_Core_Model_Locale_Hierarchy_Loader', array(), array(), '', false, false),
-                $this->getMock('Mage_Core_Model_Translate_Config', array(), array(), '', false, false),
-                $this->getMock('Magento_ObjectManager', array(), array(), '', false, false)
+                $this->getMock('Mage_Core_Model_Translate_Factory', array(), array(), '', false, false)
             )
         );
 

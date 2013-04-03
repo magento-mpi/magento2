@@ -662,8 +662,7 @@ class Mage_Core_Model_Locale
             /** @var $app Mage_Core_Model_App */
             $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
             Mage::getObjectManager()->get('Mage_Core_Helper_Translate')
-                ->initTranslate($this->_localeCode, $app->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND), true)
-                ->init();
+                ->initTranslate($this->_localeCode, Mage_Core_Model_App_Area::AREA_FRONTEND, true);
         } else {
             $this->_emulatedLocales[] = false;
         }
@@ -683,8 +682,7 @@ class Mage_Core_Model_Locale
             /** @var $app Mage_Core_Model_App */
             $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
             Mage::getObjectManager()->get('Mage_Core_Helper_Translate')
-                ->initTranslate($this->_localeCode, $app->getArea(Mage_Core_Model_App_Area::AREA_ADMINHTML), true)
-                ->init();
+                ->initTranslate($this->_localeCode, Mage_Core_Model_App_Area::AREA_ADMINHTML, true);
         }
     }
 

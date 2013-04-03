@@ -152,7 +152,7 @@ class Mage_Core_Model_App_Emulation extends Varien_Object
         $app->getLocale()->setLocaleCode($newLocaleCode);
 
         Mage::getObjectManager()->get('Mage_Core_Helper_Translate')
-            ->initTranslate($newLocaleCode, $app->getArea($area), true)->init();
+            ->initTranslate($newLocaleCode, $area, true);
         return $initialLocaleCode;
     }
 
@@ -198,7 +198,7 @@ class Mage_Core_Model_App_Emulation extends Varien_Object
 
         $app->getLocale()->setLocaleCode($initialLocaleCode);
         Mage::getObjectManager()->get('Mage_Core_Helper_Translate')
-            ->initTranslate($initialLocaleCode, $app->getArea($initialArea), true)->init();
+            ->initTranslate($initialLocaleCode, $initialArea, true);
         return $this;
     }
 }

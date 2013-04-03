@@ -37,15 +37,15 @@ class Mage_Core_Model_Translate_Factory
     /**
      * Return instance of Translate object based on passed in class name.
      *
-     * @param $translateConfig Mage_Core_Model_Translate_Config
+     * @param array $data
+     * @param string $className
      * @return Mage_Core_Model_Translate_TranslateInterface
      */
-    public function createFromConfig($translateConfig)
+    public function create(array $data = null, $className = null)
     {
-        $className = $translateConfig->getInlineType();
         if ($className === null) {
             $className = self::DEFAULT_CLASS_NAME;
         }
-        return $this->_objectManager->get($className, $translateConfig->getParams());
+        return $this->_objectManager->get($className, $data);
     }
 }

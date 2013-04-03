@@ -45,22 +45,18 @@ class Mage_Core_Helper_Translate extends Mage_Core_Helper_Abstract
      */
     public function initTranslate($localeCode, $area, $forceReload)
     {
-        /** @var $objectManager Mage_ObjectManager */
-        $objectManager = Mage::getObjectManager();
+        $this->_translator->setLocale($localeCode);
 
-        /** @var $config Mage_Core_Model_Translate_Config */
-        $config = $objectManager->get('Mage_Core_Model_Translate_Config');
-        $config->setArea($area);
-        $config->setForceReload($forceReload);
-
-        /** @var $translate Mage_Core_Model_Translate */
-        $translate = $objectManager->get('Mage_Core_Model_Translate');
-        $translate->setLocale($localeCode);
-
-        $eventManager = $objectManager->get('Mage_Core_Model_Event_Manager');
-        $eventManager->dispatch('translate_initialization_before', array(
-            'translate_object' => $translate
+        $dispatchResult = new Varien_Object(array(
+            'inline_type' => null,
+            'params' => array('area' => $area)
         ));
-        return $translate;
+        $eventManager = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
+        $eventManager->dispatch('translate_initialization_before', array(
+            'translate_object' => $this->_translator,
+            'result' => $dispatchResult
+        ));
+        $this->_translator->init($area, $dispatchResult, $forceReload);
+        return $this;
     }
 }

@@ -73,13 +73,6 @@ class Mage_Core_Model_App_Area
     protected $_objectManager;
 
     /**
-     * Translate config
-     *
-     * @var Mage_Core_Model_Translate_Config
-     */
-    protected $_translateConfig;
-
-    /**
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Core_Model_Translate $translator
      * @param Mage_Core_Model_Config $config
@@ -134,16 +127,6 @@ class Mage_Core_Model_App_Area
                     ->changeDesign($this->_getDesign());
             }
         }
-    }
-
-    /**
-     * Returns the area code for this app area instance.
-     *
-     * @return string
-     */
-    public function getAreaCode()
-    {
-        return $this->_code;
     }
 
     /**
@@ -255,18 +238,16 @@ class Mage_Core_Model_App_Area
      */
     protected function _initTranslate()
     {
-        /** @var $objectManager Mage_ObjectManager */
-        $objectManager = $this->_objectManager;
-
-        /** @var _translateConfig Mage_Core_Model_Translate_Config */
-        $this->_translateConfig = $objectManager->get('Mage_Core_Model_Translate_Config');
-        $this->_translateConfig->setArea($this);
-
-        $eventManager = $objectManager->get('Mage_Core_Model_Event_Manager');
-        $eventManager->dispatch('translate_initialization_before', array(
-            'translate_object' => $this->_translator
+        $dispatchResult = new Varien_Object(array(
+            'inline_type' => null,
+            'params' => array('area' => $this->_code)
         ));
-        $this->_translator->init();
+        $eventManager = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
+        $eventManager->dispatch('translate_initialization_before', array(
+            'translate_object' => $this->_translator,
+            'result' => $dispatchResult
+        ));
+        $this->_translator->init($this->_code, $dispatchResult, false);
         return $this;
     }
 

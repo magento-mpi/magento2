@@ -113,7 +113,7 @@ class Mage_Core_Model_Translate
     /**
      * @var Mage_Core_Model_Translate_TranslateInterface
      */
-    protected $_translateObject;
+    protected $_translateInterface;
 
     /**
      * Configuration flag to local enable inline translations
@@ -130,46 +130,40 @@ class Mage_Core_Model_Translate
     protected $_localeHierarchy = array();
 
     /**
-     *
-     * @var
+     * @var Mage_Core_Model_Design_Package
      */
-    protected $_translateConfig;
-    /**
-     * @var Magento_ObjectManager
-     */
-    protected $_objectManager;
+    protected $_designPackage;
 
     /**
      * Initialize translate model
      *
+     * @param Mage_Core_Model_Design_Package $designPackage
      * @param Mage_Core_Model_Locale_Hierarchy_Loader $loader
-     * @param Mage_Core_Model_Translate_Config $translateConfig
-     * @param Magento_ObjectManager $objectManager
+     * @param Mage_core_Model_Translate_Factory $translateFactory
      */
     public function __construct(
+        Mage_Core_Model_Design_Package $designPackage,
         Mage_Core_Model_Locale_Hierarchy_Loader $loader,
-        Mage_Core_Model_Translate_Config $translateConfig,
-        Magento_ObjectManager $objectManager
+        Mage_Core_Model_Translate_Factory $translateFactory
     ) {
-        $this->_translateConfig = $translateConfig;
+        $this->_designPackage = $designPackage;
         $this->_localeHierarchy = $loader->load();
-        $this->_objectManager = $objectManager;
+        $this->_translateFactory = $translateFactory;
     }
 
     /**
      * Initialization translation data
      *
+     * @param string $area
+     * @param Varien_Object $initParams
+     * @param bool $forceReload
      * @return Mage_Core_Model_Translate
      */
-    public function init()
+    public function init($area, $initParams, $forceReload = false)
     {
-        /** @var $area  */
-        $area = $this->_translateConfig->getArea()->getAreaCode();
-        $forceReload = $this->_translateConfig->getForceReload();
-
         $this->setConfig(array(self::CONFIG_KEY_AREA => $area));
 
-        $this->_translateInline = $this->getTranslateObject()->isAllowed(
+        $this->_translateInline = $this->getTranslateObject($initParams)->isAllowed(
             $area == Mage_Backend_Helper_Data::BACKEND_AREA_CODE ? 'admin' : null);
 
         if (!$forceReload) {
@@ -235,7 +229,7 @@ class Mage_Core_Model_Translate
         }
         if (!isset($this->_config[self::CONFIG_KEY_DESIGN_THEME])) {
             /** @var $designPackage Mage_Core_Model_Design_Package */
-            $designPackage = $this->_objectManager->get('Mage_Core_Model_Design_Package');
+            $designPackage = Mage::getObjectManager()->get('Mage_Core_Model_Design_Package');
             $this->_config[self::CONFIG_KEY_DESIGN_THEME] = $designPackage->getDesignTheme()->getId();
         }
         return $this;
@@ -289,16 +283,6 @@ class Mage_Core_Model_Translate
         $isJson = Mage_Core_Model_Translate_InlineAbstract::JSON_FLAG_DEFAULT_STATE
     ) {
         return $this->getTranslateObject()->processResponseBody($body, $isJson);
-    }
-
-    /**
-     * Returns the translate config for this translate instance.
-     *
-     * @return Mage_Core_Model_Translate_Config
-     */
-    public function getTranslateConfig()
-    {
-        return $this->_translateConfig;
     }
 
     /**
@@ -399,7 +383,7 @@ class Mage_Core_Model_Translate
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
         foreach ($requiredLocaleList as $locale) {
             /** @var $designPackage Mage_Core_Model_Design_Package */
-            $designPackage = $this->_objectManager->get('Mage_Core_Model_Design_Package');
+            $designPackage = Mage::getObjectManager()->get('Mage_Core_Model_Design_Package');
             $file = $designPackage->getLocaleFileName('translate.csv', array('locale' => $locale));
             $this->_addData(
                 $this->_getFileData($file),
@@ -690,14 +674,20 @@ class Mage_Core_Model_Translate
     /**
      * Returns the translate interface object.
      *
+     * @param Varien_Object $initParams
      * @return Mage_Core_Model_Translate_TranslateInterface
      */
-    private function getTranslateObject()
+    private function getTranslateObject($initParams = null)
     {
-        if (null === $this->_translateObject) {
-            $translateFactory = $this->_objectManager->get('Mage_Core_Model_Translate_Factory');
-            $this->_translateObject = $translateFactory->createFromConfig($this->_translateConfig);
+        if (null === $this->_translateInterface) {
+            //$this->_translateInterface = $this->_translateFactory->createFromConfig($this->_translateConfig);
+            if ($initParams === null) {
+                $this->_translateInterface = $this->_translateFactory->create();
+            } else {
+                $this->_translateInterface = $this->_translateFactory
+                    ->create($initParams->getParams(), $initParams->getInlineType());
+            }
         }
-        return $this->_translateObject;
+        return $this->_translateInterface;
     }
 }
