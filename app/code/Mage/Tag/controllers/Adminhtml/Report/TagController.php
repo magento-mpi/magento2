@@ -34,9 +34,7 @@ class Mage_Tag_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_
 
     public function customerAction()
     {
-        $this->_title($this->__('Reports'))
-             ->_title($this->__('Tags'))
-             ->_title($this->__('Customers'));
+        $this->_title($this->__('Customers'));
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Tag::report_tags_customer')
@@ -68,9 +66,7 @@ class Mage_Tag_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_
 
     public function productAction()
     {
-        $this->_title($this->__('Reports'))
-             ->_title($this->__('Tags'))
-             ->_title($this->__('Products'));
+        $this->_title($this->__('Products'));
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Tag::report_tags_product')

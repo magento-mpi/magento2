@@ -40,9 +40,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
      */
     protected function _initRole($requestVariable = 'rid')
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Permissions'))
-             ->_title($this->__('Roles'));
+        $this->_title($this->__('Roles'));
 
         $role = Mage::getModel('Mage_User_Model_Role')->load($this->getRequest()->getParam($requestVariable));
         // preventing edit of relation role
@@ -60,9 +58,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
      */
     public function indexAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Permissions'))
-             ->_title($this->__('Roles'));
+        $this->_title($this->__('Roles'));
 
         $this->_initAction();
 

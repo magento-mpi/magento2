@@ -12,7 +12,7 @@
 manage_products:
     mca: catalog_product/
     click_xpath: //div[@class='submenu']//a[contains(@href, '/catalog_product/')]
-    title: Manage Products / Catalog / Magento Admin
+    title: Manage Products / Inventory / Products / Magento Admin
     uimap: &manageProductsUimap
         form:
             fieldsets:
@@ -79,13 +79,13 @@ manage_products:
 manage_products_store:
     mca: catalog_product/index/store/%storeId%/
     click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_product/')]
-    title: Manage Products / Catalog / Magento Admin
+    title: Manage Products / Inventory / Products / Magento Admin
     uimap: *manageProductsUimap
 
 # Add New Product page
 new_product:
     mca: catalog_product/new/set/%setId%/type/%productType%/
-    title: New Product / Manage Products / Catalog / Magento Admin
+    title: New Product / Manage Products / Inventory / Products / Magento Admin
     uimap: &newProduct
         form: &newProductCreationForm
             fieldsets: &new_product_fieldsets
@@ -245,7 +245,7 @@ new_product:
                                         option_line: //tbody/tr
                             -
                                 variations_matrix_grid:
-                                    xpath: //div[@id='product-variations-matrix']//table
+                                    xpath: //div[@data-role='product-variations-matrix']//table
                                     checkboxes:
                                         include_variation: //tbody/tr[%attributeSearch%]//input[@name='associated_product_ids[]']
                                         assigned_product: //tbody/tr[td/text()='%productSku%'][%attributeSearch%]//input[@checked='checked']
@@ -253,7 +253,7 @@ new_product:
                                         variations_matrix_header: //thead/tr
                                         variation_line: //tbody/tr
                                         attribute_header: //thead//th[text()='%attributeTitle%']
-                                        variation_price: //tbody/tr[%attributeSearch%]//td[@class='col-price associated-matrix-product-price']
+                                        variation_price: //tbody/tr[%attributeSearch%]//td[@data-column='price']
                                     buttons:
                                         choose: //tbody/tr[%attributeSearch%]//button[@title='Choose']
                                     fields:
@@ -289,7 +289,7 @@ new_product:
                                         move_grouped_product: //tr[td[normalize-space(text())='%productSku%']]//*[@class='ui-icon ui-icon-grip-dotted-vertical']
                                     pageelements:
                                         selected_grouped_product: //tr[td[normalize-space(text())='%productSku%']]
-                                        grouped_assigned_products: //tr[not(contains(@style,'display: none;'))]/td[contains(@class, 'grouped-product-sku')]
+                                        grouped_assigned_products: //tr[not(contains(@style,'display: none;'))]/td[@data-column='sku']
                             -
                                 bundle_items:
                                     xpath: //*[@id='bundle_product-wrapper']
@@ -450,7 +450,7 @@ new_product:
                         fieldsets:
                             -
                                 product_gift_options:
-                                    xpath: //div[*/*/span='Autosettings']
+                                    xpath: //div[div/strong/span='Autosettings']
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     checkboxes:
@@ -728,7 +728,7 @@ new_product:
 # Edit Product page
 edit_product:
     mca: catalog_product/edit/id/%id%/
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
     uimap: &editProduct
         form:
             fieldsets: *new_product_fieldsets
@@ -810,27 +810,27 @@ edit_product:
 
 new_product_save_and_continue:
     mca: catalog_product/edit/id/%id%/set/%setId%/type/%productType%/back/edit/active_tab/%tab%/
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
     uimap: *editProduct
 
 edit_product_save_and_continue:
     mca: catalog_product/edit/id/%id%/back/edit/active_tab/%tab%/
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
     uimap: *editProduct
 
 edit_duplicated_product:
     mca: catalog_product/edit/id/%id%/active_tab/%tab%/
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
     uimap: *editProduct
 
 new_product_after_changed_attribute_set:
     mca: catalog_product/new/type/%productType%/?set=%setId%
-    title: New Product / Manage Products / Catalog / Magento Admin
+    title: New Product / Manage Products / Inventory / Products / Magento Admin
     uimap: *newProduct
 
 edit_product_after_changed_attribute_set:
     mca: catalog_product/edit/id/%id%/?set=%setId%
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
     uimap: *editProduct
 
 updating_products:
@@ -865,7 +865,6 @@ updating_products:
                                         attributes_change_recurring_profile: //*[@id='is_recurring']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_set_product_as_new_from_date: //*[@id='news_from_date']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_set_product_as_new_to_date: //*[@id='news_to_date']//following-sibling::*//*[@type="checkbox"]
-                                        attributes_change_status: //*[@id='status']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_enable_recurring_profile: //*[@id='is_recurring']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_visibility: //*[@id='visibility']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_custom_design: //*[@id='custom_design']//following-sibling::*//*[@type="checkbox"]

@@ -99,10 +99,11 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
     public function testIsAssigned()
     {
         $themeServiceMock = $this->getMock('Mage_Core_Model_Theme_Service', array(), array(), '', false);
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('getCollection', 'getId'), array(), '', false);
+        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('getCollection', 'getId'), array(), '', false,
+            false);
         $themeServiceMock->expects($this->atLeastOnce())->method('isThemeAssignedToStore')
             ->with($themeMock)
-            ->will($this->returnValue($themeMock));
+            ->will($this->returnValue(true));
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments('Mage_Core_Model_Theme_Domain_Virtual',
             array(
@@ -112,6 +113,6 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
         );
         /** @var $model Mage_Core_Model_Theme_Domain_Virtual */
         $model = $objectManagerHelper->getObject('Mage_Core_Model_Theme_Domain_Virtual', $constructArguments);
-        $this->assertEquals($themeMock, $model->isAssigned());
+        $this->assertEquals(true, $model->isAssigned());
     }
 }

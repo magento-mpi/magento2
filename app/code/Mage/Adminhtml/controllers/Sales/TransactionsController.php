@@ -45,8 +45,7 @@ class Mage_Adminhtml_Sales_TransactionsController extends Mage_Adminhtml_Control
 
     public function indexAction()
     {
-        $this->_title($this->__('Sales'))
-            ->_title($this->__('Transactions'));
+        $this->_title($this->__('Transactions'));
 
         $this->loadLayout()
             ->_setActiveMenu('Mage_Sales::sales_transactions')
@@ -71,9 +70,8 @@ class Mage_Adminhtml_Sales_TransactionsController extends Mage_Adminhtml_Control
         if (!$txn) {
             return;
         }
-        $this->_title($this->__('Sales'))
-            ->_title($this->__('Transactions'))
-            ->_title(sprintf("#%s", $txn->getTxnId()));
+        $this->_title($this->__('Transactions'))
+             ->_title(sprintf("#%s", $txn->getTxnId()));
 
         $this->loadLayout()
             ->_setActiveMenu('Mage_Sales::sales_transactions')

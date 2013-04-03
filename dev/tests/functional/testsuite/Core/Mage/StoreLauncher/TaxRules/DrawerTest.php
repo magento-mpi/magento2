@@ -117,9 +117,6 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
      */
     public function createTaxRateRequiredFieldsOnly($taxRateDataSetName)
     {
-        if ($taxRateDataSetName == 'tax_rate_create_test_zip_yes') {
-            $this->markTestIncomplete('MAGETWO-7602');
-        }
         $this->storeLauncherHelper()->openDrawer('tax_rules_tile');
         $rate = $this->loadDataSet('Tax', $taxRateDataSetName);
         $search = $this->loadDataSet('Tax', 'search_tax_rate', array('filter_tax_id' => $rate['tax_identifier']));
@@ -152,7 +149,6 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
      */
     public function editExistingTaxRate()
     {
-        $this->markTestIncomplete('MAGETWO-7602');
         $rate = $this->loadDataSet('Tax', 'tax_rate_create_test_zip_no');
         $this->storeLauncherHelper()->openDrawer('tax_rules_tile');
         $this->taxRuleHelper()->createTaxRate($rate);

@@ -73,7 +73,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
      */
     public function indexAction()
     {
-        $this->_title($this->__('Sales'))->_title($this->__('Orders'));
+        $this->_title($this->__('Orders'));
 
         $this->_initAction()
             ->renderLayout();
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
      */
     public function viewAction()
     {
-        $this->_title($this->__('Sales'))->_title($this->__('Orders'));
+        $this->_title($this->__('Orders'));
 
         if ($order = $this->_initOrder()) {
             $this->_initAction();

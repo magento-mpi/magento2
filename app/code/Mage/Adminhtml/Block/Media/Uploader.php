@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
     {
         $head = $this->getLayout()->getBlock('head');
         if ($head) {
-            $head->addCss('Mage_Adminhtml::jquery/fileUploader/css/jquery.fileupload-ui.css');
+            $head->addCss('jquery/fileUploader/css/jquery.fileupload-ui.css');
         }
         return parent::_prepareLayout();
     }

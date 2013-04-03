@@ -151,7 +151,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
                         manageStockField = $('#inventory_manage_stock'),
                         useConfigManageStockField = $('#inventory_use_config_manage_stock');
 
-                    var disabler = function() {
+                    var disabler = function(event) {
                         var hasVariation = $('#config_super_product-wrapper').is('.opened');
                         if ((productType == 'configurable' && hasVariation)
                             || productType == 'grouped'
@@ -166,7 +166,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Varien_Data
                         } else {
                             stockAvailabilityField.prop('disabled', true);
                         }
-                        if (manageStockField.val() != manageStockValue) {
+                        if (manageStockField.val() != manageStockValue && !(event && event.type == 'keyup')) {
                             if (useConfigManageStockField.val() == 1) {
                                 useConfigManageStockField.removeAttr('checked').val(0);
                             }

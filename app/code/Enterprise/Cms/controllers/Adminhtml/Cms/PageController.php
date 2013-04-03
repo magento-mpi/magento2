@@ -62,7 +62,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
      */
     protected function _initPage()
     {
-        $this->_title($this->__('CMS'))->_title($this->__('Pages'));
+        $this->_title($this->__('Pages'));
 
         $pageId = (int) $this->getRequest()->getParam('page_id');
         $page = Mage::getModel('Mage_Cms_Model_Page');

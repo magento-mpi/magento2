@@ -39,7 +39,7 @@
             events: {},
             appendMethod: 'after',
             controls: {
-                selector: ':ui-menu',
+                selector: ':ui-menu, :mage-menu',
                 eventsMap: {
                     focus: ['menufocus'],
                     blur: ['menublur'],
@@ -760,7 +760,7 @@
         _getOptions: function() {
             return this.valueField.find('option');
         },
-        
+
         /**
          * @override
          */

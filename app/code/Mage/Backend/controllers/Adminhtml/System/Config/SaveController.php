@@ -87,8 +87,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
             $authorization, $configStructure, $authSession, $layoutFactory, $areaCode, $invokeArgs
         );
 
-        $this->_authorization = $authorization;
-        $this->_configStructure = $configStructure;
         $this->_configFactory = $configFactory;
         $this->_eventManager = $eventManager;
         $this->_app = $app;

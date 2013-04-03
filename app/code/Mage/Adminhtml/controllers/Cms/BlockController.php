@@ -39,7 +39,7 @@ class Mage_Adminhtml_Cms_BlockController extends Mage_Adminhtml_Controller_Actio
      */
     public function indexAction()
     {
-        $this->_title($this->__('CMS'))->_title($this->__('Static Blocks'));
+        $this->_title($this->__('Static Blocks'));
 
         $this->_initAction();
         $this->renderLayout();
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Cms_BlockController extends Mage_Adminhtml_Controller_Actio
      */
     public function editAction()
     {
-        $this->_title($this->__('CMS'))->_title($this->__('Static Blocks'));
+        $this->_title($this->__('Static Blocks'));
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('block_id');
