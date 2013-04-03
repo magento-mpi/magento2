@@ -76,11 +76,12 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
             if (isset($trueCategory)) {
                 $trueSubCat = array();
                 foreach ($trueCategory as $data) {
-                    $trueSubCat = array_merge($trueSubCat, $this->defineCorrectCategory($categoryNode, $data));
+                    $trueSubCat =
+                        array_merge($trueSubCat, $this->defineCorrectCategory($categoryNode, $data, $fieldsetName));
                 }
                 $trueCategory = $trueSubCat;
             } else {
-                $trueCategory = $this->defineCorrectCategory($categoryNode);
+                $trueCategory = $this->defineCorrectCategory($categoryNode, null, $fieldsetName);
             }
             if (empty($trueCategory)) {
                 list($path) = explode($categoryNode, $categoryPath);

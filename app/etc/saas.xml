@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <configurators>
+            <saas>Saas_Saas_Model_ObjectManager_Configurator</saas>
+        </configurators>
+    </global>
+</config>

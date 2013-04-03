@@ -29,7 +29,7 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      */
     protected function _prepareData($data)
     {
-        $result   = array();
+        $result = array();
         foreach ($this->_adapters as $adapter) {
             foreach ($data as $row) {
                 $row[] = Varien_Image_Adapter::factory($adapter);
@@ -80,7 +80,7 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      */
     protected function _getFixture($pattern)
     {
-        $dir  = dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files'. DIRECTORY_SEPARATOR;
+        $dir = dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
         $data = glob($dir . $pattern);
 
         if (!empty($data)) {
@@ -153,7 +153,7 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     public function testOpen($image, $adapter)
     {
         $this->_isAdapterAvailable($adapter);
-        try  {
+        try {
             $adapter->open($image);
         } catch (Exception $e) {
             $result = $this->_isFormatSupported($image, $adapter);
@@ -319,7 +319,7 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
             $adapter->getOriginalWidth(),
             $adapter->getOriginalHeight()
         ));
-        $colorAfter  = $adapter->getColorAt($newPixel['x'], $newPixel['y']);
+        $colorAfter = $adapter->getColorAt($newPixel['x'], $newPixel['y']);
 
         $result = $this->_compareColors($colorBefore, $colorAfter);
         $this->assertTrue($result, join(',', $colorBefore) . ' not equals ' . join(',', $colorAfter));
@@ -336,7 +336,7 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      */
     protected function _convertCoordinates($pixel, $angle, $oldSize, $size)
     {
-        $angle  = $angle * pi() / 180;
+        $angle = $angle * pi() / 180;
         $center = array(
             'x' => $oldSize[0] / 2,
             'y' => $oldSize[1] / 2,
@@ -345,8 +345,8 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
         $pixel['x'] -= $center['x'];
         $pixel['y'] -= $center['y'];
         return array(
-            'x' => round($size[0]/2 + $pixel['x'] * cos($angle) + $pixel['y'] * sin($angle), 0),
-            'y' => round($size[1]/2 + $pixel['y'] * cos($angle) - $pixel['x'] * sin($angle), 0)
+            'x' => round($size[0] / 2 + $pixel['x'] * cos($angle) + $pixel['y'] * sin($angle), 0),
+            'y' => round($size[1] / 2 + $pixel['y'] * cos($angle) - $pixel['x'] * sin($angle), 0)
         );
     }
 
@@ -404,9 +404,9 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
             ->setWatermarkImageOpacity($opacity)
             ->setWatermarkPosition($position)
             ->watermark($watermark);
-        $colorAfter  = $adapter->getColorAt($pixel['x'], $pixel['y']);
+        $colorAfter = $adapter->getColorAt($pixel['x'], $pixel['y']);
 
-        $result  = $this->_compareColors($colorBefore, $colorAfter);
+        $result = $this->_compareColors($colorBefore, $colorAfter);
         $message = join(',', $colorBefore) . ' not equals ' . join(',', $colorAfter);
         $this->assertFalse($result, $message);
     }
@@ -489,7 +489,7 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     {
         switch ($position) {
             case Varien_Image_Adapter_Abstract::POSITION_BOTTOM_RIGHT:
-                $pixel['x'] = $adapter->getOriginalWidth()  - 1;
+                $pixel['x'] = $adapter->getOriginalWidth() - 1;
                 $pixel['y'] = $adapter->getOriginalHeight() - 1;
                 break;
             case Varien_Image_Adapter_Abstract::POSITION_BOTTOM_LEFT:
@@ -503,6 +503,10 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
             case Varien_Image_Adapter_Abstract::POSITION_TOP_RIGHT:
                 $pixel['x'] = $adapter->getOriginalWidth() - 1;
                 $pixel['y'] = 1;
+                break;
+            case Varien_Image_Adapter_Abstract::POSITION_CENTER:
+                $pixel['x'] = $adapter->getOriginalWidth() / 2;
+                $pixel['y'] = $adapter->getOriginalHeight() / 2;
                 break;
             case Varien_Image_Adapter_Abstract::POSITION_STRETCH:
             case Varien_Image_Adapter_Abstract::POSITION_TILE:
@@ -530,8 +534,8 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
         $adapter->open($image);
 
         $expectedSize = array(
-            $adapter->getOriginalWidth()  - $left - $right,
-            $adapter->getOriginalHeight() - $top  - $bottom
+            $adapter->getOriginalWidth() - $left - $right,
+            $adapter->getOriginalHeight() - $top - $bottom
         );
 
         $adapter->crop($top, $left, $right, $bottom);
@@ -560,5 +564,66 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
                 0, 0, 0, 0
             )
         ));
+    }
+
+    /**
+     * @dataProvider createPngFromStringDataProvider
+     *
+     * @param array $pixe1
+     * @param array $expectedColor1
+     * @param array $pixe2
+     * @param array $expectedColor2
+     * @param Varien_Image_Adapter_Abstract $adapter
+     */
+    public function testCreatePngFromString($pixel1, $expectedColor1, $pixel2, $expectedColor2, $adapter)
+    {
+        $this->_isAdapterAvailable($adapter);
+        $adapter->createPngFromString('T', Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf');
+        $adapter->refreshImageDimensions();
+
+        $color1 = $adapter->getColorAt($pixel1['x'], $pixel1['y']);
+        $this->assertEquals($expectedColor1, $color1);
+
+        $color2 = $adapter->getColorAt($pixel2['x'], $pixel2['y']);
+        $this->assertEquals($expectedColor2, $color2);
+    }
+
+    /**
+     * We use different points for same cases for different adapters because of different antialiasing behavior
+     * @link http://php.net/manual/en/function.imageantialias.php
+     * @return array
+     */
+    public function createPngFromStringDataProvider()
+    {
+        return array(
+            array(
+                array('x' => 5, 'y' => 8),
+                'expectedColor1' => array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0),
+                array('x' => 0, 'y' => 15),
+                'expectedColor2' => array('red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 127),
+                Varien_Image_Adapter::factory(Varien_Image_Adapter::ADAPTER_GD2)
+            ),
+            array(
+                array('x' => 4, 'y' => 7),
+                'expectedColor1' => array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0),
+                array('x' => 0, 'y' => 15),
+                'expectedColor2' => array('red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 127),
+                Varien_Image_Adapter::factory(Varien_Image_Adapter::ADAPTER_IM)
+            ),
+            array(
+                array('x' => 1, 'y' => 14),
+                'expectedColor1' => array('red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 127),
+                array('x' => 5, 'y' => 12),
+                'expectedColor2' => array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0),
+                Varien_Image_Adapter::factory(Varien_Image_Adapter::ADAPTER_GD2)
+            ),
+            array(
+                array('x' => 1, 'y' => 14),
+                'expectedColor1' => array('red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 127),
+                array('x' => 4, 'y' => 10),
+                'expectedColor2' => array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0),
+                Varien_Image_Adapter::factory(Varien_Image_Adapter::ADAPTER_IM)
+            ),
+        );
     }
 }

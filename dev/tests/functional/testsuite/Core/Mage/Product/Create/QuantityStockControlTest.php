@@ -240,7 +240,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
     {
         //Data
         $product = $this->loadDataSet('Product', 'simple_product_sync_inventory');
-        $inventory = array('inventory_qty' => '37', 'inventory_stock_availability' => 'In Stock');
+        $inventory = array('inventory_stock_availability' => 'In Stock', 'inventory_qty' => '9');
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($product, 'simple', false);
@@ -308,6 +308,8 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         );
         //Steps
         $this->fillDropdown('inventory_stock_availability', $newStockData);
+        $this->fillField('inventory_qty', '');
+        $this->fillDropdown('inventory_manage_stock', 'Yes');
         $this->fillField('inventory_qty', $qty);
         $this->productHelper()->verifyProductInfo(array('general_stock_availability' => $newStockData,
                                                         'general_qty'                => $qty));
@@ -358,6 +360,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
         $this->productHelper()->saveProduct('duplicate');
         //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $productData['general_sku'] = $this->productHelper()->getGeneratedSku($productData['general_sku']);
         $productData['inventory_manage_stock_default'] = 'No';

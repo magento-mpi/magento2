@@ -1033,7 +1033,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
             return $array;
         }
         $filterInput = new Zend_Filter_LocalizedToNormalized(array(
-            'date_format' => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
+            'date_format' => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
         ));
         $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
             'date_format' => Varien_Date::DATE_INTERNAL_FORMAT
@@ -1061,7 +1061,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
             return $array;
         }
         $filterInput = new Zend_Filter_LocalizedToNormalized(array(
-            'date_format' => Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
+            'date_format' => Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
         ));
         $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
             'date_format' => Varien_Date::DATETIME_INTERNAL_FORMAT

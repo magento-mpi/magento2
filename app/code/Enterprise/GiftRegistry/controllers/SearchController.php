@@ -157,7 +157,7 @@ class Enterprise_GiftRegistry_SearchController extends Mage_Core_Controller_Fron
             return $array;
         }
         if (is_null($format)) {
-            $format = Mage_Core_Model_Locale::FORMAT_TYPE_SHORT;
+            $format = Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT;
         }
 
         $filterInput = new Zend_Filter_LocalizedToNormalized(array(

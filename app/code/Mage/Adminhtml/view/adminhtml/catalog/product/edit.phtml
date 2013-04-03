@@ -175,7 +175,8 @@ jQuery(function($) {
 
     $form.data('autogenerator', new Autogenerator(masks).bindAll());
 
-    $('.widget-button-save .item-default, #save-split-button-duplicate-button[onclick=""]').parent().hide();
+    $('.widget-button-save .item-default').parent().hide();
+
     $(window).load(function() {
         if ($.trim($('#name').val()) == '') {
             $('#name').focus();
@@ -191,6 +192,11 @@ jQuery(function($) {
     });
 
     $form.on('changeAttributeSet', function(event, data) {
+        if (data.label) {
+            $('#product-template-suggest-container .action-toggle>span').text(data.label);
+        }
+        $('#product-template-suggest').suggest('option', "currentlySelected", data.id).val('');
+
         var uri = document.location.href.replace(/(\/|&|\?)?\bset(\/|=)\d+/g, '').replace(/#[^#]*$/, '');
         uri += /\?/.test(uri) ? '&' : '?';
         uri += 'set=' + window.encodeURIComponent(data.id);

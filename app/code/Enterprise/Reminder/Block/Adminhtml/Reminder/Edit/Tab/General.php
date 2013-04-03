@@ -99,7 +99,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             $model->setData('is_active', '1');
         }
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        $dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',

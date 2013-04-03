@@ -146,7 +146,7 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
         }
 
         $store = Mage::app()->getStore($storeCode);
-        $store->setConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_TIMEZONE, $storeTimezone);
+        $store->setConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeTimezone);
 
         $design = Mage::getModel('Mage_Core_Model_Design');
         $design->loadChange($store->getId());

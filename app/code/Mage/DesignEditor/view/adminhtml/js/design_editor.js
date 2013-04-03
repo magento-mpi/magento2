@@ -236,6 +236,7 @@
             return postResult;
         },
         _destroy: function() {
+            $('body').off(this.options.saveEvent + ' ' + this.options.saveAndAssignEvent);
             this.element.find( this.options.cellSelector ).each( function(i, element) {
                 $(element).data('vde_menu').destroy();
             });
@@ -282,23 +283,33 @@
         },
         _initFrame: function() {
             this._resizeFrame();
+        },
+        _destroy: function() {
+            $(this.options.panelSelector)
+                .each(function(eIndex, element) {
+                    element = $(element);
+                    var instance = element.data('vde_panel');
+                    if (instance) {
+                        instance.destroy();
+                    }
+                });
+            this._super();
         }
     });
 
     /**
      * Widget page highlight functionality
      */
-    var pageBasePrototype = $.vde.vde_page.prototype;
-    $.widget('vde.vde_page', $.extend({}, pageBasePrototype, {
+    $.widget('vde.vde_page', $.vde.vde_page, {
         _create: function () {
-            pageBasePrototype._create.apply(this, arguments);
+            this._superApply(arguments);
             if (this.options.highlightElementSelector) {
                 this._initHighlighting();
                 this._bind();
             }
         },
         _bind: function () {
-            pageBasePrototype._bind.apply(this, arguments);
+            this._superApply(arguments);
             var self = this;
             this.element
                 .on('checked.vde_checkbox', function () {
@@ -358,7 +369,7 @@
         _getChildren: function(parentId) {
             return (!this.highlightBlocks[parentId]) ? [] : this.highlightBlocks[parentId];
         }
-    }));
+    });
 
     $( document ).ready(function( ) {
         var body = $('body');

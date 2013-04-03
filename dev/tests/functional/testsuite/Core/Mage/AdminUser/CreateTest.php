@@ -41,6 +41,8 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->buttonIsPresent('back'), 'There is no "Back" button on the page');
         $this->assertTrue($this->buttonIsPresent('save_admin_user'), 'There is no "Save User" button on the page');
         $this->assertTrue($this->buttonIsPresent('reset'), 'There is no "Reset" button on the page');
+        $this->assertTrue($this->controlIsPresent('dropdown', 'interface_locale'),
+            'There is no "Interface Locale" dropdown on the page');
     }
 
     /**
@@ -120,8 +122,13 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
         $this->addParameter('fieldId', $fieldId);
-        $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        if ($emptyField == 'password_confirmation') {
+            $this->assertMessagePresent('error', 'password_unmatch');
+            $this->assertEquals(1, $this->count($this->getParsedMessages('error')));
+        } else {
+            $this->assertMessagePresent('error', 'empty_required_field');
+            $this->assertEquals(1, $this->count($this->assertMessagePresent('error', 'empty_required_field')));
+        }
     }
 
     public function withRequiredFieldsEmptyDataProvider()
@@ -328,5 +335,24 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->loginAdmin($userData);
         //Verifying
         $this->assertMessagePresent('error', 'access_denied');
+    }
+
+    /**
+     * <p>Need to verify that it is possible create admin user with not default language</p>
+     *
+     * @test
+     * @depends withRequiredFieldsOnly
+     * @TestlinkId TL-MAGE-6926
+     */
+    public function withInterfaceLocale()
+    {
+        //Data
+        $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user',
+            array('interface_locale'=>'Deutsch (Deutschland) / German (Germany)'));
+        //Steps
+        $this->adminUserHelper()->createAdminUser($userData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_user');
+
     }
 }

@@ -13,7 +13,7 @@
 manage_customer_attributes:
     mca: customer_attribute/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_attribute')]
-    title: Manage Customer Attributes / Magento Admin
+    title: Manage Customer Attributes / Stores / Magento Admin
     uimap:
         form: &searchCustomerAttributeGrid
             fieldsets:
@@ -50,7 +50,7 @@ manage_customer_attributes:
 # Add New Customer Attribute page
 new_customer_attribute:
     mca: customer_attribute/new/
-    title: New Attribute / Manage Customer Attributes / Magento Admin
+    title: New Attribute / Manage Customer Attributes / Stores / Magento Admin
     uimap:
         form: &newCustomerAttributeForm
             tabs:
@@ -107,7 +107,7 @@ new_customer_attribute:
                                     required: [admin_title]
                             -
                                 manage_options:
-                                    xpath: "//div[@id='matage-options-panel' and not(@style='display: none;')]"
+                                    xpath: "//div[@id='manage-options-panel' and not(@style='display: none;')]"
                                     buttons:
                                         add_option: //button[@id='add_new_option_button']
                                         delete_option: //td[contains(input/@name,'option[delete][option_%fieldOptionNumber%]')]/button
@@ -132,7 +132,7 @@ new_customer_attribute:
 # Manage customer Attributes page
 edit_customer_attribute:
     mca: customer_attribute/edit/attribute_id/%id%/
-    title: %elementTitle% / Manage Customer Attributes / Magento Admin
+    title: %elementTitle% / Manage Customer Attributes / Stores / Magento Admin
     uimap:
         form: &editCustomerAttributeForm
             tabs:
@@ -151,7 +151,7 @@ edit_customer_attribute:
                                     required: [admin_title]
                             -
                                 manage_options:
-                                    xpath: "//div[@id='matage-options-panel' and not(@style='display: none;')]"
+                                    xpath: "//div[@id='manage-options-panel' and not(@style='display: none;')]"
                                     buttons:
                                         add_option: //button[@id='add_new_option_button']
                                         delete_option: //td[contains(input/@name,'option[delete][%fieldOptionNumber%]')]/button

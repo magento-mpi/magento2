@@ -49,7 +49,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     /**
      * Locale instance used for importing/exporting data
      *
-     * @var Mage_Core_Model_Locale
+     * @var Mage_Core_Model_LocaleInterface
      */
     protected $_locale = null;
 
@@ -195,7 +195,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
         $startDate = $buyRequest->getData(self::BUY_REQUEST_START_DATETIME);
         if ($startDate) {
             $this->_ensureLocaleAndStore();
-            $dateFormat = $this->_locale->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+            $dateFormat = $this->_locale->getDateTimeFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
             $localeCode = $this->_locale->getLocaleCode();
             if (!Zend_Date::isDate($startDate, $dateFormat, $localeCode)) {
                 Mage::throwException(Mage::helper('Mage_Payment_Helper_Data')->__('Recurring profile start date has invalid format.'));
@@ -296,7 +296,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
         }
         $date = $this->_locale->storeDate($this->_store, strtotime($datetime), true);
         if ($asString) {
-            return $date->toString($this->_locale->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT));
+            return $date->toString($this->_locale->getDateTimeFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT));
         }
         return $date;
     }
@@ -304,10 +304,10 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     /**
      * Locale instance setter
      *
-     * @param Mage_Core_Model_Locale $locale
+     * @param Mage_Core_Model_LocaleInterface $locale
      * @return Mage_Payment_Model_Recurring_Profile
      */
-    public function setLocale(Mage_Core_Model_Locale $locale)
+    public function setLocale(Mage_Core_Model_LocaleInterface $locale)
     {
         $this->_locale = $locale;
         return $this;

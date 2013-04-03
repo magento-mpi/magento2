@@ -13,7 +13,7 @@
 manage_shopping_cart_price_rules:
     mca: promo_quote/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'promo_quote')]
-    title: Shopping Cart Price Rules / Promotions / Magento Admin
+    title: Shopping Cart Price Rules / Promotions / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -61,7 +61,7 @@ manage_shopping_cart_price_rules:
 
 create_shopping_cart_price_rule:
     mca: promo_quote/new/
-    title: New Rule / Magento Admin
+    title: New Rule / Promotions / Marketing / Magento Admin
     uimap:
         form: &createNewRule
             tabs:
@@ -217,7 +217,7 @@ create_shopping_cart_price_rule:
 
 edit_shopping_cart_price_rule:
     mca: promo_quote/edit/id/%id%/
-    title: %elementTitle% / Magento Admin
+    title: %elementTitle% / Promotions / Marketing / Magento Admin
     uimap:
         form:
             tabs:
