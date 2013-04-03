@@ -2206,7 +2206,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         } catch (Exception $e) {
             $this->getElement($locator)->click();
         }
-        $this->waitForAjax();
         if ($willChangePage) {
             $this->waitForPageToLoad();
             $this->addParameter('id', $this->defineIdFromUrl());
