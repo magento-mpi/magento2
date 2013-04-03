@@ -145,12 +145,5 @@
             <word>{license_notice}</word>
             <path>dev/tests/unit/testsuite/tools/migration/Acl/GeneratorTest.php</path>
         </item>
-        <item>
-            <!-- Temporarily removed from sanity check: MAGETWO-8904 -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <path>pub/lib/jquery/jquery.dropdowns.js</path>
-        </item>
     </whitelist>
 </config>

@@ -51,10 +51,8 @@
             <!--Product Tile-->
             <action method="addJs"><file>Mage_Adminhtml::catalog/base-image-uploader.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/category-selector.css</file></action>
-            <action method="addJs"><file>mage/backend/suggest.js</file></action>
             <action method="addJs"><file>jquery/jstree/jquery.hotkeys.js</file></action>
             <action method="addJs"><file>jquery/jstree/jquery.jstree.js</file></action>
-            <action method="addJs"><file>mage/backend/tree-suggest.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/type-switcher.js</file></action>
             <action method="addJs"><file>Mage_Catalog::js/product-gallery.js</file></action>
         </reference>

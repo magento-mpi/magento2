@@ -76,7 +76,7 @@ class Core_Mage_ProductAttribute_Create_MediaImageTest extends Mage_Selenium_Tes
      */
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
-        $this->markTestIncomplete('MAGETWO-8616');
+        $this->markTestIncomplete('MAGETWO-8909');
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
