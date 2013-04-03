@@ -1653,12 +1653,12 @@
 /*
     Tags
 -------------------------------------- */
-.tag-title .page-actions {
-    float: right;
+.tag-title {
+    overflow: hidden;
 }
 
-.tag-title .store-switcher {
-    padding: 14px 0 18px;
+.tag-title .page-actions {
+    float: right;
 }
 
 /*
