@@ -173,7 +173,9 @@ Customer account pages, rendered for all tabs in dashboard
     <customer_account translate="label" type="page" parent="default">
         <label>Customer My Account (All Pages)</label>
         <update handle="page_two_columns_left" />
-
+        <reference name="root">
+            <action method="addBodyClass"><class>account</class></action>
+        </reference>
         <reference name="content">
             <container name="my.account.wrapper" label="My Account Wrapper" htmlTag="div" htmlClass="my-account"/>
         </reference>

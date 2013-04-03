@@ -303,6 +303,7 @@ a > span {
             font-size: 20px;
         }
     }
+    margin-bottom:45px;
 }
 
 .sidebar .block {
@@ -314,6 +315,7 @@ a > span {
             font-size: 18px;
         }
     }
+    margin-bottom:45px;
 }
 
 /* Breadcrumbs */
@@ -4084,6 +4086,9 @@ and (max-width : 768px) {
 }
 
 /* Registration */
+.form.search.advanced,
+.form.orders.search,
+.form.contact,
 .form.password.forget,
 .form.create.account {
     .fieldset {
@@ -4180,6 +4185,128 @@ and (max-width : 768px) {
         }
     }
 }
+
+// Move to other place
+
+.form.search.advanced,
+.form.orders.search,
+.form.contact {
+    background: @primary1;
+    .borderBox();
+    padding:40px;
+    .fieldset {
+        width:auto;
+        background: none;
+        .legend {
+            background: none;
+        }
+    }
+    .action {
+        width:auto;
+        text-align:right;
+    }
+    .action {
+        .primaryAction();
+    }
+}
+
+/*
+ *    Mage_Customer
+ *
+ *    Account
+----------------------------------------------------------------------------- */
+.col2-left-layout.account {
+    .column.main {
+        .column(9);
+    }
+    .column.left {
+        .column(3);
+    }
+}
+
+
+.block.account.nav {
+    .title {
+        font-size: 18px;
+    }
+    .item {
+        margin-bottom:10px;
+        &.current {
+            color:@secondary1; //ADD
+        }
+    }
+    .item strong {
+        font-weight: 400;
+    }
+}
+.block.dashboard {
+    .title .action,
+    .subtitle .action {
+        font-weight: 400;
+        font-size: 14px;
+        margin-left:20px;
+        text-decoration: underline;
+        display: inline-block;
+        text-transform: lowercase;
+        span {
+        }
+        &:first-letter {
+            text-transform: uppercase;
+        }
+    }
+    .box {
+        .borderBox();
+        float:left;
+        width:50%;
+        line-height: 1.666;
+        address {
+            font-style: normal;
+        }
+    }
+    .content {
+        .clearfix();
+    }
+}
+.block.dashboard:not(.welcome):not(.orders) {
+    .content {
+        background: @primary1; //ADD
+        padding:30px;
+    }
+    .subtitle {
+        font-size: 18px;
+        font-weight: 200;
+        display: block;
+        margin-bottom:20px;
+    }
+}
+.data.table.orders.recent {
+    width:100%;
+    td,
+    th {
+        padding:10px 20px;
+        text-align:left;
+        &.col.total {
+            text-align: right;
+        }
+        &.col.actions {
+            white-space: nowrap;
+            .action:last-child {
+                margin-left:20px;
+            }
+        }
+        em {
+            font-style: normal;
+        }
+    }
+    th {
+        font-size: 16px;
+        font-weight: 400;
+    }
+    tr:nth-child(odd) td {
+        background: @primary1; //ADD
+    }
+}
+
 
 /*
  *    Homepage styles

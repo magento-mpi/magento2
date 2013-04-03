@@ -176,6 +176,9 @@ a > span:hover {
   color: #f47a1f;
 }
 /* General block */
+.column.main .block {
+  margin-bottom: 45px;
+}
 .column.main .block > .title {
   margin-bottom: 15px;
 }
@@ -183,6 +186,9 @@ a > span:hover {
   line-height: 1.2;
   font-weight: 200;
   font-size: 20px;
+}
+.sidebar .block {
+  margin-bottom: 45px;
 }
 .sidebar .block > .title {
   margin-bottom: 15px;
@@ -5662,6 +5668,9 @@ img[align="right"] {
   display: block;
 }
 /* Registration */
+.form.search.advanced .fieldset,
+.form.orders.search .fieldset,
+.form.contact .fieldset,
 .form.password.forget .fieldset,
 .form.create.account .fieldset {
   -webkit-box-sizing: border-box;
@@ -5688,6 +5697,9 @@ img[align="right"] {
   position: relative;
   z-index: 1;
 }
+.form.search.advanced .fieldset > .field,
+.form.orders.search .fieldset > .field,
+.form.contact .fieldset > .field,
 .form.password.forget .fieldset > .field,
 .form.create.account .fieldset > .field {
   width: 50%;
@@ -5695,15 +5707,24 @@ img[align="right"] {
   padding-right: 20px;
   vertical-align: top;
 }
+.form.search.advanced .fieldset > *,
+.form.orders.search .fieldset > *,
+.form.contact .fieldset > *,
 .form.password.forget .fieldset > *,
 .form.create.account .fieldset > * {
   letter-spacing: normal;
   word-spacing: normal;
 }
+.form.search.advanced .fieldset > .legend + br,
+.form.orders.search .fieldset > .legend + br,
+.form.contact .fieldset > .legend + br,
 .form.password.forget .fieldset > .legend + br,
 .form.create.account .fieldset > .legend + br {
   display: none;
 }
+.form.search.advanced .fieldset .legend,
+.form.orders.search .fieldset .legend,
+.form.contact .fieldset .legend,
 .form.password.forget .fieldset .legend,
 .form.create.account .fieldset .legend {
   float: left;
@@ -5716,11 +5737,17 @@ img[align="right"] {
   background: #fff;
   margin: -30px -10px 30px -30px;
 }
+.form.search.advanced .fieldset .legend  + br,
+.form.orders.search .fieldset .legend  + br,
+.form.contact .fieldset .legend  + br,
 .form.password.forget .fieldset .legend  + br,
 .form.create.account .fieldset .legend  + br {
   display: block;
   clear: both;
 }
+.form.search.advanced .fieldset > .field,
+.form.orders.search .fieldset > .field,
+.form.contact .fieldset > .field,
 .form.password.forget .fieldset > .field,
 .form.create.account .fieldset > .field {
   -moz-box-sizing: border-box;
@@ -5729,33 +5756,57 @@ img[align="right"] {
   margin: 0 0 10px;
   margin-bottom: 20px;
 }
+.form.search.advanced .fieldset > .field > .label,
+.form.orders.search .fieldset > .field > .label,
+.form.contact .fieldset > .field > .label,
 .form.password.forget .fieldset > .field > .label,
 .form.create.account .fieldset > .field > .label {
   display: block;
 }
+.form.search.advanced .fieldset > .field.choice > .control,
+.form.orders.search .fieldset > .field.choice > .control,
+.form.contact .fieldset > .field.choice > .control,
 .form.password.forget .fieldset > .field.choice > .control,
 .form.create.account .fieldset > .field.choice > .control {
   width: auto;
 }
+.form.search.advanced .fieldset > .field.choice > .label,
+.form.orders.search .fieldset > .field.choice > .label,
+.form.contact .fieldset > .field.choice > .label,
 .form.password.forget .fieldset > .field.choice > .label,
 .form.create.account .fieldset > .field.choice > .label {
   display: inline;
 }
+.form.search.advanced .fieldset > .field.required > .label span:first-child:after,
+.form.orders.search .fieldset > .field.required > .label span:first-child:after,
+.form.contact .fieldset > .field.required > .label span:first-child:after,
 .form.password.forget .fieldset > .field.required > .label span:first-child:after,
 .form.create.account .fieldset > .field.required > .label span:first-child:after {
   content: '*';
   color: red;
 }
+.form.search.advanced .fieldset > .field .addon,
+.form.orders.search .fieldset > .field .addon,
+.form.contact .fieldset > .field .addon,
 .form.password.forget .fieldset > .field .addon,
 .form.create.account .fieldset > .field .addon {
   padding: 0;
   display: table;
   width: 100%;
 }
+.form.search.advanced .fieldset > .field .addon textarea,
+.form.orders.search .fieldset > .field .addon textarea,
+.form.contact .fieldset > .field .addon textarea,
 .form.password.forget .fieldset > .field .addon textarea,
 .form.create.account .fieldset > .field .addon textarea,
+.form.search.advanced .fieldset > .field .addon select,
+.form.orders.search .fieldset > .field .addon select,
+.form.contact .fieldset > .field .addon select,
 .form.password.forget .fieldset > .field .addon select,
 .form.create.account .fieldset > .field .addon select,
+.form.search.advanced .fieldset > .field .addon input,
+.form.orders.search .fieldset > .field .addon input,
+.form.contact .fieldset > .field .addon input,
 .form.password.forget .fieldset > .field .addon input,
 .form.create.account .fieldset > .field .addon input {
   display: table-cell;
@@ -5764,8 +5815,14 @@ img[align="right"] {
   box-shadow: none;
   margin: 0;
 }
+.form.search.advanced .fieldset > .field .addon .addbefore,
+.form.orders.search .fieldset > .field .addon .addbefore,
+.form.contact .fieldset > .field .addon .addbefore,
 .form.password.forget .fieldset > .field .addon .addbefore,
 .form.create.account .fieldset > .field .addon .addbefore,
+.form.search.advanced .fieldset > .field .addon .addafter,
+.form.orders.search .fieldset > .field .addon .addafter,
+.form.contact .fieldset > .field .addon .addafter,
 .form.password.forget .fieldset > .field .addon .addafter,
 .form.create.account .fieldset > .field .addon .addafter {
   vertical-align: middle;
@@ -5802,46 +5859,88 @@ img[align="right"] {
 */
 
 }
+.no-borderradius .form.search.advanced .fieldset > .field .addon .addbefore,
+.no-borderradius .form.orders.search .fieldset > .field .addon .addbefore,
+.no-borderradius .form.contact .fieldset > .field .addon .addbefore,
 .no-borderradius .form.password.forget .fieldset > .field .addon .addbefore,
 .no-borderradius .form.create.account .fieldset > .field .addon .addbefore,
+.no-borderradius .form.search.advanced .fieldset > .field .addon .addafter,
+.no-borderradius .form.orders.search .fieldset > .field .addon .addafter,
+.no-borderradius .form.contact .fieldset > .field .addon .addafter,
 .no-borderradius .form.password.forget .fieldset > .field .addon .addafter,
 .no-borderradius .form.create.account .fieldset > .field .addon .addafter {
   padding-top: 8px;
 }
+.form.search.advanced .fieldset > .field .addon .addbefore:focus,
+.form.orders.search .fieldset > .field .addon .addbefore:focus,
+.form.contact .fieldset > .field .addon .addbefore:focus,
 .form.password.forget .fieldset > .field .addon .addbefore:focus,
 .form.create.account .fieldset > .field .addon .addbefore:focus,
+.form.search.advanced .fieldset > .field .addon .addafter:focus,
+.form.orders.search .fieldset > .field .addon .addafter:focus,
+.form.contact .fieldset > .field .addon .addafter:focus,
 .form.password.forget .fieldset > .field .addon .addafter:focus,
 .form.create.account .fieldset > .field .addon .addafter:focus {
   border-color: #999;
 }
+.control .form.search.advanced .fieldset > .field .addon .addbefore,
+.control .form.orders.search .fieldset > .field .addon .addbefore,
+.control .form.contact .fieldset > .field .addon .addbefore,
 .control .form.password.forget .fieldset > .field .addon .addbefore,
 .control .form.create.account .fieldset > .field .addon .addbefore,
+.control .form.search.advanced .fieldset > .field .addon .addafter,
+.control .form.orders.search .fieldset > .field .addon .addafter,
+.control .form.contact .fieldset > .field .addon .addafter,
 .control .form.password.forget .fieldset > .field .addon .addafter,
 .control .form.create.account .fieldset > .field .addon .addafter {
   width: 100%;
 }
+.form.search.advanced .fieldset > .field .addon .addbefore:disabled,
+.form.orders.search .fieldset > .field .addon .addbefore:disabled,
+.form.contact .fieldset > .field .addon .addbefore:disabled,
 .form.password.forget .fieldset > .field .addon .addbefore:disabled,
 .form.create.account .fieldset > .field .addon .addbefore:disabled,
+.form.search.advanced .fieldset > .field .addon .addafter:disabled,
+.form.orders.search .fieldset > .field .addon .addafter:disabled,
+.form.contact .fieldset > .field .addon .addafter:disabled,
 .form.password.forget .fieldset > .field .addon .addafter:disabled,
 .form.create.account .fieldset > .field .addon .addafter:disabled {
   opacity: 0.5;
 }
+.form.search.advanced .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
+.form.orders.search .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
+.form.contact .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .form.password.forget .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .form.create.account .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
+.form.search.advanced .fieldset > .field .addon .addafter::-webkit-input-placeholder,
+.form.orders.search .fieldset > .field .addon .addafter::-webkit-input-placeholder,
+.form.contact .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.password.forget .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.create.account .fieldset > .field .addon .addafter::-webkit-input-placeholder {
   line-height: 1.333;
 }
+.form.search.advanced .fieldset > .field .addon .addbefore:-ms-input-placeholder,
+.form.orders.search .fieldset > .field .addon .addbefore:-ms-input-placeholder,
+.form.contact .fieldset > .field .addon .addbefore:-ms-input-placeholder,
 .form.password.forget .fieldset > .field .addon .addbefore:-ms-input-placeholder,
 .form.create.account .fieldset > .field .addon .addbefore:-ms-input-placeholder,
+.form.search.advanced .fieldset > .field .addon .addafter:-ms-input-placeholder,
+.form.orders.search .fieldset > .field .addon .addafter:-ms-input-placeholder,
+.form.contact .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.password.forget .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.create.account .fieldset > .field .addon .addafter:-ms-input-placeholder {
   line-height: 1.333;
 }
+.form.search.advanced .fieldset > .field .note,
+.form.orders.search .fieldset > .field .note,
+.form.contact .fieldset > .field .note,
 .form.password.forget .fieldset > .field .note,
 .form.create.account .fieldset > .field .note {
   padding-left: 15px;
 }
+.form.search.advanced .fieldset > .field .note:before,
+.form.orders.search .fieldset > .field .note:before,
+.form.contact .fieldset > .field .note:before,
 .form.password.forget .fieldset > .field .note:before,
 .form.create.account .fieldset > .field .note:before {
   position: absolute;
@@ -5856,49 +5955,82 @@ img[align="right"] {
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 }
+.form.search.advanced .fieldset > .field:last-child,
+.form.orders.search .fieldset > .field:last-child,
+.form.contact .fieldset > .field:last-child,
 .form.password.forget .fieldset > .field:last-child,
 .form.create.account .fieldset > .field:last-child {
   margin-bottom: 0;
 }
+.form.search.advanced .fieldset > .field .nested,
+.form.orders.search .fieldset > .field .nested,
+.form.contact .fieldset > .field .nested,
 .form.password.forget .fieldset > .field .nested,
 .form.create.account .fieldset > .field .nested {
   padding: 0 0 5px;
 }
+.form.search.advanced .fieldset > .field .nested .field,
+.form.orders.search .fieldset > .field .nested .field,
+.form.contact .fieldset > .field .nested .field,
 .form.password.forget .fieldset > .field .nested .field,
 .form.create.account .fieldset > .field .nested .field {
   margin: 5px 0;
 }
+.form.search.advanced .fieldset > .field > .label,
+.form.orders.search .fieldset > .field > .label,
+.form.contact .fieldset > .field > .label,
 .form.password.forget .fieldset > .field > .label,
 .form.create.account .fieldset > .field > .label {
   display: block;
   padding: 0 0 5px;
 }
+.form.search.advanced .fieldset > .field.note,
+.form.orders.search .fieldset > .field.note,
+.form.contact .fieldset > .field.note,
 .form.password.forget .fieldset > .field.note,
 .form.create.account .fieldset > .field.note {
   width: 100%;
 }
+.form.search.advanced .fieldset .field.street,
+.form.orders.search .fieldset .field.street,
+.form.contact .fieldset .field.street,
 .form.password.forget .fieldset .field.street,
 .form.create.account .fieldset .field.street {
   width: 100%;
 }
+.form.search.advanced .fieldset .field.fullname,
+.form.orders.search .fieldset .field.fullname,
+.form.contact .fieldset .field.fullname,
 .form.password.forget .fieldset .field.fullname,
 .form.create.account .fieldset .field.fullname {
   width: 100%;
 }
+.form.search.advanced .fieldset .field.fullname .fields.group-5 .field,
+.form.orders.search .fieldset .field.fullname .fields.group-5 .field,
+.form.contact .fieldset .field.fullname .fields.group-5 .field,
 .form.password.forget .fieldset .field.fullname .fields.group-5 .field,
 .form.create.account .fieldset .field.fullname .fields.group-5 .field {
   width: 20%;
 }
+.form.search.advanced .fieldset .field.choice.newsletter,
+.form.orders.search .fieldset .field.choice.newsletter,
+.form.contact .fieldset .field.choice.newsletter,
 .form.password.forget .fieldset .field.choice.newsletter,
 .form.create.account .fieldset .field.choice.newsletter {
   width: 100%;
 }
+.form.search.advanced .fieldset .field.dob .fields.group .field,
+.form.orders.search .fieldset .field.dob .fields.group .field,
+.form.contact .fieldset .field.dob .fields.group .field,
 .form.password.forget .fieldset .field.dob .fields.group .field,
 .form.create.account .fieldset .field.dob .fields.group .field {
   width: 33%;
   position: relative;
   z-index: 1;
 }
+.form.search.advanced .fieldset .field.dob .fields.group .field .label,
+.form.orders.search .fieldset .field.dob .fields.group .field .label,
+.form.contact .fieldset .field.dob .fields.group .field .label,
 .form.password.forget .fieldset .field.dob .fields.group .field .label,
 .form.create.account .fieldset .field.dob .fields.group .field .label {
   position: absolute;
@@ -5906,10 +6038,16 @@ img[align="right"] {
   font-size: 12px;
   line-height: 16px;
 }
+.form.search.advanced .fieldset .field.dob .fields.group .field input,
+.form.orders.search .fieldset .field.dob .fields.group .field input,
+.form.contact .fieldset .field.dob .fields.group .field input,
 .form.password.forget .fieldset .field.dob .fields.group .field input,
 .form.create.account .fieldset .field.dob .fields.group .field input {
   margin-bottom: 16px;
 }
+.form.search.advanced .action.submit,
+.form.orders.search .action.submit,
+.form.contact .action.submit,
 .form.password.forget .action.submit,
 .form.create.account .action.submit {
   border: none;
@@ -5921,6 +6059,9 @@ img[align="right"] {
   text-shadow: none;
   outline: none;
 }
+.form.search.advanced .action.submit span,
+.form.orders.search .action.submit span,
+.form.contact .action.submit span,
 .form.password.forget .action.submit span,
 .form.create.account .action.submit span {
   font-size: 14px;
@@ -5929,30 +6070,51 @@ img[align="right"] {
   font-weight: 600;
   line-height: 16px;
 }
+.form.search.advanced .actions,
+.form.orders.search .actions,
+.form.contact .actions,
 .form.password.forget .actions,
 .form.create.account .actions {
   *zoom: 1;
   width: 690px;
 }
+.form.search.advanced .actions:before,
+.form.orders.search .actions:before,
+.form.contact .actions:before,
 .form.password.forget .actions:before,
 .form.create.account .actions:before,
+.form.search.advanced .actions:after,
+.form.orders.search .actions:after,
+.form.contact .actions:after,
 .form.password.forget .actions:after,
 .form.create.account .actions:after {
   content: "";
   display: table;
 }
+.form.search.advanced .actions:after,
+.form.orders.search .actions:after,
+.form.contact .actions:after,
 .form.password.forget .actions:after,
 .form.create.account .actions:after {
   clear: both;
 }
+.form.search.advanced .actions .primary,
+.form.orders.search .actions .primary,
+.form.contact .actions .primary,
 .form.password.forget .actions .primary,
 .form.create.account .actions .primary {
   float: right;
 }
+.form.search.advanced .actions .secondary,
+.form.orders.search .actions .secondary,
+.form.contact .actions .secondary,
 .form.password.forget .actions .secondary,
 .form.create.account .actions .secondary {
   float: left;
 }
+.form.search.advanced .fieldset.create.account:after,
+.form.orders.search .fieldset.create.account:after,
+.form.contact .fieldset.create.account:after,
 .form.password.forget .fieldset.create.account:after,
 .form.create.account .fieldset.create.account:after {
   content: attr(data-hasrequired);
@@ -5964,6 +6126,175 @@ img[align="right"] {
   letter-spacing: normal;
   word-spacing: normal;
   color: #f47a1f;
+}
+.form.search.advanced,
+.form.orders.search,
+.form.contact {
+  background: #f8f8f8;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  padding: 40px;
+}
+.form.search.advanced .fieldset,
+.form.orders.search .fieldset,
+.form.contact .fieldset {
+  width: auto;
+  background: none;
+}
+.form.search.advanced .fieldset .legend,
+.form.orders.search .fieldset .legend,
+.form.contact .fieldset .legend {
+  background: none;
+}
+.form.search.advanced .action,
+.form.orders.search .action,
+.form.contact .action {
+  text-align: right;
+}
+.form.search.advanced .action,
+.form.orders.search .action,
+.form.contact .action {
+  border: none;
+  border-radius: 0;
+  background: #f47a1f;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.form.search.advanced .action span,
+.form.orders.search .action span,
+.form.contact .action span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+/*
+ *    Mage_Customer
+ *
+ *    Account
+----------------------------------------------------------------------------- */
+.col2-left-layout.account .column.main {
+  display: inline;
+  float: left;
+  width: 75%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.col2-left-layout.account .column.left {
+  display: inline;
+  float: left;
+  width: 25%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.block.account.nav .title {
+  font-size: 18px;
+}
+.block.account.nav .item {
+  margin-bottom: 10px;
+}
+.block.account.nav .item.current {
+  color: #f47a1f;
+}
+.block.account.nav .item strong {
+  font-weight: 400;
+}
+.block.dashboard .title .action,
+.block.dashboard .subtitle .action {
+  font-weight: 400;
+  font-size: 14px;
+  margin-left: 20px;
+  text-decoration: underline;
+  display: inline-block;
+  text-transform: lowercase;
+}
+.block.dashboard .title .action:first-letter,
+.block.dashboard .subtitle .action:first-letter {
+  text-transform: uppercase;
+}
+.block.dashboard .box {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  float: left;
+  width: 50%;
+  line-height: 1.666;
+}
+.block.dashboard .box address {
+  font-style: normal;
+}
+.block.dashboard .content {
+  *zoom: 1;
+}
+.block.dashboard .content:before,
+.block.dashboard .content:after {
+  content: "";
+  display: table;
+}
+.block.dashboard .content:after {
+  clear: both;
+}
+.block.dashboard:not(.welcome):not(.orders) .content {
+  background: #f8f8f8;
+  padding: 30px;
+}
+.block.dashboard:not(.welcome):not(.orders) .subtitle {
+  font-size: 18px;
+  font-weight: 200;
+  display: block;
+  margin-bottom: 20px;
+}
+.data.table.orders.recent {
+  width: 100%;
+}
+.data.table.orders.recent td,
+.data.table.orders.recent th {
+  padding: 10px 20px;
+  text-align: left;
+}
+.data.table.orders.recent td.col.total,
+.data.table.orders.recent th.col.total {
+  text-align: right;
+}
+.data.table.orders.recent td.col.actions,
+.data.table.orders.recent th.col.actions {
+  white-space: nowrap;
+}
+.data.table.orders.recent td.col.actions .action:last-child,
+.data.table.orders.recent th.col.actions .action:last-child {
+  margin-left: 20px;
+}
+.data.table.orders.recent td em,
+.data.table.orders.recent th em {
+  font-style: normal;
+}
+.data.table.orders.recent th {
+  font-size: 16px;
+  font-weight: 400;
+}
+.data.table.orders.recent tr:nth-child(odd) td {
+  background: #f8f8f8;
 }
 /*
  *    Homepage styles
