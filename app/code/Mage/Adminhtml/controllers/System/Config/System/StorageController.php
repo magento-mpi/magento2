@@ -58,8 +58,9 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
             return;
         }
 
-        $flag->setState(Mage_Core_Model_File_Storage_Flag::STATE_RUNNING)->save();
-        Mage::getSingleton('Mage_Backend_Model_Auth_Session')->setSyncProcessStopWatch(false);
+        $flag->setState(Mage_Core_Model_File_Storage_Flag::STATE_RUNNING)
+            ->setFlagData(array())
+            ->save();
 
         $storage = array('type' => (int) $_REQUEST['storage']);
         if (isset($_REQUEST['connection']) && !empty($_REQUEST['connection'])) {
@@ -97,7 +98,6 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
                             $result['destination'] = $flagData['destination'];
                         }
                     }
-
                     $state = Mage_Core_Model_File_Storage_Flag::STATE_INACTIVE;
                     break;
                 case Mage_Core_Model_File_Storage_Flag::STATE_RUNNING:
@@ -113,7 +113,6 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
                         } else {
                             $result['message'] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Synchronizing...');
                         }
-
                         break;
                     } else {
                         $flagData = $flag->getFlagData();
@@ -125,32 +124,20 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
                             ));
 
                             $state = Mage_Core_Model_File_Storage_Flag::STATE_FINISHED;
-
                             $flagData['has_errors']         = true;
                             $flagData['timeout_reached']    = true;
-
                             $flag->setState($state)
                                 ->setFlagData($flagData)
                                 ->save();
                         }
                     }
                 case Mage_Core_Model_File_Storage_Flag::STATE_FINISHED:
-                    Mage::dispatchEvent('add_synchronize_message');
-
-                    $state = Mage_Core_Model_File_Storage_Flag::STATE_NOTIFIED;
                 case Mage_Core_Model_File_Storage_Flag::STATE_NOTIFIED:
-                    $block = Mage::app()->getLayout()
-                        ->createBlock('Mage_AdminNotification_Block_Toolbar')
-                        ->setTemplate('notification/toolbar.phtml');
-                    $result['html'] = $block->toHtml();
-
                     $flagData = $flag->getFlagData();
-                    if (is_array($flagData)) {
-                        if (isset($flagData['has_errors']) && $flagData['has_errors']) {
-                            $result['has_errors'] = true;
-                        }
+                    if (!isset($flagData['has_errors'])) {
+                        $flagData['has_errors'] = false;
                     }
-
+                    $result['has_errors'] = $flagData['has_errors'];
                     break;
                 default:
                     $state = Mage_Core_Model_File_Storage_Flag::STATE_INACTIVE;
@@ -160,8 +147,7 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
             $state = Mage_Core_Model_File_Storage_Flag::STATE_INACTIVE;
         }
         $result['state'] = $state;
-
         $result = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
-        Mage::app()->getResponse()->setBody($result);
+        $this->_response->setBody($result);
     }
 }
