@@ -101,9 +101,7 @@ class Mage_Backend_Controller_ActionAbstractTest extends Mage_Backend_Utility_Co
     public function nodesWithAcl()
     {
         return array(
-            array('notification_toolbar', 'Mage_AdminNotification::show_toolbar', true),
             array('notification_window', 'Mage_AdminNotification::show_toolbar', true),
-            array('notification_toolbar', 'Mage_AdminNotification::show_toolbar', false),
             array('notification_window', 'Mage_AdminNotification::show_toolbar', false),
         );
     }
