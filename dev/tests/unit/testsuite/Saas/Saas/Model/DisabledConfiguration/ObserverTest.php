@@ -11,10 +11,10 @@ class Saas_Saas_Model_DisabledConfiguration_ObserverTest extends PHPUnit_Framewo
     /**
      * @param string $fieldPath
      * @param string $expectedException
-     * @param string $expectedExceptionMessage
+     * @param string $exceptionMessage
      * @dataProvider checkConfigSaveAllowedDataProvider
      */
-    public function testCheckConfigSaveAllowed($fieldPath, $expectedException, $expectedExceptionMessage)
+    public function testCheckConfigSaveAllowed($fieldPath, $expectedException, $exceptionMessage)
     {
         // Prepare model
         $isDisabledValueMap = array(
@@ -31,7 +31,7 @@ class Saas_Saas_Model_DisabledConfiguration_ObserverTest extends PHPUnit_Framewo
 
         // Prepare expectations and run
         if ($expectedException) {
-            $this->setExpectedException($expectedException, $expectedExceptionMessage);
+            $this->setExpectedException($expectedException, $exceptionMessage);
         }
 
         $configDataMock = $this->getMock('Mage_Core_Model_Config_Data', array('getPath'), array(), '', false);

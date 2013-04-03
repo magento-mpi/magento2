@@ -10,11 +10,11 @@ class Saas_Saas_Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends 
 {
     /**
      * @param array $restrictedOptions
-     * @param bool $expectedIsSaveSuccessful
+     * @param bool $expectedIsSaved
      * @magentoDbIsolation enabled
      * @dataProvider saveOptionDataProvider
      */
-    public function testSaveOption(array $restrictedOptions, $expectedIsSaveSuccessful)
+    public function testSaveOption(array $restrictedOptions, $expectedIsSaved)
     {
         // Add our custom config
         $config = new Saas_Saas_Model_DisabledConfiguration_Config($restrictedOptions);
@@ -49,7 +49,7 @@ class Saas_Saas_Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends 
 
         // Assert that the value was saved/not saved
         $entry = $this->_getConfigDataByValue($testValue);
-        if ($expectedIsSaveSuccessful) {
+        if ($expectedIsSaved) {
             $this->assertNotEmpty($entry, 'The value was not saved');
         } else {
             $this->assertEmpty($entry, 'The value was saved');
