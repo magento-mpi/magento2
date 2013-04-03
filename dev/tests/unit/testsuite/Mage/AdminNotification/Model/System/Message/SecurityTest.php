@@ -1,17 +1,12 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Mage_Backend
-     * @subpackage  unit_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
-
-class Mage_Backend_Model_System_Message_SecurityTest extends PHPUnit_Framework_TestCase
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+class Mage_AdminNotification_Model_System_Message_SecurityTest extends PHPUnit_Framework_TestCase
 {
-
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
@@ -38,7 +33,7 @@ class Mage_Backend_Model_System_Message_SecurityTest extends PHPUnit_Framework_T
     protected $_helperFactoryMock;
 
     /**
-     * @var Mage_Backend_Model_System_Message_Security
+     * @var Mage_AdminNotification_Model_System_Message_Security
      */
     protected $_messageModel;
 
@@ -59,7 +54,7 @@ class Mage_Backend_Model_System_Message_SecurityTest extends PHPUnit_Framework_T
             'curlFactory' => $this->_curlFactoryMock,
             'helperFactory' => $this->_helperFactoryMock
         );
-        $this->_messageModel = $objectManagerHelper->getObject('Mage_Backend_Model_System_Message_Security',
+        $this->_messageModel = $objectManagerHelper->getObject('Mage_AdminNotification_Model_System_Message_Security',
             $arguments);
     }
 
@@ -104,10 +99,5 @@ class Mage_Backend_Model_System_Message_SecurityTest extends PHPUnit_Framework_T
         $this->_helperFactoryMock->expects($this->atLeastOnce())->method('get')
             ->will($this->returnValue($dataHelperMock));
         $this->assertStringStartsWith($messageStart, $this->_messageModel->getText());
-    }
-
-    public function testGetLink()
-    {
-        $this->assertNull($this->_messageModel->getLink());
     }
 }
