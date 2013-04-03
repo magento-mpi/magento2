@@ -4,6 +4,7 @@
  *
  * @copyright {copyright}
  * @license {license_link}
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Saas_Saas_Model_Limitation_Specification_CompositeTest extends PHPUnit_Framework_TestCase
 {
@@ -30,7 +31,7 @@ class Saas_Saas_Model_Limitation_Specification_CompositeTest extends PHPUnit_Fra
     /**
      * @var Saas_Saas_Model_Limitation_SpecificationInterface
      */
-    protected $_modelSpecificationChain;
+    protected $_modelSpecificationComposite;
 
     protected function setUp()
     {
@@ -46,7 +47,7 @@ class Saas_Saas_Model_Limitation_Specification_CompositeTest extends PHPUnit_Fra
             ->with('modelSpecificationSecondClassName')->will($this->returnValue($this->_modelSpecificationSecondMock));
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_modelSpecificationChain = $objectManagerHelper->getObject(
+        $this->_modelSpecificationComposite = $objectManagerHelper->getObject(
             'Saas_Saas_Model_Limitation_Specification_Composite',
             array(
                 'specificationFactory' => $this->_modelSpecificationFactoryMock,
@@ -68,7 +69,7 @@ class Saas_Saas_Model_Limitation_Specification_CompositeTest extends PHPUnit_Fra
         $this->_modelSpecificationSecondMock->expects($this->once())->method('isSatisfiedBy')->with($this->_requestMock)
             ->will($this->returnValue($isSatisfiedBySecond));
 
-        $this->assertEquals($result, $this->_modelSpecificationChain->isSatisfiedBy($this->_requestMock));
+        $this->assertEquals($result, $this->_modelSpecificationComposite->isSatisfiedBy($this->_requestMock));
     }
 
     /**
@@ -88,6 +89,6 @@ class Saas_Saas_Model_Limitation_Specification_CompositeTest extends PHPUnit_Fra
             ->will($this->returnValue(false));
         $this->_modelSpecificationSecondMock->expects($this->never())->method('isSatisfiedBy');
 
-        $this->assertFalse($this->_modelSpecificationChain->isSatisfiedBy($this->_requestMock));
+        $this->assertFalse($this->_modelSpecificationComposite->isSatisfiedBy($this->_requestMock));
     }
 }

@@ -12,6 +12,7 @@
     <global>
         <configurators>
             <saas_search>Saas_Search_Model_ObjectManager_Configurator</saas_search>
+            <saas>Saas_Saas_Model_ObjectManager_Configurator</saas>
         </configurators>
         <di>
             <preferences>

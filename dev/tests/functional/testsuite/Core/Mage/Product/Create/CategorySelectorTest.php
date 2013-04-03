@@ -252,6 +252,7 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
      */
     public function createNewCategoryValidationFailed()
     {
+        $this->markTestIncomplete('MAGETWO-8857');
         $this->navigate('manage_products');
         $this->productHelper()->selectTypeProduct('simple');
 
@@ -281,9 +282,9 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         );
 
         $this->fillField('name', $this->generate('string', 256, ':alnum:'));
-        $this->getControlElement('field', 'parent_category')->value($this->generate('string', 256, ':alnum:'));
+        $this->clickControl(self::FIELD_TYPE_INPUT, 'parent_category');
         $this->waitForControlEditable(self::FIELD_TYPE_INPUT, 'parent_category');
-        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'parent_categories_list');
+        $this->fillField('parent_category', $this->generate('string', 256, ':alnum:'));
         $this->clickButton('new_category_save', false);
         sleep(1); // giving time for messages to disappear with animation, waitForElementNotVisible would do the job
 

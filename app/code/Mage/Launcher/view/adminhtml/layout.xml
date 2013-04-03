@@ -41,21 +41,20 @@
             <action method="addCss"><file>jquery/editableMultiselect/css/jquery.multiselect.css</file></action>
             <action method="addCss"><file>Mage_Core::prototype/magento.css</file></action>
 
-            <action method="addCss"><file>Mage_Adminhtml::jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.iframe-transport.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/load-image.min.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/canvas-to-blob.min.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-fp.js</file></action>
+            <action method="addCss"><file>jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.iframe-transport.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.fileupload.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/load-image.min.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/canvas-to-blob.min.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.fileupload-fp.js</file></action>
 
             <!--Product Tile-->
             <action method="addJs"><file>Mage_Adminhtml::catalog/base-image-uploader.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/category-selector.css</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::json2.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::mage/backend/suggest.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/jstree/jquery.hotkeys.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/jstree/jquery.jstree.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::mage/backend/tree-suggest.js</file></action>
+            <action method="addJs"><file>mage/backend/suggest.js</file></action>
+            <action method="addJs"><file>jquery/jstree/jquery.hotkeys.js</file></action>
+            <action method="addJs"><file>jquery/jstree/jquery.jstree.js</file></action>
+            <action method="addJs"><file>mage/backend/tree-suggest.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/type-switcher.js</file></action>
             <action method="addJs"><file>Mage_Catalog::js/product-gallery.js</file></action>
         </reference>

@@ -5,7 +5,9 @@ saas
 app/code/Saas
 app/code/Mage/Launcher
 app/etc/modules/XSaas_Edition.xml.dist
+app/etc/saas.xml
 dev/tests/integration/testsuite/Saas
+dev/tests/static/testsuite/Integrity/Saas
 dev/tests/integration/testsuite/Mage/Launcher
 dev/tests/js/testsuite/saas
 dev/tests/static/testsuite/Php/_files/{whitelist,blacklist}/saas.txt

@@ -4,6 +4,7 @@
  *
  * @copyright {copyright}
  * @license {license_link}
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Saas_Saas_Model_Limitation_Specification_FactoryTest extends PHPUnit_Framework_TestCase
 {

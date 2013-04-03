@@ -120,6 +120,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($search);
         $this->productHelper()->saveProduct('duplicate');
         //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $simple['general_sku'] = $this->productHelper()->getGeneratedSku($simple['general_sku']);
         $this->productHelper()->verifyProductInfo($simple, array('product_attribute_set', 'product_online_status'));
@@ -151,6 +152,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($search);
         $this->productHelper()->saveProduct('duplicate');
         //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $virtual['general_sku'] = $this->productHelper()->getGeneratedSku($virtual['general_sku']);
         $this->productHelper()->verifyProductInfo($virtual, array('product_attribute_set', 'product_online_status'));
@@ -188,6 +190,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($search);
         $this->productHelper()->saveProduct('duplicate');
         //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $downloadable['general_sku'] = $this->productHelper()->getGeneratedSku($downloadable['general_sku']);
         $downloadable['downloadable_information_data']['downloadable_link_1']['downloadable_link_row_price']
@@ -229,6 +232,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($search);
         $this->productHelper()->saveProduct('duplicate');
         //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $grouped['general_sku'] = $this->productHelper()->getGeneratedSku($grouped['general_sku']);
         $this->productHelper()->verifyProductInfo($grouped, array('product_attribute_set', 'product_online_status'));
@@ -260,6 +264,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($search);
         $this->productHelper()->saveProduct('duplicate');
         //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $bundle['general_sku'] = $this->productHelper()->getGeneratedSku($bundle['general_sku']);
         $this->productHelper()->verifyProductInfo($bundle, array('product_attribute_set', 'product_online_status'));
@@ -300,6 +305,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($search);
         $this->productHelper()->saveProduct('duplicate');
         //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'success_duplicated_product');
         //Steps
         $this->productHelper()->fillConfigurableSettings($configurable);
