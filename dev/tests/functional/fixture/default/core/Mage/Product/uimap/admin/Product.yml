@@ -248,7 +248,7 @@ new_product:
                                     xpath: //div[@data-role='product-variations-matrix']//table
                                     checkboxes:
                                         include_variation: //tbody/tr[%attributeSearch%]//input[@name='associated_product_ids[]']
-                                        assigned_product: //tbody/tr[td/text()='%productSku%'][%attributeSearch%]//input[@checked='checked']
+                                        assigned_product: //tbody/tr[//text()='%productSku%'][%attributeSearch%]//input[@checked='checked']
                                     pageelements:
                                         variations_matrix_header: //thead/tr
                                         variation_line: //tbody/tr
@@ -450,7 +450,7 @@ new_product:
                         fieldsets:
                             -
                                 product_gift_options:
-                                    xpath: //div[div/strong/span='Autosettings']
+                                    xpath: //div[*/*/span='Autosettings']
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     checkboxes:

@@ -148,7 +148,7 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
                 ->setCanManageOptionLabels(true);
             if ($attributeObject->getId()) {
                 $this->_getSession()->addError(
-                    Mage::helper('Enterprise_Rma_Helper_Data')->__('Attribute with the same code already exists')
+                    Mage::helper('Enterprise_Rma_Helper_Data')->__('Attribute with the same code already exists.')
                 );
 
                 $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
