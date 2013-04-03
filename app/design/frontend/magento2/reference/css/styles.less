@@ -806,44 +806,9 @@ a > span {
 
 /* Reviews */
 
+@starSize : 16px;
 .reviews.summary {
-    @starSize : 16px;
     line-height: @starSize;
-    .rating {
-        width: 5*@starSize;
-        margin-right: 3px;
-        line-height: 1;
-        color: fade(@secondary1, 30%);
-        display: inline-block;
-        vertical-align: top;
-        margin-top: -1px;
-        > span {
-            display: block;
-            overflow: hidden;
-            color: @secondary1;
-            height: 0;
-            padding-top: @starSize;
-            line-height: 1;
-            margin-top: -@starSize;
-            &:before {
-                margin-top: -@starSize;
-            }
-        }
-        &:before,
-        > span:before {
-            display: block;
-            top: 0;
-            left: 0;
-            width: 100%;
-            font-family: "MUI-Icons";
-            content: "\e01a\e01a\e01a\e01a\e01a";
-            font-style: normal;
-            font-size: @starSize;
-            speak: none;
-            font-weight: normal;
-            -webkit-font-smoothing: antialiased;
-        }
-    }
     .reviews.actions {
         display: inline;
     }
@@ -871,6 +836,42 @@ a > span {
                 display: inline-block;
             }
         }
+    }
+}
+.block.reviews.dashboard .rating,
+.reviews.summary .rating {
+    width: 5*@starSize;
+    margin-right: 3px;
+    line-height: 1;
+    color: fade(@secondary1, 30%);
+    display: inline-block;
+    vertical-align: top;
+    margin-top: -1px;
+    > span {
+        display: block;
+        overflow: hidden;
+        color: @secondary1;
+        height: 0;
+        padding-top: @starSize;
+        line-height: 1;
+        margin-top: -@starSize;
+        &:before {
+            margin-top: -@starSize;
+        }
+    }
+    &:before,
+    > span:before {
+        display: block;
+        top: 0;
+        left: 0;
+        width: 100%;
+        font-family: "MUI-Icons";
+        content: "\e01a\e01a\e01a\e01a\e01a";
+        font-style: normal;
+        font-size: @starSize;
+        speak: none;
+        font-weight: normal;
+        -webkit-font-smoothing: antialiased;
     }
 }
 
@@ -1383,6 +1384,7 @@ select {
                     margin: 0;
                     padding: 0;
                     &:after {
+                        display: none;
                         content: "\e02d";
                         font-family: "MUI-icons";
                         float: right;
@@ -1400,8 +1402,15 @@ select {
                     color: @primary6;
                     margin-bottom: 0;
                     h2:after {
+                        display: block;
                         content: "\e03a";
                     }
+                }
+            }
+            &.allow > .step-title {
+                cursor:pointer;
+                h2:after {
+                    display: block;
                 }
             }
             > .step {
@@ -1451,9 +1460,10 @@ select {
         .field.taxvat {
             margin: 0 40% 30px 0;
         }
-
+        .field.confirm,
         .field.password {
-            margin: 20px 30% 0 0;
+            margin-top:20px;
+            margin-bottom:20px;
         }
         .field.choice {
             width: 100%;
@@ -1543,7 +1553,7 @@ select {
             }
         }
     }
-    button.action {
+    button.action:not(.reload) {
         .primaryAction();
     }
     .actions {
@@ -2103,8 +2113,18 @@ select {
             }
             .subtitle {
                 display: none;
+                &.empty {
+                    display: block;
+                    margin:0 -330px 0 0;
+                    text-align: left;
+                    font-weight: 400;
+                    float:right;
+                    width:310px;
+                    clear:right;
+                }
             }
         }
+        .minicart.empty.text,
         > .title,
         > .content .subtotal,
         > .content .disclaimer,
@@ -2114,6 +2134,9 @@ select {
             float: right;
             width: 310px;
             clear: right;
+        }
+        .minicart.empty.text {
+            margin-top:15px;
         }
         > .title strong {
             font-weight: 400;
@@ -2172,6 +2195,9 @@ select {
     p {
         clear: both;
     }
+}
+.block.minicart.empty > .title {
+    display: none;
 }
 
 /* Product options */

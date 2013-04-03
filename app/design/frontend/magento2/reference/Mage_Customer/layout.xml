@@ -158,15 +158,11 @@ New customer registration
     <customer_account_edit translate="label" type="page" parent="customer_account_create">
         <label>Customer Account Edit Form</label>
         <update handle="customer_account"/>
-        <reference name="root">
-            <action method="setHeaderTitle" translate="title" module="Mage_Customer"><title>Edit Account Info</title></action>
+        <reference name="page.main.title">
+            <action method="setPageTitle" translate="title" module="Mage_Customer"><title>Edit Account Information</title></action>
         </reference>
         <reference name="my.account.wrapper">
             <block type="Mage_Customer_Block_Form_Edit" name="customer_edit" template="form/edit.phtml"/>
-        </reference>
-
-        <reference name="left">
-          <action method="unsetChild"><name>left.permanent.callout</name></action>
         </reference>
     </customer_account_edit>
 
