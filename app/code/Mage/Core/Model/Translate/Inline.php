@@ -95,19 +95,19 @@ class Mage_Core_Model_Translate_Inline extends Mage_Core_Model_Translate_InlineA
             return;
         }
 
-        $store = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore();
+        $store = $this->_storeManager->getStore();
         if ($store->isAdmin()) {
             $urlPrefix = Mage_Backend_Helper_Data::BACKEND_AREA_CODE;
-            $urlModel = $this->_objectManager->get('Mage_Backend_Model_Url');
+            $urlModel = Mage::getObjectManager()->get('Mage_Backend_Model_Url');
         } else {
             $urlPrefix = 'core';
-            $urlModel = $this->_objectManager->get('Mage_Core_Model_Url');
+            $urlModel = $this->_coreUrl;
         }
         $ajaxUrl = $urlModel->getUrl($urlPrefix . '/ajax/translate',
             array('_secure' => $store->isCurrentlySecure()));
 
         /** @var $block Mage_Core_Block_Template */
-        $block = $this->_objectManager->create('Mage_Core_Block_Template');
+        $block = Mage::getObjectManager()->create('Mage_Core_Block_Template');
 
         $block->setAjaxUrl($ajaxUrl);
 

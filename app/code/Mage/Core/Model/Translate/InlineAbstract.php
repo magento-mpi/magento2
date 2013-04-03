@@ -120,19 +120,43 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
     );
 
     /**
-     * @var Magento_ObjectManager
+     * @var Mage_Core_Model_Resource_Translate_String
      */
-    protected $_objectManager;
+    protected $_resource;
+
+    /**
+     * @var Mage_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var Mage_Core_Model_Url
+     */
+    protected $_coreUrl;
+
+    /**
+     * @var Mage_Core_Model_Design_Package
+     */
+    protected $_design;
 
     /**
      * Initialize inline abstract translate model
      *
-     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_Resource_Translate_String $resource
+     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Mage_Core_Model_Url $coreUrl
+     * @param Mage_Core_Model_Design_Package $design
      */
     public function __construct(
-        Magento_ObjectManager $objectManager
+        Mage_Core_Model_Resource_Translate_String $resource,
+        Mage_Core_Model_StoreManager $storeManager,
+        Mage_Core_Model_Url $coreUrl,
+        Mage_Core_Model_Design_Package $design
     ) {
-        $this->_objectManager = $objectManager;
+        $this->_resource = $resource;
+        $this->_storeManager = $storeManager;
+        $this->_coreUrl = $coreUrl;
+        $this->_design = $design;
     }
 
     /**
@@ -165,23 +189,20 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
             return $this;
         }
 
-        /* @var $resource Mage_Core_Model_Resource_Translate_String */
-        $resource = $this->_objectManager->get('Mage_Core_Model_Resource_Translate_String');
-
         /** @var $validStoreId int */
-        $validStoreId = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore()->getId();
+        $validStoreId = $this->_storeManager->getStore()->getId();
 
         foreach ($translateParams as $param) {
             if (Mage::getDesign()->getArea() == Mage_Backend_Helper_Data::BACKEND_AREA_CODE) {
                 $storeId = 0;
             } else if (empty($param['perstore'])) {
-                $resource->deleteTranslate($param['original'], null, false);
+                $this->_resource->deleteTranslate($param['original'], null, false);
                 $storeId = 0;
             } else {
                 $storeId = $validStoreId;
             }
 
-            $resource->saveTranslate($param['original'], $param['custom'], null, $storeId);
+            $this->_resource->saveTranslate($param['original'], $param['custom'], null, $storeId);
         }
 
         return $this;
@@ -198,9 +219,7 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
     {
         $this->_setIsJson($isJson);
         if (!$this->isAllowed()) {
-            /** @var $design Mage_Core_Model_Design_Package */
-            $design = $this->_objectManager->get('Mage_Core_Model_Design_Package');
-            if ($design->getArea() == Mage_Backend_Helper_Data::BACKEND_AREA_CODE) {
+            if ($this->_design->getArea() == Mage_Backend_Helper_Data::BACKEND_AREA_CODE) {
                 $this->stripInlineTranslations($body);
             }
             return $this;
@@ -249,7 +268,7 @@ abstract class Mage_Core_Model_Translate_InlineAbstract implements Mage_Core_Mod
      */
     protected function _getAttributeLocation($matches, $options)
     {
-        return $this->_objectManager->get('Mage_Core_Helper_Data')->__('Tag attribute (ALT, TITLE, etc.)');
+        return Mage::getObjectManager()->get('Mage_Core_Helper_Data')->__('Tag attribute (ALT, TITLE, etc.)');
     }
 
     /**
