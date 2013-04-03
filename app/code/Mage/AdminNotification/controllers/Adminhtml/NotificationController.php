@@ -68,7 +68,7 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
             $responseData['success'] = false;
         }
         $this->getResponse()->setBody(
-            $this->_objectManager->create('Mage_AdminNotification_Helper_Data')->jsonEncode($responseData)
+            $this->_objectManager->create('Mage_Core_Helper_Data')->jsonEncode($responseData)
         );
     }
 
