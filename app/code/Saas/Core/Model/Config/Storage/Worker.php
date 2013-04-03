@@ -7,14 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Saas_Model_Config_Storage_Worker extends Mage_Core_Model_Config_StorageAbstract
+class Saas_Core_Model_Config_Storage_Worker extends Saas_Core_Model_Config_StorageAbstract
 {
-    /**
-     * Cache invalidation flag
-     *
-     * @var bool
-     */
-    protected $_cacheInvaledated = false;
 
     /**
      * Config storage modules
@@ -68,7 +62,7 @@ class Saas_Saas_Model_Config_Storage_Worker extends Mage_Core_Model_Config_Stora
     public function getConfiguration()
     {
         $config = $this->_cache->load();
-        if (false === $config || $this->_cacheInvaledated) {
+        if (false === $config || $this->_cacheInvalidated) {
             $config = $this->_configFactory->create('<config/>');
             $this->_loader->load($config);
             $this->_cache->save($config);
@@ -88,6 +82,6 @@ class Saas_Saas_Model_Config_Storage_Worker extends Mage_Core_Model_Config_Stora
     {
         $this->_storageModules->removeCache();
         $this->_storageLocales->removeCache();
-        $this->_cacheInvaledated = true;
+        $this->_cacheInvalidated = true;
     }
 }

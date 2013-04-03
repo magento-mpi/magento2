@@ -8,9 +8,9 @@
  */
 
 /**
- * Test class for Saas_Saas_Model_Config_Storage_Worker
+ * Test class for Saas_Core_Model_Config_Storage_Worker
  */
-class Saas_Saas_Model_Config_Storage_WorkerTest extends PHPUnit_Framework_TestCase
+class Saas_Core_Model_Config_Storage_WorkerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Core_Model_Config_Storage
@@ -64,11 +64,11 @@ class Saas_Saas_Model_Config_Storage_WorkerTest extends PHPUnit_Framework_TestCa
             array(), array(), '', false, false);
         $this->_factoryMock = $this->getMock('Mage_Core_Model_Config_BaseFactory',
             array(), array(), '', false, false);
-        $this->_storageModulesMock = $this->getMock('Saas_Saas_Model_Config_Storage_Modules',
+        $this->_storageModulesMock = $this->getMock('Saas_Core_Model_Config_Storage_Modules',
             array(), array(), '', false, false);
-        $this->_storageLocalesMock = $this->getMock('Saas_Saas_Model_Config_Storage_Locales',
+        $this->_storageLocalesMock = $this->getMock('Saas_Core_Model_Config_Storage_Locales',
             array(), array(), '', false, false);
-        $this->_model = new Saas_Saas_Model_Config_Storage_Worker($this->_cacheMock, $this->_loaderMock, $this->_factoryMock,
+        $this->_model = new Saas_Core_Model_Config_Storage_Worker($this->_cacheMock, $this->_loaderMock, $this->_factoryMock,
             $this->_resourcesConfigMock, $this->_storageModulesMock, $this->_storageLocalesMock);
     }
 

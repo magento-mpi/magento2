@@ -56,19 +56,19 @@
                     </saas_queue>
                 </observers>
             </application_process_refresh_cache>
-            <application_process_regenerate_config>
+            <application_process_reinit_config>
                 <observers>
-                    <saas_queue>
-                        <asynchronous>1</asynchronous>
-                        <priority>1</priority>
+                    <reinit_config_observer>
+                        <asynchronous>true</asynchronous>
+                        <priority>10</priority>
                         <class>Saas_Queue_Model_Observer_Config</class>
-                        <method>processRebuildConfig</method>
+                        <method>processReinitConfig</method>
                         <params>
                             <task_name>regenerate_config</task_name>
                         </params>
-                    </saas_queue>
+                    </reinit_config_observer>
                 </observers>
-            </application_process_regenerate_config>
+            </application_process_reinit_config>
         </events>
     </global>
     <workers>

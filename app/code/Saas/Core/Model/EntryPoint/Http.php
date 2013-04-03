@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Saas_Model_EntryPoint_Http extends Mage_Core_Model_EntryPointAbstract
+class Saas_Core_Model_EntryPoint_Http extends Mage_Core_Model_EntryPointAbstract
 {
     /**
      * @param Mage_Core_Model_Config_Primary $config
@@ -39,7 +39,7 @@ class Saas_Saas_Model_EntryPoint_Http extends Mage_Core_Model_EntryPointAbstract
             header('Location: ' . Mage::getBaseUrl());
         } catch (Mage_Core_Model_Store_Exception $e) {
             require Mage::getBaseDir(Mage_Core_Model_Dir::PUB) . DS . 'errors' . DS . '404.php';
-        } catch (Saas_Saas_Model_Config_Exception $e) {
+        } catch (Saas_Core_Model_Config_Exception $e) {
             require Mage::getBaseDir(Mage_Core_Model_Dir::PUB) . DS . 'errors' . DS. 'noCache.php';
         } catch (Magento_BootstrapException $e) {
             header('Content-Type: text/plain', true, 503);

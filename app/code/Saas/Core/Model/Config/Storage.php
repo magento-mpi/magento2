@@ -7,14 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Saas_Model_Config_Storage implements Mage_Core_Model_Config_StorageInterface
+class Saas_Core_Model_Config_Storage implements Mage_Core_Model_Config_StorageInterface
 {
     /**
      * Cache invalidation flag
      *
      * @var bool
      */
-    protected $_cacheInvaledated = false;
+    protected $_cacheInvalidated = false;
 
     /**
      * Cache storage object
@@ -64,37 +64,37 @@ class Saas_Saas_Model_Config_Storage implements Mage_Core_Model_Config_StorageIn
     /**
      * Retrieve application configuration
      *
-     * @throws Saas_Saas_Model_Config_Exception
+     * @throws Saas_Core_Model_Config_Exception
      * @return Mage_Core_Model_ConfigInterface
      */
     public function getConfiguration()
     {
         $config = $this->_cache->load();
-        if (false === $config || $this->_cacheInvaledated) {
+        if (false === $config || $this->_cacheInvalidated) {
             $event = $this->_eventFactory->create();
-            $eventName = 'regenerate_config';
+            $eventName = 'application_process_reinit_config';
             $event->setName($eventName);
             $data = array(
                 'observer'      => array('event' => $event),
                 'configuration' => array(
                     'type'   => '',
                     'model'  => 'Saas_Queue_Model_Observer_Config',
-                    'method' => 'processRebuildConfig',
+                    'method' => 'processReinitConfig',
                     'config' => array(
                         'params'       => array('task_name' => 'regenerate_config'),
                         'asynchronous' => true,
                         'priority'     => 10,
                         'class'        => 'Saas_Queue_Model_Observer_Config',
-                        'method'       => 'processRebuildConfig'
+                        'method'       => 'processReinitConfig'
                     )
                 )
             );
             $priority = 10;
             $this->_queueHandler->addTask($eventName, $data, $priority);
-            $this->_cacheInvaledated = false;
+            $this->_cacheInvalidated = false;
         }
         if (false === $config) {
-            throw new Saas_Saas_Model_Config_Exception();
+            throw new Saas_Core_Model_Config_Exception();
         } else {
             /*
              * Update resource configuration when total configuration is loaded.
@@ -111,6 +111,6 @@ class Saas_Saas_Model_Config_Storage implements Mage_Core_Model_Config_StorageIn
      */
     public function removeCache()
     {
-        $this->_cacheInvaledated = true;
+        $this->_cacheInvalidated = true;
     }
 }

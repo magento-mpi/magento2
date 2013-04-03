@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Saas_Saas_Model_Config_StorageAbstract implements Mage_Core_Model_Config_StorageInterface
+abstract class Saas_Core_Model_Config_StorageAbstract implements Mage_Core_Model_Config_StorageInterface
 {
     /**
      * Cache storage object
@@ -35,7 +35,7 @@ abstract class Saas_Saas_Model_Config_StorageAbstract implements Mage_Core_Model
      *
      * @var bool
      */
-    protected $_cacheInvaledated = false;
+    protected $_cacheInvalidated = false;
 
     /**
      * @param Mage_Core_Model_Config_Cache $cache
@@ -60,7 +60,7 @@ abstract class Saas_Saas_Model_Config_StorageAbstract implements Mage_Core_Model
     public function getConfiguration()
     {
         $config = $this->_cache->load();
-        if (false === $config || $this->_cacheInvaledated) {
+        if (false === $config || $this->_cacheInvalidated) {
             $config = $this->_configFactory->create('<config/>');
             $this->_loader->load($config);
         }
@@ -72,6 +72,6 @@ abstract class Saas_Saas_Model_Config_StorageAbstract implements Mage_Core_Model
      */
     public function removeCache()
     {
-        $this->_cacheInvaledated = true;
+        $this->_cacheInvalidated = true;
     }
 }
