@@ -51,7 +51,7 @@ class Mage_Core_Helper_Translate extends Mage_Core_Helper_Abstract
             'inline_type' => null,
             'params' => array('area' => $area)
         ));
-        $eventManager = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
+        $eventManager = Mage::getObjectManager()->get('Mage_Core_Model_Event_Manager');
         $eventManager->dispatch('translate_initialization_before', array(
             'translate_object' => $this->_translator,
             'result' => $dispatchResult
