@@ -550,7 +550,7 @@ class Mage_Core_Model_Translate
             $translated = $this->_getTranslatedString($text, $code);
         }
 
-        $result = vsprintf($translated, $args);
+        $result = @vsprintf($translated, $args);
         if ($result === false) {
             $result = $translated;
         }
