@@ -132,12 +132,12 @@
                 Element.hide(tr);
                 Element.addClassName(tr, 'ignore-validate');
             }
-            itemsCount--;
             this.updateTotalAmounts();
         },
 
         updateTotalAmounts: function() {
-            $('giftcard_amounts_total').value = (itemsCount > 0 ? itemsCount : '');
+            var count = $('giftcard_amounts_container').select('tr:not(.ignore-validate)').length;
+            $('giftcard_amounts_total').value = count > 0 ? count : '';
         }
     };
 
