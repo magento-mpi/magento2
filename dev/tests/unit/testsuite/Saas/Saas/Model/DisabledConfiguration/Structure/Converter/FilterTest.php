@@ -85,24 +85,17 @@ class Saas_Saas_Model_DisabledConfiguration_Structure_Converter_FilterTest exten
             'section_allowed/group_allowed/field_restricted'
         );
 
-        // No sections
+        // No sections, groups, fields
         $configNoSections['config']['system']['sections'] = array();
-        $expectedNoSections = $configNoSections;
-
-        // No groups
         $configNoGroups['config']['system']['sections']['section_id'] = array();
-        $expectedNoGroups = $configNoGroups;
-
-        // No fields
         $configNoFields['config']['system']['sections']['section_id']['children']['group_id'] = array();
-        $expectedNoFields = $configNoFields;
 
         // Data sets
         return array(
             'normal convert' => array($config, $restrictedOptions, $expected),
-            'no sections' => array($configNoSections, array(), $expectedNoSections),
-            'no groups' => array($configNoGroups, array(), $expectedNoGroups),
-            'no fields' => array($configNoFields, array(), $expectedNoFields),
+            'no sections' => array($configNoSections, array(), $configNoSections),
+            'no groups' => array($configNoGroups, array(), $configNoGroups),
+            'no fields' => array($configNoFields, array(), $configNoFields),
         );
     }
 }
