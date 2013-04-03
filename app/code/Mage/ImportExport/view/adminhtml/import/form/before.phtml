@@ -56,12 +56,10 @@
         showBehaviorFieldset: function(behavior, isShow) {
             var behaviorFieldset = behavior + '_fieldset';
             if (isShow) {
-                $('head-' + behaviorFieldset).show();
                 $(behaviorFieldset).show();
                 $(behavior).enable();
                 $(behavior).addClassName('required-entry');
             } else {
-                $('head-' + behaviorFieldset).hide();
                 $(behaviorFieldset).hide();
                 $(behavior).selectedIndex = 0;
                 $(behavior).disable();
@@ -75,10 +73,8 @@
          */
         showUploadFile: function(isShow) {
             if (isShow == true) {
-                $('head-upload_file_fieldset').show();
                 $('upload_file_fieldset').show();
             } else {
-                $('head-upload_file_fieldset').hide();
                 $('upload_file_fieldset').hide();
             }
         },

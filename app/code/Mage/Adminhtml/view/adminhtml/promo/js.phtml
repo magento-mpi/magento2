@@ -13,12 +13,12 @@
 function hideShowSubproductOptions()
 {
     if ($('rule_sub_is_enable').value == 1) {
-        $('rule_sub_simple_action').up('tr').show();
-        $('rule_sub_discount_amount').up('tr').show();
+        $('rule_sub_simple_action').up('div.field').show();
+        $('rule_sub_discount_amount').up('div.field').show();
         $('rule_sub_discount_amount').addClassName('required-entry validate-not-negative-number');
     } else {
-        $('rule_sub_simple_action').up('tr').hide();
-        $('rule_sub_discount_amount').up('tr').hide();
+        $('rule_sub_simple_action').up('div.field').hide();
+        $('rule_sub_discount_amount').up('div.field').hide();
         $('rule_sub_discount_amount').removeClassName('required-entry').removeClassName('validate-not-negative-number');
     }
 

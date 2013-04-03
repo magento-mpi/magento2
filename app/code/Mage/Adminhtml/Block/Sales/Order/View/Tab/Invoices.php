@@ -61,18 +61,23 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices
         $this->addColumn('increment_id', array(
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Invoice #'),
             'index'     => 'increment_id',
-            'width'     => '120px',
+            'header_css_class'  => 'col-invoice-number',
+            'column_css_class'  => 'col-invoice-number'
         ));
 
         $this->addColumn('billing_name', array(
             'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Bill to Name'),
             'index' => 'billing_name',
+            'header_css_class'  => 'col-name',
+            'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('created_at', array(
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Invoice Date'),
             'index'     => 'created_at',
             'type'      => 'datetime',
+            'header_css_class'  => 'col-period',
+            'column_css_class'  => 'col-period'
         ));
 
         $this->addColumn('state', array(
@@ -80,6 +85,8 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices
             'index'     => 'state',
             'type'      => 'options',
             'options'   => Mage::getModel('Mage_Sales_Model_Order_Invoice')->getStates(),
+            'header_css_class'  => 'col-status',
+            'column_css_class'  => 'col-status'
         ));
 
         $this->addColumn('base_grand_total', array(
@@ -87,6 +94,8 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices
             'index'     => 'base_grand_total',
             'type'      => 'currency',
             'currency'  => 'base_currency_code',
+            'header_css_class'  => 'col-qty',
+            'column_css_class'  => 'col-qty'
         ));
 
         return parent::_prepareColumns();

@@ -59,7 +59,8 @@ class Core_Mage_Order_ZeroSubtotal_NewCustomerWithSimpleSmokeTest extends Mage_S
         $this->productHelper()->createProduct($simple);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        return $simple['general_name'];
+
+        return $simple['general_sku'];
     }
 
     /**
@@ -76,9 +77,11 @@ class Core_Mage_Order_ZeroSubtotal_NewCustomerWithSimpleSmokeTest extends Mage_S
     {
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_zerosubtotal');
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-            array('filter_sku'  => $simpleSku,
-                  'payment_data' => $paymentData));
+        $orderData = $this->loadDataSet(
+            'SalesOrder',
+            'order_newcustomer_checkmoney_flatrate_usa',
+            array('filter_sku'  => $simpleSku, 'payment_data' => $paymentData)
+        );
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -210,10 +213,16 @@ class Core_Mage_Order_ZeroSubtotal_NewCustomerWithSimpleSmokeTest extends Mage_S
     {
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_zerosubtotal');
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-            array('filter_sku' => $simpleSku, 'payment_data' => $paymentData));
-        $paymentConfig = $this->loadDataSet('PaymentMethod', 'zerosubtotal_enable',
-            array('zsc_new_order_status' => 'Processing', 'zsc_automatically_invoice_all_items' => 'Yes'));
+        $orderData = $this->loadDataSet(
+            'SalesOrder',
+            'order_newcustomer_checkmoney_flatrate_usa',
+            array('filter_sku' => $simpleSku, 'payment_data' => $paymentData)
+        );
+        $paymentConfig = $this->loadDataSet(
+            'PaymentMethod',
+            'zerosubtotal_enable',
+            array('zsc_new_order_status' => 'Processing', 'zsc_automatically_invoice_all_items' => 'Yes')
+        );
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($paymentConfig);

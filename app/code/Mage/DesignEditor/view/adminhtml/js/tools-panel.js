@@ -9,11 +9,14 @@
 /*jshint jquery:true*/
 (function($) {
     'use strict';
+
     $.widget('vde.toolsPanel', {
         options: {
             openedPanelClass: 'opened',
             activeTabClass: 'active',
-            panelDefaultHeight: 500,
+            panelDefaultHeight: 300,
+            panelMinHeight: 100,
+            panelMaxHeight: 700,
             showHidePanelAnimationSpeed: 300,
             resizableArea: '.vde-tools-content',
             resizableAreaInner: '.vde-tab-content.active .vde-tab-content-inner',
@@ -49,12 +52,19 @@
 
         _events: function() {
             var self = this;
+
             this.resizableArea.resizable({
                 handles: 'n',
-                minHeight: 100,
-                maxHeight: 700,
+                minHeight: self.options.panelMinHeight,
+                maxHeight: self.options.panelMaxHeight,
+                iframeFix: true,
                 resize: function(event, ui) {
                     self._recalcDataHeight(ui.size.height);
+                },
+                stop: function(event, ui) {
+                    if (ui.size.height <= self.options.panelMinHeight) {
+                        self._hide();
+                    }
                 }
             }).bind('resize.vdeToolsResize', function () {
                 self._recalcDataHeight(self._getResizableAreaHeight());
@@ -78,7 +88,7 @@
         },
 
         _toggleClassIfScrollBarExist: function(elem) {
-            elem.toggleClass(this.options.scrollExistClass, elem.get(0).scrollHeight > elem.height());
+            elem.toggleClass(this.options.scrollExistClass, elem.height() < $('.vde-tab-data', elem).height() + $('.vde-tools-header').height() );
         },
 
         _getActiveResizableAreaInner: function() {
@@ -106,10 +116,11 @@
         },
 
         _hide: function() {
+            this.panel.removeClass(this.options.openedPanelClass);
+
             this.resizableArea.animate({
                 height: 0
             }, this.options.showHidePanelAnimationSpeed, $.proxy(function() {
-                this.panel.removeClass(this.options.openedPanelClass);
                 this.mainTabs.removeClass(this.options.activeTabClass);
             }, this));
         }

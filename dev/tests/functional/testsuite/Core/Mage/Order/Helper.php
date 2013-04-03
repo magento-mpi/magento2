@@ -252,7 +252,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
     {
         if ($this->controlIsPresent('message', 'order_id')) {
             $text = $this->getControlAttribute('message', 'order_id', 'text');
-            $orderId = trim(substr($text, strpos($text, "#") + 1, -(strpos(strrev($text), "|") + 1)));
+            $orderId = ltrim($text, '#');
             $this->addParameter('elementTitle', '#' . $orderId);
             return $orderId;
         }

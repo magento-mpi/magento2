@@ -50,42 +50,28 @@ var Variables = {
         }
     },
     openDialogWindow: function(variablesContent) {
-        if ($(this.dialogWindowId) && typeof(Windows) != 'undefined') {
-            Windows.focus(this.dialogWindowId);
-            return;
-        }
-
-        this.overlayShowEffectOptions = Windows.overlayShowEffectOptions;
-        this.overlayHideEffectOptions = Windows.overlayHideEffectOptions;
-        Windows.overlayShowEffectOptions = {duration:0};
-        Windows.overlayHideEffectOptions = {duration:0};
-
-        this.dialogWindow = Dialog.info(variablesContent, {
-            draggable:true,
-            resizable:true,
-            closable:true,
-            className:"magento",
-            windowClassName:"popup-window",
-            title:'Insert Variable...',
-            width:700,
-            //height:270,
-            zIndex:1000,
-            recenterAuto:false,
-            hideEffect:Element.hide,
-            showEffect:Element.show,
-            id:this.dialogWindowId,
-            onClose: this.closeDialogWindow.bind(this)
+        var windowId = this.dialogWindowId;
+        jQuery('body').append('<div id="' + windowId + '">'+ Variables.variablesContent +'</div>');
+        jQuery('#' + windowId).dialog({
+            autoOpen:   false,
+            title:      "Insert Variable...",
+            modal:      true,
+            resizable:  false,
+            minWidth:   500,
+            close:      function(event, ui) {
+                jQuery(this).dialog('destroy');
+                jQuery('#' + windowId).remove();
+            }
         });
+
+        jQuery('#' + windowId).dialog('open');
+
         variablesContent.evalScripts.bind(variablesContent).defer();
     },
     closeDialogWindow: function(window) {
-        if (!window) {
-            window = this.dialogWindow;
-        }
-        if (window) {
-            window.close();
-            Windows.overlayShowEffectOptions = this.overlayShowEffectOptions;
-            Windows.overlayHideEffectOptions = this.overlayHideEffectOptions;
+        var windowId = this.dialogWindowId;
+        if(jQuery('#' + windowId).length){
+            jQuery('#' + windowId).dialog('close');
         }
     },
     prepareVariableRow: function(varValue, varLabel) {
@@ -94,7 +80,8 @@ var Variables = {
         return content;
     },
     insertVariable: function(value) {
-        this.closeDialogWindow(this.dialogWindow);
+        var windowId = this.dialogWindowId;
+        jQuery('#' + windowId).dialog('close');
         var textareaElm = $(this.textareaElementId);
         if (textareaElm) {
             var scrollPos = textareaElm.scrollTop;

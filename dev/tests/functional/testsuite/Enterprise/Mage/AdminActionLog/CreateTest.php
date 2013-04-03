@@ -62,7 +62,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $userSearch = array('filter_role_name' => $roleId, 'action' => 'Save');
         $this->searchAndOpen($userSearch, 'action_logs_grid');
         //Check that log info page is opened
-        $this->assertEquals('View Entry / Report / Admin Actions Logs / System / Magento Admin',
+        $this->assertEquals('View Entry / Action Log / System / Magento Admin',
             $this->title(), 'Wrong page');
 
         return ($fieldData);
@@ -92,7 +92,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $userSearch = array('filter_role_name' => $roleId, 'action' => 'Edit');
         $this->searchAndOpen($userSearch, 'action_logs_grid');
         //Check that log info page is opened
-        $this->assertEquals('View Entry / Report / Admin Actions Logs / System / Magento Admin',
+        $this->assertEquals('View Entry / Action Log / System / Magento Admin',
             $this->title(), 'Wrong page');
     }
 
@@ -123,7 +123,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $userSearch = array('filter_role_name' => $roleId, 'action' => 'Delete');
         $this->searchAndOpen($userSearch, 'action_logs_grid');
         //Check that log info page is opened
-        $this->assertEquals('View Entry / Report / Admin Actions Logs / System / Magento Admin',
+        $this->assertEquals('View Entry / Action Log / System / Magento Admin',
             $this->title(), 'Wrong page');
     }
 
@@ -137,10 +137,11 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
     {
         //Create new Role
         $userData = $this->loadDataSet('ApiUsers', 'new_api_users_create');
+        $roleData = $this->loadDataSet('ApiRoles', 'api_role_new');
 
         $this->navigate('api_roles_management');
         $this->clickButton('add_new_role', true);
-        $this->fillField('role_name', $userData['role_name']);
+        $this->fillField('role_name', $roleData['role_name']);
         $this->openTab('resources');
         $this->fillDropdown('role_access', 'All');
         $this->clickButton('save');
@@ -155,10 +156,10 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
 
         // Set role
         $this->openTab('user_role');
-        $this->fillField('role_name', $userData['role_name']);
+        $this->fillField('role_name', $roleData['role_name']);
         $this->clickButton('search', false);
         $this->waitForAjax();
-        $this->addParameter('roleName', $userData['role_name']);
+        $this->addParameter('roleName', $roleData['role_name']);
         $this->clickControl('radiobutton', 'select_role', false);
 
         //Save data
@@ -174,7 +175,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->validatePage();
 
         //Check page title
-        $this->assertSame('View Entry / Report / Admin Actions Logs / System / Magento Admin',
+        $this->assertSame('View Entry / Action Log / System / Magento Admin',
             $this->title(), 'Wrong page');
 
         return $userData;
@@ -192,13 +193,11 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
     public function editUserActionLog ($userData)
     {
         $this->navigate('api_users');
-        $userSearch = array('filter_api_users_name' => $userData['api_user_api_key']);
-        $this->searchAndOpen($userSearch, false);
+        $userSearch = array('filter_api_users_api_key' => $userData['api_user_api_key']);
+        $this->addParameter('apiKey', $userData['api_user_api_key']);
+        $this->searchAndOpen($userSearch, 'api_users_grid');
         $this->waitForPageToLoad();
         $this->refresh();
-        $this->addParameter('userId', $this->defineParameterFromUrl('user_id'));
-        $this->addParameter('apiKey', $userData['api_user_api_key']);
-        $this->validatePage();
         $userId = $this->defineParameterFromUrl('user_id');
         //Open Admin Action Log Page
         $this->navigate('admin_action_log_report');
@@ -207,7 +206,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->validatePage();
 
         //Check page title
-        $this->assertSame('View Entry / Report / Admin Actions Logs / System / Magento Admin',
+        $this->assertSame('View Entry / Action Log / System / Magento Admin',
             $this->title(), 'Wrong page');
     }
 
@@ -223,13 +222,11 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
     public function deleteUserActionLog ($userData)
     {
         $this->navigate('api_users');
-        $userSearch = array('filter_api_users_name' => $userData['api_user_api_key']);
-        $this->searchAndOpen($userSearch, false);
-        $this->waitForPageToLoad();
-
-        $this->addParameter('userId', $this->defineParameterFromUrl('user_id'));
+        $userSearch = array('filter_api_users_api_key' => $userData['api_user_api_key']);
         $this->addParameter('apiKey', $userData['api_user_api_key']);
-        $this->validatePage('edit_api_user');
+        $this->searchAndOpen($userSearch, 'api_users_grid');
+        $this->waitForPageToLoad();
+        $this->addParameter('id', $this->defineParameterFromUrl('user_id'));
         $userId = $this->defineParameterFromUrl('user_id');
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete', true);
         //Open Admin Action Log Page
@@ -239,7 +236,7 @@ class Enterprise_Mage_AdminActionLog_CreateTest extends Mage_Selenium_TestCase
         $this->validatePage();
 
         //Check page title
-        $this->assertSame('View Entry / Report / Admin Actions Logs / System / Magento Admin',
+        $this->assertSame('View Entry / Action Log / System / Magento Admin',
             $this->title(), 'Wrong page');
     }
 }

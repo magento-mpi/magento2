@@ -27,6 +27,7 @@ class Core_Mage_Order_BankTransfer_NewCustomerWithSimpleSmokeTest extends Mage_S
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->systemConfigurationHelper()->configure('PaymentMethod/banktransfer');
     }
 
@@ -51,7 +52,7 @@ class Core_Mage_Order_BankTransfer_NewCustomerWithSimpleSmokeTest extends Mage_S
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return $simple['general_name'];
+        return $simple['general_sku'];
     }
 
     /**
@@ -67,9 +68,11 @@ class Core_Mage_Order_BankTransfer_NewCustomerWithSimpleSmokeTest extends Mage_S
     {
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_banktransfer');
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku' => $simpleSku,
-                                              'payment_data' => $paymentData));
+        $orderData = $this->loadDataSet(
+            'SalesOrder',
+            'order_newcustomer_checkmoney_flatrate_usa',
+            array('filter_sku' => $simpleSku, 'payment_data' => $paymentData)
+        );
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

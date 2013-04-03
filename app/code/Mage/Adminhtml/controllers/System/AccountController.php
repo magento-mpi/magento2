@@ -20,10 +20,9 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
 {
     public function indexAction()
     {
-        $this->_title($this->__('System'))->_title($this->__('My Account'));
+        $this->_title($this->__('My Account'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Adminhtml::system_myaccount');
         $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_System_Account_Edit'));
         $this->renderLayout();
     }
@@ -36,6 +35,7 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
         $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
         $password = (string)$this->getRequest()->getParam('password');
         $passwordConfirmation = (string)$this->getRequest()->getParam('password_confirmation');
+        $interfaceLocale = (string)$this->getRequest()->getParam('interface_locale', false);
 
         /** @var $user Mage_User_Model_User */
         $user = Mage::getModel('Mage_User_Model_User')->load($userId);
@@ -51,6 +51,13 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
         }
         if ($passwordConfirmation !== '') {
             $user->setPasswordConfirmation($passwordConfirmation);
+        }
+
+        if ($this->_objectManager->get('Mage_Core_Model_Locale_Validator')->isValid($interfaceLocale)) {
+
+            $user->setInterfaceLocale($interfaceLocale);
+            $this->_objectManager->get('Mage_Backend_Model_Locale_Manager')
+                ->switchBackendInterfaceLocale($interfaceLocale);
         }
 
         try {

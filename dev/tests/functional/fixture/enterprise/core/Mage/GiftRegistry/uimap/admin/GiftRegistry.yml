@@ -15,7 +15,7 @@
 manage_gift_registry:
     mca: giftregistry/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'giftregistry')]
-    title: Manage Gift Registry Types / Customers / Magento Admin
+    title: Manage Gift Registry Types / Other Settings / Stores / Magento Admin
     uimap:
         form: &giftRegistryForm
             fieldsets:
@@ -45,7 +45,7 @@ manage_gift_registry:
 # 'New Gift Registry' page
 new_gift_registry:
     mca: giftregistry/new/
-    title: New Gift Registry Type / Manage Gift Registry Types / Customers / Magento Admin
+    title: New Gift Registry Type / Manage Gift Registry Types / Other Settings / Stores / Magento Admin
     uimap:
         form: &giftRegistryForm
             tabs:
@@ -100,7 +100,7 @@ new_gift_registry:
             save_and_continue_edit: //button[@id='save_and_continue_edit']
         messages: &newGiftRegistryMessages
             confirmation_for_delete: Deleting this gift registry type will also remove all customers' gift registries created based on it. Are you sure you want to proceed?
-            empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This field is required.')]
+            empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             incorrect_attributes_code: "//div[@id='advice-attribute-code-%fieldId%' and not(contains(@style,'display: none;'))]"
             empty_option: //div[@id='advice-required-option-select-rows-validation_1_result']
             invalid_code: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.')]
@@ -109,7 +109,7 @@ new_gift_registry:
 # 'Edit Gift Registry' page
 edit_gift_registry:
     mca: giftregistry/edit/id/%id%/
-    title: Edit '%elementLabel%' Gift Registry Type / Manage Gift Registry Types / Customers / Magento Admin
+    title: Edit '%elementLabel%' Gift Registry Type / Manage Gift Registry Types / Other Settings / Stores / Magento Admin
     uimap:
         form: *giftRegistryForm
         buttons:

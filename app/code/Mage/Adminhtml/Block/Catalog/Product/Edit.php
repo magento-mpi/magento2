@@ -244,7 +244,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     {
         return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
             'tab_id' => 'product_info_tabs_downloadable_items',
-            'is_virtual_id' => Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight_Renderer::VIRTUAL_FIELD_HTML_ID,
+            'is_virtual_id' => Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight::VIRTUAL_FIELD_HTML_ID,
             'weight_id' => 'weight',
             'current_type' => $this->getProduct()->getTypeId(),
             'attributes' => $this->_getAttributes(),
@@ -312,10 +312,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
                     'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Save & Duplicate'),
                     'data_attribute' => array(
                         'mage-init' => array(
-                            'button' => array('event' => '', 'target' => '#product-edit-form'),
+                            'button' => array('event' => 'saveAndDuplicate', 'target' => '#product-edit-form'),
                         ),
                     ),
-                    'onclick' => $this->_isProductNew() ? '' : 'setLocation(\'' . $this->getDuplicateUrl() . '\')',
                 );
             }
         }

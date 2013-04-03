@@ -10,6 +10,9 @@
 
 /**
  * VDE buttons block
+ *
+ * @method Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons setVirtualThemeId(int $id)
+ * @method int getVirtualThemeId()
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
     extends Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_BlockAbstract
@@ -72,7 +75,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
     public function getNavigationModeUrl()
     {
         return $this->getUrl('*/*/launch', array(
-            'theme_id' => $this->getThemeId(),
+            'theme_id' => $this->getVirtualThemeId(),
             'mode' => Mage_DesignEditor_Model_State::MODE_NAVIGATION
         ));
     }
@@ -85,8 +88,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
     public function getDesignModeUrl()
     {
         return $this->getUrl('*/*/launch', array(
-            'theme_id' => $this->getThemeId(),
-            'mode' => Mage_DesignEditor_Model_State::MODE_DESIGN
+            'theme_id' => $this->getVirtualThemeId(),
+            'mode'     => Mage_DesignEditor_Model_State::MODE_DESIGN
         ));
     }
 
@@ -97,6 +100,10 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
      */
     public function getAssignButtonHtml()
     {
+        $message = "You are about to change this theme for your live store, are you sure want to do this?\n\n" .
+            'Note: copy of the current theme will be created automatically and assigned to your store, ' .
+            'so you can change your copy later as you wish';
+
         /** @var $assignButton Mage_Backend_Block_Widget_Button */
         $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $assignButton->setData(array(
@@ -107,7 +114,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
                         'event'     => 'assign',
                         'target'    => 'body',
                         'eventData' => array(
-                            'theme_id' => $this->getThemeId()
+                            'theme_id'        => $this->getThemeId(),
+                            'confirm_message' =>  $this->__($message)
                         )
                     ),
                 ),
@@ -120,42 +128,32 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
     }
 
     /**
-     * Get switch mode button
+     * Get switch mode button init data
      *
      * @return string
      */
-    public function getSwitchModeButtonHtml()
+    public function getSwitchModeButtonInitData()
     {
         $eventData = array(
-            'theme_id' => $this->getThemeId(),
+            'theme_id' => $this->getVirtualThemeId(),
         );
 
         if ($this->isNavigationMode()) {
-            $label                 = $this->__('Design Mode');
             $eventData['mode_url'] = $this->getDesignModeUrl();
         } else {
-            $label                         = $this->__('Navigation Mode');
             $eventData['mode_url']         = $this->getNavigationModeUrl();
             $eventData['save_changes_url'] = $this->getSaveTemporaryLayoutUpdateUrl();
         }
 
-        /** @var $switchButton Mage_Backend_Block_Widget_Button */
-        $switchButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
-        $switchButton->setData(array(
-            'label' => $label,
-            'data_attribute' => array(
-                'mage-init' => array(
-                    'button' => array(
-                        'event'     => 'switchMode',
-                        'target'    => 'body',
-                        'eventData' => $eventData
-                    ),
-                ),
+        $data = array(
+            'button' => array(
+                'event'     => 'switchMode',
+                'target'    => 'body',
+                'eventData' => $eventData
             ),
-            'class' => 'action-switch-mode',
-        ));
+        );
 
-        return $switchButton->toHtml();
+        return $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode($data));
     }
 
     /**
@@ -166,5 +164,50 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
     public function getSaveTemporaryLayoutUpdateUrl()
     {
         return $this->getUrl('*/*/saveTemporaryLayoutUpdate');
+    }
+
+    /**
+     * Get button HTML
+     *
+     * @return string
+     */
+    public function getViewLayoutButtonHtml()
+    {
+        //TODO If this link is clicked before event handler is assigned - it will result in opening a url
+        //intended for AJAX
+
+        $button = sprintf('<a href="%s" title="%s"class="vde_button view-layout">%s</a>',
+            $this->getViewLayoutUrl(),
+            $this->__('View Layout'),
+            $this->__('View Layout')
+        );
+
+        return $button;
+    }
+
+    /**
+     * Get Quit button HTML
+     *
+     * @return string
+     */
+    public function getQuitButtonHtml()
+    {
+        $button = sprintf('<a href="%s" title="%s"class="vde_button">%s</a>',
+            $this->getQuitUrl(),
+            $this->__('Quit'),
+            $this->__('Quit')
+        );
+
+        return $button;
+    }
+
+    /**
+     * Get admin panel home page URL
+     *
+     * @return string
+     */
+    public function getHomeLink()
+    {
+        return $this->helper('Mage_Backend_Helper_Data')->getHomePageUrl();
     }
 }

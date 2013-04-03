@@ -18,7 +18,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_SelectTest exte
         /** @var $block Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select', 'select');
         $html = $block->getPriceTypeSelectHtml();
-        $this->assertContains('select_{{select_id}}', $html);
-        $this->assertContains('[{{select_id}}]', $html);
+        $this->assertContains('select_${select_id}', $html);
+        $this->assertContains('[${select_id}]', $html);
     }
 }

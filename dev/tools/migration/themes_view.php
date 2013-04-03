@@ -7,12 +7,13 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 require_once __DIR__ . '/../../../app/bootstrap.php';
-Mage::setIsDeveloperMode(true);
-
+$rootDir = realpath(__DIR__ . '/../../..');
 try {
-    Mage::getConfig()->cleanCache();
+    $config = new Mage_Core_Model_Config_Primary($rootDir, array());
+    $entryPoint = new Mage_Core_Model_EntryPoint_Cron($config);
+
+    Mage::getConfig()->removeCache();
     Mage::getConfig()->reinit();
     $config = array();
 

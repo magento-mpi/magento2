@@ -22,7 +22,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
      */
     public function indexAction()
     {
-        $this->_title($this->__('Newsletter'))->_title($this->__('Newsletter Queue'));
+        $this->_title($this->__('Newsletter Queue'));
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
@@ -164,7 +164,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
 
     public function editAction()
     {
-        $this->_title($this->__('Newsletter'))->_title($this->__('Newsletter Queue'));
+        $this->_title($this->__('Newsletter Queue'));
 
         Mage::register('current_queue', Mage::getSingleton('Mage_Newsletter_Model_Queue'));
 

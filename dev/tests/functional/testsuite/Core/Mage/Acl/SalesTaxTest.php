@@ -29,185 +29,20 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Admin user with Role Resource  Sales/Tax/Customer Tax Class can create new Customer Tax Class</p>
-     *
-     * @test
-     * @return array
-     * @TestlinkId TL-MAGE-5957
-     */
-    public function permissionCustomerTaxClass()
-    {
-        $this->navigate('manage_roles');
-        //Create new role with specific Resource
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Sales/Tax/Customer Tax Classes'));
-        $this->adminUserHelper()->createRole($roleSource);
-        $this->assertMessagePresent('success', 'success_saved_role');
-        //Create admin user with specific role
-        $this->navigate('manage_admin_users');
-        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
-            array('role_name' => $roleSource['role_info_tab']['role_name']));
-        $this->adminUserHelper()->createAdminUser($testAdminUser);
-        $this->assertMessagePresent('success', 'success_saved_user');
-        $this->logoutAdminUser();
-        //Login as test admin user
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
-        $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('manage_customer_tax_class');
-        //Create Customer Tax Class
-        //Data
-        $customerTaxClassData = $this->loadDataSet('Tax', 'new_customer_tax_class');
-        //Steps
-        $this->taxHelper()->createTaxItem($customerTaxClassData, 'customer_class');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_tax_class');
-        $this->taxHelper()->openTaxItem($customerTaxClassData, 'customer_class');
-        $this->assertTrue($this->verifyForm($customerTaxClassData), $this->getParsedMessages());
-
-        return $customerTaxClassData;
-    }
-
-    /**
-     * <p>Admin user with Role Resource  Sales/Tax/Product Tax Class can create new Product Tax Class</p>
-     *
-     * @test
-     * @return array
-     * @TestlinkId TL-MAGE-5958
-     */
-    public function permissionProductTaxClass()
-    {
-        $this->navigate('manage_roles');
-        //Create new role with specific Resource
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Sales/Tax/Product Tax Classes'));
-        $this->adminUserHelper()->createRole($roleSource);
-        $this->assertMessagePresent('success', 'success_saved_role');
-        //Create admin user with specific role
-        $this->navigate('manage_admin_users');
-        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
-            array('role_name' => $roleSource['role_info_tab']['role_name']));
-        $this->adminUserHelper()->createAdminUser($testAdminUser);
-        $this->assertMessagePresent('success', 'success_saved_user');
-        $this->logoutAdminUser();
-        //Login as test admin user
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
-        $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('manage_product_tax_class');
-        //Create new Product Tax Class
-        $productTaxClassData = $this->loadDataSet('Tax', 'new_product_tax_class');
-        //Steps
-        $this->taxHelper()->createTaxItem($productTaxClassData, 'product_class');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_tax_class');
-        $this->taxHelper()->openTaxItem($productTaxClassData, 'product_class');
-        $this->assertTrue($this->verifyForm($productTaxClassData), $this->getParsedMessages());
-
-        return $productTaxClassData;
-    }
-
-    /**
-     * <p>Admin user with Role Resource  Sales/Tax/Manage Tax Zones & Rates  can create new Tax Rate</p>
-     *
-     * @test
-     * @return array
-     * @TestlinkId TL-MAGE-5959
-     */
-    public function permissionTaxRates()
-    {
-        $this->navigate('manage_roles');
-        //Create new role with specific Resource
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Sales/Tax/Manage Tax Zones & Rates'));
-        $this->adminUserHelper()->createRole($roleSource);
-        $this->assertMessagePresent('success', 'success_saved_role');
-        //Create admin user with specific role
-        $this->navigate('manage_admin_users');
-        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
-            array('role_name' => $roleSource['role_info_tab']['role_name']));
-        $this->adminUserHelper()->createAdminUser($testAdminUser);
-        $this->assertMessagePresent('success', 'success_saved_user');
-        $this->logoutAdminUser();
-        //Login as test admin user
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
-        $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('manage_tax_zones_and_rates');
-        //Create new Tax Rate
-        $rate = $this->loadDataSet('Tax', 'tax_rate_create_test_zip_no');
-        $search = $this->loadDataSet('Tax', 'search_tax_rate', array('filter_tax_id' => $rate['tax_identifier']));
-        $this->taxHelper()->createTaxItem($rate, 'rate');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_tax_rate');
-        $this->taxHelper()->openTaxItem($search, 'rate');
-        $this->assertTrue($this->verifyForm($rate), $this->getParsedMessages());
-
-        return $rate;
-    }
-
-    /**
-     * <p>Admin user with Role Resource  Sales/Tax/Manage Tax Rules  can create new Tax Rule</p>
-     *
-     * @param array $customerTaxClassData
-     * @param array $productTaxClassData
-     * @param array $rate
-     *
-     * @depends permissionCustomerTaxClass
-     * @depends permissionProductTaxClass
-     * @depends permissionTaxRates
-     *
-     * @test
-     * @return array
-     * @TestlinkId TL-MAGE-5960
-     */
-    public function permissionTaxRule($customerTaxClassData, $productTaxClassData, $rate)
-    {
-        $this->navigate('manage_roles');
-        //Create new role with specific Resource
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Sales/Tax/Manage Tax Rules'));
-        $this->adminUserHelper()->createRole($roleSource);
-        $this->assertMessagePresent('success', 'success_saved_role');
-        //Create admin user with specific role
-        $this->navigate('manage_admin_users');
-        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
-            array('role_name' => $roleSource['role_info_tab']['role_name']));
-        $this->adminUserHelper()->createAdminUser($testAdminUser);
-        $this->assertMessagePresent('success', 'success_saved_user');
-        $this->logoutAdminUser();
-        //Login as test admin user
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
-        $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('manage_tax_rule');
-        //Create new Tax Rule
-        //Data
-        $taxRuleData = $this->loadDataSet('Tax', 'new_tax_rule_required',
-            array('customer_tax_class' => $customerTaxClassData['customer_class_name'],
-                  'product_tax_class'  => $productTaxClassData['product_class_name'],
-                  'tax_rate'           => $rate['tax_identifier']));
-        $searchTaxRuleData = $this->loadDataSet('Tax', 'search_tax_rule', array('filter_name' => $taxRuleData['name']));
-        //Steps
-        $this->taxHelper()->createTaxItem($taxRuleData, 'rule');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_tax_rule');
-        $this->taxHelper()->openTaxItem($searchTaxRuleData, 'rule');
-        $this->assertTrue($this->verifyForm($taxRuleData), $this->getParsedMessages());
-    }
-
-    /**
-     * <p>Admin user with Role Resource  Sales/Tax can create "Customer Tax Class"</p>
-     * <p>"Product Tax Class","Tax Rate", "Tax Rule"</p>
-     *
-     * @depends permissionTaxRule
+     * <p>Admin user with Role Resource  System/Tax management can create Tax Rate, Tax Rule with Customer and product Tax Class "</p>
      *
      * @test
      * @return array
      * @TestlinkId TL-MAGE-5961
      */
-    public function permissionFullFlowTaxRuleCreation()
+    public function permissionTaxItemsCreate()
     {
+        $this->markTestIncomplete('MAGETWO-7607');
         $this->navigate('manage_roles');
         //Create new role with specific Resource
         $roleSource =
-            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom', array('resource_1' => 'Sales/Tax'));
+            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+                array('resource_acl' => 'stores_manage_tax'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //Create admin user with specific role
@@ -216,62 +51,61 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
             array('role_name' => $roleSource['role_info_tab']['role_name']));
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
+        $this->currentWindow()->maximize();
         $this->logoutAdminUser();
         //Login as test admin user
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_tax_rule');
-        //Create tax rate, product tax class,
-        //Data
-        $taxRateData = $this->loadDataSet('Tax', 'tax_rate_create_test');
-        $productTaxClassData = $this->loadDataSet('Tax', 'new_product_tax_class');
-        $customerTaxClassData = $this->loadDataSet('Tax', 'new_customer_tax_class');
+        //Upload Data
+        $taxRateData = $this->LoadDataSet('Tax','tax_rate_create_test');
+        $taxRuleData = $this->loadDataSet('Tax', 'new_tax_rule_required');
+        $searchTaxRuleData = $this->loadDataSet('Tax', 'search_tax_rule', array('filter_name' => $taxRuleData['name']));
         //Create Tax Rate
         $this->navigate('manage_tax_zones_and_rates');
-        $this->taxHelper()->createTaxItem($taxRateData, 'rate');
+        $this->taxHelper()->createTaxRate($taxRateData);
         $this->assertMessagePresent('success', 'success_saved_tax_rate');
-        //Create Product Tax Class
-        $this->navigate('manage_product_tax_class');
-        $this->taxHelper()->createTaxItem($productTaxClassData, 'product_class');
-        $this->assertMessagePresent('success', 'success_saved_tax_class');
-        //Create Customer Tax Class
-        $this->navigate('manage_customer_tax_class');
-        $this->taxHelper()->createTaxItem($customerTaxClassData, 'customer_class');
-        $this->assertMessagePresent('success', 'success_saved_tax_class');
-        $this->taxHelper()->openTaxItem($customerTaxClassData, 'customer_class');
         //Create Tax Rule
-        $testData = array('tax_rate'           => $taxRateData['tax_identifier'],
-                          'product_tax_class'  => $productTaxClassData['product_class_name'],
-                          'customer_tax_class' => $customerTaxClassData['customer_class_name']);
-        $taxRuleData = $this->loadDataSet('Tax', 'new_tax_rule_required', $testData);
-        $searchTaxRuleData = $this->loadDataSet('Tax', 'search_tax_rule', array('filter_name' => $taxRuleData['name']));
         $this->navigate('manage_tax_rule');
-        $this->taxHelper()->createTaxItem($taxRuleData, 'rule');
-        //Verifying
+        $this->taxHelper()->createTaxRule($taxRuleData);
         $this->assertMessagePresent('success', 'success_saved_tax_rule');
-        $this->taxHelper()->openTaxItem($searchTaxRuleData, 'rule');
-        $this->assertTrue($this->verifyForm($taxRuleData), $this->getParsedMessages());
-        $testData['tax_rule_name'] = $taxRuleData['name'];
-
-        return $testData;
+        //Create Customer Tax Class
+        $this->navigate('manage_tax_rule');
+        $multiselect = 'customer_tax_class';
+        $this->clickButton('add_rule');
+        $this->clickControl('link','tax_rule_info_additional_link');
+        $taxClassName = $this->generate('string', 20);
+        $this->fillCompositeMultiselect($multiselect, array($taxClassName));
+        $this->assertTrue($this->verifyCompositeMultiselect($multiselect, array($taxClassName)),
+            'Failed to add new value');
+        //Create Product Tax Class
+        $this->navigate('manage_tax_rule');
+        $this->clickButton('add_rule');
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $this->assertTrue($this->verifyCompositeMultiselect('product_tax_class', array('Taxable Goods')),
+            '"Taxable Goods" is absent or not selected');
+        //Verifying
+       $testData['tax_rule_name'] = $taxRuleData['name'];
+       return $testData;
     }
 
     /**
-     * <p>Admin user with Role Resource  Sales/Tax  can delete "Customer Tax Class"</p>
-     * <p>"Product Tax Class","Tax Rate", "Tax Rule"</p>
+     * <p>Admin user with Role Resource  System/Tax Management  can delete Tax Rate and Tax Rule with Customer and product Tax Class</p>
      *
      * @param $testData
      *
-     * @depends permissionFullFlowTaxRuleCreation
+     * @depends permissionTaxItemsCreate
      * @test
      * @TestlinkId TL-MAGE-5962
      */
-    public function permissionDeleteAllTaxItems($testData)
+    public function permissionTaxItemsDelete($testData)
     {
+        $this->markTestIncomplete('MAGETWO-7607');
         $this->navigate('manage_roles');
         //Create new role with specific Resource
         $roleSource =
-            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom', array('resource_1' => 'Sales/Tax'));
+            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+                array('resource_acl' => 'stores_manage_tax'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //Create admin user with specific role
@@ -283,58 +117,32 @@ class Core_Mage_Acl_SalesTaxTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         //Login as test admin user
         $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
+        $this->currentWindow()->maximize();
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->validatePage('manage_tax_rule');
-        //Delete Tax Rule
-        $taxRuleToDelete = array($testData['tax_rule_name']);
-        $this->taxHelper()->deleteTaxItem($taxRuleToDelete, 'rule');
-        $this->assertMessagePresent('success', 'success_deleted_tax_rule');
         //Delete Product Tax Class
-        $this->navigate('manage_product_tax_class');
-        $productClassToDelete['product_class_name'] = $testData['product_tax_class'];
-        $this->taxHelper()->deleteTaxItem($productClassToDelete, 'product_class');
-        $this->assertMessagePresent('success', 'success_deleted_tax_class');
+        $this->navigate('manage_tax_rule');
+        $taxClass = $this->generate('string', 26);
+        $this->clickButton('add_rule');
+        $this->clickControl('link', 'tax_rule_info_additional_link');
+        $this->fillCompositeMultiselect('product_tax_class', array($taxClass));
+        $this->assertTrue($this->verifyCompositeMultiselect('product_tax_class', array($taxClass)),
+            $this->getParsedMessages());
+        $this->deleteCompositeMultiselectOption('product_tax_class', $taxClass, 'confirmation_for_delete_class');
         //Delete Tax Rate
         $this->navigate('manage_tax_zones_and_rates');
         $taxRateToDelete['filter_tax_id'] = $testData['tax_rate'];
-        $this->taxHelper()->deleteTaxItem($taxRateToDelete, 'rate'); ///tut
+        $this->taxHelper()->deleteTaxItem($taxRateToDelete, 'rate');
         $this->assertMessagePresent('success', 'success_deleted_tax_rate');
         //Delete Customer Tax Class
         $this->navigate('manage_customer_tax_class');
         $customerClassDel['customer_class_name'] = $testData['customer_tax_class'];
         $this->taxHelper()->deleteTaxItem($customerClassDel, 'customer_class');
         $this->assertMessagePresent('success', 'success_deleted_tax_class');
-    }
-
-    /**
-     * <p>Admin user with Role Resource  Sales/Tax has ability to use Import/Export functionality</p>
-     *
-     * @test
-     * @TestlinkId TL-MAGE-5963
-     */
-    public function permissionAllTaxImportExport()
-    {
-        $this->navigate('manage_roles');
-        //Create new role with specific Resource
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Sales/Tax'));
-        $this->adminUserHelper()->createRole($roleSource);
-        $this->assertMessagePresent('success', 'success_saved_role');
-        //Create admin user with specific role
-        $this->navigate('manage_admin_users');
-        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
-            array('role_name' => $roleSource['role_info_tab']['role_name']));
-        $this->adminUserHelper()->createAdminUser($testAdminUser);
-        $this->assertMessagePresent('success', 'success_saved_user');
-        $this->logoutAdminUser();
-        //Login as test admin user
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
-        $this->adminUserHelper()->loginAdmin($loginData);
-        $this->validatePage('manage_tax_rule');
-        //Steps
-        $this->navigate('manage_import_export_tax_rates');
-        //Verifying
-        $this->assertTrue($this->buttonIsPresent('import_tax_rates'), 'Button "import_tax_rates" is not presented');
-        $this->assertTrue($this->buttonIsPresent('export_tax_rates'), 'Button "export_tax_rates" is not presented');
+        //Delete Tax Rule
+        $taxRuleToDelete = array($testData['tax_rule_name']);
+        $this->navigate('manage_tax_rule');
+        $this->taxHelper()->deleteTaxItem($taxRuleToDelete, 'rule');
+        $this->assertMessagePresent('success', 'success_deleted_tax_rule');
     }
 }

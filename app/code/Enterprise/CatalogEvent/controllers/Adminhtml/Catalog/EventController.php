@@ -49,7 +49,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
                 Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Events'),
                 Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Events')
             )
-            ->_setActiveMenu('Enterprise_CatalogEvent::catalog_enterprise_catalogevent');
+            ->_setActiveMenu('Enterprise_CatalogEvent::catalog_enterprise_catalogevent_events');
         return $this;
     }
 
@@ -60,9 +60,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
      */
     public function indexAction()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Categories'))
-             ->_title($this->__('Catalog Events'));
+        $this->_title($this->__('Catalog Events'));
 
         $this->_initAction();
         $this->renderLayout();
@@ -83,9 +81,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
      */
     public function editAction()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Categories'))
-             ->_title($this->__('Catalog Events'));
+        $this->_title($this->__('Catalog Events'));
 
         $event = Mage::getModel('Enterprise_CatalogEvent_Model_Event')
             ->setStoreId($this->getRequest()->getParam('store', 0));

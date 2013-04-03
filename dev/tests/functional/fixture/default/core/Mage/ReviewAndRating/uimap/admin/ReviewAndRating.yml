@@ -12,7 +12,7 @@
 manage_ratings:
     mca: rating/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'rating/index/')]
-    title: Manage Ratings / Reviews and Ratings / Catalog / Magento Admin
+    title: Manage Ratings / Attributes / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -37,13 +37,13 @@ manage_ratings:
         messages: &ratingMessages
             success_saved_rating: //li[normalize-space(@class)='success-msg' and contains(.,'The rating has been saved.')]
             success_deleted_rating: //li[normalize-space(@class)='success-msg' and contains(.,'The rating has been deleted.')]
-            empty_required_field: //label[(@class='mage-error') and @for='%fieldId%' and contains(.,'This field is required.')]
+            empty_required_field: //label[(@class='mage-error') and @for='%fieldId%' and contains(.,'This is a required field.')]
             existing_name: //li[normalize-space(@class)='error-msg' and contains(.,'already exists.')]
             confirmation_for_delete: Are you sure you want to do this?
 
 new_rating:
     mca: rating/new/
-    title: New Rating / Manage Ratings / Reviews and Ratings / Catalog / Magento Admin
+    title: New Rating / Manage Ratings / Attributes / Stores / Magento Admin
     uimap: &newRating
         form: &new_rating-form
             tabs:
@@ -72,12 +72,12 @@ new_rating:
 
 new_edit_rating:
     mca: rating/edit/
-    title: New Rating / Manage Ratings / Reviews and Ratings / Catalog / Magento Admin
+    title: New Rating / Manage Ratings / Attributes / Stores / Magento Admin
     uimap: *newRating
 
 edit_rating:
     mca: rating/edit/id/%id%/
-    title: %elementTitle% / Manage Ratings / Reviews and Ratings / Catalog / Magento Admin
+    title: %elementTitle% / Manage Ratings / Attributes / Stores / Magento Admin
     uimap:
         form: *new_rating-form
         buttons:
@@ -90,7 +90,7 @@ edit_rating:
 manage_all_reviews:
     mca: catalog_product_review/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product_review/index/')]
-    title: All Reviews / Customer Reviews / Reviews and Ratings / Catalog / Magento Admin
+    title: All Reviews / Customer Reviews / User Content / Marketing / Magento Admin
     uimap:
         form: &manageReviews
             fieldsets:
@@ -132,21 +132,21 @@ manage_all_reviews:
             success_deleted_review_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'record(s) have been deleted.')]
             confirmation_for_delete_all: Are you sure?
             confirmation_for_delete: Are you sure you want to do this?
-            empty_required_field: //label[(@class='mage-error') and @for='%fieldId%' and contains(.,'This field is required.')]
+            empty_required_field: //label[(@class='mage-error') and @for='%fieldId%' and contains(.,'This is a required field.')]
             empty_validate_rating: "//div[@id='advice-validate-rating-validate_rating' and not(contains(@style,'display: none;'))]"
             not_available_rating: //*[@id='rating_detail'][normalize-space(text())="Rating isn't Available"]
 
 manage_pending_reviews:
     mca: catalog_product_review/pending/
     click_xpath: //div[@class='submenu']//a[contains(@href, 'catalog_product_review/pending/')]
-    title: Pending Reviews / Customer Reviews / Reviews and Ratings / Catalog / Magento Admin
+    title: Pending Reviews / Customer Reviews / Magento Admin
     uimap:
         form: *manageReviews
         messages: *reviewMessages
 
 add_new_review:
     mca: catalog_product_review/new/
-    title: New Review / Customer Reviews / Reviews and Ratings / Catalog / Magento Admin
+    title: New Review / Customer Reviews / User Content / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -194,7 +194,7 @@ add_new_review:
 
 edit_review:
     mca: catalog_product_review/edit/id/%id%/
-    title: Edit Review / Customer Reviews / Reviews and Ratings / Catalog / Magento Admin
+    title: Edit Review / Customer Reviews / User Content / Marketing / Magento Admi
     uimap: &editReview
         form:
             fieldsets:
@@ -226,5 +226,5 @@ edit_review:
 
 edit_pending_review:
     mca: catalog_product_review/edit/id/%id%/ret/pending/
-    title: Edit Review / Customer Reviews / Reviews and Ratings / Catalog / Magento Admin
+    title: Edit Review / Customer Reviews / User Content / Marketing / Magento Admin
     uimap: *editReview

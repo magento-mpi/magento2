@@ -73,9 +73,9 @@ class Mage_Catalog_Block_Product_Configurable_AttributeSelector extends Mage_Bac
     {
         return array(
             'source' => $this->getUrl('*/catalog_product_attribute/suggestConfigurableAttributes'),
-            'template' => '#configurable-attribute-selector-template',
             'minLength' => 0,
             'className' => 'category-select',
+            'showAll' => true,
         );
     }
 }

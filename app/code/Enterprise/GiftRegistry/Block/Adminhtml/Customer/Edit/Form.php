@@ -136,7 +136,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
     public function getCreatedAt()
     {
         return $this->formatDate($this->getEntity()->getCreatedAt(),
-            Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM, true
+            Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true
         );
     }
 

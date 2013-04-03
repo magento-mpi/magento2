@@ -24,7 +24,7 @@ class Mage_CurrencySymbol_Adminhtml_System_CurrencysymbolController extends Mage
     {
         // set active menu and breadcrumbs
         $this->loadLayout()
-            ->_setActiveMenu('Mage_Adminhtml::system_currency')
+            ->_setActiveMenu('Mage_CurrencySymbol::system_currency_symbols')
             ->_addBreadcrumb(
                 Mage::helper('Mage_CurrencySymbol_Helper_Data')->__('System'),
                 Mage::helper('Mage_CurrencySymbol_Helper_Data')->__('System')
@@ -34,8 +34,7 @@ class Mage_CurrencySymbol_Adminhtml_System_CurrencysymbolController extends Mage
                 Mage::helper('Mage_CurrencySymbol_Helper_Data')->__('Manage Currency Rates')
             );
 
-        $this->_title($this->__('System'))
-            ->_title($this->__('Manage Currency Symbols'));
+        $this->_title($this->__('Manage Currency Symbols'));
         $this->renderLayout();
     }
 

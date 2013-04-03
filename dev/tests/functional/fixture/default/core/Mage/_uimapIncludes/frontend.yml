@@ -25,6 +25,10 @@ frontend_header:
                             log_out: //a[@title='Log Out']
                         dropdowns:
                             your_language: //select[@id='select-language']
+                        buttons:
+                            go_search: //button[@title='Search']
+                        fields:
+                            search: //input[@id='search']
                 -
                     global_footer:
                         xpath: //div[@class='footer']
@@ -39,12 +43,18 @@ frontend_header:
                             contact_us: //a[@title='Contact Us']
                             select_store: //ul[@id='select-store']/li//a[text()='%store%']
                 -
+                    categories_menu:
+                        xpath: //ul[@id='nav']
+                        buttons:
+                            category_button: //a[span='%catName%']
+                -
                     general_elements:
                         xpath:
                         pageelements:
                             qtyElementsInTable: //td[@class='pager']//span[contains(@id,'total-count')]
                             qty_elements_in_specific_table: "%tableHeadXpath%//td[@class='pager']//span[contains(@id,'total-count')]"
                             fieldNameWithValidationMessage: "/ancestor::*[1]/preceding-sibling::*[1]/descendant-or-self::*[string-length(text())>1]"
+                            loadingHolder: "//*[contains(text(),'Please wait')]"
                             dropdown_option: "%dropdownXpath%//option"
                             dropdown_option_text: "%dropdownXpath%//option[normalize-space(text())='%optionText%']"
                             dropdown_option_index: "%dropdownXpath%//option[%index%]"
@@ -72,6 +82,7 @@ frontend_header:
                             element_with_class_active: "%elementXpath%[contains(@class,'active')]"
                             element_with_class_not_active: "%elementXpath%[not(contains(@class,'active'))]"
                             element_by_id: "//*[@id='%elementId%']"
+                            field_label: "//label[not(contains(@class,'mage-error'))][@for='$fieldId']"
         messages:
             success_registration: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for registering with')]
             general_notice: "//*[normalize-space(@class)='notice-msg'][string-length(.)>1]"

@@ -60,28 +60,6 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
     }
 
     /**
-     * @magentoDataFixture setThemeFixture
-     * @magentoDbIsolation enabled
-     */
-    public function testAddAreaFilter()
-    {
-        /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
-        $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
-        $themeCollection->addAreaFilter('test_area');
-        $this->assertEquals(1, count($themeCollection));
-
-        /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
-        $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
-        $themeCollection->addAreaFilter('test_area2');
-        $this->assertEquals(1, count($themeCollection));
-
-        /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
-        $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
-        $themeCollection->addAreaFilter('test_area3');
-        $this->assertEquals(0, count($themeCollection));
-    }
-
-    /**
      * @return array
      */
     public function getThemeByFullPathDataProvider()
@@ -96,6 +74,82 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
             array('test_area/test', false),
             array('test_area/test/something', false),
         );
+    }
+
+    /**
+     * @magentoDataFixture setThemeFixture
+     * @magentoDbIsolation enabled
+     * @dataProvider addAreaFilterDataProvider
+     * @covers Mage_Core_Model_Theme::addAreaFilter
+     */
+    public function testAddAreaFilter($area, $themeCount)
+    {
+        /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
+        $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
+        $themeCollection->addAreaFilter($area);
+        $this->assertCount($themeCount, $themeCollection);
+    }
+
+    /**
+     * @return array
+     */
+    public function addAreaFilterDataProvider()
+    {
+        return array(
+            array('area' => 'test_area', 'themeCount' => 1),
+            array('area' => 'test_area2', 'themeCount' => 1),
+            array('area' => 'test_area4', 'themeCount' => 0)
+        );
+    }
+
+    /**
+     * @magentoDataFixture setThemeFixture
+     * @magentoDbIsolation enabled
+     * @dataProvider addTypeFilterDataProvider
+     * @covers Mage_Core_Model_Theme::addTypeFilter
+     */
+    public function testAddTypeFilter($themeType, $themeCount)
+    {
+        /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
+        $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
+        $themeCollection->addAreaFilter('test_area3');
+        if ($themeType !== false) {
+            $themeCollection->addTypeFilter($themeType);
+        }
+        $this->assertCount($themeCount, $themeCollection);
+    }
+
+    /**
+     * @return array
+     */
+    public function addTypeFilterDataProvider()
+    {
+        return array(
+            array('themeType' => Mage_Core_Model_Theme::TYPE_PHYSICAL, 'themeCount' => 1),
+            array('themeType' => Mage_Core_Model_Theme::TYPE_VIRTUAL, 'themeCount' => 1),
+            array('themeType' => Mage_Core_Model_Theme::TYPE_STAGING, 'themeCount' => 1),
+            array('themeType' => false, 'themeCount' => 3)
+        );
+    }
+
+    /**
+     * @magentoDataFixture setThemeFixture
+     * @magentoDbIsolation enabled
+     * @covers Mage_Core_Model_Theme::filterVisibleThemes
+     */
+    public function testFilterVisibleThemes()
+    {
+        /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
+        $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
+        $themeCollection->addAreaFilter('test_area3')->filterVisibleThemes();
+        $this->assertCount(2, $themeCollection);
+        /** @var $theme Mage_Core_Model_Theme */
+        foreach ($themeCollection as $theme) {
+            $this->assertTrue(in_array(
+                $theme->getType(),
+                array(Mage_Core_Model_Theme::TYPE_PHYSICAL, Mage_Core_Model_Theme::TYPE_VIRTUAL)
+            ));
+        }
     }
 
     /**
@@ -156,8 +210,6 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
             $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
             $themeModel->setData($themeData);
 
-            //if ($themeModel->getFullPath() == 'test1/test1')
-
             if ($themeData['parent_id'] && isset($idByPath[$themeData['parent_id']])) {
                 $themeModel->setParentId($idByPath[$themeData['parent_id']]);
             }
@@ -184,7 +236,8 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
                 'magento_version_from' => '2.0.0.0',
                 'magento_version_to'   => '*',
                 'is_featured'          => '1',
-                'area'                 => 'test_area'
+                'area'                 => 'test_area',
+                'type'                 => Mage_Core_Model_Theme::TYPE_PHYSICAL,
             ),
             array(
                 'parent_id'            => '0',
@@ -195,8 +248,45 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
                 'magento_version_from' => '2.0.0.0',
                 'magento_version_to'   => '*',
                 'is_featured'          => '1',
-                'area'                 => 'test_area2'
+                'area'                 => 'test_area2',
+                'type'                 => Mage_Core_Model_Theme::TYPE_VIRTUAL,
             ),
+            array(
+                'parent_id'            => '0',
+                'theme_path'           => 'test/fixed1',
+                'theme_version'        => '2.0.0.0',
+                'theme_title'          => 'Theme test 1',
+                'preview_image'        => 'test_default.jpg',
+                'magento_version_from' => '2.0.0.0',
+                'magento_version_to'   => '*',
+                'is_featured'          => '1',
+                'area'                 => 'test_area3',
+                'type'                 => Mage_Core_Model_Theme::TYPE_STAGING,
+            ),
+            array(
+                'parent_id'            => '0',
+                'theme_path'           => 'test/fixed2',
+                'theme_version'        => '2.0.0.0',
+                'theme_title'          => 'Theme test 2',
+                'preview_image'        => 'test_default.jpg',
+                'magento_version_from' => '2.0.0.0',
+                'magento_version_to'   => '*',
+                'is_featured'          => '1',
+                'area'                 => 'test_area3',
+                'type'                 => Mage_Core_Model_Theme::TYPE_PHYSICAL,
+            ),
+            array(
+                'parent_id'            => '0',
+                'theme_path'           => 'test/fixed3',
+                'theme_version'        => '2.0.0.0',
+                'theme_title'          => 'Theme test 3',
+                'preview_image'        => 'test_default.jpg',
+                'magento_version_from' => '2.0.0.0',
+                'magento_version_to'   => '*',
+                'is_featured'          => '1',
+                'area'                 => 'test_area3',
+                'type'                 => Mage_Core_Model_Theme::TYPE_VIRTUAL,
+            )
         );
     }
 
@@ -215,7 +305,8 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
                 'magento_version_from' => '2.0.0.0',
                 'magento_version_to'   => '*',
                 'is_featured'          => '1',
-                'area'                 => 'area51'
+                'area'                 => 'area51',
+                'type'                 => Mage_Core_Model_Theme::TYPE_PHYSICAL
             ),
             array(
                 'parent_id'            => 'area51/test1/test1',
@@ -226,7 +317,8 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
                 'magento_version_from' => '2.0.0.0',
                 'magento_version_to'   => '*',
                 'is_featured'          => '1',
-                'area'                 => 'area51'
+                'area'                 => 'area51',
+                'type'                 => Mage_Core_Model_Theme::TYPE_VIRTUAL
             ),
             array(
                 'parent_id'            => 'area51/test1/test2',
@@ -237,7 +329,8 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
                 'magento_version_from' => '2.0.0.0',
                 'magento_version_to'   => '*',
                 'is_featured'          => '1',
-                'area'                 => 'area51'
+                'area'                 => 'area51',
+                'type'                 => Mage_Core_Model_Theme::TYPE_VIRTUAL
             ),
             array(
                 'parent_id'            => 'area51/test1/test0',
@@ -248,7 +341,8 @@ class Mage_Core_Model_Resource_Theme_CollectionTest extends PHPUnit_Framework_Te
                 'magento_version_from' => '2.0.0.0',
                 'magento_version_to'   => '*',
                 'is_featured'          => '1',
-                'area'                 => 'area51'
+                'area'                 => 'area51',
+                'type'                 => Mage_Core_Model_Theme::TYPE_VIRTUAL
             ),
         );
     }

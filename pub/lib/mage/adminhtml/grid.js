@@ -157,7 +157,7 @@ varienGrid.prototype = {
                 onComplete: this.initGridAjax.bind(this),
                 onSuccess: function(transport) {
                     try {
-                        var responseText = transport.responseText.replace(/>\s+</g, '><');
+                        var responseText = transport.responseText;
 
                         if (transport.responseText.isJSON()) {
                             var response = transport.responseText.evalJSON()
@@ -266,10 +266,10 @@ varienGrid.prototype = {
         }
     },
     bindSortable: function(){
-        if (jQuery('#' + this.containerId).find('.ui-icon-grip-dotted-vertical').length) {
+        if (jQuery('#' + this.containerId).find('.draggable-handle').length) {
             jQuery('#' + this.containerId).find('tbody').sortable({
                 axis: 'y',
-                handle: '.ui-icon-grip-dotted-vertical',
+                handle: '.draggable-handle',
                 helper: function(event, ui) {
                     ui.children().each(function() {
                         jQuery(this).width(jQuery(this).width());
@@ -390,7 +390,7 @@ varienGridMassaction.prototype = {
         this.formAdditional = $(this.containerId + '-form-additional');
         this.select         = $(this.containerId + '-select');
         this.form           = this.prepareForm();
-        this.validator      = new Validation(this.form);
+        jQuery(this.form).mage('validation');
         this.select.observe('change', this.onSelectChange.bindAsEventListener(this));
         this.lastChecked    = { left: false, top: false, checkbox: false };
         this.initMassSelect();
@@ -496,8 +496,7 @@ varienGridMassaction.prototype = {
         } else {
             this.formAdditional.update('');
         }
-
-        this.validator.reset();
+        jQuery(this.form).data('validator').resetForm();
     },
     findCheckbox: function(evt) {
         if(['a', 'input', 'select'].indexOf(Event.element(evt).tagName.toLowerCase())!==-1) {
@@ -607,7 +606,7 @@ varienGridMassaction.prototype = {
 
         var item = this.getSelectedItem();
         if(!item) {
-            this.validator.validate();
+            jQuery(this.form).valid();
             return;
         }
         this.currentItem = item;
@@ -622,7 +621,7 @@ varienGridMassaction.prototype = {
         new Insertion.Bottom(this.formHiddens, this.fieldTemplate.evaluate({name: fieldName, value: this.checkedString}));
         new Insertion.Bottom(this.formHiddens, this.fieldTemplate.evaluate({name: 'massaction_prepare_key', value: fieldName}));
 
-        if(!this.validator.validate()) {
+        if(!jQuery(this.form).valid()) {
             return;
         }
 

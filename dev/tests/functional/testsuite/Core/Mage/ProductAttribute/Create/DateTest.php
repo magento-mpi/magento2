@@ -76,8 +76,8 @@ class Core_Mage_ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
      */
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
-        $this->markTestIncomplete('MAGETWO-5787');
         //Steps
+        $this->markTestIncomplete('MAGETWO-8909');
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('error', 'exists_attribute_code');
@@ -142,9 +142,6 @@ class Core_Mage_ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_date',
             array('attribute_code' => $wrongAttributeCode));
         //Steps
-        if ($validationMessage == 'wrong_length_attribute_code') {
-            $this->markTestIncomplete('MAGETWO-7215');
-        }
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('validation', $validationMessage);

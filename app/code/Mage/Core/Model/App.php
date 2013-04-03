@@ -29,7 +29,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     /**
      * Application location object
      *
-     * @var Mage_Core_Model_Locale
+     * @var Mage_Core_Model_LocaleInterface
      */
     protected $_locale;
 
@@ -106,7 +106,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
 
     /**
      * Store list manager
-     * 
+     *
      * @var Mage_Core_Model_StoreManager
      */
     protected $_storeManager;
@@ -312,12 +312,12 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     /**
      * Retrieve application locale object
      *
-     * @return Mage_Core_Model_Locale
+     * @return Mage_Core_Model_LocaleInterface
      */
     public function getLocale()
     {
         if (!$this->_locale) {
-            $this->_locale = $this->_objectManager->get('Mage_Core_Model_Locale');
+            $this->_locale = $this->_objectManager->get('Mage_Core_Model_LocaleInterface');
         }
         return $this->_locale;
     }
@@ -390,7 +390,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     /**
      * Retrieve cache object
      *
-     * @return Zend_Cache_Core
+     * @return Magento_Cache_FrontendInterface
      */
     public function getCache()
     {
@@ -453,22 +453,11 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      *
      * @param null|string $type
      * @return boolean
+     * @deprecated deprecated after 2.0.0.0-dev42 in favour of Mage_Core_Model_Cache_Types::isEnabled()
      */
     public function useCache($type = null)
     {
         return $this->_cache->canUse($type);
-    }
-
-    /**
-     * Save cache usage settings
-     *
-     * @param array $data
-     * @return Mage_Core_Model_App
-     */
-    public function saveUseCache($data)
-    {
-        $this->_cache->saveOptions($data);
-        return $this;
     }
 
     /**
@@ -584,12 +573,12 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
 
     /**
      * Check if developer mode is enabled
-     * 
+     *
      * @return bool
      */
     public function isDeveloperMode()
     {
-        return $this->_appState->isDeveloperMode();
+        return $this->_appState->getMode() == Mage_Core_Model_App_State::MODE_DEVELOPER;
     }
 
     /**

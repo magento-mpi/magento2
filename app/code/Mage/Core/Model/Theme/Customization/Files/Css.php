@@ -55,7 +55,7 @@ class Mage_Core_Model_Theme_Customization_Files_Css extends Mage_Core_Model_Them
      */
     protected function _getFileType()
     {
-        return Mage_Core_Model_Theme_Files::TYPE_CSS;
+        return Mage_Core_Model_Theme_File::TYPE_CSS;
     }
 
     /**
@@ -65,7 +65,7 @@ class Mage_Core_Model_Theme_Customization_Files_Css extends Mage_Core_Model_Them
      * @return string
      * @throws InvalidArgumentException
      */
-    protected function _getFileName($type)
+    public function getFilePathByType($type)
     {
         if (!array_key_exists($type, $this->_cssFiles)) {
             throw new InvalidArgumentException('Invalid CSS file type');
@@ -82,12 +82,12 @@ class Mage_Core_Model_Theme_Customization_Files_Css extends Mage_Core_Model_Them
     protected function _save($theme)
     {
         foreach ($this->_dataForSave as $type => $cssFileContent) {
-            /** @var $cssFiles Mage_Core_Model_Theme_Files */
+            /** @var $cssFiles Mage_Core_Model_Theme_File */
             $cssFile = $this->getCollectionByTheme($theme, $type)->getFirstItem();
 
             $cssFile->addData(array(
                 'theme_id'  => $theme->getId(),
-                'file_path' => $this->_getFileName($type),
+                'file_path' => $this->getFilePathByType($type),
                 'file_type' => $this->_getFileType(),
                 'content'   => $cssFileContent
             ))->save();
@@ -101,7 +101,7 @@ class Mage_Core_Model_Theme_Customization_Files_Css extends Mage_Core_Model_Them
      *
      * @param Mage_Core_Model_Theme_Customization_CustomizedInterface $theme
      * @param null|string $type
-     * @return Mage_Core_Model_Resource_Theme_Files_Collection
+     * @return Mage_Core_Model_Resource_Theme_File_Collection
      */
     public function getCollectionByTheme(
         Mage_Core_Model_Theme_Customization_CustomizedInterface $theme,
@@ -109,22 +109,6 @@ class Mage_Core_Model_Theme_Customization_Files_Css extends Mage_Core_Model_Them
     ) {
         return (null === $type)
             ? parent::getCollectionByTheme($theme)
-            : parent::getCollectionByTheme($theme)->addFilter('file_path', $this->_getFileName($type));
-    }
-
-    /**
-     * Get file name by type
-     *
-     * @param string $type
-     * @return string
-     * @throws InvalidArgumentException
-     */
-    public function getFileNameByName($type)
-    {
-        if (!array_key_exists($type, $this->_cssFiles)) {
-            throw new InvalidArgumentException('Invalid CSS file type');
-        }
-
-        return $type . '.css';
+            : parent::getCollectionByTheme($theme)->addFilter('file_path', $this->getFilePathByType($type));
     }
 }

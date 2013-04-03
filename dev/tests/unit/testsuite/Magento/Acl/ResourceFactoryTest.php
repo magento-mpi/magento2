@@ -43,7 +43,7 @@ class Magento_Acl_ResourceFactoryTest extends PHPUnit_Framework_TestCase
         $arguments = array('5', '6');
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with('Magento_Acl_Resource', $arguments, false)
+            ->with('Magento_Acl_Resource', $arguments)
             ->will($this->returnValue($this->_expectedObject));
         $this->assertEquals($this->_expectedObject, $this->_model->createResource($arguments));
     }

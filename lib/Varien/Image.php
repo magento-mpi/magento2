@@ -299,4 +299,17 @@ class Varien_Image
     {
         return $this->_getAdapter()->getOriginalHeight();
     }
+
+    /**
+     * Create Image from string
+     *
+     * @param string $text
+     * @param string $font Path to font file
+     * @return Varien_Image
+     */
+    public function createPngFromString($text, $font = '')
+    {
+        $this->_getAdapter()->createPngFromString($text, $font);
+        return $this;
+    }
 }

@@ -12,8 +12,8 @@
 # 'Manage Statuses' page
 order_statuses:
     mca: sales_order_status/
-    click_xpath: //div[@class='submenu']//a[contains(@href, 'sales_order_status')]
-    title: Order Statuses / Sales / Magento Admin
+    click_xpath: //*[@id='nav']//a[contains(@href, 'sales_order_status')]
+    title: Order Status / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -43,7 +43,7 @@ order_statuses:
 # 'New Order Status' Page
 new_order_status:
     mca: sales_order_status/new/
-    title: Create New Order Status / Sales / Magento Admin
+    title: Create New Order Status / Order Status / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -64,13 +64,13 @@ new_order_status:
         messages:
             success_saved_status:  //li[normalize-space(@class)='success-msg' and contains(., 'The order status has been saved')]
             order_status_exist: //li[normalize-space(@class)='error-msg' and contains(., 'Order status with the same status code already exist')]
-            empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This field is required.')]
+            empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             wrong_status_view_code: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.')]
             
 # 'Assign Order Status to State' Page
 assign_order_status:
     mca: sales_order_status/assign/
-    title: Assign Order Status to State / Sales / Magento Admin
+    title: Assign Order Status to State / Order Status / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -91,5 +91,5 @@ assign_order_status:
         checkboxes:
             use_order_status_as_default: //input[@id='is_default']
         messages:
-            empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This field is required.')]
+            empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             succes_assigned_status: //li[normalize-space(@class)='success-msg' and contains(., 'The order status has been assigned')]

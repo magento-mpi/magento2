@@ -30,29 +30,28 @@ class Core_Mage_Tax_TaxRule_Helper extends Mage_Selenium_AbstractHelper
         $this->waitForElementVisible($this->_getControlXpath('fieldset', 'tax_rate_form'));
         $this->_fillTaxRateForm($taxItemData);
         $this->clickButton('save_rate', false);
-        $this->waitForElementInvisible($this->_getControlXpath('fieldset', 'tax_rate_form'));
+        $this->waitForControlNotVisible('fieldset', 'tax_rate_form');
     }
 
     /**
      * Edit Tax Rate on Tax Rule page
      *
-     * @param $rateName Tax Rate code to be edited
-     * @param $newTaxRateData New Tax Rate data
+     * @param string $rateName Tax Rate code to be edited
+     * @param string|array $newTaxRateData New Tax Rate data
      */
     public function editTaxRate($rateName, $newTaxRateData)
     {
         $taxItemData = $this->fixtureDataToArray($newTaxRateData);
-        $locator = $this->_getControlXpath(self::FIELD_TYPE_COMPOSITE_MULTISELECT, 'tax_rate');
         $labelLocator = "//div[normalize-space(label/span)='%s']";
-        $generalElement = $this->getElement($locator);
+        $generalElement = $this->getControlElement(self::FIELD_TYPE_COMPOSITE_MULTISELECT, 'tax_rate');
         $optionElement = $this->getChildElement($generalElement, sprintf($labelLocator, $rateName));
         $optionElement->click();
         $this->moveto($optionElement);
         $this->getChildElement($optionElement, "//span[@title='Edit']")->click();
-        $this->waitForElementVisible($this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'tax_rate_form'));
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'tax_rate_form');
         $this->_fillTaxRateForm($taxItemData);
         $this->clickButton('save_rate', false);
-        $this->waitForElementInvisible($this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'tax_rate_form'));
+        $this->waitForControlNotVisible(self::UIMAP_TYPE_FIELDSET, 'tax_rate_form');
         //Restore "Selected" state
         $rateName = ($newTaxRateData['tax_identifier'] && !empty($newTaxRateData['tax_identifier'])) ?
             $newTaxRateData['tax_identifier'] :

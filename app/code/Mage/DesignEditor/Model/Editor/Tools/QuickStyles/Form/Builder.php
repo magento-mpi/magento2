@@ -169,11 +169,11 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
             $config['title'] = $label;
         } else {
             $config['value'] = $control['value'];
-            $config['title'] = sprintf('%s {%s: %s}',
+            $config['title'] = htmlspecialchars(sprintf('%s {%s: %s}',
                 $control['selector'],
                 $control['attribute'],
                 $control['value']
-            );
+            ), ENT_COMPAT);
             if (isset($control['options'])) {
                 $config['options'] =  $control['options'];
             }

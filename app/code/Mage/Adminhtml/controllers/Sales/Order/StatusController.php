@@ -47,8 +47,8 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
      */
     public function indexAction()
     {
-        $this->_title($this->__('Sales'))->_title($this->__('Order Statuses'));
-        $this->loadLayout()->_setActiveMenu('Mage_Adminhtml::system')->renderLayout();
+        $this->_title($this->__('Order Status'));
+        $this->loadLayout()->_setActiveMenu('Mage_Sales::system_order_statuses')->renderLayout();
     }
 
     /**
@@ -62,9 +62,10 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
                 ->setData($data);
             Mage::register('current_status', $status);
         }
-        $this->_title($this->__('Sales'))->_title($this->__('Create New Order Status'));
+        $this->_title($this->__('Order Status'))->_title($this->__('Create New Order Status'));
         $this->loadLayout()
-            ->renderLayout();
+                ->_setActiveMenu('Mage_Sales::system_order_statuses')
+                ->renderLayout();
     }
 
     /**
@@ -75,8 +76,9 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
         $status = $this->_initStatus();
         if ($status) {
             Mage::register('current_status', $status);
-            $this->_title($this->__('Sales'))->_title($this->__('Edit Order Status'));
+            $this->_title($this->__('Order Status'))->_title($this->__('Edit Order Status'));
             $this->loadLayout()
+                ->_setActiveMenu('Mage_Sales::system_order_statuses')
                 ->renderLayout();
         } else {
             $this->_getSession()->addError(
@@ -151,8 +153,9 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
      */
     public function assignAction()
     {
-        $this->_title($this->__('Sales'))->_title($this->__('Assign Order Status to State'));
+        $this->_title($this->__('Order Status'))->_title($this->__('Assign Order Status to State'));
         $this->loadLayout()
+            ->_setActiveMenu('Mage_Sales::system_order_statuses')
             ->renderLayout();
     }
 

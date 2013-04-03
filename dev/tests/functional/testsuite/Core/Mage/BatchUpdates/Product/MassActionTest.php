@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestCase
+class Core_Mage_BatchUpdates_Product_MassActionTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -36,7 +36,7 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
     public function deleteNegative()
     {
         //Steps
-        $this->fillDropdown('product_massaction', 'Delete');
+        $this->fillDropdown('mass_action_select_action', 'Delete');
         $this->clickButton('submit', false);
         //Verifying
         $this->assertSame('Please select items.', $this->alertText(), 'actual and expected confirmation message does not
@@ -53,7 +53,7 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
     public function changeStatusNegative()
     {
         //Steps
-        $this->fillDropdown('product_massaction', 'Change status');
+        $this->fillDropdown('mass_action_select_action', 'Change status');
         $this->fillDropdown('product_status', 'Disabled');
         $this->clickButton('submit', false);
         //Verifying
@@ -71,7 +71,7 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
     public function updateAttributesNegative()
     {
         //Steps
-        $this->fillDropdown('product_massaction', 'Update Attributes');
+        $this->fillDropdown('mass_action_select_action', 'Update Attributes');
         $this->clickButton('submit', false);
         //Verifying
         $this->assertSame('Please select items.', $this->alertText(), 'actual and expected confirmation message does not
@@ -92,7 +92,8 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
         $searchData = array();
         for ($i = 1; $i <= $productQty; $i++) {
             $productData = $this->loadDataSet('Product', 'simple_product_required');
-            $searchData[$i] = $this->loadDataSet('Product', 'product_search', array('product_name' => $productData['general_sku']));
+            $searchData[$i] = $this->loadDataSet('Product', 'product_search',
+                array('product_name' => $productData['general_sku']));
             $this->productHelper()->createProduct($productData);
             $this->assertMessagePresent('success', 'success_saved_product');
         }
@@ -100,7 +101,7 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
             $this->searchAndChoose($searchData[$i], 'product_grid');
         }
         $this->addParameter('qtyUpdatedProducts', $productQty);
-        $this->fillDropdown('product_massaction', 'Change status');
+        $this->fillDropdown('mass_action_select_action', 'Change status');
         $this->fillDropdown('product_status', 'Disabled');
         $this->addParameter('storeId', '');
         $this->clickButton('submit');
@@ -116,29 +117,29 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
      */
     public function updateAllProductsFields()
     {
+        $this->markTestIncomplete('MAGETWO-8851');
         $productQty = 2;
         $searchData = array();
         for ($i = 1; $i <= $productQty; $i++) {
             $productData = $this->loadDataSet('Product', 'simple_product_required');
-            $searchData[$i] = $this->loadDataSet('Product', 'product_search', array('product_name' => $productData['general_sku']));
+            $searchData[$i] = $this->loadDataSet('Product', 'product_search',
+                array('product_name' => $productData['general_sku']));
             $this->productHelper()->createProduct($productData);
             $this->assertMessagePresent('success', 'success_saved_product');
         }
-        for ($i = 1; $i <= $productQty; $i++) {
-            $this->searchAndChoose($searchData[$i], 'product_grid');
+        foreach ($searchData as $search) {
+            $this->searchAndChoose($search, 'product_grid');
         }
         $this->addParameter('qtyUpdatedAtrProducts', $productQty);
-        $this->fillDropdown('product_massaction', 'Update Attributes');
-        $this->addParameter('storeId', '0');
+        $this->fillDropdown('mass_action_select_action', 'Update Attributes');
         $this->clickButton('submit');
         //Data
-        $dataForAttributesTab = $this->loadDataSet('Product', 'product_update_attributes_tab');
-        $dataForInventoryTab = $this->loadDataSet('Product', 'product_update_inventory_tab');
-        $dataForWebsitesTab = $this->loadDataSet('Product', 'product_update_websites_tab');
+        $attributesTab = $this->loadDataSet('Product', 'product_update_attributes_tab');
+        $inventoryTab = $this->loadDataSet('Product', 'product_update_inventory_tab');
+        $websitesTab = $this->loadDataSet('Product', 'product_update_websites_tab');
         //Steps
-        $this->productHelper()->updateThroughMassAction($dataForAttributesTab, $dataForInventoryTab,
-        $dataForWebsitesTab);
-        $this->clickButton('save');
+        $this->productHelper()->updateThroughMassAction($attributesTab, $inventoryTab, $websitesTab);
+        $this->saveForm('save');
         //Verifying
         $this->assertMessagePresent('success', 'success_updated_products_attributes_massaction');
     }
@@ -157,7 +158,8 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
         $searchData = array();
         for ($i = 1; $i <= $productQty; $i++) {
             $productData = $this->loadDataSet('Product', 'simple_product_required');
-            $searchData[$i] = $this->loadDataSet('Product', 'product_search', array('product_name' => $productData['general_sku']));
+            $searchData[$i] = $this->loadDataSet('Product', 'product_search',
+                array('product_name' => $productData['general_sku']));
             $this->productHelper()->createProduct($productData);
             $this->assertMessagePresent('success', 'success_saved_product');
         }
@@ -165,11 +167,11 @@ class Core_Mage_BatchUpdates_Products_MassActionTest extends Mage_Selenium_TestC
             $this->searchAndChoose($searchData[$i], 'product_grid');
         }
         $this->addParameter('qtyUpdatedAtrProducts', $productQty);
-        $this->fillDropdown('product_massaction', 'Update Attributes');
+        $this->fillDropdown('mass_action_select_action', 'Update Attributes');
         $this->addParameter('storeId', '0');
         $this->clickButton('submit');
         //Verifying
-        foreach($excludedAttributes as $controlName => $controlType) {
+        foreach ($excludedAttributes as $controlName => $controlType) {
             $this->assertFalse($this->controlIsVisible($controlType, $controlName));
         }
     }

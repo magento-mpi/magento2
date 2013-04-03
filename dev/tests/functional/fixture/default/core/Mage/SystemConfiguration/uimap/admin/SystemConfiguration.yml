@@ -14,13 +14,13 @@
 system_configuration:
     mca: system_config/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'system_config/')]
-    title: Configuration / System / Magento Admin
+    title: Configuration / Settings / Stores / Magento Admin
     uimap: &system_configuration_uimap
         form:
             fieldsets:
                 -
                     current_configuration_scope:
-                        xpath: //div[@class='switcher' and contains(.,'Current Configuration Scope')]
+                        xpath: //div[@class="store-switcher"]
                         dropdowns:
                             current_configuration_scope: //select[@id='store_switcher']
                         links:
@@ -998,9 +998,9 @@ system_configuration:
                                 account_sharing_options:
                                     xpath: //fieldset[@id='customer_account_share']
                                     links:
-                                        account_sharing_options_link: //parent::div//a[@id='customer_account_share-head']
-                                    dropdowns:
-                                        share_customer_accounts: //select[@name='groups[account_share][fields][scope][value]']
+                                         account_sharing_options_link: //parent::div//a[@id='customer_account_share-head']
+                                         dropdowns:
+                                         share_customer_accounts: //select[@name='groups[account_share][fields][scope][value]']
                             -
                                 online_customer_options:
                                     xpath: //fieldset[@id='customer_online_customers']
@@ -2959,6 +2959,16 @@ system_configuration:
                                         o_payment_action_use_default: //input[@name='groups[ogone][fields][payment_action][inherit]']
                                         o_payment_template_use_default: //input[@name='groups[ogone][fields][template][inherit]']
                                         o_layout_of_payment_methods_use_default: //input[@name='groups[ogone][fields][pmlist][inherit]']
+                            -
+                                paybox_direct:
+                                    xpath: //fieldset[@id='payment_paybox_direct']
+                                    links:
+                                        paybox_direct_link: //parent::div//a[@id='payment_paybox_direct-head']
+                            -
+                                payone_de:
+                                    xpath: //fieldset[@id='payment_payone_gate']
+                                    links:
+                                        payone_de_link: //parent::div//a[@id='payment_payone_gate-head']
                 -
                     sales_payment_services:
                         xpath: //a[contains(@href, 'edit/section/payment_services/')]
@@ -3792,25 +3802,25 @@ system_configuration:
 
 system_configuration_tabs:
     mca: system_config/edit/section/%tabName%/
-    title: Configuration / System / Magento Admin
+    title: Configuration / Settings / Stores / Magento Admin
     uimap: *system_configuration_uimap
 
 system_configuration_website:
     mca: system_config/edit/section/%tabName%/website/%webSite%/
-    title: Configuration / System / Magento Admin
+    title: Configuration / Settings / Stores / Magento Admin
     uimap: *system_configuration_uimap
 
 system_configuration_store:
     mca: system_config/edit/section/%tabName%/website/%webSite%/store/%storeName%/
-    title: Configuration / System / Magento Admin
+    title: Configuration / Settings / Stores / Magento Admin
     uimap: *system_configuration_uimap
 
 system_configuration_country:
-    mca: system_config/edit/section/payment/country/%country%
-    title: Configuration / System / Magento Admin
+    mca: system_config/edit/section/payment/country/%country%/
+    title: Configuration / Settings / Stores / Magento Admin
     uimap: *system_configuration_uimap
 
 system_configuration_website_base:
     mca: system_config/edit/website/base/
-    title: Configuration / System / Magento Admin
+    title: Configuration / Settings / Stores / Magento Admin
     uimap: *system_configuration_uimap

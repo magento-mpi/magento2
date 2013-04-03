@@ -33,9 +33,7 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
 
     public function customerAction()
     {
-        $this->_title($this->__('Reports'))
-             ->_title($this->__('Reviews'))
-             ->_title($this->__('Customer Reviews'));
+        $this->_title($this->__('Customers Reviews'));
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Review::report_review_customer')
@@ -71,9 +69,7 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
 
     public function productAction()
     {
-        $this->_title($this->__('Reports'))
-             ->_title($this->__('Reviews'))
-             ->_title($this->__('Product Reviews'));
+        $this->_title($this->__('Products Reviews'));
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Review::report_review_product')
@@ -108,10 +104,7 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
 
     public function productDetailAction()
     {
-        $this->_title($this->__('Reports'))
-             ->_title($this->__('Reviews'))
-             ->_title($this->__('Product Reviews'))
-             ->_title($this->__('Details'));
+        $this->_title($this->__('Details'));
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Review::report_review')

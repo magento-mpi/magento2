@@ -54,7 +54,7 @@ var giftMessagesController = {
             $(container).toogleGiftMessage = false;
             $(this.getFieldId(container, 'message')).formObj = $(this.getFieldId(container, 'form'));
             var form = jQuery('#' + this.getFieldId(container, 'form'));
-            jQuery('#' + this.getFieldId(container, 'form')).validation();
+            jQuery('#' + this.getFieldId(container, 'form')).validate({errorClass: 'mage-error'});
 
             if(!form.valid()) {
                 return false;
@@ -87,7 +87,7 @@ var giftMessagesController = {
         $(this.getFieldId(container, 'message')).formObj = $(this.getFieldId(container, 'form'));
 
         var form = jQuery('#' + this.getFieldId(container, 'form'));
-        form.validation();
+        form.validate({errorClass: 'mage-error'});
 
         if(!form.valid()) {
             return;
@@ -122,7 +122,7 @@ function findFieldLabel(field) {
 /********************* GIFT OPTIONS POPUP ***********************/
 var GiftOptionsPopup = Class.create();
 GiftOptionsPopup.prototype = {
-    giftOptionsWindowMask: null,
+    //giftOptionsWindowMask: null,
     giftOptionsWindow: null,
 
     initialize: function() {
@@ -147,21 +147,24 @@ GiftOptionsPopup.prototype = {
             formContents.parentNode.appendChild(form);
             form.appendChild(formContents);
         }
+
+        this.giftOptionsWindow = $('gift_options_configure');
+
+        jQuery(this.giftOptionsWindow).dialog({
+            autoOpen:   false,
+            modal:      true,
+            resizable:  false,
+            minWidth:   500,
+            dialogClass: 'gift-options-popup'
+        });
     },
 
     showItemGiftOptions : function(event) {
         var element = Event.element(event).id;
         var itemId = element.sub('gift_options_link_','');
 
-        toggleSelectsUnderBlock(this.giftOptionsWindowMask, false);
-        this.giftOptionsWindowMask = $('gift_options_window_mask');
-        this.giftOptionsWindow = $('gift_options_configure');
-        this.giftOptionsWindow.select('select').each(function(el){
-            el.style.visibility = 'visible';
-        });
+        jQuery(this.giftOptionsWindow).dialog('open');
 
-        this.giftOptionsWindowMask.setStyle({'height': $('html-body').getHeight() + 'px'}).show();
-        this.giftOptionsWindow.setStyle({'marginTop': -this.giftOptionsWindow.getHeight()/2 + 'px', 'display': 'block'});
         this.setTitle(itemId);
 
         Event.observe($('gift_options_cancel_button'), 'click', this.onCloseButton.bind(this));
@@ -175,12 +178,12 @@ GiftOptionsPopup.prototype = {
         if (productTitleElement) {
             productTitle = productTitleElement.innerHTML;
         }
-        $('gift_options_configure_title').update(productTitle);
+        jQuery(this.giftOptionsWindow).dialog({ title: jQuery.mage.__('Gift Options for ') + productTitle });
     },
 
     onOkButton : function() {
         var giftOptionsForm = jQuery('#gift_options_configuration_form');
-        if (!giftOptionsForm.validation().valid()) {
+        if (!giftOptionsForm.validate({errorClass: 'mage-error'}).valid()) {
             return false;
         }
         if (jQuery.isFunction(giftOptionsForm[0].reset)) {
@@ -195,9 +198,7 @@ GiftOptionsPopup.prototype = {
     },
 
     closeWindow : function() {
-        toggleSelectsUnderBlock(this.giftOptionsWindowMask, true);
-        this.giftOptionsWindowMask.style.display = 'none';
-        this.giftOptionsWindow.style.display = 'none';
+        jQuery(this.giftOptionsWindow).dialog('close');
     }
 }
 

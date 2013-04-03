@@ -51,26 +51,26 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
      * @var array
      */
     protected $_rendererTypes = array(
-        'action'     => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Action',
-        'button'     => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Button',
-        'checkbox'   => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Checkbox',
-        'concat'     => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Concat',
-        'country'    => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Country',
-        'currency'   => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Currency',
-        'date'       => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Date',
-        'datetime'   => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Datetime',
-        'default'    => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Text',
-        'grip'       => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Grip',
-        'input'      => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Input',
-        'massaction' => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Massaction',
-        'number'     => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Number',
-        'options'    => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Options',
-        'price'      => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Price',
-        'radio'      => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Radio',
-        'select'     => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Select',
-        'store'      => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Store',
-        'text'       => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Longtext',
-        'wrapline'   => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Wrapline',
+        'action'           => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Action',
+        'button'           => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Button',
+        'checkbox'         => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Checkbox',
+        'concat'           => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Concat',
+        'country'          => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Country',
+        'currency'         => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Currency',
+        'date'             => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Date',
+        'datetime'         => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Datetime',
+        'default'          => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Text',
+        'draggable-handle' => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_DraggableHandle',
+        'input'            => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Input',
+        'massaction'       => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Massaction',
+        'number'           => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Number',
+        'options'          => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Options',
+        'price'            => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Price',
+        'radio'            => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Radio',
+        'select'           => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Select',
+        'store'            => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Store',
+        'text'             => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Longtext',
+        'wrapline'         => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Wrapline',
     );
 
     /**
@@ -90,6 +90,7 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
         'massaction' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Massaction',
         'checkbox' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Checkbox',
         'radio' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Radio',
+        'skiplist' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_SkipList',
         'store' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Store',
         'theme' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Theme',
         'default' => 'Mage_Backend_Block_Widget_Grid_Column_Filter_Text',
@@ -170,19 +171,19 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
      */
     public function getCssClass()
     {
-        if (is_null($this->_cssClass)) {
+        if ($this->_cssClass === null) {
             if ($this->getAlign()) {
-                $this->_cssClass .= 'a-'.$this->getAlign();
+                $this->_cssClass .= 'a-' . $this->getAlign();
             }
             // Add a custom css class for column
             if ($this->hasData('column_css_class')) {
-                $this->_cssClass .= ' '. $this->getData('column_css_class');
+                $this->_cssClass .= ' ' . $this->getData('column_css_class');
             }
             if ($this->getEditable()) {
                 $this->_cssClass .= ' editable';
             }
+            $this->_cssClass .= ' col-' . $this->getId();
         }
-
         return $this->_cssClass;
     }
 
@@ -214,6 +215,7 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
     {
         $class = $this->getData('header_css_class');
         $class .= false === $this->getSortable() ? ' no-link' : '';
+        $class .= ' col-' . $this->getId();
         return $class;
     }
 

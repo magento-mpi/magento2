@@ -43,7 +43,17 @@
             var self = this,
                 $type = this.$type;
             $type.on('change', function() {
-                self._switchToType($(this).val());
+                self._switchToType($type.val());
+            });
+
+            $('#product-edit-form-tabs').on('contentUpdated', function() {
+                self._switchToType($type.val());
+                self.$is_virtual.trigger('change');
+            });
+
+            $("#product_info_tabs").on("beforePanelsMove tabscreate tabsactivate", function() {
+                self._switchToType($type.val());
+                self.$is_virtual.trigger('change');
             });
 
             this.$is_virtual.on('change click', function() {
@@ -52,7 +62,7 @@
                     if ($type.val() != 'bundle') { // @TODO move this check to Mage_Bundle after refactoring as widget
                         self.$weight.addClass('ignore-validate').prop('disabled', true);
                     }
-                    self.$tab.show();
+                    self.$tab.show().closest('li').removeClass('removed');
                 } else {
                     $type.val(self.baseType.real).trigger('change');
                     if ($type.val() != 'bundle') { // @TODO move this check to Mage_Bundle after refactoring as widget
@@ -79,11 +89,10 @@
          * @private
          */
         _switchToType: function(typeCode) {
-            var self = this,
-                attributes = this._data.attributes;
-
-            $.each(attributes, function(code, applyTo) {
-                var attrContainer = self.getElementByCode(code);
+            //var self = this;
+            $('[data-apply-to]:not(.removed)').each(function(index, element) {
+                var attrContainer = $(element),
+                    applyTo = attrContainer.data('applyTo') || [];
                 var $inputs = attrContainer.find('select, input, textarea');
                 if (applyTo.length === 0 || $.inArray(typeCode, applyTo) !== -1) {
                     attrContainer.show();

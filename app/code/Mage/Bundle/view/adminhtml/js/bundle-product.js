@@ -24,24 +24,30 @@
         _initOptionBoxes: function () {
             this.element.sortable({
                 axis: 'y',
-                handle: '[data-role="grip"]',
+                handle: '[data-role=draggable-handle]',
                 items: '.option-box',
                 update: this._updateOptionBoxPositions,
                 tolerance: 'pointer'
             });
 
             var syncOptionTitle = function (event) {
-                $(event.target).closest('.option-box').find('.head-edit-form').text($(event.target).val());
+                var originalValue = $(event.target).attr('data-original-value'),
+                    currentValue = $(event.target).val(),
+                    optionBoxTitle = $('.title > span', $(event.target).closest('.option-box')),
+                    newOptionTitle = $.mage.__('New Option');
+
+                optionBoxTitle.text(currentValue === '' && !originalValue.length ? newOptionTitle : currentValue);
             };
             this._on({
-                'change .option-box input[name$="[title]"]': syncOptionTitle,
-                'keyup .option-box input[name$="[title]"]': syncOptionTitle
+                'change .field-option-title input[name$="[title]"]': syncOptionTitle,
+                'keyup .field-option-title input[name$="[title]"]': syncOptionTitle,
+                'paste .field-option-title input[name$="[title]"]': syncOptionTitle
             });
         },
         _initSortableSelections: function () {
             this.element.find('.option-box .form-list tbody').sortable({
                 axis: 'y',
-                handle: '[data-role="grip"]',
+                handle: '[data-role=draggable-handle]',
                 helper: function(event, ui) {
                     ui.children().each(function() {
                         $(this).width($(this).width());
@@ -86,7 +92,7 @@
                             $selectionGrid.dialog('close');
                         }
                     }, {
-                        text: 'Apply Changes',
+                        text: 'Add Products',
                         'class': 'add',
                         click: function() {
                             bSelection.gridSelection.get(optionIndex).each(

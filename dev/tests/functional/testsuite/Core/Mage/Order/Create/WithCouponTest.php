@@ -44,7 +44,7 @@ class Core_Mage_Order_Create_WithCouponTest extends Mage_Selenium_TestCase
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return $simple['general_name'];
+        return $simple['general_sku'];
     }
 
     /**
@@ -58,6 +58,7 @@ class Core_Mage_Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      */
     public function amountLessThanGrandTotal($simpleSku)
     {
+        $this->markTestIncomplete('MAGETWO-7422');
         //Data
         $coupon = $this->loadDataSet('SalesOrder', 'coupon_fixed_amount', array('discount_amount' => 5));
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
@@ -83,6 +84,7 @@ class Core_Mage_Order_Create_WithCouponTest extends Mage_Selenium_TestCase
      */
     public function amountGreaterThanGrandTotal($simpleSku)
     {
+        $this->markTestIncomplete('MAGETWO-7422');
         //Data
         $coupon = $this->loadDataSet('SalesOrder', 'coupon_fixed_amount', array('discount_amount' => 130));
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',

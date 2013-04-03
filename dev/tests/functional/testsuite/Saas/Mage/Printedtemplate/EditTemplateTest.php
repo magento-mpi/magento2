@@ -7,8 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Mage_Printedtemplate_EditTemplateTest
-    extends Mage_Selenium_TestCase
+class Saas_Mage_Printedtemplate_EditTemplateTest extends Mage_Selenium_TestCase
 {
     /**
      * @test

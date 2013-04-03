@@ -19,7 +19,7 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
 {
     public function indexAction()
     {
-        $this->_title($this->__('Sales'))->_title($this->__('Terms and Conditions'));
+        $this->_title($this->__('Terms and Conditions'));
 
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Checkout_Agreement'))
@@ -34,7 +34,7 @@ class Mage_Adminhtml_Checkout_AgreementController extends Mage_Adminhtml_Control
 
     public function editAction()
     {
-        $this->_title($this->__('Sales'))->_title($this->__('Terms and Conditions'));
+        $this->_title($this->__('Terms and Conditions'));
 
         $id  = $this->getRequest()->getParam('id');
         $agreementModel  = Mage::getModel('Mage_Checkout_Model_Agreement');

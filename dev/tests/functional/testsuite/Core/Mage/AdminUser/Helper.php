@@ -98,9 +98,9 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
     {
         $roleWebsites = (isset($roleResources['role_scopes'])) ? $roleResources['role_scopes'] : array();
         $roleAccess = (isset($roleResources['role_resources'])) ? $roleResources['role_resources'] : array();
-
+        $aclResource = (isset($roleAccess['resource_acl'])) ? $roleAccess['resource_acl'] : array();
         $this->fillRoleScopes($roleWebsites);
-        $this->fillRoleAccess($roleAccess, $separator);
+        $this->fillRoleAccess($roleAccess, $aclResource, $separator);
     }
 
     /**
@@ -117,7 +117,8 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
             }
             if (!empty($roleWebsites)) {
                 foreach ($roleWebsites as $website) {
-                    $this->productHelper()->selectWebsite($website);
+                    $this->addParameter('websiteName', $website);
+                    $this->fillCheckbox('websites', 'yes');
                 }
             }
         }
@@ -129,7 +130,7 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
      * @param array $roleAccess
      * @param string $separator
      */
-    public function fillRoleAccess(array $roleAccess, $separator = '/')
+    public function fillRoleAccess(array $roleAccess, $aclResource, $separator = '/')
     {
         if (!empty($roleAccess)) {
             if (isset($roleAccess['resource_access'])) {
@@ -137,8 +138,13 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_AbstractHelper
                 unset($roleAccess['resource_access']);
             }
             if (!empty($roleAccess)) {
-                foreach ($roleAccess as $category) {
-                    $this->categoryHelper()->selectCategory($category, 'role_resources', $separator);
+                if (isset($roleAccess['resource_acl'])) {
+                    $this->clickControl('checkbox', $aclResource, false);
+                    unset($roleAccess['resource_acl']);
+                } else {
+                    foreach ($roleAccess as $category) {
+                        $this->categoryHelper()->selectCategory($category, 'role_resources', $separator);
+                    }
                 }
             }
         }

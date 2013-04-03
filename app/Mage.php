@@ -31,6 +31,11 @@ final class Mage
     const PARAM_RUN_TYPE = 'MAGE_RUN_TYPE';
 
     /**
+     * Application run code
+     */
+    const PARAM_MODE = 'MAGE_MODE';
+
+    /**
      * Base directory
      */
     const PARAM_BASEDIR = 'base_dir';
@@ -79,11 +84,16 @@ final class Mage
     const EDITION_GO           = 'Go';
 
     /**
+     * Default timezone
+     */
+    const DEFAULT_TIMEZONE  = 'UTC';
+
+    /**
      * Registry collection
      *
      * @var array
      */
-    static private $_registry                   = array();
+    static private $_registry = array();
 
     /**
      * Application root absolute path
@@ -125,21 +135,14 @@ final class Mage
      *
      * @var bool
      */
-    static private $_isDownloader               = false;
-
-    /**
-     * Is developer mode flag
-     *
-     * @var bool
-     */
-    static private $_isDeveloperMode            = false;
+    static private $_isDownloader = false;
 
     /**
      * Is allow throw Exception about headers already sent
      *
      * @var bool
      */
-    public static $headersSentThrowsException   = true;
+    public static $headersSentThrowsException  = true;
 
     /**
      * Logger entities
@@ -242,9 +245,9 @@ final class Mage
         self::$_config          = null;
         self::$_objects         = null;
         self::$_isDownloader    = false;
-        self::$_isDeveloperMode = false;
         self::$_loggers         = array();
         self::$_design          = null;
+        self::$_objectManager   = null;
         // do not reset $headersSentThrowsException
     }
 
@@ -485,7 +488,7 @@ final class Mage
         if (!is_array($arguments)) {
             $arguments = array($arguments);
         }
-        return self::getObjectManager()->create($modelClass, $arguments, false);
+        return self::getObjectManager()->create($modelClass, $arguments);
     }
 
     /**
@@ -707,28 +710,25 @@ final class Mage
     }
 
     /**
-     * Set enabled developer mode
-     *
-     * @param bool $mode
-     * @return bool
-     *
-     * @deprecated use Mage_Core_Model_App_State::setIsDeveloperMode()
-     */
-    public static function setIsDeveloperMode($mode)
-    {
-        self::$_isDeveloperMode = (bool)$mode;
-        return self::$_isDeveloperMode;
-    }
-
-    /**
      * Retrieve enabled developer mode
      *
      * @return bool
-     * @deprecated use Mage_Core_Model_App_State::isDeveloperMode()
+     * @deprecated use Mage_Core_Model_App_State::getMode()
      */
     public static function getIsDeveloperMode()
     {
-        return self::$_isDeveloperMode;
+        $objectManager = self::getObjectManager();
+        if (!$objectManager) {
+            return false;
+        }
+
+        $appState = $objectManager->get('Mage_Core_Model_App_State');
+        if (!$appState) {
+            return false;
+        }
+
+        $mode = $appState->getMode();
+        return $mode == Mage_Core_Model_App_State::MODE_DEVELOPER;
     }
 
     /**
@@ -739,7 +739,7 @@ final class Mage
      */
     public static function printException(Exception $e, $extra = '')
     {
-        if (self::$_isDeveloperMode) {
+        if (self::getIsDeveloperMode()) {
             print '<pre>';
 
             if (!empty($extra)) {

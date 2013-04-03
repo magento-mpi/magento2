@@ -27,9 +27,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
     public function indexAction()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Reviews and Ratings'))
-             ->_title($this->__('Customer Reviews'));
+        $this->_title($this->__('Customer Reviews'));
 
         $this->_title($this->__('All Reviews'));
 
@@ -47,9 +45,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
     public function pendingAction()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Reviews and Ratings'))
-             ->_title($this->__('Customer Reviews'));
+        $this->_title($this->__('Customer Reviews'));
 
         $this->_title($this->__('Pending Reviews'));
 
@@ -59,7 +55,6 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
         }
 
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Review::catalog_reviews_ratings_reviews_pending');
 
         Mage::register('usePendingFilter', true);
         $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Review_Main'));
@@ -69,9 +64,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
     public function editAction()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Reviews and Ratings'))
-             ->_title($this->__('Customer Reviews'));
+        $this->_title($this->__('Customer Reviews'));
 
         $this->_title($this->__('Edit Review'));
 
@@ -85,9 +78,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
     public function newAction()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Reviews and Ratings'))
-             ->_title($this->__('Customer Reviews'));
+        $this->_title($this->__('Customer Reviews'));
 
         $this->_title($this->__('New Review'));
 

@@ -40,8 +40,8 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_roles');
         //create user with specific role to verifying ACL permission
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'System/Configuration/' . $resourceCheckbox));
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => $resourceCheckbox));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');
@@ -56,7 +56,7 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
         $tabElement = $this->loadDataSet('SystemConfigurationMenu', 'configuration_menu_default');
         $xpath = $this->_getControlXpath('tab', 'all_tabs');
         //verify that only one tab is presented on page
-        $this->assertEquals(1, count($this->getElements($xpath)),
+        $this->assertEquals(1, $this->getControlCount('tab', 'all_tabs'),
             'Not only "' . $tabName . '" is presented on page.');
         //verify that this tab equal to resource from ACL tree
         foreach ($tabElement[$tabName] as $fieldset => $fieldsetName) {
@@ -71,11 +71,11 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
     public function systemConfigurationOneTabDataProvider()
     {
         return array(
-            array('Invitation Section', 'customer_invitations'),
-            array('Gift Registry Section', 'customer_gift_registry'),
-            array('Gift Cards', 'sales_gift_card'),
-            array('Promo Section','customers_promotions'),
-            array('Reward Points','customer_reward_points'),
+            array('config_invitations', 'customer_invitations'),
+            array('config_gift_registry', 'customer_gift_registry'),
+            array('config_gift_card_account', 'sales_gift_card'),
+            array('config_promotions','customers_promotions'),
+            array('config_reward_points','customer_reward_points'),
         );
     }
 
@@ -91,7 +91,7 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
-            array('resource_1' => 'System/Configuration'));
+            array('resource_acl' => 'configurations'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         $this->navigate('manage_admin_users');

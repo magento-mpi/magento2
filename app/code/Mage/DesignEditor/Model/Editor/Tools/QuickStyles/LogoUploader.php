@@ -15,12 +15,13 @@
  * @category   Mage
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader extends Mage_Backend_Model_Config_Backend_Image_Logo
 {
     /**
-     * @param Mage_Core_Model_Event_Manager $eventDispatcher
-     * @param Mage_Core_Model_CacheInterface $cacheManager
+     * @param Mage_Core_Model_Context $context
      * @param Mage_DesignEditor_Model_Config_Backend_File_RequestData $requestData
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Resource_Abstract $resource
@@ -28,8 +29,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader extends Mage
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Model_CacheInterface $cacheManager,
+        Mage_Core_Model_Context $context,
         Mage_DesignEditor_Model_Config_Backend_File_RequestData $requestData,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Resource_Abstract $resource = null,
@@ -37,7 +37,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader extends Mage
         array $data = array()
     ) {
         parent::__construct(
-            $eventDispatcher, $cacheManager, $requestData, $filesystem, $resource, $resourceCollection, $data
+            $context, $requestData, $filesystem, $resource, $resourceCollection, $data
         );
     }
 }

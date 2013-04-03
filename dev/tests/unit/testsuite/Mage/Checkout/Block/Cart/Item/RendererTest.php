@@ -18,9 +18,8 @@ class Mage_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_TestC
         $configView = $this->getMock('Magento_Config_View', array('getVarValue'), array(), '', false);
         $configView->expects($this->any())->method('getVarValue')->will($this->returnValue(75));
 
-        $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
         $designPackage = $this->getMock(
-            'Mage_Core_Model_Design_Package', array('getViewConfig'), array($filesystem), '', false
+            'Mage_Core_Model_Design_Package', array('getViewConfig'), array(), '', false
         );
         $designPackage->expects($this->any())->method('getViewConfig')->will($this->returnValue($configView));
 

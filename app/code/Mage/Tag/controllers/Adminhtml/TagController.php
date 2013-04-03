@@ -21,7 +21,6 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('Mage_Tag::catalog_tag')
             ->_addBreadcrumb(
                 Mage::helper('Mage_Tag_Helper_Data')->__('Catalog'), Mage::helper('Mage_Tag_Helper_Data')->__('Catalog')
             )
@@ -63,9 +62,7 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Tags'))
-             ->_title($this->__('All Tags'));
+        $this->_title($this->__('All Tags'));
 
         $this->_initAction()
             ->_addBreadcrumb(
@@ -111,8 +108,7 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     public function editAction()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Tags'));
+        $this->_title($this->__('Tags'));
 
         if (! (int) $this->getRequest()->getParam('store')) {
             return $this->_redirect(
@@ -134,11 +130,11 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             $model->addData($data);
         }
 
-        $this->_title($model->getId() ? $model->getName() : $this->__('New Tag'));
+        $this->_title($model->getId() ? $this->__('Edit Tag \'%s\'', $model->getName()) : $this->__('New Tag'));
 
         Mage::register('tag_tag', $model);
 
-        $this->_initAction()->renderLayout();
+        $this->_initAction()->_setActiveMenu('Mage_Tag::catalog_tag_all')->renderLayout();
     }
 
     /**
@@ -235,16 +231,13 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     public function pendingAction()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Tags'))
-             ->_title($this->__('Pending Tags'));
+        $this->_title($this->__('Pending Tags'));
 
         $this->_initAction()
             ->_addBreadcrumb(
                 Mage::helper('Mage_Tag_Helper_Data')->__('Pending Tags'),
                 Mage::helper('Mage_Tag_Helper_Data')->__('Pending Tags')
             )
-            ->_setActiveMenu('Mage_Tag::catalog_tag_pending')
             ->renderLayout();
     }
 
@@ -254,7 +247,7 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     public function assignedAction()
     {
-        $this->_title($this->__('Tags'))->_title($this->__('Assigned'));
+        $this->_title($this->__('Assigned'));
 
         $this->_initTag();
         $this->loadLayout();
@@ -353,19 +346,10 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     /**
      * Check currently called action by permissions for current user
      *
+     * @return bool
      */
     protected function _isAllowed()
     {
-        switch ($this->getRequest()->getActionName()) {
-            case 'pending':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tag::tag_pending');
-                break;
-            case 'all':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tag::tag_all');
-                break;
-            default:
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tag::tag');
-                break;
-        }
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tag::tag_all');
     }
 }

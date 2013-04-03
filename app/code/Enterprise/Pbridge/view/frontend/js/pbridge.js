@@ -54,7 +54,7 @@
                 url: data.frameUrl,
                 type: 'post',
                 context: this,
-                data: {method_code: data.method},
+                data:{method_code: data.method},
                 success: function(response) {
                     this.element.find(this.options.iframeContainerSelector).html(response);
                     this.element.trigger('gotoSection', 'payment').trigger('contentUpdate');

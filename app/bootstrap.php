@@ -70,9 +70,6 @@ HTML;
         }
         exit;
     }
-    if (isset($_SERVER['MAGE_IS_DEVELOPER_MODE'])) {
-        Mage::setIsDeveloperMode(true);
-    }
     if (!empty($_SERVER['MAGE_PROFILER'])) {
         $profilerConfigData = $_SERVER['MAGE_PROFILER'];
 
@@ -91,3 +88,5 @@ HTML;
         Magento_Profiler::applyConfig($profilerConfig);
     }
 }
+set_error_handler(Mage::DEFAULT_ERROR_HANDLER);
+date_default_timezone_set(Mage::DEFAULT_TIMEZONE);

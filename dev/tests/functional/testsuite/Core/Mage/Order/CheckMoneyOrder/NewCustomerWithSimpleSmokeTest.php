@@ -27,6 +27,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->systemConfigurationHelper()->configure('PaymentMethod/checkmoney');
     }
 
@@ -51,7 +52,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return $simple['general_name'];
+        return $simple['general_sku'];
     }
 
     /**
@@ -66,8 +67,11 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
     public function orderSmoke($simpleSku)
     {
         //Data
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku' => $simpleSku));
+        $orderData = $this->loadDataSet(
+            'SalesOrder',
+            'order_newcustomer_checkmoney_flatrate_usa',
+            array('filter_sku' => $simpleSku)
+        );
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

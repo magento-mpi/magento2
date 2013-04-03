@@ -72,16 +72,12 @@ function toggleCal(id) {
 //]]>
 </script>
 <?php endif; ?>
-
-<div class="head-links">
-    <?php echo $this->getChildBlock('dashboard.head.links')->getChildHtml(); ?>
-</div>
 <!-- TODO: redesign dashboard -->
  <div class="dashboard-container columns col-2-left-layout">
      <div class="columns-content">
          <div class="main-col">
             <?php echo $this->getChildHtml('store_switcher') ?>
-            <div class="entry-edit" style="border:1px solid #ccc;">
+            <div class="dashboard-inner">
                 <?php echo $this->getChildHtml('diagrams') ?>
                 <?php if (is_array($this->getChildBlock('diagrams')->getTabsIds())) : ?>
                     <div id="diagram_tab_content"></div>

@@ -47,7 +47,8 @@ class Core_Mage_OrderCreditMemo_Helper extends Mage_Selenium_AbstractHelper
                 $this->addParameter('productNumber', $i);
                 $qtyXpath = $this->_getControlXpath('field', 'product_qty');
                 $prodSku = $this->getControlAttribute('field', 'product_sku', 'text');
-                $prodSku = trim(preg_replace('/SKU:|\\n/', '', $prodSku));
+                $pointer = 'SKU: ';
+                $prodSku = substr($prodSku, strpos($prodSku, $pointer) + strlen($pointer));
                 $this->addParameter('tableLineXpath', $qtyXpath);
                 if ($this->controlIsPresent('pageelement', 'table_line_input')) {
                     $prodQty = $this->getControlAttribute('pageelement', 'table_line_input', 'selectedValue');

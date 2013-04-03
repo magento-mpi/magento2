@@ -11,6 +11,8 @@
 /**
  * Theme selectors tabs container
  *
+ * @method int getThemeId()
+ *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Backend_Block_Template
@@ -88,7 +90,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
      *
      * @return string
      */
-    public function getAssignSaveButtonHtml()
+    public function getAssignNextButtonHtml()
     {
         /** @var $assignSaveButton Mage_Backend_Block_Widget_Button */
         $assignSaveButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
@@ -98,7 +100,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
             'data_attribute' => array(
                 'mage-init' => array(
                     'button' => array(
-                        'event' => 'assign-save',
+                        'event' => 'assign-next',
                         'target' => 'body',
                         'eventData' => array()
                     ),
@@ -174,18 +176,23 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
     }
 
     /**
-     * Get options for JS widget vde.themeSelector
+     * Get options for JS widget vde.storeSelector
      *
      * @return string
      */
     public function getOptionsJson()
     {
         $options = array();
-        $options['storesByThemes'] = $this->_getStoresByThemes();
-        $options['assignSaveUrl'] = $this->getUrl('*/*/assignThemeToStore');
-        $options['afterAssignSaveUrl'] = $this->getUrl('*/*/launch');
+        $options['storesByThemes']          = $this->_getStoresByThemes();
+        $options['assignUrl']               = $this->getUrl('*/*/assignThemeToStore', array(
+            'theme_id' => $this->getThemeId()
+        ));
+        $options['afterAssignUrl']          = $this->getUrl('*/*/launch');
         $options['isMultipleStoreViewMode'] = $this->_isMultipleStoreViewMode();
-        $options['redirectToVdeOnAssign'] = $this->getData('redirectToVdeOnAssign');
+        $options['redirectOnAssign']        = $this->getData('redirectOnAssign');
+        if ($this->hasData('openNewOnAssign')) {
+            $options['openNewOnAssign'] = $this->getData('openNewOnAssign');
+        }
 
         /** @var $helper Mage_Core_Helper_Data */
         $helper = $this->helper('Mage_Core_Helper_Data');

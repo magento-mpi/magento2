@@ -8,14 +8,9 @@
  * @license     {license_link}
  */
 ?>
-<div class="content-header">
-    <table cellspacing="0">
-        <tr>
-            <td style="width:50%;"><h3 class="icon-head head-permissions-role"><?php echo $this->__('Roles') ?></h3></td>
-            <td class="form-buttons">
-            <button class="scalable add" onclick="window.location='<?php echo $this->getAddNewUrl() ?>'"><span><span><span><?php echo $this->__('Add New Role') ?></span></span></span></button>
-            </td>
-        </tr>
-    </table>
+
+<div class="page-actions">
+    <button class="action- scalable add" onclick="window.location='<?php echo $this->getAddNewUrl() ?>'"><span><?php echo $this->__('Add New Role') ?></span></button>
 </div>
+
 <?php echo $this->getGridHtml() ?>

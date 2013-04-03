@@ -18,10 +18,6 @@
  */
 class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
 {
-    public $productTabs = array('prices', 'meta_information', 'images', 'recurring_profile', 'design', 'gift_options',
-                                'inventory', 'websites', 'related', 'up_sells', 'cross_sells', 'custom_options',
-                                'downloadable_information', 'giftcardinfo', 'autosettings', 'general');
-
     #**************************************************************************************
     #*                                                    Frontend Helper Methods         *
     #**************************************************************************************
@@ -66,12 +62,13 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
     {
         $this->openProductTab('general');
         parent::fillGeneralTab($generalTab);
-        if (isset($generalTab['general_gift_card_data'])) {
-            foreach ($generalTab['general_gift_card_data']['general_amounts'] as $value) {
+        if (isset($generalTab['general_giftcard_data'])) {
+            foreach ($generalTab['general_giftcard_data']['general_amounts'] as $value) {
                 $this->addGiftCardAmount($value);
+                unset($generalTab['general_giftcard_data']['general_amounts']);
             }
-            $this->fillFieldset($generalTab['general_gift_card_data'], 'general_gift_card_data');
-            unset($generalTab['general_gift_card_data']);
+            $this->fillFieldset($generalTab['general_giftcard_data'], 'general_giftcard_data');
+            unset($generalTab['general_giftcard_data']);
         }
     }
 
@@ -83,10 +80,10 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
 //    public function verifyGeneralTab($generalTab)
 //    {
 //        $this->openTab('general');
-//        if (isset($generalTab['general_gift_card_data'])) {
-//            $this->verifyGiftCardAmounts($generalTab['general_gift_card_data']['general_amounts']);
-//            $this->verifyForm($generalTab['general_gift_card_data'], 'general');
-//            unset($generalTab['general_gift_card_data']);
+//        if (isset($generalTab['general_giftcard_data'])) {
+//            $this->verifyGiftCardAmounts($generalTab['general_giftcard_data']['general_amounts']);
+//            $this->verifyForm($generalTab['general_giftcard_data'], 'general');
+//            unset($generalTab['general_giftcard_data']);
 //        }
 //        parent::verifyGeneralTab($generalTab);
 //    }
@@ -98,11 +95,14 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function addGiftCardAmount(array $giftCardData)
     {
-        $rowNumber = $this->getControlCount('fieldset', 'general_amounts');
+        $rowNumber = $this->getControlCount('pageelement', 'general_giftcard_amount_line');
         $this->addParameter('giftCardId', $rowNumber);
-        $this->clickButton('add_gift_card_amount', false);
+        $this->clickButton('add_giftcard_amount', false);
         $this->waitForAjax();
-        $this->fillTab($giftCardData, 'general');
+        if ($this->controlIsVisible('dropdown', 'general_giftcard_website')) {
+            $this->fillDropdown('general_giftcard_website', $giftCardData['general_giftcard_website']);
+        }
+        $this->fillField('general_giftcard_amount', $giftCardData['general_giftcard_amount']);
     }
 
     /**
@@ -114,7 +114,7 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function verifyGiftCardAmounts(array $giftCardData)
     {
-        $rowQty = count($this->getControlElements('fieldset', 'general_gift_card_amounts', null, false));
+        $rowQty = $this->getControlCount('pageelement', 'general_giftcard_amount_line');
         $needCount = count($giftCardData);
         if ($needCount != $rowQty) {
             $this->addVerificationMessage(
@@ -124,7 +124,9 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
         $index = $rowQty - 1;
         foreach ($giftCardData as $value) {
             $this->addParameter('giftCardId', $index);
-            $this->verifyForm($value, 'prices');
+            $this->verifyForm($value, 'giftcard_amount');
+            $this->verifyForm($value, 'general_amounts');
+            $this->verifyForm($value, 'general_giftcard_information');
             --$index;
         }
         $this->assertEmptyVerificationErrors();

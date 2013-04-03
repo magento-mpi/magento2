@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
         ));
 
         $this->_addButton('insert_files', array(
-            'class'   => 'save no-display',
+            'class'   => 'save no-display primary',
             'label'   => $this->helper('Mage_Cms_Helper_Data')->__('Insert File'),
             'type'    => 'button',
             'onclick' => 'MediabrowserInstance.insert();',

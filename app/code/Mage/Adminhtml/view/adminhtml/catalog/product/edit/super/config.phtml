@@ -24,6 +24,7 @@
                     <div class="control">
                         <input id="configurable-attribute-selector" class="input-text" placeholder="start typing to search attribute" title="Select Attribute" type="search" autocomplete="off"/>
                     </div>
+                    <?php echo $this->getChildHtml('add_attribute'); ?>
                 </div>
 
                 <!-- Configurable Attributes list -->
@@ -41,7 +42,7 @@
                 <?php echo $this->getChildHtml('generate'); ?>
 
                 <!-- Variations -->
-                <div id="product-variations-matrix">
+                <div id="product-variations-matrix" data-role="product-variations-matrix">
                     <?php echo $this->getChildHtml('matrix'); ?>
                 </div>
 
@@ -72,7 +73,6 @@ jQuery(function($) {
     $('#configurable-attributes-container').variationsAttributes();
 
     collapsableArea
-        .collapse(hasVariations ? 'show' : 'hide')
         .on('show', function() {
             currentProductTemplateControl
                 .addClass('disabled')
@@ -92,27 +92,21 @@ jQuery(function($) {
             })
         })
         .on('hide', function() {
+            if ($('#configurable-attributes-container').variationsAttributes('getAttributes').length) {
+                return;
+            }
             currentProductTemplateControl
                 .removeClass('disabled')
-                .prop('disabled', false);
+                .removeProp('disabled');
 
             qtyField
-                .prop('disabled', false)
+                .removeProp('disabled')
                 .trigger('change');
 
-            if (qtyField.val() == '') {
-                stockAvailabilityField
-                    .val(0)
-                    .trigger('change');
-
-                stockAvailabilityField.prop('disabled', true);
-            }
-            variationsContainer.find('.entry-edit').remove();
-            $.each($('#configurable-attributes-container').variationsAttributes('getAttributes'), function() {
-                $('#attribute-' + this.code + '-container select').prop('disabled', false);
-            });
-            $('#product-variations-matrix').trigger('disable');
-        });
+            stockAvailabilityField
+                .prop('disabled', true);
+        })
+        .collapse(hasVariations ? 'show' : 'hide');
 
     var $gridDialog = $('#associated-products-container').dialog({
         title: 'Select Associated Product',
@@ -122,7 +116,7 @@ jQuery(function($) {
         resizable: true
     });
 
-    $('#product-variations-matrix')
+    $('[data-role=product-variations-matrix]')
         .on('generate', function(event, data) {
             $.ajax({
                 url: data.url,
@@ -131,13 +125,14 @@ jQuery(function($) {
                 context: variationsContainer,
                 showLoader: true
             }).success(function(data) {
-                $('#product-variations-matrix').html(data);
+                $('[data-role=product-variations-matrix]').html(data);
+                $('#product_type_id').val('configurable').trigger('change');
             });
         })
         .on('disable', function() {
             $(this).html('');
         })
-        .on('click', 'input.associated-matrix-product-id', function() {
+        .on('click', '[data-column=entity_id]', function() {
             $(this).closest('tr').find('input[type!=checkbox],button')
                 .prop('disabled', !$(this).is(':checked'));
         })
@@ -163,21 +158,22 @@ jQuery(function($) {
                     return;
                 }
                 var $gridRow = $(event.target).closest('tr'),
-                    associatedClass = '.associated-product-';
+                    columnSelectorTemplate = '[data-column="%s"]';
 
-                if ($gridRow.find(associatedClass + 'id').length) {
-                    var $matrixRow = $button.parents('tr'),
-                        matrixClass = '.associated-matrix-product-';
+                if ($gridRow.find(columnSelectorTemplate.replace('%s', 'entity_id')).length) {
+                    var $matrixRow = $button.parents('tr');
 
-                    $.each('name,sku,qty,weight,id'.split(','), function () {
-                        var target = $matrixRow.find(matrixClass + this),
-                            value = $.trim($gridRow.find(associatedClass + this).text()),
+                    $.each('name,sku,qty,weight,entity_id'.split(','), function () {
+                        var columnSelector = columnSelectorTemplate.replace('%s', this),
+                            target = $matrixRow.find(columnSelector),
+                            value = $.trim($gridRow.find(columnSelector).text()),
                             button = target.find('.action-choose');
 
                         target[target.is('input[type=checkbox]') ? 'val' : 'text'](value).append(button);
                     });
 
-                    $matrixRow.find(matrixClass + 'id').prop({checked: true, disabled: false});
+                    $matrixRow.find(columnSelectorTemplate.replace('%s', 'entity_id'))
+                        .prop({checked: true, disabled: false});
 
                     var parentElement = $matrixRow.find('.col-image'),
                         imageElement = $matrixRow.find('img');
@@ -190,14 +186,14 @@ jQuery(function($) {
                             style: 'width:55px;height:55px'
                         }).appendTo(parentElement);
                         parentElement.find('img').on('click', function (event) {
-                            if ($(event.target).closest('tr').find('.associated-matrix-product-id').is(':checked')) {
+                            if ($(event.target).closest('tr').find('[data-column=entity_id]').is(':checked')) {
                                 $(event.target).closest('.col-image').find('[name=image]').trigger('click');
                             }
                         });
                     }
 
                     $matrixRow.find('[name=image]')
-                        .attr('src', $gridRow.find('[data-role="image-url"]').val())
+                        .attr('src', $gridRow.find('[data-role=image-url]').val())
                         .trigger('click')
                         .prop({disabled: true});
                 }

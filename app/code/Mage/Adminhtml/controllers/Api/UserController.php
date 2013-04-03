@@ -23,9 +23,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
 
     public function indexAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Web Services'))
-             ->_title($this->__('Users'));
+        $this->_title($this->__('Users'));
 
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Api_User'))
@@ -39,9 +37,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
 
     public function editAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Web Services'))
-             ->_title($this->__('Users'));
+        $this->_title($this->__('Users'));
 
         $id = $this->getRequest()->getParam('user_id');
         $model = Mage::getModel('Mage_Api_Model_User');

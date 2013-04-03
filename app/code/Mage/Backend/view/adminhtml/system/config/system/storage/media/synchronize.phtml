@@ -13,14 +13,8 @@
 
 <script type="text/javascript">
 //<![CDATA[
-    Validation.add('required-synchronize', '<?php echo $this->__('Synchronization is required.') ?>', function(){
-        storage = getConnectionName(
-            $('system_media_storage_configuration_media_storage').value,
-            $('system_media_storage_configuration_media_database').value
-        );
-
-        return allowedStorages.include(storage);
-    });
+    jQuery.mage.extend('validation', 'validation',
+        '<?php echo $this->getViewFileUrl('Mage_Backend::system/validation-rules.js'); ?>');
 
     defaultValues   = [];
     defaultValues['system_media_storage_configuration_media_storage']   = $('system_media_storage_configuration_media_storage').value;
@@ -126,17 +120,9 @@
                         enableStorageSelection();
                         $('sync_span').addClassName('no-display');
 
-                        if (response.state == '<?php echo Mage_Core_Model_File_Storage_Flag::STATE_NOTIFIED ?>') {
-                            if (response.html && response.html != '') {
-                                $$('.message-system').each(function(e) {
-                                    if (!e.hasClassName('message-system')) {
-                                        e.hide();
-                                    }
-                                });
-
-                                Element.insert($('anchor-content'), {'before': response.html});
-                            }
-
+                        if (response.state == '<?php echo Mage_Core_Model_File_Storage_Flag::STATE_FINISHED ?>') {
+                            window.location.reload();
+                        } else if (response.state == '<?php echo Mage_Core_Model_File_Storage_Flag::STATE_NOTIFIED ?>') {
                             if (response.has_errors) {
                                 enableSyncButton();
                             } else {
@@ -155,9 +141,8 @@
     }
 
     function synchronize() {
-        var advice = Validation.getAdvice('required-synchronize', $('synchronize-validation-input'));
-        if (advice) {
-            advice.hide();
+        if (!jQuery.validator.validateElement('#synchronize-validation-input')) {
+            jQuery('[for="synchronize-validation-input"]').hide();
         }
         params = {
             storage:    $('system_media_storage_configuration_media_storage').value,
