@@ -18,17 +18,17 @@
            '[data-toggle="dropdown"].active + [data-target="dropdown"],' +
            '[data-toggle="dropdown"].active + [data-target="dropdown"] *')
         ) {
-            $('[data-toggle="dropdown"].active').trigger('close.dropdown')
+            $('[data-toggle="dropdown"].active').trigger('close.dropdown');
         }
     });
     $(document).on('keyup.dropdown', function(event) {
         if (event.keyCode == ESC_KEY_CODE) {
-            $('[data-toggle="dropdown"].active').trigger('close.dropdown')
+            $('[data-toggle="dropdown"].active').trigger('close.dropdown');
         }
     });
 
     $.fn.dropdown = function(options) {
-        var options = $.extend({
+        options = $.extend({
             parent: null,
             btnArrow: '.arrow',
             activeClass: 'active'
@@ -39,23 +39,23 @@
                 parent = elem.parent(),
                 menu = $('[data-target="dropdown"]', parent) || $('.dropdown-menu', parent);
 
-            elem.on('open.dropdown', function(event) {
+            elem.on('open.dropdown', function() {
                 elem
                     .addClass(options.activeClass)
                     .parent()
-                    .addClass(options.activeClass)
-                elem.find(options.btnArrow).text('▲');
+                    .addClass(options.activeClass);
+                elem.find(options.btnArrow).text('\u25b2'); // arrow up
             });
 
-            elem.on('close.dropdown', function(event) {
+            elem.on('close.dropdown', function() {
                 elem
                     .removeClass(options.activeClass)
                     .parent()
                     .removeClass(options.activeClass);
-                elem.find(options.btnArrow).text('▼');
+                elem.find(options.btnArrow).text('\u25bc'); // arrow down
             });
 
-            elem.on('click.dropdown', function(event) {
+            elem.on('click.dropdown', function() {
                 elem.trigger(elem.hasClass('active') ? 'close.dropdown' : 'open.dropdown');
                 return false;
             });
