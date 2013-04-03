@@ -12,7 +12,7 @@
 manage_sales_transactions:
     mca: sales_transactions/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_transactions/')]
-    title: Transactions / Sales / Magento Admin
+    title: Transactions / Operations / Sales / Magento Admin
     uimap:
         form: &salesTransactions
             fieldsets:

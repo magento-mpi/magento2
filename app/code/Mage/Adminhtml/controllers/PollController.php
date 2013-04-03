@@ -20,7 +20,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
 
     public function indexAction()
     {
-        $this->_title($this->__('CMS'))->_title($this->__('Polls'));
+        $this->_title($this->__('Polls'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Poll::cms_poll');
@@ -32,7 +32,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
 
     public function editAction()
     {
-        $this->_title($this->__('CMS'))->_title($this->__('Polls'));
+        $this->_title($this->__('Polls'));
 
         $pollId     = $this->getRequest()->getParam('id');
         $pollModel  = Mage::getModel('Mage_Poll_Model_Poll')->load($pollId);

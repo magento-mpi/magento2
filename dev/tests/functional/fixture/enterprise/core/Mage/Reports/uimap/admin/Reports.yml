@@ -13,7 +13,7 @@
 reports_invitations_general:
     mca: report_invitation/
     click_xpath: //*[@id='nav']//a[contains(@href, 'report_invitation/index')]
-    title: General / Invitations / Reports / Magento Admin
+    title: General / Private Sales / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -43,7 +43,7 @@ reports_invitations_general:
 reports_invitations_customers:
     mca: report_invitation/customer/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_invitation/customer/')]
-    title: Customers / Invitations / Reports / Magento Admin
+    title: Customers / Private Sales / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -68,7 +68,7 @@ reports_invitations_customers:
 invitations_order_conversion_rate:
     mca: report_invitation/order/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_invitation/order/')]
-    title: Order Conversion Rate / Invitations / Reports / Magento Admin
+    title: Order Conversion Rate / Private Sales / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -118,4 +118,4 @@ customer_segment_report:
 customer_wishlist_report:
     mca: report_customer_wishlist/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer_wishlist/')]
-    title: Customer's wishlists / Customers / Reports / Magento Admin
+    title: Customer's wishlists / Reports / Magento Admin

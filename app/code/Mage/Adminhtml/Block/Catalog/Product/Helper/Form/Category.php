@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_D
         return <<<HTML
     <input id="{$htmlId}-suggest" placeholder="$suggestPlaceholder" />
     <script>
-        jQuery('#{$htmlId}-suggest').treeSuggest({$selectorOptions});
+        jQuery('#{$htmlId}-suggest').mage('treeSuggest', {$selectorOptions});
     </script>
     <button title="{$newCategoryCaption}" type="button" onclick="jQuery('#new-category').dialog('open')">
         <span><span><span>{$newCategoryCaption}</span></span></span>

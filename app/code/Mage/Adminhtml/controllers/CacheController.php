@@ -72,7 +72,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
-        $this->_title($this->__('System'))->_title($this->__('Cache Management'));
+        $this->_title($this->__('Cache Management'));
 
         $this->loadLayout()
             ->_setActiveMenu('Mage_Adminhtml::system_cache')
@@ -87,7 +87,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
         Mage::dispatchEvent('adminhtml_cache_flush_all');
         /** @var $cacheFrontend Magento_Cache_FrontendInterface */
         foreach ($this->_cacheFrontendPool as $cacheFrontend) {
-            $cacheFrontend->clean();
+            $cacheFrontend->getBackend()->clean();
         }
         $this->_getSession()->addSuccess(
             Mage::helper('Mage_Adminhtml_Helper_Data')->__("The cache storage has been flushed.")
@@ -100,10 +100,9 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
      */
     public function flushSystemAction()
     {
-        $markerCacheTag = Mage_Core_Model_AppInterface::CACHE_TAG;
         /** @var $cacheFrontend Magento_Cache_FrontendInterface */
         foreach ($this->_cacheFrontendPool as $cacheFrontend) {
-            $cacheFrontend->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array($markerCacheTag));
+            $cacheFrontend->clean();
         }
         Mage::dispatchEvent('adminhtml_cache_flush_system');
         $this->_getSession()->addSuccess(

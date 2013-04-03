@@ -12,7 +12,6 @@
 <config>
     <modules>
         <Enterprise_Banner><active>true</active></Enterprise_Banner>
-        <Enterprise_Checkout><active>true</active></Enterprise_Checkout>
         <Enterprise_Cms><active>true</active></Enterprise_Cms>
         <Enterprise_Customer><active>true</active></Enterprise_Customer>
         <Enterprise_CustomerBalance><active>true</active></Enterprise_CustomerBalance>
@@ -35,6 +34,14 @@
         <Saas_PageCache><active>true</active></Saas_PageCache>
         <Saas_PrintedTemplate><active>true</active></Saas_PrintedTemplate>
         <Saas_Saas><active>true</active></Saas_Saas>
+        <Saas_Sales><active>true</active></Saas_Sales>
         <Saas_UnitPrice><active>true</active></Saas_UnitPrice>
+        <Saas_Backup><active>true</active></Saas_Backup>
+        <Saas_Customer><active>true</active></Saas_Customer>
+        <Saas_Newsletter><active>true</active></Saas_Newsletter>
+        <Enterprise_ImportExport><active>false</active></Enterprise_ImportExport>
+        <Mage_Connect><active>false</active></Mage_Connect>
+        <Saas_Design><active>true</active></Saas_Design>
+        <Saas_Pci><active>true</active></Saas_Pci>
     </modules>
 </config>

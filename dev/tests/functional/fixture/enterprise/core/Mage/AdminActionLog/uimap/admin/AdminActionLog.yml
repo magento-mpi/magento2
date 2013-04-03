@@ -29,7 +29,7 @@
 admin_action_log_report:
     mca: logging/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'logging/index/')]
-    title: Report / Admin Actions Logs / System / Magento Admin
+    title: Report / Action Log / System / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -62,13 +62,13 @@ admin_action_log_report:
 
 admin_action_log_view:
     mca: logging/details/event_id/%id%/
-    title: View Entry / Report / Admin Actions Logs / System / Magento Admin
+    title: View Entry / Action Log / System / Magento Admin
 
 # Admin Actions Log Report page
 admin_action_log_archive:
     mca: logging/archive/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'logging/archive/')]
-    title: Archive / Admin Actions Logs / System / Magento Admin
+    title: Archive / Action Log / System / Magento Admin
     uimap:
         form:
             fieldsets:

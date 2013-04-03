@@ -88,6 +88,7 @@ class Mage_Backend_Model_Observer
             }
         }
 
+        Mage::app()->removeCache(Mage_AdminNotification_Model_System_Message_Security::VERIFICATION_RESULT_CACHE_KEY);
         return $this;
     }
 }

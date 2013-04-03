@@ -108,7 +108,15 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
      */
     protected function _setActiveMenu($itemId)
     {
-        $this->getLayout()->getBlock('menu')->setActive($itemId);
+        /** @var $menuBlock Mage_Backend_Block_Menu */
+        $menuBlock = $this->getLayout()->getBlock('menu');
+        $menuBlock->setActive($itemId);
+        $parents = $menuBlock->getMenuModel()->getParentItems($itemId);
+        $parents = array_reverse($parents);
+        foreach ($parents as $item) {
+            /** @var $item Mage_Backend_Model_Menu_Item */
+            array_unshift($this->_titles, $item->getTitle());
+        }
         return $this;
     }
 
@@ -192,9 +200,8 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         if ($this->_isUrlChecked()) {
             $this->setFlag('', self::FLAG_IS_URLS_CHECKED, true);
         }
-        if (is_null(Mage::getSingleton('Mage_Backend_Model_Session')->getLocale())) {
-            Mage::getSingleton('Mage_Backend_Model_Session')->setLocale(Mage::app()->getLocale()->getLocaleCode());
-        }
+
+        $this->_processLocaleSettings();
 
         return $this;
     }
@@ -247,6 +254,26 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
             return false;
         }
         return true;
+    }
+
+    /**
+     * Set session locale,
+     * process force locale set through url params
+     *
+     * @return Mage_Backend_Controller_ActionAbstract
+     */
+    protected function _processLocaleSettings()
+    {
+        $forceLocale = $this->getRequest()->getParam('locale', null);
+        if ($this->_objectManager->get('Mage_Core_Model_Locale_Validator')->isValid($forceLocale)) {
+            $this->_getSession()->setSessionLocale($forceLocale);
+        }
+
+        if (is_null($this->_getSession()->getLocale())) {
+            $this->_getSession()->setLocale(Mage::app()->getLocale()->getLocaleCode());
+        }
+
+        return $this;
     }
 
     /**

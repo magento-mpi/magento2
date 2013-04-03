@@ -56,7 +56,7 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
      */
     public function indexAction()
     {
-        $this->_title($this->__('Promotions'))->_title($this->__('Reminder Rules'));
+        $this->_title($this->__('Reminder Rules'));
         $this->loadLayout();
         $this->_setActiveMenu('Enterprise_Reminder::promo_reminder');
         $this->renderLayout();
@@ -76,7 +76,7 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
      */
     public function editAction()
     {
-        $this->_title($this->__('Promotions'))->_title($this->__('Reminder Rules'));
+        $this->_title($this->__('Reminder Rules'));
 
         try {
             $model = $this->_initRule();
