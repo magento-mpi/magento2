@@ -30,6 +30,9 @@
         <reference name="content">
             <block type="Mage_Core_Block_Template" name="pbridge.js" template="Enterprise_Pbridge::checkout/payment/js.phtml" />
         </reference>
+        <reference name="head">
+            <action method="addJs"><file>Enterprise_Pbridge::js/pbridge.js</file></action>
+        </reference>
     </checkout_multishipping_billing>
 
     <enterprise_pbridge_pbridge_result translate="label" type="fragment" owner="checkout_onepage_index">

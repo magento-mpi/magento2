@@ -13,29 +13,31 @@
         options : {
             method: '',
             frameUrl: '',
-            iframeSelector: '[data-container="iframe"]',
+            iframeContainerSelector: '[data-container="iframe"]',
             bodySelector: '[data-container="body"]',
-            reloadSelector: ''
+            pmtsBtnsContainerSelector: '#payment-buttons-container',
+            reloadSelector: '.pbridge-reload'
         },
 
         _create : function() {
             this.element
                 .on('reloadPbridgeIframe', $.proxy(function(event, data) { this.reloadIframe(data); }, this))
                 .find('span.pbridge-reload a').on('click', $.proxy(function () {
-                var data = {};
-                data.method = this.options.method;
-                data.frameUrl = this.options.frameUrl;
-                this.reloadIframe(data);
+                    var data = {};
+                    data.method = this.options.method;
+                    data.frameUrl = this.options.frameUrl;
+                    this._reloadIframe(data);
 
-                return false;
-            }, this));
+                    return false;
+                }, this));
+            this.element.closest('[data-container="body"]').on('reloadIframe', $.proxy(this._reloadIframe,this));
         },
 
         /**
          *
          * @param data
          */
-        reloadIframe: function(data) {
+        _reloadIframe: function(data) {
             if (!data) {
                 data = {
                     method: this.options.method,
@@ -43,7 +45,6 @@
                 };
             }
 
-            var method = data.method;
             var hiddenElms = this.element.find('input:hidden');
             if (hiddenElms.length > 0) {
                 hiddenElms.remove();
@@ -53,12 +54,12 @@
                 url: data.frameUrl,
                 type: 'post',
                 context: this,
-                data: {method_code: method},
+                data: {method_code: data.method},
                 success: function(response) {
-                    this.element.find('iframe').parent().html(response);
+                    this.element.find(this.options.iframeContainerSelector).html(response);
                     this.element.trigger('gotoSection', 'payment').trigger('contentUpdate');
                     this._toggleContinueButton(this.element.parents('ol'));
-                    this.element.find('.pbridge-reload').find('a').show();
+                    this.element.find(this.options.reloadSelector).find('a').show();
                 }
             });
         },
@@ -70,15 +71,15 @@
          * @private
          */
         _toggleContinueButton: function(target) {
-            var buttonsContainer = $('#payment-buttons-container');
+            var buttonsContainer = $(this.options.pmtsBtnsContainerSelector);
             if (buttonsContainer.length > 0 && buttonsContainer.find('button.button')) {
                 var continueButton = buttonsContainer.find('button.button');
                 if (target.type !== 'checkbox' || ! target.checked) {
                     var checkedRadio = $('#co-payment-form input[type="radio"][name="payment[method]"]:checked');
                     if (checkedRadio.length) {
-                        var iframeContainer = $('payment_form_' + checkedRadio[0].value + '_container');
+                        var iframeContainer = $('#payment_form_' + checkedRadio[0].value + '_container');
                         // check whether it is Bridge payment method
-                        if (iframeContainer && iframeContainer.prevAll('span.pbridge-reload')) {
+                        if (iframeContainer.length > 0 && iframeContainer.prevAll('span.pbridge-reload').length > 0) {
                             return continueButton.hide();
                         }
                     }
