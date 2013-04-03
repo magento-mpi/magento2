@@ -6,13 +6,13 @@
  * @license   {license_link}
  */
 
-class Mage_Backend_Model_Resource_System_Message_Collection_Synchronized
-    extends Mage_Backend_Model_Resource_System_Message_Collection
+class Mage_AdminNotification_Model_Resource_System_Message_Collection_Synchronized
+    extends Mage_AdminNotification_Model_Resource_System_Message_Collection
 {
     /**
      * Retrieve unread message list
      *
-     * @var Mage_Backend_Model_System_MessageInterface[]
+     * @var Mage_AdminNotification_Model_System_MessageInterface[]
      */
     protected $_unreadMessages = array();
 
@@ -60,7 +60,7 @@ class Mage_Backend_Model_Resource_System_Message_Collection_Synchronized
     /**
      * Retrieve list of unread messages
      *
-     * @return Mage_Backend_Model_System_MessageInterface[]
+     * @return Mage_AdminNotification_Model_System_MessageInterface[]
      */
     public function getUnread()
     {

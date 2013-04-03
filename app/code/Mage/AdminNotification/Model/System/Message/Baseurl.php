@@ -5,7 +5,8 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Mage_Backend_Model_System_Message_Baseurl implements Mage_Backend_Model_System_MessageInterface
+class Mage_AdminNotification_Model_System_Message_Baseurl
+    implements Mage_AdminNotification_Model_System_MessageInterface
 {
     /**
      * @var Mage_Core_Model_UrlInterface
@@ -126,7 +127,7 @@ class Mage_Backend_Model_System_Message_Baseurl implements Mage_Backend_Model_Sy
      */
     public function getText()
     {
-        return $this->_helperFactory->get('Mage_Backend_Helper_Data')->__('{{base_url}} is not recommended to use in a production environment to declare the Base Unsecure URL / Base Secure URL. It is highly recommended to change this value in your Magento <a href="%s">configuration</a>.', $this->_getConfigUrl());
+        return $this->_helperFactory->get('Mage_AdminNotification_Helper_Data')->__('{{base_url}} is not recommended to use in a production environment to declare the Base Unsecure URL / Base Secure URL. It is highly recommended to change this value in your Magento <a href="%s">configuration</a>.', $this->_getConfigUrl());
     }
 
     /**

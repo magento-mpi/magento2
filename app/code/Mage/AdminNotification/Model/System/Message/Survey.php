@@ -5,7 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Backend_Model_System_Message_Survey implements Mage_Backend_Model_System_MessageInterface
+class Mage_AdminNotification_Model_System_Message_Survey
+    implements Mage_AdminNotification_Model_System_MessageInterface
 {
     /**
      * @var Mage_Core_Model_Factory_Helper
@@ -100,7 +101,7 @@ class Mage_Backend_Model_System_Message_Survey implements Mage_Backend_Model_Sys
                 ),
             ),
         );
-        return $this->_helperFactory->get('Mage_Backend_Helper_Data')->__('We appreciate our merchants\' feedback, please <a href="#" data-mage-init=%s>take our survey</a> to provide insight on the features you would like included in Magento.', json_encode($params, JSON_FORCE_OBJECT));
+        return $this->_helperFactory->get('Mage_AdminNotification_Helper_Data')->__('We appreciate our merchants\' feedback, please <a href="#" data-mage-init=%s>take our survey</a> to provide insight on the features you would like included in Magento.', json_encode($params, JSON_FORCE_OBJECT));
     }
 
     /**
@@ -110,6 +111,6 @@ class Mage_Backend_Model_System_Message_Survey implements Mage_Backend_Model_Sys
      */
     public function getSeverity()
     {
-        return Mage_Backend_Model_System_MessageInterface::SEVERITY_MAJOR;
+        return Mage_AdminNotification_Model_System_MessageInterface::SEVERITY_MAJOR;
     }
 }

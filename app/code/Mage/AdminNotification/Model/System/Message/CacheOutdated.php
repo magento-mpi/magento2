@@ -5,7 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Backend_Model_System_Message_CacheOutdated implements Mage_Backend_Model_System_MessageInterface
+class Mage_AdminNotification_Model_System_Message_CacheOutdated
+    implements Mage_AdminNotification_Model_System_MessageInterface
 {
     /**
      * @var Mage_Core_Model_UrlInterface
@@ -87,10 +88,12 @@ class Mage_Backend_Model_System_Message_CacheOutdated implements Mage_Backend_Mo
      */
     public function getText()
     {
-        /** @var $helper Mage_Backend_Helper_Data */
-        $helper = $this->_helperFactory->get('Mage_Backend_Helper_Data');
-        $message = $helper->__('One or more of the Cache Types are invalidated: %s. ', implode(', ', $this->_getCacheTypesForRefresh())) . ' ';
-        $message .= $helper->__('Please go to <a href="%s">Cache Management</a> and refresh cache types.', $this->_urlBuilder->getUrl('adminhtml/cache'));
+        /** @var $helper Mage_AdminNotification_Helper_Data */
+        $helper = $this->_helperFactory->get('Mage_AdminNotification_Helper_Data');
+        $cacheTypes = implode(', ', $this->_getCacheTypesForRefresh());
+        $message = $helper->__('One or more of the Cache Types are invalidated: %s. ', $cacheTypes) . ' ';
+        $url = $this->_urlBuilder->getUrl('adminhtml/cache');
+        $message .= $helper->__('Please go to <a href="%s">Cache Management</a> and refresh cache types.', $url);
         return $message;
     }
 
@@ -111,6 +114,6 @@ class Mage_Backend_Model_System_Message_CacheOutdated implements Mage_Backend_Mo
      */
     public function getSeverity()
     {
-        return Mage_Backend_Model_System_MessageInterface::SEVERITY_CRITICAL;
+        return Mage_AdminNotification_Model_System_MessageInterface::SEVERITY_CRITICAL;
     }
 }

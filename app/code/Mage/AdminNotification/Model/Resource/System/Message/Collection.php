@@ -6,12 +6,13 @@
  * @license   {license_link}
  */
 
-class Mage_Backend_Model_Resource_System_Message_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_AdminNotification_Model_Resource_System_Message_Collection
+    extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * System message list
      *
-     * @var Mage_Backend_Model_System_MessageList
+     * @var Mage_AdminNotification_Model_System_MessageList
      */
     protected $_messageList;
 
@@ -23,10 +24,10 @@ class Mage_Backend_Model_Resource_System_Message_Collection extends Mage_Core_Mo
     protected $_countBySeverity = array();
 
     /**
-     * @param Mage_Backend_Model_System_MessageList $messageList
+     * @param Mage_AdminNotification_Model_System_MessageList $messageList
      * @param null $resource
      */
-    public function __construct(Mage_Backend_Model_System_MessageList $messageList, $resource = null)
+    public function __construct(Mage_AdminNotification_Model_System_MessageList $messageList, $resource = null)
     {
         $this->_messageList = $messageList;
         parent::__construct($resource);
@@ -37,7 +38,9 @@ class Mage_Backend_Model_Resource_System_Message_Collection extends Mage_Core_Mo
      */
     protected function _construct()
     {
-        $this->_init('Mage_Backend_Model_System_Message', 'Mage_Backend_Model_Resource_System_Message');
+        $this->_init(
+            'Mage_AdminNotification_Model_System_Message', 'Mage_AdminNotification_Model_Resource_System_Message'
+        );
     }
 
     /**

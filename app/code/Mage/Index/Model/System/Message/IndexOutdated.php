@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Mage_Index_Model_System_Message_IndexOutdated implements Mage_Backend_Model_System_MessageInterface
+class Mage_Index_Model_System_Message_IndexOutdated implements Mage_AdminNotification_Model_System_MessageInterface
 {
     /**
      * @var Mage_Core_Model_Factory_Helper
@@ -115,15 +115,5 @@ class Mage_Index_Model_System_Message_IndexOutdated implements Mage_Backend_Mode
     public function getSeverity()
     {
         return self::SEVERITY_CRITICAL;
-    }
-
-    /**
-     * Get index management url
-     *
-     * @return string
-     */
-    public function getLink()
-    {
-        return $this->_urlBuilder->getUrl('adminhtml/process/list');
     }
 }

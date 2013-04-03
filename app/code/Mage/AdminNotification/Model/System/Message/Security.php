@@ -5,7 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Backend_Model_System_Message_Security implements Mage_Backend_Model_System_MessageInterface
+class Mage_AdminNotification_Model_System_Message_Security
+    implements Mage_AdminNotification_Model_System_MessageInterface
 {
     /**
      * Cache kay for saving verification result
@@ -140,7 +141,7 @@ class Mage_Backend_Model_System_Message_Security implements Mage_Backend_Model_S
      */
     public function getText()
     {
-        return $this->_helperFactory->get('Mage_Backend_Helper_Data')->__('Your web server is configured incorrectly. As a result, configuration files with sensitive information are accessible from the outside. Please contact your hosting provider.');
+        return $this->_helperFactory->get('Mage_AdminNotification_Helper_Data')->__('Your web server is configured incorrectly. As a result, configuration files with sensitive information are accessible from the outside. Please contact your hosting provider.');
     }
 
     /**
@@ -150,6 +151,6 @@ class Mage_Backend_Model_System_Message_Security implements Mage_Backend_Model_S
      */
     public function getSeverity()
     {
-        return Mage_Backend_Model_System_MessageInterface::SEVERITY_CRITICAL;
+        return Mage_AdminNotification_Model_System_MessageInterface::SEVERITY_CRITICAL;
     }
 }

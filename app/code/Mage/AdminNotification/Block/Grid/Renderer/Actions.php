@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */

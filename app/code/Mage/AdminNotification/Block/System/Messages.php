@@ -5,23 +5,23 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Mage_Backend_Block_System_Messages extends Mage_Backend_Block_Template
+class Mage_AdminNotification_Block_System_Messages extends Mage_Backend_Block_Template
 {
     /**
      * Message list
      *
-     * @var Mage_Backend_Model_Resource_System_Message_Collection_Synchronized
+     * @var Mage_AdminNotification_Model_Resource_System_Message_Collection_Synchronized
      */
     protected $_messages;
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Backend_Model_Resource_System_Message_Collection_Synchronized $messages
+     * @param Mage_AdminNotification_Model_Resource_System_Message_Collection_Synchronized $messages
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Backend_Model_Resource_System_Message_Collection_Synchronized $messages,
+        Mage_AdminNotification_Model_Resource_System_Message_Collection_Synchronized $messages,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -42,12 +42,14 @@ class Mage_Backend_Block_System_Messages extends Mage_Backend_Block_Template
     /**
      * Retrieve message list
      *
-     * @return Mage_Backend_Model_System_MessageInterface[]
+     * @return Mage_AdminNotification_Model_System_MessageInterface[]
      */
     public function getLastCritical()
     {
         $items = array_values($this->_messages->getItems());
-        if (isset($items[0]) && $items[0]->getSeverity() == Mage_Backend_Model_System_Message::SEVERITY_CRITICAL) {
+        if (isset($items[0]) && $items[0]->getSeverity()
+            == Mage_AdminNotification_Model_System_MessageInterface::SEVERITY_CRITICAL
+        ) {
             return $items[0];
         }
         return null;
@@ -60,7 +62,9 @@ class Mage_Backend_Block_System_Messages extends Mage_Backend_Block_Template
      */
     public function getCriticalCount()
     {
-        return $this->_messages->getCountBySeverity(Mage_Backend_Model_System_Message::SEVERITY_CRITICAL);
+        return $this->_messages->getCountBySeverity(
+            Mage_AdminNotification_Model_System_MessageInterface::SEVERITY_CRITICAL
+        );
     }
 
     /**
@@ -70,7 +74,9 @@ class Mage_Backend_Block_System_Messages extends Mage_Backend_Block_Template
      */
     public function getMajorCount()
     {
-        return $this->_messages->getCountBySeverity(Mage_Backend_Model_System_Message::SEVERITY_MAJOR);
+        return $this->_messages->getCountBySeverity(
+            Mage_AdminNotification_Model_System_MessageInterface::SEVERITY_MAJOR
+        );
     }
 
     /**
@@ -83,6 +89,11 @@ class Mage_Backend_Block_System_Messages extends Mage_Backend_Block_Template
         return (bool) count($this->_messages->getItems());
     }
 
+    /**
+     * Retrieve message list url
+     *
+     * @return string
+     */
     public function getMessagesUrl()
     {
         return $this->getUrl('adminhtml/system_message/list');

@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Backend_Model_System_Message_BaseurlTest extends PHPUnit_Framework_TestCase
+class Mage_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Backend_Model_System_Message_Baseurl
+     * @var Mage_AdminNotification_Model_System_Message_Baseurl
      */
     protected $_model;
 
@@ -26,6 +26,11 @@ class Mage_Backend_Model_System_Message_BaseurlTest extends PHPUnit_Framework_Te
      * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperFactoryMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_helperMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -53,6 +58,10 @@ class Mage_Backend_Model_System_Message_BaseurlTest extends PHPUnit_Framework_Te
         $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $this->_urlBuilderMock = $this->getMock('Mage_Core_Model_UrlInterface');
         $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
+        $this->_helperMock = $this->getMock('Mage_AdminNotification_Helper_Data', array(), array(), '', false);
+        $this->_helperFactoryMock->expects($this->any())->method('get')
+            ->with('Mage_AdminNotification_Helper_Data')->will($this->returnValue($this->_helperMock));
+
         $this->_storeManagerMock = $this->getMock('Mage_Core_Model_StoreManager', array(), array(), '', false);
         $configFactoryMock = $this->getMock('Mage_Core_Model_Config_DataFactory', array('create'),
             array(), '', false
@@ -81,13 +90,13 @@ class Mage_Backend_Model_System_Message_BaseurlTest extends PHPUnit_Framework_Te
             'configDataFactory' => $configFactoryMock,
             'storeManager' => $this->_storeManagerMock,
         );
-        $this->_model = $helper->getObject('Mage_Backend_Model_System_Message_Baseurl', $arguments);
+        $this->_model = $helper->getObject('Mage_AdminNotification_Model_System_Message_Baseurl', $arguments);
     }
 
     public function testGetSeverity()
     {
         $this->assertEquals(
-            Mage_Backend_Model_System_MessageInterface::SEVERITY_CRITICAL,
+            Mage_AdminNotification_Model_System_MessageInterface::SEVERITY_CRITICAL,
             $this->_model->getSeverity(),
             'Invalid message severity type'
         );
@@ -108,15 +117,17 @@ class Mage_Backend_Model_System_Message_BaseurlTest extends PHPUnit_Framework_Te
             ->method('getUrl')
             ->with('adminhtml/system_config/edit', array('section' => 'web'))
             ->will($this->returnValue('http://some_url'));
+        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(1));
 
-        $this->assertEquals('http://some_url', $this->_model->getLink());
+        $this->assertStringEndsWith('http://some_url', $this->_model->getText());
     }
 
     public function testGetConfigUrlWithoutSavedData()
     {
         $this->_configMock->expects($this->any())->method('getNode')->will($this->returnValue(null));
         $this->_urlBuilderMock->expects($this->never())->method('getUrl');
-        $this->assertEquals('', $this->_model->getLink());
+        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(1));
+        $this->assertEquals('', $this->_model->getText());
     }
 
     /**
@@ -141,8 +152,9 @@ class Mage_Backend_Model_System_Message_BaseurlTest extends PHPUnit_Framework_Te
             ->method('getUrl')
             ->with('adminhtml/system_config/edit', array('section' => 'web', $urlParam => 'some_code'))
             ->will($this->returnValue('http://some_url'));
+        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(1));
 
-        $this->assertEquals('http://some_url', $this->_model->getLink());
+        $this->assertEquals('http://some_url', $this->_model->getText());
     }
 
     public function getConfigUrlWithSavedDataForStoreScopeDataProvider()
@@ -179,12 +191,9 @@ class Mage_Backend_Model_System_Message_BaseurlTest extends PHPUnit_Framework_Te
 
     public function testGetText()
     {
-        $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
-        $this->_helperFactoryMock->expects($this->once())->method('get')
-            ->with('Mage_Backend_Helper_Data')->will($this->returnValue($helperMock));
 
         $expected = 'some text';
-        $helperMock->expects($this->once())
+        $this->_helperMock->expects($this->once())
             ->method('__')
             ->with($this->stringStartsWith('{{base_url}} is not recommended'))
             ->will($this->returnValue('some text'));

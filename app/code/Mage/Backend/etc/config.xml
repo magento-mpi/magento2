@@ -20,13 +20,6 @@
         </Mage_Backend>
     </modules>
     <global>
-        <resources>
-            <backend_setup>
-                <setup>
-                    <module>Mage_Backend</module>
-                </setup>
-            </backend_setup>
-        </resources>
         <areas>
             <adminhtml>
                 <base_controller>Mage_Backend_Controller_ActionAbstract</base_controller>
@@ -131,16 +124,6 @@
             <Mage_Backend_Model_Config_Structure_Element_Group_Proxy>
                 <shared>0</shared>
             </Mage_Backend_Model_Config_Structure_Element_Group_Proxy>
-            <Mage_Backend_Model_System_MessageList>
-                <parameters>
-                    <messages>
-                        <baseurl>Mage_Backend_Model_System_Message_Baseurl</baseurl>
-                        <security>Mage_Backend_Model_System_Message_Security</security>
-                        <cache>Mage_Backend_Model_System_Message_CacheOutdated</cache>
-                        <survey>Mage_Backend_Model_System_Message_Survey</survey>
-                    </messages>
-                </parameters>
-            </Mage_Backend_Model_System_MessageList>
         </di>
     </adminhtml>
 </config>

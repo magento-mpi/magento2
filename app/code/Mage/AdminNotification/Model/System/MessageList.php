@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Mage_Backend_Model_System_MessageList
+class Mage_AdminNotification_Model_System_MessageList
 {
     /**
      * List of configured message classes
@@ -55,7 +55,7 @@ class Mage_Backend_Model_System_MessageList
      * Retrieve message by
      *
      * @param string $identity
-     * @return null|Mage_Backend_Model_System_MessageInterface
+     * @return null|Mage_AdminNotification_Model_System_MessageInterface
      */
     public function getMessageByIdentity($identity)
     {
@@ -66,7 +66,7 @@ class Mage_Backend_Model_System_MessageList
     /**
      * Retrieve list of all messages
      *
-     * @return Mage_Backend_Model_System_MessageInterface[]
+     * @return Mage_AdminNotification_Model_System_MessageInterface[]
      */
     public function asArray()
     {

@@ -26,7 +26,7 @@ $table = $installer->getConnection()
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
     ), 'Create date')
-    ->setComment('Adminnotification Inbox');
+    ->setComment('Admin System Messages');
 $installer->getConnection()->createTable($table);
 
 $installer->endSetup();

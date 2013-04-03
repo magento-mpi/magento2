@@ -6,14 +6,13 @@
  * @license   {license_link}
  */
 
-class Mage_Backend_Adminhtml_System_MessageController extends Mage_Backend_Controller_ActionAbstract
+class Mage_AdminNotification_Adminhtml_System_MessageController extends Mage_Backend_Controller_ActionAbstract
 {
     public function listAction()
     {
         $severity = $this->getRequest()->getParam('severity');
-        /** @var $messageService Mage_Backend_Model_System_MessagingService */
         $messageCollection = $this->_objectManager
-            ->get('Mage_Backend_Model_Resource_System_Message_Collection_Nonsynchronized');
+            ->get('Mage_AdminNotification_Model_Resource_System_Message_Collection_Nonsynchronized');
         if ($severity) {
             $messageCollection->setSeverity($severity);
         }

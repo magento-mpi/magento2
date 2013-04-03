@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Mage_Backend_Block_System_Messages_UnreadMessagePopup extends Mage_Backend_Block_Template
+class Mage_AdminNotification_Block_System_Messages_UnreadMessagePopup extends Mage_Backend_Block_Template
 {
     /**
      * List of item classes per severity
@@ -13,25 +13,25 @@ class Mage_Backend_Block_System_Messages_UnreadMessagePopup extends Mage_Backend
      * @var array
      */
     protected $_itemClasses = array(
-        Mage_Backend_Model_System_MessageInterface::SEVERITY_CRITICAL => 'error',
-        Mage_Backend_Model_System_MessageInterface::SEVERITY_MAJOR => 'warning'
+        Mage_AdminNotification_Model_System_MessageInterface::SEVERITY_CRITICAL => 'error',
+        Mage_AdminNotification_Model_System_MessageInterface::SEVERITY_MAJOR => 'warning'
     );
 
     /**
      * System Message list
      *
-     * @var Mage_Backend_Model_Resource_System_Message_Collection
+     * @var Mage_AdminNotification_Model_Resource_System_Message_Collection
      */
     protected $_messages;
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Backend_Model_Resource_System_Message_Collection_Synchronized $messages
+     * @param Mage_AdminNotification_Model_Resource_System_Message_Collection_Synchronized $messages
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Backend_Model_Resource_System_Message_Collection_Synchronized $messages,
+        Mage_AdminNotification_Model_Resource_System_Message_Collection_Synchronized $messages,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -79,10 +79,10 @@ class Mage_Backend_Block_System_Messages_UnreadMessagePopup extends Mage_Backend
     /**
      * Retrieve item class by severity
      *
-     * @param Mage_Backend_Model_System_MessageInterface $message
+     * @param Mage_AdminNotification_Model_System_MessageInterface $message
      * @return mixed
      */
-    public function getItemClass(Mage_Backend_Model_System_MessageInterface $message)
+    public function getItemClass(Mage_AdminNotification_Model_System_MessageInterface $message)
     {
         return $this->_itemClasses[$message->getSeverity()];
     }

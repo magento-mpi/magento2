@@ -1,13 +1,13 @@
 <?php
 /**
- * Backend system message
+ * System message
  *
  * {license_notice}
  * 
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Mage_Backend_Model_System_MessageInterface
+interface Mage_AdminNotification_Model_System_MessageInterface
 {
     const SEVERITY_CRITICAL = 1;
     const SEVERITY_MAJOR = 2;

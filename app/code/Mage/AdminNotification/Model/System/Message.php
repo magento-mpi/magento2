@@ -6,12 +6,12 @@
  * @license   {license_link}
  */
 
-class Mage_Backend_Model_System_Message extends Mage_Core_Model_Abstract
-    implements Mage_Backend_Model_System_MessageInterface
+class Mage_AdminNotification_Model_System_Message extends Mage_Core_Model_Abstract
+    implements Mage_AdminNotification_Model_System_MessageInterface
 {
     protected function _construct()
     {
-        $this->_init('Mage_Backend_Model_Resource_System_Message');
+        $this->_init('Mage_AdminNotification_Model_Resource_System_Message');
     }
 
     /**
