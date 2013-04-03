@@ -43,4 +43,92 @@ class Mage_Core_Model_Translate_Inline extends Mage_Core_Model_Translate_InlineA
 
         return $translate->getTranslateInline() && parent::isAllowed();
     }
+
+    /**
+     * Format translate for special tags
+     *
+     * @param string $tagHtml
+     * @param string $tagName
+     * @param array $trArr
+     * @return string
+     */
+    protected function _applySpecialTagsFormat($tagHtml, $tagName, $trArr)
+    {
+        return $tagHtml . '<span class="translate-inline-' . $tagName . '" '
+            . $this->_getHtmlAttribute(self::DATA_TRANSLATE, htmlspecialchars('[' . join(',', $trArr) . ']'))
+            . '>' . strtoupper($tagName) . '</span>';
+    }
+
+    /**
+     * Format translate for simple tags
+     *
+     * @param string $tagHtml
+     * @param string  $tagName
+     * @param array $trArr
+     * @return string
+     */
+    protected function _applySimpleTagsFormat($tagHtml, $tagName, $trArr)
+    {
+        return substr($tagHtml, 0, strlen($tagName) + 1) . ' '
+            . $this->_getHtmlAttribute(self::DATA_TRANSLATE, htmlspecialchars('[' . join(',', $trArr) . ']'))
+            . substr($tagHtml, strlen($tagName) + 1);
+    }
+
+    /**
+     * Get span containing data-translate attribute
+     *
+     * @param string $data
+     * @param string $text
+     * @return string
+     */
+    public function _getDataTranslateSpan($data, $text)
+    {
+        return '<span ' . $this->_getHtmlAttribute(self::DATA_TRANSLATE, $data) . '>' . $text . '</span>';
+    }
+
+    /**
+     * Add translate js to body
+     */
+    protected function _insertInlineScriptsHtml()
+    {
+        if ($this->_isScriptInserted || stripos($this->_content, '</body>') === false) {
+            return;
+        }
+
+        $store = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore();
+        if ($store->isAdmin()) {
+            $urlPrefix = Mage_Backend_Helper_Data::BACKEND_AREA_CODE;
+            $urlModel = $this->_objectManager->get('Mage_Backend_Model_Url');
+        } else {
+            $urlPrefix = 'core';
+            $urlModel = $this->_objectManager->get('Mage_Core_Model_Url');
+        }
+        $ajaxUrl = $urlModel->getUrl($urlPrefix . '/ajax/translate',
+            array('_secure' => $store->isCurrentlySecure()));
+
+        /** @var $block Mage_Core_Block_Template */
+        $block = $this->_objectManager->create('Mage_Core_Block_Template');
+
+        $block->setAjaxUrl($ajaxUrl);
+
+        $block->setTemplate('Mage_Core::translate_inline.phtml');
+
+        $html = $block->toHtml();
+
+        $this->_content = str_ireplace('</body>', $html . '</body>', $this->_content);
+
+        $this->_isScriptInserted = true;
+    }
+
+    /**
+     * Add data-translate-mode attribute
+     *
+     * @param string $trAttr
+     * @return string
+     */
+    protected function _addTranslateAttribute($trAttr)
+    {
+        return $trAttr;
+    }
+
 }
