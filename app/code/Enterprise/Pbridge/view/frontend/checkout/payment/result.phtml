@@ -66,6 +66,7 @@
                                 pbridgeReload.trigger('click');
                             });
                     }
+                    document.getElementById('pbridge-reload').onclick = function () { parent.jQuery('#payment_form_pbridge_authorizenet_container').trigger('reloadPbridgeIframe'); return false; };
                 } catch (e) {}
             }
         }

@@ -38,7 +38,7 @@
                     this._enablePaymentMethods();
                 }
             }, this))
-                .on('click', 'dt input:radio', $.proxy(this._paymentMethodHandler, this))
+                .on('click', 'dt input:radio', $.proxy(this._paymentMethodHandler, this));
 
             if (this.options.checkoutPrice < this.options.minBalance) {
                 this._disablePaymentMethods();
