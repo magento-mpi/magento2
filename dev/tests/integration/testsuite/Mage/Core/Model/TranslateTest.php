@@ -152,7 +152,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
         Mage::getObjectManager()->addSharedInstance($this->_designModel, 'Mage_Core_Model_Design_Package');
         $this->_model = Mage::getModel('Mage_Core_Model_Translate');
-        $this->_model->init();
+        $this->_model->init(Mage_Core_Model_App_Area::AREA_FRONTEND);
 
         $actualTranslation = $this->_model->translate(array($inputText));
         $this->assertEquals($expectedTranslation, $actualTranslation);
@@ -204,7 +204,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
     {
         $model = Mage::getModel('Mage_Core_Model_Translate');
         $model->setLocale('en_AU');
-        $model->init();
+        $model->init(Mage_Core_Model_App_Area::AREA_FRONTEND);
         $this->assertEquals($expectedTranslation, $model->translate(array($inputText)));
     }
 
