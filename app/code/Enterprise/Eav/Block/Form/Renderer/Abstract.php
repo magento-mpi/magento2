@@ -101,7 +101,7 @@ abstract class Enterprise_Eav_Block_Form_Renderer_Abstract extends Mage_Core_Blo
         if ($filterCode) {
             $filterClass = 'Varien_Data_Form_Filter_' . ucfirst($filterCode);
             if ($filterCode == 'date') {
-                $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+                $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
                 $filter = new $filterClass($format);
             } else {
                 $filter = new $filterClass();

@@ -17,24 +17,42 @@
             this._initSortableSelections();
             this._bindCheckboxHandlers();
             this._bindReadOnlyMode();
+            this._addValidation();
+        },
+        _addValidation: function () {
+            $.validator.addMethod(
+                'required-option-select', function (value, element) {
+                    return (value !== '');
+                }, $.mage.__('Select type of option.'));
+            $.validator.addMethod(
+                'required-option-select-type-rows', function (value, element) {
+                    var optionContainerElm = element.up('div[id*=_type_]');
+                    var selectTypesFlag = false;
+                    var selectTypeElements = $('#' + optionContainerElm.id + ' .select-type-title');
+                    selectTypeElements.each(function () {
+                        if (!$(this).closest('tr').hasClass('ignore-validate')) {
+                            selectTypesFlag = true;
+                        }
+                    });
+                    return selectTypesFlag;
+                }, $.mage.__('Please add rows to option.'));
         },
         _initOptionBoxes: function () {
             if (!this.options.isReadonly) {
                 this.element.sortable({
                     axis: 'y',
-                    handle: '[data-role="grip"]',
+                    handle: '[data-role=draggable-handle]',
                     items: '#product_options_container_top > div',
                     update: this._updateOptionBoxPositions,
                     tolerance: 'pointer'
                 });
             }
             var syncOptionTitle = function (event) {
-                var originalValue = $(event.target).attr('data-store-label'),
-                    currentValue = $(event.target).val(),
+                var currentValue = $(event.target).val(),
                     optionBoxTitle = $('.title > span', $(event.target).closest('.fieldset-wrapper')),
                     newOptionTitle = $.mage.__('New Option');
 
-                optionBoxTitle.text(currentValue === '' && originalValue.length ? newOptionTitle : currentValue);
+                optionBoxTitle.text(currentValue === '' ? newOptionTitle : currentValue);
             };
             this._on({
                 //reset field value to Default
@@ -188,7 +206,7 @@
             if (!this.options.isReadonly) {
                 this.element.find('[id^=product_option_][id$=_type_select] tbody').sortable({
                     axis: 'y',
-                    handle: '[data-role="grip"]',
+                    handle: '[data-role=draggable-handle]',
                     helper: function (event, ui) {
                         ui.children().each(function () {
                             $(this).width($(this).width());
@@ -304,7 +322,6 @@
                 data.id = this.options.itemCount;
                 data.type = '';
                 data.option_id = 0;
-                data.title = $.mage.__('New Option');
             } else {
                 data = event;
                 this.options.itemCount = data.item_count;
@@ -324,6 +341,7 @@
             this._bindCheckboxHandlers();
             this._bindReadOnlyMode();
             this.options.itemCount++;
+            $('#' + this.options.fieldId + '_' + data.id + '_title').trigger('change');
         },
         refreshSortableElements: function () {
             if (!this.options.isReadonly) {

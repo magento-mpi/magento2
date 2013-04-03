@@ -49,7 +49,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml_
         $uniqueBehaviors = Mage_ImportExport_Model_Import::getUniqueEntityBehaviors();
         foreach ($uniqueBehaviors as $behaviorCode => $behaviorClass) {
             $fieldsets[$behaviorCode] = $form->addFieldset(
-                $behaviorCode .'_fieldset',
+                $behaviorCode . '_fieldset',
                 array(
                     'legend' => $helper->__('Import Behavior'),
                     'style'  => 'display:none',

@@ -22,8 +22,8 @@ manage_admin_users:
                     permissionsUserGrid:
                         xpath: //div[@id='permissionsUserGrid']
                         buttons:
-                            reset_filter: //button[span='Reset Filter']
-                            search: //button[span='Search']
+                            reset_filter: //button[@data-ui-id='widget-button']
+                            search: //button[@data-ui-id='widget-button-1']
                         dropdowns:
                             status: //select[@name='is_active']
                             view: //select[@name='limit']
@@ -52,6 +52,9 @@ manage_admin_users:
             success_deleted_role: //div[@id='messages']//li[span='The role has been deleted.']
             success_saved_role: //span[(@data-ui-id)='messages-message-success' and contains(.,'The role has been successfully saved.')]
             delete_self_assigned_role: //li[normalize-space(@class)='error-msg' and contains(.,'Self-assigned roles cannot be deleted.')]
+            success_account_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The account has been saved.')]
+            success_german: //li[normalize-space(@class)='success-msg' and contains(.,'Das Konto wurde gespeichert.')]
+            success_user_saved_german: //li[normalize-space(@class)='success-msg' and contains(.,'Der Benutzer ist gespeichert worden.')]
 
 # 'New User' page
 new_admin_user:
@@ -69,6 +72,7 @@ new_admin_user:
                                     xpath: //fieldset[@id='user_base_fieldset']
                                     dropdowns:
                                         this_account_is: //select[@id='user_is_active']
+                                        interface_locale: //select[@id='user_interface_locale']
                                     fields:
                                         user_name: //input[@id='user_username']
                                         first_name: //input[@id='user_firstname']
@@ -108,14 +112,14 @@ edit_admin_user:
     uimap:
         form: *adminUserForm
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            delete_user: //button[span='Delete User']
+            back: //button[@data-ui-id='adminhtml-user-edit-back-button']
+            reset: //button[@data-ui-id='adminhtml-user-edit-reset-button']
+            delete_user: //button[@data-ui-id='adminhtml-user-edit-delete-button']
             save_admin_user: //button[@data-ui-id='adminhtml-user-edit-save-button']
         messages: *adminUserMessages
 
 new_admin_user_with_error:
-    mca: user/edit/tab/page_tabs_main_section/
+    mca: user/edit/active_tab/main_section/
     title: New User / Users / Permissions / System / Magento Admin
     uimap:
         form: *adminUserForm
@@ -353,13 +357,13 @@ admin_edit_role:
 my_account:
     mca: system_account/
     click_xpath: //a[@data-ui-id='header-user-account-settings']
-    title: My Account / System / Magento Admin
+    title: My Account / Magento Admin
     uimap:
         form: &myAccount
             fieldsets:
                 -
                     account_info:
-                        xpath: //form[@id='edit_form' and contains(.,'Account Information')]
+                        xpath: //form[@id='edit_form']
                         fields:
                             user_name: //input[@id='username']
                             first_name: //input[@id='firstname']
@@ -367,7 +371,9 @@ my_account:
                             email: //input[@id='email']
                             new_password: //input[@id='password']
                             password_confirmation: //input[@id='user_confirmation']
+                        dropdowns:
+                            interface_locale: //select[@id='interface_locale']
         buttons:
             save_account: //button[@data-ui-id='system-account-edit-save-button']
-            reset_filter: //button[span='Reset Filter']
+            reset_filter: //button[@data-ui-id='system-account-edit-reset-button']
         messages: *adminUserMessages

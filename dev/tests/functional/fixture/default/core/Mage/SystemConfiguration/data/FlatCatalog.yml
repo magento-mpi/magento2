@@ -21,6 +21,7 @@ flat_catalog_frontend:
         configuration:
             frontend:
                 use_flat_catalog_category: %noValue%
+                use_flat_catalog_product: %noValue%
                 product_listing_sort_by: %noValue%
                 allow_all_products_per_page: %noValue%
                 list_mode: %noValue%

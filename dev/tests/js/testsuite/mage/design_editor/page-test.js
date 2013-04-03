@@ -7,43 +7,37 @@
  * @license     {license_link}
  */
 PageTest = TestCase('DesignEditor_PageTest');
+PageTest.prototype.setUp = function() {
+    /*:DOC += <div id="vde_toolbar_row"><div id="vde_highlighting"></div></div>
+        <div class="vde_history_toolbar"></div>
+        <div class="vde_element_wrapper vde_container"></div>
+     */
+    this.page = jQuery(window).vde_page();
+    this.pageInstance = this.page.data('vde_page');
+};
+PageTest.prototype.tearDown = function() {
+    this.pageInstance.destroy();
+};
+
 PageTest.prototype.testInit = function() {
-    var page = jQuery(window).vde_page();
-    assertEquals(true, page.is(':vde-vde_page'));
-    page.vde_page('destroy');
+    assertEquals(true, this.page.is(':vde-vde_page'));
 };
 PageTest.prototype.testDefaultOptions = function() {
-    var page = jQuery(window).vde_page();
-    assertEquals('iframe#vde_container_frame', page.vde_page('option', 'frameSelector'));
-    assertEquals('.vde_element_wrapper.vde_container', page.vde_page('option', 'containerSelector'));
-    assertEquals('#vde_toolbar_row', page.vde_page('option', 'panelSelector'));
-    assertEquals('.vde_element_wrapper', page.vde_page('option', 'highlightElementSelector'));
-    assertEquals('.vde_element_title', page.vde_page('option', 'highlightElementTitleSelector'));
-    assertEquals('#vde_highlighting', page.vde_page('option', 'highlightCheckboxSelector'));
-    page.vde_page('destroy');
+    assertEquals('iframe#vde_container_frame', this.pageInstance.options.frameSelector);
+    assertEquals('.vde_element_wrapper.vde_container', this.pageInstance.options.containerSelector);
+    assertEquals('#vde_toolbar_row', this.pageInstance.options.panelSelector);
+    assertEquals('.vde_element_wrapper', this.pageInstance.options.highlightElementSelector);
+    assertEquals('.vde_element_title', this.pageInstance.options.highlightElementTitleSelector);
+    assertEquals('#vde_highlighting', this.pageInstance.options.highlightCheckboxSelector);
 };
 PageTest.prototype.testInitHighlighting = function() {
-    /*:DOC += <div id="vde_toolbar_row"><div id="vde_highlighting"></div></div> */
-    var page = jQuery(window).vde_page();
-    var highlightCheckboxSelector = page.vde_page('option', 'highlightCheckboxSelector');
+    var highlightCheckboxSelector = this.pageInstance.options.highlightCheckboxSelector;
     assertEquals(true, jQuery(highlightCheckboxSelector).is(':vde-vde_checkbox'));
-    page.vde_page('destroy');
 };
 PageTest.prototype.testDestroy = function() {
-    /*:DOC +=
-     <div id="vde_toolbar_row"></div>
-     <div class="vde_history_toolbar"></div>
-     <div class="vde_element_wrapper vde_container"></div>
-     */
-
-    jQuery(window).vde_page();
-    jQuery(window).vde_page('destroy');
-
+    this.pageInstance._initPanel();
+    this.pageInstance.destroy();
     //check no garbage is left
     assertFalse($('#vde_toolbar_row').is(':vde-vde_panel'));
-    assertFalse($('.vde_history_toolbar').is(':vde-vde_historyToolbar'));
-    assertFalse($(window).is(':vde-vde_history'));
-    assertFalse($('.vde_element_wrapper').is(':vde-vde_removable'));
-    assertFalse($('.vde_element_wrapper.vde_container').is(':vde-vde_container'));
 };
 

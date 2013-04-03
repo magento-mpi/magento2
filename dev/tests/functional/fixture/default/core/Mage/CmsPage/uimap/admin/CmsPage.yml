@@ -12,7 +12,7 @@
 manage_cms_pages:
     mca: cms_page/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'cms_page/')]
-    title: Manage Content / Pages / CMS / Magento Admin
+    title: Manage Content / Elements / Content / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -47,12 +47,12 @@ manage_cms_pages:
             invalid_url_key_with_numbers_only: //li[normalize-space(@class)='error-msg' and contains(.,'The page URL key cannot consist only of numbers.')]
             existing_url_key: //li[normalize-space(@class)='error-msg' and contains(.,'A page URL key for specified store already exists.')]
             invalid_urk_key_spec_sym: //label[@class='mage-error' and @for='%fieldId%' and text()='Please enter a valid URL Key. For example "example-page", "example-page.html" or "anotherlevel/example-page".']
-            empty_required_field: //label[@class='mage-error' and @for='%fieldId%']
+            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             confirmation_for_delete: Are you sure you want to do this?
 
 create_cms_page:
     mca: cms_page/new/
-    title: New Page / Manage Content / Pages / CMS / Magento Admin
+    title: New Page / Pages / Elements / Content / Magento Admin
     uimap:
         form: &createPage
             tabs:
@@ -95,7 +95,7 @@ create_cms_page:
                                         show_hide_editor: //button[span='Show / Hide Editor']
                             -
                                 widget_insertion:
-                                    xpath: //div[@id='widget_window']
+                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Insert Widget...']]
                                     dropdowns:
                                         widget_type: //select[@name='widget_type']
                                         template: //select[@name='parameters[template]']
@@ -110,13 +110,13 @@ create_cms_page:
                                     buttons:
                                         submit_widget_insert: //button[span='Insert Widget']
                                         select_option: //button[contains(span,'Select')]
-                                        close_widget_insertion: //div[@id='widget_window_close']
+                                        close_widget_insertion: //a[@class='ui-dialog-titlebar-close ui-corner-all']
                                     pageelements:
                                         chosen_option: //label[@class='widget-option-label']
                                         chosen_option_verify: //label[@class='widget-option-label' and normalize-space(text())='%elementName%']
                             -
                                 select_page:
-                                    xpath: //div[@id='widget-chooser' and //div[text()='Select Page...']]
+                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Select Page...']]
                                     fields:
                                         page: //input[@name='page']
                                         filter_id: //input[@name='chooser_id']
@@ -129,12 +129,12 @@ create_cms_page:
                                     buttons:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
-                                        close_page_insertion: //div[@id='widget-chooser_close']
+                                        close_page_insertion: //a[@class='ui-dialog-titlebar-close ui-corner-all']
                                     pageelements:
-                                        product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
+                                        product_table_head: //table/thead/tr[@class='headings']
                             -
                                 select_block:
-                                    xpath: //div[@id='widget-chooser' and //div[text()='Select Block...']]
+                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Select Block...']]
                                     fields:
                                         page: //input[@name='page']
                                         filter_id: //input[@name='chooser_id']
@@ -146,12 +146,12 @@ create_cms_page:
                                     buttons:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
-                                        close_block_insertion: //div[@id='widget-chooser_close']
+                                        close_block_insertion: //a[@class='ui-dialog-titlebar-close ui-corner-all']
                                     pageelements:
-                                        product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
+                                        product_table_head: //table/thead/tr[@class='headings']
                             -
                                 select_category:
-                                    xpath: //div[@id='widget-chooser' and //div[text()='Select Category...']]
+                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Select Category...']]
                                     links:
                                         select_category_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
                                         select_category_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
@@ -161,10 +161,10 @@ create_cms_page:
                                         select_category_category_index_text: %categoryXpath%[%index%]/div/a/span
                                         select_category_category_index_link: %categoryXpath%[%index%]/div/a
                                     buttons:
-                                        close_category_insertion: //div[@id='widget-chooser_close']
+                                        close_category_insertion: //a[@class='ui-dialog-titlebar-close ui-corner-all']
                             -
                                 select_product:
-                                    xpath: //div[@id='widget-chooser' and //div[text()='Select Product...']]
+                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Select Product...']]
                                     fields:
                                         page: //input[@name='page']
                                         filter_id: //input[@name='entity_id']
@@ -175,7 +175,7 @@ create_cms_page:
                                     buttons:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
-                                        close_product_insertion: //div[@id='widget-chooser_close']
+                                        close_product_insertion: //a[@class='ui-dialog-titlebar-close ui-corner-all']
                                     links:
                                         select_product_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
                                         select_product_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
@@ -184,15 +184,15 @@ create_cms_page:
                                         select_product_category_text: %categoryXpath%/div/a/span
                                         select_product_category_index_text: %categoryXpath%[%index%]/div/a/span
                                         select_product_category_index_link: %categoryXpath%[%index%]/div/a
-                                        product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
+                                        product_table_head: //table/thead/tr[@class='headings']
                             -
                                 file_insertion:
-                                    xpath: //div[@id='browser_window' and //div[text()='Insert File...']]
+                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Insert File...']]
                                     buttons:
                                         browse_files: #TODO flash
                                         template: #TODO flash
                                         create_folder: //button[span='Create Folder...']
-                                        close_file_insertion: //div[@id='browser_window_close']
+                                        close_file_insertion: //a[@class='ui-dialog-titlebar-close ui-corner-all']
                                     links:
                                         collapse_all: //a[text()='Collapse All']
                                         expand_all: //a[text()='Expand All']
@@ -200,11 +200,13 @@ create_cms_page:
                                         sub_storage: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
                             -
                                 variable_insertion:
-                                    xpath: //div[@id='variables-chooser' and //div[text()='Insert Variable...']]
+                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content') and div/span[text()='Insert Variable...']]
                                     links:
                                         variable: //a[text()='%variableName%']
                                     buttons:
-                                        close_variable_insertion: //div[@id='variables-chooser_close']
+                                        close_variable_insertion: //a[@class='ui-dialog-titlebar-close ui-corner-all']
+                        pageelements:
+                            every_popup: //div[contains(@class,'ui-dialog ui-widget ui-widget-content')]
                 -
                     design:
                         xpath: //a[@title='Design']
@@ -243,21 +245,9 @@ create_cms_page:
             save_and_continue_edit: //button[@data-ui-id='cms-page-edit-saveandcontinue-button']
         messages: *pageMessages
 
-create_cms_page_with_sharp:
-    mca: cms_page/new/#
-    title: New Page / Manage Content / Pages / CMS / Magento Admin
-    uimap:
-        form: *createPage
-        buttons:
-            back: //button[@id="back"]
-            reset: //button[@id="reset"]
-            save_page: //button[@data-ui-id='cms-page-edit-save-button']
-            save_and_continue_edit: //button[@data-ui-id='cms-page-edit-saveandcontinue-button']
-        messages: *pageMessages
-
 edit_cms_page:
     mca: cms_page/edit/page_id/%id%/
-    title: %elementTitle% / Manage Content / Pages / CMS / Magento Admin
+    title: %elementTitle% / Pages / Elements / Content / Magento Admin
     uimap:
         form: *createPage
         buttons:
@@ -270,7 +260,7 @@ edit_cms_page:
 
 save_and_continue_edit_cms_page:
     mca: cms_page/edit/page_id/%id%/back/edit/active_tab/%tab%/
-    title: %elementTitle% / Manage Content / Pages / CMS / Magento Admin
+    title: %elementTitle% / Pages / Elements / Content / Magento Admin
     uimap:
         form: *createPage
         buttons:
@@ -283,7 +273,7 @@ save_and_continue_edit_cms_page:
 
 error_cms_page:
     mca: cms_page/edit/
-    title: New Page / Manage Content / Pages / CMS / Magento Admin
+    title: New Page / Pages / Elements / Content / Magento Admin
     uimap:
         form: *createPage
         buttons:

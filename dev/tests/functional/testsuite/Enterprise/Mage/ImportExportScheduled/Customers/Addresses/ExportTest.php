@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Mage_ImportExportScheduled_Export_AddressesTest extends Mage_Selenium_TestCase
+class Enterprise_Mage_ImportExportScheduled_Customers_Addresses_ExportTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {

@@ -259,6 +259,7 @@
 .header-panel .notifications-icon {
     position: relative;
     display: inline-block;
+    min-width: 13px;
     height: 13px;
     line-height: 1em;
     padding: 0 4px 0 3px;
@@ -303,6 +304,62 @@
     margin-top: 12px;
 }
 
+.header-panel .notifications > .dropdown-menu .notification-description {
+    max-height: 40px;
+    overflow: hidden;
+    display: block;
+}
+
+.header-panel .notifications > .dropdown-menu .notification-entry {
+    display: none;
+}
+
+.header-panel .notifications > .dropdown-menu .notification-entry:nth-child(-n+5) {
+    display: block;
+}
+
+.header-panel .notifications > .dropdown-menu .notification-entry .notification-dialog-content {
+    display: none;
+}
+
+.notification-entry-dialog .ui-dialog-buttonset {
+    text-align: left;
+}
+
+.notification-entry-dialog .ui-dialog-buttonpane {
+    margin: 0px;
+    padding: 0px 24px 22px 24px;
+}
+
+.notification-entry-dialog .ui-dialog-buttonset button[class^="action-"] {
+    margin: 0 22px 0 0;
+    vertical-align: middle;
+}
+
+.ui-dialog .notification-dialog-content strong {
+    display: block;
+    color: #f58220;
+    font-family: "CallunaSans";
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.ui-dialog .notification-dialog-content .notification-description {
+    display: block;
+    font-family: "Helvetica";
+    padding: 9px 0px;
+}
+
+.ui-dialog .notification-dialog-content time {
+    display: block;
+    text-align: right;
+}
+
+.ui-dialog .notification-dialog-content .actions {
+    padding-bottom: 20px;
+}
+
+
 .header-panel .notifications > .dropdown-menu strong,
 .header-panel .account > .dropdown-menu a,
 .header-panel .search .autocomplete-results .title {
@@ -312,6 +369,10 @@
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 5px;
+}
+
+.header-panel .notifications > .dropdown-menu > li:hover {
+    cursor: pointer;
 }
 
 .header-panel .notifications > .dropdown-menu > li:hover .action-close {

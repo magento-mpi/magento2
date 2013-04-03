@@ -480,16 +480,10 @@ SuggestTest.prototype.testClose = function() {
     });
 
     suggestInstance.close($.Event('close'));
-    assertEquals(suggestInstance.element.val(), '');
     assertNull(suggestInstance._renderedContext);
     assertTrue(suggestInstance.dropdown.is(':hidden'));
     assertFalse(suggestInstance.dropdown.children().length > 0);
     assertTrue(closeTriggered);
-
-    suggestInstance.option.multiselect = true;
-    suggestInstance.element.val('test');
-    suggestInstance.close($.Event('close'));
-    assertEquals(suggestInstance.element.val(), '');
 };
 SuggestTest.prototype.testSetTemplate = function() {
     /*:DOC += <script type="text/template" id="test-template"><div>${test}</div></script>*/
@@ -846,8 +840,9 @@ SuggestTest.prototype.testCreateOption = function() {
     var suggestInstance = this.suggestCreate();
 
     var option = suggestInstance._createOption(this.uiHash.item);
-    assertEquals(jQuery('<div />').append(option).html(),
-        '<option value="1" selected="selected">Test Label</option>');
+    assertEquals(option.val(), "1");
+    assertEquals(option.prop('selected'), true);
+    assertEquals(option.text(), "Test Label");
     assertNotUndefined(option.data('renderedOption'));
 };
 SuggestTest.prototype.testAddOption = function() {

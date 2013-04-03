@@ -49,6 +49,8 @@ app/code/Mage/Core/Model/Layout.php
 app/code/Mage/Core/Model/Layout/Factory.php
 app/code/Mage/Core/Model/Layout/Update.php
 app/code/Mage/Core/Model/Layout/Argument
+app/code/Mage/Core/Model/Locale/Validator.php
+app/code/Mage/Core/Model/LocaleInterface.php
 app/code/Mage/Core/Model/ObjectManager
 app/code/Mage/Core/Model/Page
 app/code/Mage/Core/Model/Page.php
@@ -70,6 +72,7 @@ app/code/Mage/ImportExport/Model/Import/Entity/CustomerComposite.php
 app/code/Mage/ImportExport/Model/Import/Entity/Product/Option.php
 app/code/Mage/ImportExport/Model/Resource/Customer/Storage.php
 app/code/Mage/ImportExport/Model/Resource/Import/CustomerComposite/Data.php
+app/code/Mage/ImportExport/controllers/Adminhtml/ImportController.php
 app/code/Mage/Index/Model/Indexer/Abstract.php
 app/code/Mage/Index/Model/Shell.php
 app/code/Mage/Log/Model/Resource/Helper

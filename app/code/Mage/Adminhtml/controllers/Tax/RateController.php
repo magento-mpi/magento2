@@ -24,9 +24,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
-        $this->_title($this->__('Sales'))
-             ->_title($this->__('Tax'))
-             ->_title($this->__('Manage Tax Zones and Rates'));
+        $this->_title($this->__('Manage Tax Zones and Rates'));
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('Mage_Tax_Helper_Data')->__('Manage Tax Rates'), Mage::helper('Mage_Tax_Helper_Data')->__('Manage Tax Rates'));
@@ -42,9 +40,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         $rateModel = Mage::getSingleton('Mage_Tax_Model_Calculation_Rate')
             ->load(null);
 
-        $this->_title($this->__('Sales'))
-             ->_title($this->__('Tax'))
-             ->_title($this->__('Manage Tax Zones and Rates'));
+        $this->_title($this->__('Manage Tax Zones and Rates'));
 
         $this->_title($this->__('New Rate'));
 
@@ -165,9 +161,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
      */
     public function editAction()
     {
-        $this->_title($this->__('Sales'))
-             ->_title($this->__('Tax'))
-             ->_title($this->__('Manage Tax Zones and Rates'));
+        $this->_title($this->__('Manage Tax Zones and Rates'));
 
         $rateId = (int)$this->getRequest()->getParam('rate');
         $rateModel = Mage::getSingleton('Mage_Tax_Model_Calculation_Rate')->load($rateId);
@@ -301,9 +295,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
      */
     public function importExportAction()
     {
-        $this->_title($this->__('Sales'))
-             ->_title($this->__('Tax'))
-             ->_title($this->__('Manage Tax Zones and Rates'));
+        $this->_title($this->__('Manage Tax Zones and Rates'));
 
         $this->_title($this->__('Import and Export Tax Rates'));
 

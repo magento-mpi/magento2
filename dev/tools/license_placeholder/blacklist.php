@@ -44,7 +44,6 @@ return array(
     'pub/lib/scriptaculous',
     'pub/lib/tiny_mce',
     'pub/lib/underscore.js',
-    'pub/lib/json2.js',
     'pub/lib/head.load.min.js',
     'pub/media',
     'var',

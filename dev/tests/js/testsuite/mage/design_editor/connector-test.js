@@ -7,49 +7,55 @@
  * @license     {license_link}
  */
 ConnectorTest = TestCase('DesignEditor_ConnectorTest');
+ConnectorTest.prototype.setUp = function() {
+    /*:DOC += <div class="vde_history_toolbar"></div>
+        <div class="vde_element_wrapper vde-vde_removable"></div>
+        <div class="vde_element_wrapper vde_container"></div>
+      */
+    if (jQuery(window).data('vde_connector')) {
+        jQuery(window).vde_connector('destroy');
+    }
+    this.connector = jQuery(window).vde_connector();
+    this.connectorInstance = this.connector.data('vde_connector');
+};
+ConnectorTest.prototype.tearDown = function() {
+    var vdeWidgets = ['vde_history', 'vde_connector'];
+    jQuery.each(vdeWidgets, function(i, widgetName) {
+        var instance = jQuery(window).data(widgetName);
+        if (instance) {
+            instance.destroy();
+        }
+    });
+    jQuery(window).off();
+};
 ConnectorTest.prototype.testDefaultOptions = function() {
-    var connector = jQuery(window).vde_connector();
-    assertEquals('.vde_element_wrapper.vde_container', connector.vde_connector('option', 'containerSelector'));
-    assertEquals('.vde_element_wrapper', connector.vde_connector('option', 'highlightElementSelector'));
-    assertEquals('.vde_element_title', connector.vde_connector('option', 'highlightElementTitleSelector'));
-    assertEquals('#vde_highlighting', connector.vde_connector('option', 'highlightCheckboxSelector'));
-    assertEquals('.vde_history_toolbar', connector.vde_connector('option', 'historyToolbarSelector'));
-    connector.vde_connector('destroy');
+    assertEquals('.vde_element_wrapper.vde_container', this.connectorInstance.options.containerSelector);
+    assertEquals('.vde_element_wrapper', this.connectorInstance.options.highlightElementSelector);
+    assertEquals('.vde_element_title', this.connectorInstance.options.highlightElementTitleSelector);
+    assertEquals('#vde_highlighting', this.connectorInstance.options.highlightCheckboxSelector);
+    assertEquals('.vde_history_toolbar', this.connectorInstance.options.historyToolbarSelector);
 };
 ConnectorTest.prototype.testInitHistory = function() {
-    var connector = jQuery(window).vde_connector();
+    this.connectorInstance._initHistory();
+    assertNotNull(window.vdeHistoryObject);
     assertEquals(true, jQuery(window).is(':vde-vde_history'));
-    connector.vde_connector('destroy');
 };
 ConnectorTest.prototype.testInitHistoryToolbar = function() {
-    /*:DOC += <div class="vde_history_toolbar"></div> */
-    var connector = jQuery(window).vde_connector();
-    var container = jQuery('.vde_history_toolbar');
-    assertEquals(true, container.is(':vde-vde_historyToolbar'));
-    assertNotNull(container.data('vde_historyToolbar')._history);
-    connector.vde_connector('destroy');
+    var historyToolbar = jQuery('.vde_history_toolbar'),
+        historyToolbarInstance = jQuery('.vde_history_toolbar').data('vde_historyToolbar');
+    assertEquals(true, historyToolbar.is(':vde-vde_historyToolbar'));
+    assertNotNull(historyToolbarInstance._history);
 };
 ConnectorTest.prototype.testInitRemoveOperation = function() {
-    /*:DOC += <div class="vde_element_wrapper vde-vde_removable"></div> */
-    var connector = jQuery(window).vde_connector();
     var containers = jQuery('.vde_element_wrapper');
     assertNotNull(containers.data('vde_removable').history);
-    connector.vde_connector('destroy');
 };
 ConnectorTest.prototype.testSetHistoryForContainers = function() {
-    var connector = jQuery(window).vde_connector();
     var containers = jQuery('.vde_element_wrapper.vde_container');
     assertNotNull(containers.vde_container('getHistory'));
-    connector.vde_connector('destroy');
 };
 ConnectorTest.prototype.testDestroy = function() {
-    /*:DOC +=
-     <div class="vde_history_toolbar"></div>
-     <div class="vde_element_wrapper vde_container"></div>
-     */
-
-    var connector = jQuery(window).vde_connector();
-    connector.vde_connector('destroy');
+    this.connector.vde_connector('destroy');
 
     //check no garbage is left
     assertFalse($('#vde_toolbar').is(':vde-vde_panel'));

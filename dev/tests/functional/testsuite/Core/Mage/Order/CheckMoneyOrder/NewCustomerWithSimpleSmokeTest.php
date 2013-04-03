@@ -52,7 +52,7 @@ class Core_Mage_Order_CheckMoneyOrder_NewCustomerWithSimpleSmokeTest extends Mag
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return $simple['general_name'];
+        return $simple['general_sku'];
     }
 
     /**

@@ -49,7 +49,25 @@
                 </observers>
             </controller_action_predispatch>
         </events>
+        <layout>
+            <updates>
+                <adminnotification module="Mage_AdminNotification">
+                    <file>layout.xml</file>
+                </adminnotification>
+            </updates>
+        </layout>
     </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <adminnotification before="Mage_Adminhtml">Mage_AdminNotification_Adminhtml</adminnotification>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     <default>
         <system>
             <adminnotification>
