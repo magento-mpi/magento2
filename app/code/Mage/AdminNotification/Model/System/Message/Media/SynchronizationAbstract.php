@@ -86,6 +86,6 @@ abstract class Mage_AdminNotification_Model_System_Message_Media_Synchronization
      */
     public function getSeverity()
     {
-        return Mage_Backend_Model_System_MessageInterface::SEVERITY_MAJOR;
+        return Mage_AdminNotification_Model_System_MessageInterface::SEVERITY_MAJOR;
     }
 }
