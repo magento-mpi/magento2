@@ -37,7 +37,7 @@
                 "<?php echo $this->escapeHtml($themeName); ?>" <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('theme is applied') ?>
             </li>
         <?php endif; ?>
-        <?php if ($this->getIsLogoUploaded()) :?>
+        <?php if ($this->isLogoUploaded()) :?>
             <li class="completed">
                 <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Logo is uploaded') ?>
             </li>

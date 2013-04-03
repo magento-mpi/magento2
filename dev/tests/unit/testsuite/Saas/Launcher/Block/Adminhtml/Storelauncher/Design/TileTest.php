@@ -114,10 +114,9 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
     }
 
     /**
-     * @covers Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Tile::getIsLogoUploaded
-     * @dataProvider getIsLogoUploadedDataProvider
+     * @dataProvider isLogoUploadedDataProvider
      */
-    public function testGetIsLogoUploaded($store, $expected)
+    public function testIsLogoUploaded($store, $expected)
     {
         $this->_storeMock->expects($this->any())
             ->method('getId')
@@ -126,7 +125,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
             ->method('getCurrentStoreView')
             ->will($this->returnValue($this->_storeMock));
 
-        $result = $this->_tileBlock->getIsLogoUploaded();
+        $result = $this->_tileBlock->isLogoUploaded();
 
         $this->assertEquals($expected, $result);
     }
@@ -136,7 +135,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
      *
      * @return array
      */
-    public function getIsLogoUploadedDataProvider()
+    public function isLogoUploadedDataProvider()
     {
         return array(
             array(1, true),

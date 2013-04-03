@@ -28,7 +28,8 @@ class Saas_Launcher_Model_Storelauncher_Businessinfo_StateResolver
      *
      * @param Mage_Core_Model_App $app
      */
-    public function __construct(Mage_Core_Model_App $app) {
+    public function __construct(Mage_Core_Model_App $app)
+    {
         parent::__construct($app);
         $this->_sections = array('trans_email');
     }

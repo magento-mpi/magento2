@@ -29,7 +29,7 @@ class Saas_Launcher_Model_Storelauncher_Shipping_StateResolver
      * @param Mage_Core_Model_App $app
      * @param Mage_Core_Controller_Request_Http $request
      */
-    function __construct(
+    public function __construct(
         Mage_Core_Model_App $app,
         Mage_Core_Controller_Request_Http $request
     ) {

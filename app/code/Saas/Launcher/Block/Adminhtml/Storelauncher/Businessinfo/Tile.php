@@ -56,8 +56,10 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile extends Saas
     public function getAddress()
     {
         $addressValues = array();
-        $addressValues['address-street-line1'] = $this->_storeConfig->getConfig('general/store_information/street_line1');
-        $addressValues['address-street-line2'] = $this->_storeConfig->getConfig('general/store_information/street_line2');
+        $addressValues['address-street-line1'] = $this->_storeConfig
+            ->getConfig('general/store_information/street_line1');
+        $addressValues['address-street-line2'] = $this->_storeConfig
+            ->getConfig('general/store_information/street_line2');
         $addressValues['address-city'] = $this->_storeConfig->getConfig('general/store_information/city');
         $addressValues['address-postcode'] = $this->_storeConfig->getConfig('general/store_information/postcode');
         $countryCode = $this->_storeConfig->getConfig('general/store_information/country_id');

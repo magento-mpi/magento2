@@ -17,6 +17,8 @@
  * @category   Mage
  * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 class Saas_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_Form
 {
@@ -139,6 +141,7 @@ class Saas_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
      * @param string $path
      * @param mixed $store
      * @return boolean
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getConfigFlag($path, $store = null)
     {

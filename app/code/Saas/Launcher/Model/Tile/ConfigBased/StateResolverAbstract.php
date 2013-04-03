@@ -37,7 +37,8 @@ abstract class Saas_Launcher_Model_Tile_ConfigBased_StateResolverAbstract
      *
      * @param Mage_Core_Model_App $app
      */
-    function __construct(Mage_Core_Model_App $app) {
+    public function __construct(Mage_Core_Model_App $app)
+    {
         $this->_app = $app;
     }
 

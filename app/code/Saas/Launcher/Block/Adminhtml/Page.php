@@ -89,7 +89,7 @@ class Saas_Launcher_Block_Adminhtml_Page extends Mage_Backend_Block_Abstract
         }
         $tiles = $this->getPage()->getTiles();
 
-        foreach($tiles as $item) {
+        foreach ($tiles as $item) {
             $block = $this->getLayout()->getBlock($this->_getTileBlockName($item->getTileCode()));
             if (!$block) {
                 /** @var $block Saas_Launcher_Block_Adminhtml_Tile */

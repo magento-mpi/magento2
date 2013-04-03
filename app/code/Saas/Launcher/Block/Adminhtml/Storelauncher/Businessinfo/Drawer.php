@@ -65,6 +65,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
      * Prepare Bussinessinfo drawer form
      *
      * @return Mage_Backend_Block_Widget_Form
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _prepareForm()
     {
@@ -145,7 +146,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
         ));
 
         $customerSupport = $storeInfo->addFieldset('customer_support',
-            array('legend' => $helper->__('Customer Support')),false, true);
+            array('legend' => $helper->__('Customer Support')), false, true);
 
         $customerSupport->addField('sender_name_support', 'text', array(
             'name' => 'groups[trans_email][ident_support][fields][name][value]',

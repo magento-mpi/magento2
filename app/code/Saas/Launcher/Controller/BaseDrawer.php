@@ -14,6 +14,8 @@
  * @category    Mage
  * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 class Saas_Launcher_Controller_BaseDrawer
     extends Mage_Backend_Controller_ActionAbstract
@@ -134,7 +136,9 @@ class Saas_Launcher_Controller_BaseDrawer
                 $tileBlock->getResponseContent()
             );
         } catch (Exception $e) {
-            $responseContent = $this->_composeAjaxResponseContent(Mage::helper('Saas_Launcher_Helper_Data') ->__($e->getMessage()), false);
+            $responseContent = $this->_composeAjaxResponseContent(
+                Mage::helper('Saas_Launcher_Helper_Data')->__($e->getMessage()), false
+            );
         }
         $this->getResponse()->setBody($responseContent);
     }
@@ -164,7 +168,9 @@ class Saas_Launcher_Controller_BaseDrawer
                 $drawerBlock->getResponseContent()
             );
         } catch (Exception $e) {
-            $responseContent = $this->_composeAjaxResponseContent(Mage::helper('Saas_Launcher_Helper_Data') ->__($e->getMessage()), false);
+            $responseContent = $this->_composeAjaxResponseContent(
+                Mage::helper('Saas_Launcher_Helper_Data')->__($e->getMessage()), false
+            );
         }
         $this->getResponse()->setBody($responseContent);
     }

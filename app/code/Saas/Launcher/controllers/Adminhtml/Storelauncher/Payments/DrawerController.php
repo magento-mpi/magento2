@@ -30,9 +30,13 @@ class Saas_Launcher_Adminhtml_Storelauncher_Payments_DrawerController
             $tileModel = Mage::getModel('Saas_Launcher_Model_TileFactory')->create('payments');
             $saveHandler = $tileModel->getSaveHandler();
             $saveHandler->savePaymentMethod($data);
-            $responseContent = $this->_composeAjaxResponseContent(Mage::helper('Saas_Launcher_Helper_Data')->__('Configuration has been successfully saved.'), true);
+            $responseContent = $this->_composeAjaxResponseContent(
+                Mage::helper('Saas_Launcher_Helper_Data')->__('Configuration has been successfully saved.'), true
+            );
         } catch (Exception $e) {
-            $responseContent = $this->_composeAjaxResponseContent(Mage::helper('Saas_Launcher_Helper_Data') ->__($e->getMessage()), false);
+            $responseContent = $this->_composeAjaxResponseContent(
+                Mage::helper('Saas_Launcher_Helper_Data') ->__($e->getMessage()), false
+            );
         }
         $this->getResponse()->setBody($responseContent);
     }

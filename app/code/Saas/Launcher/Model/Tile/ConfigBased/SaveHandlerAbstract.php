@@ -16,6 +16,8 @@
  * @category   Mage
  * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 abstract class Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
     implements Saas_Launcher_Model_Tile_SaveHandler

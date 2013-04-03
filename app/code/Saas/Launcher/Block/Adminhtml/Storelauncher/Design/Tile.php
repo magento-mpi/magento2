@@ -51,7 +51,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Tile extends Saas_Launc
      *
      * @return bool
      */
-    public function getIsLogoUploaded()
+    public function isLogoUploaded()
     {
         $logo = $this->_storeConfig->getConfig(Saas_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO,
             $this->_launcherHelper->getCurrentStoreView());

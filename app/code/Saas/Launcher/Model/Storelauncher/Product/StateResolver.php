@@ -25,7 +25,7 @@ class Saas_Launcher_Model_Storelauncher_Product_StateResolver extends Saas_Launc
     /**
      * @param Mage_Catalog_Model_Resource_Product_Collection $productCollection
      */
-    function __construct(
+    public function __construct(
         Mage_Catalog_Model_Resource_Product_Collection $productCollection
     ) {
         // for now this collection is used only once so no cloning is needed before use

@@ -57,7 +57,7 @@ class Saas_Launcher_Model_LinkTracker extends Mage_Core_Model_Abstract
      */
     public function renderUrl()
     {
-        return $this->_urlBuilder->getUrl('launcher/redirect',  array('id' => $this->getId()));
+        return $this->_urlBuilder->getUrl('launcher/redirect', array('id' => $this->getId()));
     }
 
 }

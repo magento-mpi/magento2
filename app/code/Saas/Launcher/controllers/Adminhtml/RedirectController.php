@@ -22,9 +22,9 @@ class Saas_Launcher_Adminhtml_RedirectController extends Mage_Backend_Controller
      */
     public function indexAction()
     {
-        $id = $this->getRequest()->getParam('id');
+        $idParam = $this->getRequest()->getParam('id');
 
-        $link = $id ? Mage::getModel('Saas_Launcher_Model_LinkTracker')->load($id) : null;
+        $link = $idParam ? Mage::getModel('Saas_Launcher_Model_LinkTracker')->load($idParam) : null;
 
         if (!$link || !$link->getId()) {
             return $this->_forward('noroute');

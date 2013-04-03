@@ -113,9 +113,6 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Saas_Lau
      */
     public function getLogoUrl()
     {
-        /** @var Mage_Core_Helper_File_Storage_Database $helper */
-        $helper = $this->_helperFactory->get('Mage_Core_Helper_File_Storage_Database');
-
         $folderName = Mage_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR;
         $storeLogoPath = $this->getConfigValue(Saas_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO,
             $this->_getCurrentStoreId());

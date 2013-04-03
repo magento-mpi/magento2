@@ -17,6 +17,8 @@
  * @category   Mage
  * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 class Saas_Launcher_Block_Adminhtml_Tile extends Mage_Backend_Block_Abstract
 {

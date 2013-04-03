@@ -49,6 +49,8 @@ class Saas_Launcher_Adminhtml_Storelauncher_IndexController extends Saas_Launche
      * @param Saas_Launcher_Helper_Data $launcherHelper,
      * @param string $areaCode
      * @param array $invokeArgs
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
