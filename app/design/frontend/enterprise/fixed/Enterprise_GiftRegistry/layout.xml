@@ -11,7 +11,7 @@
 -->
 <layout version="0.1.0">
     <checkout_cart_index>
-        <reference name="checkout.cart.extra">
+        <reference name="checkout.cart.methods">
             <block type="Enterprise_GiftRegistry_Block_Cart_Link" name="giftregistry.cart.link" template="cart/link.phtml"/>
         </reference>
         <reference name="additional.product.info">
@@ -126,7 +126,7 @@
 
     <catalog_product_view>
         <reference name="product.info">
-            <block type="Enterprise_GiftRegistry_Block_Product_View" name="product.view.block">
+            <block type="Enterprise_GiftRegistry_Block_Product_View" name="product.customize.button">
                 <action method="setGiftRegistryTemplate"><blockName>product.info.addtocart.additional</blockName><template>Enterprise_GiftRegistry::product/addtocart.phtml</template></action>
                 <action method="setGiftRegistryUrl"><blockName>product.info.addtocart.additional</blockName></action>
             </block>

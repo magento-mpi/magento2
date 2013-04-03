@@ -126,15 +126,12 @@
 
     <catalog_product_view>
         <reference name="product.info">
-            <block type="Enterprise_GiftRegistry_Block_Product_View" name="product.view.block"></block>
+            <block type="Enterprise_GiftRegistry_Block_Product_View" name="product.view.block">
+                <action method="setGiftRegistryTemplate"><blockName>product.info.addtocart.additional</blockName><template>Enterprise_GiftRegistry::product/addtocart.phtml</template></action>
+                <action method="setGiftRegistryUrl"><blockName>product.info.addtocart.additional</blockName></action>
+            </block>
         </reference>
     </catalog_product_view>
-
-    <catalog_product_view_type_bundle>
-        <reference name="product.info">
-            <block type="Enterprise_GiftRegistry_Block_Product_View" name="product.customize.button"/>
-        </reference>
-    </catalog_product_view_type_bundle>
 
     <checkout_multishipping_addresses>
         <reference name="content">

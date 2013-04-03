@@ -8,7 +8,8 @@
  * @license     {license_link}
  */
 ?>
-<?php $_product = $this->getProduct() ?>
+<?php $_product = $this->getProduct(); ?>
+<?php $buttonTitle = $this->__('Add to Gift Registry'); ?>
 <?php if ($_product->isSaleable()): ?>
 <div class="add-to-cart">
     <?php if (!$_product->isGrouped()): ?>
@@ -16,9 +17,8 @@
     <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>"
            title="<?php echo $this->__('Qty') ?>" class="input-text qty"/>
     <?php endif; ?>
-    <button type="button" title="<?php echo $this->__('Add to Gift Registry') ?>" class="button btn-cart btn-gr"
-            onclick="productAddToCartForm.submit(this)">
-        <span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button>
+    <button type="submit" title="<?php echo $buttonTitle ?>" class="button btn-cart" id="product-addtocart-button">
+        <span><span><?php echo $buttonTitle ?></span></span></button>
 </div>
 <?php endif; ?>
 <script type="text/javascript">
@@ -27,4 +27,3 @@
     addForm.action = '<?php echo $this->getAddToGiftregistryUrl() ?>';
     //]]>
 </script>
-
