@@ -189,6 +189,7 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
         $this->productHelper()->saveProduct('duplicate');
         //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $this->assertSame($this->productHelper()->getGeneratedSku($productData['general_name']),
             $this->getControlAttribute('field', 'general_sku', 'value'), 'SKU is not equal to product name.');

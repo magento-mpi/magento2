@@ -245,15 +245,15 @@ new_product:
                                         option_line: //tbody/tr
                             -
                                 variations_matrix_grid:
-                                    xpath: //div[@id='product-variations-matrix']//table
+                                    xpath: //div[@data-role='product-variations-matrix']//table
                                     checkboxes:
                                         include_variation: //tbody/tr[%attributeSearch%]//input[@name='associated_product_ids[]']
-                                        assigned_product: //tbody/tr[td/text()='%productSku%'][%attributeSearch%]//input[@checked='checked']
+                                        assigned_product: //tbody/tr[//text()='%productSku%'][%attributeSearch%]//input[@checked='checked']
                                     pageelements:
                                         variations_matrix_header: //thead/tr
                                         variation_line: //tbody/tr
                                         attribute_header: //thead//th[text()='%attributeTitle%']
-                                        variation_price: //tbody/tr[%attributeSearch%]//td[@class='col-price associated-matrix-product-price']
+                                        variation_price: //tbody/tr[%attributeSearch%]//td[@data-column='price']
                                     buttons:
                                         choose: //tbody/tr[%attributeSearch%]//button[@title='Choose']
                                     fields:
@@ -289,7 +289,7 @@ new_product:
                                         move_grouped_product: //tr[td[normalize-space(text())='%productSku%']]//*[@class='ui-icon ui-icon-grip-dotted-vertical']
                                     pageelements:
                                         selected_grouped_product: //tr[td[normalize-space(text())='%productSku%']]
-                                        grouped_assigned_products: //tr[not(contains(@style,'display: none;'))]/td[contains(@class, 'grouped-product-sku')]
+                                        grouped_assigned_products: //tr[not(contains(@style,'display: none;'))]/td[@data-column='sku']
                             -
                                 bundle_items:
                                     xpath: //*[@id='bundle_product-wrapper']
@@ -450,7 +450,7 @@ new_product:
                         fieldsets:
                             -
                                 product_gift_options:
-                                    xpath: //div[div/strong/span='Autosettings']
+                                    xpath: //div[*/*/span='Autosettings']
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     checkboxes:
@@ -865,7 +865,6 @@ updating_products:
                                         attributes_change_recurring_profile: //*[@id='is_recurring']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_set_product_as_new_from_date: //*[@id='news_from_date']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_set_product_as_new_to_date: //*[@id='news_to_date']//following-sibling::*//*[@type="checkbox"]
-                                        attributes_change_status: //*[@id='status']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_enable_recurring_profile: //*[@id='is_recurring']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_visibility: //*[@id='visibility']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_custom_design: //*[@id='custom_design']//following-sibling::*//*[@type="checkbox"]

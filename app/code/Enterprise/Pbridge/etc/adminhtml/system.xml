@@ -542,11 +542,6 @@
                         <field id="using_pbridge">0</field>
                     </depends>
                 </field>
-                <field id="line_items_enabled">
-                    <depends>
-                        <field id="using_pbridge">0</field>
-                    </depends>
-                </field>
                 <field id="useccv">
                     <depends>
                         <field id="using_pbridge">0</field>

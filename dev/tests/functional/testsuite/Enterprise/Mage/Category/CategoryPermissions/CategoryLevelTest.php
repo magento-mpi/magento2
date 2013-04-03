@@ -60,9 +60,12 @@ class Enterprise_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mag
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        return array('user'   => array('email' => $userData['email'], 'password' => $userData['password']),
-                     'product'=> array('name' => $simple['general_name'], 'price' => $simple['general_price']),
-                     'catName'=> $category['name'], 'catPath'=> $catPath);
+        return array(
+            'user' => array('email' => $userData['email'], 'password' => $userData['password']),
+            'product' => array('name' => $simple['general_name'], 'price' => $simple['general_price']),
+            'catName' => $category['name'],
+            'catPath' => $catPath
+        );
     }
 
     /**

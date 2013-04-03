@@ -1,0 +1,49 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Saas_Launcher
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/** @var $this Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer */
+?>
+<form action="" id="drawer-form" class="add-product-form" method="post">
+    <div class="add-product">
+        <h2 class="title"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Add a Product') ?></h2>
+        <?php  echo $this->getGeneralTabContent();?>
+        <?php echo $this->getChildBlock('new-category')->setUseContainer(false)->toHtml();?>
+        <?php echo $this->getChildBlock('wysiwyg-editor')->setUseContainer(false)->toHtml();?>
+        <!-- Field below used by TypeSwitcher to hide unneeded attributes for Simple product -->
+        <input type="hidden" value="simple" name="type_id" id="type_id" />
+        <?php echo $this->getChildBlock('product_edit')->setUseContainer(false)->toHtml();?>
+    </div>
+    <div class="import-products">
+        <h2 class="title"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Import Products to Catalog') ?></h2>
+        <ul class="import-options">
+            <li>
+                <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Create the relevant product') ?>
+                <a target="_blank" href="<?php echo $this->getUrl('adminhtml/catalog_category'); ?>"><?php echo $this->__('categories'); ?></a>
+                <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('for your products') ?>
+            </li>
+            <li>
+                <a target="_blank" href="<?php echo $this->getUrl('adminhtml/export'); ?>"><?php echo $this->__('Export the guideline'); ?></a>
+                <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('for products') ?>
+            </li>
+            <li>
+                <a target="_blank" href="<?php echo $this->getUrl('adminhtml/import'); ?>"><?php echo $this->__('Import the products'); ?></a>
+                <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('to the system') ?>
+            </li>
+        </ul>
+    </div>
+</form>
+<script type="text/javascript">
+jQuery(function ($) {
+    'use strict';
+
+    $('#image-container').baseImage();
+    $('#media_gallery_content').productGallery({'template': '#media_gallery_content-template'});
+});
+</script>

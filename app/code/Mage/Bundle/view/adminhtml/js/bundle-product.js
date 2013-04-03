@@ -24,7 +24,7 @@
         _initOptionBoxes: function () {
             this.element.sortable({
                 axis: 'y',
-                handle: '[data-role="grip"]',
+                handle: '[data-role=draggable-handle]',
                 items: '.option-box',
                 update: this._updateOptionBoxPositions,
                 tolerance: 'pointer'
@@ -47,7 +47,7 @@
         _initSortableSelections: function () {
             this.element.find('.option-box .form-list tbody').sortable({
                 axis: 'y',
-                handle: '[data-role="grip"]',
+                handle: '[data-role=draggable-handle]',
                 helper: function(event, ui) {
                     ui.children().each(function() {
                         $(this).width($(this).width());

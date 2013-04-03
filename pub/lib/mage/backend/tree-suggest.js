@@ -110,7 +110,7 @@
                 '{{/each}}</ul>' +
                 '{{/if}}{{else}}<span class="mage-suggest-no-records">${noRecordsText}</span>{{/if}}',
             controls: {
-                selector: ':ui-menu, .jstree',
+                selector: ':ui-menu, :mage-menu, .jstree',
                 eventsMap: {
                     focus: ['menufocus', 'hover_node'],
                     blur: ['menublur', 'dehover_node'],

@@ -25,7 +25,7 @@
                 id: 'new_category_parent-suggest',
                 placeholder: 'start typing to search category'
             }));
-            $('#new_category_parent-suggest').treeSuggest(this.options.suggestOptions)
+            $('#new_category_parent-suggest').mage('treeSuggest', this.options.suggestOptions)
                 .on('suggestbeforeselect', function (event, ui) {
                     clearParentCategory();
                     $(event.target).treeSuggest('close');
@@ -57,7 +57,7 @@
                     $('#new_category_messages').html('');
                 },
                 close: function() {
-                    $('#new_category_name, #new_category_parent').val('');
+                    $('#new_category_name, #new_category_parent-suggest').val('');
                     clearParentCategory();
                     newCategoryForm.reset();
                     $('#category_ids-suggest').focus();
@@ -97,7 +97,7 @@
                                             id: data.category.entity_id,
                                             label: data.category.name
                                         });
-                                        $('#new_category_name, #new_category_parent').val('');
+                                        $('#new_category_name, #new_category_parent-suggest').val('');
                                         $('#category_ids-suggest').val('');
                                         widget.element.dialog('close');
                                     } else {

@@ -92,7 +92,7 @@ new_rma_item_attribute:
                                         titles_by_store_name: //td[%storeViewNumber%]/input
                             -
                                 manage_options:
-                                    xpath: "//div[@id='matage-options-panel' and not(@style='display: none;')]"
+                                    xpath: "//div[@id='manage-options-panel' and not(@style='display: none;')]"
                                     buttons:
                                         add_option: //button[@id='add_new_option_button']
                                         delete_option: //td[contains(input/@name,'option[delete][option_%fieldOptionNumber%]')]/button
