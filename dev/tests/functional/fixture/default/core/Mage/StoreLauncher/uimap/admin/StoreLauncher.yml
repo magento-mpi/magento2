@@ -11,7 +11,7 @@
 # 'Store Launcher' page
 store_launcher:
     mca: launcher/storelauncher_index/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'launcher/storelauncher')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'launcher/hub')]
     title: Magento Admin
     uimap: &store_launcher
         form:
@@ -37,7 +37,7 @@ store_launcher:
                             open_drawer: //div[@class='tile-teaser']//button[@class='action-open-drawer']
                             edit_drawer: //div[@class='tile-done']//button[@class='action-open-drawer']
                         links:
-                            additional_action: //div[@class='tile-done']//p[@class='tile-more-info']/a
+                            additional_action: //div[@class='tile-done']//footer[@class='tile-more-info']//a
                 -
                     common_drawer:
                         xpath: //div[@id='drawer']
