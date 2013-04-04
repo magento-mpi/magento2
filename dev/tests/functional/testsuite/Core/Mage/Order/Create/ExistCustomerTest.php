@@ -19,14 +19,23 @@
 class Core_Mage_Order_Create_ExistCustomerTest extends Mage_Selenium_TestCase
 {
     /**
+     * <p>Preconditions:</p>
+     *
+     * <p>Log in to Backend and configure preconditions.</p>
+     *
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
+    }
+
+    /**
      * <p>Log in to Backend.</p>
      */
     public function assertPreConditions()
     {
         $this->loginAdminUser();
-    }
-
-    /**
      * @return string
      * @test
      */

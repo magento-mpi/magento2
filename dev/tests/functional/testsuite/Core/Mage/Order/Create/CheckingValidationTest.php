@@ -21,13 +21,14 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     /**
      * <p>Preconditions:</p>
      *
-     * <p>Log in to Backend.</p>
+     * <p>Log in to Backend and configure preconditions.</p>
      *
      */
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->systemConfigurationHelper()->configure('PaymentMethod/savedcc_without_3Dsecure');
     }
 

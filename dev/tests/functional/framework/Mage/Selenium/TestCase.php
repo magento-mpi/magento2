@@ -1954,7 +1954,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $containerElements = $containerUimap->$getMethod($this->_paramsHelper);
         $fillData = array();
         foreach ($dataToFill as $fieldName => $fieldValue) {
-            if ($fieldValue == '%noValue%' || is_array($fieldValue)) {
+            if ($fieldValue === '%noValue%' || is_array($fieldValue)) {
                 $fillData['skipped'][$fieldName] = $fieldValue;
                 continue;
             }
