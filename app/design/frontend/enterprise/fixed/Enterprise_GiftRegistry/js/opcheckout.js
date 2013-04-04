@@ -26,11 +26,17 @@
          * @private
          */
         _injectElement: function() {
-            $(this.options.giftRegistry.radioTemplateSelector).tmpl()
-                .appendTo($(this.options.giftRegistry.listContainerSelector, this.options.billing.form).last('li'));
-            $(this.options.giftRegistry.checkboxTemplateSelector).tmpl()
-                .appendTo($(this.options.giftRegistry.listContainerSelector, this.options.shipping.form).last('li'))
-                .on('click', $.proxy(this._checkboxHandler, this));
+            var radioElement = $(this.options.giftRegistry.radioTemplateSelector);
+            if (radioElement.length) {
+                radioElement.tmpl()
+                    .appendTo($(this.options.giftRegistry.listContainerSelector, this.options.billing.form).last('li'));
+            }
+            var checkboxElement = $(this.options.giftRegistry.checkboxTemplateSelector);
+            if (checkboxElement.length) {
+                checkboxElement.tmpl()
+                    .appendTo($(this.options.giftRegistry.listContainerSelector, this.options.shipping.form).last('li'))
+                    .on('click', $.proxy(this._checkboxHandler, this));
+            }
         },
 
         /**

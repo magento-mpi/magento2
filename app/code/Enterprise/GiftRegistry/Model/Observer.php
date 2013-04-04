@@ -272,4 +272,20 @@ class Enterprise_GiftRegistry_Model_Observer
 
         return $this;
     }
+
+    /**
+     * Assign a flag to HTML head block signaling whether GiftRegistry is enabled or not
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function assignHtmlHeadRenderingFlag(Varien_Event_Observer $observer)
+    {
+        /** @var $layout Mage_Core_Model_Layout */
+        $layout = $observer->getEvent()->getLayout();
+        /** @var $blockHead Mage_Page_Block_Html_Head */
+        $blockHead = $layout->getBlock('head');
+        if ($blockHead && $this->isGiftregistryEnabled()) {
+            $blockHead->setData('giftregistry_enabled', true);
+        }
+    }
 }

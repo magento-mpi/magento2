@@ -160,6 +160,14 @@
             </enterprise_giftregistry>
         </routers>
         <events>
+            <controller_action_layout_generate_blocks_after>
+                <observers>
+                    <enterprise_giftregistry>
+                        <class>Enterprise_GiftRegistry_Model_Observer</class>
+                        <method>assignHtmlHeadRenderingFlag</method>
+                    </enterprise_giftregistry>
+                </observers>
+            </controller_action_layout_generate_blocks_after>
             <checkout_cart_product_add_after>
                 <observers>
                     <enterprise_giftregistry>
