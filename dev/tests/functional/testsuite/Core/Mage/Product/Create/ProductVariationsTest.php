@@ -38,18 +38,8 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     {
         $variations = array();
         $variation = 1;
-        $optionNumber1 = 0;
-        $optionNumber2 = 0;
-        foreach (array_keys($attribute1) as $value) {
-            if (preg_match('/^option_\d+$/', $value)) {
-                $optionNumber1++;
-            }
-        }
-        foreach (array_keys($attribute2) as $value) {
-            if (preg_match('/^option_\d+$/', $value)) {
-                $optionNumber2++;
-            }
-        }
+        $optionNumber1 = count(preg_grep('/^option_\d+$/', array_keys($attribute1)));
+        $optionNumber2 = count(preg_grep('/^option_\d+$/', array_keys($attribute2)));
         for ($i = 1; $i <= $optionNumber1; $i++) {
             for ($j = 1; $j <= $optionNumber2; $j++) {
                 $variations['configurable_' . $variation] = array('associated_attributes' => array(
