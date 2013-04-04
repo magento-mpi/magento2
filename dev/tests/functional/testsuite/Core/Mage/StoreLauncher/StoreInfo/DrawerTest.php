@@ -19,11 +19,6 @@
 class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCase
 {
     /**
-     * @var bool
-     */
-    protected $_restoreLocale = false;
-
-    /**
      * <p>Preconditions:</p>
      * <p>1. Login to Backend</p>
      * <p>2. Navigate to Store Launcher page</p>
@@ -48,28 +43,25 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
      */
     public function tearDownAfterTest()
     {
-        if ($this->_restoreLocale) {
             $this->loginAdminUser();
             $this->navigate('system_configuration');
             $this->systemConfigurationHelper()->configure('General/general_locale_default');
-            $this->_restoreLocale = false;
-        }
     }
 
     /**
      * <p>User can edit Business Info information.</p>
      *
+     * @param string $storeInfo Dataset name
+     * @param string $locale Locale
      * @test
      * @TestlinkId TL-MAGE-6508
      * @dataProvider businessInfoDataProvider
-
      */
     public function editBusinessInfoInformation($storeInfo, $locale)
     {
         $this->navigate('system_configuration');
         $config = $this->loadDataSet('General', 'general_locale_default', array('locale' => $locale));
         $this->systemConfigurationHelper()->configure($config);
-        $this->_restoreLocale = true;
         $this->admin();
         /**
          * @var Core_Mage_StoreLauncher_Helper $helper
@@ -98,6 +90,8 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
 
     /**
      * DataProvider for editBusinessInfoInformation()
+     *
+     * @return array
      */
     public function businessInfoDataProvider()
     {
@@ -112,6 +106,7 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
      *
      * @test
      * @TestlinkId TL-MAGE-6509
+     * @skipTearDown
      */
     public function businessAddressIsDisplayedOnTile()
     {
@@ -143,6 +138,7 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
      *
      * @test
      * @TestlinkId TL-MAGE-6510
+     * @skipTearDown
      */
     public function cancelEditingStoreInfo()
     {
@@ -166,6 +162,7 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
      *
      * @test
      * @TestlinkId TL-MAGE-6527
+     * @skipTearDown
      */
     public function editEmailAddresses()
     {
