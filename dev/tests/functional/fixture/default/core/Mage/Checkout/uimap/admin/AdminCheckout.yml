@@ -14,7 +14,7 @@
 manage_sales_orders:
     mca: sales_order/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_order/')]
-    title: Orders / Sales / Magento Admin
+    title: Orders / Operations / Sales / Magento Admin
     uimap:
         form: &orderGridMassactionForm
             fieldsets:
@@ -29,11 +29,11 @@ manage_sales_orders:
                         dropdowns:
                             filter_massaction: //select[@id='sales_order_grid_massaction-select']
                             filter_status: //*[@id='sales_order_grid_filter_status']
+                            filter_purchased_from: //select[@name='store_id']
                             view_per_page: //select[@name='limit']
                         fields:
                             page: //input[@name='page']
                             filter_order_id: //*[@id='sales_order_grid_filter_real_order_id']
-                            filter_purchased_from: //input[@name='store_id']
                             filter_created_from: //input[@name='created_at[from]']
                             filter_created_to: //input[@name='filter_created_at[to]']
                             filter_billing_name: //input[@name='billing_name']
@@ -123,7 +123,7 @@ manage_sales_orders:
 # 'New Order' page
 create_order_for_new_customer:
     mca: sales_order_create/
-    title: New Order / Orders / Sales / Magento Admin
+    title: New Order / Orders / Operations / Sales / Magento Admin
     uimap: &create_order_for_new_customer
         form:
             fieldsets:
@@ -389,12 +389,12 @@ create_order_for_new_customer:
 
 reorder_create_new_order:
     mca: sales_order_create/reorder/order_id/%id%/
-    title: New Order / Orders / Sales / Magento Admin
+    title: New Order / Orders / Operations / Sales / Magento Admin
     uimap: &create_order_for_new_customer
 
 create_order_for_existing_customer:
     mca: sales_order_create/index/customer_id/%id%/
-    title: New Order / Orders / Sales / Magento Admin
+    title: New Order / Orders / Operations / Sales / Magento Admin
     uimap:
         form: &newOrderForExistCustomerForm
             fieldsets:
@@ -474,7 +474,7 @@ create_order_for_existing_customer:
 
 view_order:
     mca: sales_order/view/order_id/%id%/
-    title: '%elementTitle% / Orders / Sales / Magento Admin'
+    title: '%elementTitle% / Orders / Operations / Sales / Magento Admin'
     uimap:
         form: &orderView
             tabs:
@@ -664,7 +664,7 @@ view_order:
 
 edit_order:
     mca: sales_order_edit/
-    title: Edit Order / Orders / Sales / Magento Admin
+    title: Edit Order / Orders / Operations / Sales / Magento Admin
     uimap:
         form: *newOrderForExistCustomerForm
         messages: *orderMessages

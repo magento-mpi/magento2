@@ -8,6 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/*global productConfigure:true*/
 (function ($) {
     $.validator.addMethod('giftcard-min-amount', function(v) {
         return (productConfigure.giftcardConfig.parsePrice(v) >= productConfigure.giftcardConfig.minAllowedAmount);

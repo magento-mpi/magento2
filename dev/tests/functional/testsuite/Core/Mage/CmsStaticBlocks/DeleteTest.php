@@ -38,8 +38,11 @@ class Core_Mage_CmsStaticBlocks_DeleteTest extends Mage_Selenium_TestCase
     {
         //Data
         $setData = $this->loadDataSet('CmsStaticBlock', 'new_static_block');
-        $blockToDelete = $this->loadDataSet('CmsStaticBlock', 'search_static_block',
-            array('filter_block_identifier' => $setData['block_identifier']));
+        $blockToDelete = $this->loadDataSet(
+            'CmsStaticBlock',
+            'search_static_block',
+            array('filter_block_identifier' => $setData['block_identifier'])
+        );
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying

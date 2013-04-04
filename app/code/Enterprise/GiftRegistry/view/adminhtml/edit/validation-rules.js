@@ -8,6 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/*global parts:true*/
 (function ($) {
     $.validator.addMethod('attribute-code', function(v, element){
         var resultFlag = true,

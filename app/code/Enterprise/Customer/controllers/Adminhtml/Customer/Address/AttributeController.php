@@ -161,7 +161,7 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
                 ->loadByCode($this->_getEntityType()->getId(), $attributeCode);
             if ($attributeObject->getId()) {
                 $this->_getSession()->addError(
-                    Mage::helper('Enterprise_Customer_Helper_Data')->__('Attribute with the same code already exists')
+                    Mage::helper('Enterprise_Customer_Helper_Data')->__('Attribute with the same code already exists.')
                 );
 
                 $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');

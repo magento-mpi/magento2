@@ -15,7 +15,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
     /**
      * Pattern for attribute elements, compatible with HTML ID
      */
-    const HTML_ID_PATTERN = '/^[a-z][a-z\-\_\d]*$/';
+    const HTML_ID_PATTERN = '/^[a-z][a-z\ \-\_\d]*$/';
 
     /**
      * @var array

@@ -27,11 +27,10 @@
 
     <checkout_multishipping_overview>
         <reference name="head">
-            <action method="addJs"><file>Mage_Centinel::checkout.js</file></action>
+            <action method="addJs"><file>Mage_Centinel::centinel-authenticate.js</file></action>
         </reference>
         <reference name="checkout.multishipping.overview.items.after">
             <block type="Mage_Centinel_Block_Authentication" name="centinel.frame" template="authentication.phtml">
-                <action method="addRelatedBlock"><blockId>checkout-review-submit</blockId></action>
                 <action method="setAuthenticationStartMode"><mode>window</mode></action>
             </block>
         </reference>
@@ -40,8 +39,6 @@
     <checkout_onepage_review>
         <reference name="checkout.onepage.review.info.items.before">
             <block type="Mage_Centinel_Block_Authentication" name="centinel.frame" template="authentication.phtml">
-                <action method="addRelatedBlock"><blockId>checkout-review-submit</blockId></action>
-                <action method="addRelatedBlock"><blockId>checkout-review-table-wrapper</blockId></action>
                 <action method="setAuthenticationStartMode"><mode>instant</mode></action>
             </block>
         </reference>
@@ -49,7 +46,7 @@
 
     <checkout_onepage_index>
         <reference name="head">
-            <action method="addJs"><file>Mage_Centinel::checkout.js</file></action>
+            <action method="addJs"><file>Mage_Centinel::centinel-authenticate.js</file></action>
         </reference>
     </checkout_onepage_index>
 </layout>

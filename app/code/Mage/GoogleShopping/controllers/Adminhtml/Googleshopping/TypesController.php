@@ -37,9 +37,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
      */
     protected function _initItemType()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Google Content'))
-             ->_title($this->__('Manage Attributes'));
+        $this->_title($this->__('Manage Attributes'));
 
         Mage::register('current_item_type', Mage::getModel('Mage_GoogleShopping_Model_Type'));
         $typeId = $this->getRequest()->getParam('id');
@@ -68,9 +66,7 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_TypesController extends Mage_
      */
     public function indexAction()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Google Content'))
-             ->_title($this->__('Manage Attributes'));
+        $this->_title($this->__('Manage Attributes'));
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Attribute Maps'), Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Attribute Maps'))

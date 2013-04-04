@@ -18,9 +18,9 @@ admin_header:
                              choose_store_view: //select[@id='store_switcher']
                 -
                     incoming_message:
-                        xpath: //*[@id='message-popup-window' and @class='message-popup show']
+                        xpath: //div[header/h2='Incoming Message']
                         buttons:
-                            close: //a[span='close']
+                            close: //span[text()='Close']
                 -
                     global_header:
                         xpath: //div[contains(a/@class,'logo')]
@@ -88,6 +88,7 @@ admin_header:
                             navigation_children_menu_items: //*[@id='nav']/li//ul/li
                             general_menu_xpath: //*[@id='nav']/li[contains(@class, 'active')]//a[contains(@href, '%mcaXpath%')]
                             active_menu_element: //*[@id='nav']/li[contains(@class, 'active')]
+                            field_label: "//label[not(contains(@class,'mage-error'))][@for='%fieldId%']"
         messages:
             general_notice: "//*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
             general_success: "//*[normalize-space(@class)='success-msg'][string-length(.)>1]"

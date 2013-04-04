@@ -37,7 +37,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
 
     public function indexAction()
     {
-        $this->_title($this->__('Promotions'))->_title($this->__('Catalog Price Rules'));
+        $this->_title($this->__('Catalog Price Rules'));
 
         $dirtyRules = Mage::getModel('Mage_CatalogRule_Model_Flag')->loadSelf();
         if ($dirtyRules->getState()) {
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
 
     public function editAction()
     {
-        $this->_title($this->__('Promotions'))->_title($this->__('Catalog Price Rules'));
+        $this->_title($this->__('Catalog Price Rules'));
 
         $id = $this->getRequest()->getParam('id');
         $model = Mage::getModel('Mage_CatalogRule_Model_Rule');

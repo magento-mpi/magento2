@@ -39,7 +39,7 @@
             events: {},
             appendMethod: 'after',
             controls: {
-                selector: ':ui-menu',
+                selector: ':ui-menu, :mage-menu',
                 eventsMap: {
                     focus: ['menufocus'],
                     blur: ['menublur'],
@@ -268,7 +268,7 @@
         /**
          * @override
          */
-        _trigger: function(type, event, data) {
+        _trigger: function(type, event) {
             var result = this._superApply(arguments);
             if(result === false && event) {
                 event.stopImmediatePropagation();
@@ -760,7 +760,7 @@
         _getOptions: function() {
             return this.valueField.find('option');
         },
-        
+
         /**
          * @override
          */
@@ -786,7 +786,7 @@
          * @return {Array}
          * @private
          */
-        _filterSelected: function(items, context) {
+        _filterSelected: function(items) {
             var options = this._getOptions();
             return $.grep(items, function(value) {
                 var itemSelected = false;
