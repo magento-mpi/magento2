@@ -135,6 +135,11 @@ class Mage_Core_Model_Translate
     protected $_designPackage;
 
     /**
+     * @var Mage_Core_Model_Translate_Factory
+     */
+    protected $_translateFactory;
+
+    /**
      * Initialize translate model
      *
      * @param Mage_Core_Model_Design_Package $designPackage
