@@ -49,5 +49,10 @@
                 </saas_index>
             </updates>
         </layout>
+        <di>
+            <preferences>
+                <Mage_Index_Model_System_Message_IndexOutdated>Saas_Index_Model_System_Message_IndexOutdated</Mage_Index_Model_System_Message_IndexOutdated>
+            </preferences>
+        </di>
     </adminhtml>
 </config>

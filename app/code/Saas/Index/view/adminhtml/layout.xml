@@ -8,12 +8,6 @@
  */
 -->
 <layout>
-    <default>
-        <reference name="notifications">
-            <remove name="index_notifications" />
-            <block type="Saas_Index_Block_Backend_Notifications" name="saas_index_notifications" template="notifications.phtml"/>
-        </reference>
-    </default>
     <adminhtml_saas_index_index>
         <reference name="content">
             <block type="Saas_Index_Block_Backend_Index" name="refresh.index" template="Saas_Index::index.phtml">
