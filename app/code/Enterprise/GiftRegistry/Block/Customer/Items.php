@@ -46,7 +46,7 @@ class Enterprise_GiftRegistry_Block_Customer_Items extends Mage_Catalog_Block_Pr
      */
     public function getFormattedDate($item)
     {
-        return $this->formatDate($item->getAddedAt(), Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
+        return $this->formatDate($item->getAddedAt(), Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
     }
 
     /**

@@ -62,6 +62,24 @@ class Mage_Customer_Block_Account_Link extends Mage_Core_Block_Abstract
     }
 
     /**
+     * Add Log In link to the target block
+     *
+     * @param string $target
+     * @param int $position
+     * @return Mage_Customer_Block_Account_Link
+     */
+    public function addLogInLink($target, $position)
+    {
+        $helper = Mage::helper('Mage_Customer_Helper_Data');
+        if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
+            $this->_addLink(
+                $target, $this->__('Log In'), $helper->getLogoutUrl(), $this->__('Log In'), $position, '', ''
+            );
+        }
+        return $this;
+    }
+
+    /**
      * Add Log In/Out link to the target block
      *
      * @param string $target

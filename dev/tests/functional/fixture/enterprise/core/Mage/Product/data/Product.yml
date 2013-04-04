@@ -13,13 +13,13 @@
 #*********************************************
 #*         Gift Card Amount Data              *
 #*********************************************
-general_gift_card_amount1: &giftCardAmount1
-    general_gift_card_website: All Websites [USD]
-    general_gift_card_amount: 1.11
+general_giftcard_amount1: &giftCardAmount1
+    general_giftcard_website: All Websites [USD]
+    general_giftcard_amount: 1.11
 
-general_gift_card_amount2: &giftCardAmount2
-    general_gift_card_website: All Websites [USD]
-    general_gift_card_amount: 5.55
+general_giftcard_amount2: &giftCardAmount2
+    general_giftcard_website: All Websites [USD]
+    general_giftcard_amount: 5.55
 
 general_amounts: &giftCardAmounts
     general_amount1: *giftCardAmount1
@@ -31,12 +31,13 @@ gift_card_required:
     product_online_status: Enabled
     general_name: Gift Card Required(%randomize%)
     general_sku: giftcard_sku_req_%randomize%
-    general_gift_card_data:
+    general_weight: %noValue%
+    general_giftcard_data:
         general_card_type: %noValue%
         general_amounts: *giftCardAmounts
-        general_allow_open_amount: Yes
+        general_allow_open_amount: No
+    general_qty: 111
     general_description: %noValue%
-    inventory_qty: 111
     autosettings_visibility: Catalog, Search
     autosettings_short_description: %noValue%
 
@@ -52,6 +53,8 @@ frontend_gift_card_validation:
     general_categories: Default Category
     general_gift_card_amounts: *giftCardAmounts
     general_gift_card_allow_open_amount: Yes
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
     inventory_min_allowed_qty_default: No
     inventory_min_allowed_qty: 2
     inventory_max_allowed_qty_default: No
@@ -165,7 +168,7 @@ gift_card:
     product_online_status: Enabled
     general_name: Gift Card(%randomize%)
     general_sku: giftcard_sku_%randomize%
-    general_gift_card_data:
+    general_giftcard_data:
         general_card_type: %noValue%
         general_amounts: *giftCardAmounts
         general_allow_open_amount: Yes
@@ -198,7 +201,7 @@ gift_card:
     autosettings_visibility: Catalog, Search
     autosettings_news_from: %currentDate%
     autosettings_news_to: %currentDate%
-    autosettings_options_allow_gift_message_default: No
+    autosettings_allow_gift_message_default: No
     autosettings_allow_gift_message: Yes
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes

@@ -30,9 +30,7 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
 
     public function indexAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Web Services'))
-             ->_title($this->__('Roles'));
+        $this->_title($this->__('Roles'));
 
         $this->_initAction();
 
@@ -52,9 +50,7 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
 
     public function editRoleAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Web Services'))
-             ->_title($this->__('Roles'));
+        $this->_title($this->__('Roles'));
 
         $this->_initAction();
 

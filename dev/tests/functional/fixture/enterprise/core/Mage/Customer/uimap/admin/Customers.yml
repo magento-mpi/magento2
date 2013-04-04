@@ -103,7 +103,7 @@ edit_customer:
 manage_invitations:
     mca: invitation/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'invitation/')]
-    title: Invitations / Customers / Magento Admin
+    title: Invitations / Private Sales / Marketing / Magento Admin
     uimap:
         form: &searchInvitationsGrid
             fieldsets:
@@ -148,7 +148,7 @@ manage_invitations:
 
 new_invitations:
     mca: invitation/new/
-    title: Magento Admin
+    title: Private Sales / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -169,7 +169,7 @@ new_invitations:
 
 edit_invitations:
     mca: invitation/view/id/%id%/
-    title: Invitations / Customers / Magento Admin
+    title: Invitations / Private Sales / Marketing / Magento Admin
     uimap:
         form: &editInvitationsForm
             tabs:
@@ -193,7 +193,7 @@ edit_invitations:
 manage_gift_card_account:
     mca: giftcardaccount/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'giftcardaccount/')]
-    title: Gift Card Accounts / Customers / Magento Admin
+    title: Gift Card Accounts / Promotions / Marketing / Magento Admin
     uimap:
         form: &searchGiftCardAccountGrid
             fieldsets:
@@ -230,7 +230,7 @@ manage_gift_card_account:
 # Add New Gift Card Account page
 new_gift_card_account:
     mca: giftcardaccount/new/
-    title: New Account / Gift Card Accounts / Customers / Magento Admin
+    title: New Account / Gift Card Accounts / Promotions / Marketing / Magento Admin
     uimap:
         form: &newGiftCardAccountForm
             tabs:
@@ -272,7 +272,7 @@ new_gift_card_account:
 manage_reward_rates:
     mca: reward_rate/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'reward_rate/')]
-    title: Reward Exchange Rates / Customers / Magento Admin
+    title: Reward Exchange Rates / Other Settings / Stores / Magento Admin
     uimap:
         form: &searchRewardPointGrid
             fieldsets:
@@ -299,7 +299,7 @@ manage_reward_rates:
 #New Reward Exchange Rate page
 new_reward_rate:
     mca: reward_rate/new/
-    title: New Rate / Reward Exchange Rates / Customers / Magento Admin
+    title: New Rate / Reward Exchange Rates / Other Settings / Stores / Magento Admin
     uimap: &newRateUimap
         form:
             fieldsets:
@@ -325,5 +325,5 @@ new_reward_rate:
 #Edit Reward page
 edit_reward_rate:
     mca: reward_rate/edit/rate_id/%id%/
-    title: '#%id% / Reward Exchange Rates / Customers / Magento Admin'
+    title: '#%id% / Reward Exchange Rates / Other Settings / Stores / Magento Admin'
     uimap: *newRateUimap

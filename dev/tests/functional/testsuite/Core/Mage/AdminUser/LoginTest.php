@@ -59,7 +59,7 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
         $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
                            'password'  => $this->getConfigHelper()->getDefaultPassword());
         //Steps
-        $this->adminUserHelper()->loginAdmin($loginData);
+        $this->loginAdminUser();
         //Verifying
         $this->assertTrue($this->checkCurrentPage('store_launcher'), $this->getParsedMessages());
         $this->logoutAdminUser();

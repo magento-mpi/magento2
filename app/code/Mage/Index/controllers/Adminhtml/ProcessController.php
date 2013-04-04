@@ -32,7 +32,7 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
      */
     public function listAction()
     {
-        $this->_title($this->__('System'))->_title($this->__('Index Management'));
+        $this->_title($this->__('Index Management'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Index::system_index');

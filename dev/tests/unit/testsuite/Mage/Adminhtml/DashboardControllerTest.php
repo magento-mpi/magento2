@@ -102,7 +102,7 @@ class Mage_Adminhtml_DashboardControllerTest extends PHPUnit_Framework_TestCase
         }
 
         $routerFactory  = $this->getMock('Mage_Core_Controller_Varien_Router_Factory', array(), array(), '', false);
-        $rewriteFactory = $this->getMock('Mage_Core_Model_Url_RewriteFactory', array(), array(), '', false);
+        $rewriteFactory = $this->getMock('Mage_Core_Model_Url_RewriteFactory', array('create'), array(), '', false);
         $varienFront = new Mage_Core_Controller_Varien_Front($routerFactory, $rewriteFactory);
         $layoutFactory = $this->getMock('Mage_Core_Model_Layout_Factory', array(), array(), '', false);
 

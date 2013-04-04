@@ -38,7 +38,7 @@ class Mage_Adminhtml_Sales_Order_ShipmentController extends Mage_Adminhtml_Contr
      */
     protected function _initShipment()
     {
-        $this->_title($this->__('Sales'))->_title($this->__('Shipments'));
+        $this->_title($this->__('Shipments'));
 
         $shipment = false;
         $shipmentId = $this->getRequest()->getParam('shipment_id');

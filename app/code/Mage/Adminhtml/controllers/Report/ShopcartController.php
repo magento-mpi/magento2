@@ -28,9 +28,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
 
     public function customerAction()
     {
-        $this->_title($this->__('Reports'))
-             ->_title($this->__('Shopping Cart'))
-             ->_title($this->__('Customer Shopping Carts'));
+        $this->_title($this->__('Customer Shopping Carts'));
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Reports::report_shopcart_customer')
@@ -65,9 +63,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
 
     public function productAction()
     {
-        $this->_title($this->__('Reports'))
-             ->_title($this->__('Shopping Cart'))
-             ->_title($this->__('Products in Carts'));
+        $this->_title($this->__('Products in Carts'));
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Reports::report_shopcart_product')
@@ -102,9 +98,7 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
 
     public function abandonedAction()
     {
-        $this->_title($this->__('Reports'))
-             ->_title($this->__('Shopping Cart'))
-             ->_title($this->__('Abandoned Carts'));
+        $this->_title($this->__('Abandoned Carts'));
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Reports::report_shopcart_abandoned')

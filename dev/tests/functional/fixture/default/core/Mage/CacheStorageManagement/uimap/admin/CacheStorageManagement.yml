@@ -11,7 +11,7 @@
 cache_storage_management:
     mca: cache/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'cache/')]
-    title: Cache Management / System / Magento Admin
+    title: Cache Management / Tools / System / Magento Admin
     uimap:
         form:
             fieldsets:

@@ -127,17 +127,17 @@
         deleteItem : function(prefix, event) {
             var tr = Event.findElement(event, 'tr');
             if (tr) {
-                Element.select(tr, '.action-delete').each(function(elem){elem.value='1'});
+                Element.select(tr, '.delete').each(function(elem){elem.value='1'});
                 Element.select(tr, ['input', 'select']).each(function(elem){elem.hide()});
                 Element.hide(tr);
-                Element.addClassName(tr, 'hidden template');
+                Element.addClassName(tr, 'ignore-validate');
             }
-            itemsCount--;
             this.updateTotalAmounts();
         },
 
         updateTotalAmounts: function() {
-            $('giftcard_amounts_total').value = (itemsCount > 0 ? itemsCount : '');
+            var count = $('giftcard_amounts_container').select('tr:not(.ignore-validate)').length;
+            $('giftcard_amounts_total').value = count > 0 ? count : '';
         }
     };
 
@@ -147,7 +147,7 @@
 
     function updatePriceAmountValidation() {
         if($('allow_open_amount')) {
-            if ($('allow_open_amount').value == 1) {
+            if ($('allow_open_amount').checked) {
                 jQuery('#giftcard_amounts_total').trigger('resetElement');
                 Element.removeClassName($('giftcard_amounts_total'), 'required-entry');
             } else {

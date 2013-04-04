@@ -36,7 +36,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
     /**
      * Locale instance
      *
-     * @var Mage_Core_Model_Locale
+     * @var Mage_Core_Model_LocaleInterface
      */
     protected $_locale;
 

@@ -51,7 +51,7 @@
                 self.$is_virtual.trigger('change');
             });
 
-            $("#product_info_tabs").on("beforePanelsMove tabscreate tabsactivate", function(event) {
+            $("#product_info_tabs").on("beforePanelsMove tabscreate tabsactivate", function() {
                 self._switchToType($type.val());
                 self.$is_virtual.trigger('change');
             });
@@ -89,7 +89,7 @@
          * @private
          */
         _switchToType: function(typeCode) {
-            var self = this;
+            //var self = this;
             $('[data-apply-to]:not(.removed)').each(function(index, element) {
                 var attrContainer = $(element),
                     applyTo = attrContainer.data('applyTo') || [];
