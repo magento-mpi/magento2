@@ -36,20 +36,35 @@ class Mage_Core_Service_Registry
     }
 
     /**
+     * Get a object instance corresponding to the requested Service
+     *
+     * @param string serviceName name of the service to lookup
+     * @param string serviceVersion
+     * @return mixed the type will be matching the Service requested
+     * @throws InvalidArgumentException if the service does not exist
+     */
+    public function instantiateService ($serviceName, $serviceVersion)
+    {
+        $serviceMetadata = $this->getService($serviceName, $serviceVersion);
+        return $serviceMetadata->instantiate();
+    }
+
+
+    /**
      * Add one more service into the registry
      *
      * @param string serviceName
      * @param string serviceVersion
      * @return Mage_Core_Service_Registry_ServiceMetadata
      */
-    public function addService ($serviceName, $serviceVersion)
+    public function addService ($serviceName, $serviceVersion, $className)
     {
         $key = $serviceName . ':' . $serviceVersion;
         try {
             $serviceMetadata = $this->getService($serviceName, $serviceVersion);
         }
         catch (InvalidArgumentException $e) {
-            $serviceMetadata = new Mage_Core_Service_Registry_ServiceMetadata($serviceName, $serviceVersion);
+            $serviceMetadata = new Mage_Core_Service_Registry_ServiceMetadata($serviceName, $serviceVersion, $className);
             $this->services[$key] = $serviceMetadata;
         }
 
@@ -99,7 +114,7 @@ class Mage_Core_Service_Registry
      *
      * @param string methodName name of the method to lookup
      * @param string serviceName name of the service the method is part of
-     * @param string serviceVersion 
+     * @param string serviceVersion
      * @throws InvalidArgumentException if the service or method do not exist
      */
     public function getMethod ($methodName, $serviceName, $serviceVersion)

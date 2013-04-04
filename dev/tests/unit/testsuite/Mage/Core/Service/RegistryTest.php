@@ -15,8 +15,8 @@ class Mage_Core_Service_RegistryTest extends PHPUnit_Framework_TestCase
     protected function setUp()
 	{
 		$this->registry = Mage_Core_Service_Registry::getInstance();
-		$this->registry->addService('Product', '1');
-		$this->registry->addService('Cart', '1');
+		$this->registry->addService('Product', '1', 'Mage_Catalog_Service_Product');
+		$this->registry->addService('Cart', '1', 'Mage_Checkout_Service_Cart');
 		$this->registry->addMethod('getProduct', 'Product', '1', array('products'), 'product.xsd', 'getProductRequest', 'product.xsd', 'getProductResponse');
 		$this->registry->addMethod('addProduct', 'Product', '1', array('products'), 'product.xsd', 'addProductRequest', 'product.xsd', 'addProductResponse');
 		$this->registry->addMethod('getCart', 'Cart', '1', array('cart'), 'cart.xsd', 'getCartRequest', 'cart.xsd', 'getCartResponse');
@@ -39,21 +39,21 @@ class Mage_Core_Service_RegistryTest extends PHPUnit_Framework_TestCase
 
 	public function testAddServiceNew ()
 	{
-		$s = $this->registry->addService('NewService', '2');
+		$s = $this->registry->addService('NewService', '2', 'Mage_NewService');
 		$this->assertTrue($s->getName() == 'NewService');
 		$this->assertTrue($s->getVersion() == '2');
 	}
 
 	public function testAddServiceExists ()
 	{
-		$s = $this->registry->addService('Product', '1');
+		$s = $this->registry->addService('Product', '1', 'Mage_Catalog_Service_Product');
 		$this->assertTrue($s->getName() == 'Product');
 		$this->assertTrue($s->getVersion() == '1');
 	}
 
 	public function testAddServiceNewVersion ()
 	{
-		$s = $this->registry->addService('Product', '2');
+		$s = $this->registry->addService('Product', '2', 'Mage_Catalog_Service_Product');
 		$this->assertTrue($s->getName() == 'Product');
 		$this->assertTrue($s->getVersion() == '2');
 	}
@@ -83,7 +83,7 @@ class Mage_Core_Service_RegistryTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException InvalidArgumentException
      */
-	public function testAddMethodToNewService ()
+	public function testAddMethodToNonExistService ()
 	{
 		$m = $this->registry->addMethod('newMethod', 'newService', '1', array('p1', 'p2'), 'schema.xsd', 'requestElement', 'schema.xsd', 'responseElement');
 	}
@@ -94,4 +94,19 @@ class Mage_Core_Service_RegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($m->getName() == 'newMethod');
 		$this->assertTrue($m->getInputSchema() == 'schema.xsd');
 	}
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+	public function testInstantiateNonExistService ()
+	{
+		$obj = $this->registry->instantiateService('BogusService', '1');
+	}
+	
+	public function testInstantiateExistService ()
+	{
+		$obj = $this->registry->instantiateService('Product', '1');
+		$this->assertTrue('Mage_Catalog_Service_Product' == get_class($obj));
+	}
+
 }

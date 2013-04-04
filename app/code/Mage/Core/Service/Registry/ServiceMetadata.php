@@ -14,13 +14,20 @@ class Mage_Core_Service_Registry_ServiceMetadata extends Varien_Object
 {
 	protected $name;
 	protected $version;
+	protected $className;
 	protected $methods;
 
-	public function __construct ($name, $version)
+	public function __construct ($name, $version, $className)
 	{
 		$this->name = $name;
 		$this->version = $version;
+		$this->className = $className;
 		$this->methods = array();
+	}
+
+	public function instantiate ()
+	{
+		return new $this->className();
 	}
 
 	public function addMethod ($methodName, $permissions, $inputSchema, $inputElement, $outputSchema, $outputElement)
@@ -53,5 +60,10 @@ class Mage_Core_Service_Registry_ServiceMetadata extends Varien_Object
 	public function getVersion ()
 	{
 		return $this->version;
+	}
+
+	public function getClassName ()
+	{
+		return $this->className;
 	}
 }
