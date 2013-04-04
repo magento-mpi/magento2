@@ -43,38 +43,13 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
     const ELEMENT_SCRIPT = self::MODE_SCRIPT;
 
     /**
-     * @var Mage_DesignEditor_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * Initialize inline abstract translate model
-     *
-     * @param Mage_DesignEditor_Helper_Data $helper
-     * @param Mage_Core_Model_Resource_Translate_String $resource
-     * @param Mage_Core_Model_StoreManager $storeManager
-     * @param Mage_Core_Model_Url $coreUrl
-     * @param Mage_Core_Model_Design_Package $design
-     */
-    public function __construct(
-        Mage_DesignEditor_Helper_Data $helper,
-        Mage_Core_Model_Resource_Translate_String $resource,
-        Mage_Core_Model_StoreManager $storeManager,
-        Mage_Core_Model_Url $coreUrl,
-        Mage_Core_Model_Design_Package $design
-    ) {
-        parent::__construct($resource, $storeManager, $coreUrl, $design);
-        $this->_helper = $helper;
-    }
-
-    /**
      * Translation within the vde will be enabled by the client when the 'Edit' button is enabled.
      *
      * @return bool
      */
     public function isAllowed()
     {
-        return $this->_helper->isAllowed();
+        return $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->isAllowed();
     }
 
     /**
@@ -85,17 +60,20 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
      */
     public function processAjaxPost($translateParams)
     {
+        /* @var $resource Mage_Core_Model_Resource_Translate_String */
+        $resource = $this->_objectManager->get('Mage_Core_Model_Resource_Translate_String');
+
         /** @var $validStoreId int */
-        $validStoreId = $this->_storeManager->getStore()->getId();
+        $validStoreId = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore()->getId();
 
         foreach ($translateParams as $param) {
             if (empty($param['perstore'])) {
-                $this->_resource->deleteTranslate($param['original'], null, false);
+                $resource->deleteTranslate($param['original'], null, false);
                 $storeId = 0;
             } else {
                 $storeId = $validStoreId;
             }
-            $this->_resource->saveTranslate($param['original'], $param['custom'], null, $storeId);
+            $resource->saveTranslate($param['original'], $param['custom'], null, $storeId);
         }
         return $this;
     }
@@ -198,22 +176,22 @@ class Mage_DesignEditor_Model_Translate_InlineVde extends Mage_Core_Model_Transl
             return;
         }
 
-        $store = $this->_storeManager->getStore();
-        $ajaxUrl = $this->_coreUrl->getUrl('core/ajax/translate',
+        $store = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore();
+        $ajaxUrl = $this->_objectManager->get('Mage_Core_Model_Url')->getUrl('core/ajax/translate',
             array('_secure'=>$store->isCurrentlySecure(),
                   '_useRealRoute' => true,
                   '_useVdeFrontend' => true));
 
         /** @var $block Mage_Core_Block_Template */
-        $block = Mage::getObjectManager()->create('Mage_Core_Block_Template');
+        $block = $this->_objectManager->create('Mage_Core_Block_Template');
 
-        $block->setArea($this->_design->getArea());
+        $block->setArea($this->_objectManager->get('Mage_Core_Model_Design_Package')->getArea());
         $block->setAjaxUrl($ajaxUrl);
-        $block->setFrameUrl($this->_helper->getCurrentHandleUrl());
+        $block->setFrameUrl($this->_objectManager->get('Mage_DesignEditor_Helper_Data')->getCurrentHandleUrl());
         $block->setRefreshCanvas($this->isAllowed());
 
         $block->setTemplate('Mage_DesignEditor::translate_inline.phtml');
-        $block->setTranslateMode($this->_helper->getTranslationMode());
+        $block->setTranslateMode($this->_objectManager->get('Mage_DesignEditor_Helper_Data')->getTranslationMode());
 
         $html = $block->toHtml();
 

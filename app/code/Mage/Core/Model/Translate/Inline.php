@@ -15,24 +15,6 @@
 class Mage_Core_Model_Translate_Inline extends Mage_Core_Model_Translate_InlineAbstract
 {
     /**
-     * Initialize inline abstract translate model
-     *
-     * @param Mage_Core_Model_Resource_Translate_String $resource
-     * @param Mage_Core_Model_StoreManager $storeManager
-     * @param Mage_Core_Model_Url $coreUrl
-     * @param Mage_Core_Model_Design_Package $design
-     */
-    public function __construct(
-        Mage_Core_Model_Resource_Translate_String $resource,
-        Mage_Core_Model_StoreManager $storeManager,
-        Mage_Core_Model_Url $coreUrl,
-        Mage_Core_Model_Design_Package $design
-    ) {
-        parent::__construct($resource, $storeManager, $coreUrl, $design);
-    }
-
-
-    /**
      * Is enabled and allowed Inline Translates
      *
      * @param mixed $store
@@ -113,19 +95,19 @@ class Mage_Core_Model_Translate_Inline extends Mage_Core_Model_Translate_InlineA
             return;
         }
 
-        $store = $this->_storeManager->getStore();
+        $store = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore();
         if ($store->isAdmin()) {
             $urlPrefix = Mage_Backend_Helper_Data::BACKEND_AREA_CODE;
-            $urlModel = Mage::getObjectManager()->get('Mage_Backend_Model_Url');
+            $urlModel = $this->_objectManager->get('Mage_Backend_Model_Url');
         } else {
             $urlPrefix = 'core';
-            $urlModel = $this->_coreUrl;
+            $urlModel = $this->_objectManager->get('Mage_Core_Model_Url');
         }
         $ajaxUrl = $urlModel->getUrl($urlPrefix . '/ajax/translate',
             array('_secure' => $store->isCurrentlySecure()));
 
         /** @var $block Mage_Core_Block_Template */
-        $block = Mage::getObjectManager()->create('Mage_Core_Block_Template');
+        $block = $this->_objectManager->create('Mage_Core_Block_Template');
 
         $block->setAjaxUrl($ajaxUrl);
 
