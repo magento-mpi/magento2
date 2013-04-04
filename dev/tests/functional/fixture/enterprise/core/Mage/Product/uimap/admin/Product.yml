@@ -95,3 +95,6 @@ new_product_after_changed_attribute_set:
 
 edit_product_after_changed_attribute_set:
     uimap: *newProduct
+
+edit_duplicated_product:
+    uimap: *newProduct
