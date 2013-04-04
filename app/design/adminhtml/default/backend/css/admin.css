@@ -2620,29 +2620,62 @@ table tbody tr:nth-child(odd):hover th {
 
 .page-login .wrapper {
     min-height: 100%;
-    padding: 0 !important;
+    padding: 0;
 }
 
 .page-login .wrapper-inner {
     overflow: auto;
-    padding-bottom: 60px;
+    padding-bottom: 140px;
 }
 
 .page-login .footer {
     clear: both;
-    height: 60px;
-    margin-top: -60px;
+    height: 140px;
+    margin-top: -140px;
     position: relative;
 }
 
 .page-login .footer-content {
-    margin: 0;
     max-width: none;
     min-width: 0;
-    padding: 20px;
+}
+.page-login .footer-copyright {
     text-align: right;
 }
 
+.page-login .footer .links {
+    margin: 0 0 25px 0;
+    padding: 0;
+}
+
+.page-login .footer .links li {
+    display: inline-block;
+    float: left;
+    width: 185px;
+    margin-right: 55px;
+    padding-left: 27px;
+}
+
+.page-login .footer .links li.info-billing {
+    background: url(Mage_Backend::images/billing.png) no-repeat;
+}
+
+.page-login .footer .links li.info-support {
+    background: url(Mage_Backend::images/support.png) no-repeat;
+}
+
+.page-login .footer .links strong {
+    display: block;
+    color: #676056;
+    font-size: 16px;
+    font-weight: normal;
+    margin-bottom: 5px;
+    font-family: 'CallunaSans';
+}
+
+.page-login .footer .links a {
+    font-size: 11px;
+}
 
 .page-login .form-login {
     width: 280px;
