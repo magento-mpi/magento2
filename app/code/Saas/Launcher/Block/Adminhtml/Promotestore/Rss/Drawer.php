@@ -14,6 +14,8 @@
  * @category   Mage
  * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Saas_Launcher_Block_Adminhtml_Promotestore_Rss_Drawer extends Saas_Launcher_Block_Adminhtml_Drawer
 {
