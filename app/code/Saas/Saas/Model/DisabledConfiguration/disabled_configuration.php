@@ -83,11 +83,6 @@ return array(
     'sales/minimum_order/multi_address_error_message',
     'sales/product_sku',
 
-    'sales_email/enterprise_rma',
-    'sales_email/enterprise_rma_auth',
-    'sales_email/enterprise_rma_comment',
-    'sales_email/enterprise_rma_customer_comment',
-
     'tax/classes/wrapping_tax_class',
     'sales/cart_display/gift_wrapping',
     'sales/cart_display/printed_card',
