@@ -28,7 +28,7 @@ class Mage_Authorizenet_Directpost_PaymentControllerTest extends Magento_Test_Te
         $this->getRequest()->setParam('error_msg', 'Error message');
         $this->dispatch('authorizenet/directpost_payment/redirect');
         $this->assertContains(
-            'window.top.directPostModel.showError("Error message");',
+            'alert("Error message");',
             $this->getResponse()->getBody()
         );
     }
