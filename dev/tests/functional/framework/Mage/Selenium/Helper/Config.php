@@ -579,4 +579,21 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
         return $this->getConfig()->getInitialPath() . $frameworkConfig['fixture_base_path'] . DIRECTORY_SEPARATOR
             . '_testFiles' . DIRECTORY_SEPARATOR . $fileName;
     }
+
+    /**
+     * Get first page after login from area config
+     *
+     * @param string $area
+     *
+     * @return mixed
+     * @throws OutOfRangeException
+     */
+    public function getAfterLoginPage($area = 'admin')
+    {
+        $areasConfig = $this->getConfigAreas();
+        if (!isset($areasConfig[$area]['after_login_page'])) {
+            throw new OutOfRangeException('"after_login_page" is not set for "' . $this->getArea() . '" area');
+        }
+        return $areasConfig[$area]['after_login_page'];
+    }
 }

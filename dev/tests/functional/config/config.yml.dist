@@ -78,6 +78,7 @@ applications:
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
+                after_login_page: 'dashboard'
             frontend:
                 url: 'http://www.localhost.com/magento2_community/'
                 base_page_uimap: 'home_page'
@@ -106,6 +107,7 @@ applications:
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
+                after_login_page: 'dashboard'
             frontend:
                 url: 'http://www.localhost.com/magento2_enterprise/'
                 base_page_uimap: 'home_page'
@@ -151,4 +153,23 @@ applications:
                     replace_2:
                         pattern: '|(?<=customer/account/login/)([a-zA-Z\d\-\_\.\?\=]+)|'
                         replacement: ''
+    go: &go
+        fallbackOrderFixture: 'enterprise, default'
+        fallbackOrderHelper: 'Enterprise, Core'
+        design_theme: Enterprise/Magento Fixed Design
+        ftp: *ftp
+        areas:
+            admin:
+                url: 'http://www.localhost.com/magento2_enterprise/backend/backend/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'admin'
+                password: '123123q'
+                after_login_page: 'store_launcher'
+            frontend:
+                url: 'http://www.localhost.com/magento2_enterprise/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+            paypal_sandbox: *paypalSandbox
+            paypal_developer: *paypalDeveloper
     default: *ee

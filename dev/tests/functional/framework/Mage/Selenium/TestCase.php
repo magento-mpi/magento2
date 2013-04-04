@@ -149,7 +149,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Name of the first page after logging into the back-end
      * @var string
      */
-    protected $_pageAfterAdminLogin = 'store_launcher';
+    public $pageAfterAdminLogin;
 
     /**
      * Array of messages on page
@@ -243,6 +243,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $this->_browserTimeout = (isset($this->frameworkConfig['browserTimeoutPeriod']))
             ? $this->frameworkConfig['browserTimeoutPeriod']
             : $this->_browserTimeout;
+        $this->pageAfterAdminLogin = $this->_configHelper->getAfterLoginPage();
     }
 
     /**
@@ -1316,14 +1317,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Navigate to the specified admin page.<br>
      * Page identifier must be described in the UIMap. Opens "Dashboard" page by default.
      *
-     * @param string $page Page identifier (by default = 'dashboard')
+     * @param string $page Page identifier (by default = null)
      * @param bool $validatePage
      *
      * @return Mage_Selenium_TestCase
      */
     public function admin($page = null, $validatePage = true)
     {
-        $page = (is_null($page)) ? $this->_pageAfterAdminLogin : $page;
+        $page = (is_null($page)) ? $this->pageAfterAdminLogin : $page;
         $this->goToArea('admin', $page, $validatePage);
         return $this;
     }
@@ -3739,7 +3740,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $this->admin('log_in_to_admin', false);
         $loginData = array('user_name' => $this->_configHelper->getDefaultLogin(),
                            'password'  => $this->_configHelper->getDefaultPassword());
-        if ($this->_findCurrentPageFromUrl() != $this->_pageAfterAdminLogin) {
+        if ($this->_findCurrentPageFromUrl() != $this->pageAfterAdminLogin) {
             $this->validatePage('log_in_to_admin');
             $this->fillFieldset($loginData, 'log_in');
             $this->clickButton('login', false);
@@ -3750,8 +3751,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 $this->clickControl('button', 'close', false);
             }
         }
-        $this->validatePage($this->_pageAfterAdminLogin);
-        if ($this->_pageAfterAdminLogin == 'store_launcher' &&
+        $this->validatePage($this->pageAfterAdminLogin);
+        if ($this->pageAfterAdminLogin == 'store_launcher' &&
             $this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup')
         ) {
             $this->waitForControlStopsMoving(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup');
