@@ -268,7 +268,7 @@
         /**
          * @override
          */
-        _trigger: function(type, event, data) {
+        _trigger: function(type, event) {
             var result = this._superApply(arguments);
             if(result === false && event) {
                 event.stopImmediatePropagation();
@@ -786,7 +786,7 @@
          * @return {Array}
          * @private
          */
-        _filterSelected: function(items, context) {
+        _filterSelected: function(items) {
             var options = this._getOptions();
             return $.grep(items, function(value) {
                 var itemSelected = false;

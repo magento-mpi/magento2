@@ -4,3 +4,4 @@
 #
 app/code/Saas/UnitPrice/view
 app/code/Saas/PrintedTemplate
+app/code/Saas/Launcher/view

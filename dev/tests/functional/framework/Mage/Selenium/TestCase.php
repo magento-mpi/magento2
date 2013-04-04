@@ -919,7 +919,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         /**
          * @var PHPUnit_Extensions_Selenium2TestCase_Element $tab
          * @var PHPUnit_Extensions_Selenium2TestCase_Element $message
-         * @var PHPUnit_Extensions_Selenium2TestCase_Element $fieldNameElement
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $nameElement
          */
         $messageLocator = $this->getCurrentUimapPage()->findMessage('general_validation');
         $tabsWithErrors = $this->getElements("//a[contains(@class,'error')]", false);
@@ -930,9 +930,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 if (!$message->displayed()) {
                     continue;
                 }
-                $fieldIdentifier = $message->attribute('for');
-                $fieldNameElement = $this->elementIsPresent("//label[@class='label'][@for='$fieldIdentifier']");
-                $fieldName = ($fieldNameElement) ? trim($fieldNameElement->text(), " *\t\n\r") : $fieldIdentifier;
+                $fieldId = $message->attribute('for');
+                $this->addParameter('fieldId', $fieldId);
+                $nameElement = $this->elementIsPresent($this->_getControlXpath('pageelement', 'field_label'));
+                $fieldName = ($nameElement) ? trim($nameElement->text(), " *\t\n\r") : $fieldId;
                 $messages[] = '"' . $fieldName . '": ' . $message->text();
             }
         } else {
@@ -952,9 +953,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                     if (!$message->displayed()) {
                         continue;
                     }
-                    $fieldIdentifier = $message->attribute('for');
-                    $fieldNameElement = $this->elementIsPresent("//label[@class='label'][@for='$fieldIdentifier']");
-                    $fieldName = ($fieldNameElement) ? trim($fieldNameElement->text(), " *\t\n\r") : $fieldIdentifier;
+                    $fieldId = $message->attribute('for');
+                    $this->addParameter('fieldId', $fieldId);
+                    $nameElement = $this->elementIsPresent($this->_getControlXpath('pageelement', 'field_label'));
+                    $fieldName = ($nameElement) ? trim($nameElement->text(), " *\t\n\r") : $fieldId;
                     $messages[] = '"' . $fieldName . '": ' . $message->text();
                 }
             }
@@ -2206,7 +2208,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         } catch (Exception $e) {
             $this->getElement($locator)->click();
         }
-        $this->waitForAjax();
         if ($willChangePage) {
             $this->waitForPageToLoad();
             $this->addParameter('id', $this->defineIdFromUrl());

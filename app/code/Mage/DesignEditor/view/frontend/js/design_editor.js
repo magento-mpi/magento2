@@ -371,7 +371,7 @@
     $(document).ready(function() {
         $(window).vde_connector();
 
-        if (window.parent) {
+        if (window.parent && window.parent.jQuery) {
             (function($) {
                 var eventData = {
                     content: 'iframe',

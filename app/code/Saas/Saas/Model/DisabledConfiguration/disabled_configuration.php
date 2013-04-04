@@ -68,7 +68,6 @@ return array(
     'sales/minimum_order/multi_address',
     'sales/minimum_order/multi_address_description',
     'sales/minimum_order/multi_address_error_message',
-    'sales/product_sku',
 
     'checkout/cart/delete_quote_after',
 

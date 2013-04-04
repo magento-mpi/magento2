@@ -36,7 +36,7 @@
                 $('.notifications .dropdown-menu').remove();
                 var notificationIcon = $('.notifications .notifications-icon');
                 notificationIcon.removeAttr('data-toggle');
-                notificationIcon.off('click.toggleDropdown');
+                notificationIcon.off('click.dropdown');
                 $('.notifications .notifications-icon .value').text('');
             } else {
                 $('.notifications .notifications-icon .value').text(notificationCount);
@@ -80,7 +80,7 @@
         // Show notification description when corresponding item is clicked
         $('.notifications .dropdown-menu .notification-entry').on('click.showNotification', function(event) {
             // hide notification dropdown
-            $('.notifications .notifications-icon').trigger('click.toggleDropdown');
+            $('.notifications .notifications-icon').trigger('click.dropdown');
             showNotificationDetails($(this));
             event.stopPropagation();
         });

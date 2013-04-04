@@ -123,7 +123,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
         if ($attribute->getId() && !$attributeId) {
             $response->setAttributes(array(
-                'attribute_code' =>  Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute with the same code already exists')
+                'attribute_code' =>  Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute with the same code already exists.')
             ));
             $response->setError(true);
         }

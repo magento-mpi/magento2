@@ -120,17 +120,9 @@
                         enableStorageSelection();
                         $('sync_span').addClassName('no-display');
 
-                        if (response.state == '<?php echo Mage_Core_Model_File_Storage_Flag::STATE_NOTIFIED ?>') {
-                            if (response.html && response.html != '') {
-                                $$('.message-system').each(function(e) {
-                                    if (!e.hasClassName('message-system')) {
-                                        e.hide();
-                                    }
-                                });
-
-                                Element.insert($('anchor-content'), {'before': response.html});
-                            }
-
+                        if (response.state == '<?php echo Mage_Core_Model_File_Storage_Flag::STATE_FINISHED ?>') {
+                            window.location.reload();
+                        } else if (response.state == '<?php echo Mage_Core_Model_File_Storage_Flag::STATE_NOTIFIED ?>') {
                             if (response.has_errors) {
                                 enableSyncButton();
                             } else {

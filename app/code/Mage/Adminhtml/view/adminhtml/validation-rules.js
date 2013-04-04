@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 (function ($) {
-    $.validator.addMethod('validate-rating', function(v) {
+    $.validator.addMethod('validate-rating', function() {
         var ratings = $('#detailed_rating').find('.field-rating');
         var inputs;
         var error = 1;
