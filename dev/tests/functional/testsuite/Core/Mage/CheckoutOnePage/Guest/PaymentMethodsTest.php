@@ -27,14 +27,15 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
     {
         $this->loginAdminUser();
         $this->systemConfigurationHelper()->useHttps('frontend', 'no');
+        /*@TODO remove comments after fix MAGETWO-8455
         $this->paypalHelper()->paypalDeveloperLogin();
-        $this->paypalHelper()->deleteAllAccounts();
+        $this->paypalHelper()->deleteAllAccounts();*/
     }
 
     /**
      * <p>Creating Simple product</p>
      *
-     * @return string
+     * @return array
      *
      * @test
      */
@@ -43,16 +44,22 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
+        /*@TODO remove comments and the second return after fix MAGETWO-8455
         $this->paypalHelper()->paypalDeveloperLogin();
         $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');
         $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
-        return array('sku' => $simple['general_name'], 'api' => $api, 'visa' => $accounts['visa']['credit_card']);
+
+        return array('sku' => $simple['general_name'], 'api' => $api, 'visa' => $accounts['visa']['credit_card']);*/
+
+        return array('sku' => $simple['general_name']);
     }
 
     /**
@@ -69,21 +76,31 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
      */
     public function differentPaymentMethodsWithout3D($payment, $testData)
     {
+        if ($payment === 'authorizenet') {
+            $this->markTestIncomplete('MAGETWO-8893');
+        }
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
-            array('general_name' => $testData['sku'],
-                  'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)));
+        $checkoutData = $this->loadDataSet(
+            'OnePageCheckout',
+            'guest_flatrate_checkmoney_usa',
+            array(
+                'general_name' => $testData['sku'],
+                'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)
+            )
+        );
         $configName = ($payment !== 'checkmoney') ? $payment . '_without_3Dsecure' : $payment;
         $paymentConfig = $this->loadDataSet('PaymentMethod', $configName);
         if ($payment != 'payflowpro' && isset($paymentData['payment_info'])) {
             $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
         }
         if ($payment == 'paypaldirect') {
+            $this->markTestIncomplete('MAGETWO-8455');
             $paymentConfig = $this->overrideArrayData($testData['api'], $paymentConfig, 'byFieldKey');
         }
         //Steps
         $this->navigate('system_configuration');
         if (preg_match('/^pay(pal)|(flow)/', $payment)) {
+            $this->markTestIncomplete('MAGETWO-8455');
             $this->systemConfigurationHelper()->configurePaypal($paymentConfig);
         } else {
             $this->systemConfigurationHelper()->configure($paymentConfig);
@@ -123,18 +140,28 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Selenium_T
      */
     public function differentPaymentMethodsWith3D($payment, $testData)
     {
+        if ($payment === 'authorizenet') {
+            $this->markTestIncomplete('MAGETWO-8893');
+        }
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
-            array('general_name' => $testData['sku'],
-                  'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)));
+        $checkoutData = $this->loadDataSet(
+            'OnePageCheckout',
+            'guest_flatrate_checkmoney_usa',
+            array(
+                'general_name' => $testData['sku'],
+                'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)
+            )
+        );
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure');
+        $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
         //Steps
         if ($payment == 'paypaldirect') {
-            $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
+            $this->markTestIncomplete('MAGETWO-8455');
             $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure', $testData['api']);
         }
         $this->navigate('system_configuration');
         if (preg_match('/^pay(pal)|(flow)/', $payment)) {
+            $this->markTestIncomplete('MAGETWO-8455');
             $this->systemConfigurationHelper()->configurePaypal($paymentConfig);
             $this->systemConfigurationHelper()->configure('PaymentMethod/enable_3d_secure');
         } else {
