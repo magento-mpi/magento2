@@ -120,6 +120,9 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      */
     public function withoutOptions($productType, $order, $testData)
     {
+        if($productType == 'simple') {
+            $this->markTestIncomplete('MAGETWO-8835');
+        }
         //Data
         $orderData = $this->loadDataSet('SalesOrder', $order,
                                         array('filter_sku' => $testData[$productType . '_sku']));
