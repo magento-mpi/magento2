@@ -43,7 +43,8 @@ class Core_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
             if ($this->controlIsPresent('button', $btnName)) {
                 $tileElement = $this->mouseOverDrawer($tile);
                 $tileButton =
-                    $this->getChildElement($tileElement, $this->_getControlXpath('button', $btnName), false);
+                    $this->getChildElements($tileElement, $this->_getControlXpath('button', $btnName), false);
+                $tileButton = array_shift($tileButton);
                 if ($tileButton->displayed()) {
                     $tileButton->click();
                     $this->waitForAjax();

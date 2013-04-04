@@ -19,6 +19,11 @@
 class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCase
 {
     /**
+     * @var bool
+     */
+    protected $_restoreLocale = false;
+
+    /**
      * <p>Preconditions:</p>
      * <p>1. Login to Backend</p>
      * <p>2. Navigate to Store Launcher page</p>
@@ -39,20 +44,40 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
     }
 
     /**
+     * Set System Locale to default
+     */
+    public function tearDownAfterTest()
+    {
+        if ($this->_restoreLocale) {
+            $this->loginAdminUser();
+            $this->navigate('system_configuration');
+            $this->systemConfigurationHelper()->configure('General/general_locale_default');
+            $this->_restoreLocale = false;
+        }
+    }
+
+    /**
      * <p>User can edit Business Info information.</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6508
+     * @dataProvider businessInfoDataProvider
+
      */
-    public function editBusinessInfoInformation()
+    public function editBusinessInfoInformation($storeInfo, $locale)
     {
+        $this->navigate('system_configuration');
+        $config = $this->loadDataSet('General', 'general_locale_default', array('locale' => $locale));
+        $this->systemConfigurationHelper()->configure($config);
+        $this->_restoreLocale = true;
+        $this->admin();
         /**
          * @var Core_Mage_StoreLauncher_Helper $helper
          */
         $helper = $this->storeLauncherHelper();
         $helper->openDrawer('bussines_info_tile');
 
-        $data = $this->loadDataSet('StoreInfo', 'store_info');
+        $data = $this->loadDataSet('StoreInfo', $storeInfo);
         $this->fillFieldset($data, 'bussines_info_drawer_form');
         $helper->saveDrawer();
 
@@ -72,6 +97,17 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
     }
 
     /**
+     * DataProvider for editBusinessInfoInformation()
+     */
+    public function businessInfoDataProvider()
+    {
+        return array(
+            array('store_info_no_vat', 'English (United States)'),
+            array('store_info_vat', 'English (United Kingdom)'),
+        );
+    }
+
+    /**
      * <p>Business Address is displayed on tile after saving info on drawer</p>
      *
      * @test
@@ -85,7 +121,7 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
         $helper = $this->storeLauncherHelper();
         $helper->openDrawer('bussines_info_tile');
 
-        $data = $this->loadDataSet('StoreInfo', 'store_info');
+        $data = $this->loadDataSet('StoreInfo', 'store_info_no_vat');
         $this->fillFieldset($data, 'bussines_info_drawer_form');
         $helper->saveDrawer();
 
@@ -116,7 +152,7 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
         $helper = $this->storeLauncherHelper();
         $helper->openDrawer('bussines_info_tile');
 
-        $data = $this->loadDataSet('StoreInfo', 'store_info');
+        $data = $this->loadDataSet('StoreInfo', 'store_info_no_vat');
         $this->fillFieldset($data, 'bussines_info_drawer_form');
         $helper->closeDrawer();
 

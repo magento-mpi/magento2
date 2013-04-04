@@ -10,16 +10,26 @@
 ---
 #Test data for Store Launcher
 
-store_info:
+store_info: &storeInfo
     store_name: Generic Store(%randomize%)
     store_contact_email: test_frontend_%randomize%@unknown-domain.com
-    store_contact_telephone: 530-918-3581
-    store_street_address: 10441 Jefferson Blvd
-    store_street_address2: Suite 200
+    store_contact_telephone: 091019019
+    store_street_address: street_address_1
+    store_street_address2: street_address_2
+
+store_info_no_vat:
+    <<: *storeInfo
     store_city: Culver City
     store_zip: 90232
     store_country: United States
     store_state_region: California
+
+store_info_vat:
+    <<: *storeInfo
+    store_city: Palo Alto
+    store_zip: 12345
+    store_country: United Kingdom
+    store_state_region: %noValue%
     billing_vat_number: 584451913
 
 store_info_default:
@@ -32,18 +42,6 @@ store_info_default:
     store_zip: ''
     store_country: --Please Select--
     store_state_region_field: ''
-    billing_vat_number: ''
-
-store_info_address:
-    store_contact_email: test_frontend_%randomize%@unknown-domain.com
-    store_contact_telephone: 530-918-3581
-    store_street_address: 10441 Jefferson Blvd
-    store_street_address2: Suite 200
-    store_city: Culver City
-    store_zip: 90232
-    store_country: United States
-    store_state_region: California
-    billing_vat_number: 584451913
 
 store_info_email:
     store_contact_email: %email%
