@@ -46,7 +46,7 @@
         options: {
             timeout: 3000, // TODO:Default 3s, needs to be verified
             token: null, // may be deprecated
-            responseType: 'application/json' // response type set by user. Defaulted to xml
+            responseType: 'application/json' // response type set by user. Defaulted to json
         },
 
         /**
