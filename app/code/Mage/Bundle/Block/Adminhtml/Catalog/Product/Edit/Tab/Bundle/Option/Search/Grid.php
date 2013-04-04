@@ -29,16 +29,20 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
         $this->setUseAjax(true);
     }
 
+    /**
+     * Prepare grid massaction actions
+     *
+     * @return Mage_Backend_Block_Widget_Grid
+     */
     protected function _prepareMassaction()
     {
         $this->setMassactionIdField('assigned_products_id');
-        $this->getMassactionBlock()->setTemplate('Mage_Catalog::product/grid/massaction_extended.phtml');
-        $this->getMassactionBlock()->setFormFieldName('product');
-
-        $this->getMassactionBlock()->addItem('empty', array(
-            'label'=> '',
-            'url'  => $this->getUrl('*/*/*'),
-        ));
+        $this->getMassactionBlock()->setTemplate('Mage_Catalog::product/grid/massaction_extended.phtml')
+            ->setFormFieldName('product')
+            ->addItem('empty', array(
+                'label'=> '',
+                'url'  => $this->getUrl('*/*/*'),
+            ));
         return $this;
     }
 
