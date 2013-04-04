@@ -26,7 +26,9 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
     public function configure($parameters)
     {
         $parameters = $this->fixtureDataToArray($parameters);
-        if (isset($parameters['configuration_scope'])) {
+        if (isset($parameters['configuration_scope']) &&
+            $this->controlIsVisible('dropdown', 'current_configuration_scope')
+        ) {
             $this->selectStoreScope('dropdown', 'current_configuration_scope', $parameters['configuration_scope']);
         }
         foreach ($parameters as $value) {
@@ -53,12 +55,16 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
     public function expandFieldSet($fieldsetName)
     {
         $formLocator = $this->getControlElement('fieldset', $fieldsetName);
-        if ($formLocator->name() == 'fieldset') {
+        if ($formLocator->name() != 'fieldset') {
+            return;
+        }
+        if (!$formLocator->displayed()) {
             $fieldsetLink = $this->getControlElement('link', $fieldsetName . '_link');
-            if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
-                $this->focusOnElement($fieldsetLink);
-                $fieldsetLink->click();
-                $this->clearActiveFocus();
+            $this->focusOnElement($fieldsetLink);
+            $fieldsetLink->click();
+            $this->clearActiveFocus();
+            if (!$formLocator->displayed()) {
+                $this->fail('Could not expand System Configuration section');
             }
         }
     }
@@ -137,10 +143,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->admin('system_configuration');
         $this->openConfigurationTab('general_web');
-        $fieldsetLink = $this->getControlElement('link', 'secure_link');
-        if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
-            $fieldsetLink->click();
-        }
+        $this->expandFieldSet('secure');
         $secureBaseUrl = $this->getControlAttribute('field', 'secure_base_url', 'value');
         $data = array('secure_base_url'             => preg_replace('/http(s)?/', 'https', $secureBaseUrl),
                       'use_secure_urls_in_' . $path => ucwords(strtolower($useSecure)));
@@ -154,6 +157,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
      */
     public function configurePaypal($parameters)
     {
+        $this->markTestIncomplete('MAGETWO-8455');
         $this->configure($parameters);
     }
 

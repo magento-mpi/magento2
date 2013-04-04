@@ -23,11 +23,6 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_CollectionTest extends 
         );
     }
 
-    protected function tearDown()
-    {
-        $this->_collection = null;
-    }
-
     /**
      * @magentoDataFixture Saas/PrintedTemplate/_files/order.php
      */

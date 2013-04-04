@@ -18,9 +18,11 @@
             <action method="addCss"><file>mui/form.css</file></action>
             <action method="addCss"><file>mui/components.css</file></action>
             <action method="addCss"><file>css/admin.css</file></action>
+            <action method="addCss"><file>jquery/farbtastic/css/farbtastic.css</file></action>
             <action method="addCss"><file>css/header.css</file></action>
             <action method="addCss"><file>css/pages.css</file></action>
             <action method="addCss"><file>mui/utils.css</file></action>
+            <action method="addCss"><file>Mage_Core::prototype/magento.css</file></action>
 
             <action method="addCss"><file>css/debug.css</file></action> <!-- temporary to debug -->
 
@@ -28,8 +30,9 @@
 
             <action method="addJs"><file>lib/modernizr.js</file></action>
             <action method="addJs"><file>js/head.js</file></action>
-            <action method="addJs"><file>jquery/jquery.dropdowns.js</file></action>
+            <action method="addJs"><file>mage/dropdown.js</file></action>
             <action method="addJs"><file>jquery/jquery.tabs.js</file></action>
+            <action method="addJs"><file>jquery/farbtastic/jquery.farbtastic.js</file></action>
             <action method="addJs"><file>js/theme.js</file></action>
             <action method="addJs"><file>js/jquery.details.js</file></action>
         </reference>

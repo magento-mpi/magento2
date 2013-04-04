@@ -13,7 +13,7 @@
 manage_product_rules:
     mca: targetrule/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'targetrule/')]
-    title: Rule-based Product Relations / Catalog / Magento Admin
+    title: Rule-based Product Relations / Promotions / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -45,7 +45,7 @@ manage_product_rules:
 #Create Product Rules page
 create_product_rule:
     mca: targetrule/new/
-    title: New Rule / Rule-based Product Relations / Catalog / Magento Admin
+    title: New Rule / Rule-based Product Relations / Promotions / Marketing / Magento Admin
     uimap:
         form: &createProductRule
             tabs:
@@ -55,7 +55,7 @@ create_product_rule:
                         fieldsets:
                             -
                                 general_rule_information:
-                                    xpath: //div[@id='rule_base_fieldset']
+                                    xpath: //fieldset[@id='rule_base_fieldset']
                                     fields:
                                         rule_name: //input[@id='rule_name']
                                         priority: //input[@id='rule_sort_order']

@@ -160,7 +160,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     /**
      * Cache frontend adapter instance
      *
-     * @var Zend_Cache_Core
+     * @var Magento_Cache_FrontendInterface
      */
     protected $_cacheAdapter;
 
@@ -3014,10 +3014,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     /**
      * Set cache adapter
      *
-     * @param Zend_Cache_Backend_Interface $adapter
+     * @param Magento_Cache_FrontendInterface $adapter
      * @return Varien_Db_Adapter_Pdo_Mssql
      */
-    public function setCacheAdapter($adapter)
+    public function setCacheAdapter(Magento_Cache_FrontendInterface $adapter)
     {
         $this->_cacheAdapter = $adapter;
         return $this;
@@ -3114,7 +3114,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
         if ($tableName === null) {
             $this->_ddlCache = array();
-            if ($this->_cacheAdapter instanceof Zend_Cache_Core) {
+            if ($this->_cacheAdapter) {
                 $this->_cacheAdapter->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(self::DDL_CACHE_TAG));
             }
         } else {
@@ -3125,7 +3125,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 unset($this->_ddlCache[$ddlType][$cacheKey]);
             }
 
-            if ($this->_cacheAdapter instanceof Zend_Cache_Core) {
+            if ($this->_cacheAdapter) {
                 foreach ($ddlTypes as $ddlType) {
                     $cacheId = $this->_getCacheId($cacheKey, $ddlType);
                     $this->_cacheAdapter->remove($cacheId);
@@ -3150,7 +3150,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
         $this->_ddlCache[$ddlType][$tableCacheKey] = $data;
 
-        if ($this->_cacheAdapter instanceof Zend_Cache_Core) {
+        if ($this->_cacheAdapter) {
             $cacheId = $this->_getCacheId($tableCacheKey, $ddlType);
             $data = serialize($data);
             $this->_cacheAdapter->save($data, $cacheId, array(self::DDL_CACHE_TAG));
@@ -3188,7 +3188,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             return $this->_ddlCache[$ddlType][$tableCacheKey];
         }
 
-        if ($this->_cacheAdapter instanceof Zend_Cache_Core) {
+        if ($this->_cacheAdapter) {
             $cacheId = $this->_getCacheId($tableCacheKey, $ddlType);
             $data = $this->_cacheAdapter->load($cacheId);
             if ($data !== false) {
@@ -3987,18 +3987,35 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _addForeignKeyDeleteAction($tableName, $columnName, $refTableName, $refColumnName, $fkAction)
     {
-        $sqlTrigger = $this->_getInsteadTriggerBody($refTableName);
+        $pkColumns = $this->_getPrimaryKeyColumns($tableName);
+        $isPrimary = in_array($refColumnName, $pkColumns);
+        $sqlTrigger = $this->_getInsteadTriggerBody($refTableName, $isPrimary);
         if ($tableName == $refTableName) {
-            $ids = "\n;WITH depended_ids ({$refColumnName}) AS (                    \n"
-                . "SELECT m.{$refColumnName}                                        \n"
+            if (!$isPrimary) {
+                $uniqueColumns = $this->_getUniqueIndexColumns($tableName);
+                $columns = array_merge($pkColumns, $uniqueColumns);
+                $fields = implode(', ', $columns);
+
+                $mColumns = array();
+                foreach ($columns as $column) {
+                    $mColumns[] = 'm.' . $column;
+                }
+                $mFields = implode(', ', $mColumns);
+            } else {
+                $fields = $refColumnName;
+                $mFields = 'm.' . $refColumnName;
+            }
+
+            $ids = "\n;WITH depended_ids ({$fields}) AS (                    \n"
+                . "SELECT {$mFields}                                        \n"
                 . "FROM {$tableName} AS m                                           \n"
                 . "INNER JOIN deleted d ON m.{$refColumnName} = d.{$refColumnName}  \n"
                 . "UNION ALL                                                        \n"
-                . "SELECT m.{$refColumnName}                                        \n"
+                . "SELECT {$mFields}                                        \n"
                 . "FROM {$tableName} AS m                                           \n"
                 . "INNER JOIN depended_ids AS di ON di.{$refColumnName} = m.{$columnName}\n)"
                 . "INSERT INTO @deletedRows                                         \n"
-                . "SELECT $refColumnName FROM depended_ids                          \n";
+                . "SELECT {$fields} FROM depended_ids                          \n";
             if (strpos($sqlTrigger, "/*place ids here*/") === false) {
                 throw new Zend_Db_Exception("Hierarchical query already exist! Cannot add anymore!");
             }
@@ -4523,11 +4540,19 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * Get instead trigger sql template
      *
      * @param string $tableName
+     * @param boolean $isPrimary
      * @return string
      */
-    protected function _getInsteadTriggerBody($tableName)
+    protected function _getInsteadTriggerBody($tableName, $isPrimary = true)
     {
         $pkColumns = $this->_getPrimaryKeyColumns($tableName);
+        if (!$isPrimary) {
+            $uniqueColumns = $this->_getUniqueIndexColumns($tableName);
+            $columns = array_merge($pkColumns, $uniqueColumns);
+        } else {
+            $columns = $pkColumns;
+        }
+
         $query = sprintf(" SELECT CAST(OBJECT_DEFINITION (object_id) AS VARCHAR(MAX)) \n"
                     . " FROM sys.triggers t                \n"
                     . " WHERE t.is_instead_of_trigger = 1 \n"
@@ -4535,7 +4560,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             $tableName
         );
         $deletedRows = array();
-        foreach ($pkColumns as $column) {
+        foreach ($columns as $column) {
             $deletedRows[] = sprintf('%s %s', $column, $this->_getColumnDataType($tableName, $column));
         }
         $triggerBody = str_replace('CREATE TRIGGER', 'ALTER TRIGGER', $this->fetchOne($query));
@@ -4547,7 +4572,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
                 $pKeysCond[] = sprintf('t.%s = d.%s', $column, $column);
             }
 
-            $fields = implode(', ', $pkColumns);
+            $fields = implode(', ', $columns);
             $triggerBody = "CREATE TRIGGER [{$triggerName}]                 \n"
                 . "    ON  {$tableName}                                     \n"
                 . "    INSTEAD OF DELETE                                    \n"

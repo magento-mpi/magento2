@@ -50,30 +50,30 @@
     </testsuites>
     <filter>
         <whitelist>
-            <directory>../app/code/core/Mage</directory>
+            <directory>../app/code/Mage</directory>
             <exclude>
                 <directory>../lib</directory>
-                <directory>../app/code/core/Mage/Admin/Model/Acl/Assert</directory>
-                <directory>../app/code/core/Mage/Adminhtml/Block</directory>
-                <directory>../app/code/core/Mage/Install</directory>
-                <directory>../app/code/core/Mage/Reports</directory>
-                <directory>../app/code/core/Mage/Api/Model/Acl/Assert</directory>
-                <directory>../app/code/core/Mage/Index</directory>
-                <directory>../app/code/core/Mage/Cybersource</directory>
-                <file>../app/code/core/Mage/Captcha/Model/Captcha.php</file>
-                <file>../app/code/core/Mage/Payment/Model/Paygate/Request.php</file>
-                <file>../app/code/core/Mage/Sales/Model/Mysql4/Report/Abstract.php</file>
-                <file>../app/code/core/Mage/Sales/Model/Mysql4/Abstract.php</file>
-                <file>../app/code/core/Mage/Adminhtml/Model/Extension.php</file>
-                <file>../app/code/core/Mage/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Price/Interface.php</file>
-                <file>../app/code/core/Mage/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Eav/Abstract.php</file>
-                <file>../app/code/core/Mage/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Abstract.php</file>
-                <file>../app/code/core/Mage/CatalogInventory/Model/Mysql4/Indexer/Stock/Interface.php</file>
-                <directory prefix="data-upgrade-">../app/code/core/Mage</directory>
-                <directory prefix="data-install-">../app/code/core/Mage</directory>
-                <directory prefix="upgrade-">../app/code/core/Mage</directory>
-                <directory prefix="mysql4-">../app/code/core/Mage</directory>
-                <directory prefix="install-">../app/code/core/Mage</directory>
+                <directory>../app/code/Mage/Admin/Model/Acl/Assert</directory>
+                <directory>../app/code/Mage/Adminhtml/Block</directory>
+                <directory>../app/code/Mage/Install</directory>
+                <directory>../app/code/Mage/Reports</directory>
+                <directory>../app/code/Mage/Api/Model/Acl/Assert</directory>
+                <directory>../app/code/Mage/Index</directory>
+                <directory>../app/code/Mage/Cybersource</directory>
+                <file>../app/code/Mage/Captcha/Model/Captcha.php</file>
+                <file>../app/code/Mage/Payment/Model/Paygate/Request.php</file>
+                <file>../app/code/Mage/Sales/Model/Mysql4/Report/Abstract.php</file>
+                <file>../app/code/Mage/Sales/Model/Mysql4/Abstract.php</file>
+                <file>../app/code/Mage/Adminhtml/Model/Extension.php</file>
+                <file>../app/code/Mage/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Price/Interface.php</file>
+                <file>../app/code/Mage/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Eav/Abstract.php</file>
+                <file>../app/code/Mage/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Abstract.php</file>
+                <file>../app/code/Mage/CatalogInventory/Model/Mysql4/Indexer/Stock/Interface.php</file>
+                <directory prefix="data-upgrade-">../app/code/Mage</directory>
+                <directory prefix="data-install-">../app/code/Mage</directory>
+                <directory prefix="upgrade-">../app/code/Mage</directory>
+                <directory prefix="mysql4-">../app/code/Mage</directory>
+                <directory prefix="install-">../app/code/Mage</directory>
             </exclude>
         </whitelist>
     </filter>

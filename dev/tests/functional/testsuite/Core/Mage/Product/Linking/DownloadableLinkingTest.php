@@ -194,7 +194,7 @@ class Core_Mage_Product_Linking_DownloadableLinkingTest extends Mage_Selenium_Te
         $this->navigate('manage_products');
         //Set product to 'Out of Stock';
         $this->productHelper()->openProduct($searchAssigned);
-        $this->openTab('inventory');
+        $this->productHelper()->openProductTab('inventory');
         $this->fillDropdown('inventory_stock_availability', 'Out of Stock');
         $this->productHelper()->saveProduct('continueEdit');
         //Assign product
@@ -246,7 +246,7 @@ class Core_Mage_Product_Linking_DownloadableLinkingTest extends Mage_Selenium_Te
         $this->navigate('manage_products');
         //Set product to 'Out of Stock';
         $this->productHelper()->openProduct($searchAssigned);
-        $this->openTab('inventory');
+        $this->productHelper()->openProductTab('inventory');
         $this->fillDropdown('inventory_stock_availability', 'Out of Stock');
         $this->productHelper()->saveProduct('continueEdit');
         //Assign product
@@ -298,7 +298,7 @@ class Core_Mage_Product_Linking_DownloadableLinkingTest extends Mage_Selenium_Te
         $this->navigate('manage_products');
         //Set product to 'Out of Stock';
         $this->productHelper()->openProduct($searchAssigned);
-        $this->openTab('inventory');
+        $this->productHelper()->openProductTab('inventory');
         $this->fillDropdown('inventory_stock_availability', 'Out of Stock');
         $this->productHelper()->saveProduct('continueEdit');
         //Assign product

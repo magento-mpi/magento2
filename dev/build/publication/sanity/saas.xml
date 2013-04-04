@@ -17,22 +17,129 @@
         <word>biz@magento.com</word>
         <word>petervarien</word>
         <word>ukpromerchant</word>
+        <!-- Removed modules -->
+        <word>Find_Feed</word>
+        <word>Moneybookers</word>
+        <word>AdminGws</word>
+        <word>CatalogEvent</word>
+        <word>CatalogPermissions</word>
+        <word>GiftWrapping</word>
+        <word>Enterprise_ImportExport</word>
+        <word>Enterprise_License</word>
+        <word>Enterprise_Persistent</word>
+        <word>PricePermissions</word>
+        <word>PromotionPermissions</word>
+        <word>Enterprise_Checkout</word>
+        <word>Enterprise_Reminder</word>
+        <word>Enterprise_Rma</word>
+        <word>Enterprise_Tag</word>
+        <word>TargetRule</word>
+        <word>Enterprise_Wishlist</word>
+        <word>Mage_Authorizenet</word>
+        <word>GoogleOptimizer</word>
+        <word>Mage_Ogone</word>
+        <word>Mage_PageCache</word>
     </words>
     <whitelist>
         <item>
             <path>dev/build</path>
         </item>
         <item>
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <path>dev/tests/unit/testsuite/tools/migration/Acl/GeneratorTest.php</path>
+            <path>lib/Zend</path>
+        </item>
+        <item>
+            <!-- Must be refactored to be modular -->
+            <path>app/code/Enterprise/Enterprise/Model/Resource/Setup/Migration.php</path>
+        </item>
+        <item>
+            <!-- Must be refactored to be modular -->
+            <path>app/code/Enterprise/Enterprise/data/enterprise_enterprise_setup/data-upgrade-1.11.0.0-1.11.0.1.php</path>
+        </item>
+        <item>
+            <!-- Must be refactored to be modular -->
+            <word>Enterprise_Rma</word>
+            <path>app/code/Enterprise/Enterprise/data/enterprise_enterprise_setup/data-upgrade-1.11.0.2-1.11.0.3.php</path>
+        </item>
+        <item>
+            <!-- Must be refactored to be modular -->
+            <path>app/code/Mage/User/data/user_setup/data-upgrade-1.6.1.1-1.6.1.2.php</path>
+        </item>
+        <item>
+            <!-- Must be refactored to be modular to support saas edition -->
+            <path>dev/tools/migration</path>
+        </item>
+        <item>
+            <!-- Must be refactored to be modular -->
+            <word>GiftWrapping</word>
+            <path>app/design/adminhtml/default/backend/css/pages.css</path>
+        </item>
+        <item>
+            <!-- Must be removed, when CustomerSegment is removed as well -->
+            <word>TargetRule</word>
+            <path>app/code/Enterprise/CustomerSegment/Model/Observer.php</path>
+        </item>
+        <item>
+            <!-- Must be removed, when CustomerSegment is removed as well -->
+            <word>TargetRule</word>
+            <path>app/code/Enterprise/CustomerSegment/etc/config.xml</path>
+        </item>
+
+        <item>
+            <!-- Must be refactored  -->
+            <word>TargetRule</word>
+            <path>app/code/Enterprise/PageCache/Model/Container/CatalogProductItem.php</path>
+        </item>
+        <item>
+            <!-- Must be refactored  -->
+            <word>TargetRule</word>
+            <path>app/code/Mage/Launcher/view/adminhtml/page/promotestore/relatedproducts/drawer.phtml</path>
+        </item>
+        <item>
+            <!-- Must be refactored  -->
+            <word>TargetRule</word>
+            <path>app/code/Enterprise/PageCache/etc/cache.xml</path>
+        </item>
+        <item>
+            <!-- Must be removed, when Oauth is removed as well -->
+            <word>CatalogEvent</word>
+            <path>app/design/frontend/enterprise/fixed/Mage_Oauth/layout.xml</path>
+        </item>
+        <item>
+            <!-- Must be refactored to be modular -->
+            <word>Enterprise_Rma</word>
+            <path>dev/tests/integration/testsuite/integrity/theme/RenderersTest.php</path>
+        </item>
+        <item>
+            <!-- Must be refactored to be truly modular and support saas edition -->
+            <word>AdminGws</word>
+            <word>CatalogEvent</word>
+            <word>CatalogPermissions</word>
+            <word>GiftWrapping</word>
+            <word>GoogleOptimizer</word>
+            <word>TargetRule</word>
+            <word>Enterprise_Reminder</word>
+            <word>Mage_Ogone</word>
+            <word>Enterprise_Checkout</word>
+            <path>dev/tests/static/testsuite/Legacy/_files/</path>
+        </item>
+        <item>
+            <!-- Must be refactored to be truly modular and support saas edition -->
+            <word>CatalogEvent</word>
+            <word>CatalogPermissions</word>
+            <word>GiftWrapping</word>
+            <word>ImportExport</word>
+            <word>TargetRule</word>
+            <path>dev/tests/static/testsuite/Php/_files/phpcpd/blacklist</path>
+        </item>
+        <item>
+            <word>GiftWrapping</word>
+            <path>app/code/Enterprise/GiftCardAccount/etc/config.xml</path>
         </item>
         <item>
             <word>{copyright}</word>
             <word>{license_link}</word>
             <word>{license_notice}</word>
-            <path>dev/tools/migration/Acl/Generator.php</path>
+            <path>dev/tests/unit/testsuite/tools/migration/Acl/GeneratorTest.php</path>
         </item>
     </whitelist>
 </config>

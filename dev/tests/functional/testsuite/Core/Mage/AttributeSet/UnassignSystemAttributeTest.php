@@ -63,16 +63,17 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
             $this->attributeSetHelper()->unassignAttributeFromSet(array($attributeCode));
             $this->attributeSetHelper()->verifyAttributeAssignment(array($attributeCode), false);
         }
-        $this->attributeSetHelper()->deleteGroup(array('Meta Information'));
+        $this->attributeSetHelper()->deleteGroup(array('Search Optimization'));
         //Verifying
-        $this->assertFalse($this->controlIsPresent('link', 'group_folder'), '"Meta Information" group was not deleted');
+        $this->assertFalse($this->controlIsPresent('link', 'group_folder'),
+            '"Search Optimization" group was not deleted');
     }
 
     /**
      * Remove system attribute group with system attributes
      *
      * Expected results:
-     *  1. Meta information group has been deleted.
+     *  1. Search Optimization group has been deleted.
      *
      * @param string $setName
      *
@@ -84,9 +85,10 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
     {
         //Steps
         $this->attributeSetHelper()->openAttributeSet($setName);
-        $this->attributeSetHelper()->deleteGroup(array('Meta Information'));
+        $this->attributeSetHelper()->deleteGroup(array('Search Optimization'));
         //Verifying
-        $this->assertFalse($this->controlIsPresent('link', 'group_folder'), '"Meta Information" group was not deleted');
+        $this->assertFalse($this->controlIsPresent('link', 'group_folder'),
+            '"Search Optimization" group was not deleted');
     }
 
     /**
@@ -112,28 +114,6 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
     }
 
     /**
-     * Remove system attributes from Minimal attribute set
-     *
-     * @param string $attributeCode
-     *
-     * @test
-     * @dataProvider unassignableSystemAttributesDataProvider
-     * @TestLinkId TL-MAGE-6127
-     */
-    public function fromMinimalAttributeSet($attributeCode)
-    {
-        //Data
-        $setName = 'Minimal';
-        //Steps
-        $this->attributeSetHelper()->openAttributeSet($setName);
-        $this->attributeSetHelper()->addAttributeToSet(array('General' => $attributeCode));
-        $this->attributeSetHelper()->verifyAttributeAssignment(array($attributeCode));
-        $this->attributeSetHelper()->unassignAttributeFromSet(array($attributeCode));
-        //Verifying
-        $this->attributeSetHelper()->verifyAttributeAssignment(array($attributeCode), false);
-    }
-
-    /**
      * DataProvider for system attributes, which can be unassigned
      *
      * @return array
@@ -149,8 +129,6 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
             array('custom_layout_update'),
             array('enable_googlecheckout'),
             array('gallery'),
-            array('gift_message_available'),
-            array('group_price'),
             array('is_recurring'),
             array('media_gallery'),
             array('meta_description'),
@@ -169,7 +147,6 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
             array('special_price'),
             array('special_to_date'),
             array('thumbnail'),
-            array('tier_price'),
             array('url_key')
         );
     }
@@ -225,19 +202,22 @@ class Core_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_T
     public function nonUnassignableSystemAttributesDataProvider()
     {
         return array(
+            array('category_ids'),
             array('description'),
+            array('gift_message_available'),
+            array('group_price'),
+            array('image'),
             array('name'),
             array('price'),
             array('price_view'),
+            array('quantity_and_stock_status'),
             array('short_description'),
             array('sku'),
             array('status'),
             array('tax_class_id'),
+            array('tier_price'),
             array('visibility'),
             array('weight'),
-            array('quantity_and_stock_status'),
-            array('category_ids'),
-            array('image'),
         );
     }
 }

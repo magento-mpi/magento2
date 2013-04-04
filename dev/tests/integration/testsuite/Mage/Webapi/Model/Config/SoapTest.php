@@ -33,24 +33,12 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
     /**
      * @var Mage_Webapi_Model_Config_Soap
      */
-    protected static $_apiConfig;
+    protected $_apiConfig;
 
-    public static function tearDownAfterClass()
+    protected function setUp()
     {
-        self::$_apiConfig = null;
-        parent::tearDownAfterClass();
-    }
-
-    /**
-     * @return Mage_Webapi_Model_Config_Soap
-     */
-    protected function _getModel()
-    {
-        if (!self::$_apiConfig) {
-            $pathToFixtures = __DIR__ . '/../../_files/autodiscovery';
-            self::$_apiConfig = $this->_createResourceConfig($pathToFixtures);
-        }
-        return self::$_apiConfig;
+        $pathToFixtures = __DIR__ . '/../../_files/autodiscovery';
+        $this->_apiConfig = $this->_createResourceConfig($pathToFixtures);
     }
 
     /**
@@ -66,7 +54,7 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
         $expectedResourceName,
         $message = 'Resource name was identified incorrectly by given operation.'
     ) {
-        $actualResourceName = $this->_getModel()->getResourceNameByOperation($operation, $resourceVersion);
+        $actualResourceName = $this->_apiConfig->getResourceNameByOperation($operation, $resourceVersion);
         $this->assertEquals($expectedResourceName, $actualResourceName, $message);
     }
 
@@ -114,7 +102,7 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
         $expectedResourceName,
         $message = 'Resource name was identified incorrectly by given operation.'
     ) {
-        $actualResourceName = $this->_getModel()->getResourceNameByOperation($operation, $resourceVersion);
+        $actualResourceName = $this->_apiConfig->getResourceNameByOperation($operation, $resourceVersion);
         $this->assertEquals($expectedResourceName, $actualResourceName, $message);
     }
 
@@ -142,7 +130,7 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
             'InvalidArgumentException',
             sprintf('The "%s" is not a valid API resource operation name.', $operation)
         );
-        $this->_getModel()->getResourceNameByOperation($operation, $resourceVersion);
+        $this->_apiConfig->getResourceNameByOperation($operation, $resourceVersion);
     }
 
     public function dataProviderTestGetResourceNameByOperationException()
@@ -166,7 +154,7 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
         $expectedResourceName,
         $message = 'Resource name was identified incorrectly by given operation.'
     ) {
-        $actualResourceName = $this->_getModel()->getMethodNameByOperation($operation, $resourceVersion);
+        $actualResourceName = $this->_apiConfig->getMethodNameByOperation($operation, $resourceVersion);
         $this->assertEquals($expectedResourceName, $actualResourceName, $message);
     }
 
@@ -206,7 +194,7 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
             'InvalidArgumentException',
             sprintf('The "%s" is not a valid API resource operation name.', $operation)
         );
-        $this->_getModel()->getMethodNameByOperation($operation, $resourceVersion);
+        $this->_apiConfig->getMethodNameByOperation($operation, $resourceVersion);
     }
 
     public function dataProviderTestGetMethodNameByOperationException()
@@ -219,7 +207,7 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
 
     public function testGetControllerClassByOperationNamePositive()
     {
-        $actualController = $this->_getModel()->getControllerClassByOperationName('vendorModuleResourceList');
+        $actualController = $this->_apiConfig->getControllerClassByOperationName('vendorModuleResourceList');
         $message = 'Controller class was identified incorrectly by given operation.';
         $this->assertEquals('Vendor_Module_Controller_Webapi_Resource', $actualController, $message);
     }
@@ -234,7 +222,7 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
             'InvalidArgumentException',
             sprintf('The "%s" is not a valid API resource operation name.', $operation)
         );
-        $this->_getModel()->getControllerClassByOperationName($operation);
+        $this->_apiConfig->getControllerClassByOperationName($operation);
     }
 
     public function dataProviderTestGetControllerClassByOperationNameNegative()
@@ -251,7 +239,7 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
             'LogicException',
             'Resource "resourceWithoutControllerAndModule" must have associated controller class.'
         );
-        $this->_getModel()->getControllerClassByOperationName('resourceWithoutControllerAndModuleGet');
+        $this->_apiConfig->getControllerClassByOperationName('resourceWithoutControllerAndModuleGet');
     }
 
     /**
@@ -263,7 +251,7 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             $expectedMaxVersion,
-            $this->_getModel()->getResourceMaxVersion($resourceName),
+            $this->_apiConfig->getResourceMaxVersion($resourceName),
             "Resource maximum available version was identified incorrectly."
         );
     }
@@ -283,12 +271,12 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
             'InvalidArgumentException',
             sprintf('Resource "%s" does not exist.', $resourceName)
         );
-        $this->_getModel()->getResourceMaxVersion($resourceName);
+        $this->_apiConfig->getResourceMaxVersion($resourceName);
     }
 
     public function testGetResource()
     {
-        $resourceData = $this->_getModel()->getResourceDataMerged('vendorModuleResource', 'v1');
+        $resourceData = $this->_apiConfig->getResourceDataMerged('vendorModuleResource', 'v1');
         $this->assertTrue(isset($resourceData['methods']['create']), "Information about methods is not available.");
         $this->assertTrue(
             isset($resourceData['methods']['create']['interface']['in']['parameters']['requiredField']),
@@ -303,18 +291,18 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
     public function testGetResourceInvalidResourceName()
     {
         $this->setExpectedException('RuntimeException', 'Unknown resource "invalidResource".');
-        $this->_getModel()->getResourceDataMerged('invalidResource', 'v1');
+        $this->_apiConfig->getResourceDataMerged('invalidResource', 'v1');
     }
 
     public function testGetResourceInvalidVersion()
     {
         $this->setExpectedException('RuntimeException', 'Unknown version "V100" for resource "vendorModuleResource".');
-        $this->_getModel()->getResourceDataMerged('vendorModuleResource', 'v100');
+        $this->_apiConfig->getResourceDataMerged('vendorModuleResource', 'v100');
     }
 
     public function testGetTypeData()
     {
-        $actualDataType = $this->_getModel()->getTypeData('VendorModuleCustomerAddressData');
+        $actualDataType = $this->_apiConfig->getTypeData('VendorModuleCustomerAddressData');
         $expectedDataType = array(
             'documentation' => 'Tests fixture for Auto Discovery functionality. Customer address entity.',
             'parameters' => array(
@@ -347,7 +335,7 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
             'InvalidArgumentException',
             'Data type "InvalidDataTypeName" was not found in config.'
         );
-        $this->_getModel()->getTypeData('InvalidDataTypeName');
+        $this->_apiConfig->getTypeData('InvalidDataTypeName');
     }
 
     public function testGetAllResourcesVersions()
@@ -356,7 +344,7 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
             'vendorModuleResource' => array('V1', 'V2', 'V3', 'V4', 'V5'),
             'vendorModuleResourceSubresource' => array('V1', 'V2', 'V4')
         );
-        $allResourcesVersions = $this->_getModel()->getAllResourcesVersions();
+        $allResourcesVersions = $this->_apiConfig->getAllResourcesVersions();
         $this->assertEquals($expectedResult, $allResourcesVersions, "The list of all resources versions is incorrect.");
     }
 
@@ -366,7 +354,7 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
             'InvalidArgumentException',
             'The "update" method of "vendorModuleInvalidInterface" resource in version "V2" is not registered.'
         );
-        $this->_getModel()->getMethodMetadata(
+        $this->_apiConfig->getMethodMetadata(
             $this->_createMethodReflection(
                 'Vendor_Module_Controller_Webapi_Invalid_Interface',
                 'updateV2'
@@ -428,7 +416,7 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
      */
     public function testGetDeprecationPolicy($resource, $method, $version, $expectedResult, $deprecationFormat)
     {
-        $actualResult = $this->_getModel()->getDeprecationPolicy($resource, $method, $version);
+        $actualResult = $this->_apiConfig->getDeprecationPolicy($resource, $method, $version);
         $this->assertEquals(
             $expectedResult,
             $actualResult,
@@ -507,7 +495,7 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
     public function testGetDeprecationPolicyException($resource, $method, $version, $expectedMessage)
     {
         $this->setExpectedException('InvalidArgumentException', $expectedMessage);
-        $this->_getModel()->getDeprecationPolicy($resource, $method, $version);
+        $this->_apiConfig->getDeprecationPolicy($resource, $method, $version);
     }
 
     public static function dataProviderForTestGetDeprecationPolicyException()
@@ -534,10 +522,13 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
     {
         $objectManager = Mage::getObjectManager();
         /** Prepare arguments for SUT constructor. */
-        /** @var Mage_Core_Model_Cache $cache */
-        $cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
+        /** @var Mage_Core_Model_CacheInterface $cache */
+        $cache = $this->getMock('Mage_Core_Model_CacheInterface');
+
         /** @var Mage_Webapi_Model_Config_Reader_Soap $reader */
-        $reader = $objectManager->get('Mage_Webapi_Model_Config_Reader_Soap', array('cache' => $cache));
+        $reader = $objectManager->create('Mage_Webapi_Model_Config_Reader_Soap', array(
+            'cache' => $cache
+        ));
         $reader->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToResources));
 
         /** Initialize SUT. */

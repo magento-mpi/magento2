@@ -72,7 +72,7 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'simple', false);
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         $this->assertSame($productData['general_name'], $this->getControlAttribute('field', 'general_sku', 'value'),
             'SKU is not equal to product name.');
     }
@@ -113,7 +113,7 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData, 'simple', false);
-        $this->openTab('general');
+        $this->productHelper()->openProductTab('general');
         $this->fillField('general_sku', $productSku);
         $this->productHelper()->saveProduct();
         //Verifying
@@ -127,7 +127,7 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
      * <p>Create product with long Name</p>
      *
      * @test
-     * @ depends preconditionsForTests
+     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6064
      */
     public function saveWithLongName()
@@ -189,6 +189,7 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
         $this->productHelper()->saveProduct('duplicate');
         //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $this->assertSame($this->productHelper()->getGeneratedSku($productData['general_name']),
             $this->getControlAttribute('field', 'general_sku', 'value'), 'SKU is not equal to product name.');
@@ -212,12 +213,11 @@ class Core_Mage_Product_SkuAutoGenerationTest extends Mage_Selenium_TestCase
         $this->systemConfigurationHelper()->configure($systemConfig);
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, 'simple', false);
+        $this->productHelper()->createProduct($productData, 'simple');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->addFieldIdToMessage('field', 'general_sku');
-//        $this->assertMessagePresent('validation', 'empty_required_field');
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->addFieldIdToMessage('field', 'general_sku');
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**

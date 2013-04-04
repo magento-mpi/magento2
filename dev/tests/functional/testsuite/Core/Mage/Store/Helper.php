@@ -73,7 +73,7 @@ class Core_Mage_Store_Helper extends Mage_Selenium_AbstractHelper
         $this->clickButton('search');
         //Determination of found items amount
         $fieldsetLocator = $this->_getControlXpath('fieldset', 'manage_stores');
-        list(, , $foundItems) = explode('|', $this->getElement($fieldsetLocator . "//td[@class='pager']")->text());
+        list(, , $foundItems) = explode('|', $this->getElement($fieldsetLocator . "//div[@class='pager']")->text());
         $foundItems = trim(preg_replace('/[A-Za-z]+/', '', $foundItems));
         if ($foundItems == 0) {
             $this->fail('No records found.');
@@ -166,7 +166,7 @@ class Core_Mage_Store_Helper extends Mage_Selenium_AbstractHelper
     {
         $excludeList[] = '';
         $fieldsetLocator = $this->_getControlXpath('fieldset', 'manage_stores');
-        list(, , $totalCount) = explode('|', $this->getElement($fieldsetLocator . "//td[@class='pager']")->text());
+        list(, , $totalCount) = explode('|', $this->getElement($fieldsetLocator . "//div[@class='pager']")->text());
         $totalCount = trim(preg_replace('/[A-Za-z]+/', '', $totalCount));
         if ($totalCount > 20) {
             $this->addParameter('limit', 200);

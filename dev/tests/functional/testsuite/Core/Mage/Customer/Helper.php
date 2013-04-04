@@ -38,7 +38,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
         $addressCount = $this->getControlCount('pageelement', 'list_customer_address');
         for ($i = $addressCount; $i > 0; $i--) {
             $this->addParameter('index', $i);
-            $this->clickControl('pageelement', 'list_customer_address_index', false);
+            $this->clickControl('pageelement', 'list_customer_address_address', false);
             $value = $this->getControlAttribute('pageelement', 'list_customer_address_index', 'id');
             $arrayId = explode('_', $value);
             $value = end($arrayId);
@@ -118,6 +118,10 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
         // Verify that 'send_from' field is present
         if (array_key_exists('send_from', $userData) && !$this->controlIsPresent('dropdown', 'send_from')) {
             unset($userData['send_from']);
+        }
+        if (array_key_exists('associate_to_website', $userData) &&
+            !$this->controlIsPresent('dropdown', 'associate_to_website')) {
+            unset($userData['associate_to_website']);
         }
         //Fill in 'Account Information' tab
         $this->fillForm($userData, 'account_information');

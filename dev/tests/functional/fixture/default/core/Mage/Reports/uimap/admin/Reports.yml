@@ -19,7 +19,7 @@ reports_sales_sales:
             fieldsets:
                 -
                     store_switcher:
-                        xpath: //div/p[@class='switcher']
+                        xpath: //div[@class='store-switcher']
                         dropdowns:
                             store_switcher: //select[@id='store_switcher']
 
@@ -33,7 +33,7 @@ report_sales_tax:
             fieldsets:
                 -
                     store_switcher:
-                        xpath: //div/p[@class='switcher']
+                        xpath: //div[@class='store-switcher']
                         dropdowns:
                             store_switcher: //select[@id='store_switcher']
 
@@ -47,7 +47,7 @@ report_sales_invoiced:
             fieldsets:
                 -
                     store_switcher:
-                        xpath: //div/p[@class='switcher']
+                        xpath: //div[@class='store-switcher']
                         dropdowns:
                             store_switcher: //select[@id='store_switcher']
 
@@ -61,7 +61,7 @@ report_sales_shipping:
             fieldsets:
                 -
                     store_switcher:
-                        xpath: //div/p[@class='switcher']
+                        xpath: //div[@class='store-switcher']
                         dropdowns:
                             store_switcher: //select[@id='store_switcher']
 
@@ -75,7 +75,7 @@ report_sales_refunded:
             fieldsets:
                 -
                     store_switcher:
-                        xpath: //div/p[@class='switcher']
+                        xpath: //div[@class='store-switcher']
                         dropdowns:
                             store_switcher: //select[@id='store_switcher']
 
@@ -89,14 +89,14 @@ report_sales_coupons:
             fieldsets:
                 -
                     store_switcher:
-                        xpath: //div/p[@class='switcher']
+                        xpath: //div[@class='store-switcher']
                         dropdowns:
                             store_switcher: //select[@id='store_switcher']
 
 # Sales: PayPal Settlement Reports page
 paypal_reports:
     mca: paypal_reports/
-    click_xpath: //div[@class='nav-bar']//a[span='PayPal Settlement Reports']
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/paypal_reports/')]
     title:  PayPal Settlement Reports / Sales / Reports / Magento Admin
     uimap:
         form:
@@ -107,19 +107,19 @@ paypal_reports:
 report_shopcart_product:
     mca: report_shopcart/product/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_shopcart/product/')]
-    title: Products in Carts / Shopping Cart / Reports / Magento Admin
+    title: Products in Carts / Marketing / Reports / Magento Admin
 
 # Shopping Cart: Abandoned carts page
 report_shopcart_abandoned:
     mca: report_shopcart/abandoned/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_shopcart/abandoned/')]
-    title: Abandoned Carts / Shopping Cart / Reports / Magento Admin
+    title: Abandoned Carts / Marketing / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
                 -
                     store_switcher:
-                        xpath: //div/p[@class='switcher']
+                        xpath: //div[@class='store-switcher']
                         dropdowns:
                             store_switcher: //select[@id='store_switcher']
 
@@ -133,7 +133,7 @@ report_sales_bestsellers:
             fieldsets:
                 -
                     store_switcher:
-                        xpath: //div/p[@class='switcher']
+                        xpath: //div[@class='store-switcher']
                         dropdowns:
                             store_switcher: //select[@id='store_switcher']
 
@@ -163,7 +163,7 @@ report_product_sold:
                             product_sold_grid_line: //table[@id='gridProductsSold_table']/tfoot/tr
                 -
                     store_switcher:
-                        xpath: //div/p[@class='switcher']
+                        xpath: //div[@class='store-switcher']
                         dropdowns:
                             store_switcher: //select[@id='store_switcher']
 
@@ -177,7 +177,7 @@ report_product_viewed:
             fieldsets:
                 -
                     store_switcher:
-                        xpath: //div/p[@class='switcher']
+                        xpath: //div[@class='store-switcher']
                         dropdowns:
                             store_switcher: //select[@id='store_switcher']
 
@@ -191,7 +191,7 @@ report_product_lowstock:
             fieldsets:
                 -
                     store_switcher:
-                        xpath: //div/p[@class='switcher']
+                        xpath: //div[@class='store-switcher']
                         dropdowns:
                             store_switcher: //select[@id='store_switcher']
 
@@ -205,7 +205,7 @@ report_product_downloads:
             fieldsets:
                 -
                     store_switcher:
-                        xpath: //div/p[@class='switcher']
+                        xpath: //div[@class='store-switcher']
                         dropdowns:
                             store_switcher: //select[@id='store_switcher']
 
@@ -237,7 +237,7 @@ report_customer_accounts:
                             report_customer_accounts_table: //table[@id='gridAccounts_table']
                 -
                     store_switcher:
-                        xpath: //div/p[@class='switcher']
+                        xpath: //div[@class='store-switcher']
                         dropdowns:
                             store_switcher: //select[@id='store_switcher']
 
@@ -275,7 +275,7 @@ report_customer_totals:
                             top_number_of_order: //table[@id='gridTotalsCustomer_table']//tbody/tr[1]/td[3]
                 -
                     store_switcher:
-                        xpath: //div/p[@class='switcher']
+                        xpath: //div[@class='store-switcher']
                         dropdowns:
                             store_switcher: //select[@id='store_switcher']
 
@@ -304,7 +304,7 @@ report_customer_orders:
                              customer_orders_grid_line: //table[@id='gridOrdersCustomer_table']/tfoot/tr
                 -
                     store_switcher:
-                        xpath: //div/p[@class='switcher']
+                        xpath: //div[@class='store-switcher']
                         dropdowns:
                             store_switcher: //select[@id='store_switcher']
 
@@ -394,13 +394,13 @@ tags_submitted_to_product:
 report_tag_popular:
     mca: report_tag/popular/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_tag/popular/')]
-    title: Popular / Tags / Reports / Magento Admin
+    title: Popular / Tags / Reports / Tags / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
                 -
                     store_switcher:
-                        xpath: //div/p[@class='switcher']
+                        xpath: //div[@class='store-switcher']
                         dropdowns:
                             store_switcher: //select[@id='store_switcher']
                 -
@@ -436,7 +436,7 @@ tag_details:
 report_review_customer:
     mca: report_review/customer/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_review/customer/')]
-    title: Customer Reviews / Reviews / Reports / Magento Admin
+    title: Customers Reviews / Reviews / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -454,7 +454,7 @@ report_review_customer:
 report_review_product:
     mca: report_review/product/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_review/product/')]
-    title: Product Reviews / Reviews / Reports / Magento Admin
+    title: Products Reviews / Reviews / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -472,7 +472,7 @@ report_review_product:
 report_search:
     mca: report/search/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report/search/')]
-    title: Search Terms / Reports / Magento Admin
+    title: Search Terms / Marketing / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -499,7 +499,7 @@ report_search:
 report_statistics:
     mca: report_statistics/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_statistics/')]
-    title: Refresh Statistics / Sales / Reports / Magento Admin
+    title: Refresh Statistics / Statistics / Reports / Magento Admin
     uimap:
         form:
             fieldsets:

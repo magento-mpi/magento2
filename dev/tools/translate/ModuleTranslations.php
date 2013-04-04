@@ -120,7 +120,7 @@ class Tools_Translate_ModuleTranslations
             throw new Exception("Directory $localeDir is not writable \n\n");
         }
 
-        $files = glob(BASE_PATH . DS . 'app' . DS . 'code' . DS . '*' . DS . '*' . DS . '*' . DS .  'locale'
+        $files = glob(BASE_PATH . DS . 'app' . DS . 'code' . DS . '*' . DS . '*' . DS .  'locale'
             . DS . $locale . DS . '*.' . EXTENSION);
         $newFileMask = $localeDir . DS . '%s';
         foreach ($files as $file) {
@@ -147,18 +147,15 @@ class Tools_Translate_ModuleTranslations
         }
 
         $files = glob($localeDir . DS . '*.' . EXTENSION);
-        $newFileMask = BASE_PATH . DS . 'app' . DS . 'code' . DS . '%s' . DS . '%s' . DS . '%s' . DS .  'locale'
+        $newFileMask = BASE_PATH . DS . 'app' . DS . 'code' . DS . '%s' . DS . '%s' . DS .  'locale'
             . DS . $locale . DS . '%s' . '.' . EXTENSION;
         foreach ($files as $file) {
-            $root = 'community';
             $baseFileName = basename($file, '.' . EXTENSION);
             $parts = explode('_', $baseFileName);
             $namespace = $parts[0];
             $module = $parts[1];
-            if (strtolower($namespace) == 'mage' || strtolower($namespace) == 'enterprise') {
-                $root = 'core';
-            }
-            $newFileName = sprintf($newFileMask, $root, $namespace, $module, $baseFileName);
+
+            $newFileName = sprintf($newFileMask, $namespace, $module, $baseFileName);
             $newFilePath = dirname($newFileName);
             if (!is_dir($newFilePath)) {
                 if (!mkdir($newFilePath, 0777, true)) {

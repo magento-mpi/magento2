@@ -13,8 +13,8 @@
 
 scheduled_import_export:
     mca: scheduled_operation/
-    click_xpath: //div[@class='nav-bar']//a[span='Scheduled Import/Export']
-    title: Scheduled Imports/Exports / Magento Admin
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/scheduled_operation/')]
+    title: Scheduled Imports/Exports / Data Transfer / System / Magento Admin
     uimap: &scheduledImportExport
         form:
             fieldsets:
@@ -61,7 +61,7 @@ scheduled_import_export:
 
 scheduled_importexport_add:
     mca: scheduled_operation/new/type/%type%/
-    title: New Scheduled %elementTitle% / Scheduled Imports/Exports / Magento Admin
+    title: New Scheduled %elementTitle% / Scheduled Imports/Exports / Data Transfer / System / Magento Admin
     uimap: &createImportExport
         form:
             fieldsets:
@@ -129,6 +129,6 @@ scheduled_importexport_add:
 
 scheduled_importexport_edit:
     mca: scheduled_operation/edit/id/%id%/
-    title: Edit Scheduled %elementTitle% / Scheduled Imports/Exports / Magento Admin
+    title: Edit Scheduled %elementTitle% / Scheduled Imports/Exports / Data Transfer / System / Magento Admin
     uimap: *createImportExport
 

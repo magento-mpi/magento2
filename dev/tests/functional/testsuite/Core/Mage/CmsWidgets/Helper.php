@@ -19,63 +19,14 @@
 class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
-     * @param $layoutUpdates
-     */
-    public function _layoutUpdates($layoutUpdates)
-    {
-        if ($layoutUpdates) {
-            $this->fillLayoutUpdates($layoutUpdates);
-        }
-    }
-
-    /**
-     * @param $widgetOptions
-     */
-    protected function _widgetOptions($widgetOptions)
-    {
-        if ($widgetOptions) {
-            $this->fillWidgetOptions($widgetOptions);
-        }
-    }
-
-    /**
-     * @param $widgetData
-     *
-     * @return array $widgetData
-     */
-    protected function _ifIsString($widgetData)
-    {
-        if (is_string($widgetData)) {
-            $elements = explode('/', $widgetData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $widgetData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
-        return $widgetData;
-    }
-
-    /**
-     * @param $widgetData
-     * @return array $settings
-     */
-    protected function _widgetSettings($widgetData)
-    {
-        $settings = array();
-        $settings['settings'] = (isset($widgetData['settings'])) ? $widgetData['settings'] : array();
-        return $settings;
-    }
-
-    /**
      * Creates widget
      *
      * @param string|array $widgetData
      */
     public function createWidget($widgetData)
     {
-
-        $settings = $this->_widgetSettings($widgetData);
+        $settings = (isset($widgetData['settings'])) ? $widgetData['settings'] : array();
         $frontProperties = (isset($widgetData['frontend_properties'])) ? $widgetData['frontend_properties'] : array();
-        $layoutUpdates = (isset($widgetData['layout_updates'])) ? $widgetData['layout_updates'] : array();
-        $widgetOptions = (isset($widgetData['widget_options'])) ? $widgetData['widget_options'] : array();
 
         $this->clickButton('add_new_widget_instance');
         $this->fillWidgetSettings($settings);
@@ -85,8 +36,12 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
             unset($frontProperties['assign_to_store_views']);
         }
         $this->fillFieldset($frontProperties, 'frontend_properties_fieldset');
-        $this->_layoutUpdates($layoutUpdates);
-        $this->_widgetOptions($widgetOptions);
+        if (isset($widgetData['layout_updates'])) {
+            $this->fillLayoutUpdates($widgetData['layout_updates']);
+        }
+        if (isset($widgetData['widget_options'])) {
+            $this->fillWidgetOptions($widgetData['widget_options']);
+        }
         $this->saveForm('save');
     }
 
@@ -98,21 +53,17 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
     public function fillWidgetSettings(array $settings)
     {
         if ($settings) {
-            $this->fillDropdown('type', $settings['type']);
+            $this->fillFieldset($settings, 'settings_fieldset');
             $type = $this->getControlAttribute('dropdown', 'type', 'selectedValue');
             $this->addParameter('type', $type);
-
-            list($package, $theme) = array_map('trim', (explode('/', $settings['design_package_theme'])));
-            $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', 'design_package_theme'));
-            $this->addParameter('optionGroup', $package);
-            $this->addParameter('optionText', $theme);
-            $value = $this->getControlAttribute('pageelement', 'dropdown_group_option_text', 'value');
-            $this->addParameter('package_theme', str_replace('/', '-', $value));
-            $this->fillDropdown('design_package_theme', $value);
+            $themeId = $this->getControlAttribute('dropdown', 'design_package_theme', 'selectedValue');
+            $this->addParameter('theme_id', $themeId);
         }
-        $waitCondition = array($this->_getMessageXpath('general_validation'),
-                               $this->_getControlXpath('fieldset', 'layout_updates_header',
-                                   $this->getUimapPage('admin', 'add_widget_options')));
+        $waitCondition = array(
+            $this->_getMessageXpath('general_validation'),
+            $this->_getControlXpath('fieldset', 'layout_updates_header',
+                $this->getUimapPage('admin', 'add_widget_options'))
+        );
         $this->clickButton('continue', false);
         $this->waitForElement($waitCondition);
         $this->validatePage('add_widget_options');

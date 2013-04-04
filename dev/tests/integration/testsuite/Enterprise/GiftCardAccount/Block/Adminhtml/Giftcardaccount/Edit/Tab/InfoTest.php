@@ -12,28 +12,27 @@
 /**
  * Test class for Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info
  */
-class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTest extends PHPUnit_Framework_TestCase
+class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTest extends Mage_Backend_Area_TestCase
 {
     /** @var Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info */
     protected $_block;
 
-    public static function setUpBeforeClass()
+    protected function setUp()
     {
+        parent::setUp();
+
         $model = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount');
         Mage::register('current_giftcardaccount', $model);
-    }
 
-    public function setUp()
-    {
         $layout = Mage::getModel('Mage_Core_Model_Layout');
-
         $this->_block = $layout
             ->createBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info');
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
-        $this->_block = null;
+        Mage::unregister('current_giftcardaccount');
+        parent::tearDown();
     }
 
     /**

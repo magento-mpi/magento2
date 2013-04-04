@@ -39,7 +39,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Data
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('General' => $attrData['attribute_code']));
+            array('Product Details' => $attrData['attribute_code']));
         //Steps
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -70,9 +70,9 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $attribute2 = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $attribute3 = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $associatedAttribute = $this->loadDataSet('AttributeSet', 'associated_attributes',
-            array('General' => array($attribute3['attribute_code'])));
+            array('Product Details' => array($attribute3['attribute_code'])));
         $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set',
-            array('General' => array($attribute1['attribute_code'], $attribute2['attribute_code'])));
+            array('Product Details' => array($attribute1['attribute_code'], $attribute2['attribute_code'])));
         //Steps (attributes)
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attribute1);
@@ -198,25 +198,19 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
             array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
                   'general_attribute_1' => $attrData['admin_title']));
         //Steps
-        $this->productHelper()->createProduct($product, 'configurable', false);
+        $this->productHelper()->createProduct($product, 'configurable');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->addFieldIdToMessage($fieldType, $field);
-//        $this->assertMessagePresent('validation', 'empty_required_field');
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->addFieldIdToMessage($fieldType, $field);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyRequiredFieldInConfigurableDataProvider()
     {
         return array(
             array(array('general_name' => '%noValue%'), 'field'),
-            array(array('general_description' => '%noValue%'), 'field'),
-            array(array('general_short_description' => '%noValue%'), 'field'),
             array(array('general_sku' => ''), 'field'),
-            array(array('general_status' => '-- Please Select --'), 'dropdown'),
-            array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
-            array(array('prices_price' => '%noValue%'), 'field'),
-            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown'),
+            array(array('general_price' => '%noValue%'), 'field'),
         );
     }
 
@@ -234,8 +228,6 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_required',
             array('general_name'              => $this->generate('string', 32, ':punct:'),
-                  'general_description'       => $this->generate('string', 32, ':punct:'),
-                  'general_short_description' => $this->generate('string', 32, ':punct:'),
                   'general_sku'               => $this->generate('string', 32, ':punct:')),
             array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
                   'general_attribute_1' => $attrData['admin_title']));
@@ -265,8 +257,6 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_required',
             array('general_name'              => $this->generate('string', 255, ':alnum:'),
-                  'general_description'       => $this->generate('string', 255, ':alnum:'),
-                  'general_short_description' => $this->generate('string', 255, ':alnum:'),
                   'general_sku'               => $this->generate('string', 64, ':alnum:')),
             array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
                   'general_attribute_1' => $attrData['admin_title']));
@@ -320,13 +310,13 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'configurable_product_required',
-            array('prices_price' => $invalidPrice),
+            array('general_price' => $invalidPrice),
             array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
                   'general_attribute_1' => $attrData['admin_title']));
         //Steps
         $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
-        $this->addFieldIdToMessage('field', 'prices_price');
+        $this->addFieldIdToMessage('field', 'general_price');
         $this->assertMessagePresent('validation', 'enter_zero_or_greater');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -377,12 +367,11 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $productData['prices_tier_price_data'][] =
             $this->loadDataSet('Product', 'prices_tier_price_1', array($emptyTierPrice => '%noValue%'));
         //Steps
-        $this->productHelper()->createProduct($productData, 'configurable', false);
+        $this->productHelper()->createProduct($productData, 'configurable');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->addFieldIdToMessage('field', $emptyTierPrice);
-//        $this->assertMessagePresent('validation', 'empty_required_field');
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->addFieldIdToMessage('field', $emptyTierPrice);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyTierPriceFieldsInConfigurableDataProvider()
@@ -450,9 +439,9 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $simple['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_1']['admin_option_name'];
         $configurable = $this->loadDataSet('Product', 'configurable_product_required',
-            array('associated_product_name' => $simple['general_name'],
-                  'associated_sku'          => $simple['general_sku']),
-            array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
+            array('associated_name' => $simple['general_name'],
+                  'associated_sku' => $simple['general_sku']),
+            array('var1_attr_value1' => $attrData['option_1']['admin_option_name'],
                   'general_attribute_1' => $attrData['admin_title']));
         $productSearch = $this->loadDataSet('Product', 'product_search',
             array('product_sku' => $configurable['general_sku']));
@@ -486,9 +475,9 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $virtual['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_2']['admin_option_name'];
         $configurable = $this->loadDataSet('Product', 'configurable_product_required',
-            array('associated_product_name' => $virtual['general_name'],
-                  'associated_sku'          => $virtual['general_sku']),
-            array('var1_attr_value1'    => $attrData['option_2']['admin_option_name'],
+            array('associated_name' => $virtual['general_name'],
+                  'associated_sku' => $virtual['general_sku']),
+            array('var1_attr_value1' => $attrData['option_2']['admin_option_name'],
                   'general_attribute_1' => $attrData['admin_title']));
         $productSearch = $this->loadDataSet('Product', 'product_search',
             array('product_sku' => $configurable['general_sku']));
@@ -523,9 +512,9 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $download['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_3']['admin_option_name'];
         $configurable = $this->loadDataSet('Product', 'configurable_product_required',
-            array('associated_product_name' => $download['general_name'],
-                  'associated_sku'          => $download['general_sku']),
-            array('var1_attr_value1'    => $attrData['option_3']['admin_option_name'],
+            array('associated_name' => $download['general_name'],
+                  'associated_sku' => $download['general_sku']),
+            array('var1_attr_value1' => $attrData['option_3']['admin_option_name'],
                   'general_attribute_1' => $attrData['admin_title']));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
@@ -562,7 +551,7 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
                   'var1_attr_value1'    => $defaultAttribute['option_1']['admin_option_name']));
         $searchConfigurable = $this->loadDataSet('Product', 'product_search',
             array('product_sku'        => $configurable['general_sku'],
-                  'product_visibility' => $configurable['general_visibility']));
+                  'product_visibility' => $configurable['autosettings_visibility']));
         //Preconditions
         $this->productHelper()->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -601,10 +590,10 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Data
         $associated = $this->loadDataSet('Product', 'generate_virtual_associated');
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
-            array('associated_product_name' => $associated['associated_product_name'],
-                  'associated_sku'          => $associated['associated_sku']),
+            array('associated_name' => $associated['associated_name'],
+                  'associated_sku' => $associated['associated_sku']),
             array('general_attribute_1' => $attributeData['newSet']['attribute1']['admin_title'],
-                  'var1_attr_value1'    => $attributeData['newSet']['attribute1']['option_1']['admin_option_name']));
+                  'var1_attr_value1' => $attributeData['newSet']['attribute1']['option_1']['admin_option_name']));
         $searchConfigurable =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         $searchVirtual =
@@ -648,10 +637,10 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Data
         $associated = $this->loadDataSet('Product', 'generate_virtual_associated');
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
-            array('associated_product_name' => $associated['associated_product_name'],
-                  'associated_sku'          => $associated['associated_sku']),
+            array('associated_name' => $associated['associated_name'],
+                  'associated_sku' => $associated['associated_sku']),
             array('general_attribute_1' => $attributeData['newSet']['attribute2']['admin_title'],
-                  'var1_attr_value1'    => $attributeData['newSet']['attribute2']['option_1']['admin_option_name']));
+                  'var1_attr_value1' => $attributeData['newSet']['attribute2']['option_1']['admin_option_name']));
         $searchConfigurable =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         $searchVirtual =
@@ -700,10 +689,10 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $simpleProduct['general_user_attr']['dropdown'][$attributeData['newSet']['attribute2']['attribute_code']] =
             $attributeData['newSet']['attribute2']['option_1']['admin_option_name'];
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible',
-            array('associated_product_name' => $simpleProduct['general_name'],
-                  'associated_sku'          => $simpleProduct['general_sku']),
+            array('associated_name' => $simpleProduct['general_name'],
+                  'associated_sku' => $simpleProduct['general_sku']),
             array('general_attribute_1' => $attributeData['newSet']['attribute2']['admin_title'],
-                  'var1_attr_value1'    => $attributeData['newSet']['attribute2']['option_1']['admin_option_name']));
+                  'var1_attr_value1' => $attributeData['newSet']['attribute2']['option_1']['admin_option_name']));
         $searchConfigurable =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
@@ -779,7 +768,8 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         //Verifying empty attribute set name
         $this->fillField('new_attribute_set_name', '');
         $this->saveForm('confirm', false);
-        $this->assertMessagePresent('validation', 'attribute_set_required');
+        $this->addFieldIdToMessage('field', 'new_attribute_set_name');
+        $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
         //Verifying empty attribute set name
         $this->fillField('new_attribute_set_name', "<script>alert('XSS')</script>");

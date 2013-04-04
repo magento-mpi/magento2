@@ -9,7 +9,6 @@
 /*jshint jquery:true*/
 (function($) {
     "use strict";
-
     /**
      * Validation rule for grouped product, with multiple qty fields,
      * only one qty needs to have a positive integer
@@ -81,29 +80,4 @@
             return this.dateBetweenErrorMessage;
         }
     );
-
-    $.widget("mage.validation", $.mage.validation, {
-        /**
-         * Check if form pass validation rules without submit
-         * @return boolean
-         */
-        isValid: function() {
-            return this.element.valid();
-        },
-
-        /**
-         * Remove validation error messages
-         */
-        clearError: function() {
-            if (arguments.length) {
-                $.each(arguments, $.proxy(function(index, item) {
-                    this.element.find(item).removeClass(this.options.errorClass)
-                        .siblings(this.options.errorElement + '.' + this.options.errorClass).remove();
-                }, this));
-            } else {
-                this.element.find(this.options.errorElement + '.' + this.options.errorClass).remove().end()
-                    .find('.' + this.options.errorClass).removeClass(this.options.errorClass);
-            }
-        }
-    });
 })(jQuery);

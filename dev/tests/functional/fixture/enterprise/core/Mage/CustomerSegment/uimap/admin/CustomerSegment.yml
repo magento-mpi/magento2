@@ -37,9 +37,8 @@ manage_customer_segments:
             add_new_segment: //button[span='Add Segment']
         messages: &customerSegmentMessages
             success_saved_segment: //li[normalize-space(@class)='success-msg' and contains(.,'The segment has been saved.')]
-            segment_name_required_field: //div[@id='advice-required-entry-segment_name']
             note_apply_to: //p[@id='note_apply_to']
-            segment_empty_required_field: //div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]
+            segment_empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             confirmation_for_delete: Are you sure you want to do this?
             success_deleted_segment: //li[normalize-space(@class)='success-msg' and contains(.,'The segment has been deleted.')]
 
@@ -56,7 +55,7 @@ new_customer_segment:
                         fieldsets:
                             -
                                 segment_properties:
-                                    xpath: //div[@id='segment_base_fieldset']
+                                    xpath: //fieldset[@id='segment_base_fieldset']
                                     dropdowns:
                                         status: //select[@id='segment_is_active']
                                         apply_to: //select[@id='segment_apply_to']
@@ -67,26 +66,26 @@ new_customer_segment:
                                         assigned_to_website: //select[@id='segment_website_ids']
                                     required: [segment_name, assigned_to_website]
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            save_segment: //button[span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            back: //button[@id='back']
+            reset: //button[@id='reset']
+            save_segment: //button[@id='save']
+            save_and_continue_edit: //button[@id='save_and_continue_edit']
         messages: *customerSegmentMessages
 
 # Edit Customer Segment page
 edit_customer_segment:
     mca: customersegment/edit/id/%id%/
-    title: %elementTitle% / Customer Segments / Customers / Magento Admin
+    title: %segment_title% / Customer Segments / Customers / Magento Admin
     uimap:
         form: &editCustomerSegmentForm
             tabs:
                 -
                     general_properties: *customerSegmentProperties
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            refresh_segment_data: //button[span='Refresh Segment Data']
-            delete: //button[span='Delete']
-            save_segment: //button[span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            back: //button[@id='back']
+            reset: //button[@id='reset'
+            refresh_segment_data: //button[@id='match_customers']
+            delete: //button[@id='delete']
+            save_segment: //button[@id='save']
+            save_and_continue_edit: //button[@id='save_and_continue_edit']
         messages: *customerSegmentMessages

@@ -12,7 +12,7 @@
 newsletter_subscribers:
     mca: newsletter_subscriber/
     click_xpath: //ul[@id='nav']//a[contains(@href, '/newsletter_subscriber/')]
-    title: Newsletter Subscribers / Newsletter / Magento Admin
+    title: Newsletter Subscribers / Communications / Marketing / Magento Admin
     uimap:
         form: &searchSubscribers
             fieldsets:
@@ -54,7 +54,7 @@ newsletter_subscribers:
 newsletter_templates:
     mca: newsletter_template/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'newsletter_template/')]
-    title: Newsletter Templates / Newsletter / Magento Admin
+    title: Newsletter Templates / Communications / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -74,20 +74,20 @@ newsletter_templates:
                             filter_template_type: //div[@class='grid']//select[@name='type']
                             queue_newsletter: "%prexpath%//select[@class='action-select']"
                         buttons: &gridButtons
-                            add_new_template: //button[span='Add New Template']
+                            add_new_template: //button[contains(@onclick, 'newsletter_template/new/')]
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
         messages: &newsTemplateMessages
             confirmation_convert_to_plain_text: Are you sure that you want to strip all tags?
             confirmation_for_delete: Are you sure that you want to delete this template?
             success_saved_newsletter: //li[normalize-space(@class)='success-msg' and contains(.,'The newsletter template has been saved.')]
-            success_put_in_queue_newsletter: //li[normalize-space(@class)='success-msg' and contains(.,'The newsletter Queue has been saved.')]
+            success_put_in_queue_newsletter: //li[normalize-space(@class)='success-msg' and contains(.,'The newsletter queue has been saved.')]
             success_deleted_newsletter: //li[normalize-space(@class)='success-msg' and contains(.,'The newsletter template has been deleted.')]
 
 # 'New Newsletter Template' page
 newsletter_template_new:
     mca: newsletter_template/new/
-    title: New Template / Newsletter Templates / Newsletter / Magento Admin
+    title: New Template / Newsletter Templates / Communications / Marketing / Magento Admin
     uimap:
         form: &newsletterEditForm
             fieldsets:
@@ -99,14 +99,17 @@ newsletter_template_new:
                             newsletter_template_subject: //input[@id='subject']
                             newsletter_template_sender_name: //input[@id='sender_name']
                             newsletter_template_sender_email: //input[@id='sender_email']
-                            newsletter_content_data: //*[@id='text']
+                            newsletter_content_data: //textarea[@id='text']
                         required: [newsletter_template_name, newsletter_template_subject, newsletter_template_sender_name, newsletter_template_sender_email]
+                        buttons: &newsletterEditFormButton
+                            show_hide_editor: //button[@id='toggletext']
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            convert_to_plain_text: //button[span='Convert to Plain Text']
-            preview_template: //button[span='Preview Template']
+            back: //button[@data-ui-id='template-edit-back-button']
+            reset: //button[@data-ui-id='template-edit-reset-button']
+            convert_to_plain_text: //button[@data-ui-id='template-edit-to-plain-button']
+            preview_template: //button[@data-ui-id='template-edit-preview-button']
             save_template: //button[@data-ui-id='template-edit-save-button']
+
         messages:
             empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field.') and not(contains(@style,'display: none;'))]"
             invalid_email: //div[@id='advice-validate-email-sender_email' and contains(.,'Please enter a valid email address. For example johndoe@domain.com.')]
@@ -114,7 +117,7 @@ newsletter_template_new:
 # Newsletter edit template page
 edit_news_template:
     mca: newsletter_template/edit/id/%id%/
-    title: %elementTitle% / Newsletter Templates / Newsletter / Magento Admin
+    title: %elementTitle% / Newsletter Templates / Communications / Marketing / Magento Admin
     uimap:
         form: *newsletterEditForm
         buttons:
@@ -129,8 +132,8 @@ edit_news_template:
 # Newsletter Newsletter Queue page
 newsletter_queue:
     mca: newsletter_queue/
-    click_xpath: //div[@class='nav-bar']//a[span='Newsletter Queue']
-    title: Newsletter Queue / Newsletter / Magento Admin
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/newsletter_queue/')]
+    title: Newsletter Queue / Communications / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -150,15 +153,15 @@ newsletter_queue:
                             filter_queue_recipients_from: //input[@id='queueGrid_filter_subscribers_total_from']
                             filter_queue_recipients_to: //input[@id='queueGrid_filter_subscribers_total_to']
                         dropdowns:
-                            view_per_page: //select[@name='limit']
-                            queue_status:
+                            view_per_page: //select[@data-ui-id='adminhtml-newsletter-queue-grid-per-page']
+                            queue_status: //select[@data-ui-id='widget-grid-column-filter-select-filter-status']
                         buttons: *gridButtons
         messages: *newsTemplateMessages
 
 # Newsletter Newsletter Queue edit page
 newsletter_queue_edit:
     mca: newsletter_queue/edit/template_id/%template_id%/
-    title: Edit Queue / Newsletter Queue / Newsletter / Magento Admin
+    title: Edit Queue / Newsletter Queue / Communications / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -171,19 +174,19 @@ newsletter_queue_edit:
                             newsletter_template_sender_name: //input[@id='sender_name']
                             newsletter_template_sender_email: //input[@id='sender_email']
                             newsletter_content_data: //*[@id='text']
+                        buttons: *newsletterEditFormButton
         buttons :
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            convert_to_plain_text: //button[span='Convert to Plain Text']
-            preview_template: //button[span='Preview Template']
-            save_newsletter: //button[@title='Save Newsletter']
+            back: //button[@data-ui-id='queue-edit-back-button']
+            reset: //button[@data-ui-id='queue-edit-reset-button']
+            preview_template: //button[@data-ui-id='queue-edit-preview-button']
+            save_newsletter: //button[@data-ui-id='queue-edit-save-button']
         messages: *newsTemplateMessages
 
 # Newsletter Newsletter Queue page
 newsletter_problem_reports:
     mca: newsletter_problem/
-    click_xpath: //div[@class='nav-bar']//a[span='Newsletter Problem Reports']
-    title: Newsletter Problems / Newsletter / Magento Admin
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/newsletter_problem/')]
+    title: Newsletter Problems / Marketing / Reports / Magento Admin
     uimap:
         form:
             fieldsets:

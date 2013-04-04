@@ -26,19 +26,19 @@ generic_admin_user_role_custom_website:
     role_resources_tab:
         role_scopes:
             scopes: Custom
-            website_1: Main Website Store
+            website_1: Main Website
         role_resources:
             resource_access : Custom
-            resource_1: Sales/Transactions/Fetch
+            resource_acl: Sales
 
-generic_admin_user_role_custom:
+generic_admin_user_role_acl:
     role_info_tab:
         role_name: 'My Test Role %randomize%'
     role_resources_tab:
         role_scopes: %noValue%
         role_resources:
             resource_access : Custom
-            resource_1: Sales/Archive/Orders/Move to Archive
+            resource_acl: Sales/Archive/Orders/Move to Archive
 
 search__locked_user:
     search_user:

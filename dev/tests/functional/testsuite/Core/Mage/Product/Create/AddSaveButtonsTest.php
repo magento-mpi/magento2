@@ -38,7 +38,7 @@ class Core_Mage_Product_Create_AddSaveButtonsTest extends Mage_Selenium_TestCase
         $attribute = $this->loadDataSet('ProductAttribute', 'product_attribute_textfield',
             array('values_required' => 'Yes'));
         $attributeSet = $this->loadDataSet('AttributeSet', 'attribute_set',
-            array('General' => array($attribute['attribute_code'])));
+            array('Product Details' => array($attribute['attribute_code'])));
         //Creating attribute
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attribute);
@@ -110,7 +110,7 @@ class Core_Mage_Product_Create_AddSaveButtonsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Verification Save button availability if required user defined attribute is not fulfilled<p>
+     * <p>Verification saving if user defined attribute is required<p>
      *
      * @param array $data
      *
@@ -129,8 +129,12 @@ class Core_Mage_Product_Create_AddSaveButtonsTest extends Mage_Selenium_TestCase
         $this->productHelper()->changeAttributeSet($productData['product_attribute_set']);
         $this->productHelper()->fillProductInfo($productData);
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'), 'Save button is available');
-        $this->openTab('general');
+        $this->productHelper()->saveProduct('continueEdit');
+        $this->addParameter('attributeCodeField', $data['attributeCode']);
+        $this->addFieldIdToMessage('field', 'general_user_attr_field');
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->productHelper()->openProductTab('general');
         $this->productHelper()->fillUserAttributesOnTab($userAttribute, 'general');
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');

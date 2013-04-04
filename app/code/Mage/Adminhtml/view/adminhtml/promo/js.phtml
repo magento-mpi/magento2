@@ -1,0 +1,30 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<script type="text/javascript">
+//<![CDATA[
+function hideShowSubproductOptions()
+{
+    if ($('rule_sub_is_enable').value == 1) {
+        $('rule_sub_simple_action').up('div.field').show();
+        $('rule_sub_discount_amount').up('div.field').show();
+        $('rule_sub_discount_amount').addClassName('required-entry validate-not-negative-number');
+    } else {
+        $('rule_sub_simple_action').up('div.field').hide();
+        $('rule_sub_discount_amount').up('div.field').hide();
+        $('rule_sub_discount_amount').removeClassName('required-entry').removeClassName('validate-not-negative-number');
+    }
+
+    return true;
+}
+
+document.observe("dom:loaded", hideShowSubproductOptions);
+//]]>
+</script>

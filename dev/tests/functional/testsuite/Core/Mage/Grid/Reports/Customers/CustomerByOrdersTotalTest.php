@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Grid_Report_Customers_CustomerByOrdersTotalTest extends Mage_Selenium_TestCase
+class Core_Mage_Grid_Reports_Customers_CustomerByOrdersTotalTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -64,9 +64,8 @@ class Core_Mage_Grid_Report_Customers_CustomerByOrdersTotalTest extends Mage_Sel
     {
         $topReportData = $this->_getTopCustomerNameAndTotalAmount();
         $priceForTestProduct = array();
-        if(isset($topReportData))
-        {
-            $priceForTestProduct['prices_price'] = $topReportData['order_amount'] * 2;
+        if (isset($topReportData)) {
+            $priceForTestProduct['general_price'] = $topReportData['order_amount'] * 2;
         }
         $simple = $this->loadDataSet('Product', 'simple_product_visible', $priceForTestProduct);
         $userData = $this->loadDataSet('Customers', 'generic_customer_account',
@@ -96,7 +95,7 @@ class Core_Mage_Grid_Report_Customers_CustomerByOrdersTotalTest extends Mage_Sel
             'first_name' => $userData['first_name'],
             'last_name'  => $userData['last_name'],
             'email'      => $userData['email'],
-            'price'      => $simple['prices_price'],
+            'price'      => $simple['general_price'],
             'sku'        => $simple['general_name'],
         );
     }

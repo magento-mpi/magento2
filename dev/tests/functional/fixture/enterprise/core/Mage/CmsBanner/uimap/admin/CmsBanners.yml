@@ -13,7 +13,7 @@
 manage_cms_banners:
     mca: banner/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'banner/')]
-    title: Banners / CMS / Magento Admin
+    title: Banners / Elements / Content / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -42,13 +42,13 @@ manage_cms_banners:
             success_saved_cms_banner: //li[normalize-space(@class)='success-msg' and contains(.,'The banner has been saved.')]
             success_deleted_cms_banner: //li[normalize-space(@class)='success-msg' and contains(.,'The banner has been deleted.')]
             empty_content_field: //li[normalize-space(@class)='error-msg' and contains(.,'Please specify default content for at least one store view.')]
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_required_field: //label[(@for)='%fieldId%' and contains(.,'This is a required field.')]
             confirmation_for_delete: Are you sure you want to do this?
             confirmation_for_mass_delete: Are you sure you want to delete these banners?
 
 create_cms_banner:
     mca: banner/new/
-    title: New Banner / Banners / CMS / Magento Admin
+    title: New Banner / Banners / Elements / Content / Magento Admin
     uimap:
         form: &createBanner
             tabs:
@@ -58,13 +58,13 @@ create_cms_banner:
                         fieldsets:
                             -
                                 banner_properties_fieldset:
-                                    xpath: //div[@id='banner_properties_base_fieldset']
+                                    xpath: //fieldset[@id='banner_properties_base_fieldset']
                                     fields:
                                         banner_properties_name: //input[@name='name']
                                     dropdowns:
                                         active: //select[@name='is_enabled']
                                         applies_to: //select[@id='banner_properties_is_types']
-                                        customer_segments: //select[@name='use_customer_segment']
+                                        customer_segments: //select[@id='banner_properties_use_customer_segment']
                                     multiselects:
                                         specify_types: //select[@id='banner_properties_types']
                                         specified_customer_segments: //select[@name='customer_segment_ids[]']
@@ -187,7 +187,7 @@ create_cms_banner:
                                         close_variable_insertion: //div[@id='variables-chooser_close']
                             -
                                 specific_content:
-                                    xpath: //div[@id='banner_content_scopes_fieldset']
+                                    xpath: //fieldset[@id='banner_content_scopes_fieldset']
                                     checkboxes:
                                         specific_content_use_default: //input[@id='banner_content_store_1_content_use']
                                     buttons:
@@ -238,7 +238,7 @@ create_cms_banner:
 
 edit_cms_banner:
     mca: banner/edit/id/%id%/
-    title: %elementTitle% / Banners / CMS / Magento Admin
+    title: %elementTitle% / Banners / Elements / Content / Magento Admin
     uimap:
         form: *createBanner
         buttons:
@@ -251,7 +251,7 @@ edit_cms_banner:
 
 error_banner_page:
     mca: banner/edit/
-    title: New Banner / Banners / CMS / Magento Admin
+    title: New Banner / Banners / Elements / Content / Magento Admin
     uimap:
         form: *createBanner
         buttons:

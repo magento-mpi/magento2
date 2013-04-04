@@ -22,8 +22,8 @@ manage_admin_users:
                     permissionsUserGrid:
                         xpath: //div[@id='permissionsUserGrid']
                         buttons:
-                            reset_filter: //button[span='Reset Filter']
-                            search: //button[span='Search']
+                            reset_filter: //button[@data-ui-id='widget-button']
+                            search: //button[@data-ui-id='widget-button-1']
                         dropdowns:
                             status: //select[@name='is_active']
                             view: //select[@name='limit']
@@ -41,17 +41,20 @@ manage_admin_users:
         messages: &adminUserMessages
             cannot_delete_account: //li[normalize-space(@class)='error-msg' and contains(.,'You cannot delete your own account.')]
             confirmation_for_delete: Are you sure you want to do this?
-            empty_required_field: //tr/td/label[(@for)='%fieldId%' and contains(.,'This field is required.')]
+            empty_required_field: //label[(@for)='%fieldId%' and contains(.,'This is a required field.')]
             exist_email: //li[normalize-space(@class)='error-msg' and contains(.,'Email already exists.')]
-            exist_name_or_email: //li[normalize-space(@class)='error-msg' and contains(.,'A user with the same user name or email aleady exists.')]
-            invalid_email: //tr/td/label[(@for)='user_email' and contains(.,'Please enter a valid email address. For example johndoe@domain.com.')]
-            invalid_password: //tr/td/label[(@for)='user_password' and contains(.,'Please enter 7 or more characters. Password should contain both numeric and alphabetic characters.')]
-            password_unmatch: //tr/td/label[(@for)='user_confirmation' and contains(.,'Please make sure your passwords match.')]
+            exist_name_or_email: //span[(@data-ui-id)='messages-message-error' and contains(.,'A user with the same user name or email already exists.')]
+            invalid_email: //label[(@for)='user_email' and contains(.,'Please enter a valid email address. For example johndoe@domain.com.')]
+            invalid_password: //label[(@for)='user_password' and contains(.,'Please enter 7 or more characters. Password should contain both numeric and alphabetic characters.')]
+            password_unmatch: //label[(@for)='user_confirmation' and contains(.,'Please make sure your passwords match.')]
             success_deleted_user: //li[normalize-space(@class)='success-msg' and contains(.,'The user has been deleted.')]
             success_saved_user: //li[normalize-space(@class)='success-msg' and contains(.,'The user has been saved.')]
             success_deleted_role: //div[@id='messages']//li[span='The role has been deleted.']
-            success_saved_role: //div[@id='messages']//li[span='The role has been successfully saved.']
+            success_saved_role: //span[(@data-ui-id)='messages-message-success' and contains(.,'The role has been successfully saved.')]
             delete_self_assigned_role: //li[normalize-space(@class)='error-msg' and contains(.,'Self-assigned roles cannot be deleted.')]
+            success_account_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The account has been saved.')]
+            success_german: //li[normalize-space(@class)='success-msg' and contains(.,'Das Konto wurde gespeichert.')]
+            success_user_saved_german: //li[normalize-space(@class)='success-msg' and contains(.,'Der Benutzer ist gespeichert worden.')]
 
 # 'New User' page
 new_admin_user:
@@ -66,9 +69,10 @@ new_admin_user:
                         fieldsets:
                             -
                                 account_information:
-                                    xpath: //div[@id='user_base_fieldset']
+                                    xpath: //fieldset[@id='user_base_fieldset']
                                     dropdowns:
                                         this_account_is: //select[@id='user_is_active']
+                                        interface_locale: //select[@id='user_interface_locale']
                                     fields:
                                         user_name: //input[@id='user_username']
                                         first_name: //input[@id='user_firstname']
@@ -108,14 +112,14 @@ edit_admin_user:
     uimap:
         form: *adminUserForm
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            delete_user: //button[span='Delete User']
+            back: //button[@data-ui-id='adminhtml-user-edit-back-button']
+            reset: //button[@data-ui-id='adminhtml-user-edit-reset-button']
+            delete_user: //button[@data-ui-id='adminhtml-user-edit-delete-button']
             save_admin_user: //button[@data-ui-id='adminhtml-user-edit-save-button']
         messages: *adminUserMessages
 
 new_admin_user_with_error:
-    mca: user/edit/tab/page_tabs_main_section/
+    mca: user/edit/active_tab/main_section/
     title: New User / Users / Permissions / System / Magento Admin
     uimap:
         form: *adminUserForm
@@ -164,7 +168,7 @@ new_admin_role:
                         fieldsets:
                             -
                                 role_information:
-                                    xpath: //div[@id='base_fieldset']
+                                    xpath: //fieldset[@id='base_fieldset']
                                     fields:
                                         role_name: //input[@id='role_name']
                 -
@@ -181,6 +185,94 @@ new_admin_role:
                             -
                                 role_resources:
                                     xpath: //fieldset[@id='role_resources']
+                                    checkboxes:
+                                        dashboard: //*[@data-ui-id='Mage_Adminhtml::dashboard']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        external_page_cache: //*[@data-ui-id='Mage_PageCache::page_cache']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        hub: //*[@data-ui-id='Mage_Launcher::hub']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        global_search: //*[@data-ui-id='Mage_Adminhtml::global_search']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_order: //*[@data-ui-id='Mage_Sales::sales_order']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales: //*[@data-ui-id='Mage_Sales::sales']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_orders_create: //*[@data-ui-id='Mage_Sales::create']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_orders_view: //*[@data-ui-id='Mage_Sales::actions_view']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_orders_send_order_email: //*[@data-ui-id='Mage_Sales::email']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_orders_reorder: //*[@data-ui-id='Mage_Sales::reorder']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_orders_edit: //*[@data-ui-id='Mage_Sales::actions_edit']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_orders_cancel: //*[@data-ui-id='Mage_Sales::review_payment']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_orders_accept_or_deny_payment: //*[@data-ui-id='Mage_Sales::review_payment']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_orders_capture: //*[@data-ui-id='Mage_Sales::capture']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_orders_invoice: //*[@data-ui-id='Mage_Sales::invoice']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_orders_credit_memos: //*[@data-ui-id='Mage_Sales::creditmemo']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_orders_hold: //*[@data-ui-id='Mage_Sales::hold']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_orders_unhold: //*[@data-ui-id='Mage_Sales::unhold']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_orders_ship: //*[@data-ui-id='Mage_Sales::ship']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_orders_comment: //*[@data-ui-id='Mage_Sales::comment']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_orders_send_sales_emails: //*[@data-ui-id='Mage_Sales::emails']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_invoices: //*[@data-ui-id='Mage_Sales::sales_invoice']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_shipments: //*[@data-ui-id='Mage_Sales::shipment']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_credit_memos: //*[@data-ui-id='Mage_Sales::sales_creditmemo']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_billing_agr_view: //*[@data-ui-id='Mage_Sales::billing_agreement_actions_view']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_billing_agr_manage: //*[@data-ui-id='Mage_Sales::actions_manage']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_billing_agr_place_order: //*[@data-ui-id='Mage_Sales::use']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        sales_transactions: //*[@data-ui-id='Mage_Sales::transactions']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        communications: //*[@data-ui-id='Mage_Adminhtml::marketing_communications']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        products: //*[@data-ui-id='Mage_Catalog::catalog']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        products_inventory_categories: //*[@data-ui-id='Mage_Catalog::categories']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        products_catalog: //*[@data-ui-id='Mage_Catalog::products']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        products_google_content_attributes: //*[@data-ui-id='Mage_GoogleShopping::types']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        products_google_content_items: //*[@data-ui-id='Mage_GoogleShopping::items']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        customers: //*[@data-ui-id='Mage_Customer::customer']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        customers_manage: //*[@data-ui-id='Mage_Customer::manage']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        shopping_cart_full: //*[@data-ui-id='Mage_SalesRule::quote']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        catalog_price_full: //*[@data-ui-id='Mage_CatalogRule::promo_catalog']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        cms_pages: //*[@data-ui-id='Mage_Cms::page']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        cms_polls: //*[@data-ui-id='Mage_Poll::poll']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        cms_block: //*[@data-ui-id='Mage_Cms::block']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        cms_widgets: //*[@data-ui-id='Mage_Widget::widget_instance']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        customer_groups: //*[@data-ui-id='Mage_Customer::group']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        customers_online: //*[@data-ui-id='Mage_Customer::online']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        newsletter_templates: //*[@data-ui-id='Mage_Newsletter::template']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        newsletter_subscribers: //*[@data-ui-id='Mage_Newsletter::subscriber']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        promotions: //*[@data-ui-id='Mage_CatalogRule::promo']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        price_rules: //*[@data-ui-id='Mage_CatalogRule::promo_catalog']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        permissions: //*[@data-ui-id='Mage_User::acl']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        configurations: //*[@data-ui-id='Mage_Adminhtml::config']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_payment: //*[@data-ui-id='Mage_Payment::payment']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_catalog: //*[@data-ui-id='Mage_Catalog::config_catalog']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_cms: //*[@data-ui-id='Mage_Cms::config_cms']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_payment_service: //*[@data-ui-id='Mage_Payment::payment_services']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_contacts: //*[@data-ui-id='Mage_Contacts::contacts']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_downloadable: //*[@data-ui-id='Mage_Downloadable::downloadable']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_inventory: //*[@data-ui-id='Mage_CatalogInventory::cataloginventory']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_shipping: //*[@data-ui-id='Mage_Shipping::config_shipping']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_carries: //*[@data-ui-id='Mage_Shipping::carriers']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_newsletter: //*[@data-ui-id='Mage_Newsletter::newsletter']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_google_api: //*[@data-ui-id='Mage_GoogleCheckout::google']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_general: //*[@data-ui-id='Mage_Adminhtml::config_general']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_web: //*[@data-ui-id='Mage_Adminhtml::web']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_design: //*[@data-ui-id='Mage_Adminhtml::config_design']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_paypal: //*[@data-ui-id='Mage_Paypal::paypal']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_customers: //*[@data-ui-id='Mage_Customer::config_customer']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_tax: //*[@data-ui-id='Mage_Tax::config_tax']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_persistent: //*[@data-ui-id='Mage_Persistent::persistent']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_sales: //*[@data-ui-id='Mage_Sales::config_sales']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_sales_email: //*[@data-ui-id='Mage_Sales::sales_email']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_sales_pdf: //*[@data-ui-id='Mage_Sales::sales_pdf']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_reports: //*[@data-ui-id='Mage_Reports::reports']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_checkout: //*[@data-ui-id='Mage_Checkout::checkout']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_sitemap: //*[@data-ui-id='Mage_Sitemap::config_sitemap']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_facebook: //*[@data-ui-id='Social_Facebook::facebook']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_system: //*[@data-ui-id='Mage_Adminhtml::config_system']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_wishlist: //*[@data-ui-id='Mage_Wishlist::config_wishlist']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_promotion: //*[@data-ui-id='Mage_SalesRule::config_promo']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_moneybookers: //*[@data-ui-id='Phoenix_Moneybookers::moneybookers']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_advanced: //*[@data-ui-id='Mage_Adminhtml::advanced']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_admin: //*[@data-ui-id='Mage_Adminhtml::config_admin']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_trans_email: //*[@data-ui-id='Mage_Adminhtml::trans_email']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_developer: //*[@data-ui-id='Mage_Adminhtml::dev']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_currency: //*[@data-ui-id='Mage_Adminhtml::currency']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_rss: //*[@data-ui-id='Mage_Rss::rss']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        config_email_to_friend: //*[@data-ui-id='Mage_Adminhtml::sendfriend']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
+                                        stores_manage_tax: //*[@data-ui-id='Mage_Tax::manage_tax']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
                                     dropdowns:
                                         resource_access: //select[@id='all']
                                     links: &role_resources_links
@@ -210,7 +302,7 @@ admin_edit_role:
                         fieldsets:
                             -
                                 role_information:
-                                    xpath: //div[@id='base_fieldset']
+                                    xpath: //fieldset[@id='base_fieldset']
                                     fields:
                                         role_name: //input[@id='role_name']
                 -
@@ -264,14 +356,14 @@ admin_edit_role:
 # 'My Account' page
 my_account:
     mca: system_account/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_account')]
-    title: My Account / System / Magento Admin
+    click_xpath: //a[@data-ui-id='header-user-account-settings']
+    title: My Account / Magento Admin
     uimap:
         form: &myAccount
             fieldsets:
                 -
                     account_info:
-                        xpath: //form[@id='edit_form' and contains(.//h4,'Account Information')]
+                        xpath: //form[@id='edit_form']
                         fields:
                             user_name: //input[@id='username']
                             first_name: //input[@id='firstname']
@@ -279,7 +371,9 @@ my_account:
                             email: //input[@id='email']
                             new_password: //input[@id='password']
                             password_confirmation: //input[@id='user_confirmation']
+                        dropdowns:
+                            interface_locale: //select[@id='interface_locale']
         buttons:
             save_account: //button[@data-ui-id='system-account-edit-save-button']
-            reset_filter: //button[span='Reset Filter']
+            reset_filter: //button[@data-ui-id='system-account-edit-reset-button']
         messages: *adminUserMessages

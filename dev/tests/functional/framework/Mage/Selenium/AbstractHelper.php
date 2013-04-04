@@ -42,7 +42,7 @@
  * @method bool                     checkCurrentPage(string $page)
  * @method array                    checkMessage(string $message)
  * @method array                    checkMessageByXpath(string $locator)
- * @method PHPUnit_Extensions_Selenium2TestCase_Element|null getPresentChildElement(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
+ * @method PHPUnit_Extensions_Selenium2TestCase_Element|null childElementIsPresent(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator)
  * @method void                     clearActiveFocus()
  * @method array|bool               clearDataArray(array $dataArray)
  * @method void                     clearInvalidedCache()
@@ -110,6 +110,7 @@
  * @method array                    getTableHeadRowNames(string $tableLocator = '//table[@id]')
  * @method Mage_Selenium_Uimap_Page getUimapPage(string $area, string $pageKey)
  * @method Mage_Selenium_TestCase   goToArea(string $area = 'frontend', string $page = '', bool $validatePage = true)
+ * @method bool                     isControlExpanded(string $controlType, string $controlName)
  * @method Mage_Selenium_TestCase   helper(string $className)
  * @method bool                     httpResponseIsOK(string $url)
  * @method array                    loadDataSet(string $dataFile, string $dataSource, $overrideByKey = null, $overrideByValueParam = null)
@@ -155,9 +156,11 @@
  * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForElementEditable($locator, int $timeout = null)
  * @method bool                     waitForElementOrAlert($locator, int $timeout = null)
  * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForElementVisible($locator, int $timeout = null)
+ * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForElementNotVisible($locator, int $timeout = null)
  * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForControl($controlType, $controlName, $timeout = null)
  * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForControlEditable($controlType, $controlName, $timeout = null)
  * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForControlVisible($controlType, $controlName, $timeout = null)
+ * @method PHPUnit_Extensions_Selenium2TestCase_Element waitForControlNotVisible($controlType, $controlName, $timeout = null)
  * @method void                     waitForNewPage()
  * @method bool                     waitForPageToLoad()
  * @method void                     waitForTextNotPresent(int $pageText, int $timeout = null)
@@ -261,6 +264,7 @@ class Mage_Selenium_AbstractHelper
 
     const UIMAP_TYPE_FIELDSET = 'fieldset';
     const UIMAP_TYPE_MESSAGE = 'message';
+    const UIMAP_TYPE_TAB = 'tab';
     /**
      * Message types
      */

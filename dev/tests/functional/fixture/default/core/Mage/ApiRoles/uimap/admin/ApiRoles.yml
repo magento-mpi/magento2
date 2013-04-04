@@ -28,8 +28,8 @@
 
 api_roles_management:
     mca: webapi_role/
-    click_xpath: //div[@class='nav-bar']//a[span='API Roles']
-    title: API Roles / Web Api / System / Magento Admin
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/webapi_role/')]
+    title: API Roles / REST / System / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -53,12 +53,12 @@ api_roles_management:
             success_saved_role: //li[normalize-space(@class)='success-msg' and contains(.,'The API role has been saved.')]
             success_deleted_role: //li[normalize-space(@class)='success-msg' and contains(.,'The API role has been deleted.')]
             role_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Role name is already in use')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This field is required.' and not(contains(@style,'display: none;'))]"
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
 
 new_role:
     mca: webapi_role/edit/
-    title: New API Role / API Roles / Web Api / System / Magento Admin
+    title: New API Role / API Roles / REST / System / Magento Admin
     uimap:
         form:
             tabs:
@@ -93,7 +93,7 @@ new_role:
 
 edit_role:
     mca: webapi_role/edit/role_id/%id%/
-    title: Edit API Role / API Roles / Web Api / System / Magento Admin
+    title: Edit API Role / API Roles / REST / System / Magento Admin
     uimap:
         form:
             tabs:

@@ -69,7 +69,7 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         //Verifying
         if ($attributeCode == 'custom_design') {
-            $this->openTab('design');
+            $this->productHelper()->openProductTab('design');
             $this->assertEquals($attributeData['default_control_value'],
                 $this->getControlAttribute('dropdown', $uimapName, 'selectedLabel'),
                 'Incorrect default value for custom design attribute.');
@@ -87,52 +87,19 @@ class Core_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_Te
     public function systemAttributeDataProvider()
     {
         return array(
-            array('country_of_manufacture', 'simple', 'general_country_manufacture'),
+            array('country_of_manufacture', 'simple', 'autosettings_country_manufacture'),
             array('custom_design', 'simple', 'design_custom_design'),
             array('enable_googlecheckout', 'simple', 'prices_enable_googlecheckout'),
-            array('gift_message_available', 'simple', 'gift_options_allow_gift_message'),
-            array('is_recurring', 'simple', 'recurring_profile_enable_recurring_profile'),
+            array('gift_message_available', 'simple', 'autosettings_allow_gift_message'),
+            array('is_recurring', 'simple', 'prices_enable_recurring_profile'),
             array('msrp_enabled', 'simple', 'prices_apply_map'),
             array('msrp_display_actual_price_type', 'simple', 'prices_display_actual_price'),
             array('options_container', 'simple', 'design_display_product_options_in'),
             array('page_layout', 'simple', 'design_page_layout'),
-            array('price_view', 'bundle', 'prices_price_view_bundle'),
-            array('status', 'simple', 'general_status'),
-            array('tax_class_id', 'simple', 'prices_tax_class'),
-            array('visibility', 'simple', 'general_visibility')
+            array('price_view', 'bundle', 'general_price_view_bundle'),
+            array('status', 'simple', 'product_online_status'),
+            array('tax_class_id', 'simple', 'general_tax_class'),
+            array('visibility', 'simple', 'autosettings_visibility')
         );
-    }
-
-    /**
-     * Change selected default value for tax_class_id to '-- Please Select --'
-     * and verify impossibility to save product in this case
-     *
-     * @test
-     * @TestlinkId TL-MAGE-6082
-     */
-    public function resetDefaultValue()
-    {
-        //Data
-        $attribute = $this->loadDataSet('SystemAttributes', 'tax_class_id',
-            array('default_value' => '-- Please Select --'));
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
-        unset($productData['prices_tax_class']);
-        //Preconditions
-        $this->productAttributeHelper()->openAttribute(array('attribute_code' => $attribute['attribute_code']));
-        $this->productAttributeHelper()->processAttributeValue($attribute, false, true);
-        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_attribute');
-        $isSelected = $this->getControlAttribute('checkbox', 'default_value_by_option_name', 'selectedValue');
-        $this->assertTrue($isSelected,
-            'Option with value "' . $attribute['default_value'] . '" is not set as default for attribute');
-        //Steps
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, 'simple', false);
-        //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->addFieldIdToMessage('dropdown', 'prices_tax_class');
-//        $this->assertMessagePresent('validation', 'empty_required_field');
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 }

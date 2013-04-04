@@ -30,17 +30,12 @@
         </item>
         <item>
             <word>oracle</word>
-            <path>app/code/core/Mage/Reports/Model/Resource/Report/Abstract.php</path>
+            <path>app/code/Mage/Reports/Model/Resource/Report/Abstract.php</path>
         </item>
         <item>
             <word>oracle</word>
             <word>mssql</word>
             <path>dev/tests/integration/framework/Magento/Test/Bootstrap.php</path>
-        </item>
-        <item>
-            <word>oracle</word>
-            <word>mssql</word>
-            <path>dev/tests/integration/framework/Magento/Test/Annotation/AppIsolation.php</path>
         </item>
         <item>
             <word>mssql</word>

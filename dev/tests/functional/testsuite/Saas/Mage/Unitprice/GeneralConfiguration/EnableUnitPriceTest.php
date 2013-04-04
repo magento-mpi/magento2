@@ -15,8 +15,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Saas_Mage_Unitprice_GeneralConfiguration_EnableUnitPriceTest
-    extends Mage_Selenium_TestCase
+class Saas_Mage_Unitprice_GeneralConfiguration_EnableUnitPriceTest extends Mage_Selenium_TestCase
 {
     protected static $_productNameSimple;
 
@@ -47,7 +46,7 @@ class Saas_Mage_Unitprice_GeneralConfiguration_EnableUnitPriceTest
             'Product', 'simple_product_with_param_for_configurable',
             array(
                 'general_name' => '%randomize% simple_product_for_order',
-                'prices_price' => '100',
+                'general_price' => '100',
             )
         );
         $productDataSimple['categories'] = 'Default Category'

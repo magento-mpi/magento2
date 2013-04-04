@@ -17,15 +17,9 @@
  */
 class Enterprise_ImportExport_Model_Export_Entity_Customer_FinanceTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * Remove not used websites
-     *
-     * @static
-     */
-    public static function tearDownAfterClass()
+    protected function tearDown()
     {
-        Mage::app()->reinitStores();
-        parent::tearDownAfterClass();
+        Mage::getSingleton('Mage_Core_Model_StoreManager')->reinitStores();
     }
 
     /**

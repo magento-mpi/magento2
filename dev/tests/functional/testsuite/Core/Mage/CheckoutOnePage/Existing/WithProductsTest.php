@@ -35,6 +35,8 @@ class Core_Mage_CheckoutOnePage_Existing_WithProductsTest extends Mage_Selenium_
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $virtual = $this->loadDataSet('Product', 'virtual_product_visible');
         //Steps and Verification
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');

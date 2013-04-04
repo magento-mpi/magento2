@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @var Magento_Test_ObjectManager
@@ -41,6 +41,8 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_Fra
 
     protected function setUp()
     {
+        parent::setUp();
+
         $this->_authorizationConfig = $this->getMockBuilder('Mage_Webapi_Model_Authorization_Config')
             ->disableOriginalConstructor()
             ->setMethods(array('getAclResourcesAsArray'))

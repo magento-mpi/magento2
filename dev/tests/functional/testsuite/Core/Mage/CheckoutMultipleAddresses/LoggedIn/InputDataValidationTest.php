@@ -79,8 +79,8 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
                                                                                          $path,
                                                                                          array($emptyField => ''));
         //Steps
-        if ($emptyField == 'state' || $emptyField == 'country') {
-            $message = '"' . $fieldName . '": Please select an option.';
+        if ($emptyField == 'country') {
+            $message = '"' . $fieldName . '": Please select an option';
         } else {
             $message = '"' . $fieldName . '": This is a required field.';
         }
@@ -113,8 +113,8 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
                                                                               $path,
                                                                               array($emptyField => ''));
         //Steps
-        if ($emptyField == 'state' || $emptyField == 'country') {
-            $message = '"' . $fieldName . '": Please select an option.';
+        if ($emptyField == 'country') {
+            $message = '"' . $fieldName . '": Please select an option';
         } else {
             $message = '"' . $fieldName . '": This is a required field.';
         }
@@ -174,6 +174,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      */
     public function withLongValuesInShippingAddress($testData)
     {
+        $this->markTestIncomplete('MAGETWO-8239');
         //Data
         $address = $this->loadDataSet('MultipleAddressesCheckout', 'long_values');
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
@@ -222,6 +223,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      */
     public function withLongValuesInBillingAddress($testData)
     {
+        $this->markTestIncomplete('MAGETWO-8239');
         //Data
         $address = $this->loadDataSet('MultipleAddressesCheckout', 'long_values');
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,

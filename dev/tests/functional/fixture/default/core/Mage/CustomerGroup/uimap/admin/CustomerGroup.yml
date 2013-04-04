@@ -12,8 +12,8 @@
 # 'Manage Customer Groups' page
 manage_customer_groups:
     mca: customer_group/
-    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/customer_group/')]
-    title: Customer Groups / Customers / Magento Admin
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/customer_group/')]
+    title: Customer Groups / Other Settings / Stores / Magento Admin
     uimap:
         form: &searchCustomerGroupsGrid
             fieldsets:
@@ -42,7 +42,7 @@ manage_customer_groups:
 # 'New Customer Group' Page
 create_customer_group:
     mca: customer_group/new/
-    title: New Group / Customer Groups / Customers / Magento Admin
+    title: New Group / Customer Groups / Other Settings / Stores / Magento Admin
     uimap:
         form: &newCustomerGroupForm
             fieldsets:
@@ -63,7 +63,7 @@ create_customer_group:
 # 'Edit Customer Group' Page
 edit_customer_group:
     mca: customer_group/edit/id/%id%/
-    title: %elementTitle% / Customer Groups / Customers / Magento Admin
+    title: %elementTitle% / Customer Groups / Other Settings / Stores / Magento Admin
     uimap:
         form: *newCustomerGroupForm
         buttons:

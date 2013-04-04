@@ -39,7 +39,7 @@ localization:
             continue: //button[span='Continue']
 
 configuration:
-    mca: install/wizard/config/%config%
+    mca: install/wizard/config/%config%/
     title: Magento Installation Wizard
     uimap:
         form: &localization

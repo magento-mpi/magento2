@@ -213,7 +213,7 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_AbstractHelper
                     }
                 }
             } else {
-                $this->addVerificationMessage('Group ' . $value . 'does not exist');
+                $this->addVerificationMessage('Group ' . $value . ' does not exist');
             }
         }
         $this->assertEmptyVerificationErrors();

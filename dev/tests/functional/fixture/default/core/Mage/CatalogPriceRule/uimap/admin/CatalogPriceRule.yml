@@ -12,7 +12,7 @@
 manage_catalog_price_rules:
     mca: promo_catalog/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'promo_catalog/')]
-    title: Catalog Price Rules / Promotions / Magento Admin
+    title: Catalog Price Rules / Promotions / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -50,14 +50,14 @@ manage_catalog_price_rules:
             invalid_rule_data: //li[normalize-space(@class)='error-msg' and contains(.,'An error occurred while saving the rule data. Please review the log and try again.')]
             invalid_discount_amount: //label[(@for)='rule_discount_amount' and contains(.,'Please select one of the above options.')]
             invalid_sub_discount_amount: //label[(@for)='rule_sub_discount_amount' and contains(.,'Please select one of the above options.')]
-            empty_required_field: //label[(@for)='%fieldId%' and contains(.,'This field is required.')]
+            empty_required_field: //label[(@for)='%fieldId%' and contains(.,'This is a required field.')]
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
             no_price_rules: //*[@id='promo_catalog_grid_table']//tr[td='No records found.']
 
 add_new_rule:
     mca: promo_catalog/new/
-    title: New Rule / Catalog Price Rules / Promotions / Magento Admin
+    title: New Rule / Catalog Price Rules / Promotions / Marketing / Magento Admin
     uimap:
         form: &addNewRule
             tabs:
@@ -67,7 +67,7 @@ add_new_rule:
                         fieldsets:
                             -
                                 rule_information_fieldset:
-                                    xpath: //div[@id='rule_base_fieldset']
+                                    xpath: //fieldset[@id='rule_base_fieldset']
                                     fields:
                                         rule_name: //input[@name='name']
                                         description: //textarea[@name='description']
@@ -152,7 +152,7 @@ add_new_rule:
 
 edit_rule_page:
     mca: promo_catalog/edit/id/%id%/
-    title: %elementTitle% / Catalog Price Rules / Promotions / Magento Admin
+    title: %elementTitle% / Catalog Price Rules / Promotions / Marketing / Magento Admin
     uimap:
         form: *addNewRule
         buttons:

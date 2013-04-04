@@ -91,9 +91,11 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        return array('user'   => array('email' => $userData['email'], 'password' => $userData['password']),
-                     'product'=> array('name' => $simple['general_name'], 'price' => $simple['prices_price']),
-                     'catName'=> $category['name']);
+        return array(
+            'user' => array('email' => $userData['email'], 'password' => $userData['password']),
+            'product' => array('name' => $simple['general_name'], 'price' => $simple['general_price']),
+            'catName' => $category['name']
+        );
     }
 
     /**
@@ -136,9 +138,10 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
     public function allowAddingToCartForSpecifiedCustomer($testData)
     {
         //Data
-        $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable',
-            array('allow_adding_to_cart'                 => 'Yes, for Specified Customer Groups',
-                  'allow_adding_to_cart_customer_groups' => 'General'));
+        $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable', array(
+            'allow_adding_to_cart' => 'Yes, for Specified Customer Groups',
+            'allow_adding_to_cart_customer_groups' => 'General'
+        ));
         $this->addParameter('productName', $testData['product']['name']);
         $this->addParameter('price', '$' . $testData['product']['price']);
         //Steps
@@ -172,8 +175,8 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
     public function displayProductPricesIsNo($testData)
     {
         //Data
-        $config =
-            $this->loadDataSet('CategoryPermissions', 'category_permissions_enable', array('display_prices' => 'No'));
+        $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable',
+            array('display_prices' => 'No'));
         $this->addParameter('productName', $testData['product']['name']);
         $this->addParameter('price', '$' . $testData['product']['price']);
         //Steps
@@ -199,11 +202,11 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
      */
     public function displayProductPricesForSpecifiedCustomer($testData)
     {
-
         //Data
-        $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable',
-            array('display_prices'                 => 'Yes, for Specified Customer Groups',
-                  'display_prices_customer_groups' => 'General'));
+        $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable', array(
+            'display_prices' => 'Yes, for Specified Customer Groups',
+            'display_prices_customer_groups' => 'General'
+        ));
         $this->addParameter('productName', $testData['product']['name']);
         $this->addParameter('price', '$' . $testData['product']['price']);
         //Steps
@@ -241,7 +244,7 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
         $this->systemConfigurationHelper()->configure($config);
         $this->clearInvalidedCache();
         $this->frontend();
-        $this->assertFalse($this->controlIsPresent('pageelement', 'front_navigation_menu'),
+        $this->assertFalse($this->controlIsVisible('fieldset', 'categories_menu'),
             'Navigation menu should be absent');
     }
 
@@ -257,21 +260,22 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
     public function browsingCategoryForSpecifiedCustomer($testData)
     {
         //Data
-        $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable',
-            array('allow_browsing' => 'Yes, for Specified Customer Groups',
-                  'landing_page'   => 'About Us', 'allow_browsing_customer_groups' => 'General'));
+        $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable', array(
+            'allow_browsing' => 'Yes, for Specified Customer Groups',
+            'landing_page' => 'About Us', 'allow_browsing_customer_groups' => 'General'
+        ));
         //Steps
         $this->systemConfigurationHelper()->configure($config);
         $this->clearInvalidedCache();
         $this->frontend();
         $this->customerHelper()->frontLoginCustomer($testData['user']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'front_navigation_menu'),
+        $this->assertTrue($this->controlIsVisible('fieldset', 'categories_menu'),
             'Navigation menu must be present');
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
         $url = $this->url();
         $this->customerHelper()->logoutCustomer();
         $this->url($url);
-        $this->assertSame($this->url(), 'About Us', 'Open wrong page');
+        $this->assertSame('about_us', $this->_findCurrentPageFromUrl(), 'Wrong page was opened');
     }
 
     /**
@@ -293,13 +297,13 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
         $this->clearInvalidedCache();
         $this->frontend();
         $this->assertFalse($this->controlIsPresent('button', 'go_search'),
-            'Button "Add go_search cart" should be absent');
+            'Button "go_search" should be absent');
         $this->assertFalse($this->controlIsPresent('field', 'search'), 'Field "search" should be absent');
         $this->assertFalse($this->controlIsPresent('link', 'advanced_search'),
             'Link "advanced_search" should be absent');
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->assertTrue($this->controlIsPresent('button', 'go_search'),
-            'Button "Add go_search cart" must be present');
+            'Button "go_search" must be present');
         $this->assertTrue($this->controlIsPresent('field', 'search'), 'Field "search" must be present');
         $this->assertTrue($this->controlIsPresent('link', 'advanced_search'), 'Link "advanced_search" must be present');
     }
@@ -316,8 +320,8 @@ class Enterprise_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage_
     public function permissionsInWishlist($testData)
     {
         //Data
-        $config =
-            $this->loadDataSet('CategoryPermissions', 'category_permissions_enable', array('display_prices' => 'No'));
+        $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable',
+            array('display_prices' => 'No'));
         $this->addParameter('productName', $testData['product']['name']);
         $this->addParameter('price', '$' . $testData['product']['price']);
         //Steps

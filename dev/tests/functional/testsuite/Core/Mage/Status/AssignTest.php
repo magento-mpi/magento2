@@ -92,8 +92,7 @@ class Core_Mage_Status_AssignTest extends Mage_Selenium_TestCase
         //Steps
         $this->storeHelper()->assignStatus($statusData);
         //Verifying
-        $xpath = $this->_getControlXpath($fieldType, $emptyField);
-        $this->addParameter('fieldXpath', $xpath);
+        $this->addFieldIdToMessage($fieldType, $emptyField);
         $this->assertMessagePresent('error', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }

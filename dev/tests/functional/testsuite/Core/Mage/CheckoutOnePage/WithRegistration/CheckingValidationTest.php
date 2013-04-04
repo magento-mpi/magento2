@@ -35,6 +35,8 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps and Verification
         $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -141,7 +143,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
             array('billing_email', '"Email Address": This is a required field.'),
             array('billing_street_address_1', '"Address": This is a required field.'),
             array('billing_city', '"City": This is a required field.'),
-            array('billing_state', '"State/Province": Please select an option.'),
+            array('billing_state', '"State/Province": This is a required field.'),
             array('billing_zip_code', '"Zip/Postal Code": This is a required field.'),
             array('billing_country', '"Country": Please select an option.'),
             array('billing_telephone', '"Telephone": This is a required field.'),
@@ -337,7 +339,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
             array('shipping_last_name', '"Last Name": This is a required field.'),
             array('shipping_street_address_1', '"Address": This is a required field.'),
             array('shipping_city', '"City": This is a required field.'),
-            array('shipping_state', '"State/Province": Please select an option.'),
+            array('shipping_state', '"shipping:region_id": This is a required field.'),
             array('shipping_zip_code', '"Zip/Postal Code": This is a required field.'),
             array('shipping_country', '"Country": Please select an option.'),
             array('shipping_telephone', '"Telephone": This is a required field.')

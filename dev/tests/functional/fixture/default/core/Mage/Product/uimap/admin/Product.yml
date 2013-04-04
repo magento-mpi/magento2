@@ -11,22 +11,23 @@
 # Manage Product page
 manage_products:
     mca: catalog_product/
-    click_xpath: //*[@class='navigation']//a[contains(@href, '/catalog_product/')]
-    title: Manage Products / Catalog / Magento Admin
+    click_xpath: //div[@class='submenu']//a[contains(@href, '/catalog_product/')]
+    title: Manage Products / Inventory / Products / Magento Admin
     uimap: &manageProductsUimap
         form:
             fieldsets:
                 -
                     product_grid:
-                        xpath: //div[@id='productGrid']
+                        xpath: //*[@id='productGrid']
                         links:
-                            selectall: //div[@id='productGrid_massaction']//a[contains(.,'Select All')]
+                            mass_action_select_all: //div[@id='productGrid_massaction']//a[contains(.,'Select All')]
+                            mass_action_select_visible: //div[@id='productGrid_massaction']//a[contains(.,'Select Visible')]
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
                             submit: //button[span='Submit']
                         dropdowns:
-                            product_massaction: //select[@id='productGrid_massaction-select']
+                            mass_action_select_action: //select[@id='productGrid_massaction-select']
                             filter_massaction: //select[@name='massaction']
                             product_type: //select[@name='type']
                             product_attribute_set: //select[@name='set_name']
@@ -58,11 +59,11 @@ manage_products:
             success_created_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been created.')]
             success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.,'The product has been saved.')]
             specify_url: "//div[@id='advice-validate-downloadable-url-%fieldId%' and not(contains(@style,'display: none;'))]"
-            incorrect_sku_length: //*[@class='mage-error' and text()='SKU length should be 64 characters maximum.']
-            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This field is required.' and not(contains(@style,'display: none;'))]
+            incorrect_sku_length: //*[@class='mage-error' and text()='Maximum length of this field must be equal or less than 64 symbols.']
+            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This is a required field.' and not(contains(@style,'display: none;'))]
             enter_valid_number: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a valid number in this field.' and not(contains(@style,'display: none;'))]
             enter_zero_or_greater: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a number 0 or greater in this field.' and not(contains(@style,'display: none;'))]
-            enter_greater_than_zero: //*[@class='mage-error' and @for='tier_price_row_0_price' and text()='Please enter a number greater than 0 in this field' and not(contains(@style,'display: none;'))]
+            enter_greater_than_zero: //*[@class='mage-error' and @for='tier_price_row_0_price' and text()='Please enter a number greater than 0 in this field.' and not(contains(@style,'display: none;'))]
             existing_sku: //div[@class='validation-advice' and contains(text(),'The value of attribute "SKU" must be unique')]
             select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
             confirmation_for_delete: Are you sure?
@@ -72,35 +73,44 @@ manage_products:
             category_name_required: //div[@id='advice-required-entry-new_category_name']
             parent_name_required: //div[@id='advice-required-entry-new_category_parent']
             parent_name_existent: //div[@id='advice-validate-parent-category-new_category_parent']
+            attribute_set_html: //*[@class='mage-error' and @for='%fieldId%' and contains(., 'HTML tags are not allowed')]
+            attribute_set_existed: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute set with the "%attributeSetName%" name already exists.')]
 
 manage_products_store:
     mca: catalog_product/index/store/%storeId%/
     click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_product/')]
-    title: Manage Products / Catalog / Magento Admin
+    title: Manage Products / Inventory / Products / Magento Admin
     uimap: *manageProductsUimap
 
 # Add New Product page
 new_product:
     mca: catalog_product/new/set/%setId%/type/%productType%/
-    title: New Product / Manage Products / Catalog / Magento Admin
+    title: New Product / Manage Products / Inventory / Products / Magento Admin
     uimap: &newProduct
         form: &newProductCreationForm
             fieldsets: &new_product_fieldsets
                 -
                     product_information:
-                        xpath: //div[@class='content-header']
-                        pageelements:
-                            product_attribute_set: //h3[@class='icon-head head-products' and contains(text(),'%attributeSet%')]
-                            product_page_title: //h3[@class='icon-head head-products']
-                            product_name: //h3[@class='icon-head head-products'][text()='%productName% (%attributeSet%)']
-                -
-                    change_attribute_set:
-                        xpath: //div[div/span='Select Attribute Set']
-                        dropdowns:
-                            choose_attribute_set: //select[@id='attribute_set_id']
+                        xpath: //div[@class='page-actions-inner']
                         buttons:
-                            close: //button[@id='change-attribute-set-close-button']
-                            apply: //button[@id='change-attribute-set-apply-button']
+                            attribute_set_toggle: //*[@class='action-toggle']
+                            attribute_set_toggle_disabled: //*[@class='action-toggle disabled']
+                        fields:
+                            attribute_set_name: //*[@id='product-template-suggest' and not(contains(@calss, 'mage-suggest-state-loading'))]
+                        links:
+                            attribute_set: //a[@role='menuitem' and text()='%attributeSet%']
+                            show_all_attribute_sets: //a[@role='menuitem' and text()='Show all...']
+                        pageelements:
+                            product_attribute_set: //div[@id='product-template-suggest-container']//span[text()='%attributeSet%']
+                            attribute_set_no_records: //div[@class='mage-suggest-dropdown']/*[@class='mage-suggest-no-records']
+                            attribute_set_list: //div[@class='mage-suggest-dropdown']
+                            product_online_status: //div[@class='switcher']/label
+                -
+                    advanced_settings_tabs:
+                        xpath: //*[@id='product_info_tabs-advanced']
+                        pageelements:
+                            advanced_settings_header: /h3[@id='ui-accordion-product_info_tabs-advanced-header-0']
+                            advanced_settings_panel: /ul[@id='ui-accordion-product_info_tabs-advanced-panel-0']
                 -
                     choose_affected_attribute_set:
                         xpath: //*[@id='affected-attribute-set-form']/ancestor::*[contains(concat(' ', normalize-space(@class), ' '), ' ui-dialog ')]
@@ -112,136 +122,145 @@ new_product:
                         buttons:
                             cancel: //*[contains(@id,'close-button')]
                             confirm: //*[contains(@id,'confirm-button')]
-                        messages:
-                            attribute_set_required: //*[@class='mage-error' and @for='new-attribute-set-name' and contains(., 'This field is required.')]
-                            attribute_set_html: //*[@class='mage-error' and @for='new-attribute-set-name' and contains(., 'HTML tags are not allowed')]
-                            attribute_set_existed: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute set with the "%attributeSetName%" name already exists.')]
+                -
+                    add_attribute:
+                        xpath: //div[div/span='New Attribute']
+                        pageelements:
+                            add_new_attribute_iframe: //iframe[@id='create_new_attribute_container']
             tabs:
                 -
                     general: &generalTab
-                        xpath: //a[@title='General']
+                        xpath: //a[@title='Product Details']
                         fieldsets:
                             -
                                 product_general:
-                                    xpath: //div[contains(div/div/div,'General')]
+                                    xpath: //div[*/*/span='Product Details']
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                         new_category: //button[span='New Category']
                                     dropdowns:
+                                        general_tax_class: //select[@id='tax_class_id']
                                         general_sku_type: //select[@id='sku_type']
                                         general_weight_type: //select[@id='weight_type']
-                                        general_status: //select[@id='status']
-                                        general_visibility: //select[@id='visibility']
-                                        general_country_manufacture: //select[@id='country_of_manufacture']
+                                        general_price_type: //select[@id='price_type']
                                         general_stock_availability: //select[@name='product[quantity_and_stock_status][is_in_stock]']
                                         general_user_attr_dropdown: //select[@id='%attributeCodeDropdown%']
-                                        general_min_price_type: //select[@id='price_type']
-                                        general_min_tax_class: //select[@id='tax_class_id']
+                                        general_price_type: //select[@id='price_type']
                                         general_min_price_view_bundle: //select[@id='price_view']
                                     fields:
                                         general_name: //input[@id='name']
                                         general_sku: //input[@id='sku']
+                                        general_price: //input[@id='price' and not(@disabled)]
                                         general_description: //textarea[@id='description']
-                                        general_short_description: //textarea[@id='short_description']
                                         general_weight: //input[@id='weight' and not(@disabled)]
-                                        general_news_from: //input[@id='news_from_date']
-                                        general_news_to: //input[@id='news_to_date']
-                                        general_url_key: //input[@id='url_key']
-                                        general_categories: //input[@id='category_ids-suggest']
+                                        general_categories: //input[@id='category_ids-suggest'][not(@class='mage-suggest-state-loading')]
                                         general_qty: //input[@name='product[quantity_and_stock_status][qty]']
                                         general_user_attr_field: //input[@id='%attributeCodeField%']
-                                        general_min_price: //input[@id='price' and not(@disabled)]
                                         general_weight_disabled: //input[@id='weight' and (@disabled)]
                                     checkboxes:
                                         general_weight_and_type_switcher: //input[@id='weight_and_type_switcher']
                                     multiselects:
                                         general_user_attr_multiselect: //select[@id='%attributeCodeMultiselect%']
                             -
-                                category_search:
-                                    xpath: //div[@class='mage-suggest-dropdown']/ul[@role='menu']
+                                categories_list:
+                                    xpath: //div[@id='attribute-category_ids-container']//div[@class='mage-suggest-dropdown']
                                     links:
-                                        category: //*[@role='menuitem']//span[text()='%categoryPath%']
-                                        selected_category: //*[@class='category-selected ui-menu-item']/*[@title='%categoryPath%']
+                                        root_category: /div/ul/li/a[text()='%categoryName%']
+                                        sub_category: //li[a/@data-suggest-option='%categoryId%']/ul/li/a[text()='%categoryName%']
+                                        expand_category: //li[contains(@class,'jstree-closed')][a/@data-suggest-option='%categoryId%']/ins
+                                        found_category: //a[span/text()='%categoryName%'][.//span='%categoryPath%']
+                                        any_sub_category: //li[a/@data-suggest-option='%categoryId%']/ul/li/a
+                                        category: //a[@data-suggest-option='%categoryId%']
                                     pageelements:
-                                        category_list: //*[@class='ui-menu-item']
+                                        no_category_found: //span[text()='No records found.']
+                                        category_node: //li[a/@data-suggest-option='%categoryId%']
                             -
                                 chosen_category:
-                                    xpath: //*[@class='category-selector-search-choice button']
+                                    xpath: //div[@id='attribute-category_ids-container']//li[@class='mage-suggest-choice button']
                                     links:
-                                        delete_category: "[div='%categoryName%']//*[@class='category-selector-search-choice-close']"
+                                        chosen_category_delete: "[div='%categoryName%']/span[@class='mage-suggest-choice-close']"
                                     pageelements:
-                                        category_name: /*[text()='%categoryName%']
+                                        chosen_category_name: /div[text()='%categoryName%']
                             -
                                 new_category_form:
-                                    xpath: //div[div/span='Create New Category']
+                                    xpath: //div[div/span='Create Category']
                                     fields:
                                         name: //input[@id='new_category_name']
-                                        parent_category: //input[@id='new_category_parent'][not(contains(@class, 'ui-autocomplete-loading'))]
+                                        parent_category: //input[@id='new_category_parent-suggest'][not(@class='mage-suggest-state-loading')]
                                     buttons:
-                                        new_category_close: //a[@class='ui-icon ui-icon-closethick']
-                                        new_category_save: //button[@id='mage-new-category-dialog-save-button']
-                                        new_category_cancel: //button[@id='mage-new-category-dialog-close-button']
+                                        new_category_close: ///a[span='close']
+                                        new_category_save: //button[@data-action='save']
+                                        new_category_cancel: //button[@data-action='cancel']
+                            -
+                                parent_categories_list:
+                                    xpath: //div[div/span='Create Category']//div[@class='mage-suggest-dropdown']
+                                    links:
+                                        parent_root_category: /div/ul/li/a[text()='%categoryName%']
+                                        parent_sub_category: //li[a/@data-suggest-option='%categoryId%']/ul/li/a[text()='%categoryName%']
+                                        parent_expand_category: //li[contains(@class,'jstree-closed')][a/@data-suggest-option='%categoryId%']/ins
+                                        parent_found_category: //a[span/text()='%categoryName%'][.//span='%categoryPath%']
+                                        parent_any_sub_category: //li[a/@data-suggest-option='%categoryId%']/ul/li/a
+                                        parent_category: //a[@data-suggest-option='%categoryId%']
                                     pageelements:
-                                        parent_category_search_result: //td[@data-ui-id='admin-product-edit-tab-super-config-grid-container-super-settings-fieldset-element-cell-new-category-parent-value']/span[text()]
+                                        parent_no_category_found: //span[text()='No records found']
+                                        parent_category_node: //li[a/@data-suggest-option='%categoryId%']
+                            -
+                                chosen_parent_category:
+                                    xpath: //div[div/span='Create Category']//li[@class='mage-suggest-choice button']
+                                    links:
+                                        chosen_parent_category_delete: "[div='%categoryName%']/span[@class='mage-suggest-choice-close']"
+                                    pageelements:
+                                        chosen_parent_category_name: /div[text()='%categoryName%']
                             -
                                 product_variations:
-                                    xpath: //div[@id='config_super_product']
-                                    checkboxes:
-                                        is_configurable: //input[@id='config_super_product-checkbox']
+                                    xpath: //div[@id='config_super_product-wrapper']
                                     fields:
                                         general_configurable_attribute_title: //input[@id='configurable-attribute-selector']
-                                        attribute_blocks_name: //input[@class='store-label required-entry']
+                                        attribute_blocks_name: //input[contains(@name,'[label]')]
                                     links:
-                                        configurable_attribute_select: //li[@class='ui-menu-item']//a[text()='%attributeTitle%']
+                                        configurable_attribute_select: //div[@class='mage-suggest-dropdown']//a[text()='%attributeTitle%']
+                                        is_configurable: //strong[span='Variations']
                                     buttons:
-                                        generate_product_variations: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-generate' and not(@disabled)]
-                                        generate_product_variations_disabled: //button[@data-ui-id='admin-product-edit-tab-super-config-grid-container-generate' and @disabled]
+                                        generate_product_variations: //button[@id='generate-variations-button' and not(@disabled)]
+                                        generate_product_variations_disabled: //button[@id='generate-variations-button' and @disabled]
                                     pageelements:
-                                        product_variations_fieldset: /fieldset
-                                        configurable_attributes_list: "//ul[contains(@class,'ui-autocomplete')][not(contains(@style,'display: none;'))]"
-                                        attribute_search_result: //span[@role='status'][string-length(text())>1]
-                                        attribute_search_specific_result: //span[@role='status'][not(text()='%searchResult%')]
+                                        product_variations_fieldset: //div[@id='config_super_product-content']
+                                        configurable_attributes_list: "//div[@class='mage-suggest-dropdown'][not(contains(@style,'display: none;'))]"
                             -
                                 product_variation_attribute:
-                                    xpath: //div[div/h4//@data-store-label='%attributeTitle%']
+                                    xpath: //div[*/*/span='%attributeTitle%']
                                     checkboxes:
-                                        have_price_variation: //label[contains(.,'Have price variation')]/input
                                         include_variation_attribute: //tr[td='%attributeOption%']//input[@type='checkbox' and contains(@name,'[include]')]
-                                        use_default_label: //*[@class='entry-edit-head']//*[@name=contains(.,'[is_default]')]//*[@type='checkbox']
+                                        use_default_label: //label[span='Use Default']
                                     fields:
                                         variation_attribute_price: //tr[td='%attributeOption%']//input[contains(@name,'[pricing_value]')]
-                                        frontend_label: //*[@value='%attributeTitle%']
+                                        frontend_label: //input[contains(@name,'[label]')]
                                     dropdowns:
                                         variation_attribute_price_type: //tr[td='%attributeOption%']//select[contains(@name,'[is_percent]')]
                                     links:
-                                        delete_product_variation_attribute: //span[@class='ui-icon ui-icon-circle-close remove']
-                                        move_product_variation_attribute: //span[@class='ui-icon ui-icon-grip-dotted-vertical']
-                                        expand_product_variation_attribute: //span[@class='ui-icon ui-icon-circle-triangle-s']
+                                        delete_product_variation_attribute: //button[@title='Delete Variations Group']
+                                        move_product_variation_attribute: //div[@title='Sort Variations']
+                                        expand_product_variation_attribute: //strong[@data-toggle]
                                     pageelements:
                                         option_line: //tbody/tr
-                                    messages:
-                                        required_attribute_label: //*[@class='mage-error' and contains(.,'This field is required.')]
                             -
                                 variations_matrix_grid:
-                                    xpath: //div[@id='product-variations-matrix']
+                                    xpath: //div[@data-role='product-variations-matrix']//table
                                     checkboxes:
                                         include_variation: //tbody/tr[%attributeSearch%]//input[@name='associated_product_ids[]']
-                                        assigned_product: //tbody/tr[td/text()='%productSku%'][%attributeSearch%]//input[@checked='checked']
+                                        assigned_product: //tbody/tr[//text()='%productSku%'][%attributeSearch%]//input[@checked='checked']
                                     pageelements:
-                                        variations_matrix_header: //tr[normalize-space(@class)='headings']
+                                        variations_matrix_header: //thead/tr
                                         variation_line: //tbody/tr
                                         attribute_header: //thead//th[text()='%attributeTitle%']
-                                        variation_price: //tbody/tr[%attributeSearch%]//td[@class='associated-matrix-product-price']
+                                        variation_price: //tbody/tr[%attributeSearch%]//td[@data-column='price']
                                     buttons:
-                                        choose: //tbody/tr[%attributeSearch%]//button[@class='choose-product']
+                                        choose: //tbody/tr[%attributeSearch%]//button[@title='Choose']
                                     fields:
-                                        associated_product_name: //tbody/tr[%attributeSearch%]//input[contains(@name,'[name]')]
-                                        associated_price: //tbody/tr[%attributeSearch%]//input[contains(@name,'[price]')]
+                                        associated_name: //tbody/tr[%attributeSearch%]//input[contains(@name,'[name]')]
                                         associated_sku: //tbody/tr[%attributeSearch%]//input[contains(@name,'[sku]')]
                                         associated_quantity: //tbody/tr[%attributeSearch%]//input[contains(@name,'[qty]')]
                                         associated_weight: //tbody/tr[%attributeSearch%]//input[contains(@name,'[weight]')]
-                                    messages:
-                                        required_field: //*[contains(@for,'variations-matrix') and contains(@for,'%field%')]
                             -
                                 select_associated_product:
                                     xpath: //div[div/span='Select Associated Product']
@@ -250,13 +269,13 @@ new_product:
                                         next_page: //a[@data-ui-id='admin-product-edit-tab-super-config-grid-next']
                                         product_page: //input[@data-ui-id='admin-product-edit-tab-super-config-grid-current-page']
                                     pageelements:
-                                        associated_product_id: //td[normalize-space(@class)='associated-product-id']
-                                        associated_product_name: //td[normalize-space(@class)='associated-product-name']
-                                        associated_price: //td[contains(@class,'associated-product-price')]
-                                        associated_sku: //td[normalize-space(@class)='associated-product-sku']
-                                        associated_quantity: //td[normalize-space(@class)='associated-product-qty']
+                                        associated_product_id: //td[normalize-space(@data-column)='entity_id']
+                                        associated_product_name: //td[normalize-space(@data-column)='name']
+                                        associated_price: //td[contains(@data-column,'price')]
+                                        associated_sku: //td[normalize-space(@data-column)='sku']
+                                        associated_quantity: //td[normalize-space(@data-column)='qty']
                                         associated_inventory: //td[6]
-                                        associated_weight: //td[normalize-space(@class)='associated-product-weight']
+                                        associated_weight: //td[normalize-space(@data-column)='weight']
                                         opened_product_page: //input[@data-ui-id='admin-product-edit-tab-super-config-grid-current-page'][@value='%pageIndex%']
                             -
                                 grouped_associated_products:
@@ -270,27 +289,27 @@ new_product:
                                         move_grouped_product: //tr[td[normalize-space(text())='%productSku%']]//*[@class='ui-icon ui-icon-grip-dotted-vertical']
                                     pageelements:
                                         selected_grouped_product: //tr[td[normalize-space(text())='%productSku%']]
-                                        grouped_assigned_products: //tr[not(contains(@style,'display: none;'))]/td[contains(@class, 'grouped-product-sku')]
+                                        grouped_assigned_products: //tr[not(contains(@style,'display: none;'))]/td[@data-column='sku']
                             -
                                 bundle_items:
-                                    xpath: //div[contains(div/h4,'Bundle Items')]
+                                    xpath: //*[@id='bundle_product-wrapper']
                                     buttons:
                                         add_new_option: //button[@id='add_new_option']
+                                        delete_product_bundle_item: //div[//*[text()='%itemTitle%']]//*[@data-ui-id='adminhtml-catalog-product-edit-tab-bundle-option-option-delete-button']
                                     dropdowns:
                                         ship_bundle_items: //select[@id='shipment_type']
                                     fields:
                                         bundle_items_names: //input[@class='input-text required-entry']
                                     links:
-                                        delete_product_bundle_item: //div[h4='%itemTitle%']/span[@class='ui-icon ui-icon-circle-close remove']
-                                        move_product_bundle_item: //div[h4='%itemTitle%']/span[@class='ui-icon ui-icon-grip-dotted-vertical']
-                                        expand_product_bundle_item: //div[h4='%itemTitle%']/span[@class='ui-icon ui-icon-circle-triangle-s']
+                                        move_product_bundle_item: //div[strong/*[text()='%itemTitle%']]/*[@class='draggable-handle']
+                                        expand_product_bundle_item: //*[@data-toggle='collapse']/*[text()='%itemTitle%']
                                     pageelements:
                                         bundle_item_grid: //div[@class='option-box' and not(contains(@style,'display: none;'))]
                                         bundle_item_grid_index_product: //div[@id='bundle_option_%optionId%']//tr[@class='selection']/td[text()='%productSku%']
                                         bundle_item_row: //div[@class='option-box']
                             -
                                 new_bundle_option:
-                                    xpath: //div[@id='bundle_option_%optionId%']
+                                    xpath: //div[@id='bundle_option_%optionId%-wrapper']
                                     buttons:
                                         delete_option: //*[@class='ui-icon ui-icon-circle-close remove']
                                         add_selection: //button[@id='bundle_option_%optionId%_add_button']
@@ -306,12 +325,13 @@ new_product:
                                         selection_item_price: //tr[contains(.,'%productSku%')]//input[contains(@name,'selection_price_value')]
                                         selection_item_default_qty: //tr[contains(.,'%productSku%')]//input[contains(@name,'selection_qty')]
                                     links:
-                                        move_bundle_product: //tr[contains(.,'%productSku%')]//span[@class='ui-icon ui-icon-grip-dotted-vertical']
+                                        move_bundle_product: //tr[contains(.,'%productSku%')]//span[@class='draggable-handle']
                                     radiobuttons:
                                         selection_item_default: //tr[contains(.,'%productSku%')]//input[contains(@name,'[is_default]')]
                                     pageelements:
                                         selected_option_product: //tr[contains(.,'%productSku%')]
-                                        bundle_assigned_products: //td[@class='product-sku']
+                                        bundle_assigned_products: //td[@class='col-sku']
+                                        is_collapsed: //*[@data-target='#bundle_option_%optionId%-content']
                             #Select product grid for bundle and grouped
                             -
                                 select_associated_product_option:
@@ -319,7 +339,7 @@ new_product:
                                     buttons:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
-                                        add_selected_products: //button[span='Apply Changes']
+                                        add_selected_products: //button[span='Add Products']
                                         cancel_select_products: //button[span='Cancel']
                                     links:
                                         close_select_product_grid: //a[span='close']
@@ -333,25 +353,22 @@ new_product:
                                         associated_search_price_to: //input[@name='price[to]']
                 -
                     prices: &pricesTab
-                        xpath: //a[@title='Prices']
+                        xpath: //a[@title='Advanced Pricing']
                         fieldsets:
                             -
                                 product_prices:
-                                    xpath: //div[contains(div/div/div,'Prices')]
+                                    xpath: //div[*/*/span='Advanced Pricing']
                                     buttons:
                                         prices_group_add_group_price: //button[span='Add Group Price']
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                         add_tier_price: //button[span='Add Tier']
                                         delete_tier_price: //button[@id='tier_price_row_%tierPriceId%_delete_button']
                                     dropdowns:
-                                        prices_price_type: //select[@id='price_type']
-                                        prices_tax_class: //select[@id='tax_class_id']
                                         prices_enable_googlecheckout: //select[@id='enable_googlecheckout']
                                         prices_price_view_bundle: //select[@id='price_view']
                                         prices_apply_map: //select[@id='msrp_enabled']
                                         prices_display_actual_price: //select[@id='msrp_display_actual_price_type']
                                     fields:
-                                        prices_price: //input[@id='price' and not(@disabled)]
                                         prices_special_price: //input[@id='special_price']
                                         prices_special_price_from: //input[@id='special_from_date']
                                         prices_special_price_to: //input[@id='special_to_date']
@@ -370,15 +387,34 @@ new_product:
                                     fields:
                                         prices_tier_price_qty: //input[@id='tier_price_row_%tierPriceId%_qty']
                                         prices_tier_price_price: //input[@id='tier_price_row_%tierPriceId%_price']
+                            -
+                                recurring_profile:
+                                    xpath: //div[*/*/span='Recurring Profile']
+                                    dropdowns:
+                                        prices_enable_recurring_profile: //select[@id='is_recurring']
+                                        prices_customer_define_start_date: //select[@id='recurring_profilestart_date_is_editable']
+                                        prices_auto_bill_next_cycle: //select[@id='recurring_profilebill_failed_later']
+                                        prices_billing_period_unit: //select[@id='recurring_profileperiod_unit']
+                                        prices_trial_billing_period_unit: //select[@id='recurring_profiletrial_period_unit']
+                                        prices_allow_initial_fee_failure: //select[@id='recurring_profileinit_may_fail']
+                                    fields:
+                                        prices_schedule_description: //input[@id='recurring_profileschedule_description']
+                                        prices_max_payment_failures: //input[@id='recurring_profilesuspension_threshold']
+                                        prices_billing_frequency: //input[@id='recurring_profileperiod_frequency']
+                                        prices_max_billing_cycles: //input[@id='recurring_profileperiod_max_cycles']
+                                        prices_trial_billing_frequency: //input[@id='recurring_profiletrial_period_frequency']
+                                        prices_max_trial_billing_cycles: //input[@id='recurring_profiletrial_period_max_cycles']
+                                        prices_trial_billing_amount: //input[@id='recurring_profiletrial_billing_amount']
+                                        prices_initial_fee: //input[@id='recurring_profileinit_amount']
                 -
                     meta_information: &metaInformationTab
-                        xpath: //a[@title='Meta Information']
+                        xpath: //a[@title='Search Optimization']
                         fieldsets:
                             -
                                 product_meta_information:
-                                    xpath: //div[contains(div/div/div,'Meta Information')]
+                                    xpath: //div[*/*/span='Search Optimization']
                                     buttons:
-                                        create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
+                                        create_new_attribute: //button[span='Add Attribute']
                                     fields:
                                         meta_information_meta_title: //input[@id='meta_title']
                                         meta_information_meta_keywords: //textarea[@id='meta_keyword']
@@ -386,43 +422,18 @@ new_product:
                                         meta_information_user_attr_field: //input[@id='%attributeCodeField%']
                 -
                     images: &imagesTab
-                        xpath: //a[@title='Images']
+                        xpath: //a[@title='Image Management']
                         fieldsets:
                             -
                                 product_images:
-                                    xpath: //div[contains(div/div/div,'Images')]
-                -
-                    recurring_profile: &recurringProfileTab
-                        xpath: //a[@title='Recurring Profile']
-                        fieldsets:
-                            -
-                                product_recurring_profile:
-                                    xpath: //div[contains(div/div/div,'Recurring Profile')]
-                                    buttons:
-                                        create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
-                                    dropdowns:
-                                        recurring_profile_enable_recurring_profile: //select[@id='is_recurring']
-                                        recurring_profile_customer_define_start_date: //select[@id='recurring_profilestart_date_is_editable']
-                                        recurring_profile_auto_bill_next_cycle: //select[@id='recurring_profilebill_failed_later']
-                                        recurring_profile_billing_period_unit: //select[@id='recurring_profileperiod_unit']
-                                        recurring_profile_trial_billing_period_unit: //select[@id='recurring_profiletrial_period_unit']
-                                        recurring_profile_allow_initial_fee_failure: //select[@id='recurring_profileinit_may_fail']
-                                    fields:
-                                        recurring_profile_schedule_description: //input[@id='recurring_profileschedule_description']
-                                        recurring_profile_max_payment_failures: //input[@id='recurring_profilesuspension_threshold']
-                                        recurring_profile_billing_frequency: //input[@id='recurring_profileperiod_frequency']
-                                        recurring_profile_max_billing_cycles: //input[@id='recurring_profileperiod_max_cycles']
-                                        recurring_profile_trial_billing_frequency: //input[@id='recurring_profiletrial_period_frequency']
-                                        recurring_profile_max_trial_billing_cycles: //input[@id='recurring_profiletrial_period_max_cycles']
-                                        recurring_profile_trial_billing_amount: //input[@id='recurring_profiletrial_billing_amount']
-                                        recurring_profile_initial_fee: //input[@id='recurring_profileinit_amount']
+                                    xpath: //div[*/*/span='Image Management']
                 -
                     design: &designTab
                         xpath: //a[@title='Design']
                         fieldsets:
                             -
                                 product_design:
-                                    xpath: //div[contains(div/div/div,'Design')]
+                                    xpath: //div[*/*/span='Design']
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     dropdowns:
@@ -434,25 +445,32 @@ new_product:
                                         design_active_to: //input[@id='custom_design_to']
                                         design_custom_layout_update: //textarea[@id='custom_layout_update']
                 -
-                    gift_options: &giftOptionsTab
-                        xpath: //a[@title='Gift Options']
+                    autosettings: &autosettingsTab
+                        xpath: //a[@title='Autosettings']
                         fieldsets:
                             -
                                 product_gift_options:
-                                    xpath: //div[contains(div/div/div,'Gift Options')]
+                                    xpath: //div[*/*/span='Autosettings']
                                     buttons:
                                         create_new_attribute: //button[@data-ui-id='catalog-product-edit-tab-attributes-create']
                                     checkboxes:
-                                        gift_options_allow_gift_message_default: //input[@id='use_config_gift_message_available']
+                                        autosettings_allow_gift_message_default: //input[@id='use_config_gift_message_available']
                                     dropdowns:
-                                        gift_options_allow_gift_message: //select[@id='gift_message_available']
+                                        autosettings_allow_gift_message: //select[@id='gift_message_available']
+                                        autosettings_visibility: //select[@id='visibility']
+                                        autosettings_country_manufacture: //select[@id='country_of_manufacture']
+                                    fields:
+                                        autosettings_short_description: //textarea[@id='short_description']
+                                        autosettings_news_from: //input[@id='news_from_date']
+                                        autosettings_news_to: //input[@id='news_to_date']
+                                        autosettings_url_key: //input[@id='url_key']
                 -
                     inventory: &inventoryTab
-                        xpath: //a[@title='Inventory']
+                        xpath: //a[@title='Advanced Inventory']
                         fieldsets:
                             -
                                 product_inventory:
-                                    xpath: //div[contains(fieldset,'Inventory')]
+                                    xpath: //div[contains(fieldset,'Advanced Inventory')]
                                     checkboxes:
                                         inventory_manage_stock_default: //input[@id='inventory_use_config_manage_stock']
                                         inventory_qty_for_items_out_of_stock_default: //input[@id='inventory_use_config_min_qty']
@@ -512,6 +530,7 @@ new_product:
                                     checkboxes:
                                         related_select_all: //input[@title='Select All']
                                         selected_related_product: //tbody/tr%index%//input[@checked='checked']
+                                        select_related_product: %productXpath%//input[@type='checkbox']
                 -
                     up_sells: &upSellsProductsTab
                         xpath: //a[@title='Up-sells']
@@ -540,6 +559,7 @@ new_product:
                                     checkboxes:
                                         up_sells_select_all: //input[@title='Select All']
                                         selected_up_sells_product: //tbody/tr%index%//input[@checked='checked']
+                                        select_up_sells_product: %productXpath%//input[@type='checkbox']
                 -
                     cross_sells: &crossSellsProductsTab
                         xpath: //a[@title='Cross-sells']
@@ -568,6 +588,7 @@ new_product:
                                     checkboxes:
                                         cross_sells_select_all: //input[@title='Select All']
                                         selected_cross_sells_product: //tbody/tr%index%//input[@checked='checked']
+                                        select_cross_sells_product: %productXpath%//input[@type='checkbox']
                 -
                     custom_options: &customOptionsTab
                         xpath: //a[@title='Custom Options']
@@ -580,7 +601,7 @@ new_product:
                                         import_options: //*[@id='import_new_defined_option']
                             -
                                 custom_option_set:
-                                    xpath: //div[contains(div/div,'Custom Options')]//*[@id='product_options_container']//*[@class='fieldset']
+                                    xpath: //div[contains(div/div,'Custom Options')]//*[@id='product_options_container']/div[contains(@id,'option_')]
                                     buttons:
                                         delete_custom_option: //button[span='Delete Option']
                                         delete_option: //div[@id='option_%optionId%']//button[@title='Delete Option']
@@ -692,11 +713,12 @@ new_product:
                                     pageelements:
                                         added_downloadable_link: //*[@id='link_items_body']/tr
                                         downloadable_link_row: //*[@id='link_items_body']/tr
+                -
+                    user_tab: &userTab
+                        xpath: //a[@title='%productTabName%']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            change_attribute_set: //button[@id='change-attribute-set-button']
-            change_attribute_set_disabled: //button[@id='change-attribute-set-button' and contains(@class, 'disabled')]
             save_and_continue_edit: //*[@data-ui-id='product-edit-save-split-button']
             save_split_select: //*[@data-ui-id='product-edit-save-split-button-dropdown']
             save_product_by_action: //*[@id='save-split-button-%additionalAction%-button']
@@ -706,7 +728,7 @@ new_product:
 # Edit Product page
 edit_product:
     mca: catalog_product/edit/id/%id%/
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
     uimap: &editProduct
         form:
             fieldsets: *new_product_fieldsets
@@ -720,11 +742,9 @@ edit_product:
                 -
                     images: *imagesTab
                 -
-                    recurring_profile: *recurringProfileTab
-                -
                     design: *designTab
                 -
-                    gift_options: *giftOptionsTab
+                    autosettings: *autosettingsTab
                 -
                     inventory: *inventoryTab
                 -
@@ -776,11 +796,12 @@ edit_product:
                                     pageelements:
                                         tags_grid_head: //table[@id='tag_customers_grid_table']//thead/tr[@class='headings']
                                         tags_grid: //table[@id='tag_customers_grid_table']
+                -
+                    user_tab: *userTab
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete: //button[span='Delete']
-            change_attribute_set: //button[span='Change Attribute Set']
             save_and_continue_edit: //*[@data-ui-id='product-edit-save-split-button']
             save_split_select: //*[@data-ui-id='product-edit-save-split-button-dropdown']
             save_product_by_action: //*[@id='save-split-button-%additionalAction%-button']
@@ -788,23 +809,28 @@ edit_product:
         messages: *productMesssages
 
 new_product_save_and_continue:
-    mca: catalog_product/edit/id/%id%/set/%setId%/type/%productType%/back/edit/tab/%tab%
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    mca: catalog_product/edit/id/%id%/set/%setId%/type/%productType%/back/edit/active_tab/%tab%/
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
     uimap: *editProduct
 
 edit_product_save_and_continue:
-    mca: catalog_product/edit/id/%id%/back/edit/tab/%tab%
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    mca: catalog_product/edit/id/%id%/back/edit/active_tab/%tab%/
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
+    uimap: *editProduct
+
+edit_duplicated_product:
+    mca: catalog_product/edit/id/%id%/active_tab/%tab%/
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
     uimap: *editProduct
 
 new_product_after_changed_attribute_set:
     mca: catalog_product/new/type/%productType%/?set=%setId%
-    title: New Product / Manage Products / Catalog / Magento Admin
+    title: New Product / Manage Products / Inventory / Products / Magento Admin
     uimap: *newProduct
 
 edit_product_after_changed_attribute_set:
     mca: catalog_product/edit/id/%id%/?set=%setId%
-    title: %elementTitle% / Manage Products / Catalog / Magento Admin
+    title: %elementTitle% / Manage Products / Inventory / Products / Magento Admin
     uimap: *editProduct
 
 updating_products:
@@ -819,7 +845,7 @@ updating_products:
                         fieldsets:
                             -
                                 attributes:
-                                    xpath: //div[contains(div/div/h4,'Attributes')]
+                                    xpath: //fieldset[legend/span='Attributes']
                                     checkboxes:
                                         attributes_change_name: //*[@id='name']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_description: //*[@id='description']//following-sibling::*//*[@type="checkbox"]
@@ -839,7 +865,6 @@ updating_products:
                                         attributes_change_recurring_profile: //*[@id='is_recurring']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_set_product_as_new_from_date: //*[@id='news_from_date']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_set_product_as_new_to_date: //*[@id='news_to_date']//following-sibling::*//*[@type="checkbox"]
-                                        attributes_change_status: //*[@id='status']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_enable_recurring_profile: //*[@id='is_recurring']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_visibility: //*[@id='visibility']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_custom_design: //*[@id='custom_design']//following-sibling::*//*[@type="checkbox"]
@@ -858,7 +883,6 @@ updating_products:
                                         attributes_change_is_product_available_for_purchase_with_google_checkout: //*[@id='enable_googlecheckout']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_category: //*[@id='category_ids']//following-sibling::*//*[@type="checkbox"]
                                     dropdowns:
-                                        attributes_status: //*[@id='status']
                                         attributes_enable_recurring_profile: //*[@id='is_recurring']
                                         attributes_visibility: //*[@id='visibility']
                                         attributes_custom_design: //*[@id='custom_design']
@@ -892,11 +916,11 @@ updating_products:
                                         attributes_manufacturer's_suggested_retail_price: //*[@id='msrp']
                 -
                     inventory:
-                        xpath: //a[@title='Inventory']
+                        xpath: //a[@title='Advanced Inventory']
                         fieldsets:
                             -
                                 inventory:
-                                    xpath: //div[contains(div/div/h4,'Inventory')]
+                                    xpath: //div[contains(div/div/h4,'Advanced Inventory')]
                                     checkboxes:
                                         inventory_change_manage_stock: //*[@id='inventory_manage_stock_checkbox']
                                         inventory_ucs_manage_stock: //*[@id='inventory_use_config_manage_stock']

@@ -1,0 +1,80 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Tools */ ?>
+<section class="vde-tools">
+    <header class="vde-tools-header">
+        <div class="vde-tools-header-inner">
+            <button class="action-close" title="<?php echo $this->__('Close Panel'); ?>">
+                <span><?php echo $this->__('Close Panel'); ?></span>
+            </button>
+        </div>
+    </header>
+    <div class="vde-tools-content">
+        <div class="vde-tools-content-inner">
+            <div class="vde-tools-handler-container"></div>
+            <?php echo join('', $this->getTabContents()) ?>
+        </div>
+    </div>
+    <footer class="vde-tools-footer">
+        <div class="vde-tools-footer-inner">
+            <div class="vde-tools-tabs">
+                <ul class="vde-tab-controls">
+                    <?php echo join('', $this->getTabHandles()) ?>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</section>
+
+<script type="text/javascript">
+(function($) {
+    'use strict';
+
+    $(function () {
+      $('body').on('click.tab.data-api', '[data-toggle="tab-disabled"]', function (e) {
+        e.preventDefault();
+      })
+    })
+    $('.vde-tools').toolsPanel();
+    $('#vde-tab-quick-styles .element-font-picker select,' +
+      '#vde-tab-quick-styles .element-color-picker input,' +
+      '#vde-tab-quick-styles .element-background .element-checkbox'
+    ).quickStyleElement({
+        saveQuickStylesUrl: '<?php echo $this->getSaveUrl(); ?>'
+    });
+
+    $(document).ready(function() {
+        var eventData = {
+            elements: {
+                click: [
+                    '#vde-tab-quick-styles .element-image-uploader',
+                    '#vde-tab-quick-styles .element-background .element-checkbox'
+                ],
+                mousedown: ['#vde-tab-quick-styles .color-box'],
+                focus: [
+                    '#vde-tab-quick-styles .element-color-picker input',
+                    '#vde-tab-quick-styles .element-font-picker select'
+                ]
+            }
+        };
+        $('body').trigger('registerElements', eventData);
+    });
+
+    $('[class^="action-"][href="#vde-tab-custom"]').on('click.activateCustomCodeTab', function() {
+        $('.vde-tab-controls a[href="#vde-tab-custom"]').trigger('click');
+    });
+
+    $('.action-edit[href="#vde-tab-custom"]').on('click.focusOnCustomCodeTextarea', function() {
+        $('#custom_code').focus();
+    });
+})(window.jQuery);
+</script>

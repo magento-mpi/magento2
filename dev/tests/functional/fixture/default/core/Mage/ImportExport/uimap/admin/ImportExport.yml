@@ -13,8 +13,8 @@
 
 import:
     mca: import/
-    click_xpath: //div[@class='nav-bar']//a[span='Import']
-    title: Import / Import/Export / Magento Admin
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/import/')]
+    title: Import / Import/Export / Data Transfer / System / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -49,9 +49,9 @@ import:
             import: //button[span='Import']
 
 export:
-    mca: export
-    click_xpath: //div[@class='nav-bar']//a[span='Export']
-    title: Export / Import/Export / Magento Admin
+    mca: export/
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/export/')]
+    title: Export / Import/Export / Data Transfer / System / Magento Admin
     uimap:
         form:
             fieldsets:

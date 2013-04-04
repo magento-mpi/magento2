@@ -47,8 +47,8 @@ manage_categories:
 # Manage catalog event page
 manage_catalog_events:
     mca: catalog_event/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_event/')]
-    title: Catalog Events / Categories / Catalog / Magento Admin
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/catalog_event/')]
+    title: Catalog Events / Private Sales / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:

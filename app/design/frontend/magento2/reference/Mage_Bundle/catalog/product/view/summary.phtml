@@ -1,0 +1,72 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php
+    $_product = $this->getProduct();
+?>
+<?php if ($_product->isSaleable() && $this->hasOptions()): ?>
+<div id="bundleSummary" class="block bundle summary">
+    <div class="title">
+        <strong><?php echo $this->__('Your Customization'); ?></strong>
+    </div>
+    <div class="content">
+        <div class="bundle info">
+            <?php echo $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image')->init($_product, 'bundled_product_customization_page')->toHtml() ?>
+            <div class="product details">
+                <strong class="product name"><?php echo $this->escapeHtml($_product->getName()) ?></strong>
+                <?php if($_product->getIsSalable()): ?>
+                    <p class="availabale stock" title="<?php echo $this->__('Availability') ?>"><span><?php echo $this->__('In stock') ?></span></p>
+                <?php else: ?>
+                    <p class="unavailabale stock" title="<?php echo $this->__('Availability') ?>"><span><?php echo $this->__('Out of stock') ?></span></p>
+                <?php endif; ?>
+                <?php echo $this->getChildHtml('', true);?>
+            </div>
+        </div>
+        <div class="bundle summary">
+            <strong class="subtitle"><?php echo $this->__('Summary'); ?></strong>
+            <ul class="no-display" id="bundle-summary-template">
+               <li><strong class="label">{{label}}:</strong>{{options}}</li>
+            </ul>
+            <div class="no-display" id="bundle-summary-option-template"><?php echo $this->__('%s x %s', '{{qty}}', '{{name}}') ?></div>
+            <div class="no-display" id="bundle-summary-option-multi-template"><div><?php echo $this->__('%s x %s', '{{qty}}', '{{name}}') ?></div></div>
+            <ul id="bundle-summary">
+                <li class="no-display">&nbsp;</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    (function ($) {
+        head.js("<?php echo $this->getViewFileUrl('Mage_Bundle::js/float.js') ?>",function() {
+            $('#bundleSummary').float({
+                productOptionsSelector: '.product.add.form'
+            });
+        });
+    })(jQuery);
+</script>
+<script type="text/javascript">
+    (function($) {
+        head.js("<?php echo $this->getViewFileUrl('Mage_Bundle::js/slide.js')?>", function() {
+            $('.product.add.form').slide({
+                slideSpeed: 1500,
+                slideSelector: '#bundle-slide',
+                slideBackSelector: '.action.customization.back',
+                bundleProductSelector: '#bundleProduct',
+                bundleOptionsContainer: '.product.add.form',
+                <?php if ($this->isStartCustomization()): ?>
+                    autostart: true
+                <?php endif;?>
+                }
+            );
+        });
+    })(jQuery);
+</script>
+<?php endif; ?>

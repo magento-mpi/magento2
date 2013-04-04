@@ -142,9 +142,9 @@ onepage_checkout:
                         required: [card_type, card_number, expiration_month, expiration_year, card_verification_number, name_on_card]
                 -
                     3d_secure_card_validation: &3DSecureCardValidation
-                        xpath: //div[@id='centinel_authenticate_block']
+                        xpath: //div[@id='centinel-authenticate-block']
                         pageelements:
-                            3d_secure_iframe: //iframe[@id='centinel_authenticate_iframe']
+                            3d_secure_iframe: //iframe[@data-container='iframe']
                 -
                     3d_secure_frame: &3DSecureCardValidation
                         xpath:
@@ -219,7 +219,7 @@ onepage_checkout:
         links:
             order_number: //a[contains(@href, '/sales/order/view/order_id/')]
         messages: &checkoutMessages
-            empty_required_field: "//*[@id='advice-required-entry-%fieldId%'][not(contains(@style,'display: none;'))]"
+            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             please_select_option: "//*[@id='advice-validate-select-%fieldId%'][not(contains(@style,'display: none;'))]"
             different_passwords: "//*[@id='advice-validate-cpassword-%fieldId%'][not(contains(@style,'display: none;'))]"
             invalid_password_length: "//*[@id='advice-validate-password-%fieldId%'][not(contains(@style,'display: none;'))]"

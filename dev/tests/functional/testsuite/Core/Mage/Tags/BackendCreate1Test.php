@@ -43,6 +43,7 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
     public function addFromFrontendTags($tags, $status, $testData)
     {
         //Setup
+        $this->markTestIncomplete('MAGETWO-1299');
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
         //Steps
@@ -83,6 +84,7 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
      */
     public function editTags($tags, $status, $testData)
     {
+        $this->markTestIncomplete('MAGETWO-1299');
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
@@ -124,6 +126,7 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
      */
     public function searchSelectedTags($tags, $status, $testData)
     {
+        $this->markTestIncomplete('MAGETWO-1299');
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
@@ -172,6 +175,7 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
      */
     public function searchNameTags($tags, $status, $testData)
     {
+        $this->markTestIncomplete('MAGETWO-1299');
         if ($status) {
             //Setup
             $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
@@ -192,7 +196,7 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
             $this->clickButton('search', false);
             $this->pleaseWait();
             $trLocator = $this->formSearchXpath(array('tag_name' => $tags));
-            $this->assertTrue((bool)$this->elementIsPresent($trLocator), "Filter by Name {$tags} works incorrect");
+            $this->assertTrue($status == (bool)$this->elementIsPresent($trLocator), "Filter by Name {$tags} works incorrect");
         }
     }
 

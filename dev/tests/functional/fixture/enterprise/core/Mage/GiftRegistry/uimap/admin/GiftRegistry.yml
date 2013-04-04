@@ -15,7 +15,7 @@
 manage_gift_registry:
     mca: giftregistry/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'giftregistry')]
-    title: Manage Gift Registry Types / Customers / Magento Admin
+    title: Manage Gift Registry Types / Other Settings / Stores / Magento Admin
     uimap:
         form: &giftRegistryForm
             fieldsets:
@@ -31,7 +31,7 @@ manage_gift_registry:
                         fields:
                             id: //input[@id='giftregistryGrid_filter_type_id']
                             code: //input[@id='giftregistryGrid_filter_code']
-                            label: //input[@id='giftregistryGrid_filter_label']
+                            filter_label: //input[@id='giftregistryGrid_filter_label']
                             sort_order: //input[@id='giftregistryGrid_filter_sort_order']
                             page: //input[@name='page']
                         links:
@@ -45,17 +45,17 @@ manage_gift_registry:
 # 'New Gift Registry' page
 new_gift_registry:
     mca: giftregistry/new/
-    title: New Gift Registry Type / Manage Gift Registry Types / Customers / Magento Admin
+    title: New Gift Registry Type / Manage Gift Registry Types / Other Settings / Stores / Magento Admin
     uimap:
         form: &giftRegistryForm
             tabs:
                 -
                     general_information:
-                        xpath: //a[@id='enterprise_gift_registry_tabs_general_section' ]
+                        xpath: //a[@id='enterprise_giftregistry_tabs_general_section']
                         fieldsets:
                             -
                                 general_info: &generalInformationTab
-                                    xpath: //div[@id='base_fieldset']
+                                    xpath: //fieldset[@id='base_fieldset']
                                     dropdowns:
                                         is_listed: //select[@id='is_listed']
                                     fields:
@@ -69,12 +69,12 @@ new_gift_registry:
                         fieldsets:
                             -
                                 attributes:
-                                    xpath: //div[contains(div/div/h4,'Attributes')]
+                                    xpath: //div[@id='enterprise_giftregistry_tabs_registry_attributes_content']
                                     buttons:
                                         add_attribute: //button[@id='registry_add_new_attribute']
                             -
                                 attributes_set:
-                                    xpath: //div[@class='option-box']
+                                    xpath: //div[@class='fieldset-wrapper opened option-box collapsable-wrapper']
                                     buttons:
                                         delete_attribute: //div[@id='registry_option_%attributeId%']//button[span='Delete Attribute']
                                         add_option: //button[span='Add New Option']
@@ -94,28 +94,28 @@ new_gift_registry:
                                         attributes_label: //input[@id='registry_attribute_%attributeId%_select_%optionId%_label']
                                         attributes_sort_order: //input[@id='registry_attribute_%attributeId%_sort_order']
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            save_gift_registry: //button[span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            back: //button[@id='back']
+            reset: //button[@id='reset']
+            save_gift_registry: //button[@id='save']
+            save_and_continue_edit: //button[@id='save_and_continue_edit']
         messages: &newGiftRegistryMessages
             confirmation_for_delete: Deleting this gift registry type will also remove all customers' gift registries created based on it. Are you sure you want to proceed?
-            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             incorrect_attributes_code: "//div[@id='advice-attribute-code-%fieldId%' and not(contains(@style,'display: none;'))]"
             empty_option: //div[@id='advice-required-option-select-rows-validation_1_result']
-            invalid_code: //div[@id='advice-validate-code-code']
+            invalid_code: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.')]
             exist_code: //li[normalize-space(@class)='error-msg' and contains(.,'Code already exists.')]
 
 # 'Edit Gift Registry' page
 edit_gift_registry:
     mca: giftregistry/edit/id/%id%/
-    title: Edit '%elementTitle%' Gift Registry Type / Manage Gift Registry Types / Customers / Magento Admin
+    title: Edit '%elementLabel%' Gift Registry Type / Manage Gift Registry Types / Other Settings / Stores / Magento Admin
     uimap:
         form: *giftRegistryForm
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            delete: //button[span='Delete']
-            save_gift_registry: //button[span='Save']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            back: //button[@id='back']
+            reset: //button[@id='reset']
+            delete: //button[@id='delete']
+            save_gift_registry: //button[@id='save']
+            save_and_continue_edit: //button[@id='save_and_continue_edit']
         messages: *newGiftRegistryMessages

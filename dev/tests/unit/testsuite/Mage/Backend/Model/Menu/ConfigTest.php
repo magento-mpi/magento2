@@ -18,7 +18,7 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_configMock;
 
     /**
-     * @var Mage_Core_Model_Cache
+     * @var Mage_Core_Model_CacheInterface
      */
     protected $_cacheInstanceMock;
 
@@ -83,17 +83,15 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
             array(), array(), '', false, false
         );
 
-        $this->_objectManagerMock = $this->getMock(
-            'Magento_ObjectManager_Zend', array('create', 'get'), array(), '', false
-        );
+        $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
         $this->_objectManagerMock->expects($this->any())
             ->method('create')
             ->will($this->returnCallback(array($this, 'getModelInstance')));
         $this->_objectManagerMock->expects($this->any())
             ->method('get')
-            ->will($this->returnCallback(array($this, 'getModelInstance')));
+            ->will($this->returnCallback(array($this, 'get')));
 
-        $this->_cacheInstanceMock = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false);
+        $this->_cacheInstanceMock = $this->getMock('Mage_Core_Model_Cache_Type_Config', array(), array(), '', false);
 
         $this->_directorDomMock = $this->getMock('Mage_Backend_Model_Menu_Director_Dom', array(), array(), '', false);
 
@@ -142,11 +140,6 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetMenuWithCachedObjectReturnsUnserializedObject()
     {
         $this->_cacheInstanceMock->expects($this->once())
-            ->method('canUse')
-            ->with($this->equalTo('config'))
-            ->will($this->returnValue(true));
-
-        $this->_cacheInstanceMock->expects($this->once())
             ->method('load')
             ->with($this->equalTo(Mage_Backend_Model_Menu_Config::CACHE_MENU_OBJECT))
             ->will($this->returnValue('menu_cache'));
@@ -160,12 +153,7 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetMenuWithNotCachedObjectBuidlsObject()
     {
-        $this->_cacheInstanceMock->expects($this->any())
-            ->method('canUse')
-            ->with($this->equalTo('config'))
-            ->will($this->returnValue(true));
-
-        $this->_cacheInstanceMock->expects($this->at(1))
+        $this->_cacheInstanceMock->expects($this->at(0))
             ->method('load')
             ->with($this->equalTo(Mage_Backend_Model_Menu_Config::CACHE_MENU_OBJECT))
             ->will($this->returnValue(false));
@@ -227,30 +215,6 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Mage_Backend_Model_Menu_Config::getMenu
      */
-    public function testGetMenuWhenDisabledCache()
-    {
-        $this->_cacheInstanceMock->expects($this->any())
-            ->method('canUse')
-            ->will($this->returnValue(false));
-
-        $this->_configMenuMock->expects($this->exactly(1))
-            ->method('getMergedConfig')
-            ->will($this->returnValue($this->_domDocumentMock));
-
-        $this->_domDocumentMock->expects($this->exactly(1))
-            ->method('saveXML')
-            ->will($this->returnValue('<?xml version="1.0" encoding="utf-8"?><config><menu></menu></config>'));
-
-        $this->_menuBuilderMock->expects($this->exactly(1))
-            ->method('getResult')
-            ->will($this->returnValue($this->_menuMock));
-
-        $this->_model->getMenu();
-    }
-
-    /**
-     * @covers Mage_Backend_Model_Menu_Config::getMenu
-     */
     public function testGetMenuWhenCacheEnabledAndCleaned()
     {
         $xmlString = '<?xml version="1.0" encoding="utf-8"?><config><menu></menu></config>';
@@ -258,10 +222,6 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_configMock->expects($this->any())
             ->method('getModelInstance')
             ->will($this->returnCallback(array($this, 'getModelInstance')));
-
-        $this->_cacheInstanceMock->expects($this->any())
-            ->method('canUse')
-            ->will($this->returnValue(true));
 
         $this->_cacheInstanceMock->expects($this->any())
             ->method('load')
@@ -275,11 +235,11 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
             ->method('getMergedConfig')
             ->will($this->returnValue($this->_domDocumentMock));
 
-        $this->_cacheInstanceMock->expects($this->at(5))
+        $this->_cacheInstanceMock->expects($this->at(2))
             ->method('save')
             ->with($this->equalTo($xmlString));
 
-        $this->_cacheInstanceMock->expects($this->at(7))
+        $this->_cacheInstanceMock->expects($this->at(3))
             ->method('save')
             ->with($this->equalTo($this->_menuMock->serialize()));
 
@@ -370,5 +330,16 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
         } else {
             return $this->getMock($model, array(), $arguments, '', false);
         }
+    }
+
+    /**
+     * Callback method for mock object Mage_Core_Model_Config object
+     *
+     * @param mixed $model
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    public function get($model)
+    {
+        return $this->getModelInstance($model, array());
     }
 }

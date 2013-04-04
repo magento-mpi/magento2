@@ -14,54 +14,89 @@
 /**
  * Verifying the ability to unassign system attributes from attribute set
  */
-class Enterprise_Mage_AttributeSet_UnassignSystemAttributeTest
-    extends Core_Mage_AttributeSet_UnassignSystemAttributeTest
+class Enterprise_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Selenium_TestCase
 {
+    protected function assertPreConditions()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_attribute_sets');
+    }
+
+    /**
+     * Create new attribute set based on Default.
+     *
+     * @return string
+     *
+     * @test
+     */
+    public function preconditionsForTests()
+    {
+        //Data
+        $setData = $this->loadDataSet('AttributeSet', 'attribute_set');
+        //Steps
+        $this->attributeSetHelper()->createAttributeSet($setData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+
+        return $setData['set_name'];
+    }
+
+    /**
+     * Remove system attributes from Default attribute set
+     *
+     * @param string $attributeCode
+     * @param string $setName
+     *
+     * @test
+     * @dataProvider unassignableSystemAttributesDataProvider
+     * @depends preconditionsForTests
+     * @TestLinkId TL-MAGE-6124
+     */
+    public function fromDefaultAttributeSet($attributeCode, $setName)
+    {
+        //Steps
+        $this->attributeSetHelper()->openAttributeSet($setName);
+        $this->attributeSetHelper()->unassignAttributeFromSet(array($attributeCode));
+        //Verifying
+        $this->attributeSetHelper()->verifyAttributeAssignment(array($attributeCode), false);
+        $this->saveForm('save_attribute_set');
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+    }
+
     /**
      * DataProvider for system attributes, which can be unassigned
      *
      * @return array
      */
-    public function unassignedSystemAttributeDataProvider()
+    public function unassignableSystemAttributesDataProvider()
     {
         return array(
-            array('cost'),
-            array('country_of_manufacture'),
-            array('custom_design'),
-            array('custom_design_from'),
-            array('custom_design_to'),
-            array('custom_layout_update'),
-            array('enable_googlecheckout'),
-            array('gallery'),
-            array('gift_message_available'),
             array('gift_wrapping_available'),
             array('gift_wrapping_price'),
-            array('group_price'),
-            array('image'),
-            array('is_recurring'),
             array('is_returnable'),
-            array('media_gallery'),
-            array('meta_description'),
-            array('meta_keyword'),
-            array('meta_title'),
-            array('msrp'),
-            array('msrp_display_actual_price_type'),
-            array('msrp_enabled'),
-            array('news_from_date'),
-            array('news_to_date'),
             array('open_amount_max'),
-            array('open_amount_min'),
-            array('options_container'),
-            array('page_layout'),
-            array('recurring_profile'),
-            array('small_image'),
-            array('special_from_date'),
-            array('special_price'),
-            array('special_to_date'),
-            array('thumbnail'),
-            array('tier_price'),
-            array('url_key')
+            array('open_amount_min')
         );
+    }
+
+    /**
+     * Non removable system attributes
+     *
+     * @param string $attributeCode
+     *
+     * @test
+     * @dataProvider nonUnassignableSystemAttributesDataProvider
+     * @TestLinkId TL-MAGE-6128
+     */
+    public function verifyBasicAttributes($attributeCode)
+    {
+        //Data
+        $setName = 'Default';
+        //Steps
+        $this->attributeSetHelper()->openAttributeSet($setName);
+        $this->attributeSetHelper()->unassignAttributeFromSet(array($attributeCode), true);
+        //Verifying
+        $this->attributeSetHelper()->verifyAttributeAssignment(array($attributeCode));
     }
 
     /**
@@ -73,19 +108,7 @@ class Enterprise_Mage_AttributeSet_UnassignSystemAttributeTest
     {
         return array(
             array('allow_open_amount'),
-            array('description'),
-            array('giftcard_amounts'),
-            array('name'),
-            array('price'),
-            array('price_view'),
-            array('short_description'),
-            array('sku'),
-            array('status'),
-            array('tax_class_id'),
-            array('visibility'),
-            array('weight'),
-            array('quantity_and_stock_status'),
-            array('category_ids')
+            array('giftcard_amounts')
         );
     }
 }

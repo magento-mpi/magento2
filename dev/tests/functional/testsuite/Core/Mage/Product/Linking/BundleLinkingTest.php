@@ -95,7 +95,6 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      */
     public function crossSellsInStock($linkingType, $testData)
     {
-        $this->markTestIncomplete('MAGETWO-7169');
         //Data
         $assignType = 'cross_sells';
         $assignProductType = 'bundle';
@@ -195,7 +194,7 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         //Set product to 'Out of Stock';
         $this->productHelper()->openProduct($searchAssigned);
-        $this->openTab('inventory');
+        $this->productHelper()->openProductTab('inventory');
         $this->fillDropdown('inventory_stock_availability', 'Out of Stock');
         $this->productHelper()->saveProduct('continueEdit');
         //Assign product
@@ -230,7 +229,6 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      */
     public function crossSellsOutStock($linkingType, $testData)
     {
-        $this->markTestIncomplete('MAGETWO-7169');
         //Data
         $assignType = 'cross_sells';
         $assignProductType = 'bundle';
@@ -248,7 +246,7 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         //Set product to 'Out of Stock';
         $this->productHelper()->openProduct($searchAssigned);
-        $this->openTab('inventory');
+        $this->productHelper()->openProductTab('inventory');
         $this->fillDropdown('inventory_stock_availability', 'Out of Stock');
         $this->productHelper()->saveProduct('continueEdit');
         //Assign product
@@ -300,7 +298,7 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         //Set product to 'Out of Stock';
         $this->productHelper()->openProduct($searchAssigned);
-        $this->openTab('inventory');
+        $this->productHelper()->openProductTab('inventory');
         $this->fillDropdown('inventory_stock_availability', 'Out of Stock');
         $this->productHelper()->saveProduct('continueEdit');
         //Assign product

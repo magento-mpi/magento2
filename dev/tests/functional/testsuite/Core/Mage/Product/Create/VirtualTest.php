@@ -19,8 +19,8 @@
 class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Manage Products</p>
+     * Preconditions:
+     * Navigate to Catalog -> Manage Products
      */
     protected function assertPreConditions()
     {
@@ -29,7 +29,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with required fields only</p>
+     * Creating product with required fields only
      *
      * @return array
      * @test
@@ -48,7 +48,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with all fields</p>
+     * Creating product with all fields
      *
      * @depends onlyRequiredFieldsInVirtual
      *
@@ -57,9 +57,6 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      */
     public function allFieldsInVirtual()
     {
-        if ($this->getBrowser() == 'chrome') {
-            $this->markTestIncomplete('MAGETWO-7272');
-        }
         //Data
         $product = $this->loadDataSet('Product', 'virtual_product');
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $product['general_sku']));
@@ -74,7 +71,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with existing SKU</p>
+     * Creating product with existing SKU
      *
      * @param array $productData
      *
@@ -99,7 +96,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with empty required fields</p>
+     * Creating product with empty required fields
      *
      * @param string $emptyField
      * @param string $fieldType
@@ -115,43 +112,35 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
         $field = key($emptyField);
         $product = $this->loadDataSet('Product', 'virtual_product_required', $emptyField);
         //Steps
-        $this->productHelper()->createProduct($product, 'virtual', false);
+        $this->productHelper()->createProduct($product, 'virtual');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->addFieldIdToMessage($fieldType, $field);
-//        $this->assertMessagePresent('validation', 'empty_required_field');
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->addFieldIdToMessage($fieldType, $field);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
             array(array('general_name' => '%noValue%'), 'field'),
-            array(array('general_description' => '%noValue%'), 'field'),
-            array(array('general_short_description' => '%noValue%'), 'field'),
             array(array('general_sku' => ''), 'field'),
-            array(array('general_status' => '-- Please Select --'), 'dropdown'),
-            array(array('general_visibility' => '-- Please Select --'), 'dropdown'),
-            array(array('prices_price' => '%noValue%'), 'field'),
-            array(array('prices_tax_class' => '-- Please Select --'), 'dropdown')
+            array(array('general_price' => '%noValue%'), 'field'),
         );
     }
 
     /**
-     * <p>Creating product with special characters into required fields</p>
+     * Creating product with special characters into required fields
      *
      * @depends onlyRequiredFieldsInVirtual
      *
      * @TestlinkId TL-MAGE-5338
      * @test
      */
-    public function specialCharactersInRequiredFields()
+    public function specialCharactersInTextFields()
     {
         //Data
         $product = $this->loadDataSet('Product', 'virtual_product_required',
             array('general_name'              => $this->generate('string', 32, ':punct:'),
-                  'general_description'       => $this->generate('string', 32, ':punct:'),
-                  'general_short_description' => $this->generate('string', 32, ':punct:'),
                   'general_sku'               => $this->generate('string', 32, ':punct:')));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $product['general_sku']));
         //Steps
@@ -165,18 +154,16 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with long values from required fields</p>
+     * Creating product with long values from required fields
      *
      * @depends onlyRequiredFieldsInVirtual
      * @test
      */
-    public function longValuesInRequiredFields()
+    public function longValuesInTextFields()
     {
         //Data
         $productData = $this->loadDataSet('Product', 'virtual_product_required',
             array('general_name'              => $this->generate('string', 255, ':alnum:'),
-                  'general_description'       => $this->generate('string', 255, ':alnum:'),
-                  'general_short_description' => $this->generate('string', 255, ':alnum:'),
                   'general_sku'               => $this->generate('string', 64, ':alnum:')));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
@@ -191,7 +178,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with SKU length more than 64 characters.</p>
+     * Creating product with SKU length more than 64 characters.
      *
      * @depends onlyRequiredFieldsInVirtual
      *
@@ -211,7 +198,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with invalid price</p>
+     * Creating product with invalid price
      *
      * @param string $invalidPrice
      *
@@ -223,17 +210,17 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData =
-            $this->loadDataSet('Product', 'virtual_product_required', array('prices_price' => $invalidPrice));
+            $this->loadDataSet('Product', 'virtual_product_required', array('general_price' => $invalidPrice));
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
-        $this->addFieldIdToMessage('field', 'prices_price');
+        $this->addFieldIdToMessage('field', 'general_price');
         $this->assertMessagePresent('validation', 'enter_zero_or_greater');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     /**
-     * <p>Creating product with invalid special price</p>
+     * Creating product with invalid special price
      *
      * @param string $invalidValue
      *
@@ -245,8 +232,8 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     public function invalidSpecialPriceInVirtual($invalidValue)
     {
         //Data
-        $productData =
-            $this->loadDataSet('Product', 'virtual_product_required', array('prices_special_price' => $invalidValue));
+        $productData = $this->loadDataSet('Product', 'virtual_product_required');
+        $productData['prices_special_price'] = $invalidValue;
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
@@ -256,7 +243,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with empty tier price</p>
+     * Creating product with empty tier price
      *
      * @param string $emptyTierPrice
      *
@@ -272,12 +259,11 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
         $productData['prices_tier_price_data'][] =
             $this->loadDataSet('Product', 'prices_tier_price_1', array($emptyTierPrice => '%noValue%'));
         //Steps
-        $this->productHelper()->createProduct($productData, 'virtual', false);
+        $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
-        $this->assertTrue($this->controlIsVisible('button', 'save_disabled'));
-//        $this->addFieldIdToMessage('field', $emptyTierPrice);
-//        $this->assertMessagePresent('validation', 'empty_required_field');
-//        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->addFieldIdToMessage('field', $emptyTierPrice);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function emptyTierPriceFieldsDataProvider()
@@ -289,7 +275,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with invalid Tier Price Data</p>
+     * Creating product with invalid Tier Price Data
      *
      * @param string $invalidTierData
      *
@@ -317,7 +303,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating product with invalid Qty</p>
+     * Creating product with invalid Qty
      *
      * @param string $invalidQty
      *
@@ -328,15 +314,14 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
      */
     public function invalidQtyInVirtual($invalidQty)
     {
-        $this->markTestIncomplete('MAGETWO-3360');
         //Data
         $productData = $this->loadDataSet('Product', 'virtual_product_required', array('general_qty' => $invalidQty));
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
-        $this->addFieldIdToMessage('field', 'inventory_qty');
+        $this->addFieldIdToMessage('field', 'general_qty');
         $this->assertMessagePresent('validation', 'enter_valid_number');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
     }
 
     public function invalidQtyDataProvider()

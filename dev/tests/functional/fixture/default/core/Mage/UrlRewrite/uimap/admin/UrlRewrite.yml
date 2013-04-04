@@ -13,8 +13,8 @@
 
 url_rewrite_management:
     mca: urlrewrite/
-    click_xpath: //div[@class='nav-bar']//a[span='URL Rewrite Management']
-    title: Rewrite Rules / Magento Admin
+    click_xpath: //*[@id='nav']//a[contains(@href, 'urlrewrite/')]
+    title: Rewrite Rules / SEO & Search / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -45,12 +45,12 @@ url_rewrite_management:
             success_deleted_url_rewrite: //li[normalize-space(@class)='success-msg' and contains(.,'The URL Rewrite has been deleted.')]
             id_path_exist: //li[normalize-space(@class)='error-msg' and contains(.,'ID Path for Specified Store already exists.')]
             req_path_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Request Path for Specified Store already exists.')]
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This field is required.' and not(contains(@style,'display: none;'))]"
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
 
 add_new_urlrewrite_category:
-    mca: urlrewrite/edit/category
-    title: URL Rewrite / Rewrite Rules / Magento Admin
+    mca: urlrewrite/edit/category/
+    title: URL Rewrite / Rewrite Rules / SEO & Search / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -76,8 +76,8 @@ add_new_urlrewrite_category:
         messages: *pageMessages
 
 add_new_urlrewrite_product:
-    mca: urlrewrite/edit/product
-    title: URL Rewrite / Rewrite Rules / Magento Admin
+    mca: urlrewrite/edit/product/
+    title: URL Rewrite / Rewrite Rules / SEO & Search / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -104,8 +104,8 @@ add_new_urlrewrite_product:
         messages: *pageMessages
 
 urlrewrite_product_category_selection:
-    mca: urlrewrite/edit/product/%id%/category
-    title: URL Rewrite / Rewrite Rules / Magento Admin
+    mca: urlrewrite/edit/product/%id%/category/
+    title: URL Rewrite / Rewrite Rules / SEO & Search / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -121,7 +121,7 @@ urlrewrite_product_category_selection:
 
 urlrewrite_custom:
     mca: urlrewrite/edit/id/
-    title: URL Rewrite / Rewrite Rules / Magento Admin
+    title: URL Rewrite / Rewrite Rules / SEO & Search / Marketing / Magento Admin
     uimap:
         form: &new_url_rewrite
             fieldsets:
@@ -145,7 +145,7 @@ urlrewrite_custom:
 
 edit_urlrewrite_product:
     mca: urlrewrite/edit/product/%id%/category/%categoryId%/
-    title: URL Rewrite / Rewrite Rules / Magento Admin
+    title: URL Rewrite / Rewrite Rules / SEO & Search / Marketing / Magento Admin
     uimap:
         form: *new_url_rewrite
         buttons:
@@ -155,13 +155,13 @@ edit_urlrewrite_product:
 
 edit_urlrewrite_product_skip_category:
     mca: urlrewrite/edit/product/%id%/
-    title: URL Rewrite / Rewrite Rules / Magento Admin
+    title: URL Rewrite / Rewrite Rules / SEO & Search / Marketing / Magento Admin
     uimap:
         form: *new_url_rewrite
 
 edit_urlrewrite_category:
     mca: urlrewrite/edit/category/%id%/
-    title: URL Rewrite / Rewrite Rules / Magento Admin
+    title: URL Rewrite / Rewrite Rules / SEO & Search / Marketing / Magento Admin
     uimap:
         form: *new_url_rewrite
         buttons:
@@ -170,7 +170,7 @@ edit_urlrewrite_category:
 
 edit_urlrewrite_custom:
     mca: urlrewrite/edit/id/%id%/
-    title: URL Rewrite / Rewrite Rules / Magento Admin
+    title: URL Rewrite / Rewrite Rules / SEO & Search / Marketing / Magento Admin
     uimap:
         form: *new_url_rewrite
         buttons:
