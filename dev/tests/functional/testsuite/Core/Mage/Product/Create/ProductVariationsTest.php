@@ -38,8 +38,18 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     {
         $variations = array();
         $variation = 1;
-        $optionNumber1 = count(preg_grep("/option_\N/", array_keys($attribute1)));
-        $optionNumber2 = count(preg_grep("/option_\N/", array_keys($attribute2)));
+        $optionNumber1 = 0;
+        $optionNumber2 = 0;
+        foreach (array_keys($attribute1) as $value) {
+            if (preg_match('/^option_\d+$/', $value)) {
+                $optionNumber1++;
+            }
+        }
+        foreach (array_keys($attribute2) as $value) {
+            if (preg_match('/^option_\d+$/', $value)) {
+                $optionNumber2++;
+            }
+        }
         for ($i = 1; $i <= $optionNumber1; $i++) {
             for ($j = 1; $j <= $optionNumber2; $j++) {
                 $variations['configurable_' . $variation] = array('associated_attributes' => array(
@@ -462,9 +472,6 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     public function selectAttributeWithSpecialData($attributeTitle, $attributeData)
     {
         //Data
-        if ($attributeTitle == 'attribute_xss') {
-            $this->markTestIncomplete('MAGETWO-8679');
-        }
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible', null,
             array(
                 'general_attribute_1' => $attributeData[$attributeTitle]['admin_title'],
