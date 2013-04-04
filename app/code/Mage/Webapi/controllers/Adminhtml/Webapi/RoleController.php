@@ -34,9 +34,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
      */
     public function indexAction()
     {
-        $this->_title($this->__('System'))
-            ->_title($this->__('Web Api'))
-            ->_title($this->__('API Roles'));
+        $this->_title($this->__('API Roles'));
         $this->_initAction();
         $this->renderLayout();
     }
@@ -65,9 +63,7 @@ class Mage_Webapi_Adminhtml_Webapi_RoleController extends Mage_Adminhtml_Control
     public function editAction()
     {
         $this->_initAction();
-        $this->_title($this->__('System'))
-            ->_title($this->__('Web Api'))
-            ->_title($this->__('API Roles'));
+        $this->_title($this->__('API Roles'));
 
         $roleId = $this->getRequest()->getParam('role_id');
 

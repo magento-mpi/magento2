@@ -9,29 +9,16 @@
 -->
 <config>
     <menu>
-        <!-- Sales -->
-        <remove id="Mage_Sales::sales_recurring_profile" />
-        <remove id="Mage_Sales::sales_transactions" />
-
         <!-- Customers -->
-        <remove id="Mage_Customer::customer_online" />
         <remove id="Enterprise_CustomerSegment::customer_customersegment" />
 
         <!-- Marketing -->
         <remove id="Enterprise_Enterprise::private_sales" />
-        <remove id="Mage_Newsletter::newsletter_queue" />
-        <remove id="Mage_Newsletter::newsletter_template" />
 
         <!-- Reports -->
         <remove id="Enterprise_CustomerSegment::report_customers_segment" />
-        <remove id="Mage_Downloadable::report_products_downloads" />
 
         <!-- Stores -->
         <remove id="Enterprise_Reward::customer_reward" />
-
-        <!-- System -->
-        <remove id="Mage_Connect::system_extensions" />
-        <remove id="Mage_Adminhtml::system_tools" />
-        <remove id="Enterprise_Pci::system_crypt_key" />
     </menu>
 </config>

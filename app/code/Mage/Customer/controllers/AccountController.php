@@ -133,14 +133,18 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 } catch (Mage_Core_Exception $e) {
                     switch ($e->getCode()) {
                         case Mage_Customer_Model_Customer::EXCEPTION_EMAIL_NOT_CONFIRMED:
-                            $value = Mage::helper('Mage_Customer_Helper_Data')->getEmailConfirmationUrl($login['username']);
-                            $message = Mage::helper('Mage_Customer_Helper_Data')->__('This account is not confirmed. <a href="%s">Click here</a> to resend confirmation email.', $value);
+                            $value = $this->_objectManager->get('Mage_Customer_Helper_Data')
+                                ->getEmailConfirmationUrl($login['username']);
+                            $message = $this->_objectManager->get('Mage_Customer_Helper_Data')
+                                ->__('This account is not confirmed.'
+                                    . ' <a href="%s">Click here</a> to resend confirmation email.', $value);
                             break;
                         case Mage_Customer_Model_Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
                             $message = $e->getMessage();
                             break;
                         default:
                             $message = $e->getMessage();
+                            break;
                     }
                     $session->addError($message);
                     $session->setUsername($login['username']);

@@ -37,7 +37,7 @@ class Enterprise_Pci_Adminhtml_Crypt_KeyController extends Mage_Adminhtml_Contro
      */
     public function indexAction()
     {
-        $this->_title($this->__('System'))->_title($this->__('Manage Encription Key'));
+        $this->_title($this->__('Manage Encription Key'));
 
         $this->_checkIsLocalXmlWriteable();
         $this->loadLayout();

@@ -20,7 +20,6 @@ return array(
     'web/browser_capabilities',
 
     'design/theme',
-    'design/header/logo_src',
 
     'currency/webservicex',
     'currency/import',
@@ -35,19 +34,21 @@ return array(
     'catalog/search/solr_server_timeout',
     'catalog/search/solr_server_path',
     'catalog/search/solr_test_connect_wizard',
+    'catalog/search/solr_server_suggestion_count',
+    'catalog/search/solr_server_use_in_catalog_navigation',
     'catalog/search/engine_commit_mode',
     'catalog/search/search_type',
     'catalog/search/use_layered_navigation_count',
-    'catalog/search/solr_server_suggestion_count',
     'catalog/search/search_recommendations_count_results_enabled',
     'catalog/search/search_recommendations_count',
-    'catalog/search/solr_server_use_in_catalog_navigation',
+
     'catalog/downloadable',
 
     'sendfriend/email/max_recipients',
     'sendfriend/email/max_per_hour',
     'sendfriend/email/check_by',
 
+    'general/store_information/merchant_vat_number',
     'customer/create_account/auto_group_assign',
     'customer/create_account/tax_calculation_address_type',
     'customer/create_account/viv_domestic_group',
@@ -64,30 +65,9 @@ return array(
     'customer/enterprise_customersegment',
     'customer/captcha',
 
-    'wishlist/general/multiple_enabled',
-    'wishlist/general/multiple_wishlist_number',
-
-    'enterprise_invitation',
-
-    'promo',
-
-    'persistent/options/wishlist',
-    'persistent/options/recently_ordered',
-    'persistent/options/compare_current',
-    'persistent/options/compare_history',
-    'persistent/options/recently_viewed',
-    'persistent/options/customer',
-
     'sales/minimum_order/multi_address',
     'sales/minimum_order/multi_address_description',
     'sales/minimum_order/multi_address_error_message',
-    'sales/product_sku',
-
-    'tax/classes/wrapping_tax_class',
-    'sales/cart_display/gift_wrapping',
-    'sales/cart_display/printed_card',
-    'sales/sales_display/gift_wrapping',
-    'sales/sales_display/printed_card',
 
     'checkout/cart/delete_quote_after',
 
@@ -120,4 +100,32 @@ return array(
     'advanced/modules_disable_output',
 
     'dev',
+
+    'carriers/ups/debug',
+    'carriers/usps/debug',
+    'carriers/fedex/debug',
+    'carriers/dhl/debug',
+    'carriers/dhlint/debug',
+
+    'payment/pbridge/debug',
+    'payment/pbridge_authorizenet/debug',
+    'payment/authorizenet/debug',
+
+    'payment_services/centinel/debug',
+
+    'paypal/express/debug',
+    'paypal/wps/debug',
+    'paypal/wpp/debug',
+    'paypal/paypal_billing_agreement/debug',
+    'paypal/wpp_pe/debug',
+    'paypal/verisign/debug',
+    'paypal/express_pe/debug',
+    'paypal/payflow_link/debug',
+    'paypal/hosted_pro/debug',
+    'paypal/payflow_advanced/debug',
+
+    'google/checkout/debug',
+    'google/googleshopping/debug',
+
+    'payment/authorizenet/currency',
 );

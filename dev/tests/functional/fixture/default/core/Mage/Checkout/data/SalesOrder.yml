@@ -915,3 +915,16 @@ order_newcustomer_CashOnDelivery_flatrate_usa: &orderNewCustomerCheckFlatrateUsa
 order_newcustomer_BankTransferPayment_flatrate_france:
     <<: *orderNewCustomerCheckFlatrateUsa
     billing_addr_data: *billingReqFrance
+
+backend_search_order:
+    filter_order_id: %noValue%
+    filter_purchased_from: %noValue%
+    filter_created_from: %noValue%
+    filter_created_to: %noValue%
+    filter_billing_name: %noValue%
+    filter_shipping_name: %noValue%
+    filter_base_grand_total_from: %noValue%
+    filter_base_grand_total_to: %noValue%
+    filter_grand_total_from: %noValue%
+    filter_grand_total_to: %noValue%
+    filter_status: %noValue%

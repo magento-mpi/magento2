@@ -8,9 +8,33 @@
 
 class Saas_Saas_Model_DisabledConfiguration_Structure_Converter_FilterTest extends PHPUnit_Framework_TestCase
 {
-    public function testConvert()
+    /**
+     * @dataProvider convertDataProvider
+     */
+    public function testConvert($baseConfig, $restrictedOptions, $expected)
     {
-        $baseConfig = array(
+        $map = $this->getMockForAbstractClass('Mage_Backend_Model_Config_Structure_MapperAbstract');
+        $map->expects($this->any())
+            ->method('map')
+            ->will($this->returnValue($baseConfig));
+
+        $mapperFactory = $this->getMock('Mage_Backend_Model_Config_Structure_Mapper_Factory', array(), array(), '',
+            false);
+        $mapperFactory->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($map));
+
+        $config = new Saas_Saas_Model_DisabledConfiguration_Config($restrictedOptions);
+        $model = new Saas_Saas_Model_DisabledConfiguration_Structure_Converter_Filter($mapperFactory, $config);
+        $domDocument = dom_import_simplexml(simplexml_load_string('<config><system></system></config>'));
+        $result = $model->convert($domDocument);
+        $this->assertEquals($expected, $result);
+    }
+
+    public static function convertDataProvider()
+    {
+        // Normal convert
+        $config = array(
             'config' => array(
                 'system' => array(
                     'sections' => array(
@@ -39,27 +63,6 @@ class Saas_Saas_Model_DisabledConfiguration_Structure_Converter_FilterTest exten
                 'non_system' => null,
             ),
         );
-
-        $map = $this->getMockForAbstractClass('Mage_Backend_Model_Config_Structure_MapperAbstract');
-        $map->expects($this->any())
-            ->method('map')
-            ->will($this->returnValue($baseConfig));
-
-        $mapperFactory = $this->getMock('Mage_Backend_Model_Config_Structure_Mapper_Factory', array(), array(), '',
-            false);
-        $mapperFactory->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($map));
-
-        $restrictedOptions = array(
-            'section_restricted',
-            'section_allowed/group_restricted',
-            'section_allowed/group_allowed/field_restricted'
-        );
-        $config = new Saas_Saas_Model_DisabledConfiguration_Config($restrictedOptions);
-        $model = new Saas_Saas_Model_DisabledConfiguration_Structure_Converter_Filter($mapperFactory, $config);
-        $domDocument = dom_import_simplexml(simplexml_load_string('<config><system></system></config>'));
-        $result = $model->convert($domDocument);
         $expected = array(
             'config' => array(
                 'system' => array(
@@ -76,6 +79,23 @@ class Saas_Saas_Model_DisabledConfiguration_Structure_Converter_FilterTest exten
                 'non_system' => null,
             ),
         );
-        $this->assertEquals($expected, $result);
+        $restrictedOptions = array(
+            'section_restricted',
+            'section_allowed/group_restricted',
+            'section_allowed/group_allowed/field_restricted'
+        );
+
+        // No sections, groups, fields
+        $configNoSections['config']['system']['sections'] = array();
+        $configNoGroups['config']['system']['sections']['section_id'] = array();
+        $configNoFields['config']['system']['sections']['section_id']['children']['group_id'] = array();
+
+        // Data sets
+        return array(
+            'normal convert' => array($config, $restrictedOptions, $expected),
+            'no sections' => array($configNoSections, array(), $configNoSections),
+            'no groups' => array($configNoGroups, array(), $configNoGroups),
+            'no fields' => array($configNoFields, array(), $configNoFields),
+        );
     }
 }

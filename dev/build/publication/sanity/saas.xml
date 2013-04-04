@@ -24,7 +24,6 @@
         <word>CatalogEvent</word>
         <word>CatalogPermissions</word>
         <word>GiftWrapping</word>
-        <word>Enterprise_GiftRegistry</word>
         <word>Enterprise_ImportExport</word>
         <word>Enterprise_License</word>
         <word>Enterprise_Persistent</word>
@@ -98,12 +97,6 @@
             <!-- Must be refactored  -->
             <word>TargetRule</word>
             <path>app/code/Enterprise/PageCache/etc/cache.xml</path>
-        </item>
-        <item>
-            <!-- Must be modified to remove dependency on module, which doesn't exist in Saas -->
-            <word>CatalogEvent</word>
-            <word>Enterprise_Wishlist</word>
-            <path>app/code/Saas/PrintedTemplate/Model/Observer.php</path>
         </item>
         <item>
             <!-- Must be removed, when Oauth is removed as well -->

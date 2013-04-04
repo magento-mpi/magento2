@@ -28,7 +28,7 @@
 api_users:
     mca: webapi_user/
     click_xpath: //*[@class='navigation']//a[contains(@href, '/webapi_user/')]
-    title: API Users / Web Services / System / Magento Admin
+    title: API Users / REST / System / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -60,7 +60,7 @@ api_users:
 
 add_new_api_user:
     mca: webapi_user/new/
-    title: New API User / API Users / Web Services / System / Magento Admin
+    title: New API User / API Users / REST / System / Magento Admin
     uimap:
         form: &edit_api_user
             tabs:
@@ -99,7 +99,7 @@ add_new_api_user:
 
 edit_api_user:
     mca: webapi_user/edit/user_id/%id%/
-    title: %apiKey% / API Users / Web Services / System / Magento Admin
+    title: %apiKey% / API Users / REST / System / Magento Admin
     uimap:
         form: *edit_api_user
         buttons:

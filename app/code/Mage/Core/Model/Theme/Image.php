@@ -16,12 +16,12 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
     /**
      * Preview image width
      */
-    const PREVIEW_IMAGE_WIDTH = 200;
+    const PREVIEW_IMAGE_WIDTH = 800;
 
     /**
      * Preview image height
      */
-    const PREVIEW_IMAGE_HEIGHT = 200;
+    const PREVIEW_IMAGE_HEIGHT = 800;
 
     /**
      * @var Mage_Core_Helper_Data

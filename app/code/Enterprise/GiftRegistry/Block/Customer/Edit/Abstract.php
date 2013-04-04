@@ -149,7 +149,7 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
     public function getCalendarDateHtml($name, $id, $value, $formatType = false, $class = '')
     {
         if ($formatType === false) {
-            $formatType = Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM;
+            $formatType = Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM;
         }
 
         $calendar = $this->getLayout()

@@ -14,7 +14,7 @@
         <reference name="head">
             <action method="addJs"><file>Mage_DesignEditor::js/infinitescroll.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-selector.js</file></action>
-            <action method="addJs"><file>Mage_DesignEditor::js/store-selector.js</file></action>
+            <action method="addJs"><file>Mage_DesignEditor::js/theme-assign.js</file></action>
             <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
         </reference>
         <reference name="content">
@@ -43,7 +43,7 @@
         <reference name="head">
             <action method="addJs"><file>Mage_DesignEditor::js/infinitescroll.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-selector.js</file></action>
-            <action method="addJs"><file>Mage_DesignEditor::js/store-selector.js</file></action>
+            <action method="addJs"><file>Mage_DesignEditor::js/theme-assign.js</file></action>
             <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
         </reference>
         <reference name="content">
@@ -74,13 +74,13 @@
             <action method="addJs"><file>jquery/slimScroll/slimScroll.min.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/tools-panel.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/custom-css.js</file></action>
-            <action method="addJs"><file>Mage_DesignEditor::js/store-selector.js</file></action>
+            <action method="addJs"><file>Mage_DesignEditor::js/theme-assign.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/base.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/design_editor.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/image-sizing.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/quick-style-element.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.iframe-transport.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.iframe-transport.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.fileupload.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/quick-style-uploader.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-init.js</file></action>
             <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
@@ -93,11 +93,12 @@
                     <!-- MAGETWO-7406 - It was asked to hide View Options > Highlight Elements -->
                     <!--block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ViewOptions" name="design_editor_toolbar_view_options" template="Mage_DesignEditor::editor/toolbar/view_options.phtml" /-->
                     <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons" name="design_editor_toolbar_buttons" template="Mage_DesignEditor::editor/toolbar/buttons.phtml">
-                        <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save" name="design_editor_toolbar_buttons_save" template="Mage_DesignEditor::editor/toolbar/buttons/save.phtml" />
+                        <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save" name="design_editor_toolbar_buttons_save" />
                     </block>
                 </block>
                 <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView" name="theme.selector.storeview" template="Mage_DesignEditor::theme/selector/storeview.phtml" />
                 <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools" name="design_editor_tools" template="Mage_DesignEditor::editor/tools.phtml">
+                    <block type="Mage_Backend_Block_Template" name="design_editor_tools_tab_handle" as="tab_handle" template="Mage_DesignEditor::editor/tools/tabs/super-handle.phtml" />
                     <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles" name="design_editor_tools_quick-styles" template="Mage_DesignEditor::editor/tools/tabs.phtml">
                         <block type="Mage_Backend_Block_Template" name="design_editor_tools_quick-styles_tab_handle" as="tab_handle" template="Mage_DesignEditor::editor/tools/tabs/handle.phtml" />
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Body" name="design_editor_tools_quick-styles_tab_body" as="tab_body" template="Mage_DesignEditor::editor/tools/tabs/body.phtml" />

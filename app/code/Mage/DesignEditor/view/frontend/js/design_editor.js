@@ -82,8 +82,7 @@
     /**
      * Widget container with ability to log "move" operations
      */
-    var containerBasePrototype = $.vde.vde_container.prototype;
-    $.widget( "vde.vde_container", $.extend({}, containerBasePrototype, {
+    $.widget( "vde.vde_container", $.vde.vde_container, {
         history: null,
         _onDragElementStart: function(event, ui) {
             var block = ui.item;
@@ -152,7 +151,7 @@
             }
             return this.history;
         }
-    }));
+    });
 
     /**
      * Widget history
@@ -271,10 +270,9 @@
     /**
      * Widget page history init
      */
-    var pagePrototype = $.vde.vde_connector.prototype;
-    $.widget( "vde.vde_connector", $.extend({}, pagePrototype, {
+    $.widget( "vde.vde_connector", $.vde.vde_connector, {
         _create: function() {
-            pagePrototype._create.apply(this, arguments);
+            this._super();
             var history = this._initHistory();
             this._initHistoryToolbar(history);
             this._initRemoveOperation(history);
@@ -282,14 +280,14 @@
         },
         _initHistory: function() {
             // @TODO can we make this not a widget but global object?
-            window.vdeHistoryObject = $( window ).vde_history().data('vde_history');
+            window.vdeHistoryObject = $(window).vde_history().data('vde_history');
             return window.vdeHistoryObject;
         },
         _initHistoryToolbar: function(history) {
             if (!history) {
                 throw new Error('History object is not set');
             }
-            if ($( this.options.historyToolbarSelector )) {
+            if ($(this.options.historyToolbarSelector).length) {
                 var toolbar = $( this.options.historyToolbarSelector).vde_historyToolbar().data('vde_historyToolbar');
                 if (toolbar) {
                     toolbar.setHistory(history);
@@ -310,20 +308,26 @@
         },
         _destroy: function() {
             //DOM structure can be missed when test executed
-            var toolbarContainer = $(this.options.historyToolbarSelector);
-            if (toolbarContainer.length) {
-                toolbarContainer.vde_historyToolbar('destroy');
+            var widgetNames = ['vde_historyToolbar', 'vde_removable', 'vde_container'];
+            $(this.options.historyToolbarSelector)
+                .add(this.options.highlightElementSelector)
+                .add(this.options.containerSelector)
+                .each(function(eIndex, element) {
+                    element = $(element);
+                    $.each(widgetNames, function(sIndex, name) {
+                        var instance = element.data(name);
+                        if (instance) {
+                            instance.destroy();
+                        }
+                    });
+                });
+
+            if ($(window).is(':vde-vde_history')) {
+                $(window).vde_history('destroy');
             }
-            $(window).vde_history('destroy');
-            if($(this.options.highlightElementSelector).is(':vde-vde_removable')) {
-                $(this.options.highlightElementSelector).vde_removable('destroy');
-            }
-            if($(this.options.containerSelector).is(':vde-vde_container')) {
-                $(this.options.containerSelector).vde_container('destroy');
-            }
-            pagePrototype._destroy.call(this);
+            this._super();
         }
-    }));
+    });
 
     /**
      * Widget removable
