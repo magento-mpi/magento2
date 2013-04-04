@@ -26,7 +26,7 @@
     echo $this->getChildBlock('catalog.product.group.grid.container')->getChildHtml('catalog.product.group.grid');
 ?>
     </div>
-    <input type="hidden" name="<?php echo $_gridBlock->getHiddenInputName();?>"/>
+    <input type="hidden" name="<?php echo $_gridBlock->getHiddenInputName();?>" data-skus="[]"/>
     <div id="grouped-product-popup" style="display:none">
         <?php echo $this->getChildBlock('catalog.product.group.grid.popup.container')->getChildHtml('catalog.product.group.grid.popup');?>
     </div>

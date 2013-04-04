@@ -95,14 +95,14 @@
                         text: 'Add Products',
                         'class': 'add',
                         click: function() {
-                            bSelection.gridSelection.get(optionIndex).each(
-                                function(pair) {
+                            $selectionGrid.find('tbody .massaction-checkbox:checked').closest('tr').each(
+                                function() {
                                     bSelection.addRow(optionIndex, {
-                                        name: pair.value.get('name'),
+                                        name: $(this).find('.col-name').html().trim(),
                                         selection_price_value: 0,
                                         selection_qty: 1,
-                                        sku: pair.value.get('sku'),
-                                        product_id: pair.key,
+                                        sku: $(this).find('.col-sku').html().trim(),
+                                        product_id: $(this).find('.massaction-checkbox').val(),
                                         option_id: $('bundle_selection_id_' + optionIndex).val()
                                     });
                                 }

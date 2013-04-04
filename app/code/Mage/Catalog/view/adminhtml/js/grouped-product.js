@@ -60,9 +60,9 @@
         _bindEventHandlers: function () {
             var widget = this;
             $('#grouped-add-products').on('click', function () {
-                var ids = widget.options.$hiddenInput.attr('data-ids');
+                var skus = $.parseJSON(widget.options.$hiddenInput.attr('data-skus'));
                 widget.options.gridPopup.reloadParams = {
-                    filter: {'in_products': $.parseJSON(ids.length ? ids : [0])}
+                    filter: {'sku': skus ? skus : [0]}
                 };
                 widget.options.gridPopup.reload(null, function(){
                     $('#grouped-product-popup').dialog('open');
@@ -110,6 +110,12 @@
                 }
             });
             widget.options.$hiddenInput.attr('data-ids', JSON.stringify(ids));
+            widget.options.$hiddenInput.attr('data-skus',
+                JSON.stringify($.merge(
+                    widget._getSelectedSkus(),
+                    $.parseJSON(widget.options.$hiddenInput.attr('data-skus'))
+                ))
+            );
             widget.options.$hiddenInput.val(JSON.stringify(gridData));
         },
 
@@ -147,6 +153,16 @@
                 }
             );
             return ids;
+        },
+
+        _getSelectedSkus: function () {
+            var skus = [];
+            $.each(this.$popup.find('td.col-select input[type="checkbox"]:checked'),
+                function () {
+                    skus.push($(this).closest('tr').find('td.col-sku').html().trim());
+                }
+            );
+            return skus;
         },
 
         _updatePopupGrid: function () {

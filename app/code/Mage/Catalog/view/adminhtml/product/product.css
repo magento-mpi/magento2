@@ -707,6 +707,10 @@
     width: 7%;
 }
 
+#grouped_grid_popup_massaction {
+    display: none;
+}
+
 /*
     Custom Options
 -------------------------------------- */
