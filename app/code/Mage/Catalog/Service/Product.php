@@ -65,13 +65,12 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
      * @Consumes input.xsd
      * @Produces output.xsd
      *
+     * @param array $ids Product IDs
      * @return array
      */
-    public function items()
+    public function items(array $ids)
     {
-        // @todo
-        return array();
-        $data = $this->_getCollectionData(array());
+        $data = $this->_getCollectionData($ids);
 
         return $data;
     }
@@ -191,7 +190,6 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
             'msrpEnabled',
             'msrpDisplayActualPriceType',
             'msrp',
-            'quantityAndStockStatus',
             'bundle',
             'downloadable',
             'giftMessageAvailable',
@@ -202,6 +200,9 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
             'giftWrappingPrice',
             'isReturnable',
             'targetRules',
+            'isInStock',
+            'qty',
+            'websiteIds',
         );
 
         $mandatoryFields = array(
@@ -216,11 +217,18 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
             'createdAt',
             'updatedAt',
             'taxClassId',
+            'isInStock',
         );
 
-        $priceTypes = array('price', 'cost', 'groupPrice', 'tierPrice', 'minimalPrice', 'msrp', 'giftWrappingPrice');
+        $priceTypes = array('price', 'cost', 'groupPrice', 'minimalPrice', 'msrp', 'giftWrappingPrice');
+        $appBaseCurrencyCode = Mage::app()->getBaseCurrencyCode();
+        $currentStoreCurrencyCode = $this->_storeManager->getStore()->getCurrentCurrencyCode();
 
-        $currCode = $this->_storeManager->getStore()->getCurrentCurrencyCode();
+        /**
+         * @todo Fetch information for all websites.
+         * By default information for some attributes (i.e. tierPrice, giftcard amounts) fetched for current store only.
+         * We need to emulate admin environment to get comprehensive data.
+         */
 
         foreach ($schema as $field) {
             if (in_array($field, $priceTypes)) {
@@ -234,9 +242,6 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
                     case 'groupPrice':
                         $price = $product->getGroupPrice();
                         break;
-                    case 'tierPrice':
-                        $price = $product->getTierPrice();
-                        break;
                     case 'minimalPrice':
                         $price = $product->getMinimalPrice();
                         break;
@@ -249,19 +254,33 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
                 }
 
                 if (!is_null($price) || $field === 'price') {
-                    $data[$field] = array(
-                        'amount' => $price,
-                        'currencyCode' => $currCode,
-                        'formattedPrice' => $this->_coreHelper->currency($price, true, false),
-                    );
+                    $data[$field] = $this->_getPrice($price, $currentStoreCurrencyCode);
                 }
-            } else if ($field === 'specialPrice' && $product->getSpecialPrice()) {
+            } elseif ($field === 'specialPrice' && $product->getSpecialPrice()) {
                 $data[$field] = array(
                     'specialPrice' => $product->getSpecialPrice(),
                     'specialFromDate' => $product->getSpecialFromDate(),
                     'specialToDate' => $product->getSpecialToDate(),
                 );
-            } else if ($field === 'images') {
+            } elseif ($field === 'tierPrice' && $product->getTierPriceCount()) {
+                $tierPrices = array();
+
+                foreach ($product->getTierPrice() as $tierPrice) {
+                    $tierPrices[] = array(
+                        'tierPrice' => array(
+                            'priceId' => $tierPrice['price_id'],
+                            'websiteId' => $tierPrice['website_id'],
+                            'allGroups' => $tierPrice['all_groups'],
+                            'customerGroup' => $tierPrice['cust_group'],
+                            'price' => $this->_getPrice($tierPrice['price'], $appBaseCurrencyCode),
+                            'priceQty' => $tierPrice['price_qty'],
+                            'websitePrice' => $this->_getPrice($tierPrice['website_price'], $currentStoreCurrencyCode),
+                        )
+                    );
+                }
+
+                $data[$field] = $tierPrices;
+            } elseif ($field === 'images') {
                 $images = array();
                 $image = $product->getImage();
                 $smallImage = $product->getSmallImage();
@@ -282,7 +301,7 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
                 if (!empty($images)) {
                     $data[$field] = $images;
                 }
-            } else if ($field === 'mediaGallery') {
+            } elseif ($field === 'mediaGallery') {
                 $images = array();
 
                 foreach ($product->getMediaGalleryImages() as $image) {
@@ -293,7 +312,7 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
                             'label' => $image->getLabel(),
                             'position' => (int)$image->getPosition(),
                             'isDisabled' => (boolean)$image->getDisabled(),
-                            'labelDefault' => $images->getLabelDefault(),
+                            'labelDefault' => $image->getLabelDefault(),
                             'positionDefault' => (int)$image->getPositionDefault(),
                             'isDisabledDefault' => (boolean)$image->getDisabledDefault(),
                             'url' => $image->getUrl(),
@@ -308,15 +327,7 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
                         'images' => $images
                     );
                 }
-            } else if ($field === 'quantityAndStockStatus') {
-                $quantityAndStockStatus = $product->getQuantityAndStockStatus();
-                if (!is_null($quantityAndStockStatus['is_in_stock']) || !is_null($quantityAndStockStatus['qty'])) {
-                    $data[$field] = array(
-                        'isInStock' => $quantityAndStockStatus['is_in_stock'],
-                        'qty' => $quantityAndStockStatus['qty']
-                    );
-                }
-            } else if ($field === 'bundle' && $product->getTypeId() === Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+            } elseif ($field === 'bundle' && $product->getTypeId() === Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
                 $data[$field] = array(
                     'priceType' => $product->getPriceType(),
                     'skuType' => $product->getSkuType(),
@@ -324,7 +335,7 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
                     'priceView' => $product->getPriceView(),
                     'shipmentType' => $product->getShipmentType(),
                 );
-            } else if (
+            } elseif (
                 $field === 'downloadable'
                 && $product->getTypeId() === Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
             ) {
@@ -334,28 +345,23 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
                     'linksTitle' => $product->getLinksTitle(),
                     'shipmentType' => $product->getShipmentType(),
                 );
-            } else if ($field === 'giftcard') {
+            } elseif (
+                $field === 'giftcard'
+                && $product->getTypeId() === Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD
+            ) {
+                $amounts = array();
+
+                foreach ($product->getGiftcardAmounts() as $amount) {
+                    $amounts[] = array(
+                        'amount' => $this->_getPrice($amount['website_value'], $currentStoreCurrencyCode)
+                    );
+                }
+
                 $data[$field] = array(
-                    'giftcardAmounts' => array(
-                        array(
-                            'amount' => array(
-                                'amount' => '',
-                                'currencyCode' => '',
-                                'formattedPrice' => '',
-                            )
-                        )
-                    ),
+                    'giftcardAmounts' => $amounts,
                     'allowOpenAmount' => $product->getAllowOpenAmount(),
-                    'openAmountMin' => array(
-                        'amount' => $product->getOpenAmountMin(),
-                        'currencyCode' => $currCode,
-                        'formattedPrice' => $this->_coreHelper->currency($product->getOpenAmountMin(), true, false),
-                    ),
-                    'openAmountMax' => array(
-                        'amount' => $product->getOpenAmountMax(),
-                        'currencyCode' => $currCode,
-                        'formattedPrice' => $this->_coreHelper->currency($product->getOpenAmountMax(), true, false),
-                    ),
+                    'openAmountMin' => $this->_getPrice($product->getOpenAmountMin(), $currentStoreCurrencyCode),
+                    'openAmountMax' => $this->_getPrice($product->getOpenAmountMax(), $currentStoreCurrencyCode),
                     'giftcardType' => $product->getGiftCardType(),
                     'isRedeemable' => $product->getIsRedeemable(),
                     'useConfigIsRedeemable' => $product->getUseConfigIsRedeemable(),
@@ -366,18 +372,18 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
                     'allowMessage' => $product->getAllowMessage(),
                     'useConfigAllowMessage' => $product->getUseConfigAllowMessage(),
                 );
-            } else if ($field === 'targetRules') {
-                $data[$field] = array(
-                    'related' => array(
-                        'positionLimit' => '',
-                        'positionBehavior' => '',
-                    ),
-                    'upsell' => array(
-                        'positionLimit' => '',
-                        'positionBehavior' => '',
-                    )
-                );
-            } else if (empty($data[$field])) {
+            } elseif ($field === 'websiteIds') {
+                $websiteIds = array();
+
+                foreach ($product->getWebsiteIds() as $websiteId) {
+                    $websiteIds[] = array('id' => $websiteId);
+                }
+
+                $data[$field] = $websiteIds;
+            } elseif ($field === 'qty') {
+                $quantityAndStockStatus = $product->getQuantityAndStockStatus();
+                $data[$field] = $quantityAndStockStatus['qty'];
+            } elseif (empty($data[$field])) {
                 $method = 'get' . ucwords($field);
                 $value = $product->$method();
 
@@ -388,5 +394,23 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
         }
 
         return $data;
+    }
+
+    /**
+     * Returns array which represents XSD "price" complex type.
+     *
+     * @param $amount
+     * @param $currencyCode
+     * @return array
+     */
+    private function _getPrice($amount, $currencyCode)
+    {
+        $price = array(
+            'amount' => $amount,
+            'currencyCode' => $currencyCode,
+            'formattedPrice' => $this->_coreHelper->currency($amount, true, false),
+        );
+
+        return $price;
     }
 }

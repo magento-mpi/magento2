@@ -105,7 +105,7 @@ class Mage_Catalog_ProductController
     {
         /** @var $product Mage_Catalog_Service_Product */
         $productService = Mage::getObjectManager()->create('Mage_Catalog_Service_Product');
-        $data = $productService->item(2);
-        die(nl2br(print_r($data, true)));
+        $data = $productService->items(array(1,2));
+        die(nl2br(str_replace(' ', '&nbsp;', print_r($data, true))));
     }
 }

@@ -98,9 +98,11 @@ abstract class Mage_Core_Service_Entity_Abstract
         $dataCollection = array();
 
         foreach ($collection as $item) {
-            /** @var $item Varien_Object */
-            $dataCollection[] = $this->_getObjectData($item);
-//            $dataCollection = $this->_applySchema($dataCollection, $item);
+            /** @var $item Mage_Core_Model_Abstract */
+            $item->load($item->getId());
+            $dataCollectionItem = $this->_getObjectData($item);
+            $dataCollectionItem = $this->_applySchema($dataCollectionItem, $item);
+            $dataCollection[] = $dataCollectionItem;
         }
 
         return $dataCollection;
@@ -117,7 +119,7 @@ abstract class Mage_Core_Service_Entity_Abstract
     {
         foreach ($data as $key => $value) {
             if (is_object($value)) {
-                $data[$key] = '**OBJECT**';
+                unset($data[$key]);
             } else if (is_array($value)) {
                 $data[$key] = $this->_formatObjectData($value);
             }
