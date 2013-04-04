@@ -84,14 +84,19 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_designPackage;
-
-    /**
      * @var Mage_Core_Model_App|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_application;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_themeContext;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_theme;
 
     /**
      * @var array
@@ -114,10 +119,15 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             array(), '', false
         );
         $this->_objectManager = $this->getMock('Magento_ObjectManager');
-        $this->_designPackage = $this->getMock('Mage_Core_Model_Design_PackageInterface');
         $this->_application = $this->getMock('Mage_Core_Model_App', array('getStore'),
             array(), '', false
         );
+        $this->_theme = $this->getMock('Mage_Core_Model_Theme', array('getId'), array(), '', false);
+        $this->_themeContext = $this->getMock('Mage_DesignEditor_Model_Theme_Context',
+            array('getVisibleTheme', 'reset'), array(), '', false);
+        $this->_themeContext->expects($this->any())
+            ->method('getVisibleTheme')
+            ->will($this->returnValue($this->_theme));
 
         $this->_model = new Mage_DesignEditor_Model_State(
             $this->_backendSession,
@@ -126,9 +136,21 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             $this->_cacheManager,
             $this->_dataHelper,
             $this->_objectManager,
-            $this->_designPackage,
-            $this->_application
+            $this->_application,
+            $this->_themeContext
         );
+    }
+
+    protected function tearDown()
+    {
+        $this->_application = null;
+        $this->_backendSession = null;
+        $this->_cacheManager = null;
+        $this->_dataHelper = null;
+        $this->_layoutFactory = null;
+        $this->_objectManager = null;
+        $this->_application = null;
+        $this->_themeContext = null;
     }
 
     public function testConstruct()
@@ -183,9 +205,9 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_backendSession->expects($this->once())
             ->method('setData')
             ->with('vde_current_mode', Mage_DesignEditor_Model_State::MODE_DESIGN);
-        $this->_backendSession->expects($this->once())
-            ->method('getData')
-            ->with(Mage_DesignEditor_Model_State::CURRENT_THEME_SESSION_KEY)
+        $this->_themeContext->expects($this->once())->method('getVisibleTheme');
+        $this->_theme->expects($this->any())
+            ->method('getId')
             ->will($this->returnValue(self::THEME_ID));
 
         $this->_urlModelFactory->expects($this->once())
@@ -221,8 +243,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->with($this->logicalOr(
                 Mage_DesignEditor_Model_State::CURRENT_HANDLE_SESSION_KEY,
                 Mage_DesignEditor_Model_State::CURRENT_MODE_SESSION_KEY,
-                Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY,
-                Mage_DesignEditor_Model_State::CURRENT_THEME_SESSION_KEY
+                Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY
             ))
             ->will($this->returnValue($this->_backendSession));
 

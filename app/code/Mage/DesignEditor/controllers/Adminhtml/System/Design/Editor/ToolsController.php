@@ -14,6 +14,38 @@
 class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * @var Mage_DesignEditor_Model_Theme_Context
+     */
+    protected $_themeContext;
+
+    /**
+     * Initialize dependencies
+     *
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Controller_Response_Http $response
+     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Mage_DesignEditor_Model_Theme_Context $themeContext
+     * @param null $areaCode
+     * @param array $invokeArgs
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Controller_Response_Http $response,
+        Magento_ObjectManager $objectManager,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Mage_DesignEditor_Model_Theme_Context $themeContext,
+        $areaCode = null,
+        array $invokeArgs = array()
+    ) {
+        $this->_themeContext = $themeContext;
+        parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $areaCode,
+            $invokeArgs);
+    }
+
+    /**
      *  Upload custom CSS action
      */
     public function uploadAction()
@@ -23,14 +55,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         /** @var $serviceModel Mage_Theme_Model_Uploader_Service */
         $serviceModel = $this->_objectManager->get('Mage_Theme_Model_Uploader_Service');
         try {
-            $theme = $this->_getEditableTheme();
+            $editableTheme = $this->_themeContext->getStagingTheme();
             $cssFileContent = $serviceModel->uploadCssFile(
                 Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom::FILE_ELEMENT_NAME
             )->getFileContent();
             $themeCss->setDataForSave(
                 array(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS => $cssFileContent)
             );
-            $themeCss->saveData($theme);
+            $themeCss->saveData($editableTheme);
             $response = array(
                 'success' => true,
                 'message' => $this->__('Custom.css file has been successfully saved.'),
@@ -52,13 +84,13 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     {
         $customCssContent = (string)$this->getRequest()->getParam('custom_css_content', '');
         try {
-            $theme = $this->_getEditableTheme();
+            $editableTheme = $this->_themeContext->getStagingTheme();
             /** @var $themeCss Mage_Core_Model_Theme_Customization_Files_Css */
             $themeCss = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css');
             $themeCss->setDataForSave(
                 array(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS => $customCssContent)
             );
-            $theme->setCustomization($themeCss)->save();
+            $editableTheme->setCustomization($themeCss)->save();
             $response = array(
                 'success' => true,
                 'message' => $this->__('Custom.css file has been successfully saved.')
@@ -78,12 +110,12 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     public function jsListAction()
     {
         try {
-            $theme = $this->_getEditableTheme();
+            $editableTheme = $this->_themeContext->getStagingTheme();
 
             /** @var $filesJs Mage_Core_Model_Theme_Customization_Files_Js */
             $filesJs = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
             /** @var $customJsFiles Mage_Core_Model_Resource_Theme_File_Collection */
-            $customJsFiles = $theme->setCustomization($filesJs)
+            $customJsFiles = $editableTheme->setCustomization($filesJs)
                 ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Js::TYPE);
             $result = array('error' => false, 'files' => $customJsFiles->getFilesInfo());
             $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
@@ -100,9 +132,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         /** @var $serviceModel Mage_Theme_Model_Uploader_Service */
         $serviceModel = $this->_objectManager->get('Mage_Theme_Model_Uploader_Service');
         try {
-            $theme = $this->_getEditableTheme();
-            $serviceModel->uploadJsFile('js_files_uploader', $theme, false);
-            $theme->setCustomization($serviceModel->getJsFiles())->save();
+            $editableTheme = $this->_themeContext->getStagingTheme();
+            $serviceModel->uploadJsFile('js_files_uploader', $editableTheme, false);
+            $editableTheme->setCustomization($serviceModel->getJsFiles())->save();
             $this->_forward('jsList');
             return;
         } catch (Mage_Core_Exception $e) {
@@ -121,14 +153,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     {
         $removeJsFiles = (array)$this->getRequest()->getParam('js_removed_files');
         try {
-            $theme = $this->_getEditableTheme();
+            $editableTheme = $this->_themeContext->getStagingTheme();
 
             /** @var $themeJs Mage_Core_Model_Theme_Customization_Files_Js */
             $themeJs = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
-            $theme->setCustomization($themeJs);
+            $editableTheme->setCustomization($themeJs);
 
             $themeJs->setDataForDelete($removeJsFiles);
-            $theme->save();
+            $editableTheme->save();
 
             $this->_forward('jsList');
         } catch (Exception $e) {
@@ -146,10 +178,10 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         /** @var $themeJs Mage_Core_Model_Theme_Customization_Files_Js */
         $themeJs = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
         try {
-            $theme = $this->_getEditableTheme();
+            $editableTheme = $this->_themeContext->getStagingTheme();
             $themeJs->setJsOrderData($reorderJsFiles);
-            $theme->setCustomization($themeJs);
-            $theme->save();
+            $editableTheme->setCustomization($themeJs);
+            $editableTheme->save();
 
             $result = array('success' => true);
         } catch (Mage_Core_Exception $e) {
@@ -175,7 +207,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         );
         try {
             $configuration = $configFactory->create(
-                Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_IMAGE_SIZING, $this->_getEditableTheme()
+                Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_IMAGE_SIZING,
+                $this->_themeContext->getStagingTheme(),
+                $this->_themeContext->getEditableTheme()->getParentTheme()
             );
             $imageSizing = $imageSizingValidator->validate($configuration->getAllControlsData(), $imageSizing);
             $configuration->saveData($imageSizing);
@@ -200,12 +234,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         /** @var $configFactory Mage_DesignEditor_Model_Editor_Tools_Controls_Factory */
         $configFactory = $this->_objectManager->create('Mage_DesignEditor_Model_Editor_Tools_Controls_Factory');
         try {
-            $theme = $this->_getEditableTheme();
+            $editableTheme = $this->_themeContext->getStagingTheme();
             $keys = array_keys($this->getRequest()->getFiles());
-            $result = $uploaderModel->setTheme($theme)->uploadFile($keys[0]);
+            $result = $uploaderModel->setTheme($editableTheme)->uploadFile($keys[0]);
 
             $configuration = $configFactory->create(
-                Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES, $theme
+                Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES,
+                $editableTheme,
+                $this->_themeContext->getEditableTheme()->getParentTheme()
             );
             $configuration->saveData(array($keys[0] => $result['css_path']));
 
@@ -232,14 +268,16 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         /** @var $uploaderModel Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader */
         $uploaderModel = $this->_objectManager->get('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader');
         try {
-            $theme = $this->_getEditableTheme();
-            $result = $uploaderModel->setTheme($theme)->removeFile($fileName);
+            $editableTheme = $this->_themeContext->getStagingTheme();
+            $result = $uploaderModel->setTheme($editableTheme)->removeFile($fileName);
 
             /** @var $configFactory Mage_DesignEditor_Model_Editor_Tools_Controls_Factory */
             $configFactory = $this->_objectManager->create('Mage_DesignEditor_Model_Editor_Tools_Controls_Factory');
 
             $configuration = $configFactory->create(
-                Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES, $theme
+                Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES,
+                $editableTheme,
+                $this->_themeContext->getEditableTheme()->getParentTheme()
             );
             $configuration->saveData(array($elementName => ''));
 
@@ -263,12 +301,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     {
         $storeId = (int)$this->getRequest()->getParam('store_id');
         $themeId = (int)$this->getRequest()->getParam('theme_id');
-        /** @var $helper Mage_Core_Helper_Theme */
-        $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
+        /** @var $theme Mage_Core_Model_Theme */
+        $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
         try {
-            $theme = $helper->loadVisibleTheme($themeId);
-            if (!$theme->getId() || ($theme->getType() != Mage_Core_Model_Theme::TYPE_VIRTUAL)) {
-                throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $theme->getId()));
+            $theme->load($themeId);
+            if (!$theme->getId() || !$theme->isEditable()) {
+                throw new Mage_Core_Exception(
+                    $this->__('Theme "%s" was not found or cannot be editable.', $theme->getId())
+                );
             }
 
             /** @var $themeService Mage_Core_Model_Theme_Service */
@@ -304,12 +344,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     {
         $storeId = (int)$this->getRequest()->getParam('store_id');
         $themeId = (int)$this->getRequest()->getParam('theme_id');
-        /** @var $helper Mage_Core_Helper_Theme */
-        $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
+        /** @var $theme Mage_Core_Model_Theme */
+        $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
         try {
-            $theme = $helper->loadVisibleTheme($themeId);
-            if (!$theme->getId() || ($theme->getType() != Mage_Core_Model_Theme::TYPE_VIRTUAL)) {
-                throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $theme->getId()));
+            $theme->load($themeId);
+            if (!$theme->getId() || !$theme->isEditable()) {
+                throw new Mage_Core_Exception(
+                    $this->__('Theme "%s" was not found or cannot be editable.', $theme->getId())
+                );
             }
 
             /** @var $themeService Mage_Core_Model_Theme_Service */
@@ -349,7 +391,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $configFactory = $this->_objectManager->create('Mage_DesignEditor_Model_Editor_Tools_Controls_Factory');
             $configuration = $configFactory->create(
                 Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES,
-                $this->_getEditableTheme()
+                $this->_themeContext->getStagingTheme(),
+                $this->_themeContext->getEditableTheme()->getParentTheme()
             );
             $configuration->saveData(array($controlId => $controlValue));
             $response = array('success' => true);
