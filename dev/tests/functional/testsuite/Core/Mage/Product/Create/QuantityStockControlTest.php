@@ -341,6 +341,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $productData['inventory_manage_stock'] = 'Yes';
         $productData['inventory_qty'] = $productData['general_qty'];
         $productData['inventory_stock_availability'] = $productData['general_stock_availability'];
+        $productData['product_attribute_set'] = $setData['set_name'];
         $this->productHelper()->verifyProductInfo($productData);
     }
 
