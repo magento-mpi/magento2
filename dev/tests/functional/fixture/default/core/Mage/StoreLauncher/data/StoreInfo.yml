@@ -61,3 +61,8 @@ store_info_email_validate:
     customer_support_sender_email: %email%
     custom1_sender_email: %email%
     custom2_sender_email: %email%
+
+store_info_complete_validate:
+    store_name: Your Store Name is %storeName%
+    store_email: Your General Email is %email%
+    store_address: Your Business Address is configured

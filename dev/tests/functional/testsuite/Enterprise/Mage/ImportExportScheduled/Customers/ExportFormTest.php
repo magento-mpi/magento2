@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mage_Selenium_TestCase
+class Enterprise_Mage_ImportExportScheduled_Customers_ExportFormTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -95,7 +95,8 @@ class Enterprise_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mage
         // Precondition
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
-                'entity_type' => 'Customers Main File'));
+                'entity_type' => 'Customers Main File'
+            ));
         $this->importExportScheduledHelper()->createExport($exportData);
         $this->assertMessagePresent('success', 'success_saved_export');
         //Step 1

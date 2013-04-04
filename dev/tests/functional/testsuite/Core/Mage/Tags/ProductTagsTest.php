@@ -16,7 +16,7 @@ require_once 'TagsFixtureAbstract.php';
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Tags_ProductCreateTest extends Core_Mage_Tags_TagsFixtureAbstract
+class Core_Mage_Tags_ProductTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
 {
     /**
      * @return array
@@ -41,6 +41,7 @@ class Core_Mage_Tags_ProductCreateTest extends Core_Mage_Tags_TagsFixtureAbstrac
      */
     public function addFromFrontendTags($tags, $status, $testData)
     {
+        $this->markTestSkipped('Due to bug MAGETWO-8429');
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
@@ -85,6 +86,7 @@ class Core_Mage_Tags_ProductCreateTest extends Core_Mage_Tags_TagsFixtureAbstrac
      */
     public function addFromBackendTags($tags, $status, $testData)
     {
+        $this->markTestSkipped('Due to bug MAGETWO-8429');
         $setData = $this->loadDataSet('Tag', 'backend_new_tag_with_product',
             array(
                 'tag_name' => $tags,
@@ -148,6 +150,7 @@ class Core_Mage_Tags_ProductCreateTest extends Core_Mage_Tags_TagsFixtureAbstrac
      */
     public function searchTags($tags, $testData)
     {
+        $this->markTestSkipped('Due to bug MAGETWO-8429');
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
         //Steps

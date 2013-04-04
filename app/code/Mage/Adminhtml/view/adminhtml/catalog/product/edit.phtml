@@ -68,7 +68,27 @@ jQuery(function($) {
             $(this).val($(this).val().substr(0, maxLength));
         }
     });
-    $form.mage('form').mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
+    $form.mage('form', {
+        handlersData: {
+            save: {},
+            saveAndContinueEdit: {
+                action: {
+                    args: {back: 'edit'}
+                }
+            },
+            saveAndNew: {
+                action: {
+                    args: {back: 'new'}
+                }
+            },
+            saveAndDuplicate: {
+                action: {
+                    args: {back: 'duplicate'}
+                }
+            }
+        }
+    });
+    $form.mage('validation', {validationUrl: '<?php echo $this->getValidationUrl() ?>'});
 
     $('#product_info_tabs').on('tabsbeforeactivate tabscreate', function (event, ui) {
         var action = $(ui.newPanel || ui.panel).find('#attribute-name-container').length ? 'show' : 'hide';
@@ -155,7 +175,8 @@ jQuery(function($) {
 
     $form.data('autogenerator', new Autogenerator(masks).bindAll());
 
-    $('.widget-button-save .item-default, #save-split-button-duplicate-button[onclick=""]').parent().hide();
+    $('.widget-button-save .item-default').parent().hide();
+
     $(window).load(function() {
         if ($.trim($('#name').val()) == '') {
             $('#name').focus();
@@ -171,6 +192,11 @@ jQuery(function($) {
     });
 
     $form.on('changeAttributeSet', function(event, data) {
+        if (data.label) {
+            $('#product-template-suggest-container .action-toggle>span').text(data.label);
+        }
+        $('#product-template-suggest').suggest('option', "currentlySelected", data.id).val('');
+
         var uri = document.location.href.replace(/(\/|&|\?)?\bset(\/|=)\d+/g, '').replace(/#[^#]*$/, '');
         uri += /\?/.test(uri) ? '&' : '?';
         uri += 'set=' + window.encodeURIComponent(data.id);
@@ -194,7 +220,7 @@ jQuery(function($) {
             var nameMapper = function() {
                 return $(this).attr('name');
             };
-
+            var activeTabId = $('.ui-tabs-active>a').attr('id');
             //add new tab tabs or reorder
             $page.find('#product_info_tabs .tabs').each(function(i, tabContainer) {
                 $newPage.find('#product_info_tabs .tabs').each(function(j, newTabContainer) {
@@ -295,8 +321,12 @@ jQuery(function($) {
                     });
                 });
             });
-
-           $('#product_info_tabs').tabs('refresh').tabs("option", "active", 0);
+            if (!$('#' + activeTabId).closest('li').hasClass(removedElementClass)) {
+                $('#' + activeTabId).trigger('click');
+            } else {
+                $('#product_info_tabs').tabs("option", "active", 0);
+            }
+            $('#product_info_tabs').tabs('refresh');
         });
 
     });

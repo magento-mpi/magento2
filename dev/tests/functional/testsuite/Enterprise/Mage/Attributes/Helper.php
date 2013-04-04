@@ -61,7 +61,7 @@ class Enterprise_Mage_Attributes_Helper extends Mage_Selenium_AbstractHelper
         $xpathTR = $this->search($searchData, 'attributes_grid');
         $this->assertNotNull($xpathTR, 'Attribute is not found');
         $cellId = $this->getColumnIdByName('Attribute Label');
-        $this->addParameter('attribute_code', $this->getElement($xpathTR . '//td[' . $cellId . ']')->text());
+        $this->addParameter('elementTitle', $this->getElement($xpathTR . '//td[' . $cellId . ']')->text());
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->getElement($xpathTR . '//td[' . $cellId . ']')->click();
         $this->waitForPageToLoad();

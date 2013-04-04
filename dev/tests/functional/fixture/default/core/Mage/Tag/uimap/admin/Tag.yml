@@ -12,7 +12,7 @@
 all_tags:
     mca: tag/
     click_xpath: //*[@data-ui-id='menu-mage-tag-catalog-tag-all']/a
-    title: All Tags / Tags / Catalog / Magento Admin
+    title: All Tags / User Content / Marketing / Magento Admin
     uimap: &allTags
         form: &searchTagsGrid
             fieldsets:
@@ -60,13 +60,13 @@ all_tags:
 all_tags_index:
     mca: tag/index/
     click_xpath: //*[@data-ui-id='menu-mage-tag-catalog-tag-all']/a
-    title: All Tags / Tags / Catalog / Magento Admin
+    title: All Tags / User Content / Marketing / Magento Admin
     uimap: *allTags
 
 # Edit Tag Page
 edit_tag:
-    mca: tag/edit/store/%storeId%/tag_id/%id%
-    title: %elementTitle% / Tags / Catalog / Magento Admin
+    mca: tag/edit/store/%storeId%/tag_id/%id%/
+    title: %elementTitle% / Tags / User Content / Marketing / Magento Admin
     uimap: &editTagUimap
         form:
             fieldsets:
@@ -142,18 +142,18 @@ edit_tag:
 # Edit tag '%tagName%' page
 edit_tag_more_options:
     mca: tag/edit/tag_id/%id%/store/%storeId%/ret/
-    title: %elementTitle% / Tags / Catalog / Magento Admin
+    title: %elementTitle% / Tags / User Content / Marketing / Magento Admin
     uimap: *editTagUimap
 
 edit_tag_more_options_pending:
-    mca: tag/edit/store/%storeId%/tag_id/%id%/ret/pending
-    title: %elementTitle% / Tags / Catalog / Magento Admin
+    mca: tag/edit/store/%storeId%/tag_id/%id%/ret/pending/
+    title: %elementTitle% / Tags / User Content / Marketing / Magento Admin
     uimap: *editTagUimap
 
 # New Tag page
 new_tag:
-    mca: tag/edit/store/%storeId%
-    title: New Tag / Tags / Catalog / Magento Admin
+    mca: tag/edit/store/%storeId%/
+    title: New Tag / Tags / User Content / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -179,9 +179,8 @@ new_tag:
 
 # Pending Tags page
 pending_tags:
-    mca: tag/pending
-    click_xpath: //div[@class='submenu']//a[normalize-space(span)='Pending Tags']
-    title: Pending Tags / Tags / Catalog / Magento Admin
+    mca: tag/pending/
+    title: Pending Tags / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -214,12 +213,12 @@ pending_tags:
         messages: *tagsMesssages
 
 product_tags:
-    mca: tag/edit/tag_id/%id%/product_id/%prodId%
+    mca: tag/edit/tag_id/%id%/product_id/%prodId%/
     title: %elementTitle% / Tags / Catalog / Magento Admin
     uimap: *editTagUimap
 
 customer_tags:
-    mca: tag/edit/tag_id/%id%/customer_id/%custId%
+    mca: tag/edit/tag_id/%id%/customer_id/%custId%/
     title: %elementTitle% / Tags / Catalog / Magento Admin
     uimap: *editTagUimap
 

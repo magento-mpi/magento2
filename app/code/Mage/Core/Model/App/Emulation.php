@@ -138,7 +138,7 @@ class Mage_Core_Model_App_Emulation extends Varien_Object
     protected function _emulateLocale($storeId, $area = Mage_Core_Model_App_Area::AREA_FRONTEND)
     {
         $initialLocaleCode = Mage::app()->getLocale()->getLocaleCode();
-        $newLocaleCode = Mage::getStoreConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE, $storeId);
+        $newLocaleCode = Mage::getStoreConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId);
         Mage::app()->getLocale()->setLocaleCode($newLocaleCode);
         Mage::getSingleton('Mage_Core_Model_Translate')->setLocale($newLocaleCode)->init($area, true);
         return $initialLocaleCode;

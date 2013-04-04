@@ -10,7 +10,7 @@
 ---
 #
 all_tags:
-    mca: tag/list
+    mca: tag/list/
     title: Magento Commerce
     uimap:
         form:

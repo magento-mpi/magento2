@@ -32,7 +32,9 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
         $themeCopyService = $this->getMock('Mage_Core_Model_Theme_CopyService', array('copy'), array(), '', false);
         $themeCopyService->expects($this->never())->method('copy');
 
-        $object = new Mage_Core_Model_Theme_Domain_Virtual($theme, $themeFactory, $themeCopyService);
+        $service = $this->getMock('Mage_Core_Model_Theme_Service', array(), array(), '', false);
+
+        $object = new Mage_Core_Model_Theme_Domain_Virtual($theme, $themeFactory, $themeCopyService, $service);
 
         $this->assertSame($themeStaging, $object->getStagingTheme());
         $this->assertSame($themeStaging, $object->getStagingTheme());
@@ -81,9 +83,36 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
         $themeCopyService = $this->getMock('Mage_Core_Model_Theme_CopyService', array('copy'), array(), '', false);
         $themeCopyService->expects($this->once())->method('copy')->with($theme, $themeStaging);
 
-        $object = new Mage_Core_Model_Theme_Domain_Virtual($theme, $themeFactory, $themeCopyService);
+        $service = $this->getMock('Mage_Core_Model_Theme_Service', array(), array(), '', false);
+
+        $object = new Mage_Core_Model_Theme_Domain_Virtual($theme, $themeFactory, $themeCopyService, $service);
 
         $this->assertSame($themeStaging, $object->getStagingTheme());
         $this->assertSame($themeStaging, $object->getStagingTheme());
+    }
+
+    /**
+     * Test for is assigned method
+     *
+     * @covers Mage_Core_Model_Theme_Domain_Virtual::isAssigned
+     */
+    public function testIsAssigned()
+    {
+        $themeServiceMock = $this->getMock('Mage_Core_Model_Theme_Service', array(), array(), '', false);
+        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('getCollection', 'getId'), array(), '', false,
+            false);
+        $themeServiceMock->expects($this->atLeastOnce())->method('isThemeAssignedToStore')
+            ->with($themeMock)
+            ->will($this->returnValue(true));
+        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $constructArguments = $objectManagerHelper->getConstructArguments('Mage_Core_Model_Theme_Domain_Virtual',
+            array(
+                 'theme' => $themeMock,
+                 'service' => $themeServiceMock,
+            )
+        );
+        /** @var $model Mage_Core_Model_Theme_Domain_Virtual */
+        $model = $objectManagerHelper->getObject('Mage_Core_Model_Theme_Domain_Virtual', $constructArguments);
+        $this->assertEquals(true, $model->isAssigned());
     }
 }

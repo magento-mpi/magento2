@@ -12,7 +12,7 @@
 manage_sales_credit_memos:
     mca: sales_creditmemo/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_creditmemo/')]
-    title: Credit Memos / Sales / Magento Admin
+    title: Credit Memos / Operations / Sales / Magento Admin
     uimap:
         form: &salesCreditmemos
             fieldsets:
@@ -50,54 +50,54 @@ manage_sales_credit_memos:
 
 create_credit_memo:
     mca: sales_order_creditmemo/new/order_id/%id%/
-    title: New Memo / Credit Memos / Sales / Magento Admin
+    title: New Memo / Credit Memos / Operations / Sales / Magento Admin
     uimap: &orderCreditmemo
         form:
             fieldsets:
                 -
                     order_number:
-                        xpath: //div[@class='entry-edit'][./div/a[contains(.,'Order #')]]
+                        xpath: //div[@class='order-information']
                 -
                     account_information:
-                        xpath: //div[@class='entry-edit'][./div/h4='Account Information']
+                        xpath: //div[@class='order-account-information']
                 -
                     billing_address:
-                        xpath: //div[@class='entry-edit'][./div/h4='Billing Address']
+                        xpath: //div[@class='order-billing-address']
                 -
                     shipping_address:
-                        xpath: //div[@class='entry-edit'][./div/h4='Shipping Address']
+                        xpath: //div[@class='order-shipping-address' and contains(.,'Shipping Address')]
                 -
                     payment_information:
-                        xpath: //div[@class='entry-edit'][./div/h4='Payment Information']
+                        xpath: //div[@class='order-payment-method']
                 -
                     shipping_information:
-                        xpath: //div[@class='entry-edit'][./div/h4='Shipping Information']
+                        xpath: //div[@class='order-shipping-address' and contains(.,'Shipping Information')]
                 -
                     items_to_refund:
-                        xpath: //div[@class='grid np']
+                        xpath: //div[@class='grid']
                         buttons:
-                            update_qty: //button[span[contains(.,'Update Qty')]]
+                            update_qty: //button[@data-ui-id='order-items-update-button']
                         checkboxes:
-                            return_to_stock: "//tbody[@class='even'][//*[contains(text(),'%sku%')]]//input[contains(@name,'[back_to_stock]')]"
+                            return_to_stock: "//tbody[@class='even'][//*[contains(.,'%sku%')]]//input[contains(@name,'[back_to_stock]')]"
                         fields:
-                            qty_to_refund: "//tbody[@class='even'][//*[contains(text(),'%sku%')]]//input[contains(@name,'[qty]')]"
+                            qty_to_refund: "//tbody[@class='even'][//*[contains(.,'%sku%')]]//input[contains(@name,'[qty]')]"
                         pageelements:
                             product_table_head: //table[@class='data order-tables']/thead
                             product_line:  //table[@class='data order-tables']/tbody
                 -
                     product_line_to_refund:
-                        xpath: //div[@class='grid np']//tbody[@class]
+                        xpath: //div[@class='grid']//tbody[@class]
                         fields:
                             product_sku: "[%productNumber%]//tr[contains(.//@name,'creditmemo[items')]//*[strong='SKU:']"
                             product_qty: "[%productNumber%]//tr[contains(.//@name,'creditmemo[items')]//td[5]"
                 -
                     credit_memo_comments:
-                        xpath: //div[@class='box-left entry-edit'][./div/h4='Credit Memo Comments']
+                        xpath: //div[@class='order-comments-history']
                         fields:
                             credit_memo_comments: //textarea[@name='creditmemo[comment_text]']
                 -
                     refund_totals:
-                        xpath: //div[@class='box-right entry-edit'][./div/h4='Refund Totals']
+                        xpath: //div[@class='order-totals creditmemo-totals']
                         buttons:
                             refund_offline: //button[span='Refund Offline']
                             refund: //button[span='Refund']
@@ -115,55 +115,55 @@ create_credit_memo:
                             price_totals_line_index_name: //tbody/descendant::tr[%index%]/*[1]
                             price_totals_line_index_value: //tbody/descendant::tr[%index%]/*[2]
         buttons:
-            back: //p[@class='form-buttons']//button[span='Back']
-            reset: //p[@class='form-buttons']//button[span='Reset']
+            back: //div[@class='page-actions']//button[span='Back']
+            reset: //div[@class='page-actions']//button[span='Reset']
         messages: *creditMemoMessages
 
 create_credit_memo_for_invoice:
     mca: sales_order_creditmemo/new/order_id/%id%/invoice_id/%invoice_id%/
-    title: New Memo for %elementTitle% / Credit Memos / Sales / Magento Admin
+    title: New Memo for %elementTitle% / Credit Memos / Operations / Sales / Magento Admin
     uimap: *orderCreditmemo
 
 view_credit_memo:
     mca: sales_creditmemo/view/creditmemo_id/%id%/
-    title: View Memo / Credit Memos / Sales / Magento Admin
+    title: View Memo / Credit Memos / Operations / Sales / Magento Admin
     uimap:
         form: &viewCreditmemo
             fieldsets:
                 -
                     order_number:
-                        xpath: //div[@class='entry-edit'][./div/a[contains(.,'Order #')]]
+                        xpath: //div[@class='order-information']
                 -
                     account_information:
-                        xpath: //div[@class='entry-edit'][./div/h4='Account Information']
+                        xpath: //div[@class='order-account-information']
                 -
                     billing_address:
-                        xpath: //div[@class='entry-edit'][./div/h4='Billing Address']
+                        xpath: //div[@class='order-billing-address']
                 -
                     shipping_address:
-                        xpath: //div[@class='entry-edit'][./div/h4='Shipping Address']
+                        xpath: //div[@class='order-shipping-address' and contains(.,'Shipping Address')]
                 -
                     payment_information:
-                        xpath: //div[@class='entry-edit'][./div/h4='Payment Information']
+                        xpath: //div[@class='order-payment-method']
                 -
                     shipping_information:
-                        xpath: //div[@class='entry-edit'][./div/h4='Shipping Information']
+                        xpath: //div[@class='order-shipping-address' and contains(.,'Shipping Information')]
                 -
-                    items_refunded:
-                        xpath: //div[@id='creditmemo_items_container']/div[@class='grid np']
+                    items_to_refund:
+                        xpath: //div[@class='grid']
                         pageelements:
-                            product_table_head: //table[@class='data order-tables']/thead
-                            product_line:  //table[@class='data order-tables']/tbody
+                            product_table_head: //table[@class='data']/thead
+                            product_line: //table[@class='data']/tbody
                 -
                     credit_memo_history:
-                        xpath: //div[@class='box-left entry-edit'][./div/h4='Credit Memo History']
+                        xpath: //div[@class='order-comments-history']
                         fields:
                             credit_memo_comments: //textarea[@name='comment[comment]']
                         buttons:
                             submit_comment: //button[span='Submit Comment']
                 -
                     credit_memo_totals:
-                        xpath: //div[@class='box-right entry-edit'][./div/h4='Credit Memo Totals']
+                        xpath: //div[@class='order-totals']
                         pageelements:
                             price_totals: //tbody
                             price_totals_line: //tbody/descendant::tr
@@ -171,7 +171,7 @@ view_credit_memo:
                             price_totals_line_index_name: //tbody/descendant::tr[%index%]/*[1]
                             price_totals_line_index_value: //tbody/descendant::tr[%index%]/*[2]
         buttons:
-            back: //p[@class='form-buttons']//button[span='Back']
-            send_email: //p[@class='form-buttons']//button[span='Send Email']
-            print: //p[@class='form-buttons']//button[span='Print']
+            back: //div[@class='page-actions']//button[span='Back']
+            send_email: //div[@class='page-actions']//button[span='Send Email']
+            print: //div[@class='page-actions']//button[span='Print']
         messages: *creditMemoMessages

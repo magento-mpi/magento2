@@ -27,7 +27,7 @@ class Enterprise_Mage_GiftRegistry_Helper extends Mage_Selenium_AbstractHelper
     {
         $fieldSetXpath = $this->_getControlXpath('fieldset', 'attributes_set');
         $this->clickButton('add_attribute', false);
-        $attributeId = count($this->getControlElements('fieldset', 'attributes_set'));
+        $attributeId = $this->getControlCount('fieldset', 'attributes_set');
         $this->addParameter('attributeId', $attributeId);
         $this->fillFieldSet($attData, 'attributes_set');
         foreach ($attData as $optionKey => $optionValue) {

@@ -14,7 +14,7 @@
 manage_sales_orders:
     mca: sales_order/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_order/')]
-    title: Orders / Sales / Magento Admin
+    title: Orders / Operations / Sales / Magento Admin
     uimap:
         form: &orderGridMassactionForm
             fieldsets:
@@ -29,11 +29,11 @@ manage_sales_orders:
                         dropdowns:
                             filter_massaction: //select[@id='sales_order_grid_massaction-select']
                             filter_status: //*[@id='sales_order_grid_filter_status']
+                            filter_purchased_from: //select[@name='store_id']
                             view_per_page: //select[@name='limit']
                         fields:
                             page: //input[@name='page']
                             filter_order_id: //*[@id='sales_order_grid_filter_real_order_id']
-                            filter_purchased_from: //input[@name='store_id']
                             filter_created_from: //input[@name='created_at[from]']
                             filter_created_to: //input[@name='filter_created_at[to]']
                             filter_billing_name: //input[@name='billing_name']
@@ -83,8 +83,7 @@ manage_sales_orders:
             invalid_coupon_code: //li[normalize-space(@class)='error-msg' and contains(.,'"%code%" coupon code is not valid.')]
             no_shipping: //strong[text()='Sorry, no quotes are available for this order at this time.']
             no_payment: //label[text()='No Payment Information Required']
-            empty_required_field: //label[(@for)='%field_id%' and contains(., 'This is a required field.')]
-            required_field_empty: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             shipping_must_be_specified: //li[normalize-space(@class)='error-msg' and contains(.,'Shipping method must be specified.')]
             error_specify_order_items: //li[normalize-space(@class)='error-msg' and contains(.,'You need to specify order items.')]
             empty_payment_method: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not available.')]
@@ -102,7 +101,7 @@ manage_sales_orders:
             not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,"appears to be a DNS hostname but cannot match against hostname schema for TLD")]
             hostname_not_valid: //li[normalize-space(@class)='error-msg' and contains(.,'appears to be a local network name but local network names are not allowed')]
             not_valid_email: //*[text()='Please enter a valid email address. For example johndoe@domain.com.']
-            order_id: "//*[contains(@class,'head-sales-order')][contains(text(), 'Order #')]"
+            order_id: //h1[@class='title']
             #confirmation
             confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?
             confirmation_for_edit: Are you sure? This order will be canceled and a new one will be created instead
@@ -124,7 +123,7 @@ manage_sales_orders:
 # 'New Order' page
 create_order_for_new_customer:
     mca: sales_order_create/
-    title: New Order / Orders / Sales / Magento Admin
+    title: New Order / Orders / Operations / Sales / Magento Admin
     uimap: &create_order_for_new_customer
         form:
             fieldsets:
@@ -152,7 +151,7 @@ create_order_for_new_customer:
                             choose_main_store: //span[label/text()='%storeName%']/input
                 -
                     select_products_to_add: &selectProductsToAdd
-                        xpath: //div[div/h4[contains(text(),'Please Select Products to Add')]]
+                        xpath: //div[@id='order-search']
                         buttons:
                             add_selected_products_to_order: //button[span='Add Selected Product(s) to Order']
                             reset_filter: //button[span='Reset Filter']
@@ -187,8 +186,8 @@ create_order_for_new_customer:
                         dropdowns:
                             action: //tr[td/@class='first'][contains(.,'%sku%')]//select
                         fields:
-                            product_qty: //tr[td/@class='first'][contains(.,'%sku%')]//input[@class='input-text item-qty']
-                            custom_price: //tr[td/@class='first'][contains(.,'%sku%')]//div[label='Custom Price*']/../input
+                            product_qty: //tr[contains(.,'%sku%')]//input[@class='input-text item-qty']
+                            custom_price: //tr[contains(.,'%sku%')]//div[label='Custom Price*']/../input
                         links:
                             gift_options: //tr[td/@class='first'][contains(.,'%sku%')]/..//a[text()='Gift Options']
                 -
@@ -389,13 +388,13 @@ create_order_for_new_customer:
         messages: *orderMessages
 
 reorder_create_new_order:
-    mca: sales_order_create/reorder/order_id/%id%
-    title: New Order / Orders / Sales / Magento Admin
+    mca: sales_order_create/reorder/order_id/%id%/
+    title: New Order / Orders / Operations / Sales / Magento Admin
     uimap: &create_order_for_new_customer
 
 create_order_for_existing_customer:
     mca: sales_order_create/index/customer_id/%id%/
-    title: New Order / Orders / Sales / Magento Admin
+    title: New Order / Orders / Operations / Sales / Magento Admin
     uimap:
         form: &newOrderForExistCustomerForm
             fieldsets:
@@ -475,7 +474,7 @@ create_order_for_existing_customer:
 
 view_order:
     mca: sales_order/view/order_id/%id%/
-    title: '%elementTitle% / Orders / Sales / Magento Admin'
+    title: '%elementTitle% / Orders / Operations / Sales / Magento Admin'
     uimap:
         form: &orderView
             tabs:
@@ -503,7 +502,7 @@ view_order:
                                     xpath: //div[@class='entry-edit'][./div/h4='Shipping & Handling Information']
                             -
                                 items_ordered:
-                                    xpath: //div[@class='grid np']
+                                    xpath: //div[@class='grid']
                                     fields:
                                         qty_ordered: //tbody[@class][tr[contains(.,'%sku%')]]//tr[td='Ordered'][td/strong='%orderedQty%']
                                         qty_invoiced: //tbody[@class][tr[contains(.,'%sku%')]]//tr[td='Invoiced'][td/strong='%invoicedQty%']
@@ -650,22 +649,22 @@ view_order:
                                         filter_created_at_from: //input[@name='created_at[from]']
                                         filter_created_at_to: //input[@name='created_at[to]']
         buttons:
-            back: //p[@class='form-buttons']//button[span='Back']
-            edit: //p[@class='form-buttons']//button[span='Edit']
-            cancel: //p[@class='form-buttons']//button[span='Cancel']
-            send_email: //p[@class='form-buttons']//button[span='Send Email']
-            hold: //p[@class='form-buttons']//button[span='Hold']
-            unhold: //p[@class='form-buttons']//button[span='Unhold']
-            credit_memo: //p[@class='form-buttons']//button[span='Credit Memo']
-            invoice: //p[@class='form-buttons']//button[span='Invoice']
-            ship: //p[@class='form-buttons']//button[span='Ship']
-            reorder: //p[@class='form-buttons']//button[span='Reorder']
-            void: //p[@class='form-buttons']//button[span='Void']
+            back: //div[@class='page-actions-inner']//button[span='Back']
+            edit: //div[@class='page-actions-inner']//button[span='Edit']
+            cancel: //div[@class='page-actions-inner']//button[span='Cancel']
+            send_email: //div[@class='page-actions-inner']//button[span='Send Email']
+            hold: //div[@class='page-actions-inner']//button[span='Hold']
+            unhold: //div[@class='page-actions-inner']//button[span='Unhold']
+            credit_memo: //div[@class='page-actions-inner']//button[span='Credit Memo']
+            invoice: //div[@class='page-actions-inner']//button[span='Invoice']
+            ship: //div[@class='page-actions-inner']//button[span='Ship']
+            reorder: //div[@class='page-actions-inner']//button[span='Reorder']
+            void: //div[@class='page-actions-inner']//button[span='Void']
         messages: *orderMessages
 
 edit_order:
     mca: sales_order_edit/
-    title: Edit Order / Orders / Sales / Magento Admin
+    title: Edit Order / Orders / Operations / Sales / Magento Admin
     uimap:
         form: *newOrderForExistCustomerForm
         messages: *orderMessages

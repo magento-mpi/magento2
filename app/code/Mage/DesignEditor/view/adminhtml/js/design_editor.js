@@ -102,6 +102,9 @@
         },
 
         _onSave: function(event, eventData) {
+            if (eventData.confirm_message && !confirm(eventData.confirm_message)) {
+                return;
+            }
             if (!eventData.save_url) {
                 throw Error('Save url is not defined');
             }
@@ -143,13 +146,21 @@
         },
 
         _onSaveAndAssign: function(event, eventData) {
-            eventData.onSaveSuccess = function(response) {
+            //NOTE: Line below makes copy of eventData to have an ability to unset 'confirm_message' later
+            // and to not miss this 'confirm_message' for next calls of method
+            var tempData = jQuery.extend({}, eventData);
+
+            if (tempData.confirm_message && !confirm(tempData.confirm_message)) {
+                return;
+            }
+            tempData.confirm_message = null;
+            tempData.onSaveSuccess = function(response) {
                 if (response.error) {
                     alert($.mage.__('Error') + ': "' + response.message + '".');
                 }
             }
-            $(event.target).trigger('save', eventData);
-            $(event.target).trigger('assign', eventData);
+            $(event.target).trigger('save', tempData);
+            $(event.target).trigger('assign', tempData);
         },
 
         saveTemporaryLayoutChanges: function(themeId, saveChangesUrl, modeUrl) {
@@ -204,6 +215,7 @@
             return postResult;
         },
         _destroy: function() {
+            $('body').off(this.options.saveEvent + ' ' + this.options.saveAndAssignEvent);
             this.element.find( this.options.cellSelector ).each( function(i, element) {
                 $(element).data('vde_menu').destroy();
             });
@@ -250,23 +262,33 @@
         },
         _initFrame: function() {
             this._resizeFrame();
+        },
+        _destroy: function() {
+            $(this.options.panelSelector)
+                .each(function(eIndex, element) {
+                    element = $(element);
+                    var instance = element.data('vde_panel');
+                    if (instance) {
+                        instance.destroy();
+                    }
+                });
+            this._super();
         }
     });
 
     /**
      * Widget page highlight functionality
      */
-    var pageBasePrototype = $.vde.vde_page.prototype;
-    $.widget('vde.vde_page', $.extend({}, pageBasePrototype, {
+    $.widget('vde.vde_page', $.vde.vde_page, {
         _create: function () {
-            pageBasePrototype._create.apply(this, arguments);
+            this._superApply(arguments);
             if (this.options.highlightElementSelector) {
                 this._initHighlighting();
                 this._bind();
             }
         },
         _bind: function () {
-            pageBasePrototype._bind.apply(this, arguments);
+            this._superApply(arguments);
             var self = this;
             this.element
                 .on('checked.vde_checkbox', function () {
@@ -326,7 +348,7 @@
         _getChildren: function(parentId) {
             return (!this.highlightBlocks[parentId]) ? [] : this.highlightBlocks[parentId];
         }
-    }));
+    });
 
     $( document ).ready(function( ) {
         var body = $('body');
@@ -335,19 +357,6 @@
         body.on('refreshIframe', function() {
             frames[0].contentWindow.location.reload(true);
         });
-
-        //TODO Some code related to saving and assignment
-        if (frames.get(0)) {
-            var historyObject = frames.get(0).contentWindow.vdeHistoryObject;
-            if (historyObject && historyObject.getItems().length != 0) {
-                //data.layoutUpdate = this._preparePostItems(historyObject.getItems());
-            }
-            var frameUrl = frames.attr('src');
-            var urlParts = frameUrl.split('handle');
-            if (urlParts.length > 1) {
-                //data.handle = frameUrl.split('handle')[1].replace(/\//g, '');
-            }
-        }
     });
 
 })( jQuery );

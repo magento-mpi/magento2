@@ -97,8 +97,8 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
     protected function _getSolrDate($storeId, $date = null)
     {
         if (!isset($this->_dateFormats[$storeId])) {
-            $timezone = Mage::getStoreConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_TIMEZONE, $storeId);
-            $locale   = Mage::getStoreConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE, $storeId);
+            $timezone = Mage::getStoreConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId);
+            $locale   = Mage::getStoreConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId);
             $locale   = new Zend_Locale($locale);
 
             $dateObj  = new Zend_Date(null, null, $locale);
@@ -254,7 +254,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
     {
         $result = array();
 
-        $localeCode = Mage::app()->getStore()->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+        $localeCode = Mage::app()->getStore()->getConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
         $languageSuffix = $this->_getLanguageSuffix($localeCode);
 
         /**
@@ -324,7 +324,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
      */
     public function getAdvancedTextFieldName($filed, $suffix = '', $storeId = null)
     {
-        $localeCode     = Mage::app()->getStore($storeId)->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+        $localeCode     = Mage::app()->getStore($storeId)->getConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
         $languageSuffix = Mage::helper('Enterprise_Search_Helper_Data')->getLanguageSuffix($localeCode);
 
         if ($suffix) {
@@ -389,7 +389,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
 
         if ($fieldType == 'text') {
             $localeCode     = Mage::app()->getStore($attribute->getStoreId())
-                ->getConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE);
+                ->getConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
             $languageSuffix = Mage::helper('Enterprise_Search_Helper_Data')->getLanguageSuffix($localeCode);
             $fieldName      = $fieldPrefix . $attributeCode . $languageSuffix;
         } else {

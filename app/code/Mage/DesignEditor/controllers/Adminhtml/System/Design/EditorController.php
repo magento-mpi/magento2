@@ -14,11 +14,6 @@
 class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * @var bool
-     */
-    protected $_hasRedirectOnAssign = true;
-
-    /**
      * Display the design editor launcher page
      */
     public function indexAction()
@@ -75,58 +70,21 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $eventDispatcher = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
             $eventDispatcher->dispatch('design_editor_activate');
 
-            $customLayoutParams = array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND);
-
-            /** @var $customFrontLayout Mage_Core_Model_Layout_Merge */
-            $customFrontLayout = $this->_objectManager->create('Mage_Core_Model_Layout_Merge',
-                array('arguments' => $customLayoutParams)
-            );
-            $pageTypes = $customFrontLayout->getPageHandlesHierarchy();
-
             $this->_setTitle();
             $this->loadLayout();
 
-            $this->_configureToolsBlock($editableTheme);
+            $this->_configureToolbarBlocks($theme, $editableTheme, $mode);      //top panel
+            $this->_configureToolsBlocks($editableTheme, $mode);                //bottom panel
+            $this->_configureEditorBlock($editableTheme, $mode);                //editor container
 
-            /** @var $toolbarBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons */
-            $toolbarBlock = $this->getLayout()->getBlock('design_editor_toolbar_buttons');
-            $toolbarBlock->setThemeId($editableTheme->getId())->setVirtualThemeId($themeId)
-                ->setMode($mode);
-
-            /** @var $saveButtonBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save */
-            $saveButtonBlock = $this->getLayout()->getBlock('design_editor_toolbar_buttons_save');
-            if ($saveButtonBlock) {
-                $saveButtonBlock->setTheme($theme)
-                    ->setMode($mode);
-            }
-
-            /** @var $hierarchyBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy */
-            $hierarchyBlock = $this->getLayout()->getBlock('design_editor_toolbar_handles_hierarchy');
-            if ($hierarchyBlock) {
-                $hierarchyBlock->setHierarchy($pageTypes)
-                    ->setMode($mode);
-            }
-
-            /** @var $viewOptionsBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ViewOptions */
-            $viewOptionsBlock = $this->getLayout()->getBlock('design_editor_toolbar_view_options');
-            if ($viewOptionsBlock) {
-                $viewOptionsBlock->setMode($mode);
-            }
-
-            /** @var $editorBlock Mage_DesignEditor_Block_Adminhtml_Editor_Container */
-            $editorBlock = $this->getLayout()->getBlock('design_editor');
-            if ($mode == Mage_DesignEditor_Model_State::MODE_NAVIGATION) {
-                $currentUrl = $this->_getCurrentUrl();
-            } else {
-                $currentUrl = $this->_getCurrentHandleUrl();
-            }
-            $editorBlock->setFrameUrl($currentUrl);
-            $editorBlock->setTheme($editableTheme);
-
+            $redirectOnAssign = $theme->isPhysical();
             /** @var $storeViewBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */
             $storeViewBlock = $this->getLayout()->getBlock('theme.selector.storeview');
-            $storeViewBlock->setData('redirectToVdeOnAssign', $this->_hasRedirectOnAssign)
-                ->setData('theme_id', $theme->getId());
+            $storeViewBlock->setData(array(
+                'redirectOnAssign' => $redirectOnAssign,
+                'openNewOnAssign'  => false,
+                'theme_id'         => $theme->getId()
+            ));
 
             $this->renderLayout();
         } catch (Mage_Core_Exception $e) {
@@ -334,7 +292,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function previewAction()
     {
-        $this->_hasRedirectOnAssign = false;
         $this->launchAction();
     }
 
@@ -371,7 +328,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     protected function _setTitle()
     {
-        $this->_title($this->__('System'))->_title($this->__('Design'))->_title($this->__('Editor'));
+        $this->_title($this->__('Editor'));
     }
 
     /**
@@ -486,13 +443,27 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
-     * Pass CSS files data to the block who need it for rendering
+     * Pass data to the Tools panel blocks that is needed it for rendering
      *
      * @param Mage_Core_Model_Theme $theme
+     * @param int $mode
      * @return Mage_DesignEditor_Adminhtml_System_Design_EditorController
      */
-    protected function _configureToolsBlock($theme)
+    protected function _configureToolsBlocks($theme, $mode)
     {
+        /** @var $toolsBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools */
+        $toolsBlock = $this->getLayout()->getBlock('design_editor_tools');
+        if ($toolsBlock) {
+            $toolsBlock->setMode($mode);
+        }
+
+        /** @var $customTabBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom */
+        $customTabBlock = $this->getLayout()->getBlock('design_editor_tools_code_custom');
+        if ($customTabBlock) {
+            $theme->setCustomization($this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Css'));
+            $customTabBlock->setTheme($theme);
+        }
+
         /** @var $customTabBlock Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom */
         $customTabBlock = $this->getLayout()->getBlock('design_editor_tools_code_custom');
         if ($customTabBlock) {
@@ -540,6 +511,71 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
+     * Pass data to the Toolbar panel blocks that is needed for rendering
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @param Mage_Core_Model_Theme $editableTheme
+     * @param int $mode
+     * @return Mage_DesignEditor_Adminhtml_System_Design_EditorController
+     */
+    protected function _configureToolbarBlocks($theme, $editableTheme, $mode)
+    {
+        /** @var $toolbarBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons */
+        $toolbarBlock = $this->getLayout()->getBlock('design_editor_toolbar_buttons');
+        $toolbarBlock->setThemeId($editableTheme->getId())->setVirtualThemeId($theme->getId())
+            ->setMode($mode);
+
+        /** @var $saveButtonBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save */
+        $saveButtonBlock = $this->getLayout()->getBlock('design_editor_toolbar_buttons_save');
+        if ($saveButtonBlock) {
+            $saveButtonBlock->setTheme($theme)
+                ->setMode($mode);
+        }
+
+        /** @var $hierarchyBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_HandlesHierarchy */
+        $hierarchyBlock = $this->getLayout()->getBlock('design_editor_toolbar_handles_hierarchy');
+        if ($hierarchyBlock) {
+            $customLayoutParams = array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND);
+
+            /** @var $customFrontLayout Mage_Core_Model_Layout_Merge */
+            $customFrontLayout = $this->_objectManager->create('Mage_Core_Model_Layout_Merge',
+                array('arguments' => $customLayoutParams)
+            );
+            $pageTypes = $customFrontLayout->getPageHandlesHierarchy();
+            $hierarchyBlock->setHierarchy($pageTypes)
+                ->setMode($mode);
+        }
+
+        /** @var $viewOptionsBlock Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ViewOptions */
+        $viewOptionsBlock = $this->getLayout()->getBlock('design_editor_toolbar_view_options');
+        if ($viewOptionsBlock) {
+            $viewOptionsBlock->setMode($mode);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Mage_Core_Model_Theme $editableTheme
+     * @param int $mode
+     * @return Mage_DesignEditor_Adminhtml_System_Design_EditorController
+     */
+    protected function _configureEditorBlock($editableTheme, $mode)
+    {
+        /** @var $editorBlock Mage_DesignEditor_Block_Adminhtml_Editor_Container */
+        $editorBlock = $this->getLayout()->getBlock('design_editor');
+        if ($mode == Mage_DesignEditor_Model_State::MODE_NAVIGATION) {
+            $currentUrl = $this->_getCurrentUrl();
+        } else {
+            $currentUrl = $this->_getCurrentHandleUrl();
+        }
+        $editorBlock->setFrameUrl($currentUrl);
+        $editorBlock->setTheme($editableTheme);
+
+        return $this;
+    }
+
+    /**
      * Check whether is customized themes in database
      *
      * @return bool
@@ -579,7 +615,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             }
             /** @var $storeViewBlock Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */
             $storeViewBlock = $this->getLayout()->getBlock('theme.selector.storeview');
-            $storeViewBlock->setData('redirectToVdeOnAssign', $this->_hasRedirectOnAssign);
+            $storeViewBlock->setData('redirectOnAssign', true);
             $this->renderLayout();
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('Cannot load list of themes.'));

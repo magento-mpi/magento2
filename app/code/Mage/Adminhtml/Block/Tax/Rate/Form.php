@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Backend_Block_Widget_Form
 {
     const FORM_ELEMENT_ID = 'rate-form';
 
@@ -150,6 +150,12 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
         }
         $form->setValues($rateData);
         $this->setForm($form);
+
+        $this->setChild(
+            'form_after',
+            $this->getLayout()->createBlock('Mage_Core_Block_Template')
+                ->setTemplate('Mage_Adminhtml::tax/rate/js.phtml')
+        );
 
         return parent::_prepareForm();
     }

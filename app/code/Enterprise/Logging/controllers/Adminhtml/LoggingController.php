@@ -18,12 +18,10 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function indexAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Admin Actions Logs'))
-             ->_title($this->__('Report'));
+        $this->_title($this->__('Report'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('Enterprise_Logging::system_enterprise_logging');
+        $this->_setActiveMenu('Enterprise_Logging::system_enterprise_logging_events');
         $this->renderLayout();
     }
 
@@ -41,10 +39,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function detailsAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Admin Actions Logs'))
-             ->_title($this->__('Report'))
-             ->_title($this->__('View Entry'));
+        $this->_title($this->__('View Entry'));
 
         $eventId = $this->getRequest()->getParam('event_id');
         $model   = Mage::getModel('Enterprise_Logging_Model_Event')
@@ -56,7 +51,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
         Mage::register('current_event', $model);
 
         $this->loadLayout();
-        $this->_setActiveMenu('Enterprise_Logging::system_enterprise_logging');
+        $this->_setActiveMenu('Enterprise_Logging::system_enterprise_logging_events');
         $this->renderLayout();
     }
 
@@ -85,12 +80,10 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     public function archiveAction()
     {
-        $this->_title($this->__('System'))
-             ->_title($this->__('Admin Actions Logs'))
-             ->_title($this->__('Archive'));
+        $this->_title($this->__('Archive'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('Enterprise_Logging::system_enterprise_logging');
+        $this->_setActiveMenu('Enterprise_Logging::system_enterprise_logging_backups');
         $this->renderLayout();
     }
 

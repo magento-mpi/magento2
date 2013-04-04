@@ -16,4 +16,4 @@ dev/tests/functional/testsuite/Enterprise/Mage/AddBySku/ProductTest.php
 dev/tests/functional/testsuite/Enterprise/Mage/Attributes/CustomerAddressAttribute/Create/AttachmentFileTest.php
 dev/tests/functional/testsuite/Enterprise/Mage/Store/SingleStoreMode/EnableSingleStoreModeTest.php
 dev/tests/functional/testsuite/Enterprise/Mage/Tags/RewardPointsTest.php
-dev/tests/functional/testsuite/Enterprise/Mage/Various/ChangingStoreViewOnFrontend.php
+dev/tests/functional/testsuite/Enterprise/Mage/Various/ChangingStoreViewOnFrontendTest.php

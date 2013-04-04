@@ -12,7 +12,7 @@
 manage_sales_checkout_terms_conditions:
     mca: checkout_agreement/
     click_xpath: //div[@class='submenu']//a[contains(@href, 'checkout_agreement/')]
-    title: Terms and Conditions / Sales / Magento Admin
+    title: Terms and Conditions / Settings / Stores / Magento Admin
     uimap:
         form: &salesCheckoutTermsConditions
             fieldsets:
@@ -45,7 +45,7 @@ manage_sales_checkout_terms_conditions:
 # Create new condition agreement
 create_condition:
     mca: checkout_agreement/new/
-    title: New Condition / Terms and Conditions / Sales / Magento Admin
+    title: New Condition / Terms and Conditions / Settings / Stores / Magento Admin
     uimap:
         form: &salesNewCondition
             fieldsets:
@@ -64,19 +64,19 @@ create_condition:
                             store_view: //select[@name='stores[]']
                         required: [condition_name, status, show_content_as, store_view, checkbox_text, content]
         buttons:
-            back: //p[@class='form-buttons']//button[span='Back']
-            reset: //p[@class='form-buttons']//button[span='Reset']
+            back: //div[@class='page-actions']//button[span='Back']
+            reset: //div[@class='page-actions']//button[span='Reset']
             save_condition: //button[@data-ui-id='checkout-agreement-edit-save-button']
         messages: *conditionMessages
 
 edit_condition:
     mca: checkout_agreement/edit/id/%id%/
-    title: %elementTitle% / Terms and Conditions / Sales / Magento Admin
+    title: %elementTitle% / Terms and Conditions / Settings / Stores / Magento Admin
     uimap:
         form: *salesNewCondition
         buttons:
-            back: //p[@class='form-buttons']//button[span='Back']
-            reset: //p[@class='form-buttons']//button[span='Reset']
+            back: //div[@class='page-actions']//button[span='Back']
+            reset: //div[@class='page-actions']//button[span='Reset']
             delete_condition: //button[@id='delete']
             save_condition: //button[@data-ui-id='checkout-agreement-edit-save-button']
         messages: *conditionMessages

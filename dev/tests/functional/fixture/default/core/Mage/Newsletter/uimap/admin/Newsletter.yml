@@ -12,7 +12,7 @@
 newsletter_subscribers:
     mca: newsletter_subscriber/
     click_xpath: //ul[@id='nav']//a[contains(@href, '/newsletter_subscriber/')]
-    title: Newsletter Subscribers / Newsletter / Magento Admin
+    title: Newsletter Subscribers / Communications / Marketing / Magento Admin
     uimap:
         form: &searchSubscribers
             fieldsets:
@@ -54,7 +54,7 @@ newsletter_subscribers:
 newsletter_templates:
     mca: newsletter_template/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'newsletter_template/')]
-    title: Newsletter Templates / Newsletter / Magento Admin
+    title: Newsletter Templates / Communications / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -87,7 +87,7 @@ newsletter_templates:
 # 'New Newsletter Template' page
 newsletter_template_new:
     mca: newsletter_template/new/
-    title: New Template / Newsletter Templates / Newsletter / Magento Admin
+    title: New Template / Newsletter Templates / Communications / Marketing / Magento Admin
     uimap:
         form: &newsletterEditForm
             fieldsets:
@@ -112,12 +112,12 @@ newsletter_template_new:
 
         messages:
             empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field.') and not(contains(@style,'display: none;'))]"
-            invalid_email: //div[@id='advice-validate-email-sender_email' and contains(.,'Please enter a valid email address. For example johndoe@domain.com.')]
+            invalid_email: //label[@class='mage-error' and contains(.,'Please enter a valid email address. For example johndoe@domain.com.')]
 
 # Newsletter edit template page
 edit_news_template:
     mca: newsletter_template/edit/id/%id%/
-    title: %elementTitle% / Newsletter Templates / Newsletter / Magento Admin
+    title: %elementTitle% / Newsletter Templates / Communications / Marketing / Magento Admin
     uimap:
         form: *newsletterEditForm
         buttons:
@@ -133,7 +133,7 @@ edit_news_template:
 newsletter_queue:
     mca: newsletter_queue/
     click_xpath: //*[@class='navigation']//a[contains(@href, '/newsletter_queue/')]
-    title: Newsletter Queue / Newsletter / Magento Admin
+    title: Newsletter Queue / Communications / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -161,7 +161,7 @@ newsletter_queue:
 # Newsletter Newsletter Queue edit page
 newsletter_queue_edit:
     mca: newsletter_queue/edit/template_id/%template_id%/
-    title: Edit Queue / Newsletter Queue / Newsletter / Magento Admin
+    title: Edit Queue / Newsletter Queue / Communications / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -186,7 +186,7 @@ newsletter_queue_edit:
 newsletter_problem_reports:
     mca: newsletter_problem/
     click_xpath: //*[@class='navigation']//a[contains(@href, '/newsletter_problem/')]
-    title: Newsletter Problems / Newsletter / Magento Admin
+    title: Newsletter Problems / Marketing / Reports / Magento Admin
     uimap:
         form:
             fieldsets:

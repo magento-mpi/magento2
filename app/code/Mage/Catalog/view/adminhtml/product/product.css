@@ -248,7 +248,7 @@
     height: auto;
     margin: auto;
     overflow: hidden;
-    background: #fff url(../mui/images/ajax-loader-big.gif) no-repeat 50% 50%;
+    background: #fff url(../images/ajax-loader-big.gif) no-repeat 50% 50%;
     z-index: 5;
     text-indent: -999em;
 }
@@ -348,18 +348,25 @@
     color: #a29c94;
     font: 12px/1.333 Arial, Verdana, sans-serif;
     text-decoration: underline;
-    margin: 0 0 42px 0;
+    margin: 0 0 46px 0;
 }
 
-.image-panel-controls .fieldset-alt {
+.image-panel-controls .fieldset-image-panel {
     padding: 0 5px 0 0;
 }
 
-.image-panel-controls .fieldset-alt .field {
-    margin-bottom: 25px;
+.image-panel-controls .fieldset-image-panel .field {
+    margin-bottom: 30px;
 }
 
-.image-panel-controls .fieldset-alt .field > .control,
+.image-panel-controls .fieldset-image-panel .label {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+    padding-top: 0;
+}
+
+.image-panel-controls .fieldset-image-panel .field > .control,
 .image-panel-controls textarea {
     width: 100%;
     resize: vertical;
@@ -490,6 +497,10 @@
     margin-bottom: 23px;
 }
 
+#configurable-attributes-container .col-name {
+    width: 65%;
+}
+
 #configurable-attributes-container .col-include {
     width: 80px;
 }
@@ -505,6 +516,12 @@
 
 #configurable-attributes-container .field-change-pricing .field {
     float: left;
+}
+
+@media screen and (max-width: 960px) {
+    [class^="fields-group-"] .field {
+        width: auto !important;
+    }
 }
 
 #configurable-attributes-container .field-pricing-value .control {
@@ -589,7 +606,7 @@
 }
 
 #product-variations-matrix .col-name > input {
-    width: 75%;
+    width: 88%;
 }
 
 #product-variations-matrix .col-actions {
@@ -743,4 +760,7 @@
 
 .tiers_table .col-price {
     width: 15%;
+}
+.new-variation-set {
+    margin-left: 2.127659574%;
 }

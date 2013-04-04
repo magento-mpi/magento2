@@ -22,21 +22,6 @@ abstract class Magento_Test_TestCase_IntegrityAbstract extends PHPUnit_Framework
     protected $_enabledModules = null;
 
     /**
-     * Available themes list on filesystem
-     *
-     * @var array
-     */
-    protected static $_themeItems;
-
-    /**
-     * Clean themes list
-     */
-    public static function tearDownAfterClass()
-    {
-        self::$_themeItems = null;
-    }
-
-    /**
      * Returns array of enabled modules
      *
      * @return array
@@ -73,20 +58,17 @@ abstract class Magento_Test_TestCase_IntegrityAbstract extends PHPUnit_Framework
     /**
      * Returns flat array of themes currently located in system
      *
-     * @return array
+     * @return Mage_Core_Model_Theme[]
      */
     protected function _getDesignThemes()
     {
-        if (!self::$_themeItems) {
-            self::$_themeItems = array();
-            /** @var $themeCollection Mage_Core_Model_Theme_Collection */
-            $themeCollection = Mage::getObjectManager()->get('Mage_Core_Model_Theme_Collection');
-            $themeCollection->addDefaultPattern();
-            /** @var $theme Mage_Core_Model_Theme */
-            foreach ($themeCollection as $theme) {
-                self::$_themeItems[$theme->getFullPath()] = $theme;
-            }
+        $themeItems = array();
+        /** @var $themeCollection Mage_Core_Model_Theme_Collection */
+        $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Resource_Theme_Collection');
+        /** @var $theme Mage_Core_Model_Theme */
+        foreach ($themeCollection as $theme) {
+            $themeItems[$theme->getId()] = $theme;
         }
-        return self::$_themeItems;
+        return $themeItems;
     }
 }

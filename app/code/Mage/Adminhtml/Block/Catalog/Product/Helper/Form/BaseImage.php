@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
     {
         $htmlId = $this->_coreHelper->escapeHtml($this->getHtmlId());
         $uploadUrl = $this->_coreHelper->escapeHtml($this->_getUploadUrl());
-        $spacerImage = Mage::getDesign()->getViewFileUrl('Mage_Backend::images/spacer.gif');
+        $spacerImage = Mage::getDesign()->getViewFileUrl('images/spacer.gif');
         /** @var $product Mage_Catalog_Model_Product */
         $html = <<<HTML
 <div id="{$htmlId}-container" class="images"

@@ -98,7 +98,7 @@
                     over: !config.open ? this._hoverEffects : $.noop,
                     out: !config.close ? this._leaveEffects : $.noop
                 }))
-                .on('hover', function() {
+                .on('click', function() {
                     $(this)
                         .addClass('recent')
                         .siblings('.level-0')
@@ -375,6 +375,9 @@
             categoriesConfig: {
                 '[data-ui-id="menu-mage-adminhtml-system"]': {
                     open: 'click'
+                },
+                '[data-ui-id="menu-mage-adminhtml-stores"]': {
+                    open: 'click'
                 }
             }
         });
@@ -399,17 +402,21 @@
         });
 
         $('.element-color-picker input')
-            .on('focus', function() {
-                $(this).siblings('.color-box').find('.farbtastic').show();
-            })
             .on('blur', function() {
-                $(this).siblings('.color-box').find('.farbtastic').hide();
+                $(this).siblings('.color-box')
+                    .removeClass('active')
+                    .find('.farbtastic').hide();
                 $(this).trigger('change.quickStyleElement');
             });
 
         $('.color-box')
-            .on('click', function() {
-                $(this).siblings('input').trigger('focus');
+            .on('click.showColorPicker', function() {
+                $(this)
+                    .addClass('active')
+                    .siblings('input').focus();
+                $(this)
+                    .find('.farbtastic')
+                        .show();
             });
 
         switcherForIe8();

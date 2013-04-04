@@ -28,8 +28,7 @@ class Enterprise_TargetRule_Adminhtml_TargetruleController extends Mage_Adminhtm
      */
     public function indexAction()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Rule-based Product Relations'));
+        $this->_title($this->__('Rule-based Product Relations'));
 
         $this->_initAction();
         $this->renderLayout();
@@ -59,8 +58,7 @@ class Enterprise_TargetRule_Adminhtml_TargetruleController extends Mage_Adminhtm
      */
     public function editAction()
     {
-        $this->_title($this->__('Catalog'))
-             ->_title($this->__('Rule-based Product Relations'));
+        $this->_title($this->__('Rule-based Product Relations'));
 
         /* @var $model Enterprise_TargetRule_Model_Rule */
         $model  = Mage::getModel('Enterprise_TargetRule_Model_Rule');
