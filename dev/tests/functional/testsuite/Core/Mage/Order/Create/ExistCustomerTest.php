@@ -36,6 +36,9 @@ class Core_Mage_Order_Create_ExistCustomerTest extends Mage_Selenium_TestCase
     public function assertPreConditions()
     {
         $this->loginAdminUser();
+    }
+
+    /**
      * @return string
      * @test
      */

@@ -37,6 +37,9 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
+    }
+
+    /**
      * <p>Creating Simple product</p>
      *
      * @return string
