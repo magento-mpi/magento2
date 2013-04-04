@@ -72,7 +72,8 @@ class Enterprise_Mage_ImportExportScheduled_Customers_ExportFormTest extends Mag
         // Step 1, 2, 3, 4 ,5
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
-                'entity_type' => 'Customer Finances'));
+                'entity_type' => 'Customer Finances',
+                'file_path'  => 'var/export'));
         $this->importExportScheduledHelper()->createExport($exportData);
         // Step 10
         $this->assertMessagePresent('success', 'success_saved_export');
@@ -95,7 +96,9 @@ class Enterprise_Mage_ImportExportScheduled_Customers_ExportFormTest extends Mag
         // Precondition
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
-                'entity_type' => 'Customers Main File'));
+                'entity_type' => 'Customers Main File',
+                'file_path'  => 'var/export'
+            ));
         $this->importExportScheduledHelper()->createExport($exportData);
         $this->assertMessagePresent('success', 'success_saved_export');
         //Step 1
@@ -167,7 +170,8 @@ class Enterprise_Mage_ImportExportScheduled_Customers_ExportFormTest extends Mag
         // Precondition
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
-                'entity_type' => 'Customers Main File'));
+                'entity_type' => 'Customers Main File',
+                'file_path'  => 'var/export'));
         $this->importExportScheduledHelper()->createExport($exportData);
         $this->assertMessagePresent('success', 'success_saved_export');
         // Step 1, 2
@@ -194,7 +198,8 @@ class Enterprise_Mage_ImportExportScheduled_Customers_ExportFormTest extends Mag
         // Precondition
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
-                'entity_type' => 'Customers Main File'));
+                'entity_type' => 'Customers Main File',
+                'file_path'  => 'var/export'));
         $this->importExportScheduledHelper()->createExport($exportData);
         $this->assertMessagePresent('success', 'success_saved_export');
         // Step 1, 2

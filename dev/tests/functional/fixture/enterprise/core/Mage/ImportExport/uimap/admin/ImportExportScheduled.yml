@@ -116,8 +116,8 @@ scheduled_importexport_add:
                             text_filter_from: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-range')][1]
                             text_filter_to: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-range')][2]
                         buttons:
-                            reset_filter: //table[@class='actions']//button[@title='Reset Filter']
-                            search: //table[@class='actions']//button[@title='Search']
+                            reset_filter: //button[@title='Reset Filter']
+                            search: //button[@title='Search']
                         dropdowns:
                             select_filter: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//select[contains(@class, 'select-export-filter')]
         buttons:
@@ -129,6 +129,6 @@ scheduled_importexport_add:
 
 scheduled_importexport_edit:
     mca: scheduled_operation/edit/id/%id%/
-    title: Edit Scheduled %elementTitle% / Scheduled Imports/Exports / Data Transfer / System / Magento Admin
+    title: Edit Scheduled %type% / Scheduled Imports/Exports / Data Transfer / System / Magento Admin
     uimap: *createImportExport
 
