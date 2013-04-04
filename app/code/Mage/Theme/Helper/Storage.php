@@ -75,20 +75,20 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     protected $_session;
 
     /**
-     * @var Mage_Core_Model_Theme_Factory
+     * @var Mage_Core_Model_Theme_FlyweightFactory
      */
     protected $_themeFactory;
 
     /**
      * @param Magento_Filesystem $filesystem
      * @param Mage_Backend_Model_Session $session
-     * @param Mage_Core_Model_Theme_Factory $themeFactory
+     * @param Mage_Core_Model_Theme_FlyweightFactory $themeFactory
      * @param Mage_Core_Helper_Context $context
      */
     public function __construct(
         Magento_Filesystem $filesystem,
         Mage_Backend_Model_Session $session,
-        Mage_Core_Model_Theme_Factory $themeFactory,
+        Mage_Core_Model_Theme_FlyweightFactory $themeFactory,
         Mage_Core_Helper_Context $context
     ) {
         parent::__construct($context);
@@ -164,8 +164,8 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     protected function _getTheme()
     {
         $themeId = $this->_getRequest()->getParam(self::PARAM_THEME_ID);
-        $theme = $this->_themeFactory->create();
-        if (!$themeId || $themeId && !$theme->load($themeId)->getId()) {
+        $theme = $this->_themeFactory->get($themeId);
+        if (!$themeId || !$theme || $themeId && !$theme->getId()) {
             throw new InvalidArgumentException('Theme was not found.');
         }
         return $theme;

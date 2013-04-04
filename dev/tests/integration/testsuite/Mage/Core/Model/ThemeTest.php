@@ -35,10 +35,9 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         $designPath = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'design';
         $themePath = implode(DS, array('frontend', 'default', 'default', 'theme.xml'));
 
-        /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
-        $theme = $themeModel->getCollectionFromFilesystem()
-            ->setBaseDir($designPath)
+        /** @var $themeCollection Mage_Core_Model_Theme_Collection */
+        $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Collection');
+        $theme = $themeCollection->setBaseDir($designPath)
             ->addTargetPattern($themePath)
             ->getFirstItem();
 
@@ -88,21 +87,6 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             'preview_image'        => 'images/preview.png',
             'type'                 => Mage_Core_Model_Theme::TYPE_VIRTUAL
         );
-    }
-
-    /**
-     * Test is theme present in file system
-     *
-     * @magentoAppIsolation enabled
-     * @covers Mage_Core_Model_Theme::isPresentInFilesystem
-     */
-    public function testIsPresentInFilesystem()
-    {
-        /** @var $themeModel Mage_Core_Model_Theme */
-        $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
-        $themeModel->setData($this->_getThemeValidData());
-
-        $this->assertTrue(!$themeModel->isPresentInFilesystem());
     }
 
     public function testGetLabelsCollection()

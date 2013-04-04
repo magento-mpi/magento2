@@ -10,10 +10,8 @@
 
 /**
  * Theme Image model class
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_Core_Model_Theme_Image extends Varien_Object
+class Mage_Core_Model_Theme_Image
 {
     /**
      * Preview image width
@@ -26,19 +24,9 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
     const PREVIEW_IMAGE_HEIGHT = 800;
 
     /**
-     * @var Mage_Core_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @var Magento_Filesystem
      */
     protected $_filesystem;
-
-    /**
-     * @var Mage_Core_Model_Theme
-     */
-    protected $_theme;
 
     /**
      * @var Mage_Core_Model_Image_Factory
@@ -46,166 +34,56 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
     protected $_imageFactory;
 
     /**
+     * @var Mage_Core_Model_Theme_Image_UploaderProxy
+     */
+    protected $_uploader;
+
+    /**
+     * @var Mage_Core_Model_Theme_Image_Path
+     */
+    protected $_themeImagePath;
+
+    /**
+     * @var Mage_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
+     * @var Mage_Core_Model_Theme
+     */
+    protected $_theme;
+
+    /**
      * Initialize dependencies
      *
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Helper_Data $helper
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Image_Factory $imageFactory
+     * @param Mage_Core_Model_Theme_Image_UploaderProxy $uploader
+     * @param Mage_Core_Model_Theme_Image_Path $themeImagePath
+     * @param Mage_Core_Model_Logger $logger
+     * @param Mage_Core_Model_Theme $theme
      */
     public function __construct(
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Helper_Data $helper,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_Image_Factory $imageFactory
+        Mage_Core_Model_Image_Factory $imageFactory,
+        Mage_Core_Model_Theme_Image_UploaderProxy $uploader,
+        Mage_Core_Model_Theme_Image_Path $themeImagePath,
+        Mage_Core_Model_Logger $logger,
+        Mage_Core_Model_Theme $theme = null
     ) {
-        $this->_objectManager = $objectManager;
-        $this->_helper = $helper;
         $this->_filesystem = $filesystem;
         $this->_imageFactory = $imageFactory;
-    }
-
-    /**
-     * Setter for theme object
-     *
-     * @param Mage_Core_Model_Theme $theme
-     * @return Mage_Core_Model_Theme_Image
-     */
-    public function setTheme($theme)
-    {
+        $this->_uploader = $uploader;
+        $this->_themeImagePath = $themeImagePath;
+        $this->_logger = $logger;
         $this->_theme = $theme;
-        return $this;
-    }
-
-    /**
-     * Getter for theme object
-     *
-     * @return Mage_Core_Model_Theme
-     * @throws BadMethodCallException
-     */
-    public function getTheme()
-    {
-        if (null === $this->_theme) {
-            throw new BadMethodCallException('Theme was not set');
-        }
-        return $this->_theme;
-    }
-
-    /**
-     * Getter for theme preview image
-     *
-     * @return string
-     */
-    public function getPreviewImage()
-    {
-        return $this->getTheme()->getPreviewImage();
-    }
-
-    /**
-     * Setter for theme preview image
-     *
-     * @param string $imageName
-     * @return Mage_Core_Model_Theme_Image
-     */
-    public function setPreviewImage($imageName)
-    {
-        $this->getTheme()->setPreviewImage($imageName);
-        return $this;
-    }
-
-    /**
-     * Save preview image
-     *
-     * @return Mage_Core_Model_Theme_Image
-     */
-    public function savePreviewImage()
-    {
-        if (!$this->getPreviewImage() || !$this->getTheme()->getThemeDirectory()) {
-            return $this;
-        }
-        $currentWorkingDir = getcwd();
-
-        chdir($this->getTheme()->getThemeDirectory());
-
-        $imagePath = realpath($this->getPreviewImage());
-
-        if (0 === strpos($imagePath, $this->getTheme()->getThemeDirectory())) {
-            $this->createPreviewImage($imagePath);
-        }
-
-        chdir($currentWorkingDir);
-
-        return $this;
-    }
-
-    /**
-     * Get preview image directory url
-     *
-     * @return string
-     */
-    public function getPreviewImageDirectoryUrl()
-    {
-        /** @var $app Mage_Core_Model_App */
-        $app = $this->_objectManager->get('Mage_Core_Model_App');
-        return $app->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . $this->_getPreviewPath() . '/';
-    }
-
-    /**
-     * Get path for preview images
-     *
-     * @return string
-     */
-    private function _getPreviewPath()
-    {
-        return 'theme/preview';
-    }
-
-    /**
-     * Upload and create preview image
-     *
-     * @param string $scope the request key for file
-     * @return bool
-     * @throws Mage_Core_Exception
-     */
-    public function uploadPreviewImage($scope)
-    {
-        $adapter  = new Zend_File_Transfer_Adapter_Http();
-        if (!$adapter->isUploaded($scope)) {
-            return false;
-        }
-        if (!$adapter->isValid($scope)) {
-            Mage::throwException($this->_helper->__('Uploaded image is not valid'));
-        }
-        $upload = new Varien_File_Uploader($scope);
-        $upload->setAllowCreateFolders(true);
-        $upload->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png', 'xbm', 'wbmp'));
-        $upload->setAllowRenameFiles(true);
-        $upload->setFilesDispersion(false);
-
-        /** @var $dir Mage_Core_Model_Dir */
-        $dir = $this->_objectManager->get('Mage_Core_Model_Dir');
-        $tmpDir = $dir->getDir(Mage_Core_Model_Dir::MEDIA)
-            . DIRECTORY_SEPARATOR . 'theme' . DIRECTORY_SEPARATOR . 'origin';
-
-        if (!$upload->checkAllowedExtension($upload->getFileExtension())) {
-            Mage::throwException($this->_helper->__('Invalid image file type.'));
-        }
-
-        if (!$upload->save($tmpDir)) {
-            Mage::throwException($this->_helper->__('Image can not be saved.'));
-        }
-
-        $fileName = $tmpDir . DIRECTORY_SEPARATOR . $upload->getUploadedFileName();
-        $this->removePreviewImage()->createPreviewImage($fileName);
-        $this->_filesystem->delete($fileName);
-        return true;
     }
 
     /**
      * Create preview image
      *
      * @param string $imagePath
-     * @return string
+     * @return $this
      */
     public function createPreviewImage($imagePath)
     {
@@ -218,58 +96,67 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
         $image->resize(self::PREVIEW_IMAGE_WIDTH, self::PREVIEW_IMAGE_HEIGHT);
 
         $imageName = uniqid('preview_image_') . image_type_to_extension($image->getMimeType());
-        $image->save($this->_getImagePathPreview(), $imageName);
-
-        $this->setPreviewImage($imageName);
-
-        return $imageName;
+        $image->save($this->_themeImagePath->getImagePreviewDirectory(), $imageName);
+        $this->_theme->setPreviewImage($imageName);
+        return $this;
     }
 
     /**
-     * Get directory path for preview image
+     * Create preview image duplicate
      *
-     * @return string
-     */
-    protected function _getImagePathPreview()
-    {
-        /** @var $dir Mage_Core_Model_Dir */
-        $dir = $this->_objectManager->get('Mage_Core_Model_Dir');
-        return $dir->getDir(Mage_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR
-            . str_replace('/', DIRECTORY_SEPARATOR, $this->_getPreviewPath());
-    }
-
-    /**
-     * Create preview image copy
-     *
-     * @return Mage_Core_Model_Theme_Image
+     * @return $this
      */
     public function createPreviewImageCopy()
     {
-        $filePath = $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $this->getPreviewImage();
-        $destinationFileName = Varien_File_Uploader::getNewFileName($filePath);
+        $previewDir = $this->_themeImagePath->getImagePreviewDirectory();
+        $destinationFileName = Varien_File_Uploader::getNewFileName(
+            $previewDir . DIRECTORY_SEPARATOR . $this->_theme->getPreviewImage()
+        );
         try {
             $this->_filesystem->copy(
-                $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $this->getPreviewImage(),
-                $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $destinationFileName
+                $previewDir . DIRECTORY_SEPARATOR . $this->_theme->getPreviewImage(),
+                $previewDir . DIRECTORY_SEPARATOR . $destinationFileName
             );
-            $this->setPreviewImage($destinationFileName);
         } catch (Exception $e) {
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_logger->logException($e);
         }
+        $this->_theme->setPreviewImage($destinationFileName);
         return $this;
     }
 
     /**
      * Delete preview image
      *
-     * @return Mage_Core_Model_Theme_Image
+     * @return bool
      */
     public function removePreviewImage()
     {
-        $previewImage = $this->getPreviewImage();
-        $this->setPreviewImage('');
+        $previewImage = $this->_theme->getPreviewImage();
+        $this->_theme->setPreviewImage(null);
         if ($previewImage) {
-            $this->_filesystem->delete($this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $previewImage);
+            return $this->_filesystem->delete(
+                $this->_themeImagePath->getImagePreviewDirectory() . DIRECTORY_SEPARATOR . $previewImage
+            );
+        }
+        return false;
+    }
+
+    /**
+     * Upload and create preview image
+     *
+     * @param string $scope the request key for file
+     * @return $this
+     */
+    public function uploadPreviewImage($scope)
+    {
+        if ($this->_theme->getPreviewImage()) {
+            $this->removePreviewImage();
+        }
+        $tmpDirPath = $this->_themeImagePath->getTemporaryDirectory();
+        $tmpFilePath = $this->_uploader->uploadPreviewImage($scope, $tmpDirPath);
+        if ($tmpFilePath) {
+            $this->createPreviewImage($tmpFilePath);
+            $this->_filesystem->delete($tmpFilePath);
         }
         return $this;
     }
@@ -281,20 +168,10 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
      */
     public function getPreviewImageUrl()
     {
-        if (!$this->getPreviewImage()) {
-            return $this->_getPreviewImageDefaultUrl();
+        $previewImage = $this->_theme->getPreviewImage();
+        if ($previewImage) {
+            return $this->_themeImagePath->getPreviewImageDirectoryUrl() . $previewImage;
         }
-        return $this->getPreviewImageDirectoryUrl() . $this->getPreviewImage();
-    }
-
-    /**
-     * Return default themes preview image url
-     *
-     * @return string
-     */
-    protected function _getPreviewImageDefaultUrl()
-    {
-        return $this->_objectManager->get('Mage_Core_Model_Design_PackageInterface')
-            ->getViewFileUrl('Mage_Core::theme/default_preview.jpg');
+        return $this->_themeImagePath->getPreviewImageDefaultUrl();
     }
 }

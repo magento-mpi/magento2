@@ -267,7 +267,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             $themeCopy->save();
             $copyService->copy($theme, $themeCopy);
             $this->_getSession()->addSuccess(
-                $this->__('You saved a duplicate copy of this theme in “My Customizations.”')
+                $this->__('You saved a duplicate copy of this theme in "My Customizations."')
             );
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());

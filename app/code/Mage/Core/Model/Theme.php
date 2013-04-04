@@ -44,40 +44,24 @@
 class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     implements Mage_Core_Model_ThemeInterface, Mage_Core_Model_Theme_Customization_CustomizedInterface
 {
-    /**#@+
-     * Theme types group
-     */
-    const TYPE_PHYSICAL = 0;
-    const TYPE_VIRTUAL  = 1;
-    const TYPE_STAGING  = 2;
-    /**#@-*/
-
     /**
-     * Cache tag for empty theme
-     */
-    const CACHE_TAG_NO_THEME = 'NO_THEME';
-
-    /**
-     * Separator between theme_path elements
-     */
-    const PATH_SEPARATOR = '/';
-
-    /**
-     * Filename of view configuration
-     */
-    const FILENAME_VIEW_CONFIG = 'view.xml';
-
-    /**
-     * Labels collection array
+     * {@inheritdoc}
      *
-     * @var array
+     * @var string
      */
-    protected $_labelsCollection;
+    protected $_eventPrefix = 'theme';
 
     /**
-     * @var Magento_ObjectManager
+     * {@inheritdoc}
+     *
+     * @var string
      */
-    protected $_objectManager;
+    protected $_eventObject = 'theme';
+
+    /**
+     * @var Mage_Core_Model_Resource_Theme_File_CollectionFactory
+     */
+    protected $_fileFactory;
 
     /**
      * @var Mage_Core_Model_Theme_Factory
@@ -97,14 +81,24 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected $_themeCustomizations = array();
 
     /**
-     * @var Mage_Core_Model_Theme_Image
+     * @var Mage_Core_Model_Theme_ServiceProxy
      */
-    protected $_themeImage;
+    protected $_themeService;
 
     /**
-     * @var Mage_Core_Model_Theme_Domain_Factory
+     * @var Mage_Core_Model_Theme_FlyweightFactory
      */
     protected $_domainFactory;
+
+    /**
+     * @var Mage_Core_Model_Theme_ImageFactory
+     */
+    protected $_imageFactory;
+
+    /**
+     * @var Mage_Core_Model_Theme_Validator
+     */
+    protected $_validator;
 
     /**
      * @var Mage_Core_Model_Resource_Theme_File_Collection
@@ -123,38 +117,49 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     );
 
     /**
+     * Initialize dependencies
+     *
      * @param Mage_Core_Model_Context $context
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Theme_Factory $themeFactory
+     * @param Mage_Core_Model_Resource_Theme_File_CollectionFactory $fileFactory
+     * @param Mage_Core_Model_Theme_FlyweightFactory $themeFactory
      * @param Mage_Core_Helper_Data $helper
-     * @param Mage_Core_Model_Theme_Image $themeImage
-     * @param Mage_Core_Model_Resource_Theme $resource
+     * @param Mage_Core_Model_Theme_ServiceProxy $themeService
      * @param Mage_Core_Model_Theme_Domain_Factory $domainFactory
+     * @param Mage_Core_Model_Theme_ImageFactory $imageFactory
+     * @param Mage_Core_Model_Theme_Validator $validator
      * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Resource_Theme $resource
      * @param Mage_Core_Model_Resource_Theme_Collection $resourceCollection
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Mage_Core_Model_Context $context,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Theme_Factory $themeFactory,
+        Mage_Core_Model_Resource_Theme_File_CollectionFactory $fileFactory,
+        Mage_Core_Model_Theme_FlyweightFactory $themeFactory,
         Mage_Core_Helper_Data $helper,
-        Mage_Core_Model_Theme_Image $themeImage,
-        Mage_Core_Model_Resource_Theme $resource,
+        Mage_Core_Model_Theme_ServiceProxy $themeService,
         Mage_Core_Model_Theme_Domain_Factory $domainFactory,
+        Mage_Core_Model_Theme_ImageFactory $imageFactory,
+        Mage_Core_Model_Theme_Validator $validator,
         Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Resource_Theme $resource,
         Mage_Core_Model_Resource_Theme_Collection $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
-        $this->_objectManager = $objectManager;
+        $this->_fileFactory = $fileFactory;
         $this->_themeFactory = $themeFactory;
         $this->_helper = $helper;
+        $this->_themeService = $themeService;
         $this->_domainFactory = $domainFactory;
+        $this->_imageFactory = $imageFactory;
+        $this->_validator = $validator;
         $this->_dirs = $dirs;
-        $this->_themeImage = $themeImage->setTheme($this);
+
+        $this->addData(array(
+            'type' => self::TYPE_VIRTUAL,
+            'area' => Mage_Core_Model_App_Area::AREA_FRONTEND
+        ));
     }
 
     /**
@@ -172,34 +177,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function getThemeImage()
     {
-        return $this->_themeImage;
-    }
-
-    /**
-     * Themes collection loaded from file system configurations
-     *
-     * @return Mage_Core_Model_Theme_Collection
-     */
-    public function getCollectionFromFilesystem()
-    {
-        return $this->_objectManager->get('Mage_Core_Model_Theme_Collection');
-    }
-
-    /**
-     * Validate theme data
-     *
-     * @return Mage_Core_Model_Theme
-     * @throws Mage_Core_Exception
-     */
-    protected function _validate()
-    {
-        /** @var $validator Mage_Core_Model_Theme_Validator */
-        $validator = $this->_objectManager->get('Mage_Core_Model_Theme_Validator');
-        if (!$validator->validate($this)) {
-            $messages = $validator->getErrorMessages();
-            throw new Mage_Core_Exception(implode(PHP_EOL, reset($messages)));
-        }
-        return $this;
+        return $this->_imageFactory->create(array('theme'=> $this));
     }
 
     /**
@@ -253,17 +231,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Check theme is existing in filesystem
-     *
-     * @return bool
-     */
-    public function isPresentInFilesystem()
-    {
-        $collection = $this->getCollectionFromFilesystem()->addDefaultPattern('*')->getItems();
-        return $this->getThemePath() && isset($collection[$this->getFullPath()]);
-    }
-
-    /**
      * Check is theme has child virtual themes
      *
      * @return bool
@@ -293,7 +260,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Return path to customized theme files
+     * {@inheritdoc}
      *
      * @return string|null
      */
@@ -317,7 +284,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     public function getFiles()
     {
         if (!$this->_themeFiles) {
-            $this->_themeFiles = $this->_objectManager->create('Mage_Core_Model_Resource_Theme_File_Collection');
+            $this->_themeFiles = $this->_fileFactory->create();
             $this->_themeFiles->addThemeFilter($this);
         }
         return $this->_themeFiles;
@@ -404,15 +371,18 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Update all relations after deleting theme
+     * Validate theme data
      *
      * @return Mage_Core_Model_Theme
+     * @throws Mage_Core_Exception
      */
-    protected function _afterSave()
+    protected function _validate()
     {
-        $this->saveThemeCustomization();
-        $this->_checkAssignedThemeChanged();
-        return parent::_afterSave();
+        if (!$this->_validator->validate($this)) {
+            $messages = $this->_validator->getErrorMessages();
+            throw new Mage_Core_Exception(implode(PHP_EOL, reset($messages)));
+        }
+        return $this;
     }
 
     /**
@@ -429,44 +399,35 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     /**
      * Processing theme before deleting data
      *
-     * @return Mage_Core_Model_Theme
+     * @return $this
      * @throws Mage_Core_Exception
      */
     protected function _beforeDelete()
     {
-        /** @var $service Mage_Core_Model_Theme_Service */
-        $service = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
-        if (!$this->isDeletable() || $service->isThemeAssignedToStore($this)) {
+        if (!$this->isDeletable() || $this->_themeService->isThemeAssignedToStore($this)) {
             throw new Mage_Core_Exception($this->_helper->__('Theme isn\'t deletable.'));
         }
-        $this->getThemeImage()->removePreviewImage();
-
-        /** @var $updatesCollection Mage_Core_Model_Resource_Layout_Update_Collection */
-        $updatesCollection = $this->_objectManager->create('Mage_Core_Model_Resource_Layout_Update_Collection');
-        $updatesCollection->addThemeFilter($this->getId())->delete();
-
         return parent::_beforeDelete();
-    }
-
-    /**
-     * Check is theme assigned to store and dispatch event if that was changed
-     *
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _checkAssignedThemeChanged()
-    {
-        /** @var $service Mage_Core_Model_Theme_Service */
-        $service = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
-        if ($service->isThemeAssignedToStore($this)) {
-            $this->_eventDispatcher->dispatch('assigned_theme_changed', array('theme' => $this));
-        }
-        return $this;
     }
 
     /**
      * Update all relations after deleting theme
      *
-     * @return Mage_Core_Model_Theme
+     * @return $this
+     */
+    protected function _afterSave()
+    {
+        $this->saveThemeCustomization();
+        if ($this->_themeService->isThemeAssignedToStore($this)) {
+            $this->_eventDispatcher->dispatch('assigned_theme_changed', array($this->_eventObject => $this));
+        }
+        return parent::_afterSave();
+    }
+
+    /**
+     * Update all relations after deleting theme
+     *
+     * @return $this
      */
     protected function _afterDelete()
     {
@@ -489,54 +450,10 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
 
         $theme = null;
         if ($this->getParentId()) {
-            $theme = $this->_themeFactory->create()->load($this->getParentId());
+            $theme = $this->_themeFactory->get($this->getParentId());
         }
         $this->setParentTheme($theme);
         return $theme;
-    }
-
-    /**
-     * Save data from form
-     *
-     * @param array $themeData
-     * @return Mage_Core_Model_Theme
-     */
-    public function saveFormData($themeData)
-    {
-        if (isset($themeData['theme_id'])) {
-            $this->load($themeData['theme_id']);
-            if ($this->getId() && !$this->isEditable()) {
-                Mage::throwException($this->_helper->__('Theme isn\'t editable.'));
-            }
-        }
-        $previewImageData = array();
-        if (isset($themeData['preview_image'])) {
-            $previewImageData = $themeData['preview_image'];
-            unset($themeData['preview_image']);
-        }
-        $this->addData($themeData);
-
-        if (isset($previewImageData['delete'])) {
-            $this->getThemeImage()->removePreviewImage();
-        }
-
-        $this->getThemeImage()->uploadPreviewImage('preview_image');
-        $this->setType(self::TYPE_VIRTUAL)->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->save();
-        return $this;
-    }
-
-    /**
-     * Return cache key for current theme
-     *
-     * @return string
-     */
-    public function getCacheKey()
-    {
-        if (!$this->getId()) {
-            return self::CACHE_TAG_NO_THEME . $this->getThemePath();
-        }
-
-        return $this->getId() . $this->getThemePath();
     }
 
     /**
@@ -597,48 +514,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             $this->setThemeTitle($this->_helper->__('%s (incompatible version)', $this->getThemeTitle()));
         }
         return $this;
-    }
-
-    /**
-     * Return labels collection array
-     *
-     * @param bool|string $label add empty values to result with specific label
-     * @return array
-     */
-    public function getLabelsCollection($label = false)
-    {
-        if (!$this->_labelsCollection) {
-            /** @var $themeCollection Mage_Core_Model_Resource_Theme_Collection */
-            $themeCollection = $this->getCollection();
-            $themeCollection->setOrder('theme_title', Varien_Data_Collection::SORT_ORDER_ASC)
-                ->filterVisibleThemes()
-                ->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND)
-                ->walk('checkThemeCompatible');
-            $this->_labelsCollection = $themeCollection->toOptionArray();
-        }
-        $options = $this->_labelsCollection;
-        if ($label) {
-            array_unshift($options, array('value' => '', 'label' => $label));
-        }
-        return $options;
-    }
-
-    /**
-     * Return labels collection for backend system configuration with empty value "No Theme"
-     *
-     * @return array
-     */
-    public function getLabelsCollectionForSystemConfiguration()
-    {
-        return $this->getLabelsCollection($this->_helper->__('-- No Theme --'));
-    }
-
-    /**
-     * Clear data for clone
-     */
-    public function __clone()
-    {
-        $this->unsetData()->setOrigData();
     }
 
     /**

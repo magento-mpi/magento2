@@ -30,4 +30,34 @@ class Mage_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(2, count($collection));
     }
+
+    /**
+     * Test is theme present in file system
+     *
+     * @magentoAppIsolation enabled
+     * @covers Mage_Core_Model_Theme_Collection::hasTheme
+     */
+    public function testHasThemeInCollection()
+    {
+        /** @var $themeModel Mage_Core_Model_Theme */
+        $themeModel = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
+        $themeModel->setData(array(
+            'area'                 => 'space_area',
+            'theme_title'          => 'Space theme',
+            'theme_version'        => '2.0.0.0',
+            'parent_id'            => null,
+            'is_featured'          => false,
+            'magento_version_from' => '2.0.0.0-dev1',
+            'magento_version_to'   => '*',
+            'theme_path'           => 'default/space',
+            'preview_image'        => 'images/preview.png',
+            'type'                 => Mage_Core_Model_Theme::TYPE_VIRTUAL
+        ));
+
+        /** @var $themeCollection Mage_Core_Model_Theme_Collection */
+        $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Collection');
+        $themeCollection->addDefaultPattern('*');
+
+        $this->assertFalse($themeCollection->hasTheme($themeModel));
+    }
 }

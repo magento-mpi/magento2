@@ -100,6 +100,14 @@
             <path_to_aliases_map_file>app/etc/aliases_to_classes_map.json</path_to_aliases_map_file>
         </migration>
         <events>
+            <theme_delete_before>
+                <observers>
+                    <clean_core_related_content>
+                        <class>Mage_Core_Model_Theme_Observer</class>
+                        <method>cleanThemeRelatedContent</method>
+                    </clean_core_related_content>
+                </observers>
+            </theme_delete_before>
             <theme_registration_from_filesystem>
                 <observers>
                     <theme_registration_observer>
@@ -174,9 +182,6 @@
                     <fetchStrategy>Mage_Core_Model_Resource_Store_Collection_FetchStrategy</fetchStrategy>
                 </parameters>
             </Mage_Core_Model_Resource_Store_Collection>
-            <Mage_Core_Model_Theme_Image>
-                <shared>0</shared>
-            </Mage_Core_Model_Theme_Image>
             <Mage_Core_Model_Page_Asset_Collection>
                 <shared>0</shared>
             </Mage_Core_Model_Page_Asset_Collection>
@@ -201,6 +206,9 @@
                     <layoutCache>Mage_Core_Model_Cache_Type_Layout</layoutCache>
                 </parameters>
             </Mage_Core_Model_Theme_Service>
+            <Mage_Core_Model_Theme_Collection>
+                <shared>0</shared>
+            </Mage_Core_Model_Theme_Collection>
         </di>
     </global>
     <frontend>

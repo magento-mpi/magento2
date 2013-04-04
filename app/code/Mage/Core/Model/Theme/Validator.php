@@ -32,7 +32,7 @@ class Mage_Core_Model_Theme_Validator
      *
      * @var array
      */
-    protected $_errorMessages = array();
+    protected $_errorMessages;
 
     /**
      * Initialize validators
@@ -173,6 +173,7 @@ class Mage_Core_Model_Theme_Validator
      */
     public function validate(Varien_Object $data)
     {
+        $this->_errorMessages = array();
         foreach ($this->_dataValidators as $dataKey => $validators) {
             if (!isset($data[$dataKey]) || !$data->dataHasChangedFor($dataKey)) {
                 continue;

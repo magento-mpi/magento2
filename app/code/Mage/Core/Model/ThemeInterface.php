@@ -13,6 +13,24 @@
  */
 interface Mage_Core_Model_ThemeInterface
 {
+    /**#@+
+     * Theme types group
+     */
+    const TYPE_PHYSICAL = 0;
+    const TYPE_VIRTUAL  = 1;
+    const TYPE_STAGING  = 2;
+    /**#@-*/
+
+    /**
+     * Separator between theme_path elements
+     */
+    const PATH_SEPARATOR = '/';
+
+    /**
+     * Filename of view configuration
+     */
+    const FILENAME_VIEW_CONFIG = 'view.xml';
+
     /**
      * Retrieve code of an area a theme belongs to
      *

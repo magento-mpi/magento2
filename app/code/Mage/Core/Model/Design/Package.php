@@ -99,13 +99,6 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     protected $_resolutionPool = null;
 
     /**
-     * Array of theme model used for fallback mechanism
-     *
-     * @var array
-     */
-    protected $_themes = array();
-
-    /**
      * Module configuration reader
      *
      * @var Mage_Core_Model_Config_Modules_Reader
@@ -121,6 +114,11 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      * @var Mage_Core_Model_App_State
      */
     protected $_appState;
+
+    /**
+     * @var Mage_Core_Model_Theme_FlyweightFactory
+     */
+    protected $_themeFactory;
 
     /**
      * Store list manager
@@ -144,6 +142,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      * @param Mage_Core_Model_App_State $appState
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Core_Helper_Css $cssHelper
+     * @param Mage_Core_Model_Theme_FlyweightFactory $themeFactory
      */
     public function __construct(
         Mage_Core_Model_Dir $dirs,
@@ -152,7 +151,8 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool,
         Mage_Core_Model_App_State $appState,
         Mage_Core_Model_StoreManagerInterface $storeManager,
-        Mage_Core_Helper_Css $cssHelper
+        Mage_Core_Helper_Css $cssHelper,
+        Mage_Core_Model_Theme_FlyweightFactory $themeFactory
     ) {
         $this->_dirs = $dirs;
         $this->_moduleReader = $moduleReader;
@@ -161,6 +161,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         $this->_appState = $appState;
         $this->_storeManager = $storeManager;
         $this->_cssHelper = $cssHelper;
+        $this->_themeFactory = $themeFactory;
     }
 
     /**
@@ -190,33 +191,6 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     }
 
     /**
-     * Load design theme
-     *
-     * @param int|string $themeId
-     * @param string|null $area
-     * @return Mage_Core_Model_Theme
-     */
-    protected function _getLoadDesignTheme($themeId, $area = self::DEFAULT_AREA)
-    {
-        $key = sprintf('%s/%s', $area, $themeId);
-        if (isset($this->_themes[$key])) {
-            return $this->_themes[$key];
-        }
-
-        if (is_numeric($themeId)) {
-            $themeModel = clone $this->getDesignTheme();
-            $themeModel->load($themeId);
-        } else {
-            /** @var $collection Mage_Core_Model_Resource_Theme_Collection */
-            $collection = $this->getDesignTheme()->getCollection();
-            $themeModel = $collection->getThemeByFullPath($area . '/' . $themeId);
-        }
-        $this->_themes[$key] = $themeModel;
-
-        return $themeModel;
-    }
-
-    /**
      * Set theme path
      *
      * @param Mage_Core_Model_Theme|int|string $theme
@@ -232,7 +206,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         if ($theme instanceof Mage_Core_Model_Theme) {
             $this->_theme = $theme;
         } else {
-            $this->_theme = $this->_getLoadDesignTheme($theme, $this->getArea());
+            $this->_theme = $this->_themeFactory->get($theme, $this->getArea());
         }
 
         return $this;
@@ -313,12 +287,12 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         }
 
         if (!empty($params['themeId'])) {
-            $params['themeModel'] = $this->_getLoadDesignTheme($params['themeId'], $params['area']);
+            $params['themeModel'] = $this->_themeFactory->get($params['themeId'], $params['area']);
         } elseif (!empty($params['package']) && isset($params['theme'])) {
             $themePath = $params['package'] . '/' . $params['theme'];
-            $params['themeModel'] = $this->_getLoadDesignTheme($themePath, $params['area']);
+            $params['themeModel'] = $this->_themeFactory->get($themePath, $params['area']);
         } elseif (empty($params['themeModel']) && $params['area'] !== $this->getArea()) {
-            $params['themeModel'] = $this->_getLoadDesignTheme(
+            $params['themeModel'] = $this->_themeFactory->get(
                 $this->getConfigurationDesignTheme($params['area']),
                 $params['area']
             );

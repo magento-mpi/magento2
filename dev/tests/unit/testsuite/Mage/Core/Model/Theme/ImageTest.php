@@ -97,6 +97,7 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
         $store->expects($this->once())->method('getBaseUrl')
             ->with(Mage_Core_Model_Store::URL_TYPE_MEDIA)->will($this->returnValue('http://example.com/media/'));
         $expectedValue = 'http://example.com/media/theme/preview/';
+        /** @TODO test Mage_Core_Model_Theme_Image_Path::getPreviewImageDirectoryUrl */
         $this->assertEquals($expectedValue, $this->_model->getPreviewImageDirectoryUrl());
         return $expectedValue;
     }

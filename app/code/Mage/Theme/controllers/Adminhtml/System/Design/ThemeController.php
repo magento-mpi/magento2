@@ -115,7 +115,19 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 $themeJs->setJsOrderData($reorderJsFiles);
                 $theme->setCustomization($themeJs);
 
-                $theme->saveFormData($themeData);
+                if (isset($themeData['theme_id'])) {
+                    $theme->load($themeData['theme_id']);
+                    if ($theme->getId() && !$theme->isEditable()) {
+                        throw new Mage_Core_Exception($this->_helper->__('Theme isn\'t editable.'));
+                    }
+                }
+                $theme->addData($themeData);
+                if (isset($themeData['preview']['delete'])) {
+                    $theme->getThemeImage()->removePreviewImage();
+                }
+                $theme->getThemeImage()->uploadPreviewImage('preview');
+                $theme->setType(Mage_Core_Model_Theme::TYPE_VIRTUAL);
+                $theme->save();
                 $this->_getSession()->addSuccess($this->__('You saved the theme.'));
             }
         } catch (Mage_Core_Exception $e) {
