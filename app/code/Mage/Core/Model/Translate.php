@@ -685,7 +685,6 @@ class Mage_Core_Model_Translate
     private function getTranslateObject($initParams = null)
     {
         if (null === $this->_translateInterface) {
-            //$this->_translateInterface = $this->_translateFactory->createFromConfig($this->_translateConfig);
             if ($initParams === null) {
                 $this->_translateInterface = $this->_translateFactory->create();
             } else {
