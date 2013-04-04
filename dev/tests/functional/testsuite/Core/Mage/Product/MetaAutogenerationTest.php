@@ -152,7 +152,7 @@ class Core_Mage_Product_MetaAutoGenerationTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'success_duplicated_product');
-        $this->waitForControlEditable('field', 'general_name');
+        $this->productHelper()->openProductTab('general');
         $this->fillField('general_name', 'Name#2');
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
