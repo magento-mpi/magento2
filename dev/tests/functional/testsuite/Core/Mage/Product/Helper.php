@@ -794,10 +794,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 }
                 break;
             case 'custom_options':
-                $this->openProductTab($tabName);
-                foreach ($tabData['custom_options_data'] as $value) {
-                    $this->addCustomOption($value);
-                }
+                $this->fillCustomOptionsTab($tabData);
                 break;
             case 'downloadable_information':
                 $this->fillDownloadableInformationTab($tabData['downloadable_information_data']);
@@ -1910,20 +1907,39 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     #*                      Custom Options' Tab Helper Methods                       *
     #*********************************************************************************
     /**
+     * Fill Custom Options
+     *
+     * @param array $productData
+     *
+     */
+    public function fillCustomOptionsTab(array $productData)
+    {
+        $this->openProductTab('custom_options');
+        $orderedBlocks = array();
+        foreach ($productData['custom_options_data'] as $value) {
+            if (isset($value['custom_options_general_sort_order'])) {
+                $orderedBlocks[$value['custom_options_general_title']]= $value['custom_options_general_sort_order'];
+                unset($value['custom_options_general_sort_order']);
+            }
+            $this->addCustomOption($value);
+        }
+        $this->orderBlocks($orderedBlocks, 'optionName', 'move_option', 'custom_options_titles');
+    }
+
+    /**
      * Add Custom Option
      *
      * @param array $customOptionData
      */
     public function addCustomOption(array $customOptionData)
     {
-        $this->markTestIncomplete('MAGETWO-7167');
         $optionId = $this->getControlCount(self::UIMAP_TYPE_FIELDSET, 'custom_option_set') + 1;
         $this->addParameter('optionId', $optionId);
         $this->clickButton('add_option', false);
         $this->fillForm($customOptionData, 'custom_options');
         foreach ($customOptionData as $rowKey => $rowValue) {
             if (preg_match('/^custom_option_row/', $rowKey) && is_array($rowValue)) {
-                $rowId = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'custom_option_row');
+                $rowId = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'custom_option_row') + 1;
                 $this->addParameter('rowId', $rowId);
                 $this->clickButton('add_row', false);
                 $this->fillForm($rowValue, 'custom_options');
@@ -1940,7 +1956,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function verifyCustomOptions(array $customOptionData)
     {
-        $this->markTestIncomplete('MAGETWO-7167');
         $this->openProductTab('custom_options');
         $optionsQty = $this->getControlCount(self::UIMAP_TYPE_FIELDSET, 'custom_option_set');
         $needCount = count($customOptionData);
@@ -1950,16 +1965,25 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 
             return false;
         }
-        $numRow = 1;
-        foreach ($customOptionData as $value) {
-            if (is_array($value)) {
-                $optionId = $this->getCustomOptionIdByRow($numRow);
-                $this->addParameter('optionId', $optionId);
-                $this->verifyForm($value, 'custom_options');
-                $numRow++;
+        $orderedBlocks = array();
+        foreach ($customOptionData as $item) {
+            if (isset($item['custom_options_general_sort_order']) && isset($item['custom_options_general_title'])) {
+                $orderedBlocks[$item['custom_options_general_title']] = $item['custom_options_general_sort_order'];
+            } else { //in order to form proper order if bundle item doesn't have position
+                $orderedBlocks[$item['custom_options_general_sort_order']] = 'noValue';
+                unset($item['custom_options_general_sort_order']);
             }
         }
-
+        if (isset($orderedBlocks)) {
+            $this->verifyBlocksOrder($orderedBlocks, 'custom_options_titles');
+        }
+        foreach ($customOptionData as $value) {
+            if (is_array($value)) {
+                $optionId = $this->getCustomOptionIdByName($value['custom_options_general_title']);
+                $this->addParameter('optionId', $optionId);
+                $this->verifyForm($value, 'custom_options');
+            }
+        }
         return true;
     }
 
@@ -1972,7 +1996,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function getCustomOptionIdByRow($rowNum)
     {
-        $optionElements = $this->getControlElements(self::UIMAP_TYPE_FIELDSET, 'custom_option_set');
+        $optionElements = $this->getControlElements(self::FIELD_TYPE_PAGEELEMENT, 'custom_option_verify_row');
         if (!isset($optionElements[$rowNum - 1])) {
             return null;
         }
@@ -1982,7 +2006,30 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 return $value;
             }
         }
+        return null;
+    }
 
+    /**
+     * Get option id by custom option name
+     *
+     * @param string $optionName
+     *
+     * @return int|null
+     */
+    public function getCustomOptionIdByName($optionName)
+    {
+        $optionElements = $this->getControlElements(self::FIELD_TYPE_INPUT, 'custom_options_titles');
+
+        foreach ($optionElements as $element) {
+            if ($element->value() == $optionName) {
+                $optionId = $element->attribute('id');
+                foreach (explode('_', $optionId) as $value) {
+                    if (is_numeric($value)) {
+                        return $value;
+                    }
+                }
+            }
+        }
         return null;
     }
 
@@ -2008,7 +2055,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 }
             }
         }
-
         return null;
     }
 
@@ -2019,7 +2065,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function importCustomOptions(array $productData)
     {
-        $this->markTestIncomplete('MAGETWO-7167');
         $this->openProductTab('custom_options');
         $this->clickButton('import_options', false);
         $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'select_product_custom_option');
@@ -2035,7 +2080,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function deleteAllCustomOptions()
     {
-        $this->markTestIncomplete('MAGETWO-7167');
         $this->openProductTab('custom_options');
         while ($this->controlIsPresent(self::UIMAP_TYPE_FIELDSET, 'custom_option_set')) {
             $this->assertTrue($this->buttonIsPresent('delete_custom_option'),
