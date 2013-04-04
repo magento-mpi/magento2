@@ -24,7 +24,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Inits $_config property with specific files or default valid configuration files
+     * Inits $_serviceConfig property with specific files or default valid configuration files
      *
      * @param array|null $files
      */

@@ -54,7 +54,7 @@ class Mage_Core_Service_Config_SoapTest extends PHPUnit_Framework_TestCase
         $expectedResourceName,
         $message = 'Resource name was identified incorrectly by given operation.'
     ) {
-        $actualResourceName = $this->_apiConfig->getResourceNameByOperation($operation, $resourceVersion);
+        $actualResourceName = $this->_apiConfig->getServiceNameByOperation($operation, $resourceVersion);
         $this->assertEquals($expectedResourceName, $actualResourceName, $message);
     }
 
@@ -102,7 +102,7 @@ class Mage_Core_Service_Config_SoapTest extends PHPUnit_Framework_TestCase
         $expectedResourceName,
         $message = 'Resource name was identified incorrectly by given operation.'
     ) {
-        $actualResourceName = $this->_apiConfig->getResourceNameByOperation($operation, $resourceVersion);
+        $actualResourceName = $this->_apiConfig->getServiceNameByOperation($operation, $resourceVersion);
         $this->assertEquals($expectedResourceName, $actualResourceName, $message);
     }
 
@@ -130,7 +130,7 @@ class Mage_Core_Service_Config_SoapTest extends PHPUnit_Framework_TestCase
             'InvalidArgumentException',
             sprintf('The "%s" is not a valid API resource operation name.', $operation)
         );
-        $this->_apiConfig->getResourceNameByOperation($operation, $resourceVersion);
+        $this->_apiConfig->getServiceNameByOperation($operation, $resourceVersion);
     }
 
     public function dataProviderTestGetResourceNameByOperationException()

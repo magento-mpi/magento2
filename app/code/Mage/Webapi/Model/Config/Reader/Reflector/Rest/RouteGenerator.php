@@ -37,6 +37,7 @@ class Mage_Webapi_Model_Config_Reader_Reflector_Rest_RouteGenerator
      *
      * @param ReflectionMethod $methodReflection
      * @return array
+     * @throws LogicException
      */
     public function generateRestRoutes(ReflectionMethod $methodReflection)
     {

@@ -103,7 +103,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
             'Mage_Webapi_Controller_Router_Route',
             $this->_applicationConfig->getAreaFrontName() . '/:' . Mage_Webapi_Controller_Request::PARAM_API_TYPE
         );
-        $resourceName = $this->_request->getResourceName();
+        $resourceName = $this->_request->getServiceName();
         $routeToItem = $this->_routeFactory->createRoute(
             'Zend_Controller_Router_Route',
             $this->_apiConfig->getRestRouteToItem($resourceName)

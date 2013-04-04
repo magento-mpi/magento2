@@ -7,27 +7,32 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Model_Config_Rest extends Mage_Core_Service_Config
+class Mage_Webapi_Model_Config_Rest
 {
+    /** @var Mage_Core_Service_Config */
+    protected $_serviceConfig;
+
     /** @var Magento_Controller_Router_Route_Factory */
     protected $_routeFactory;
 
+    /** @var Mage_Core_Model_App */
+    protected $_application;
+
     /**
-     * Construct config with REST reader & route factory.
+     * Initialize dependencies.
      *
-     * @param Mage_Core_Service_Config_Reader $reader
-     * @param Mage_Webapi_Helper_Config $helper
-     * @param Mage_Core_Model_App $application
+     * @param Mage_Core_Service_Config $serviceConfig
      * @param Magento_Controller_Router_Route_Factory $routeFactory
+     * @param Mage_Core_Model_App $application
      */
     public function __construct(
-        Mage_Core_Service_Config_Reader $reader,
-        Mage_Webapi_Helper_Config $helper,
-        Mage_Core_Model_App $application,
-        Magento_Controller_Router_Route_Factory $routeFactory
+        Mage_Core_Service_Config $serviceConfig,
+        Magento_Controller_Router_Route_Factory $routeFactory,
+        Mage_Core_Model_App $application
     ) {
-        parent::__construct($reader, $helper, $application);
+        $this->_serviceConfig = $serviceConfig;
         $this->_routeFactory = $routeFactory;
+        $this->_application = $application;
     }
 
     /**
@@ -39,7 +44,7 @@ class Mage_Webapi_Model_Config_Rest extends Mage_Core_Service_Config
     public function getAllRestRoutes()
     {
         $routes = array();
-        foreach ($this->_data['rest_routes'] as $routePath => $routeData) {
+        foreach ($this->_getRestRoutesData() as $routePath => $routeData) {
             $routes[] = $this->_createRoute(
                 $routePath,
                 $routeData['resourceName'],
@@ -51,6 +56,20 @@ class Mage_Webapi_Model_Config_Rest extends Mage_Core_Service_Config
     }
 
     /**
+     * Retrieve routes data from service registry.
+     *
+     * @return array
+     */
+    protected function _getRestRoutesData()
+    {
+        $serviceData = $this->_serviceConfig->getData();
+        $routesData = isset($serviceData['rest_routes']) && is_array($serviceData['rest_routes'])
+            ? $serviceData['rest_routes']
+            : array();
+        return $routesData;
+    }
+
+    /**
      * Identify the shortest available route to the item of specified resource.
      *
      * @param string $resourceName
@@ -59,10 +78,10 @@ class Mage_Webapi_Model_Config_Rest extends Mage_Core_Service_Config
      */
     public function getRestRouteToItem($resourceName)
     {
-        $restRoutes = $this->_data['rest_routes'];
+        $routesData = $this->_getRestRoutesData();
         /** The shortest routes must go first. */
-        ksort($restRoutes);
-        foreach ($restRoutes as $routePath => $routeMetadata) {
+        ksort($routesData);
+        foreach ($routesData as $routePath => $routeMetadata) {
             // TODO: Ensure that it works correctly with Item and Collection
             if ($routeMetadata['httpMethod'] == Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_GET
                 && $routeMetadata['resourceName'] == $resourceName

@@ -332,9 +332,8 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
             $tag = $docBlock->getTag($annotationTag);
             if ($tag) {
                 return $tag->getContent();
-            } else {
-                return null;
             }
         }
+        return null;
     }
 }

@@ -9,8 +9,8 @@
  */
 class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Request
 {
-    /** @var Mage_Webapi_Model_Config_Rest */
-    protected $_apiConfig;
+    /** @var Mage_Core_Service_Config */
+    protected $_serviceConfig;
 
     /** @var Mage_Webapi_Helper_Data */
     protected $_apiHelper;
@@ -24,18 +24,18 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Request
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Config_Rest $apiConfig
+     * @param Mage_Core_Service_Config $serviceConfig
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Helper_Config $configHelper
      * @param Mage_Webapi_Controller_Request_Factory $requestFactory
      */
     public function __construct(
-        Mage_Webapi_Model_Config_Rest $apiConfig,
+        Mage_Core_Service_Config $serviceConfig,
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Helper_Config $configHelper,
         Mage_Webapi_Controller_Request_Factory $requestFactory
     ) {
-        $this->_apiConfig = $apiConfig;
+        $this->_serviceConfig = $serviceConfig;
         $this->_apiHelper = $helper;
         $this->_configHelper = $configHelper;
         $this->_request = $requestFactory->get();
@@ -70,7 +70,12 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Request
 //            unset($requestParams[$idParamName]);
 //        }
 
-        return $this->_apiHelper->prepareMethodParams($controllerInstance, $action, $requestParams, $this->_apiConfig);
+        return $this->_apiHelper->prepareMethodParams(
+            $controllerInstance,
+            $action,
+            $requestParams,
+            $this->_serviceConfig
+        );
     }
 
     /**

@@ -9,7 +9,7 @@
  */
 class Mage_Webapi_Controller_Action_FactoryTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Controller_Action_Factory */
+    /** @var Mage_Core_Service_Factory */
     protected $_factory;
 
     /** @var Magento_ObjectManager */
@@ -21,7 +21,7 @@ class Mage_Webapi_Controller_Action_FactoryTest extends PHPUnit_Framework_TestCa
         $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->disableOriginalConstructor()
             ->getMock();
         /** Init SUT. */
-        $this->_factory = new Mage_Webapi_Controller_Action_Factory($this->_objectManagerMock);
+        $this->_factory = new Mage_Core_Service_Factory($this->_objectManagerMock);
         parent::setUp();
     }
 

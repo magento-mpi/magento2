@@ -62,6 +62,16 @@ class Mage_Core_Service_Config
     }
 
     /**
+     * Retrieve all data about the services registered in the system.
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->_data;
+    }
+
+    /**
      * Retrieve data type details for the given type name.
      *
      * @param string $typeName
@@ -92,62 +102,19 @@ class Mage_Core_Service_Config
     }
 
     /**
-     * Identify method name by operation name.
-     *
-     * @param string $operationName
-     * @return string|bool Method name on success; false on failure
-     */
-    public function getMethodNameByOperation($operationName)
-    {
-        list($resourceName, $methodName) = $this->_parseOperationName($operationName);
-        return isset($this->_data['resources'][$resourceName]['methods'][$methodName])
-            ? $methodName : false;
-    }
-
-    /**
-     * Parse operation name to separate resource name from method name.
-     *
-     * <pre>Result format:
-     * array(
-     *      0 => 'resourceName',
-     *      1 => 'methodName'
-     * )</pre>
-     *
-     * @param string $operationName
-     * @return array
-     * @throws InvalidArgumentException In case when the specified operation name is invalid.
-     */
-    protected function _parseOperationName($operationName)
-    {
-        /** Note that '(.*?)' must not be greedy to allow regexp to match 'multiUpdate' method before 'update' */
-        $regEx = sprintf('/(%s)(.*?)$/i', implode('|', $this->getResourcesNames()));
-        if (preg_match($regEx, $operationName, $matches)) {
-            $resourceName = $matches[1];
-            $methodName = lcfirst($matches[2]);
-            $result = array($resourceName, $methodName);
-            return $result;
-        }
-        throw new InvalidArgumentException(sprintf(
-            'The "%s" is not a valid API resource operation name.',
-            $operationName
-        ));
-    }
-
-    /**
      * Identify controller class by operation name.
      *
-     * @param string $operationName
-     * @return string Resource name on success
+     * @param string $serviceName
+     * @return string
      * @throws LogicException
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    public function getControllerClassByOperationName($operationName)
+    public function getServiceClassByServiceName($serviceName)
     {
-        list($resourceName, $methodName) = $this->_parseOperationName($operationName);
-        if (isset($this->_data['resources'][$resourceName]['controller'])) {
-            return $this->_data['resources'][$resourceName]['controller'];
+        if (isset($this->_data['resources'][$serviceName]['controller'])) {
+            return $this->_data['resources'][$serviceName]['controller'];
         }
-        throw new LogicException(sprintf('Resource "%s" must have associated controller class.', $resourceName));
+        throw new LogicException(sprintf('Resource "%s" must have associated controller class.', $serviceName));
     }
 
     /**
@@ -202,7 +169,7 @@ class Mage_Core_Service_Config
     public function getDeprecationPolicy($resourceName, $method)
     {
         $deprecationPolicy = false;
-        $resourceData = $this->getResourceData($resourceName);
+        $resourceData = $this->getServiceData($resourceName);
         if (!isset($resourceData['methods'][$method])) {
             throw new InvalidArgumentException(sprintf(
                 'Method "%s" does not exist in resource "%s".',
@@ -224,14 +191,14 @@ class Mage_Core_Service_Config
      * - method is removed<br/>
      * - method is deprecated and developer mode is enabled
      *
-     * @param string $resourceName
+     * @param string $serviceName
      * @param string $method
      * @throws Mage_Webapi_Exception
      * @throws LogicException
      */
-    public function checkDeprecationPolicy($resourceName, $method)
+    public function checkDeprecationPolicy($serviceName, $method)
     {
-        $deprecationPolicy = $this->getDeprecationPolicy($resourceName, $method);
+        $deprecationPolicy = $this->getDeprecationPolicy($serviceName, $method);
         if ($deprecationPolicy) {
             /** Initialize message with information about what method should be used instead of requested one. */
             if (isset($deprecationPolicy['use_resource']) && isset($deprecationPolicy['use_method'])) {
@@ -249,14 +216,14 @@ class Mage_Core_Service_Config
                 $removalMessage = $this->_helper
                     ->__('"%s" method in "%s" resource was removed.',
                     $method,
-                    $resourceName
+                    $serviceName
                 );
                 throw new Mage_Webapi_Exception($removalMessage . ' ' . $messageUseMethod, $badRequestCode);
             } elseif (isset($deprecationPolicy['deprecated']) && $this->_application->isDeveloperMode()) {
                 $deprecationMessage = $this->_helper
                     ->__('"%s" method in "%s" resource is deprecated.',
                     $method,
-                    $resourceName
+                    $serviceName
                 );
                 throw new Mage_Webapi_Exception($deprecationMessage . ' ' . $messageUseMethod, $badRequestCode);
             }
@@ -278,9 +245,13 @@ class Mage_Core_Service_Config
      *
      * @param string $resourceName
      * @return array
+     * @throws LogicException In case when resource with specified name is not defined or its data is not an array
      */
-    public function getResourceData($resourceName)
+    public function getServiceData($resourceName)
     {
+        if (!isset($this->_data['resources'][$resourceName]) || !is_array($this->_data['resources'][$resourceName])) {
+            throw new LogicException(sprintf('Resource "%s" is not defined or is invalid.', $resourceName));
+        }
         return $this->_data['resources'][$resourceName];
     }
 }

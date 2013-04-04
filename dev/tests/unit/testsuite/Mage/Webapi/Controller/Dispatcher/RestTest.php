@@ -21,7 +21,7 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
     /** @var Mage_Webapi_Controller_Router_Rest */
     protected $_routerMock;
 
-    /** @var Mage_Webapi_Controller_Action_Factory */
+    /** @var Mage_Core_Service_Factory */
     protected $_controllerFactory;
 
     /** @var Mage_Webapi_Model_Config_Rest */
@@ -42,7 +42,7 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
             ->getMock();
         $this->_responseMock = $this->getMockBuilder('Mage_Webapi_Controller_Response_Rest')
             ->disableOriginalConstructor()->getMock();
-        $this->_controllerFactory = $this->getMockBuilder('Mage_Webapi_Controller_Action_Factory')
+        $this->_controllerFactory = $this->getMockBuilder('Mage_Core_Service_Factory')
             ->disableOriginalConstructor()->getMock();
         $this->_restPresentation = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Rest_Presentation')
             ->disableOriginalConstructor()->getMock();
@@ -106,7 +106,7 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
         /** Init route mock. */
         $routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Router_Route_Rest')->disableOriginalConstructor()
             ->getMock();
-        $routeMock->expects($this->any())->method('getResourceName');
+        $routeMock->expects($this->any())->method('getServiceName');
         $this->_routerMock->expects($this->once())->method('match')->will($this->returnValue($routeMock));
         /** Mock Api Config getMethodNameByOperation method to return isDeleted method of Varien_Object. */
         $this->_apiConfigMock->expects($this->once())->method('getMethodNameByOperation')->will(

@@ -22,9 +22,9 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * API Resource config instance.
      * Used to retrieve complex types data.
      *
-     * @var Mage_Webapi_Model_Config_Soap
+     * @var Mage_Core_Service_Config
      */
-    protected $_apiConfig;
+    protected $_serviceConfig;
 
     /**
      * WSDL factory instance.
@@ -44,7 +44,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     /**
      * Construct auto discover with resource config and list of requested resources.
      *
-     * @param Mage_Webapi_Model_Config_Soap $apiConfig
+     * @param Mage_Core_Service_Config $serviceConfig
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
      * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Core_Model_CacheInterface $cache
@@ -52,12 +52,12 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * @throws InvalidArgumentException
      */
     public function __construct(
-        Mage_Webapi_Model_Config_Soap $apiConfig,
+        Mage_Core_Service_Config $serviceConfig,
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
         Mage_Webapi_Helper_Config $helper,
         Mage_Core_Model_CacheInterface $cache
     ) {
-        $this->_apiConfig = $apiConfig;
+        $this->_serviceConfig = $serviceConfig;
         $this->_wsdlFactory = $wsdlFactory;
         $this->_helper = $helper;
         $this->_cache = $cache;
@@ -86,7 +86,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         $resources = array();
         try {
             foreach ($requestedResources as $resourceName => $resourceVersion) {
-                $resources[$resourceName] = $this->_apiConfig->getResourceData($resourceName);
+                $resources[$resourceName] = $this->_serviceConfig->getServiceData($resourceName);
             }
         } catch (Exception $e) {
             throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
@@ -183,7 +183,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             'parameters' => $inputParameters,
             'callInfo' => $callInfo,
         );
-        $this->_apiConfig->setTypeData($complexTypeName, $typeData);
+        $this->_serviceConfig->setTypeData($complexTypeName, $typeData);
         $wsdl->addComplexType($complexTypeName);
         $wsdl->addMessage(
             $inputMessageName,
@@ -222,7 +222,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             'parameters' => $methodData['interface']['out']['parameters'],
             'callInfo' => $callInfo,
         );
-        $this->_apiConfig->setTypeData($complexTypeName, $typeData);
+        $this->_serviceConfig->setTypeData($complexTypeName, $typeData);
         $wsdl->addComplexType($complexTypeName);
         $wsdl->addMessage(
             $outputMessageName,
@@ -362,7 +362,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                     }
                     $callInfo = array();
                     $callInfo[$direction][$condition]['calls'][] = $operation;
-                    $this->_apiConfig->setTypeData($parameterType, array('callInfo' => $callInfo));
+                    $this->_serviceConfig->setTypeData($parameterType, array('callInfo' => $callInfo));
                 }
             }
         }

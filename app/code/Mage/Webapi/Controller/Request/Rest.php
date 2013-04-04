@@ -180,7 +180,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      *
      * @return string
      */
-    public function getResourceName()
+    public function getServiceName()
     {
         return $this->_resourceName;
     }
@@ -261,7 +261,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      */
     public function getOperationName()
     {
-        $operationName = $this->getResourceName() . ucfirst($this->getMethodName());
+        $operationName = $this->getServiceName() . ucfirst($this->getMethodName());
         return $operationName;
     }
 }
