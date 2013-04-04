@@ -15,6 +15,24 @@
 class Mage_Core_Model_Translate_Inline extends Mage_Core_Model_Translate_InlineAbstract
 {
     /**
+     * Initialize inline abstract translate model
+     *
+     * @param Mage_Core_Model_Resource_Translate_String $resource
+     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Mage_Core_Model_Url $coreUrl
+     * @param Mage_Core_Model_Design_Package $design
+     */
+    public function __construct(
+        Mage_Core_Model_Resource_Translate_String $resource,
+        Mage_Core_Model_StoreManager $storeManager,
+        Mage_Core_Model_Url $coreUrl,
+        Mage_Core_Model_Design_Package $design
+    ) {
+        parent::__construct($resource, $storeManager, $coreUrl, $design);
+    }
+
+
+    /**
      * Is enabled and allowed Inline Translates
      *
      * @param mixed $store
