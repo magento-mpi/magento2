@@ -63,9 +63,7 @@ button:visited,
 .eq-ie8 input[type=reset]:visited,
 .eq-ie8 button:visited,
 .eq-ie8 [class^="action-"],
-.eq-ie8 [class^="action-"]:visited,
-.page-login [class^="action-"],
-.page-login [class^="action-"]:visited {
+.eq-ie8 [class^="action-"]:visited {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e8e5e0', endColorstr='#dddad3',GradientType=0 );
 }
 
@@ -99,9 +97,7 @@ button:focus,
 .eq-ie8 input[type=reset]:focus,
 .eq-ie8 button:focus,
 .eq-ie8 [class^="action-"]:hover,
-.eq-ie8 [class^="action-"]:focus,
-.page-login [class^="action-"]:hover,
-.page-login [class^="action-"]:focus {
+.eq-ie8 [class^="action-"]:focus {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dfdbd4', endColorstr='#d3cdc4',GradientType=0 );
 }
 
@@ -129,8 +125,7 @@ button.active,
 .eq-ie8 input[type=reset].active,
 .eq-ie8 button.active,
 .eq-ie8 [class^="action-"]:active,
-.eq-ie8 [class^="action-"].active,
-.page-login [class^="action-"]:active {
+.eq-ie8 [class^="action-"].active {
     filter: none;
 }
 
