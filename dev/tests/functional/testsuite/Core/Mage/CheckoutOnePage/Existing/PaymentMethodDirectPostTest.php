@@ -49,6 +49,8 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodDirectPostTest extends Mag
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         //Steps and Verification
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
@@ -69,10 +71,17 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodDirectPostTest extends Mag
      */
     public function authorizeDirectPost($testData)
     {
+        $this->markTestIncomplete('MAGETWO-8885');
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_usa',
-            array('general_name' => $testData['sku'], 'email_address' => $testData['email'],
-                'payment_data' => $this->loadDataSet('Payment', 'payment_authorizenetdp')));
+        $checkoutData = $this->loadDataSet(
+            'OnePageCheckout',
+            'exist_flatrate_checkmoney_usa',
+            array(
+                'general_name' => $testData['sku'],
+                'email_address' => $testData['email'],
+                'payment_data' => $this->loadDataSet('Payment', 'payment_authorizenetdp')
+            )
+        );
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenetdp_enable');

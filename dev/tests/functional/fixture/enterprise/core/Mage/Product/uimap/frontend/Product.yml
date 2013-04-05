@@ -42,9 +42,9 @@ product_page:
                             add_tags: //button[//span='Add Tags']
                 -
                     details:
-                        xpath: //div[dl/dt/span='Details']
+                        xpath: //div[*/*/a[text()='Details']]
                 -
-                    product_oprions:
+                    product_options:
                         xpath: //*[@id='product-options-wrapper']
                         pageelements:
                             product_custom_option_head_order: //dt[%rowNumber%][contains(label,'%title%')]

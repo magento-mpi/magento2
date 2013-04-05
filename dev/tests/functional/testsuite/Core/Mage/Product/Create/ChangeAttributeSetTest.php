@@ -75,17 +75,18 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
     public function fromDefaultToCustomCreate($productType, $attributeSetData)
     {
         //Data
-        $productDataInitial = $this->loadDataSet('Product', $productType . '_product_visible');
+        $productData = $this->loadDataSet('Product', $productType . '_product_visible');
         $assignedAttribute = $attributeSetData['assignedAttribute'];
         $newAttributeSet = $attributeSetData['attributeSetName'];
         //Steps
-        $this->productHelper()->createProduct($productDataInitial, $productType, false);
+        $this->productHelper()->createProduct($productData, $productType, false);
         $this->productHelper()->changeAttributeSet($newAttributeSet);
         //Verifying
         $this->addParameter('attributeCodeDropdown', $assignedAttribute);
         $this->assertTrue($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
             "There is absent attribute $assignedAttribute, but shouldn't");
-        $this->productHelper()->verifyProductInfo($productDataInitial);
+        $productData['product_attribute_set'] = $newAttributeSet;
+        $this->productHelper()->verifyProductInfo($productData);
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
     }
@@ -104,18 +105,19 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
     public function fromCustomToDefaultDuringCreation($productType, $attributeSetData)
     {
         //Data
-        $productDataInitial = $this->loadDataSet('Product', $productType . '_product_visible',
+        $productData = $this->loadDataSet('Product', $productType . '_product_visible',
             array('product_attribute_set' => $attributeSetData['attributeSetName']));
         $newAttributeSet = 'Default';
         $assignedAttribute = $attributeSetData['assignedAttribute'];
         //Steps
-        $this->productHelper()->createProduct($productDataInitial, $productType, false);
+        $this->productHelper()->createProduct($productData, $productType, false);
         $this->productHelper()->changeAttributeSet($newAttributeSet);
         //Verifying
         $this->addParameter('attributeCodeDropdown', $assignedAttribute);
         $this->assertFalse($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
             "There is present $assignedAttribute attribute, but shouldn't");
-        $this->productHelper()->verifyProductInfo($productDataInitial);
+        $productData['product_attribute_set'] = $newAttributeSet;
+        $this->productHelper()->verifyProductInfo($productData);
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
     }
@@ -134,19 +136,20 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
     public function fromDefaultToCustomDuringEditing($productType, $attributeSetData)
     {
         //Data
-        $productDataInitial = $this->loadDataSet('Product', $productType . '_product_visible');
+        $productData = $this->loadDataSet('Product', $productType . '_product_visible');
         $assignedAttribute = $attributeSetData['assignedAttribute'];
         $newAttributeSet = $attributeSetData['attributeSetName'];
         //Steps
-        $this->productHelper()->createProduct($productDataInitial, $productType);
+        $this->productHelper()->createProduct($productData, $productType);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->openProduct(array('product_sku' => $productDataInitial['general_sku']));
+        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->productHelper()->changeAttributeSet($newAttributeSet);
         //Verifying
         $this->addParameter('attributeCodeDropdown', $assignedAttribute);
         $this->assertTrue($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
             "There is absent attribute $assignedAttribute, but shouldn't");
-        $this->productHelper()->verifyProductInfo($productDataInitial);
+        $productData['product_attribute_set'] = $newAttributeSet;
+        $this->productHelper()->verifyProductInfo($productData);
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
     }
@@ -165,20 +168,21 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
     public function fromCustomToDefaultDuringEditing($productType, $attributeSetData)
     {
         //Data
-        $productDataInitial = $this->loadDataSet('Product', $productType . '_product_visible',
+        $productData = $this->loadDataSet('Product', $productType . '_product_visible',
             array('product_attribute_set' => $attributeSetData['attributeSetName']));
         $newAttributeSet = 'Default';
         $assignedAttribute = $attributeSetData['assignedAttribute'];
         //Steps
-        $this->productHelper()->createProduct($productDataInitial, $productType);
+        $this->productHelper()->createProduct($productData, $productType);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->openProduct(array('product_sku' => $productDataInitial['general_sku']));
+        $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->productHelper()->changeAttributeSet($newAttributeSet);
         //Verifying
         $this->addParameter('attributeCodeDropdown', $assignedAttribute);
         $this->assertFalse($this->controlIsVisible('dropdown', 'general_user_attr_dropdown'),
             "There is present $assignedAttribute attribute, but shouldn't");
-        $this->productHelper()->verifyProductInfo($productDataInitial);
+        $productData['product_attribute_set'] = $newAttributeSet;
+        $this->productHelper()->verifyProductInfo($productData);
         $this->productHelper()->saveProduct();
         $this->assertMessagePresent('success', 'success_saved_product');
     }
@@ -224,11 +228,13 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
     public function changeAttributeSetSeveralTimes(array $attributeSetData)
     {
         //Data
-        $productDefaultSet = $this->loadDataSet('Product', 'simple_product_visible');
+        $productData = $this->loadDataSet('Product', 'simple_product_visible');
         $search = $this->loadDataSet('Product', 'product_search',
-            array('product_sku' => $productDefaultSet['general_sku']));
+            array('product_sku' => $productData['general_sku']));
+        $initialAttributeSet = $productData['product_attribute_set'];
         //Steps
-        $this->productHelper()->createProduct($productDefaultSet, 'simple', false);
+        $this->productHelper()->createProduct($productData, 'simple', false);
+        $productData['product_attribute_set'] = $attributeSetData['attributeSetName'];
         for ($i = 0; $i < 3; $i++) {
             $this->productHelper()->changeAttributeSet($attributeSetData['attributeSetName']);
             $this->addParameter('productTabName', $attributeSetData['tabName']);
@@ -238,8 +244,8 @@ class Core_Mage_Product_Create_ChangeAttributeSetTest extends Mage_Selenium_Test
                 $this->addParameter('elementId', strstr($code, '_fpt_') ? 'attribute-' . $code . '-container' : $code);
                 $this->assertTrue($this->controlIsVisible('pageelement', 'element_by_id'));
             }
-            $this->productHelper()->verifyProductInfo($productDefaultSet);
-            $this->productHelper()->changeAttributeSet($productDefaultSet['product_attribute_set']);
+            $this->productHelper()->verifyProductInfo($productData);
+            $this->productHelper()->changeAttributeSet($initialAttributeSet);
         }
         $this->productHelper()->changeAttributeSet($attributeSetData['attributeSetName']);
         $this->productHelper()->saveProduct();
