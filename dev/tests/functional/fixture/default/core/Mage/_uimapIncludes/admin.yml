@@ -20,7 +20,7 @@ admin_header:
                     incoming_message:
                         xpath: //div[header/h2='Incoming Message']
                         buttons:
-                            close: //span[text()='Close']
+                            close_notification: //span[text()='Close']
                 -
                     global_header:
                         xpath: //div[contains(a/@class,'logo')]

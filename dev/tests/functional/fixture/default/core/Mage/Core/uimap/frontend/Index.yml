@@ -14,7 +14,7 @@
 # Index page
 core_index_page:
     mca: core/
-    title: ''
+    title: ~
     uimap:
         pageelements:
             any_body_element: //body/*

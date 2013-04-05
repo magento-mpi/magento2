@@ -41,6 +41,7 @@ class Core_Mage_Vde_ToolbarTest extends Mage_Selenium_TestCase
      */
     public function pageTypeSelector()
     {
+        $this->addParameter('themeId','1');
         $this->admin('vde_design');
         $this->vdeHelper()->selectPageHandle('OAuth authorization for customer');
         //verify iframe content
@@ -56,6 +57,7 @@ class Core_Mage_Vde_ToolbarTest extends Mage_Selenium_TestCase
      */
     public function highlightTest()
     {
+        $this->addParameter('themeId','1');
         $this->admin('vde_design');
         // Verify that highlight is enabled and applied by default
         $this->assertTrue($this->vdeHelper()->isHighlightEnabled(), 'Highlight is not enabled by default');
