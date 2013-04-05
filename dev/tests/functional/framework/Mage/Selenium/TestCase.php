@@ -1161,8 +1161,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             } else {
                 $error = '"' . $message . '" message(s) is on the page.';
             }
-            if ($result['found']) {
-                $error .= "\n" . $result['found'];
+            $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
+            if ($messagesOnPage) {
+                $error .= "\n" . $messagesOnPage;
             }
             $this->fail($error);
         }
