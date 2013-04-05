@@ -77,7 +77,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_
     public function dispatch()
     {
         try {
-            $this->_authentication->authenticate();
+//            $this->_authentication->authenticate();
             $route = $this->_router->match($this->_request);
 
             $operation = $this->_request->getOperationName();
@@ -103,7 +103,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_
             $this->_apiConfig->checkDeprecationPolicy($route->getResourceName(), $method, $versionAfterFallback);
             $action = $method . $versionAfterFallback;
 
-            $this->_authorization->checkResourceAcl($route->getResourceName(), $method);
+//            $this->_authorization->checkResourceAcl($route->getResourceName(), $method);
 
             $inputData = $this->_restPresentation->fetchRequestData($controllerInstance, $action);
             $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
