@@ -22,6 +22,19 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      * <p>Preconditions:</p>
      *
      * <p>Log in to Backend.</p>
+     * <p>Setup Flat Rate.</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
+    }
+
+        /**
+     * <p>Preconditions:</p>
+     *
+     * <p>Log in to Backend.</p>
      * <p>Navigate to 'Manage Products' page</p>
      */
     protected function assertPreConditions()
@@ -229,6 +242,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      */
     public function withConfigurableProduct($productType, $order, $testData)
     {
+        $this->markTestIncomplete('MAGETWO-8962');
         //Data
         $orderProductOption = $this->loadDataSet('SalesOrder', 'config_option_configurable',
                                                  array('title'       => $testData['title'],
