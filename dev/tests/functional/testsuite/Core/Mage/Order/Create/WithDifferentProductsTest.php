@@ -133,9 +133,6 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      */
     public function withoutOptions($productType, $order, $testData)
     {
-//        if($productType == 'simple') {
-//            $this->markTestIncomplete('MAGETWO-8962');
-//        }
         //Data
         $orderData = $this->loadDataSet('SalesOrder', $order,
                                         array('filter_sku' => $testData[$productType . '_sku']));
@@ -199,7 +196,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      * @param string $order
      * @param array $testData
      *
-     * @tst
+     * @test
      * @dataProvider productDataProvider
      * @depends preconditionsForTests
      * @TestlinkId	TL-MAGE-3271, TL-MAGE-3272
@@ -242,7 +239,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      */
     public function withConfigurableProduct($productType, $order, $testData)
     {
-//        $this->markTestIncomplete('MAGETWO-8962');
+        $this->markTestIncomplete('MAGETWO-8962');
         //Data
         $orderProductOption = $this->loadDataSet('SalesOrder', 'config_option_configurable',
                                                  array('title'       => $testData['title'],
@@ -307,7 +304,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
         $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty();
-        if ($productType == 'simple') {
+        if ($productType === 'simple') {
             $this->orderShipmentHelper()->createShipmentAndVerifyProductQty();
         }
         $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty('refund_offline');

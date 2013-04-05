@@ -71,7 +71,7 @@ class Core_Mage_Order_Create_WithProductWithWarningTest extends Mage_Selenium_Te
         $this->orderHelper()->navigateToCreateOrderPage(null, $orderData['store_view']);
         $this->orderHelper()->addProductToOrder($orderData['products_to_add']['product_1']);
         $this->addParameter('sku', $simple['general_sku']);
-        $this->addParameter('qty', 10);
+        $this->addParameter('productTitle', $simple['general_name']);
         $this->assertMessagePresent('validation', $message);
         $this->orderHelper()->fillOrderAddress($billingAddress, $billingAddress['address_choice'], 'billing');
         $this->orderHelper()->fillOrderAddress($shippingAddress, $shippingAddress['address_choice'], 'shipping');

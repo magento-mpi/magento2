@@ -374,6 +374,7 @@ create_order_for_new_customer:
                             cancel: //button[span='Cancel']
                 -
                     gift_options_for_order: &giftMessageForOrder
+                        xpath: //div[@id='order-giftmessage']
                         fields:
                             from_order_level: //input[contains(@name, '[sender]')]
                             to_order_level: //input[contains(@name, '[recipient]')]

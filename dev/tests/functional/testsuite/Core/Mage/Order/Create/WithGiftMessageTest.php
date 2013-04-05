@@ -123,7 +123,6 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
      */
     public function giftMessagesWithEmptyFields($simpleSku)
     {
-        $this->markTestIncomplete('MAGETWO-8835');
         //Data
         $gift = $this->loadDataSet('SalesOrder', 'gift_messages_with_empty_fields',
                                    array('sku_product' => $simpleSku));

@@ -27,6 +27,7 @@ class Core_Mage_Order_Create_ExistCustomerTest extends Mage_Selenium_TestCase
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
+        $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
     }
 
