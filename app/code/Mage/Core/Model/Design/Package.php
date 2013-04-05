@@ -93,6 +93,13 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     protected $_appState;
 
     /**
+     * Store list manager
+     *
+     * @var Mage_Core_Model_StoreManager
+     */
+    protected $_storeManager;
+
+    /**
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool
@@ -102,12 +109,14 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool,
-        Mage_Core_Model_App_State $appState
+        Mage_Core_Model_App_State $appState,
+        Mage_Core_Model_StoreManager $storeManager
     ) {
         $this->_moduleReader = $moduleReader;
         $this->_filesystem = $filesystem;
         $this->_resolutionPool = $resolutionPool;
         $this->_appState = $appState;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -200,8 +209,13 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         $store = isset($params['store']) ? $params['store'] : null;
 
         if ($this->_isThemePerStoveView($area)) {
-            return Mage::getStoreConfig(self::XML_PATH_THEME_ID, $store)
-                ?: (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
+            if ($this->_storeManager->isSingleStoreMode()) {
+                return (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME_ID)
+                    ?: (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
+            } else {
+                return Mage::getStoreConfig(self::XML_PATH_THEME_ID, $store)
+                    ?: (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
+            }
         }
         return (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
     }
