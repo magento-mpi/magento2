@@ -591,8 +591,11 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     public function getAfterLoginPage($area = 'admin')
     {
         $areasConfig = $this->getConfigAreas();
+        if (!isset($areasConfig[$area])) {
+            throw new OutOfRangeException('Area with name "' . $area. '" is missing');
+        }
         if (!isset($areasConfig[$area]['after_login_page'])) {
-            throw new OutOfRangeException('"after_login_page" is not set for "' . $this->getArea() . '" area');
+            throw new OutOfRangeException('"after_login_page" is not set for "' . $area . '" area');
         }
         return $areasConfig[$area]['after_login_page'];
     }
