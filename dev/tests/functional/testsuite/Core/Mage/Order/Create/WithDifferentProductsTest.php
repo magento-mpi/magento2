@@ -199,7 +199,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      * @param string $order
      * @param array $testData
      *
-     * @test
+     * @tst
      * @dataProvider productDataProvider
      * @depends preconditionsForTests
      * @TestlinkId	TL-MAGE-3271, TL-MAGE-3272
