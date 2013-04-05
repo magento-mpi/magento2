@@ -10,7 +10,7 @@
 abstract class Mage_Core_Service_Entity_Abstract
 {
     /**
-     * Returns model which operated by current service.
+     * Return model which operated by current service.
      *
      * @param mixed  $objectId
      * @param string $fieldsetId
@@ -28,7 +28,7 @@ abstract class Mage_Core_Service_Entity_Abstract
     abstract protected function _getObjectCollection(array $objectIds = array(), $fieldsetId = '');
 
     /**
-     * Returns schema with data.
+     * Return schema with data.
      *
      * @param array         $data   Already fetched data from object
      * @param Varien_Object $object
@@ -65,14 +65,11 @@ abstract class Mage_Core_Service_Entity_Abstract
     protected function _getObjectData(Varien_Object $object)
     {
         $data = $object->getData();
+        $underscoreToCamelCase = new Zend_Filter_Word_UnderscoreToCamelCase();
 
         // Make camelCase out of underscore
         foreach ($data as $key => $value) {
-            $camelCase = preg_replace_callback(
-                '/_(.)/',
-                function ($matches) { return strtoupper($matches[1]);},
-                $key
-            );
+            $camelCase = $underscoreToCamelCase->filter($key);
 
             if ($camelCase !== $key) {
                 $data[$camelCase] = $data[$key];
@@ -109,7 +106,7 @@ abstract class Mage_Core_Service_Entity_Abstract
     }
 
     /**
-     * Formats object's data so it represents an array on all levels.
+     * Format object's data so it represents an array on all levels.
      * @todo Decide what to do with objects
      *
      * @param array $data
@@ -129,7 +126,7 @@ abstract class Mage_Core_Service_Entity_Abstract
     }
 
     /**
-     * Returns fields given fieldset ID.
+     * Return fields given fieldset ID.
      *
      * @param string $fieldsetId
      * @return array

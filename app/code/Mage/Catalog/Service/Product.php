@@ -15,6 +15,13 @@
  */
 class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
 {
+    /**#@+
+     * Identifier types for _getProduct()
+     */
+    const IDENTIFIER_TYPE_ID = 'id';
+    const IDENTIFIER_TYPE_SKU = 'sku';
+    /**#@-*/
+
     /** @var Mage_Catalog_Helper_Product */
     protected $_productHelper;
     /** @var Mage_Core_Helper_Data */
@@ -37,7 +44,7 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
     }
 
     /**
-     * Returns info about one particular product.
+     * Return info about one particular product.
      *
      * @Type call
      * @Method GET
@@ -50,13 +57,32 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
      */
     public function item($id)
     {
-        $data = $this->_getData($id);
+        $data = $this->_getData(array('id' => $id, 'identifierType' => static::IDENTIFIER_TYPE_ID));
 
         return $data;
     }
 
     /**
-     * Returns info about several products.
+     * Return info about one particular product.
+     *
+     * @Type call
+     * @Method GET
+     * @Path /sku/:id
+     * @Bindings [REST]
+     * @Consumes /resources/product/item_by_sku/input.xsd
+     * @Produces /resources/product/item_by_sku/output.xsd
+     * @param string $sku
+     * @return array
+     */
+    public function itemBySku($sku)
+    {
+        $data = $this->_getData(array('id' => $sku, 'identifierType' => static::IDENTIFIER_TYPE_SKU));
+
+        return $data;
+    }
+
+    /**
+     * Return info about several products.
      *
      * @Type call
      * @Method GET
@@ -76,33 +102,52 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
     }
 
     /**
-     * Returns model which operated by current service.
+     * Return model which operated by current service.
      *
-     * @param mixed  $productIdOrSku         Product ID or SKU
+     * @param array  $params     Parameters of the product in format array('id' => ?, 'identifierType' => ?)
      * @param string $fieldsetId
      * @throws Mage_Core_Service_Entity_Exception
      * @return Mage_Catalog_Model_Product
      */
-    protected function _getObject($productIdOrSku, $fieldsetId = '')
+    protected function _getObject($params, $fieldsetId = '')
     {
-        $product = $this->_productHelper->getProduct($productIdOrSku, null);
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->_objectManager->create('Mage_Catalog_Model_Product');
+        $product->setStoreId($this->_storeManager->getStore()->getId());
 
-        if (!$product->getId()) {
-            throw new Mage_Core_Service_Entity_Exception;
+        if (empty($params['id']) || empty($params['identifierType'])) {
+            throw new Mage_Core_Service_Entity_Exception('Parameters expected: id, identifierType');
         }
 
-        // $product->setFieldset($this->_getFieldset($fieldsetId));
-        $product->load($product->getId());
+        $identifierType = $params['identifierType'];
+        $idOrSku = $params['id'];
+
+        if (!in_array($identifierType, array(static::IDENTIFIER_TYPE_SKU, static::IDENTIFIER_TYPE_ID))) {
+            throw new Mage_Core_Service_Entity_Exception(sprintf('Incorrect identifier type: "%s"', $identifierType));
+        }
+
+        if ($identifierType === static::IDENTIFIER_TYPE_SKU) {
+            $id = $product->getIdBySku($idOrSku);
+        } else {
+            $id = $idOrSku;
+        }
+
+        if ($id) {
+            // $product->setFieldset($this->_getFieldset($fieldsetId));
+            $product->load($id);
+        }
 
         if ($product->getId()) {
             $isVisible = $product->isVisibleInCatalog() && $product->isVisibleInSiteVisibility();
             $withinWebsite = in_array($this->_storeManager->getStore()->getWebsiteId(), $product->getWebsiteIds());
+        }
 
-            if (!$isVisible || !$withinWebsite) {
-                throw new Mage_Core_Service_Entity_Exception;
-            }
-        } else {
-            throw new Mage_Core_Service_Entity_Exception;
+        if (empty($isVisible) || empty($withinWebsite)) {
+            throw new Mage_Core_Service_Entity_Exception(sprintf(
+                'Product with %s "%s" not found',
+                $identifierType === static::IDENTIFIER_TYPE_ID ? 'ID' : 'SKU',
+                $idOrSku
+            ));
         }
 
         return $product;
@@ -397,7 +442,7 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
     }
 
     /**
-     * Returns array which represents XSD "price" complex type.
+     * Return array which represents XSD "price" complex type.
      *
      * @param $amount
      * @param $currencyCode
