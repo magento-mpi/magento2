@@ -18,7 +18,7 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
     /**#@-*/
 
     /** @var string */
-    protected $_resourceName;
+    protected $_serviceName;
 
     /** @var string */
     protected $_httpMethod;
@@ -29,12 +29,12 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
     /**
      * Set route resource.
      *
-     * @param string $resourceName
+     * @param string $serviceName
      * @return Mage_Webapi_Controller_Router_Route_Rest
      */
-    public function setResourceName($resourceName)
+    public function setServiceName($serviceName)
     {
-        $this->_resourceName = $resourceName;
+        $this->_serviceName = $serviceName;
         return $this;
     }
 
@@ -43,9 +43,9 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
      *
      * @return string
      */
-    public function getResourceName()
+    public function getServiceName()
     {
-        return $this->_resourceName;
+        return $this->_serviceName;
     }
 
     /**

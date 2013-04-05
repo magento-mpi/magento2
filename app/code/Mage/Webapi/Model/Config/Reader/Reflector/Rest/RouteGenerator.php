@@ -77,12 +77,12 @@ class Mage_Webapi_Model_Config_Reader_Reflector_Rest_RouteGenerator
             );
         }
         $routePath = $servicePath . $methodPath;
-        $resourceName = $this->_helper->translateResourceName($classReflection->getName());
+        $serviceName = $this->_helper->translateServiceName($classReflection->getName());
         // TODO: Remove $routes array usage if only one route should be supported
         $routes[$routePath] = array(
             'httpMethod' => $httpMethod,
             'methodName' => $methodReflection->getName(),
-            'resourceName' => $resourceName
+            'serviceName' => $serviceName
         );
 
         $this->_routes = array_merge($this->_routes, $routes);

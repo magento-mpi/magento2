@@ -36,10 +36,10 @@ class Mage_Webapi_Model_Config_Soap
      */
     public function getServiceNameByOperation($operationName)
     {
-        $resourceName = $this->getServiceNameByOperation($operationName);
+        $serviceName = $this->getServiceNameByOperation($operationName);
         $methodName = $this->getMethodNameByOperation($operationName);
         try {
-            $resourceData = $this->_serviceConfig->getServiceData($resourceName);
+            $resourceData = $this->_serviceConfig->getServiceData($serviceName);
             $operationIsValid = isset($resourceData['methods'][$methodName]);
         } catch (LogicException $e) {
             $operationIsValid = false;
@@ -50,7 +50,7 @@ class Mage_Webapi_Model_Config_Soap
                 Mage_Webapi_Exception::HTTP_NOT_FOUND
             );
         }
-        return $resourceName;
+        return $serviceName;
     }
 
     /**
@@ -61,8 +61,8 @@ class Mage_Webapi_Model_Config_Soap
      */
     public function getMethodNameByOperation($operationName)
     {
-        list($resourceName, $methodName) = $this->parseOperationName($operationName);
-        $serviceData = $this->_serviceConfig->getServiceData($resourceName);
+        list($serviceName, $methodName) = $this->parseOperationName($operationName);
+        $serviceData = $this->_serviceConfig->getServiceData($serviceName);
         return isset($serviceData['methods'][$methodName]) ? $methodName : false;
     }
 
@@ -84,9 +84,9 @@ class Mage_Webapi_Model_Config_Soap
         /** Note that '(.*?)' must not be greedy to allow regexp to match 'multiUpdate' method before 'update' */
         $regEx = sprintf('/(%s)(.*?)$/i', implode('|', $this->_serviceConfig->getResourcesNames()));
         if (preg_match($regEx, $operationName, $matches)) {
-            $resourceName = $matches[1];
+            $serviceName = $matches[1];
             $methodName = lcfirst($matches[2]);
-            $result = array($resourceName, $methodName);
+            $result = array($serviceName, $methodName);
             return $result;
         }
         throw new InvalidArgumentException(sprintf(

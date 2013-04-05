@@ -29,7 +29,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_
      *
      * @var Mage_Core_Service_Factory
      */
-    protected $_controllerFactory;
+    protected $_serviceFactory;
 
     /** @var Mage_Webapi_Model_Authorization */
     protected $_authorization;
@@ -43,7 +43,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_
      * @param Mage_Core_Service_Config $serviceConfig
      * @param Mage_Webapi_Controller_Request_Rest $request
      * @param Mage_Webapi_Controller_Response_Rest $response
-     * @param Mage_Core_Service_Factory $controllerFactory
+     * @param Mage_Core_Service_Factory $serviceFactory
      * @param Mage_Webapi_Controller_Dispatcher_Rest_Presentation $restPresentation
      * @param Mage_Webapi_Controller_Router_Rest $router
      * @param Mage_Webapi_Model_Authorization $authorization
@@ -53,7 +53,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_
         Mage_Core_Service_Config $serviceConfig,
         Mage_Webapi_Controller_Request_Rest $request,
         Mage_Webapi_Controller_Response_Rest $response,
-        Mage_Core_Service_Factory $controllerFactory,
+        Mage_Core_Service_Factory $serviceFactory,
         Mage_Webapi_Controller_Dispatcher_Rest_Presentation $restPresentation,
         Mage_Webapi_Controller_Router_Rest $router,
         Mage_Webapi_Model_Authorization $authorization,
@@ -64,7 +64,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_
         $this->_router = $router;
         $this->_authentication = $authentication;
         $this->_request = $request;
-        $this->_controllerFactory = $controllerFactory;
+        $this->_serviceFactory = $serviceFactory;
         $this->_authorization = $authorization;
         $this->_response = $response;
     }
@@ -80,12 +80,15 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_
             $this->_authentication->authenticate();
             $route = $this->_router->match($this->_request);
             $serviceName = $this->_request->getServiceName();
-            $serviceInstance = $this->_controllerFactory->createServiceInstance($serviceName);
+            $serviceInstance = $this->_serviceFactory->createServiceInstance($serviceName);
             $method = $this->_request->getMethodName();
-            $this->_serviceConfig->checkDeprecationPolicy($route->getResourceName(), $method);
+            $this->_serviceConfig->checkDeprecationPolicy($route->getServiceName(), $method);
 
-            // TODO: Fix ACL and Enable ACL Check
-//            $this->_authorization->checkResourceAcl($route->getResourceName(), $method);
+            /*
+             * TODO: Fix ACL and Enable ACL Check.
+             * TODO: Uncomment check in test Mage_Webapi_Controller_Dispatcher_RestTest::testDispatch()
+             */
+            // $this->_authorization->checkResourceAcl($route->getServiceName(), $method);
 
             $inputData = $this->_restPresentation->fetchRequestData($serviceInstance, $method);
             $outputData = call_user_func_array(array($serviceInstance, $method), $inputData);

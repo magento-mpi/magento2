@@ -102,12 +102,12 @@ class Mage_Core_Service_Config_RestTest extends PHPUnit_Framework_TestCase
 
     public function testGetRestRouteToItemInvalidArguments()
     {
-        $resourceName = 'vendorModuleResources';
+        $serviceName = 'vendorModuleResources';
         $this->setExpectedException(
             'InvalidArgumentException',
-            sprintf('No route to the item of "%s" resource was found.', $resourceName)
+            sprintf('No route to the item of "%s" resource was found.', $serviceName)
         );
-        $this->_apiConfig->getRestRouteToItem($resourceName);
+        $this->_apiConfig->getRestRouteToItem($serviceName);
     }
 
     public function testGetMethodRestRoutes()
@@ -121,13 +121,13 @@ class Mage_Core_Service_Config_RestTest extends PHPUnit_Framework_TestCase
 
     public function testGetMethodRestRoutesException()
     {
-        $resourceName = 'vendorModuleResourceSubresource';
+        $serviceName = 'vendorModuleResourceSubresource';
         $methodName = 'multiUpdate';
         $this->setExpectedException(
             'InvalidArgumentException',
-            sprintf('"%s" resource does not have any REST routes for "%s" method.', $resourceName, $methodName)
+            sprintf('"%s" resource does not have any REST routes for "%s" method.', $serviceName, $methodName)
         );
-        $this->_apiConfig->getMethodRestRoutes($resourceName, $methodName, 'v1');
+        $this->_apiConfig->getMethodRestRoutes($serviceName, $methodName, 'v1');
     }
 
     /**
