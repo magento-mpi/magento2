@@ -726,7 +726,6 @@ return array(
     array('Mage_Adminhtml_Block_Notification_Inbox'),
     array('Mage_Adminhtml_Block_Notification_Grid', 'Mage_AdminNotification_Block_Notification_Grid'),
     array('Mage_Adminhtml_Block_Notification_Baseurl'),
-    array('Mage_AdminNotification_Block_Grid'),
     array('Mage_Adminhtml_Block_Notification_Grid_Renderer_Severity',
         'Mage_AdminNotification_Block_Grid_Renderer_Severity'),
     array('Mage_Adminhtml_Block_Notification_Grid_Renderer_Notice',
@@ -734,4 +733,5 @@ return array(
     array('Mage_Adminhtml_Block_Notification_Grid_Renderer_Actions',
         'Mage_AdminNotification_Block_Grid_Renderer_Actions'),
     array('Mage_Adminhtml_Block_Cache_Notifications'),
+    array('Mage_AdminNotification_Block_Grid'),
 );
