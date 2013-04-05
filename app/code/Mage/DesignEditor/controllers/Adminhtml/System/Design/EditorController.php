@@ -61,7 +61,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         try {
             $theme = $helper->loadVisibleTheme($themeId);
             $editableTheme = $theme->isVirtual() ? $theme->getDomainModel()->getStagingTheme() : $theme;
-            $this->_getSession()->setData(Mage_DesignEditor_Model_State::VIRTUAL_THEME_SESSION_KEY, $themeId);
             $this->_getSession()->setData(
                 Mage_DesignEditor_Model_State::CURRENT_THEME_SESSION_KEY, $editableTheme->getId()
             );
