@@ -208,16 +208,16 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         }
         $store = isset($params['store']) ? $params['store'] : null;
 
+        $theme = null;
         if ($this->_isThemePerStoveView($area)) {
             if ($this->_storeManager->isSingleStoreMode()) {
-                return (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME_ID)
-                    ?: (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
+                $theme = (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME_ID);
             } else {
-                return Mage::getStoreConfig(self::XML_PATH_THEME_ID, $store)
-                    ?: (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
+                $theme = Mage::getStoreConfig(self::XML_PATH_THEME_ID, $store);
             }
         }
-        return (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
+
+        return $theme ?: (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
     }
 
     /**
