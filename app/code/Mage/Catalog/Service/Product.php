@@ -16,14 +16,12 @@
 class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
 {
     /**#@+
-     * Identifier types for _getProduct()
+     * Identifier types for _getObject()
      */
     const IDENTIFIER_TYPE_ID = 'id';
     const IDENTIFIER_TYPE_SKU = 'sku';
     /**#@-*/
 
-    /** @var Mage_Catalog_Helper_Product */
-    protected $_productHelper;
     /** @var Mage_Core_Helper_Data */
     protected $_coreHelper;
     /** @var Mage_Core_Model_StoreManager */
@@ -33,12 +31,10 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
 
     public function __construct(
         Magento_ObjectManager $objectManager,
-        Mage_Catalog_Helper_Product $productHelper,
         Mage_Core_Helper_Data $coreHelper,
         Mage_Core_Model_StoreManager $storeManager
     ) {
         $this->_objectManager = $objectManager;
-        $this->_productHelper = $productHelper;
         $this->_coreHelper = $coreHelper;
         $this->_storeManager = $storeManager;
     }
@@ -102,25 +98,18 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
     }
 
     /**
-     * Return model which operated by current service.
+     * Return product by ID or SKU.
      *
-     * @param array  $params     Parameters of the product in format array('id' => ?, 'identifierType' => ?)
-     * @param string $fieldsetId
-     * @throws Mage_Core_Service_Entity_Exception
+     * @param int|string $idOrSku        Product ID or SKU (depends on $identifierType)
+     * @param string     $identifierType See IDENTIFIER_TYPE_* constants
      * @return Mage_Catalog_Model_Product
+     * @throws Mage_Core_Service_Entity_Exception
      */
-    protected function _getObject($params, $fieldsetId = '')
+    public function getProduct($idOrSku, $identifierType = self::IDENTIFIER_TYPE_ID)
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->_objectManager->create('Mage_Catalog_Model_Product');
         $product->setStoreId($this->_storeManager->getStore()->getId());
-
-        if (empty($params['id']) || empty($params['identifierType'])) {
-            throw new Mage_Core_Service_Entity_Exception('Parameters expected: id, identifierType');
-        }
-
-        $identifierType = $params['identifierType'];
-        $idOrSku = $params['id'];
 
         if (!in_array($identifierType, array(static::IDENTIFIER_TYPE_SKU, static::IDENTIFIER_TYPE_ID))) {
             throw new Mage_Core_Service_Entity_Exception(sprintf('Incorrect identifier type: "%s"', $identifierType));
@@ -149,6 +138,21 @@ class Mage_Catalog_Service_Product extends Mage_Core_Service_Entity_Abstract
                 $idOrSku
             ));
         }
+
+        return $product;
+    }
+
+    /**
+     * Return model which operated by current service.
+     *
+     * @param array  $params     Parameters of the product in format array('id' => ?, 'identifierType' => ?)
+     * @param string $fieldsetId
+     * @throws Mage_Core_Service_Entity_Exception
+     * @return Mage_Catalog_Model_Product
+     */
+    protected function _getObject($params, $fieldsetId = '')
+    {
+        $product = $this->getProduct($params['id'], $params['identifierType']);
 
         return $product;
     }
