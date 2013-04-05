@@ -101,7 +101,7 @@
                 }, {
                     id: 'grouped-product-dialog-apply-button',
                     text: 'Add Products',
-                    class: 'add',
+                    'class': 'add',
                     click: function () {
                         widget._addSelected();
                         $(this).dialog('close');
@@ -130,7 +130,16 @@
                 widget.options.gridPopup.reload(null, function() {
                     $('[data-role=add-product-popup]').dialog('open');
                 });
+
             });
+            this.options.gridPopup.rowClickCallback = function(grid, event) {
+                event.stopPropagation();
+                if (!this.rows || !this.rows.length) {
+                    return;
+                }
+                $(event.target).parent().find('td.col-select input[type="checkbox"]').click();
+                return false;
+            };
         },
 
         /**
