@@ -53,7 +53,7 @@ custom_options_area: &area
 custom_options_file: &file
     custom_options_general_title: Custom Option File
     custom_options_general_input_type: File
-    custom_options_general_is_required: No
+    custom_options_general_is_required: Yes
     custom_options_general_sort_order: 3
     custom_options_price: 10
     custom_options_price_type: Percent
