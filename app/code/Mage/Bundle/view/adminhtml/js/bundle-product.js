@@ -80,8 +80,8 @@
                 $selectionGrid.dialog({
                     title: $optionBox.find('input[name$="[title]"]').val() === '' ?
                         $.mage.__('Add Products to New Option') :
-                        $.mage.__('Add Products to Option "%s"',
-                            $('<div>').text($optionBox.find('input[name$="[title]"]').val()).html()),
+                        $.mage.__('Add Products to Option "%s"')
+                            .replace('%s',($('<div>').text($optionBox.find('input[name$="[title]"]').val()).html())),
                     autoOpen: false,
                     minWidth: 980,
                     modal: true,
