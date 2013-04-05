@@ -33,7 +33,7 @@
                 minWidth: 980,
                 modal: true,
                 resizable: true,
-                dialogClass: 'grouped-gialog',
+                dialogClass: 'grouped',
                 buttons: [{
                     id: 'grouped-product-dialog-cancel-button',
                     text: 'Cancel',
@@ -71,7 +71,7 @@
                 return false;
             });
             this.$grid.on('click', '[data-column=actions] button', function () {
-                $(this).closest('tr').hide().addClass('ignore-validate');
+                $(this).closest('[data-role="row"]').hide().addClass('ignore-validate');
                 widget._updatePopupGrid();
                 widget._updateHiddenField(widget._getSelectedIds());
                 widget._updateGridVisibility();
@@ -105,7 +105,7 @@
                 if (inArray) {
                     var data = {};
                     $.each(widget.options.fieldsToSave, function (k, v) {
-                        data[v] = $idContainer.closest('tr').find('input[name="' + v + '"]').val();
+                        data[v] = $idContainer.closest('[data-role="row"]').find('input[name="' + v + '"]').val();
                     });
                     gridData[$idContainer.val()] = data;
                 }
@@ -125,7 +125,7 @@
             $.each(this.$grid.find('input[name="entity_id"]'), function () {
                 var $idContainer = $(this),
                     inArray = $.inArray($idContainer.val(), ids) !== -1;
-                $idContainer.closest('tr').toggle(inArray).toggleClass('ignore-validate', !inArray);
+                $idContainer.closest('[data-role="row"]').toggle(inArray).toggleClass('ignore-validate', !inArray);
                 if (inArray) {
                     displayRows = true;
                 }
@@ -141,7 +141,7 @@
                     return true;
                 }
                 $.each(gridData[id], function (fieldName, data) {
-                    $idContainer.closest('tr').find('input[name="' + fieldName + '"]').val(data);
+                    $idContainer.closest('[data-role="row"]').find('input[name="' + fieldName + '"]').val(data);
                 });
             });
         },
@@ -160,7 +160,7 @@
             var skus = [];
             $.each(this.$popup.find('td.col-select input[type="checkbox"]:checked'),
                 function () {
-                    skus.push($(this).closest('tr').find('td[data-column="sku"]').html().trim());
+                    skus.push($(this).closest('[data-role="row"]').find('td[data-column="sku"]').html().trim());
                 }
             );
             return skus;
@@ -171,12 +171,12 @@
             $.each(this.$grid.find('input[name="entity_id"]'), function () {
                 var id = $(this).val();
                 $popup.find('input[type=checkbox][value="' + id + '"]')
-                    .prop({checked: !$(this).closest('tr').hasClass('ignore-validate')});
+                    .prop({checked: !$(this).closest('[data-role="row"]').hasClass('ignore-validate')});
             });
         },
 
         _sortGridByPosition: function () {
-            var rows = this.$grid.find('tbody tr');
+            var rows = this.$grid.find('tbody [data-role="row"]');
             rows.sort(function (a, b) {
                 var valueA = $(a).find('input[name="position"]').val(),
                     valueB = $(b).find('input[name="position"]').val();
@@ -186,7 +186,7 @@
         },
 
         _updateGridVisibility: function (showGrid) {
-            showGrid = showGrid || this.element.find('#grouped_grid_table tbody tr:visible').length > 0;
+            showGrid = showGrid || this.element.find('#grouped_grid_table tbody [data-role="row"]:visible').length > 0;
             this.element.find('.grid-wrapper').toggle(showGrid);
             this.element.find('.no-products-message').toggle(!showGrid);
         }

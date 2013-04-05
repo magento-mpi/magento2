@@ -32,7 +32,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
     /**
      * Prepare grid massaction actions
      *
-     * @return Mage_Backend_Block_Widget_Grid
+     * @return $this
      */
     protected function _prepareMassaction()
     {
@@ -137,7 +137,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
     /**
      * Retrieve grid reload url
      *
-     * @return string;
+     * @return string
      */
     public function getGridUrl()
     {
