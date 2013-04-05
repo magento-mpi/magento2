@@ -304,6 +304,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $storeLogo = $this->_objectManager->get('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader');
             $storeLogo->setScope('stores')->setScopeId($store->getId())->setPath('design/header/logo_src')->save();
 
+            $this->_reinitSystemConfiguration();
+
             $response = array('error' => false, 'content' => array('name' => basename($storeLogo->getValue())));
         } catch (Mage_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
@@ -343,6 +345,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $this->_objectManager->get('Mage_Backend_Model_Config_Backend_Store')
                 ->setScope('stores')->setScopeId($store->getId())->setPath('design/header/logo_src')
                 ->setValue('')->save();
+
+            $this->_reinitSystemConfiguration();
 
             $response = array('error' => false, 'content' => array());
         } catch (Mage_Core_Exception $e) {
@@ -398,5 +402,17 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         /** @var $helper Mage_Core_Helper_Theme */
         $helper = $this->_objectManager->get('Mage_Core_Helper_Theme');
         return $helper->loadEditableTheme($dataHelper->getEditableThemeId());
+    }
+
+    /**
+     * Reinit system configuration
+     *
+     * @return Mage_Core_Model_Config
+     */
+    protected function _reinitSystemConfiguration()
+    {
+        /** @var $configModel Mage_Core_Model_Config */
+        $configModel = $this->_objectManager->get('Mage_Core_Model_Config');
+        return $configModel->reinit();
     }
 }
