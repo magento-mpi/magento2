@@ -11,7 +11,7 @@ class Mage_Core_Service_Manager extends Varien_Object
     /**  @var Varien_Object */
     protected $_idl = null;
 
-    public function __construct(Magento_ObjectManager $objectManager, Mage_Core_Service_Idl $definition)
+    public function __construct(Magento_ObjectManager_ObjectManager $objectManager, Mage_Core_Service_Idl $definition)
     {
         $this->_objectManager = $objectManager;
         $this->_definition    = $definition;
@@ -28,7 +28,7 @@ class Mage_Core_Service_Manager extends Varien_Object
     {
         $service = $this->getService($serviceId);
 
-        $args = $this->extractArguments($serviceId, $args);
+        $args = $this->extractArguments($serviceId, $method, $args);
 
         $result  = $service->$method($args);
 
@@ -43,7 +43,8 @@ class Mage_Core_Service_Manager extends Varien_Object
      */
     public function getService($serviceId)
     {
-        $service = $this->_objectManager->get($serviceId);
+        $serviceClass = $this->_definition->getElement($serviceId . '/class');
+        $service = $this->_objectManager->get($serviceClass);
 
         return $service;
     }
@@ -52,10 +53,11 @@ class Mage_Core_Service_Manager extends Varien_Object
      * Look up for a given service arguments in environment
      *
      * @param string $serviceId
+     * @param string $method
      * @param mixed $args
      * @return Mage_Core_Service_Args $args
      */
-    public function extractArguments($serviceId, $args)
+    public function extractArguments($serviceId, $method, $args)
     {
         if ($args instanceof Mage_Core_Service_Args) {
             return $args;
@@ -63,7 +65,7 @@ class Mage_Core_Service_Manager extends Varien_Object
 
         $requestParams = array();
 
-        $scheme = $this->_definition->getElement($serviceId);
+        $scheme = $this->_definition->getElement($serviceId . '/methods/' . $method);
         $params = (array) Mage::app()->getRequest()->getParams($serviceId);
 
         if (null !== $args) {
@@ -75,7 +77,7 @@ class Mage_Core_Service_Manager extends Varien_Object
         }
 
         if ($params) {
-            $requestParams = $this->filter($params, $scheme);
+            $requestParams = $this->filter($params, $scheme['args']);
         }
 
         $args = $this->_objectManager->get('Mage_Core_Service_Args');
@@ -86,24 +88,9 @@ class Mage_Core_Service_Manager extends Varien_Object
 
     public function filter(array $params, array $scheme)
     {
-        $resourceIdFieldAlias = $scheme['id_field_alias'];
-
         foreach ($params as $field => $value) {
-            if ($resourceIdFieldAlias === $field) {
-                continue;
-            }
-            if (!array_key_exists($field, $scheme['fields'])) {
+            if (!array_key_exists($field, $scheme)) {
                 unset($params[$field]);
-            }
-        }
-
-        if (!isset($params[$resourceIdFieldAlias])) {
-            $params[$resourceIdFieldAlias] = Mage::app()->getRequest()->getParam($resourceIdFieldAlias);
-        }
-
-        foreach ($scheme['global_params'] as $field => $config) {
-            if (!isset($params[$field])) {
-                $params[$field] = Mage::app()->getRequest()->getParam($field, $config['default']);
             }
         }
 

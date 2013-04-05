@@ -4,7 +4,7 @@ $resourceDefinition = array(
     'fields' => array(
         'entity_id'   => array(
             'type'                       => 'static',
-            'label'                      => 'Product Entity ID',
+            'label'                      => 'Category Entity ID',
             'input'                      => 'int',
             'backend'                    => '',
             'primary'                    => true,
@@ -15,19 +15,6 @@ $resourceDefinition = array(
             'searchable'                 => true,
             'comparable'                 => false,
             'visible_in_advanced_search' => false
-        ),
-
-        'sku'         => array(
-            'type'                       => 'static',
-            'label'                      => 'SKU',
-            'input'                      => 'text',
-            'backend'                    => 'Mage_Catalog_Model_Product_Attribute_Backend_Sku',
-            'unique'                     => true,
-            'sort_order'                 => 2,
-            'filterable'                 => true,
-            'searchable'                 => true,
-            'comparable'                 => true,
-            'visible_in_advanced_search' => true
         ),
 
         'name'        => array(

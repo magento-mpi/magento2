@@ -25,50 +25,37 @@ class Mage_Core_Service_Idl extends Varien_Object
     public function getIDL()
     {
         if (null === $this->_idl) {
+            // try from cache
+            // if null run IDL parser/reader
+            // ... and get it from cache ))
+
+            // prototype
             $scheme = array(
-                'Mage_Catalog_Service_Product'  => array(
-                    'fields'         => array(
-                        'product_id' => array(
-                            'label'      => 'Entity ID',
-                            'type'       => Varien_Db_Ddl_Table::TYPE_SMALLINT,
-                            'input_type' => 'label',
-                            'size'       => null,
-                            'identity'   => true,
-                            'nullable'   => false,
-                            'primary'    => true,
+                'catalogCategory' => array(
+                    'class'   => 'Mage_Catalog_Service_Category',
+                    'methods' => array(
+                        'item' => array(
+                            'args'           => array(
+                                'entity_id' => array(),
+
+                                'url_key'   => array(),
+
+                                'store_id'  => array(
+                                    'default' => null
+                                ),
+
+                                'version'   => array(
+                                    'default' => null
+                                ),
+
+                                'fields'    => array()
+                            ),
+                            'id_field_alias' => 'category_id',
+                            'return'         => array(
+                                array('_resource' => 'catalogCategory')
+                            )
                         )
-                    ),
-                    'global_params'  => array(
-                        'store_id'         => array(
-                            'default' => null
-                        ),
-                        'attribute_set_id' => array(
-                            'default' => null
-                        ),
-                        'type_id'          => array(
-                            'default' => null
-                        )
-                    ),
-                    'id_field_alias' => 'id'
-                ),
-                'Mage_Catalog_Service_Category' => array(
-                    'fields'         => array(
-                        'entity_id' => array(
-                            'label'      => 'Entity ID',
-                            'type'       => Varien_Db_Ddl_Table::TYPE_SMALLINT,
-                            'input_type' => 'label',
-                            'size'       => null,
-                            'identity'   => true,
-                            'nullable'   => false,
-                            'primary'    => true,
-                        )
-                    ),
-                    'global_params'  => array(
-                        'store_id' => array(
-                            'default' => null
-                        )
-                    ),
-                    'id_field_alias' => 'id'
+                    )
                 )
             );
             $this->_idl = new Varien_Object($scheme);

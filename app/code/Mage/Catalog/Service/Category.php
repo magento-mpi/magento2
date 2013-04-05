@@ -1,41 +1,34 @@
 <?php
 /**
- * API Product service.
+ * Catalog Category Service.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * @service true
  */
 class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
 {
-    const SERVICE_ID = 'Mage_Catalog_Service_Category';
+    const SERVICE_ID = 'catalogCategory';
 
     /**
      * Return resource object or resource object data.
      *
-     * @adapter context | standard | legacy
-     * @param mixed $args
-     * @return mixed
+     * @param Mage_Core_Service_Args $args
+     * @return Varien_Object | array
      */
-    public function getItem($args = null, $asObject = true)
+    public function item(Mage_Core_Service_Args $args)
     {
         $result = $this->_getItem($args);
-        if (!$asObject) {
-            $result = $this->_getObjectData($result);
+
+        if ($args->getAsArray()) {
+            // fake
+            $result = $result->getData();
         }
 
         return $result;
-    }
-
-    /**
-     * Returns unique service identifier.
-     *
-     * @return string
-     */
-    protected function _getServiceId()
-    {
-        return self::SERVICE_ID;
     }
 
     /**
@@ -47,25 +40,22 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
     protected function _getItem(Mage_Core_Service_Args $args)
     {
         /** @var $category Mage_Catalog_Model_Category */
-        $category = $this->_objectManager->create('Mage_Catalog_Model_Category');
-
-        $id = $args->getId();
+        $category = Mage::getModel('Mage_Catalog_Model_Category');
 
         // `set` methods are creating troubles
         foreach ($args->getData() as $k => $v) {
             $category->setDataUsingMethod($k, $v);
         }
 
-        if (false !== $id) {
+        $id = $category->getId();
+        if ($id) {
+            // TODO: we need this trick as because of inproper handling when target record doesn't exist
+            $category->setId(null);
+
             // TODO: Depends on MDS-167
             //$fieldset = $args->getFieldset();
             //$category->setFieldset($fieldset);
-
             $category->load($id);
-        }
-
-        if (!$category->getId()) {
-            // TODO: so what to do?
         }
 
         return $category;
@@ -74,14 +64,15 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
     /**
      * Returns collection of resource objects.
      *
-     * @param mixed $args
+     * @param Mage_Core_Service_Args $args
      * @return mixed
      */
-    public function getItems($args = null, $asObject = true)
+    public function getItems(Mage_Core_Service_Args $args)
     {
         $result = $this->_getItems($args);
-        if (!$asObject) {
-            $result = $this->_getCollectionData($result);
+        if (!$args->getAsObject()) {
+            // fake
+            $result = $result->toArray();
         }
 
         return $result;
@@ -127,5 +118,15 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
         }
 
         return $this->_dictionary;
+    }
+
+    /**
+     * Returns unique service identifier.
+     *
+     * @return string
+     */
+    protected function _getServiceId()
+    {
+        return self::SERVICE_ID;
     }
 }

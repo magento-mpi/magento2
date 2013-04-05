@@ -30,26 +30,35 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             return false;
         }
 
-        $category = Mage::getModel('Mage_Catalog_Model_Category')
+        /*$category = Mage::getModel('Mage_Catalog_Model_Category')
             ->setStoreId(Mage::app()->getStore()->getId())
-            ->load($categoryId);
+            ->load($categoryId);*/
+
+        /** @var $serviceManager Mage_Core_Service_Manager */
+        $serviceManager = Mage::getSingleton('Mage_Core_Service_Manager');
+        $category = $serviceManager->call('catalogCategory', 'item', array(
+            'store_id' => Mage::app()->getStore()->getId(),
+            'entity_id' => $categoryId
+        ));
 
         if (!Mage::helper('Mage_Catalog_Helper_Category')->canShow($category)) {
             return false;
         }
+
         Mage::getSingleton('Mage_Catalog_Model_Session')->setLastVisitedCategoryId($category->getId());
+
         Mage::register('current_category', $category);
-        try {
-            Mage::dispatchEvent(
-                'catalog_controller_category_init_after',
-                array(
-                    'category' => $category,
-                    'controller_action' => $this
-                )
-            );
-        } catch (Mage_Core_Exception $e) {
-            Mage::logException($e);
-            return false;
+            try {
+                Mage::dispatchEvent(
+                    'catalog_controller_category_init_after',
+                    array(
+                        'category' => $category,
+                        'controller_action' => $this
+                    )
+                );
+            } catch (Mage_Core_Exception $e) {
+                Mage::logException($e);
+                return false;
         }
 
         return $category;

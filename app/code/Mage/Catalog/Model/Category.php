@@ -825,6 +825,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function isInRootCategoryList()
     {
+        // TODO there are bugs in resource models' methods, store_id set to model o/andr to resource model are ignored
         return $this->getResource()->isInRootCategoryList($this);
     }
 
