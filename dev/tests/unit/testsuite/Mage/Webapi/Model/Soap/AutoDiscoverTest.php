@@ -20,13 +20,13 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Core_Model_CacheInterface */
     protected $_cacheMock;
 
-    /** @var Mage_Webapi_Model_Config_Soap */
-    protected $_resourceConfigMock;
+    /** @var Mage_Core_Service_Config */
+    protected $_serviceConfigMock;
 
     protected function setUp()
     {
         /** Prepare arguments for SUT constructor. */
-        $this->_resourceConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')
+        $this->_serviceConfigMock = $this->getMockBuilder('Mage_Core_Service_Config')
             ->disableOriginalConstructor()->getMock();
 
         $this->_wsdlMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl')
@@ -59,7 +59,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $this->_cacheMock = $this->getMock('Mage_Core_Model_CacheInterface');
         /** Initialize SUT. */
         $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(
-            $this->_resourceConfigMock,
+            $this->_serviceConfigMock,
             $wsdlFactory,
             $helper,
             $this->_cacheMock
@@ -72,7 +72,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         unset($this->_wsdlMock);
         unset($this->_autoDiscover);
         unset($this->_cacheMock);
-        unset($this->_resourceConfigMock);
+        unset($this->_serviceConfigMock);
         parent::tearDown();
     }
 
@@ -81,18 +81,18 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      *
      * @dataProvider generateDataProvider()
      */
-    public function testGenerate($resourceName, $methodName, $interface)
+    public function testGenerate($serviceName, $methodName, $interface)
     {
         $serviceDomMock = $this->_getDomElementMock();
         $this->_wsdlMock->expects($this->once())->method('addService')->will($this->returnValue($serviceDomMock));
         $portTypeDomMock = $this->_getDomElementMock();
-        $portTypeName = $this->_autoDiscover->getPortTypeName($resourceName);
+        $portTypeName = $this->_autoDiscover->getPortTypeName($serviceName);
         $this->_wsdlMock->expects($this->once())
             ->method('addPortType')
             ->with($portTypeName)
             ->will($this->returnValue($portTypeDomMock));
         $bindingDomMock = $this->_getDomElementMock();
-        $bindingName = $this->_autoDiscover->getBindingName($resourceName);
+        $bindingName = $this->_autoDiscover->getBindingName($serviceName);
         $this->_wsdlMock->expects($this->once())
             ->method('addBinding')
             ->with($bindingName, Wsdl::TYPES_NS . ':' . $portTypeName)
@@ -100,7 +100,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $this->_wsdlMock->expects($this->once())
             ->method('addSoapBinding')
             ->with($bindingDomMock);
-        $operationName = $this->_autoDiscover->getOperationName($resourceName, $methodName);
+        $operationName = $this->_autoDiscover->getOperationName($serviceName, $methodName);
         $inputMessageName = $this->_autoDiscover->getInputMessageName($operationName);
         $outputMessageName = $this->_autoDiscover->getOutputMessageName($operationName);
         $this->_wsdlMock->expects($this->once())
@@ -130,7 +130,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
             ->method('toXML');
 
         $requestedResources = array(
-            $resourceName => array(
+            $serviceName => array(
                 'methods' => array(
                     $methodName => array(
                         'interface' => $interface,
@@ -173,13 +173,13 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         /** Mock cache canUse method to return false. */
         $this->_cacheMock->expects($this->once())->method('canUse')->will($this->returnValue(false));
         $requestedResources = array('res1' => 'v1');
-        $exception = new LogicException('getResourceDataMerged Exception');
-        $this->_resourceConfigMock->expects($this->once())->method('getResourceDataMerged')->will(
+        $exception = new LogicException('getServiceData Exception');
+        $this->_serviceConfigMock->expects($this->once())->method('getServiceData')->will(
             $this->throwException($exception)
         );
         $this->setExpectedException(
             'Mage_Webapi_Exception',
-            'getResourceDataMerged Exception',
+            'getServiceData Exception',
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
         $this->_autoDiscover->handle($requestedResources, 'http://magento.host');

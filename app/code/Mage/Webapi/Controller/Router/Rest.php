@@ -51,7 +51,7 @@ class Mage_Webapi_Controller_Router_Rest
             ) {
                 $request->setParams($params);
                 /** Initialize additional request parameters using data from route */
-                $request->setResourceName($route->getResourceName());
+                $request->setServiceName($route->getServiceName());
                 $request->setMethodName($route->getMethodName());
                 return $route;
             }

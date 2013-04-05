@@ -31,7 +31,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     /**#@-*/
 
     /** @var string */
-    protected $_resourceName;
+    protected $_serviceName;
 
     /** @var string */
     protected $_methodName;
@@ -182,17 +182,17 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      */
     public function getServiceName()
     {
-        return $this->_resourceName;
+        return $this->_serviceName;
     }
 
     /**
      * Set resource type.
      *
-     * @param string $resourceName
+     * @param string $serviceName
      */
-    public function setResourceName($resourceName)
+    public function setServiceName($serviceName)
     {
-        $this->_resourceName = $resourceName;
+        $this->_serviceName = $serviceName;
     }
 
     /**

@@ -126,17 +126,17 @@ class Mage_Core_Service_Config
      */
     public function getMethodMetadata(ReflectionMethod $methodReflection)
     {
-        $resourceName = $this->_helper->translateResourceName($methodReflection->getDeclaringClass()->getName());
+        $serviceName = $this->_helper->translateServiceName($methodReflection->getDeclaringClass()->getName());
         $methodName = $methodReflection->getName();
 
-        if (!isset($this->_data['resources'][$resourceName]['methods'][$methodName])) {
+        if (!isset($this->_data['resources'][$serviceName]['methods'][$methodName])) {
             throw new InvalidArgumentException(sprintf(
                 'The "%s" method is not registered in "%s" resource.',
                 $methodName,
-                $resourceName
+                $serviceName
             ));
         }
-        return $this->_data['resources'][$resourceName]['methods'][$methodName];
+        return $this->_data['resources'][$serviceName]['methods'][$methodName];
     }
 
     /**
@@ -161,20 +161,20 @@ class Mage_Core_Service_Config
      * )
      * </pre>
      *
-     * @param string $resourceName
+     * @param string $serviceName
      * @param string $method
      * @return array|bool On success array with policy details; false otherwise.
      * @throws InvalidArgumentException
      */
-    public function getDeprecationPolicy($resourceName, $method)
+    public function getDeprecationPolicy($serviceName, $method)
     {
         $deprecationPolicy = false;
-        $resourceData = $this->getServiceData($resourceName);
+        $resourceData = $this->getServiceData($serviceName);
         if (!isset($resourceData['methods'][$method])) {
             throw new InvalidArgumentException(sprintf(
                 'Method "%s" does not exist in resource "%s".',
                 $method,
-                $resourceName
+                $serviceName
             ));
         }
         $methodData = $resourceData['methods'][$method];
@@ -241,17 +241,17 @@ class Mage_Core_Service_Config
     }
 
     /**
-     * Retrieve resource description.
+     * Retrieve resource data.
      *
-     * @param string $resourceName
+     * @param string $serviceName
      * @return array
      * @throws LogicException In case when resource with specified name is not defined or its data is not an array
      */
-    public function getServiceData($resourceName)
+    public function getServiceData($serviceName)
     {
-        if (!isset($this->_data['resources'][$resourceName]) || !is_array($this->_data['resources'][$resourceName])) {
-            throw new LogicException(sprintf('Resource "%s" is not defined or is invalid.', $resourceName));
+        if (!isset($this->_data['resources'][$serviceName]) || !is_array($this->_data['resources'][$serviceName])) {
+            throw new LogicException(sprintf('Resource "%s" is not defined or is invalid.', $serviceName));
         }
-        return $this->_data['resources'][$resourceName];
+        return $this->_data['resources'][$serviceName];
     }
 }

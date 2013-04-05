@@ -81,7 +81,7 @@ class Mage_Core_Service_Config_Reader_ClassReflector
 
         return array(
             'resources' => array(
-                $this->_helper->translateResourceName($className) => $data,
+                $this->_helper->translateServiceName($className) => $data,
             ),
         );
     }
@@ -222,18 +222,18 @@ class Mage_Core_Service_Config_Reader_ClassReflector
             case 2:
                 try {
                     /** Support of: Mage_Catalog_Webapi_ProductController::createV1 */
-                    $resourceName = $this->_helper->translateResourceName($useMethodParts[0]);
+                    $serviceName = $this->_helper->translateServiceName($useMethodParts[0]);
                 } catch (InvalidArgumentException $e) {
                     /** Support of: catalogProduct::createV1 */
-                    $resourceName = $useMethodParts[0];
+                    $serviceName = $useMethodParts[0];
                 }
-                $deprecationPolicy['use_resource'] = $resourceName;
+                $deprecationPolicy['use_resource'] = $serviceName;
                 $methodName = $useMethodParts[1];
                 break;
             case 1:
                 $methodName = $useMethodParts[0];
                 /** If resource was not specified, current one should be used. */
-                $deprecationPolicy['use_resource'] = $this->_helper->translateResourceName(
+                $deprecationPolicy['use_resource'] = $this->_helper->translateServiceName(
                     $methodReflection->getDeclaringClass()->getName()
                 );
                 break;

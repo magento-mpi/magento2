@@ -17,6 +17,9 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     /** @var Mage_Core_Service_Config */
     protected $_serviceConfig;
 
+    /** @var Mage_Webapi_Model_Config_Soap */
+    protected $_soapApiConfig;
+
     /**
      * WS-Security UsernameToken object from request.
      *
@@ -56,7 +59,8 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Config_Soap $serviceConfig
+     * @param Mage_Core_Service_Config $serviceConfig
+     * @param Mage_Webapi_Model_Config_Soap $soapApiConfig
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Controller_Dispatcher_Soap_Authentication $authentication
      * @param Mage_Core_Service_Factory $controllerFactory
@@ -65,7 +69,8 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
      */
     public function __construct(
-        Mage_Webapi_Model_Config_Soap $serviceConfig,
+        Mage_Core_Service_Config $serviceConfig,
+        Mage_Webapi_Model_Config_Soap $soapApiConfig,
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Controller_Dispatcher_Soap_Authentication $authentication,
         Mage_Core_Service_Factory $controllerFactory,
@@ -74,6 +79,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
         Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
     ) {
         $this->_serviceConfig = $serviceConfig;
+        $this->_soapApiConfig = $soapApiConfig;
         $this->_helper = $helper;
         $this->_authentication = $authentication;
         $this->_serviceFactory = $controllerFactory;
@@ -104,11 +110,15 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                     );
                 }
                 $this->_authentication->authenticate($this->_usernameToken);
-                $serviceName = $this->_serviceConfig->getServiceNameByOperation($operation);
-                $controllerInstance = $this->_serviceFactory->createServiceInstance($serviceName);
-                $method = $this->_serviceConfig->getMethodNameByOperation($operation);
+                $serviceName = $this->_soapApiConfig->getServiceNameByOperation($operation);
+                $serviceInstance = $this->_serviceFactory->createServiceInstance($serviceName);
+                $method = $this->_soapApiConfig->getMethodNameByOperation($operation);
 
-                $this->_authorization->checkResourceAcl($serviceName, $method);
+                /**
+                 * TODO: Uncomment authorization check after it is refactored.
+                 * TODO: Uncomment its testing in Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest::testCall()
+                 */
+                // $this->_authorization->checkResourceAcl($serviceName, $method);
 
                 $arguments = reset($arguments);
                 $arguments = get_object_vars($arguments);
@@ -122,7 +132,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                     $arguments,
                     $this->_serviceConfig
                 );
-                $outputData = call_user_func_array(array($controllerInstance, $action), $arguments);
+                $outputData = call_user_func_array(array($serviceInstance, $action), $arguments);
                 return (object)array(self::RESULT_NODE_NAME => $outputData);
             } catch (Mage_Webapi_Exception $e) {
                 throw new Mage_Webapi_Model_Soap_Fault($e->getMessage(), $e->getOriginator(), $e);
