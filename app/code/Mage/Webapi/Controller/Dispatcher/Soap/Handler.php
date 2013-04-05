@@ -97,13 +97,13 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
             $this->_processSoapHeader($operation, $arguments);
         } else {
             try {
-                if (is_null($this->_usernameToken)) {
-                    throw new Mage_Webapi_Exception(
-                        $this->_helper->__('WS-Security UsernameToken is not found in SOAP-request.'),
-                        Mage_Webapi_Exception::HTTP_UNAUTHORIZED
-                    );
-                }
-                $this->_authentication->authenticate($this->_usernameToken);
+//                if (is_null($this->_usernameToken)) {
+//                    throw new Mage_Webapi_Exception(
+//                        $this->_helper->__('WS-Security UsernameToken is not found in SOAP-request.'),
+//                        Mage_Webapi_Exception::HTTP_UNAUTHORIZED
+//                    );
+//                }
+//                $this->_authentication->authenticate($this->_usernameToken);
                 $resourceVersion = $this->_getOperationVersion($operation);
                 $resourceName = $this->_apiConfig->getResourceNameByOperation($operation, $resourceVersion);
                 if (!$resourceName) {
@@ -119,7 +119,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                 );
                 $method = $this->_apiConfig->getMethodNameByOperation($operation, $resourceVersion);
 
-                $this->_authorization->checkResourceAcl($resourceName, $method);
+//                $this->_authorization->checkResourceAcl($resourceName, $method);
 
                 $arguments = reset($arguments);
                 $arguments = get_object_vars($arguments);
