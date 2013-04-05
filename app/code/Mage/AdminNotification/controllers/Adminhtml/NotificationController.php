@@ -20,8 +20,7 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
             ->_addBreadcrumb(
                 Mage::helper('Mage_AdminNotification_Helper_Data')->__('Messages Inbox'),
                 Mage::helper('Mage_AdminNotification_Helper_Data')->__('Messages Inbox')
-            )->_addContent($this->getLayout()->createBlock('Mage_AdminNotification_Block_Inbox'))
-            ->renderLayout();
+            )->renderLayout();
     }
 
     public function markAsReadAction()
