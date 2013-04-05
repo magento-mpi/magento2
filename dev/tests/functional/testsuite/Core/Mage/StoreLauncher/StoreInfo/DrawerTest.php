@@ -39,20 +39,37 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
     }
 
     /**
+     * Set System Locale to default
+     */
+    public function tearDownAfterTest()
+    {
+            $this->loginAdminUser();
+            $this->navigate('system_configuration');
+            $this->systemConfigurationHelper()->configure('General/general_locale_default');
+    }
+
+    /**
      * <p>User can edit Business Info information.</p>
      *
+     * @param string $storeInfo Dataset name
+     * @param string $locale Locale
      * @test
      * @TestlinkId TL-MAGE-6508
+     * @dataProvider businessInfoDataProvider
      */
-    public function editBusinessInfoInformation()
+    public function editBusinessInfoInformation($storeInfo, $locale)
     {
+        $this->navigate('system_configuration');
+        $config = $this->loadDataSet('General', 'general_locale_default', array('locale' => $locale));
+        $this->systemConfigurationHelper()->configure($config);
+        $this->admin();
         /**
          * @var Core_Mage_StoreLauncher_Helper $helper
          */
         $helper = $this->storeLauncherHelper();
         $helper->openDrawer('bussines_info_tile');
 
-        $data = $this->loadDataSet('StoreInfo', 'store_info');
+        $data = $this->loadDataSet('StoreInfo', $storeInfo);
         $this->fillFieldset($data, 'bussines_info_drawer_form');
         $helper->saveDrawer();
 
@@ -72,10 +89,24 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
     }
 
     /**
+     * DataProvider for editBusinessInfoInformation()
+     *
+     * @return array
+     */
+    public function businessInfoDataProvider()
+    {
+        return array(
+            array('store_info_no_vat', 'English (United States)'),
+            array('store_info_vat', 'English (United Kingdom)'),
+        );
+    }
+
+    /**
      * <p>Business Address is displayed on tile after saving info on drawer</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6509
+     * @skipTearDown
      */
     public function businessAddressIsDisplayedOnTile()
     {
@@ -85,7 +116,7 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
         $helper = $this->storeLauncherHelper();
         $helper->openDrawer('bussines_info_tile');
 
-        $data = $this->loadDataSet('StoreInfo', 'store_info');
+        $data = $this->loadDataSet('StoreInfo', 'store_info_no_vat');
         $this->fillFieldset($data, 'bussines_info_drawer_form');
         $helper->saveDrawer();
 
@@ -107,6 +138,7 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
      *
      * @test
      * @TestlinkId TL-MAGE-6510
+     * @skipTearDown
      */
     public function cancelEditingStoreInfo()
     {
@@ -116,7 +148,7 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
         $helper = $this->storeLauncherHelper();
         $helper->openDrawer('bussines_info_tile');
 
-        $data = $this->loadDataSet('StoreInfo', 'store_info');
+        $data = $this->loadDataSet('StoreInfo', 'store_info_no_vat');
         $this->fillFieldset($data, 'bussines_info_drawer_form');
         $helper->closeDrawer();
 
@@ -130,6 +162,7 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
      *
      * @test
      * @TestlinkId TL-MAGE-6527
+     * @skipTearDown
      */
     public function editEmailAddresses()
     {

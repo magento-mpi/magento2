@@ -133,18 +133,18 @@
     </launcher_storelauncher_product_drawer_save>
 
     <promotestore_index>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Googleanalytics_Tile" name="google_analytics.tile" template="page/promotestore/googleanalytics/tile.phtml"/>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Homepage_Tile" name="home_page.tile" template="page/promotestore/homepage/tile.phtml"/>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Contentpages_Tile" name="content_pages.tile" template="page/promotestore/contentpages/tile.phtml"/>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Reports_Tile" name="reports.tile" template="page/promotestore/reports/tile.phtml"/>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Seo_Tile" name="seo.tile" template="page/promotestore/seo/tile.phtml"/>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Promotion_Tile" name="promotion.tile" template="page/promotestore/promotion/tile.phtml"/>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Catalogpricerule_Tile" name="catalog_price_rule.tile" template="page/promotestore/catalogpricerule/tile.phtml"/>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Rss_Tile" name="rss.tile" template="page/promotestore/rss/tile.phtml"/>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Wishlist_Tile" name="wishlist.tile" template="page/promotestore/wishlist/tile.phtml"/>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Customercommunication_Tile" name="customer_communication.tile" template="page/promotestore/customercommunication/tile.phtml"/>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Ebay_Tile" name="ebay.tile" template="page/promotestore/ebay/tile.phtml"/>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Relatedproducts_Tile" name="related_products.tile" template="page/promotestore/relatedproducts/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="google_analytics.tile" template="page/promotestore/googleanalytics/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="home_page.tile" template="page/promotestore/homepage/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="content_pages.tile" template="page/promotestore/contentpages/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="reports.tile" template="page/promotestore/reports/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="seo.tile" template="page/promotestore/seo/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="promotion.tile" template="page/promotestore/promotion/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="catalog_price_rule.tile" template="page/promotestore/catalogpricerule/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="rss.tile" template="page/promotestore/rss/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="wishlist.tile" template="page/promotestore/wishlist/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="customer_communication.tile" template="page/promotestore/customercommunication/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="ebay.tile" template="page/promotestore/ebay/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="related_products.tile" template="page/promotestore/relatedproducts/tile.phtml"/>
     </promotestore_index>
 
     <launcher_promotestore_seo_drawer_load>
@@ -152,7 +152,7 @@
     </launcher_promotestore_seo_drawer_load>
 
     <launcher_promotestore_seo_drawer_save>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Seo_Tile" name="seo.tile" template="page/promotestore/seo/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="seo.tile" template="page/promotestore/seo/tile.phtml"/>
     </launcher_promotestore_seo_drawer_save>
 
     <launcher_promotestore_wishlist_drawer_load>
@@ -160,7 +160,7 @@
     </launcher_promotestore_wishlist_drawer_load>
 
     <launcher_promotestore_wishlist_drawer_save>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Wishlist_Tile" name="wishlist.tile" template="page/promotestore/wishlist/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="wishlist.tile" template="page/promotestore/wishlist/tile.phtml"/>
     </launcher_promotestore_wishlist_drawer_save>
 
     <launcher_promotestore_ebay_drawer_load>
@@ -168,7 +168,7 @@
     </launcher_promotestore_ebay_drawer_load>
 
     <launcher_promotestore_ebay_drawer_save>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Ebay_Tile" name="ebay.tile" template="page/promotestore/ebay/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="ebay.tile" template="page/promotestore/ebay/tile.phtml"/>
     </launcher_promotestore_ebay_drawer_save>
 
     <launcher_promotestore_relatedproducts_drawer_load>
@@ -176,7 +176,7 @@
     </launcher_promotestore_relatedproducts_drawer_load>
 
     <launcher_promotestore_relatedproducts_drawer_save>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Relatedproducts_Tile" name="related_products.tile" template="page/promotestore/relatedproducts/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="related_products.tile" template="page/promotestore/relatedproducts/tile.phtml"/>
     </launcher_promotestore_relatedproducts_drawer_save>
 
     <launcher_promotestore_catalogpricerule_drawer_load>
@@ -184,7 +184,7 @@
     </launcher_promotestore_catalogpricerule_drawer_load>
 
     <launcher_promotestore_catalogpricerule_drawer_save>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Catalogpricerule_Tile" name="catalog_price_rule.tile" template="page/promotestore/catalogpricerule/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="catalog_price_rule.tile" template="page/promotestore/catalogpricerule/tile.phtml"/>
     </launcher_promotestore_catalogpricerule_drawer_save>
 
     <launcher_promotestore_contentpages_drawer_load>
@@ -192,7 +192,7 @@
     </launcher_promotestore_contentpages_drawer_load>
 
     <launcher_promotestore_contentpages_drawer_save>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Contentpages_Tile" name="content_pages.tile" template="page/promotestore/contentpages/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="content_pages.tile" template="page/promotestore/contentpages/tile.phtml"/>
     </launcher_promotestore_contentpages_drawer_save>
 
     <launcher_promotestore_customercommunication_drawer_load>
@@ -200,7 +200,7 @@
     </launcher_promotestore_customercommunication_drawer_load>
 
     <launcher_promotestore_customercommunication_drawer_save>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Customercommunication_Tile" name="customer_communication.tile" template="page/promotestore/customercommunication/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="customer_communication.tile" template="page/promotestore/customercommunication/tile.phtml"/>
     </launcher_promotestore_customercommunication_drawer_save>
 
     <launcher_promotestore_googleanalytics_drawer_load>
@@ -208,7 +208,7 @@
     </launcher_promotestore_googleanalytics_drawer_load>
 
     <launcher_promotestore_googleanalytics_drawer_save>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Googleanalytics_Tile" name="google_analytics.tile" template="page/promotestore/googleanalytics/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="google_analytics.tile" template="page/promotestore/googleanalytics/tile.phtml"/>
     </launcher_promotestore_googleanalytics_drawer_save>
 
     <launcher_promotestore_homepage_drawer_load>
@@ -216,7 +216,7 @@
     </launcher_promotestore_homepage_drawer_load>
 
     <launcher_promotestore_homepage_drawer_save>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Homepage_Tile" name="home_page.tile" template="page/promotestore/homepage/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="home_page.tile" template="page/promotestore/homepage/tile.phtml"/>
     </launcher_promotestore_homepage_drawer_save>
 
     <launcher_promotestore_promotion_drawer_load>
@@ -224,7 +224,7 @@
     </launcher_promotestore_promotion_drawer_load>
 
     <launcher_promotestore_promotion_drawer_save>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Promotion_Tile" name="promotion.tile" template="page/promotestore/promotion/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="promotion.tile" template="page/promotestore/promotion/tile.phtml"/>
     </launcher_promotestore_promotion_drawer_save>
 
     <launcher_promotestore_reports_drawer_load>
@@ -232,7 +232,7 @@
     </launcher_promotestore_reports_drawer_load>
 
     <launcher_promotestore_reports_drawer_save>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Reports_Tile" name="reports.tile" template="page/promotestore/reports/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="reports.tile" template="page/promotestore/reports/tile.phtml"/>
     </launcher_promotestore_reports_drawer_save>
 
     <launcher_promotestore_rss_drawer_load>
@@ -240,7 +240,7 @@
     </launcher_promotestore_rss_drawer_load>
 
     <launcher_promotestore_rss_drawer_save>
-        <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Rss_Tile" name="rss.tile" template="page/promotestore/rss/tile.phtml"/>
+        <block type="Saas_Launcher_Block_Adminhtml_Tile" name="rss.tile" template="page/promotestore/rss/tile.phtml"/>
     </launcher_promotestore_rss_drawer_save>
 
     <launcher_promotestore_index_index>

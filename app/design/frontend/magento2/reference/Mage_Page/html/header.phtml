@@ -19,12 +19,12 @@
         <?php if ($this->getIsHomePage()):?>
         <strong class="logo">
             <img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" />
-            <span><?php echo $storeName ?></span>
+            <?php /*<span><?php echo $storeName ?></span>*/?>
         </strong>
         <?php else:?>
         <a class="logo" href="<?php echo $this->getUrl(''); ?>" title="<?php echo $storeName ?>">
             <img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $storeName ?>" />
-            <span><?php echo $storeName ?></span>
+            <?php /*<span><?php echo $storeName ?></span> */ ?>
         </a>
         <?php endif?>
     <?php break; ?>

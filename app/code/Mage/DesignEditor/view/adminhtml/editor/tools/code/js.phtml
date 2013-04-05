@@ -23,9 +23,7 @@
         </div>
         <div id="js-file-uploader" class="uploader"></div>
         <div class="files-list-content">
-            <ul class="items ui-sortable">
-                <?php echo $this->getChildBlock('design.editor.tools.code.js.items')->setJsFiles($this->getJsFiles())->toHtml(); ?>
-            </ul>
+            <ul class="items ui-sortable"></ul>
         </div>
     </div>
 </div>
@@ -39,8 +37,29 @@
         <div class="clear"></div>
     </div>
 </div>
+
+
+<li class="js-file item no-display" id="js-uploaded-file-template">
+    <span class="filename" title="${name}">${name}</span>
+    <a href="#" class="action-delete" title="<?php echo $this->__('Delete file'); ?>" data-id="${id}">
+        <span><?php echo $this->__('Delete file'); ?></span>
+    </a>
+</li>
+
+<li class="no-display" id="js-empty-template">
+    <span class="filename"><?php echo $this->__('No files found') ?></span>
+</li>
+
 <script type="text/javascript">
     (function ($) {
+        $('#vde-tab-js .files-list-content .items').themeJsList({
+            templateId : '#js-uploaded-file-template',
+            emptyTemplateId: '#js-empty-template',
+            refreshFileListEvent : 'refreshJsList',
+            prefixItemId: 'js-file-'
+        });
+        $('body').trigger('refreshJsList', {jsList : <?php echo $this->_helperFactory->get('Mage_Core_Helper_Data')->jsonEncode($this->getJsFiles()->getFilesInfo()) ?>});
+
         $('#vde-tab-js .js-file .action-delete').live('click', function() {
             if (!confirm('<?php echo $this->getConfirmMessageDelete() ?>')) {
                 return false;
@@ -52,7 +71,7 @@
                 dataType: 'json'
             }).done(function(data) {
                 if (!data.error) {
-                    $('#vde-tab-js .files-list-content .items').html(data.content);
+                    $('body').trigger('refreshJsList', {jsList : data.files});
                     $('#vde-tab-js .files-list-content .items').trigger('refreshIframe');
                 }
                 if (data.message_html) {
@@ -79,8 +98,11 @@
                     data.fileId =  Math.random().toString(36).substr(2,9);
                     var progressTmpl = $('#js-file-uploader-template').children(':first').clone();
                     progressTmpl.attr('id', data.fileId);
-                    var fileInfoHtml = progressTmpl.html().replace('{{size}}', byteConvert(file.size))
-                            .replace('{{name}}', file.name);
+                    var fileSize = typeof(file.size) == "undefined"
+                        ? $.mage.__('size was not detected')
+                        : byteConvert(file.size);
+                    var fileInfoHtml = progressTmpl.html().replace('{{size}}', fileSize)
+                        .replace('{{name}}', file.name);
                     progressTmpl.html(fileInfoHtml) ;
                     progressTmpl.appendTo('#js-file-uploader');
                 });
@@ -96,11 +118,10 @@
                 var progressSelector = '#' + data.fileId + ' .progressbar-container .progressbar';
                 $(progressSelector).css('width','100%');
 
-                var contentArea = $('#vde-tab-js .files-list-content .items');
                 $(this).val('');
                 if (!data.result.error) {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-success');
-                    contentArea.html(data.result.content);
+                    $('body').trigger('refreshJsList', {jsList : data.result.files});
                 } else {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
                 }

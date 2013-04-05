@@ -129,7 +129,7 @@ class Core_Mage_TransactionalEmails_TransactionalEmailsTest extends Mage_Seleniu
         $templateName = array('template_name' => $templateInformation['template_name']);
         $searchData = $this->loadDataSet('System', 'search_template_data',
             array('filter_template_name' => $templateInformation['template_name']));
-        $this->addParameter('template_name', $templateInformation['template_name']);
+        $this->addParameter('elementTitle', $templateInformation['template_name']);
         //Steps
         $this->transactionalEmailsHelper()->createNewTemplate($templateData, $templateName, '');
         //Verifying
