@@ -111,9 +111,9 @@ class Mage_Core_Model_Translate
     protected $_translateInline;
 
     /**
-     * @var Mage_Core_Model_Translate_TranslateInterface
+     * @var Mage_Core_Model_Translate_InlineInterface
      */
-    protected $_translateInterface;
+    protected $_inlineInterface;
 
     /**
      * Configuration flag to local enable inline translations
@@ -168,7 +168,7 @@ class Mage_Core_Model_Translate
     {
         $this->setConfig(array(self::CONFIG_KEY_AREA => $area));
 
-        $this->_translateInline = $this->getTranslateObject($initParams)->isAllowed(
+        $this->_translateInline = $this->getInlineObject($initParams)->isAllowed(
             $area == Mage_Backend_Helper_Data::BACKEND_AREA_CODE ? 'admin' : null);
 
         if (!$forceReload) {
@@ -233,9 +233,7 @@ class Mage_Core_Model_Translate
             $this->_config[self::CONFIG_KEY_STORE] = Mage::app()->getStore()->getId();
         }
         if (!isset($this->_config[self::CONFIG_KEY_DESIGN_THEME])) {
-            /** @var $designPackage Mage_Core_Model_Design_Package */
-            $designPackage = Mage::getObjectManager()->get('Mage_Core_Model_Design_Package');
-            $this->_config[self::CONFIG_KEY_DESIGN_THEME] = $designPackage->getDesignTheme()->getId();
+            $this->_config[self::CONFIG_KEY_DESIGN_THEME] = $this->_designPackage->getDesignTheme()->getId();
         }
         return $this;
     }
@@ -263,7 +261,7 @@ class Mage_Core_Model_Translate
     public function isAllowed($store = null)
     {
         /** @todo see jira entry MAGETWO-8296 */
-        return $this->getTranslateObject()->isAllowed($store);
+        return $this->getInlineObject()->isAllowed($store);
     }
 
     /**
@@ -274,7 +272,8 @@ class Mage_Core_Model_Translate
      */
     public function processAjaxPost($translate)
     {
-        return $this->getTranslateObject()->processAjaxPost($translate);
+        Mage::getObjectManager()->get('Mage_Core_Model_Translate_InlineParser')
+            ->processAjaxPost($translate, $this->getInlineObject());
     }
 
     /**
@@ -282,12 +281,12 @@ class Mage_Core_Model_Translate
      *
      * @param array|string $body
      * @param bool $isJson
-     * @return Mage_Core_Model_Translate_TranslateInterface
+     * @return Mage_Core_Model_Translate_InlineInterface
      */
     public function processResponseBody(&$body,
-        $isJson = Mage_Core_Model_Translate_InlineAbstract::JSON_FLAG_DEFAULT_STATE
+        $isJson = Mage_Core_Model_Translate_InlineParser::JSON_FLAG_DEFAULT_STATE
     ) {
-        return $this->getTranslateObject()->processResponseBody($body, $isJson);
+        return $this->getInlineObject()->processResponseBody($body, $isJson);
     }
 
     /**
@@ -387,9 +386,7 @@ class Mage_Core_Model_Translate
 
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
         foreach ($requiredLocaleList as $locale) {
-            /** @var $designPackage Mage_Core_Model_Design_Package */
-            $designPackage = Mage::getObjectManager()->get('Mage_Core_Model_Design_Package');
-            $file = $designPackage->getLocaleFileName('translate.csv', array('locale' => $locale));
+            $file = $this->_designPackage->getLocaleFileName('translate.csv', array('locale' => $locale));
             $this->_addData(
                 $this->_getFileData($file),
                 self::CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME],
@@ -680,18 +677,18 @@ class Mage_Core_Model_Translate
      * Returns the translate interface object.
      *
      * @param Varien_Object $initParams
-     * @return Mage_Core_Model_Translate_TranslateInterface
+     * @return Mage_Core_Model_Translate_InlineInterface
      */
-    private function getTranslateObject($initParams = null)
+    private function getInlineObject($initParams = null)
     {
-        if (null === $this->_translateInterface) {
+        if (null === $this->_inlineInterface) {
             if ($initParams === null) {
-                $this->_translateInterface = $this->_translateFactory->create();
+                $this->_inlineInterface = $this->_translateFactory->create();
             } else {
-                $this->_translateInterface = $this->_translateFactory
+                $this->_inlineInterface = $this->_translateFactory
                     ->create($initParams->getParams(), $initParams->getInlineType());
             }
         }
-        return $this->_translateInterface;
+        return $this->_inlineInterface;
     }
 }

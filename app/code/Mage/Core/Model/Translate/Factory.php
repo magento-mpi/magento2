@@ -35,11 +35,11 @@ class Mage_Core_Model_Translate_Factory
     }
 
     /**
-     * Return instance of Translate object based on passed in class name.
+     * Return instance of inline translate object based on passed in class name.
      *
      * @param array $data
      * @param string $className
-     * @return Mage_Core_Model_Translate_TranslateInterface
+     * @return Mage_Core_Model_Translate_InlineInterface
      */
     public function create(array $data = null, $className = null)
     {

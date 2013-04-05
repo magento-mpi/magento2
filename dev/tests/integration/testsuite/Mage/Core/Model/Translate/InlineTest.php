@@ -16,6 +16,9 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var string
+     */
     protected $_storeId = 'default';
 
     public static function setUpBeforeClass()
@@ -25,7 +28,7 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = Mage::getObjectManager()->get('Mage_Core_Model_Translate_Inline');
+        $this->_model = Mage::getModel('Mage_Core_Model_Translate_Inline');
         /* Called getConfig as workaround for setConfig bug */
         Mage::app()->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
         Mage::app()->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
@@ -36,55 +39,6 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_model->isAllowed());
         $this->assertTrue($this->_model->isAllowed($this->_storeId));
         $this->assertTrue($this->_model->isAllowed(Mage::app()->getStore($this->_storeId)));
-    }
-
-    /**
-     * @dataProvider processAjaxPostDataProvider
-     */
-    public function testProcessAjaxPost($originalText, $translatedText, $isPerStore = null)
-    {
-        $inputArray = array(array('original' => $originalText, 'custom' => $translatedText));
-        if ($isPerStore !== null) {
-            $inputArray[0]['perstore'] = $isPerStore;
-        }
-        $this->_model->processAjaxPost($inputArray);
-
-        $model = Mage::getModel('Mage_Core_Model_Translate_String');
-        $model->load($originalText);
-        try {
-            $this->assertEquals($translatedText, $model->getTranslate());
-            $model->delete();
-        } catch (Exception $e) {
-            Mage::logException($e);
-            $model->delete();
-        }
-    }
-
-    public function processAjaxPostDataProvider()
-    {
-        return array(
-            array('original text 1', 'translated text 1'),
-            array('original text 2', 'translated text 2', true),
-        );
-    }
-
-    /**
-     * @dataProvider stripInlineTranslationsDataProvider
-     */
-    public function testStripInlineTranslations($originalText, $expectedText)
-    {
-        $actualText = $originalText;
-        $this->_model->stripInlineTranslations($actualText);
-        $this->assertEquals($expectedText, $actualText);
-    }
-
-    public function stripInlineTranslationsDataProvider()
-    {
-        $originalText = '{{{first}}{{second}}{{third}}{{fourth}}}';
-        return array(
-            array($originalText, 'first'),
-            array(array($originalText), array('first')),
-        );
     }
 
     /**
@@ -109,6 +63,9 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
+    /**
+     * @return array
+     */
     public function processResponseBodyDataProvider()
     {
         $originalText = file_get_contents(__DIR__ . '/_files/_inline_page_original.html');
@@ -124,19 +81,5 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
             'html string' => array($originalText, $expectedText),
             'html array'  => array(array($originalText), array($expectedText)),
         );
-    }
-
-    public function testSetGetIsJson()
-    {
-        $isJsonProperty = new ReflectionProperty(get_class($this->_model), '_isJson');
-        $isJsonProperty->setAccessible(true);
-
-        $this->assertFalse($isJsonProperty->getValue($this->_model));
-
-        $setIsJsonMethod = new ReflectionMethod($this->_model, '_setIsJson');
-        $setIsJsonMethod->setAccessible(true);
-        $setIsJsonMethod->invoke($this->_model, true);
-
-        $this->assertTrue($isJsonProperty->getValue($this->_model));
     }
 }

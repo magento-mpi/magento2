@@ -811,4 +811,14 @@ XML;
     {
         return (bool) Mage::getStoreConfig(self::XML_PATH_SINGLE_STORE_MODE_ENABLED);
     }
+
+    /**
+     * Returns the translate model for this instance.
+     *
+     * @return Mage_Core_Model_Translate
+     */
+    public function getTranslator()
+    {
+        return $this->_translator;
+    }
 }
