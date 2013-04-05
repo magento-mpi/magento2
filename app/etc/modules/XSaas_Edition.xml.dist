@@ -44,6 +44,7 @@
         <Saas_Search><active>true</active></Saas_Search>
         <Saas_Index><active>true</active></Saas_Index>
         <Saas_CatalogRule><active>true</active></Saas_CatalogRule>
+        <Saas_Backup><active>true</active></Saas_Backup>
         <Saas_Customer><active>true</active></Saas_Customer>
         <Saas_Newsletter><active>true</active></Saas_Newsletter>
         <Saas_Design><active>true</active></Saas_Design>
