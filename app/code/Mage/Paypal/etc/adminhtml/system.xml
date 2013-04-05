@@ -38,12 +38,12 @@
                 <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Group</frontend_model>
                 <comment>Choose a secure bundled payment solution for your business.</comment>
                 <help_url>https://www.paypal-marketing.com/emarketing/partner/na/merchantlineup/home.page#mainTab=checkoutlineup</help_url>
-                <group id="payflow_advanced" extends="*/paypal_payments/payflow_advanced">
+                <group id="payflow_advanced_us" extends="*/paypal_payments/payflow_advanced">
                     <depends>
                         <field id="*/account/merchant_country">US</field>
                     </depends>
                 </group>
-                <group id="payments_pro_hosted_solution_with_express_checkout" extends="*/paypal_payments/payments_pro_hosted_solution_with_express_checkout">
+                <group id="payments_pro_hosted_solution_with_express_checkout_gb" extends="*/paypal_payments/payments_pro_hosted_solution_with_express_checkout">
                     <group id="pphs_required_settings">
                         <field id="pphs_enable">
                             <frontend_class>paypal-enabler</frontend_class>
@@ -53,12 +53,12 @@
                         <field id="*/account/merchant_country">GB</field>
                     </depends>
                 </group>
-                <group id="payments_pro_payflow_edition" extends="*/paypal_payments/payments_pro_payflow_edition">
+                <group id="payments_pro_payflow_edition_gb" extends="*/paypal_payments/payments_pro_payflow_edition">
                     <depends>
                         <field id="*/account/merchant_country">GB</field>
                     </depends>
                 </group>
-                <group id="wpp" translate="label comment" sortOrder="20" extends="*/paypal_payments/wpp">
+                <group id="wpp_gb" translate="label comment" sortOrder="20" extends="*/paypal_payments/wpp">
                     <fieldset_css>pp-general-uk</fieldset_css>
                     <more_url>https://www.paypal-business.co.uk/process-online-payments-with-paypal/index.htm</more_url>
                     <demo_link>http://www.youtube.com/watch?v=LBe-TW87eGI</demo_link>
@@ -67,7 +67,7 @@
                         <field id="*/account/merchant_country">GB</field>
                     </depends>
                 </group>
-                <group id="wpp" translate="label" extends="*/paypal_payments/wpp">
+                <group id="wpp_us" translate="label" extends="*/paypal_payments/wpp">
                     <label>Payments Pro (Includes Express Checkout)</label>
                     <group id="wpp_required_settings">
                         <group id="wpp_and_express_checkout" translate="label">
@@ -81,7 +81,7 @@
                         <field id="*/account/merchant_country">US</field>
                     </depends>
                 </group>
-                <group id="wps" translate="label" extends="*/paypal_payments/wps">
+                <group id="wps_us" translate="label" extends="*/paypal_payments/wps">
                     <label>Payments Standard</label>
                     <group id="settings_payments_standart" translate="label">
                         <label>Basic Settings - PayPal Payments Standard</label>
@@ -90,7 +90,7 @@
                         <field id="*/account/merchant_country">US</field>
                     </depends>
                 </group>
-                <group id="wps" translate="comment" sortOrder="10" extends="*/paypal_payments/wps">
+                <group id="wps_gb" translate="comment" sortOrder="10" extends="*/paypal_payments/wps">
                     <fieldset_css>pp-general-uk</fieldset_css>
                     <more_url>https://www.paypal-business.co.uk/accept-online-payments-with-paypal/index.htm</more_url>
                     <demo_link>http://www.youtube.com/watch?v=mdPjvziH_rk</demo_link>
@@ -106,12 +106,12 @@
                 <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Group</frontend_model>
                 <comment>Process payments using your own internet merchant account.</comment>
                 <help_url>https://merchant.paypal.com/cgi-bin/marketingweb?cmd=_render-content</help_url>
-                <group id="payflow_link" extends="*/paypal_payments/payflow_link">
+                <group id="payflow_link_us" extends="*/paypal_payments/payflow_link">
                     <depends>
                         <field id="*/account/merchant_country">US</field>
                     </depends>
                 </group>
-                <group id="paypal_verisign_with_express_checkout" extends="*/paypal_payments/paypal_verisign_with_express_checkout">
+                <group id="paypal_verisign_with_express_checkout_us" extends="*/paypal_payments/paypal_verisign_with_express_checkout">
                     <group id="paypal_payflow_required">
                         <group id="paypal_payflow_api_settings">
                             <field id="business_account" extends="payment/paypal_payments/payflow_advanced/required_settings/express/business_account" translate="label" sortOrder="10">
@@ -136,12 +136,12 @@
                 <comment>Add another payment method to your existing solution or as a stand-alone option.</comment>
                 <attribute type="paypal_title">Select a Payment Solution</attribute>
                 <help_url>https://merchant.paypal.com/cgi-bin/marketingweb?cmd=_render-content</help_url>
-                <group id="express_checkout" extends="*/paypal_payments/express_checkout">
+                <group id="express_checkout_us" extends="*/paypal_payments/express_checkout">
                     <depends>
                         <field id="*/account/merchant_country">US</field>
                     </depends>
                 </group>
-                <group translate="comment" id="express_checkout" extends="*/paypal_payments/express_checkout">
+                <group translate="comment" id="express_checkout_gb" extends="*/paypal_payments/express_checkout">
                     <more_url>https://www.paypal-business.co.uk/add-paypal-to-online-shop/index.htm</more_url>
                     <demo_link>http://www.youtube.com/watch?v=WgnfZ2Bj6hQ</demo_link>
                     <comment>Add PayPal as an additional payment method to your checkout page to increase your sales.</comment>
@@ -158,17 +158,17 @@
                 <comment>Add another payment method to your existing solution or as a stand-alone option.</comment>
                 <attribute type="paypal_title">Select a Payment Solution</attribute>
                 <help_url>https://www.paypal-marketing.com/emarketing/partner/na/merchantlineup/home.page#mainTab=checkoutlineup</help_url>
-                <group id="express_checkout" extends="*/paypal_payments/express_checkout">
+                <group id="express_checkout_usgb_exclude" extends="*/paypal_payments/express_checkout">
                     <depends>
                         <field id="*/account/merchant_country" negative="1" separator=",">US,GB</field>
                     </depends>
                 </group>
-                <group id="payflow_link" sortOrder="40" extends="*/paypal_payments/payflow_link">
+                <group id="payflow_link_ca" sortOrder="40" extends="*/paypal_payments/payflow_link">
                     <depends>
                         <field id="*/account/merchant_country">CA</field>
                     </depends>
                 </group>
-                <group id="payments_pro_hosted_solution" translate="label" extends="*/paypal_payments/payments_pro_hosted_solution">
+                <group id="payments_pro_hosted_solution_jp" translate="label" extends="*/paypal_payments/payments_pro_hosted_solution">
                     <label>Website Payments Plus</label>
                     <group id="pphs_required_settings">
                         <group id="pphs_required_settings_pphs" translate="label">
@@ -182,7 +182,7 @@
                         <field id="*/account/merchant_country">JP</field>
                     </depends>
                 </group>
-                <group id="payments_pro_hosted_solution" translate="label" extends="*/paypal_payments/payments_pro_hosted_solution">
+                <group id="payments_pro_hosted_solution_fr" translate="label" extends="*/paypal_payments/payments_pro_hosted_solution">
                     <label>Integral Evolution</label>
                     <group id="pphs_required_settings">
                         <group id="pphs_required_settings_pphs" translate="label">
@@ -196,7 +196,7 @@
                         <field id="*/account/merchant_country">FR</field>
                     </depends>
                 </group>
-                <group id="payments_pro_hosted_solution" translate="label" extends="*/paypal_payments/payments_pro_hosted_solution">
+                <group id="payments_pro_hosted_solution_it" translate="label" extends="*/paypal_payments/payments_pro_hosted_solution">
                     <label>Pro</label>
                     <group id="pphs_required_settings">
                         <group id="pphs_required_settings_pphs" translate="label">
@@ -210,7 +210,7 @@
                         <field id="*/account/merchant_country">IT</field>
                     </depends>
                 </group>
-                <group id="payments_pro_hosted_solution" translate="label" extends="*/paypal_payments/payments_pro_hosted_solution">
+                <group id="payments_pro_hosted_solution_es" translate="label" extends="*/paypal_payments/payments_pro_hosted_solution">
                     <label>Pasarela integral</label>
                     <group id="pphs_required_settings">
                         <group id="pphs_required_settings_pphs" translate="label">
@@ -224,37 +224,37 @@
                         <field id="*/account/merchant_country">ES</field>
                     </depends>
                 </group>
-                <group id="payments_pro_hosted_solution" extends="*/paypal_payments/payments_pro_hosted_solution">
+                <group id="payments_pro_hosted_solution_hk" extends="*/paypal_payments/payments_pro_hosted_solution">
                     <depends>
                         <field id="*/account/merchant_country">HK</field>
                     </depends>
                 </group>
-                <group id="payments_pro_hosted_solution" sortOrder="30" extends="*/paypal_payments/payments_pro_hosted_solution">
+                <group id="payments_pro_hosted_solution_au" sortOrder="30" extends="*/paypal_payments/payments_pro_hosted_solution">
                     <depends>
                         <field id="*/account/merchant_country">AU</field>
                     </depends>
                 </group>
-                <group id="paypal_verisign" sortOrder="30" extends="*/paypal_payments/paypal_verisign">
+                <group id="paypal_verisign_ca" sortOrder="30" extends="*/paypal_payments/paypal_verisign">
                     <depends>
                         <field id="*/account/merchant_country">CA</field>
                     </depends>
                 </group>
-                <group id="paypal_verisign" sortOrder="20" extends="*/paypal_payments/paypal_verisign">
+                <group id="paypal_verisign_aunz" sortOrder="20" extends="*/paypal_payments/paypal_verisign">
                     <depends>
                         <field id="*/account/merchant_country" separator=",">AU,NZ</field>
                     </depends>
                 </group>
-                <group id="wpp" sortOrder="10" extends="*/paypal_payments/wpp">
+                <group id="wpp_ca" sortOrder="10" extends="*/paypal_payments/wpp">
                     <depends>
                         <field id="*/account/merchant_country">CA</field>
                     </depends>
                 </group>
-                <group id="wps" sortOrder="20" extends="*/paypal_payments/wps">
+                <group id="wps_caau" sortOrder="20" extends="*/paypal_payments/wps">
                     <depends>
                         <field id="*/account/merchant_country" separator=",">CA,AU</field>
                     </depends>
                 </group>
-                <group id="wps" extends="*/paypal_payments/wps">
+                <group id="wps_caauusgb_exclude" extends="*/paypal_payments/wps">
                     <depends>
                         <field id="*/account/merchant_country" negative="1" separator=",">AU,CA,US,GB</field>
                     </depends>

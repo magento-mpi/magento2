@@ -91,26 +91,8 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
      */
     protected function _getFrontendClass($element)
     {
-        $frontendClass = (string)$this->getGroup($element)->frontend_class;
-        return 'section-config' . (empty($frontendClass) ? '' : (' ' . $frontendClass));
-    }
-
-    /**
-     * Get group xml data of the element
-     *
-     * @param null|Varien_Data_Form_Element_Abstract $element
-     * @return Mage_Core_Model_Config_Element
-     */
-    public function getGroup($element = null)
-    {
-        if (is_null($element)) {
-            $element = $this->getElement();
-        }
-        if ($element && $element->getGroup() instanceof Mage_Core_Model_Config_Element) {
-            return $element->getGroup();
-        }
-
-        return new Mage_Core_Model_Config_Element('<config/>');
+        $cssClass = $this->getGroup()->getFieldsetCss();
+        return 'section-config' .  empty($cssClass) ? '' : (' ' . $cssClass);
     }
 
     /**
@@ -146,7 +128,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
     protected function _getFieldsetCss($element = null)
     {
         /** @var Mage_Backend_Model_Config_Structure_Element_Group $group */
-        $group = $this->getGroup($element);
+        $group = $this->getGroup();
         $configCss = $group->getFieldsetCss();
         return 'config collapseable' . ($configCss ? ' ' . $configCss: '');
     }

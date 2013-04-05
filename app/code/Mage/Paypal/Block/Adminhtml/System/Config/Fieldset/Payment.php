@@ -34,7 +34,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
      */
     protected function _isPaymentEnabled($element)
     {
-        $groupConfig = $this->getGroup($element)->asArray();
+        $groupConfig = $this->getGroup()->getData();
         $activityPath = isset($groupConfig['activity_path']) ? $groupConfig['activity_path'] : '';
 
         if (empty($activityPath)) {
@@ -56,7 +56,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
     {
         $html = '<div class="config-heading" ><div class="heading"><strong>' . $element->getLegend();
 
-        $groupConfig = $this->getGroup($element)->asArray();
+        $groupConfig = $this->getGroup()->getData();
         if (!empty($groupConfig['learn_more_link'])) {
             $html .= '<a class="link-more" href="' . $groupConfig['learn_more_link'] . '" target="_blank">'
                 . $this->__('Learn More') . '</a>';
