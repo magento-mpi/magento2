@@ -66,8 +66,8 @@ class Mage_Backend_Block_Widget_Form_Element_Dependence extends Mage_Backend_Blo
     {
         if (is_string($refField)) {
             $refField = Mage::getModel('Mage_Backend_Model_Config_Structure_Element_Dependency_Field', array(
-                'depends_field_data' => array('value' => $refField),
-                'field_prefix' => '',
+                'fieldData' => array('value' => $refField),
+                'fieldPrefix' => '',
             ));
         }
         $this->_depends[$fieldName][$fieldNameFrom] = $refField;
