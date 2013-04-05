@@ -676,10 +676,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $product->setCrossSellLinkData(Mage::helper('Mage_Adminhtml_Helper_Js')
                 ->decodeGridSerializedInput($links['crosssell']));
         }
+
         if (isset($links['grouped']) && !$product->getGroupedReadonly()) {
-            $product->setGroupedLinkData(
-                Mage::helper('Mage_Core_Helper_Data')->jsonDecode($links['grouped'])
-            );
+            $product->setGroupedLinkData((array)$links['grouped']);
         }
 
         /**
