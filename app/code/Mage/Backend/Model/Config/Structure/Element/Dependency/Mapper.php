@@ -53,8 +53,8 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper
         foreach ($dependencies as $depend) {
             /** @var $field Mage_Backend_Model_Config_Structure_Element_Dependency_Field */
             $field = Mage::getModel('Mage_Backend_Model_Config_Structure_Element_Dependency_Field', array(
-                'depends_field_data' => $depend,
-                'field_prefix' => $fieldPrefix,
+                'fieldData' => $depend,
+                'fieldPrefix' => $fieldPrefix,
             ));
             $shouldAddDependency = true;
             /** @var Mage_Backend_Model_Config_Structure_Element_Field $dependentField  */

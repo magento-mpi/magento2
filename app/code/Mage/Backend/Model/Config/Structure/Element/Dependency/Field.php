@@ -32,21 +32,20 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_Field
     protected $_isNegative = false;
 
     /**
-     * @param array $data
+     * @param array $fieldData
+     * @param string $fieldPrefix
      */
-    public function __construct($data = array())
+    public function __construct(array $fieldData = array(), $fieldPrefix = "")
     {
-        $fieldDataArray = $data['depends_field_data'];
-        $fieldPrefix = $data['field_prefix'];
-        if (isset($fieldDataArray['separator'])) {
-            $this->_values = explode($fieldDataArray['separator'], $fieldDataArray['value']);
+        if (isset($fieldData['separator'])) {
+            $this->_values = explode($fieldData['separator'], $fieldData['value']);
         } else {
-            $this->_values = array($fieldDataArray['value']);
+            $this->_values = array($fieldData['value']);
         }
-        $fieldId = $fieldPrefix . array_pop($fieldDataArray['dependPath']);
-        $fieldDataArray['dependPath'][] = $fieldId;
-        $this->_dependentId = implode('_', $fieldDataArray['dependPath']);
-        $this->_isNegative = isset($fieldDataArray['negative']) && $fieldDataArray['negative'];
+        $fieldId = $fieldPrefix . array_pop($fieldData['dependPath']);
+        $fieldData['dependPath'][] = $fieldId;
+        $this->_dependentId = implode('_', $fieldData['dependPath']);
+        $this->_isNegative = isset($fieldData['negative']) && $fieldData['negative'];
     }
 
     /**
