@@ -12,11 +12,11 @@ abstract class Mage_Core_Service_Entity_Abstract
     /**
      * Returns model which operated by current service.
      *
-     * @param mixed  $objectProductIdOrSku
+     * @param mixed  $objectId
      * @param string $fieldsetId
      * @return Varien_Object
      */
-    abstract protected function _getObject($objectProductIdOrSku, $fieldsetId = '');
+    abstract protected function _getObject($objectId, $fieldsetId = '');
 
     /**
      * Get collection of objects of the current service.
