@@ -21,8 +21,8 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     protected static $_existingSku = '';
 
     /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Manage Products</p>
+     * Preconditions:
+     * Navigate to Catalog -> Manage Products
      */
     protected function assertPreConditions()
     {
@@ -37,11 +37,11 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
      * @param array $weight
      * @return array $productData
      *
+     * @test
+     * @dataProvider differentGiftCardTypes
      * @TestlinkId TL-MAGE-8
      * @TestlinkId TL-MAGE-9
      * @TestlinkId TL-MAGE-10
-     * @test
-     * @dataProvider differentGiftCardTypes
      */
     public function onlyRequiredFieldsInGiftCard($giftcardType, $weight)
     {
@@ -73,10 +73,9 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     /**
      * Creating Gift Card with all fields
      *
-     * @depends onlyRequiredFieldsInGiftCard
-     *
-     * @TestlinkId TL-MAGE-5854
      * @test
+     * @depends onlyRequiredFieldsInGiftCard
+     * @TestlinkId TL-MAGE-5854
      */
     public function allFieldsInGiftCard()
     {
@@ -95,12 +94,11 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Gift Card with existing SKU</p>
+     * Creating Gift Card with existing SKU
      *
-     * @depends onlyRequiredFieldsInGiftCard
-     *
-     * @TestlinkId TL-MAGE-5855
      * @test
+     * @depends onlyRequiredFieldsInGiftCard
+     * @TestlinkId TL-MAGE-5855
      */
     public function existSkuInGiftCard()
     {
@@ -120,15 +118,14 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Gift Card with empty required fields</p>
+     * Creating Gift Card with empty required fields
      *
      * @param $emptyField
      *
+     * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
-     *
      * @depends onlyRequiredFieldsInGiftCard
      * @TestlinkId TL-MAGE-5856
-     * @test
      */
     public function withRequiredFieldsEmpty($emptyField)
     {
@@ -152,12 +149,11 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Gift Card with empty amounts</p>
+     * Creating Gift Card with empty amounts
      *
-     * @depends onlyRequiredFieldsInGiftCard
-     *
-     * @TestlinkId TL-MAGE-5857
      * @test
+     * @depends onlyRequiredFieldsInGiftCard
+     * @TestlinkId TL-MAGE-5857
      */
     public function emptyPriceInGiftCard()
     {
@@ -178,12 +174,11 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Gift Card with special characters into required fields</p>
+     * Creating Gift Card with special characters into required fields
      *
-     * @depends onlyRequiredFieldsInGiftCard
-     *
-     * @TestlinkId TL-MAGE-5858
      * @test
+     * @depends onlyRequiredFieldsInGiftCard
+     * @TestlinkId TL-MAGE-5858
      */
     public function specialCharactersInBaseFields()
     {
@@ -204,12 +199,11 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Gift Card with long values into required fields</p>
+     * Creating Gift Card with long values into required fields
      *
-     * @depends onlyRequiredFieldsInGiftCard
-     *
-     * @TestlinkId TL-MAGE-5859
      * @test
+     * @depends onlyRequiredFieldsInGiftCard
+     * @TestlinkId TL-MAGE-5859
      */
     public function longValuesInBaseFields()
     {
@@ -231,12 +225,11 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Gift Card with SKU length more than 64 characters.</p>
+     * Creating Gift Card with SKU length more than 64 characters.
      *
-     * @depends onlyRequiredFieldsInGiftCard
-     *
-     * @TestlinkId TL-MAGE-5860
      * @test
+     * @depends onlyRequiredFieldsInGiftCard
+     * @TestlinkId TL-MAGE-5860
      */
     public function incorrectSkuLengthInGiftCard()
     {
@@ -251,13 +244,11 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Gift Card with invalid weight</p>
+     * Creating Gift Card with invalid weight
      *
-     * @depends onlyRequiredFieldsInGiftCard
-     *
-     * @TestlinkId TL-MAGE-5861
      * @test
-     *
+     * @depends onlyRequiredFieldsInGiftCard
+     * @TestlinkId TL-MAGE-5861
      */
     public function invalidWeightInGiftCard()
     {
@@ -276,16 +267,14 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Gift Card with invalid price</p>
+     * Creating Gift Card with invalid price
      *
      * @param $invalidPrice
      *
-     * @dataProvider invalidNumericFieldDataProvider
-     *
-     * @depends onlyRequiredFieldsInGiftCard
-     *
-     * @TestlinkId TL-MAGE-5862
      * @test
+     * @dataProvider invalidNumericFieldDataProvider
+     * @depends onlyRequiredFieldsInGiftCard
+     * @TestlinkId TL-MAGE-5862
      */
     public function invalidPriceInGiftCard($invalidPrice)
     {
@@ -315,15 +304,14 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating Gift Card with invalid Qty</p>
+     * Creating Gift Card with invalid Qty
      *
      * @param $invalidQty
      *
+     * @test
      * @dataProvider invalidQtyDataProvider
      * @depends onlyRequiredFieldsInGiftCard
-     *
      * @TestlinkId TL-MAGE-5863
-     * @test
      */
     public function invalidQtyInGiftCard($invalidQty)
     {
