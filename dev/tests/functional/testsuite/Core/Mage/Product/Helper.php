@@ -140,16 +140,23 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Get product info
      *
+     * @param array $productData
+     *
      * @return array
      */
-    public function getFrontendProductData()
+    public function getFrontendProductData(array $productData)
     {
         $data = $this->getFrontendProductPrices();
         $data['prices_tier_price_data'] = $this->getFrontendProductTierPrices();
         $data['general_name'] = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'product_name', 'text');
-        $data['general_description'] = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'description', 'text');
-        $data['autosettings_short_description'] = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT,
-            'short_description', 'text');
+        if (isset($productData['general_description'])) {
+            $data['general_description'] = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'description',
+                'text');
+        }
+        if (isset($productData['autosettings_short_description'])) {
+            $data['autosettings_short_description'] = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT,
+                'short_description', 'text');
+        }
         if ($this->controlIsPresent(self::FIELD_TYPE_INPUT, 'product_qty')) {
             $data['inventory_min_allowed_qty'] = $this->getControlAttribute(self::FIELD_TYPE_INPUT,
                 'product_qty', 'selectedValue');
@@ -221,7 +228,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $prices[$name] = trim(preg_replace('/[^0-9\.]+/', '', $price));
         }
         foreach ($prices as $key => $value) {
-            $prices['prices_' . $key] = preg_replace('/\.0*$/', '', $value);
+            $prices[$key == 'price' ? 'general_' . $key : 'prices_' . $key] = preg_replace('/\.0*$/', '', $value);
             unset($prices[$key]);
         }
 
@@ -647,7 +654,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             unset($productData['product_online_status']);
         }
         if (isset($productData['product_attribute_set']) && !in_array('product_attribute_set', $skipElements)) {
-            $actualSetName = $this->getControlAttribute('button', 'attribute_set_toggle', 'text');
+            $actualSetName = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'attribute_set_name', 'text');
             if ($actualSetName != $productData['product_attribute_set']) {
                 $this->addVerificationMessage('Product Attribute Set should be '
                     . $productData['product_attribute_set']);
@@ -2034,31 +2041,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Get Custom Option Id By Title
-     *
-     * @param string
-     *
-     * @return integer
-     */
-    public function getCustomOptionIdByTitle($optionTitle)
-    {
-        $optionElements = $this->getControlElements(self::UIMAP_TYPE_FIELDSET, 'custom_option_set', null, false);
-        /** @var $optionElement PHPUnit_Extensions_Selenium2TestCase_Element */
-        foreach ($optionElements as $optionElement) {
-            $optionTitle = $this->childElementIsPresent($optionElement, "//input[@value='{$optionTitle}']");
-            if ($optionTitle) {
-                $elementId = $optionTitle->attribute('id');
-                foreach (explode('_', $elementId) as $value) {
-                    if (is_numeric($value)) {
-                        return $value;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
      * Import custom options from existent product
      *
      * @param array $productData
@@ -2072,7 +2054,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $this->searchAndChoose($value, 'select_product_custom_option_grid');
         }
         $this->clickButton('import', false);
-        $this->waitForControl(self::UIMAP_TYPE_FIELDSET, 'select_product_custom_option_disabled');
+        $this->waitForControlNotVisible(self::UIMAP_TYPE_FIELDSET, 'select_product_custom_option');
     }
 
     /**
@@ -2081,7 +2063,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     public function deleteAllCustomOptions()
     {
         $this->openProductTab('custom_options');
-        while ($this->controlIsPresent(self::UIMAP_TYPE_FIELDSET, 'custom_option_set')) {
+        while ($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'custom_option_set')) {
             $this->assertTrue($this->buttonIsPresent('delete_custom_option'),
                 $this->locationToString() . "Problem with 'Delete Option' button.\n"
                 . 'Control is not present on the page');
