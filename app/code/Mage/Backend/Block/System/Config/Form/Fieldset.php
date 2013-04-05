@@ -145,8 +145,10 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
      */
     protected function _getFieldsetCss($element = null)
     {
-        $configCss = (string)$this->getGroup($element)->fieldset_css;
-        return 'config collapseable' . ($configCss ? ' ' . $configCss : '');
+        /** @var Mage_Backend_Model_Config_Structure_Element_Group $group */
+        $group = $this->getGroup($element);
+        $configCss = $group->getFieldsetCss();
+        return 'config collapseable' . ($configCss ? ' ' . $configCss: '');
     }
 
     /**
@@ -168,7 +170,8 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
                 );
             }
         }
-        $html .= '</fieldset>' . $this->_getExtraJs($element, $tooltipsExist) . '</div>';
+        $html .= '</fieldset>' . $this->_getExtraJs($element, $tooltipsExist);
+
         if ($element->getIsNested()) {
             $html .= '</td></tr>';
         }
