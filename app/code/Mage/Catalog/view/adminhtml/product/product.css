@@ -707,7 +707,7 @@
     width: 7%;
 }
 
-#grouped_grid_popup_massaction {
+.grouped-gialog .massaction {
     display: none;
 }
 

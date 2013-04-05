@@ -64,7 +64,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
     /**
      * Initialize grid before rendering
      *
-     * @return Mage_Core_Block_Abstract
+     * @return $this
      */
     protected function _beforeToHtml()
     {
@@ -75,7 +75,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
     /**
      * Apply sorting and filtering to collection
      *
-     * @return Mage_Backend_Block_Widget_Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -104,7 +104,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
     /**
      * Initialize grid columns
      *
-     * @return Mage_Backend_Block_Widget_Grid_Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {

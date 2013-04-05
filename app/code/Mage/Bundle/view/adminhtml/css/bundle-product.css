@@ -27,7 +27,7 @@
     top: 39px;
 }
 
-[id^="bundle_selection_search_grid"] .massaction {
+.selection-search .massaction {
     display: none;
 }
 

@@ -33,6 +33,7 @@
                 minWidth: 980,
                 modal: true,
                 resizable: true,
+                dialogClass: 'grouped-gialog',
                 buttons: [{
                     id: 'grouped-product-dialog-cancel-button',
                     text: 'Cancel',
@@ -159,7 +160,7 @@
             var skus = [];
             $.each(this.$popup.find('td.col-select input[type="checkbox"]:checked'),
                 function () {
-                    skus.push($(this).closest('tr').find('td.col-sku').html().trim());
+                    skus.push($(this).closest('tr').find('td[data-column="sku"]').html().trim());
                 }
             );
             return skus;
