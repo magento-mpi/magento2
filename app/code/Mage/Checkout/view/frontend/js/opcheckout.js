@@ -46,6 +46,8 @@
                     _this.element.trigger('enableSection', {selector: _this.options.sectionSelectorPrefix + section});
                 })
                 .on('ajaxError', $.proxy(this._ajaxError, this))
+                .on('showAjaxLoader', $.proxy(this._ajaxSend, this))
+                .on('hideAjaxLoader', $.proxy(this._ajaxComplete, this))
                 .on('click', this.options.backSelector, function() {
                     _this.element.trigger('enableSection', {selector: '#' + _this.element.find('.active').prev().attr('id')});
                 })
@@ -107,9 +109,10 @@
                     this.element.find(this.options.checkout.registerCustomerPasswordSelector).show();
                 } else {
                     alert($.mage.__('Please choose to register or to checkout as a guest'));
+                    return false;
                 }
             }
-            return false;
+        this.element.trigger('login');
         },
 
         /**
@@ -135,7 +138,7 @@
                     }
                     if ($.type(response) === 'object' && !$.isEmptyObject(response)) {
                         if (response.error) {
-                            var msg = response.message;
+                            var msg = response.message || response.error_messages;
                             if (msg) {
                                 if ($.type(msg) === 'array') {
                                     msg = msg.join("\n");
@@ -397,7 +400,15 @@
                     }
                 }, this))
                 .on('click', this.options.payment.form + ' dt input:radio', $.proxy(this._paymentMethodHandler, this))
-                .find(this.options.payment.form).validation();
+                .find(this.options.payment.form).validation({
+                    errorPlacement: function(error, element) {
+                        if (element.attr('data-validate') && element.attr('data-validate').indexOf('validate-cc-ukss') >= 0) {
+                            element.parents('form').find('[data-validation-msg="validate-cc-ukss"]').html(error);
+                        } else {
+                            element.after(error);
+                        }
+                    }
+                });
         },
 
         /**
@@ -454,6 +465,7 @@
         _enablePaymentMethods: function() {
             var paymentForm = $(this.options.payment.form);
             paymentForm.find('input[name="payment[method]"]').prop('disabled', false);
+            paymentForm.find('input[name="payment[method]"]:checked').trigger('click');
             paymentForm.find(this.options.payment.methodsContainer).show();
             paymentForm.find('input[id^="use"][name^="payment[use"]:not(:checked)').prop('disabled', false).parent().show();
             paymentForm.find(this.options.payment.freeInput.selector).remove();
@@ -464,7 +476,9 @@
     $.widget('mage.opcheckout', $.mage.opcheckout, {
         options: {
             review: {
-                continueSelector: '#review-buttons-container .button'
+                continueSelector: '#review-buttons-container .button',
+                container: '#opc-review',
+                submitContainer: '#checkout-review-submit'
             }
         },
 
@@ -477,6 +491,14 @@
                         this._ajaxContinue(
                             this.options.review.saveUrl,
                             $(this.options.payment.form).serialize());
+                    }
+                }, this))
+                .on('contentUpdated', this.options.review.container, $.proxy(function() {
+                    var paypalIframe = this.element.find(this.options.review.container)
+                        .find('[data-container="paypal-iframe"]');
+                    if (paypalIframe.length) {
+                        paypalIframe.show();
+                        $(this.options.review.submitContainer).hide();
                     }
                 }, this));
         }

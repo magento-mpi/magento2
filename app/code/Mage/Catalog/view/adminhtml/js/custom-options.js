@@ -7,6 +7,7 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
+/*global alert:true*/
 (function ($) {
     $.widget('mage.customOptions', {
         options: {
@@ -21,7 +22,7 @@
         },
         _addValidation: function () {
             $.validator.addMethod(
-                'required-option-select', function (value, element) {
+                'required-option-select', function (value) {
                     return (value !== '');
                 }, $.mage.__('Select type of option.'));
             $.validator.addMethod(
@@ -30,7 +31,7 @@
                     var selectTypesFlag = false;
                     var selectTypeElements = $('#' + optionContainerElm.id + ' .select-type-title');
                     selectTypeElements.each(function () {
-                        if ($(this).attr('id') && $(this).closest('tr').is(':visible')) {
+                        if (!$(this).closest('tr').hasClass('ignore-validate')) {
                             selectTypesFlag = true;
                         }
                     });
@@ -41,7 +42,7 @@
             if (!this.options.isReadonly) {
                 this.element.sortable({
                     axis: 'y',
-                    handle: '[data-role="grip"]',
+                    handle: '[data-role=draggable-handle]',
                     items: '#product_options_container_top > div',
                     update: this._updateOptionBoxPositions,
                     tolerance: 'pointer'
@@ -69,7 +70,7 @@
                     }
                 },
                 //Minimize custom option block
-                'click #product_options_container_top [data-target$=-content]': function (event) {
+                'click #product_options_container_top [data-target$=-content]': function () {
                     if (this.options.isReadonly) {
                         return false;
                     }
@@ -206,7 +207,7 @@
             if (!this.options.isReadonly) {
                 this.element.find('[id^=product_option_][id$=_type_select] tbody').sortable({
                     axis: 'y',
-                    handle: '[data-role="grip"]',
+                    handle: '[data-role=draggable-handle]',
                     helper: function (event, ui) {
                         ui.children().each(function () {
                             $(this).width($(this).width());

@@ -68,6 +68,13 @@ class Mage_Cms_Block_Page extends Mage_Core_Block_Abstract
             $head->setDescription($page->getMetaDescription());
         }
 
+        $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
+        if ($pageMainTitle) {
+            // Setting empty page title if content heading is absent
+            $cmsTitle = $page->getContentHeading() ? : ' ';
+            $pageMainTitle->setPageTitle($this->escapeHtml($cmsTitle));
+        }
+
         return parent::_prepareLayout();
     }
 

@@ -16,15 +16,17 @@
     <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>"
            title="<?php echo $this->__('Qty') ?>" class="input-text qty"/>
     <?php endif; ?>
-    <button type="button" title="<?php echo $this->__('Add to Gift Registry') ?>" class="button btn-cart btn-gr"
-            onclick="productAddToCartForm.submit(this)">
+    <button type="submit" title="<?php echo $this->__('Add to Gift Registry') ?>" class="button btn-cart btn-gr">
         <span><span><?php echo $this->__('Add to Gift Registry') ?></span></span></button>
 </div>
 <?php endif; ?>
 <script type="text/javascript">
-    //<![CDATA[
-    addForm = $('product_addtocart_form');
-    addForm.action = '<?php echo $this->getAddToGiftregistryUrl() ?>';
-    //]]>
+    (function ($) {
+        $.mage.extend('validation', 'validation',
+            '<?php echo $this->getViewFileUrl('Mage_Catalog::product/view/validation.js'); ?>');
+        $('#product_addtocart_form')
+            .mage('validation')
+            .prop('action', '<?php echo $this->getAddToGiftregistryUrl() ?>');
+    })(jQuery);
 </script>
 

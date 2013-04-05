@@ -13,7 +13,7 @@
 xml_sitemap:
     mca: sitemap/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sitemap/')]
-    title: XML Sitemaps / Catalog / Magento Admin
+    title: XML Sitemaps / SEO & Search / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -48,7 +48,7 @@ xml_sitemap:
 
 add_new_xml_sitemap:
     mca: sitemap/new/
-    title: New Sitemap / XML Sitemaps / Catalog / Magento Admin
+    title: New Sitemap / XML Sitemaps / SEO & Search / Marketing / Magento Admin
     uimap:
         form:
             fieldsets:

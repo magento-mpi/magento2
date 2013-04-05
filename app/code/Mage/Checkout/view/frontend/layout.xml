@@ -17,7 +17,9 @@ Default layout, loads most of the pages
 -->
 
     <default>
-
+        <reference name="head.components">
+            <block type="Mage_Core_Block_Template" name="checkout_page_head_components" template="Mage_Checkout::js/components.phtml"/>
+        </reference>
         <!-- Mage_Checkout -->
         <reference name="top.links">
             <block type="Mage_Checkout_Block_Links" name="checkout_cart_link">

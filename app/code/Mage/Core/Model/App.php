@@ -29,7 +29,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     /**
      * Application location object
      *
-     * @var Mage_Core_Model_Locale
+     * @var Mage_Core_Model_LocaleInterface
      */
     protected $_locale;
 
@@ -312,12 +312,12 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     /**
      * Retrieve application locale object
      *
-     * @return Mage_Core_Model_Locale
+     * @return Mage_Core_Model_LocaleInterface
      */
     public function getLocale()
     {
         if (!$this->_locale) {
-            $this->_locale = $this->_objectManager->get('Mage_Core_Model_Locale');
+            $this->_locale = $this->_objectManager->get('Mage_Core_Model_LocaleInterface');
         }
         return $this->_locale;
     }

@@ -372,11 +372,15 @@ class Mage_Paypal_Model_Config
     public function __get($key)
     {
         $underscored = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $key));
-        $value = Mage::getStoreConfig($this->_getSpecificConfigPath($underscored), $this->_storeId);
-        $value = $this->_prepareValue($underscored, $value);
-        $this->$key = $value;
-        $this->$underscored = $value;
-        return $value;
+        $path = $this->_getSpecificConfigPath($underscored);
+        if ($path !== null) {
+            $value = Mage::getStoreConfig($path, $this->_storeId);
+            $value = $this->_prepareValue($underscored, $value);
+            $this->$key = $value;
+            $this->$underscored = $value;
+            return $value;
+        }
+        return null;
     }
 
     /**
@@ -661,9 +665,9 @@ class Mage_Paypal_Model_Config
      * Get "What Is PayPal" localized URL
      * Supposed to be used with "mark" as popup window
      *
-     * @param Mage_Core_Model_Locale $locale
+     * @param Mage_Core_Model_LocaleInterface $locale
      */
-    public function getPaymentMarkWhatIsPaypalUrl(Mage_Core_Model_Locale $locale = null)
+    public function getPaymentMarkWhatIsPaypalUrl(Mage_Core_Model_LocaleInterface $locale = null)
     {
         $countryCode = 'US';
         if (null !== $locale) {

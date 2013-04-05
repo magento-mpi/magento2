@@ -73,9 +73,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created extends
         }
         $newAttributeSetId = $this->getRequest()->getParam('new_attribute_set_id');
         if ($newAttributeSetId) {
-            $result['set'] = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
-                ->load($newAttributeSetId)
-                ->toArray();
+            /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
+            $attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')->load($newAttributeSetId);
+            $result['set'] = array(
+                'id' => $attributeSet->getId(),
+                'label' => $attributeSet->getAttributeSetName(),
+            );
         }
 
         return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);

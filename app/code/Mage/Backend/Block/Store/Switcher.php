@@ -76,12 +76,20 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
     protected $_storeGroupFactory;
 
     /**
+     * Store Factory
+     *
+     * @var Mage_Core_Model_StoreFactory
+     */
+    protected $_storeFactory;
+
+    /**
      * Constructor
      *
      * @param Mage_Core_Block_Template_Context $context
      * @param Mage_Core_Model_App $application
      * @param Mage_Core_Model_Website_Factory $websiteFactory
      * @param Mage_Core_Model_Store_Group_Factory $storeGroupFactory
+     * @param Mage_Core_Model_StoreFactory $storeFactory
      * @param array $data
      */
     public function __construct(
@@ -89,12 +97,14 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
         Mage_Core_Model_App $application,
         Mage_Core_Model_Website_Factory $websiteFactory,
         Mage_Core_Model_Store_Group_Factory $storeGroupFactory,
+        Mage_Core_Model_StoreFactory $storeFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->_application = $application;
         $this->_websiteFactory = $websiteFactory;
         $this->_storeGroupFactory = $storeGroupFactory;
+        $this->_storeFactory = $storeFactory;
     }
 
 
@@ -227,6 +237,22 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
     }
 
     /**
+     * Get current store
+     *
+     * @return string
+     */
+    public function getCurentStoreName()
+    {
+        $store = $this->_storeFactory->create();
+        $store->load($this->getStoreId());
+        if ($store->getId()) {
+            return $store->getName();
+        } else {
+            return $this->getDefaultStoreName();
+        }
+    }
+
+    /**
      * @return int
      */
     public function getStoreId()
@@ -265,7 +291,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
      */
     protected function _toHtml()
     {
-        if (!$this->_application->isSingleStoreMode()) {
+        if ($this->isShow()) {
             return parent::_toHtml();
         }
         return '';
