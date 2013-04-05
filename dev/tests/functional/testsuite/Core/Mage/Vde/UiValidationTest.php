@@ -32,6 +32,7 @@ class Core_Mage_Vde_UiValidationTest extends Mage_Selenium_TestCase
     public function uiValidationTest()
     {
         //Step
+        $this->addParameter('themeId','1');
         $this->admin('vde_design');
         //Verifying
         $this->assertFalse($this->controlIsPresent('pageelement', 'navigation_menu_items'));

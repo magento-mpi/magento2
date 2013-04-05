@@ -660,7 +660,8 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
                     @event
                  */
                 load: function(){
-                    var w,h,ieH,ieW,ieMT,ieML,isLarger;
+                    //following line failed jslint
+                    //var w,h,ieH,ieW,ieMT,ieML,isLarger;
 
                     container.append(lImg);
                     utils.recalculateSize(sImg, lImg, {
@@ -788,7 +789,7 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
             @description Will hide enlarged image
                 ONLY incase if no loading animation in progress
          */
-        hideZoom: function(e) {
+        hideZoom: function() {
             var $this = $(this),
                 settings = data.settings;
 
@@ -1019,14 +1020,14 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
         /**
             @see .goTo
          */
-        galleryNext: function(event){
+        galleryNext: function(){
             method.goTo('next');
         },
 
         /**
             @see .goTo
          */
-        galleryPrev: function(event){
+        galleryPrev: function(){
             method.goTo('prev');
         },
 
@@ -1132,11 +1133,11 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
             }
         },
 
-        slidePrev:function(event){
+        slidePrev:function(){
             method.triggerSlider('prev');
         },
 
-        slideNext:function(event){
+        slideNext:function(){
             method.triggerSlider('next');
         },
 

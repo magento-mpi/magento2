@@ -8,6 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/*global newFileContainer:true, alertAlreadyDisplayed:true, alert:true, linkType:true*/
 (function ($) {
     $.validator.addMethod('validate-downloadable-file', function(v,element) {
         var elmParent = $(element).parent(),

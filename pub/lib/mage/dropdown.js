@@ -35,9 +35,10 @@
         }, options);
 
         return this.each(function() {
-            var elem = $(this),
-                parent = elem.parent(),
-                menu = $('[data-target="dropdown"]', parent) || $('.dropdown-menu', parent);
+            var elem = $(this);
+            //following line failed jslint
+            //parent = elem.parent();
+                //menu = $('[data-target="dropdown"]', parent) || $('.dropdown-menu', parent);
 
             elem.on('open.dropdown', function() {
                 elem

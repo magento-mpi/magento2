@@ -224,6 +224,7 @@
                     <element name="sku" type="xsd:string" minOccurs="0"/>
                     <element name="qty" type="xsd:double" minOccurs="0"/>
                     <element name="options" type="typens:associativeArray" minOccurs="0"/>
+                    <element name="configurable_options" type="typens:associativeArray" minOccurs="0"/>
                     <element name="bundle_option" type="typens:associativeArray" minOccurs="0"/>
                     <element name="bundle_option_qty" type="typens:associativeArray" minOccurs="0"/>
                     <element name="links" type="typens:ArrayOfString" minOccurs="0"/>
@@ -350,7 +351,7 @@
         <part name="sessionId" type="xsd:string"/>
         <part name="quoteId" type="xsd:int"/>
         <part name="store" type="xsd:string"/>
-        <part name="licenses" type="typens:ArrayOfString"/>
+        <part name="agreements" type="typens:ArrayOfString"/>
         <part name="paymentData" type="typens:shoppingCartPaymentMethodEntity"/>
     </message>
     <message name="shoppingCartOrderWithPaymentResponse">

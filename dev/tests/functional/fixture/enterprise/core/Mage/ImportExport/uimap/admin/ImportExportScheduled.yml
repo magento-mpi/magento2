@@ -61,13 +61,13 @@ scheduled_import_export:
 
 scheduled_importexport_add:
     mca: scheduled_operation/new/type/%type%/
-    title: New Scheduled %elementTitle% / Scheduled Imports/Exports / Data Transfer / System / Magento Admin
+    title: New Scheduled %type% / Scheduled Imports/Exports / Data Transfer / System / Magento Admin
     uimap: &createImportExport
         form:
             fieldsets:
                 -
                     settings:
-                        xpath: //div[@id="operation_settings"]
+                        xpath: //fieldset[@id="operation_settings"]
                         fields:
                             name: //input[@id='name']
                             description: //textarea[@id='details']
@@ -83,7 +83,7 @@ scheduled_importexport_add:
                             status: //select[@id='status']
                 -
                     information:
-                        xpath: //div[@id='file_settings']
+                        xpath: //fieldset[@id='file_settings']
                         fields:
                             file_path: //input[@id='file_path']
                             file_name: //input[@id='file_name']
@@ -96,7 +96,7 @@ scheduled_importexport_add:
                             passive_mode: //select[@id='passive' and not(ancestor::tr[contains(@style,'display: none')])]
                 -
                     email_settings:
-                        xpath: //div[@id='email_settings']
+                        xpath: //fieldset[@id='email_settings']
                         fields:
                             email_copy: //input[@id='email_copy']
                         dropdowns:
@@ -106,7 +106,7 @@ scheduled_importexport_add:
                             email_copy_method: //select[@id='email_copy_method']
                 -
                     grid_and_filter:
-                        xpath: //div[@id='export_filter_grid_container' and not(ancestor::div[contains(@style,'display: none')])]
+                        xpath: //fielset[@id='export_filter_grid_container' and not(ancestor::div[contains(@style,'display: none')])]
                         fields:
                             attribute_label: //table[@id='export_filter_grid_table']//th//input[@id='export_filter_grid_filter_frontend_label']
                             attribute_code: //table[@id='export_filter_grid_table']//th//input[@id='export_filter_grid_filter_attribute_code']
@@ -116,19 +116,19 @@ scheduled_importexport_add:
                             text_filter_from: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-range')][1]
                             text_filter_to: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-range')][2]
                         buttons:
-                            reset_filter: //table[@class='actions']//button[@title='Reset Filter']
-                            search: //table[@class='actions']//button[@title='Search']
+                            reset_filter: //button[@title='Reset Filter']
+                            search: //button[@title='Search']
                         dropdowns:
                             select_filter: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//select[contains(@class, 'select-export-filter')]
         buttons:
-            back:   //button[span='Back']
-            reset:  //button[span='Reset']
-            save:   //button[span='Save']
-            delete: //button[span='Delete']
+            back:   //button[@id='back']
+            reset:  //button[@id='reset']
+            save:   //button[@id='save']
+            delete: //button[@id='delete']
         messages: *messages
 
 scheduled_importexport_edit:
     mca: scheduled_operation/edit/id/%id%/
-    title: Edit Scheduled %elementTitle% / Scheduled Imports/Exports / Data Transfer / System / Magento Admin
+    title: Edit Scheduled %type% / Scheduled Imports/Exports / Data Transfer / System / Magento Admin
     uimap: *createImportExport
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Critical notfication window
+ * Critical notification window
  *
  * {license_notice}
  *
