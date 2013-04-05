@@ -105,6 +105,7 @@ new_product:
                             attribute_set_no_records: //div[@class='mage-suggest-dropdown']/*[@class='mage-suggest-no-records']
                             attribute_set_list: //div[@class='mage-suggest-dropdown']
                             product_online_status: //div[@class='switcher']/label
+                            attribute_set_name: //*[contains(@class,'action-toggle')]/span
                 -
                     advanced_settings_tabs:
                         xpath: //*[@id='product_info_tabs-advanced']
@@ -600,6 +601,7 @@ new_product:
                                         add_option: //button[@id='add_new_defined_option']
                                         import_options: //button[@id='import_new_defined_option']
                                         delete_option: //button[@id='product_option_%optionId%_delete']
+                                        delete_custom_option: //button[@class='action-delete']
                                     fields:
                                         custom_options_titles: //input[@class='required-entry input-text']
                                     links:
@@ -634,7 +636,7 @@ new_product:
                                         custom_option_verify_row: //fieldset[@class='fieldset-alt']
                             -
                                 select_product_custom_option:
-                                    xpath: //*[@class='ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable']
+                                    xpath: //div[div/span='Select Product']
                                     buttons:
                                         close: //*[@id='import-custom-options-close-button']
                                         import: //*[@id='import-custom-options-apply-button']
