@@ -871,7 +871,7 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
             $this->getControlAttribute('pageelement', 'variation_line', 'text'));
         $this->addParameter('attributeSearch', "contains(.,'$assignOptionTitle')");
         $this->addParameter('productSku', $associated['general_sku']);
-        $this->assertTrue($this->getControlElement('checkbox', 'assigned_product')->selected(),
+        $this->assertSame('checked', $this->getControlAttribute('checkbox', 'assigned_product', 'checked'),
             'Product is not assigned to configurable');
     }
 }

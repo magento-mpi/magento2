@@ -282,7 +282,7 @@ new_product:
                                 grouped_associated_products:
                                     xpath: //*[@id='grouped_product_container']
                                     buttons:
-                                        add_products_to_group: //button[@id='grouped-add-products']
+                                        add_products_to_group: //button[@data-role='add-product']
                                         remove_product_from_group: //tr[td[normalize-space(text())='%productSku%']]//button[text()='Delete']
                                     fields:
                                         associated_product_default_qty: //tr[td[normalize-space(text())='%productSku%']]//input[@name='qty']
