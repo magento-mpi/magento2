@@ -18,8 +18,8 @@
  */
 class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 {
-    public $productTabs = array('images', 'meta_information', 'prices', 'design', 'autosettings', 'inventory',
-        'websites', 'related', 'up_sells', 'cross_sells', 'custom_options', 'downloadable_information', 'general');
+    public $productTabs = array('images', 'meta_information', 'prices', 'design', 'autosettings', 'websites',
+        'related', 'up_sells', 'cross_sells', 'custom_options', 'downloadable_information', 'general', 'inventory');
 
     #**************************************************************************************
     #*                                                    Frontend Helper Methods         *
@@ -200,7 +200,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $priceData = $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'product_prices', 'text');
         if (!preg_match('/' . preg_quote("\n") . '/', $priceData)) {
-            return array('general_price' => trim($priceData));
+            return array('general_price' => trim(preg_replace('/\.0*$/', '', $priceData)));
         }
         $priceData = explode("\n", $priceData);
         $additionalName = array();
