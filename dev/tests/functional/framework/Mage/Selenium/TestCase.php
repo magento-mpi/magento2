@@ -3733,7 +3733,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             'user_name' => $this->_configHelper->getDefaultLogin(),
             'password' => $this->_configHelper->getDefaultPassword()
         );
-        if ($this->_findCurrentPageFromUrl() != $this->_pageAfterAdminLogin) {
+        if ($this->_findCurrentPageFromUrl() != $this->pageAfterAdminLogin) {
             $this->validatePage('log_in_to_admin');
             $this->fillFieldset($loginData, 'log_in');
             $this->clickButton('login', false);
