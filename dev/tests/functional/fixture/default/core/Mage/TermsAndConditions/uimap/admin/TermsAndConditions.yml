@@ -12,7 +12,7 @@
 manage_sales_checkout_terms_conditions:
     mca: checkout_agreement/
     click_xpath: //div[@class='submenu']//a[contains(@href, 'checkout_agreement/')]
-    title: Terms and Conditions / Sales / Magento Admin
+    title: Terms and Conditions / Settings / Stores / Magento Admin
     uimap:
         form: &salesCheckoutTermsConditions
             fieldsets:
@@ -45,7 +45,7 @@ manage_sales_checkout_terms_conditions:
 # Create new condition agreement
 create_condition:
     mca: checkout_agreement/new/
-    title: New Condition / Terms and Conditions / Sales / Magento Admin
+    title: New Condition / Terms and Conditions / Settings / Stores / Magento Admin
     uimap:
         form: &salesNewCondition
             fieldsets:
@@ -71,7 +71,7 @@ create_condition:
 
 edit_condition:
     mca: checkout_agreement/edit/id/%id%/
-    title: %elementTitle% / Terms and Conditions / Sales / Magento Admin
+    title: %elementTitle% / Terms and Conditions / Settings / Stores / Magento Admin
     uimap:
         form: *salesNewCondition
         buttons:

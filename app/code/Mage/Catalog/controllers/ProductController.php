@@ -1,18 +1,11 @@
 <?php
 /**
+ * Product controller.
+ *
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Product controller
- *
- * @category   Mage
- * @package    Mage_Catalog
  */
 class Mage_Catalog_ProductController
     extends Mage_Core_Controller_Front_Action

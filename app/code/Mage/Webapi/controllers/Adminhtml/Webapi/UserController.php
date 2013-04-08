@@ -36,9 +36,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     public function indexAction()
     {
         $this->_initAction();
-        $this->_title($this->__('System'))
-            ->_title($this->__('Web Services'))
-            ->_title($this->__('API Users'));
+        $this->_title($this->__('API Users'));
 
         $this->renderLayout();
     }
@@ -58,9 +56,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     public function editAction()
     {
         $this->_initAction();
-        $this->_title($this->__('System'))
-            ->_title($this->__('Web Services'))
-            ->_title($this->__('API Users'));
+        $this->_title($this->__('API Users'));
 
         $userId = (int)$this->getRequest()->getParam('user_id');
         $user = $this->_loadApiUser($userId);

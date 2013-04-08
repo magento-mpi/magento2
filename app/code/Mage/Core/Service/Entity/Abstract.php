@@ -7,32 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstract
+abstract class Mage_Core_Service_Entity_Abstract
 {
     /**
-     * Array key which represents related data
-     */
-    const RELATED_DATA_KEY = '_related_data';
-
-    /** @var Magento_ObjectManager */
-    protected $_objectManager;
-
-    /** @var Mage_Core_Service_Mapper_Abstract */
-    protected $_mapper;
-
-    public function __construct(Magento_ObjectManager $objectManager)
-    {
-        $this->_objectManager = $objectManager;
-    }
-
-    /**
-     * Returns model which operated by current service.
+     * Return model which operated by current service.
      *
-     * @param mixed  $objectProductIdOrSku
+     * @param mixed  $objectId
      * @param string $fieldsetId
      * @return Varien_Object
      */
-    abstract protected function _getObject($objectProductIdOrSku, $fieldsetId = '');
+    abstract protected function _getObject($objectId, $fieldsetId = '');
 
     /**
      * Get collection of objects of the current service.
@@ -44,11 +28,13 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
     abstract protected function _getObjectCollection(array $objectIds = array(), $fieldsetId = '');
 
     /**
-     * Returns mapper for current service.
+     * Return schema with data.
      *
-     * @return Mage_Core_Service_Mapper_Abstract
+     * @param array         $data   Already fetched data from object
+     * @param Varien_Object $object
+     * @return array
      */
-    abstract protected function _getMapper();
+    abstract protected function _applySchema(array $data, Varien_Object $object);
 
     /**
      * Extract data out of the project object retrieved by ID.
@@ -64,7 +50,7 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
 
         if ($object->getId()) {
             $data = $this->_getObjectData($object);
-            $data = $this->_getMapper()->apply($data, $object);
+            $data = $this->_applySchema($data, $object);
         }
 
         return $data;
@@ -79,14 +65,11 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
     protected function _getObjectData(Varien_Object $object)
     {
         $data = $object->getData();
+        $underscoreToCamelCase = new Zend_Filter_Word_UnderscoreToCamelCase();
 
         // Make camelCase out of underscore
         foreach ($data as $key => $value) {
-            $camelCase = preg_replace_callback(
-                '/_(.)/',
-                function ($matches) { return strtoupper($matches[1]);},
-                $key
-            );
+            $camelCase = $underscoreToCamelCase->filter($key);
 
             if ($camelCase !== $key) {
                 $data[$camelCase] = $data[$key];
@@ -112,35 +95,18 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
         $dataCollection = array();
 
         foreach ($collection as $item) {
-            /** @var $item Varien_Object */
-            $dataCollection[] = $this->_getObjectData($item);
-//            $dataCollection = $this->_applySchema($dataCollection, $item);
+            /** @var $item Mage_Core_Model_Abstract */
+            $item->load($item->getId());
+            $dataCollectionItem = $this->_getObjectData($item);
+            $dataCollectionItem = $this->_applySchema($dataCollectionItem, $item);
+            $dataCollection[] = $dataCollectionItem;
         }
 
         return $dataCollection;
     }
 
     /**
-     * Adds additional data to the model data. Outside service may require some additional parameters, e.g. URL for
-     * product. We can't just merge that into model data as user might have defined an attribute with same name, so
-     * there already is going to be array key with same name. We're setting it to special section, name of which can
-     * not be used as attribute name.
-     *
-     * @param array $mainData    Original model data (for product: price, sku, description, etc.)
-     * @param array $relatedData Additional data to be added to the $mainData, such as product URL
-     * @return array
-     */
-    protected function _setRelatedData(array $mainData, array $relatedData)
-    {
-        $mainData += array(
-            static::RELATED_DATA_KEY => $relatedData
-        );
-
-        return $mainData;
-    }
-
-    /**
-     * Formats object's data so it represents an array on all levels.
+     * Format object's data so it represents an array on all levels.
      * @todo Decide what to do with objects
      *
      * @param array $data
@@ -150,7 +116,7 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
     {
         foreach ($data as $key => $value) {
             if (is_object($value)) {
-                $data[$key] = '**OBJECT**';
+                unset($data[$key]);
             } else if (is_array($value)) {
                 $data[$key] = $this->_formatObjectData($value);
             }
@@ -160,7 +126,7 @@ abstract class Mage_Core_Service_Entity_Abstract extends Mage_Core_Service_Abstr
     }
 
     /**
-     * Returns fields given fieldset ID.
+     * Return fields given fieldset ID.
      *
      * @param string $fieldsetId
      * @return array

@@ -14,7 +14,6 @@
     <div class="header-inner">
         <a href="<?php echo $this->getHomeLink() ?>" class="logo" title="<?php echo $this->__('Magento Admin Panel') ?>"><span><?php echo $this->__('Magento Admin Panel') ?></span></a>
         <div class="header-panel">
-            <?php echo $this->getChildHtml(); ?>
             <div class="account">
                 <a href="<?php echo $this->getUrl('adminhtml/system_account/index') ?>" class="account-avatar" title="<?php echo $this->__('My Account') ?>" data-toggle="dropdown">
                     <?php echo $this->escapeHtml($this->getUser()->getUsername()); ?>
@@ -32,41 +31,7 @@
                 </ul>
             </div>
             <a href="<?php echo Mage::getBaseUrl(); ?>" title="<?php echo $this->__('Customer View'); ?>" target="_blank" class="store-front"><?php echo $this->__('Customer View'); ?></a>
-            <div class="notifications">
-                <a href="<?php echo $this->getUrl('adminhtml/notification/index') ?>" class="notifications-icon" title="<?php echo $this->__('Notifications') ?>" data-toggle="dropdown">
-                    <span class="value">10</span>
-                </a>
-                <!-- @TODO: Replace with real data -->
-                <ul class="dropdown-menu">
-                    <li class="first new">
-                        <strong>Mike Lastnamelong</strong>
-                        <a href="#">Lorem ipsum dolor sit amet dolor adipiscing lollipop guild...</a>
-                        <time>2:52 pm</time>
-                        <button class="action-close">Close</button>
-                    </li>
-                    <li>
-                        <strong>Mike Lastnamelong</strong>
-                        <a href="#">Lorem ipsum dolor sit amet dolor adipiscing lollipop guild...</a>
-                        <time>2:52 pm</time>
-                        <button class="action-close">Close</button>
-                    </li>
-                    <li>
-                        <strong>Mike Lastnamelong</strong>
-                        <a href="#">Lorem ipsum dolor sit amet dolor adipiscing lollipop guild...</a>
-                        <time>2:52 pm</time>
-                        <button class="action-close">Close</button>
-                    </li>
-                    <li>
-                        <strong>Mike Lastnamelong</strong>
-                        <a href="#">Lorem ipsum dolor sit amet dolor adipiscing lollipop guild...</a>
-                        <time>2:52 pm</time>
-                        <button class="action-close">Close</button>
-                    </li>
-                    <li class="last">
-                        <a href="<?php echo $this->getUrl('adminhtml/notification/index') ?>" class="action-more"><?php echo $this->__('See All') ?></a>
-                    </li>
-                </ul>
-            </div>
+            <?php echo $this->getChildHtml(); ?>
             <?php if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::global_search')): ?>
             <div class="search">
                 <form action="" method="post" id="form-search">

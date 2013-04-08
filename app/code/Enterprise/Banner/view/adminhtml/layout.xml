@@ -19,14 +19,14 @@
     <adminhtml_banner_edit>
         <update handle="editor"/>
         <reference name="head">
-            <action method="addCss"><file>Mage_Adminhtml::jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
+            <action method="addCss"><file>jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
 
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.iframe-transport.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.iframe-transport.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.fileupload.js</file></action>
 
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/load-image.min.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/canvas-to-blob.min.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-fp.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/load-image.min.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/canvas-to-blob.min.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.fileupload-fp.js</file></action>
         </reference>
         <reference name="left">
             <block type="Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tabs" name="banner_edit_tabs">

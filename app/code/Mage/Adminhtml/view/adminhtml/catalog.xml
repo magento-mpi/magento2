@@ -15,32 +15,33 @@
         <reference name="menu">
             <action method="setActive"><itemId>Mage_Catalog::catalog_products</itemId></action>
         </reference>
-        <reference name="content">
-            <block type="Mage_Adminhtml_Block_Catalog_Product" name="products_list">
-                <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" as="store_switcher">
-                    <action method="setUseConfirm"><params>0</params></action>
-                </block>
+        <reference name="page-title">
+            <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher">
+                <action method="setUseConfirm"><params>1</params></action>
             </block>
+            <action method="setTitleClass"><class>complex</class></action>
+        </reference>
+        <reference name="content">
+            <block type="Mage_Adminhtml_Block_Catalog_Product" name="products_list"></block>
         </reference>
     </adminhtml_catalog_product_index>
 
     <adminhtml_catalog_product_new>
         <update handle="editor"/>
         <reference name="head">
-            <action method="addCss"><file>Mage_Adminhtml::jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.iframe-transport.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/load-image.min.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/canvas-to-blob.min.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-fp.js</file></action>
+            <action method="addCss"><file>jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.iframe-transport.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.fileupload.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/load-image.min.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/canvas-to-blob.min.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.fileupload-fp.js</file></action>
             <action method="addJs"><file>mage/proxy-event.js</file></action>
 
             <action method="addCss"><file>Mage_Adminhtml::catalog/category-selector.css</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::json2.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::mage/backend/suggest.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/jstree/jquery.hotkeys.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/jstree/jquery.jstree.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::mage/backend/tree-suggest.js</file></action>
+            <action method="addJs"><file>mage/backend/suggest.js</file></action>
+            <action method="addJs"><file>jquery/jstree/jquery.hotkeys.js</file></action>
+            <action method="addJs"><file>jquery/jstree/jquery.jstree.js</file></action>
+            <action method="addJs"><file>mage/backend/tree-suggest.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/type-switcher.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/product-variation.js</file></action>
             <action method="addJs"><file>Mage_Adminhtml::catalog/base-image-uploader.js</file></action>
@@ -78,8 +79,11 @@
 
     <adminhtml_catalog_product_edit>
         <update handle="adminhtml_catalog_product_new"/>
-        <reference name="left">
-            <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher" before="-"/>
+        <reference name="page-title">
+            <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher">
+                <action method="setUseConfirm"><params>1</params></action>
+            </block>
+            <action method="setTitleClass"><class>complex</class></action>
         </reference>
     </adminhtml_catalog_product_edit>
 
@@ -357,7 +361,7 @@ Layout handle for grouped products
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="info">
                         <arguments>
-                            <type>grip</type>
+                            <type>draggable-handle</type>
                             <index>entity_id</index>
                             <sortable>0</sortable>
                             <inline_css>draggable-handle</inline_css>
@@ -401,16 +405,13 @@ Layout handle for grouped products
                             <sortable>0</sortable>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="delete">
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="actions">
                         <arguments>
-                            <header translate="true" module="Mage_Catalog">Delete</header>
                             <type>button</type>
                             <button_type>button</button_type>
-                            <column_css_class>grouped-product-delete</column_css_class>
+                            <button_class>action- delete</button_class>
                             <renderer>Mage_Backend_Block_Widget_Grid_Column_Renderer_Button</renderer>
                             <sortable>0</sortable>
-                            <header_css_class>col-actions</header_css_class>
-                            <column_css_class>col-actions</column_css_class>
                         </arguments>
                     </block>
                 </block>
@@ -571,13 +572,13 @@ Layout handle for configurable products
     <adminhtml_catalog_category_edit>
         <update handle="editor"/>
         <reference name="head">
-            <action method="addCss"><file>Mage_Adminhtml::jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.iframe-transport.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload.js</file></action>
+            <action method="addCss"><file>jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.iframe-transport.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.fileupload.js</file></action>
 
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/load-image.min.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/canvas-to-blob.min.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::jquery/fileUploader/jquery.fileupload-fp.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/load-image.min.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/canvas-to-blob.min.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.fileupload-fp.js</file></action>
         </reference>
         <reference name="left">
             <block name="category.tree" type="Mage_Adminhtml_Block_Catalog_Category_Tree" template="catalog/category/tree.phtml" />

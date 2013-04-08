@@ -13,13 +13,13 @@
 manage_rma:
     mca: rma/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'rma/')]
-    title: Manage RMA / Sales / Magento Admin
+    title: Manage RMA / Operations / Sales / Magento Admin
 
 #Manage RMA Item Attribute page
 manage_rma_items_attribute:
     mca: rma_item_attribute/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'rma_item_attribute/')]
-    title: Manage RMA Item Attributes / Magento Admin
+    title: Manage RMA Item Attributes / Attributes / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -46,7 +46,7 @@ manage_rma_items_attribute:
 #New RMA Item Attribute page
 new_rma_item_attribute:
     mca: rma_item_attribute/new/
-    title: New Attribute / Manage RMA Item Attributes / Magento Admin
+    title: New Attribute / Manage RMA Item Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: &rmaAttributeForm
             tabs:
@@ -92,7 +92,7 @@ new_rma_item_attribute:
                                         titles_by_store_name: //td[%storeViewNumber%]/input
                             -
                                 manage_options:
-                                    xpath: "//div[@id='matage-options-panel' and not(@style='display: none;')]"
+                                    xpath: "//div[@id='manage-options-panel' and not(@style='display: none;')]"
                                     buttons:
                                         add_option: //button[@id='add_new_option_button']
                                         delete_option: //td[contains(input/@name,'option[delete][option_%fieldOptionNumber%]')]/button
@@ -122,7 +122,7 @@ new_rma_item_attribute:
 
 edit_rma_item_attribute:
     mca: rma_item_attribute/edit/attribute_id/%id%/
-    title: %elementTitle% / Manage RMA Item Attributes / Magento Admin
+    title: %elementTitle% / Manage RMA Item Attributes / Attributes / Stores / Magento Admin
     uimap:
         form: *rmaAttributeForm
         buttons: *rmaAttributeButton

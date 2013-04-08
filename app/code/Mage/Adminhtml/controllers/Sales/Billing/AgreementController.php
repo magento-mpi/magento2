@@ -21,8 +21,7 @@ class Mage_Adminhtml_Sales_Billing_AgreementController extends Mage_Adminhtml_Co
      */
     public function indexAction()
     {
-        $this->_title($this->__('Sales'))
-            ->_title($this->__('Billing Agreements'));
+        $this->_title($this->__('Billing Agreements'));
 
         $this->loadLayout()
             ->_setActiveMenu('Mage_Sales::sales_billing_agreement')
@@ -48,8 +47,7 @@ class Mage_Adminhtml_Sales_Billing_AgreementController extends Mage_Adminhtml_Co
         $agreementModel = $this->_initBillingAgreement();
 
         if ($agreementModel) {
-            $this->_title($this->__('Sales'))
-                ->_title($this->__('Billing Agreements'))
+            $this->_title($this->__('Billing Agreements'))
                 ->_title(sprintf("#%s", $agreementModel->getReferenceId()));
 
             $this->loadLayout()

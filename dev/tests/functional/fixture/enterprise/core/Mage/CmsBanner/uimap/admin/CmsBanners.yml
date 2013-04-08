@@ -13,7 +13,7 @@
 manage_cms_banners:
     mca: banner/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'banner/')]
-    title: Banners / CMS / Magento Admin
+    title: Banners / Elements / Content / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -48,7 +48,7 @@ manage_cms_banners:
 
 create_cms_banner:
     mca: banner/new/
-    title: New Banner / Banners / CMS / Magento Admin
+    title: New Banner / Banners / Elements / Content / Magento Admin
     uimap:
         form: &createBanner
             tabs:
@@ -238,7 +238,7 @@ create_cms_banner:
 
 edit_cms_banner:
     mca: banner/edit/id/%id%/
-    title: %elementTitle% / Banners / CMS / Magento Admin
+    title: %elementTitle% / Banners / Elements / Content / Magento Admin
     uimap:
         form: *createBanner
         buttons:
@@ -251,7 +251,7 @@ edit_cms_banner:
 
 error_banner_page:
     mca: banner/edit/
-    title: New Banner / Banners / CMS / Magento Admin
+    title: New Banner / Banners / Elements / Content / Magento Admin
     uimap:
         form: *createBanner
         buttons:

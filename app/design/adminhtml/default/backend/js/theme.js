@@ -98,7 +98,7 @@
                     over: !config.open ? this._hoverEffects : $.noop,
                     out: !config.close ? this._leaveEffects : $.noop
                 }))
-                .on('hover', function() {
+                .on('click', function() {
                     $(this)
                         .addClass('recent')
                         .siblings('.level-0')
@@ -374,6 +374,9 @@
         $('.navigation').globalNavigation({
             categoriesConfig: {
                 '[data-ui-id="menu-mage-adminhtml-system"]': {
+                    open: 'click'
+                },
+                '[data-ui-id="menu-mage-adminhtml-stores"]': {
                     open: 'click'
                 }
             }

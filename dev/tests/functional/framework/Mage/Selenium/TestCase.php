@@ -1590,8 +1590,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $this->assertEmptyPageErrors();
         $expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
-        if (!is_null($expectedTitle) && $expectedTitle !== $this->title()) {
-            $errorMessage = $this->locationToString() . 'Title for page "' . $page . '" is unexpected.';
+        $actualTitle = $this->title();
+        if (!is_null($expectedTitle) && $expectedTitle !== $actualTitle) {
+            $errorMessage = $this->locationToString() . 'Title for page "' . $page . '" is unexpected:'
+                . "('$expectedTitle' != '$actualTitle')";
             $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
             if (strlen($messagesOnPage) > 0) {
                 $errorMessage .= "\nMessages on current page:\n" . $messagesOnPage;
@@ -2204,6 +2206,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         } catch (Exception $e) {
             $this->getElement($locator)->click();
         }
+        $this->waitForAjax();
         if ($willChangePage) {
             $this->waitForPageToLoad();
             $this->addParameter('id', $this->defineIdFromUrl());
@@ -2675,26 +2678,28 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string|array $locator XPath locator or array of locator's
      * @param int $timeout Timeout period in seconds (by default = null)
      *
-     * @return bool
+     * @throws RuntimeException
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element
      */
-    public function waitForElementInvisible($locator, $timeout = null)
+    public function waitForElementNotVisible($locator, $timeout = null)
     {
         if (is_null($timeout)) {
             $timeout = $this->_browserTimeout;
         }
         if (is_array($locator)) {
+            $output = "\nNone of the elements are invisible on the page. \nLocators: \n" . implode("\n", $locator);
             $locator = self::combineLocatorsToOne($locator);
+        } else {
+            $output = "\nElement is visible on the page. \nLocator: " . $locator;
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-            /**
-             * @var PHPUnit_Extensions_Selenium2TestCase_Element $availableElement
-             */
+            /** @var PHPUnit_Extensions_Selenium2TestCase_Element $availableElement */
             $availableElements = $this->getElements($locator, false);
             foreach ($availableElements as $availableElement) {
                 try {
                     if (!$availableElement->displayed()) {
-                        return true;
+                        return $availableElement;
                     }
                 } catch (RuntimeException $e) {
                 }
@@ -2702,7 +2707,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             usleep(500000);
         }
         $this->assertEmptyPageErrors();
-        return false;
+        throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);
+    }
+
+    /**
+     * Wait for control is not visible
+     *
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
+     * @param string $controlName Name of a control from UIMap
+     * @param int|null $timeout
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+    public function waitForControlNotVisible($controlType, $controlName, $timeout = null)
+    {
+        $locator = $this->_getControlXpath($controlType, $controlName);
+        return $this->waitForElementNotVisible($locator, $timeout);
     }
 
     /**
@@ -2964,11 +2983,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $fieldsetUimap = $this->_findUimapElement('fieldset', $fieldsetName);
         $fieldsetLocator = $fieldsetUimap->getXpath($this->_paramsHelper);
-        $resetButtonElement = $this->getElement($this->_getControlXpath('button', 'reset_filter', $fieldsetUimap));
-        $jsName = $resetButtonElement->attribute('onclick');
-        $jsName = preg_replace('/\.[\D]+\(\)/', '', $jsName);
-        $scriptXpath = "//script[contains(text(),\"$jsName.useAjax = ''\")]";
-        $pageToLoad = $this->elementIsPresent($scriptXpath);
+        $trLocator = $fieldsetLocator . $this->formSearchXpath($data);
+        if ($this->elementIsPresent($trLocator)) {
+            return $trLocator;
+        }
+        $resetButtonElement = $this->getControlElement('button', 'reset_filter', $fieldsetUimap);
+        $useAjax = preg_replace('/\.[\D]+\(\)/', '', $resetButtonElement->attribute('onclick')) . ".useAjax = ''";
+        $pageToLoad = $this->elementIsPresent('//script[contains(text(),"' . $useAjax . '")]');
         $this->focusOnElement($resetButtonElement);
         $resetButtonElement->click();
         if (!$pageToLoad) {
@@ -2977,26 +2998,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->waitForPageToLoad();
             $this->validatePage();
         }
-        $qtyElementsInTable = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'qtyElementsInTable');
-
-        //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
-        list(, , $totalCount) = explode('|', $this->getElement($fieldsetLocator . "//div[@class='pager']")->text());
-        $totalCount = trim(preg_replace('/[A-Za-z]+/', '', $totalCount));
-        $pagerLocator = $fieldsetLocator . $qtyElementsInTable . "[not(text()='" . $totalCount . "')]";
-
-        $trLocator = $this->formSearchXpath($data);
-
-        $element = $this->elementIsPresent($fieldsetLocator . $trLocator);
-        if (!$element && $totalCount > 20) {
-            // Fill in search form and click 'Search' button
-            $this->fillFieldset($data, $fieldsetName);
-            $searchElement = $this->getElement($this->_getControlXpath('button', 'search', $fieldsetUimap));
-            $this->focusOnElement($searchElement);
-            $searchElement->click();
-            $this->waitForElement($pagerLocator);
-            $element = $this->elementIsPresent($fieldsetLocator . $trLocator);
+        if ($this->elementIsPresent($trLocator)) {
+            return $trLocator;
         }
-        return ($element) ? $fieldsetLocator . $trLocator : null;
+        $this->addParameter('tableXpath', $fieldsetLocator);
+        $waitConditions = array($this->_getMessageXpath('specific_table_no_records_found'), $trLocator);
+        // Fill in search form and click 'Search' button
+        $this->fillFieldset($data, $fieldsetName);
+        $searchElement = $this->getControlElement('button', 'search', $fieldsetUimap);
+        $this->focusOnElement($searchElement);
+        $searchElement->click();
+        $this->waitForElementVisible($waitConditions);
+
+        return $this->elementIsPresent($trLocator) ? $trLocator : null;
     }
 
     /**
@@ -3731,16 +3745,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->waitForElement(array($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'admin_logo'),
                                         $this->_getMessageXpath('general_error'),
                                         $this->_getMessageXpath('general_validation')));
-            if ($this->controlIsPresent('link', 'go_to_notifications') && $this->controlIsPresent('button', 'close')) {
+            if ($this->controlIsVisible('link', 'go_to_notifications') && $this->controlIsVisible('button', 'close')) {
                 $this->clickControl('button', 'close', false);
             }
         }
         $this->validatePage($this->_pageAfterAdminLogin);
         if ($this->_pageAfterAdminLogin == 'store_launcher' &&
-            $this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup')) {
+            $this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup')
+        ) {
             $this->waitForControlStopsMoving(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup');
             $this->clickButton('back_to_storelauncher', false);
-            $this->waitForElementInvisible($this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup'));
+            $this->waitForControlNotVisible(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup');
         }
         return $this;
     }

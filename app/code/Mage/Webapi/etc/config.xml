@@ -28,13 +28,13 @@
                 <front_controller>Mage_Webapi_Controller_Front</front_controller>
                 <!--TODO: Utilize base action controller from config, not constant-->
                 <base_controller>Mage_Webapi_Controller_ActionAbstract</base_controller>
-                <acl>
-                    <policy>Magento_Authorization_Policy_Acl</policy>
-                    <resourceLoader>Mage_Webapi_Model_Authorization_Loader_Resource</resourceLoader>
-                    <roleLoader>Mage_Webapi_Model_Authorization_Loader_Role</roleLoader>
-                    <ruleLoader>Mage_Webapi_Model_Authorization_Loader_Rule</ruleLoader>
-                    <roleLocator>Mage_Webapi_Model_Authorization_RoleLocator</roleLocator>
-                </acl>
+                <!--<acl>-->
+                    <!--<policy>Magento_Authorization_Policy_Acl</policy>-->
+                    <!--<resourceLoader>Mage_Webapi_Model_Authorization_Loader_Resource</resourceLoader>-->
+                    <!--<roleLoader>Mage_Webapi_Model_Authorization_Loader_Role</roleLoader>-->
+                    <!--<ruleLoader>Mage_Webapi_Model_Authorization_Loader_Rule</ruleLoader>-->
+                    <!--<roleLocator>Mage_Webapi_Model_Authorization_RoleLocator</roleLocator>-->
+                <!--</acl>-->
             </webapi>
         </areas>
         <resources>

@@ -32,8 +32,6 @@ class Mage_AdminNotification_Model_Observer
             /* @var $feedModel Mage_AdminNotification_Model_Feed */
 
             $feedModel->checkUpdate();
-
         }
-
     }
 }

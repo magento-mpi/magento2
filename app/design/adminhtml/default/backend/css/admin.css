@@ -186,7 +186,6 @@ button.primary.disabled,
     Reset 'button view' for actions
 -------------------------------------- */
 .customer-current-activity .action-refresh,
-.customer-current-activity .action-refresh,
 .pager .action-next,
 .pager .action-previous,
 .pager .action-next:hover,
@@ -214,6 +213,11 @@ button.primary.disabled,
 .mage-new-category-dialog .action-cancel:active,
 .mage-new-category-dialog .action-cancel.active,
 .mage-new-category-dialog .action-cancel[disabled],
+.notification-entry-dialog .action-cancel,
+.notification-entry-dialog .action-cancel:hover,
+.notification-entry-dialog .action-cancel:active,
+.notification-entry-dialog .action-cancel.active,
+.notification-entry-dialog .action-cancel[disabled],
 .image-panel .action-close,
 .image-panel .action-close:hover,
 .image-panel .action-close:active,
@@ -311,6 +315,14 @@ button.primary.disabled,
     text-shadow: none;
 }
 
+.fade.critical-notification {
+    display: block;
+}
+
+.fade.critical-notification .popup {
+    top: 200px;
+}
+
 .data-table .action-.delete:disabled,
 .data-table .action-delete:disabled,
 #product-variations-matrix .action-choose:disabled,
@@ -379,6 +391,7 @@ button.primary.disabled,
 /*
     Actions as links
 -------------------------------------- */
+.notification-entry-dialog .action-cancel,
 .mage-new-category-dialog .action-cancel {
     background: none;
     border: none;
@@ -389,6 +402,7 @@ button.primary.disabled,
     text-decoration: underline;
 }
 
+.notification-entry-dialog .action-cancel:hover,
 .mage-new-category-dialog .action-cancel:hover {
     color: #000;
     border-bottom-color: #000;
@@ -1277,8 +1291,8 @@ input.mage-error ~ .addafter {
     width: 8px;
     height: 14px;
     line-height: 14px;
-    background: url(Mage_Backend::images/dragable-handler-vertical.gif) no-repeat 0 0;
-    cursor: pointer;
+    background: url(Mage_Backend::images/draggable-handle-vertical.gif) no-repeat 0 0;
+    cursor: ns-resize;
     color: #b2b0ad;
 }
 
@@ -2972,7 +2986,122 @@ table tbody tr:nth-child(odd):hover th {
     color: #963535;
 }
 
-/* TODO: implement styles for all types of messages when the new code is integrated */
+/*
+    Store Switcher
+-------------------------------------- */
+.store-switcher-alt {
+    position: relative;
+    display: inline-block;
+}
+
+.store-switcher-alt .dropdown-menu {
+    white-space: nowrap;
+    margin-top: 2px;
+}
+
+.store-switcher-alt.active .dropdown-menu {
+    display: block;
+}
+
+.store-switcher-alt .dropdown-menu ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.store-switcher-alt strong {
+    display: block;
+    font: 14px/1.333 "CallunaSans", Arial, sans-serif;
+    font-weight: 500;
+    color: #a6a098;
+    padding: 5px 10px;
+}
+
+.store-switcher-alt .store-selected {
+    font: 12px/1.333 "CallunaSans", Arial, sans-serif;
+    font-weight: 600;
+    color: #676056;
+    cursor: pointer;
+}
+
+.store-switcher-alt .store-selected:after {
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    content: '\e02c'; /* arrow down icon */
+    color: #b3b0ad;
+    margin: 0 0 0 3px;
+    vertical-align: text-top;
+}
+
+.eq-ie8 .store-switcher-alt .store-selected:after {
+    vertical-align: middle;
+}
+
+.store-switcher-alt .store-switcher-website,
+.store-switcher-alt .store-switcher-store {
+    padding: 0;
+
+}
+.store-switcher-alt .store-switcher-website:hover,
+.store-switcher-alt .store-switcher-store:hover {
+    background: none;
+}
+
+.store-switcher-website {
+    margin: 5px 0 0;
+}
+.store-switcher-website > strong {
+    padding-left: 13px;
+}
+.store-switcher-store {
+    margin: 1px 0 0;
+}
+.store-switcher-store > strong {
+    padding-left: 20px;
+}
+.store-switcher-alt .store-switcher-store > ul {
+    margin-top: 1px;
+}
+.store-switcher-alt .store-switcher-store-view {
+    padding: 0;
+}
+.store-switcher-store-view:first-child {
+    border-top: 1px solid #e5e5e5;
+}
+
+.eq-ie8 .store-switcher-website {
+    border-bottom: 0;
+}
+.eq-ie8 .store-switcher-store-view {
+    border-bottom: 0;
+    border-top: 1px solid #e5e5e5;
+}
+
+.store-switcher-store-view > a {
+    display: block;
+    padding: 5px 15px 5px 24px;
+    color: #333;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.store-switcher-alt .store-switcher-all,
+.store-switcher-alt .manage-stores {
+    padding: 0;
+}
+
+.store-switcher-alt .store-switcher-all > a,
+.store-switcher-alt .manage-stores > a {
+    display: block;
+    padding: 8px 15px;
+    color: #676056;
+    text-decoration: none;
+    font-size: 12px;
+}
 
 /*
     Page Structure
@@ -2985,6 +3114,19 @@ table tbody tr:nth-child(odd):hover th {
 .page-content {
     margin: 0 auto;
     padding: 0 20px;
+}
+
+.page-title.complex .title {
+    float: left;
+    width: 70%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.page-title.complex .store-switcher-alt {
+    float: right;
+    margin: 12px 0 0;
 }
 
 .side-col {

@@ -24,7 +24,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
                 Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry')
             );
 
-        $this->_title($this->__('Customers'))->_title($this->__('Manage Gift Registry Types'));
+        $this->_title($this->__('Manage Gift Registry Types'));
         return $this;
     }
 

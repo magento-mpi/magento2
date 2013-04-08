@@ -23,7 +23,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     protected function _initCustomer($idFieldName = 'id')
     {
         // Default title
-        $this->_title($this->__('Customers'))->_title($this->__('Manage Customers'));
+        $this->_title($this->__('Manage Customers'));
 
         $customerId = (int)$this->getRequest()->getParam($idFieldName);
         $customer = Mage::getModel('Mage_Customer_Model_Customer');
@@ -40,7 +40,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
-        $this->_title($this->__('Customers'))->_title($this->__('Manage Customers'));
+        $this->_title($this->__('Manage Customers'));
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
@@ -87,6 +87,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initCustomer();
         $this->loadLayout();
+        $this->_setActiveMenu('Mage_Customer::customer_manage');
 
         /* @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::registry('current_customer');

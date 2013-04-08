@@ -50,7 +50,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
      */
     protected function _initWidgetInstance()
     {
-        $this->_title($this->__('CMS'))->_title($this->__('Widgets'));
+        $this->_title($this->__('Widgets'));
 
         /** @var $widgetInstance Mage_Widget_Model_Widget_Instance */
         $widgetInstance = Mage::getModel('Mage_Widget_Model_Widget_Instance');
@@ -80,7 +80,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
      */
     public function indexAction()
     {
-        $this->_title($this->__('CMS'))->_title($this->__('Widgets'));
+        $this->_title($this->__('Widgets'));
 
         $this->_initAction()
             ->renderLayout();

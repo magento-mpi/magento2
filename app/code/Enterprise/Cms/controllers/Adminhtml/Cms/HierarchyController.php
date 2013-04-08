@@ -133,9 +133,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
      */
     public function indexAction()
     {
-        $this->_title($this->__('CMS'))
-             ->_title($this->__('Pages'))
-             ->_title($this->__('Manage Hierarchy'));
+        $this->_title($this->__('Manage Hierarchy'));
 
         $this->_initScope();
 
