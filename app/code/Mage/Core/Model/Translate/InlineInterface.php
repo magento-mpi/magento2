@@ -14,41 +14,12 @@
 interface Mage_Core_Model_Translate_InlineInterface
 {
     /**
-     * Format translation for simple tags
+     * Returns additional html attribute if needed by client.
      *
-     * @param string $tagHtml
-     * @param string  $tagName
-     * @param array $trArr
-     * @return string
+     * @param mixed|string $tagName
+     * @return mixed|string
      */
-    public function applySimpleTagsFormat($tagHtml, $tagName, $trArr);
-
-    /**
-     * Format translation for special tags
-     *
-     * @param string $tagHtml
-     * @param string $tagName
-     * @param array $trArr
-     * @return string
-     */
-    public function applySpecialTagsFormat($tagHtml, $tagName, $trArr);
-
-    /**
-     * Add data-translate-mode attribute
-     *
-     * @param string $trAttr
-     * @return string
-     */
-    public function addTranslateAttribute($trAttr);
-
-    /**
-     * Returns the html span that contains the data translate attribute
-     *
-     * @param string $data
-     * @param string $text
-     * @return string
-     */
-    public function getDataTranslateSpan($data, $text);
+    public function getAdditionalHtmlAttribute($tagName = null);
 
     /**
      * Is enabled and allowed Inline Translates

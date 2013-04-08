@@ -94,62 +94,14 @@ class Mage_Core_Model_Translate_Inline implements Mage_Core_Model_Translate_Inli
     }
 
     /**
-     * Format translation for special tags
+     * Additional translation mode html attribute is not needed for base inline translation.
      *
-     * @param string $tagHtml
-     * @param string $tagName
-     * @param array $trArr
+     * @param mixed|string $tagName
      * @return string
      */
-    public function applySpecialTagsFormat($tagHtml, $tagName, $trArr)
+    public function getAdditionalHtmlAttribute($tagName = null)
     {
-        return $tagHtml . '<span class="translate-inline-' . $tagName . '" '
-            . $this->_parser->getHtmlAttribute(Mage_Core_Model_Translate_InlineParser::DATA_TRANSLATE,
-                htmlspecialchars('['
-            . join(',', $trArr) . ']'))
-            . '>' . strtoupper($tagName) . '</span>';
-    }
-
-    /**
-     * Format translation for simple tags
-     *
-     * @param string $tagHtml
-     * @param string  $tagName
-     * @param array $trArr
-     * @return string
-     */
-    public function applySimpleTagsFormat($tagHtml, $tagName, $trArr)
-    {
-        return substr($tagHtml, 0, strlen($tagName) + 1) . ' '
-            . $this->_parser->getHtmlAttribute(Mage_Core_Model_Translate_InlineParser::DATA_TRANSLATE,
-                htmlspecialchars('['
-            . join(',', $trArr) . ']'))
-            . substr($tagHtml, strlen($tagName) + 1);
-    }
-
-    /**
-     * Add data-translate-mode attribute
-     *
-     * @param string $trAttr
-     * @return string
-     */
-    public function addTranslateAttribute($trAttr)
-    {
-        return $trAttr;
-    }
-
-    /**
-     * Returns the html span that contains the data translate attribute
-     *
-     * @param string $data
-     * @param string $text
-     * @return string
-     */
-    public function getDataTranslateSpan($data, $text)
-    {
-        return '<span ' . $this->_parser->getHtmlAttribute(Mage_Core_Model_Translate_InlineParser::DATA_TRANSLATE,
-                $data)
-            . '>' . $text . '</span>';
+        return null;
     }
 
     /**
@@ -181,7 +133,6 @@ class Mage_Core_Model_Translate_Inline implements Mage_Core_Model_Translate_Inli
 
         $html = $block->toHtml();
 
-        //$this->_content = str_ireplace('</body>', $html . '</body>', $this->_content);
         $this->_parser->setContent(str_ireplace('</body>', $html . '</body>', $content));
 
         $this->_isScriptInserted = true;

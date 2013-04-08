@@ -106,64 +106,15 @@ class Mage_DesignEditor_Model_Translate_InlineVde implements Mage_Core_Model_Tra
     }
 
     /**
-     * Format translation for special tags.  Adding translate mode attribute for vde requests.
+     * Returns the translation mode html attribute needed by vde to specify which translation mode the
+     * element represents.
      *
-     * @param string $tagHtml
-     * @param string $tagName
-     * @param array $trArr
+     * @param mixed|string $tagName
      * @return string
      */
-    public function applySpecialTagsFormat($tagHtml, $tagName, $trArr)
+    public function getAdditionalHtmlAttribute($tagName = null)
     {
-        return $tagHtml . '<span class="translate-inline-' . $tagName . '" '
-            . $this->_parser->getHtmlAttribute(Mage_Core_Model_Translate_InlineParser::DATA_TRANSLATE,
-                htmlspecialchars('['
-            . join(',', $trArr) . ']')) . ' '
-            . $this->_parser->getHtmlAttribute(self::TRANSLATE_MODE, $this->_getTranslateMode($tagName))
-            . '>' . '</span>';
-    }
-
-    /**
-     * Format translation for simple tags.  Added translate mode attribute for vde requests.
-     *
-     * @param string $tagHtml
-     * @param string  $tagName
-     * @param array $trArr
-     * @return string
-     */
-    public function applySimpleTagsFormat($tagHtml, $tagName, $trArr)
-    {
-        return substr($tagHtml, 0, strlen($tagName) + 1) . ' '
-            . $this->_parser->getHtmlAttribute(Mage_Core_Model_Translate_InlineParser::DATA_TRANSLATE,
-                htmlspecialchars('['
-            . join(',', $trArr) . ']')) . ' '
-            . $this->_parser->getHtmlAttribute(self::TRANSLATE_MODE, $this->_getTranslateMode($tagName))
-            . substr($tagHtml, strlen($tagName) + 1);
-    }
-
-    /**
-     * Add data-translate-mode attribute
-     *
-     * @param string $trAttr
-     * @return string
-     */
-    public function addTranslateAttribute($trAttr)
-    {
-        return $trAttr . ' ' . $this->_parser->getHtmlAttribute(self::TRANSLATE_MODE, self::MODE_TEXT) . ' ';
-    }
-
-    /**
-     * Returns the html span that contains the data translate attribute including vde specific translate mode attribute
-     *
-     * @param string $data
-     * @param string $text
-     * @return string
-     */
-    public function getDataTranslateSpan($data, $text)
-    {
-        return '<span '. $this->_parser->getHtmlAttribute(Mage_Core_Model_Translate_InlineParser::DATA_TRANSLATE,
-                $data) . ' '
-            . $this->_parser->getHtmlAttribute(self::TRANSLATE_MODE, self::MODE_TEXT) . '>' . $text . '</span>';
+        return self::TRANSLATE_MODE . '="' . $this->_getTranslateMode($tagName) . '"';
     }
 
     /**
@@ -194,7 +145,6 @@ class Mage_DesignEditor_Model_Translate_InlineVde implements Mage_Core_Model_Tra
 
         $html = $block->toHtml();
 
-        //$this->_content = str_ireplace('</body>', $html . '</body>', $this->_content);
         $this->_parser->setContent(str_ireplace('</body>', $html . '</body>', $content));
 
         $this->_isScriptInserted = true;

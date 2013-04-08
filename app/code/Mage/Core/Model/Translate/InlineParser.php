@@ -143,14 +143,14 @@ class Mage_Core_Model_Translate_InlineParser
      */
     public function __construct(
         Mage_Core_Model_Resource_Translate_String $resource,
-        Mage_Core_Model_StoreManager $storeManager,
         Mage_Core_Model_Design_Package $designPackage,
-        Mage_Core_Helper_Data $helper
+        Mage_Core_Helper_Data $helper,
+        Mage_Core_Model_StoreManager $storeManager
     ) {
         $this->_resource = $resource;
-        $this->_storeManager = $storeManager;
         $this->_designPackage = $designPackage;
         $this->_helper = $helper;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -245,18 +245,6 @@ class Mage_Core_Model_Translate_InlineParser
     }
 
     /**
-     * Get html element attribute
-     *
-     * @param string $name
-     * @param string $value
-     * @return string
-     */
-    public function getHtmlAttribute($name, $value)
-    {
-        return $name . '=' . $this->_getHtmlQuote() . $value . $this->_getHtmlQuote();
-    }
-
-    /**
      * Set flag about parsed content is Json
      *
      * @param bool $flag
@@ -296,6 +284,48 @@ class Mage_Core_Model_Translate_InlineParser
         }
 
         return ucfirst($tagName) . ' Text';
+    }
+
+    /**
+     * Format translation for special tags.  Adding translate mode attribute for vde requests.
+     *
+     * @param Mage_Core_Model_Translate_InlineInterface $inlineInterface
+     * @param string $tagHtml
+     * @param string $tagName
+     * @param array $trArr
+     * @return string
+     */
+    protected function _applySpecialTagsFormat($inlineInterface, $tagHtml, $tagName, $trArr)
+    {
+        $specialTags = $tagHtml . '<span class="translate-inline-' . $tagName . '" '
+            . $this->_getHtmlAttribute(self::DATA_TRANSLATE, htmlspecialchars('[' . join(',', $trArr) . ']'));
+        $additionalAttr = $this->_getAdditionalHtmlAttribute($inlineInterface, $tagName);
+        if ($additionalAttr !== null) {
+            $specialTags .= ' ' . $additionalAttr;
+        }
+        $specialTags .= '>' . '</span>';
+        return $specialTags;
+    }
+
+    /**
+     * Format translation for simple tags.  Added translate mode attribute for vde requests.
+     *
+     * @param Mage_Core_Model_Translate_InlineInterface $inlineInterface
+     * @param string $tagHtml
+     * @param string  $tagName
+     * @param array $trArr
+     * @return string
+     */
+    protected function _applySimpleTagsFormat($inlineInterface, $tagHtml, $tagName, $trArr)
+    {
+        $simpleTags = substr($tagHtml, 0, strlen($tagName) + 1) . ' '
+            . $this->_getHtmlAttribute(self::DATA_TRANSLATE, htmlspecialchars('[' . join(',', $trArr) . ']'));
+        $additionalAttr = $this->_getAdditionalHtmlAttribute($inlineInterface, $tagName);
+        if ($additionalAttr !== null) {
+            $simpleTags .= ' ' . $additionalAttr;
+        }
+        $simpleTags .= substr($tagHtml, strlen($tagName) + 1);
+        return $simpleTags;
     }
 
     /**
@@ -353,23 +383,52 @@ class Mage_Core_Model_Translate_InlineParser
             $attrRegExp = '#' . $this->_tokenRegex . '#S';
             $trArr = $this->_getTranslateData($attrRegExp, $tagHtml, array($this, '_getAttributeLocation'));
             if ($trArr) {
-                $transRegExp = '# ' . $this->getHtmlAttribute(self::DATA_TRANSLATE,
+                $transRegExp = '# ' . $this->_getHtmlAttribute(self::DATA_TRANSLATE,
                     '\[([^' . preg_quote($quoteHtml) . ']*)]') . '#i';
                 if (preg_match($transRegExp, $tagHtml, $matches)) {
                     $tagHtml = str_replace($matches[0], '', $tagHtml); //remove tra
-                    $trAttr  = ' ' . $this->getHtmlAttribute(self::DATA_TRANSLATE,
+                    $trAttr  = ' ' . $this->_getHtmlAttribute(self::DATA_TRANSLATE,
                         htmlspecialchars('[' . $matches[1] . ',' . join(',', $trArr) . ']'));
                 } else {
-                    $trAttr  = ' ' . $this->getHtmlAttribute(self::DATA_TRANSLATE,
+                    $trAttr  = ' ' . $this->_getHtmlAttribute(self::DATA_TRANSLATE,
                         htmlspecialchars('[' . join(',', $trArr) . ']'));
                 }
-                $trAttr = $inlineInterface->addTranslateAttribute($trAttr);
+                $trAttr = $this->_addTranslateAttribute($inlineInterface, $trAttr);
 
                 $tagHtml = substr_replace($tagHtml, $trAttr, strlen($tagMatch[1][0]) + 1, 1);
                 $content = substr_replace($content, $tagHtml, $tagMatch[0][1], strlen($tagMatch[0][0]));
             }
             $nextTag = $tagMatch[0][1] + strlen($tagHtml);
         }
+    }
+
+    /**
+     * Get html element attribute
+     *
+     * @param string $name
+     * @param string $value
+     * @return string
+     */
+    private function _getHtmlAttribute($name, $value)
+    {
+        return $name . '=' . $this->_getHtmlQuote() . $value . $this->_getHtmlQuote();
+    }
+
+    /**
+     * Add data-translate-mode attribute
+     *
+     * @param Mage_Core_Model_Translate_InlineInterface $inlineInterface
+     * @param string $trAttr
+     * @return string
+     */
+    private function _addTranslateAttribute($inlineInterface, $trAttr)
+    {
+        $translateAttr = $trAttr;
+        $additionalAttr = $this->_getAdditionalHtmlAttribute($inlineInterface);
+        if ($additionalAttr !== null) {
+            $translateAttr .= ' ' . $additionalAttr . ' ';
+        }
+        return $translateAttr;
     }
 
     /**
@@ -394,10 +453,10 @@ class Mage_Core_Model_Translate_InlineParser
     private function _specialTags($inlineInterface)
     {
         $this->_translateTags($this->_content, $this->_allowedTagsGlobal,
-            $inlineInterface, 'applySpecialTagsFormat');
+            $inlineInterface, '_applySpecialTagsFormat');
 
         $this->_translateTags($this->_content, $this->_allowedTagsSimple,
-            $inlineInterface, 'applySimpleTagsFormat');
+            $inlineInterface, '_applySimpleTagsFormat');
     }
 
     /**
@@ -448,7 +507,7 @@ class Mage_Core_Model_Translate_InlineParser
 
             if (!empty($trArr)) {
                 $trArr = array_unique($trArr);
-                $tagHtml = call_user_func(array($inlineInterface, $formatCallback), $tagHtml, $tagName, $trArr);
+                $tagHtml = call_user_func(array($this, $formatCallback), $inlineInterface, $tagHtml, $tagName, $trArr);
                 $tagClosurePos = $tagMatch[0][1] + strlen($tagHtml);
                 $content = substr_replace($content, $tagHtml, $tagMatch[0][1], $tagLength);
             }
@@ -503,10 +562,41 @@ class Mage_Core_Model_Translate_InlineParser
                 'scope' => $matches[4][0],
             ));
 
-            $spanHtml = $inlineInterface->getDataTranslateSpan(htmlspecialchars('[' . $dataTranslateProperties . ']'),
-                $matches[1][0]);
+            $spanHtml = $this->_getDataTranslateSpan($inlineInterface,
+                htmlspecialchars('[' . $dataTranslateProperties . ']'), $matches[1][0]);
             $this->_content = substr_replace($this->_content, $spanHtml, $matches[0][1], strlen($matches[0][0]));
             $next = $matches[0][1] + strlen($spanHtml) - 1;
         }
+    }
+
+    /**
+     * Returns the html span that contains the data translate attribute including vde specific translate mode attribute
+     *
+     * @param Mage_Core_Model_Translate_InlineInterface $inlineInterface
+     * @param string $data
+     * @param string $text
+     * @return string
+     */
+    private function _getDataTranslateSpan($inlineInterface, $data, $text)
+    {
+        $translateSpan = '<span '. $this->_getHtmlAttribute(self::DATA_TRANSLATE, $data);
+        $additionalAttr = $this->_getAdditionalHtmlAttribute($inlineInterface);
+        if ($additionalAttr !== null) {
+            $translateSpan .= ' ' . $additionalAttr;
+        }
+        $translateSpan .= '>' . $text . '</span>';
+        return $translateSpan;
+    }
+
+    /**
+     * Add an additional html attribute if needed.
+     *
+     * @param Mage_Core_Model_Translate_InlineInterface $inlineInterface
+     * @param mixed|string $tagName
+     * @return string
+     */
+    private function _getAdditionalHtmlAttribute($inlineInterface, $tagName = null)
+    {
+        return $inlineInterface->getAdditionalHtmlAttribute($tagName);
     }
 }
