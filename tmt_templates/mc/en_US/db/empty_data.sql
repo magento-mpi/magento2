@@ -113,6 +113,7 @@ CREATE TABLE IF NOT EXISTS `admin_user` (
   `failures_num` smallint(6) DEFAULT '0' COMMENT 'Failure Number',
   `first_failure` timestamp NULL DEFAULT NULL COMMENT 'First Failure',
   `lock_expires` timestamp NULL DEFAULT NULL COMMENT 'Expiration Lock Dates',
+  `interface_locale` VARCHAR(5) NOT NULL DEFAULT 'en_US' COMMENT 'Backend interface locale',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `UNQ_ADMIN_USER_USERNAME` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Admin User Table';
