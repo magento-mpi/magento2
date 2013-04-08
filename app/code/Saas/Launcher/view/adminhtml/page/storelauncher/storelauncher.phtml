@@ -59,12 +59,16 @@
 <script type="text/javascript">
 (function($) {
     $(document).ready(function() {
-        if ($('#welcome-screen').length) {
-            $('#welcome-screen').welcomScreen(
-                {'ajaxUrl': "<?php echo $this->getUrl('*/storelauncher_index/showScreen');?>"}
-            );
-        }
-        $('#store-tour').storeTour();
+        head.js("<?php echo $this->getViewFileUrl('Saas_Launcher::page/storelauncher/store-tour.js') ?>",
+            function () {
+                if ($('#welcome-screen').length) {
+                    $('#welcome-screen').welcomScreen(
+                        {'ajaxUrl': "<?php echo $this->getUrl('*/storelauncher_index/showScreen');?>"}
+                    );
+                }
+                $('#store-tour').storeTour();
+            }
+        );
     });
 })(jQuery);
 </script>
