@@ -47,7 +47,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodZeroSubtotalTest e
     /**
      * <p>Creating Simple product</p>
      *
-     * @return string
+     * @return array
      * @test
      */
     public function preconditionsForTests()
@@ -92,9 +92,14 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodZeroSubtotalTest e
     public function zeroSubtotalCheckout($testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_usa',
-            array('general_name' => $testData['sku'],
-                  'payment_data' => $this->loadDataSet('Payment', 'payment_zerosubtotal')));
+        $checkoutData = $this->loadDataSet(
+            'OnePageCheckout',
+            'with_register_flatrate_checkmoney_usa',
+            array(
+                'general_name' => $testData['sku'],
+                  'payment_data' => $this->loadDataSet('Payment', 'payment_zerosubtotal')
+            )
+        );
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('PaymentMethod/zerosubtotal_enable');
@@ -138,9 +143,14 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodZeroSubtotalTest e
     public function zeroSubtotalCheckoutCapture($testData)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_usa',
-            array('general_name' => $testData['sku'],
-                  'payment_data' => $this->loadDataSet('Payment', 'payment_zerosubtotal')));
+        $checkoutData = $this->loadDataSet(
+            'OnePageCheckout',
+            'with_register_flatrate_checkmoney_usa',
+            array(
+                'general_name' => $testData['sku'],
+                  'payment_data' => $this->loadDataSet('Payment', 'payment_zerosubtotal')
+            )
+        );
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('PaymentMethod/zerosubtotal_enable');

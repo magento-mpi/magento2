@@ -2621,13 +2621,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-            if ($this->alertIsPresent()) {
-                return true;
+            try {
+                if ($this->alertIsPresent()) {
+                    return true;
+                }
+                if ($this->elementIsPresent($locator)) {
+                    return true;
+                }
+                usleep(500000);
+            } catch (RuntimeException $e) {
             }
-            if ($this->elementIsPresent($locator)) {
-                return true;
-            }
-            usleep(500000);
         }
         $this->assertEmptyPageErrors();
         throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);
