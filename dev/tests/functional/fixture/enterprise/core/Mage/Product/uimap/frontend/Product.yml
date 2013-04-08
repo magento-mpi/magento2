@@ -28,14 +28,14 @@ product_page:
                             unit_price_label_full_info: //div[@class='unitprice-box' and contains(., '%unitPrice% / %unitProductVolume% %measurement%')]
                             unit_price_price: //div[@class='unitprice-box']/span/span
                         fields:
-                            gift_card_open_amount: //input[@id='giftcard_amount_input']
+                            gift_card_open_amount: //input[@id='giftcard-amount-input']
                             gift_card_sender_name: //input[@id='giftcard_sender_name']
                             gift_card_sender_email: //input[@id='giftcard_sender_email']
                             gift_card_recipient_name: //input[@id='giftcard_recipient_name']
                             gift_card_recipient_email: //input[@id='giftcard_recipient_email']
-                            gift_card_message: //*[@id='giftcard_message']
+                            gift_card_message: //*[@id='giftcard-message']
                         dropdowns:
-                            gift_card_amount: //select[@id='giftcard_amount']/option[@value='%giftCardAmount%']
+                            gift_card_amount: //select[@id='giftcard-amount']/option[@value='%giftCardAmount%']
                 -
                     add_tag:
                         buttons:

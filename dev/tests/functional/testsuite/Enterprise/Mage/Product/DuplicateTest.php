@@ -52,6 +52,6 @@ class Enterprise_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $productData['product_online_status'] = 'Disabled';
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'success_duplicated_product');
-        $this->productHelper()->verifyProductInfo($productData);
+        $this->productHelper()->verifyProductInfo($productData, array('general_qty'));
     }
 }
