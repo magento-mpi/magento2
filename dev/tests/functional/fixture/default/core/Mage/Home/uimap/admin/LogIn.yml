@@ -12,7 +12,7 @@
 #Log in to Admin Panel page
 log_in_to_admin:
     mca:
-    title: Log into Magento Admin Page
+    title: Log into Magento Go Admin Page
     uimap: &adminUimap
         form: &logInPanel
             fieldsets:
@@ -20,7 +20,7 @@ log_in_to_admin:
                     log_in:
                         xpath: //div[@class='form-login form-inline']
                         buttons:
-                            login: //button[@title='Login']
+                            login: //button[@title='Log in']
                             captcha_reload: //*[@id='captcha-reload']
                         fields:
                             user_name: //input[@id='username']

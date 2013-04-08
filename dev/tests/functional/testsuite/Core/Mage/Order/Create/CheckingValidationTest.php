@@ -269,7 +269,8 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
             $this->addParameter('fieldId', $fieldName);
             $this->assertMessagePresent('validation', 'empty_required_field');
         }
-        $this->assertTrue($this->verifyMessagesCount(4), $this->getParsedMessages());
+        $this->assertMessagePresent('validation', 'empty_required_field_cc_number');
+        $this->assertTrue($this->verifyMessagesCount(5), $this->getParsedMessages());
     }
 
     /**
@@ -337,7 +338,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         //Verifying
         $xpath = $this->_getControlXpath('dropdown', 'card_type');
         $this->addParameter('fieldXpath', $xpath);
-        $this->assertMessagePresent('validation', 'card_type_doesnt_match');
+        $this->assertMessagePresent('validation', 'empty_required_field_cc_number');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
@@ -398,6 +399,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
      */
     public function emptyExpirationMonthFieldInSavedCC($simpleSku)
     {
+        $this->markTestIncomplete('MAGETWO-9026');
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_savedcc');
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
