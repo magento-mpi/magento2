@@ -163,9 +163,10 @@
                 dataType: 'json',
                 showLoader: false,
                 success: $.proxy(function(response) {
-                    if (response.message_html) {
-                        $(this.options.messagesContainer).append(response.message_html);
-                    }
+                    this.element.trigger('addMessage', {
+                        containerId : this.options.messagesContainer,
+                        message : response.message
+                    });
                     this.element.trigger('refreshIframe');
                 }, this),
                 error: $.proxy(function() {

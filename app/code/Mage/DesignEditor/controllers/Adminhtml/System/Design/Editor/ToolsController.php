@@ -31,19 +31,17 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
                 array(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS => $cssFileContent)
             );
             $themeCss->saveData($theme);
-            $response = array('error' => false, 'content' => $cssFileContent);
-            $this->_session->addSuccess($this->__('Custom.css file has been successfully saved.'));
+            $response = array(
+                'success' => true,
+                'message' => $this->__('Custom.css file has been successfully saved.'),
+                'content' => $cssFileContent
+            );
         } catch (Mage_Core_Exception $e) {
-            $this->_session->addError($e->getMessage());
             $response = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
-            $errorMessage = $this->__('Cannot upload css file');
-            $this->_session->addError($errorMessage);
-            $response = array('error' => true, 'message' => $errorMessage);
+            $response = array('error' => true, 'message' => $this->__('Cannot upload css file'));
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
-        $this->loadLayout();
-        $response['message_html'] = $this->getLayout()->getMessagesBlock()->toHtml();
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
     }
 
@@ -61,19 +59,16 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
                 array(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS => $customCssContent)
             );
             $theme->setCustomization($themeCss)->save();
-            $response = array('error' => false);
-            $this->_session->addSuccess($this->__('Custom.css file has been successfully saved.'));
+            $response = array(
+                'success' => true,
+                'message' => $this->__('Custom.css file has been successfully saved.')
+            );
         } catch (Mage_Core_Exception $e) {
-            $this->_session->addError($e->getMessage());
             $response = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
-            $errorMessage = $this->__('Cannot save custom css');
-            $this->_session->addError($errorMessage);
-            $response = array('error' => true, 'message' => $errorMessage);
+            $response = array('error' => true, 'message' => $this->__('Cannot save custom css'));
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
-        $this->loadLayout();
-        $response['message_html'] = $this->getLayout()->getMessagesBlock()->toHtml();
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
     }
 
@@ -84,7 +79,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     {
         try {
             $theme = $this->_getEditableTheme();
-            $this->loadLayout();
 
             /** @var $filesJs Mage_Core_Model_Theme_Customization_Files_Js */
             $filesJs = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_Files_Js');
@@ -92,10 +86,10 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $customJsFiles = $theme->setCustomization($filesJs)
                 ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Js::TYPE);
             $result = array('error' => false, 'files' => $customJsFiles->getFilesInfo());
-            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
+        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**
@@ -112,16 +106,11 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $this->_forward('jsList');
             return;
         } catch (Mage_Core_Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
             $response = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
-            $errorMessage = $this->__('Cannot upload js file');
-            $this->_getSession()->addError($errorMessage);
-            $response = array('error' => true, 'message' => $errorMessage);
+            $response = array('error' => true, 'message' => $this->__('Cannot upload js file'));
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
-        $this->loadLayout();
-        $response['message_html'] = $this->getLayout()->getMessagesBlock()->toHtml();
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
     }
 
@@ -164,16 +153,11 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
 
             $result = array('success' => true);
         } catch (Mage_Core_Exception $e) {
-            $this->_session->addError($e->getMessage());
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
-            $errorMessage = $this->__('Cannot upload css file');
-            $this->_session->addError($errorMessage);
-            $result = array('error' => true, 'message' => $errorMessage);
+            $result = array('error' => true, 'message' => $this->__('Cannot upload css file'));
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
-        $this->loadLayout();
-        $result['message_html'] = $this->getLayout()->getMessagesBlock()->toHtml();
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 
@@ -195,19 +179,13 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             );
             $imageSizing = $imageSizingValidator->validate($configuration->getAllControlsData(), $imageSizing);
             $configuration->saveData($imageSizing);
-            $this->_session->addSuccess('Image sizes are saved.');
-            $result = array('success' => true);
+            $result = array('success' => true, 'message' => $this->__('Image sizes are saved.'));
         } catch (Mage_Core_Exception $e) {
-            $this->_session->addError($e->getMessage());
-            $result = array('error' => true, 'message' => $e->getMessage());
+             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
-            $errorMessage = $this->__('Cannot save image sizes.');
-            $this->_session->addError($errorMessage);
-            $result = array('error' => true, 'message' => $errorMessage);
+            $result = array('error' => true, 'message' => $this->__('Cannot save image sizes.'));
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
-        $this->loadLayout();
-        $result['message_html'] = $this->getLayout()->getMessagesBlock()->toHtml();
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
 
     }
@@ -376,17 +354,12 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $configuration->saveData(array($controlId => $controlValue));
             $response = array('success' => true);
         } catch (Mage_Core_Exception $e) {
-            $this->_session->addError($e->getMessage());
             $response = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
             $errorMessage = $this->__('Error while saving quick style "%s"', 'some_style_id');
-            $this->_session->addError($errorMessage);
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
-
-        $this->loadLayout();
-        $response['message_html'] = $this->getLayout()->getMessagesBlock()->toHtml();
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
     }
 
