@@ -51,9 +51,7 @@ class Mage_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
         $this->_assetJsTwo->expects($this->any())->method('getContentType')->will($this->returnValue('js'));
         $this->_assetJsTwo->expects($this->any())->method('getSourceFile')->will($this->returnValue('script_two.js'));
 
-        $this->_designPackage = $this->getMock(
-            'Mage_Core_Model_Design_Package', array('mergeFiles', 'getPublicFileUrl'), array(), '', false
-        );
+        $this->_designPackage = $this->getMock('Mage_Core_Model_Design_PackageInterface');
 
         $this->_coreHelper = $this->getMock('Mage_Core_Helper_Data', array('isStaticFilesSigned'), array(), '', false);
 

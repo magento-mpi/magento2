@@ -42,13 +42,13 @@ class Mage_Core_Model_Observer
 
     /**
      * @param Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
-     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Design_PackageInterface $designPackage
      * @param Mage_Core_Model_Page $page
      * @param Mage_Core_Model_ConfigInterface $config
      */
     public function __construct(
         Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,
-        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Design_PackageInterface $designPackage,
         Mage_Core_Model_Page $page,
         Mage_Core_Model_ConfigInterface $config
     ) {

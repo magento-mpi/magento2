@@ -35,7 +35,7 @@ class Saas_Saas_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_modelStoreMock = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
-        $this->_storeManageMock = $this->getMock('Mage_Core_Model_StoreManager', array(), array(), '', false);
+        $this->_storeManageMock = $this->getMock('Mage_Core_Model_StoreManagerInterface');
         $this->_storeManageMock->expects($this->atLeastOnce())->method('getStore')
             ->will($this->returnValue($this->_modelStoreMock));
         $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
