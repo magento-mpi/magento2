@@ -62,13 +62,11 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
     {
         $this->openProductTab('general');
         parent::fillGeneralTab($generalTab);
-        if (isset($generalTab['general_giftcard_data'])) {
-            foreach ($generalTab['general_giftcard_data']['general_amounts'] as $value) {
+        if (isset($generalTab['general_amounts'])) {
+            foreach ($generalTab['general_amounts'] as $value) {
                 $this->addGiftCardAmount($value);
-                unset($generalTab['general_giftcard_data']['general_amounts']);
+                unset($generalTab['general_amounts']);
             }
-            $this->fillFieldset($generalTab['general_giftcard_data'], 'general_giftcard_data');
-            unset($generalTab['general_giftcard_data']);
         }
     }
 
@@ -81,9 +79,9 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
     {
         parent::verifyGeneralTab($generalTab);
         $this->openTab('general');
-        if (isset($generalTab['general_giftcard_data'])) {
-            $this->verifyGiftCardAmounts($generalTab['general_giftcard_data']['general_amounts']);
-            unset($generalTab['general_giftcard_data']['general_amounts']);
+        if (isset($generalTab['general_amounts'])) {
+            $this->verifyGiftCardAmounts($generalTab['general_amounts']);
+            unset($generalTab['general_amounts']);
         }
     }
 
@@ -127,7 +125,7 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
                 unset($value['general_giftcard_website']);
             }
             $this->verifyForm($value, 'general');
-            --$index;
+            $index--;
         }
         $this->assertEmptyVerificationErrors();
         return true;

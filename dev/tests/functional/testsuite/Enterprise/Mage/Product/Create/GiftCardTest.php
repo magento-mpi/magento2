@@ -47,7 +47,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required');
-        $productData['general_giftcard_data']['general_card_type'] = $giftcardType;
+        $productData['general_card_type'] = $giftcardType;
         //Steps
         $this->productHelper()->createProduct($productData, 'giftcard', false);
         if (!$giftcardType == 'Virtual') {
@@ -160,8 +160,8 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required');
-        $productData['general_giftcard_data']['general_amounts']['general_amount1']['general_giftcard_amount'] = '';
-        $productData['general_giftcard_data']['general_amounts']['general_amount2']['general_giftcard_amount'] = '';
+        $productData['general_amounts']['general_amount1']['general_giftcard_amount'] = '';
+        $productData['general_amounts']['general_amount2']['general_giftcard_amount'] = '';
         //Steps
         $this->productHelper()->createProduct($productData, 'giftcard');
         //Verifying
@@ -255,7 +255,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
     {
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required');
-        $productData['general_giftcard_data']['general_card_type'] = 'Combined';
+        $productData['general_card_type'] = 'Combined';
         //Steps
         $this->productHelper()->createProduct($productData, 'giftcard', false);
         $this->openTab('general');
