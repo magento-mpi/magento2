@@ -31,7 +31,7 @@
 
         _events: function() {
             this.btnCssUpdate.on('click', $.proxy(this._updateCustomCss, this));
-            this.customCssCode.on('input onchange', $.proxy(this._editCustomCss, this));
+            this.customCssCode.on('input onchange change', $.proxy(this._editCustomCss, this));
         },
 
         _editCustomCss: function()
