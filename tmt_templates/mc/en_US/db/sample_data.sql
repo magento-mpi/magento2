@@ -113,14 +113,15 @@ CREATE TABLE IF NOT EXISTS `admin_user` (
   `failures_num` smallint(6) DEFAULT '0' COMMENT 'Failure Number',
   `first_failure` timestamp NULL DEFAULT NULL COMMENT 'First Failure',
   `lock_expires` timestamp NULL DEFAULT NULL COMMENT 'Expiration Lock Dates',
+  `interface_locale` VARCHAR(5) NOT NULL DEFAULT 'en_US' COMMENT 'Backend interface locale',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `UNQ_ADMIN_USER_USERNAME` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Admin User Table';
 
 # Dumping data for table admin_user: ~1 rows (approximately)
 /*!40000 ALTER TABLE `admin_user` DISABLE KEYS */;
-INSERT INTO `admin_user` (`user_id`, `firstname`, `lastname`, `email`, `username`, `password`, `created`, `modified`, `logdate`, `lognum`, `reload_acl_flag`, `is_active`, `extra`, `rp_token`, `rp_token_created_at`, `failures_num`, `first_failure`, `lock_expires`) VALUES
-	(1, 'admin', 'admin', 'voleye@yandex.ru', 'admin', '3ac97e59a8a89dc47308b65226e2af590176b9c0ee2a2778bb94c61e3055e512:ze', '2013-04-05 16:53:24', '2013-04-05 16:52:25', '2013-04-05 13:53:24', 1, 0, 1, 'N;', NULL, NULL, 0, NULL, NULL);
+INSERT INTO `admin_user` (`user_id`, `firstname`, `lastname`, `email`, `username`, `password`, `created`, `modified`, `logdate`, `lognum`, `reload_acl_flag`, `is_active`, `extra`, `rp_token`, `rp_token_created_at`, `failures_num`, `first_failure`, `lock_expires`, `interface_locale`) VALUES
+	(1, 'admin', 'admin', 'voleye@yandex.ru', 'admin', '3ac97e59a8a89dc47308b65226e2af590176b9c0ee2a2778bb94c61e3055e512:ze', '2013-04-05 16:53:24', '2013-04-05 16:52:25', '2013-04-05 13:53:24', 1, 0, 1, 'N;', NULL, NULL, 0, NULL, NULL, 'en_US');
 /*!40000 ALTER TABLE `admin_user` ENABLE KEYS */;
 
 
