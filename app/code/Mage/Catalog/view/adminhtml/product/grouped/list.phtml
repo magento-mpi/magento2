@@ -20,10 +20,10 @@
     <td data-column="name" class="editable col-name">
         ${name}
     </td>
-    <td data-column="sku" class=" col-sku ">
+    <td data-column="sku" class="col-sku ">
         ${sku}
     </td>
-    <td data-column="price" class=" col-price a-right ">
+    <td data-column="price" class="col-price a-right">
         ${price}
     </td>
     <td data-column="qty" class="editable col-qty col-number">
@@ -35,7 +35,7 @@
 </tr>
 </script>
 <div class="grid-container" class="no-display">
-    <table class="data-table" id="grouped_grid_table"
+    <table class="data-table" data-role="grouped-product-grid"
         data-products="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode(
                 $this->getAssociatedProducts()
         )); ?>">
@@ -44,20 +44,20 @@
                 <th data-column="info" class="col-draggable no-link col-info">
                     <span></span>
                 </th>
-                <th data-column="name" class=" no-link col-name">
+                <th data-column="name" class="no-link col-name">
                     <span>Name</span>
                 </th>
-                <th data-column="sku" class=" no-link col-sku">
+                <th data-column="sku" class="no-link col-sku">
                     <span>SKU</span>
                 </th>
-                <th data-column="price" class=" no-link col-price">
+                <th data-column="price" class="no-link col-price">
                     <span>Price</span>
                 </th>
-                <th data-column="qty" class=" no-link col-qty">
+                <th data-column="qty" class="no-link col-qty">
                     <span>Default Qty</span>
                 </th>
                 <th data-column="actions" class="last no-link col-actions">
-                    <span class="nobr"></span>
+                    <span></span>
                 </th>
             </tr>
         </thead>

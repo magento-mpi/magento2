@@ -16,7 +16,7 @@
          */
         _create: function () {
             this.$popup = this.element.find('#grouped_grid_popup');
-            this.$grid = this.element.find('#grouped_grid_table');
+            this.$grid = this.element.find('[data-role=grouped-product-grid]');
             this.$grid.sortable({
                 distance: 8,
                 items: 'tbody>tr',
@@ -44,7 +44,6 @@
             this._bindDialog();
             this._bindEventHandlers();
             this._updateGridVisibility();
-            this._updatePopupGrid();
         },
 
         /**
@@ -73,7 +72,7 @@
          * @private
          */
         _resort: function() {
-            this.element.find('[data-role="position"]').each($.proxy(function(index, element) {
+            this.element.find('[data-role=position]').each($.proxy(function(index, element) {
                 $(element).val(index + 1);
             }, this));
         },
@@ -96,7 +95,6 @@
                     id: 'grouped-product-dialog-cancel-button',
                     text: 'Cancel',
                     click: function () {
-                        widget._updatePopupGrid();
                         $(this).dialog('close');
                     }
                 }, {
@@ -120,7 +118,7 @@
             var widget = this;
             $('[data-role="add-product"]').on('click', function (event) {
                 event.preventDefault();
-                var skus = widget.$grid.find('[data-role="sku"]').map(function(index, element) {
+                var skus = widget.$grid.find('[data-role=sku]').map(function(index, element) {
                     return $(element).val()
                 }).toArray();
                 widget.options.gridPopup.reloadParams = {
@@ -136,7 +134,7 @@
                 if (!this.rows || !this.rows.length) {
                     return;
                 }
-                $(event.target).parent().find('td.col-select input[type="checkbox"]').click();
+                $(event.target).parent().find('td.col-select input[type=checkbox]').click();
                 return false;
             };
         },
@@ -146,7 +144,7 @@
          * @private
          */
         _addSelected: function () {
-            this.$popup.find('td[data-column="in_products"]:has(input:checked)')
+            this.$popup.find('[data-role=row] [data-column=massaction]:has(input:checked)')
                 .each($.proxy(function(index, element) {
                     var product = {};
                     product.id = $(element).find('input').val();
@@ -160,23 +158,6 @@
 
             this._resort();
             this._updateGridVisibility();
-        },
-
-        _getSelectedSkus: function () {
-            var skus = [];
-            $.each(this.$popup.find('td.col-select input[type="checkbox"]:checked'),
-                function () {
-                    skus.push($(this).closest('[data-role="row"]').find('td[data-column="sku"]').html().trim());
-                }
-            );
-            return skus;
-        },
-
-        _updatePopupGrid: function () {
-            var $popup = this.$popup;
-            $.each(this.$grid.find('[data-role="id"]'), function () {
-                $popup.find('input[type=checkbox][value="' + $(this).val() + '"]').prop({checked: true});
-            });
         },
 
         /**
