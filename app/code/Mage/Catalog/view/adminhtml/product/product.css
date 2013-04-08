@@ -711,6 +711,10 @@
     display: none;
 }
 
+.ui-dialog.grouped .col-entity_id {
+    width: 15px;
+}
+
 /*
     Custom Options
 -------------------------------------- */

@@ -367,6 +367,14 @@ Layout handle for grouped products
                     <arguments>
                         <id>grouped_grid_popup</id>
                     </arguments>
+                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="entity_id">
+                        <arguments>
+                            <header translate="true" module="Mage_Catalog">ID</header>
+                            <type>skip-list</type>
+                            <renderer>Mage_Backend_Block_Widget_Grid_Column_Renderer_Text</renderer>
+                            <index>entity_id</index>
+                        </arguments>
+                    </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
                             <header translate="true" module="Mage_Catalog">Name</header>
@@ -379,8 +387,7 @@ Layout handle for grouped products
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="sku">
                         <arguments>
                             <header translate="true" module="Mage_Catalog">SKU</header>
-                            <type>skip-list</type>
-                            <renderer>Mage_Backend_Block_Widget_Grid_Column_Renderer_Text</renderer>
+                            <type>text</type>
                             <index>sku</index>
                             <escape>1</escape>
                         </arguments>

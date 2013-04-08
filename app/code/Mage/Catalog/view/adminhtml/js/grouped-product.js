@@ -118,11 +118,11 @@
             var widget = this;
             $('[data-role="add-product"]').on('click', function (event) {
                 event.preventDefault();
-                var skus = widget.$grid.find('[data-role=sku]').map(function(index, element) {
+                var ids = widget.$grid.find('[data-role=id]').map(function(index, element) {
                     return $(element).val()
                 }).toArray();
                 widget.options.gridPopup.reloadParams = {
-                    filter: {'sku': skus ? skus : [0]}
+                    filter: {'entity_id': ids ? ids : [0]}
                 };
                 widget.options.gridPopup.reload(null, function() {
                     $('[data-role=add-product-popup]').dialog('open');
