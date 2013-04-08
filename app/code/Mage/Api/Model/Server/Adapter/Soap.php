@@ -100,16 +100,19 @@ class Mage_Api_Model_Server_Adapter_Soap extends Varien_Object
             try {
                 $this->_instantiateServer();
 
+                $content = preg_replace(
+                    '/<\?xml version="([^\"]+)"([^\>]+)>/i',
+                        '<?xml version="$1" encoding="' . $apiConfigCharset . '"?>',
+                    $this->_soap->handle()
+                );
+
+                $content = str_ireplace('><', ">\n<", $content);
+
                 $this->getController()->getResponse()
                     ->clearHeaders()
                     ->setHeader('Content-Type', 'text/xml; charset=' . $apiConfigCharset)
-                    ->setBody(
-                    preg_replace(
-                        '/<\?xml version="([^\"]+)"([^\>]+)>/i',
-                        '<?xml version="$1" encoding="' . $apiConfigCharset . '"?>',
-                        $this->_soap->handle()
-                    )
-                );
+                    ->setHeader('Content-Length', strlen($content), true)
+                    ->setBody($content);
             } catch (Zend_Soap_Server_Exception $e) {
                 $this->fault($e->getCode(), $e->getMessage());
             } catch (Exception $e) {

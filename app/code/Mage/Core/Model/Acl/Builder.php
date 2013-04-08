@@ -42,7 +42,7 @@ class Mage_Core_Model_Acl_Builder
     /**
      * Build Access Control List
      *
-     * @param string areaCode
+     * @param string $areaCode
      * @return Magento_Acl
      * @throws LogicException
      */

@@ -55,11 +55,6 @@ class Mage_DesignEditor_Model_State
     const CURRENT_THEME_SESSION_KEY = 'vde_theme_id';
 
     /**
-     * Session key of virtual theme
-     */
-    const VIRTUAL_THEME_SESSION_KEY = 'vde_virtual_theme_id';
-
-    /**
      * @var Mage_Backend_Model_Session
      */
     protected $_backendSession;
@@ -173,7 +168,6 @@ class Mage_DesignEditor_Model_State
         $this->_backendSession->unsetData(self::CURRENT_HANDLE_SESSION_KEY)
             ->unsetData(self::CURRENT_URL_SESSION_KEY)
             ->unsetData(self::CURRENT_MODE_SESSION_KEY)
-            ->unsetData(self::VIRTUAL_THEME_SESSION_KEY)
             ->unsetData(self::CURRENT_THEME_SESSION_KEY);
 
         return $this;
