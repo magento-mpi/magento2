@@ -11,8 +11,9 @@
 <script type="text/javascript">
     (function($) {
         $(function() {
-            $('[role="review-save"]').trigger('click');
+            console.info($('[data-role="review-save"]'));
+            $('[data-role="review-save"]').trigger('saveOrder');
         });
-    })(jQuery);
+    })(parent.jQuery);
 </script>
 
