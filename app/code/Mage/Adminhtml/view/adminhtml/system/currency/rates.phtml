@@ -13,8 +13,8 @@
  * @var $this Mage_Adminhtml_Block_System_Currency
  */
 ?>
-<div class="page-actions">
-    <form action="<?php echo $this->getImportFormAction() ?>" method="post">
+<div class="page-actions clearfix">
+    <form action="<?php echo $this->getImportFormAction() ?>" method="post" class="import-service">
         <?php echo $this->getBlockHtml('formkey')?>
         <?php echo $this->getServicesHtml() ?>
         <?php echo $this->getImportButtonHtml() ?>
