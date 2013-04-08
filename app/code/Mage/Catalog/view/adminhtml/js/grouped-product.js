@@ -120,10 +120,9 @@
             var widget = this;
             $('[data-role="add-product"]').on('click', function (event) {
                 event.preventDefault();
-                var ids = widget.$grid.find('[data-role="id"]').map(function(index, element) {
+                var skus = widget.$grid.find('[data-role="sku"]').map(function(index, element) {
                     return $(element).val()
                 }).toArray();
-                var skus = $.parseJSON(widget.options.$hiddenInput.attr('data-skus'));
                 widget.options.gridPopup.reloadParams = {
                     filter: {'sku': skus ? skus : [0]}
                 };
