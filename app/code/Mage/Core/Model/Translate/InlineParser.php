@@ -301,9 +301,11 @@ class Mage_Core_Model_Translate_InlineParser
             . $this->_getHtmlAttribute(self::DATA_TRANSLATE, htmlspecialchars('[' . join(',', $trArr) . ']'));
         $additionalAttr = $this->_getAdditionalHtmlAttribute($inlineInterface, $tagName);
         if ($additionalAttr !== null) {
-            $specialTags .= ' ' . $additionalAttr;
+            $specialTags .= ' ' . $additionalAttr . '>';
+        } else {
+            $specialTags .= '>' . strtoupper($tagName);
         }
-        $specialTags .= '>' . '</span>';
+        $specialTags .= '</span>';
         return $specialTags;
     }
 
