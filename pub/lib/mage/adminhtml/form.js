@@ -415,24 +415,43 @@ FormElementDependenceController.prototype = {
         }
 
         // toggle target row
+        var headElement = $(idTo + '-head');
         if (shouldShowUp) {
             var currentConfig = this._config;
-            $(idTo).up(this._config.levels_up).select('input', 'select', 'td').each(function (item) {
-                // don't touch hidden inputs (and Use Default inputs too), bc they may have custom logic
-                if ((!item.type || item.type != 'hidden') && !($(item.id+'_inherit') && $(item.id+'_inherit').checked)
-                    && !(currentConfig.can_edit_price != undefined && !currentConfig.can_edit_price)) {
-                    item.disabled = false;
+            $$('#' + idTo, '#' + idTo + '-head').each(function (section) {
+                if ($(section).select('input', 'select', 'td')) {
+                    $(section).select('input', 'select', 'td').each(function (item) {
+                        // don't touch hidden inputs (and Use Default inputs too), bc they may have custom logic
+                        if ((!item.type || item.type != 'hidden') && !($(item.id+'_inherit') && $(item.id+'_inherit').checked)
+                            && !(currentConfig.can_edit_price != undefined && !currentConfig.can_edit_price)) {
+                            item.disabled = false;
+                        }
+                    });
                 }
             });
-            $(idTo).up(this._config.levels_up).show();
+            if (headElement) {
+                headElement.show();
+            }
+            if (headElement && headElement.hasClassName('open')) {
+                $(idTo).show();
+            } else {
+                $(idTo).hide();
+            }
         } else {
-            $(idTo).up(this._config.levels_up).select('input', 'select', 'td').each(function (item){
-                // don't touch hidden inputs (and Use Default inputs too), bc they may have custom logic
-                if ((!item.type || item.type != 'hidden') && !($(item.id+'_inherit') && $(item.id+'_inherit').checked)) {
-                    item.disabled = true;
+            $$('#' + idTo, '#' + idTo + '-head').each(function (section) {
+                if ($(section).select('input', 'select', 'td')) {
+                    $(section).select('input', 'select', 'td').each(function (item){
+                        // don't touch hidden inputs (and Use Default inputs too), bc they may have custom logic
+                        if ((!item.type || item.type != 'hidden') && !($(item.id+'_inherit') && $(item.id+'_inherit').checked)) {
+                            item.disabled = true;
+                        }
+                    });
                 }
             });
-            $(idTo).up(this._config.levels_up).hide();
+            if (headElement) {
+                headElement.hide();
+            }
+            $(idTo).hide();
         }
     }
 };
