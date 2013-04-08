@@ -163,7 +163,7 @@
     z-index: 2;
 }
 
-.image .action-make-main {
+.image .action-make-base {
     position: absolute;
     bottom: 20px;
     left: 10%;
@@ -172,7 +172,7 @@
     margin: auto;
 }
 
-.image.base-image .action-make-main {
+.image.base-image .action-make-base {
     display: none;
 }
 

@@ -45,7 +45,7 @@
                 $(this.options.spConfig.containerId).find(this.options.superSelector) :
                 $(this.options.superSelector);
             this.options.values = this.options.spConfig.defaultValues || {};
-            this.options.parentImage = $('[data-role="main-image"]').attr('src');
+            this.options.parentImage = $('[data-role=base-image]').attr('src');
         },
 
         /**
@@ -222,7 +222,7 @@
             $.each(imagesArray || {}, function (k, v) {
                 result.push(v);
             });
-            $('[data-role="main-image"]').attr('src', (result.length === 1 ? result.pop() : null) || this.options.parentImage);
+            $('[data-role=base-image]').attr('src', (result.length === 1 ? result.pop() : null) || this.options.parentImage);
 
             this._fitImageToContainer();
         },
@@ -232,7 +232,7 @@
          * @private
          */
         _fitImageToContainer: function () {
-            var $image = $('[data-role="main-image"]'),
+            var $image = $('[data-role=base-image]'),
                 width = $image.width(),
                 height = $image.height(),
                 parentWidth = $image.parent().width(),

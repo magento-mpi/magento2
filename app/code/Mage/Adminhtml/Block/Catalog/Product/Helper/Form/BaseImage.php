@@ -107,7 +107,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
                 <button class="action-delete" data-role="delete-button" title="{$this->__('Delete image')}">
                     <span>{$this->__('Delete image')}</span>
                 </button>
-                <button class="action-make-main" data-role="make-main-button" title="{$this->__('Make Base')}">
+                <button class="action-make-base" data-role="make-base-button" title="{$this->__('Make Base')}">
                     <span>{$this->__('Make Base')}</span>
                 </button>
                 <div class="draggable-handle"></div>
@@ -122,7 +122,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
     (function($) {
         'use strict';
 
-        $('[data-activate-tab="image-management"]')
+        $('[data-activate-tab=image-management]')
             .on('click.toggleImageManagementTab', function() {
                 $('#product_info_tabs_image-management').trigger('click');
             });

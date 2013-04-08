@@ -85,7 +85,7 @@
         _bindDialog: function () {
             var widget = this;
             $('[data-role="add-product-popup"]').dialog({
-                title: 'Add Products to Group',
+                title: $.mage.__('Add Products to Group'),
                 autoOpen: false,
                 minWidth: 980,
                 modal: true,
@@ -93,13 +93,13 @@
                 dialogClass: 'grouped',
                 buttons: [{
                     id: 'grouped-product-dialog-cancel-button',
-                    text: 'Cancel',
+                    text: $.mage.__('Cancel'),
                     click: function () {
                         $(this).dialog('close');
                     }
                 }, {
                     id: 'grouped-product-dialog-apply-button',
-                    text: 'Add Products',
+                    text: $.mage.__('Add Selected Products'),
                     'class': 'add',
                     click: function () {
                         widget._addSelected();
