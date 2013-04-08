@@ -16,7 +16,7 @@
 class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     protected $_model = null;
 
@@ -27,7 +27,7 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
                 Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));
-        $this->_model = Mage::getObjectManager()->create('Mage_Core_Model_Design_Package');
+        $this->_model = Mage::getObjectManager()->create('Mage_Core_Model_Design_PackageInterface');
         $this->_model->setDesignTheme('test/default');
     }
 

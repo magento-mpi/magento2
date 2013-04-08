@@ -277,7 +277,7 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
      */
     protected function _getPreviewImageDefaultUrl()
     {
-        return $this->_objectManager->get('Mage_Core_Model_Design_Package')
+        return $this->_objectManager->get('Mage_Core_Model_Design_PackageInterface')
             ->getViewFileUrl('Mage_Core::theme/default_preview.jpg');
     }
 }

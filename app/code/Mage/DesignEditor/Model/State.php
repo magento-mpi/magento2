@@ -87,7 +87,7 @@ class Mage_DesignEditor_Model_State
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     protected $_design;
 
@@ -103,7 +103,7 @@ class Mage_DesignEditor_Model_State
      * @param Mage_Core_Model_Cache $cacheManager
      * @param Mage_DesignEditor_Helper_Data $dataHelper
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Design_Package $design
+     * @param Mage_Core_Model_Design_PackageInterface $design
      * @param Mage_Core_Model_App $application
      */
     public function __construct(
@@ -113,7 +113,7 @@ class Mage_DesignEditor_Model_State
         Mage_Core_Model_Cache $cacheManager,
         Mage_DesignEditor_Helper_Data $dataHelper,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Design_Package $design,
+        Mage_Core_Model_Design_PackageInterface $design,
         Mage_Core_Model_App $application
     ) {
         $this->_backendSession  = $backendSession;
@@ -227,7 +227,8 @@ class Mage_DesignEditor_Model_State
     {
         $themeId = $this->_backendSession->getData(self::CURRENT_THEME_SESSION_KEY);
         if ($themeId !== null) {
-            $this->_application->getStore()->setConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID, $themeId);
+            $this->_application->getStore()
+                ->setConfig(Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID, $themeId);
         }
     }
 

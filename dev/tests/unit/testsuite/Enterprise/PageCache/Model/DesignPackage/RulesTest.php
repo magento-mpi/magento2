@@ -49,7 +49,7 @@ class Enterprise_PageCache_Model_DesignPackage_RulesTest extends PHPUnit_Framewo
     {
         $this->_fpcCacheMock = $this->getMock('Enterprise_PageCache_Model_Cache', array(), array(), '', false);
         $this->_designMock = $this->getMock('Mage_Core_Model_Design', array(), array(), '', false);
-        $this->_designPackageMock = $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false);
+        $this->_designPackageMock = $this->getMock('Mage_Core_Model_Design_PackageInterface');
 
         $this->_currentDate = date('Y-m-d');
 

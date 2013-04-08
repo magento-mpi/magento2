@@ -78,7 +78,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     public function addCss($file, $attributes = '', $ieCondition = null, $flagName = null)
     {
-        $contentType = Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS;
+        $contentType = Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS;
         $asset = $this->_objectManager->create(
             'Mage_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
         );
@@ -101,7 +101,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     public function addJs($file, $attributes = '', $ieCondition = null, $flagName = null)
     {
-        $contentType = Mage_Core_Model_Design_Package::CONTENT_TYPE_JS;
+        $contentType = Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS;
         $asset = $this->_objectManager->create(
             'Mage_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
         );
@@ -213,10 +213,10 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
             if (!empty($attributes)) {
                 $attributes = ' ' . $attributes;
             }
-            if ($contentType == Mage_Core_Model_Design_Package::CONTENT_TYPE_JS ) {
+            if ($contentType == Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS ) {
                 $groupTemplate = '<script' . $attributes . ' type="text/javascript" src="%s"></script>' . "\n";
             } else {
-                if ($contentType == Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS) {
+                if ($contentType == Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS) {
                     $attributes = ' rel="stylesheet" type="text/css"' . ($attributes ?: ' media="all"');
                 }
                 $groupTemplate = '<link' . $attributes . ' href="%s" />' . "\n";
