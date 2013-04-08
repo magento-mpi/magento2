@@ -91,6 +91,7 @@
                 minWidth: 980,
                 modal: true,
                 resizable: true,
+                dialogClass: 'grouped',
                 buttons: [{
                     id: 'grouped-product-dialog-cancel-button',
                     text: 'Cancel',
@@ -122,10 +123,9 @@
                 var ids = widget.$grid.find('[data-role="id"]').map(function(index, element) {
                     return $(element).val()
                 }).toArray();
+                var skus = $.parseJSON(widget.options.$hiddenInput.attr('data-skus'));
                 widget.options.gridPopup.reloadParams = {
-                    filter: {
-                        'in_products': ids
-                    }
+                    filter: {'sku': skus ? skus : [0]}
                 };
                 widget.options.gridPopup.reload(null, function() {
                     $('[data-role=add-product-popup]').dialog('open');
@@ -163,10 +163,16 @@
             this._updateGridVisibility();
         },
 
-        /**
-         * Update popup checkbox
-         * @private
-         */
+        _getSelectedSkus: function () {
+            var skus = [];
+            $.each(this.$popup.find('td.col-select input[type="checkbox"]:checked'),
+                function () {
+                    skus.push($(this).closest('[data-role="row"]').find('td[data-column="sku"]').html().trim());
+                }
+            );
+            return skus;
+        },
+
         _updatePopupGrid: function () {
             var $popup = this.$popup;
             $.each(this.$grid.find('[data-role="id"]'), function () {

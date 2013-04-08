@@ -707,6 +707,10 @@
     width: 7%;
 }
 
+.ui-dialog.grouped .massaction {
+    display: none;
+}
+
 /*
     Custom Options
 -------------------------------------- */

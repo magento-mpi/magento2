@@ -30,6 +30,23 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
     }
 
     /**
+     * Prepare grid massaction actions
+     *
+     * @return $this
+     */
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('assigned_products_id');
+        $this->getMassactionBlock()->setTemplate('Mage_Catalog::product/grid/massaction_extended.phtml')
+            ->setFormFieldName('product')
+            ->addItem('empty', array(
+                'label'=> '',
+                'url'  => $this->getUrl('*/*/*'),
+            ));
+        return $this;
+    }
+
+    /**
      * Prepare grid filter buttons
      */
     protected function _prepareFilterButtons()
@@ -44,12 +61,22 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
         );
     }
 
+    /**
+     * Initialize grid before rendering
+     *
+     * @return $this
+     */
     protected function _beforeToHtml()
     {
         $this->setId($this->getId() . '_' . $this->getIndex());
         return parent::_beforeToHtml();
     }
 
+    /**
+     * Apply sorting and filtering to collection
+     *
+     * @return $this
+     */
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
@@ -59,6 +86,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
             ->addAttributeToSelect('attribute_set_id')
+            ->addAttributeToFilter('entity_id', array('nin' => $this->_getSelectedProducts()))
             ->addAttributeToFilter('type_id', array('in' => $this->getAllowedSelectionTypes()))
             ->addFilterByRequiredOptions()
             ->addStoreFilter();
@@ -73,17 +101,13 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
         return parent::_prepareCollection();
     }
 
+    /**
+     * Initialize grid columns
+     *
+     * @return $this
+     */
     protected function _prepareColumns()
     {
-        $this->addColumn('is_selected', array(
-            'type'      => 'checkbox',
-            'name'      => 'in_selected',
-            'align'     => 'center',
-            'values'    => $this->_getSelectedProducts(),
-            'index'     => 'entity_id',
-            'header_css_class'=> 'col-select',
-            'column_css_class'=> 'col-select'
-        ));
         $this->addColumn('name', array(
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Product Name'),
             'index'     => 'name',
@@ -110,6 +134,11 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
         return parent::_prepareColumns();
     }
 
+    /**
+     * Retrieve grid reload url
+     *
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('*/bundle_selection/grid', array('index' => $this->getIndex(), 'productss' => implode(',', $this->_getProducts())));
