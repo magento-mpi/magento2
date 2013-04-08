@@ -329,7 +329,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
             $area = Mage::getDesign()->getArea();
             $theme = Mage::getDesign()->getDesignTheme();
             Mage::getDesign()->setDesignTheme(
-                Mage::getStoreConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME),
+                Mage::getStoreConfig(Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME),
                 Mage_Core_Model_App_Area::AREA_FRONTEND
             );
 

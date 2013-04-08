@@ -11,7 +11,7 @@
  -->
 <layout>
     <default>
-        <reference name="root" after="header">
+        <reference name="root">
             <block type="Mage_Backend_Block_Menu" name="menu" as="menu" template="Mage_Backend::menu.phtml" />
         </reference>
     </default>

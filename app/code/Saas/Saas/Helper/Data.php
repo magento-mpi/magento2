@@ -10,7 +10,7 @@
 class Saas_Saas_Helper_Data
 {
     /**
-     * @var Mage_Core_Model_StoreManager
+     * @var Mage_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -20,10 +20,10 @@ class Saas_Saas_Helper_Data
     protected $_config;
 
     /**
-     * @param Mage_Core_Model_StoreManager $storeManage
+     * @param Mage_Core_Model_StoreManagerInterface $storeManage
      * @param Mage_Core_Model_Config $config
      */
-    public function __construct(Mage_Core_Model_StoreManager $storeManage, Mage_Core_Model_Config $config)
+    public function __construct(Mage_Core_Model_StoreManagerInterface $storeManage, Mage_Core_Model_Config $config)
     {
         $this->_storeManager = $storeManage;
         $this->_config = $config;

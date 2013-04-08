@@ -97,7 +97,6 @@ Supported layout update handles (special):
 
             <block type="Mage_Adminhtml_Block_Page_Notices" name="global_notices" as="global_notices" template="page/notices.phtml" />
             <block type="Mage_Adminhtml_Block_Page_Header" name="header" as="header"/>
-
             <block type="Mage_Adminhtml_Block_Widget_Breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
 
             <!--<update handle="formkey"/> this won't work, see the try/catch and a jammed exception in Mage_Core_Model_Layout::createBlock() -->

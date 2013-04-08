@@ -80,7 +80,7 @@ class Core_Mage_TransactionalEmails_Helper extends Mage_Selenium_AbstractHelper
             $this->fail('Required data for deleting are empty');
         }
         //Data
-        $this->addParameter('template_name', $searchData['filter_template_name']);
+        $this->addParameter('elementTitle', $searchData['filter_template_name']);
         //Steps
         $this->searchAndOpen($searchData, 'system_email_template_grid');
         //Verifying
@@ -101,7 +101,7 @@ class Core_Mage_TransactionalEmails_Helper extends Mage_Selenium_AbstractHelper
         if (!isset($searchData['filter_template_name'])) {
             $this->fail('filter_template_name is empty');
         }
-        $this->addParameter('template_name', $searchData['filter_template_name']);
+        $this->addParameter('elementTitle', $searchData['filter_template_name']);
         //Steps
         $this->searchAndOpen($searchData, 'system_email_template_grid');
         $this->fillTemplateForm($newTemplateData, 'template_information');

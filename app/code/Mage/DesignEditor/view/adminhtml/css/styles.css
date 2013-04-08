@@ -1802,8 +1802,13 @@
     margin: 6px -11px 0 9px;
 }
 
+.vde-image-sizing .choice {
+    overflow:hidden;
+}
+
 .vde-image-sizing .choice > input {
-    display: none;
+    position:absolute;
+    left:-9999px;
 }
 
 .vde-image-sizing .choice > input:checked + .addafter > .action-connect:before {

@@ -1,0 +1,75 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * @var $this Mage_Page_Block_Html_Notices
+ */
+?>
+<?php if ($this->displayNoscriptNotice()): ?>
+    <noscript>
+        <div class="notice global site noscript">
+            <div class="content">
+                <p>
+                    <strong><?php echo $this->__('JavaScript seems to be disabled in your browser.'); ?></strong><br />
+                    <?php echo $this->__('You must have JavaScript enabled in your browser to utilize the functionality of this website.'); ?>
+                </p>
+            </div>
+        </div>
+    </noscript>
+<?php endif; ?>
+<?php if ($this->displayDemoNotice()): ?>
+    <div class="notice global site demo">
+        <div class="notice-inner"><p><?php echo $this->__('This is a demo store. Any orders placed through this store will not be honored or fulfilled.') ?></p></div>
+    </div>
+    <?php $noticePosion = true; ?>
+<?php endif; ?>
+<?php if (Mage::helper('Mage_Core_Helper_Cookie')->isUserNotAllowSaveCookie()): ?>
+    <div class="notice global site cookie" id="notice-cookie-block" style="display: none">
+        <div class="content">
+            <p><?php echo $this->__('This website requires cookies to provide all of its features. For more information on what data is contained in the cookies, please see our <a href="%s">Privacy Policy page</a>. To accept cookies from this site, please click the Allow button below.', $this->getPrivacyPolicyLink()) ?></p>
+            <div class="actions"><button id="btn-cookie-allow" class="button"><span><span><?php echo $this->__('Allow');?></span></span></button></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        // <![CDATA[
+        (function($) {
+            head.js("<?php echo $this->getViewFileUrl('mage/cookies.js')?>",
+                "<?php echo $this->getViewFileUrl('Mage_Page::js/notices.js')?>", function() {
+                    $('#notice-cookie-block').cookieBlock({
+                        cookieAllowButtonSelector: '#btn-cookie-allow',
+                        cookieName: '<?php echo Mage_Core_Helper_Cookie::IS_USER_ALLOWED_SAVE_COOKIE ?>',
+                        cookieValue: '<?php echo Mage::helper('Mage_Core_Helper_Cookie')->getAcceptedSaveCookiesWebsiteIds() ?>',
+                        cookieLifetime: <?php echo Mage::helper('Mage_Core_Helper_Cookie')->getCookieRestrictionLifetime()?>,
+                        noCookiesUrl: '<?php echo Mage::getUrl('cms/index/noCookies') ?>'
+                    });
+                });
+        })(jQuery);
+        // ]]>
+    </script>
+    <?php $noticePosion = true; ?>
+<?php endif; ?>
+<?php if (isset($noticePosion)): ?>
+    <script type="text/javascript">
+        // <![CDATA[
+        (function($) {
+            $(document).ready(function() {
+                var notices = $('.notice.global.site'),
+                    top = 0;
+                for (var i=0; i < notices.length; i++) {
+                    $(notices[i]).css('top',top);
+                    top += $(notices[i]).outerHeight();
+                    $('body').css('paddingTop', top );
+                };
+            });
+        })(jQuery);
+        // ]]>
+    </script>
+<?php endif; ?>

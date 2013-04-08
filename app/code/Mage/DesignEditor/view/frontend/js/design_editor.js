@@ -349,6 +349,9 @@
                 .find('a').bind('click', $.proxy(self._onRemoveButtonClick, self));
         },
         _onRemoveButtonClick: function() {
+            if (!confirm($.mage.__('Are you sure that you want to delete this block?'))) {
+                return;
+            }
             var change = $.fn.changeFactory.getInstance('layout');
             change.setData({
                 action: 'remove',
@@ -371,7 +374,7 @@
     $(document).ready(function() {
         $(window).vde_connector();
 
-        if (window.parent) {
+        if (window.parent && window.parent.jQuery) {
             (function($) {
                 var eventData = {
                     content: 'iframe',

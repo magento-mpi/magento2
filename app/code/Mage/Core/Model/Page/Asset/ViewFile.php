@@ -14,7 +14,7 @@
 class Mage_Core_Model_Page_Asset_ViewFile implements Mage_Core_Model_Page_Asset_MergeableInterface
 {
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     private $_designPackage;
 
@@ -29,12 +29,12 @@ class Mage_Core_Model_Page_Asset_ViewFile implements Mage_Core_Model_Page_Asset_
     private $_contentType;
 
     /**
-     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Design_PackageInterface $designPackage
      * @param string $file
      * @param string $contentType
      * @throws InvalidArgumentException
      */
-    public function __construct(Mage_Core_Model_Design_Package $designPackage, $file, $contentType)
+    public function __construct(Mage_Core_Model_Design_PackageInterface $designPackage, $file, $contentType)
     {
         if (empty($file)) {
             throw new InvalidArgumentException("Parameter 'file' must not be empty");

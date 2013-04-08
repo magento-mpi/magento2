@@ -32,7 +32,7 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
      */
     public function testChangeDesign()
     {
-        $designPackage = Mage::getModel('Mage_Core_Model_Design_Package');
+        $designPackage = Mage::getModel('Mage_Core_Model_Design_PackageInterface');
         $storeId = Mage::app()->getAnyStoreView()->getId(); // fixture design_change
         $design = Mage::getModel('Mage_Core_Model_Design');
         $design->loadChange($storeId)->changeDesign($designPackage);

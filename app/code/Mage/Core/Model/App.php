@@ -107,7 +107,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     /**
      * Store list manager
      *
-     * @var Mage_Core_Model_StoreManager
+     * @var Mage_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -127,7 +127,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      * @param Mage_Core_Model_CacheInterface $cache
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Db_UpdaterInterface $dbUpdater
-     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Core_Model_App_State $appState
      */
@@ -137,7 +137,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
         Mage_Core_Model_CacheInterface $cache,
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Db_UpdaterInterface $dbUpdater,
-        Mage_Core_Model_StoreManager $storeManager,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Core_Model_App_State $appState
     ) {
@@ -587,7 +587,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      * @param string|int|Mage_Core_Model_Store $id
      * @return Mage_Core_Model_Store
      *
-     * @deprecated use Mage_Core_Model_StoreManager::getSafeStore()
+     * @deprecated use Mage_Core_Model_StoreManagerInterface::getSafeStore()
      */
     public function getSafeStore($id = null)
     {
