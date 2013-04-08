@@ -1862,10 +1862,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 break;
         }
 
-        if (is_null($elementValue)) {
-            $this->fail("$controlType with name '$controlName' and locator '$locator'"
-                . " is not contains attribute '$attribute'");
-        }
         if (is_array($elementValue)) {
             $elementValue = array_map('trim', $elementValue);
         } elseif (!is_bool($elementValue)) {

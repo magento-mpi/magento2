@@ -75,27 +75,10 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Open paypal tab
-     *
-     * @param string $tabName
-     */
-    public function openPaypalTab($tabName = '')
-    {
-        $this->markTestIncomplete('MAGETWO-8455');
-        $page = $this->getUimapPage('paypal_developer', 'paypal_developer_logged_in');
-        $this->getControlElement('tab', $tabName, $page)->click();
-        $this->waitForNewPage();
-        $result = $this->errorMessage();
-        $this->assertFalse($result['success'], $this->getMessagesOnPage());
-        $this->validatePage();
-    }
-
-    /**
      * Log into Paypal developer's site
      */
     public function paypalDeveloperLogin()
     {
-        $this->markTestIncomplete('MAGETWO-8455');
         try {
             $this->goToArea('paypal_developer', 'paypal_developer_home', false);
         } catch (Exception $e) {
@@ -104,12 +87,14 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
         $loginData = array('login_email'     => $this->getConfigHelper()->getDefaultLogin(),
                            'login_password'  => $this->getConfigHelper()->getDefaultPassword());
         $this->validatePage();
-        if ($this->controlIsPresent('button', 'button_login')) {
+        if ($this->controlIsPresent('button', 'login_with_paypal')) {
+            $this->clickButton('login_with_paypal', false);
+            $this->selectLastWindow();
             $this->fillForm($loginData);
-            $this->clickButton('button_login', false);
-            $this->waitForNewPage();
-            $this->waitForElement($this->_getControlXpath('pageelement', 'navigation_menu'));
+            $this->getControlElement('button', 'login')->click();
+            $this->window('');
             $this->validatePage();
+            $this->waitForElement($this->_getControlXpath('button', 'logout'));
         }
         $result = $this->errorMessage();
         $this->assertFalse($result['success'], $this->getMessagesOnPage());
@@ -127,13 +112,9 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
         if (is_string($parameters)) {
             $parameters = $this->loadDataSet('Paypal', $parameters);
         }
-        $this->openPaypalTab('test_accounts');
-        $this->clickControl('link', 'create_preconfigured_account', false);
-        $this->waitForNewPage();
-        $this->validatePage();
+        $this->navigate('paypal_developer_create_account');
         $this->fillForm($parameters);
-        $this->clickButton('create_account', false);
-        $this->waitForNewPage();
+        $this->clickButton('create_account');
         //If get error message after account creation
         $error = $this->errorMessage('failed_account_creation');
         $error1 = $this->successMessage('success_created_account_without_card');
@@ -161,28 +142,21 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
      */
     public function getPaypalSandboxAccountInfo(array $parameters)
     {
-        $this->addParameter('accountEmail', $parameters['login_email']);
-        $this->getControlElement('link', 'view_details')->click();
-        $elements = $this->getControlElements('pageelement', 'account_details_line');
-        /**
-         * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
-         */
-        foreach ($elements as $element) {
-            $key = $this->getChildElement($element, 'td[1]')->text();
-            $key = preg_replace('/ /', '_', strtolower(trim($key, ':')));
-            $value = $this->getChildElement($element, 'td[3]')->text();
-            if ($key == 'credit_card') {
-                $cardData = explode(':', $value);
-                $number = preg_replace('/\D/', '', $cardData[0]);
-                list($expMonth, $expYear) = explode('/', $cardData[1]);
-                $data[$key] = array('card_type'        => $parameters['add_credit_card'], 'card_number' => $number,
-                                    'expiration_month' => self::$monthMap[trim($expMonth)],
-                                    'expiration_year'  => $expYear);
-            } else {
-                $data[$key] = $value;
-            }
-        }
-        $data['email'] = $this->getControlAttribute('pageelement', 'email_account', 'text');
+        $this->openAccountDetailsTab($parameters['login_email'], 'funding_tab');
+        $data['email'] = $parameters['login_email'];
+        //Get Credit card data
+        $data['credit_card']['card_type'] = $parameters['add_credit_card'];
+        $this->addParameter('propertyName', 'Credit card number:');
+        $data['credit_card']['card_number'] =
+            $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'property', 'text');
+
+        $this->addParameter('propertyName', 'Expiration date:');
+        list($expMonth, $expYear) =
+            explode('/', $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'property', 'text'));
+        $data['credit_card']['expiration_month'] = self::$monthMap[trim($expMonth)];
+        $data['credit_card']['expiration_year'] = $expYear;
+        $data['credit_card'] = array_map('trim', $data['credit_card']);
+
         return $data;
     }
 
@@ -195,37 +169,50 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
      */
     public function getApiCredentials($email)
     {
-        $this->addParameter('accountEmail', $email);
-        $this->openPaypalTab('api_credentials');
+        $this->openAccountDetailsTab($email, 'api_credentials_tab');
         $apiCredentials = array();
-        $elements = $this->getControlElements('pageelement', 'account_api_credentials_line');
-        /**
-         * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
-         */
-        foreach ($elements as $element) {
-            $key = $this->getChildElement($element, 'td[1]')->text();
-            $key = preg_replace('/ /', '_', strtolower(trim($key, ':')));
-            $value = $this->getChildElement($element, 'td[2]')->text();
-            if ($key == 'test_account') {
-                $apiCredentials['email_associated_with_paypal_merchant_account'] = trim($value);
-            } elseif ($key == 'signature') {
-                $apiCredentials['api_signature'] = trim($value);
-            } else {
-                $apiCredentials[$key] = trim($value);
-            }
+
+        $keys = array('api_username','api_password', 'api_signature');
+        foreach($keys as $key => $value) {
+            $apiCredentials[$value] =
+                $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, $value, 'text');
         }
+        $apiCredentials['email_associated_with_paypal_merchant_account'] = $email;
         return $apiCredentials;
     }
 
+    /**
+     * Open tab on account details popup
+     *
+     * @param $email Account email address
+     * @param $tabName Link to open tab
+     */
+    private function openAccountDetailsTab($email, $tabName)
+    {
+        if ('paypal_developer_sandbox_accounts' != $this->getCurrentPage()) {
+            $this->navigate('paypal_developer_sandbox_accounts');
+        }
+        $this->addParameter('accountEmail', $email);
+        $this->clickControl(self::FIELD_TYPE_LINK, 'account_details', false);
+        $this->waitForControlVisible(self::FIELD_TYPE_LINK, 'account_profile');
+        $this->clickControl(self::FIELD_TYPE_LINK, 'account_profile', false);
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'account_details_popup');
+        $this->clickControl(self::FIELD_TYPE_LINK, $tabName, false);
+    }
     /**
      * Deletes all accounts at PayPal sandbox
      */
     public function deleteAllAccounts()
     {
-        $this->openPaypalTab('test_accounts');
-        while ($this->controlIsPresent('button', 'delete_account')) {
-            $this->clickButtonAndConfirm('delete_account', 'confirmation_to_delete_account', false);
-            $this->waitForNewPage();
+        //Show 50 accounts per page
+        $this->setUrlPostfix('?numAccounts=50');
+        $this->navigate('paypal_developer_sandbox_accounts');
+        $this->setUrlPostfix(null);
+        $this->fillCheckbox('select_all_accounts', 'Yes');
+        if (!$this->getControlAttribute('button', 'delete_account', 'disabled')) {
+            $this->clickButton('delete_account', false);
+            $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'delete_account_popup');
+            $this->clickButton('delete');
         }
     }
 
@@ -236,12 +223,16 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
      */
     public function deleteAccount($email)
     {
+        //Show 50 accounts per page
+        $this->setUrlPostfix('?numAccounts=50');
+        $this->navigate('paypal_developer_sandbox_accounts');
+        $this->setUrlPostfix(null);
         $this->addParameter('accountEmail', $email);
-        $this->openPaypalTab('test_accounts');
-        if ($this->controlIsPresent('checkbox', 'select_account')) {
-            $this->fillCheckbox('select_account', 'Yes');
-            $this->clickButtonAndConfirm('delete_account', 'confirmation_to_delete_account', false);
-            $this->waitForNewPage();
+        $this->fillCheckbox('select_account', 'Yes');
+        if (!$this->getControlAttribute('button', 'delete_account', 'disabled')) {
+            $this->clickButton('delete_account', false);
+            $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'delete_account_popup');
+            $this->clickButton('delete');
         }
     }
 
