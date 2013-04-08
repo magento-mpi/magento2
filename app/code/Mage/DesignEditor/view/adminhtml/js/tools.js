@@ -11,9 +11,17 @@
     'use strict';
 
     $.widget("vde.translateInlineToggle", {
+        showMenu: false,
 
         _create: function () {
             var that = this;
+
+            $('body').on('click', function(e) {
+                var widgetInstancesSelector = ':' + that.namespace + '-' + that.widgetName;
+                // If the target is not a child of the widget, then hide the menu, since clicking outside the menu.
+                $(widgetInstancesSelector).not($(e.target).parents(widgetInstancesSelector)).translateInlineToggle('hide');
+            });
+
             this.element.find('[data-translate-selected]').on('click', function(){
                 that._toggle($(this).data('translateSelected'));
             });
@@ -24,6 +32,12 @@
                 .on('mousedown', $.proxy(this._onMouseDown, this))
                 .on('mouseup', $.proxy(this._onMouseUp, this))
                 .on('disableInlineTranslation', $.proxy(this._disableInlineTranslation, this));
+        },
+
+        hide: function() {
+            // If the menu is not already hidden, hide it.
+            if (!this.element.find('[data-translate-menu]').hasClass('hidden'))
+                this.element.find('[data-translate-menu]').toggleClass('hidden');
         },
 
         /**
@@ -66,10 +80,13 @@
          */
         _onMouseDown: function () {
             this._onMouseOut();
+            this.showMenu = false;
 
+            var that = this;
             clearTimeout(this.downTimer);
             this.downTimer = setTimeout(function() {
-                $('[data-translate-menu]').toggleClass('hidden');
+                that.element.find('[data-translate-menu]').toggleClass('hidden');
+                that.showMenu = true;
             }, 1000);
         },
 
@@ -81,8 +98,12 @@
         _onMouseUp: function () {
             if (this.element.find('[data-translate-menu]').hasClass('hidden'))
                 this._toggle(this.element.find('[data-translate-edit]').data('translate-edit'));
-            else
+            else {
+                // If the button is clicked while the menu is displaying, hide the menu.
+                if (!this.showMenu)
+                    this.element.find('[data-translate-menu]').toggleClass('hidden');
                 this.element.find('[data-tip="translate"]').addClass('hidden');
+            }
 
             clearTimeout(this.downTimer);
         },
