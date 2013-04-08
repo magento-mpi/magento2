@@ -25,8 +25,8 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSafePath($filePath, $basePath, $expectedResult)
     {
-        /** @var $design Mage_Core_Model_Design_Package */
-        $design = $this->getMock('Mage_Core_Model_Design_Package', null, array(), '', false);
+        /** @var $design Mage_Core_Model_Design_PackageInterface */
+        $design = $this->getMock('Mage_Core_Model_Design_PackageInterface');
 
         /** @var $dirs Mage_Core_Model_Dir */
         $dirs = $this->getMock('Mage_Core_Model_Dir', null, array(), '', false);
@@ -500,12 +500,12 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param array $map
-     * @return Mage_Core_Model_Design_Package|\PHPUnit_Framework_MockObject_MockObject
+     * @return Mage_Core_Model_Design_PackageInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getDesign($map)
     {
-        /** @var $design Mage_Core_Model_Design_Package */
-        $design = $this->getMock('Mage_Core_Model_Design_Package', array('getViewFile'), array(), '', false);
+        /** @var $design Mage_Core_Model_Design_PackageInterface */
+        $design = $this->getMock('Mage_Core_Model_Design_PackageInterface');
         $design->expects($this->any())
             ->method('getViewFile')
             ->will($this->returnValueMap($map));
@@ -594,8 +594,8 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         $themeCollection = $this->_getThemeCollection();
 
         // 3. Get Design Package model
-        /** @var $design Mage_Core_Model_Design_Package */
-        $design = $this->getMock('Mage_Core_Model_Design_Package', null, array(), '', false);
+        /** @var $design Mage_Core_Model_Design_PackageInterface */
+        $design = $this->getMock('Mage_Core_Model_Design_PackageInterface');
 
         // 4. Get dirs model
         $dirs = $this->_getDirs();

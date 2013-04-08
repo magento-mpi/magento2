@@ -29,7 +29,7 @@ class Mage_Core_Model_Page_Asset_Merged implements Mage_Core_Model_Page_Asset_As
     private $_url;
 
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     private $_designPackage;
 
@@ -44,14 +44,14 @@ class Mage_Core_Model_Page_Asset_Merged implements Mage_Core_Model_Page_Asset_As
     private $_filesystem;
 
     /**
-     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Design_PackageInterface $designPackage
      * @param Mage_Core_Helper_Data $coreHelper
      * @param Magento_Filesystem $filesystem
      * @param array $assets
      * @throws InvalidArgumentException
      */
     public function __construct(
-        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Design_PackageInterface $designPackage,
         Mage_Core_Helper_Data $coreHelper,
         Magento_Filesystem $filesystem,
         array $assets

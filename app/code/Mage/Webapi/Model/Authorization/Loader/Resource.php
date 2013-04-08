@@ -38,7 +38,7 @@ class Mage_Webapi_Model_Authorization_Loader_Resource extends Mage_Core_Model_Ac
             $resourceId = $resourceConfig->getAttribute('id');
             if ($acl->has($parent) && !$acl->has($resourceId)) {
                 /** @var $resource Magento_Acl_Resource */
-                $resource = $this->_resourceFactory->createResource(array($resourceId));
+                $resource = $this->_resourceFactory->createResource(array('resourceId' => $resourceId));
                 $acl->addResource($resource, $parent);
             }
         }

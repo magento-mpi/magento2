@@ -112,7 +112,7 @@ class Mage_DesignEditor_Model_Observer
         $nonVdeAssets = array_diff_key($pageAssets->getAll(), $vdeAssets);
 
         foreach ($nonVdeAssets as $assetId => $asset) {
-            if ($asset->getContentType() == Mage_Core_Model_Design_Package::CONTENT_TYPE_JS) {
+            if ($asset->getContentType() == Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS) {
                 $pageAssets->remove($assetId);
             }
         }

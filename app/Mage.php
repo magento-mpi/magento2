@@ -154,7 +154,7 @@ final class Mage
     /**
      * Design object
      *
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     protected static $_design;
 
@@ -433,12 +433,12 @@ final class Mage
     /**
      * Get design package singleton
      *
-     * @return Mage_Core_Model_Design_Package
+     * @return Mage_Core_Model_Design_PackageInterface
      */
     public static function getDesign()
     {
         if (!self::$_design) {
-            self::$_design = self::getObjectManager()->get('Mage_Core_Model_Design_Package');
+            self::$_design = self::getObjectManager()->get('Mage_Core_Model_Design_PackageInterface');
         }
         return self::$_design;
     }

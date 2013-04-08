@@ -32,7 +32,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         if ($categoryId) {
             $category->load($categoryId);
             if ($storeId) {
-                $rootId = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore($storeId)
+                $rootId = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')->getStore($storeId)
                     ->getRootCategoryId();
                 if (!in_array($rootId, $category->getPathIds())) {
                     // load root category instead wrong one
@@ -107,7 +107,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         }
 
         if ($storeId && !$categoryId && !$parentId) {
-            $store = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore($storeId);
+            $store = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')->getStore($storeId);
             $_prevCategoryId = (int) $store->getRootCategoryId();
             $this->getRequest()->setParam('id', $_prevCategoryId);
         }
@@ -195,7 +195,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
     {
         $elementId = $this->getRequest()->getParam('element_id', md5(microtime()));
         $storeId = $this->getRequest()->getParam('store_id', 0);
-        $storeMediaUrl = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore($storeId)
+        $storeMediaUrl = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')->getStore($storeId)
             ->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
 
         $content = $this->getLayout()->createBlock(
@@ -255,7 +255,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 $parentId = $this->getRequest()->getParam('parent');
                 if (!$parentId) {
                     if ($storeId) {
-                        $parentId = $this->_objectManager->get('Mage_Core_Model_StoreManager')
+                        $parentId = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')
                             ->getStore($storeId)->getRootCategoryId();
                     } else {
                         $parentId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
@@ -449,7 +449,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 
         if ($storeId) {
             if (!$categoryId) {
-                $store = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore($storeId);
+                $store = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')->getStore($storeId);
                 $rootId = $store->getRootCategoryId();
                 $this->getRequest()->setParam('id', $rootId);
             }

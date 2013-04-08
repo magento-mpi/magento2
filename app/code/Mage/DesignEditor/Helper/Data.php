@@ -242,14 +242,4 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->_backendSession->getData(Mage_DesignEditor_Model_State::CURRENT_THEME_SESSION_KEY);
     }
-
-    /**
-     * Get theme id which was launched in editor
-     *
-     * @return int|null
-     */
-    public function getVirtualThemeId()
-    {
-        return $this->_backendSession->getData(Mage_DesignEditor_Model_State::VIRTUAL_THEME_SESSION_KEY);
-    }
 }

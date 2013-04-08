@@ -45,18 +45,17 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject|Mage_Core_Model_Design_Package
+     * @return PHPUnit_Framework_MockObject_MockObject|Mage_Core_Model_Design_PackageInterface
      */
     protected function _getDesignMock()
     {
-        $designMock = $this->getMock('Mage_Core_Model_Design_Package', array('getViewFileUrl', 'getPublicDir'),
-            array(), '', false);
+        $designMock = $this->getMock('Mage_Core_Model_Design_PackageInterface');
         $designMock->expects($this->any())
             ->method('getPublicDir')
             ->will($this->returnValue('pub/media/theme'));
         $this->_objectManager->expects($this->any())
             ->method('get')
-            ->with($this->equalTo('Mage_Core_Model_Design_Package'))
+            ->with($this->equalTo('Mage_Core_Model_Design_PackageInterface'))
             ->will($this->returnValue($designMock));
         return $designMock;
     }

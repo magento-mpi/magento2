@@ -103,6 +103,6 @@ class Core_Mage_AdminUser_ForgotPasswordTest extends Mage_Selenium_TestCase
         //Steps
         $this->loginAdminUser();
         //Verification
-        $this->assertTrue($this->checkCurrentPage('store_launcher'), $this->getParsedMessages());
+        $this->assertTrue($this->checkCurrentPage($this->pageAfterAdminLogin), $this->getParsedMessages());
     }
 }

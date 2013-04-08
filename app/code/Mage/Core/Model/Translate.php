@@ -130,7 +130,7 @@ class Mage_Core_Model_Translate
     protected $_localeHierarchy = array();
 
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     protected $_designPackage;
 
@@ -142,12 +142,12 @@ class Mage_Core_Model_Translate
     /**
      * Initialize translate model
      *
-     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Design_PackageInterface $designPackage
      * @param Mage_Core_Model_Locale_Hierarchy_Loader $loader
      * @param Mage_core_Model_Translate_Factory $translateFactory
      */
     public function __construct(
-        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Design_PackageInterface $designPackage,
         Mage_Core_Model_Locale_Hierarchy_Loader $loader,
         Mage_Core_Model_Translate_Factory $translateFactory
     ) {

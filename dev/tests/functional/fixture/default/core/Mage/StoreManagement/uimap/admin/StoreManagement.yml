@@ -212,7 +212,7 @@ edit_store:
 # 'Delete Store' Page
 detele_store:
     mca: system_store/deleteGroup/item_id/%id%/
-    title: Delete Store / Stores / Settings / Stores / Magento Admin
+    title: Delete Store / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -223,14 +223,14 @@ detele_store:
                             create_backup: //select[@id='store_create_backup']
                         buttons:
                             reset: //button[span='Cancel']
-                            delete_store: //button[span='Delete Store']
+                            delete_store: //button[@id='delete']
         buttons:
             back: //button[span='Back']
 
 # 'Delete Website' Page
 detele_website:
     mca: system_store/deleteWebsite/item_id/%id%/
-    title: Delete Website / Stores / Settings / Stores / Magento Admin
+    title: Delete Website / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -248,7 +248,7 @@ detele_website:
 # 'Delete Store View' Page
 detele_store_view:
     mca: system_store/deleteStore/item_id/%id%/
-    title: Delete Store View / Stores / Settings / Stores / Magento Admin
+    title: Delete Store View / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:

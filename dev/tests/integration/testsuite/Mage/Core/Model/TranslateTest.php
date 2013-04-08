@@ -20,7 +20,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     protected $_designModel;
 
@@ -29,14 +29,14 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test', 'default', 'locale', 'en_US',
             'translate.csv');
 
-        $this->_designModel = $this->getMock(
-            'Mage_Core_Model_Design_Package',
+        $this->_designModel = $this->getMock('Mage_Core_Model_Design_Package',
             array('getLocaleFileName'),
             array(
                 Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader'),
                 Mage::getSingleton('Magento_Filesystem'),
                 Mage::getSingleton('Mage_Core_Model_Design_FileResolution_StrategyPool'),
                 new Mage_Core_Model_App_State(),
+                Mage::getSingleton('Mage_Core_Model_StoreManagerInterface')
             )
         );
         $this->_designModel->expects($this->any())
@@ -137,6 +137,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
                 $filesystem,
                 Mage::getSingleton('Mage_Core_Model_Design_FileResolution_StrategyPool'),
                 new Mage_Core_Model_App_State(),
+                Mage::getSingleton('Mage_Core_Model_StoreManagerInterface')
             )
         );
         $this->_designModel->expects($this->any())

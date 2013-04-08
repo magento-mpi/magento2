@@ -50,9 +50,7 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_themeMock = $this->getMock('Mage_Core_Model_Theme', array('getFiles'), array(), '', false);
 
-        $designPackageMock = $this->getMock(
-            'Mage_Core_Model_Design_Package', array('getDesignTheme'), array(), '', false
-        );
+        $designPackageMock = $this->getMock('Mage_Core_Model_Design_PackageInterface');
         $designPackageMock
             ->expects($this->any())
             ->method('getDesignTheme')

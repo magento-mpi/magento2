@@ -14,7 +14,8 @@ class Mage_Adminhtml_Tax_RateControllerTest extends Mage_Backend_Utility_Control
     /**
      * @dataProvider ajaxSaveActionDataProvider
      */
-    public function testAjaxSaveAction($postData, $expectedData) {
+    public function testAjaxSaveAction($postData, $expectedData)
+    {
         $this->getRequest()->setPost($postData);
 
         $this->dispatch('backend/admin/tax_rate/ajaxSave');
@@ -24,9 +25,9 @@ class Mage_Adminhtml_Tax_RateControllerTest extends Mage_Backend_Utility_Control
 
         $this->assertArrayHasKey('tax_calculation_rate_id', $result);
 
-        $rate_id = $result['tax_calculation_rate_id'];
+        $rateId = $result['tax_calculation_rate_id'];
         /** @var $rate Mage_Tax_Model_Calculation_Rate */
-        $rate = Mage::getModel('Mage_Tax_Model_Calculation_Rate')->load($rate_id, 'tax_calculation_rate_id');
+        $rate = Mage::getModel('Mage_Tax_Model_Calculation_Rate')->load($rateId, 'tax_calculation_rate_id');
         $this->assertEquals($expectedData['zip_is_range'], $rate->getZipIsRange());
         $this->assertEquals($expectedData['zip_from'], $rate->getZipFrom());
         $this->assertEquals($expectedData['zip_to'], $rate->getZipTo());

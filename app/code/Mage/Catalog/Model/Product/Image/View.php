@@ -44,7 +44,7 @@ class Mage_Catalog_Model_Product_Image_View extends Varien_Object
     const WHITE_BORDERS_MODULE = 'Mage_Catalog';
 
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     protected $_designPackage;
 
@@ -75,12 +75,12 @@ class Mage_Catalog_Model_Product_Image_View extends Varien_Object
 
     /**
      * @param Mage_Catalog_Helper_Image $helperImage
-     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Design_PackageInterface $designPackage
      * @param array $data
      */
     public function __construct(
         Mage_Catalog_Helper_Image $helperImage,
-        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Design_PackageInterface $designPackage,
         array $data = array()
     ) {
         $this->_helperImage = $helperImage;
