@@ -33,7 +33,7 @@
                 $$('.requires').each(function(element) {
                     var scopeElement = adminSystemConfig.getScopeElement(element);
                     if (!scopeElement || !scopeElement.checked) {
-                        $(element).disabled = false;
+                        Element.extend(element).disabled = false;
                     }
                 });
                 jQuery(form).trigger('afterValidate');
@@ -43,12 +43,12 @@
 
         var adminSystemConfig = {
             getUp: function (element, tag) {
-                var $element = $(element);
+                var $element = Element.extend(element);
                 if (typeof $element.upTag == 'undefined') {
                     $element.upTag = {};
                 }
                 if (typeof $element.upTag[tag] == 'undefined') {
-                    $element.upTag[tag] = $($element.up(tag));
+                    $element.upTag[tag] = Element.extend($element.up(tag));
                 }
                 return $element.upTag[tag];
             },
@@ -59,7 +59,7 @@
                 return this.getUp(element, 'tr');
             },
             getScopeElement: function(element) {
-                var $element = $(element);
+                var $element = Element.extend(element);
                 if (typeof $element.scopeElement == 'undefined') {
                     var scopeElementName = element.getAttribute('name').replace(/\[value\]$/, '[inherit]');
                     $element.scopeElement = this.getUpTr(element).select('input[name="' + scopeElementName + '"]')[0];
@@ -70,7 +70,7 @@
                 return $element.scopeElement;
             },
             getDeleteElement: function(element) {
-                var $element = $(element);
+                var $element = Element.extend(element);
                 if (typeof $element.deleteElement == 'undefined') {
                     $element.deleteElement = this.getUpTd(element)
                         .select('input[name="'+ element.getAttribute('name') + '[delete]"]')[0];
@@ -94,7 +94,7 @@
             },
             getRegisteredEvents: function(element) {
                 var events = [];
-                var registry = Element.retrieve($(element), 'prototype_event_registry');
+                var registry = Element.retrieve(Element.extend(element), 'prototype_event_registry');
                 if (!registry) {
                     return events;
                 }
@@ -120,7 +120,7 @@
                 return events;
             },
             onchangeSharedElement: function(event) {
-                var element = $(Event.element(event));
+                var element = Element.extend(Event.element(event));
                 adminSystemConfig.mapClasses(element, true, function(className) {
                     $$('.' + className).each(function(el) {
                         if (element == el) {
@@ -129,23 +129,23 @@
 
                         var tagName = el.tagName.toLowerCase();
                         if (tagName == 'input' && el.getAttribute('type') == 'file') {
-                            var $el = $(el);
+                            var $el = Element.extend(el);
                             var events = adminSystemConfig.getRegisteredEvents(el);
                             $el.stopObserving('change');
                             var elId = $el.id;
                             $el.replace($el.outerHTML);
                             events.each(function(event) {
-                                Event.observe($(elId), event.eventName, event.handler);
+                                Event.observe(Element.extend(document.getElementById(elId)), event.eventName, event.handler);
                             });
                         } else {
                             el.stopObserving('change', adminSystemConfig.onchangeSharedElement);
                             if (tagName == 'input' && el.getAttribute('type') == 'checkbox') {
                                 if (el.checked != element.checked) {
-                                    $(el).click();
+                                    Element.extend(el).click();
                                 }
                             } else if (tagName == 'select') {
-                                var $el = $(el);
-                                $(element).select('option').each(function(option) {
+                                var $el = Element.extend(el);
+                                Element.extend(element).select('option').each(function(option) {
                                     var relatedOption = $el.select('option[value="' + option.value + '"]')[0];
                                     if (typeof relatedOption != 'undefined') {
                                         relatedOption.selected = option.selected;
@@ -154,8 +154,8 @@
                             } else {
                                 el.value = element.getValue();
                             }
-                            if ($(el).requiresObj) {
-                                $(el).requiresObj.indicateEnabled();
+                            if (Element.extend(el).requiresObj) {
+                                Element.extend(el).requiresObj.indicateEnabled();
                             }
                             fireEvent(el, 'change');
                             Event.observe(el, 'change', adminSystemConfig.onchangeSharedElement);
@@ -202,7 +202,7 @@
                     }
                 } else {
                     this.select('input,select').each(function(inputElement) {
-                        adminSystemConfig.checkRequired.call($(inputElement), element, callback);
+                        adminSystemConfig.checkRequired.call(Element.extend(inputElement), element, callback);
                     });
                 }
                 callback(this);
@@ -250,7 +250,7 @@
 
         $$('.requires').each(function(element) {
             var eventObj = {
-                'element': $(element),
+                'element': Element.extend(element),
                 'requires': [],
                 'callback': function(required) {},
                 checkRequirements: function() {
@@ -258,7 +258,7 @@
                     if (!scopeElement || !scopeElement.checked) {
                         eventObj.element.enable();
                         eventObj.requires.each(function(required) {
-                            adminSystemConfig.checkRequired.call($(required), eventObj.element, eventObj.callback);
+                            adminSystemConfig.checkRequired.call(Element.extend(required), eventObj.element, eventObj.callback);
                         }.bind(this));
                     }
                 },
@@ -267,7 +267,7 @@
                 },
                 bindCheckingObserver: function(element) {
                     if (element.tagName.toLowerCase() == 'fieldset') {
-                        $(element).select('input,select').each(function(subElement) {
+                        Element.extend(element).select('input,select').each(function(subElement) {
                             eventObj.bindCheckingObserver(subElement);
                         })
                     } else {
@@ -293,12 +293,12 @@
 
             // fill eventObj with required elements
             adminSystemConfig.mapClasses(element, false, function(className) {
-                var requiredElement = $(className.substr(9));
+                var requiredElement = Element.extend(document.getElementById(className.substr(9)));
                 if (typeof requiredElement != 'undefined') {
                     eventObj.requires.push(requiredElement);
                 }
             }, 'requires');
-            $(element).requiresObj = eventObj;
+            Element.extend(element).requiresObj = eventObj;
 
             // replacing "Use Default" action with checking requirements
             var scopeElement = adminSystemConfig.getScopeElement(element);
