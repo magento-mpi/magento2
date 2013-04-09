@@ -21,8 +21,10 @@ class Mage_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Cms_Controller_Router(
             Mage::getObjectManager()->get('Mage_Core_Controller_Varien_Action_Factory'),
             new Mage_Core_Model_Event_ManagerStub(
-                $this->getMock('Mage_Core_Model_ObserverFactory', array(), array(), '', false),
-                $this->getMock('Mage_Core_Model_Event_Config', array(), array(), '', false)
+                $this->getMockForAbstractClass('Mage_Core_Model_Event_InvokerInterface', array(), '', false),
+                $this->getMock('Mage_Core_Model_Event_Config', array(), array(), '', false),
+                $this->getMock('Varien_EventFactory', array(), array(), '', false),
+                $this->getMock('Varien_Event_ObserverFactory', array(), array(), '', false)
             )
         );
     }
