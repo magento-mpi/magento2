@@ -26,7 +26,6 @@ class Mage_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_TestC
 
     public function setUp()
     {
-        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_CONFIG);
         $this->_inlineParser = Mage::getModel('Mage_Core_Model_Translate_InlineParser');
         /* Called getConfig as workaround for setConfig bug */
         Mage::app()->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
