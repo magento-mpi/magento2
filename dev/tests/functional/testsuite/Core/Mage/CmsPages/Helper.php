@@ -191,12 +191,12 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
      *
      * @param string $variable
      */
-    public function insertVariable($variable)
+    public function insertVariable($variable, $button = 'insert_variable')
     {
         if ($this->controlIsPresent('link', 'wysiwyg_insert_variable')) {
             $this->clickControl('link', 'wysiwyg_insert_variable', false);
         } else {
-            $this->clickButton('insert_variable', false);
+            $this->clickButton($button, false);
         }
         $this->waitForElement($this->_getControlXpath('fieldset', 'variable_insertion'));
         $this->addParameter('variableName', $variable);
