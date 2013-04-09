@@ -58,7 +58,11 @@
             refreshFileListEvent : 'refreshJsList',
             prefixItemId : 'js-file-'
         });
-        $('body').trigger('refreshJsList', {jsList : <?php echo $this->_helperFactory->get('Mage_Core_Helper_Data')->jsonEncode($this->getJsFiles()->getFilesInfo()) ?>});
+        $('body').trigger('refreshJsList', {
+            jsList : <?php echo $this->_helperFactory->get('Mage_Core_Helper_Data')->jsonEncode(
+                $this->getJsFiles()->getFilesInfo()
+            ) ?>
+        });
     });
 })(jQuery);
 </script>
