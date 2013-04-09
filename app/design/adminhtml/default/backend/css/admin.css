@@ -3010,7 +3010,7 @@ table tbody tr:nth-child(odd):hover th {
     width: 262px;
     height: 64px;
     text-indent: -999em;
-    background: url(Mage_Backend::images/logo-magento-go.png) no-repeat;
+    background: url(Mage_Backend::images/logo-magento.png) no-repeat;
 }
 
 /* 
