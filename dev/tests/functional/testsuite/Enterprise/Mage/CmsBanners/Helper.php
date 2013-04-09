@@ -100,6 +100,7 @@ class Enterprise_Mage_CmsBanners_Helper extends Mage_Selenium_AbstractHelper
      */
     public function deleteCmsBanner(array $searchPage)
     {
+        $this->addParameter('elementTitle', $searchPage['filter_banner_name']);
         $this->openCmsBanner($searchPage);
         $this->clickButtonAndConfirm('delete_banner', 'confirmation_for_delete');
     }
