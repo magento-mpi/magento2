@@ -418,7 +418,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
     /**
      * Load theme by theme id and checks if theme actually loaded
      *
-     * @param $themeId
+     * @param int $themeId
      * @return Mage_Core_Model_Theme
      * @throws Mage_Core_Exception
      */
@@ -429,5 +429,22 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
             throw new Mage_Core_Exception($this->__('Theme "%s" was not found.', $themeId));
         }
         return $theme;
+    }
+
+    /**
+     * Load visible theme id
+     *
+     * @todo this method will be removed in scope of MAGETWO-8465
+     *
+     * @param int $themeId
+     * @return Mage_Core_Model_Theme
+     */
+    public function getVisibleThemeId($themeId)
+    {
+        $theme = $this->_loadTheme($themeId);
+        if (!$theme->isPhysical()) {
+            return $this->loadEditableTheme($themeId)->getParentTheme()->getId();
+        }
+        return $theme->getId();
     }
 }
