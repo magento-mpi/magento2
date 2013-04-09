@@ -117,7 +117,9 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
      */
     private function setBody($body)
     {
-        $this->getResponse()->setBody($this->_translator->processResponseBody($body));
+        $this->_translator->processResponseBody($body);
+
+        $this->getResponse()->setBody($body);
     }
 
     /**
