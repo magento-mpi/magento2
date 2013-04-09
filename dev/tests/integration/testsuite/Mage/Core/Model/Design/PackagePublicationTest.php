@@ -323,24 +323,24 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     {
         return array(
             'frontend' => array(
-                'widgets.css',
+                'product/product.css',
                 array(
-                    'area'    => 'frontend',
+                    'area'    => 'adminhtml',
                     'package' => 'default',
-                    'theme'   => 'default',
+                    'theme'   => 'backend',
                     'locale'  => 'en_US',
-                    'module'  => 'Mage_Reports',
+                    'module'  => 'Mage_Catalog',
                 ),
-                'frontend/default/default/en_US/Mage_Reports/widgets.css',
+                'adminhtml/default/backend/en_US/Mage_Catalog/product/product.css',
                 array(
-                    'url(../Mage_Catalog/images/i_block-list.gif)',
+                    'url(../../Mage_Backend/images/gallery-image-base-label.png)',
                 ),
                 array(
-                    'frontend/default/default/en_US/Mage_Catalog/images/i_block-list.gif',
+                    'adminhtml/default/backend/en_US/Mage_Backend/images/gallery-image-base-label.png',
                 ),
             ),
             'adminhtml' => array(
-                'Mage_Paypal::boxes.css',
+                'Mage_Paypal::styles.css',
                 array(
                     'area'    => 'adminhtml',
                     'package' => 'package',
@@ -348,7 +348,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                     'locale'  => 'en_US',
                     'module'  => false,
                 ),
-                'adminhtml/package/test/en_US/Mage_Paypal/boxes.css',
+                'adminhtml/package/test/en_US/Mage_Paypal/styles.css',
                 array(
                     'url(logo.gif)',
                     'url(section.png)',

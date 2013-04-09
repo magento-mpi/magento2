@@ -13,7 +13,7 @@
 <layout version="0.1.0">
     <adminhtml_system_config_edit>
         <reference name="head">
-            <action method="addCss"><file>Mage_Paypal::boxes.css</file></action>
+            <action method="addCss"><file>Mage_Paypal::styles.css</file></action>
         </reference>
     </adminhtml_system_config_edit>
 </layout>
