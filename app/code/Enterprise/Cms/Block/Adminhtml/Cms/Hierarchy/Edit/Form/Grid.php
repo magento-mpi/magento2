@@ -58,30 +58,33 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends Mage_A
     protected function _prepareColumns()
     {
         $this->addColumn('is_selected', array(
-            'header_css_class'  => 'a-center',
+            'header_css_class'  => 'col-select',
+            'column_css_class'  => 'col-select',
             'type'              => 'checkbox',
-            'align'             => 'center',
             'index'             => 'page_id',
             'filter'            => false
         ));
         $this->addColumn('page_id', array(
             'header'            => Mage::helper('Enterprise_Cms_Helper_Data')->__('Page ID'),
+            'header_css_class'  => 'col-page-id',
+            'column_css_class'  => 'col-page-id',
             'sortable'          => true,
-            'width'             => '60px',
             'type'              => 'range',
             'index'             => 'page_id'
         ));
 
         $this->addColumn('title', array(
             'header'            => Mage::helper('Enterprise_Cms_Helper_Data')->__('Title'),
-            'index'             => 'title',
-            'column_css_class'  => 'label'
+            'header_css_class'  => 'col-title',
+            'column_css_class'  => 'col-title label',
+            'index'             => 'title'
         ));
 
         $this->addColumn('identifier', array(
             'header'            => Mage::helper('Enterprise_Cms_Helper_Data')->__('URL Key'),
-            'index'             => 'identifier',
-            'column_css_class'  => 'identifier'
+            'header_css_class'  => 'col-identifier',
+            'column_css_class'  => 'col-identifier identifier',
+            'index'             => 'identifier'
         ));
 
         return parent::_prepareColumns();

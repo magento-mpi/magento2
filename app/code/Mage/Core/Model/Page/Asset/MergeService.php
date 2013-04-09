@@ -31,17 +31,17 @@ class Mage_Core_Model_Page_Asset_MergeService
     private $_storeConfig;
 
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     private $_designPackage;
 
     /**
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Store_Config $storeConfig
-     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Design_PackageInterface $designPackage
      */
     public function __construct(Magento_ObjectManager $objectManager, Mage_Core_Model_Store_Config $storeConfig,
-        Mage_Core_Model_Design_Package $designPackage
+        Mage_Core_Model_Design_PackageInterface $designPackage
     ) {
         $this->_objectManager = $objectManager;
         $this->_storeConfig = $storeConfig;
@@ -58,8 +58,8 @@ class Mage_Core_Model_Page_Asset_MergeService
      */
     public function getMergedAssets(array $assets, $contentType)
     {
-        $isCss = $contentType == Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS;
-        $isJs = $contentType == Mage_Core_Model_Design_Package::CONTENT_TYPE_JS;
+        $isCss = $contentType == Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS;
+        $isJs = $contentType == Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS;
         if (!$isCss && !$isJs) {
             throw new InvalidArgumentException("Merge for content type '$contentType' is not supported.");
         }

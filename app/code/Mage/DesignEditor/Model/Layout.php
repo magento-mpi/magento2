@@ -98,7 +98,7 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
         Mage_Core_Model_Layout_Translator $translator,
         Mage_Core_Model_Layout_ScheduledStructure $scheduledStructure,
         Mage_DesignEditor_Helper_Data $helper,
-        $area = Mage_Core_Model_Design_Package::DEFAULT_AREA
+        $area = Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA
     ) {
         $this->_helper       = $helper;
         parent::__construct($blockFactory, $structure, $argumentProcessor, $translator, $scheduledStructure, $area);

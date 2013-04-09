@@ -155,7 +155,7 @@ class Mage_Core_Model_App_Area
     }
 
     /**
-     * @return Mage_Core_Model_Design_Package
+     * @return Mage_Core_Model_Design_PackageInterface
      */
     protected function _getDesign()
     {

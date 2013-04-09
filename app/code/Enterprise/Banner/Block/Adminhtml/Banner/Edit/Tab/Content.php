@@ -262,8 +262,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
         $storeContents = $this->_registryManager->registry('current_banner')->getStoreContents();
         $fieldset = $form->addFieldset('scopes_fieldset', array(
             'legend' => $this->getHelper()->__('Store View Specific Content'),
-            'class' => $fieldsetHtmlClass,
-            'table_class' => 'form-list stores-tree',
+            'class' => 'store-scope',
         ));
         $renderer = $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');
         $fieldset->setRenderer($renderer);
