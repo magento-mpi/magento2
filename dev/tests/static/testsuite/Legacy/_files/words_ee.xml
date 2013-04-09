@@ -26,10 +26,6 @@
             <word>staging</word>
         </item>
         <item>
-            <path>app/code/Saas/Launcher/view/adminhtml/page/promotestore/googleanalytics/drawer.phtml</path>
-            <word>staging</word>
-        </item>
-        <item>
             <path>app/code/Mage/Core/Model/Theme.php</path>
             <word>staging</word>
         </item>
