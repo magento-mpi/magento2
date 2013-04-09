@@ -257,7 +257,7 @@ class Mage_Core_Model_Translate_InlineParser
     }
 
     /**
-     * Get attribute location
+     * Get attribute location.
      *
      * @param array $matches
      * @param array $options
@@ -265,7 +265,8 @@ class Mage_Core_Model_Translate_InlineParser
      */
     protected function _getAttributeLocation($matches, $options)
     {
-        return $this->_helper->__('Tag attribute (ALT, TITLE, etc.)');
+        // return value should not be translated.
+        return 'Tag attribute (ALT, TITLE, etc.)';
     }
 
     /**
