@@ -15,6 +15,13 @@
 class Mage_Core_Model_Translate_Inline implements Mage_Core_Model_Translate_InlineInterface
 {
     /**
+     * Regular Expression for detected and replace translate
+     *
+     * @var string
+     */
+    protected $_tokenRegex = '\{\{\{(.*?)\}\}\{\{(.*?)\}\}\{\{(.*?)\}\}\{\{(.*?)\}\}\}';
+
+    /**
      * Indicator to hold state of whether inline translation is allowed
      *
      * @var bool
