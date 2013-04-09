@@ -183,6 +183,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
      */
     public function specialCharactersInBaseFields()
     {
+        $this->markTestIncomplete('MAGETWO-8963');
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required',
             array('general_name'              => $this->generate('string', 32, ':punct:'),
@@ -208,6 +209,7 @@ class Enterprise_Mage_Product_Create_GiftCardTest extends Mage_Selenium_TestCase
      */
     public function longValuesInBaseFields()
     {
+        $this->markTestIncomplete('MAGETWO-8963');
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required',
             array('general_name'              => $this->generate('string', 255, ':alnum:'),

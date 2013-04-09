@@ -118,14 +118,16 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
                 'Product must contain ' . $needCount . ' gift card amount(s), but contains ' . $rowQty);
             return false;
         }
-        $index = $rowQty - 1;
+        $index = 0;
         foreach ($giftCardData as $value) {
+            if ($index < $rowQty){
             $this->addParameter('giftCardId', $index);
             if (!$this->controlIsVisible('dropdown', 'general_giftcard_website')) {
                 unset($value['general_giftcard_website']);
             }
             $this->verifyForm($value, 'general');
-            $index--;
+            $index++;
+            }
         }
         $this->assertEmptyVerificationErrors();
         return true;

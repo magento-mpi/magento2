@@ -19,8 +19,8 @@
 class Enterprise_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Manage Products</p>
+     * Preconditions:
+     * Navigate to Catalog -> Manage Products
      */
     protected function assertPreConditions()
     {
@@ -29,14 +29,13 @@ class Enterprise_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Creating duplicated Gift Card</p>
+     * Creating duplicated Gift Card
      *
      * @test
      * @TestlinkId TL-MAGE-5866
      */
     public function duplicateGiftCard()
     {
-        $this->markTestIncomplete('MAGETWO-8963');
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required');
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
