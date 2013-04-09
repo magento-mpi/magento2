@@ -283,7 +283,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
             /** @var Mage_Customer_Model_Customer $customerEntity */
             $customerEntity = $this->_objectManager
-                ->get('Mage_Customer_Model_Customer_Factory')
+                ->get('Mage_Customer_Model_CustomerFactory')
                 ->create();
             /** @var Mage_Customer_Helper_Data $customerHelper */
             $customerHelper = $this->_objectManager->get('Mage_Customer_Helper_Data');
@@ -324,7 +324,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $eavForm = $this->_objectManager->create('Mage_Customer_Model_Address_Form');
             /** @var Mage_Customer_Model_Address $addressEntity */
             $addressEntity = $this->_objectManager
-                ->get('Mage_Customer_Model_Address_Factory')
+                ->get('Mage_Customer_Model_AddressFactory')
                 ->create();
 
             $addressIdList = array_keys($addresses);
