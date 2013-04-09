@@ -86,7 +86,6 @@ class Enterprise_Mage_Tags_ActionLogsTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('admin_action_log_report');
-        $this->markTestIncomplete('MAGETWO-9037');
         $this->assertTrue((bool)$this->search(
                 array(
                     'action_group' => 'Catalog Tags',
