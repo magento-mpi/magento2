@@ -68,6 +68,7 @@
                 this.btnCssUpdate.attr('disabled', 'disabled');
                 $(this.btnUpdateDownload).fadeOut();
             } else {
+                this.btnCssUpdate.removeAttr('disabled');
                 $(this.btnUpdateDownload).fadeIn();
             }
         }
