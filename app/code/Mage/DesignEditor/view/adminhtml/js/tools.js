@@ -48,10 +48,13 @@
          * @private
          */
         _disableInlineTranslation: function (event, data) {
+            var originalRefreshVdeCanvas = this.options.refreshVdeCanvas;
             this.options.refreshVdeCanvas = false;
             this.options.frameUrl = data.frameUrl;
 
             this._toggle(data.mode);
+
+            this.options.refreshVdeCanvas = originalRefreshVdeCanvas;
         },
 
         /**
