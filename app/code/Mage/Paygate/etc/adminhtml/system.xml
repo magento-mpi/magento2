@@ -12,7 +12,7 @@
 <config>
     <system>
         <section id="payment">
-            <group id="authorizenet" translate="label" module="Mage_Paygate" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="authorizenet" translate="label" module="Mage_Paygate" type="text" sortOrder="34" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Authorize.net</label>
                 <comment>
                     <![CDATA[<a href="http://celinks.magento.com/authorize_netRegistration" target="_blank">Click here to sign up for an Authorize.net account</a>]]>
