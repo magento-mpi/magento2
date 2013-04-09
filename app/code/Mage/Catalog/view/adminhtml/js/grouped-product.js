@@ -15,7 +15,6 @@
          * @private
          */
         _create: function () {
-            this.$popup = this.element.find('#grouped_grid_popup');
             this.$grid = this.element.find('[data-role=grouped-product-grid]');
             this.$grid.sortable({
                 distance: 8,
@@ -42,7 +41,6 @@
             });
 
             this._bindDialog();
-            this._bindEventHandlers();
             this._updateGridVisibility();
         },
 
@@ -53,7 +51,11 @@
          * @private
          */
         _add: function(event, product) {
-            this.$template.tmpl(product).appendTo(this.$grid.find('tbody'));
+            var productExists = this.$grid.find('[data-role=id]')
+                .filter(function(index, element) { return $(element).val() == product.id }).length;
+            if (!productExists) {
+                this.$template.tmpl(product).appendTo(this.$grid.find('tbody'));
+            }
         },
 
         /**
@@ -84,7 +86,9 @@
          */
         _bindDialog: function () {
             var widget = this;
-            $('[data-role="add-product-popup"]').dialog({
+            var selectedProductList = {};
+            var popup =  $('[data-role="add-product-popup"]');
+            popup.dialog({
                 title: $.mage.__('Add Products to Group'),
                 autoOpen: false,
                 minWidth: 980,
@@ -100,64 +104,52 @@
                 }, {
                     id: 'grouped-product-dialog-apply-button',
                     text: $.mage.__('Add Selected Products'),
-                    'class': 'add',
+                    'class': 'add primary',
                     click: function () {
-                        widget._addSelected();
-                        $(this).dialog('close');
+                       $.each(selectedProductList, function(index, product) {
+                            widget._add(null, product);
+                       });
+                       widget._resort();
+                       widget._updateGridVisibility();
+                       $(this).dialog('close');
                     }
                 }]
             });
-        },
 
-        /**
-         * Bind event
-         * @private
-         */
-        _bindEventHandlers: function() {
-
-            var widget = this;
-            $('[data-role="add-product"]').on('click', function (event) {
-                event.preventDefault();
-                var ids = widget.$grid.find('[data-role=id]').map(function(index, element) {
-                    return $(element).val()
-                }).toArray();
-                widget.options.gridPopup.reloadParams = {
-                    filter: {'entity_id': ids ? ids : [0]}
-                };
-                widget.options.gridPopup.reload(null, function() {
-                    $('[data-role=add-product-popup]').dialog('open');
-                });
-
-            });
-            this.options.gridPopup.rowClickCallback = function(grid, event) {
-                event.stopPropagation();
-                if (!this.rows || !this.rows.length) {
-                    return;
-                }
-                $(event.target).parent().find('td.col-select input[type=checkbox]').click();
-                return false;
-            };
-        },
-
-        /**
-         * Add selected products from grid
-         * @private
-         */
-        _addSelected: function () {
-            this.$popup.find('[data-role=row] [data-column=massaction]:has(input:checked)')
-                .each($.proxy(function(index, element) {
+            popup.on(
+                'click change','[data-role=row] [data-column=massaction] input',
+                $.proxy(function(event) {
+                    var element = $(event.target);
                     var product = {};
-                    product.id = $(element).find('input').val();
-                    product.qty = 0;
-                    $(element).closest('tr').find('[data-column]').each(function(index, element) {
-                        product[$(element).data('column')] = $.trim($(element).text());
-                    });
+                    if (element.is(':checked')) {
+                        product.id = element.val();
+                        product.qty = 0;
+                        element.closest('[data-role=row] ').find('[data-column]').each(function(index, element) {
+                            product[$(element).data('column')] = $.trim($(element).text());
+                        });
+                        selectedProductList[product.id] = product;
+                    } else {
+                        delete selectedProductList[element.val()];
+                    }
+                }, this)
+            );
 
-                    this._add(null, product);
-                }, this)).toArray();
+            var gridPopup = this.options.gridPopup;
 
-            this._resort();
-            this._updateGridVisibility();
+            $('[data-role="add-product"]').on('click', function(event) {
+                event.preventDefault();
+                $('[data-role=add-product-popup]').dialog('open');
+                gridPopup.reload();
+                selectedProductList = {};
+            });
+
+            $('#' + gridPopup.containerId)
+                .on('gridajaxsettings', function(event, ajaxSettings) {
+                    var ids = widget.$grid.find('[data-role=id]').map(function(index, element) {
+                        return $(element).val()
+                    }).toArray();
+                    ajaxSettings.data.filter = $.extend(ajaxSettings.data.filter || {}, {'entity_id': ids});
+                });
         },
 
         /**

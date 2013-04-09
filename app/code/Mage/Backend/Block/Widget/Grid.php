@@ -299,6 +299,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
 
             if (is_string($filter)) {
                 $data = $this->helper('Mage_Backend_Helper_Data')->prepareFilterString($filter);
+                $data = array_merge($data, (array)$this->getRequest()->getPost($this->getVarNameFilter()));
                 $this->_setFilterValues($data);
             } else if ($filter && is_array($filter)) {
                 $this->_setFilterValues($filter);

@@ -15,7 +15,7 @@
                 loaderText: $.mage.__('Please wait...'),
                 imgAlt: $.mage.__('Loading...')
             },
-            template: '<div class="loading-mask">' +
+            template: '<div class="loading-mask" data-role="loader">' +
                          '<div class="loader">'+
                             '<img {{if texts.imgAlt}}alt="${texts.imgAlt}"{{/if}} src="${icon}">'+
                             '<p>{{if texts.loaderText}}${texts.loaderText}{{/if}}</p>' +
@@ -51,12 +51,32 @@
                 e.stopImmediatePropagation();
                 $($(e.target).is(document) ? 'body' : e.target).loader('hide');
             });
+            this._on({
+                'show': 'show',
+                'hide': 'hide',
+                'contentUpdated': '_contentUpdated'
+            });
+        },
+
+        /**
+         * Verify loader present after content updated
+         *
+         * @param event
+         * @private
+         */
+        _contentUpdated: function(event) {
+            if (!this.element.find('[data-role="loader"]').length) {
+                this._render();
+            }
         },
 
         /**
          * Show loader
          */
         show: function() {
+            if (!this.element.find('[data-role="loader"]').length) {
+                this._render();
+            }
             this.loader.show();
         },
 
