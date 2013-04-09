@@ -102,6 +102,8 @@
                 type: 'post',
                 context: this,
                 async: false,
+                beforeSend: function() {this.element.trigger('showAjaxLoader');},
+                complete: function() {this.element.trigger('hideAjaxLoader');},
                 data:{method_code: this.options.method, data: {is_review_iframe: 1}},
                 success: function(response) {
                     $('#opc-review #review_iframe_container').html(response);
