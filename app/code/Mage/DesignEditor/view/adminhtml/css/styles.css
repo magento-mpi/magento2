@@ -1832,6 +1832,10 @@
     content: '\e040';
 }
 
+.eq-ie8 .vde-image-sizing .choice.checked .action-connect:before {
+    content: '\e040';
+}
+
 .vde-image-sizing .field.with-addon .addbefore {
     padding-left: 8px;
     font-size: 13px;

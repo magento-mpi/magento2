@@ -76,6 +76,7 @@
          */
         _switchRation: function(element) {
             $(element).attr("checked") == "checked" ? this._switchOnRation(element) : this._switchOffRatio(element) ;
+            $(element).closest('.choice').toggleClass('checked', $(element).prop('checked'));
         },
 
         /**
