@@ -26,7 +26,8 @@ class Mage_Core_Service_Idl extends Varien_Object
     {
         if (null === $this->_idl) {
             $scheme = array(
-                'Mage_Catalog_Service_Product'  => array(
+                'catalogProduct'  => array(
+                    'class'  => 'Mage_Catalog_Service_Product',
                     'fields'         => array(
                         'product_id' => array(
                             'label'      => 'Entity ID',
@@ -51,7 +52,8 @@ class Mage_Core_Service_Idl extends Varien_Object
                     ),
                     'id_field_alias' => 'id'
                 ),
-                'Mage_Catalog_Service_Category' => array(
+                'catalogCategory' => array(
+                    'class'  => 'Mage_Catalog_Service_Category',
                     'fields'         => array(
                         'entity_id' => array(
                             'label'      => 'Entity ID',

@@ -28,7 +28,7 @@ class Mage_Core_Service_Manager extends Varien_Object
     {
         $service = $this->getService($serviceId);
 
-        $args = $this->extractArguments($serviceId, $args);
+        $args    = $this->extractArguments($serviceId, $args);
 
         $result  = $service->$method($args);
 
@@ -43,7 +43,8 @@ class Mage_Core_Service_Manager extends Varien_Object
      */
     public function getService($serviceId)
     {
-        $service = $this->_objectManager->get($serviceId);
+        $class = $this->_definition->getElement($serviceId . '/class');
+        $service = $this->_objectManager->get($class);
 
         return $service;
     }
