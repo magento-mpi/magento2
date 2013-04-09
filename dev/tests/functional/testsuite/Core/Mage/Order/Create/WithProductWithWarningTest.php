@@ -71,7 +71,11 @@ class Core_Mage_Order_Create_WithProductWithWarningTest extends Mage_Selenium_Te
         $this->orderHelper()->navigateToCreateOrderPage(null, $orderData['store_view']);
         $this->orderHelper()->addProductToOrder($orderData['products_to_add']['product_1']);
         $this->addParameter('sku', $simple['general_sku']);
-        $this->addParameter('productTitle', $simple['general_name']);
+        if ($message === 'requested_quantity_not_available') {
+            $this->addParameter('productTitle', $simple['general_name']);
+        } else {
+            $this->addParameter('qty', 10);
+        }
         $this->assertMessagePresent('validation', $message);
         $this->orderHelper()->fillOrderAddress($billingAddress, $billingAddress['address_choice'], 'billing');
         $this->orderHelper()->fillOrderAddress($shippingAddress, $shippingAddress['address_choice'], 'shipping');
