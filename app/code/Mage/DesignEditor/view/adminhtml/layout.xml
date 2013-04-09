@@ -120,9 +120,7 @@
                             <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css_Group" name="design_editor_tools_code_css_group" template="Mage_DesignEditor::editor/tools/code/css/group.phtml" />
                         </block>
                         <!-- Tab with JavaScript list -->
-                        <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js" name="design_editor_tools_code_js" template="Mage_DesignEditor::editor/tools/code/js.phtml">
-                            <block template="Mage_DesignEditor::/editor/tools/code/js/items.phtml" type="Mage_Backend_Block_Template" name="design_editor_tools_code_js_items" as="design.editor.tools.code.js.items" />
-                        </block>
+                        <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js" name="design_editor_tools_code_js" template="Mage_DesignEditor::editor/tools/code/js.phtml" />
                         <!-- Tab with Custom CSS -->
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom" name="design_editor_tools_code_custom" template="Mage_DesignEditor::editor/tools/code/custom.phtml"/>
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing" name="design_editor_tools_code_image_sizing" template="Mage_DesignEditor::editor/tools/code/image-sizing.phtml"/>
