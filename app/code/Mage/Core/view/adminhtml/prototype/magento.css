@@ -183,6 +183,15 @@
     border-right: 1px solid #c0bbaf;
 }
 
+.popup-window .grid .data td:first-child {
+    border-left-width: 0;
+}
+
+.popup-window .grid .data td:last-child {
+    border-left-width: 0;
+    border-right-width: 0;
+}
+
 .popup-window .grid .data tr:last-child td {
     border-bottom-color: #c0bbaf;
 }

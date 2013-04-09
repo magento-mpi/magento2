@@ -95,7 +95,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * Store list manager
      *
-     * @var Mage_Core_Model_StoreManager
+     * @var Mage_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -104,13 +104,14 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool
      * @param Mage_Core_Model_App_State $appState
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool,
         Mage_Core_Model_App_State $appState,
-        Mage_Core_Model_StoreManager $storeManager
+        Mage_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_moduleReader = $moduleReader;
         $this->_filesystem = $filesystem;
@@ -364,7 +365,9 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * Notify that view file resolved path was changed (i.e. it was published to a public directory)
      *
-     * @param array $params
+     * @param $targetPath
+     * @param $themeFile
+     * @param $params
      * @return Mage_Core_Model_Design_Package
      */
     protected function _notifyViewFileLocationChanged($targetPath, $themeFile, $params)

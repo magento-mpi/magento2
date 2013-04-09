@@ -26,7 +26,7 @@ class Mage_Core_Model_Theme_Service
     protected $_themeCopyService;
 
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     protected $_design;
 
@@ -90,7 +90,7 @@ class Mage_Core_Model_Theme_Service
     /**
      * @param Mage_Core_Model_Theme_Factory $themeFactory
      * @param Mage_Core_Model_Theme_CopyService $themeCopyService
-     * @param Mage_Core_Model_Design_Package $design
+     * @param Mage_Core_Model_Design_PackageInterface $design
      * @param Mage_Core_Model_App $app
      * @param Mage_Core_Helper_Data $helper
      * @param Mage_DesignEditor_Model_Resource_Layout_Update $layoutUpdate
@@ -101,7 +101,7 @@ class Mage_Core_Model_Theme_Service
     public function __construct(
         Mage_Core_Model_Theme_Factory $themeFactory,
         Mage_Core_Model_Theme_CopyService $themeCopyService,
-        Mage_Core_Model_Design_Package $design,
+        Mage_Core_Model_Design_PackageInterface $design,
         Mage_Core_Model_App $app,
         Mage_Core_Helper_Data $helper,
         Mage_DesignEditor_Model_Resource_Layout_Update $layoutUpdate,
@@ -183,7 +183,7 @@ class Mage_Core_Model_Theme_Service
      */
     protected function _unassignThemeFormStores($themeId, $stores, $scope, &$isUnassigned)
     {
-        $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
+        $configPath = Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID;
         /** @var $config Mage_Core_Model_Config_Data */
         foreach ($this->_getAssignedScopesCollection($scope, $configPath) as $config) {
             if ($config->getValue() == $themeId && !in_array($config->getScopeId(), $stores)) {
@@ -205,7 +205,7 @@ class Mage_Core_Model_Theme_Service
      */
     protected function _assignThemeToStores($themeId, $stores, $scope, &$isUnassigned)
     {
-        $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
+        $configPath = Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID;
         if (count($stores) > 0) {
             foreach ($stores as $storeId) {
                 $this->_configWriter->save($configPath, $themeId, $scope, $storeId);

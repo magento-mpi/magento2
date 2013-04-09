@@ -379,8 +379,13 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdate()
     {
-        $this->markTestIncomplete('Unable to test due to https://jira.corp.x.com/browse/MAGETWO-7362');
-        $newData = array(
+        /*
+         * Some product attributes (e.g. tier_price) rely on _origData to determine whether attributes are new (thus,
+         * should be INSERTed into the DB) or updated. Real-world requests works fine because same code contained in
+         * Mage_Api_Controller_Action::preDispatch().
+         */
+        Mage::app()->setCurrentStore('admin');
+        $newData = (object)array(
             'name'              => 'New Name',
             'description'       => 'New Description',
             'short_description' => 'New short description',
@@ -400,7 +405,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($updatedProduct, 'Product was not updated');
         $product->load(1);
 
-        $updatedProductData = array(
+        $updatedProductData = (object)array(
             'name' => $product->getName(),
             'description' => $product->getDescription(),
             'short_description' =>$product->getShortDescription(),

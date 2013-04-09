@@ -29,7 +29,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
     protected static $_viewPublicMergedDir;
 
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     protected $_model = null;
 
@@ -46,7 +46,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
                 Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));
-        $this->_model = Mage::getSingleton('Mage_Core_Model_Design_Package');
+        $this->_model = Mage::getSingleton('Mage_Core_Model_Design_PackageInterface');
         $this->_model->setDesignTheme('package/default');
     }
 
@@ -66,7 +66,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
         $this->_model->mergeFiles(array(
             'css/exception.css',
             'css/file.css',
-        ), Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS);
+        ), Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS);
         $this->assertFileNotExists(self::$_themePublicDir . '/frontend/package/default/en_US/access_violation.php');
     }
 
@@ -82,10 +82,10 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
      */
     public function testMergeFiles($contentType, $files, $expectedFilename, $related = array())
     {
-        if ($contentType == Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS) {
-            $result = $this->_model->mergeFiles($files, Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS);
+        if ($contentType == Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS) {
+            $result = $this->_model->mergeFiles($files, Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS);
         } else {
-            $result = $this->_model->mergeFiles($files, Mage_Core_Model_Design_Package::CONTENT_TYPE_JS);
+            $result = $this->_model->mergeFiles($files, Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS);
         }
         $this->assertEquals($expectedFilename, basename($result));
         foreach ($related as $file) {
@@ -107,10 +107,10 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
      */
     public function testMergeFilesSigned($contentType, $files, $expectedFilename, $related = array())
     {
-        if ($contentType == Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS) {
-            $result = $this->_model->mergeFiles($files, Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS);
+        if ($contentType == Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS) {
+            $result = $this->_model->mergeFiles($files, Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS);
         } else {
-            $result = $this->_model->mergeFiles($files, Mage_Core_Model_Design_Package::CONTENT_TYPE_JS);
+            $result = $this->_model->mergeFiles($files, Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS);
         }
         $mergedFileName = basename($result);
         $mergedFileName = preg_replace('/\?.*$/i', '', $mergedFileName);
@@ -129,7 +129,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
     {
         return array(
             array(
-                Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS,
+                Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS,
                 array(
                     'mage/calendar.css',
                     'css/file.css',
@@ -150,7 +150,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
                 ),
             ),
             array(
-                Mage_Core_Model_Design_Package::CONTENT_TYPE_JS,
+                Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS,
                 array(
                     'mage/calendar.js',
                     'scripts.js',
@@ -174,7 +174,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
         $this->assertFileNotExists($resultingFile);
 
         // merge first time
-        $this->_model->mergeFiles($files, Mage_Core_Model_Design_Package::CONTENT_TYPE_JS);
+        $this->_model->mergeFiles($files, Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS);
         $this->assertFileExists($resultingFile);
 
     }
@@ -189,7 +189,7 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
         $this->_model->mergeFiles(array(
             'mage/calendar.js',
             'scripts.js',
-        ), Mage_Core_Model_Design_Package::CONTENT_TYPE_JS);
+        ), Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS);
         $this->assertFileExists(self::$_viewPublicMergedDir);
         $filesFound = false;
         foreach (new RecursiveDirectoryIterator(self::$_viewPublicMergedDir) as $fileInfo) {

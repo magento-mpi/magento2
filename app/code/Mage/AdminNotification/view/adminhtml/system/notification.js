@@ -23,7 +23,7 @@
                 data: {severity: severity}
             }).done($.proxy(function(data) {
                 this.element.html(
-                    $('<ul />', {class: "message-system-list"}).append(
+                    $('<ul />', {'class': "message-system-list"}).append(
                         $.tmpl(this.options.systemMessageTemplate, data)
                     )
                 ).trigger('contentUpdated');
