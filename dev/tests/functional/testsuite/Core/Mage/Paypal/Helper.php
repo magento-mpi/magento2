@@ -48,33 +48,6 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
     #                                                                              #
     ################################################################################
     /**
-     * Validate paypal Page
-     *
-     * @param string $page
-     */
-    public function validatePage($page = '')
-    {
-        if ($page) {
-            $this->assertTrue($this->checkCurrentPage($page), $this->getMessagesOnPage());
-        } else {
-            $page = $this->_findCurrentPageFromUrl();
-        }
-        //$expectedTitle = $this->getUimapPage($this->getConfigHelper()->getArea(),
-        //$page)->getTitle($this->_paramsHelper);
-        //$this->assertSame($expectedTitle, $this->url(), 'Title is unexpected for "' . $page . '" page');
-        $this->setCurrentPage($page);
-    }
-
-    public function waitForNewPage()
-    {
-        try {
-            parent::waitForNewPage();
-        } catch (Exception $e) {
-            $this->skipTestWithScreenshot($e->getMessage());
-        }
-    }
-
-    /**
      * Log into Paypal developer's site
      */
     public function paypalDeveloperLogin()
@@ -90,9 +63,9 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
         if ($this->controlIsPresent('button', 'login_with_paypal')) {
             $this->clickButton('login_with_paypal', false);
             $this->selectLastWindow();
-            $this->fillForm($loginData);
+            $this->fillFieldset($loginData, 'login_form');
             $this->getControlElement('button', 'login')->click();
-            $this->window('');
+            $this->waitForWindowToClose();
             $this->validatePage();
             $this->waitForElement($this->_getControlXpath('button', 'logout'));
         }
@@ -115,20 +88,8 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
         $this->navigate('paypal_developer_create_account');
         $this->fillForm($parameters);
         $this->clickButton('create_account');
-        //If get error message after account creation
-        $error = $this->errorMessage('failed_account_creation');
-        $error1 = $this->successMessage('success_created_account_without_card');
-        if ($error['success'] || $error1['success']) {
-            $delete = $this->getPaypalSandboxAccountInfo($parameters);
-            $this->deleteAccount($delete['email']);
-            return $this->createPreconfiguredAccount($parameters);
-        }
-        $error = $this->errorMessage('incorrect_information');
-        if ($error['success']) {
-            return $this->createPreconfiguredAccount($parameters);
-        }
-        $this->assertMessagePresent('success', 'success_created_account');
         $this->validatePage();
+        $this->assertMessagePresent('success', 'success_created_account');
 
         return $this->getPaypalSandboxAccountInfo($parameters);
     }
@@ -192,12 +153,17 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
         if ('paypal_developer_sandbox_accounts' != $this->getCurrentPage()) {
             $this->navigate('paypal_developer_sandbox_accounts');
         }
-        $this->addParameter('accountEmail', $email);
-        $this->clickControl(self::FIELD_TYPE_LINK, 'account_details', false);
-        $this->waitForControlVisible(self::FIELD_TYPE_LINK, 'account_profile');
-        $this->clickControl(self::FIELD_TYPE_LINK, 'account_profile', false);
-        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'account_details_popup');
+        if (!$this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'account_details_popup')) {
+            $this->addParameter('accountEmail', $email);
+            $this->clickControl(self::FIELD_TYPE_LINK, 'account_details', false);
+            $this->waitForControlVisible(self::FIELD_TYPE_LINK, 'account_profile');
+            $this->clickControl(self::FIELD_TYPE_LINK, 'account_profile', false);
+            $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'account_details_popup');
+        }
         $this->clickControl(self::FIELD_TYPE_LINK, $tabName, false);
+        $this->addParameter('tabTitle',
+            $this->getControlAttribute(self::FIELD_TYPE_LINK, $tabName, 'text'));
+        $this->waitForControl(self::FIELD_TYPE_PAGEELEMENT, 'active_tab');
     }
     /**
      * Deletes all accounts at PayPal sandbox
@@ -261,70 +227,5 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
             }
         }
         return $accounts;
-    }
-
-    ################################################################################
-    #                                                                              #
-    #                 PayPal Sandbox(@TODO check and rewrite)                      #
-    #                                                                              #
-    ################################################################################
-    /**
-     * Login using sandbox account
-     * Function has not been verified and is not used right now
-     * @TODO check and rewrite
-     *
-     * @param $parameters
-     */
-    public function paypalSandboxLogin($parameters)
-    {
-        $parameters = $this->fixtureDataToArray($parameters);
-        if ($this->controlIsPresent('button', 'button_login')) {
-            $this->addParameter('elementTitle', $parameters['page_title']);
-            $this->validatePage();
-            $this->fillForm($parameters['credentials']);
-            $this->clickControl('button', 'button_login');
-        }
-    }
-
-    /**
-     * Configure sandbox account
-     * Function has not been verified and is not used right now
-     * @TODO check and rewrite
-     *
-     * @param $parameters
-     */
-    public function paypalSandboxConfigure($parameters)
-    {
-        $parameters = $this->fixtureDataToArray($parameters);
-        $this->addParameter('elementTitle', $parameters['page_title']);
-        $this->validatePage();
-        $this->fillForm($parameters['credentials']);
-        $this->clickControl('button', 'button_login');
-        $this->clickControl('button', 'button_agree');
-    }
-
-    /**
-     * Pays the order using paypal sandbox account
-     * Function has not been verified and is not used right now
-     * @TODO check and rewrite
-     *
-     * @param $parameters
-     */
-    public function paypalPayOrder($parameters)
-    {
-        $parameters = $this->fixtureDataToArray($parameters);
-        if (!$this->controlIsPresent('button', 'button_login')) {
-            $this->addParameter('elementTitle', $parameters['page_title_pay_with']);
-            $this->validatePage();
-            $this->addParameter('elementTitle', $parameters['page_title']);
-            $this->clickControl('link', 'have_paypal_account');
-        } else {
-            $this->addParameter('elementTitle', $parameters['page_title']);
-            $this->validatePage();
-        }
-        $this->fillForm($parameters['credentials']);
-        $this->addParameter('elementTitle', $parameters['page_title_review_info']);
-        $this->clickControl('button', 'button_login');
-        $this->clickControl('button', 'button_continue');
     }
 }

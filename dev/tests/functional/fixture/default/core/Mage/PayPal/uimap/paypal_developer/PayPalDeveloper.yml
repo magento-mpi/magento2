@@ -10,7 +10,7 @@
 ---
 paypal_developer_home:
     mca:
-    title: PayPal Sandbox - Log In
+    title: Home | PayPal Developer
     uimap: &loginPage
         form:
             fieldsets:
@@ -74,6 +74,7 @@ paypal_developer_sandbox_accounts:
                             api_username: "//div[label[normalize-space(text())='Username:']]//div[contains(@class, 'controls')]/label"
                             api_password: "//div[label[normalize-space(text())='Password:']]//div[contains(@class, 'controls')]/label[not(@id)]"
                             api_signature: "//div[label[normalize-space(text())='Signature:']]//div[contains(@class, 'controls')]/label"
+                            active_tab: //li[@class='active']/a[text()='%tabTitle%']
                         buttons:
                             close_popup_cross: //button[@class='close']
                 -

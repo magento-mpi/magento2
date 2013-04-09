@@ -4382,4 +4382,28 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $timeout * 1000
         );
     }
+
+    /**
+    * Wait till window will close
+    *
+    * @param int $timeout
+    * @return bool
+    */
+    public function waitForWindowToClose($timeout = null)
+    {
+        if (is_null($timeout)) {
+            $timeout = $this->_browserTimeout;
+        }
+        $this->waitUntil(
+            function($testCase) {
+                if (count($testCase->windowHandles()) <= 1) {
+                    $testCase->window('');
+                    return true;
+                }
+                usleep(100000);
+            },
+            $timeout * 1000
+        );
+        return false;
+    }
 }
