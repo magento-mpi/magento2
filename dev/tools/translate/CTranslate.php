@@ -10,6 +10,41 @@
 
 include('ModuleTranslations.php');
 
+class DirectoryFilter extends FilterIterator
+{
+    /**
+     * List of allowed extensions
+     *
+     * @var array
+     */
+    protected $_allowedExtensions;
+
+    /**
+     * @param Iterator $iterator
+     * @param array $allowedExtensions
+     */
+    public function __construct(Iterator $iterator, array $allowedExtensions)
+    {
+        parent::__construct($iterator);
+        $this->_allowedExtensions = $allowedExtensions;
+    }
+
+
+    /**
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * Check whether the current element of the iterator is acceptable
+     * @link http://php.net/manual/en/filteriterator.accept.php
+     * @return bool true if the current element is acceptable, otherwise false.
+     */
+    public function accept()
+    {
+        /** @var $current SPLFileInfo */
+        $current = $this->current();
+        return in_array($current->getExtension(), $this->_allowedExtensions);
+    }
+
+}
+
 class Translate {
     /**
      * Object of MultyGetopt
@@ -57,7 +92,7 @@ class Translate {
     {
         self::$CONFIG = $config;
         Tools_Translate_ModuleTranslations::setConfig($config);
-        self::$csv = new Varien_File_Csv_multy();
+        self::$csv = new Varien_File_CsvMulty();
         try {
             self::$opts = new MultyGetopt(array(
                 'path=s'     => 'Path to root directory',
@@ -141,7 +176,7 @@ class Translate {
         }
     }
     /**
-     *Call validation process
+     * Call validation process
      *
      * @param   string $file - files array
      * @param   string $dir - dir to comparing files
@@ -162,12 +197,10 @@ class Translate {
                 }
             }
         } else {
-            $dirCol = new Varien_Directory_Collection($dir,false);
-            $dirCol->addFilter("extension",self::$CONFIG['allow_extensions']);
-            $dirCol->useFilter(true);
-            $files = $dirCol->filesName();
-            foreach ($files as $file_in_dir){
-                self::checkFiles($dir_en.$file_in_dir,$dir.$file_in_dir);
+            $files = new DirectoryFilter(new DirectoryIterator($dir), self::$CONFIG['allow_extensions']);
+            /** @var $currentFile SPLFileInfo */
+            foreach ($files as $currentFile){
+                self::checkFiles($dir_en . $currentFile->getBasename(), $dir . $currentFile->getBasename());
             }
 
         }
@@ -195,17 +228,17 @@ class Translate {
                     foreach(self::$CONFIG['translates'][$file] as $item_name){
                         $path_to_item = $path.$item_name;
                         if(is_dir($path_to_item)) {
-                            $files = array();
-                            $dirColl = new Varien_Directory_Collection($path_to_item,true);
-                            $dirColl->addFilter("extension",self::$CONFIG['allow_extensions']);
-                            $dirColl->useFilter(true);
-                            $files = $dirColl->filesPaths();
-                            for($a=0;$a<count($files);$a++){
-                                self::_parseFile($files[$a],self::$parseData,$file);
+                            $collectedFiles = new DirectoryFilter(
+                                new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path_to_item)),
+                                self::$CONFIG['allow_extensions']
+                            );
+                            /** @var $currentFile SPLFileInfo */
+                            foreach ($collectedFiles as $currentFile) {
+                                self::_parseFile($currentFile->getPathname(), self::$parseData, $file);
                             }
                         } else {
                             if(is_file($path_to_item)){
-                                self::_parseFile($path_to_item,self::$parseData,$file);
+                                self::_parseFile($path_to_item, self::$parseData, $file);
                             } else {
                                 self::_error("Could not found specific module for file ".$file." in ".self::$CONFIG['paths']['mage']);
                             }
@@ -360,13 +393,14 @@ class Translate {
                 }
             }
         } else {
-            $dirColl = new Varien_Directory_Collection($dir,true);
-            $dirColl->addFilter("extension",self::$CONFIG['allow_extensions']);
-            $dirColl->useFilter(true);
-            $files = $dirColl->filesName();
-            foreach ($files as $file_in_dir) {
-                $files_name_changed[] = $file_in_dir;
-                self::_checkFilesUpdate($dir_en.$file_in_dir,$dir.$file_in_dir);
+            $collectedFiles = new DirectoryFilter(
+                new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)),
+                self::$CONFIG['allow_extensions']
+            );
+            /** @var $currentFile SPLFileInfo */
+            foreach ($collectedFiles as $currentFile) {
+                $files_name_changed[] = $currentFile->getBasename();
+                self::_checkFilesUpdate($dir_en . $currentFile->getBasename(), $dir.$currentFile->getBasename());
             }
         }
         if(isset($files_name_changed)){
@@ -404,13 +438,14 @@ class Translate {
                 }
             }
         } else {
-            $dirColl = new Varien_Directory_Collection($dir,true);
-            $dirColl->addFilter("extension",EXTENSION);
-            $dirColl->useFilter(true);
-            $files = $dirColl->filesName();
-            foreach ($files as $file_in_dir) {
-                $files_name_changed[] = $file_in_dir;
-                self::sortFile($dir.$file_in_dir);
+            $collectedFiles = new DirectoryFilter(
+                new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)),
+                array(EXTENSION)
+            );
+            /** @var $currentFile SPLFileInfo */
+            foreach ($collectedFiles as $currentFile) {
+                $files_name_changed[] = $currentFile->getBasename();
+                self::sortFile($dir . $currentFile->getBasename());
             }
         }
         if(isset($files_name_changed)){
@@ -440,12 +475,13 @@ class Translate {
                         $files = array();
                         $dirs = array();
                         $files = array();
-                        $dirColl = new Varien_Directory_Collection($dir,true);
-                        $dirColl->addFilter("extension",self::$CONFIG['allow_extensions']);
-                        $dirColl->useFilter(true);
-                        $files = $dirColl->filesPaths();
-                        for($a=0;$a<count($files);$a++){
-                            self::_parseFile($files[$a],self::$parseData,$mod_name);
+                        $collectedFiles = new DirectoryFilter(
+                            new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)),
+                            self::$CONFIG['allow_extensions']
+                        );
+                        /** @var $currentFile SPLFileInfo */
+                        foreach ($collectedFiles as $currentFile) {
+                            self::_parseFile($currentFile->getPathname(), self::$parseData, $mod_name);
                         }
                     } else {
                         self::_error("Could not found specific module ".$dir);
@@ -643,6 +679,22 @@ class Translate {
     }
 
     /**
+     * get extension of file
+     *
+     * @param   string $fileName - name of file
+     * @return  string - extension of file
+     */
+    static public function getExt($fileName)
+    {
+        $path_parts = pathinfo($fileName);
+        if(isset($path_parts["extension"])) {
+            return $path_parts["extension"];
+        } else {
+            return '';
+        }
+    }
+
+    /**
      *Parsering files on keywords
      *
      * @param   string $file - file path
@@ -652,12 +704,12 @@ class Translate {
      */
     static protected function _parseFile($file,&$data_arr,$mod_name=null)
     {
-        if(Varien_File_Object::getExt($file)==='xml'){
-            self::parseXml($file,&$data_arr,$mod_name);
+        if(self::getExt($file)==='xml'){
+            self::parseXml($file, $data_arr, $mod_name);
         } elseif (stripos($file, 'Zend' . DS . 'Validate') !== false) {
-            self::parseZendValidateMessageTemplates($file, &$data_arr, $mod_name);
+            self::parseZendValidateMessageTemplates($file, $data_arr, $mod_name);
         } else {
-            self::parseTranslatingFiles($file,&$data_arr,$mod_name);
+            self::parseTranslatingFiles($file, $data_arr, $mod_name);
         }
         return $data_arr;
     }
