@@ -1,13 +1,13 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Mage_Backend
-     * @subpackage  unit_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Backend
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 class Mage_AdminNotification_Model_System_Message_Media_Synchronization_ErrorTest extends PHPUnit_Framework_TestCase
 {
@@ -22,7 +22,7 @@ class Mage_AdminNotification_Model_System_Message_Media_Synchronization_ErrorTes
     protected $_syncFlagMock;
 
     /**
-     * @var
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileStorage;
 
@@ -60,7 +60,6 @@ class Mage_AdminNotification_Model_System_Message_Media_Synchronization_ErrorTes
         $this->assertContains($messageText, $this->_model->getText());
     }
 
-
     /**
      * @param $expectedFirstRun
      * @param $data
@@ -83,7 +82,7 @@ class Mage_AdminNotification_Model_System_Message_Media_Synchronization_ErrorTes
         $this->_syncFlagMock->expects($this->any())->method('getFlagData')->will($this->returnValue($data));
         //check first call
         $this->assertEquals($expectedFirstRun, $model->isDisplayed());
-        //check second call(another branch of if operator
+        //check second call(another branch of if operator)
         $this->assertEquals($expectedFirstRun, $model->isDisplayed());
     }
 
@@ -100,11 +99,12 @@ class Mage_AdminNotification_Model_System_Message_Media_Synchronization_ErrorTes
 
     public function testGetIdentity()
     {
-        $this->assertGreaterThan(0, strlen($this->_model->getIdentity()));
+        $this->assertEquals('MEDIA_SYNCHRONIZATION_ERROR', $this->_model->getIdentity());
     }
 
     public function testGetSeverity()
     {
-        $this->assertTrue(is_int($this->_model->getSeverity()));
+        $severity = Mage_AdminNotification_Model_System_MessageInterface::SEVERITY_MAJOR;
+        $this->assertEquals($severity, $this->_model->getSeverity());
     }
 }

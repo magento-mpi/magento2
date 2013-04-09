@@ -1,13 +1,13 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Mage_Backend
-     * @subpackage  unit_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Backend
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 class Mage_AdminNotification_Model_System_Message_Media_Synchronization_SuccessTest extends PHPUnit_Framework_TestCase
 {
@@ -22,7 +22,7 @@ class Mage_AdminNotification_Model_System_Message_Media_Synchronization_SuccessT
     protected $_syncFlagMock;
 
     /**
-     * @var
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileStorage;
 
@@ -104,12 +104,13 @@ class Mage_AdminNotification_Model_System_Message_Media_Synchronization_SuccessT
 
     public function testGetIdentity()
     {
-        $this->assertGreaterThan(0, strlen($this->_model->getIdentity()));
+        $this->assertEquals('MEDIA_SYNCHRONIZATION_SUCCESS', $this->_model->getIdentity());
     }
 
     public function testGetSeverity()
     {
-        $this->assertTrue(is_int($this->_model->getSeverity()));
+        $severity = Mage_AdminNotification_Model_System_MessageInterface::SEVERITY_MAJOR;
+        $this->assertEquals($severity, $this->_model->getSeverity());
     }
 
 }

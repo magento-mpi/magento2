@@ -11,8 +11,6 @@
 
 class Mage_AdminNotification_Model_System_Message_CacheOutdatedTest extends PHPUnit_Framework_TestCase
 {
-
-    const MD5_LENGTH = 32;
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
@@ -41,7 +39,7 @@ class Mage_AdminNotification_Model_System_Message_CacheOutdatedTest extends PHPU
     public function setUp()
     {
         $this->_authorizationMock = $this->getMock('Mage_Core_Model_Authorization', array(), array(), '', false);
-        $this->_urlInterfaceMock = $this->getMock('Mage_Core_Model_UrlInterface', array(), array(), '', false);
+        $this->_urlInterfaceMock = $this->getMock('Mage_Core_Model_UrlInterface');
         $this->_cacheMock = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false);
         $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
 
@@ -56,13 +54,30 @@ class Mage_AdminNotification_Model_System_Message_CacheOutdatedTest extends PHPU
             ->getObject('Mage_AdminNotification_Model_System_Message_CacheOutdated', $arguments);
     }
 
-    public function testGetIdentity()
+    /**
+     * @param $expectedSum
+     * @param $cacheTypes array
+     * @dataProvider getIdentityDataProvider
+     */
+    public function testGetIdentity($expectedSum, $cacheTypes)
     {
-        $cacheTypesMock = $this->getMock('stdClass', array('getCacheType'));
-        $cacheTypesMock->expects($this->any())->method('getCacheType')->will($this->returnValue('someVal'));
         $this->_cacheMock->expects($this->any())->method('getInvalidatedTypes')
-            ->will($this->returnValue(array($cacheTypesMock)));
-        $this->assertEquals(self::MD5_LENGTH, strlen($this->_messageModel->getIdentity()));
+            ->will($this->returnValue($cacheTypes));
+        $this->assertEquals($expectedSum, $this->_messageModel->getIdentity());
+    }
+
+    public function getIdentityDataProvider()
+    {
+        $cacheTypeMock1 = $this->getMock('stdClass', array('getCacheType'));
+        $cacheTypeMock1->expects($this->any())->method('getCacheType')->will($this->returnValue('Simple'));
+
+        $cacheTypeMock2 = $this->getMock('stdClass', array('getCacheType'));
+        $cacheTypeMock2->expects($this->any())->method('getCacheType')->will($this->returnValue('Advanced'));
+
+        return array(
+            array('c13cfaddc2c53e8d32f59bfe89719beb', array($cacheTypeMock1)),
+            array('69aacdf14d1d5fcef7168b9ac308215e', array($cacheTypeMock1, $cacheTypeMock2))
+        );
     }
 
     /**
