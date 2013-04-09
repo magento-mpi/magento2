@@ -86,10 +86,10 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $customJsFiles = $theme->setCustomization($filesJs)
                 ->getCustomizationData(Mage_Core_Model_Theme_Customization_Files_Js::TYPE);
             $result = array('error' => false, 'files' => $customJsFiles->getFilesInfo());
+            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**
