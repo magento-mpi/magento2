@@ -627,6 +627,12 @@
     width: 5%;
 }
 
+/* Select Associated Product popup window */
+#configurable_associated_products_grid .filter-actions,
+#configurable_associated_products_grid .filter {
+    display: none;
+}
+
 #product_options_container .data-table td,
 #attribute-tier_price-container .data-table td,
 #attribute-group_price-container .data-table td {
