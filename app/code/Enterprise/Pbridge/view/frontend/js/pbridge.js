@@ -96,7 +96,7 @@
             }
         },
 
-        _loadReviewIframe: function(method) {
+        _loadReviewIframe: function() {
             $.ajax({
                 url: this.options.reviewUrl,
                 type: 'post',
