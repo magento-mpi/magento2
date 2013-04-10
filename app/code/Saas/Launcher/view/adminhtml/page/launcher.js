@@ -358,20 +358,4 @@
             }
         }
     });
-
-    $(document).ready(function() {
-        $('.tile-store-settings [class^="action"]')
-            .add('.tile-store-settings a')
-            .on('focus.tileFocus', function() {
-                $(this).closest('.tile-store-settings')
-                    .addClass('focus');
-            })
-            .on('blur.tileBlur', function() {
-                $(this).closest('.tile-store-settings')
-                    .removeClass('focus');
-            });
-
-        $('#drawer').drawer();
-
-    });
 })(window.jQuery);

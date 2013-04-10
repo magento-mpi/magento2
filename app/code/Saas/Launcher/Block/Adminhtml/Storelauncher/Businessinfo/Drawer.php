@@ -302,46 +302,6 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
     }
 
     /**
-     * Processing block html after rendering.
-     * Add filling emails logic
-     *
-     * @param   string $html
-     * @return  string
-     */
-    protected function _afterToHtml($html)
-    {
-        $html = parent::_afterToHtml($html);
-
-        $html .= '<script type="text/javascript">
-            (function($) {
-                var allEmailAddresses = $("input[id^=sender_email]"),
-                    storeEmail = $("#store_email"),
-                    sameEmailAddresses = $.grep(allEmailAddresses, function(elem, index) {
-                        return elem.value == storeEmail.val();
-                    });
-
-                var emailUpdateHandler = function() {
-                    var elementId = this.id;
-                    sameEmailAddresses = $.grep(sameEmailAddresses, function(elem, index) {
-                        return !(elem.id == elementId);
-                    });
-                };
-
-                var storeEmailHandler = function() {
-                    var element = this;
-                    $.each(sameEmailAddresses, function() {
-                        this.value = element.value;
-                    });
-                };
-
-                allEmailAddresses.on("keyup change", emailUpdateHandler);
-                storeEmail.on("keyup blur change", storeEmailHandler);
-            })(jQuery);
-            </script>';
-        return $html;
-    }
-
-    /**
      * Get address data from system configuration
      *
      * @todo This function will be refactored when System->Configuration->General->Store Information
