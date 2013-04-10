@@ -13,14 +13,16 @@
  *
  * @see Mage_Catalog_Block_Product_View
  * @see Mage_Review_Block_Product_View
+ * @var $this Mage_Catalog_Block_Product_View
  */
 ?>
 <?php $_helper = $this->helper('Mage_Catalog_Helper_Output'); ?>
 <?php $_product = $this->getProduct(); ?>
+<?php $this->getMessagesBlock()->setEscapeMessageFlag(true); ?>
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
-<div id="messages_product_view"><?php echo $this->getMessagesBlock()->setEscapeMessageFlag(true)->toHtml() ?></div>
+<div id="messages_product_view"><?php echo $this->getLayout()->renderElement('messages'); ?></div>
 <div class="product-view">
     <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
         <div class="no-display">

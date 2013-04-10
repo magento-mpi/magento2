@@ -43,7 +43,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
         $this->loadLayout();
-        $response['message_html'] = $this->getLayout()->getMessagesBlock()->toHtml();
+        $response['message_html'] = $this->getLayout()->renderElement('messages');
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
     }
 
@@ -73,7 +73,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
         $this->loadLayout();
-        $response['message_html'] = $this->getLayout()->getMessagesBlock()->toHtml();
+        $response['message_html'] = $this->getLayout()->renderElement('messages');
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
     }
 
@@ -121,7 +121,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
         $this->loadLayout();
-        $response['message_html'] = $this->getLayout()->getMessagesBlock()->toHtml();
+        $response['message_html'] = $this->getLayout()->renderElement('messages');
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
     }
 
@@ -173,7 +173,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
         $this->loadLayout();
-        $result['message_html'] = $this->getLayout()->getMessagesBlock()->toHtml();
+        $result['message_html'] = $this->getLayout()->renderElement('messages');
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 
@@ -207,7 +207,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
         $this->loadLayout();
-        $result['message_html'] = $this->getLayout()->getMessagesBlock()->toHtml();
+        $result['message_html'] = $this->getLayout()->renderElement('messages');
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
 
     }
@@ -386,7 +386,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
         }
 
         $this->loadLayout();
-        $response['message_html'] = $this->getLayout()->getMessagesBlock()->toHtml();
+        $response['message_html'] = $this->getLayout()->renderElement('messages');
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
     }
 

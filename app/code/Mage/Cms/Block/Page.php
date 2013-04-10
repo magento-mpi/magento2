@@ -89,7 +89,7 @@ class Mage_Cms_Block_Page extends Mage_Core_Block_Abstract
         $helper = Mage::helper('Mage_Cms_Helper_Data');
         $processor = $helper->getPageTemplateProcessor();
         $html = $processor->filter($this->getPage()->getContent());
-        $html = $this->getMessagesBlock()->toHtml() . $html;
+        $html = $this->getLayout()->renderElement('messages') . $html;
         return $html;
     }
 }

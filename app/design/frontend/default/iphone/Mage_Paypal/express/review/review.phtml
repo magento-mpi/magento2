@@ -15,7 +15,7 @@ $shippingAddress = $this->getShippingAddress();
 <div class="page-title">
     <h1><?php echo $this->__('Review Order') ?></h1>
 </div>
-<?php echo $this->getMessagesBlock()->toHtml() ?>
+<?php echo $this->getLayout()->renderElement('messages') ?>
 <script type="text/javascript">
 //<![CDATA[
     var countryRegions = <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?>
