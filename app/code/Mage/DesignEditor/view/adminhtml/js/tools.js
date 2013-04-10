@@ -48,13 +48,17 @@
          * @private
          */
         _disableInlineTranslation: function (event, data) {
-            var originalRefreshVdeCanvas = this.options.refreshVdeCanvas;
-            this.options.refreshVdeCanvas = false;
-            this.options.frameUrl = data.frameUrl;
+            if (data.mode != '') {
+                var originalRefreshVdeCanvas = this.options.refreshVdeCanvas;
+                var originalFrameUrl = this.options.frameUrl;
+                this.options.refreshVdeCanvas = false;
+                this.options.frameUrl = data.frameUrl;
 
-            this._toggle(data.mode);
+                this._toggle(data.mode);
 
-            this.options.refreshVdeCanvas = originalRefreshVdeCanvas;
+                this.options.refreshVdeCanvas = originalRefreshVdeCanvas;
+                this.options.frameUrl = originalFrameUrl;
+            }
         },
 
         /**
@@ -152,9 +156,8 @@
                  * is using the cached url to display.
                  */
             }
-            else {
+            else
                 this.options.dialogWidgetElement.translateInlineDialogVde('toggleStyle', mode);
-            }
          },
 
         /**
