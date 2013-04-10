@@ -53,7 +53,7 @@ class Saas_Core_Model_Config_StorageTest extends PHPUnit_Framework_TestCase
         $this->_queueHandlerMock = $this->getMock('Enterprise_Queue_Model_Queue_HandlerInterface',
             array(), array(), '', false, false);
         $this->_eventFactoryMock = $this->getMock('Varien_EventFactory',
-            array(), array(), '', false, false);
+            array('create'), array(), '', false, false);
         $this->_model = new Saas_Core_Model_Config_Storage($this->_cacheMock, $this->_resourcesConfigMock,
             $this->_queueHandlerMock, $this->_eventFactoryMock);
     }
