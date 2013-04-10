@@ -11,16 +11,16 @@
     'use strict';
     $.widget('mage.groupedProduct', {
         /**
-         * Greate widget
+         * Create widget
          * @private
          */
         _create: function () {
             this.$grid = this.element.find('[data-role=grouped-product-grid]');
             this.$grid.sortable({
                 distance: 8,
-                items: 'tbody>tr',
+                items: '[data-role=row]',
                 tolerance: "pointer",
-                cancel: 'input, button',
+                cancel: ':input',
                 update: $.proxy(function() {
                     this.element.trigger('resort');
                 }, this)
@@ -64,13 +64,13 @@
          * @private
          */
         _remove: function(event) {
-            $(event.target).closest('tr').remove();
+            $(event.target).closest('[data-role=row]').remove();
             this.element.trigger('resort');
             this._updateGridVisibility();
         },
 
         /**
-         * Resort iproducts
+         * Resort products
          * @private
          */
         _resort: function() {
@@ -80,14 +80,14 @@
         },
 
         /**
-         * Create dialof for show product
+         * Create dialog for show product
          *
          * @private
          */
         _bindDialog: function () {
             var widget = this;
             var selectedProductList = {};
-            var popup =  $('[data-role=add-product-popup]');
+            var popup =  $('[data-role=add-product-dialog]');
             popup.dialog({
                 title: $.mage.__('Add Products to Group'),
                 autoOpen: false,
@@ -115,10 +115,14 @@
                     }
                 }]
             });
+
             popup.on('click', '[data-role=row]', function(event) {
                 var target = $(event.target)
                 if (!target.is('input')) {
-                    $(event.currentTarget).find('[data-column=entity_id] input').trigger('click');
+                    target.closest('[data-role=row]')
+                        .find('[data-column=entity_id] input')
+                        .prop('checked', function(element, value) { return !value; })
+                        .trigger('change');
                 }
             });
 
@@ -131,7 +135,7 @@
                     if (element.is(':checked')) {
                         product.id = element.val();
                         product.qty = 0;
-                        element.closest('[data-role=row] ').find('[data-column]').each(function(index, element) {
+                        element.closest('[data-role=row]').find('[data-column]').each(function(index, element) {
                             product[$(element).data('column')] = $.trim($(element).text());
                         });
                         selectedProductList[product.id] = product;
@@ -145,7 +149,7 @@
 
             $('[data-role=add-product]').on('click', function(event) {
                 event.preventDefault();
-                $('[data-role=add-product-popup]').dialog('open');
+                popup.dialog('open');
                 gridPopup.reload();
                 selectedProductList = {};
             });
