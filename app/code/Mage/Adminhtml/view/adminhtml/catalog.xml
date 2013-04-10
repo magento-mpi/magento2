@@ -342,7 +342,7 @@ Layout handle for grouped products
                     <use_ajax>1</use_ajax>
                     <default_sort>id</default_sort>
                     <default_dir>ASC</default_dir>
-                    <save_parameters_in_session>1</save_parameters_in_session>
+                    <save_parameters_in_session>0</save_parameters_in_session>
                     <grid_url type="url">
                         <path>*/*/superGroupPopup</path>
                         <params>
@@ -350,18 +350,6 @@ Layout handle for grouped products
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_Massaction" name="adminhtml.block.invitation.massactions" as="grid.massaction">
-                    <arguments>
-                        <massaction_id_field>assigned_products_id</massaction_id_field>
-                        <form_field_name>assigned_products</form_field_name>
-                        <options>
-                            <resend>
-                                <label translate="true" module="Mage_Catalog"></label>
-                                <url>*/*/*</url>
-                            </resend>
-                        </options>
-                    </arguments>
-                </block>
                 <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="catalog.product.edit.tab.super.group.popup.columnSet" as="grid.columnSet">
                     <arguments>
                         <id>grouped_grid_popup</id>
@@ -370,7 +358,7 @@ Layout handle for grouped products
                         <arguments>
                             <header translate="true" module="Mage_Catalog">ID</header>
                             <type>skip-list</type>
-                            <renderer>Mage_Backend_Block_Widget_Grid_Column_Renderer_Text</renderer>
+                            <renderer>Mage_Backend_Block_Widget_Grid_Column_Renderer_Checkbox</renderer>
                             <index>entity_id</index>
                         </arguments>
                     </block>

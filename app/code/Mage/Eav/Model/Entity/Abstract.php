@@ -828,9 +828,8 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      */
     public function isAttributeStatic($attribute)
     {
-        $attrInstance       = $this->getAttribute($attribute);
-        $attrBackendStatic  = $attrInstance->getBackend()->isStatic();
-        return $attrInstance && $attrBackendStatic;
+        $attrInstance = $this->getAttribute($attribute);
+        return $attrInstance && $attrInstance->getBackend()->isStatic();
     }
 
     /**

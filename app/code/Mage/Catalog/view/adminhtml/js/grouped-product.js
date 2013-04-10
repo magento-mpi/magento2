@@ -87,7 +87,7 @@
         _bindDialog: function () {
             var widget = this;
             var selectedProductList = {};
-            var popup =  $('[data-role="add-product-popup"]');
+            var popup =  $('[data-role=add-product-popup]');
             popup.dialog({
                 title: $.mage.__('Add Products to Group'),
                 autoOpen: false,
@@ -115,9 +115,16 @@
                     }
                 }]
             });
+            popup.on('click', '[data-role=row]', function(event) {
+                var target = $(event.target)
+                if (!target.is('input')) {
+                    $(event.currentTarget).find('[data-column=entity_id] input').trigger('click');
+                }
+            });
 
             popup.on(
-                'click change','[data-role=row] [data-column=massaction] input',
+                'change',
+                '[data-role=row] [data-column=entity_id] input',
                 $.proxy(function(event) {
                     var element = $(event.target);
                     var product = {};
@@ -136,7 +143,7 @@
 
             var gridPopup = this.options.gridPopup;
 
-            $('[data-role="add-product"]').on('click', function(event) {
+            $('[data-role=add-product]').on('click', function(event) {
                 event.preventDefault();
                 $('[data-role=add-product-popup]').dialog('open');
                 gridPopup.reload();
@@ -149,6 +156,15 @@
                         return $(element).val()
                     }).toArray();
                     ajaxSettings.data.filter = $.extend(ajaxSettings.data.filter || {}, {'entity_id': ids});
+                })
+                .on('gridajax', function(event, ajaxRequest) {
+                    ajaxRequest.done(function() {
+                        popup.find('[data-role=row] [data-column=entity_id] input')
+                            .each(function(index, element) {
+                                var element = $(element);
+                                element.prop('checked', !!selectedProductList[element.val()]);
+                            });
+                    });
                 });
         },
 
@@ -157,7 +173,7 @@
          * @private
          */
         _updateGridVisibility: function () {
-            var showGrid = this.element.find('[data-role="id"]').length > 0;
+            var showGrid = this.element.find('[data-role=id]').length > 0;
             this.element.find('.grid-container').toggle(showGrid);
             this.element.find('.no-products-message').toggle(!showGrid);
         }
