@@ -84,6 +84,7 @@
                             .replace('%s',($('<div>').text($optionBox.find('input[name$="[title]"]').val()).html())),
                     autoOpen: false,
                     minWidth: 980,
+                    'class': 'bandle-dialog',
                     modal: true,
                     resizable: true,
                     buttons: [{
@@ -95,14 +96,14 @@
                         text: $.mage.__('Add Selected Products'),
                         'class': 'add',
                         click: function() {
-                            $selectionGrid.find('tbody .massaction-checkbox:checked').closest('tr').each(
+                            $selectionGrid.find('tbody .col-id input:checked').closest('tr').each(
                                 function() {
-                                    bSelection.addRow(optionIndex, {
-                                        name: $(this).find('.col-name').html().trim(),
+                                    window.bSelection.addRow(optionIndex, {
+                                        name: $.trim($(this).find('.col-name').html()),
                                         selection_price_value: 0,
                                         selection_qty: 1,
-                                        sku: $(this).find('.col-sku').html().trim(),
-                                        product_id: $(this).find('.massaction-checkbox').val(),
+                                        sku: $.trim($(this).find('.col-sku').html()),
+                                        product_id: $(this).find('.col-id  input').val(),
                                         option_id: $('bundle_selection_id_' + optionIndex).val()
                                     });
                                 }

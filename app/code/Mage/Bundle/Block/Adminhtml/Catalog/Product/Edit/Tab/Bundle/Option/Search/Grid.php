@@ -30,23 +30,6 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
     }
 
     /**
-     * Prepare grid massaction actions
-     *
-     * @return $this
-     */
-    protected function _prepareMassaction()
-    {
-        $this->setMassactionIdField('assigned_products_id');
-        $this->getMassactionBlock()->setTemplate('Mage_Catalog::product/grid/massaction_extended.phtml')
-            ->setFormFieldName('product')
-            ->addItem('empty', array(
-                'label'=> '',
-                'url'  => $this->getUrl('*/*/*'),
-            ));
-        return $this;
-    }
-
-    /**
      * Prepare grid filter buttons
      */
     protected function _prepareFilterButtons()
@@ -108,6 +91,16 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
      */
     protected function _prepareColumns()
     {
+        $this->addColumn(
+            'id',
+            array(
+                'header' => Mage::helper('Mage_Sales_Helper_Data')->__('ID'),
+                'index' => 'entity_id',
+                'renderer' => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Checkbox',
+                'type' => 'skip-list'
+            )
+        );
+
         $this->addColumn('name', array(
             'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Product Name'),
             'index'     => 'name',
