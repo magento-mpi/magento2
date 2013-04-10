@@ -6,10 +6,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-TranslateInlineIconVdeTest = TestCase('TranslateInlineIconVdeTest');
-TranslateInlineIconVdeTest.prototype.testInit = function() {
+TranslateInlineVdeTest = TestCase('TranslateInlineVdeTest');
+TranslateInlineVdeTest.prototype.testInit = function() {
     /*:DOC += <div data-translate="true">text</div>
-    <script id="translate-inline-icon" type="text/x-jQuery-tmpl">
+    <script data-template="translate-inline-icon" type="text/x-jQuery-tmpl">
         <img src="${img}" height="16" width="16">
     </script>
     */
@@ -17,9 +17,9 @@ TranslateInlineIconVdeTest.prototype.testInit = function() {
     assertTrue(translateInlineVde.is(':mage-translateInlineVde'));
     translateInlineVde.translateInlineVde('destroy');
 };
-TranslateInlineIconVdeTest.prototype.testCreate = function() {
+TranslateInlineVdeTest.prototype.testCreate = function() {
     /*:DOC += <div data-translate="true">text</div>
-    <script id="translate-inline-icon" type="text/x-jQuery-tmpl">
+    <script data-template="translate-inline-icon" type="text/x-jQuery-tmpl">
         <img src="${img}" height="16" width="16">
     </script>
     */
@@ -28,9 +28,9 @@ TranslateInlineIconVdeTest.prototype.testCreate = function() {
     assertEquals(1, jQuery('[data-translate] > img').size());
     translateInlineVde.translateInlineVde('destroy');
 };
-TranslateInlineIconVdeTest.prototype.testHideAndShow = function() {
+TranslateInlineVdeTest.prototype.testHideAndShow = function() {
     /*:DOC += <div data-translate="true">text</div>
-    <script id="translate-inline-icon" type="text/x-jQuery-tmpl">
+    <script data-template="translate-inline-icon" type="text/x-jQuery-tmpl">
         <img src="${img}" height="16" width="16">
     </script>
     */
@@ -47,10 +47,10 @@ TranslateInlineIconVdeTest.prototype.testHideAndShow = function() {
 
     translateInlineVde.translateInlineVde('destroy');
 };
-TranslateInlineIconVdeTest.prototype.testReplaceTextNormal = function() {
+TranslateInlineVdeTest.prototype.testReplaceTextNormal = function() {
     /*:DOC += <div id="translateElem"
       data-translate="[{&quot;shown&quot; : &quot;Some value&quot;, &quot;translated&quot; : &quot;Translated value&quot;}]">text</div>
-    <script id="translate-inline-icon" type="text/x-jQuery-tmpl">
+    <script data-template="translate-inline-icon" type="text/x-jQuery-tmpl">
         <img src="${img}" height="16" width="16">
     </script>
     */
@@ -65,10 +65,10 @@ TranslateInlineIconVdeTest.prototype.testReplaceTextNormal = function() {
 
     translateInlineVde.translateInlineVde('destroy');
 };
-TranslateInlineIconVdeTest.prototype.testReplaceTextNullOrBlank = function() {
+TranslateInlineVdeTest.prototype.testReplaceTextNullOrBlank = function() {
     /*:DOC += <div id="translateElem"
       data-translate="[{&quot;shown&quot; : &quot;Some value&quot;, &quot;translated&quot; : &quot;Translated value&quot;}]">text</div>
-    <script id="translate-inline-icon" type="text/x-jQuery-tmpl">
+    <script data-template="translate-inline-icon" type="text/x-jQuery-tmpl">
         <img src="${img}" height="16" width="16">
     </script>
     */
@@ -97,9 +97,9 @@ TranslateInlineIconVdeTest.prototype.testReplaceTextNullOrBlank = function() {
 
     translateInlineVde.translateInlineVde('destroy');
 };
-TranslateInlineIconVdeTest.prototype.testClick = function() {
+TranslateInlineVdeTest.prototype.testClick = function() {
     /*:DOC += <div id="translateElem" data-translate="[]">text</div>
-    <script id="translate-inline-icon" type="text/x-jQuery-tmpl">
+    <script data-template="translate-inline-icon" type="text/x-jQuery-tmpl">
         <img src="${img}" height="16" width="16">
     </script>
     */
@@ -118,9 +118,9 @@ TranslateInlineIconVdeTest.prototype.testClick = function() {
 
     translateInlineVde.translateInlineVde('destroy');
 };
-TranslateInlineIconVdeTest.prototype.testDblClick = function() {
+TranslateInlineVdeTest.prototype.testDblClick = function() {
     /*:DOC += <div id="translateElem" data-translate="[]">text</div>
-    <script id="translate-inline-icon" type="text/x-jQuery-tmpl">
+    <script data-template="translate-inline-icon" type="text/x-jQuery-tmpl">
         <img src="${img}" height="16" width="16">
     </script>
     */

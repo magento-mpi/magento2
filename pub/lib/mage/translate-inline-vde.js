@@ -69,9 +69,11 @@
         _create: function() {
             this._super();
             // Unbind previously bound events that may be present from previous loads of vde container.
-            parent.jQuery('[data-frame="editor"]')
-                .off('modeChange')
-                .on('modeChange', $.proxy(this._checkTranslateEditing, this));
+            if (parent && parent.jQuery) {
+                parent.jQuery('[data-frame="editor"]')
+                    .off('modeChange')
+                    .on('modeChange', $.proxy(this._checkTranslateEditing, this));
+            }
         },
 
         open: function(e, widget, callback) {
