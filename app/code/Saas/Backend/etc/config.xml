@@ -14,6 +14,7 @@
             <active>false</active>
             <depends>
                 <Mage_Core/>
+                <Mage_Adminhtml/>
             </depends>
         </Saas_Backend>
     </modules>
@@ -29,4 +30,11 @@
             </adminhtml_controller_action_predispatch_start>
         </events>
     </global>
+    <adminhtml>
+        <di>
+            <preferences>
+                <Mage_AdminNotification_Model_System_Message_CacheOutdated>Saas_Backend_Model_System_Message_CacheOutdated</Mage_AdminNotification_Model_System_Message_CacheOutdated>
+            </preferences>
+        </di>
+    </adminhtml>
 </config>
