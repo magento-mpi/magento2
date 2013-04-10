@@ -617,11 +617,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->_filterStockData($productData['stock_data']);
         }
 
-        /**
-         * Websites
-         */
-        if (!isset($productData['website_ids'])) {
-            $productData['website_ids'] = array();
+        foreach (array('category_ids', 'website_ids') as $field) {
+            if (!isset($productData[$field])) {
+                $productData[$field] = array();
+            }
         }
 
         $wasLockedMedia = false;
@@ -758,11 +757,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         $data = $this->getRequest()->getPost();
         if ($data) {
-            // product is not assigned to any category, otherwise getCategoryIds will return previously saved data
-            if (!isset($data['product']['category_ids'])) {
-                $data['product']['category_ids'] = array();
-                $this->getRequest()->setPost($data);
-            }
             $this->_filterStockData($data['product']['stock_data']);
 
             $product = $this->_initProductSave($this->_initProduct());
