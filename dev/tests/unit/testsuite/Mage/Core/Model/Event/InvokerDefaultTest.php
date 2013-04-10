@@ -107,7 +107,7 @@ class Mage_Core_Model_Event_InvokerDefaultTest extends PHPUnit_Framework_TestCas
             ->will($this->returnValue($this->_listenerMock));
         $this->_observerFactoryMock->expects($this->any())->method('get')->with('class_name')
             ->will($this->returnValue($this->_listenerMock));
-        $this->_appStateMock->expects($this->once())->method('isDeveloperMode')->will($this->returnValue(true));
+        $this->_appStateMock->expects($this->once())->method('getMode')->will($this->returnValue('developer'));
 
         $this->_invokerDefault->dispatch(
             array('type' => $type, 'model' => 'class_name', 'method' => 'unknown_method_name'),
@@ -125,7 +125,7 @@ class Mage_Core_Model_Event_InvokerDefaultTest extends PHPUnit_Framework_TestCas
             ->will($this->returnValue($this->_listenerMock));
         $this->_observerFactoryMock->expects($this->any())->method('get')->with('class_name')
             ->will($this->returnValue($this->_listenerMock));
-        $this->_appStateMock->expects($this->once())->method('isDeveloperMode')->will($this->returnValue(false));
+        $this->_appStateMock->expects($this->once())->method('getMode')->will($this->returnValue('NOT_developer'));
 
         $this->_invokerDefault->dispatch(
             array('type' => $type, 'model' => 'class_name', 'method' => 'unknown_method_name'),

@@ -19,6 +19,10 @@ class Enterprise_Queue_Model_Queue_Adapter_GearmanTest extends PHPUnit_Framework
 
     protected function setUp()
     {
+        //Temporary solution. See MAGETWO-8375
+        if (!extension_loaded('gearman')) {
+            $this->markTestSkipped("'Gearman' extension is not loaded");
+        }
         $this->_helperGearmanMock = $this->getMock('Enterprise_Queue_Helper_Gearman', array(), array(), '', false);
         $this->_helperGearmanMock->expects($this->once())->method('getServers')
             ->will($this->returnValue('127.0.0.1:4730'));
