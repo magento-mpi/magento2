@@ -338,6 +338,7 @@ SuggestTest.prototype.testOnSelectItem = function() {
             return false;
         });
 
+    suggestInstance._focused = item;
     suggestInstance._onSelectItem($.Event('select'));
     assertTrue(beforeSelect);
     assertNull(select);
@@ -355,6 +356,7 @@ SuggestTest.prototype.testOnSelectItem = function() {
             return false;
         });
 
+    suggestInstance._focused = item;
     suggestInstance._onSelectItem($.Event('select'));
     assertTrue(beforeSelect);
     assertTrue(select);
@@ -371,7 +373,7 @@ SuggestTest.prototype.testOnSelectItem = function() {
     event.target = this.suggestElement[0];
 
     suggestInstance._onSelectItem(event, item);
-    assertEquals(suggestInstance._focused, item);
+    assertEquals(suggestInstance._selectedItem, item);
 };
 SuggestTest.prototype.testSelectItem = function() {
     var suggestInstance = this.suggestCreate();
@@ -390,6 +392,7 @@ SuggestTest.prototype.testSelectItem = function() {
     assertEquals(suggestInstance._selectedItem, suggestInstance._focused);
     assertEquals(suggestInstance._term, suggestInstance._focused.label);
     assertEquals(suggestInstance.valueField.val(), suggestInstance._focused.id);
+    assertTrue(suggestInstance.dropdown.is(':hidden'));
 
     this.suggestDestroy();
 
@@ -419,6 +422,7 @@ SuggestTest.prototype.testSelectItemMultiselect = function() {
     assertNull(suggestInstance._selectedItem);
     assertNull(suggestInstance._term);
     assertFalse(suggestInstance.valueField.find('option').length > 0);
+    assertTrue(suggestInstance.dropdown.is(':hidden'));
 
     suggestInstance._focused = this.uiHash.item;
     var selectedElement = jQuery('<div></div>');
@@ -430,11 +434,13 @@ SuggestTest.prototype.testSelectItemMultiselect = function() {
     assertEquals(suggestInstance._term, '');
     assertTrue(suggestInstance._getOption(suggestInstance._focused).length > 0);
     assertTrue(selectedElement.hasClass(suggestInstance.options.selectedClass));
+    assertTrue(suggestInstance.dropdown.is(':hidden'));
 
     suggestInstance._selectItem(event);
     assertEquals(suggestInstance._selectedItem, suggestInstance._nonSelectedItem);
     assertFalse(suggestInstance._getOption(suggestInstance._focused).length > 0);
     assertFalse(selectedElement.hasClass(suggestInstance.options.selectedClass));
+    assertTrue(suggestInstance.dropdown.is(':hidden'));
 };
 SuggestTest.prototype.testReadItemData = function() {
     var testElement = jQuery('<div></div>'),
@@ -516,6 +522,13 @@ SuggestTest.prototype.testSearch = function() {
 
     assertNull(suggestInstance._selectedItem);
     assertFalse(searchTriggered);
+
+    suggestInstance.preventBlur = true;
+    suggestInstance.search($.Event('search'));
+
+    assertNull(suggestInstance._selectedItem);
+    assertFalse(searchTriggered);
+    suggestInstance.preventBlur = false;
 
     this.suggestElement.val('test');
     suggestInstance.search($.Event('search'));
