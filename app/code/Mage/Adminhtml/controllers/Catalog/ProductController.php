@@ -758,6 +758,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         $data = $this->getRequest()->getPost();
         if ($data) {
+            // product is not assigned to any category, otherwise getCategoryIds will return previously saved data
+            if (!isset($data['product']['category_ids'])) {
+                $data['product']['category_ids'] = array();
+                $this->getRequest()->setPost($data);
+            }
             $this->_filterStockData($data['product']['stock_data']);
 
             $product = $this->_initProductSave($this->_initProduct());
