@@ -102,19 +102,20 @@ class Enterprise_Search_Model_Resource_Engine
     /**
      * Set search engine adapter
      */
-    public function __construct(Enterprise_Search_Model_AdapterInterface $adapter) {
+    public function __construct(Enterprise_Search_Model_AdapterInterface $adapter)
+    {
         $this->_adapter = $adapter;
         $this->_initAdapter();
     }
 
     /**
-     * Set search resource model
+     * Retrieve search resource model
      *
      * @return string
      */
     public function getResourceName()
     {
-        return 'enterprise_search/advanced';
+        return 'Enterprise_Search_Model_Resource_Advanced';
     }
 
     /**
