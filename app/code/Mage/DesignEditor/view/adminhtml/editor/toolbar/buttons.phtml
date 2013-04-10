@@ -13,7 +13,7 @@
 <a href="<?php echo $this->getHomeLink() ?>" class="logo" title="<?php echo $this->__('Magento Admin Panel') ?>"><span><?php echo $this->__('Magento Admin Panel') ?></span></a>
 
 <div class="switcher" onselectstart="return false;">
-    <input type="checkbox" id="product-online-switcher" name="design-mode" <?php if(!$this->isNavigationMode()): ?> checked="checked"<?php endif; ?>>
+    <input type="checkbox" id="product-online-switcher" data-switcher="vde" name="design-mode" <?php if(!$this->isNavigationMode()): ?> checked="checked"<?php endif; ?>>
     <label class="switcher-label" for="product-online-switcher" data-mage-init="<?php echo $this->getSwitchModeButtonInitData() ?>" data-text-on="<?php echo $this->__('Design Mode'); ?>" data-text-off="<?php echo $this->__('Design Mode'); ?>" title="<?php echo $this->__('Design Mode status'); ?>"></label>
 </div>
 

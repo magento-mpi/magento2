@@ -51,7 +51,7 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     public function match(Mage_Core_Controller_Request_Http $request)
     {
         // if URL has VDE prefix
-        if (!$this->_isVdeRequest($request)) {
+        if (!$this->_objectManager->get('Mage_DesignEditor_Helper_Data')->isVdeRequest($request)) {
             return null;
         }
 
@@ -83,20 +83,10 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
             }
         }
 
-        return $controller;
-    }
+        // set inline translation mode
+        $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->setTranslationMode($request);
 
-    /**
-     * Check if URL has vde prefix
-     *
-     * @param Mage_Core_Controller_Request_Http $request
-     * @return bool
-     */
-    protected function _isVdeRequest(Mage_Core_Controller_Request_Http $request)
-    {
-        $url = trim($request->getOriginalPathInfo(), '/');
-        $vdeFrontName = $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->getFrontName();
-        return $url == $vdeFrontName || strpos($url, $vdeFrontName . '/') === 0;
+        return $controller;
     }
 
     /**

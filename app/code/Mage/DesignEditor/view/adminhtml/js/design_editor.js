@@ -20,6 +20,7 @@
     $.widget('vde.vde_panel', {
         options: {
             switchModeEvent: 'switchMode',
+            continueSwitchModeEvent: 'continueSwitchMode',
             loadEvent: 'loaded',
             saveEvent: 'save',
             saveAndAssignEvent: 'save-and-assign',
@@ -51,6 +52,9 @@
             });
             $body.on(this.options.saveEvent, $.proxy(this._onSave, this));
             $body.on(this.options.saveAndAssignEvent, $.proxy(this._onSaveAndAssign, this));
+
+            $('[data-frame="editor"]')
+                .on(this.options.continueSwitchModeEvent, $.proxy(this._continueSwitchMode, this));
         },
 
         _initCells : function() {
@@ -72,12 +76,29 @@
         },
 
         /**
-         * Switch mode event handler
+         * Switch mode event handler.
+         * Fire an event to determine if inline translation text is being edited.
          * @protected
          */
         _onSwitchMode: function(event, data) {
+            data.next_action = this.options.continueSwitchModeEvent;
+            data.alert_message = "To switch to the Navigation mode, please save or revert your current text edits."
+            $('[data-frame="editor"]').trigger('modeChange', data);
+
+            if (data.is_being_edited) {
+                // Stop the toggle of the switcher.
+                $('[data-switcher="vde"]').prop('checked', false);
+            }
+        },
+
+        /**
+         * Switch mode event handler.
+         * Passed inline translation validation.  Continue on with switching modes.
+         * @protected
+         */
+        _continueSwitchMode: function(event, data) {
             if ('save_changes_url' in data) {
-                this.saveTemporaryLayoutChanges(data.theme_id, data.save_changes_url, data.mode_url)
+                this.saveTemporaryLayoutChanges(data.theme_id, data.save_changes_url, data.mode_url);
             } else {
                 document.location = data.mode_url;
             }

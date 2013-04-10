@@ -561,12 +561,10 @@ class Mage_Core_Model_Locale implements Mage_Core_Model_LocaleInterface
             if ($separatorComa > $separatorDot) {
                 $value = str_replace('.', '', $value);
                 $value = str_replace(',', '.', $value);
-            }
-            else {
+            } else {
                 $value = str_replace(',', '', $value);
             }
-        }
-        elseif ($separatorComa !== false) {
+        } elseif ($separatorComa !== false) {
             $value = str_replace(',', '.', $value);
         }
 
@@ -635,9 +633,12 @@ class Mage_Core_Model_Locale implements Mage_Core_Model_LocaleInterface
             $this->_emulatedLocales[] = clone $this->getLocale();
             $this->_locale = new Zend_Locale(Mage::getStoreConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId));
             $this->_localeCode = $this->_locale->toString();
-            Mage::getSingleton('Mage_Core_Model_Translate')->setLocale($this->_localeCode)->init('frontend', true);
-        }
-        else {
+
+            /** @var $app Mage_Core_Model_App */
+            $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
+            Mage::getObjectManager()->get('Mage_Core_Helper_Translate')
+                ->initTranslate($this->_localeCode, Mage_Core_Model_App_Area::AREA_FRONTEND, true);
+        } else {
             $this->_emulatedLocales[] = false;
         }
     }
@@ -652,7 +653,11 @@ class Mage_Core_Model_Locale implements Mage_Core_Model_LocaleInterface
         if ($locale) {
             $this->_locale = $locale;
             $this->_localeCode = $this->_locale->toString();
-            Mage::getSingleton('Mage_Core_Model_Translate')->setLocale($this->_localeCode)->init('adminhtml', true);
+
+            /** @var $app Mage_Core_Model_App */
+            $app = Mage::getObjectManager()->get('Mage_Core_Model_App');
+            Mage::getObjectManager()->get('Mage_Core_Helper_Translate')
+                ->initTranslate($this->_localeCode, Mage_Core_Model_App_Area::AREA_ADMINHTML, true);
         }
     }
 
@@ -683,10 +688,10 @@ class Mage_Core_Model_Locale implements Mage_Core_Model_LocaleInterface
         return $this->getLocale()->getTranslation($value, $path, $this->getLocale());
     }
 
-/**
+    /**
      * Returns the localized country name
      *
-     * @param  string             $value  Name to get detailed information about
+     * @param  $value string Name to get detailed information about
      * @return array
      */
     public function getCountryTranslation($value)
@@ -728,13 +733,10 @@ class Mage_Core_Model_Locale implements Mage_Core_Model_LocaleInterface
 
         $result = false;
         if (!is_empty_date($dateFrom) && $storeTimeStamp < $fromTimeStamp) {
-        }
-        elseif (!is_empty_date($dateTo) && $storeTimeStamp > $toTimeStamp) {
-        }
-        else {
+        } elseif (!is_empty_date($dateTo) && $storeTimeStamp > $toTimeStamp) {
+        } else {
             $result = true;
         }
-
         return $result;
     }
 }
