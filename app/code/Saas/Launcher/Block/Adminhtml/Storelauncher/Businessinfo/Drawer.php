@@ -227,17 +227,21 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
             'value' => $addressData['city']
         ));
 
-        $countryId = isset($addressData['country_id']) ? $addressData['country_id'] : 'US';
-        $regionCollection = $this->_regionModel->getCollection()->addCountryFilter($countryId);
-        $regions = $regionCollection->toOptionArray();
-        if (!empty($regions)) {
-            $businessAddress->addField('region_id', 'select', array(
-                'name' => 'region_id',
-                'label' => $helper->__('State/Region'),
-                'values' => $regions,
-                'value' => $addressData['region_id'],
-            ));
-        } else {
+        $isRegionFieldText = true;
+        if ($addressData['country_id']) {
+            $regionCollection = $this->_regionModel->getCollection()->addCountryFilter($addressData['country_id']);
+            $regions = $regionCollection->toOptionArray();
+            if (!empty($regions)) {
+                $businessAddress->addField('region_id', 'select', array(
+                    'name' => 'region_id',
+                    'label' => $helper->__('State/Region'),
+                    'values' => $regions,
+                    'value' => $addressData['region_id'],
+                ));
+                $isRegionFieldText = false;
+            }
+        }
+        if ($isRegionFieldText) {
             $businessAddress->addField('region_id', 'text', array(
                 'name' => 'region_id',
                 'label' => $helper->__('State/Region'),
