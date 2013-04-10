@@ -14,7 +14,6 @@
         <Saas_Queue>
             <version>2.0.0.0</version>
             <active>false</active>
-            <codePool>core</codePool>
             <depends>
                 <Enterprise_Queue/>
             </depends>
@@ -56,6 +55,18 @@
                     </saas_queue>
                 </observers>
             </application_process_refresh_cache>
+            <application_process_refresh_catalog>
+                <observers>
+                    <saas_queue>
+                        <asynchronous>true</asynchronous>
+                        <class>Saas_Queue_Model_Observer_Catalog</class>
+                        <method>processRefreshCatalog</method>
+                        <params>
+                            <task_name>refresh_catalog</task_name>
+                        </params>
+                    </saas_queue>
+                </observers>
+            </application_process_refresh_catalog>
             <application_process_reinit_config>
                 <observers>
                     <reinit_config_observer>

@@ -15,6 +15,13 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
     protected $_authorizationModel;
 
     /**
+     * Event manager model
+     *
+     * @var Mage_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
+
+    /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Controller_Response_Http $response
      * @param Magento_ObjectManager $objectManager
@@ -31,6 +38,7 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Layout_Factory $layoutFactory,
         Mage_Core_Model_Authorization $authorizationModel,
+        Mage_Core_Model_Event_Manager $eventManager,
         $areaCode = null,
         array $invokeArgs = array()
     ) {
@@ -38,6 +46,7 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
             $invokeArgs
         );
         $this->_authorizationModel = $authorizationModel;
+        $this->_eventManager = $eventManager;
     }
 
     /**
@@ -58,7 +67,10 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
         if (!$this->getRequest()->isAjax()) {
             return $this->_redirect('*/*/index');
         }
-//      TODO: put task into queue
+
+        /** @var $eventManager Mage_Core_Model_Event_Manager */
+        $this->_eventManager->dispatch('application_process_refresh_catalog');
+
         $this->_endAjax(array(
             'error'       => false,
             'message'     => '', //here you can add error message if needed
