@@ -39,6 +39,7 @@ dev/tests/integration/testsuite/Enterprise/Rma
 dev/tests/integration/testsuite/Enterprise/TargetRule
 dev/tests/integration/testsuite/Enterprise/Wishlist
 dev/tests/integration/testsuite/Mage/Authorizenet
+dev/tests/integration/testsuite/Mage/Connect
 dev/tests/integration/testsuite/Mage/PageCache
 dev/tests/integration/testsuite/Mage/Webapi
 dev/tests/integration/testsuite/Phoenix
