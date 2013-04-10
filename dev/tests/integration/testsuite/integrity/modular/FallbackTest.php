@@ -10,12 +10,12 @@
 
 /**
  * This test finds usages of modular view files, searched in non-modular context - it is obsolete and buggy
- * functionality, introduced in Magento 2.
+ * functionality, initially introduced in Magento 2.
  *
  * The test goes through modular calls of view files, and finds out, whether there are theme non-modular files
  * with the same path. Before fixing the bug, such call return theme files instead of  modular files, which is
  * incorrect. After fixing the bug, such calls will start returning modular files, which is not a file we got used
- * to see, so such cases are probably should be fixed.
+ * to see, so such cases are probably should be fixed. The test finds such suspicious places.
  *
  * The test is intended to be deleted before Magento 2 release. With the release, having non-modular files with the
  * same paths as modular ones, is legitimate.
@@ -46,7 +46,6 @@ class Integrity_Modular_FallbackTest extends PHPUnit_Framework_TestCase
         $localeModel = new Zend_Locale;
         self::$_locales = array_keys($localeModel->getLocaleList());
         self::$_locales[] = null;
-        self::$_locales = array(null);// FIXME
 
         // Themes to be checked
         /** @var $themeCollection Mage_Core_Model_Theme_Collection */
@@ -99,7 +98,7 @@ class Integrity_Modular_FallbackTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Resolves file to find its paths, how it can be resolved
+     * Resolves file to find its fallback'ed paths
      *
      * @param Mage_Core_Model_Theme $theme
      * @param string $locale
@@ -151,16 +150,16 @@ class Integrity_Modular_FallbackTest extends PHPUnit_Framework_TestCase
             $area = self::_getArea($file);
 
             foreach ($matches[0] as $modularCall) {
-                $key = $modularCall . ' @ ' . ($area ?: 'any area');
+                $dataSetKey = $modularCall . ' @ ' . ($area ?: 'any area');
 
-                if (!isset($result[$key])) {
-                    $result[$key] = array(
+                if (!isset($result[$dataSetKey])) {
+                    $result[$dataSetKey] = array(
                         'modularCall' => $modularCall,
                         'usages' => array(),
                         'area' => $area
                     );
                 }
-                $result[$key]['usages'][$file] = $file;
+                $result[$dataSetKey]['usages'][$file] = $file;
             }
         }
         return $result;
