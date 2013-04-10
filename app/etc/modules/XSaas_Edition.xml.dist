@@ -32,6 +32,7 @@
         <Enterprise_Search><active>true</active></Enterprise_Search>
         <Mage_Connect><active>false</active></Mage_Connect>
         <Mage_Oauth><active>false</active></Mage_Oauth>
+        <Mage_Downloadable><active>false</active></Mage_Downloadable>
         <Mage_Webapi><active>false</active></Mage_Webapi>
         <Saas_Backend><active>true</active></Saas_Backend>
         <Saas_Core><active>true</active></Saas_Core>
