@@ -12,7 +12,7 @@
 #Log in to Admin Panel page
 log_in_to_admin:
     mca:
-    title: Log into Magento Go Admin Page
+    title: Log into Magento Admin Page
     uimap: &adminUimap
         form: &logInPanel
             fieldsets:
