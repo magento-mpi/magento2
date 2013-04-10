@@ -97,7 +97,6 @@ ini_set('include_path', ini_get('include_path')
 require_once __DIR__ . '/config.inc.php';
 require_once __DIR__ . '/MultyGetopt.php';
 require_once 'Varien/File/CsvMulty.php';
-require_once 'Varien/Directory/Collection.php';
 require_once __DIR__ . '/CTranslate.php';
 
 require_once 'Varien/Simplexml/Config.php';
