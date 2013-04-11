@@ -58,8 +58,8 @@ TranslateInlineDialogVdeTest.prototype.testOpenAndClose = function() {
     */
     var options = {
       textTranslations: jQuery('[data-translate-mode="text"]'),
-      imageTranslations: jQuery('[data-translate-mode="text"]'),
-      scriptTranslations: jQuery('[data-translate-mode="text"]')
+      imageTranslations: jQuery('[data-translate-mode="alt"]'),
+      scriptTranslations: jQuery('[data-translate-mode="script"]')
     };
 
     var translateInlineDialogVde = jQuery('#translate-dialog').translateInlineDialogVde(options);
