@@ -351,7 +351,7 @@ create_order_for_new_customer:
                             option_field_4: //tr[td='%optionParameter%']//input[@type='text']
                             option_field_5: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//textarea
                         dropdowns:
-                            option_dropdown_1: //div[contains(label,'%optionTitle%')]//select[contains(@name,'%optionParameter%')]
+                            option_dropdown_1: //dd[div[@class='input-box']]//select[not(contains(@class,'multiselect'))]
                             option_dropdown_2: //div[contains(label,'%optionTitle%')]//select
                         multiselects:
                             option_multiselect: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@class,'multiselect')]

@@ -152,6 +152,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      */
     public function withCustomOptions($productType, $order)
     {
+        $this->markTestIncomplete('MAGETWO-9088');
         //Data
         $customOption = $this->loadDataSet('Product', 'custom_options_data');
         $orderCustomOption = $this->loadDataSet('SalesOrder', 'config_option_custom_options');
