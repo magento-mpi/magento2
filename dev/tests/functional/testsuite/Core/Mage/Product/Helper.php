@@ -179,8 +179,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $index = 0;
         /** @var PHPUnit_Extensions_Selenium2TestCase_Element $tierPrice */
         foreach ($tierPrices as $tierPrice) {
-            $price = $this->getChildElement($tierPrice, 'span[@class="price"]')->text();
-            $price = preg_replace('/^[\D]+/', '', floatval($price));
+            $price = trim($this->getChildElement($tierPrice, 'span[@class="price"]')->text());
+            $price = floatval(preg_replace('/^[\D]+/', '', $price));
             $text = $tierPrice->text();
             list($qty) = explode($price, $text);
             $qty = preg_replace('/[^0-9]+/', '', $qty);
@@ -200,7 +200,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $priceData = $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'product_prices', 'text');
         if (!preg_match('/' . preg_quote("\n") . '/', $priceData)) {
-            return array('general_price' => floatval(trim(preg_replace('/^[^\d]+/', '', $priceData))));
+            return array('general_price' => floatval(preg_replace('/^[\D]+/', '', $priceData)));
         }
         $priceData = explode("\n", $priceData);
         $additionalName = array();
