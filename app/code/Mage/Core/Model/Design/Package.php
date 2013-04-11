@@ -100,24 +100,34 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     protected $_storeManager;
 
     /**
+     * Configuration writer
+     *
+     * @var Mage_Core_Model_Config_Storage_WriterInterface
+     */
+    protected $_configWriter;
+
+    /**
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool
      * @param Mage_Core_Model_App_State $appState
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
      */
     public function __construct(
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool,
         Mage_Core_Model_App_State $appState,
-        Mage_Core_Model_StoreManagerInterface $storeManager
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Mage_Core_Model_Config_Storage_WriterInterface $configWriter
     ) {
         $this->_moduleReader = $moduleReader;
         $this->_filesystem = $filesystem;
         $this->_resolutionPool = $resolutionPool;
         $this->_appState = $appState;
         $this->_storeManager = $storeManager;
+        $this->_configWriter = $configWriter;
     }
 
     /**
@@ -198,6 +208,8 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * Get default theme which declared in configuration
      *
+     * Write default theme to core_config_data
+     *
      * @param string $area
      * @param array $params
      * @return string|int
@@ -209,16 +221,56 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         }
         $store = isset($params['store']) ? $params['store'] : null;
 
-        $theme = null;
         if ($this->_isThemePerStoveView($area)) {
             if ($this->_storeManager->isSingleStoreMode()) {
-                $theme = (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME_ID);
+                /** @var $config Mage_Core_Model_Config */
+                $config = Mage::getSingleton('Mage_Core_Model_Config');
+                $value = $config->getNode('default/' . self::XML_PATH_THEME_ID);
+                $hasNoTheme = $value instanceof Mage_Core_Model_Config_Element && (string)$value === '';
+                $hasNoValue = !(string)$value;
+
+                if ($hasNoTheme) {
+                    $theme = null;
+                } elseif ($hasNoValue) {
+                    $defaultTheme = (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
+                    if (Mage::isInstalled()) {
+                        $this->_configWriter->save(
+                            self::XML_PATH_THEME_ID,
+                            $this->_getLoadDesignTheme($defaultTheme, $area)->getId(),
+                            Mage_Core_Model_Config::SCOPE_DEFAULT,
+                            0
+                        );
+                    }
+                    $theme = $defaultTheme;
+                } else {
+                    $theme = (string)$value;
+                }
             } else {
-                $theme = Mage::getStoreConfig(self::XML_PATH_THEME_ID, $store);
+                $value = Mage::getStoreConfig(self::XML_PATH_THEME_ID, $store);
+                $hasNoTheme = $value === '';
+                $hasNoValue = $value === NULL;
+                if ($hasNoTheme) {
+                    $theme = null;
+                } elseif ($hasNoValue) {
+                    $defaultTheme = (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
+                    if (Mage::isInstalled()) {
+                        $this->_configWriter->save(
+                            self::XML_PATH_THEME_ID,
+                            $this->_getLoadDesignTheme($defaultTheme, $area)->getId(),
+                            Mage_Core_Model_Config::SCOPE_STORES,
+                            $store
+                        );
+                    }
+                    $theme = $defaultTheme;
+                } else {
+                    $theme = $value;
+                }
             }
+        } else {
+            $theme = (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
         }
 
-        return $theme ?: (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
+        return $theme;
     }
 
     /**
@@ -230,6 +282,16 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     private function _isThemePerStoveView($area)
     {
         return $area == self::DEFAULT_AREA;
+    }
+
+    /**
+     * Get default theme form config file
+     *
+     * @return string
+     */
+    protected function _getDefaultTheme()
+    {
+
     }
 
     /**

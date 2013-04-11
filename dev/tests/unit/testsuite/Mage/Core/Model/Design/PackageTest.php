@@ -62,11 +62,12 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             false);
         $appState = new Mage_Core_Model_App_State(Mage_Core_Model_App_State::MODE_PRODUCTION);
         $storeManager = $this->getMock('Mage_Core_Model_StoreManagerInterface');
+        $configWriter = $this->getMock('Mage_Core_Model_Config_Storage_WriterInterface');
 
         // Create model to be tested
         $expected = 'http://example.com/public_dir/a/t/m/file.js';
         $model = $this->getMock('Mage_Core_Model_Design_Package', array('getPublicDir', 'getPublicFileUrl'),
-            array($moduleReader, $filesystem, $resolutionPool, $appState, $storeManager));
+            array($moduleReader, $filesystem, $resolutionPool, $appState, $storeManager, $configWriter));
         $model->expects($this->once())
             ->method('getPublicDir')
             ->will($this->returnValue('public_dir'));
@@ -133,9 +134,10 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         $resolutionPool = $this->getMock('Mage_Core_Model_Design_FileResolution_StrategyPool', array(), array(), '',
             false);
         $storeManager = $this->getMock('Mage_Core_Model_StoreManagerInterface');
+        $configWriter = $this->getMock('Mage_Core_Model_Config_Storage_WriterInterface');
 
         $model = new Mage_Core_Model_Design_Package(
-            $moduleReader, $filesystem, $resolutionPool, $appState, $storeManager
+            $moduleReader, $filesystem, $resolutionPool, $appState, $storeManager, $configWriter
         );
         $actual = $model->isMergingViewFilesAllowed();
         $this->assertEquals($expected, $actual);
