@@ -26,9 +26,9 @@ class Mage_Wishlist_Block_Customer_Sharing extends Mage_Core_Block_Template
     protected $_enteredData = null;
 
     /**
-     * Number of emails allowed for sharing
+     * Wishlist configuration
      *
-     * @var int
+     * @var Mage_Wishlist_Model_Config
      */
     protected $_wishlistConfig;
 
