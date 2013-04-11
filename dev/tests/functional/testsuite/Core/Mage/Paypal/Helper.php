@@ -67,7 +67,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
             $this->getControlElement('button', 'login')->click();
             $this->waitForWindowToClose();
             $this->validatePage();
-            $this->waitForElement($this->_getControlXpath('button', 'logout'));
+            $this->waitForControlVisible('button', 'logout');
         }
         $result = $this->errorMessage();
         $this->assertFalse($result['success'], $this->getMessagesOnPage());
@@ -86,7 +86,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
             $parameters = $this->loadDataSet('Paypal', $parameters);
         }
         $this->navigate('paypal_developer_create_account');
-        $this->fillForm($parameters);
+        $this->fillFieldset($parameters, 'create_test_account_form');
         $this->clickButton('create_account');
         $this->validatePage();
         $this->assertMessagePresent('success', 'success_created_account');
@@ -134,7 +134,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
         $apiCredentials = array();
 
         $keys = array('api_username','api_password', 'api_signature');
-        foreach($keys as $key => $value) {
+        foreach($keys as $value) {
             $apiCredentials[$value] =
                 $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, $value, 'text');
         }

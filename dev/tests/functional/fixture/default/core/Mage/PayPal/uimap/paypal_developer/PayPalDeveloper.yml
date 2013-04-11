@@ -20,7 +20,7 @@ paypal_developer_home:
                         buttons:
                             login_with_paypal: //a[contains(@class, 'ppAccess-login')]
                             logout: //a[text()='Log out']
-                #Login popup
+                #PayPal Login popup
                 -
                     login_form:
                         xpath: //form
