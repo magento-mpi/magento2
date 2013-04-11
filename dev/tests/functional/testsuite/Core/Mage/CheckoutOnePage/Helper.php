@@ -593,6 +593,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
     {
         $agreements = (isset($checkoutData['agreement'])) ? $checkoutData['agreement'] : array();
         foreach ($agreements as $agreement) {
+            $this->markTestIncomplete('MAGETWO-9011');
             $id = isset($agreement['agreement_id']) ? $agreement['agreement_id'] : null;
             $this->addParameter('termsId', $id);
             $this->fillCheckbox('agreement_select', $agreement['agreement_select']);
