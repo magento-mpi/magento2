@@ -100,6 +100,7 @@ jQuery(function($) {
     var Autogenerator = function(masks) {
         this._masks = masks || {};
         this._fieldReverseIndex = this._buildReverseIndex(this._masks);
+        this.form = $('#product-edit-form, #drawer-form');
     };
 
     $.extend(Autogenerator.prototype, {
@@ -113,16 +114,23 @@ jQuery(function($) {
             var elementSelector = _(this._masks).keys().map(function(key) {
                 return '#' + key;
             }).join(',')
-            $("#product_info_tabs").on("tabscreate", $.proxy(function(event, ui) {
-                $('#product-edit-form').on(
-                    'focus blur change keyup click',
+            var disabler = function() {
+                this.form.on(
+                    'change init',
                     elementSelector,
                     $.proxy(function(event) {
-                        var $element = $(event.currentTarget);
+                        var $element = $(event.target);
+                        if (event.type == 'init' && $element.data('disablerInited')) {
+                            return;
+                        } else {
+                            $element.data('disablerInited', true);
+                        }
                         $element.data(this.data.disabled, $element.val().replace(/\s/g, '') != '');
                     }, this)
-                ).find(elementSelector).trigger('change');
-            }, this));
+                ).find(elementSelector).trigger('init');
+            };
+            disabler.call(this);
+            $("#product_info_tabs").on("tabscreate tabsactivate", $.proxy(disabler, this));
 
             $.each(this._masks, function(field, mask) {
                 var $field = $('#' + field);
@@ -147,14 +155,12 @@ jQuery(function($) {
                             return $('#' + maskfieldName.slice(2, -2)).val();
                         });
                         $el.val(value);
-
                     });
                 };
                 if ($field.length) {
-                    $('#product-edit-form').on(events || 'keyup change blur click paste', '#' + field, filler);
+                    self.form.on('keyup change blur click paste', '#' + field, filler);
                     $field.trigger('change');
                 }
-
             });
         },
         _buildReverseIndex: function(masks) {
