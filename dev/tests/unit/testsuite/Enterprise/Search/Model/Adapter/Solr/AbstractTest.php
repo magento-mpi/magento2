@@ -12,45 +12,14 @@
 class Enterprise_Search_Model_Adapter_Solr_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Enterprise_Search_Model_Adapter_Solr_Abstract
-     */
-    protected $_model;
-
-    /**
-     * @var Mage_Catalog_Model_Resource_Eav_Attribute
-     */
-    protected $_attribute;
-
-    protected function setUp()
-    {
-        $this->_model = $this->getMockForAbstractClass('Enterprise_Search_Model_Adapter_Solr_Abstract');
-
-        $attributeClass = 'Mage_Catalog_Model_Resource_Eav_Attribute';
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments(
-            Magento_Test_Helper_ObjectManager::MODEL_ENTITY,
-            $attributeClass
-        );
-        $this->_attribute = $this->getMock($attributeClass, array('_init'), $arguments);
-    }
-
-    /**
-     * Check Sku processing by getSearchEngineFieldName method with default target
-     */
-    public function testGetSearchEngineFieldNameSkuTargetDefault()
-    {
-        $this->_attribute->setAttributeCode('sku');
-        $fieldName = $this->_model->getSearchEngineFieldName($this->_attribute);
-        $this->assertEquals($fieldName, 'sku');
-    }
-
-    /**
      * Check Sku processing by getSearchEngineFieldName method with sort target
      */
-    public function testGetSearchEngineFieldNameSkuTargetSort()
+    public function testGetSearchEngineFieldName()
     {
-        $this->_attribute->setAttributeCode('sku');
-        $fieldName = $this->_model->getSearchEngineFieldName($this->_attribute, 'sort');
-        $this->assertEquals($fieldName, 'attr_sort_sku');
+        $sku = new Varien_Object(array('attribute_code' => 'sku'));
+        /** @var $model Enterprise_Search_Model_Adapter_Solr_Abstract */
+        $model = $this->getMockForAbstractClass('Enterprise_Search_Model_Adapter_Solr_Abstract');
+        $this->assertEquals('sku', $model->getSearchEngineFieldName($sku, 'sku'));
+        $this->assertEquals('attr_sort_sku', $model->getSearchEngineFieldName($sku, 'sort'));
     }
 }
