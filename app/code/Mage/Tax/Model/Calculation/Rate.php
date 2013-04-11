@@ -55,7 +55,8 @@ class Mage_Tax_Model_Calculation_Rate extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         if ($this->getCode() === '' || $this->getTaxCountryId() === '' || $this->getRate() === ''
-            || $this->getZipIsRange() && ($this->getZipFrom() === '' || $this->getZipTo() === '')
+            || $this->getZipIsRange() || $this->getTaxPostcode() === ''
+            && ($this->getZipFrom() === '' || $this->getZipTo() === '')
         ) {
             Mage::throwException(Mage::helper('Mage_Tax_Helper_Data')->__('Please fill all required fields with valid information.'));
         }
