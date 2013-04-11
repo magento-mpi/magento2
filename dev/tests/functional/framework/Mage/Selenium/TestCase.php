@@ -1157,8 +1157,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             } else {
                 $error = '"' . $message . '" message(s) is on the page.';
             }
-            if ($result['found']) {
-                $error .= "\n" . $result['found'];
+            $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
+            if ($messagesOnPage) {
+                $error .= "\n" . $messagesOnPage;
             }
             $this->fail($error);
         }
@@ -1861,10 +1862,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 break;
         }
 
-        if (is_null($elementValue)) {
-            $this->fail("$controlType with name '$controlName' and locator '$locator'"
-                . " is not contains attribute '$attribute'");
-        }
         if (is_array($elementValue)) {
             $elementValue = array_map('trim', $elementValue);
         } elseif (!is_bool($elementValue)) {
@@ -2617,13 +2614,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-            if ($this->alertIsPresent()) {
-                return true;
+            try {
+                if ($this->alertIsPresent()) {
+                    return true;
+                }
+                if ($this->elementIsPresent($locator)) {
+                    return true;
+                }
+                usleep(500000);
+            } catch (RuntimeException $e) {
             }
-            if ($this->elementIsPresent($locator)) {
-                return true;
-            }
-            usleep(500000);
         }
         $this->assertEmptyPageErrors();
         throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);
@@ -4380,6 +4380,27 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 }
             },
             $timeout * 1000
+        );
+    }
+
+    /**
+    * Wait till window will close
+    *
+    * @param int $timeout
+    * @return bool
+    */
+    public function waitForWindowToClose($countBeforeClose = 2, $timeout = null)
+    {
+        if (is_null($timeout)) {
+            $timeout = $this->_browserTimeout;
+        }
+        $this->waitUntil(function ($testCase) use ($countBeforeClose) {
+                /** @var Mage_Selenium_TestCase $testCase */
+                if (count($testCase->windowHandles()) != $countBeforeClose) {
+                    $testCase->window('');
+                    return true;
+                }
+            }, $timeout * 1000
         );
     }
 }
