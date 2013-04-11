@@ -377,12 +377,12 @@
                 value = "&nbsp;";
             }
 
-            innerHtmlStr =  innerHtmlStr.replace(translateData[index]["shown"], value);
+            innerHtmlStr =  innerHtmlStr.replace(translateData[index].shown, value);
 
             this.element.html(innerHtmlStr);
 
-            translateData[index]["shown"] = value;
-            translateData[index]["translated"] = value;
+            translateData[index].shown = value;
+            translateData[index].translated = value;
             this.element.data(this.options.dataAttrName, translateData);
         },
 
