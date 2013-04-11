@@ -204,7 +204,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      */
     public function withBundleProduct($productType, $order, $testData)
     {
-//        $this->markTestIncomplete('MAGETWO-8962');
+        $this->markTestIncomplete('MAGETWO-9149');
         //Order Data
         $multiSelect = $this->loadDataSet('SalesOrder', 'configure_field_multiselect',
                                           array('fieldsValue' => $testData[$productType . '_name']));

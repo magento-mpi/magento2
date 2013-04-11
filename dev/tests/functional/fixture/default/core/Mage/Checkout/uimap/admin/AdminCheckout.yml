@@ -349,7 +349,7 @@ create_order_for_new_customer:
                             option_field_2: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//input[@type='text']
                             option_field_3: //dt[contains(label,'%optionTitle%')]//input[@type='text']
                             option_field_4: //tr[td='%optionParameter%']//input[@type='text']
-                            option_field_5: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//textarea
+                            option_field_5: //*[@id='product_composite_configure_input_qty']
                         dropdowns:
                             option_dropdown_1: //dd[div[@class='input-box']]//select[not(contains(@class,'multiselect'))]
                             option_dropdown_2: //div[contains(label,'%optionTitle%')]//select
