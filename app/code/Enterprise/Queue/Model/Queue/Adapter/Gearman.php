@@ -21,12 +21,17 @@ class Enterprise_Queue_Model_Queue_Adapter_Gearman implements Enterprise_Queue_M
 
     /**
      * @param Enterprise_Queue_Helper_Gearman $helperGearman
+     * @param GearmanClient|null $client
      */
-    public function __construct(Enterprise_Queue_Helper_Gearman $helperGearman)
+    public function __construct(Enterprise_Queue_Helper_Gearman $helperGearman, GearmanClient $client = null)
     {
         $this->_helperGearman = $helperGearman;
 
-        $this->_initClient();
+        if (!$client) {
+            $client = new GearmanClient();
+        }
+        $client->addServers($this->_helperGearman->getServers());
+        $this->_client = $client;
     }
 
     /**
@@ -42,14 +47,5 @@ class Enterprise_Queue_Model_Queue_Adapter_Gearman implements Enterprise_Queue_M
         $this->_client->doBackground($eventName, $this->_helperGearman->encodeData($data));
 
         return $this;
-    }
-
-    /**
-     * Init gearman client
-     */
-    protected function _initClient()
-    {
-        $this->_client = new GearmanClient();
-        $this->_client->addServers($this->_helperGearman->getServers());
     }
 }
