@@ -84,7 +84,7 @@
                             .replace('%s',($('<div>').text($optionBox.find('input[name$="[title]"]').val()).html())),
                     autoOpen: false,
                     minWidth: 980,
-                    'class': 'bandle-dialog',
+                    'class': 'bundle',
                     modal: true,
                     resizable: true,
                     buttons: [{
@@ -94,7 +94,7 @@
                         }
                     }, {
                         text: $.mage.__('Add Selected Products'),
-                        'class': 'add',
+                        'class': 'add primary',
                         click: function() {
                             $selectionGrid.find('tbody .col-id input:checked').closest('tr').each(
                                 function() {
