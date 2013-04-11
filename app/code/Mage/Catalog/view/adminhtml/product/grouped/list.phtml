@@ -9,7 +9,7 @@
  */
 /* @var $this Mage_Catalog_Block_Product_Grouped_AssociatedProducts_List */
 ?>
-<script type="text/jqury-template" id="group-product-template">
+<script type="text/jquery-template" id="group-product-template">
 <tr title="#" class="pointer" data-role="row">
     <td data-column="info" class="col-draggable col-info">
         <span class="draggable-handle"></span>
@@ -44,16 +44,16 @@
                     <span></span>
                 </th>
                 <th data-column="name" class="no-link col-name">
-                    <span>Name</span>
+                    <span><?php echo $this->__('Name') ?></span>
                 </th>
                 <th data-column="sku" class="no-link col-sku">
-                    <span>SKU</span>
+                    <span><?php echo $this->__('SKU') ?></span>
                 </th>
                 <th data-column="price" class="no-link col-price">
-                    <span>Price</span>
-                </th>
+                    <span><?php echo $this->__('Price') ?></span>
+                    </th>
                 <th data-column="qty" class="no-link col-qty">
-                    <span>Default Qty</span>
+                    <span><?php echo $this->__('Default Qty') ?></span>
                 </th>
                 <th data-column="actions" class="last no-link col-actions">
                     <span></span>
