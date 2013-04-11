@@ -285,12 +285,12 @@ new_product:
                                         add_products_to_group: //button[@data-role='add-product']
                                         remove_product_from_group: //tr[td[normalize-space(text())='%productSku%']]//button[text()='Delete']
                                     fields:
-                                        associated_product_default_qty: //tr[td[normalize-space(text())='%productSku%']]//input[@name='qty']
+                                        associated_product_default_qty: //tr[td[normalize-space(text())='%productSku%']]//td[@data-column='qty']/input
                                     links:
-                                        move_grouped_product: //tr[td[normalize-space(text())='%productSku%']]//*[@class='ui-icon ui-icon-grip-dotted-vertical']
+                                        move_grouped_product: //tr[td[normalize-space(text())='%productSku%']]//*[@class='draggable-handle']
                                     pageelements:
-                                        selected_grouped_product: //tr[td[normalize-space(text())='%productSku%']]
                                         grouped_assigned_products: //tr[not(contains(@style,'display: none;'))]/td[@data-column='sku']
+                                        selected_grouped_product: //tr[td[normalize-space(text())='%productSku%']]
                             -
                                 bundle_items:
                                     xpath: //*[@id='bundle_product-wrapper']

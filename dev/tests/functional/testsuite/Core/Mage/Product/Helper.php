@@ -200,7 +200,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $priceData = $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'product_prices', 'text');
         if (!preg_match('/' . preg_quote("\n") . '/', $priceData)) {
-            return array('general_price' => trim(preg_replace('/\.0*$/', '', $priceData)));
+            preg_match('/\d+[.\d]*/', $priceData, $matches);
+            return array('general_price' => floatval(trim($matches[0])));
         }
         $priceData = explode("\n", $priceData);
         $additionalName = array();
@@ -2419,13 +2420,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $this->clickButton('add_selected_products', false);
         $this->waitForControlNotVisible(self::UIMAP_TYPE_FIELDSET, 'select_associated_product_option');
-        try {
-            $actualQty = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'grouped_assigned_products');
-            $this->assertEquals($countBefore + count($formedData['items']), $actualQty,
-                'Products are not assigned to Grouped product');
-        } catch (Exception $e) {
-            $this->markTestIncomplete('MAGETWO-7278,MAGETWO-7277,MAGETWO-8852');
-        }
+        $actualQty = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'grouped_assigned_products');
+        $this->assertEquals($countBefore + count($formedData['items']), $actualQty,
+            'Products are not assigned to Grouped product');
         if (!empty($formedData['qty'])) {
             foreach ($formedData['qty'] as $productName => $qty) {
                 $this->addParameter('productSku', $productName);
