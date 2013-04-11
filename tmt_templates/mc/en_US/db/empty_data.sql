@@ -3,7 +3,7 @@
 # Server version:               5.1.63
 # Server OS:                    portbld-freebsd8.1
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2013-04-05 16:54:50
+# Date/time:                    2013-04-11 02:35:34
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -25,15 +25,7 @@ CREATE TABLE IF NOT EXISTS `adminnotification_inbox` (
   KEY `IDX_ADMINNOTIFICATION_INBOX_SEVERITY` (`severity`),
   KEY `IDX_ADMINNOTIFICATION_INBOX_IS_READ` (`is_read`),
   KEY `IDX_ADMINNOTIFICATION_INBOX_IS_REMOVE` (`is_remove`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Adminnotification Inbox';
-
-# Dumping data for table adminnotification_inbox: ~2 rows (approximately)
-/*!40000 ALTER TABLE `adminnotification_inbox` DISABLE KEYS */;
-INSERT INTO `adminnotification_inbox` (`notification_id`, `severity`, `date_added`, `title`, `description`, `url`, `is_read`, `is_remove`) VALUES
-	(1, 4, '2012-07-06 10:09:05', 'Important Security Update - Zend Platform Vulnerability', 'We have recently learned of a serious vulnerability in the Zend platform on which Magento is built. Learn more and access a patch that addresses this issue. ', 'http://www.magentocommerce.com/blog/comments/important-security-update-zend-platform-vulnerability/', 0, 0),
-	(2, 4, '2013-01-15 22:06:33', 'Imagine 2013 Registration is Now Open!', 'Join 1500 merchants, partners, developers and enthusiasts from 35+ countries around the world for Magento’s premier global conference! Collaborate, learn, network and get inspired by the future of eCommerce. Tickets will sell out fast! April 8th – 10th in Las Vegas.', 'https://registration.imagineecommerce.com/', 0, 0);
-/*!40000 ALTER TABLE `adminnotification_inbox` ENABLE KEYS */;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Adminnotification Inbox';
 
 # Dumping structure for table admin_role
 CREATE TABLE IF NOT EXISTS `admin_role` (
@@ -50,11 +42,11 @@ CREATE TABLE IF NOT EXISTS `admin_role` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Admin Role Table';
 
 # Dumping data for table admin_role: ~2 rows (approximately)
-/*!40000 ALTER TABLE `admin_role` DISABLE KEYS */;
+
 INSERT INTO `admin_role` (`role_id`, `parent_id`, `tree_level`, `sort_order`, `role_type`, `user_id`, `role_name`) VALUES
 	(1, 0, 1, 1, 'G', 0, 'Administrators'),
-	(2, 1, 2, 0, 'U', 1, 'admin');
-/*!40000 ALTER TABLE `admin_role` ENABLE KEYS */;
+	(2, 1, 2, 0, 'U', 1, 'Admin');
+
 
 
 # Dumping structure for table admin_rule
@@ -72,10 +64,10 @@ CREATE TABLE IF NOT EXISTS `admin_rule` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Admin Rule Table';
 
 # Dumping data for table admin_rule: ~1 rows (approximately)
-/*!40000 ALTER TABLE `admin_rule` DISABLE KEYS */;
+
 INSERT INTO `admin_rule` (`rule_id`, `role_id`, `resource_id`, `privileges`, `role_type`, `permission`) VALUES
 	(1, 1, 'Mage_Adminhtml::all', NULL, 'G', 'allow');
-/*!40000 ALTER TABLE `admin_rule` ENABLE KEYS */;
+
 
 
 # Dumping structure for table admin_system_messages
@@ -85,13 +77,6 @@ CREATE TABLE IF NOT EXISTS `admin_system_messages` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Create date',
   PRIMARY KEY (`identity`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Admin System Messages';
-
-# Dumping data for table admin_system_messages: ~1 rows (approximately)
-/*!40000 ALTER TABLE `admin_system_messages` DISABLE KEYS */;
-INSERT INTO `admin_system_messages` (`identity`, `severity`, `created_at`) VALUES
-	('be384e16c665fe1aa92dfcc3e7aadec3', 1, '2013-04-05 16:53:26');
-/*!40000 ALTER TABLE `admin_system_messages` ENABLE KEYS */;
-
 
 # Dumping structure for table admin_user
 CREATE TABLE IF NOT EXISTS `admin_user` (
@@ -110,19 +95,19 @@ CREATE TABLE IF NOT EXISTS `admin_user` (
   `extra` text COMMENT 'User Extra Data',
   `rp_token` text COMMENT 'Reset Password Link Token',
   `rp_token_created_at` timestamp NULL DEFAULT NULL COMMENT 'Reset Password Link Token Creation Date',
+  `interface_locale` varchar(5) NOT NULL DEFAULT 'en_US' COMMENT 'Backend interface locale',
   `failures_num` smallint(6) DEFAULT '0' COMMENT 'Failure Number',
   `first_failure` timestamp NULL DEFAULT NULL COMMENT 'First Failure',
   `lock_expires` timestamp NULL DEFAULT NULL COMMENT 'Expiration Lock Dates',
-  `interface_locale` VARCHAR(5) NOT NULL DEFAULT 'en_US' COMMENT 'Backend interface locale',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `UNQ_ADMIN_USER_USERNAME` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Admin User Table';
 
 # Dumping data for table admin_user: ~1 rows (approximately)
-/*!40000 ALTER TABLE `admin_user` DISABLE KEYS */;
-INSERT INTO `admin_user` (`user_id`, `firstname`, `lastname`, `email`, `username`, `password`, `created`, `modified`, `logdate`, `lognum`, `reload_acl_flag`, `is_active`, `extra`, `rp_token`, `rp_token_created_at`, `failures_num`, `first_failure`, `lock_expires`, `interface_locale`) VALUES
-	(1, 'admin', 'admin', 'voleye@yandex.ru', 'admin', '3ac97e59a8a89dc47308b65226e2af590176b9c0ee2a2778bb94c61e3055e512:ze', '2013-04-05 16:53:24', '2013-04-05 16:52:25', '2013-04-05 13:53:24', 1, 0, 1, 'N;', NULL, NULL, 0, NULL, NULL, 'en_US');
-/*!40000 ALTER TABLE `admin_user` ENABLE KEYS */;
+
+INSERT INTO `admin_user` (`user_id`, `firstname`, `lastname`, `email`, `username`, `password`, `created`, `modified`, `logdate`, `lognum`, `reload_acl_flag`, `is_active`, `extra`, `rp_token`, `rp_token_created_at`, `interface_locale`, `failures_num`, `first_failure`, `lock_expires`) VALUES
+	(1, 'Admin', 'Admin', 'null@null.null', 'admin', '6807492d5586081e7092ba49020afbd0dfe478d402aa37e497ec77238333df0e:o8', '2013-04-11 02:34:19', '2013-04-11 02:09:30', '2013-04-10 23:34:19', 6, 0, 1, 'N;', NULL, NULL, 'en_US', 0, NULL, NULL);
+
 
 
 # Dumping structure for table api_assert
@@ -134,8 +119,8 @@ CREATE TABLE IF NOT EXISTS `api_assert` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Api ACL Asserts';
 
 # Dumping data for table api_assert: ~0 rows (approximately)
-/*!40000 ALTER TABLE `api_assert` DISABLE KEYS */;
-/*!40000 ALTER TABLE `api_assert` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table api_role
@@ -153,8 +138,8 @@ CREATE TABLE IF NOT EXISTS `api_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Api ACL Roles';
 
 # Dumping data for table api_role: ~0 rows (approximately)
-/*!40000 ALTER TABLE `api_role` DISABLE KEYS */;
-/*!40000 ALTER TABLE `api_role` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table api_rule
@@ -173,8 +158,8 @@ CREATE TABLE IF NOT EXISTS `api_rule` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Api ACL Rules';
 
 # Dumping data for table api_rule: ~0 rows (approximately)
-/*!40000 ALTER TABLE `api_rule` DISABLE KEYS */;
-/*!40000 ALTER TABLE `api_rule` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table api_session
@@ -188,8 +173,8 @@ CREATE TABLE IF NOT EXISTS `api_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Api Sessions';
 
 # Dumping data for table api_session: ~0 rows (approximately)
-/*!40000 ALTER TABLE `api_session` DISABLE KEYS */;
-/*!40000 ALTER TABLE `api_session` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table api_user
@@ -209,8 +194,8 @@ CREATE TABLE IF NOT EXISTS `api_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Api Users';
 
 # Dumping data for table api_user: ~0 rows (approximately)
-/*!40000 ALTER TABLE `api_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `api_user` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table captcha_log
@@ -223,8 +208,8 @@ CREATE TABLE IF NOT EXISTS `captcha_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Count Login Attempts';
 
 # Dumping data for table captcha_log: ~0 rows (approximately)
-/*!40000 ALTER TABLE `captcha_log` DISABLE KEYS */;
-/*!40000 ALTER TABLE `captcha_log` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table cataloginventory_stock
@@ -235,10 +220,10 @@ CREATE TABLE IF NOT EXISTS `cataloginventory_stock` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock';
 
 # Dumping data for table cataloginventory_stock: ~1 rows (approximately)
-/*!40000 ALTER TABLE `cataloginventory_stock` DISABLE KEYS */;
+
 INSERT INTO `cataloginventory_stock` (`stock_id`, `stock_name`) VALUES
 	(1, 'Default');
-/*!40000 ALTER TABLE `cataloginventory_stock` ENABLE KEYS */;
+
 
 
 # Dumping structure for table cataloginventory_stock_item
@@ -277,8 +262,8 @@ CREATE TABLE IF NOT EXISTS `cataloginventory_stock_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Item';
 
 # Dumping data for table cataloginventory_stock_item: ~0 rows (approximately)
-/*!40000 ALTER TABLE `cataloginventory_stock_item` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cataloginventory_stock_item` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table cataloginventory_stock_status
@@ -297,8 +282,8 @@ CREATE TABLE IF NOT EXISTS `cataloginventory_stock_status` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Status';
 
 # Dumping data for table cataloginventory_stock_status: ~0 rows (approximately)
-/*!40000 ALTER TABLE `cataloginventory_stock_status` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cataloginventory_stock_status` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table cataloginventory_stock_status_idx
@@ -314,8 +299,8 @@ CREATE TABLE IF NOT EXISTS `cataloginventory_stock_status_idx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Status Indexer Idx';
 
 # Dumping data for table cataloginventory_stock_status_idx: ~0 rows (approximately)
-/*!40000 ALTER TABLE `cataloginventory_stock_status_idx` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cataloginventory_stock_status_idx` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table cataloginventory_stock_status_tmp
@@ -331,8 +316,8 @@ CREATE TABLE IF NOT EXISTS `cataloginventory_stock_status_tmp` (
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Cataloginventory Stock Status Indexer Tmp';
 
 # Dumping data for table cataloginventory_stock_status_tmp: 0 rows
-/*!40000 ALTER TABLE `cataloginventory_stock_status_tmp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cataloginventory_stock_status_tmp` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalogrule
@@ -357,8 +342,8 @@ CREATE TABLE IF NOT EXISTS `catalogrule` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule';
 
 # Dumping data for table catalogrule: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalogrule` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalogrule` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalogrule_affected_product
@@ -368,8 +353,8 @@ CREATE TABLE IF NOT EXISTS `catalogrule_affected_product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Affected Product';
 
 # Dumping data for table catalogrule_affected_product: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalogrule_affected_product` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalogrule_affected_product` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalogrule_customer_group
@@ -384,8 +369,8 @@ CREATE TABLE IF NOT EXISTS `catalogrule_customer_group` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Rules To Customer Groups Relations';
 
 # Dumping data for table catalogrule_customer_group: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalogrule_customer_group` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalogrule_customer_group` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalogrule_group_website
@@ -403,8 +388,8 @@ CREATE TABLE IF NOT EXISTS `catalogrule_group_website` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Group Website';
 
 # Dumping data for table catalogrule_group_website: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalogrule_group_website` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalogrule_group_website` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalogrule_product
@@ -437,8 +422,8 @@ CREATE TABLE IF NOT EXISTS `catalogrule_product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Product';
 
 # Dumping data for table catalogrule_product: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalogrule_product` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalogrule_product` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalogrule_product_price
@@ -462,8 +447,8 @@ CREATE TABLE IF NOT EXISTS `catalogrule_product_price` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CatalogRule Product Price';
 
 # Dumping data for table catalogrule_product_price: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalogrule_product_price` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalogrule_product_price` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalogrule_website
@@ -478,8 +463,8 @@ CREATE TABLE IF NOT EXISTS `catalogrule_website` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Rules To Websites Relations';
 
 # Dumping data for table catalogrule_website: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalogrule_website` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalogrule_website` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalogsearch_fulltext
@@ -494,8 +479,8 @@ CREATE TABLE IF NOT EXISTS `catalogsearch_fulltext` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Catalog search result table';
 
 # Dumping data for table catalogsearch_fulltext: 0 rows
-/*!40000 ALTER TABLE `catalogsearch_fulltext` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalogsearch_fulltext` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalogsearch_query
@@ -521,8 +506,8 @@ CREATE TABLE IF NOT EXISTS `catalogsearch_query` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog search query table';
 
 # Dumping data for table catalogsearch_query: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalogsearch_query` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalogsearch_query` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalogsearch_recommendations
@@ -538,8 +523,8 @@ CREATE TABLE IF NOT EXISTS `catalogsearch_recommendations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Search Recommendations';
 
 # Dumping data for table catalogsearch_recommendations: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalogsearch_recommendations` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalogsearch_recommendations` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalogsearch_result
@@ -555,8 +540,8 @@ CREATE TABLE IF NOT EXISTS `catalogsearch_result` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog search result table';
 
 # Dumping data for table catalogsearch_result: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalogsearch_result` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalogsearch_result` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_category_anc_categs_index_idx
@@ -568,8 +553,8 @@ CREATE TABLE IF NOT EXISTS `catalog_category_anc_categs_index_idx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Anchor Indexer Index Table';
 
 # Dumping data for table catalog_category_anc_categs_index_idx: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_category_anc_categs_index_idx` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_category_anc_categs_index_idx` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_category_anc_categs_index_tmp
@@ -581,8 +566,8 @@ CREATE TABLE IF NOT EXISTS `catalog_category_anc_categs_index_tmp` (
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Category Anchor Indexer Temp Table';
 
 # Dumping data for table catalog_category_anc_categs_index_tmp: 0 rows
-/*!40000 ALTER TABLE `catalog_category_anc_categs_index_tmp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_category_anc_categs_index_tmp` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_category_anc_products_index_idx
@@ -594,8 +579,8 @@ CREATE TABLE IF NOT EXISTS `catalog_category_anc_products_index_idx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Anchor Product Indexer Index Table';
 
 # Dumping data for table catalog_category_anc_products_index_idx: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_category_anc_products_index_idx` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_category_anc_products_index_idx` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_category_anc_products_index_tmp
@@ -607,8 +592,8 @@ CREATE TABLE IF NOT EXISTS `catalog_category_anc_products_index_tmp` (
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Category Anchor Product Indexer Temp Table';
 
 # Dumping data for table catalog_category_anc_products_index_tmp: 0 rows
-/*!40000 ALTER TABLE `catalog_category_anc_products_index_tmp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_category_anc_products_index_tmp` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_category_entity
@@ -629,11 +614,11 @@ CREATE TABLE IF NOT EXISTS `catalog_category_entity` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Catalog Category Table';
 
 # Dumping data for table catalog_category_entity: ~2 rows (approximately)
-/*!40000 ALTER TABLE `catalog_category_entity` DISABLE KEYS */;
+
 INSERT INTO `catalog_category_entity` (`entity_id`, `entity_type_id`, `attribute_set_id`, `parent_id`, `created_at`, `updated_at`, `path`, `position`, `level`, `children_count`) VALUES
-	(1, 3, 0, 0, '2013-02-28 19:03:08', '2013-02-28 19:03:08', '1', 0, 0, 1),
-	(2, 3, 3, 1, '2013-02-28 19:03:08', '2013-02-28 19:03:08', '1/2', 1, 1, 0);
-/*!40000 ALTER TABLE `catalog_category_entity` ENABLE KEYS */;
+	(1, 3, 0, 0, '2013-04-10 22:52:13', '2013-04-10 22:52:13', '1', 0, 0, 1),
+	(2, 3, 3, 1, '2013-04-10 22:52:13', '2013-04-10 22:52:13', '1/2', 1, 1, 0);
+
 
 
 # Dumping structure for table catalog_category_entity_datetime
@@ -655,8 +640,8 @@ CREATE TABLE IF NOT EXISTS `catalog_category_entity_datetime` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Datetime Attribute Backend Table';
 
 # Dumping data for table catalog_category_entity_datetime: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_category_entity_datetime` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_category_entity_datetime` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_category_entity_decimal
@@ -678,8 +663,8 @@ CREATE TABLE IF NOT EXISTS `catalog_category_entity_decimal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Decimal Attribute Backend Table';
 
 # Dumping data for table catalog_category_entity_decimal: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_category_entity_decimal` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_category_entity_decimal` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_category_entity_int
@@ -701,7 +686,7 @@ CREATE TABLE IF NOT EXISTS `catalog_category_entity_int` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Catalog Category Integer Attribute Backend Table';
 
 # Dumping data for table catalog_category_entity_int: ~6 rows (approximately)
-/*!40000 ALTER TABLE `catalog_category_entity_int` DISABLE KEYS */;
+
 INSERT INTO `catalog_category_entity_int` (`value_id`, `entity_type_id`, `attribute_id`, `store_id`, `entity_id`, `value`) VALUES
 	(1, 3, 67, 0, 1, 1),
 	(2, 3, 67, 1, 1, 1),
@@ -709,7 +694,7 @@ INSERT INTO `catalog_category_entity_int` (`value_id`, `entity_type_id`, `attrib
 	(4, 3, 67, 0, 2, 1),
 	(5, 3, 42, 1, 2, 1),
 	(6, 3, 67, 1, 2, 1);
-/*!40000 ALTER TABLE `catalog_category_entity_int` ENABLE KEYS */;
+
 
 
 # Dumping structure for table catalog_category_entity_text
@@ -731,13 +716,13 @@ CREATE TABLE IF NOT EXISTS `catalog_category_entity_text` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Catalog Category Text Attribute Backend Table';
 
 # Dumping data for table catalog_category_entity_text: ~4 rows (approximately)
-/*!40000 ALTER TABLE `catalog_category_entity_text` DISABLE KEYS */;
+
 INSERT INTO `catalog_category_entity_text` (`value_id`, `entity_type_id`, `attribute_id`, `store_id`, `entity_id`, `value`) VALUES
 	(1, 3, 65, 0, 1, NULL),
 	(2, 3, 65, 1, 1, NULL),
 	(3, 3, 65, 0, 2, NULL),
 	(4, 3, 65, 1, 2, NULL);
-/*!40000 ALTER TABLE `catalog_category_entity_text` ENABLE KEYS */;
+
 
 
 # Dumping structure for table catalog_category_entity_varchar
@@ -759,7 +744,7 @@ CREATE TABLE IF NOT EXISTS `catalog_category_entity_varchar` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='Catalog Category Varchar Attribute Backend Table';
 
 # Dumping data for table catalog_category_entity_varchar: ~7 rows (approximately)
-/*!40000 ALTER TABLE `catalog_category_entity_varchar` DISABLE KEYS */;
+
 INSERT INTO `catalog_category_entity_varchar` (`value_id`, `entity_type_id`, `attribute_id`, `store_id`, `entity_id`, `value`) VALUES
 	(1, 3, 41, 0, 1, 'Root Catalog'),
 	(2, 3, 41, 1, 1, 'Root Catalog'),
@@ -768,7 +753,60 @@ INSERT INTO `catalog_category_entity_varchar` (`value_id`, `entity_type_id`, `at
 	(5, 3, 41, 1, 2, 'Default Category'),
 	(6, 3, 49, 1, 2, 'PRODUCTS'),
 	(7, 3, 43, 1, 2, 'default-category');
-/*!40000 ALTER TABLE `catalog_category_entity_varchar` ENABLE KEYS */;
+
+
+
+# Dumping structure for table catalog_category_flat_store_1
+CREATE TABLE IF NOT EXISTS `catalog_category_flat_store_1` (
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'entity_id',
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'parent_id',
+  `created_at` timestamp NULL DEFAULT NULL COMMENT 'created_at',
+  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'updated_at',
+  `path` varchar(255) NOT NULL DEFAULT '' COMMENT 'path',
+  `position` int(11) NOT NULL COMMENT 'position',
+  `level` int(11) NOT NULL DEFAULT '0' COMMENT 'level',
+  `children_count` int(11) NOT NULL COMMENT 'children_count',
+  `store_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Store Id',
+  `all_children` text COMMENT 'All Children',
+  `available_sort_by` text COMMENT 'Available Product Listing Sort By',
+  `children` text COMMENT 'Children',
+  `custom_apply_to_products` int(11) DEFAULT NULL COMMENT 'Apply To Products',
+  `custom_design` varchar(255) DEFAULT NULL COMMENT 'Custom Design',
+  `custom_design_from` datetime DEFAULT NULL COMMENT 'Active From',
+  `custom_design_to` datetime DEFAULT NULL COMMENT 'Active To',
+  `custom_layout_update` text COMMENT 'Custom Layout Update',
+  `custom_use_parent_settings` int(11) DEFAULT NULL COMMENT 'Use Parent Category Settings',
+  `default_sort_by` varchar(255) DEFAULT NULL COMMENT 'Default Product Listing Sort By',
+  `description` text COMMENT 'Description',
+  `display_mode` varchar(255) DEFAULT NULL COMMENT 'Display Mode',
+  `filter_price_range` decimal(12,4) DEFAULT NULL COMMENT 'Layered Navigation Price Step',
+  `image` varchar(255) DEFAULT NULL COMMENT 'Image',
+  `include_in_menu` int(11) DEFAULT NULL COMMENT 'Include in Navigation Menu',
+  `is_active` int(11) DEFAULT NULL COMMENT 'Is Active',
+  `is_anchor` int(11) DEFAULT NULL COMMENT 'Is Anchor',
+  `landing_page` int(11) DEFAULT NULL COMMENT 'CMS Block',
+  `meta_description` text COMMENT 'Meta Description',
+  `meta_keywords` text COMMENT 'Meta Keywords',
+  `meta_title` varchar(255) DEFAULT NULL COMMENT 'Page Title',
+  `name` varchar(255) DEFAULT NULL COMMENT 'Name',
+  `page_layout` varchar(255) DEFAULT NULL COMMENT 'Page Layout',
+  `path_in_store` text COMMENT 'Path In Store',
+  `url_key` varchar(255) DEFAULT NULL COMMENT 'URL Key',
+  `url_path` varchar(255) DEFAULT NULL COMMENT 'Url Path',
+  PRIMARY KEY (`entity_id`),
+  KEY `IDX_CATALOG_CATEGORY_FLAT_STORE_1_STORE_ID` (`store_id`),
+  KEY `IDX_CATALOG_CATEGORY_FLAT_STORE_1_PATH` (`path`),
+  KEY `IDX_CATALOG_CATEGORY_FLAT_STORE_1_LEVEL` (`level`),
+  CONSTRAINT `FK_CAT_CTGR_FLAT_STORE_1_ENTT_ID_CAT_CTGR_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_category_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_CATALOG_CATEGORY_FLAT_STORE_1_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Flat (Store 1)';
+
+# Dumping data for table catalog_category_flat_store_1: ~2 rows (approximately)
+
+INSERT INTO `catalog_category_flat_store_1` (`entity_id`, `parent_id`, `created_at`, `updated_at`, `path`, `position`, `level`, `children_count`, `store_id`, `all_children`, `available_sort_by`, `children`, `custom_apply_to_products`, `custom_design`, `custom_design_from`, `custom_design_to`, `custom_layout_update`, `custom_use_parent_settings`, `default_sort_by`, `description`, `display_mode`, `filter_price_range`, `image`, `include_in_menu`, `is_active`, `is_anchor`, `landing_page`, `meta_description`, `meta_keywords`, `meta_title`, `name`, `page_layout`, `path_in_store`, `url_key`, `url_path`) VALUES
+	(1, 0, '2013-04-10 22:52:13', '2013-04-10 22:52:13', '1', 0, 0, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 'Root Catalog', NULL, NULL, 'root-catalog', NULL),
+	(2, 1, '2013-04-10 22:52:13', '2013-04-10 22:52:13', '1/2', 1, 1, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PRODUCTS', NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, 'Default Category', NULL, NULL, 'default-category', NULL);
+
 
 
 # Dumping structure for table catalog_category_product
@@ -783,8 +821,8 @@ CREATE TABLE IF NOT EXISTS `catalog_category_product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product To Category Linkage Table';
 
 # Dumping data for table catalog_category_product: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_category_product` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_category_product` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_category_product_index
@@ -804,8 +842,8 @@ CREATE TABLE IF NOT EXISTS `catalog_category_product_index` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Product Index';
 
 # Dumping data for table catalog_category_product_index: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_category_product_index` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_category_product_index` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_category_product_index_enbl_idx
@@ -816,8 +854,8 @@ CREATE TABLE IF NOT EXISTS `catalog_category_product_index_enbl_idx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Product Enabled Indexer Index Table';
 
 # Dumping data for table catalog_category_product_index_enbl_idx: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_category_product_index_enbl_idx` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_category_product_index_enbl_idx` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_category_product_index_enbl_tmp
@@ -828,8 +866,8 @@ CREATE TABLE IF NOT EXISTS `catalog_category_product_index_enbl_tmp` (
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Category Product Enabled Indexer Temp Table';
 
 # Dumping data for table catalog_category_product_index_enbl_tmp: 0 rows
-/*!40000 ALTER TABLE `catalog_category_product_index_enbl_tmp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_category_product_index_enbl_tmp` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_category_product_index_idx
@@ -844,8 +882,8 @@ CREATE TABLE IF NOT EXISTS `catalog_category_product_index_idx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Category Product Indexer Index Table';
 
 # Dumping data for table catalog_category_product_index_idx: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_category_product_index_idx` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_category_product_index_idx` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_category_product_index_tmp
@@ -860,8 +898,8 @@ CREATE TABLE IF NOT EXISTS `catalog_category_product_index_tmp` (
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Category Product Indexer Temp Table';
 
 # Dumping data for table catalog_category_product_index_tmp: 0 rows
-/*!40000 ALTER TABLE `catalog_category_product_index_tmp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_category_product_index_tmp` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_compare_item
@@ -883,8 +921,8 @@ CREATE TABLE IF NOT EXISTS `catalog_compare_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Compare Table';
 
 # Dumping data for table catalog_compare_item: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_compare_item` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_compare_item` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_eav_attribute
@@ -916,7 +954,7 @@ CREATE TABLE IF NOT EXISTS `catalog_eav_attribute` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog EAV Attribute Table';
 
 # Dumping data for table catalog_eav_attribute: ~111 rows (approximately)
-/*!40000 ALTER TABLE `catalog_eav_attribute` DISABLE KEYS */;
+
 INSERT INTO `catalog_eav_attribute` (`attribute_id`, `frontend_input_renderer`, `is_global`, `is_visible`, `is_searchable`, `is_filterable`, `is_comparable`, `is_visible_on_front`, `is_html_allowed_on_front`, `is_used_for_price_rules`, `is_filterable_in_search`, `used_in_product_listing`, `used_for_sort_by`, `is_configurable`, `apply_to`, `is_visible_in_advanced_search`, `position`, `is_wysiwyg_enabled`, `is_used_for_promo_rules`, `search_weight`) VALUES
 	(41, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
 	(42, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
@@ -957,12 +995,12 @@ INSERT INTO `catalog_eav_attribute` (`attribute_id`, `frontend_input_renderer`, 
 	(77, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,configurable,virtual,bundle,downloadable', 0, 0, 0, 0, 1),
 	(78, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,configurable,virtual,bundle,downloadable', 0, 0, 0, 0, 1),
 	(79, NULL, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'virtual,downloadable', 0, 0, 0, 0, 1),
-	(80, 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'simple,virtual,configurable,bundle,downloadable,giftcard', 0, 0, 0, 0, 1),
+	(80, 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Weight', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'simple,giftcard,virtual,configurable,bundle,downloadable', 0, 0, 0, 0, 1),
 	(81, NULL, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 'simple', 1, 0, 0, 0, 1),
 	(82, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
 	(83, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
 	(84, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
-	(85, 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
+	(85, 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage', 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, NULL, 0, 0, 0, 0, 1),
 	(86, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, NULL, 0, 0, 0, 0, 1),
 	(87, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, NULL, 0, 0, 0, 0, 1),
 	(88, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
@@ -1029,7 +1067,7 @@ INSERT INTO `catalog_eav_attribute` (`attribute_id`, `frontend_input_renderer`, 
 	(151, 'Saas_UnitPrice_Block_Catalog_Product_Helper_Form_Unit', 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 'simple,configurable', 0, 0, 0, 0, 1),
 	(152, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 'simple,configurable', 0, 0, 0, 0, 1),
 	(153, 'Saas_UnitPrice_Block_Catalog_Product_Helper_Form_Unit', 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 'simple,configurable', 0, 0, 0, 0, 1);
-/*!40000 ALTER TABLE `catalog_eav_attribute` ENABLE KEYS */;
+
 
 
 # Dumping structure for table catalog_product_bundle_option
@@ -1045,8 +1083,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_bundle_option` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Bundle Option';
 
 # Dumping data for table catalog_product_bundle_option: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_bundle_option` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_bundle_option` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_bundle_option_value
@@ -1061,8 +1099,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_bundle_option_value` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Bundle Option Value';
 
 # Dumping data for table catalog_product_bundle_option_value: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_bundle_option_value` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_bundle_option_value` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_bundle_price_index
@@ -1081,8 +1119,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_bundle_price_index` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Bundle Price Index';
 
 # Dumping data for table catalog_product_bundle_price_index: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_bundle_price_index` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_bundle_price_index` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_bundle_selection
@@ -1105,8 +1143,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_bundle_selection` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Bundle Selection';
 
 # Dumping data for table catalog_product_bundle_selection: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_bundle_selection` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_bundle_selection` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_bundle_selection_price
@@ -1122,8 +1160,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_bundle_selection_price` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Bundle Selection Price';
 
 # Dumping data for table catalog_product_bundle_selection_price: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_bundle_selection_price` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_bundle_selection_price` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_bundle_stock_index
@@ -1137,8 +1175,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_bundle_stock_index` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Bundle Stock Index';
 
 # Dumping data for table catalog_product_bundle_stock_index: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_bundle_stock_index` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_bundle_stock_index` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_enabled_index
@@ -1153,8 +1191,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_enabled_index` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Visibility Index Table';
 
 # Dumping data for table catalog_product_enabled_index: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_enabled_index` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_enabled_index` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_entity
@@ -1177,8 +1215,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Table';
 
 # Dumping data for table catalog_product_entity: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_entity` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_entity` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_entity_datetime
@@ -1200,8 +1238,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_datetime` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Datetime Attribute Backend Table';
 
 # Dumping data for table catalog_product_entity_datetime: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_entity_datetime` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_entity_datetime` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_entity_decimal
@@ -1223,8 +1261,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_decimal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Decimal Attribute Backend Table';
 
 # Dumping data for table catalog_product_entity_decimal: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_entity_decimal` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_entity_decimal` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_entity_gallery
@@ -1247,8 +1285,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_gallery` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Gallery Attribute Backend Table';
 
 # Dumping data for table catalog_product_entity_gallery: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_entity_gallery` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_entity_gallery` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_entity_group_price
@@ -1270,8 +1308,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_group_price` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Group Price Attribute Backend Table';
 
 # Dumping data for table catalog_product_entity_group_price: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_entity_group_price` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_entity_group_price` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_entity_int
@@ -1293,8 +1331,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_int` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Integer Attribute Backend Table';
 
 # Dumping data for table catalog_product_entity_int: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_entity_int` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_entity_int` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_entity_media_gallery
@@ -1311,8 +1349,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_media_gallery` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Media Gallery Attribute Backend Table';
 
 # Dumping data for table catalog_product_entity_media_gallery: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_entity_media_gallery` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_entity_media_gallery` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_entity_media_gallery_value
@@ -1329,8 +1367,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_media_gallery_value` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Media Gallery Attribute Value Table';
 
 # Dumping data for table catalog_product_entity_media_gallery_value: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_entity_media_gallery_value` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_entity_media_gallery_value` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_entity_text
@@ -1352,8 +1390,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_text` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Text Attribute Backend Table';
 
 # Dumping data for table catalog_product_entity_text: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_entity_text` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_entity_text` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_entity_tier_price
@@ -1376,8 +1414,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_tier_price` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Tier Price Attribute Backend Table';
 
 # Dumping data for table catalog_product_entity_tier_price: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_entity_tier_price` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_entity_tier_price` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_entity_varchar
@@ -1399,8 +1437,81 @@ CREATE TABLE IF NOT EXISTS `catalog_product_entity_varchar` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Varchar Attribute Backend Table';
 
 # Dumping data for table catalog_product_entity_varchar: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_entity_varchar` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_entity_varchar` ENABLE KEYS */;
+
+
+
+
+# Dumping structure for table catalog_product_flat_1
+CREATE TABLE IF NOT EXISTS `catalog_product_flat_1` (
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity Id',
+  `attribute_set_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Attribute Set Id',
+  `type_id` varchar(32) NOT NULL DEFAULT 'simple' COMMENT 'Type Id',
+  `allow_open_amount` int(11) DEFAULT NULL COMMENT 'Allow Open Amount',
+  `cost` decimal(12,4) DEFAULT NULL COMMENT 'Cost',
+  `created_at` timestamp NULL DEFAULT NULL COMMENT 'Created At',
+  `email_template` varchar(255) DEFAULT NULL COMMENT 'Email Template',
+  `enable_googlecheckout` smallint(6) DEFAULT NULL COMMENT 'Enable Googlecheckout',
+  `giftcard_amounts` decimal(12,4) DEFAULT NULL COMMENT 'Giftcard Amounts',
+  `giftcard_type` smallint(5) unsigned DEFAULT NULL COMMENT 'Giftcard Type',
+  `gift_message_available` smallint(6) DEFAULT NULL COMMENT 'Gift Message Available',
+  `has_options` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Has Options',
+  `image` varchar(255) DEFAULT NULL COMMENT 'Image',
+  `image_label` varchar(255) DEFAULT NULL COMMENT 'Image Label',
+  `is_recurring` smallint(6) DEFAULT NULL COMMENT 'Is Recurring',
+  `is_redeemable` int(11) DEFAULT NULL COMMENT 'Is Redeemable',
+  `lifetime` int(11) DEFAULT NULL COMMENT 'Lifetime',
+  `links_exist` int(11) DEFAULT NULL COMMENT 'Links Exist',
+  `links_purchased_separately` int(11) DEFAULT NULL COMMENT 'Links Purchased Separately',
+  `msrp` decimal(12,4) DEFAULT NULL COMMENT 'Msrp',
+  `msrp_display_actual_price_type` varchar(255) DEFAULT NULL COMMENT 'Msrp Display Actual Price Type',
+  `msrp_enabled` smallint(6) DEFAULT NULL COMMENT 'Msrp Enabled',
+  `name` varchar(255) DEFAULT NULL COMMENT 'Name',
+  `news_from_date` datetime DEFAULT NULL COMMENT 'News From Date',
+  `news_to_date` datetime DEFAULT NULL COMMENT 'News To Date',
+  `open_amount_max` decimal(12,4) DEFAULT NULL COMMENT 'Open Amount Max',
+  `open_amount_min` decimal(12,4) DEFAULT NULL COMMENT 'Open Amount Min',
+  `price` decimal(12,4) DEFAULT NULL COMMENT 'Price',
+  `price_type` int(11) DEFAULT NULL COMMENT 'Price Type',
+  `price_view` int(11) DEFAULT NULL COMMENT 'Price View',
+  `recurring_profile` text COMMENT 'Recurring Profile',
+  `required_options` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Required Options',
+  `shipment_type` int(11) DEFAULT NULL COMMENT 'Shipment Type',
+  `short_description` text COMMENT 'Short Description',
+  `sku` varchar(64) DEFAULT NULL COMMENT 'Sku',
+  `sku_type` int(11) DEFAULT NULL COMMENT 'Sku Type',
+  `small_image` varchar(255) DEFAULT NULL COMMENT 'Small Image',
+  `small_image_label` varchar(255) DEFAULT NULL COMMENT 'Small Image Label',
+  `special_from_date` datetime DEFAULT NULL COMMENT 'Special From Date',
+  `special_price` decimal(12,4) DEFAULT NULL COMMENT 'Special Price',
+  `special_to_date` datetime DEFAULT NULL COMMENT 'Special To Date',
+  `tax_class_id` int(10) unsigned DEFAULT NULL COMMENT 'Tax Class Id',
+  `thumbnail` varchar(255) DEFAULT NULL COMMENT 'Thumbnail',
+  `thumbnail_label` varchar(255) DEFAULT NULL COMMENT 'Thumbnail Label',
+  `unit_price_amount` varchar(255) DEFAULT NULL COMMENT 'Unit Price Amount',
+  `unit_price_base_amount` varchar(255) DEFAULT NULL COMMENT 'Unit Price Base Amount',
+  `unit_price_base_unit` varchar(255) DEFAULT 'KG' COMMENT 'Unit Price Base Unit',
+  `unit_price_unit` varchar(255) DEFAULT 'KG' COMMENT 'Unit Price Unit',
+  `unit_price_use` smallint(6) DEFAULT NULL COMMENT 'Unit Price Use',
+  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Updated At',
+  `url_key` varchar(255) DEFAULT NULL COMMENT 'Url Key',
+  `url_path` varchar(255) DEFAULT NULL COMMENT 'Url Path',
+  `use_config_email_template` int(11) DEFAULT NULL COMMENT 'Use Config Email Template',
+  `use_config_is_redeemable` int(11) DEFAULT NULL COMMENT 'Use Config Is Redeemable',
+  `use_config_lifetime` int(11) DEFAULT NULL COMMENT 'Use Config Lifetime',
+  `visibility` smallint(5) unsigned DEFAULT NULL COMMENT 'Visibility',
+  `weight` decimal(12,4) DEFAULT NULL COMMENT 'Weight',
+  `weight_type` int(11) DEFAULT NULL COMMENT 'Weight Type',
+  PRIMARY KEY (`entity_id`),
+  KEY `IDX_CATALOG_PRODUCT_FLAT_1_TYPE_ID` (`type_id`),
+  KEY `IDX_CATALOG_PRODUCT_FLAT_1_ATTRIBUTE_SET_ID` (`attribute_set_id`),
+  KEY `IDX_CATALOG_PRODUCT_FLAT_1_NAME` (`name`),
+  KEY `IDX_CATALOG_PRODUCT_FLAT_1_PRICE` (`price`),
+  CONSTRAINT `FK_CAT_PRD_FLAT_1_ENTT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`entity_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Flat (Store 1)';
+
+# Dumping data for table catalog_product_flat_1: ~0 rows (approximately)
+
+
 
 
 # Dumping structure for table catalog_product_index_eav
@@ -1420,8 +1531,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_eav` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Index Table';
 
 # Dumping data for table catalog_product_index_eav: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_index_eav` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_eav` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_eav_decimal
@@ -1441,8 +1552,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_eav_decimal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Decimal Index Table';
 
 # Dumping data for table catalog_product_index_eav_decimal: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_index_eav_decimal` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_eav_decimal` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_eav_decimal_idx
@@ -1459,8 +1570,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_eav_decimal_idx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Decimal Indexer Index Table';
 
 # Dumping data for table catalog_product_index_eav_decimal_idx: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_index_eav_decimal_idx` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_eav_decimal_idx` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_eav_decimal_tmp
@@ -1477,8 +1588,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_eav_decimal_tmp` (
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Decimal Indexer Temp Table';
 
 # Dumping data for table catalog_product_index_eav_decimal_tmp: 0 rows
-/*!40000 ALTER TABLE `catalog_product_index_eav_decimal_tmp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_eav_decimal_tmp` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_eav_idx
@@ -1495,8 +1606,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_eav_idx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Indexer Index Table';
 
 # Dumping data for table catalog_product_index_eav_idx: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_index_eav_idx` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_eav_idx` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_eav_tmp
@@ -1513,8 +1624,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_eav_tmp` (
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product EAV Indexer Temp Table';
 
 # Dumping data for table catalog_product_index_eav_tmp: 0 rows
-/*!40000 ALTER TABLE `catalog_product_index_eav_tmp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_eav_tmp` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_group_price
@@ -1532,8 +1643,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_group_price` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Group Price Index Table';
 
 # Dumping data for table catalog_product_index_group_price: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_index_group_price` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_group_price` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price
@@ -1559,8 +1670,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Index Table';
 
 # Dumping data for table catalog_product_index_price: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_index_price` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_bundle_idx
@@ -1585,8 +1696,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_bundle_idx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Index Price Bundle Idx';
 
 # Dumping data for table catalog_product_index_price_bundle_idx: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_index_price_bundle_idx` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_bundle_idx` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_bundle_opt_idx
@@ -1606,8 +1717,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_bundle_opt_idx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Index Price Bundle Opt Idx';
 
 # Dumping data for table catalog_product_index_price_bundle_opt_idx: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_index_price_bundle_opt_idx` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_bundle_opt_idx` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_bundle_opt_tmp
@@ -1627,8 +1738,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_bundle_opt_tmp` (
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Index Price Bundle Opt Tmp';
 
 # Dumping data for table catalog_product_index_price_bundle_opt_tmp: 0 rows
-/*!40000 ALTER TABLE `catalog_product_index_price_bundle_opt_tmp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_bundle_opt_tmp` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_bundle_sel_idx
@@ -1647,8 +1758,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_bundle_sel_idx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Index Price Bundle Sel Idx';
 
 # Dumping data for table catalog_product_index_price_bundle_sel_idx: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_index_price_bundle_sel_idx` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_bundle_sel_idx` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_bundle_sel_tmp
@@ -1667,8 +1778,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_bundle_sel_tmp` (
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Index Price Bundle Sel Tmp';
 
 # Dumping data for table catalog_product_index_price_bundle_sel_tmp: 0 rows
-/*!40000 ALTER TABLE `catalog_product_index_price_bundle_sel_tmp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_bundle_sel_tmp` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_bundle_tmp
@@ -1693,8 +1804,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_bundle_tmp` (
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Index Price Bundle Tmp';
 
 # Dumping data for table catalog_product_index_price_bundle_tmp: 0 rows
-/*!40000 ALTER TABLE `catalog_product_index_price_bundle_tmp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_bundle_tmp` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_cfg_opt_agr_idx
@@ -1710,8 +1821,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_cfg_opt_agr_idx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Config Option Aggregate Index ';
 
 # Dumping data for table catalog_product_index_price_cfg_opt_agr_idx: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_index_price_cfg_opt_agr_idx` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_cfg_opt_agr_idx` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_cfg_opt_agr_tmp
@@ -1727,8 +1838,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_cfg_opt_agr_tmp` (
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Config Option Aggregate Temp T';
 
 # Dumping data for table catalog_product_index_price_cfg_opt_agr_tmp: 0 rows
-/*!40000 ALTER TABLE `catalog_product_index_price_cfg_opt_agr_tmp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_cfg_opt_agr_tmp` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_cfg_opt_idx
@@ -1744,8 +1855,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_cfg_opt_idx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Config Option Index Table';
 
 # Dumping data for table catalog_product_index_price_cfg_opt_idx: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_index_price_cfg_opt_idx` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_cfg_opt_idx` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_cfg_opt_tmp
@@ -1761,8 +1872,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_cfg_opt_tmp` (
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Config Option Temp Table';
 
 # Dumping data for table catalog_product_index_price_cfg_opt_tmp: 0 rows
-/*!40000 ALTER TABLE `catalog_product_index_price_cfg_opt_tmp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_cfg_opt_tmp` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_downlod_idx
@@ -1776,8 +1887,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_downlod_idx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Indexer Table for price of downloadable products';
 
 # Dumping data for table catalog_product_index_price_downlod_idx: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_index_price_downlod_idx` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_downlod_idx` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_downlod_tmp
@@ -1791,8 +1902,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_downlod_tmp` (
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Temporary Indexer Table for price of downloadable products';
 
 # Dumping data for table catalog_product_index_price_downlod_tmp: 0 rows
-/*!40000 ALTER TABLE `catalog_product_index_price_downlod_tmp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_downlod_tmp` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_final_idx
@@ -1813,8 +1924,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_final_idx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Final Index Table';
 
 # Dumping data for table catalog_product_index_price_final_idx: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_index_price_final_idx` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_final_idx` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_final_tmp
@@ -1835,8 +1946,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_final_tmp` (
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Final Temp Table';
 
 # Dumping data for table catalog_product_index_price_final_tmp: 0 rows
-/*!40000 ALTER TABLE `catalog_product_index_price_final_tmp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_final_tmp` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_idx
@@ -1858,8 +1969,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_idx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Index Table';
 
 # Dumping data for table catalog_product_index_price_idx: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_index_price_idx` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_idx` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_opt_agr_idx
@@ -1876,8 +1987,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_opt_agr_idx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Option Aggregate Index Table';
 
 # Dumping data for table catalog_product_index_price_opt_agr_idx: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_index_price_opt_agr_idx` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_opt_agr_idx` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_opt_agr_tmp
@@ -1894,8 +2005,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_opt_agr_tmp` (
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Option Aggregate Temp Table';
 
 # Dumping data for table catalog_product_index_price_opt_agr_tmp: 0 rows
-/*!40000 ALTER TABLE `catalog_product_index_price_opt_agr_tmp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_opt_agr_tmp` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_opt_idx
@@ -1911,8 +2022,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_opt_idx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Option Index Table';
 
 # Dumping data for table catalog_product_index_price_opt_idx: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_index_price_opt_idx` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_opt_idx` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_opt_tmp
@@ -1928,8 +2039,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_opt_tmp` (
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Option Temp Table';
 
 # Dumping data for table catalog_product_index_price_opt_tmp: 0 rows
-/*!40000 ALTER TABLE `catalog_product_index_price_opt_tmp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_opt_tmp` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_price_tmp
@@ -1951,8 +2062,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_price_tmp` (
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8 COMMENT='Catalog Product Price Indexer Temp Table';
 
 # Dumping data for table catalog_product_index_price_tmp: 0 rows
-/*!40000 ALTER TABLE `catalog_product_index_price_tmp` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_price_tmp` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_tier_price
@@ -1970,8 +2081,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_tier_price` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Tier Price Index Table';
 
 # Dumping data for table catalog_product_index_tier_price: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_index_tier_price` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_tier_price` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_index_website
@@ -1984,9 +2095,11 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_website` (
   CONSTRAINT `FK_CAT_PRD_IDX_WS_WS_ID_CORE_WS_WS_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Website Index Table';
 
-# Dumping data for table catalog_product_index_website: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_index_website` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_index_website` ENABLE KEYS */;
+# Dumping data for table catalog_product_index_website: ~1 rows (approximately)
+
+INSERT INTO `catalog_product_index_website` (`website_id`, `website_date`, `rate`) VALUES
+	(1, '2013-04-10', 1);
+
 
 
 # Dumping structure for table catalog_product_link
@@ -2006,8 +2119,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_link` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product To Product Linkage Table';
 
 # Dumping data for table catalog_product_link: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_link` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_link` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_link_attribute
@@ -2022,14 +2135,14 @@ CREATE TABLE IF NOT EXISTS `catalog_product_link_attribute` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Catalog Product Link Attribute Table';
 
 # Dumping data for table catalog_product_link_attribute: ~5 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_link_attribute` DISABLE KEYS */;
+
 INSERT INTO `catalog_product_link_attribute` (`product_link_attribute_id`, `link_type_id`, `product_link_attribute_code`, `data_type`) VALUES
 	(1, 1, 'position', 'int'),
 	(2, 3, 'position', 'int'),
 	(3, 3, 'qty', 'decimal'),
 	(4, 4, 'position', 'int'),
 	(5, 5, 'position', 'int');
-/*!40000 ALTER TABLE `catalog_product_link_attribute` ENABLE KEYS */;
+
 
 
 # Dumping structure for table catalog_product_link_attribute_decimal
@@ -2047,8 +2160,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_link_attribute_decimal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Link Decimal Attribute Table';
 
 # Dumping data for table catalog_product_link_attribute_decimal: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_link_attribute_decimal` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_link_attribute_decimal` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_link_attribute_int
@@ -2066,8 +2179,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_link_attribute_int` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Link Integer Attribute Table';
 
 # Dumping data for table catalog_product_link_attribute_int: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_link_attribute_int` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_link_attribute_int` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_link_attribute_varchar
@@ -2085,8 +2198,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_link_attribute_varchar` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Link Varchar Attribute Table';
 
 # Dumping data for table catalog_product_link_attribute_varchar: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_link_attribute_varchar` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_link_attribute_varchar` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_link_type
@@ -2097,13 +2210,13 @@ CREATE TABLE IF NOT EXISTS `catalog_product_link_type` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Catalog Product Link Type Table';
 
 # Dumping data for table catalog_product_link_type: ~4 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_link_type` DISABLE KEYS */;
+
 INSERT INTO `catalog_product_link_type` (`link_type_id`, `code`) VALUES
 	(1, 'relation'),
 	(3, 'super'),
 	(4, 'up_sell'),
 	(5, 'cross_sell');
-/*!40000 ALTER TABLE `catalog_product_link_type` ENABLE KEYS */;
+
 
 
 # Dumping structure for table catalog_product_option
@@ -2124,8 +2237,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_option` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Option Table';
 
 # Dumping data for table catalog_product_option: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_option` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_option` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_option_price
@@ -2144,8 +2257,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_option_price` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Option Price Table';
 
 # Dumping data for table catalog_product_option_price: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_option_price` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_option_price` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_option_title
@@ -2163,8 +2276,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_option_title` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Option Title Table';
 
 # Dumping data for table catalog_product_option_title: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_option_title` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_option_title` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_option_type_price
@@ -2183,8 +2296,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_option_type_price` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Option Type Price Table';
 
 # Dumping data for table catalog_product_option_type_price: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_option_type_price` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_option_type_price` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_option_type_title
@@ -2202,8 +2315,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_option_type_title` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Option Type Title Table';
 
 # Dumping data for table catalog_product_option_type_title: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_option_type_title` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_option_type_title` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_option_type_value
@@ -2218,8 +2331,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_option_type_value` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Option Type Value Table';
 
 # Dumping data for table catalog_product_option_type_value: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_option_type_value` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_option_type_value` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_relation
@@ -2233,8 +2346,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_relation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Relation Table';
 
 # Dumping data for table catalog_product_relation: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_relation` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_relation` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_super_attribute
@@ -2250,8 +2363,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_super_attribute` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Super Attribute Table';
 
 # Dumping data for table catalog_product_super_attribute: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_super_attribute` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_super_attribute` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_super_attribute_label
@@ -2270,8 +2383,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_super_attribute_label` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Super Attribute Label Table';
 
 # Dumping data for table catalog_product_super_attribute_label: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_super_attribute_label` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_super_attribute_label` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_super_attribute_pricing
@@ -2291,8 +2404,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_super_attribute_pricing` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Super Attribute Pricing Table';
 
 # Dumping data for table catalog_product_super_attribute_pricing: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_super_attribute_pricing` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_super_attribute_pricing` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_super_link
@@ -2304,13 +2417,13 @@ CREATE TABLE IF NOT EXISTS `catalog_product_super_link` (
   UNIQUE KEY `UNQ_CATALOG_PRODUCT_SUPER_LINK_PRODUCT_ID_PARENT_ID` (`product_id`,`parent_id`),
   KEY `IDX_CATALOG_PRODUCT_SUPER_LINK_PARENT_ID` (`parent_id`),
   KEY `IDX_CATALOG_PRODUCT_SUPER_LINK_PRODUCT_ID` (`product_id`),
-  CONSTRAINT `FK_CAT_PRD_SPR_LNK_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_CAT_PRD_SPR_LNK_PARENT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`parent_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_CAT_PRD_SPR_LNK_PARENT_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`parent_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_CAT_PRD_SPR_LNK_PRD_ID_CAT_PRD_ENTT_ENTT_ID` FOREIGN KEY (`product_id`) REFERENCES `catalog_product_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product Super Link Table';
 
 # Dumping data for table catalog_product_super_link: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_super_link` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_super_link` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table catalog_product_website
@@ -2324,8 +2437,8 @@ CREATE TABLE IF NOT EXISTS `catalog_product_website` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog Product To Website Linkage Table';
 
 # Dumping data for table catalog_product_website: ~0 rows (approximately)
-/*!40000 ALTER TABLE `catalog_product_website` DISABLE KEYS */;
-/*!40000 ALTER TABLE `catalog_product_website` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table checkout_agreement
@@ -2341,8 +2454,8 @@ CREATE TABLE IF NOT EXISTS `checkout_agreement` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Checkout Agreement';
 
 # Dumping data for table checkout_agreement: ~0 rows (approximately)
-/*!40000 ALTER TABLE `checkout_agreement` DISABLE KEYS */;
-/*!40000 ALTER TABLE `checkout_agreement` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table checkout_agreement_store
@@ -2356,8 +2469,8 @@ CREATE TABLE IF NOT EXISTS `checkout_agreement_store` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Checkout Agreement Store';
 
 # Dumping data for table checkout_agreement_store: ~0 rows (approximately)
-/*!40000 ALTER TABLE `checkout_agreement_store` DISABLE KEYS */;
-/*!40000 ALTER TABLE `checkout_agreement_store` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table cms_block
@@ -2373,14 +2486,14 @@ CREATE TABLE IF NOT EXISTS `cms_block` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='CMS Block Table';
 
 # Dumping data for table cms_block: ~5 rows (approximately)
-/*!40000 ALTER TABLE `cms_block` DISABLE KEYS */;
+
 INSERT INTO `cms_block` (`block_id`, `title`, `identifier`, `content`, `creation_time`, `update_time`, `is_active`) VALUES
-	(1, 'Footer Links', 'footer_links', '<ul>\r\n<li><a href="{{store direct_url="about-magento-demo-store"}}">About Us</a></li>\r\n<li><a href="{{store direct_url="customer-service"}}">Customer Service</a></li>\r\n<li class="last privacy"><a href="{{store direct_url="privacy-policy-cookie-restriction-mode"}}">Privacy Policy</a></li>\r\n</ul>', '2013-02-28 19:03:08', '2013-02-28 19:03:08', 1),
-	(2, 'Flaunt yourself', 'flaunt_yourself', '<img src="{{view url="images/callouts/home/flaunt_yourself.jpg"}}" alt="Flaunt yourself" />', '2013-03-27 11:10:53', '2013-03-27 11:10:53', 1),
-	(3, 'Link to Private Sales Site', 'link_privatesales', '<a href="{{store direct_url="privatesales/"}}"><img src="{{view url="images/callouts/home/link_private_sales.gif"}}" alt="Private Sales Exclusive Store" /></a>', '2013-03-27 11:10:53', '2013-03-27 11:10:53', 1),
-	(4, 'Link to Gift Cards Category', 'link_giftcards', '<a href="{{store direct_url="gift-cards"}}"><img src="{{view url="images/callouts/home/link_gift_cards.gif"}}" alt="Gift Cards" /></a>', '2013-03-27 11:10:53', '2013-03-27 11:10:53', 1),
-	(5, 'Link to Apparel -> Women -> Handbags Category', 'link_apparel_women_handbags', '<a href="{{store direct_url="apparel/women/handbags"}}"><img style="margin-bottom:7px;" src="{{view url="images/callouts/home/link_handbags.jpg"}}" alt="Handbags" /></a>', '2013-03-27 11:10:53', '2013-03-27 11:10:53', 1);
-/*!40000 ALTER TABLE `cms_block` ENABLE KEYS */;
+	(1, 'Footer Links', 'footer_links', '<ul>\r\n<li><a href="{{store direct_url="about-magento-demo-store"}}">About Us</a></li>\r\n<li><a href="{{store direct_url="customer-service"}}">Customer Service</a></li>\r\n<li class="last privacy"><a href="{{store direct_url="privacy-policy-cookie-restriction-mode"}}">Privacy Policy</a></li>\r\n</ul>', '2013-04-10 22:52:12', '2013-04-10 22:52:12', 1),
+	(2, 'Flaunt yourself', 'flaunt_yourself', '<img src="{{view url="Enterprise_Enterprise::images/callouts/home/flaunt_yourself.jpg"}}" alt="Flaunt yourself" />', '2013-04-10 22:52:32', '2013-04-10 22:52:32', 1),
+	(3, 'Link to Private Sales Site', 'link_privatesales', '<a href="{{store direct_url="privatesales/"}}"><img src="{{view url="Enterprise_Enterprise::images/callouts/home/link_private_sales.gif"}}" alt="Private Sales Exclusive Store" /></a>', '2013-04-10 22:52:32', '2013-04-10 22:52:32', 1),
+	(4, 'Link to Gift Cards Category', 'link_giftcards', '<a href="{{store direct_url="gift-cards"}}"><img src="{{view url="Enterprise_Enterprise::images/callouts/home/link_gift_cards.gif"}}" alt="Gift Cards" /></a>', '2013-04-10 22:52:32', '2013-04-10 22:52:32', 1),
+	(5, 'Link to Apparel -> Women -> Handbags Category', 'link_apparel_women_handbags', '<a href="{{store direct_url="apparel/women/handbags"}}"><img style="margin-bottom:7px;" src="{{view url="Enterprise_Enterprise::images/callouts/home/link_handbags.jpg"}}" alt="Handbags" /></a>', '2013-04-10 22:52:32', '2013-04-10 22:52:32', 1);
+
 
 
 # Dumping structure for table cms_block_store
@@ -2394,14 +2507,14 @@ CREATE TABLE IF NOT EXISTS `cms_block_store` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CMS Block To Store Linkage Table';
 
 # Dumping data for table cms_block_store: ~5 rows (approximately)
-/*!40000 ALTER TABLE `cms_block_store` DISABLE KEYS */;
+
 INSERT INTO `cms_block_store` (`block_id`, `store_id`) VALUES
 	(1, 0),
 	(2, 0),
 	(3, 0),
 	(4, 0),
 	(5, 0);
-/*!40000 ALTER TABLE `cms_block_store` ENABLE KEYS */;
+
 
 
 # Dumping structure for table cms_page
@@ -2432,16 +2545,16 @@ CREATE TABLE IF NOT EXISTS `cms_page` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='CMS Page Table';
 
 # Dumping data for table cms_page: ~9 rows (approximately)
-/*!40000 ALTER TABLE `cms_page` DISABLE KEYS */;
+
 INSERT INTO `cms_page` (`page_id`, `title`, `root_template`, `meta_keywords`, `meta_description`, `identifier`, `content_heading`, `content`, `creation_time`, `update_time`, `is_active`, `sort_order`, `layout_update_xml`, `custom_theme`, `custom_root_template`, `custom_layout_update_xml`, `custom_theme_from`, `custom_theme_to`, `published_revision_id`, `website_root`, `under_version_control`) VALUES
-	(1, '404 Not Found 1', 'two_columns_right', 'Page keywords', 'Page description', 'no-route', NULL, '<div class="page-head-alt"><h3>We are sorry, but the page you are looking for cannot be found.</h3></div>\n<div>\n    <ul class="disc">\n        <li>If you typed the URL directly, please make sure the spelling is correct.</li>\n        <li>If you clicked on a link to get here, we must have moved the content.<br/>Please try our store search box above to search for an item.</li>\n        <li>If you are not sure how you got here, <a href="#" onclick="history.go(-1);">go back</a> to the previous page</a> or return to our <a href="{{store url=""}}">store homepage</a>.</li>\n    </ul>\n</div>\n\n<!-- <div class="page-title"><h1>Whoops, our bad...</h1></div>\r\n<dl>\r\n<dt>The page you requested was not found, and we have a fine guess why.</dt>\r\n<dd>\r\n<ul class="disc">\r\n<li>If you typed the URL directly, please make sure the spelling is correct.</li>\r\n<li>If you clicked on a link to get here, the link is outdated.</li>\r\n</ul></dd>\r\n</dl>\r\n<dl>\r\n<dt>What can you do?</dt>\r\n<dd>Have no fear, help is near! There are many ways you can get back on track with Magento Store.</dd>\r\n<dd>\r\n<ul class="disc">\r\n<li><a href="#" onclick="history.go(-1); return false;">Go back</a> to the previous page.</li>\r\n<li>Use the search bar at the top of the page to search for your products.</li>\r\n<li>Follow these links to get you back on track!<br /><a href="{{store url=""}}">Store Home</a> <span class="separator">|</span> <a href="{{store url="customer/account"}}">My Account</a></li></ul></dd></dl>\r\n -->', '2013-02-28 19:03:08', '2013-02-28 19:03:08', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0),
-	(2, 'Home page', 'one_column', NULL, NULL, 'home', NULL, '<div class="col2-set">\n<div class="col-1">\n{{widget type="Mage_Cms_Block_Widget_Block" template="Mage_Cms::widget/static_block/default.phtml" block_id="2"}}\n</div>\n<div class="col-2">\n{{widget type="Mage_Cms_Block_Widget_Block" template="Mage_Cms::widget/static_block/default.phtml" block_id="3"}}\n{{widget type="Mage_Cms_Block_Widget_Block" template="Mage_Cms::widget/static_block/default.phtml" block_id="4"}}\n{{widget type="Mage_Cms_Block_Widget_Block" template="Mage_Cms::widget/static_block/default.phtml" block_id="5"}}\n</div>\n</div>\n    \n\n\n\n<div style="display:none"><!-- your previous content backup comes below -->\n\n\n <div class="page-title"><h2>Home Page</h2></div>\r\n\n\n\n</div>', '2013-02-28 19:03:08', '2013-02-28 19:03:09', 1, 0, '<!--<reference name="content">\n        <block type="Mage_Catalog_Block_Product_New" name="home.catalog.product.new" alias="product_new" template="product/new.phtml" after="cms_page">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type="Mage_Reports_Block_Product_Viewed" name="home.reports.product.viewed" alias="product_viewed" template="home_product_viewed.phtml" after="product_new">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type="Mage_Reports_Block_Product_Compared" name="home.reports.product.compared" template="home_product_compared.phtml" after="product_viewed">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n    </reference>\n    <reference name="right">\n        <action method="unsetChild"><alias>right.reports.product.viewed</alias></action>\n        <action method="unsetChild"><alias>right.reports.product.compared</alias></action>\n    </reference>-->', NULL, NULL, NULL, NULL, NULL, 0, 1, 0),
-	(3, 'About Us', 'two_columns_right', NULL, NULL, 'about-magento-demo-store', NULL, '<div class="page-title">\r\n<h1>About Magento Store</h1>\r\n</div>\r\n<div class="col3-set">\r\n<div class="col-1"><p><a href="http://www.magento.com/"><img src="{{view url=\'Mage_Cms::images/about_us_img.jpg\'}}" title="Varien" alt="Varien" /></a></p><p style="line-height:1.2em;"><small>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.</small></p>\r\n<p style="color:#888; font:1.2em/1.4em georgia, serif;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta.</p></div>\r\n<div class="col-2">\r\n<p><strong style="color:#de036f;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.</strong></p>\r\n<p>Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo. </p>\r\n<p>Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus. Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi. Vestibulum sapien dolor, aliquet nec, porta ac, malesuada a, libero. Praesent feugiat purus eget est. Nulla facilisi. Vestibulum tincidunt sapien eu velit. Mauris purus. Maecenas eget mauris eu orci accumsan feugiat. Pellentesque eget velit. Nunc tincidunt.</p></div>\r\n<div class="col-3">\r\n<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper </p>\r\n<p><strong style="color:#de036f;">Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus.</strong></p>\r\n<p>Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi.</p>\r\n<div class="divider"></div>\r\n<p>To all of you, from all of us at Magento Store - Thank you and Happy eCommerce!</p>\r\n<p style="line-height:1.2em;"><strong style="font:italic 2em Georgia, serif;">John Doe</strong><br /><small>Some important guy</small></p></div>\r\n</div>', '2013-02-28 19:03:08', '2013-02-28 19:03:08', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0),
-	(4, 'Customer Service', 'three_columns', NULL, NULL, 'customer-service', NULL, '<div class="page-title">\r\n<h1>Customer Service</h1>\r\n</div>\r\n<ul class="disc">\r\n<li><a href="#answer1">Shipping &amp; Delivery</a></li>\r\n<li><a href="#answer2">Privacy &amp; Security</a></li>\r\n<li><a href="#answer3">Returns &amp; Replacements</a></li>\r\n<li><a href="#answer4">Ordering</a></li>\r\n<li><a href="#answer5">Payment, Pricing &amp; Promotions</a></li>\r\n<li><a href="#answer6">Viewing Orders</a></li>\r\n<li><a href="#answer7">Updating Account Information</a></li>\r\n</ul>\r\n<dl>\r\n<dt id="answer1">Shipping &amp; Delivery</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer2">Privacy &amp; Security</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer3">Returns &amp; Replacements</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer4">Ordering</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer5">Payment, Pricing &amp; Promotions</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer6">Viewing Orders</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer7">Updating Account Information</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n</dl>', '2013-02-28 19:03:08', '2013-02-28 19:03:08', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0),
-	(5, 'Enable Cookies', 'one_column', NULL, NULL, 'enable-cookies', NULL, '<div class="std">\r\n    <ul class="messages">\r\n        <li class="notice-msg">\r\n            <ul>\r\n                <li>Please enable cookies in your web browser to continue.</li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n    <div class="page-title">\r\n        <h1><a name="top"></a>What are Cookies?</h1>\r\n    </div>\r\n    <p>Cookies are short pieces of data that are sent to your computer when you visit a website. On later visits, this data is then returned to that website. Cookies allow us to recognize you automatically whenever you visit our site so that we can personalize your experience and provide you with better service. We also use cookies (and similar browser data, such as Flash cookies) for fraud prevention and other purposes. If your web browser is set to refuse cookies from our website, you will not be able to complete a purchase or take advantage of certain features of our website, such as storing items in your Shopping Cart or receiving personalized recommendations. As a result, we strongly encourage you to configure your web browser to accept cookies from our website.</p>\r\n    <h2 class="subtitle">Enabling Cookies</h2>\r\n    <ul class="disc">\r\n        <li><a href="#ie7">Internet Explorer 7.x</a></li>\r\n        <li><a href="#ie6">Internet Explorer 6.x</a></li>\r\n        <li><a href="#firefox">Mozilla/Firefox</a></li>\r\n        <li><a href="#opera">Opera 7.x</a></li>\r\n    </ul>\r\n    <h3><a name="ie7"></a>Internet Explorer 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Start Internet Explorer</p>\r\n        </li>\r\n        <li>\r\n            <p>Under the <strong>Tools</strong> menu, click <strong>Internet Options</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-1.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Privacy</strong> tab</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-2.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Advanced</strong> button</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-3.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Put a check mark in the box for <strong>Override Automatic Cookie Handling</strong>, put another check mark in the <strong>Always accept session cookies </strong>box</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-4.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-5.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-6.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Restart Internet Explore</p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="ie6"></a>Internet Explorer 6.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Select <strong>Internet Options</strong> from the Tools menu</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie6-1.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> tab</p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Default</strong> button (or manually slide the bar down to <strong>Medium</strong>) under <strong>Settings</strong>. Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie6-2.gif"}}" alt="" /></p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="firefox"></a>Mozilla/Firefox</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong>-menu in Mozilla</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Options...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection in the left part of the window. (See image below)</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/firefox.png"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Expand the <strong>Cookies</strong> section</p>\r\n        </li>\r\n        <li>\r\n            <p>Check the <strong>Enable cookies</strong> and <strong>Accept cookies normally</strong> checkboxes</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong>.</p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="opera"></a>Opera 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong> menu in Opera</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Preferences...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection near the bottom left of the window. (See image below)</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/opera.png"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>The <strong>Enable cookies</strong> checkbox must be checked, and <strong>Accept all cookies</strong> should be selected in the &quot;<strong>Normal cookies</strong>&quot; drop-down</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong></p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n</div>\r\n', '2013-02-28 19:03:08', '2013-02-28 19:03:08', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0),
-	(6, 'Privacy Policy', 'one_column', NULL, NULL, 'privacy-policy-cookie-restriction-mode', 'Privacy Policy', '<p style="color: #ff0000; font-weight: bold; font-size: 13px">\n    Please replace this text with you Privacy Policy.\n    Please add any additional cookies your website uses below (e.g., Google Analytics)\n</p>\n<p>\n    This privacy policy sets out how {{config path="general/store_information/name"}} uses and protects any information\n    that you give {{config path="general/store_information/name"}} when you use this website.\n    {{config path="general/store_information/name"}} is committed to ensuring that your privacy is protected.\n    Should we ask you to provide certain information by which you can be identified when using this website,\n    then you can be assured that it will only be used in accordance with this privacy statement.\n    {{config path="general/store_information/name"}} may change this policy from time to time by updating this page.\n    You should check this page from time to time to ensure that you are happy with any changes.\n</p>\n<h2>What we collect</h2>\n<p>We may collect the following information:</p>\n<ul>\n    <li>name</li>\n    <li>contact information including email address</li>\n    <li>demographic information such as postcode, preferences and interests</li>\n    <li>other information relevant to customer surveys and/or offers</li>\n</ul>\n<p>\n    For the exhaustive list of cookies we collect see the <a href="#list">List of cookies we collect</a> section.\n</p>\n<h2>What we do with the information we gather</h2>\n<p>\n    We require this information to understand your needs and provide you with a better service,\n    and in particular for the following reasons:\n</p>\n<ul>\n    <li>Internal record keeping.</li>\n    <li>We may use the information to improve our products and services.</li>\n    <li>\n        We may periodically send promotional emails about new products, special offers or other information which we\n        think you may find interesting using the email address which you have provided.\n    </li>\n    <li>\n        From time to time, we may also use your information to contact you for market research purposes.\n        We may contact you by email, phone, fax or mail. We may use the information to customise the website\n        according to your interests.\n    </li>\n</ul>\n<h2>Security</h2>\n<p>\n    We are committed to ensuring that your information is secure. In order to prevent unauthorised access or disclosure,\n    we have put in place suitable physical, electronic and managerial procedures to safeguard and secure\n    the information we collect online.\n</p>\n<h2>How we use cookies</h2>\n<p>\n    A cookie is a small file which asks permission to be placed on your computer\'s hard drive.\n    Once you agree, the file is added and the cookie helps analyse web traffic or lets you know when you visit\n    a particular site. Cookies allow web applications to respond to you as an individual. The web application\n    can tailor its operations to your needs, likes and dislikes by gathering and remembering information about\n    your preferences.\n</p>\n<p>\n    We use traffic log cookies to identify which pages are being used. This helps us analyse data about web page traffic\n    and improve our website in order to tailor it to customer needs. We only use this information for statistical\n    analysis purposes and then the data is removed from the system.\n</p>\n<p>\n    Overall, cookies help us provide you with a better website, by enabling us to monitor which pages you find useful\n    and which you do not. A cookie in no way gives us access to your computer or any information about you,\n    other than the data you choose to share with us. You can choose to accept or decline cookies.\n    Most web browsers automatically accept cookies, but you can usually modify your browser setting\n    to decline cookies if you prefer. This may prevent you from taking full advantage of the website.\n</p>\n<h2>Links to other websites</h2>\n<p>\n    Our website may contain links to other websites of interest. However, once you have used these links\n    to leave our site, you should note that we do not have any control over that other website.\n    Therefore, we cannot be responsible for the protection and privacy of any information which you provide whilst\n    visiting such sites and such sites are not governed by this privacy statement.\n    You should exercise caution and look at the privacy statement applicable to the website in question.\n</p>\n<h2>Controlling your personal information</h2>\n<p>You may choose to restrict the collection or use of your personal information in the following ways:</p>\n<ul>\n    <li>\n        whenever you are asked to fill in a form on the website, look for the box that you can click to indicate\n        that you do not want the information to be used by anybody for direct marketing purposes\n    </li>\n    <li>\n        if you have previously agreed to us using your personal information for direct marketing purposes,\n        you may change your mind at any time by writing to or emailing us at\n        {{config path="trans_email/ident_general/email"}}\n    </li>\n</ul>\n<p>\n    We will not sell, distribute or lease your personal information to third parties unless we have your permission\n    or are required by law to do so. We may use your personal information to send you promotional information\n    about third parties which we think you may find interesting if you tell us that you wish this to happen.\n</p>\n<p>\n    You may request details of personal information which we hold about you under the Data Protection Act 1998.\n    A small fee will be payable. If you would like a copy of the information held on you please write to\n    {{config path="general/store_information/street_line1"}} {{config path="general/store_information/street_line2"}} {{config path="general/store_information/city"}} {{config path="general/store_information/postcode"}} {{config path="general/store_information/region_id"}} {{config path="general/store_information/country_id"}}.\n</p>\n<p>\n    If you believe that any information we are holding on you is incorrect or incomplete,\n    please write to or email us as soon as possible, at the above address.\n    We will promptly correct any information found to be incorrect.\n</p>\n<h2><a name="list"></a>List of cookies we collect</h2>\n<p>The table below lists the cookies we collect and what information they store.</p>\n<table class="data-table">\n    <thead>\n        <tr>\n            <th>COOKIE name</th>\n            <th>COOKIE Description</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <th>CART</th>\n            <td>The association with your shopping cart.</td>\n        </tr>\n        <tr>\n            <th>CATEGORY_INFO</th>\n            <td>Stores the category info on the page, that allows to display pages more quickly.</td>\n        </tr>\n        <tr>\n            <th>COMPARE</th>\n            <td>The items that you have in the Compare Products list.</td>\n        </tr>\n        <tr>\n            <th>CURRENCY</th>\n            <td>Your preferred currency</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER</th>\n            <td>An encrypted version of your customer id with the store.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_AUTH</th>\n            <td>An indicator if you are currently logged into the store.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_INFO</th>\n            <td>An encrypted version of the customer group you belong to.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_SEGMENT_IDS</th>\n            <td>Stores the Customer Segment ID</td>\n        </tr>\n        <tr>\n            <th>EXTERNAL_NO_CACHE</th>\n            <td>A flag, which indicates whether caching is disabled or not.</td>\n        </tr>\n        <tr>\n            <th>FRONTEND</th>\n            <td>You sesssion ID on the server.</td>\n        </tr>\n        <tr>\n            <th>GUEST-VIEW</th>\n            <td>Allows guests to edit their orders.</td>\n        </tr>\n        <tr>\n            <th>LAST_CATEGORY</th>\n            <td>The last category you visited.</td>\n        </tr>\n        <tr>\n            <th>LAST_PRODUCT</th>\n            <td>The most recent product you have viewed.</td>\n        </tr>\n        <tr>\n            <th>NEWMESSAGE</th>\n            <td>Indicates whether a new message has been received.</td>\n        </tr>\n        <tr>\n            <th>NO_CACHE</th>\n            <td>Indicates whether it is allowed to use cache.</td>\n        </tr>\n        <tr>\n            <th>PERSISTENT_SHOPPING_CART</th>\n            <td>A link to information about your cart and viewing history if you have asked the site.</td>\n        </tr>\n        <tr>\n            <th>POLL</th>\n            <td>The ID of any polls you have recently voted in.</td>\n        </tr>\n        <tr>\n            <th>POLLN</th>\n            <td>Information on what polls you have voted on.</td>\n        </tr>\n        <tr>\n            <th>RECENTLYCOMPARED</th>\n            <td>The items that you have recently compared.            </td>\n        </tr>\n        <tr>\n            <th>STF</th>\n            <td>Information on products you have emailed to friends.</td>\n        </tr>\n        <tr>\n            <th>STORE</th>\n            <td>The store view or language you have selected.</td>\n        </tr>\n        <tr>\n            <th>USER_ALLOWED_SAVE_COOKIE</th>\n            <td>Indicates whether a customer allowed to use cookies.</td>\n        </tr>\n        <tr>\n            <th>VIEWED_PRODUCT_IDS</th>\n            <td>The products that you have recently viewed.</td>\n        </tr>\n        <tr>\n            <th>WISHLIST</th>\n            <td>An encrypted list of products added to your Wishlist.</td>\n        </tr>\n        <tr>\n            <th>WISHLIST_CNT</th>\n            <td>The number of items in your Wishlist.</td>\n        </tr>\n    </tbody>\n</table>', '2013-02-28 19:03:08', '2013-03-27 11:10:51', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0),
-	(7, 'Reward Points', 'one_column', NULL, NULL, 'reward-points', 'Reward Points', '<p>The Reward Points Program allows you to earn points for certain actions you take on the site. Points are awarded based on making purchases and customer actions such as submitting reviews.</p>\n\n<h2>Benefits of Reward Points for Registered Customers</h2>\n<p>Once you register you will be able to earn and accrue reward points, which are then redeemable at time of purchase towards the cost of your order. Rewards are an added bonus to your shopping experience on the site and just one of the ways we thank you for being a loyal customer.</p>\n\n<h2>Earning Reward Points</h2>\n<p>Rewards can currently be earned for the following actions:</p>\n<ul>\n<li>Making purchases — every time you make a purchase you earn points based on the price of products purchased and these points are added to your Reward Points balance.</li>\n<li>Registering on the site.</li>\n<li>Subscribing to a newsletter for the first time.</li>\n<li>Sending Invitations — Earn points by inviting your friends to join the site.</li>\n<li>Converting Invitations to Customer — Earn points for every invitation you send out which leads to your friends registering on the site.</li>\n<li>Converting Invitations to Order — Earn points for every invitation you send out which leads to a sale.</li>\n<li>Review Submission — Earn points for submitting product reviews.</li>\n<li>New Tag Submission — Earn points for adding tags to products.</li>\n</ul>\n\n<h2>Reward Points Exchange Rates</h2>\n<p>The value of reward points is determined by an exchange rate of both currency spent on products to points, and an exchange rate of points earned to currency for spending on future purchases.</p>\n\n<h2>Redeeming Reward Points</h2>\n<p>You can redeem your reward points at checkout. If you have accumulated enough points to redeem them you will have the option of using points as one of the payment methods.  The option to use reward points, as well as your balance and the monetary equivalent this balance, will be shown to you in the Payment Method area of the checkout.  Redeemable reward points can be used in conjunction with other payment methods such as credit cards, gift cards and more.</p>\n<p><img src="{{view url="Enterprise_Reward::images/payment.gif"}}" alt="Payment Information" /></p>\n\n<h2>Reward Points Minimums and Maximums</h2>\n<p>Reward points may be capped at a minimum value required for redemption.  If this option is selected you will not be able to use your reward points until you accrue a minimum number of points, at which point they will become available for redemption.</p>\n<p>Reward points may also be capped at the maximum value of points which can be accrued. If this option is selected you will need to redeem your accrued points before you are able to earn more points.</p>\n\n<h2>Managing My Reward Points</h2>\n<p>You have the ability to view and manage your points through your <a href="{{store url="customer/account"}}">Customer Account</a>. From your account you will be able to view your total points (and currency equivalent), minimum needed to redeem, whether you have reached the maximum points limit and a cumulative history of points acquired, redeemed and lost. The history record will retain and display historical rates and currency for informational purposes. The history will also show you comprehensive informational messages regarding points, including expiration notifications.</p>\n<p><img src="{{view url="Enterprise_Reward::images/my_account.gif"}}" alt="My Account" /></p>\n\n<h2>Reward Points Expiration</h2>\n<p>Reward points can be set to expire. Points will expire in the order form which they were first earned.</p>\n<p><strong>Note</strong>: You can sign up to receive email notifications each time your balance changes when you either earn, redeem or lose points, as well as point expiration notifications. This option is found in the <a href="{{store url="reward/customer/info"}}">Reward Points section</a> of the My Account area.</p>\n', '2013-03-27 11:10:53', '2013-03-27 11:10:53', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0);
-/*!40000 ALTER TABLE `cms_page` ENABLE KEYS */;
+	(1, '404 Not Found 1', 'two_columns_right', 'Page keywords', 'Page description', 'no-route', NULL, '<div class="page-head-alt"><h3>We are sorry, but the page you are looking for cannot be found.</h3></div><div><ul class="disc"><li>If you typed the URL directly, please make sure the spelling is correct.</li><li>If you clicked on a link to get here, we must have moved the content.<br/>Please try our store search box above to search for an item.</li><li>If you are not sure how you got here, <a href="#" onclick="history.go(-1);">go back</a> to the previous page</a> or return to our <a href="{{store url=""}}">store homepage</a>.</li></ul></div>\n\n<!-- <div class="page-title"><h1>Whoops, our bad...</h1></div>\r\n<dl>\r\n<dt>The page you requested was not found, and we have a fine guess why.</dt>\r\n<dd>\r\n<ul class="disc">\r\n<li>If you typed the URL directly, please make sure the spelling is correct.</li>\r\n<li>If you clicked on a link to get here, the link is outdated.</li>\r\n</ul></dd>\r\n</dl>\r\n<dl>\r\n<dt>What can you do?</dt>\r\n<dd>Have no fear, help is near! There are many ways you can get back on track with Magento Store.</dd>\r\n<dd>\r\n<ul class="disc">\r\n<li><a href="#" onclick="history.go(-1); return false;">Go back</a> to the previous page.</li>\r\n<li>Use the search bar at the top of the page to search for your products.</li>\r\n<li>Follow these links to get you back on track!<br /><a href="{{store url=""}}">Store Home</a> <span class="separator">|</span> <a href="{{store url="customer/account"}}">My Account</a></li></ul></dd></dl>\r\n -->', '2013-04-10 22:52:12', '2013-04-10 22:52:12', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0),
+	(2, 'Home page', 'one_column', NULL, NULL, 'home', NULL, '<div class="col2-set">\n<div class="col-1">\n{{widget type="Mage_Cms_Block_Widget_Block" template="Mage_Cms::widget/static_block/default.phtml" block_id="2"}}\n</div>\n<div class="col-2">\n{{widget type="Mage_Cms_Block_Widget_Block" template="Mage_Cms::widget/static_block/default.phtml" block_id="3"}}\n{{widget type="Mage_Cms_Block_Widget_Block" template="Mage_Cms::widget/static_block/default.phtml" block_id="4"}}\n{{widget type="Mage_Cms_Block_Widget_Block" template="Mage_Cms::widget/static_block/default.phtml" block_id="5"}}\n</div>\n</div>\n\n\n\n<div style="display:none"><!-- your previous content backup comes below -->\n\n\n <div class="page-title"><h2>Home Page</h2></div>\r\n\n\n\n</div>', '2013-04-10 22:52:12', '2013-04-10 22:52:32', 1, 0, '<!--<reference name="content">\n        <block type="Mage_Catalog_Block_Product_New" name="home.catalog.product.new" alias="product_new" template="product/new.phtml" after="cms_page">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type="Mage_Reports_Block_Product_Viewed" name="home.reports.product.viewed" alias="product_viewed" template="home_product_viewed.phtml" after="product_new">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type="Mage_Reports_Block_Product_Compared" name="home.reports.product.compared" template="home_product_compared.phtml" after="product_viewed">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n    </reference>\n    <reference name="right">\n        <action method="unsetChild"><alias>right.reports.product.viewed</alias></action>\n        <action method="unsetChild"><alias>right.reports.product.compared</alias></action>\n    </reference>-->', NULL, NULL, NULL, NULL, NULL, 0, 1, 0),
+	(3, 'About Us', 'two_columns_right', NULL, NULL, 'about-magento-demo-store', NULL, '<div class="page-title">\r\n<h1>About Magento Store</h1>\r\n</div>\r\n<div class="col3-set">\r\n<div class="col-1"><p><a href="http://www.magento.com/"><img src="{{view url=\'Mage_Cms::images/about_us_img.jpg\'}}" title="Varien" alt="Varien" /></a></p><p style="line-height:1.2em;"><small>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.</small></p>\r\n<p style="color:#888; font:1.2em/1.4em georgia, serif;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta.</p></div>\r\n<div class="col-2">\r\n<p><strong style="color:#de036f;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.</strong></p>\r\n<p>Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo. </p>\r\n<p>Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus. Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi. Vestibulum sapien dolor, aliquet nec, porta ac, malesuada a, libero. Praesent feugiat purus eget est. Nulla facilisi. Vestibulum tincidunt sapien eu velit. Mauris purus. Maecenas eget mauris eu orci accumsan feugiat. Pellentesque eget velit. Nunc tincidunt.</p></div>\r\n<div class="col-3">\r\n<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper </p>\r\n<p><strong style="color:#de036f;">Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus.</strong></p>\r\n<p>Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi.</p>\r\n<div class="divider"></div>\r\n<p>To all of you, from all of us at Magento Store - Thank you and Happy eCommerce!</p>\r\n<p style="line-height:1.2em;"><strong style="font:italic 2em Georgia, serif;">John Doe</strong><br /><small>Some important guy</small></p></div>\r\n</div>', '2013-04-10 22:52:12', '2013-04-10 22:52:12', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0),
+	(4, 'Customer Service', 'three_columns', NULL, NULL, 'customer-service', NULL, '<div class="page-title">\r\n<h1>Customer Service</h1>\r\n</div>\r\n<ul class="disc">\r\n<li><a href="#answer1">Shipping &amp; Delivery</a></li>\r\n<li><a href="#answer2">Privacy &amp; Security</a></li>\r\n<li><a href="#answer3">Returns &amp; Replacements</a></li>\r\n<li><a href="#answer4">Ordering</a></li>\r\n<li><a href="#answer5">Payment, Pricing &amp; Promotions</a></li>\r\n<li><a href="#answer6">Viewing Orders</a></li>\r\n<li><a href="#answer7">Updating Account Information</a></li>\r\n</ul>\r\n<dl>\r\n<dt id="answer1">Shipping &amp; Delivery</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer2">Privacy &amp; Security</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer3">Returns &amp; Replacements</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer4">Ordering</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer5">Payment, Pricing &amp; Promotions</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer6">Viewing Orders</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer7">Updating Account Information</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n</dl>', '2013-04-10 22:52:12', '2013-04-10 22:52:12', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0),
+	(5, 'Enable Cookies', 'one_column', NULL, NULL, 'enable-cookies', NULL, '<div class="std">\r\n    <ul class="messages">\r\n        <li class="notice-msg">\r\n            <ul>\r\n                <li>Please enable cookies in your web browser to continue.</li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n    <div class="page-title">\r\n        <h1><a name="top"></a>What are Cookies?</h1>\r\n    </div>\r\n    <p>Cookies are short pieces of data that are sent to your computer when you visit a website. On later visits, this data is then returned to that website. Cookies allow us to recognize you automatically whenever you visit our site so that we can personalize your experience and provide you with better service. We also use cookies (and similar browser data, such as Flash cookies) for fraud prevention and other purposes. If your web browser is set to refuse cookies from our website, you will not be able to complete a purchase or take advantage of certain features of our website, such as storing items in your Shopping Cart or receiving personalized recommendations. As a result, we strongly encourage you to configure your web browser to accept cookies from our website.</p>\r\n    <h2 class="subtitle">Enabling Cookies</h2>\r\n    <ul class="disc">\r\n        <li><a href="#ie7">Internet Explorer 7.x</a></li>\r\n        <li><a href="#ie6">Internet Explorer 6.x</a></li>\r\n        <li><a href="#firefox">Mozilla/Firefox</a></li>\r\n        <li><a href="#opera">Opera 7.x</a></li>\r\n    </ul>\r\n    <h3><a name="ie7"></a>Internet Explorer 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Start Internet Explorer</p>\r\n        </li>\r\n        <li>\r\n            <p>Under the <strong>Tools</strong> menu, click <strong>Internet Options</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-1.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Privacy</strong> tab</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-2.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Advanced</strong> button</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-3.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Put a check mark in the box for <strong>Override Automatic Cookie Handling</strong>, put another check mark in the <strong>Always accept session cookies </strong>box</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-4.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-5.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-6.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Restart Internet Explore</p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="ie6"></a>Internet Explorer 6.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Select <strong>Internet Options</strong> from the Tools menu</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie6-1.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> tab</p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Default</strong> button (or manually slide the bar down to <strong>Medium</strong>) under <strong>Settings</strong>. Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie6-2.gif"}}" alt="" /></p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="firefox"></a>Mozilla/Firefox</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong>-menu in Mozilla</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Options...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection in the left part of the window. (See image below)</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/firefox.png"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Expand the <strong>Cookies</strong> section</p>\r\n        </li>\r\n        <li>\r\n            <p>Check the <strong>Enable cookies</strong> and <strong>Accept cookies normally</strong> checkboxes</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong>.</p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="opera"></a>Opera 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong> menu in Opera</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Preferences...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection near the bottom left of the window. (See image below)</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/opera.png"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>The <strong>Enable cookies</strong> checkbox must be checked, and <strong>Accept all cookies</strong> should be selected in the &quot;<strong>Normal cookies</strong>&quot; drop-down</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong></p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n</div>\r\n', '2013-04-10 22:52:12', '2013-04-10 22:52:12', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0),
+	(6, 'Privacy Policy', 'one_column', NULL, NULL, 'privacy-policy-cookie-restriction-mode', 'Privacy Policy', '<p style="color: #ff0000; font-weight: bold; font-size: 13px">\n    Please replace this text with you Privacy Policy.\n    Please add any additional cookies your website uses below (e.g., Google Analytics)\n</p>\n<p>\n    This privacy policy sets out how {{config path="general/store_information/name"}} uses and protects any information\n    that you give {{config path="general/store_information/name"}} when you use this website.\n    {{config path="general/store_information/name"}} is committed to ensuring that your privacy is protected.\n    Should we ask you to provide certain information by which you can be identified when using this website,\n    then you can be assured that it will only be used in accordance with this privacy statement.\n    {{config path="general/store_information/name"}} may change this policy from time to time by updating this page.\n    You should check this page from time to time to ensure that you are happy with any changes.\n</p>\n<h2>What we collect</h2>\n<p>We may collect the following information:</p>\n<ul>\n    <li>name</li>\n    <li>contact information including email address</li>\n    <li>demographic information such as postcode, preferences and interests</li>\n    <li>other information relevant to customer surveys and/or offers</li>\n</ul>\n<p>\n    For the exhaustive list of cookies we collect see the <a href="#list">List of cookies we collect</a> section.\n</p>\n<h2>What we do with the information we gather</h2>\n<p>\n    We require this information to understand your needs and provide you with a better service,\n    and in particular for the following reasons:\n</p>\n<ul>\n    <li>Internal record keeping.</li>\n    <li>We may use the information to improve our products and services.</li>\n    <li>\n        We may periodically send promotional emails about new products, special offers or other information which we\n        think you may find interesting using the email address which you have provided.\n    </li>\n    <li>\n        From time to time, we may also use your information to contact you for market research purposes.\n        We may contact you by email, phone, fax or mail. We may use the information to customise the website\n        according to your interests.\n    </li>\n</ul>\n<h2>Security</h2>\n<p>\n    We are committed to ensuring that your information is secure. In order to prevent unauthorised access or disclosure,\n    we have put in place suitable physical, electronic and managerial procedures to safeguard and secure\n    the information we collect online.\n</p>\n<h2>How we use cookies</h2>\n<p>\n    A cookie is a small file which asks permission to be placed on your computer\'s hard drive.\n    Once you agree, the file is added and the cookie helps analyse web traffic or lets you know when you visit\n    a particular site. Cookies allow web applications to respond to you as an individual. The web application\n    can tailor its operations to your needs, likes and dislikes by gathering and remembering information about\n    your preferences.\n</p>\n<p>\n    We use traffic log cookies to identify which pages are being used. This helps us analyse data about web page traffic\n    and improve our website in order to tailor it to customer needs. We only use this information for statistical\n    analysis purposes and then the data is removed from the system.\n</p>\n<p>\n    Overall, cookies help us provide you with a better website, by enabling us to monitor which pages you find useful\n    and which you do not. A cookie in no way gives us access to your computer or any information about you,\n    other than the data you choose to share with us. You can choose to accept or decline cookies.\n    Most web browsers automatically accept cookies, but you can usually modify your browser setting\n    to decline cookies if you prefer. This may prevent you from taking full advantage of the website.\n</p>\n<h2>Links to other websites</h2>\n<p>\n    Our website may contain links to other websites of interest. However, once you have used these links\n    to leave our site, you should note that we do not have any control over that other website.\n    Therefore, we cannot be responsible for the protection and privacy of any information which you provide whilst\n    visiting such sites and such sites are not governed by this privacy statement.\n    You should exercise caution and look at the privacy statement applicable to the website in question.\n</p>\n<h2>Controlling your personal information</h2>\n<p>You may choose to restrict the collection or use of your personal information in the following ways:</p>\n<ul>\n    <li>\n        whenever you are asked to fill in a form on the website, look for the box that you can click to indicate\n        that you do not want the information to be used by anybody for direct marketing purposes\n    </li>\n    <li>\n        if you have previously agreed to us using your personal information for direct marketing purposes,\n        you may change your mind at any time by writing to or emailing us at\n        {{config path="trans_email/ident_general/email"}}\n    </li>\n</ul>\n<p>\n    We will not sell, distribute or lease your personal information to third parties unless we have your permission\n    or are required by law to do so. We may use your personal information to send you promotional information\n    about third parties which we think you may find interesting if you tell us that you wish this to happen.\n</p>\n<p>\n    You may request details of personal information which we hold about you under the Data Protection Act 1998.\n    A small fee will be payable. If you would like a copy of the information held on you please write to\n    {{config path="general/store_information/street_line1"}} {{config path="general/store_information/street_line2"}} {{config path="general/store_information/city"}} {{config path="general/store_information/postcode"}} {{config path="general/store_information/region_id"}} {{config path="general/store_information/country_id"}}.\n</p>\n<p>\n    If you believe that any information we are holding on you is incorrect or incomplete,\n    please write to or email us as soon as possible, at the above address.\n    We will promptly correct any information found to be incorrect.\n</p>\n<h2><a name="list"></a>List of cookies we collect</h2>\n<p>The table below lists the cookies we collect and what information they store.</p>\n<table class="data-table">\n    <thead>\n        <tr>\n            <th>COOKIE name</th>\n            <th>COOKIE Description</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <th>CART</th>\n            <td>The association with your shopping cart.</td>\n        </tr>\n        <tr>\n            <th>CATEGORY_INFO</th>\n            <td>Stores the category info on the page, that allows to display pages more quickly.</td>\n        </tr>\n        <tr>\n            <th>COMPARE</th>\n            <td>The items that you have in the Compare Products list.</td>\n        </tr>\n        <tr>\n            <th>CURRENCY</th>\n            <td>Your preferred currency</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER</th>\n            <td>An encrypted version of your customer id with the store.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_AUTH</th>\n            <td>An indicator if you are currently logged into the store.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_INFO</th>\n            <td>An encrypted version of the customer group you belong to.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_SEGMENT_IDS</th>\n            <td>Stores the Customer Segment ID</td>\n        </tr>\n        <tr>\n            <th>EXTERNAL_NO_CACHE</th>\n            <td>A flag, which indicates whether caching is disabled or not.</td>\n        </tr>\n        <tr>\n            <th>FRONTEND</th>\n            <td>You sesssion ID on the server.</td>\n        </tr>\n        <tr>\n            <th>GUEST-VIEW</th>\n            <td>Allows guests to edit their orders.</td>\n        </tr>\n        <tr>\n            <th>LAST_CATEGORY</th>\n            <td>The last category you visited.</td>\n        </tr>\n        <tr>\n            <th>LAST_PRODUCT</th>\n            <td>The most recent product you have viewed.</td>\n        </tr>\n        <tr>\n            <th>NEWMESSAGE</th>\n            <td>Indicates whether a new message has been received.</td>\n        </tr>\n        <tr>\n            <th>NO_CACHE</th>\n            <td>Indicates whether it is allowed to use cache.</td>\n        </tr>\n        <tr>\n            <th>PERSISTENT_SHOPPING_CART</th>\n            <td>A link to information about your cart and viewing history if you have asked the site.</td>\n        </tr>\n        <tr>\n            <th>POLL</th>\n            <td>The ID of any polls you have recently voted in.</td>\n        </tr>\n        <tr>\n            <th>POLLN</th>\n            <td>Information on what polls you have voted on.</td>\n        </tr>\n        <tr>\n            <th>RECENTLYCOMPARED</th>\n            <td>The items that you have recently compared.            </td>\n        </tr>\n        <tr>\n            <th>STF</th>\n            <td>Information on products you have emailed to friends.</td>\n        </tr>\n        <tr>\n            <th>STORE</th>\n            <td>The store view or language you have selected.</td>\n        </tr>\n        <tr>\n            <th>USER_ALLOWED_SAVE_COOKIE</th>\n            <td>Indicates whether a customer allowed to use cookies.</td>\n        </tr>\n        <tr>\n            <th>VIEWED_PRODUCT_IDS</th>\n            <td>The products that you have recently viewed.</td>\n        </tr>\n        <tr>\n            <th>WISHLIST</th>\n            <td>An encrypted list of products added to your Wishlist.</td>\n        </tr>\n        <tr>\n            <th>WISHLIST_CNT</th>\n            <td>The number of items in your Wishlist.</td>\n        </tr>\n    </tbody>\n</table>', '2013-04-10 22:52:12', '2013-04-10 22:52:12', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0),
+	(7, 'Reward Points', 'one_column', NULL, NULL, 'reward-points', 'Reward Points', '<p>The Reward Points Program allows you to earn points for certain actions you take on the site. Points are awarded based on making purchases and customer actions such as submitting reviews.</p>\n\n<h2>Benefits of Reward Points for Registered Customers</h2>\n<p>Once you register you will be able to earn and accrue reward points, which are then redeemable at time of purchase towards the cost of your order. Rewards are an added bonus to your shopping experience on the site and just one of the ways we thank you for being a loyal customer.</p>\n\n<h2>Earning Reward Points</h2>\n<p>Rewards can currently be earned for the following actions:</p>\n<ul>\n<li>Making purchases — every time you make a purchase you earn points based on the price of products purchased and these points are added to your Reward Points balance.</li>\n<li>Registering on the site.</li>\n<li>Subscribing to a newsletter for the first time.</li>\n<li>Sending Invitations — Earn points by inviting your friends to join the site.</li>\n<li>Converting Invitations to Customer — Earn points for every invitation you send out which leads to your friends registering on the site.</li>\n<li>Converting Invitations to Order — Earn points for every invitation you send out which leads to a sale.</li>\n<li>Review Submission — Earn points for submitting product reviews.</li>\n<li>New Tag Submission — Earn points for adding tags to products.</li>\n</ul>\n\n<h2>Reward Points Exchange Rates</h2>\n<p>The value of reward points is determined by an exchange rate of both currency spent on products to points, and an exchange rate of points earned to currency for spending on future purchases.</p>\n\n<h2>Redeeming Reward Points</h2>\n<p>You can redeem your reward points at checkout. If you have accumulated enough points to redeem them you will have the option of using points as one of the payment methods.  The option to use reward points, as well as your balance and the monetary equivalent this balance, will be shown to you in the Payment Method area of the checkout.  Redeemable reward points can be used in conjunction with other payment methods such as credit cards, gift cards and more.</p>\n<p><img src="{{view url="Enterprise_Reward::images/payment.gif"}}" alt="Payment Information" /></p>\n\n<h2>Reward Points Minimums and Maximums</h2>\n<p>Reward points may be capped at a minimum value required for redemption.  If this option is selected you will not be able to use your reward points until you accrue a minimum number of points, at which point they will become available for redemption.</p>\n<p>Reward points may also be capped at the maximum value of points which can be accrued. If this option is selected you will need to redeem your accrued points before you are able to earn more points.</p>\n\n<h2>Managing My Reward Points</h2>\n<p>You have the ability to view and manage your points through your <a href="{{store url="customer/account"}}">Customer Account</a>. From your account you will be able to view your total points (and currency equivalent), minimum needed to redeem, whether you have reached the maximum points limit and a cumulative history of points acquired, redeemed and lost. The history record will retain and display historical rates and currency for informational purposes. The history will also show you comprehensive informational messages regarding points, including expiration notifications.</p>\n<p><img src="{{view url="Enterprise_Reward::images/my_account.gif"}}" alt="My Account" /></p>\n\n<h2>Reward Points Expiration</h2>\n<p>Reward points can be set to expire. Points will expire in the order form which they were first earned.</p>\n<p><strong>Note</strong>: You can sign up to receive email notifications each time your balance changes when you either earn, redeem or lose points, as well as point expiration notifications. This option is found in the <a href="{{store url="reward/customer/info"}}">Reward Points section</a> of the My Account area.</p>\n', '2013-04-10 22:52:32', '2013-04-10 22:52:32', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 0);
+
 
 
 # Dumping structure for table cms_page_store
@@ -2455,7 +2568,7 @@ CREATE TABLE IF NOT EXISTS `cms_page_store` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='CMS Page To Store Linkage Table';
 
 # Dumping data for table cms_page_store: ~7 rows (approximately)
-/*!40000 ALTER TABLE `cms_page_store` DISABLE KEYS */;
+
 INSERT INTO `cms_page_store` (`page_id`, `store_id`) VALUES
 	(1, 0),
 	(2, 0),
@@ -2464,7 +2577,7 @@ INSERT INTO `cms_page_store` (`page_id`, `store_id`) VALUES
 	(5, 0),
 	(6, 0),
 	(7, 0);
-/*!40000 ALTER TABLE `cms_page_store` ENABLE KEYS */;
+
 
 
 # Dumping structure for table cms_url_rewrite
@@ -2480,8 +2593,8 @@ CREATE TABLE IF NOT EXISTS `cms_url_rewrite` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cms Url Rewrite Table';
 
 # Dumping data for table cms_url_rewrite: ~0 rows (approximately)
-/*!40000 ALTER TABLE `cms_url_rewrite` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cms_url_rewrite` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table core_cache
@@ -2496,8 +2609,8 @@ CREATE TABLE IF NOT EXISTS `core_cache` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Caches';
 
 # Dumping data for table core_cache: ~0 rows (approximately)
-/*!40000 ALTER TABLE `core_cache` DISABLE KEYS */;
-/*!40000 ALTER TABLE `core_cache` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table core_cache_option
@@ -2508,17 +2621,16 @@ CREATE TABLE IF NOT EXISTS `core_cache_option` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cache Options';
 
 # Dumping data for table core_cache_option: ~8 rows (approximately)
-/*!40000 ALTER TABLE `core_cache_option` DISABLE KEYS */;
+
 INSERT INTO `core_cache_option` (`code`, `value`) VALUES
 	('block_html', 1),
 	('collections', 1),
 	('config', 1),
 	('config_api', 1),
-	('config_webservice', 1),
 	('eav', 1),
+	('full_page', 1),
 	('layout', 1),
 	('translate', 1);
-/*!40000 ALTER TABLE `core_cache_option` ENABLE KEYS */;
 
 
 # Dumping structure for table core_cache_tag
@@ -2529,463 +2641,6 @@ CREATE TABLE IF NOT EXISTS `core_cache_tag` (
   KEY `IDX_CORE_CACHE_TAG_CACHE_ID` (`cache_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tag Caches';
 
-# Dumping data for table core_cache_tag: ~552 rows (approximately)
-/*!40000 ALTER TABLE `core_cache_tag` DISABLE KEYS */;
-INSERT INTO `core_cache_tag` (`tag`, `cache_id`) VALUES
-	('s515ed716bd7bc_BACKEND_MAINMENU', 's515ed716bd7bc_9ABCB2EE6D404B0A33DB58E7101DFC040AA3C7E5'),
-	('s515ed716bd7bc_BLOCK_HTML', 's515ed716bd7bc_9ABCB2EE6D404B0A33DB58E7101DFC040AA3C7E5'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_9ABCB2EE6D404B0A33DB58E7101DFC040AA3C7E5'),
-	('s515ed716bd7bc_BACKEND_MAINMENU', 's515ed716bd7bc_AAF6A2904A1E954B523B0940416F23454EE618A8'),
-	('s515ed716bd7bc_BLOCK_HTML', 's515ed716bd7bc_AAF6A2904A1E954B523B0940416F23454EE618A8'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_AAF6A2904A1E954B523B0940416F23454EE618A8'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_ADMIN_NOTIFICATIONS_LASTCHECK'),
-	('s515ed716bd7bc_COLLECTION_DATA', 's515ed716bd7bc_APP_4E4ABDD8DC00C3DACB3C1597944A3B6C'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_APP_4E4ABDD8DC00C3DACB3C1597944A3B6C'),
-	('s515ed716bd7bc_STORE', 's515ed716bd7bc_APP_4E4ABDD8DC00C3DACB3C1597944A3B6C'),
-	('s515ed716bd7bc_COLLECTION_DATA', 's515ed716bd7bc_APP_B1FB6E8F13287C01E5C05063633DDA4C'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_APP_B1FB6E8F13287C01E5C05063633DDA4C'),
-	('s515ed716bd7bc_WEBSITE', 's515ed716bd7bc_APP_B1FB6E8F13287C01E5C05063633DDA4C'),
-	('s515ed716bd7bc_COLLECTION_DATA', 's515ed716bd7bc_APP_E4D52B98688947405EDE639E947EE03D'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_APP_E4D52B98688947405EDE639E947EE03D'),
-	('s515ed716bd7bc_STORE_GROUP', 's515ed716bd7bc_APP_E4D52B98688947405EDE639E947EE03D'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_BACKEND_ACL_RESOURCES'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_BACKEND_ACL_RESOURCES'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_BACKEND_MENU_CONFIG'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_BACKEND_MENU_CONFIG'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_BACKEND_MENU_OBJECT'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_BACKEND_MENU_OBJECT'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_BACKEND_SYSTEM_CONFIGURATION_STRUCTURE'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_BACKEND_SYSTEM_CONFIGURATION_STRUCTURE'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_CACHE_CONFIG'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_CACHE_CONFIG'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_CONFIGURATION_FILES_ACCESS_LEVEL_VERIFICATION'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_CONFIG_GLOBAL'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_CONFIG_GLOBAL'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_CONFIG_GLOBAL_ADMIN'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_CONFIG_GLOBAL_ADMIN'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_CONFIG_GLOBAL_ADMINHTML'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_CONFIG_GLOBAL_ADMINHTML'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_CONFIG_GLOBAL_CRONTAB'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_CONFIG_GLOBAL_CRONTAB'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_CONFIG_GLOBAL_INSTALL'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_CONFIG_GLOBAL_INSTALL'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_CONFIG_GLOBAL_LOCK'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_CONFIG_GLOBAL_LOCK'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_CONFIG_GLOBAL_STORES'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_CONFIG_GLOBAL_STORES'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_CONFIG_GLOBAL_STORES_ADMIN'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_CONFIG_GLOBAL_STORES_ADMIN'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_CONFIG_GLOBAL_STORES_DEFAULT'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_CONFIG_GLOBAL_STORES_DEFAULT'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_CONFIG_GLOBAL_WEBSITES'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_CONFIG_GLOBAL_WEBSITES'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_CORE_CACHE_OPTIONS'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ADMIN_SYSTEM_MESSAGES_1'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ADMIN_SYSTEM_MESSAGES_1'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_CATALOG_PRODUCT_ENTITY_1'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_CATALOG_PRODUCT_ENTITY_1'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_EAV_ATTRIBUTE_1'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_EAV_ATTRIBUTE_1'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_LOGGING_EVENT_1'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_LOGGING_EVENT_1'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_1'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_1'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_2'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_2'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_3'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_3'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_4'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_CREDITMEMO_GRID_ARCHIVE_4'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_1'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_1'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_2'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_2'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_3'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_3'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_4'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_INVOICE_GRID_ARCHIVE_4'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_1'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_1'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_2'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_2'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_3'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_3'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_4'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_ORDER_GRID_ARCHIVE_4'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_1'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_1'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_2'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_2'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_3'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_3'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_4'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_ENTERPRISE_SALES_SHIPMENT_GRID_ARCHIVE_4'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_LAUNCHER_TILE_1'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_LAUNCHER_TILE_1'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_LOG_VISITOR_INFO_1'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_LOG_VISITOR_INFO_1'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_CREDITMEMO_GRID_1'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_CREDITMEMO_GRID_1'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_CREDITMEMO_GRID_2'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_CREDITMEMO_GRID_2'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_CREDITMEMO_GRID_3'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_CREDITMEMO_GRID_3'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_CREDITMEMO_GRID_4'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_CREDITMEMO_GRID_4'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_INVOICE_GRID_1'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_INVOICE_GRID_1'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_INVOICE_GRID_2'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_INVOICE_GRID_2'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_INVOICE_GRID_3'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_INVOICE_GRID_3'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_INVOICE_GRID_4'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_INVOICE_GRID_4'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_ORDER_GRID_1'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_ORDER_GRID_1'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_ORDER_GRID_2'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_ORDER_GRID_2'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_ORDER_GRID_3'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_ORDER_GRID_3'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_ORDER_GRID_4'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_ORDER_GRID_4'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_SHIPMENT_GRID_1'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_SHIPMENT_GRID_1'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_SHIPMENT_GRID_2'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_SHIPMENT_GRID_2'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_SHIPMENT_GRID_3'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_SHIPMENT_GRID_3'),
-	('s515ed716bd7bc_DB_PDO_MYSQL_DDL', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_SHIPMENT_GRID_4'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DB_PDO_MYSQL_DDL_SALES_FLAT_SHIPMENT_GRID_4'),
-	('s515ed716bd7bc_CORE_DESIGN', 's515ed716bd7bc_DESIGN_CHANGE_F7E5B1F1F537E6246E8FD26273936891'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DESIGN_CHANGE_F7E5B1F1F537E6246E8FD26273936891'),
-	('s515ed716bd7bc_BLOCK_HTML', 's515ed716bd7bc_DFDDDA4FD8BCE98A06579662D5CC14B092C88F12'),
-	('s515ed716bd7bc_CMS_BLOCK', 's515ed716bd7bc_DFDDDA4FD8BCE98A06579662D5CC14B092C88F12'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DFDDDA4FD8BCE98A06579662D5CC14B092C88F12'),
-	('s515ed716bd7bc_STORE', 's515ed716bd7bc_DFDDDA4FD8BCE98A06579662D5CC14B092C88F12'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_DIRECTORY_COUNTRY_SELECT_STORE_ADMIN'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_DIRECTORY_COUNTRY_SELECT_STORE_ADMIN'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_ENTERPRISE_LOGGING_CONFIG'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_ENTERPRISE_LOGGING_CONFIG'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_JAVASCRIPT_TRANSLATE_CONFIG'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_JAVASCRIPT_TRANSLATE_CONFIG'),
-	('s515ed716bd7bc_LAYOUT_GENERAL_CACHE_TAG', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_'),
-	('s515ed716bd7bc_ADMINHTML_CATALOG_PRODUCT_INDEX', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_96CA311A35751598399F1CDF0F37C96B'),
-	('s515ed716bd7bc_DEFAULT', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_96CA311A35751598399F1CDF0F37C96B'),
-	('s515ed716bd7bc_LAYOUT_GENERAL_CACHE_TAG', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_96CA311A35751598399F1CDF0F37C96B'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_96CA311A35751598399F1CDF0F37C96B'),
-	('s515ed716bd7bc_DEFAULT', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_97ECA963E792644A488BECD9A80CC210'),
-	('s515ed716bd7bc_LAUNCHER_INDEX', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_97ECA963E792644A488BECD9A80CC210'),
-	('s515ed716bd7bc_LAUNCHER_STORELAUNCHER_INDEX_INDEX', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_97ECA963E792644A488BECD9A80CC210'),
-	('s515ed716bd7bc_LAYOUT_GENERAL_CACHE_TAG', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_97ECA963E792644A488BECD9A80CC210'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_97ECA963E792644A488BECD9A80CC210'),
-	('s515ed716bd7bc_ADMINHTML_AUTH_LOGIN', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_C470299521325284ED2F872FB317D47B'),
-	('s515ed716bd7bc_DEFAULT', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_C470299521325284ED2F872FB317D47B'),
-	('s515ed716bd7bc_LAYOUT_GENERAL_CACHE_TAG', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_C470299521325284ED2F872FB317D47B'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_C470299521325284ED2F872FB317D47B'),
-	('s515ed716bd7bc_ADMINHTML_CATALOG_PRODUCT_NEW', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_D31C373F02FBF76656D15F645B4B432B'),
-	('s515ed716bd7bc_ADMINHTML_CATALOG_PRODUCT_SIMPLE', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_D31C373F02FBF76656D15F645B4B432B'),
-	('s515ed716bd7bc_ADMINHTML_CATALOG_PRODUCT_SUPERCONFIG_CONFIG', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_D31C373F02FBF76656D15F645B4B432B'),
-	('s515ed716bd7bc_DEFAULT', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_D31C373F02FBF76656D15F645B4B432B'),
-	('s515ed716bd7bc_EDITOR', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_D31C373F02FBF76656D15F645B4B432B'),
-	('s515ed716bd7bc_LAYOUT_GENERAL_CACHE_TAG', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_D31C373F02FBF76656D15F645B4B432B'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_LAYOUT_ADMINHTML_STORE0_D31C373F02FBF76656D15F645B4B432B'),
-	('s515ed716bd7bc_LAYOUT_GENERAL_CACHE_TAG', 's515ed716bd7bc_LAYOUT_FRONTEND_STORE1_'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_LAYOUT_FRONTEND_STORE1_'),
-	('s515ed716bd7bc_CMS_INDEX_INDEX', 's515ed716bd7bc_LAYOUT_FRONTEND_STORE1_2283C93E79196819A4C142CE66C4A0E9'),
-	('s515ed716bd7bc_CMS_PAGE_VIEW', 's515ed716bd7bc_LAYOUT_FRONTEND_STORE1_2283C93E79196819A4C142CE66C4A0E9'),
-	('s515ed716bd7bc_DEFAULT', 's515ed716bd7bc_LAYOUT_FRONTEND_STORE1_2283C93E79196819A4C142CE66C4A0E9'),
-	('s515ed716bd7bc_LAYOUT_GENERAL_CACHE_TAG', 's515ed716bd7bc_LAYOUT_FRONTEND_STORE1_2283C93E79196819A4C142CE66C4A0E9'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_LAYOUT_FRONTEND_STORE1_2283C93E79196819A4C142CE66C4A0E9'),
-	('s515ed716bd7bc_PAGE_ONE_COLUMN', 's515ed716bd7bc_LAYOUT_FRONTEND_STORE1_2283C93E79196819A4C142CE66C4A0E9'),
-	('s515ed716bd7bc_CMS_INDEX_NOROUTE', 's515ed716bd7bc_LAYOUT_FRONTEND_STORE1_97EF4E381C19BFF0E57A8C73B7AADC03'),
-	('s515ed716bd7bc_CMS_PAGE_VIEW', 's515ed716bd7bc_LAYOUT_FRONTEND_STORE1_97EF4E381C19BFF0E57A8C73B7AADC03'),
-	('s515ed716bd7bc_DEFAULT', 's515ed716bd7bc_LAYOUT_FRONTEND_STORE1_97EF4E381C19BFF0E57A8C73B7AADC03'),
-	('s515ed716bd7bc_LAYOUT_GENERAL_CACHE_TAG', 's515ed716bd7bc_LAYOUT_FRONTEND_STORE1_97EF4E381C19BFF0E57A8C73B7AADC03'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_LAYOUT_FRONTEND_STORE1_97EF4E381C19BFF0E57A8C73B7AADC03'),
-	('s515ed716bd7bc_PAGE_TWO_COLUMNS_RIGHT', 's515ed716bd7bc_LAYOUT_FRONTEND_STORE1_97EF4E381C19BFF0E57A8C73B7AADC03'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_STORE_ADMIN_CONFIG_CACHE'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_STORE_ADMIN_CONFIG_CACHE'),
-	('s515ed716bd7bc_STORE', 's515ed716bd7bc_STORE_ADMIN_CONFIG_CACHE'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_STORE_DEFAULT_CONFIG_CACHE'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_STORE_DEFAULT_CONFIG_CACHE'),
-	('s515ed716bd7bc_STORE', 's515ed716bd7bc_STORE_DEFAULT_CONFIG_CACHE'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_TRANSLATE_EN_US_ADMINHTML_0_1'),
-	('s515ed716bd7bc_TRANSLATE', 's515ed716bd7bc_TRANSLATE_EN_US_ADMINHTML_0_1'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_TRANSLATE_EN_US_FRONTEND_1_10'),
-	('s515ed716bd7bc_TRANSLATE', 's515ed716bd7bc_TRANSLATE_EN_US_FRONTEND_1_10'),
-	('s515ed716bd7bc_CONFIG', 's515ed716bd7bc_WIDGET_CONFIG'),
-	('s515ed716bd7bc_MAGE', 's515ed716bd7bc_WIDGET_CONFIG'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_am_'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_AD'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_AE'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_AF'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_AG'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_AI'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_AL'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_AM'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_AN'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_AO'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_AQ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_AR'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_AS'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_AT'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_AU'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_AW'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_AX'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_AZ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BA'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BB'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BD'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BE'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BF'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BG'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BH'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BI'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BJ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BL'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BM'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BN'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BO'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BR'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BS'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BT'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BV'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BW'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BY'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_BZ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_CA'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_CC'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_CD'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_CF'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_CG'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_CH'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_CI'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_CK'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_CL'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_CM'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_CN'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_CO'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_CR'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_CU'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_CV'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_CX'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_CY'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_CZ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_DE'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_DJ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_DK'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_DM'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_DO'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_DZ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_EC'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_EE'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_EG'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_EH'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_ER'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_ES'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_ET'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_FI'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_FJ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_FK'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_FM'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_FO'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_FR'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GA'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GB'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GD'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GE'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GF'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GG'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GH'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GI'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GL'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GM'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GN'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GP'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GQ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GR'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GS'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GT'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GU'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GW'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_GY'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_HK'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_HM'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_HN'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_HR'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_HT'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_HU'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_ID'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_IE'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_IL'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_IM'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_IN'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_IO'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_IQ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_IR'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_IS'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_IT'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_JE'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_JM'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_JO'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_JP'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_KE'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_KG'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_KH'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_KI'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_KM'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_KN'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_KP'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_KR'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_KW'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_KY'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_KZ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_LA'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_LB'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_LC'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_LI'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_LK'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_LR'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_LS'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_LT'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_LU'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_LV'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_LY'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MA'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MC'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MD'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_ME'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MF'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MG'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MH'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MK'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_ML'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MM'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MN'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MO'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MP'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MQ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MR'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MS'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MT'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MU'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MV'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MW'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MX'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MY'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_MZ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_NA'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_NC'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_NE'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_NF'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_NG'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_NI'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_NL'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_NO'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_NP'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_NR'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_NU'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_NZ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_OM'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_PA'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_PE'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_PF'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_PG'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_PH'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_PK'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_PL'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_PM'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_PN'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_PR'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_PS'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_PT'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_PW'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_PY'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_QA'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_RE'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_RO'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_RS'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_RU'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_RW'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_SA'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_SB'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_SC'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_SD'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_SE'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_SG'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_SH'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_SI'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_SJ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_SK'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_SL'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_SM'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_SN'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_SO'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_SR'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_ST'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_SV'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_SY'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_SZ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_TC'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_TD'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_TF'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_TG'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_TH'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_TJ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_TK'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_TL'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_TM'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_TN'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_TO'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_TR'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_TT'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_TV'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_TW'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_TZ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_UA'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_UG'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_UM'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_US'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_UY'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_UZ'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_VA'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_VC'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_VE'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_VG'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_VI'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_VN'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_VU'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_WF'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_WS'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_YE'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_YT'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_ZA'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_ZM'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_country_ZW'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_currencynumber_'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_currencysymbol_'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_currencysymbol_USD'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_currencytoname_USD'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_currencytoregion_US'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_date_long'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_date_medium'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_date_short'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_field_week'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_month_gregorian_format_abbreviated_1'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_month_gregorian_format_abbreviated_7'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_nametocurrency_'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_nametocurrency_EUR'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_nametocurrency_USD'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_pm_'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_relative_0'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleC_en_US_time_medium'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleL_en_US_days_'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleL_en_US_months_'),
-	('s515ed716bd7bc_Zend_Locale', 's515ed716bd7bc_Zend_LocaleL_en_US_symbols_');
-/*!40000 ALTER TABLE `core_cache_tag` ENABLE KEYS */;
-
-
 # Dumping structure for table core_config_data
 CREATE TABLE IF NOT EXISTS `core_config_data` (
   `config_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Config Id',
@@ -2995,7 +2650,7 @@ CREATE TABLE IF NOT EXISTS `core_config_data` (
   `value` text COMMENT 'Config Value',
   PRIMARY KEY (`config_id`),
   UNIQUE KEY `UNQ_CORE_CONFIG_DATA_SCOPE_SCOPE_ID_PATH` (`scope`,`scope_id`,`path`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8 COMMENT='Config Data';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Config Data';
 
 # Dumping structure for table core_email_template
 CREATE TABLE IF NOT EXISTS `core_email_template` (
@@ -3018,8 +2673,8 @@ CREATE TABLE IF NOT EXISTS `core_email_template` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Email Templates';
 
 # Dumping data for table core_email_template: ~0 rows (approximately)
-/*!40000 ALTER TABLE `core_email_template` DISABLE KEYS */;
-/*!40000 ALTER TABLE `core_email_template` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table core_flag
@@ -3031,13 +2686,14 @@ CREATE TABLE IF NOT EXISTS `core_flag` (
   `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date of Last Flag Update',
   PRIMARY KEY (`flag_id`),
   KEY `IDX_CORE_FLAG_LAST_UPDATE` (`last_update`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Flag';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Flag';
 
-# Dumping data for table core_flag: ~1 rows (approximately)
-/*!40000 ALTER TABLE `core_flag` DISABLE KEYS */;
+# Dumping data for table core_flag: ~2 rows (approximately)
+
 INSERT INTO `core_flag` (`flag_id`, `flag_code`, `state`, `flag_data`, `last_update`) VALUES
-	(1, 'admin_notification_survey', 0, 'a:1:{s:13:"survey_viewed";b:1;}', '2013-02-28 19:03:46');
-/*!40000 ALTER TABLE `core_flag` ENABLE KEYS */;
+	(1, 'admin_notification_survey', 0, 'a:1:{s:13:"survey_viewed";b:1;}', '2013-04-10 22:53:22'),
+	(2, 'catalog_product_flat', 0, 'a:1:{s:8:"is_built";b:1;}', '2013-04-10 23:30:39');
+
 
 
 # Dumping structure for table core_layout_link
@@ -3057,11 +2713,11 @@ CREATE TABLE IF NOT EXISTS `core_layout_link` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Layout Link';
 
 # Dumping data for table core_layout_link: ~2 rows (approximately)
-/*!40000 ALTER TABLE `core_layout_link` DISABLE KEYS */;
+
 INSERT INTO `core_layout_link` (`layout_link_id`, `store_id`, `theme_id`, `layout_update_id`, `is_temporary`) VALUES
 	(1, 0, 10, 1, 0),
 	(2, 0, 10, 2, 0);
-/*!40000 ALTER TABLE `core_layout_link` ENABLE KEYS */;
+
 
 
 # Dumping structure for table core_layout_update
@@ -3077,11 +2733,11 @@ CREATE TABLE IF NOT EXISTS `core_layout_update` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Layout Updates';
 
 # Dumping data for table core_layout_update: ~2 rows (approximately)
-/*!40000 ALTER TABLE `core_layout_update` DISABLE KEYS */;
+
 INSERT INTO `core_layout_update` (`layout_update_id`, `handle`, `xml`, `sort_order`, `updated_at`, `is_vde`) VALUES
-	(1, 'cms_index_index', '<reference name="top.container"><block type="Enterprise_Banner_Block_Widget_Banner" name="0de888142f23a8ea340c2f75bae97616" template="widget/block.phtml"><action method="setData"><name>display_mode</name><value>fixed</value></action><action method="setData"><name>banner_ids</name><value>1</value></action><action method="setData"><name>unique_id</name><value>95a6722cbe317a790e4701f1dafb278a</value></action></block></reference>', 0, NULL, 0),
-	(2, 'cms_index_index', '<reference name="footer.before"><block type="Enterprise_Banner_Block_Widget_Banner" name="41fb88c617454ce6bf79213d852aa26b" template="widget/block.phtml"><action method="setData"><name>display_mode</name><value>fixed</value></action><action method="setData"><name>banner_ids</name><value>2</value></action><action method="setData"><name>unique_id</name><value>5d59e0010d28ca001157c76197fa1af7</value></action></block></reference>', 1, NULL, 0);
-/*!40000 ALTER TABLE `core_layout_update` ENABLE KEYS */;
+	(1, 'cms_index_index', '<reference name="top.container"><block type="Enterprise_Banner_Block_Widget_Banner" name="f67da881fe40f85289ada1c629b5b4a5" template="widget/block.phtml"><action method="setData"><name>display_mode</name><value>fixed</value></action><action method="setData"><name>banner_ids</name><value>1</value></action><action method="setData"><name>unique_id</name><value>615bc143c65af1cc21ae2391432830a6</value></action></block></reference>', 0, NULL, 0),
+	(2, 'cms_index_index', '<reference name="footer.before"><block type="Enterprise_Banner_Block_Widget_Banner" name="a6a20f3c508bf4efa0b27a2a3fe9be24" template="widget/block.phtml"><action method="setData"><name>display_mode</name><value>fixed</value></action><action method="setData"><name>banner_ids</name><value>2</value></action><action method="setData"><name>unique_id</name><value>942e542da1a4d789db9b4b02a536ffde</value></action></block></reference>', 1, NULL, 0);
+
 
 
 # Dumping structure for table core_resource
@@ -3092,10 +2748,10 @@ CREATE TABLE IF NOT EXISTS `core_resource` (
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Resources';
 
-# Dumping data for table core_resource: ~73 rows (approximately)
-/*!40000 ALTER TABLE `core_resource` DISABLE KEYS */;
+# Dumping data for table core_resource: ~71 rows (approximately)
+
 INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
-	('adminnotification_setup', '2.0.0.0', '1.6.0.0'),
+	('adminnotification_setup', '2.0.0.0', '2.0.0.0'),
 	('api_setup', '1.6.0.0', '1.6.0.0'),
 	('backup_setup', '1.6.0.0', '1.6.0.0'),
 	('bundle_setup', '1.6.0.0.2', '1.6.0.0.2'),
@@ -3103,7 +2759,7 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('cataloginventory_setup', '1.6.0.0.4', '1.6.0.0.4'),
 	('catalogrule_setup', '1.6.0.4', '1.6.0.4'),
 	('catalogsearch_setup', '1.6.0.0', '1.6.0.0'),
-	('catalog_setup', '1.6.0.0.22', '1.6.0.0.22'),
+	('catalog_setup', '1.6.0.0.23', '1.6.0.0.23'),
 	('checkout_setup', '1.6.0.0', '1.6.0.0'),
 	('cms_setup', '2.0.0.0', '2.0.0.0'),
 	('contacts_setup', '1.6.0.0', '1.6.0.0'),
@@ -3139,7 +2795,6 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('log_setup', '1.6.0.0', '1.6.0.0'),
 	('moneybookers_setup', '1.6.0.0', '1.6.0.0'),
 	('newsletter_setup', '1.6.0.2', '1.6.0.2'),
-	('oauth_setup', '1.0.0.0', '1.0.0.0'),
 	('ogone_setup', '1.6.0.0', '1.6.0.0'),
 	('paygate_setup', '1.6.0.0', '1.6.0.0'),
 	('payment_setup', '1.6.0.0', '1.6.0.0'),
@@ -3152,7 +2807,7 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('reports_setup', '1.6.0.0.2', '1.6.0.0.2'),
 	('review_setup', '1.6.0.0', '1.6.0.0'),
 	('saas_printedtemplate_setup', '0.1.0', '0.1.0'),
-	('saas_sales_setup', '2.0.0.0', NULL),
+	('saas_sales_setup', '2.0.0.0', '2.0.0.0'),
 	('saas_unitprice_setup', '0.1.4', '0.1.4'),
 	('salesrule_setup', '1.6.0.4', '1.6.0.4'),
 	('sales_setup', '1.6.0.11', '1.6.0.11'),
@@ -3164,11 +2819,10 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('tax_setup', '1.6.0.5', '1.6.0.5'),
 	('usa_setup', '1.6.0.1', '1.6.0.1'),
 	('user_setup', '1.6.1.4', '1.6.1.4'),
-	('webapi_setup', '1.0.0.3', '1.0.0.3'),
 	('weee_setup', '1.6.0.0', '1.6.0.0'),
 	('widget_setup', '1.6.0.2', '1.6.0.2'),
 	('wishlist_setup', '1.6.0.0', '1.6.0.0');
-/*!40000 ALTER TABLE `core_resource` ENABLE KEYS */;
+
 
 
 # Dumping structure for table core_session
@@ -3180,8 +2834,8 @@ CREATE TABLE IF NOT EXISTS `core_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Database Sessions Storage';
 
 # Dumping data for table core_session: ~0 rows (approximately)
-/*!40000 ALTER TABLE `core_session` DISABLE KEYS */;
-/*!40000 ALTER TABLE `core_session` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table core_store
@@ -3203,11 +2857,11 @@ CREATE TABLE IF NOT EXISTS `core_store` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Stores';
 
 # Dumping data for table core_store: ~2 rows (approximately)
-/*!40000 ALTER TABLE `core_store` DISABLE KEYS */;
+
 INSERT INTO `core_store` (`store_id`, `code`, `website_id`, `group_id`, `name`, `sort_order`, `is_active`) VALUES
 	(0, 'admin', 0, 0, 'Admin', 0, 1),
 	(1, 'default', 1, 1, 'Default Store View', 0, 1);
-/*!40000 ALTER TABLE `core_store` ENABLE KEYS */;
+
 
 
 # Dumping structure for table core_store_group
@@ -3224,11 +2878,11 @@ CREATE TABLE IF NOT EXISTS `core_store_group` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Store Groups';
 
 # Dumping data for table core_store_group: ~2 rows (approximately)
-/*!40000 ALTER TABLE `core_store_group` DISABLE KEYS */;
+
 INSERT INTO `core_store_group` (`group_id`, `website_id`, `name`, `root_category_id`, `default_store_id`) VALUES
 	(0, 0, 'Default', 0, 0),
 	(1, 1, 'Main Website Store', 2, 1);
-/*!40000 ALTER TABLE `core_store_group` ENABLE KEYS */;
+
 
 
 # Dumping structure for table core_theme
@@ -3245,27 +2899,28 @@ CREATE TABLE IF NOT EXISTS `core_theme` (
   `area` varchar(255) NOT NULL COMMENT 'Theme Area',
   `type` smallint(6) NOT NULL COMMENT 'Theme type: 0:physical, 1:virtual, 2:staging',
   PRIMARY KEY (`theme_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='Core theme';
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='Core theme';
 
-# Dumping data for table core_theme: ~15 rows (approximately)
-/*!40000 ALTER TABLE `core_theme` DISABLE KEYS */;
+# Dumping data for table core_theme: ~16 rows (approximately)
+
 INSERT INTO `core_theme` (`theme_id`, `parent_id`, `theme_path`, `theme_version`, `theme_title`, `preview_image`, `magento_version_from`, `magento_version_to`, `is_featured`, `area`, `type`) VALUES
 	(1, NULL, 'default/backend', '1.0.0.0', 'Magento 2 backend', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
 	(2, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
 	(3, 2, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
 	(4, 2, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
-	(5, NULL, 'default/demo', '2.0.0.0', 'Magento Demo', 'preview_image_512fa9e9122fc.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(6, 5, 'default/blank', '2.0.0.0', 'Magento Blank', 'preview_image_512fa9e918c4a.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(7, 5, 'default/demo_blue', '2.0.0.0', 'Magento Demo Blue', 'preview_image_512fa9e91ef15.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(8, 5, 'default/iphone', '2.0.0.0', 'Magento Iphone', 'preview_image_512fa9e924456.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(9, 5, 'default/modern', '2.0.0.0', 'Magento Modern', 'preview_image_512fa9e929aa8.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(10, NULL, 'enterprise/fixed', '2.0.0.0', 'Magento Fixed Design', 'preview_image_512fa9e92f3e2.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(11, 10, 'enterprise/iphone_html5', '2.0.0.0', 'Magento Iphone (HTML5)', 'preview_image_512fa9e934a5b.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(12, NULL, 'pro/fluid', '2.0.0.0', 'Magento Fluid Design', 'preview_image_512fa9e93a43a.jpeg', '2.0.0.0', '*', 1, 'frontend', 0),
-	(13, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
-	(14, 13, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
-	(15, 13, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0);
-/*!40000 ALTER TABLE `core_theme` ENABLE KEYS */;
+	(5, NULL, 'default/demo', '2.0.0.0', 'Magento Demo', 'preview_image_5165ed1abd7c4.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(6, 5, 'default/blank', '2.0.0.0', 'Magento Blank', 'preview_image_5165ed1acc223.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(7, 5, 'default/demo_blue', '2.0.0.0', 'Magento Demo Blue', 'preview_image_5165ed1adac85.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(8, 5, 'default/iphone', '2.0.0.0', 'Magento Iphone', 'preview_image_5165ed1ae9734.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(9, 5, 'default/modern', '2.0.0.0', 'Magento Modern', 'preview_image_5165ed1b03f01.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(10, NULL, 'enterprise/fixed', '2.0.0.0', 'Magento Fixed Design', 'preview_image_5165ed1b12cc1.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(11, 10, 'enterprise/iphone_html5', '2.0.0.0', 'Magento Iphone (HTML5)', 'preview_image_5165ed1b216f5.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(12, NULL, 'magento2/reference', '1.0.0.0', 'Plushe', 'preview_image_5165ed1b46007.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(13, NULL, 'pro/fluid', '2.0.0.0', 'Magento Fluid Design', 'preview_image_5165ed1b56f54.jpeg', '2.0.0.0', '*', 1, 'frontend', 0),
+	(14, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
+	(15, 14, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
+	(16, 14, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0);
+
 
 
 # Dumping structure for table core_theme_file
@@ -3283,8 +2938,8 @@ CREATE TABLE IF NOT EXISTS `core_theme_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Core theme files';
 
 # Dumping data for table core_theme_file: ~0 rows (approximately)
-/*!40000 ALTER TABLE `core_theme_file` DISABLE KEYS */;
-/*!40000 ALTER TABLE `core_theme_file` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table core_theme_file_update
@@ -3300,8 +2955,8 @@ CREATE TABLE IF NOT EXISTS `core_theme_file_update` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Core theme link on layout update';
 
 # Dumping data for table core_theme_file_update: ~0 rows (approximately)
-/*!40000 ALTER TABLE `core_theme_file_update` DISABLE KEYS */;
-/*!40000 ALTER TABLE `core_theme_file_update` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table core_translate
@@ -3319,8 +2974,8 @@ CREATE TABLE IF NOT EXISTS `core_translate` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Translations';
 
 # Dumping data for table core_translate: ~0 rows (approximately)
-/*!40000 ALTER TABLE `core_translate` DISABLE KEYS */;
-/*!40000 ALTER TABLE `core_translate` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table core_url_rewrite
@@ -3349,8 +3004,8 @@ CREATE TABLE IF NOT EXISTS `core_url_rewrite` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Url Rewrites';
 
 # Dumping data for table core_url_rewrite: ~0 rows (approximately)
-/*!40000 ALTER TABLE `core_url_rewrite` DISABLE KEYS */;
-/*!40000 ALTER TABLE `core_url_rewrite` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table core_variable
@@ -3363,8 +3018,8 @@ CREATE TABLE IF NOT EXISTS `core_variable` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Variables';
 
 # Dumping data for table core_variable: ~0 rows (approximately)
-/*!40000 ALTER TABLE `core_variable` DISABLE KEYS */;
-/*!40000 ALTER TABLE `core_variable` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table core_variable_value
@@ -3383,8 +3038,8 @@ CREATE TABLE IF NOT EXISTS `core_variable_value` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Variable Value';
 
 # Dumping data for table core_variable_value: ~0 rows (approximately)
-/*!40000 ALTER TABLE `core_variable_value` DISABLE KEYS */;
-/*!40000 ALTER TABLE `core_variable_value` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table core_website
@@ -3402,11 +3057,11 @@ CREATE TABLE IF NOT EXISTS `core_website` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Websites';
 
 # Dumping data for table core_website: ~2 rows (approximately)
-/*!40000 ALTER TABLE `core_website` DISABLE KEYS */;
+
 INSERT INTO `core_website` (`website_id`, `code`, `name`, `sort_order`, `default_group_id`, `is_default`) VALUES
 	(0, 'admin', 'Admin', 0, 0, 0),
 	(1, 'base', 'Main Website', 0, 1, 1);
-/*!40000 ALTER TABLE `core_website` ENABLE KEYS */;
+
 
 
 # Dumping structure for table coupon_aggregated
@@ -3432,8 +3087,8 @@ CREATE TABLE IF NOT EXISTS `coupon_aggregated` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Coupon Aggregated';
 
 # Dumping data for table coupon_aggregated: ~0 rows (approximately)
-/*!40000 ALTER TABLE `coupon_aggregated` DISABLE KEYS */;
-/*!40000 ALTER TABLE `coupon_aggregated` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table coupon_aggregated_order
@@ -3456,8 +3111,8 @@ CREATE TABLE IF NOT EXISTS `coupon_aggregated_order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Coupon Aggregated Order';
 
 # Dumping data for table coupon_aggregated_order: ~0 rows (approximately)
-/*!40000 ALTER TABLE `coupon_aggregated_order` DISABLE KEYS */;
-/*!40000 ALTER TABLE `coupon_aggregated_order` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table coupon_aggregated_updated
@@ -3483,8 +3138,8 @@ CREATE TABLE IF NOT EXISTS `coupon_aggregated_updated` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Coupon Aggregated Updated';
 
 # Dumping data for table coupon_aggregated_updated: ~0 rows (approximately)
-/*!40000 ALTER TABLE `coupon_aggregated_updated` DISABLE KEYS */;
-/*!40000 ALTER TABLE `coupon_aggregated_updated` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table cron_schedule
@@ -3503,8 +3158,8 @@ CREATE TABLE IF NOT EXISTS `cron_schedule` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Cron Schedule';
 
 # Dumping data for table cron_schedule: ~0 rows (approximately)
-/*!40000 ALTER TABLE `cron_schedule` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cron_schedule` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table customer_address_entity
@@ -3523,8 +3178,8 @@ CREATE TABLE IF NOT EXISTS `customer_address_entity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Address Entity';
 
 # Dumping data for table customer_address_entity: ~0 rows (approximately)
-/*!40000 ALTER TABLE `customer_address_entity` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer_address_entity` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table customer_address_entity_datetime
@@ -3546,8 +3201,8 @@ CREATE TABLE IF NOT EXISTS `customer_address_entity_datetime` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Address Entity Datetime';
 
 # Dumping data for table customer_address_entity_datetime: ~0 rows (approximately)
-/*!40000 ALTER TABLE `customer_address_entity_datetime` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer_address_entity_datetime` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table customer_address_entity_decimal
@@ -3569,8 +3224,8 @@ CREATE TABLE IF NOT EXISTS `customer_address_entity_decimal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Address Entity Decimal';
 
 # Dumping data for table customer_address_entity_decimal: ~0 rows (approximately)
-/*!40000 ALTER TABLE `customer_address_entity_decimal` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer_address_entity_decimal` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table customer_address_entity_int
@@ -3592,8 +3247,8 @@ CREATE TABLE IF NOT EXISTS `customer_address_entity_int` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Address Entity Int';
 
 # Dumping data for table customer_address_entity_int: ~0 rows (approximately)
-/*!40000 ALTER TABLE `customer_address_entity_int` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer_address_entity_int` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table customer_address_entity_text
@@ -3614,8 +3269,8 @@ CREATE TABLE IF NOT EXISTS `customer_address_entity_text` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Address Entity Text';
 
 # Dumping data for table customer_address_entity_text: ~0 rows (approximately)
-/*!40000 ALTER TABLE `customer_address_entity_text` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer_address_entity_text` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table customer_address_entity_varchar
@@ -3637,8 +3292,8 @@ CREATE TABLE IF NOT EXISTS `customer_address_entity_varchar` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Address Entity Varchar';
 
 # Dumping data for table customer_address_entity_varchar: ~0 rows (approximately)
-/*!40000 ALTER TABLE `customer_address_entity_varchar` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer_address_entity_varchar` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table customer_eav_attribute
@@ -3657,7 +3312,7 @@ CREATE TABLE IF NOT EXISTS `customer_eav_attribute` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Eav Attribute';
 
 # Dumping data for table customer_eav_attribute: ~42 rows (approximately)
-/*!40000 ALTER TABLE `customer_eav_attribute` DISABLE KEYS */;
+
 INSERT INTO `customer_eav_attribute` (`attribute_id`, `is_visible`, `input_filter`, `multiline_count`, `validate_rules`, `is_system`, `sort_order`, `data_model`, `is_used_for_customer_segment`) VALUES
 	(1, 1, NULL, 0, NULL, 1, 10, NULL, 0),
 	(2, 0, NULL, 0, NULL, 1, 0, NULL, 0),
@@ -3701,7 +3356,7 @@ INSERT INTO `customer_eav_attribute` (`attribute_id`, `is_visible`, `input_filte
 	(40, 0, NULL, 0, NULL, 1, 0, NULL, 0),
 	(147, 0, NULL, 1, NULL, 0, 0, NULL, 0),
 	(148, 0, NULL, 1, NULL, 0, 0, NULL, 0);
-/*!40000 ALTER TABLE `customer_eav_attribute` ENABLE KEYS */;
+
 
 
 # Dumping structure for table customer_eav_attribute_website
@@ -3719,8 +3374,8 @@ CREATE TABLE IF NOT EXISTS `customer_eav_attribute_website` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Eav Attribute Website';
 
 # Dumping data for table customer_eav_attribute_website: ~0 rows (approximately)
-/*!40000 ALTER TABLE `customer_eav_attribute_website` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer_eav_attribute_website` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table customer_entity
@@ -3747,8 +3402,8 @@ CREATE TABLE IF NOT EXISTS `customer_entity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Entity';
 
 # Dumping data for table customer_entity: ~0 rows (approximately)
-/*!40000 ALTER TABLE `customer_entity` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer_entity` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table customer_entity_datetime
@@ -3770,8 +3425,8 @@ CREATE TABLE IF NOT EXISTS `customer_entity_datetime` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Entity Datetime';
 
 # Dumping data for table customer_entity_datetime: ~0 rows (approximately)
-/*!40000 ALTER TABLE `customer_entity_datetime` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer_entity_datetime` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table customer_entity_decimal
@@ -3793,8 +3448,8 @@ CREATE TABLE IF NOT EXISTS `customer_entity_decimal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Entity Decimal';
 
 # Dumping data for table customer_entity_decimal: ~0 rows (approximately)
-/*!40000 ALTER TABLE `customer_entity_decimal` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer_entity_decimal` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table customer_entity_int
@@ -3816,8 +3471,8 @@ CREATE TABLE IF NOT EXISTS `customer_entity_int` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Entity Int';
 
 # Dumping data for table customer_entity_int: ~0 rows (approximately)
-/*!40000 ALTER TABLE `customer_entity_int` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer_entity_int` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table customer_entity_text
@@ -3838,8 +3493,8 @@ CREATE TABLE IF NOT EXISTS `customer_entity_text` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Entity Text';
 
 # Dumping data for table customer_entity_text: ~0 rows (approximately)
-/*!40000 ALTER TABLE `customer_entity_text` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer_entity_text` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table customer_entity_varchar
@@ -3861,8 +3516,8 @@ CREATE TABLE IF NOT EXISTS `customer_entity_varchar` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Entity Varchar';
 
 # Dumping data for table customer_entity_varchar: ~0 rows (approximately)
-/*!40000 ALTER TABLE `customer_entity_varchar` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer_entity_varchar` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table customer_form_attribute
@@ -3875,7 +3530,7 @@ CREATE TABLE IF NOT EXISTS `customer_form_attribute` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Customer Form Attribute';
 
 # Dumping data for table customer_form_attribute: ~94 rows (approximately)
-/*!40000 ALTER TABLE `customer_form_attribute` DISABLE KEYS */;
+
 INSERT INTO `customer_form_attribute` (`form_code`, `attribute_id`) VALUES
 	('adminhtml_customer', 1),
 	('adminhtml_customer', 3),
@@ -3971,7 +3626,7 @@ INSERT INTO `customer_form_attribute` (`form_code`, `attribute_id`) VALUES
 	('adminhtml_customer_address', 36),
 	('customer_address_edit', 36),
 	('customer_register_address', 36);
-/*!40000 ALTER TABLE `customer_form_attribute` ENABLE KEYS */;
+
 
 
 # Dumping structure for table customer_group
@@ -3983,13 +3638,13 @@ CREATE TABLE IF NOT EXISTS `customer_group` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Customer Group';
 
 # Dumping data for table customer_group: ~4 rows (approximately)
-/*!40000 ALTER TABLE `customer_group` DISABLE KEYS */;
+
 INSERT INTO `customer_group` (`customer_group_id`, `customer_group_code`, `tax_class_id`) VALUES
 	(0, 'NOT LOGGED IN', 3),
 	(1, 'General', 3),
 	(2, 'Wholesale', 3),
 	(3, 'Retailer', 3);
-/*!40000 ALTER TABLE `customer_group` ENABLE KEYS */;
+
 
 
 # Dumping structure for table design_change
@@ -4005,8 +3660,8 @@ CREATE TABLE IF NOT EXISTS `design_change` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Design Changes';
 
 # Dumping data for table design_change: ~0 rows (approximately)
-/*!40000 ALTER TABLE `design_change` DISABLE KEYS */;
-/*!40000 ALTER TABLE `design_change` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table directory_country
@@ -4018,7 +3673,7 @@ CREATE TABLE IF NOT EXISTS `directory_country` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Directory Country';
 
 # Dumping data for table directory_country: ~246 rows (approximately)
-/*!40000 ALTER TABLE `directory_country` DISABLE KEYS */;
+
 INSERT INTO `directory_country` (`country_id`, `iso2_code`, `iso3_code`) VALUES
 	('AD', 'AD', 'AND'),
 	('AE', 'AE', 'ARE'),
@@ -4266,7 +3921,7 @@ INSERT INTO `directory_country` (`country_id`, `iso2_code`, `iso3_code`) VALUES
 	('ZA', 'ZA', 'ZAF'),
 	('ZM', 'ZM', 'ZMB'),
 	('ZW', 'ZW', 'ZWE');
-/*!40000 ALTER TABLE `directory_country` ENABLE KEYS */;
+
 
 
 # Dumping structure for table directory_country_format
@@ -4280,8 +3935,8 @@ CREATE TABLE IF NOT EXISTS `directory_country_format` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Directory Country Format';
 
 # Dumping data for table directory_country_format: ~0 rows (approximately)
-/*!40000 ALTER TABLE `directory_country_format` DISABLE KEYS */;
-/*!40000 ALTER TABLE `directory_country_format` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table directory_country_region
@@ -4294,8 +3949,8 @@ CREATE TABLE IF NOT EXISTS `directory_country_region` (
   KEY `IDX_DIRECTORY_COUNTRY_REGION_COUNTRY_ID` (`country_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=485 DEFAULT CHARSET=utf8 COMMENT='Directory Country Region';
 
-# Dumping data for table directory_country_region: ~367 rows (approximately)
-/*!40000 ALTER TABLE `directory_country_region` DISABLE KEYS */;
+# Dumping data for table directory_country_region: ~603 rows (approximately)
+
 INSERT INTO `directory_country_region` (`region_id`, `country_id`, `code`, `default_name`) VALUES
 	(1, 'US', 'AL', 'Alabama'),
 	(2, 'US', 'AK', 'Alaska'),
@@ -4781,7 +4436,7 @@ INSERT INTO `directory_country_region` (`region_id`, `country_id`, `code`, `defa
 	(482, 'LT', 'LT-TE', 'Telšių Apskritis'),
 	(483, 'LT', 'LT-UT', 'Utenos Apskritis'),
 	(484, 'LT', 'LT-VL', 'Vilniaus Apskritis');
-/*!40000 ALTER TABLE `directory_country_region` ENABLE KEYS */;
+
 
 
 # Dumping structure for table directory_country_region_name
@@ -4794,8 +4449,8 @@ CREATE TABLE IF NOT EXISTS `directory_country_region_name` (
   CONSTRAINT `FK_D7CFDEB379F775328EB6F62695E2B3E1` FOREIGN KEY (`region_id`) REFERENCES `directory_country_region` (`region_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Directory Country Region Name';
 
-# Dumping data for table directory_country_region_name: ~381 rows (approximately)
-/*!40000 ALTER TABLE `directory_country_region_name` DISABLE KEYS */;
+# Dumping data for table directory_country_region_name: ~589 rows (approximately)
+
 INSERT INTO `directory_country_region_name` (`locale`, `region_id`, `name`) VALUES
 	('en_US', 1, 'Alabama'),
 	('en_US', 2, 'Alaska'),
@@ -5281,7 +4936,7 @@ INSERT INTO `directory_country_region_name` (`locale`, `region_id`, `name`) VALU
 	('en_US', 482, 'Telšių Apskritis'),
 	('en_US', 483, 'Utenos Apskritis'),
 	('en_US', 484, 'Vilniaus Apskritis');
-/*!40000 ALTER TABLE `directory_country_region_name` ENABLE KEYS */;
+
 
 
 # Dumping structure for table directory_currency_rate
@@ -5294,13 +4949,13 @@ CREATE TABLE IF NOT EXISTS `directory_currency_rate` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Directory Currency Rate';
 
 # Dumping data for table directory_currency_rate: ~4 rows (approximately)
-/*!40000 ALTER TABLE `directory_currency_rate` DISABLE KEYS */;
+
 INSERT INTO `directory_currency_rate` (`currency_from`, `currency_to`, `rate`) VALUES
 	('EUR', 'EUR', 1.000000000000),
 	('EUR', 'USD', 1.415000000000),
 	('USD', 'EUR', 0.706700000000),
 	('USD', 'USD', 1.000000000000);
-/*!40000 ALTER TABLE `directory_currency_rate` ENABLE KEYS */;
+
 
 
 # Dumping structure for table downloadable_link
@@ -5323,8 +4978,8 @@ CREATE TABLE IF NOT EXISTS `downloadable_link` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Downloadable Link Table';
 
 # Dumping data for table downloadable_link: ~0 rows (approximately)
-/*!40000 ALTER TABLE `downloadable_link` DISABLE KEYS */;
-/*!40000 ALTER TABLE `downloadable_link` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table downloadable_link_price
@@ -5341,8 +4996,8 @@ CREATE TABLE IF NOT EXISTS `downloadable_link_price` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Downloadable Link Price Table';
 
 # Dumping data for table downloadable_link_price: ~0 rows (approximately)
-/*!40000 ALTER TABLE `downloadable_link_price` DISABLE KEYS */;
-/*!40000 ALTER TABLE `downloadable_link_price` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table downloadable_link_purchased
@@ -5366,8 +5021,8 @@ CREATE TABLE IF NOT EXISTS `downloadable_link_purchased` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Downloadable Link Purchased Table';
 
 # Dumping data for table downloadable_link_purchased: ~0 rows (approximately)
-/*!40000 ALTER TABLE `downloadable_link_purchased` DISABLE KEYS */;
-/*!40000 ALTER TABLE `downloadable_link_purchased` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table downloadable_link_purchased_item
@@ -5397,8 +5052,8 @@ CREATE TABLE IF NOT EXISTS `downloadable_link_purchased_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Downloadable Link Purchased Item Table';
 
 # Dumping data for table downloadable_link_purchased_item: ~0 rows (approximately)
-/*!40000 ALTER TABLE `downloadable_link_purchased_item` DISABLE KEYS */;
-/*!40000 ALTER TABLE `downloadable_link_purchased_item` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table downloadable_link_title
@@ -5416,8 +5071,8 @@ CREATE TABLE IF NOT EXISTS `downloadable_link_title` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Link Title Table';
 
 # Dumping data for table downloadable_link_title: ~0 rows (approximately)
-/*!40000 ALTER TABLE `downloadable_link_title` DISABLE KEYS */;
-/*!40000 ALTER TABLE `downloadable_link_title` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table downloadable_sample
@@ -5434,8 +5089,8 @@ CREATE TABLE IF NOT EXISTS `downloadable_sample` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Downloadable Sample Table';
 
 # Dumping data for table downloadable_sample: ~0 rows (approximately)
-/*!40000 ALTER TABLE `downloadable_sample` DISABLE KEYS */;
-/*!40000 ALTER TABLE `downloadable_sample` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table downloadable_sample_title
@@ -5453,8 +5108,8 @@ CREATE TABLE IF NOT EXISTS `downloadable_sample_title` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Downloadable Sample Title Table';
 
 # Dumping data for table downloadable_sample_title: ~0 rows (approximately)
-/*!40000 ALTER TABLE `downloadable_sample_title` DISABLE KEYS */;
-/*!40000 ALTER TABLE `downloadable_sample_title` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table eav_attribute
@@ -5482,8 +5137,8 @@ CREATE TABLE IF NOT EXISTS `eav_attribute` (
   CONSTRAINT `FK_EAV_ATTRIBUTE_ENTITY_TYPE_ID_EAV_ENTITY_TYPE_ENTITY_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute';
 
-# Dumping data for table eav_attribute: ~151 rows (approximately)
-/*!40000 ALTER TABLE `eav_attribute` DISABLE KEYS */;
+# Dumping data for table eav_attribute: ~157 rows (approximately)
+
 INSERT INTO `eav_attribute` (`attribute_id`, `entity_type_id`, `attribute_code`, `attribute_model`, `backend_model`, `backend_type`, `backend_table`, `frontend_model`, `frontend_input`, `frontend_label`, `frontend_class`, `source_model`, `is_required`, `is_user_defined`, `default_value`, `is_unique`, `note`) VALUES
 	(1, 1, 'website_id', NULL, 'Mage_Customer_Model_Customer_Attribute_Backend_Website', 'static', NULL, NULL, 'select', 'Associate to Website', NULL, 'Mage_Customer_Model_Customer_Attribute_Source_Website', 1, 0, NULL, 0, NULL),
 	(2, 1, 'store_id', NULL, 'Mage_Customer_Model_Customer_Attribute_Backend_Store', 'static', NULL, NULL, 'select', 'Create In', NULL, 'Mage_Customer_Model_Customer_Attribute_Source_Store', 1, 0, NULL, 0, NULL),
@@ -5638,7 +5293,7 @@ INSERT INTO `eav_attribute` (`attribute_id`, `entity_type_id`, `attribute_code`,
 	(151, 4, 'unit_price_amount', 'Saas_UnitPrice_Model_Entity_Resource_Eav_Attribute_Product_Amount', 'Saas_UnitPrice_Model_Entity_Backend_Unitprice_Amount', 'varchar', NULL, 'Saas_UnitPrice_Model_Entity_Frontend_Unitprice_Default', 'text', 'Volume/size of one item of the base product', NULL, NULL, 0, 0, NULL, 0, NULL),
 	(152, 4, 'unit_price_base_unit', 'Saas_UnitPrice_Model_Entity_Resource_Eav_Attribute_Reference_Unit', NULL, 'varchar', NULL, 'Saas_UnitPrice_Model_Entity_Frontend_Unitprice_Default', 'select', 'Measurement to be used for the unit product', NULL, 'Saas_UnitPrice_Model_Entity_Source_Unitprice_Unit', 0, 0, 'KG', 0, NULL),
 	(153, 4, 'unit_price_base_amount', 'Saas_UnitPrice_Model_Entity_Resource_Eav_Attribute_Reference_Amount', 'Saas_UnitPrice_Model_Entity_Backend_Unitprice_Amount', 'varchar', NULL, 'Saas_UnitPrice_Model_Entity_Frontend_Unitprice_Default', 'text', 'Volume/size of the unit product', NULL, NULL, 0, 0, '1', 0, NULL);
-/*!40000 ALTER TABLE `eav_attribute` ENABLE KEYS */;
+
 
 
 # Dumping structure for table eav_attribute_group
@@ -5654,31 +5309,28 @@ CREATE TABLE IF NOT EXISTS `eav_attribute_group` (
   UNIQUE KEY `UNQ_EAV_ATTRIBUTE_GROUP_ATTRIBUTE_SET_ID_ATTRIBUTE_GROUP_NAME` (`attribute_set_id`,`attribute_group_name`),
   KEY `IDX_EAV_ATTRIBUTE_GROUP_ATTRIBUTE_SET_ID_SORT_ORDER` (`attribute_set_id`,`sort_order`),
   CONSTRAINT `FK_EAV_ATTR_GROUP_ATTR_SET_ID_EAV_ATTR_SET_ATTR_SET_ID` FOREIGN KEY (`attribute_set_id`) REFERENCES `eav_attribute_set` (`attribute_set_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Group';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Group';
 
-# Dumping data for table eav_attribute_group: ~19 rows (approximately)
-/*!40000 ALTER TABLE `eav_attribute_group` DISABLE KEYS */;
+# Dumping data for table eav_attribute_group: ~16 rows (approximately)
+
 INSERT INTO `eav_attribute_group` (`attribute_group_id`, `attribute_set_id`, `attribute_group_name`, `sort_order`, `default_id`, `attribute_group_code`, `tab_group_code`) VALUES
-	(1, 1, 'General', 1, 1, 'general', NULL),
-	(2, 2, 'General', 1, 1, 'general', NULL),
-	(3, 3, 'General', 10, 1, 'general', NULL),
-	(4, 3, 'General Information', 2, 0, 'general-information', NULL),
-	(5, 3, 'Display Settings', 20, 0, 'display-settings', NULL),
-	(6, 3, 'Custom Design', 30, 0, 'custom-design', NULL),
+	(1, 1, 'General', 1, 1, NULL, NULL),
+	(2, 2, 'General', 1, 1, NULL, NULL),
+	(3, 3, 'General', 10, 1, NULL, NULL),
+	(4, 3, 'General Information', 2, 0, NULL, NULL),
+	(5, 3, 'Display Settings', 20, 0, NULL, NULL),
+	(6, 3, 'Custom Design', 30, 0, NULL, NULL),
 	(7, 4, 'Product Details', 10, 1, 'product-details', 'basic'),
 	(8, 4, 'Advanced Pricing', 40, 0, 'advanced-pricing', 'advanced'),
 	(9, 4, 'Search Optimization', 30, 0, 'search-optimization', 'basic'),
 	(10, 4, 'Image Management', 20, 0, 'image-management', 'basic'),
-	(11, 4, 'Recurring Profile', 41, 0, 'recurring-profile', 'advanced'),
 	(12, 4, 'Design', 50, 0, 'design', 'advanced'),
-	(13, 5, 'General', 1, 1, 'general', NULL),
-	(14, 6, 'General', 1, 1, 'general', NULL),
-	(15, 7, 'General', 1, 1, 'general', NULL),
-	(16, 8, 'General', 1, 1, 'general', NULL),
-	(18, 9, 'General', 1, 1, 'general', NULL),
-	(19, 9, 'Prices', 2, 0, NULL, NULL),
-	(20, 4, 'Autosettings', 60, 0, 'autosettings', 'advanced');
-/*!40000 ALTER TABLE `eav_attribute_group` ENABLE KEYS */;
+	(13, 5, 'General', 1, 1, NULL, NULL),
+	(14, 6, 'General', 1, 1, NULL, NULL),
+	(15, 7, 'General', 1, 1, NULL, NULL),
+	(16, 8, 'General', 1, 1, NULL, NULL),
+	(18, 4, 'Autosettings', 60, 0, 'autosettings', 'advanced');
+
 
 
 # Dumping structure for table eav_attribute_label
@@ -5696,8 +5348,8 @@ CREATE TABLE IF NOT EXISTS `eav_attribute_label` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Label';
 
 # Dumping data for table eav_attribute_label: ~0 rows (approximately)
-/*!40000 ALTER TABLE `eav_attribute_label` DISABLE KEYS */;
-/*!40000 ALTER TABLE `eav_attribute_label` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table eav_attribute_option
@@ -5711,11 +5363,11 @@ CREATE TABLE IF NOT EXISTS `eav_attribute_option` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Option';
 
 # Dumping data for table eav_attribute_option: ~2 rows (approximately)
-/*!40000 ALTER TABLE `eav_attribute_option` DISABLE KEYS */;
+
 INSERT INTO `eav_attribute_option` (`option_id`, `attribute_id`, `sort_order`) VALUES
 	(1, 18, 0),
 	(2, 18, 1);
-/*!40000 ALTER TABLE `eav_attribute_option` ENABLE KEYS */;
+
 
 
 # Dumping structure for table eav_attribute_option_value
@@ -5732,11 +5384,11 @@ CREATE TABLE IF NOT EXISTS `eav_attribute_option_value` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Option Value';
 
 # Dumping data for table eav_attribute_option_value: ~2 rows (approximately)
-/*!40000 ALTER TABLE `eav_attribute_option_value` DISABLE KEYS */;
+
 INSERT INTO `eav_attribute_option_value` (`value_id`, `option_id`, `store_id`, `value`) VALUES
 	(1, 1, 0, 'Male'),
 	(2, 2, 0, 'Female');
-/*!40000 ALTER TABLE `eav_attribute_option_value` ENABLE KEYS */;
+
 
 
 # Dumping structure for table eav_attribute_set
@@ -5749,10 +5401,10 @@ CREATE TABLE IF NOT EXISTS `eav_attribute_set` (
   UNIQUE KEY `UNQ_EAV_ATTRIBUTE_SET_ENTITY_TYPE_ID_ATTRIBUTE_SET_NAME` (`entity_type_id`,`attribute_set_name`),
   KEY `IDX_EAV_ATTRIBUTE_SET_ENTITY_TYPE_ID_SORT_ORDER` (`entity_type_id`,`sort_order`),
   CONSTRAINT `FK_EAV_ATTR_SET_ENTT_TYPE_ID_EAV_ENTT_TYPE_ENTT_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Set';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute Set';
 
-# Dumping data for table eav_attribute_set: ~9 rows (approximately)
-/*!40000 ALTER TABLE `eav_attribute_set` DISABLE KEYS */;
+# Dumping data for table eav_attribute_set: ~8 rows (approximately)
+
 INSERT INTO `eav_attribute_set` (`attribute_set_id`, `entity_type_id`, `attribute_set_name`, `sort_order`) VALUES
 	(1, 1, 'Default', 2),
 	(2, 2, 'Default', 2),
@@ -5761,9 +5413,8 @@ INSERT INTO `eav_attribute_set` (`attribute_set_id`, `entity_type_id`, `attribut
 	(5, 5, 'Default', 2),
 	(6, 6, 'Default', 2),
 	(7, 7, 'Default', 2),
-	(8, 8, 'Default', 2),
-	(9, 4, 'Minimal', 4);
-/*!40000 ALTER TABLE `eav_attribute_set` ENABLE KEYS */;
+	(8, 8, 'Default', 2);
+
 
 
 # Dumping structure for table eav_entity
@@ -5785,8 +5436,8 @@ CREATE TABLE IF NOT EXISTS `eav_entity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity';
 
 # Dumping data for table eav_entity: ~0 rows (approximately)
-/*!40000 ALTER TABLE `eav_entity` DISABLE KEYS */;
-/*!40000 ALTER TABLE `eav_entity` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table eav_entity_attribute
@@ -5804,10 +5455,10 @@ CREATE TABLE IF NOT EXISTS `eav_entity_attribute` (
   KEY `IDX_EAV_ENTITY_ATTRIBUTE_ATTRIBUTE_ID` (`attribute_id`),
   CONSTRAINT `FK_EAV_ENTITY_ATTRIBUTE_ATTRIBUTE_ID_EAV_ATTRIBUTE_ATTRIBUTE_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_EAV_ENTT_ATTR_ATTR_GROUP_ID_EAV_ATTR_GROUP_ATTR_GROUP_ID` FOREIGN KEY (`attribute_group_id`) REFERENCES `eav_attribute_group` (`attribute_group_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=183 DEFAULT CHARSET=utf8 COMMENT='Eav Entity Attributes';
+) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8 COMMENT='Eav Entity Attributes';
 
-# Dumping data for table eav_entity_attribute: ~182 rows (approximately)
-/*!40000 ALTER TABLE `eav_entity_attribute` DISABLE KEYS */;
+# Dumping data for table eav_entity_attribute: ~151 rows (approximately)
+
 INSERT INTO `eav_entity_attribute` (`entity_attribute_id`, `entity_type_id`, `attribute_set_id`, `attribute_group_id`, `attribute_id`, `sort_order`) VALUES
 	(1, 1, 1, 1, 1, 10),
 	(2, 1, 1, 1, 2, 20),
@@ -5882,7 +5533,7 @@ INSERT INTO `eav_entity_attribute` (`entity_attribute_id`, `entity_type_id`, `at
 	(71, 4, 4, 7, 71, 10),
 	(72, 4, 4, 7, 72, 20),
 	(73, 4, 4, 7, 73, 90),
-	(74, 4, 4, 20, 74, 0),
+	(74, 4, 4, 18, 74, 0),
 	(75, 4, 4, 7, 75, 30),
 	(76, 4, 4, 8, 76, 3),
 	(77, 4, 4, 8, 77, 4),
@@ -5899,16 +5550,16 @@ INSERT INTO `eav_entity_attribute` (`entity_attribute_id`, `entity_type_id`, `at
 	(88, 4, 4, 7, 89, 6),
 	(89, 4, 4, 8, 90, 2),
 	(90, 4, 4, 8, 91, 7),
-	(91, 4, 4, 20, 93, 30),
-	(92, 4, 4, 20, 94, 40),
+	(91, 4, 4, 18, 93, 30),
+	(92, 4, 4, 18, 94, 40),
 	(93, 4, 4, 10, 95, 5),
 	(94, 4, 4, 7, 96, 100),
-	(95, 4, 4, 20, 97, 10),
+	(95, 4, 4, 18, 97, 10),
 	(96, 4, 4, 7, 98, 11),
 	(97, 4, 4, 8, 99, 8),
 	(98, 4, 4, 11, 100, 1),
 	(99, 4, 4, 11, 101, 2),
-	(100, 4, 4, 20, 102, 20),
+	(100, 4, 4, 18, 102, 20),
 	(101, 4, 4, 12, 103, 1),
 	(102, 4, 4, 12, 104, 2),
 	(103, 4, 4, 12, 105, 3),
@@ -5923,7 +5574,7 @@ INSERT INTO `eav_entity_attribute` (`entity_attribute_id`, `entity_type_id`, `at
 	(112, 4, 4, 7, 114, 18),
 	(113, 4, 4, 7, 115, 19),
 	(114, 4, 4, 7, 116, 20),
-	(115, 4, 4, 20, 117, 50),
+	(115, 4, 4, 18, 117, 50),
 	(116, 4, 4, 8, 118, 9),
 	(117, 4, 4, 8, 119, 10),
 	(118, 4, 4, 8, 120, 11),
@@ -5937,61 +5588,30 @@ INSERT INTO `eav_entity_attribute` (`entity_attribute_id`, `entity_type_id`, `at
 	(126, 4, 4, 7, 128, 28),
 	(127, 4, 4, 7, 129, 29),
 	(128, 4, 4, 7, 130, 30),
-	(129, 4, 4, 20, 131, 60),
+	(129, 4, 4, 18, 131, 60),
 	(130, 4, 4, 8, 132, 13),
 	(131, 4, 4, 7, 133, 40),
-	(132, 4, 9, 18, 71, 1),
-	(133, 4, 9, 18, 73, 2),
-	(134, 4, 9, 18, 74, 3),
-	(135, 4, 9, 18, 72, 4),
-	(136, 4, 9, 18, 75, 5),
-	(137, 4, 9, 18, 96, 6),
-	(138, 4, 9, 18, 102, 7),
-	(139, 4, 9, 18, 80, 8),
-	(140, 4, 9, 18, 108, 9),
-	(141, 4, 9, 18, 85, 0),
-	(142, 4, 9, 18, 122, 10),
-	(143, 4, 9, 18, 125, 11),
-	(144, 4, 9, 18, 133, 12),
-	(145, 4, 4, 7, 134, 32),
-	(146, 4, 9, 19, 134, -5),
-	(147, 4, 4, 7, 135, 33),
-	(148, 4, 9, 19, 135, -4),
-	(149, 4, 4, 7, 136, 34),
-	(150, 4, 9, 19, 136, -3),
-	(151, 4, 4, 7, 137, 35),
-	(152, 4, 9, 19, 137, -2),
-	(153, 4, 4, 7, 138, 31),
-	(154, 4, 9, 19, 138, -1),
-	(155, 4, 4, 8, 139, 16),
-	(156, 4, 9, 19, 139, 0),
-	(157, 4, 4, 8, 140, 17),
-	(158, 4, 9, 19, 140, 1),
-	(159, 4, 4, 8, 141, 18),
-	(160, 4, 9, 19, 141, 2),
-	(161, 4, 4, 8, 142, 19),
-	(162, 4, 9, 19, 142, 3),
-	(163, 4, 4, 8, 143, 20),
-	(164, 4, 9, 19, 143, 4),
-	(165, 4, 4, 8, 144, 21),
-	(166, 4, 9, 19, 144, 5),
-	(167, 4, 4, 8, 145, 22),
-	(168, 4, 9, 19, 145, 6),
-	(169, 4, 4, 8, 146, 23),
-	(170, 4, 9, 19, 146, 7),
-	(171, 1, 1, 1, 147, 113),
-	(172, 1, 1, 1, 148, 114),
-	(173, 4, 4, 8, 149, 24),
-	(174, 4, 9, 19, 149, 8),
-	(175, 4, 4, 8, 150, 25),
-	(176, 4, 9, 19, 150, 9),
-	(177, 4, 4, 8, 151, 26),
-	(178, 4, 9, 19, 151, 10),
-	(179, 4, 4, 8, 152, 27),
-	(180, 4, 9, 19, 152, 11),
-	(181, 4, 4, 8, 153, 28),
-	(182, 4, 9, 19, 153, 12);
-/*!40000 ALTER TABLE `eav_entity_attribute` ENABLE KEYS */;
+	(132, 4, 4, 7, 134, 32),
+	(133, 4, 4, 7, 135, 33),
+	(134, 4, 4, 7, 136, 34),
+	(135, 4, 4, 7, 137, 35),
+	(136, 4, 4, 7, 138, 31),
+	(137, 4, 4, 8, 139, 16),
+	(138, 4, 4, 8, 140, 17),
+	(139, 4, 4, 8, 141, 18),
+	(140, 4, 4, 8, 142, 19),
+	(141, 4, 4, 8, 143, 20),
+	(142, 4, 4, 8, 144, 21),
+	(143, 4, 4, 8, 145, 22),
+	(144, 4, 4, 8, 146, 23),
+	(145, 1, 1, 1, 147, 114),
+	(146, 1, 1, 1, 148, 115),
+	(147, 4, 4, 8, 149, 24),
+	(148, 4, 4, 8, 150, 25),
+	(149, 4, 4, 8, 151, 26),
+	(150, 4, 4, 8, 152, 27),
+	(151, 4, 4, 8, 153, 28);
+
 
 
 # Dumping structure for table eav_entity_datetime
@@ -6016,8 +5636,8 @@ CREATE TABLE IF NOT EXISTS `eav_entity_datetime` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity Value Prefix';
 
 # Dumping data for table eav_entity_datetime: ~0 rows (approximately)
-/*!40000 ALTER TABLE `eav_entity_datetime` DISABLE KEYS */;
-/*!40000 ALTER TABLE `eav_entity_datetime` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table eav_entity_decimal
@@ -6042,8 +5662,8 @@ CREATE TABLE IF NOT EXISTS `eav_entity_decimal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity Value Prefix';
 
 # Dumping data for table eav_entity_decimal: ~0 rows (approximately)
-/*!40000 ALTER TABLE `eav_entity_decimal` DISABLE KEYS */;
-/*!40000 ALTER TABLE `eav_entity_decimal` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table eav_entity_int
@@ -6068,8 +5688,8 @@ CREATE TABLE IF NOT EXISTS `eav_entity_int` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity Value Prefix';
 
 # Dumping data for table eav_entity_int: ~0 rows (approximately)
-/*!40000 ALTER TABLE `eav_entity_int` DISABLE KEYS */;
-/*!40000 ALTER TABLE `eav_entity_int` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table eav_entity_store
@@ -6087,8 +5707,8 @@ CREATE TABLE IF NOT EXISTS `eav_entity_store` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity Store';
 
 # Dumping data for table eav_entity_store: ~0 rows (approximately)
-/*!40000 ALTER TABLE `eav_entity_store` DISABLE KEYS */;
-/*!40000 ALTER TABLE `eav_entity_store` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table eav_entity_text
@@ -6111,8 +5731,8 @@ CREATE TABLE IF NOT EXISTS `eav_entity_text` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity Value Prefix';
 
 # Dumping data for table eav_entity_text: ~0 rows (approximately)
-/*!40000 ALTER TABLE `eav_entity_text` DISABLE KEYS */;
-/*!40000 ALTER TABLE `eav_entity_text` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table eav_entity_type
@@ -6138,7 +5758,7 @@ CREATE TABLE IF NOT EXISTS `eav_entity_type` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='Eav Entity Type';
 
 # Dumping data for table eav_entity_type: ~8 rows (approximately)
-/*!40000 ALTER TABLE `eav_entity_type` DISABLE KEYS */;
+
 INSERT INTO `eav_entity_type` (`entity_type_id`, `entity_type_code`, `entity_model`, `attribute_model`, `entity_table`, `value_table_prefix`, `entity_id_field`, `is_data_sharing`, `data_sharing_key`, `default_attribute_set_id`, `increment_model`, `increment_per_store`, `increment_pad_length`, `increment_pad_char`, `additional_attribute_table`, `entity_attribute_collection`) VALUES
 	(1, 'customer', 'Mage_Customer_Model_Resource_Customer', 'Mage_Customer_Model_Attribute', 'customer_entity', NULL, NULL, 1, 'default', 1, 'Mage_Eav_Model_Entity_Increment_Numeric', 0, 8, '0', 'customer_eav_attribute', 'Mage_Customer_Model_Resource_Attribute_Collection'),
 	(2, 'customer_address', 'Mage_Customer_Model_Resource_Address', 'Mage_Customer_Model_Attribute', 'customer_address_entity', NULL, NULL, 1, 'default', 2, NULL, 0, 8, '0', 'customer_eav_attribute', 'Mage_Customer_Model_Resource_Address_Attribute_Collection'),
@@ -6148,7 +5768,7 @@ INSERT INTO `eav_entity_type` (`entity_type_id`, `entity_type_code`, `entity_mod
 	(6, 'invoice', 'Mage_Sales_Model_Resource_Order_Invoice', NULL, 'sales_flat_invoice', NULL, NULL, 1, 'default', 6, 'Mage_Eav_Model_Entity_Increment_Numeric', 1, 8, '0', NULL, NULL),
 	(7, 'creditmemo', 'Mage_Sales_Model_Resource_Order_Creditmemo', NULL, 'sales_flat_creditmemo', NULL, NULL, 1, 'default', 7, 'Mage_Eav_Model_Entity_Increment_Numeric', 1, 8, '0', NULL, NULL),
 	(8, 'shipment', 'Mage_Sales_Model_Resource_Order_Shipment', NULL, 'sales_flat_shipment', NULL, NULL, 1, 'default', 8, 'Mage_Eav_Model_Entity_Increment_Numeric', 1, 8, '0', NULL, NULL);
-/*!40000 ALTER TABLE `eav_entity_type` ENABLE KEYS */;
+
 
 
 # Dumping structure for table eav_entity_varchar
@@ -6173,8 +5793,8 @@ CREATE TABLE IF NOT EXISTS `eav_entity_varchar` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Entity Value Prefix';
 
 # Dumping data for table eav_entity_varchar: ~0 rows (approximately)
-/*!40000 ALTER TABLE `eav_entity_varchar` DISABLE KEYS */;
-/*!40000 ALTER TABLE `eav_entity_varchar` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table eav_form_element
@@ -6195,7 +5815,7 @@ CREATE TABLE IF NOT EXISTS `eav_form_element` (
 ) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COMMENT='Eav Form Element';
 
 # Dumping data for table eav_form_element: ~52 rows (approximately)
-/*!40000 ALTER TABLE `eav_form_element` DISABLE KEYS */;
+
 INSERT INTO `eav_form_element` (`element_id`, `type_id`, `fieldset_id`, `attribute_id`, `sort_order`) VALUES
 	(1, 1, NULL, 20, 0),
 	(2, 1, NULL, 22, 1),
@@ -6249,7 +5869,7 @@ INSERT INTO `eav_form_element` (`element_id`, `type_id`, `fieldset_id`, `attribu
 	(50, 5, 2, 28, 4),
 	(51, 5, 2, 30, 5),
 	(52, 5, 2, 27, 6);
-/*!40000 ALTER TABLE `eav_form_element` ENABLE KEYS */;
+
 
 
 # Dumping structure for table eav_form_fieldset
@@ -6265,11 +5885,11 @@ CREATE TABLE IF NOT EXISTS `eav_form_fieldset` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Eav Form Fieldset';
 
 # Dumping data for table eav_form_fieldset: ~2 rows (approximately)
-/*!40000 ALTER TABLE `eav_form_fieldset` DISABLE KEYS */;
+
 INSERT INTO `eav_form_fieldset` (`fieldset_id`, `type_id`, `code`, `sort_order`) VALUES
 	(1, 5, 'general', 1),
 	(2, 5, 'address', 2);
-/*!40000 ALTER TABLE `eav_form_fieldset` ENABLE KEYS */;
+
 
 
 # Dumping structure for table eav_form_fieldset_label
@@ -6285,11 +5905,11 @@ CREATE TABLE IF NOT EXISTS `eav_form_fieldset_label` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Form Fieldset Label';
 
 # Dumping data for table eav_form_fieldset_label: ~2 rows (approximately)
-/*!40000 ALTER TABLE `eav_form_fieldset_label` DISABLE KEYS */;
+
 INSERT INTO `eav_form_fieldset_label` (`fieldset_id`, `store_id`, `label`) VALUES
 	(1, 0, 'Personal Information'),
 	(2, 0, 'Address Information');
-/*!40000 ALTER TABLE `eav_form_fieldset_label` ENABLE KEYS */;
+
 
 
 # Dumping structure for table eav_form_type
@@ -6307,14 +5927,14 @@ CREATE TABLE IF NOT EXISTS `eav_form_type` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Eav Form Type';
 
 # Dumping data for table eav_form_type: ~5 rows (approximately)
-/*!40000 ALTER TABLE `eav_form_type` DISABLE KEYS */;
+
 INSERT INTO `eav_form_type` (`type_id`, `code`, `label`, `is_system`, `theme`, `store_id`) VALUES
 	(1, 'checkout_onepage_register', 'checkout_onepage_register', 1, '', 0),
 	(2, 'checkout_onepage_register_guest', 'checkout_onepage_register_guest', 1, '', 0),
 	(3, 'checkout_onepage_billing_address', 'checkout_onepage_billing_address', 1, '', 0),
 	(4, 'checkout_onepage_shipping_address', 'checkout_onepage_shipping_address', 1, '', 0),
 	(5, 'checkout_multishipping_register', 'checkout_multishipping_register', 1, '', 0);
-/*!40000 ALTER TABLE `eav_form_type` ENABLE KEYS */;
+
 
 
 # Dumping structure for table eav_form_type_entity
@@ -6328,7 +5948,7 @@ CREATE TABLE IF NOT EXISTS `eav_form_type_entity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Eav Form Type Entity';
 
 # Dumping data for table eav_form_type_entity: ~8 rows (approximately)
-/*!40000 ALTER TABLE `eav_form_type_entity` DISABLE KEYS */;
+
 INSERT INTO `eav_form_type_entity` (`type_id`, `entity_type_id`) VALUES
 	(1, 1),
 	(2, 1),
@@ -6338,7 +5958,7 @@ INSERT INTO `eav_form_type_entity` (`type_id`, `entity_type_id`) VALUES
 	(3, 2),
 	(4, 2),
 	(5, 2);
-/*!40000 ALTER TABLE `eav_form_type_entity` ENABLE KEYS */;
+
 
 
 # Dumping structure for table enterprise_admin_passwords
@@ -6354,8 +5974,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_admin_passwords` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Admin Passwords';
 
 # Dumping data for table enterprise_admin_passwords: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_admin_passwords` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_admin_passwords` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_banner
@@ -6368,11 +5988,11 @@ CREATE TABLE IF NOT EXISTS `enterprise_banner` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Enterprise Banner';
 
 # Dumping data for table enterprise_banner: ~2 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_banner` DISABLE KEYS */;
+
 INSERT INTO `enterprise_banner` (`banner_id`, `name`, `is_enabled`, `types`) VALUES
 	(1, 'Free Shipping on All Handbags', 1, NULL),
 	(2, '15% off Our New Evening Dresses', 1, NULL);
-/*!40000 ALTER TABLE `enterprise_banner` ENABLE KEYS */;
+
 
 
 # Dumping structure for table enterprise_banner_catalogrule
@@ -6387,8 +6007,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_banner_catalogrule` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Banner Catalogrule';
 
 # Dumping data for table enterprise_banner_catalogrule: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_banner_catalogrule` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_banner_catalogrule` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_banner_content
@@ -6404,11 +6024,11 @@ CREATE TABLE IF NOT EXISTS `enterprise_banner_content` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Banner Content';
 
 # Dumping data for table enterprise_banner_content: ~2 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_banner_content` DISABLE KEYS */;
+
 INSERT INTO `enterprise_banner_content` (`banner_id`, `store_id`, `banner_content`) VALUES
 	(1, 0, '<a href="{{store direct_url="apparel/women/handbags"}}"> <img class="callout" title="Get Free Shipping on All Items under Handbags" src="{{view url="images/callouts/home/free_shipping_all_handbags.jpg"}}" alt="Free Shipping on All Handbags" /></a>'),
 	(2, 0, '<a href="{{store direct_url="apparel/women/evening-dresses"}}"> <img class="callout" title="15% off Our New Evening Dresses" src="{{view url="images/callouts/home/15_off_new_evening_dresses.jpg"}}" alt="15% off Our New Evening Dresses" /></a>');
-/*!40000 ALTER TABLE `enterprise_banner_content` ENABLE KEYS */;
+
 
 
 # Dumping structure for table enterprise_banner_customersegment
@@ -6423,8 +6043,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_banner_customersegment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Banner Customersegment';
 
 # Dumping data for table enterprise_banner_customersegment: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_banner_customersegment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_banner_customersegment` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_banner_salesrule
@@ -6439,8 +6059,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_banner_salesrule` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Banner Salesrule';
 
 # Dumping data for table enterprise_banner_salesrule: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_banner_salesrule` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_banner_salesrule` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_cms_hierarchy_lock
@@ -6454,8 +6074,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_cms_hierarchy_lock` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Hierarchy Lock';
 
 # Dumping data for table enterprise_cms_hierarchy_lock: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_cms_hierarchy_lock` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_cms_hierarchy_lock` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_cms_hierarchy_metadata
@@ -6483,8 +6103,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_cms_hierarchy_metadata` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Hierarchy Metadata';
 
 # Dumping data for table enterprise_cms_hierarchy_metadata: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_cms_hierarchy_metadata` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_cms_hierarchy_metadata` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_cms_hierarchy_node
@@ -6509,8 +6129,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_cms_hierarchy_node` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Hierarchy Node';
 
 # Dumping data for table enterprise_cms_hierarchy_node: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_cms_hierarchy_node` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_cms_hierarchy_node` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_cms_increment
@@ -6525,7 +6145,7 @@ CREATE TABLE IF NOT EXISTS `enterprise_cms_increment` (
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Increment';
 
 # Dumping data for table enterprise_cms_increment: ~12 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_cms_increment` DISABLE KEYS */;
+
 INSERT INTO `enterprise_cms_increment` (`increment_id`, `increment_type`, `increment_node`, `increment_level`, `last_id`) VALUES
 	(1, 0, 1, 0, 1),
 	(2, 0, 1, 1, 1),
@@ -6539,7 +6159,7 @@ INSERT INTO `enterprise_cms_increment` (`increment_id`, `increment_type`, `incre
 	(10, 0, 5, 1, 1),
 	(11, 0, 6, 0, 1),
 	(12, 0, 6, 1, 1);
-/*!40000 ALTER TABLE `enterprise_cms_increment` ENABLE KEYS */;
+
 
 
 # Dumping structure for table enterprise_cms_page_revision
@@ -6572,15 +6192,15 @@ CREATE TABLE IF NOT EXISTS `enterprise_cms_page_revision` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Page Revision';
 
 # Dumping data for table enterprise_cms_page_revision: ~7 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_cms_page_revision` DISABLE KEYS */;
+
 INSERT INTO `enterprise_cms_page_revision` (`revision_id`, `version_id`, `page_id`, `root_template`, `meta_keywords`, `meta_description`, `content_heading`, `content`, `created_at`, `layout_update_xml`, `custom_theme`, `custom_root_template`, `custom_layout_update_xml`, `custom_theme_from`, `custom_theme_to`, `user_id`, `revision_number`) VALUES
-	(1, 1, 1, 'two_columns_right', 'Page keywords', 'Page description', NULL, '<div class="page-title"><h1>Whoops, our bad...</h1></div>\r\n<dl>\r\n<dt>The page you requested was not found, and we have a fine guess why.</dt>\r\n<dd>\r\n<ul class="disc">\r\n<li>If you typed the URL directly, please make sure the spelling is correct.</li>\r\n<li>If you clicked on a link to get here, the link is outdated.</li>\r\n</ul></dd>\r\n</dl>\r\n<dl>\r\n<dt>What can you do?</dt>\r\n<dd>Have no fear, help is near! There are many ways you can get back on track with Magento Store.</dd>\r\n<dd>\r\n<ul class="disc">\r\n<li><a href="#" onclick="history.go(-1); return false;">Go back</a> to the previous page.</li>\r\n<li>Use the search bar at the top of the page to search for your products.</li>\r\n<li>Follow these links to get you back on track!<br /><a href="{{store url=""}}">Store Home</a> <span class="separator">|</span> <a href="{{store url="customer/account"}}">My Account</a></li></ul></dd></dl>\r\n', '2013-03-27 11:10:52', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-	(2, 2, 2, 'two_columns_right', NULL, NULL, NULL, '<div class="page-title"><h2>Home Page</h2></div>\r\n', '2013-03-27 11:10:52', '<!--<reference name="content">\n        <block type="Mage_Catalog_Block_Product_New" name="home.catalog.product.new" alias="product_new" template="product/new.phtml" after="cms_page">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type="Mage_Reports_Block_Product_Viewed" name="home.reports.product.viewed" alias="product_viewed" template="home_product_viewed.phtml" after="product_new">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type="Mage_Reports_Block_Product_Compared" name="home.reports.product.compared" template="home_product_compared.phtml" after="product_viewed">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n    </reference>\n    <reference name="right">\n        <action method="unsetChild"><alias>right.reports.product.viewed</alias></action>\n        <action method="unsetChild"><alias>right.reports.product.compared</alias></action>\n    </reference>-->', NULL, NULL, NULL, NULL, NULL, NULL, 1),
-	(3, 3, 3, 'two_columns_right', NULL, NULL, NULL, '<div class="page-title">\r\n<h1>About Magento Store</h1>\r\n</div>\r\n<div class="col3-set">\r\n<div class="col-1"><p><a href="http://www.magento.com/"><img src="{{view url=\'Mage_Cms::images/about_us_img.jpg\'}}" title="Varien" alt="Varien" /></a></p><p style="line-height:1.2em;"><small>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.</small></p>\r\n<p style="color:#888; font:1.2em/1.4em georgia, serif;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta.</p></div>\r\n<div class="col-2">\r\n<p><strong style="color:#de036f;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.</strong></p>\r\n<p>Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo. </p>\r\n<p>Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus. Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi. Vestibulum sapien dolor, aliquet nec, porta ac, malesuada a, libero. Praesent feugiat purus eget est. Nulla facilisi. Vestibulum tincidunt sapien eu velit. Mauris purus. Maecenas eget mauris eu orci accumsan feugiat. Pellentesque eget velit. Nunc tincidunt.</p></div>\r\n<div class="col-3">\r\n<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper </p>\r\n<p><strong style="color:#de036f;">Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus.</strong></p>\r\n<p>Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi.</p>\r\n<div class="divider"></div>\r\n<p>To all of you, from all of us at Magento Store - Thank you and Happy eCommerce!</p>\r\n<p style="line-height:1.2em;"><strong style="font:italic 2em Georgia, serif;">John Doe</strong><br /><small>Some important guy</small></p></div>\r\n</div>', '2013-03-27 11:10:52', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-	(4, 4, 4, 'three_columns', NULL, NULL, NULL, '<div class="page-title">\r\n<h1>Customer Service</h1>\r\n</div>\r\n<ul class="disc">\r\n<li><a href="#answer1">Shipping &amp; Delivery</a></li>\r\n<li><a href="#answer2">Privacy &amp; Security</a></li>\r\n<li><a href="#answer3">Returns &amp; Replacements</a></li>\r\n<li><a href="#answer4">Ordering</a></li>\r\n<li><a href="#answer5">Payment, Pricing &amp; Promotions</a></li>\r\n<li><a href="#answer6">Viewing Orders</a></li>\r\n<li><a href="#answer7">Updating Account Information</a></li>\r\n</ul>\r\n<dl>\r\n<dt id="answer1">Shipping &amp; Delivery</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer2">Privacy &amp; Security</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer3">Returns &amp; Replacements</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer4">Ordering</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer5">Payment, Pricing &amp; Promotions</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer6">Viewing Orders</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer7">Updating Account Information</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n</dl>', '2013-03-27 11:10:52', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-	(5, 5, 5, 'one_column', NULL, NULL, NULL, '<div class="std">\r\n    <ul class="messages">\r\n        <li class="notice-msg">\r\n            <ul>\r\n                <li>Please enable cookies in your web browser to continue.</li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n    <div class="page-title">\r\n        <h1><a name="top"></a>What are Cookies?</h1>\r\n    </div>\r\n    <p>Cookies are short pieces of data that are sent to your computer when you visit a website. On later visits, this data is then returned to that website. Cookies allow us to recognize you automatically whenever you visit our site so that we can personalize your experience and provide you with better service. We also use cookies (and similar browser data, such as Flash cookies) for fraud prevention and other purposes. If your web browser is set to refuse cookies from our website, you will not be able to complete a purchase or take advantage of certain features of our website, such as storing items in your Shopping Cart or receiving personalized recommendations. As a result, we strongly encourage you to configure your web browser to accept cookies from our website.</p>\r\n    <h2 class="subtitle">Enabling Cookies</h2>\r\n    <ul class="disc">\r\n        <li><a href="#ie7">Internet Explorer 7.x</a></li>\r\n        <li><a href="#ie6">Internet Explorer 6.x</a></li>\r\n        <li><a href="#firefox">Mozilla/Firefox</a></li>\r\n        <li><a href="#opera">Opera 7.x</a></li>\r\n    </ul>\r\n    <h3><a name="ie7"></a>Internet Explorer 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Start Internet Explorer</p>\r\n        </li>\r\n        <li>\r\n            <p>Under the <strong>Tools</strong> menu, click <strong>Internet Options</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-1.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Privacy</strong> tab</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-2.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Advanced</strong> button</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-3.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Put a check mark in the box for <strong>Override Automatic Cookie Handling</strong>, put another check mark in the <strong>Always accept session cookies </strong>box</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-4.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-5.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-6.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Restart Internet Explore</p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="ie6"></a>Internet Explorer 6.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Select <strong>Internet Options</strong> from the Tools menu</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie6-1.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> tab</p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Default</strong> button (or manually slide the bar down to <strong>Medium</strong>) under <strong>Settings</strong>. Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie6-2.gif"}}" alt="" /></p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="firefox"></a>Mozilla/Firefox</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong>-menu in Mozilla</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Options...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection in the left part of the window. (See image below)</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/firefox.png"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Expand the <strong>Cookies</strong> section</p>\r\n        </li>\r\n        <li>\r\n            <p>Check the <strong>Enable cookies</strong> and <strong>Accept cookies normally</strong> checkboxes</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong>.</p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="opera"></a>Opera 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong> menu in Opera</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Preferences...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection near the bottom left of the window. (See image below)</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/opera.png"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>The <strong>Enable cookies</strong> checkbox must be checked, and <strong>Accept all cookies</strong> should be selected in the &quot;<strong>Normal cookies</strong>&quot; drop-down</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong></p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n</div>\r\n', '2013-03-27 11:10:52', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-	(6, 6, 6, 'one_column', NULL, NULL, NULL, '<p style="color: #ff0000; font-weight: bold; font-size: 13px">\n    Please replace this text with you Privacy Policy.\n    Please add any additional cookies your website uses below (e.g., Google Analytics)\n</p>\n<p>\n    This privacy policy sets out how {{config path="general/store_information/name"}} uses and protects any information\n    that you give {{config path="general/store_information/name"}} when you use this website.\n    {{config path="general/store_information/name"}} is committed to ensuring that your privacy is protected.\n    Should we ask you to provide certain information by which you can be identified when using this website,\n    then you can be assured that it will only be used in accordance with this privacy statement.\n    {{config path="general/store_information/name"}} may change this policy from time to time by updating this page.\n    You should check this page from time to time to ensure that you are happy with any changes.\n</p>\n<h2>What we collect</h2>\n<p>We may collect the following information:</p>\n<ul>\n    <li>name</li>\n    <li>contact information including email address</li>\n    <li>demographic information such as postcode, preferences and interests</li>\n    <li>other information relevant to customer surveys and/or offers</li>\n</ul>\n<p>\n    For the exhaustive list of cookies we collect see the <a href="#list">List of cookies we collect</a> section.\n</p>\n<h2>What we do with the information we gather</h2>\n<p>\n    We require this information to understand your needs and provide you with a better service,\n    and in particular for the following reasons:\n</p>\n<ul>\n    <li>Internal record keeping.</li>\n    <li>We may use the information to improve our products and services.</li>\n    <li>\n        We may periodically send promotional emails about new products, special offers or other information which we\n        think you may find interesting using the email address which you have provided.\n    </li>\n    <li>\n        From time to time, we may also use your information to contact you for market research purposes.\n        We may contact you by email, phone, fax or mail. We may use the information to customise the website\n        according to your interests.\n    </li>\n</ul>\n<h2>Security</h2>\n<p>\n    We are committed to ensuring that your information is secure. In order to prevent unauthorised access or disclosure,\n    we have put in place suitable physical, electronic and managerial procedures to safeguard and secure\n    the information we collect online.\n</p>\n<h2>How we use cookies</h2>\n<p>\n    A cookie is a small file which asks permission to be placed on your computer\'s hard drive.\n    Once you agree, the file is added and the cookie helps analyse web traffic or lets you know when you visit\n    a particular site. Cookies allow web applications to respond to you as an individual. The web application\n    can tailor its operations to your needs, likes and dislikes by gathering and remembering information about\n    your preferences.\n</p>\n<p>\n    We use traffic log cookies to identify which pages are being used. This helps us analyse data about web page traffic\n    and improve our website in order to tailor it to customer needs. We only use this information for statistical\n    analysis purposes and then the data is removed from the system.\n</p>\n<p>\n    Overall, cookies help us provide you with a better website, by enabling us to monitor which pages you find useful\n    and which you do not. A cookie in no way gives us access to your computer or any information about you,\n    other than the data you choose to share with us. You can choose to accept or decline cookies.\n    Most web browsers automatically accept cookies, but you can usually modify your browser setting\n    to decline cookies if you prefer. This may prevent you from taking full advantage of the website.\n</p>\n<h2>Links to other websites</h2>\n<p>\n    Our website may contain links to other websites of interest. However, once you have used these links\n    to leave our site, you should note that we do not have any control over that other website.\n    Therefore, we cannot be responsible for the protection and privacy of any information which you provide whilst\n    visiting such sites and such sites are not governed by this privacy statement.\n    You should exercise caution and look at the privacy statement applicable to the website in question.\n</p>\n<h2>Controlling your personal information</h2>\n<p>You may choose to restrict the collection or use of your personal information in the following ways:</p>\n<ul>\n    <li>\n        whenever you are asked to fill in a form on the website, look for the box that you can click to indicate\n        that you do not want the information to be used by anybody for direct marketing purposes\n    </li>\n    <li>\n        if you have previously agreed to us using your personal information for direct marketing purposes,\n        you may change your mind at any time by writing to or emailing us at\n        {{config path="trans_email/ident_general/email"}}\n    </li>\n</ul>\n<p>\n    We will not sell, distribute or lease your personal information to third parties unless we have your permission\n    or are required by law to do so. We may use your personal information to send you promotional information\n    about third parties which we think you may find interesting if you tell us that you wish this to happen.\n</p>\n<p>\n    You may request details of personal information which we hold about you under the Data Protection Act 1998.\n    A small fee will be payable. If you would like a copy of the information held on you please write to\n    {{config path="general/store_information/street_line1"}} {{config path="general/store_information/street_line2"}} {{config path="general/store_information/city"}} {{config path="general/store_information/postcode"}} {{config path="general/store_information/region_id"}} {{config path="general/store_information/country_id"}}.\n</p>\n<p>\n    If you believe that any information we are holding on you is incorrect or incomplete,\n    please write to or email us as soon as possible, at the above address.\n    We will promptly correct any information found to be incorrect.\n</p>\n<h2><a name="list"></a>List of cookies we collect</h2>\n<p>The table below lists the cookies we collect and what information they store.</p>\n<table class="data-table">\n    <thead>\n        <tr>\n            <th>COOKIE name</th>\n            <th>COOKIE Description</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <th>CART</th>\n            <td>The association with your shopping cart.</td>\n        </tr>\n        <tr>\n            <th>CATEGORY_INFO</th>\n            <td>Stores the category info on the page, that allows to display pages more quickly.</td>\n        </tr>\n        <tr>\n            <th>COMPARE</th>\n            <td>The items that you have in the Compare Products list.</td>\n        </tr>\n        <tr>\n            <th>CURRENCY</th>\n            <td>Your preferred currency</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER</th>\n            <td>An encrypted version of your customer id with the store.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_AUTH</th>\n            <td>An indicator if you are currently logged into the store.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_INFO</th>\n            <td>An encrypted version of the customer group you belong to.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_SEGMENT_IDS</th>\n            <td>Stores the Customer Segment ID</td>\n        </tr>\n        <tr>\n            <th>EXTERNAL_NO_CACHE</th>\n            <td>A flag, which indicates whether caching is disabled or not.</td>\n        </tr>\n        <tr>\n            <th>FRONTEND</th>\n            <td>You sesssion ID on the server.</td>\n        </tr>\n        <tr>\n            <th>GUEST-VIEW</th>\n            <td>Allows guests to edit their orders.</td>\n        </tr>\n        <tr>\n            <th>LAST_CATEGORY</th>\n            <td>The last category you visited.</td>\n        </tr>\n        <tr>\n            <th>LAST_PRODUCT</th>\n            <td>The most recent product you have viewed.</td>\n        </tr>\n        <tr>\n            <th>NEWMESSAGE</th>\n            <td>Indicates whether a new message has been received.</td>\n        </tr>\n        <tr>\n            <th>NO_CACHE</th>\n            <td>Indicates whether it is allowed to use cache.</td>\n        </tr>\n        <tr>\n            <th>PERSISTENT_SHOPPING_CART</th>\n            <td>A link to information about your cart and viewing history if you have asked the site.</td>\n        </tr>\n        <tr>\n            <th>POLL</th>\n            <td>The ID of any polls you have recently voted in.</td>\n        </tr>\n        <tr>\n            <th>POLLN</th>\n            <td>Information on what polls you have voted on.</td>\n        </tr>\n        <tr>\n            <th>RECENTLYCOMPARED</th>\n            <td>The items that you have recently compared.            </td>\n        </tr>\n        <tr>\n            <th>STF</th>\n            <td>Information on products you have emailed to friends.</td>\n        </tr>\n        <tr>\n            <th>STORE</th>\n            <td>The store view or language you have selected.</td>\n        </tr>\n        <tr>\n            <th>USER_ALLOWED_SAVE_COOKIE</th>\n            <td>Indicates whether a customer allowed to use cookies.</td>\n        </tr>\n        <tr>\n            <th>VIEWED_PRODUCT_IDS</th>\n            <td>The products that you have recently viewed.</td>\n        </tr>\n        <tr>\n            <th>WISHLIST</th>\n            <td>An encrypted list of products added to your Wishlist.</td>\n        </tr>\n        <tr>\n            <th>WISHLIST_CNT</th>\n            <td>The number of items in your Wishlist.</td>\n        </tr>\n    </tbody>\n</table>', '2013-03-27 11:10:52', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
-/*!40000 ALTER TABLE `enterprise_cms_page_revision` ENABLE KEYS */;
+	(1, 1, 1, 'two_columns_right', 'Page keywords', 'Page description', NULL, '<div class="page-title"><h1>Whoops, our bad...</h1></div>\r\n<dl>\r\n<dt>The page you requested was not found, and we have a fine guess why.</dt>\r\n<dd>\r\n<ul class="disc">\r\n<li>If you typed the URL directly, please make sure the spelling is correct.</li>\r\n<li>If you clicked on a link to get here, the link is outdated.</li>\r\n</ul></dd>\r\n</dl>\r\n<dl>\r\n<dt>What can you do?</dt>\r\n<dd>Have no fear, help is near! There are many ways you can get back on track with Magento Store.</dd>\r\n<dd>\r\n<ul class="disc">\r\n<li><a href="#" onclick="history.go(-1); return false;">Go back</a> to the previous page.</li>\r\n<li>Use the search bar at the top of the page to search for your products.</li>\r\n<li>Follow these links to get you back on track!<br /><a href="{{store url=""}}">Store Home</a> <span class="separator">|</span> <a href="{{store url="customer/account"}}">My Account</a></li></ul></dd></dl>\r\n', '2013-04-10 22:52:32', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+	(2, 2, 2, 'two_columns_right', NULL, NULL, NULL, '<div class="page-title"><h2>Home Page</h2></div>\r\n', '2013-04-10 22:52:32', '<!--<reference name="content">\n        <block type="Mage_Catalog_Block_Product_New" name="home.catalog.product.new" alias="product_new" template="product/new.phtml" after="cms_page">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type="Mage_Reports_Block_Product_Viewed" name="home.reports.product.viewed" alias="product_viewed" template="home_product_viewed.phtml" after="product_new">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n        <block type="Mage_Reports_Block_Product_Compared" name="home.reports.product.compared" template="home_product_compared.phtml" after="product_viewed">\n            <action method="addPriceBlockType">\n                <type>bundle</type>\n                <block>Mage_Bundle_Block_Catalog_Product_Price</block>\n                <template>catalog/product/price.phtml</template>\n            </action>\n        </block>\n    </reference>\n    <reference name="right">\n        <action method="unsetChild"><alias>right.reports.product.viewed</alias></action>\n        <action method="unsetChild"><alias>right.reports.product.compared</alias></action>\n    </reference>-->', NULL, NULL, NULL, NULL, NULL, NULL, 1),
+	(3, 3, 3, 'two_columns_right', NULL, NULL, NULL, '<div class="page-title">\r\n<h1>About Magento Store</h1>\r\n</div>\r\n<div class="col3-set">\r\n<div class="col-1"><p><a href="http://www.magento.com/"><img src="{{view url=\'Mage_Cms::images/about_us_img.jpg\'}}" title="Varien" alt="Varien" /></a></p><p style="line-height:1.2em;"><small>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.</small></p>\r\n<p style="color:#888; font:1.2em/1.4em georgia, serif;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta.</p></div>\r\n<div class="col-2">\r\n<p><strong style="color:#de036f;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit.</strong></p>\r\n<p>Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo. </p>\r\n<p>Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus. Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi. Vestibulum sapien dolor, aliquet nec, porta ac, malesuada a, libero. Praesent feugiat purus eget est. Nulla facilisi. Vestibulum tincidunt sapien eu velit. Mauris purus. Maecenas eget mauris eu orci accumsan feugiat. Pellentesque eget velit. Nunc tincidunt.</p></div>\r\n<div class="col-3">\r\n<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper </p>\r\n<p><strong style="color:#de036f;">Maecenas ullamcorper, odio vel tempus egestas, dui orci faucibus orci, sit amet aliquet lectus dolor et quam. Pellentesque consequat luctus purus.</strong></p>\r\n<p>Nunc et risus. Etiam a nibh. Phasellus dignissim metus eget nisi.</p>\r\n<div class="divider"></div>\r\n<p>To all of you, from all of us at Magento Store - Thank you and Happy eCommerce!</p>\r\n<p style="line-height:1.2em;"><strong style="font:italic 2em Georgia, serif;">John Doe</strong><br /><small>Some important guy</small></p></div>\r\n</div>', '2013-04-10 22:52:32', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+	(4, 4, 4, 'three_columns', NULL, NULL, NULL, '<div class="page-title">\r\n<h1>Customer Service</h1>\r\n</div>\r\n<ul class="disc">\r\n<li><a href="#answer1">Shipping &amp; Delivery</a></li>\r\n<li><a href="#answer2">Privacy &amp; Security</a></li>\r\n<li><a href="#answer3">Returns &amp; Replacements</a></li>\r\n<li><a href="#answer4">Ordering</a></li>\r\n<li><a href="#answer5">Payment, Pricing &amp; Promotions</a></li>\r\n<li><a href="#answer6">Viewing Orders</a></li>\r\n<li><a href="#answer7">Updating Account Information</a></li>\r\n</ul>\r\n<dl>\r\n<dt id="answer1">Shipping &amp; Delivery</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer2">Privacy &amp; Security</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer3">Returns &amp; Replacements</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer4">Ordering</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer5">Payment, Pricing &amp; Promotions</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer6">Viewing Orders</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n<dt id="answer7">Updating Account Information</dt>\r\n<dd>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede. Cras vel libero id lectus rhoncus porta. Suspendisse convallis felis ac enim. Vivamus tortor nisl, lobortis in, faucibus et, tempus at, dui. Nunc risus. Proin scelerisque augue. Nam ullamcorper. Phasellus id massa. Pellentesque nisl. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc augue. Aenean sed justo non leo vehicula laoreet. Praesent ipsum libero, auctor ac, tempus nec, tempor nec, justo.</dd>\r\n</dl>', '2013-04-10 22:52:32', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+	(5, 5, 5, 'one_column', NULL, NULL, NULL, '<div class="std">\r\n    <ul class="messages">\r\n        <li class="notice-msg">\r\n            <ul>\r\n                <li>Please enable cookies in your web browser to continue.</li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n    <div class="page-title">\r\n        <h1><a name="top"></a>What are Cookies?</h1>\r\n    </div>\r\n    <p>Cookies are short pieces of data that are sent to your computer when you visit a website. On later visits, this data is then returned to that website. Cookies allow us to recognize you automatically whenever you visit our site so that we can personalize your experience and provide you with better service. We also use cookies (and similar browser data, such as Flash cookies) for fraud prevention and other purposes. If your web browser is set to refuse cookies from our website, you will not be able to complete a purchase or take advantage of certain features of our website, such as storing items in your Shopping Cart or receiving personalized recommendations. As a result, we strongly encourage you to configure your web browser to accept cookies from our website.</p>\r\n    <h2 class="subtitle">Enabling Cookies</h2>\r\n    <ul class="disc">\r\n        <li><a href="#ie7">Internet Explorer 7.x</a></li>\r\n        <li><a href="#ie6">Internet Explorer 6.x</a></li>\r\n        <li><a href="#firefox">Mozilla/Firefox</a></li>\r\n        <li><a href="#opera">Opera 7.x</a></li>\r\n    </ul>\r\n    <h3><a name="ie7"></a>Internet Explorer 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Start Internet Explorer</p>\r\n        </li>\r\n        <li>\r\n            <p>Under the <strong>Tools</strong> menu, click <strong>Internet Options</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-1.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Privacy</strong> tab</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-2.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Advanced</strong> button</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-3.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Put a check mark in the box for <strong>Override Automatic Cookie Handling</strong>, put another check mark in the <strong>Always accept session cookies </strong>box</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-4.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-5.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie7-6.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Restart Internet Explore</p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="ie6"></a>Internet Explorer 6.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Select <strong>Internet Options</strong> from the Tools menu</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie6-1.gif"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> tab</p>\r\n        </li>\r\n        <li>\r\n            <p>Click the <strong>Default</strong> button (or manually slide the bar down to <strong>Medium</strong>) under <strong>Settings</strong>. Click <strong>OK</strong></p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/ie6-2.gif"}}" alt="" /></p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="firefox"></a>Mozilla/Firefox</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong>-menu in Mozilla</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Options...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection in the left part of the window. (See image below)</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/firefox.png"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>Expand the <strong>Cookies</strong> section</p>\r\n        </li>\r\n        <li>\r\n            <p>Check the <strong>Enable cookies</strong> and <strong>Accept cookies normally</strong> checkboxes</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong>.</p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n    <h3><a name="opera"></a>Opera 7.x</h3>\r\n    <ol>\r\n        <li>\r\n            <p>Click on the <strong>Tools</strong> menu in Opera</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Preferences...</strong> item in the menu - a new window open</p>\r\n        </li>\r\n        <li>\r\n            <p>Click on the <strong>Privacy</strong> selection near the bottom left of the window. (See image below)</p>\r\n            <p><img src="{{view url="Mage_Cms::images/cookies/opera.png"}}" alt="" /></p>\r\n        </li>\r\n        <li>\r\n            <p>The <strong>Enable cookies</strong> checkbox must be checked, and <strong>Accept all cookies</strong> should be selected in the &quot;<strong>Normal cookies</strong>&quot; drop-down</p>\r\n        </li>\r\n        <li>\r\n            <p>Save changes by clicking <strong>Ok</strong></p>\r\n        </li>\r\n    </ol>\r\n    <p class="a-top"><a href="#top">Back to Top</a></p>\r\n</div>\r\n', '2013-04-10 22:52:32', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+	(6, 6, 6, 'one_column', NULL, NULL, NULL, '<p style="color: #ff0000; font-weight: bold; font-size: 13px">\n    Please replace this text with you Privacy Policy.\n    Please add any additional cookies your website uses below (e.g., Google Analytics)\n</p>\n<p>\n    This privacy policy sets out how {{config path="general/store_information/name"}} uses and protects any information\n    that you give {{config path="general/store_information/name"}} when you use this website.\n    {{config path="general/store_information/name"}} is committed to ensuring that your privacy is protected.\n    Should we ask you to provide certain information by which you can be identified when using this website,\n    then you can be assured that it will only be used in accordance with this privacy statement.\n    {{config path="general/store_information/name"}} may change this policy from time to time by updating this page.\n    You should check this page from time to time to ensure that you are happy with any changes.\n</p>\n<h2>What we collect</h2>\n<p>We may collect the following information:</p>\n<ul>\n    <li>name</li>\n    <li>contact information including email address</li>\n    <li>demographic information such as postcode, preferences and interests</li>\n    <li>other information relevant to customer surveys and/or offers</li>\n</ul>\n<p>\n    For the exhaustive list of cookies we collect see the <a href="#list">List of cookies we collect</a> section.\n</p>\n<h2>What we do with the information we gather</h2>\n<p>\n    We require this information to understand your needs and provide you with a better service,\n    and in particular for the following reasons:\n</p>\n<ul>\n    <li>Internal record keeping.</li>\n    <li>We may use the information to improve our products and services.</li>\n    <li>\n        We may periodically send promotional emails about new products, special offers or other information which we\n        think you may find interesting using the email address which you have provided.\n    </li>\n    <li>\n        From time to time, we may also use your information to contact you for market research purposes.\n        We may contact you by email, phone, fax or mail. We may use the information to customise the website\n        according to your interests.\n    </li>\n</ul>\n<h2>Security</h2>\n<p>\n    We are committed to ensuring that your information is secure. In order to prevent unauthorised access or disclosure,\n    we have put in place suitable physical, electronic and managerial procedures to safeguard and secure\n    the information we collect online.\n</p>\n<h2>How we use cookies</h2>\n<p>\n    A cookie is a small file which asks permission to be placed on your computer\'s hard drive.\n    Once you agree, the file is added and the cookie helps analyse web traffic or lets you know when you visit\n    a particular site. Cookies allow web applications to respond to you as an individual. The web application\n    can tailor its operations to your needs, likes and dislikes by gathering and remembering information about\n    your preferences.\n</p>\n<p>\n    We use traffic log cookies to identify which pages are being used. This helps us analyse data about web page traffic\n    and improve our website in order to tailor it to customer needs. We only use this information for statistical\n    analysis purposes and then the data is removed from the system.\n</p>\n<p>\n    Overall, cookies help us provide you with a better website, by enabling us to monitor which pages you find useful\n    and which you do not. A cookie in no way gives us access to your computer or any information about you,\n    other than the data you choose to share with us. You can choose to accept or decline cookies.\n    Most web browsers automatically accept cookies, but you can usually modify your browser setting\n    to decline cookies if you prefer. This may prevent you from taking full advantage of the website.\n</p>\n<h2>Links to other websites</h2>\n<p>\n    Our website may contain links to other websites of interest. However, once you have used these links\n    to leave our site, you should note that we do not have any control over that other website.\n    Therefore, we cannot be responsible for the protection and privacy of any information which you provide whilst\n    visiting such sites and such sites are not governed by this privacy statement.\n    You should exercise caution and look at the privacy statement applicable to the website in question.\n</p>\n<h2>Controlling your personal information</h2>\n<p>You may choose to restrict the collection or use of your personal information in the following ways:</p>\n<ul>\n    <li>\n        whenever you are asked to fill in a form on the website, look for the box that you can click to indicate\n        that you do not want the information to be used by anybody for direct marketing purposes\n    </li>\n    <li>\n        if you have previously agreed to us using your personal information for direct marketing purposes,\n        you may change your mind at any time by writing to or emailing us at\n        {{config path="trans_email/ident_general/email"}}\n    </li>\n</ul>\n<p>\n    We will not sell, distribute or lease your personal information to third parties unless we have your permission\n    or are required by law to do so. We may use your personal information to send you promotional information\n    about third parties which we think you may find interesting if you tell us that you wish this to happen.\n</p>\n<p>\n    You may request details of personal information which we hold about you under the Data Protection Act 1998.\n    A small fee will be payable. If you would like a copy of the information held on you please write to\n    {{config path="general/store_information/street_line1"}} {{config path="general/store_information/street_line2"}} {{config path="general/store_information/city"}} {{config path="general/store_information/postcode"}} {{config path="general/store_information/region_id"}} {{config path="general/store_information/country_id"}}.\n</p>\n<p>\n    If you believe that any information we are holding on you is incorrect or incomplete,\n    please write to or email us as soon as possible, at the above address.\n    We will promptly correct any information found to be incorrect.\n</p>\n<h2><a name="list"></a>List of cookies we collect</h2>\n<p>The table below lists the cookies we collect and what information they store.</p>\n<table class="data-table">\n    <thead>\n        <tr>\n            <th>COOKIE name</th>\n            <th>COOKIE Description</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <th>CART</th>\n            <td>The association with your shopping cart.</td>\n        </tr>\n        <tr>\n            <th>CATEGORY_INFO</th>\n            <td>Stores the category info on the page, that allows to display pages more quickly.</td>\n        </tr>\n        <tr>\n            <th>COMPARE</th>\n            <td>The items that you have in the Compare Products list.</td>\n        </tr>\n        <tr>\n            <th>CURRENCY</th>\n            <td>Your preferred currency</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER</th>\n            <td>An encrypted version of your customer id with the store.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_AUTH</th>\n            <td>An indicator if you are currently logged into the store.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_INFO</th>\n            <td>An encrypted version of the customer group you belong to.</td>\n        </tr>\n        <tr>\n            <th>CUSTOMER_SEGMENT_IDS</th>\n            <td>Stores the Customer Segment ID</td>\n        </tr>\n        <tr>\n            <th>EXTERNAL_NO_CACHE</th>\n            <td>A flag, which indicates whether caching is disabled or not.</td>\n        </tr>\n        <tr>\n            <th>FRONTEND</th>\n            <td>You sesssion ID on the server.</td>\n        </tr>\n        <tr>\n            <th>GUEST-VIEW</th>\n            <td>Allows guests to edit their orders.</td>\n        </tr>\n        <tr>\n            <th>LAST_CATEGORY</th>\n            <td>The last category you visited.</td>\n        </tr>\n        <tr>\n            <th>LAST_PRODUCT</th>\n            <td>The most recent product you have viewed.</td>\n        </tr>\n        <tr>\n            <th>NEWMESSAGE</th>\n            <td>Indicates whether a new message has been received.</td>\n        </tr>\n        <tr>\n            <th>NO_CACHE</th>\n            <td>Indicates whether it is allowed to use cache.</td>\n        </tr>\n        <tr>\n            <th>PERSISTENT_SHOPPING_CART</th>\n            <td>A link to information about your cart and viewing history if you have asked the site.</td>\n        </tr>\n        <tr>\n            <th>POLL</th>\n            <td>The ID of any polls you have recently voted in.</td>\n        </tr>\n        <tr>\n            <th>POLLN</th>\n            <td>Information on what polls you have voted on.</td>\n        </tr>\n        <tr>\n            <th>RECENTLYCOMPARED</th>\n            <td>The items that you have recently compared.            </td>\n        </tr>\n        <tr>\n            <th>STF</th>\n            <td>Information on products you have emailed to friends.</td>\n        </tr>\n        <tr>\n            <th>STORE</th>\n            <td>The store view or language you have selected.</td>\n        </tr>\n        <tr>\n            <th>USER_ALLOWED_SAVE_COOKIE</th>\n            <td>Indicates whether a customer allowed to use cookies.</td>\n        </tr>\n        <tr>\n            <th>VIEWED_PRODUCT_IDS</th>\n            <td>The products that you have recently viewed.</td>\n        </tr>\n        <tr>\n            <th>WISHLIST</th>\n            <td>An encrypted list of products added to your Wishlist.</td>\n        </tr>\n        <tr>\n            <th>WISHLIST_CNT</th>\n            <td>The number of items in your Wishlist.</td>\n        </tr>\n    </tbody>\n</table>', '2013-04-10 22:52:32', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+
 
 
 # Dumping structure for table enterprise_cms_page_version
@@ -6602,15 +6222,15 @@ CREATE TABLE IF NOT EXISTS `enterprise_cms_page_version` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Enterprise Cms Page Version';
 
 # Dumping data for table enterprise_cms_page_version: ~6 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_cms_page_version` DISABLE KEYS */;
+
 INSERT INTO `enterprise_cms_page_version` (`version_id`, `label`, `access_level`, `page_id`, `user_id`, `revisions_count`, `version_number`, `created_at`) VALUES
-	(1, '404 Not Found 1', 'public', 1, NULL, 1, 1, '2013-03-27 11:10:52'),
-	(2, 'Home page', 'public', 2, NULL, 1, 1, '2013-03-27 11:10:52'),
-	(3, 'About Us', 'public', 3, NULL, 1, 1, '2013-03-27 11:10:52'),
-	(4, 'Customer Service', 'public', 4, NULL, 1, 1, '2013-03-27 11:10:52'),
-	(5, 'Enable Cookies', 'public', 5, NULL, 1, 1, '2013-03-27 11:10:52'),
-	(6, 'Privacy Policy', 'public', 6, NULL, 1, 1, '2013-03-27 11:10:52');
-/*!40000 ALTER TABLE `enterprise_cms_page_version` ENABLE KEYS */;
+	(1, '404 Not Found 1', 'public', 1, NULL, 1, 1, '2013-04-10 22:52:32'),
+	(2, 'Home page', 'public', 2, NULL, 1, 1, '2013-04-10 22:52:32'),
+	(3, 'About Us', 'public', 3, NULL, 1, 1, '2013-04-10 22:52:32'),
+	(4, 'Customer Service', 'public', 4, NULL, 1, 1, '2013-04-10 22:52:32'),
+	(5, 'Enable Cookies', 'public', 5, NULL, 1, 1, '2013-04-10 22:52:32'),
+	(6, 'Privacy Policy', 'public', 6, NULL, 1, 1, '2013-04-10 22:52:32');
+
 
 
 # Dumping structure for table enterprise_customerbalance
@@ -6628,8 +6248,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_customerbalance` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customerbalance';
 
 # Dumping data for table enterprise_customerbalance: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_customerbalance` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_customerbalance` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_customerbalance_history
@@ -6648,8 +6268,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_customerbalance_history` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customerbalance History';
 
 # Dumping data for table enterprise_customerbalance_history: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_customerbalance_history` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_customerbalance_history` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_customersegment_customer
@@ -6669,8 +6289,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_customersegment_customer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customersegment Customer';
 
 # Dumping data for table enterprise_customersegment_customer: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_customersegment_customer` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_customersegment_customer` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_customersegment_event
@@ -6683,8 +6303,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_customersegment_event` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customersegment Event';
 
 # Dumping data for table enterprise_customersegment_event: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_customersegment_event` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_customersegment_event` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_customersegment_segment
@@ -6701,8 +6321,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_customersegment_segment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customersegment Segment';
 
 # Dumping data for table enterprise_customersegment_segment: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_customersegment_segment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_customersegment_segment` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_customersegment_website
@@ -6716,8 +6336,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_customersegment_website` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customersegment Website';
 
 # Dumping data for table enterprise_customersegment_website: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_customersegment_website` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_customersegment_website` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_customer_sales_flat_order
@@ -6728,8 +6348,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_customer_sales_flat_order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customer Sales Flat Order';
 
 # Dumping data for table enterprise_customer_sales_flat_order: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_customer_sales_flat_order` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_customer_sales_flat_order` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_customer_sales_flat_order_address
@@ -6740,8 +6360,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_customer_sales_flat_order_address` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customer Sales Flat Order Address';
 
 # Dumping data for table enterprise_customer_sales_flat_order_address: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_customer_sales_flat_order_address` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_customer_sales_flat_order_address` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_customer_sales_flat_quote
@@ -6752,8 +6372,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_customer_sales_flat_quote` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customer Sales Flat Quote';
 
 # Dumping data for table enterprise_customer_sales_flat_quote: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_customer_sales_flat_quote` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_customer_sales_flat_quote` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_customer_sales_flat_quote_address
@@ -6764,8 +6384,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_customer_sales_flat_quote_address` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Customer Sales Flat Quote Address';
 
 # Dumping data for table enterprise_customer_sales_flat_quote_address: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_customer_sales_flat_quote_address` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_customer_sales_flat_quote_address` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_giftcardaccount
@@ -6785,8 +6405,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_giftcardaccount` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Giftcardaccount';
 
 # Dumping data for table enterprise_giftcardaccount: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_giftcardaccount` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_giftcardaccount` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_giftcardaccount_history
@@ -6804,8 +6424,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_giftcardaccount_history` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Giftcardaccount History';
 
 # Dumping data for table enterprise_giftcardaccount_history: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_giftcardaccount_history` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_giftcardaccount_history` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_giftcardaccount_pool
@@ -6816,8 +6436,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_giftcardaccount_pool` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Giftcardaccount Pool';
 
 # Dumping data for table enterprise_giftcardaccount_pool: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_giftcardaccount_pool` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_giftcardaccount_pool` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_giftcard_amount
@@ -6838,8 +6458,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_giftcard_amount` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Giftcard Amount';
 
 # Dumping data for table enterprise_giftcard_amount: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_giftcard_amount` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_giftcard_amount` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_giftregistry_data
@@ -6855,8 +6475,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_giftregistry_data` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Data Table';
 
 # Dumping data for table enterprise_giftregistry_data: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_giftregistry_data` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_giftregistry_data` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_giftregistry_entity
@@ -6883,8 +6503,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_giftregistry_entity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Entity Table';
 
 # Dumping data for table enterprise_giftregistry_entity: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_giftregistry_entity` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_giftregistry_entity` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_giftregistry_item
@@ -6905,8 +6525,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_giftregistry_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Item Table';
 
 # Dumping data for table enterprise_giftregistry_item: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_giftregistry_item` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_giftregistry_item` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_giftregistry_item_option
@@ -6922,8 +6542,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_giftregistry_item_option` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Item Option Table';
 
 # Dumping data for table enterprise_giftregistry_item_option: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_giftregistry_item_option` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_giftregistry_item_option` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_giftregistry_label
@@ -6941,8 +6561,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_giftregistry_label` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Label Table';
 
 # Dumping data for table enterprise_giftregistry_label: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_giftregistry_label` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_giftregistry_label` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_giftregistry_person
@@ -6960,8 +6580,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_giftregistry_person` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Person Table';
 
 # Dumping data for table enterprise_giftregistry_person: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_giftregistry_person` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_giftregistry_person` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_giftregistry_type
@@ -6973,12 +6593,12 @@ CREATE TABLE IF NOT EXISTS `enterprise_giftregistry_type` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Type Table';
 
 # Dumping data for table enterprise_giftregistry_type: ~3 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_giftregistry_type` DISABLE KEYS */;
+
 INSERT INTO `enterprise_giftregistry_type` (`type_id`, `code`, `meta_xml`) VALUES
 	(1, 'birthday', _binary 0x3C636F6E6669673E3C70726F746F747970653E3C72656769737472793E3C6576656E745F646174653E3C6C6162656C3E4576656E7420446174653C2F6C6162656C3E3C67726F75703E6576656E745F696E666F726D6174696F6E3C2F67726F75703E3C747970653E646174653C2F747970653E3C736F72745F6F726465723E353C2F736F72745F6F726465723E3C646174655F666F726D61743E73686F72743C2F646174655F666F726D61743E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C69735F7365617263686561626C653E313C2F69735F7365617263686561626C653E3C69735F6C69737465643E313C2F69735F6C69737465643E3C2F66726F6E74656E643E3C2F6576656E745F646174653E3C6576656E745F636F756E7472793E3C6C6162656C3E436F756E7472793C2F6C6162656C3E3C67726F75703E6576656E745F696E666F726D6174696F6E3C2F67726F75703E3C747970653E636F756E7472793C2F747970653E3C736F72745F6F726465723E313C2F736F72745F6F726465723E3C73686F775F726567696F6E3E313C2F73686F775F726567696F6E3E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C69735F7365617263686561626C653E313C2F69735F7365617263686561626C653E3C69735F6C69737465643E313C2F69735F6C69737465643E3C2F66726F6E74656E643E3C2F6576656E745F636F756E7472793E3C2F72656769737472793E3C2F70726F746F747970653E3C2F636F6E6669673E),
 	(2, 'baby_registry', _binary 0x3C636F6E6669673E3C70726F746F747970653E3C72656769737472616E743E3C726F6C653E3C6C6162656C3E526F6C653C2F6C6162656C3E3C67726F75703E72656769737472616E743C2F67726F75703E3C747970653E73656C6563743C2F747970653E3C736F72745F6F726465723E313C2F736F72745F6F726465723E3C6F7074696F6E733E3C6D6F6D3E4D6F746865723C2F6D6F6D3E3C6461643E4661746865723C2F6461643E3C2F6F7074696F6E733E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C69735F7365617263686561626C653E313C2F69735F7365617263686561626C653E3C69735F6C69737465643E313C2F69735F6C69737465643E3C2F66726F6E74656E643E3C2F726F6C653E3C2F72656769737472616E743E3C72656769737472793E3C626162795F67656E6465723E3C6C6162656C3E426162792047656E6465723C2F6C6162656C3E3C67726F75703E72656769737472793C2F67726F75703E3C747970653E73656C6563743C2F747970653E3C736F72745F6F726465723E353C2F736F72745F6F726465723E3C6F7074696F6E733E3C626F793E426F793C2F626F793E3C6769726C3E4769726C3C2F6769726C3E3C73757270726973653E53757270726973653C2F73757270726973653E3C2F6F7074696F6E733E3C64656661756C743E73757270726973653C2F64656661756C743E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C2F66726F6E74656E643E3C2F626162795F67656E6465723E3C6576656E745F636F756E7472793E3C6C6162656C3E436F756E7472793C2F6C6162656C3E3C67726F75703E6576656E745F696E666F726D6174696F6E3C2F67726F75703E3C747970653E636F756E7472793C2F747970653E3C736F72745F6F726465723E313C2F736F72745F6F726465723E3C73686F775F726567696F6E3E313C2F73686F775F726567696F6E3E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C69735F7365617263686561626C653E313C2F69735F7365617263686561626C653E3C69735F6C69737465643E313C2F69735F6C69737465643E3C2F66726F6E74656E643E3C2F6576656E745F636F756E7472793E3C2F72656769737472793E3C2F70726F746F747970653E3C2F636F6E6669673E),
 	(3, 'wedding', _binary 0x3C636F6E6669673E3C70726F746F747970653E3C72656769737472616E743E3C726F6C653E3C6C6162656C3E526F6C653C2F6C6162656C3E3C67726F75703E72656769737472616E743C2F67726F75703E3C747970653E73656C6563743C2F747970653E3C736F72745F6F726465723E32303C2F736F72745F6F726465723E3C6F7074696F6E733E3C67726F6F6D3E47726F6F6D3C2F67726F6F6D3E3C62726964653E42726964653C2F62726964653E3C706172746E65723E506172746E65723C2F706172746E65723E3C2F6F7074696F6E733E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C69735F7365617263686561626C653E303C2F69735F7365617263686561626C653E3C69735F6C69737465643E313C2F69735F6C69737465643E3C2F66726F6E74656E643E3C2F726F6C653E3C2F72656769737472616E743E3C72656769737472793E3C6576656E745F636F756E7472793E3C6C6162656C3E436F756E7472793C2F6C6162656C3E3C67726F75703E6576656E745F696E666F726D6174696F6E3C2F67726F75703E3C747970653E636F756E7472793C2F747970653E3C736F72745F6F726465723E313C2F736F72745F6F726465723E3C73686F775F726567696F6E3E313C2F73686F775F726567696F6E3E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C69735F7365617263686561626C653E313C2F69735F7365617263686561626C653E3C69735F6C69737465643E313C2F69735F6C69737465643E3C2F66726F6E74656E643E3C2F6576656E745F636F756E7472793E3C6576656E745F646174653E3C6C6162656C3E57656464696E6720446174653C2F6C6162656C3E3C67726F75703E6576656E745F696E666F726D6174696F6E3C2F67726F75703E3C747970653E646174653C2F747970653E3C736F72745F6F726465723E353C2F736F72745F6F726465723E3C646174655F666F726D61743E73686F72743C2F646174655F666F726D61743E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C69735F7365617263686561626C653E313C2F69735F7365617263686561626C653E3C69735F6C69737465643E313C2F69735F6C69737465643E3C2F66726F6E74656E643E3C2F6576656E745F646174653E3C6576656E745F6C6F636174696F6E3E3C6C6162656C3E4C6F636174696F6E3C2F6C6162656C3E3C67726F75703E6576656E745F696E666F726D6174696F6E3C2F67726F75703E3C747970653E746578743C2F747970653E3C736F72745F6F726465723E31303C2F736F72745F6F726465723E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C69735F7365617263686561626C653E313C2F69735F7365617263686561626C653E3C69735F6C69737465643E313C2F69735F6C69737465643E3C2F66726F6E74656E643E3C2F6576656E745F6C6F636174696F6E3E3C6E756D6265725F6F665F6775657374733E3C6C6162656C3E4E756D626572206F66204775657374733C2F6C6162656C3E3C67726F75703E6576656E745F696E666F726D6174696F6E3C2F67726F75703E3C747970653E746578743C2F747970653E3C736F72745F6F726465723E31353C2F736F72745F6F726465723E3C66726F6E74656E643E3C69735F72657175697265643E313C2F69735F72657175697265643E3C2F66726F6E74656E643E3C2F6E756D6265725F6F665F6775657374733E3C2F72656769737472793E3C2F70726F746F747970653E3C2F636F6E6669673E);
-/*!40000 ALTER TABLE `enterprise_giftregistry_type` ENABLE KEYS */;
+
 
 
 # Dumping structure for table enterprise_giftregistry_type_info
@@ -6995,12 +6615,12 @@ CREATE TABLE IF NOT EXISTS `enterprise_giftregistry_type_info` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Gift Registry Info Table';
 
 # Dumping data for table enterprise_giftregistry_type_info: ~3 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_giftregistry_type_info` DISABLE KEYS */;
+
 INSERT INTO `enterprise_giftregistry_type_info` (`type_id`, `store_id`, `label`, `is_listed`, `sort_order`) VALUES
 	(1, 0, 'Birthday', 1, 1),
 	(2, 0, 'Baby Registry', 1, 5),
 	(3, 0, 'Wedding', 1, 10);
-/*!40000 ALTER TABLE `enterprise_giftregistry_type_info` ENABLE KEYS */;
+
 
 
 # Dumping structure for table enterprise_logging_event
@@ -7021,13 +6641,19 @@ CREATE TABLE IF NOT EXISTS `enterprise_logging_event` (
   KEY `IDX_ENTERPRISE_LOGGING_EVENT_USER_ID` (`user_id`),
   KEY `IDX_ENTERPRISE_LOGGING_EVENT_USER` (`user`),
   CONSTRAINT `FK_ENTERPRISE_LOGGING_EVENT_USER_ID_ADMIN_USER_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `admin_user` (`user_id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Enterprise Logging Event';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='Enterprise Logging Event';
 
-# Dumping data for table enterprise_logging_event: ~1 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_logging_event` DISABLE KEYS */;
+# Dumping data for table enterprise_logging_event: ~7 rows (approximately)
+
 INSERT INTO `enterprise_logging_event` (`log_id`, `ip`, `x_forwarded_ip`, `event_code`, `time`, `action`, `info`, `status`, `user`, `user_id`, `fullaction`, `error_message`) VALUES
-	(1, -1062730385, 0, 'admin_login', '2013-04-05 13:53:24', 'login', 'a:1:{s:7:"general";N;}', 'success', 'admin', 1, 'launcher_storelauncher_index_index', NULL);
-/*!40000 ALTER TABLE `enterprise_logging_event` ENABLE KEYS */;
+	(1, -1062730385, 0, 'admin_login', '2013-04-10 23:09:57', 'login', 'a:1:{s:7:"general";N;}', 'success', 'admin', 1, 'adminhtml_index_index', NULL),
+	(2, -1062730385, 0, 'admin_login', '2013-04-10 23:22:07', 'login', 'a:1:{s:7:"general";N;}', 'failure', 'admin', 1, 'adminhtml_process_list', NULL),
+	(3, -1062730385, 0, 'admin_login', '2013-04-10 23:22:17', 'login', 'a:1:{s:7:"general";N;}', 'success', 'admin', 1, 'adminhtml_process_list', NULL),
+	(4, -1062730385, 0, 'admin_login', '2013-04-10 23:23:45', 'login', 'a:1:{s:7:"general";N;}', 'success', 'admin', 1, 'adminhtml_process_list', NULL),
+	(5, -1062730385, 0, 'admin_login', '2013-04-10 23:30:31', 'login', 'a:1:{s:7:"general";N;}', 'success', 'admin', 1, 'adminhtml_process_list', NULL),
+	(6, -1062730385, 0, 'admin_login', '2013-04-10 23:31:41', 'login', 'a:1:{s:7:"general";N;}', 'success', 'admin', 1, 'adminhtml_process_list', NULL),
+	(7, -1062730385, 0, 'admin_login', '2013-04-10 23:34:19', 'login', 'a:1:{s:7:"general";N;}', 'success', 'admin', 1, 'adminhtml_process_list', NULL);
+
 
 
 # Dumping structure for table enterprise_logging_event_changes
@@ -7044,8 +6670,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_logging_event_changes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Logging Event Changes';
 
 # Dumping data for table enterprise_logging_event_changes: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_logging_event_changes` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_logging_event_changes` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_reward
@@ -7062,8 +6688,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_reward` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Reward';
 
 # Dumping data for table enterprise_reward: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_reward` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_reward` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_reward_history
@@ -7092,14 +6718,14 @@ CREATE TABLE IF NOT EXISTS `enterprise_reward_history` (
   KEY `IDX_ENTERPRISE_REWARD_HISTORY_REWARD_ID` (`reward_id`),
   KEY `IDX_ENTERPRISE_REWARD_HISTORY_WEBSITE_ID` (`website_id`),
   KEY `IDX_ENTERPRISE_REWARD_HISTORY_STORE_ID` (`store_id`),
+  CONSTRAINT `FK_ENT_REWARD_HISTORY_REWARD_ID_ENT_REWARD_REWARD_ID` FOREIGN KEY (`reward_id`) REFERENCES `enterprise_reward` (`reward_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENTERPRISE_REWARD_HISTORY_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `FK_ENTERPRISE_REWARD_HISTORY_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_ENT_REWARD_HISTORY_REWARD_ID_ENT_REWARD_REWARD_ID` FOREIGN KEY (`reward_id`) REFERENCES `enterprise_reward` (`reward_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_ENTERPRISE_REWARD_HISTORY_WEBSITE_ID_CORE_WEBSITE_WEBSITE_ID` FOREIGN KEY (`website_id`) REFERENCES `core_website` (`website_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Reward History';
 
 # Dumping data for table enterprise_reward_history: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_reward_history` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_reward_history` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_reward_rate
@@ -7118,8 +6744,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_reward_rate` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Reward Rate';
 
 # Dumping data for table enterprise_reward_rate: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_reward_rate` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_reward_rate` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_reward_salesrule
@@ -7131,8 +6757,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_reward_salesrule` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Reward Reward Salesrule';
 
 # Dumping data for table enterprise_reward_salesrule: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_reward_salesrule` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_reward_salesrule` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_sales_creditmemo_grid_archive
@@ -7175,8 +6801,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_sales_creditmemo_grid_archive` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Sales Creditmemo Grid Archive';
 
 # Dumping data for table enterprise_sales_creditmemo_grid_archive: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_sales_creditmemo_grid_archive` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_sales_creditmemo_grid_archive` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_sales_invoice_grid_archive
@@ -7211,8 +6837,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_sales_invoice_grid_archive` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Sales Invoice Grid Archive';
 
 # Dumping data for table enterprise_sales_invoice_grid_archive: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_sales_invoice_grid_archive` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_sales_invoice_grid_archive` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_sales_order_grid_archive
@@ -7252,8 +6878,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_sales_order_grid_archive` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Sales Order Grid Archive';
 
 # Dumping data for table enterprise_sales_order_grid_archive: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_sales_order_grid_archive` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_sales_order_grid_archive` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table enterprise_sales_shipment_grid_archive
@@ -7283,8 +6909,8 @@ CREATE TABLE IF NOT EXISTS `enterprise_sales_shipment_grid_archive` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Sales Shipment Grid Archive';
 
 # Dumping data for table enterprise_sales_shipment_grid_archive: ~0 rows (approximately)
-/*!40000 ALTER TABLE `enterprise_sales_shipment_grid_archive` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enterprise_sales_shipment_grid_archive` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table gift_message
@@ -7298,8 +6924,8 @@ CREATE TABLE IF NOT EXISTS `gift_message` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Gift Message';
 
 # Dumping data for table gift_message: ~0 rows (approximately)
-/*!40000 ALTER TABLE `gift_message` DISABLE KEYS */;
-/*!40000 ALTER TABLE `gift_message` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table googlecheckout_notification
@@ -7311,8 +6937,8 @@ CREATE TABLE IF NOT EXISTS `googlecheckout_notification` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Google Checkout Notification Table';
 
 # Dumping data for table googlecheckout_notification: ~0 rows (approximately)
-/*!40000 ALTER TABLE `googlecheckout_notification` DISABLE KEYS */;
-/*!40000 ALTER TABLE `googlecheckout_notification` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table googleoptimizer_code
@@ -7332,8 +6958,8 @@ CREATE TABLE IF NOT EXISTS `googleoptimizer_code` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Googleoptimizer code';
 
 # Dumping data for table googleoptimizer_code: ~0 rows (approximately)
-/*!40000 ALTER TABLE `googleoptimizer_code` DISABLE KEYS */;
-/*!40000 ALTER TABLE `googleoptimizer_code` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table googleshopping_attributes
@@ -7350,8 +6976,8 @@ CREATE TABLE IF NOT EXISTS `googleshopping_attributes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Google Content Attributes link Product Attributes';
 
 # Dumping data for table googleshopping_attributes: ~0 rows (approximately)
-/*!40000 ALTER TABLE `googleshopping_attributes` DISABLE KEYS */;
-/*!40000 ALTER TABLE `googleshopping_attributes` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table googleshopping_items
@@ -7371,8 +6997,8 @@ CREATE TABLE IF NOT EXISTS `googleshopping_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Google Content Items Products';
 
 # Dumping data for table googleshopping_items: ~0 rows (approximately)
-/*!40000 ALTER TABLE `googleshopping_items` DISABLE KEYS */;
-/*!40000 ALTER TABLE `googleshopping_items` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table googleshopping_types
@@ -7387,8 +7013,8 @@ CREATE TABLE IF NOT EXISTS `googleshopping_types` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Google Content Item Types link Attribute Sets';
 
 # Dumping data for table googleshopping_types: ~0 rows (approximately)
-/*!40000 ALTER TABLE `googleshopping_types` DISABLE KEYS */;
-/*!40000 ALTER TABLE `googleshopping_types` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table importexport_importdata
@@ -7401,8 +7027,8 @@ CREATE TABLE IF NOT EXISTS `importexport_importdata` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Import Data Table';
 
 # Dumping data for table importexport_importdata: ~0 rows (approximately)
-/*!40000 ALTER TABLE `importexport_importdata` DISABLE KEYS */;
-/*!40000 ALTER TABLE `importexport_importdata` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table index_event
@@ -7419,11 +7045,11 @@ CREATE TABLE IF NOT EXISTS `index_event` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Index Event';
 
 # Dumping data for table index_event: ~2 rows (approximately)
-/*!40000 ALTER TABLE `index_event` DISABLE KEYS */;
+
 INSERT INTO `index_event` (`event_id`, `type`, `entity`, `entity_pk`, `created_at`, `old_data`, `new_data`) VALUES
-	(1, 'save', 'catalog_category', 1, '2013-02-28 19:03:08', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:0;s:34:"catalog_product_price_match_result";b:0;s:24:"catalog_url_match_result";b:1;s:37:"catalog_category_product_match_result";b:1;s:35:"catalogsearch_fulltext_match_result";b:1;}'),
-	(2, 'save', 'catalog_category', 2, '2013-02-28 19:03:09', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:0;s:34:"catalog_product_price_match_result";b:0;s:24:"catalog_url_match_result";b:1;s:37:"catalog_category_product_match_result";b:1;s:35:"catalogsearch_fulltext_match_result";b:1;}');
-/*!40000 ALTER TABLE `index_event` ENABLE KEYS */;
+	(1, 'save', 'catalog_category', 1, '2013-04-10 22:52:13', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:0;s:34:"catalog_product_price_match_result";b:0;s:24:"catalog_url_match_result";b:1;s:37:"catalog_category_product_match_result";b:1;s:35:"catalogsearch_fulltext_match_result";b:1;}'),
+	(2, 'save', 'catalog_category', 2, '2013-04-10 22:52:13', NULL, 'a:5:{s:35:"cataloginventory_stock_match_result";b:0;s:34:"catalog_product_price_match_result";b:0;s:24:"catalog_url_match_result";b:1;s:37:"catalog_category_product_match_result";b:1;s:35:"catalogsearch_fulltext_match_result";b:1;}');
+
 
 
 # Dumping structure for table index_process
@@ -7439,19 +7065,19 @@ CREATE TABLE IF NOT EXISTS `index_process` (
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='Index Process';
 
 # Dumping data for table index_process: ~10 rows (approximately)
-/*!40000 ALTER TABLE `index_process` DISABLE KEYS */;
+
 INSERT INTO `index_process` (`process_id`, `indexer_code`, `status`, `started_at`, `ended_at`, `mode`) VALUES
-	(1, 'catalog_product_attribute', 'require_reindex', NULL, NULL, 'real_time'),
-	(2, 'catalog_product_price', 'require_reindex', NULL, NULL, 'real_time'),
-	(3, 'catalog_url', 'require_reindex', '2013-02-28 19:03:09', '2013-02-28 19:03:09', 'real_time'),
-	(4, 'catalog_product_flat', 'require_reindex', NULL, NULL, 'real_time'),
-	(5, 'catalog_category_flat', 'require_reindex', NULL, NULL, 'real_time'),
-	(6, 'catalog_category_product', 'require_reindex', '2013-02-28 19:03:09', '2013-02-28 19:03:09', 'real_time'),
-	(7, 'cataloginventory_stock', 'require_reindex', NULL, NULL, 'real_time'),
-	(8, 'catalogsearch_fulltext', 'require_reindex', '2013-02-28 19:03:09', '2013-02-28 19:03:09', 'real_time'),
-	(9, 'tag_summary', 'require_reindex', NULL, NULL, 'real_time'),
-	(10, 'catalogsearch_fulltext_default', 'require_reindex', NULL, NULL, 'real_time');
-/*!40000 ALTER TABLE `index_process` ENABLE KEYS */;
+	(1, 'catalog_product_attribute', 'pending', '2013-04-10 23:33:23', '2013-04-10 23:33:23', 'real_time'),
+	(2, 'catalog_product_price', 'pending', '2013-04-10 23:33:23', '2013-04-10 23:33:23', 'real_time'),
+	(3, 'catalog_url', 'pending', '2013-04-10 23:33:23', '2013-04-10 23:33:23', 'real_time'),
+	(4, 'catalog_product_flat', 'pending', '2013-04-10 23:33:23', '2013-04-10 23:33:24', 'real_time'),
+	(5, 'catalog_category_flat', 'pending', '2013-04-10 23:33:24', '2013-04-10 23:33:24', 'real_time'),
+	(6, 'catalog_category_product', 'pending', '2013-04-10 23:33:24', '2013-04-10 23:33:24', 'real_time'),
+	(7, 'cataloginventory_stock', 'pending', '2013-04-10 23:33:24', '2013-04-10 23:33:24', 'real_time'),
+	(8, 'catalogsearch_fulltext', 'pending', '2013-04-10 23:33:24', '2013-04-10 23:33:24', 'real_time'),
+	(9, 'tag_summary', 'pending', '2013-04-10 23:33:24', '2013-04-10 23:33:24', 'real_time'),
+	(10, 'catalogsearch_fulltext_default', 'pending', '2013-04-10 23:33:24', '2013-04-10 23:33:24', 'real_time');
+
 
 
 # Dumping structure for table index_process_event
@@ -7466,8 +7092,8 @@ CREATE TABLE IF NOT EXISTS `index_process_event` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Index Process Event';
 
 # Dumping data for table index_process_event: ~0 rows (approximately)
-/*!40000 ALTER TABLE `index_process_event` DISABLE KEYS */;
-/*!40000 ALTER TABLE `index_process_event` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table launcher_link_tracker
@@ -7482,8 +7108,8 @@ CREATE TABLE IF NOT EXISTS `launcher_link_tracker` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Link Tracker Data Table';
 
 # Dumping data for table launcher_link_tracker: ~0 rows (approximately)
-/*!40000 ALTER TABLE `launcher_link_tracker` DISABLE KEYS */;
-/*!40000 ALTER TABLE `launcher_link_tracker` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table launcher_page
@@ -7495,11 +7121,11 @@ CREATE TABLE IF NOT EXISTS `launcher_page` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Landing Page Data Table';
 
 # Dumping data for table launcher_page: ~2 rows (approximately)
-/*!40000 ALTER TABLE `launcher_page` DISABLE KEYS */;
+
 INSERT INTO `launcher_page` (`page_id`, `page_code`) VALUES
 	(2, 'promote_store'),
 	(1, 'store_launcher');
-/*!40000 ALTER TABLE `launcher_page` ENABLE KEYS */;
+
 
 
 # Dumping structure for table launcher_tile
@@ -7519,7 +7145,7 @@ CREATE TABLE IF NOT EXISTS `launcher_tile` (
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='Tile Data Table';
 
 # Dumping data for table launcher_tile: ~18 rows (approximately)
-/*!40000 ALTER TABLE `launcher_tile` DISABLE KEYS */;
+
 INSERT INTO `launcher_tile` (`tile_id`, `page_code`, `tile_code`, `state`, `is_skippable`, `is_dismissible`, `sort_order`) VALUES
 	(1, 'store_launcher', 'business_info', 0, 1, 1, 50),
 	(2, 'store_launcher', 'store_design', 0, 1, 1, 100),
@@ -7539,7 +7165,7 @@ INSERT INTO `launcher_tile` (`tile_id`, `page_code`, `tile_code`, `state`, `is_s
 	(16, 'promote_store', 'wishlist', 0, 1, 1, 500),
 	(17, 'promote_store', 'rss', 0, 1, 1, 550),
 	(18, 'promote_store', 'related_products', 0, 1, 1, 600);
-/*!40000 ALTER TABLE `launcher_tile` ENABLE KEYS */;
+
 
 
 # Dumping structure for table log_customer
@@ -7555,8 +7181,8 @@ CREATE TABLE IF NOT EXISTS `log_customer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Customers Table';
 
 # Dumping data for table log_customer: ~0 rows (approximately)
-/*!40000 ALTER TABLE `log_customer` DISABLE KEYS */;
-/*!40000 ALTER TABLE `log_customer` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table log_quote
@@ -7569,8 +7195,8 @@ CREATE TABLE IF NOT EXISTS `log_quote` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Quotes Table';
 
 # Dumping data for table log_quote: ~0 rows (approximately)
-/*!40000 ALTER TABLE `log_quote` DISABLE KEYS */;
-/*!40000 ALTER TABLE `log_quote` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table log_summary
@@ -7585,8 +7211,8 @@ CREATE TABLE IF NOT EXISTS `log_summary` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Summary Table';
 
 # Dumping data for table log_summary: ~0 rows (approximately)
-/*!40000 ALTER TABLE `log_summary` DISABLE KEYS */;
-/*!40000 ALTER TABLE `log_summary` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table log_summary_type
@@ -7599,11 +7225,11 @@ CREATE TABLE IF NOT EXISTS `log_summary_type` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Log Summary Types Table';
 
 # Dumping data for table log_summary_type: ~2 rows (approximately)
-/*!40000 ALTER TABLE `log_summary_type` DISABLE KEYS */;
+
 INSERT INTO `log_summary_type` (`type_id`, `type_code`, `period`, `period_type`) VALUES
 	(1, 'hour', 1, 'HOUR'),
 	(2, 'day', 1, 'DAY');
-/*!40000 ALTER TABLE `log_summary_type` ENABLE KEYS */;
+
 
 
 # Dumping structure for table log_url
@@ -7616,11 +7242,11 @@ CREATE TABLE IF NOT EXISTS `log_url` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log URL Table';
 
 # Dumping data for table log_url: ~2 rows (approximately)
-/*!40000 ALTER TABLE `log_url` DISABLE KEYS */;
+
 INSERT INTO `log_url` (`url_id`, `visitor_id`, `visit_time`) VALUES
-	(1, 1, '2013-02-28 19:03:59'),
-	(2, 2, '2013-03-27 11:11:11');
-/*!40000 ALTER TABLE `log_url` ENABLE KEYS */;
+	(1, 2, '2013-04-10 23:10:01'),
+	(2, 3, '2013-04-10 23:10:04');
+
 
 
 # Dumping structure for table log_url_info
@@ -7631,11 +7257,12 @@ CREATE TABLE IF NOT EXISTS `log_url_info` (
   PRIMARY KEY (`url_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Log URL Info Table';
 
-# Dumping data for table log_url_info: ~1 rows (approximately)
-/*!40000 ALTER TABLE `log_url_info` DISABLE KEYS */;
+# Dumping data for table log_url_info: ~2 rows (approximately)
+
 INSERT INTO `log_url_info` (`url_id`, `url`, `referer`) VALUES
-	(2, 'http://t3.magento.go/', NULL);
-/*!40000 ALTER TABLE `log_url_info` ENABLE KEYS */;
+	(1, 'http://saas.localhost.com/app/etc/local.xml', NULL),
+	(2, 'https://saas.localhost.com/favicon.ico', NULL);
+
 
 
 # Dumping structure for table log_visitor
@@ -7647,17 +7274,7 @@ CREATE TABLE IF NOT EXISTS `log_visitor` (
   `last_url_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'Last URL ID',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
   PRIMARY KEY (`visitor_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Log Visitors Table';
-
-# Dumping data for table log_visitor: ~4 rows (approximately)
-/*!40000 ALTER TABLE `log_visitor` DISABLE KEYS */;
-INSERT INTO `log_visitor` (`visitor_id`, `session_id`, `first_visit_at`, `last_visit_at`, `last_url_id`, `store_id`) VALUES
-	(1, '60elu10bltfvt41do9hvfljok1', '2013-02-28 19:03:58', '2013-02-28 19:03:59', 1, 1),
-	(2, '9bstki2qqsk0qc23nn5dnqg4p5', '2013-03-27 11:10:55', '2013-03-27 11:11:11', 2, 1),
-	(3, '9ojmcag0idt8i59l4nbap5br63', '2013-04-05 13:52:45', '2013-04-05 13:52:45', 0, 1),
-	(4, 'ggv6b8r1lo502a95v7ufl09me7', '2013-04-05 13:53:26', '2013-04-05 13:53:26', 0, 1);
-/*!40000 ALTER TABLE `log_visitor` ENABLE KEYS */;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Visitors Table';
 
 # Dumping structure for table log_visitor_info
 CREATE TABLE IF NOT EXISTS `log_visitor_info` (
@@ -7670,15 +7287,6 @@ CREATE TABLE IF NOT EXISTS `log_visitor_info` (
   `remote_addr` bigint(20) DEFAULT NULL COMMENT 'Remote Address',
   PRIMARY KEY (`visitor_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Visitor Info Table';
-
-# Dumping data for table log_visitor_info: ~3 rows (approximately)
-/*!40000 ALTER TABLE `log_visitor_info` DISABLE KEYS */;
-INSERT INTO `log_visitor_info` (`visitor_id`, `http_referer`, `http_user_agent`, `http_accept_charset`, `http_accept_language`, `server_addr`, `remote_addr`) VALUES
-	(2, NULL, 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:19.0) Gecko/20100101 Firefox/19.0', NULL, 'en-US,en;q=0.5', 3232249958, 3232249966),
-	(3, 'http://tmt.com/admin.php?controller=tenants', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:19.0) Gecko/20100101 Firefox/19.0', NULL, 'en-US,en;q=0.5', -1062730366, -1062730385),
-	(4, NULL, NULL, NULL, NULL, 2130706433, 2130706433);
-/*!40000 ALTER TABLE `log_visitor_info` ENABLE KEYS */;
-
 
 # Dumping structure for table log_visitor_online
 CREATE TABLE IF NOT EXISTS `log_visitor_online` (
@@ -7696,8 +7304,8 @@ CREATE TABLE IF NOT EXISTS `log_visitor_online` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Log Visitor Online Table';
 
 # Dumping data for table log_visitor_online: ~0 rows (approximately)
-/*!40000 ALTER TABLE `log_visitor_online` DISABLE KEYS */;
-/*!40000 ALTER TABLE `log_visitor_online` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table newsletter_problem
@@ -7715,8 +7323,8 @@ CREATE TABLE IF NOT EXISTS `newsletter_problem` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Problems';
 
 # Dumping data for table newsletter_problem: ~0 rows (approximately)
-/*!40000 ALTER TABLE `newsletter_problem` DISABLE KEYS */;
-/*!40000 ALTER TABLE `newsletter_problem` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table newsletter_queue
@@ -7738,8 +7346,8 @@ CREATE TABLE IF NOT EXISTS `newsletter_queue` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Queue';
 
 # Dumping data for table newsletter_queue: ~0 rows (approximately)
-/*!40000 ALTER TABLE `newsletter_queue` DISABLE KEYS */;
-/*!40000 ALTER TABLE `newsletter_queue` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table newsletter_queue_link
@@ -7757,8 +7365,8 @@ CREATE TABLE IF NOT EXISTS `newsletter_queue_link` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Queue Link';
 
 # Dumping data for table newsletter_queue_link: ~0 rows (approximately)
-/*!40000 ALTER TABLE `newsletter_queue_link` DISABLE KEYS */;
-/*!40000 ALTER TABLE `newsletter_queue_link` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table newsletter_queue_store_link
@@ -7772,8 +7380,8 @@ CREATE TABLE IF NOT EXISTS `newsletter_queue_store_link` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Queue Store Link';
 
 # Dumping data for table newsletter_queue_store_link: ~0 rows (approximately)
-/*!40000 ALTER TABLE `newsletter_queue_store_link` DISABLE KEYS */;
-/*!40000 ALTER TABLE `newsletter_queue_store_link` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table newsletter_subscriber
@@ -7792,8 +7400,8 @@ CREATE TABLE IF NOT EXISTS `newsletter_subscriber` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Subscriber';
 
 # Dumping data for table newsletter_subscriber: ~0 rows (approximately)
-/*!40000 ALTER TABLE `newsletter_subscriber` DISABLE KEYS */;
-/*!40000 ALTER TABLE `newsletter_subscriber` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table newsletter_template
@@ -7817,71 +7425,8 @@ CREATE TABLE IF NOT EXISTS `newsletter_template` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Template';
 
 # Dumping data for table newsletter_template: ~0 rows (approximately)
-/*!40000 ALTER TABLE `newsletter_template` DISABLE KEYS */;
-/*!40000 ALTER TABLE `newsletter_template` ENABLE KEYS */;
 
 
-# Dumping structure for table oauth_consumer
-CREATE TABLE IF NOT EXISTS `oauth_consumer` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Created At',
-  `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Updated At',
-  `name` varchar(255) NOT NULL COMMENT 'Name of consumer',
-  `key` varchar(32) NOT NULL COMMENT 'Key code',
-  `secret` varchar(32) NOT NULL COMMENT 'Secret code',
-  `callback_url` varchar(255) DEFAULT NULL COMMENT 'Callback URL',
-  `rejected_callback_url` varchar(255) NOT NULL COMMENT 'Rejected callback URL',
-  PRIMARY KEY (`entity_id`),
-  UNIQUE KEY `UNQ_OAUTH_CONSUMER_KEY` (`key`),
-  UNIQUE KEY `UNQ_OAUTH_CONSUMER_SECRET` (`secret`),
-  KEY `IDX_OAUTH_CONSUMER_CREATED_AT` (`created_at`),
-  KEY `IDX_OAUTH_CONSUMER_UPDATED_AT` (`updated_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='OAuth Consumers';
-
-# Dumping data for table oauth_consumer: ~0 rows (approximately)
-/*!40000 ALTER TABLE `oauth_consumer` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oauth_consumer` ENABLE KEYS */;
-
-
-# Dumping structure for table oauth_nonce
-CREATE TABLE IF NOT EXISTS `oauth_nonce` (
-  `nonce` varchar(32) NOT NULL COMMENT 'Nonce String',
-  `timestamp` int(10) unsigned NOT NULL COMMENT 'Nonce Timestamp',
-  UNIQUE KEY `UNQ_OAUTH_NONCE_NONCE` (`nonce`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='oauth_nonce';
-
-# Dumping data for table oauth_nonce: 0 rows
-/*!40000 ALTER TABLE `oauth_nonce` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oauth_nonce` ENABLE KEYS */;
-
-
-# Dumping structure for table oauth_token
-CREATE TABLE IF NOT EXISTS `oauth_token` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity ID',
-  `consumer_id` int(10) unsigned NOT NULL COMMENT 'Consumer ID',
-  `admin_id` int(10) unsigned DEFAULT NULL COMMENT 'Admin user ID',
-  `customer_id` int(10) unsigned DEFAULT NULL COMMENT 'Customer user ID',
-  `type` varchar(16) NOT NULL COMMENT 'Token Type',
-  `token` varchar(32) NOT NULL COMMENT 'Token',
-  `secret` varchar(32) NOT NULL COMMENT 'Token Secret',
-  `verifier` varchar(32) DEFAULT NULL COMMENT 'Token Verifier',
-  `callback_url` varchar(255) NOT NULL COMMENT 'Token Callback URL',
-  `revoked` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Token revoked',
-  `authorized` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Is Token authorized',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Token creation timestamp',
-  PRIMARY KEY (`entity_id`),
-  UNIQUE KEY `UNQ_OAUTH_TOKEN_TOKEN` (`token`),
-  KEY `IDX_OAUTH_TOKEN_CONSUMER_ID` (`consumer_id`),
-  KEY `FK_OAUTH_TOKEN_ADMIN_ID_ADMIN_USER_USER_ID` (`admin_id`),
-  KEY `FK_OAUTH_TOKEN_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` (`customer_id`),
-  CONSTRAINT `FK_OAUTH_TOKEN_ADMIN_ID_ADMIN_USER_USER_ID` FOREIGN KEY (`admin_id`) REFERENCES `admin_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_OAUTH_TOKEN_CONSUMER_ID_OAUTH_CONSUMER_ENTITY_ID` FOREIGN KEY (`consumer_id`) REFERENCES `oauth_consumer` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_OAUTH_TOKEN_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID` FOREIGN KEY (`customer_id`) REFERENCES `customer_entity` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='OAuth Tokens';
-
-# Dumping data for table oauth_token: ~0 rows (approximately)
-/*!40000 ALTER TABLE `oauth_token` DISABLE KEYS */;
-/*!40000 ALTER TABLE `oauth_token` ENABLE KEYS */;
 
 
 # Dumping structure for table paypal_cert
@@ -7896,8 +7441,8 @@ CREATE TABLE IF NOT EXISTS `paypal_cert` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Paypal Certificate Table';
 
 # Dumping data for table paypal_cert: ~0 rows (approximately)
-/*!40000 ALTER TABLE `paypal_cert` DISABLE KEYS */;
-/*!40000 ALTER TABLE `paypal_cert` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table paypal_payment_transaction
@@ -7911,8 +7456,8 @@ CREATE TABLE IF NOT EXISTS `paypal_payment_transaction` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='PayPal Payflow Link Payment Transaction';
 
 # Dumping data for table paypal_payment_transaction: ~0 rows (approximately)
-/*!40000 ALTER TABLE `paypal_payment_transaction` DISABLE KEYS */;
-/*!40000 ALTER TABLE `paypal_payment_transaction` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table paypal_settlement_report
@@ -7927,8 +7472,8 @@ CREATE TABLE IF NOT EXISTS `paypal_settlement_report` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Paypal Settlement Report Table';
 
 # Dumping data for table paypal_settlement_report: ~0 rows (approximately)
-/*!40000 ALTER TABLE `paypal_settlement_report` DISABLE KEYS */;
-/*!40000 ALTER TABLE `paypal_settlement_report` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table paypal_settlement_report_row
@@ -7957,8 +7502,8 @@ CREATE TABLE IF NOT EXISTS `paypal_settlement_report_row` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Paypal Settlement Report Row Table';
 
 # Dumping data for table paypal_settlement_report_row: ~0 rows (approximately)
-/*!40000 ALTER TABLE `paypal_settlement_report_row` DISABLE KEYS */;
-/*!40000 ALTER TABLE `paypal_settlement_report_row` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table persistent_session
@@ -7979,8 +7524,8 @@ CREATE TABLE IF NOT EXISTS `persistent_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Persistent Session';
 
 # Dumping data for table persistent_session: ~0 rows (approximately)
-/*!40000 ALTER TABLE `persistent_session` DISABLE KEYS */;
-/*!40000 ALTER TABLE `persistent_session` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table poll
@@ -8000,10 +7545,10 @@ CREATE TABLE IF NOT EXISTS `poll` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Poll';
 
 # Dumping data for table poll: ~1 rows (approximately)
-/*!40000 ALTER TABLE `poll` DISABLE KEYS */;
+
 INSERT INTO `poll` (`poll_id`, `poll_title`, `votes_count`, `store_id`, `date_posted`, `date_closed`, `active`, `closed`, `answers_display`) VALUES
-	(1, 'What is your favorite color', 7, 0, '2013-02-28 21:03:09', NULL, 1, 0, NULL);
-/*!40000 ALTER TABLE `poll` ENABLE KEYS */;
+	(1, 'What is your favorite color', 7, 0, '2013-04-11 01:52:27', NULL, 1, 0, NULL);
+
 
 
 # Dumping structure for table poll_answer
@@ -8019,13 +7564,13 @@ CREATE TABLE IF NOT EXISTS `poll_answer` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Poll Answers';
 
 # Dumping data for table poll_answer: ~4 rows (approximately)
-/*!40000 ALTER TABLE `poll_answer` DISABLE KEYS */;
+
 INSERT INTO `poll_answer` (`answer_id`, `poll_id`, `answer_title`, `votes_count`, `answer_order`) VALUES
 	(1, 1, 'Green', 4, 0),
 	(2, 1, 'Red', 1, 0),
 	(3, 1, 'Black', 0, 0),
 	(4, 1, 'Magenta', 2, 0);
-/*!40000 ALTER TABLE `poll_answer` ENABLE KEYS */;
+
 
 
 # Dumping structure for table poll_store
@@ -8039,10 +7584,10 @@ CREATE TABLE IF NOT EXISTS `poll_store` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Poll Store';
 
 # Dumping data for table poll_store: ~1 rows (approximately)
-/*!40000 ALTER TABLE `poll_store` DISABLE KEYS */;
+
 INSERT INTO `poll_store` (`poll_id`, `store_id`) VALUES
 	(1, 1);
-/*!40000 ALTER TABLE `poll_store` ENABLE KEYS */;
+
 
 
 # Dumping structure for table poll_vote
@@ -8059,8 +7604,8 @@ CREATE TABLE IF NOT EXISTS `poll_vote` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Poll Vote';
 
 # Dumping data for table poll_vote: ~0 rows (approximately)
-/*!40000 ALTER TABLE `poll_vote` DISABLE KEYS */;
-/*!40000 ALTER TABLE `poll_vote` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table product_alert_price
@@ -8084,8 +7629,8 @@ CREATE TABLE IF NOT EXISTS `product_alert_price` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product Alert Price';
 
 # Dumping data for table product_alert_price: ~0 rows (approximately)
-/*!40000 ALTER TABLE `product_alert_price` DISABLE KEYS */;
-/*!40000 ALTER TABLE `product_alert_price` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table product_alert_stock
@@ -8108,8 +7653,8 @@ CREATE TABLE IF NOT EXISTS `product_alert_stock` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product Alert Stock';
 
 # Dumping data for table product_alert_stock: ~0 rows (approximately)
-/*!40000 ALTER TABLE `product_alert_stock` DISABLE KEYS */;
-/*!40000 ALTER TABLE `product_alert_stock` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table rating
@@ -8126,12 +7671,12 @@ CREATE TABLE IF NOT EXISTS `rating` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Ratings';
 
 # Dumping data for table rating: ~3 rows (approximately)
-/*!40000 ALTER TABLE `rating` DISABLE KEYS */;
+
 INSERT INTO `rating` (`rating_id`, `entity_id`, `rating_code`, `position`, `is_active`) VALUES
 	(1, 1, 'Quality', 0, 1),
 	(2, 1, 'Value', 0, 1),
 	(3, 1, 'Price', 0, 1);
-/*!40000 ALTER TABLE `rating` ENABLE KEYS */;
+
 
 
 # Dumping structure for table rating_entity
@@ -8143,12 +7688,12 @@ CREATE TABLE IF NOT EXISTS `rating_entity` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Rating entities';
 
 # Dumping data for table rating_entity: ~3 rows (approximately)
-/*!40000 ALTER TABLE `rating_entity` DISABLE KEYS */;
+
 INSERT INTO `rating_entity` (`entity_id`, `entity_code`) VALUES
 	(1, 'product'),
 	(2, 'product_review'),
 	(3, 'review');
-/*!40000 ALTER TABLE `rating_entity` ENABLE KEYS */;
+
 
 
 # Dumping structure for table rating_option
@@ -8164,7 +7709,7 @@ CREATE TABLE IF NOT EXISTS `rating_option` (
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='Rating options';
 
 # Dumping data for table rating_option: ~15 rows (approximately)
-/*!40000 ALTER TABLE `rating_option` DISABLE KEYS */;
+
 INSERT INTO `rating_option` (`option_id`, `rating_id`, `code`, `value`, `position`) VALUES
 	(1, 1, '1', 1, 1),
 	(2, 1, '2', 2, 2),
@@ -8181,7 +7726,7 @@ INSERT INTO `rating_option` (`option_id`, `rating_id`, `code`, `value`, `positio
 	(13, 3, '3', 3, 3),
 	(14, 3, '4', 4, 4),
 	(15, 3, '5', 5, 5);
-/*!40000 ALTER TABLE `rating_option` ENABLE KEYS */;
+
 
 
 # Dumping structure for table rating_option_vote
@@ -8204,8 +7749,8 @@ CREATE TABLE IF NOT EXISTS `rating_option_vote` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Rating option values';
 
 # Dumping data for table rating_option_vote: ~0 rows (approximately)
-/*!40000 ALTER TABLE `rating_option_vote` DISABLE KEYS */;
-/*!40000 ALTER TABLE `rating_option_vote` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table rating_option_vote_aggregated
@@ -8226,8 +7771,8 @@ CREATE TABLE IF NOT EXISTS `rating_option_vote_aggregated` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Rating vote aggregated';
 
 # Dumping data for table rating_option_vote_aggregated: ~0 rows (approximately)
-/*!40000 ALTER TABLE `rating_option_vote_aggregated` DISABLE KEYS */;
-/*!40000 ALTER TABLE `rating_option_vote_aggregated` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table rating_store
@@ -8241,8 +7786,8 @@ CREATE TABLE IF NOT EXISTS `rating_store` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Rating Store';
 
 # Dumping data for table rating_store: ~0 rows (approximately)
-/*!40000 ALTER TABLE `rating_store` DISABLE KEYS */;
-/*!40000 ALTER TABLE `rating_store` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table rating_title
@@ -8257,8 +7802,8 @@ CREATE TABLE IF NOT EXISTS `rating_title` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Rating Title';
 
 # Dumping data for table rating_title: ~0 rows (approximately)
-/*!40000 ALTER TABLE `rating_title` DISABLE KEYS */;
-/*!40000 ALTER TABLE `rating_title` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table report_compared_product_index
@@ -8281,8 +7826,8 @@ CREATE TABLE IF NOT EXISTS `report_compared_product_index` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Reports Compared Product Index Table';
 
 # Dumping data for table report_compared_product_index: ~0 rows (approximately)
-/*!40000 ALTER TABLE `report_compared_product_index` DISABLE KEYS */;
-/*!40000 ALTER TABLE `report_compared_product_index` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table report_event
@@ -8305,8 +7850,8 @@ CREATE TABLE IF NOT EXISTS `report_event` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Reports Event Table';
 
 # Dumping data for table report_event: ~0 rows (approximately)
-/*!40000 ALTER TABLE `report_event` DISABLE KEYS */;
-/*!40000 ALTER TABLE `report_event` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table report_event_types
@@ -8318,7 +7863,7 @@ CREATE TABLE IF NOT EXISTS `report_event_types` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Reports Event Type Table';
 
 # Dumping data for table report_event_types: ~6 rows (approximately)
-/*!40000 ALTER TABLE `report_event_types` DISABLE KEYS */;
+
 INSERT INTO `report_event_types` (`event_type_id`, `event_name`, `customer_login`) VALUES
 	(1, 'catalog_product_view', 0),
 	(2, 'sendfriend_product', 0),
@@ -8326,7 +7871,7 @@ INSERT INTO `report_event_types` (`event_type_id`, `event_name`, `customer_login
 	(4, 'checkout_cart_add_product', 0),
 	(5, 'wishlist_add_product', 0),
 	(6, 'wishlist_share', 0);
-/*!40000 ALTER TABLE `report_event_types` ENABLE KEYS */;
+
 
 
 # Dumping structure for table report_viewed_product_aggregated_daily
@@ -8348,8 +7893,8 @@ CREATE TABLE IF NOT EXISTS `report_viewed_product_aggregated_daily` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Most Viewed Products Aggregated Daily';
 
 # Dumping data for table report_viewed_product_aggregated_daily: ~0 rows (approximately)
-/*!40000 ALTER TABLE `report_viewed_product_aggregated_daily` DISABLE KEYS */;
-/*!40000 ALTER TABLE `report_viewed_product_aggregated_daily` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table report_viewed_product_aggregated_monthly
@@ -8371,8 +7916,8 @@ CREATE TABLE IF NOT EXISTS `report_viewed_product_aggregated_monthly` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Most Viewed Products Aggregated Monthly';
 
 # Dumping data for table report_viewed_product_aggregated_monthly: ~0 rows (approximately)
-/*!40000 ALTER TABLE `report_viewed_product_aggregated_monthly` DISABLE KEYS */;
-/*!40000 ALTER TABLE `report_viewed_product_aggregated_monthly` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table report_viewed_product_aggregated_yearly
@@ -8394,8 +7939,8 @@ CREATE TABLE IF NOT EXISTS `report_viewed_product_aggregated_yearly` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Most Viewed Products Aggregated Yearly';
 
 # Dumping data for table report_viewed_product_aggregated_yearly: ~0 rows (approximately)
-/*!40000 ALTER TABLE `report_viewed_product_aggregated_yearly` DISABLE KEYS */;
-/*!40000 ALTER TABLE `report_viewed_product_aggregated_yearly` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table report_viewed_product_index
@@ -8418,8 +7963,8 @@ CREATE TABLE IF NOT EXISTS `report_viewed_product_index` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Reports Viewed Product Index Table';
 
 # Dumping data for table report_viewed_product_index: ~0 rows (approximately)
-/*!40000 ALTER TABLE `report_viewed_product_index` DISABLE KEYS */;
-/*!40000 ALTER TABLE `report_viewed_product_index` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table review
@@ -8438,8 +7983,8 @@ CREATE TABLE IF NOT EXISTS `review` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Review base information';
 
 # Dumping data for table review: ~0 rows (approximately)
-/*!40000 ALTER TABLE `review` DISABLE KEYS */;
-/*!40000 ALTER TABLE `review` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table review_detail
@@ -8461,8 +8006,8 @@ CREATE TABLE IF NOT EXISTS `review_detail` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Review detail information';
 
 # Dumping data for table review_detail: ~0 rows (approximately)
-/*!40000 ALTER TABLE `review_detail` DISABLE KEYS */;
-/*!40000 ALTER TABLE `review_detail` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table review_entity
@@ -8473,12 +8018,12 @@ CREATE TABLE IF NOT EXISTS `review_entity` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Review entities';
 
 # Dumping data for table review_entity: ~3 rows (approximately)
-/*!40000 ALTER TABLE `review_entity` DISABLE KEYS */;
+
 INSERT INTO `review_entity` (`entity_id`, `entity_code`) VALUES
 	(1, 'product'),
 	(2, 'customer'),
 	(3, 'category');
-/*!40000 ALTER TABLE `review_entity` ENABLE KEYS */;
+
 
 
 # Dumping structure for table review_entity_summary
@@ -8495,8 +8040,8 @@ CREATE TABLE IF NOT EXISTS `review_entity_summary` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Review aggregates';
 
 # Dumping data for table review_entity_summary: ~0 rows (approximately)
-/*!40000 ALTER TABLE `review_entity_summary` DISABLE KEYS */;
-/*!40000 ALTER TABLE `review_entity_summary` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table review_status
@@ -8507,12 +8052,12 @@ CREATE TABLE IF NOT EXISTS `review_status` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Review statuses';
 
 # Dumping data for table review_status: ~3 rows (approximately)
-/*!40000 ALTER TABLE `review_status` DISABLE KEYS */;
+
 INSERT INTO `review_status` (`status_id`, `status_code`) VALUES
 	(1, 'Approved'),
 	(2, 'Pending'),
 	(3, 'Not Approved');
-/*!40000 ALTER TABLE `review_status` ENABLE KEYS */;
+
 
 
 # Dumping structure for table review_store
@@ -8526,8 +8071,8 @@ CREATE TABLE IF NOT EXISTS `review_store` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Review Store';
 
 # Dumping data for table review_store: ~0 rows (approximately)
-/*!40000 ALTER TABLE `review_store` DISABLE KEYS */;
-/*!40000 ALTER TABLE `review_store` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table saas_printed_template
@@ -8553,8 +8098,8 @@ CREATE TABLE IF NOT EXISTS `saas_printed_template` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='saas_printed_template';
 
 # Dumping data for table saas_printed_template: ~0 rows (approximately)
-/*!40000 ALTER TABLE `saas_printed_template` DISABLE KEYS */;
-/*!40000 ALTER TABLE `saas_printed_template` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table saas_printed_template_order_item_tax
@@ -8575,8 +8120,8 @@ CREATE TABLE IF NOT EXISTS `saas_printed_template_order_item_tax` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='saas_printed_template_order_item_tax';
 
 # Dumping data for table saas_printed_template_order_item_tax: ~0 rows (approximately)
-/*!40000 ALTER TABLE `saas_printed_template_order_item_tax` DISABLE KEYS */;
-/*!40000 ALTER TABLE `saas_printed_template_order_item_tax` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table saas_printed_template_order_shipping_tax
@@ -8597,8 +8142,8 @@ CREATE TABLE IF NOT EXISTS `saas_printed_template_order_shipping_tax` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='saas_printed_template_order_shipping_tax';
 
 # Dumping data for table saas_printed_template_order_shipping_tax: ~0 rows (approximately)
-/*!40000 ALTER TABLE `saas_printed_template_order_shipping_tax` DISABLE KEYS */;
-/*!40000 ALTER TABLE `saas_printed_template_order_shipping_tax` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table salesrule
@@ -8632,8 +8177,8 @@ CREATE TABLE IF NOT EXISTS `salesrule` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule';
 
 # Dumping data for table salesrule: ~0 rows (approximately)
-/*!40000 ALTER TABLE `salesrule` DISABLE KEYS */;
-/*!40000 ALTER TABLE `salesrule` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table salesrule_coupon
@@ -8656,8 +8201,8 @@ CREATE TABLE IF NOT EXISTS `salesrule_coupon` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Coupon';
 
 # Dumping data for table salesrule_coupon: ~0 rows (approximately)
-/*!40000 ALTER TABLE `salesrule_coupon` DISABLE KEYS */;
-/*!40000 ALTER TABLE `salesrule_coupon` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table salesrule_coupon_usage
@@ -8673,8 +8218,8 @@ CREATE TABLE IF NOT EXISTS `salesrule_coupon_usage` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Coupon Usage';
 
 # Dumping data for table salesrule_coupon_usage: ~0 rows (approximately)
-/*!40000 ALTER TABLE `salesrule_coupon_usage` DISABLE KEYS */;
-/*!40000 ALTER TABLE `salesrule_coupon_usage` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table salesrule_customer
@@ -8691,8 +8236,8 @@ CREATE TABLE IF NOT EXISTS `salesrule_customer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Customer';
 
 # Dumping data for table salesrule_customer: ~0 rows (approximately)
-/*!40000 ALTER TABLE `salesrule_customer` DISABLE KEYS */;
-/*!40000 ALTER TABLE `salesrule_customer` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table salesrule_customer_group
@@ -8707,8 +8252,8 @@ CREATE TABLE IF NOT EXISTS `salesrule_customer_group` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Rules To Customer Groups Relations';
 
 # Dumping data for table salesrule_customer_group: ~0 rows (approximately)
-/*!40000 ALTER TABLE `salesrule_customer_group` DISABLE KEYS */;
-/*!40000 ALTER TABLE `salesrule_customer_group` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table salesrule_label
@@ -8726,8 +8271,8 @@ CREATE TABLE IF NOT EXISTS `salesrule_label` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Label';
 
 # Dumping data for table salesrule_label: ~0 rows (approximately)
-/*!40000 ALTER TABLE `salesrule_label` DISABLE KEYS */;
-/*!40000 ALTER TABLE `salesrule_label` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table salesrule_product_attribute
@@ -8747,8 +8292,8 @@ CREATE TABLE IF NOT EXISTS `salesrule_product_attribute` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Salesrule Product Attribute';
 
 # Dumping data for table salesrule_product_attribute: ~0 rows (approximately)
-/*!40000 ALTER TABLE `salesrule_product_attribute` DISABLE KEYS */;
-/*!40000 ALTER TABLE `salesrule_product_attribute` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table salesrule_website
@@ -8763,8 +8308,8 @@ CREATE TABLE IF NOT EXISTS `salesrule_website` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Rules To Websites Relations';
 
 # Dumping data for table salesrule_website: ~0 rows (approximately)
-/*!40000 ALTER TABLE `salesrule_website` DISABLE KEYS */;
-/*!40000 ALTER TABLE `salesrule_website` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_bestsellers_aggregated_daily
@@ -8786,8 +8331,8 @@ CREATE TABLE IF NOT EXISTS `sales_bestsellers_aggregated_daily` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Bestsellers Aggregated Daily';
 
 # Dumping data for table sales_bestsellers_aggregated_daily: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_bestsellers_aggregated_daily` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_bestsellers_aggregated_daily` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_bestsellers_aggregated_monthly
@@ -8809,8 +8354,8 @@ CREATE TABLE IF NOT EXISTS `sales_bestsellers_aggregated_monthly` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Bestsellers Aggregated Monthly';
 
 # Dumping data for table sales_bestsellers_aggregated_monthly: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_bestsellers_aggregated_monthly` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_bestsellers_aggregated_monthly` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_bestsellers_aggregated_yearly
@@ -8832,8 +8377,8 @@ CREATE TABLE IF NOT EXISTS `sales_bestsellers_aggregated_yearly` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Bestsellers Aggregated Yearly';
 
 # Dumping data for table sales_bestsellers_aggregated_yearly: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_bestsellers_aggregated_yearly` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_bestsellers_aggregated_yearly` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_billing_agreement
@@ -8855,8 +8400,8 @@ CREATE TABLE IF NOT EXISTS `sales_billing_agreement` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Billing Agreement';
 
 # Dumping data for table sales_billing_agreement: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_billing_agreement` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_billing_agreement` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_billing_agreement_order
@@ -8870,8 +8415,8 @@ CREATE TABLE IF NOT EXISTS `sales_billing_agreement_order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Billing Agreement Order';
 
 # Dumping data for table sales_billing_agreement_order: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_billing_agreement_order` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_billing_agreement_order` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_creditmemo
@@ -8946,8 +8491,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_creditmemo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Creditmemo';
 
 # Dumping data for table sales_flat_creditmemo: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_creditmemo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_creditmemo` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_creditmemo_comment
@@ -8965,8 +8510,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_creditmemo_comment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Creditmemo Comment';
 
 # Dumping data for table sales_flat_creditmemo_comment: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_creditmemo_comment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_creditmemo_comment` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_creditmemo_grid
@@ -9009,8 +8554,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_creditmemo_grid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Creditmemo Grid';
 
 # Dumping data for table sales_flat_creditmemo_grid: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_creditmemo_grid` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_creditmemo_grid` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_creditmemo_item
@@ -9054,8 +8599,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_creditmemo_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Creditmemo Item';
 
 # Dumping data for table sales_flat_creditmemo_item: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_creditmemo_item` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_creditmemo_item` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_invoice
@@ -9123,8 +8668,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_invoice` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Invoice';
 
 # Dumping data for table sales_flat_invoice: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_invoice` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_invoice` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_invoice_comment
@@ -9142,8 +8687,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_invoice_comment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Invoice Comment';
 
 # Dumping data for table sales_flat_invoice_comment: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_invoice_comment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_invoice_comment` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_invoice_grid
@@ -9178,8 +8723,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_invoice_grid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Invoice Grid';
 
 # Dumping data for table sales_flat_invoice_grid: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_invoice_grid` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_invoice_grid` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_invoice_item
@@ -9223,8 +8768,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_invoice_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Invoice Item';
 
 # Dumping data for table sales_flat_invoice_item: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_invoice_item` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_invoice_item` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_order
@@ -9406,8 +8951,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Order';
 
 # Dumping data for table sales_flat_order: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_order` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_order` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_order_address
@@ -9445,8 +8990,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_order_address` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Order Address';
 
 # Dumping data for table sales_flat_order_address: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_order_address` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_order_address` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_order_grid
@@ -9486,8 +9031,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_order_grid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Order Grid';
 
 # Dumping data for table sales_flat_order_grid: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_order_grid` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_order_grid` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_order_item
@@ -9582,8 +9127,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_order_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Order Item';
 
 # Dumping data for table sales_flat_order_item: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_order_item` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_order_item` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_order_payment
@@ -9648,8 +9193,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_order_payment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Order Payment';
 
 # Dumping data for table sales_flat_order_payment: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_order_payment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_order_payment` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_order_status_history
@@ -9669,8 +9214,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_order_status_history` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Order Status History';
 
 # Dumping data for table sales_flat_order_status_history: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_order_status_history` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_order_status_history` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_quote
@@ -9745,8 +9290,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_quote` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote';
 
 # Dumping data for table sales_flat_quote: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_quote` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_quote` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_quote_address
@@ -9829,8 +9374,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_quote_address` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Address';
 
 # Dumping data for table sales_flat_quote_address: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_quote_address` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_quote_address` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_quote_address_item
@@ -9885,8 +9430,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_quote_address_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Address Item';
 
 # Dumping data for table sales_flat_quote_address_item: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_quote_address_item` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_quote_address_item` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_quote_item
@@ -9957,8 +9502,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_quote_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Item';
 
 # Dumping data for table sales_flat_quote_item: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_quote_item` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_quote_item` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_quote_item_option
@@ -9974,8 +9519,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_quote_item_option` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Item Option';
 
 # Dumping data for table sales_flat_quote_item_option: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_quote_item_option` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_quote_item_option` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_quote_payment
@@ -10008,8 +9553,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_quote_payment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Payment';
 
 # Dumping data for table sales_flat_quote_payment: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_quote_payment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_quote_payment` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_quote_shipping_rate
@@ -10032,8 +9577,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_quote_shipping_rate` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Quote Shipping Rate';
 
 # Dumping data for table sales_flat_quote_shipping_rate: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_quote_shipping_rate` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_quote_shipping_rate` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_shipment
@@ -10065,8 +9610,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_shipment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Shipment';
 
 # Dumping data for table sales_flat_shipment: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_shipment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_shipment` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_shipment_comment
@@ -10084,8 +9629,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_shipment_comment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Shipment Comment';
 
 # Dumping data for table sales_flat_shipment_comment: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_shipment_comment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_shipment_comment` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_shipment_grid
@@ -10115,8 +9660,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_shipment_grid` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Shipment Grid';
 
 # Dumping data for table sales_flat_shipment_grid: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_shipment_grid` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_shipment_grid` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_shipment_item
@@ -10139,8 +9684,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_shipment_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Shipment Item';
 
 # Dumping data for table sales_flat_shipment_item: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_shipment_item` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_shipment_item` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_flat_shipment_track
@@ -10164,8 +9709,8 @@ CREATE TABLE IF NOT EXISTS `sales_flat_shipment_track` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Flat Shipment Track';
 
 # Dumping data for table sales_flat_shipment_track: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_flat_shipment_track` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_flat_shipment_track` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_invoiced_aggregated
@@ -10186,8 +9731,8 @@ CREATE TABLE IF NOT EXISTS `sales_invoiced_aggregated` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Invoiced Aggregated';
 
 # Dumping data for table sales_invoiced_aggregated: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_invoiced_aggregated` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_invoiced_aggregated` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_invoiced_aggregated_order
@@ -10208,8 +9753,8 @@ CREATE TABLE IF NOT EXISTS `sales_invoiced_aggregated_order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Invoiced Aggregated Order';
 
 # Dumping data for table sales_invoiced_aggregated_order: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_invoiced_aggregated_order` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_invoiced_aggregated_order` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_order_aggregated_created
@@ -10241,8 +9786,8 @@ CREATE TABLE IF NOT EXISTS `sales_order_aggregated_created` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Aggregated Created';
 
 # Dumping data for table sales_order_aggregated_created: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_order_aggregated_created` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_order_aggregated_created` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_order_aggregated_updated
@@ -10274,8 +9819,8 @@ CREATE TABLE IF NOT EXISTS `sales_order_aggregated_updated` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Aggregated Updated';
 
 # Dumping data for table sales_order_aggregated_updated: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_order_aggregated_updated` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_order_aggregated_updated` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_order_status
@@ -10286,7 +9831,7 @@ CREATE TABLE IF NOT EXISTS `sales_order_status` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Status Table';
 
 # Dumping data for table sales_order_status: ~16 rows (approximately)
-/*!40000 ALTER TABLE `sales_order_status` DISABLE KEYS */;
+
 INSERT INTO `sales_order_status` (`status`, `label`) VALUES
 	('canceled', 'Canceled'),
 	('cancel_ogone', 'Cancelled Ogone'),
@@ -10304,7 +9849,7 @@ INSERT INTO `sales_order_status` (`status`, `label`) VALUES
 	('processing', 'Processing'),
 	('processing_ogone', 'Processing Ogone Payment'),
 	('waiting_authorozation', 'Waiting Authorization');
-/*!40000 ALTER TABLE `sales_order_status` ENABLE KEYS */;
+
 
 
 # Dumping structure for table sales_order_status_label
@@ -10319,8 +9864,8 @@ CREATE TABLE IF NOT EXISTS `sales_order_status_label` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Status Label Table';
 
 # Dumping data for table sales_order_status_label: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_order_status_label` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_order_status_label` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_order_status_state
@@ -10333,7 +9878,7 @@ CREATE TABLE IF NOT EXISTS `sales_order_status_state` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Status Table';
 
 # Dumping data for table sales_order_status_state: ~11 rows (approximately)
-/*!40000 ALTER TABLE `sales_order_status_state` DISABLE KEYS */;
+
 INSERT INTO `sales_order_status_state` (`status`, `state`, `is_default`) VALUES
 	('canceled', 'canceled', 1),
 	('closed', 'closed', 1),
@@ -10346,7 +9891,7 @@ INSERT INTO `sales_order_status_state` (`status`, `state`, `is_default`) VALUES
 	('pending_payment', 'pending_payment', 1),
 	('processed_ogone', 'processing', 0),
 	('processing', 'processing', 1);
-/*!40000 ALTER TABLE `sales_order_status_state` ENABLE KEYS */;
+
 
 
 # Dumping structure for table sales_order_tax
@@ -10368,8 +9913,8 @@ CREATE TABLE IF NOT EXISTS `sales_order_tax` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Tax Table';
 
 # Dumping data for table sales_order_tax: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_order_tax` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_order_tax` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_order_tax_item
@@ -10387,8 +9932,8 @@ CREATE TABLE IF NOT EXISTS `sales_order_tax_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Order Tax Item';
 
 # Dumping data for table sales_order_tax_item: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_order_tax_item` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_order_tax_item` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_payment_transaction
@@ -10414,8 +9959,8 @@ CREATE TABLE IF NOT EXISTS `sales_payment_transaction` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Payment Transaction';
 
 # Dumping data for table sales_payment_transaction: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_payment_transaction` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_payment_transaction` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_recurring_profile
@@ -10462,8 +10007,8 @@ CREATE TABLE IF NOT EXISTS `sales_recurring_profile` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Recurring Profile';
 
 # Dumping data for table sales_recurring_profile: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_recurring_profile` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_recurring_profile` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_recurring_profile_order
@@ -10479,8 +10024,8 @@ CREATE TABLE IF NOT EXISTS `sales_recurring_profile_order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Recurring Profile Order';
 
 # Dumping data for table sales_recurring_profile_order: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_recurring_profile_order` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_recurring_profile_order` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_refunded_aggregated
@@ -10500,8 +10045,8 @@ CREATE TABLE IF NOT EXISTS `sales_refunded_aggregated` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Refunded Aggregated';
 
 # Dumping data for table sales_refunded_aggregated: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_refunded_aggregated` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_refunded_aggregated` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_refunded_aggregated_order
@@ -10521,8 +10066,8 @@ CREATE TABLE IF NOT EXISTS `sales_refunded_aggregated_order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Refunded Aggregated Order';
 
 # Dumping data for table sales_refunded_aggregated_order: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_refunded_aggregated_order` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_refunded_aggregated_order` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_shipping_aggregated
@@ -10542,8 +10087,8 @@ CREATE TABLE IF NOT EXISTS `sales_shipping_aggregated` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Shipping Aggregated';
 
 # Dumping data for table sales_shipping_aggregated: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_shipping_aggregated` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_shipping_aggregated` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sales_shipping_aggregated_order
@@ -10563,8 +10108,8 @@ CREATE TABLE IF NOT EXISTS `sales_shipping_aggregated_order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Sales Shipping Aggregated Order';
 
 # Dumping data for table sales_shipping_aggregated_order: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sales_shipping_aggregated_order` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sales_shipping_aggregated_order` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sendfriend_log
@@ -10579,8 +10124,8 @@ CREATE TABLE IF NOT EXISTS `sendfriend_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Send to friend function log storage table';
 
 # Dumping data for table sendfriend_log: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sendfriend_log` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sendfriend_log` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table shipping_tablerate
@@ -10599,8 +10144,8 @@ CREATE TABLE IF NOT EXISTS `shipping_tablerate` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Shipping Tablerate';
 
 # Dumping data for table shipping_tablerate: ~0 rows (approximately)
-/*!40000 ALTER TABLE `shipping_tablerate` DISABLE KEYS */;
-/*!40000 ALTER TABLE `shipping_tablerate` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table sitemap
@@ -10617,8 +10162,8 @@ CREATE TABLE IF NOT EXISTS `sitemap` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='XML Sitemap';
 
 # Dumping data for table sitemap: ~0 rows (approximately)
-/*!40000 ALTER TABLE `sitemap` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sitemap` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table social_facebook_actions
@@ -10632,8 +10177,8 @@ CREATE TABLE IF NOT EXISTS `social_facebook_actions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Social Facebook Actions';
 
 # Dumping data for table social_facebook_actions: ~0 rows (approximately)
-/*!40000 ALTER TABLE `social_facebook_actions` DISABLE KEYS */;
-/*!40000 ALTER TABLE `social_facebook_actions` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table tag
@@ -10651,8 +10196,8 @@ CREATE TABLE IF NOT EXISTS `tag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tag';
 
 # Dumping data for table tag: ~0 rows (approximately)
-/*!40000 ALTER TABLE `tag` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tag` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table tag_properties
@@ -10667,8 +10212,8 @@ CREATE TABLE IF NOT EXISTS `tag_properties` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tag Properties';
 
 # Dumping data for table tag_properties: ~0 rows (approximately)
-/*!40000 ALTER TABLE `tag_properties` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tag_properties` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table tag_relation
@@ -10693,8 +10238,8 @@ CREATE TABLE IF NOT EXISTS `tag_relation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tag Relation';
 
 # Dumping data for table tag_relation: ~0 rows (approximately)
-/*!40000 ALTER TABLE `tag_relation` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tag_relation` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table tag_summary
@@ -10715,8 +10260,8 @@ CREATE TABLE IF NOT EXISTS `tag_summary` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tag Summary';
 
 # Dumping data for table tag_summary: ~0 rows (approximately)
-/*!40000 ALTER TABLE `tag_summary` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tag_summary` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table tax_calculation
@@ -10736,14 +10281,11 @@ CREATE TABLE IF NOT EXISTS `tax_calculation` (
   CONSTRAINT `FK_TAX_CALCULATION_CUSTOMER_TAX_CLASS_ID_TAX_CLASS_CLASS_ID` FOREIGN KEY (`customer_tax_class_id`) REFERENCES `tax_class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_TAX_CALC_TAX_CALC_RATE_ID_TAX_CALC_RATE_TAX_CALC_RATE_ID` FOREIGN KEY (`tax_calculation_rate_id`) REFERENCES `tax_calculation_rate` (`tax_calculation_rate_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_TAX_CALC_TAX_CALC_RULE_ID_TAX_CALC_RULE_TAX_CALC_RULE_ID` FOREIGN KEY (`tax_calculation_rule_id`) REFERENCES `tax_calculation_rule` (`tax_calculation_rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Tax Calculation';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tax Calculation';
 
-# Dumping data for table tax_calculation: ~2 rows (approximately)
-/*!40000 ALTER TABLE `tax_calculation` DISABLE KEYS */;
-INSERT INTO `tax_calculation` (`tax_calculation_id`, `tax_calculation_rate_id`, `tax_calculation_rule_id`, `customer_tax_class_id`, `product_tax_class_id`) VALUES
-	(1, 1, 1, 3, 2),
-	(2, 2, 1, 3, 2);
-/*!40000 ALTER TABLE `tax_calculation` ENABLE KEYS */;
+# Dumping data for table tax_calculation: ~0 rows (approximately)
+
+
 
 
 # Dumping structure for table tax_calculation_rate
@@ -10764,11 +10306,11 @@ CREATE TABLE IF NOT EXISTS `tax_calculation_rate` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Tax Calculation Rate';
 
 # Dumping data for table tax_calculation_rate: ~2 rows (approximately)
-/*!40000 ALTER TABLE `tax_calculation_rate` DISABLE KEYS */;
+
 INSERT INTO `tax_calculation_rate` (`tax_calculation_rate_id`, `tax_country_id`, `tax_region_id`, `tax_postcode`, `code`, `rate`, `zip_is_range`, `zip_from`, `zip_to`) VALUES
 	(1, 'US', 12, '*', 'US-CA-*-Rate 1', 8.2500, NULL, NULL, NULL),
 	(2, 'US', 43, '*', 'US-NY-*-Rate 1', 8.3750, NULL, NULL, NULL);
-/*!40000 ALTER TABLE `tax_calculation_rate` ENABLE KEYS */;
+
 
 
 # Dumping structure for table tax_calculation_rate_title
@@ -10786,8 +10328,8 @@ CREATE TABLE IF NOT EXISTS `tax_calculation_rate_title` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tax Calculation Rate Title';
 
 # Dumping data for table tax_calculation_rate_title: ~0 rows (approximately)
-/*!40000 ALTER TABLE `tax_calculation_rate_title` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tax_calculation_rate_title` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table tax_calculation_rule
@@ -10799,14 +10341,7 @@ CREATE TABLE IF NOT EXISTS `tax_calculation_rule` (
   PRIMARY KEY (`tax_calculation_rule_id`),
   KEY `IDX_TAX_CALC_RULE_PRIORITY_POSITION_TAX_CALC_RULE_ID` (`priority`,`position`,`tax_calculation_rule_id`),
   KEY `IDX_TAX_CALCULATION_RULE_CODE` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Tax Calculation Rule';
-
-# Dumping data for table tax_calculation_rule: ~1 rows (approximately)
-/*!40000 ALTER TABLE `tax_calculation_rule` DISABLE KEYS */;
-INSERT INTO `tax_calculation_rule` (`tax_calculation_rule_id`, `code`, `priority`, `position`) VALUES
-	(1, 'Retail Customer-Taxable Goods-Rate 1', 1, 1);
-/*!40000 ALTER TABLE `tax_calculation_rule` ENABLE KEYS */;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tax Calculation Rule';
 
 # Dumping structure for table tax_class
 CREATE TABLE IF NOT EXISTS `tax_class` (
@@ -10817,11 +10352,11 @@ CREATE TABLE IF NOT EXISTS `tax_class` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Tax Class';
 
 # Dumping data for table tax_class: ~2 rows (approximately)
-/*!40000 ALTER TABLE `tax_class` DISABLE KEYS */;
+
 INSERT INTO `tax_class` (`class_id`, `class_name`, `class_type`) VALUES
 	(2, 'Taxable Goods', 'PRODUCT'),
 	(3, 'Retail Customer', 'CUSTOMER');
-/*!40000 ALTER TABLE `tax_class` ENABLE KEYS */;
+
 
 
 # Dumping structure for table tax_order_aggregated_created
@@ -10841,8 +10376,8 @@ CREATE TABLE IF NOT EXISTS `tax_order_aggregated_created` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tax Order Aggregation';
 
 # Dumping data for table tax_order_aggregated_created: ~0 rows (approximately)
-/*!40000 ALTER TABLE `tax_order_aggregated_created` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tax_order_aggregated_created` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table tax_order_aggregated_updated
@@ -10862,55 +10397,8 @@ CREATE TABLE IF NOT EXISTS `tax_order_aggregated_updated` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tax Order Aggregated Updated';
 
 # Dumping data for table tax_order_aggregated_updated: ~0 rows (approximately)
-/*!40000 ALTER TABLE `tax_order_aggregated_updated` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tax_order_aggregated_updated` ENABLE KEYS */;
 
 
-# Dumping structure for table webapi_role
-CREATE TABLE IF NOT EXISTS `webapi_role` (
-  `role_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Webapi role ID',
-  `role_name` varchar(255) NOT NULL COMMENT 'Role name is displayed in Adminhtml interface',
-  PRIMARY KEY (`role_id`),
-  UNIQUE KEY `UNQ_WEBAPI_ROLE_ROLE_NAME` (`role_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Roles of unified webapi ACL';
-
-# Dumping data for table webapi_role: ~0 rows (approximately)
-/*!40000 ALTER TABLE `webapi_role` DISABLE KEYS */;
-/*!40000 ALTER TABLE `webapi_role` ENABLE KEYS */;
-
-
-# Dumping structure for table webapi_rule
-CREATE TABLE IF NOT EXISTS `webapi_rule` (
-  `rule_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Rule ID',
-  `resource_id` varchar(255) NOT NULL COMMENT 'Resource name. Must match resource calls in xml.',
-  `role_id` int(10) unsigned NOT NULL COMMENT 'User role from webapi_role',
-  PRIMARY KEY (`rule_id`),
-  KEY `IDX_WEBAPI_RULE_ROLE_ID` (`role_id`),
-  CONSTRAINT `FK_WEBAPI_RULE_ROLE_ID_WEBAPI_ROLE_ROLE_ID` FOREIGN KEY (`role_id`) REFERENCES `webapi_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Permissions of roles to resources';
-
-# Dumping data for table webapi_rule: ~0 rows (approximately)
-/*!40000 ALTER TABLE `webapi_rule` DISABLE KEYS */;
-/*!40000 ALTER TABLE `webapi_rule` ENABLE KEYS */;
-
-
-# Dumping structure for table webapi_user
-CREATE TABLE IF NOT EXISTS `webapi_user` (
-  `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Webapi user ID',
-  `api_key` varchar(255) NOT NULL COMMENT 'Web API key',
-  `role_id` int(10) unsigned DEFAULT NULL COMMENT 'User role from webapi_role',
-  `secret` varchar(255) NOT NULL COMMENT 'Secret used for authentication.',
-  `company_name` varchar(255) DEFAULT NULL COMMENT 'Company Name',
-  `contact_email` varchar(255) NOT NULL COMMENT 'Contact Email',
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY `UNQ_WEBAPI_USER_API_KEY` (`api_key`),
-  KEY `IDX_WEBAPI_USER_ROLE_ID` (`role_id`),
-  CONSTRAINT `FK_WEBAPI_USER_ROLE_ID_WEBAPI_ROLE_ROLE_ID` FOREIGN KEY (`role_id`) REFERENCES `webapi_role` (`role_id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Users of unified webapi';
-
-# Dumping data for table webapi_user: ~0 rows (approximately)
-/*!40000 ALTER TABLE `webapi_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `webapi_user` ENABLE KEYS */;
 
 
 # Dumping structure for table weee_discount
@@ -10928,8 +10416,8 @@ CREATE TABLE IF NOT EXISTS `weee_discount` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Weee Discount';
 
 # Dumping data for table weee_discount: ~0 rows (approximately)
-/*!40000 ALTER TABLE `weee_discount` DISABLE KEYS */;
-/*!40000 ALTER TABLE `weee_discount` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table weee_tax
@@ -10954,8 +10442,8 @@ CREATE TABLE IF NOT EXISTS `weee_tax` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Weee Tax';
 
 # Dumping data for table weee_tax: ~0 rows (approximately)
-/*!40000 ALTER TABLE `weee_tax` DISABLE KEYS */;
-/*!40000 ALTER TABLE `weee_tax` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table widget
@@ -10969,8 +10457,8 @@ CREATE TABLE IF NOT EXISTS `widget` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Preconfigured Widgets';
 
 # Dumping data for table widget: ~0 rows (approximately)
-/*!40000 ALTER TABLE `widget` DISABLE KEYS */;
-/*!40000 ALTER TABLE `widget` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table widget_instance
@@ -10988,11 +10476,11 @@ CREATE TABLE IF NOT EXISTS `widget_instance` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Instances of Widget for Package Theme';
 
 # Dumping data for table widget_instance: ~2 rows (approximately)
-/*!40000 ALTER TABLE `widget_instance` DISABLE KEYS */;
+
 INSERT INTO `widget_instance` (`instance_id`, `instance_type`, `theme_id`, `title`, `store_ids`, `widget_parameters`, `sort_order`) VALUES
-	(1, 'Enterprise_Banner_Block_Widget_Banner', 10, 'Free Shipping on All Handbags', '0', 'a:5:{s:12:"display_mode";s:5:"fixed";s:5:"types";a:1:{i:0;s:0:"";}s:6:"rotate";s:0:"";s:10:"banner_ids";s:1:"1";s:9:"unique_id";s:32:"95a6722cbe317a790e4701f1dafb278a";}', 0),
-	(2, 'Enterprise_Banner_Block_Widget_Banner', 10, '15% off Our New Evening Dresses', '0', 'a:5:{s:12:"display_mode";s:5:"fixed";s:5:"types";a:1:{i:0;s:0:"";}s:6:"rotate";s:0:"";s:10:"banner_ids";s:1:"2";s:9:"unique_id";s:32:"5d59e0010d28ca001157c76197fa1af7";}', 1);
-/*!40000 ALTER TABLE `widget_instance` ENABLE KEYS */;
+	(1, 'Enterprise_Banner_Block_Widget_Banner', 10, 'Free Shipping on All Handbags', '0', 'a:5:{s:12:"display_mode";s:5:"fixed";s:5:"types";a:1:{i:0;s:0:"";}s:6:"rotate";s:0:"";s:10:"banner_ids";s:1:"1";s:9:"unique_id";s:32:"615bc143c65af1cc21ae2391432830a6";}', 0),
+	(2, 'Enterprise_Banner_Block_Widget_Banner', 10, '15% off Our New Evening Dresses', '0', 'a:5:{s:12:"display_mode";s:5:"fixed";s:5:"types";a:1:{i:0;s:0:"";}s:6:"rotate";s:0:"";s:10:"banner_ids";s:1:"2";s:9:"unique_id";s:32:"942e542da1a4d789db9b4b02a536ffde";}', 1);
+
 
 
 # Dumping structure for table widget_instance_page
@@ -11011,11 +10499,11 @@ CREATE TABLE IF NOT EXISTS `widget_instance_page` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Instance of Widget on Page';
 
 # Dumping data for table widget_instance_page: ~2 rows (approximately)
-/*!40000 ALTER TABLE `widget_instance_page` DISABLE KEYS */;
+
 INSERT INTO `widget_instance_page` (`page_id`, `instance_id`, `page_group`, `layout_handle`, `block_reference`, `page_for`, `entities`, `page_template`) VALUES
 	(1, 1, 'pages', 'cms_index_index', 'top.container', 'all', '', 'widget/block.phtml'),
 	(2, 2, 'pages', 'cms_index_index', 'footer.before', 'all', '', 'widget/block.phtml');
-/*!40000 ALTER TABLE `widget_instance_page` ENABLE KEYS */;
+
 
 
 # Dumping structure for table widget_instance_page_layout
@@ -11030,11 +10518,11 @@ CREATE TABLE IF NOT EXISTS `widget_instance_page_layout` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Layout updates';
 
 # Dumping data for table widget_instance_page_layout: ~2 rows (approximately)
-/*!40000 ALTER TABLE `widget_instance_page_layout` DISABLE KEYS */;
+
 INSERT INTO `widget_instance_page_layout` (`page_id`, `layout_update_id`) VALUES
 	(1, 1),
 	(2, 2);
-/*!40000 ALTER TABLE `widget_instance_page_layout` ENABLE KEYS */;
+
 
 
 # Dumping structure for table wishlist
@@ -11051,8 +10539,8 @@ CREATE TABLE IF NOT EXISTS `wishlist` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Wishlist main Table';
 
 # Dumping data for table wishlist: ~0 rows (approximately)
-/*!40000 ALTER TABLE `wishlist` DISABLE KEYS */;
-/*!40000 ALTER TABLE `wishlist` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table wishlist_item
@@ -11074,8 +10562,8 @@ CREATE TABLE IF NOT EXISTS `wishlist_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Wishlist items';
 
 # Dumping data for table wishlist_item: ~0 rows (approximately)
-/*!40000 ALTER TABLE `wishlist_item` DISABLE KEYS */;
-/*!40000 ALTER TABLE `wishlist_item` ENABLE KEYS */;
+
+
 
 
 # Dumping structure for table wishlist_item_option
@@ -11091,8 +10579,8 @@ CREATE TABLE IF NOT EXISTS `wishlist_item_option` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Wishlist Item Option Table';
 
 # Dumping data for table wishlist_item_option: ~0 rows (approximately)
-/*!40000 ALTER TABLE `wishlist_item_option` DISABLE KEYS */;
-/*!40000 ALTER TABLE `wishlist_item_option` ENABLE KEYS */;
+
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
