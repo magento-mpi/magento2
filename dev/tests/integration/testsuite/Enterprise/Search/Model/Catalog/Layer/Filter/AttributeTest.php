@@ -12,11 +12,11 @@
 class Enterprise_Search_Model_Catalog_Layer_Filter_AttributeTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Enterprise_Search_Model_Catalog_Layer_Filter_Attribute
+     * @param string|array $givenValue
+     * @param string|array $expectedValue
+     * @dataProvider getAttributeValues
      */
-    protected $_selectModel;
-
-    public function setUp()
+    public function testApplyFilterToCollectionSelectString($givenValue, $expectedValue)
     {
         $options = array();
         foreach ($this->getAttributeValues() as $testValues) {
@@ -26,42 +26,34 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_AttributeTest extends PHPUnit
             );
         }
 
-        /**
-         * @var Mage_Catalog_Model_Resource_Eav_Attribute
-         */
-        $attribute = Mage::getModel('Mage_Catalog_Model_Resource_Eav_Attribute')
-            ->setAttributeCode('select_test')
-            ->setFrontendInput('select')
-            ->setStoreId(0);
-        $source = $attribute->getSource();
-        $sourceReflection = new ReflectionClass(get_class($source));
-        $optionProperty = $sourceReflection->getProperty('_options');
-        $optionProperty->setAccessible(true);
-        $optionProperty->setValue($source, array(0 => $options));
+        $source = $this->getMock('Mage_Eav_Model_Entity_Attribute_Source_Config', array(), array(), '', false, false);
+        $source->expects($this->any())
+            ->method('getAllOptions')
+            ->will($this->returnValue($options));
+        $attribute = $this->getMock('Mage_Catalog_Model_Resource_Eav_Attribute', array(), array(), '', false, false);
+        $attribute->expects($this->any())
+            ->method('getSource')
+            ->will($this->returnValue($source));
+
+        $productCollection = Mage::getResourceModel('Enterprise_Search_Model_Resource_Collection');
+        $layer = $this->getMock('Enterprise_Search_Model_Catalog_Layer');
+        $layer->expects($this->any())
+            ->method('getProductCollection')
+            ->will($this->returnValue($productCollection));
 
         /**
-         * @var Enterprise_Search_Model_Catalog_Layer
+         * @var Enterprise_Search_Model_Catalog_Layer_Filter_Attribute
          */
-        $layer = Mage::getModel('Enterprise_Search_Model_Catalog_Layer');
+        $selectModel = Mage::getModel('Enterprise_Search_Model_Catalog_Layer_Filter_Attribute');
+        $selectModel->setAttributeModel($attribute)->setLayer($layer);
 
-        $this->_selectModel = Mage::getModel('Enterprise_Search_Model_Catalog_Layer_Filter_Attribute');
-        $this->_selectModel->setLayer($layer)->setAttributeModel($attribute);
-    }
-
-    /**
-     * @param string|array $givenValue
-     * @param string|array $expectedValue
-     * @dataProvider getAttributeValues
-     */
-    public function testApplyFilterToCollectionSelect($givenValue, $expectedValue)
-    {
-        $this->_selectModel->applyFilterToCollection($this->_selectModel, $givenValue);
-        $filterParams = $this->_selectModel->getLayer()->getProductCollection()->getExtendedSearchParams();
+        $selectModel->applyFilterToCollection($selectModel, $givenValue);
+        $filterParams = $selectModel->getLayer()->getProductCollection()->getExtendedSearchParams();
         $fieldName = Mage::getResourceSingleton('Enterprise_Search_Model_Resource_Engine')
-            ->getSearchEngineFieldName($this->_selectModel->getAttributeModel(), 'nav');
+            ->getSearchEngineFieldName($selectModel->getAttributeModel(), 'nav');
         $resultFilter = $filterParams[$fieldName];
 
-        $this->assertTrue(in_array($expectedValue, $resultFilter));
+        $this->assertContains($expectedValue, $resultFilter);
     }
 
     public function getAttributeValues()
@@ -70,6 +62,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_AttributeTest extends PHPUnit
             array('1', '1'),
             array('simple', 'simple'),
             array('0attribute', '0attribute'),
+            array(32, 32),
         );
     }
 }
