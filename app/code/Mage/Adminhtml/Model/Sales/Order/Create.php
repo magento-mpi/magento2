@@ -267,7 +267,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object implements M
             if (!$orderItem->getParentItem()) {
                 $qty = $orderItem->getQtyOrdered();
                 if (!$order->getReordered()) {
-                    $qty -= $orderItem->getQtyShipped() + $orderItem->getQtyInvoiced();
+                    $qty -= max($orderItem->getQtyShipped(), $orderItem->getQtyInvoiced());
                 }
 
                 if ($qty > 0) {
