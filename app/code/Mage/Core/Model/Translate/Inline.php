@@ -34,6 +34,13 @@ class Mage_Core_Model_Translate_Inline implements Mage_Core_Model_Translate_Inli
     protected $_parser;
 
     /**
+     * Flag about inserted styles and scripts for inline translates
+     *
+     * @var bool
+     */
+    protected $_isScriptInserted    = false;
+
+    /**
      * Initialize inline translation model
      *
      * @param Mage_Core_Model_Translate_InlineParser $parser
