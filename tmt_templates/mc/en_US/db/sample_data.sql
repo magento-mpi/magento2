@@ -2628,7 +2628,6 @@ INSERT INTO `core_cache_option` (`code`, `value`) VALUES
 	('config', 1),
 	('config_api', 1),
 	('eav', 1),
-	('full_page', 1),
 	('layout', 1),
 	('translate', 1);
 
