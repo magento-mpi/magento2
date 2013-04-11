@@ -266,6 +266,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      */
     public function withGroupedProduct($productType, $order, $testData)
     {
+        $this->markTestIncomplete('MAGETWO-9068, MAGETWO-9155');
         //Data
         $orderProductOption = $this->loadDataSet('SalesOrder', 'config_option_grouped',
                                                  array('fieldParameter' => $testData[$productType . '_sku']));
