@@ -478,6 +478,7 @@
             review: {
                 continueSelector: '#review-buttons-container .button',
                 container: '#opc-review',
+                agreementFormSelector:'#checkout-agreements',
                 submitContainer: '#checkout-review-submit'
             }
         },
@@ -485,14 +486,8 @@
         _create: function() {
             this._super();
             this.element
-                .on('click', this.options.review.continueSelector, $.proxy(function() {
-                    if ($(this.options.payment.form).validation &&
-                        $(this.options.payment.form).validation('isValid')) {
-                        this._ajaxContinue(
-                            this.options.review.saveUrl,
-                            $(this.options.payment.form).serialize());
-                    }
-                }, this))
+                .on('click', this.options.review.continueSelector, $.proxy(this._saveOrder, this))
+                .on('saveOrder', this.options.review.container, $.proxy(this._saveOrder, this))
                 .on('contentUpdated', this.options.review.container, $.proxy(function() {
                     var paypalIframe = this.element.find(this.options.review.container)
                         .find('[data-container="paypal-iframe"]');
@@ -501,6 +496,15 @@
                         $(this.options.review.submitContainer).hide();
                     }
                 }, this));
+        },
+
+        _saveOrder: function() {
+            if ($(this.options.payment.form).validation &&
+                $(this.options.payment.form).validation('isValid')) {
+                this._ajaxContinue(
+                    this.options.review.saveUrl,
+                    $(this.options.payment.form).serialize() + '&' + $(this.options.review.agreementFormSelector).serialize());
+            }
         }
     });
 })(jQuery, window);

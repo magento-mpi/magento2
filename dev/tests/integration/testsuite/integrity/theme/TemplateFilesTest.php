@@ -19,6 +19,12 @@ class Integrity_Theme_TemplateFilesTest extends Magento_Test_TestCase_IntegrityA
         $invalidTemplates = array();
         foreach ($this->templatesDataProvider() as $template) {
             list($area, $themeId, $module, $file, $xml) = $template;
+
+            /** Bug: MAGETWO-9033 **/
+            if ($file == 'Mage_DesignEditor::/editor/tools/code/js/items.phtml') {
+                continue;
+            }
+
             $params = array(
                 'area'     => $area,
                 'themeId'  => $themeId,

@@ -84,7 +84,12 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             array('simple', 4)
         );
         $this->assertGreaterThan(20, count($attributesList), "Attributes quantity seems to be incorrect.");
-        $oldIdAttributeData = reset($attributesList);
+        $oneAttribute = reset($attributesList);
+        $this->assertArrayHasKey('attribute_id', $oneAttribute);
+        $this->assertArrayHasKey('code', $oneAttribute);
+        $this->assertArrayHasKey('type', $oneAttribute);
+        $this->assertArrayHasKey('required', $oneAttribute);
+        $this->assertArrayHasKey('scope', $oneAttribute);
         $oldIdExpectedData = array(
             'attribute_id' => '89',
             'code' => 'old_id',
@@ -92,7 +97,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             'required' => '0',
             'scope' => 'global'
         );
-        $this->assertEquals($oldIdExpectedData, $oldIdAttributeData, "Attribute data from the list is incorrect.");
+        $this->assertContains($oldIdExpectedData, $attributesList);
     }
 
     /**

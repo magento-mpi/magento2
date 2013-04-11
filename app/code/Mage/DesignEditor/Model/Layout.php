@@ -132,17 +132,19 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
     public function getOutput()
     {
         $output = parent::getOutput();
-        if (preg_match('/<body\s*[^>]*>.*<\/body>/is', $output, $body)) {
-            $oldBody = $body[0];
-            // Replace script tags
-            $newBody = preg_replace('/<script\s*[^>]*>.*?<\/script>/is', '', $oldBody);
-            // Replace JS events
-            foreach ($this->_jsEvents as $event) {
-                $newBody = preg_replace("/(<[^>]+){$event}\\s*=\\s*(['\"])/is", "$1{$event}-vde=$2", $newBody);
+        if (!$this->_helper->isAllowed()) {
+            if (preg_match('/<body\s*[^>]*>.*<\/body>/is', $output, $body)) {
+                $oldBody = $body[0];
+                // Replace script tags
+                $newBody = preg_replace('/<script\s*[^>]*>.*?<\/script>/is', '', $oldBody);
+                // Replace JS events
+                foreach ($this->_jsEvents as $event) {
+                    $newBody = preg_replace("/(<[^>]+){$event}\\s*=\\s*(['\"])/is", "$1{$event}-vde=$2", $newBody);
+                }
+                // Replace href JS
+                $newBody = preg_replace('/(<[^>]+)href\s*=\s*([\'"])javascript:/is', '$1href-vde=$2', $newBody);
+                $output = str_replace($oldBody, $newBody, $output);
             }
-            // Replace href JS
-            $newBody = preg_replace('/(<[^>]+)href\s*=\s*([\'"])javascript:/is', '$1href-vde=$2', $newBody);
-            $output = str_replace($oldBody, $newBody, $output);
         }
         return $output;
     }

@@ -9,7 +9,7 @@
  */
 
 /**
- * Geeneric backend controller
+ * Generic backend controller
  */
 abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controller_Varien_Action
 {
@@ -338,7 +338,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
                     ->setControllerName('auth')
                     ->setActionName('deniedIframe')
                     ->setDispatched(false);
-            } else if ($request->getParam('isAjax')) {
+            } elseif ($request->getParam('isAjax')) {
                 $request->setParam('forwarded', true)
                     ->setControllerName('auth')
                     ->setActionName('deniedJson')
@@ -459,7 +459,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
      * @param   string $defaultUrl
      * @return Mage_Backend_Controller_ActionAbstract
      */
-    protected function _redirectReferer($defaultUrl=null)
+    protected function _redirectReferer($defaultUrl = null)
     {
         $defaultUrl = empty($defaultUrl) ? $this->getUrl('*') : $defaultUrl;
         parent::_redirectReferer($defaultUrl);
@@ -493,7 +493,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
      * @param   array $params
      * @return  string
      */
-    public function getUrl($route='', $params=array())
+    public function getUrl($route = '', $params=array())
     {
         return $this->_getHelper()->getUrl($route, $params);
     }
@@ -509,8 +509,8 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
             return true;
         }
 
-        if (!($secretKey = $this->getRequest()->getParam(Mage_Backend_Model_Url::SECRET_KEY_PARAM_NAME, null))
-            || $secretKey != Mage::getSingleton('Mage_Backend_Model_Url')->getSecretKey()) {
+        $secretKey = $this->getRequest()->getParam(Mage_Backend_Model_Url::SECRET_KEY_PARAM_NAME, null);
+        if (!$secretKey || $secretKey != Mage::getSingleton('Mage_Backend_Model_Url')->getSecretKey()) {
             return false;
         }
         return true;
@@ -539,12 +539,12 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     protected function _outTemplate($tplName, $data = array())
     {
         $this->_initLayoutMessages('Mage_Backend_Model_Session');
-        $block = $this->getLayout()->createBlock('Mage_Backend_Block_Template')->setTemplate("$tplName.phtml");
+        $block = $this->getLayout()->createBlock('Mage_Backend_Block_Template')->setTemplate("{$tplName}.phtml");
         foreach ($data as $index => $value) {
             $block->assign($index, $value);
         }
         $html = $block->toHtml();
-        Mage::getSingleton('Mage_Core_Model_Translate_Inline')->processResponseBody($html);
+        $this->_objectManager->get('Mage_Core_Model_Translate')->processResponseBody($html);
         $this->getResponse()->setBody($html);
     }
 
@@ -553,7 +553,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
      *
      * @param string $fileName
      * @param string|array $content set to null to avoid starting output, $contentLength should be set explicitly in
-     *                              that case
+     * that case
      * @param string $contentType
      * @param int $contentLength    explicit content length, if strlen($content) isn't applicable
      * @return Mage_Backend_Controller_ActionAbstract
