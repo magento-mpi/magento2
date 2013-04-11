@@ -180,7 +180,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         /** @var PHPUnit_Extensions_Selenium2TestCase_Element $tierPrice */
         foreach ($tierPrices as $tierPrice) {
             $price = $this->getChildElement($tierPrice, 'span[@class="price"]')->text();
-            $price = preg_replace('/^[\D]+/', '', preg_replace('/\.0*$/', '', $price));
+            $price = preg_replace('/^[\D]+/', '', floatval($price));
             $text = $tierPrice->text();
             list($qty) = explode($price, $text);
             $qty = preg_replace('/[^0-9]+/', '', $qty);
@@ -200,8 +200,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $priceData = $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'product_prices', 'text');
         if (!preg_match('/' . preg_quote("\n") . '/', $priceData)) {
-            preg_match('/\d+[.\d]*/', $priceData, $matches);
-            return array('general_price' => floatval(trim($matches[0])));
+            return array('general_price' => floatval(trim(preg_replace('/^[^\d]+/', '', $priceData))));
         }
         $priceData = explode("\n", $priceData);
         $additionalName = array();
@@ -229,7 +228,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $prices[$name] = trim(preg_replace('/[^0-9\.]+/', '', $price));
         }
         foreach ($prices as $key => $value) {
-            $prices[$key == 'price' ? 'general_' . $key : 'prices_' . $key] = preg_replace('/\.0*$/', '', $value);
+            $prices[$key == 'price' ? 'general_' . $key : 'prices_' . $key] = floatval($value);
             unset($prices[$key]);
         }
 
@@ -420,7 +419,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $price = preg_replace('/^\D+/', '', $price);
         }
 
-        return array($title, preg_replace('/\.0*$/', '', $price));
+        return array($title, floatval($price));
     }
 
     #**************************************************************************************
