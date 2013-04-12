@@ -24,15 +24,11 @@ class Enterprise_Queue_Model_Queue_Adapter_GearmanTest extends PHPUnit_Framework
 
     protected function setUp()
     {
-        //Temporary solution. See MAGETWO-8375
-        if (!extension_loaded('gearman')) {
-            $this->markTestSkipped("'Gearman' extension is not loaded");
-        }
         $this->_helperGearmanMock = $this->getMock('Enterprise_Queue_Helper_Gearman', array(), array(), '', false);
         $this->_helperGearmanMock->expects($this->once())->method('getServers')
             ->will($this->returnValue('127.0.0.1:4730'));
 
-        $this->_clientMock = $this->getMock('GearmanClient', array(), array(), '', false);
+        $this->_clientMock = $this->getMock('GearmanClient', array('addServers', 'doBackground'), array(), '', false);
         $this->_clientMock->expects($this->once())->method('addServers')->with('127.0.0.1:4730');
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
@@ -51,6 +47,6 @@ class Enterprise_Queue_Model_Queue_Adapter_GearmanTest extends PHPUnit_Framework
         $this->_helperGearmanMock->expects($this->once())->method('encodeData')->with($data)
             ->will($this->returnValue($preparedData));
 
-        $this->assertEquals($this->_adapterGearman, $this->_adapterGearman->addTask('some_event', $data, 7));
+        $this->assertSame($this->_adapterGearman, $this->_adapterGearman->addTask('some_event', $data, 7));
     }
 }

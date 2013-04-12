@@ -12,9 +12,8 @@
 class Mage_Adminhtml_Tax_ClassControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
-     * Test tax class ajax save action
-     *
      * @dataProvider ajaxSaveActionDataProvider
+     * @magentoDbIsolation enabled
      *
      * @param array $postData
      * @param array $expectedData
@@ -37,8 +36,6 @@ class Mage_Adminhtml_Tax_ClassControllerTest extends Mage_Backend_Utility_Contro
     }
 
     /**
-     * Data provider for testAjaxSaveAction
-     *
      * @return array
      */
     public function ajaxSaveActionDataProvider()

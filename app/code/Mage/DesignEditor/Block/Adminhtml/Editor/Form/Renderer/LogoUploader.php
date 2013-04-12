@@ -39,10 +39,10 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
      */
     protected function getThemeId()
     {
-        $stagingThemeId = $this->_helperFactory->get('Mage_DesignEditor_Helper_Data')->getEditableThemeId();
+        $editableThemeId = $this->_helperFactory->get('Mage_DesignEditor_Helper_Data')->getEditableThemeId();
         /** @var $helper Mage_Core_Helper_Theme */
         $helper = $this->_helperFactory->get('Mage_Core_Helper_Theme');
-        return $helper->getVisibleThemeId($stagingThemeId);
+        return $helper->getVisibleThemeId($editableThemeId);
     }
 
     /**

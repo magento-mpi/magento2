@@ -245,7 +245,6 @@
         <var name="size-swatches-unavailable">#e5e5e5</var>
         <var name="size-swatches-hover">#675f55</var>
 
-
         <var name="tooltip-text">#675f55</var>
         <var name="tooltip-box">#ffffff</var>
         <var name="tooltip-stroke">#c2c2c2</var>
@@ -259,7 +258,6 @@
         <var name="success-icon">#ffffff</var>
         <var name="notice-box">#ffedb8</var>
         <var name="notice-icon">#ffffff</var>
-
 
         <var name="banner-text:font-picker">"marvel", Arial, sans-serif</var>
         <var name="banner-text:color-picker">#675f55</var>
@@ -281,5 +279,4 @@
         <var name="small-links">#675f55</var>
         <var name="small-links-hover">#c2c2c2</var>
     </vars>
-
 </view>

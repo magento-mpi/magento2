@@ -22,8 +22,8 @@ class Theme_Enterprise_Default_ControllerTest extends Magento_Test_TestCase_Cont
     protected function _assertContainsJqZoom($content)
     {
         $this->assertContains('http://localhost/pub/lib/jquery/jquery.js', $content);
-        $this->assertContains('/js/jqzoom/js/jquery.jqzoom-core-pack.js', $content);
-        $this->assertContains('/js/jqzoom/css/jquery.jqzoom.css', $content);
+        $this->assertContains('/pub/lib/jquery/jqzoom/js/jquery.jqzoom-core-pack.js', $content);
+        $this->assertContains('/pub/lib/jquery/jqzoom/css/jquery.jqzoom.css', $content);
     }
 
     /**
