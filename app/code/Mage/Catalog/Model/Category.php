@@ -15,6 +15,8 @@
  * @category   Mage
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @method array getAffectedProductIds()
  */
 class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 {

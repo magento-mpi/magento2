@@ -57,7 +57,7 @@
             <catalog_category_save_commit_after>
                 <observers>
                     <fulltext_reindex>
-                        <class>Mage_Catalog_Model_Observer</class>
+                        <class>Mage_Catalog_Model_Observer_Reindex</class>
                         <method>fulltextReindex</method>
                     </fulltext_reindex>
                 </observers>

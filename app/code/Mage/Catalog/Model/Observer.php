@@ -287,20 +287,4 @@ class Mage_Catalog_Model_Observer
             }
         }
     }
-
-    /**
-     * Reindex fulltext
-     *
-     * @param Varien_Event_Observer $observer
-     */
-    public function fulltextReindex(Varien_Event_Observer $observer)
-    {
-        $category = $observer->getDataObject();
-        if ($category->getAffectedProductIds()) {
-            Mage::getResourceSingleton('Mage_CatalogSearch_Model_Resource_Fulltext')->rebuildIndex(
-                null,
-                $category->getAffectedProductIds()
-            );
-        }
-    }
 }
