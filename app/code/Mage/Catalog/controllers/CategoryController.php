@@ -30,9 +30,15 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             return false;
         }
 
-        $category = Mage::getModel('Mage_Catalog_Model_Category')
+        /*$category = Mage::getModel('Mage_Catalog_Model_Category')
             ->setStoreId(Mage::app()->getStore()->getId())
-            ->load($categoryId);
+            ->load($categoryId);*/
+
+        $category = Mage::getSingleton('Mage_Core_Service_Manager')->call('Mage_Catalog_Service_Category', 'item',
+            array(
+                'entity_id' => $categoryId,
+                'store_id'  => Mage::app()->getStore()->getId()
+            ));
 
         if (!Mage::helper('Mage_Catalog_Helper_Category')->canShow($category)) {
             return false;
