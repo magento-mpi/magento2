@@ -38,7 +38,16 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             array(
                 'entity_id' => $categoryId,
                 'store_id'  => Mage::app()->getStore()->getId()
-            ));
+            )
+        );
+
+        $category = Mage::getSingleton('Mage_Core_Service_Manager')
+            ->getService('Mage_Catalog_Service_Category')
+            ->item(array(
+                'entity_id' => $categoryId,
+                'store_id'  => Mage::app()->getStore()->getId()
+            )
+        );
 
         if (!Mage::helper('Mage_Catalog_Helper_Category')->canShow($category)) {
             return false;

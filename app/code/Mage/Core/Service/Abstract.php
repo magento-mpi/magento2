@@ -9,6 +9,20 @@
  */
 abstract class Mage_Core_Service_Abstract
 {
+    /** @var Mage_Core_Service_Manager */
+    protected $_serviceManager;
+
+    /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    public function __construct(Mage_Core_Service_Manager $manager, Magento_ObjectManager $objectManager)
+    {
+        $this->_serviceManager = $manager;
+        $this->_objectManager  = $objectManager;
+    }
+
     /**
      * Returns unique service identifier.
      *

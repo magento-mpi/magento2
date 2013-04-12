@@ -14,30 +14,20 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
     const SERVICE_ID = 'catalogCategory';
 
     /**
-     * @var Magento_ObjectManager
-     */
-    protected $_objectManager;
-
-    public function __construct(
-        Magento_ObjectManager $objectManager
-    )
-    {
-        $this->_objectManager = $objectManager;
-    }
-
-    /**
      * Return resource object or resource object data.
      *
-     * @param Mage_Core_Service_Args $args
-     * @return Mage_Catalog_Model_Category | array
+     * @param mixed $context
+     * @return Mage_Catalog_Model_Category
      */
-    public function item(Mage_Core_Service_Args $args)
+    public function item($context)
     {
+        $context = $this->_serviceManager->prepareContext('Mage_Catalog_Service_Category', 'item', $context);
+
         /** @var $category Mage_Catalog_Model_Category */
         $category = Mage::getModel('Mage_Catalog_Model_Category');
 
         // `set` methods are creating troubles
-        foreach ($args->getData() as $k => $v) {
+        foreach ($context->getData() as $k => $v) {
             $category->setDataUsingMethod($k, $v);
         }
 
@@ -48,38 +38,30 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
             $category->load($id);
         }
 
-        if ($args->getAsArray()) {
-            // fake conversion to an array
-            return $category->toArray();
-        }
-
         return $category;
     }
 
     /**
      * Returns collection of resource objects.
      *
-     * @param Mage_Core_Service_Args $args
-     * @return mixed
+     * @param mixed $context
+     * @return Mage_Catalog_Model_Resource_Category_Collection
      */
-    public function items(Mage_Core_Service_Args $args)
+    public function items($context)
     {
+        $context = $this->_serviceManager->prepareContext('Mage_Catalog_Service_Category', 'items', $context);
+
         /** @var $collection Mage_Catalog_Model_Resource_Category_Collection */
         $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection');
 
-        $categoryIds = $args->getCategoryIds();
+        $categoryIds = $context->getCategoryIds();
         $collection->addIdFilter($categoryIds);
 
-        $filters = $args->getFilters();
+        $filters = $context->getFilters();
         $collection->addAttributeToFilter($filters);
 
         // TODO or not TODO
         //$collection->load();
-
-        if (!$args->getAsObject()) {
-            // fake conversion to an array
-            return $collection->toArray();
-        }
 
         return $collection;
     }
