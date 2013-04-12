@@ -32,6 +32,13 @@ class Core_Mage_SystemConfiguration_CheckoutTabTest extends Mage_Selenium_TestCa
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
+        $this->navigate('manage_stores');
+        //Data
+        $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view');
+        //Steps
+        $this->storeHelper()->createStore($storeViewData, 'store_view');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_store_view');
         $this->admin('system_configuration');
     }
 
@@ -45,9 +52,7 @@ class Core_Mage_SystemConfiguration_CheckoutTabTest extends Mage_Selenium_TestCa
      */
     public function verificationCheckoutTab($diffScope)
     {
-        if ($this->controlIsVisible('dropdown', 'current_configuration_scope')){
-            $this->selectStoreScope('dropdown', 'current_configuration_scope', $diffScope);
-        }
+        $this->selectStoreScope('dropdown', 'current_configuration_scope', $diffScope);
         $this->assertTrue($this->controlIsPresent('tab', 'sales_checkout'),
             "'Checkout' tab is not present on the page if Scope is $diffScope");
     }
