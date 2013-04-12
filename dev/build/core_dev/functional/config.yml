@@ -116,7 +116,7 @@ applications:
             paypal_developer: *paypalDeveloper
     saas: &saas
         fallbackOrderFixture: 'enterprise, default'
-        fallbackOrderHelper: 'Enterprise, Core'
+        fallbackOrderHelper: 'Saas, Enterprise, Core'
         design_theme: Enterprise/Magento Fixed Design
         ftp: *ftp
         areas:

@@ -14,6 +14,21 @@
 
 class Core_Mage_SystemConfiguration_CheckoutTabTest extends Mage_Selenium_TestCase
 {
+
+    /**
+     * <p>Disable Single Store mode</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->admin('system_configuration');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
+    }
+
+    /**
+     * <p>Login to Backend</p>
+     * <p>Navigate to System Configuration</p>
+     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
