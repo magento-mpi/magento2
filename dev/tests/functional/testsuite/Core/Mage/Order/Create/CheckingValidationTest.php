@@ -269,7 +269,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
             $this->addParameter('fieldId', $fieldName);
             $this->assertMessagePresent('validation', 'empty_required_field');
         }
-        $this->assertMessagePresent('validation', 'empty_required_field_cc_number');
+        $this->assertMessagePresent('validation', 'invalid_cvv');
         $this->assertTrue($this->verifyMessagesCount(5), $this->getParsedMessages());
     }
 
@@ -338,7 +338,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         //Verifying
         $xpath = $this->_getControlXpath('dropdown', 'card_type');
         $this->addParameter('fieldXpath', $xpath);
-        $this->assertMessagePresent('validation', 'empty_required_field_cc_number');
+        $this->assertMessagePresent('validation', 'invalid_cvv');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 

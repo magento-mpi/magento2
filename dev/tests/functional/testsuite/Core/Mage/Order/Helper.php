@@ -179,7 +179,10 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
             if ($addressType == 'shipping') {
                 $this->fillCheckbox('shipping_same_as_billing_address', 'No');
             }
-            $this->fillForm($addressData);
+            if (isset($addressData['address_choice'])) {
+                unset($addressData['address_choice']);
+            }
+            $this->fillFieldset($addressData, 'order_' . $addressType . '_address');
         }
         if ($addressChoice == 'exist') {
             if ($addressType == 'shipping') {

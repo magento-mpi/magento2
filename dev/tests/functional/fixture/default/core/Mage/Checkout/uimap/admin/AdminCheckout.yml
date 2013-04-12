@@ -84,7 +84,6 @@ manage_sales_orders:
             no_shipping: //strong[text()='Sorry, no quotes are available for this order at this time.']
             no_payment: //label[text()='No Payment Information Required']
             empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
-            empty_required_field_cc_number: //*[@class='mage-error' and @for='ccsave_cc_number' and contains(.,'Please enter a valid credit card number.')]
             shipping_must_be_specified: //li[normalize-space(@class)='error-msg' and contains(.,'Shipping method must be specified.')]
             error_specify_order_items: //li[normalize-space(@class)='error-msg' and contains(.,'You need to specify order items.')]
             empty_payment_method: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not available.')]
@@ -189,7 +188,7 @@ create_order_for_new_customer:
                             product_qty: //tr[contains(.,'%sku%')]//input[@class='input-text item-qty']
                             custom_price: //tr[contains(.,'%sku%')]//div[label='Custom Price*']/../input
                         links:
-                            gift_options: //a[text()='Gift Options']
+                            gift_options: //tbody[contains(., '%sku%')]//a[text()='Gift Options']
                 -
                     order_apply_coupon_code: &orderApplyCouponCode
                         xpath: //div[div/h4[contains(text(),'Apply Coupon Cod')]]
