@@ -62,7 +62,8 @@
                     data: postData,
                     dataType: 'json',
                     url: elem.attr('data-save-url'),
-                    success: $.proxy(this._drawerAfterSave, this)
+                    success: $.proxy(this._drawerAfterSave, this),
+                    error: this._ajaxFailure
                 };
                 $.ajax(ajaxOptions);
 
@@ -220,13 +221,8 @@
         },
 
         _setButtonHandler: function() {
-            try {
-                var hashString = $(this).closest('.tile-store-settings').attr('id');
-                window.location.hash = hashString.replace('tile-', '');
-            } catch(err) {
-                return false;
-            }
-            return true;
+            var hashString = $(this).closest('.tile-store-settings').attr('id');
+            window.location.hash = hashString.replace('tile-', '');
         },
 
         _handleHash: function() {
@@ -234,29 +230,31 @@
                 this.drawerClose();
                 return;
             }
-            try {
-                var hashString = window.location.hash.replace('#', ''),
-                    elem = $('#tile-' + hashString).find(this.options.btnOpenDrawer),
-                    tileCode = elem.attr('data-drawer').replace('open-drawer-', ''),
-                    postData = {
-                        tileCode: tileCode
-                    },
-                    ajaxOptions = {
-                        type: 'POST',
-                        showLoader: true,
-                        data: postData,
-                        dataType: 'json',
-                        url: elem.attr('data-load-url'),
-                        success: $.proxy(this._drawerAfterLoad, this)
-                    };
+            var hashString = window.location.hash.replace('#', ''),
+                elem = $('#tile-' + hashString).find(this.options.btnOpenDrawer),
+                tileCode = elem.attr('data-drawer').replace('open-drawer-', ''),
+                postData = {
+                    tileCode: tileCode
+                },
+                ajaxOptions = {
+                    type: 'POST',
+                    showLoader: true,
+                    data: postData,
+                    dataType: 'json',
+                    url: elem.attr('data-load-url'),
+                    success: $.proxy(this._drawerAfterLoad, this),
+                    error: this._ajaxFailure
+                };
 
-                $.ajax(ajaxOptions);
+            $.ajax(ajaxOptions);
 
-                this.btnSaveDrawer
-                    .attr('tile-code', tileCode)
-                    .attr('data-save-url', elem.attr('data-save-url'));
-            } catch(err) {
-            }
+            this.btnSaveDrawer
+                .attr('tile-code', tileCode)
+                .attr('data-save-url', elem.attr('data-save-url'));
+        },
+
+        _ajaxFailure: function() {
+            window.location.reload();
         }
     });
 
@@ -311,7 +309,10 @@
                                 insertValidationMessage(result.error_message,'error');
                             }
                         }
-                    }, this)
+                    }, this),
+                    error: function() {
+                        window.location.reload();
+                    }
                 };
                 $.ajax(ajaxOptions);
             }, this));
