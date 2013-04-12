@@ -210,7 +210,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->_setActiveMenu('Mage_Catalog::catalog_products');
         }
 
-        $this->getLayout()->getBlock('head')->setCanLoadExtJs(false);
+        $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $block = $this->getLayout()->getBlock('catalog.wysiwyg.js');
         if ($block) {
@@ -267,7 +267,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 );
         }
 
-        $this->getLayout()->getBlock('head')->setCanLoadExtJs(false);
+        $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $block = $this->getLayout()->getBlock('catalog.wysiwyg.js');
         if ($block) {
