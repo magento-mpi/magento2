@@ -71,8 +71,20 @@ for ($i = 0; $i < $maxInstances; ++$i) {
     );
 }
 
+$paths = array();
+$pathToTests = $argv[1];
+if (strlen($pathToTests) > 4096) { // interpreting as comma-separated list of files
+    if (!preg_match('/^[^*?{}]+$/', $pathToTests)) {
+        echo 'Path to tests is too long for glob and does not look like a comma-separated list of files.', PHP_EOL;
+        exit(1);
+    }
+    $paths = explode(',', $pathToTests);
+} else {
+    $paths = glob($pathToTests, GLOB_BRACE | GLOB_ERR) ?: array();
+}
+
 $testCases = array();
-foreach (glob($argv[1], GLOB_BRACE | GLOB_ERR) ?: array() as $globItem) {
+foreach ($paths as $globItem) {
     if (is_dir($globItem)) {
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($globItem)) as $fileInfo) {
             $pathToTestCase = (string)$fileInfo;
@@ -80,21 +92,22 @@ foreach (glob($argv[1], GLOB_BRACE | GLOB_ERR) ?: array() as $globItem) {
                 && (!isset($cliOptions['include-only']) || preg_match($cliOptions['include-only'], $pathToTestCase))
                 && (!isset($cliOptions['exclude']) || !preg_match($cliOptions['exclude'], $pathToTestCase))
             ) {
-                $testCases[] = $pathToTestCase;
+                $testCases[$pathToTestCase] = true;
             }
         }
     } elseif (preg_match('/Test\.php$/', $globItem)
         && (!isset($cliOptions['include-only']) || preg_match($cliOptions['include-only'], $globItem))
         && (!isset($cliOptions['exclude']) || !preg_match($cliOptions['exclude'], $globItem))
     ) {
-        $testCases[] = $globItem;
+        $testCases[$globItem] = true;
     }
 }
 
 if (empty($testCases)) {
-    echo "No tests cases found in the path {$argv[1]}.", PHP_EOL;
+    echo "No tests cases found in the path {$pathToTests}.", PHP_EOL;
     exit(1);
 }
+$testCases = array_keys($testCases); // automatically avoid file duplications
 
 $outputDir = str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/var/split-by-test/');
 if (!file_exists($outputDir)) {
