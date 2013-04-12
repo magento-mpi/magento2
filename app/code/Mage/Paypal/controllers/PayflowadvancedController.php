@@ -93,6 +93,8 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
     public function formAction()
     {
         $this->loadLayout(false)->renderLayout();
+        $html = $this->getLayout()->getBlock('payflow.advanced.iframe')->toHtml();
+        $this->getResponse()->setBody($html);
     }
 
     /**

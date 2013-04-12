@@ -91,8 +91,6 @@ class Enterprise_Search_Model_Resource_Engine
      */
     protected function _initAdapter()
     {
-        $this->_adapter = $this->_getAdapterModel('solr');
-
         $this->_adapter->setAdvancedIndexFieldPrefix($this->getFieldsPrefix());
         if (!$this->_canAllowCommit()) {
             $this->_adapter->holdCommit();
@@ -104,19 +102,20 @@ class Enterprise_Search_Model_Resource_Engine
     /**
      * Set search engine adapter
      */
-    public function __construct()
+    public function __construct(Enterprise_Search_Model_AdapterInterface $adapter)
     {
+        $this->_adapter = $adapter;
         $this->_initAdapter();
     }
 
     /**
-     * Set search resource model
+     * Retrieve search resource model
      *
      * @return string
      */
     public function getResourceName()
     {
-        return 'enterprise_search/advanced';
+        return 'Enterprise_Search_Model_Resource_Advanced';
     }
 
     /**
@@ -304,31 +303,6 @@ class Enterprise_Search_Model_Resource_Engine
     public function isLayeredNavigationAllowed()
     {
         return true;
-    }
-
-    /**
-     * Retrieve search engine adapter model by adapter name
-     * Now supporting only Solr search engine adapter
-     *
-     * @param string $adapterName
-     * @return object
-     */
-    protected function _getAdapterModel($adapterName)
-    {
-        switch ($adapterName) {
-            case 'solr':
-            default:
-                if (extension_loaded('solr')) {
-                    $modelName = 'Enterprise_Search_Model_Adapter_PhpExtension';
-                } else {
-                    $modelName = 'Enterprise_Search_Model_Adapter_HttpStream';
-                }
-                break;
-        }
-
-        $adapter = Mage::getSingleton($modelName);
-
-        return $adapter;
     }
 
     /**

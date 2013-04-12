@@ -199,6 +199,7 @@
                         case keyCode.DOWN:
                         case keyCode.LEFT:
                         case keyCode.RIGHT:
+                        case keyCode.TAB:
                             break;
                         case keyCode.ENTER:
                         case keyCode.NUMPAD_ENTER:
@@ -211,8 +212,13 @@
                     }
                 },
                 blur: function(event) {
-                    this.close(event);
-                    this._change(event);
+                    if (!this.preventBlur) {
+                        this._abortSearch();
+                        this.close(event);
+                        this._change(event);
+                    } else {
+                        this.element.trigger('focus');
+                    }
                 },
                 cut: this.search,
                 paste: this.search,
@@ -262,13 +268,22 @@
                     }
                 }, this));
             }, this));
-            this._on(this.dropdown, events);
+
+            // Fix for IE 8
+            this._on(this.dropdown, $.extend(events, {
+                mousedown: function() {
+                    this.preventBlur = true;
+                },
+                mouseup: function() {
+                    this.preventBlur = false;
+                }
+            }));
         },
 
         /**
          * @override
          */
-        _trigger: function(type, event, data) {
+        _trigger: function(type, event) {
             var result = this._superApply(arguments);
             if(result === false && event) {
                 event.stopImmediatePropagation();
@@ -318,6 +333,7 @@
             }
             this._selectItem(e);
             this._trigger('select', e || null, {item: this._focused});
+            this._blurItem();
         },
 
         /**
@@ -398,7 +414,7 @@
          */
         search: function(e) {
             var term = this._value();
-            if (this._term !== term) {
+            if (this._term !== term && !this.preventBlur) {
                 this._term = term;
                 if (term && term.length >= this.options.minLength) {
                     if (this._trigger("search", e) === false) {
@@ -632,7 +648,11 @@
             });
             if (this.options.showRecent || this.options.showAll) {
                 this._on({
-                    focus: this.search,
+                    focus: function(e) {
+                        if (!this.isDropdownShown()) {
+                            this.search(e);
+                        }
+                    },
                     showAll: this._showAll
                 });
             }
@@ -786,7 +806,7 @@
          * @return {Array}
          * @private
          */
-        _filterSelected: function(items, context) {
+        _filterSelected: function(items) {
             var options = this._getOptions();
             return $.grep(items, function(value) {
                 var itemSelected = false;
@@ -856,6 +876,7 @@
                         }
                     }
                 }
+                this.close(e);
             } else {
                 this._superApply(arguments);
             }

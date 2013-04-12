@@ -137,7 +137,7 @@ class Mage_Core_Model_Dir
      * @var array
      */
     private static $_writableDirCodes = array(
-        self::MEDIA, self::STATIC_VIEW, self::VAR_DIR, self::TMP, self::CACHE, self::LOG, self::SESSION
+        self::MEDIA, /*self::STATIC_VIEW,*/ self::VAR_DIR, self::TMP, self::CACHE, self::LOG, self::SESSION
     );
 
     /**

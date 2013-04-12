@@ -239,7 +239,7 @@ class Enterprise_Mage_ImportExportScheduled_Helper extends Mage_Selenium_Abstrac
     public function openImportExport(array $searchData)
     {
         $this->addParameter('type', $searchData['operation']);
-        $this->searchAndOpen($searchData, true, 'grid_and_filter');
+        $this->searchAndOpen($searchData, 'grid_and_filter', true);
     }
 
     /**

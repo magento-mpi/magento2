@@ -33,3 +33,11 @@ general_default_emails:
                 custom1_sender_email: custom1@example.com
             custom_email_2:
                 custom2_sender_email: custom2@example.com
+
+general_locale_default:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: general_general
+        configuration:
+            locale_options:
+                locale: English (United States)

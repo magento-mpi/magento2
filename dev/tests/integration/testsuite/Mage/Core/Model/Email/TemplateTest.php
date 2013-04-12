@@ -106,7 +106,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         $theme = Mage::getModel('Mage_Core_Model_Theme');
         $theme->load('default/demo_blue', 'theme_path');
         Mage::app()->getStore('fixturestore')
-            ->setConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID, $theme->getId());
+            ->setConfig(Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID, $theme->getId());
     }
 
     /**

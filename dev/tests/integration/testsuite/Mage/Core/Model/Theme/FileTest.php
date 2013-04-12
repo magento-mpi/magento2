@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Theme_FileTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Theme_FilesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Core_Model_Theme_File

@@ -25,12 +25,12 @@ class Mage_Customer_Service_Customer
     protected $_translateHelper = null;
 
     /**
-     * @var Mage_Customer_Model_Customer_Factory
+     * @var Mage_Customer_Model_CustomerFactory
      */
     protected $_customerFactory = null;
 
     /**
-     * @var Mage_Customer_Model_Address_Factory
+     * @var Mage_Customer_Model_AddressFactory
      */
     protected $_addressFactory = null;
 
@@ -49,14 +49,14 @@ class Mage_Customer_Service_Customer
      * Constructor
      *
      * @param Mage_Customer_Helper_Data $helper
-     * @param Mage_Customer_Model_Customer_Factory $customerFactory
-     * @param Mage_Customer_Model_Address_Factory $addressFactory
+     * @param Mage_Customer_Model_CustomerFactory $customerFactory
+     * @param Mage_Customer_Model_AddressFactory $addressFactory
      * @param bool $isAdminStore
      */
     public function __construct(
         Mage_Customer_Helper_Data $helper,
-        Mage_Customer_Model_Customer_Factory $customerFactory,
-        Mage_Customer_Model_Address_Factory $addressFactory,
+        Mage_Customer_Model_CustomerFactory $customerFactory,
+        Mage_Customer_Model_AddressFactory $addressFactory,
         $isAdminStore = true
     ) {
         $this->_translateHelper = $helper;

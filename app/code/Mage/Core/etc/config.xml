@@ -90,11 +90,19 @@
                     </theme_registration_observer>
                 </observers>
             </theme_registration_from_filesystem>
+            <application_process_reinit_config>
+                <observers>
+                    <reinit_config_observer>
+                        <class>Mage_Core_Model_Observer</class>
+                        <method>processReinitConfig</method>
+                    </reinit_config_observer>
+                </observers>
+            </application_process_reinit_config>
         </events>
         <di>
             <preferences>
                 <Mage_Core_Model_Session_Abstract>Mage_Core_Model_Session</Mage_Core_Model_Session_Abstract>
-                <Mage_Core_Model_LocaleInterface>Mage_Core_Model_Locale</Mage_Core_Model_LocaleInterface>
+                <Mage_Core_Model_Event_InvokerInterface>Mage_Core_Model_Event_InvokerDefault</Mage_Core_Model_Event_InvokerInterface>
             </preferences>
             <Magento_Data_Structure>
                 <shared>0</shared>
@@ -110,6 +118,11 @@
             <Mage_Core_Model_Page_Asset_Collection>
                 <shared>0</shared>
             </Mage_Core_Model_Page_Asset_Collection>
+            <Mage_Core_Model_Observer>
+                <parameters>
+                    <config>Mage_Core_Model_Config</config>
+                </parameters>
+            </Mage_Core_Model_Observer>
         </di>
     </global>
     <frontend>
@@ -180,22 +193,6 @@
                     </variable_observer>
                 </observers>
             </cms_wysiwyg_config_prepare>
-            <controller_action_predispatch_adminhtml>
-                <observers>
-                    <synchronize_notification>
-                        <class>Mage_Core_Model_Observer</class>
-                        <method>addSynchronizeNotification</method>
-                    </synchronize_notification>
-                </observers>
-            </controller_action_predispatch_adminhtml>
-            <show_synchronize_message>
-                <observers>
-                    <synchronize_notification>
-                        <class>Mage_Core_Model_Observer</class>
-                        <method>addSynchronizeNotification</method>
-                    </synchronize_notification>
-                </observers>
-            </show_synchronize_message>
         </events>
         <design>
             <theme>

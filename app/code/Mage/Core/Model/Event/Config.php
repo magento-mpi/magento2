@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Mage_Core_Model_Event_Config
 {
     /**
@@ -67,11 +66,13 @@ class Mage_Core_Model_Event_Config
                 continue;
             }
 
+            /** @var $obsConfig Mage_Core_Model_Config_Element */
             foreach ($eventObservers as $obsName => $obsConfig) {
                 $observers[$obsName] = array(
-                    'type'  => (string)$obsConfig->type,
-                    'model' => $obsConfig->class ? (string) $obsConfig->class : $obsConfig->getClassName(),
-                    'method'=> (string)$obsConfig->method,
+                    'type'   => (string)$obsConfig->type,
+                    'model'  => $obsConfig->class ? (string)$obsConfig->class : $obsConfig->getClassName(),
+                    'method' => (string)$obsConfig->method,
+                    'config' => $obsConfig->asArray(),
                 );
             }
             $eventManager->addObservers($area, $eventName, $observers);

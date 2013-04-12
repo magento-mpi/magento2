@@ -22,7 +22,7 @@ class Enterprise_PageCache_Model_DesignPackage_Rules
     /**
      * Design package model
      *
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     protected $_designPackage;
 

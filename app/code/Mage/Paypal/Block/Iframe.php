@@ -79,8 +79,7 @@ class Mage_Paypal_Block_Iframe extends Mage_Payment_Block_Form
     protected function _getBlock()
     {
         if (!$this->_block) {
-            $this->_block = $this->getAction()
-                ->getLayout()
+            $this->_block = $this->getLayout()
                 ->createBlock('Mage_Paypal_Block_'
                     . str_replace(' ', '_', ucwords(str_replace('_', ' ', $this->_paymentMethodCode)))
                     . '_Iframe');
@@ -145,7 +144,7 @@ class Mage_Paypal_Block_Iframe extends Mage_Payment_Block_Form
     protected function _toHtml()
     {
         if ($this->_isAfterPaymentSave()) {
-
+            $this->setTemplate('hss/js.phtml');
             return parent::_toHtml();
         }
         if (!$this->_shouldRender) {

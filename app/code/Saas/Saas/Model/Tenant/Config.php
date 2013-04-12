@@ -98,7 +98,7 @@ class Saas_Saas_Model_Tenant_Config
         return array(
             Mage::PARAM_APP_DIRS => array(
                 Mage_Core_Model_Dir::MEDIA => "{$this->_rootDir}/{$this->_mediaDir}",
-                Mage_Core_Model_Dir::STATIC_VIEW => "{$this->_rootDir}/{$this->_staticDir}",
+                Mage_Core_Model_Dir::STATIC_VIEW => "{$this->_rootDir}/skin",
                 Mage_Core_Model_Dir::VAR_DIR => "{$this->_rootDir}/var/{$varDirWorkaround}",
             ),
             Mage::PARAM_APP_URIS => array(

@@ -32,7 +32,7 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
      */
     public function testChangeDesign()
     {
-        $designPackage = Mage::getModel('Mage_Core_Model_Design_Package');
+        $designPackage = Mage::getModel('Mage_Core_Model_Design_PackageInterface');
         $storeId = Mage::app()->getAnyStoreView()->getId(); // fixture design_change
         $design = Mage::getModel('Mage_Core_Model_Design');
         $design->loadChange($storeId)->changeDesign($designPackage);
@@ -147,9 +147,16 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
 
         $store = Mage::app()->getStore($storeCode);
         $store->setConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeTimezone);
+        $storeId = $store->getId();
 
-        $design = Mage::getModel('Mage_Core_Model_Design');
-        $design->loadChange($store->getId());
+        /** @var $locale Mage_Core_Model_LocaleInterface|PHPUnit_Framework_MockObject_MockObject */
+        $locale = $this->getMock('Mage_Core_Model_LocaleInterface');
+        $locale->expects($this->once())
+            ->method('storeTimeStamp')
+            ->with($storeId)
+            ->will($this->returnValue($storeDatetime)); // store time must stay unchanged during test execution
+        $design = Mage::getModel('Mage_Core_Model_Design', array('locale' => $locale));
+        $design->loadChange($storeId);
         $actualDesign = $design->getDesign();
 
         $this->assertEquals($expectedDesign, $actualDesign);

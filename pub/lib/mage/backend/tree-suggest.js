@@ -48,7 +48,7 @@
                         var o = this.data.ui.hovered || this.data.ui.last_selected || -1;
                         this.select_node(o, true);
                     }
-            }, this));
+                }, this));
             init.call(this);
         },
 
@@ -137,9 +137,18 @@
                     }
                 }
             });
-            this._on({
-                focus: this.search
-            });
+        },
+
+        /**
+         * @override
+         */
+        close: function(e) {
+            var eType = e ? e.type : null;
+            if (eType === 'select_tree_node') {
+                this.element.focus();
+            } else {
+                this._superApply(arguments);
+            }
         },
 
         /**

@@ -4296,9 +4296,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function clearActiveFocus()
     {
-        if ($this->getBrowser() == 'firefox') {
-            $this->execute(array('script' => 'document.activeElement.blur()', 'args' => array()));
-        }
+        $this->execute(array('script' => 'document.activeElement.blur()', 'args' => array()));
     }
 
     /**

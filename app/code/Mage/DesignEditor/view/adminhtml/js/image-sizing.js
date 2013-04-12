@@ -128,6 +128,7 @@
             value = isNaN(value) ? '' : value;
             value = value > this.options.maxSizeValue ? this.options.maxSizeValue : value;
             $(event.currentTarget).val(value);
+            $(event.currentTarget).trigger('change');
         },
 
         /**

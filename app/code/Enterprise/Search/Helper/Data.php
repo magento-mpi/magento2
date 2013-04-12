@@ -17,6 +17,7 @@
  */
 
 class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
+    implements Enterprise_Search_Helper_ClientInterface
 {
     /**
      * Define if search engine is used for layered navigation
@@ -383,6 +384,25 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
 
+    /**
+     * Return search client options
+     *
+     * @param $options
+     * @return mixed
+     */
+    public function prepareClientOptions($options = array())
+    {
+        $def_options = array(
+            'hostname' => $this->getSolrConfigData('server_hostname'),
+            'login'    => $this->getSolrConfigData('server_username'),
+            'password' => $this->getSolrConfigData('server_password'),
+            'port'     => $this->getSolrConfigData('server_port'),
+            'timeout'  => $this->getSolrConfigData('server_timeout'),
+            'path'     => $this->getSolrConfigData('server_path')
+        );
+        $options = array_merge($def_options, $options);
+        return $options;
+    }
 
 
 

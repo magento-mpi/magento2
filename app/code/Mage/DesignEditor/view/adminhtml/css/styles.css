@@ -668,6 +668,7 @@
     left: 0;
     right: 0;
     bottom: 0;
+    height: 100%;
     background: url(Mage_DesignEditor::images/vde-tools-panel-draggable-handler-bg.png) no-repeat 0 50%;
     z-index: 1 !important;
 }
@@ -1335,6 +1336,22 @@
     margin: 0 auto;
 }
 
+#vde_toolbar_row .vde_toolbar_row_inner .logo {
+    margin-top: 2px;
+    width: 160px;
+}
+
+#vde_toolbar_row .vde_toolbar_row_inner .logo span:before {
+    content: 'Store Designer';
+    font-family: 'CallunaSans';
+    font-size: 18px;
+    font-weight: 700;
+    white-space: nowrap;
+    top: auto;
+    line-height: 25px;
+    letter-spacing: -0.1em;
+}
+
 #vde_toolbar_row .vde_toolbar_cell {
     float: left;
     margin-left: -11pt;
@@ -1802,8 +1819,13 @@
     margin: 6px -11px 0 9px;
 }
 
+.vde-image-sizing .choice {
+    overflow:hidden;
+}
+
 .vde-image-sizing .choice > input {
-    display: none;
+    position:absolute;
+    left:-9999px;
 }
 
 .vde-image-sizing .choice > input:checked + .addafter > .action-connect:before {

@@ -1,3 +1,2 @@
 app/code/Enterprise/Cms/view/adminhtml/cms.js
 app/code/Enterprise/Rma/view/adminhtml/rma.js
-app/design/frontend/enterprise/fixed/js/jqzoom/js/jquery.jqzoom-core-pack.js

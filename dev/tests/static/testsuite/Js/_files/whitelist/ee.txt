@@ -3,6 +3,7 @@ app/code/Enterprise/Customer
 app/code/Enterprise/GiftCard
 app/code/Enterprise/GiftCardAccount
 app/code/Enterprise/GiftRegistry
+app/code/Enterprise/Pbridge
 app/code/Enterprise/Rma
 app/code/Enterprise/Wishlist
 app/code/Enterprise/CustomerBalance

@@ -134,8 +134,14 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
     public function testIndexActionWithAllowedSection()
     {
         $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
-        $this->_configMock->expects($this->once())->method('reinit');
         $this->_sessionMock->expects($this->once())->method('addSuccess')->with('The configuration has been saved.');
+
+        $this->_eventManagerMock->expects($this->exactly(3))->method('dispatch');
+        $this->_eventManagerMock->expects($this->at(0))->method('dispatch')->with('application_process_reinit_config');
+        $this->_eventManagerMock->expects($this->at(1))->method('dispatch')
+            ->with('admin_system_config_section_save_after');
+        $this->_eventManagerMock->expects($this->at(2))->method('dispatch')
+            ->with('admin_system_config_changed_section_test_section');
 
         $groups = array('some_key' => 'some_value');
         $requestParamMap = array(

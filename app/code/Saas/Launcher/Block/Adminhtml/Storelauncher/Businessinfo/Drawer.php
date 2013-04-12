@@ -14,6 +14,8 @@
  * @category   Mage
  * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Saas_Launcher_Block_Adminhtml_Drawer
 {
@@ -225,17 +227,21 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
             'value' => $addressData['city']
         ));
 
-        $countryId = isset($addressData['country_id']) ? $addressData['country_id'] : 'US';
-        $regionCollection = $this->_regionModel->getCollection()->addCountryFilter($countryId);
-        $regions = $regionCollection->toOptionArray();
-        if (!empty($regions)) {
-            $businessAddress->addField('region_id', 'select', array(
-                'name' => 'region_id',
-                'label' => $helper->__('State/Region'),
-                'values' => $regions,
-                'value' => $addressData['region_id'],
-            ));
-        } else {
+        $isRegionFieldText = true;
+        if ($addressData['country_id']) {
+            $regionCollection = $this->_regionModel->getCollection()->addCountryFilter($addressData['country_id']);
+            $regions = $regionCollection->toOptionArray();
+            if (!empty($regions)) {
+                $businessAddress->addField('region_id', 'select', array(
+                    'name' => 'region_id',
+                    'label' => $helper->__('State/Region'),
+                    'values' => $regions,
+                    'value' => $addressData['region_id'],
+                ));
+                $isRegionFieldText = false;
+            }
+        }
+        if ($isRegionFieldText) {
             $businessAddress->addField('region_id', 'text', array(
                 'name' => 'region_id',
                 'label' => $helper->__('State/Region'),
@@ -297,46 +303,6 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
         $form->setUseContainer(true);
         $this->setForm($form);
         return parent::_prepareForm();
-    }
-
-    /**
-     * Processing block html after rendering.
-     * Add filling emails logic
-     *
-     * @param   string $html
-     * @return  string
-     */
-    protected function _afterToHtml($html)
-    {
-        $html = parent::_afterToHtml($html);
-
-        $html .= '<script type="text/javascript">
-            (function($) {
-                var allEmailAddresses = $("input[id^=sender_email]"),
-                    storeEmail = $("#store_email"),
-                    sameEmailAddresses = $.grep(allEmailAddresses, function(elem, index) {
-                        return elem.value == storeEmail.val();
-                    });
-
-                var emailUpdateHandler = function() {
-                    var elementId = this.id;
-                    sameEmailAddresses = $.grep(sameEmailAddresses, function(elem, index) {
-                        return !(elem.id == elementId);
-                    });
-                };
-
-                var storeEmailHandler = function() {
-                    var element = this;
-                    $.each(sameEmailAddresses, function() {
-                        this.value = element.value;
-                    });
-                };
-
-                allEmailAddresses.on("keyup change", emailUpdateHandler);
-                storeEmail.on("keyup blur change", storeEmailHandler);
-            })(jQuery);
-            </script>';
-        return $html;
     }
 
     /**

@@ -17,6 +17,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model_Adapter_Solr_Abstract
+    implements Enterprise_Search_Model_AdapterInterface
 {
     /**
      * Object name used to create solr document object
@@ -24,48 +25,6 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
      * @var string
      */
     protected $_clientDocObjectName = 'Apache_Solr_Document';
-
-    /**
-     * Initialize connect to Solr Client
-     *
-     * @param array $options
-     */
-    public function __construct($options = array())
-    {
-        try {
-            $this->_connect($options);
-        } catch (Exception $e){
-            Mage::logException($e);
-        }
-    }
-
-    /**
-     * Connect to Solr Client by specified options that will be merged with default
-     *
-     * @param array $options
-     * @return Apache_Solr_Service
-     */
-    protected function _connect($options = array())
-    {
-        $helper = Mage::helper('Enterprise_Search_Helper_Data');
-        $def_options = array(
-            'hostname' => $helper->getSolrConfigData('server_hostname'),
-            'login'    => $helper->getSolrConfigData('server_username'),
-            'password' => $helper->getSolrConfigData('server_password'),
-            'port'     => $helper->getSolrConfigData('server_port'),
-            'timeout'  => $helper->getSolrConfigData('server_timeout'),
-            'path'     => $helper->getSolrConfigData('server_path')
-        );
-        $options = array_merge($def_options, $options);
-
-        try {
-            $this->_client = Mage::getModel('Enterprise_Search_Model_Client_Solr', array('options' => $options));
-        } catch (Exception $e) {
-            Mage::logException($e);
-        }
-
-        return $this->_client;
-    }
 
     /**
      * Simple Search interface
@@ -255,7 +214,30 @@ class Enterprise_Search_Model_Adapter_HttpStream extends Enterprise_Search_Model
 
             return $result;
         } catch (Exception $e) {
-            Mage::logException($e);
+            $this->_log->logException($e);
         }
+    }
+
+    /**
+     * Checks if Solr server is still up
+     *
+     * @return bool
+     */
+    public function ping()
+    {
+        return parent::ping();
+    }
+
+    /**
+     * Retrieve attribute solr field name
+     *
+     * @param   Mage_Catalog_Model_Resource_Eav_Attribute|string $attribute
+     * @param   string $target - default|sort|nav
+     *
+     * @return  string|bool
+     */
+    public function getSearchEngineFieldName($attribute, $target = 'default')
+    {
+        return parent::getSearchEngineFieldName($attribute, $target);
     }
 }

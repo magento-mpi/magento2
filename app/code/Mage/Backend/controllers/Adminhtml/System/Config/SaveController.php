@@ -120,7 +120,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
             $configModel->save();
 
             // re-init configuration
-            $this->_configModel->reinit();
+            $this->_eventManager->dispatch('application_process_reinit_config');
 
             $this->_eventManager->dispatch('admin_system_config_section_save_after', array(
                 'website' => $website, 'store' => $store, 'section' => $section

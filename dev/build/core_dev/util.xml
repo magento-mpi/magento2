@@ -26,6 +26,7 @@
             <arg line="-f ${basedir}/dev/build/publication/edition.php --
                 --dir=${product_root_dir}
                 --edition=${product_edition_code}
+                --additional=dev_build_${product_edition_code}.txt
                 --build
                 "/>
         </exec>

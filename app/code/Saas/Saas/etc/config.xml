@@ -28,12 +28,18 @@
         <di>
             <preferences>
                 <Saas_Saas_Model_Limitation_SpecificationInterface>Saas_Saas_Model_Limitation_Specification_Composite</Saas_Saas_Model_Limitation_SpecificationInterface>
+                <Mage_Core_Model_Cache>Saas_Saas_Model_Cache</Mage_Core_Model_Cache>
             </preferences>
             <Saas_Saas_Model_Limitation_Specification_Composite>
                 <parameters>
                     <specificationFactory>Saas_Saas_Model_Limitation_Specification_Factory</specificationFactory>
                 </parameters>
             </Saas_Saas_Model_Limitation_Specification_Composite>
+            <Saas_Saas_Model_Cache>
+                <parameters>
+                    <config>Mage_Core_Model_Config_Proxy</config>
+                </parameters>
+            </Saas_Saas_Model_Cache>
         </di>
     </global>
     <adminhtml>
