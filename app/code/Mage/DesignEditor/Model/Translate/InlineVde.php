@@ -58,6 +58,13 @@ class Mage_DesignEditor_Model_Translate_InlineVde implements Mage_Core_Model_Tra
     protected $_url;
 
     /**
+     * Flag about inserted styles and scripts for inline translates
+     *
+     * @var bool
+     */
+    protected $_isScriptInserted = false;
+
+    /**
      * Initialize inline translation model specific for vde
      *
      * @param Mage_Core_Model_Translate_InlineParser $parser

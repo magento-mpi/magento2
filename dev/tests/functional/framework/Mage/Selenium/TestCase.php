@@ -1862,10 +1862,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 break;
         }
 
-        if (is_null($elementValue)) {
-            $this->fail("$controlType with name '$controlName' and locator '$locator'"
-                . " is not contains attribute '$attribute'");
-        }
         if (is_array($elementValue)) {
             $elementValue = array_map('trim', $elementValue);
         } elseif (!is_bool($elementValue)) {
@@ -4384,6 +4380,27 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 }
             },
             $timeout * 1000
+        );
+    }
+
+    /**
+    * Wait till window will close
+    *
+    * @param int $timeout
+    * @return bool
+    */
+    public function waitForWindowToClose($countBeforeClose = 2, $timeout = null)
+    {
+        if (is_null($timeout)) {
+            $timeout = $this->_browserTimeout;
+        }
+        $this->waitUntil(function ($testCase) use ($countBeforeClose) {
+                /** @var Mage_Selenium_TestCase $testCase */
+                if (count($testCase->windowHandles()) != $countBeforeClose) {
+                    $testCase->window('');
+                    return true;
+                }
+            }, $timeout * 1000
         );
     }
 }

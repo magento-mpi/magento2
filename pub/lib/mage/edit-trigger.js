@@ -34,7 +34,7 @@
                 cursor: 'pointer',
                 display: 'none',
                 'z-index': this.options.zIndex
-            }
+            };
         },
         _createTrigger: function(appendTo) {
             return $.tmpl(this.widgetName, this.options)
