@@ -34,7 +34,8 @@ if (!isset($argv[1])) {
     --log-junit <file>              log test execution in JUnit XML format to file
     --max-instances <number>        largest number of PHPUnit instances running simultaneously, 1 by default
     --max-execution-time <seconds>  execution time limit for each PHPUnit instance
-    --no-install                    indicate not to install Magento
+    --no-install                    whether Magento instances installation and cleanup must be performed,
+                                        by default each worker does it once before tests running
 
 USAGE;
     exit(1);
