@@ -385,7 +385,7 @@
         ]]></script>
 
         <exec executable="php">
-            <arg line="-f ${dir.build_directory}/instance-0/dev/tests/functional/parallel-run.php ${env.bamboo_tests_executed_ee} --
+            <arg line="-f ${dir.build_directory}/instance-0/dev/tests/functional/parallel-run.php ${env.bamboo_tests_executed_saas} --
                 --log-junit ${basedir}/test-cases-report.xml
                 --max-instances ${max_instances}
                 --no-install
