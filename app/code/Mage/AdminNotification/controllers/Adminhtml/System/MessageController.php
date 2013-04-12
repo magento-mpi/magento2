@@ -12,7 +12,7 @@ class Mage_AdminNotification_Adminhtml_System_MessageController extends Mage_Bac
     {
         $severity = $this->getRequest()->getParam('severity');
         $messageCollection = $this->_objectManager
-            ->get('Mage_AdminNotification_Model_Resource_System_Message_Collection_Nonsynchronized');
+            ->get('Mage_AdminNotification_Model_Resource_System_Message_Collection');
         if ($severity) {
             $messageCollection->setSeverity($severity);
         }

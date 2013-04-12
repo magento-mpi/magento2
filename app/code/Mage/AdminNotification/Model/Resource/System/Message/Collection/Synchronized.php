@@ -10,7 +10,7 @@ class Mage_AdminNotification_Model_Resource_System_Message_Collection_Synchroniz
     extends Mage_AdminNotification_Model_Resource_System_Message_Collection
 {
     /**
-     * Retrieve unread message list
+     * Unread message list
      *
      * @var Mage_AdminNotification_Model_System_MessageInterface[]
      */

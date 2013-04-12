@@ -46,9 +46,6 @@
                 <block type="Mage_Checkout_Block_Agreements" name="paypal.express.review.details.agreements" as="agreements" template="onepage/agreements.phtml"/>
             </block>
         </reference>
-        <reference name="head">
-            <action method="addJs"><file>Mage_Paypal::review.js</file></action>
-        </reference>
         <container name="additional.product.info" label="Additional Product Info"/>
     </paypal_express_review>
 

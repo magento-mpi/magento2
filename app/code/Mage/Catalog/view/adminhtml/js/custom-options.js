@@ -7,6 +7,7 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
+/*global alert:true*/
 (function ($) {
     $.widget('mage.customOptions', {
         options: {
@@ -21,7 +22,7 @@
         },
         _addValidation: function () {
             $.validator.addMethod(
-                'required-option-select', function (value, element) {
+                'required-option-select', function (value) {
                     return (value !== '');
                 }, $.mage.__('Select type of option.'));
             $.validator.addMethod(
@@ -69,7 +70,7 @@
                     }
                 },
                 //Minimize custom option block
-                'click #product_options_container_top [data-target$=-content]': function (event) {
+                'click #product_options_container_top [data-target$=-content]': function () {
                     if (this.options.isReadonly) {
                         return false;
                     }
