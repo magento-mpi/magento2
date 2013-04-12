@@ -135,6 +135,30 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
         return true;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Check if a category can be shown
+     *
+     * @param  Mage_Catalog_Model_Category|int $category
+     * @return boolean
+     */
+    public function canShow($category)
+    {
+        if (!$category->getId()) {
+            return false;
+        }
+
+        if (!$category->getIsActive()) {
+            return false;
+        }
+        if (!$category->isInRootCategoryList()) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Returns unique service identifier.
      *

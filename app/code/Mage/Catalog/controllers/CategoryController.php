@@ -30,28 +30,62 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             return false;
         }
 
-        /*$category = Mage::getModel('Mage_Catalog_Model_Category')
-            ->setStoreId(Mage::app()->getStore()->getId())
-            ->load($categoryId);*/
+//        $category = Mage::getModel('Mage_Catalog_Model_Category')
+//            ->setStoreId(Mage::app()->getStore()->getId())
+//            ->load($categoryId);
 
-        $category = Mage::getSingleton('Mage_Core_Service_Manager')->call('Mage_Catalog_Service_Category', 'item',
+//        if (!Mage::helper('Mage_Catalog_Helper_Category')->canShow($category)) {
+//            return false;
+//        }
+
+// BEGIN: MDS-87 prototype
+
+//EXAMPLE 0 (doesn't work for now)
+// we may try to follow this way, but this will require us to use classReflection to read methods' signatures
+//        $storeId = Mage::app()->getStore()->getId();
+//        $category = Mage::getSingleton('Mage_Core_Service_Manager')
+//          ->call('Mage_Catalog_Service_Category', 'item', $categoryId, $storeId);
+//EXAMPLE 0
+
+//EXAMPLE 1
+//        $category = Mage::getSingleton('Mage_Core_Service_Manager')->call('Mage_Catalog_Service_Category', 'item',
+//            array(
+//                'entity_id' => $categoryId,
+//                'store_id'  => Mage::app()->getStore()->getId()
+//            )
+//        );
+//EXAMPLE 1
+
+          $service = Mage::getSingleton('Mage_Core_Service_Manager')->getService('Mage_Catalog_Service_Category');
+
+//EXAMPLE 2
+//        $category = $service->item(array(
+//                'entity_id' => $categoryId,
+//                'store_id'  => Mage::app()->getStore()->getId()
+//            )
+//        );
+//EXAMPLE 2
+
+//EXAMPLE 3
+        $category = $service->call('item',
             array(
                 'entity_id' => $categoryId,
                 'store_id'  => Mage::app()->getStore()->getId()
             )
         );
+//EXAMPLE 3
 
-        $category = Mage::getSingleton('Mage_Core_Service_Manager')
-            ->getService('Mage_Catalog_Service_Category')
-            ->item(array(
-                'entity_id' => $categoryId,
-                'store_id'  => Mage::app()->getStore()->getId()
-            )
-        );
-
-        if (!Mage::helper('Mage_Catalog_Helper_Category')->canShow($category)) {
+        // this is definitely not the standard service method, but a sort of helper
+        // TODO how-to call such methods and where they should be declared?
+        // should it be defined as a part of context to apply or to do not apply this validation, so we can move this check into service method `item`?
+        // or maybe a service helper class will be useful: $service->getHelper('view')->canShow($category);
+        // so will be able to use specific helpers, such as `view` or `session` and so on
+        if (!$service->canShow($category)) {
             return false;
         }
+
+// END: MDS-87 prototype
+
         Mage::getSingleton('Mage_Catalog_Model_Session')->setLastVisitedCategoryId($category->getId());
         Mage::register('current_category', $category);
         try {

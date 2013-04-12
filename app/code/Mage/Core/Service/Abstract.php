@@ -24,6 +24,21 @@ abstract class Mage_Core_Service_Abstract
     }
 
     /**
+     * Call service method
+     *
+     * @param string $serviceClass
+     * @param string $serviceMethod
+     * @param mixed $context [optional]
+     * @param mixed $responseSchema [optional]
+     * @return mixed (service execution response)
+     */
+    final public function call($serviceMethod, $context = null, $responseSchema = null)
+    {
+        // using get_class() will force to use custom definitions in case if the service class was rewritten which is make sense
+        return $this->_serviceManager->call(get_class($this), $serviceMethod, $context, $responseSchema);
+    }
+
+    /**
      * Returns unique service identifier.
      *
      * @return string
