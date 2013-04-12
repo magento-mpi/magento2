@@ -52,7 +52,7 @@
          */
         _add: function(event, product) {
             var productExists = this.$grid.find('[data-role=id]')
-                .filter(function(index, element) { return $(element).val() == product.id }).length;
+                .filter(function(index, element) { return $(element).val() == product.id; }).length;
             if (!productExists) {
                 this.$template.tmpl(product).appendTo(this.$grid.find('tbody'));
             }
@@ -117,7 +117,7 @@
             });
 
             popup.on('click', '[data-role=row]', function(event) {
-                var target = $(event.target)
+                var target = $(event.target);
                 if (!target.is('input')) {
                     target.closest('[data-role=row]')
                         .find('[data-column=entity_id] input')
@@ -157,7 +157,7 @@
             $('#' + gridPopup.containerId)
                 .on('gridajaxsettings', function(event, ajaxSettings) {
                     var ids = widget.$grid.find('[data-role=id]').map(function(index, element) {
-                        return $(element).val()
+                        return $(element).val();
                     }).toArray();
                     ajaxSettings.data.filter = $.extend(ajaxSettings.data.filter || {}, {'entity_id': ids});
                 })
@@ -165,8 +165,8 @@
                     ajaxRequest.done(function() {
                         popup.find('[data-role=row] [data-column=entity_id] input')
                             .each(function(index, element) {
-                                var element = $(element);
-                                element.prop('checked', !!selectedProductList[element.val()]);
+                                var $element = $(element);
+                                $element.prop('checked', !!selectedProductList[$element.val()]);
                             });
                     });
                 });
