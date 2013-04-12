@@ -21,7 +21,7 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
      */
     public function item($context)
     {
-        $context = $this->_serviceManager->prepareContext('Mage_Catalog_Service_Category', 'item', $context);
+        $context = $this->prepareContext(get_class($this), 'item', $context);
 
         /** @var $category Mage_Catalog_Model_Category */
         $category = Mage::getModel('Mage_Catalog_Model_Category');
@@ -38,6 +38,8 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
             $category->load($id);
         }
 
+        $this->prepareResponse(get_class($this), 'item', $category, $context->getResponseSchema());
+
         return $category;
     }
 
@@ -49,7 +51,7 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
      */
     public function items($context)
     {
-        $context = $this->_serviceManager->prepareContext('Mage_Catalog_Service_Category', 'items', $context);
+        $context = $this->prepareContext(get_class($this), 'items', $context);
 
         /** @var $collection Mage_Catalog_Model_Resource_Category_Collection */
         $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection');
@@ -63,18 +65,22 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
         // TODO or not TODO
         //$collection->load();
 
+        $this->prepareResponse(get_class($this), 'items', $collection, $context->getResponseSchema());
+
         return $collection;
     }
 
     /**
      * Save object.
      *
-     * @param Mage_Core_Service_Args $args
-     * @return Varien_Object | array
+     * @param mixed $context
+     * @return Varien_Object $category
      */
-    public function save(Mage_Core_Service_Args $args)
+    public function save($context)
     {
-        $category = $this->item($args);
+        $context = $this->prepareContext(get_class($this), 'save', $context);
+
+        $category = $this->item($context);
         if (!$category->getId()) {
             return false;
         }
@@ -83,7 +89,7 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
             'catalog_category_prepare_save',
             array(
                 'category' => $category,
-                'args'     => $args
+                'context'  => $context
             )
         );
 
@@ -104,18 +110,20 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
 
         $category->save();
 
-        return true;
+        return $category;
     }
 
     /**
      * Move category action
      *
-     * @param Mage_Core_Service_Args $args
-     * @return Varien_Object | array
+     * @param mixed $context
+     * @return Varien_Object
      */
-    public function move(Mage_Core_Service_Args $args)
+    public function move($context)
     {
-        $category = $this->item($args);
+        $context = $this->prepareContext(get_class($this), 'move', $context);
+
+        $category = $this->item($context);
         if (!$category->getId()) {
             return false;
         }
@@ -123,11 +131,11 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
         /**
          * New parent category identifier
          */
-        $parentNodeId   = $args->getPid();
+        $parentNodeId = $context->getPid();
         /**
          * Category id after which we have put our category
          */
-        $prevNodeId     = $args->getAid();
+        $prevNodeId = $context->getAid();
 
         // TODO move logic out from model
         $category->move($parentNodeId, $prevNodeId);
@@ -140,7 +148,7 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
     /**
      * Check if a category can be shown
      *
-     * @param  Mage_Catalog_Model_Category|int $category
+     * @param  Mage_Catalog_Model_Category $category
      * @return boolean
      */
     public function canShow($category)
