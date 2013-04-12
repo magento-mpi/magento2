@@ -19,8 +19,6 @@ return array(
     'web/session',
     'web/browser_capabilities',
 
-    'design/theme',
-
     'currency/webservicex',
     'currency/import',
 
