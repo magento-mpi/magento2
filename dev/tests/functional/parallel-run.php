@@ -34,6 +34,7 @@ if (!isset($argv[1])) {
     --log-junit <file>              log test execution in JUnit XML format to file
     --max-instances <number>        largest number of PHPUnit instances running simultaneously, 1 by default
     --max-execution-time <seconds>  execution time limit for each PHPUnit instance
+    --no-install                    indicate not to install Magento
 
 USAGE;
     exit(1);
@@ -66,7 +67,7 @@ for ($i = 0; $i < $maxInstances; ++$i) {
     $workers[$i] = array(
         'dir' => preg_replace('/instance-\d+/', "instance-$i", __DIR__),
         'idle' => true,
-        'cleanup_complete' => false,
+        'cleanup_complete' => !empty($cliOptions['no-install']),
     );
 }
 
