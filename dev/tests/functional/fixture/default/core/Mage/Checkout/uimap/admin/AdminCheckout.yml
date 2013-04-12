@@ -508,7 +508,7 @@ view_order:
                                         qty_shipped: //tbody[@class][tr[contains(.,'%sku%')]]//tr[td='Shipped'][td/strong='%shippedQty%']
                                         qty_refunded: //tbody[@class][tr[contains(.,'%sku%')]]//tr[td='Refunded'][td/strong='%refundedQty%']
                                     links:
-                                        gift_options: //a[text()='Gift Options']
+                                        gift_options: //tbody[contains(., '%sku%')]//a[text()='Gift Options']
                                     pageelements:
                                         product_table_head: //table[@class='data order-tables']/thead
                                         product_line: //table[@class='data order-tables']/tbody
