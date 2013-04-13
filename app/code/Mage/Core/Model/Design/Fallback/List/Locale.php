@@ -11,21 +11,31 @@
 /**
  * Fallback rules list for locale files
  */
-class Mage_Core_Model_Design_Fallback_List_Locale extends Mage_Core_Model_Design_Fallback_List_ListAbstract
+class Mage_Core_Model_Design_Fallback_List_Locale implements Mage_Core_Model_Design_Fallback_Rule_RuleInterface
 {
     /**
-     * Set rules in proper order for specific fallback procedure
-     *
-     * @return array of rules Mage_Core_Model_Design_Fallback_Rule_RuleInterface
+     * @var Mage_Core_Model_Design_Fallback_Rule_RuleInterface
      */
-    protected function _getFallbackRules()
+    private $_rule;
+
+    /**
+     * Constructor
+     *
+     * @param Mage_Core_Model_Dir $dir
+     */
+    public function __construct(Mage_Core_Model_Dir $dir)
     {
-        return array(
-            new Mage_Core_Model_Design_Fallback_Rule_Theme(array(
-                new Mage_Core_Model_Design_Fallback_Rule_Simple(
-                    $this->_dir->getDir(Mage_Core_Model_Dir::THEMES) . '/<area>/<theme_path>/locale/<locale>'
-                )
-            ))
+        $themesDir = $dir->getDir(Mage_Core_Model_Dir::THEMES);
+        $this->_rule = new Mage_Core_Model_Design_Fallback_Rule_Theme(
+            new Mage_Core_Model_Design_Fallback_Rule_Simple("$themesDir/<area>/<theme_path>/locale/<locale>")
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPatternDirs(array $params)
+    {
+        return $this->_rule->getPatternDirs($params);
     }
 }
