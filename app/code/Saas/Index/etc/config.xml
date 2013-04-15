@@ -56,7 +56,7 @@
             <Mage_AdminNotification_Model_System_MessageList>
                 <parameters>
                     <messages>
-                        <refresh_indexer_finished>Saas_Index_Model_System_Message_IndexRefreshed</refresh_indexer_finished>
+                        <refresh_index_finished>Saas_Index_Model_System_Message_IndexRefreshed</refresh_index_finished>
                     </messages>
                 </parameters>
             </Mage_AdminNotification_Model_System_MessageList>

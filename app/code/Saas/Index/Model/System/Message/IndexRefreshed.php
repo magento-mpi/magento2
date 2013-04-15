@@ -13,11 +13,11 @@ class Saas_Index_Model_System_Message_IndexRefreshed implements Mage_AdminNotifi
     protected $_flag;
 
     /**
-     * Flag state
+     * Flag is displayed
      *
      * @var int
      */
-    protected $_flagState = null;
+    protected $_isDisplayed = null;
 
     /**
      * @var Saas_Index_Helper_Data
@@ -28,10 +28,8 @@ class Saas_Index_Model_System_Message_IndexRefreshed implements Mage_AdminNotifi
      * @param Saas_Index_Model_FlagFactory $flagFactory
      * @param Saas_Index_Helper_Data $helper
      */
-    public function __construct(
-        Saas_Index_Model_FlagFactory $flagFactory,
-        Saas_Index_Helper_Data $helper
-    ) {
+    public function __construct(Saas_Index_Model_FlagFactory $flagFactory, Saas_Index_Helper_Data $helper)
+    {
         $this->_flag = $flagFactory->create();
         $this->_flag->loadSelf();
         $this->_helper = $helper;
@@ -54,18 +52,14 @@ class Saas_Index_Model_System_Message_IndexRefreshed implements Mage_AdminNotifi
      */
     public function isDisplayed()
     {
-        if (null === $this->_flagState) {
-            $this->_flagState = $this->_flag->getState();
+        if (null === $this->_isDisplayed) {
+            $this->_isDisplayed = $this->_flag->getState() == Saas_Index_Model_Flag::STATE_FINISHED;
+            if ($this->_isDisplayed) {
+                $this->_flag->setState(Saas_Index_Model_Flag::STATE_NOTIFIED);
+                $this->_flag->save();
+            }
         }
-
-        $isDisplayed = $this->_flagState == Saas_Index_Model_Flag::STATE_FINISHED;
-
-        if ($isDisplayed) {
-            $this->_flag->setState(Saas_Index_Model_Flag::STATE_NOTIFIED);
-            $this->_flag->save();
-        }
-
-        return $isDisplayed;
+        return $this->_isDisplayed;
     }
 
     /**

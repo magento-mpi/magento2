@@ -30,14 +30,13 @@ class Saas_Queue_Model_Observer_Indexer extends Saas_Queue_Model_ObserverAbstrac
     protected $_flag;
 
     /**
-     * Basic class initialization
-     *
      * @param Mage_Index_Model_Indexer $indexer
+     * @param Saas_Index_Model_FlagFactory $flagFactory
      */
-    public function __construct(Mage_Index_Model_Indexer $indexer)
+    public function __construct(Mage_Index_Model_Indexer $indexer, Saas_Index_Model_FlagFactory $flagFactory)
     {
         $this->_indexer = $indexer;
-        $this->_flag = Mage::getModel('Saas_Index_Model_Flag');
+        $this->_flag = $flagFactory->create();
         $this->_flag->loadSelf();
     }
 

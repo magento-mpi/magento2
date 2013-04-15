@@ -34,6 +34,7 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param Mage_Core_Model_Authorization $authorizationModel
      * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Saas_Index_Model_FlagFactory $flagFactory
      * @param string $areaCode
      * @param array $invokeArgs
      */
@@ -45,6 +46,7 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
         Mage_Core_Model_Layout_Factory $layoutFactory,
         Mage_Core_Model_Authorization $authorizationModel,
         Mage_Core_Model_Event_Manager $eventManager,
+        Saas_Index_Model_FlagFactory $flagFactory,
         $areaCode = null,
         array $invokeArgs = array()
     ) {
@@ -53,7 +55,7 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
         );
         $this->_authorizationModel = $authorizationModel;
         $this->_eventManager = $eventManager;
-        $this->_flag = Mage::getModel('Saas_Index_Model_Flag');
+        $this->_flag = $flagFactory->create();
         $this->_flag->loadSelf();
     }
 
@@ -125,7 +127,7 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
      */
     public function isTaskAdded()
     {
-        return $this->_flag->getState() == Saas_Index_Model_Flag::STATE_QUEUED;
+        return $this->isTaskProcessing() || $this->_flag->getState() == Saas_Index_Model_Flag::STATE_QUEUED;
     }
 
     /**
