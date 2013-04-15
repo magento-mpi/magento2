@@ -10,6 +10,8 @@
 
 /**
  * Theme Image model class
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Theme_Image extends Varien_Object
 {
