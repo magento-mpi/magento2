@@ -25,6 +25,7 @@ class Core_Mage_Customer_AddressFormTest extends Mage_Selenium_TestCase
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
         $this->addParameter('tabName', 'general');
         $this->addParameter('webSite', 'base');
         $this->selectStoreScope('dropdown', 'current_configuration_scope', 'Main Website');

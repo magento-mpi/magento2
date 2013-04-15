@@ -19,6 +19,20 @@
 class Core_Mage_Order_Create_WithProductWithWarningTest extends Mage_Selenium_TestCase
 {
     /**
+     * <p>Log in to Backend and configure preconditions.</p>
+     *
+     * <p>Log in to Backend.</p>
+     *
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
+        $this->systemConfigurationHelper()->configure('PaymentMethod/savedcc_without_3Dsecure');
+    }
+
+    /**
      * <p>Log in to Backend.</p>
      */
     public function assertPreConditions()
@@ -57,7 +71,11 @@ class Core_Mage_Order_Create_WithProductWithWarningTest extends Mage_Selenium_Te
         $this->orderHelper()->navigateToCreateOrderPage(null, $orderData['store_view']);
         $this->orderHelper()->addProductToOrder($orderData['products_to_add']['product_1']);
         $this->addParameter('sku', $simple['general_sku']);
-        $this->addParameter('qty', 10);
+        if ($message === 'requested_quantity_not_available') {
+            $this->addParameter('productTitle', $simple['general_name']);
+        } else {
+            $this->addParameter('qty', 10);
+        }
         $this->assertMessagePresent('validation', $message);
         $this->orderHelper()->fillOrderAddress($billingAddress, $billingAddress['address_choice'], 'billing');
         $this->orderHelper()->fillOrderAddress($shippingAddress, $shippingAddress['address_choice'], 'shipping');

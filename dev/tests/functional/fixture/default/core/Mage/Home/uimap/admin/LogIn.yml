@@ -20,7 +20,7 @@ log_in_to_admin:
                     log_in:
                         xpath: //div[@class='form-login form-inline']
                         buttons:
-                            login: //button[@title='Login']
+                            login: //button[@title='Log in']
                             captcha_reload: //*[@id='captcha-reload']
                         fields:
                             user_name: //input[@id='username']

@@ -84,17 +84,17 @@ manage_sales_orders:
             no_shipping: //strong[text()='Sorry, no quotes are available for this order at this time.']
             no_payment: //label[text()='No Payment Information Required']
             empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
+            empty_required_field_cc_number: //*[@class='mage-error' and @for='ccsave_cc_number' and contains(.,'Please enter a valid credit card number.')]
             shipping_must_be_specified: //li[normalize-space(@class)='error-msg' and contains(.,'Shipping method must be specified.')]
             error_specify_order_items: //li[normalize-space(@class)='error-msg' and contains(.,'You need to specify order items.')]
             empty_payment_method: //li[normalize-space(@class)='error-msg' and contains(.,'Payment method is not available.')]
             invalid_cvv: //li[normalize-space(@class)='error-msg' and contains(.,'Please enter a valid credit card verification number.')]
-            card_type_doesnt_match: //li[normalize-space(@class)='error-msg' and contains(.,'Credit card number mismatch with credit card type.')]
             invalid_exp_date: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect credit card expiration date.')]
-            out_of_stock_product: //tr[td/@class='first'][contains(.,'%sku%')][.//div='This product is currently out of stock.']
-            requested_quantity_not_available: //tr[td/@class='first'][contains(.,'%sku%')][.//div='The requested quantity for "%sku%" is not available.']
-            min_allowed_quantity_error: //tr[td/@class='first'][contains(.,'%sku%')][.//div='The minimum quantity allowed for purchase is %qty%.']
-            max_allowed_quantity_error: //tr[td/@class='first'][contains(.,'%sku%')][.//div='The maximum quantity allowed for purchase is %qty%.']
-            wrong_increments_qty: //tr[td/@class='first'][contains(.,'%sku%')][.//div='This product is available for purchase in increments of %qty% only.']
+            out_of_stock_product: //div[@id='order-items_grid']//div[text()='This product is currently out of stock.']
+            requested_quantity_not_available: //div[@id='order-items_grid']//div[text()='The requested quantity for "%productTitle%" is not available.']
+            min_allowed_quantity_error: //div[@id='order-items_grid']//div[text()='The minimum quantity allowed for purchase is %qty%.']
+            max_allowed_quantity_error: //div[@id='order-items_grid']//div[text()='The maximum quantity allowed for purchase is %qty%.']
+            wrong_increments_qty: //div[@id='order-items_grid']//div[text()='This product is available for purchase in increments of %qty% only.']
             customer_email_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Customer with the same email already exists')]
             email_exceeds_allowed_length: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" exceeds the allowed length.')]
             email_is_not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" is not a valid hostname.')]
@@ -189,7 +189,7 @@ create_order_for_new_customer:
                             product_qty: //tr[contains(.,'%sku%')]//input[@class='input-text item-qty']
                             custom_price: //tr[contains(.,'%sku%')]//div[label='Custom Price*']/../input
                         links:
-                            gift_options: //tr[td/@class='first'][contains(.,'%sku%')]/..//a[text()='Gift Options']
+                            gift_options: //tbody[contains(., '%sku%')]//a[text()='Gift Options']
                 -
                     order_apply_coupon_code: &orderApplyCouponCode
                         xpath: //div[div/h4[contains(text(),'Apply Coupon Cod')]]
@@ -341,7 +341,7 @@ create_order_for_new_customer:
                             submit_order: //button[span='Submit Order']
                 -
                     product_composite_configure_form: &productCompositeConfigureForm
-                        xpath: //div[div/h4[contains(text(),'Configure Product')]]
+                        xpath: //div[div/span[contains(text(),'Configure Product')]]
                         checkboxes:
                             option_checkbox: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[@type='checkbox']
                         fields:
@@ -349,10 +349,10 @@ create_order_for_new_customer:
                             option_field_2: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//input[@type='text']
                             option_field_3: //dt[contains(label,'%optionTitle%')]//input[@type='text']
                             option_field_4: //tr[td='%optionParameter%']//input[@type='text']
-                            option_field_5: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//textarea
+                            option_field_5: //*[@id='product_composite_configure_input_qty']
                         dropdowns:
-                            option_dropdown_1: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@name,'%optionParameter%')]
-                            option_dropdown_2: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select
+                            option_dropdown_1: //dd[div[@class='input-box']]//select[not(contains(@class,'multiselect'))]
+                            option_dropdown_2: //div[contains(label,'%optionTitle%')]//select
                         multiselects:
                             option_multiselect: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@class,'multiselect')]
                         radiobuttons:
@@ -362,7 +362,7 @@ create_order_for_new_customer:
                             composite_configure_cancel: //button[span[contains(text(),'Cancel')]]
                 -
                     gift_options: &giftMessage
-                        xpath: //div[div/h4[contains(text(),'Gift Options for')]]
+                        xpath: //div[@id='gift_options_configure']
                         fields:
                             from: //input[@name='current_item_giftmessage_sender']
                             to: //input[@name='current_item_giftmessage_recipient']
@@ -374,7 +374,7 @@ create_order_for_new_customer:
                             cancel: //button[span='Cancel']
                 -
                     gift_options_for_order: &giftMessageForOrder
-                        xpath: //div[@class='entry-edit' and contains(.,'Gift Message for the Entire Order')]
+                        xpath: //div[@id='order-giftmessage']
                         fields:
                             from_order_level: //input[contains(@name, '[sender]')]
                             to_order_level: //input[contains(@name, '[recipient]')]
@@ -509,14 +509,21 @@ view_order:
                                         qty_shipped: //tbody[@class][tr[contains(.,'%sku%')]]//tr[td='Shipped'][td/strong='%shippedQty%']
                                         qty_refunded: //tbody[@class][tr[contains(.,'%sku%')]]//tr[td='Refunded'][td/strong='%refundedQty%']
                                     links:
-                                        gift_options: //tbody[@class][tr[contains(.,'%sku%')]]//a[text()='Gift Options']
+                                        gift_options: //tbody[contains(., '%sku%')]//a[text()='Gift Options']
                                     pageelements:
                                         product_table_head: //table[@class='data order-tables']/thead
                                         product_line: //table[@class='data order-tables']/tbody
                             -
                                 gift_options: *giftMessage
                             -
-                                gift_options_for_order: *giftMessageForOrder
+                                gift_options_for_order:
+                                    xpath: //form[@id='giftmessage_order_%orderId%_form']
+                                    fields:
+                                        from_order_level: //input[contains(@name, '[sender]')]
+                                        to_order_level: //input[contains(@name, '[recipient]')]
+                                        message_order_level: //textarea[contains(@name, '[message]')]
+                                    pageelements:
+                                        order_gift_message_block: //div[@class='giftmessage-order-create box-left' and contains(.,'Gift Message for the Entire Order')]
                             -
                                 comments_history:
                                     xpath: //div[@class='entry-edit'][./div/h4='Comments History']
