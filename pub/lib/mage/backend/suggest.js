@@ -331,8 +331,8 @@
                 return;
             }
             this._selectItem(e);
-            this._trigger('select', e || null, {item: this._focused});
             this._blurItem();
+            this._trigger('select', e || null, {item: this._selectedItem});
         },
 
         /**
@@ -388,7 +388,9 @@
          */
         close: function(e) {
             this._renderedContext = null;
-            this.dropdown.hide().empty();
+            if (this.dropdown.length) {
+                this.dropdown.hide().empty();
+            }
             this._trigger('close', e);
         },
 
