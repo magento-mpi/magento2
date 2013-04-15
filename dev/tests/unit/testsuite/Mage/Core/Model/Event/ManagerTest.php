@@ -8,29 +8,29 @@
 class Mage_Core_Model_Event_ManagerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Model_Event_InvokerInterface|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_invokerMock;
+    protected $_invoker;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var Varien_EventFactory|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_eventFactoryMock;
+    protected $_eventFactory;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var Varien_Event|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_eventMock;
+    protected $_event;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var Varien_Event_ObserverFactory|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_eventObserverFactoryMock;
+    protected $_observerFactory;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var Varien_Event_Observer|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_eventObserverMock;
+    protected $_observer;
 
     /**
      * @var Mage_Core_Model_Event_Manager
@@ -39,18 +39,18 @@ class Mage_Core_Model_Event_ManagerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_invokerMock = $this->getMock('Mage_Core_Model_Event_InvokerInterface');
-        $this->_eventFactoryMock = $this->getMock('Varien_EventFactory', array('create'), array(), '', false);
-        $this->_eventMock = $this->getMock('Varien_Event', array(), array(), '', false);
-        $this->_eventObserverFactoryMock = $this->getMock('Varien_Event_ObserverFactory', array('create'), array(), '',
+        $this->_invoker = $this->getMock('Mage_Core_Model_Event_InvokerInterface');
+        $this->_eventFactory = $this->getMock('Varien_EventFactory', array('create'), array(), '', false);
+        $this->_event = $this->getMock('Varien_Event', array(), array(), '', false);
+        $this->_observerFactory = $this->getMock('Varien_Event_ObserverFactory', array('create'), array(), '',
             false);
-        $this->_eventObserverMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
+        $this->_observer = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_eventManager = $objectManagerHelper->getObject('Mage_Core_Model_Event_Manager', array(
-            'invoker' => $this->_invokerMock,
-            'eventFactory' => $this->_eventFactoryMock,
-            'eventObserverFactory' => $this->_eventObserverFactoryMock,
+            'invoker' => $this->_invoker,
+            'eventFactory' => $this->_eventFactory,
+            'eventObserverFactory' => $this->_observerFactory,
         ));
     }
 
@@ -62,18 +62,18 @@ class Mage_Core_Model_Event_ManagerTest extends PHPUnit_Framework_TestCase
     {
         $data = array('123');
 
-        $this->_eventMock->expects($this->once())->method('setName')->with('some_event')->will($this->returnSelf());
-        $this->_eventFactoryMock->expects($this->once())->method('create')->with(array('data' => $data))
-            ->will($this->returnValue($this->_eventMock));
+        $this->_event->expects($this->once())->method('setName')->with('some_event')->will($this->returnSelf());
+        $this->_eventFactory->expects($this->once())->method('create')->with(array('data' => $data))
+            ->will($this->returnValue($this->_event));
 
-        $this->_eventObserverMock->expects($this->once())->method('setData')
-            ->with(array_merge(array('event' => $this->_eventMock), $data))->will($this->returnSelf());
-        $this->_eventObserverFactoryMock->expects($this->once())->method('create')
-            ->will($this->returnValue($this->_eventObserverMock));
-        $this->_invokerMock->expects($this->once())->method('dispatch')->with(array(
+        $this->_observer->expects($this->once())->method('setData')
+            ->with(array_merge(array('event' => $this->_event), $data))->will($this->returnSelf());
+        $this->_observerFactory->expects($this->once())->method('create')
+            ->will($this->returnValue($this->_observer));
+        $this->_invoker->expects($this->once())->method('dispatch')->with(array(
             'model' => 'some_class',
             'method' => 'some_method',
-        ), $this->_eventObserverMock);
+        ), $this->_observer);
 
         $this->_eventManager->addObservers($area, 'some_event', array(
             'some_observer_name' => array(
@@ -99,7 +99,7 @@ class Mage_Core_Model_Event_ManagerTest extends PHPUnit_Framework_TestCase
 
     public function testDispatchWithEmptyAreaEvents()
     {
-        $this->_invokerMock->expects($this->never())->method('dispatch');
+        $this->_invoker->expects($this->never())->method('dispatch');
 
         $this->_eventManager->dispatch('some_event');
     }
@@ -108,20 +108,20 @@ class Mage_Core_Model_Event_ManagerTest extends PHPUnit_Framework_TestCase
     {
         $data = array('123');
 
-        $this->_eventMock->expects($this->once())->method('setName')->with('some_event')->will($this->returnSelf());
-        $this->_eventFactoryMock->expects($this->once())->method('create')->with(array('data' => $data))
-            ->will($this->returnValue($this->_eventMock));
+        $this->_event->expects($this->once())->method('setName')->with('some_event')->will($this->returnSelf());
+        $this->_eventFactory->expects($this->once())->method('create')->with(array('data' => $data))
+            ->will($this->returnValue($this->_event));
 
-        $this->_eventObserverMock->expects($this->exactly(2))->method('setData')
-            ->with(array_merge(array('event' => $this->_eventMock), $data))->will($this->returnSelf());
-        $this->_eventObserverFactoryMock->expects($this->once())->method('create')
-            ->will($this->returnValue($this->_eventObserverMock));
+        $this->_observer->expects($this->exactly(2))->method('setData')
+            ->with(array_merge(array('event' => $this->_event), $data))->will($this->returnSelf());
+        $this->_observerFactory->expects($this->once())->method('create')
+            ->will($this->returnValue($this->_observer));
 
-        $this->_invokerMock->expects($this->at(0))->method('dispatch')->with(array(
+        $this->_invoker->expects($this->at(0))->method('dispatch')->with(array(
             'model' => 'some_class',
             'method' => 'some_method',
         ), $this->isInstanceOf('Varien_Event_Observer'));
-        $this->_invokerMock->expects($this->at(1))->method('dispatch')->with(array(
+        $this->_invoker->expects($this->at(1))->method('dispatch')->with(array(
             'model' => 'another_some_class',
             'method' => 'another_some_method',
         ), $this->isInstanceOf('Varien_Event_Observer'));

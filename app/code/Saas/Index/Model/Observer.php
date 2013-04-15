@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Observer for the Saas_Index module
  *

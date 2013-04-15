@@ -96,8 +96,11 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
         $this->_linkCollection = $this->getMock('Mage_Core_Model_Resource_Layout_Link_Collection',
             array('addFieldToFilter', 'getIterator'), array(), '', false);
         $this->_link->expects($this->any())->method('getCollection')->will($this->returnValue($this->_linkCollection));
+        $eventManager = $this->getMock('Mage_Core_Model_Event_Manager', array('getCollection'), array(), '', false);
 
-        $this->_object = new Mage_Core_Model_Theme_CopyService($this->_filesystem, $this->_fileFactory, $this->_link);
+        $this->_object = new Mage_Core_Model_Theme_CopyService(
+            $this->_filesystem, $this->_fileFactory, $this->_link, $eventManager
+        );
     }
 
     protected function tearDown()

@@ -40,8 +40,6 @@ return array(
     'catalog/search/search_recommendations_count_results_enabled',
     'catalog/search/search_recommendations_count',
 
-    'catalog/downloadable',
-
     'sendfriend/email/max_recipients',
     'sendfriend/email/max_per_hour',
     'sendfriend/email/check_by',

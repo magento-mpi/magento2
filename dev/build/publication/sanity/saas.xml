@@ -42,6 +42,48 @@
     </words>
     <whitelist>
         <item>
+            <!-- MUST be refactored -->
+            <word>TargetRule</word>
+            <path>app/code/Saas/Launcher/view/adminhtml/page/promotestore/relatedproducts/drawer.phtml</path>
+        </item>
+        <item>
+            <!-- MUST be refactored -->
+            <word>TargetRule</word>
+            <path>app/design/frontend/magento2/reference/Mage_Catalog/product/list/item/item.phtml</path>
+        </item>
+        <item>
+            <!-- MUST be refactored -->
+            <word>TargetRule</word>
+            <path>app/design/frontend/magento2/reference/Mage_Catalog/product/list/items.phtml</path>
+        </item>
+        <item>
+            <!-- MUST be refactored -->
+            <word>{copyright}</word>
+            <word>{license_link}</word>
+            <word>{license_notice}</word>
+            <path>app/design/frontend/magento2/reference/css/styles.less</path>
+        </item>
+        <item>
+            <!-- MUST be refactored -->
+            <word>Moneybookers</word>
+            <word>GoogleOptimizer</word>
+            <path>tmt_templates/mc/en_US/db/empty_data.sql</path>
+        </item>
+        <item>
+            <!-- MUST be refactored -->
+            <word>Moneybookers</word>
+            <word>GoogleOptimizer</word>
+            <path>tmt_templates/mc/en_US/db/sample_data.sql</path>
+        </item>
+        <item>
+            <word>Enterprise_ImportExport</word>
+            <path>app/etc/modules/XSaas_Edition.xml</path>
+        </item>
+        <item>
+            <word>Enterprise_ImportExport</word>
+            <path>app/etc/modules/XSaas_Edition.xml.dist</path>
+        </item>
+        <item>
             <path>dev/build</path>
         </item>
         <item>

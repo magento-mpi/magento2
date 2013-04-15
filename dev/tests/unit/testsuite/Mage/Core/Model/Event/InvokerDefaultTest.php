@@ -28,7 +28,7 @@ class Mage_Core_Model_Event_InvokerDefaultTest extends PHPUnit_Framework_TestCas
     protected $_appStateMock;
 
     /**
-     * @var Enterprise_Queue_Model_Core_Event_InvokerAsynchronous
+     * @var Mage_Core_Model_Event_InvokerDefault
      */
     protected $_invokerDefault;
 

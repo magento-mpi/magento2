@@ -43,6 +43,7 @@
         <Saas_Customer><active>true</active></Saas_Customer>
         <Saas_Design><active>true</active></Saas_Design>
         <Saas_Index><active>true</active></Saas_Index>
+        <Saas_Launcher><active>true</active></Saas_Launcher>
         <Saas_Newsletter><active>true</active></Saas_Newsletter>
         <Saas_PageCache><active>true</active></Saas_PageCache>
         <Saas_Pci><active>true</active></Saas_Pci>

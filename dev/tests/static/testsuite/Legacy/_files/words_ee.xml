@@ -26,7 +26,23 @@
             <word>staging</word>
         </item>
         <item>
-            <path>app/code/Saas/Launcher/view/adminhtml/page/promotestore/googleanalytics/drawer.phtml</path>
+            <path>dev/tests/functional/testsuite/Enterprise/Mage/Rollback/RollbackTest.php</path>
+            <word>staging</word>
+        </item>
+        <item>
+            <path>dev/tests/functional/testsuite/Enterprise/Mage/GiftWrapping/CheckoutOnePage/GiftOptionsProductLevelTest.php</path>
+            <word>staging</word>
+        </item>
+        <item>
+            <path>dev/tests/functional/testsuite/Enterprise/Mage/GiftWrapping/CheckoutOnePage/GiftWrappingMessageTest.php</path>
+            <word>staging</word>
+        </item>
+        <item>
+            <path>dev/tests/functional/testsuite/Enterprise/Mage/GiftWrapping/CheckoutMultipleAddresses/ProductLevelTest.php</path>
+            <word>staging</word>
+        </item>
+        <item>
+            <path>dev/tests/functional/testsuite/Enterprise/Mage/GiftWrapping/CheckoutMultipleAddresses/GiftWrappingMessageTest.php</path>
             <word>staging</word>
         </item>
     </whitelist>
