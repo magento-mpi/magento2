@@ -129,8 +129,8 @@ class Mage_Core_Service_Definition extends Varien_Object
      * Regarding versioning: we design all "internal" definitions to be 100% matched to WEB API needs.
      * When we bootstrap new WEB API we use all "internal" definitions as a first version of WEB API.
      * All upcoming changes for "internal" usage should be implemented within new files
-     * and not directly in original definition files. Following this way we have clear way of controlling
-     * when we should introduce new WEB API version.
+     * and not directly in original definition files.
+     * Following this way we have clear way of controlling of when we should introduce new WEB API version.
      * Also we won't need to "replicate" entirely all "internal" definitions to fix WEB API version.
      *
      */

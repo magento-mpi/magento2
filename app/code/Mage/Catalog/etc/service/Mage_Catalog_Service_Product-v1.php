@@ -4,7 +4,7 @@ $resourceDefinition = array(
     'request_schema'  => array(
         // having all schemas defined on the same level will let us to share schemas between methods
         '*' => array( // `*` - defines default service-level schema
-            '_ref'             => 'entity/catalogCategory',
+            '_ref'             => 'entity/catalog_product',
 
             // BEGIN: EXCERPTED FROM ORIGINAL DEFINITION
             'product_id'       => array(
@@ -27,12 +27,12 @@ $resourceDefinition = array(
             'store_id'         => array(
                 'default' => null
             ),
-            'data_namespace' => 'catalog_product',
+            'data_namespace'   => 'catalog_product',
         )
     ),
     'response_schema' => array(
         '*' => array( // `*` - defines default service-level schema
-            '_ref'             => 'entity/catalogProduct',
+            '_ref'             => 'entity/catalog_product',
             'name'             => array(
                 'required' => true
             ),
