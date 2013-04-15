@@ -32,9 +32,10 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
             array(), '', false);
         $appState = new Mage_Core_Model_App_State();
         $storeManager = $this->getMock('Mage_Core_Model_StoreManagerInterface');
+        $configWriter = $this->getMock('Mage_Core_Model_Config_Storage_WriterInterface');
 
         $this->_model = $this->getMock('Mage_Core_Model_Design_Package', array('_updateParamDefaults'),
-            array($modulesReader, $filesystem, $this->_strategyPool, $appState, $storeManager)
+            array($modulesReader, $filesystem, $this->_strategyPool, $appState, $storeManager, $configWriter)
         );
     }
 

@@ -9,9 +9,7 @@
  */
 ?>
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom */ ?>
-<div id="vde-tab-custom-messages-placeholder">
-    <?php echo $this->getChildHtml('messages') ?>
-</div>
+<div id="vde-tab-custom-messages-placeholder"></div>
 <div class="custom-code-description">
     <h5 class="title"><?php echo $this->__('Custom CSS'); ?></h5>
     <p><?php echo $this->__('Update the custom.css file to right in order to overwrite the default styles.'); ?></p>
@@ -80,9 +78,10 @@
                     $('#vde-tab-custom').trigger('refreshIframe');
                 }
 
-                if (data.result.message_html) {
-                    $('#vde-tab-custom-messages-placeholder').append(data.result.message_html);
-                }
+                $('#vde-tab-custom').trigger('addMessage', {
+                    containerId: '#vde-tab-custom-messages-placeholder',
+                    message: data.result.message
+                });
             }
         });
     })(jQuery);

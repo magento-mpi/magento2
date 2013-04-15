@@ -29,18 +29,26 @@ class Mage_Core_Model_Theme_CopyService
     protected $_link;
 
     /**
+     * @var Mage_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
+
+    /**
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Theme_File_Factory $fileFactory
      * @param Mage_Core_Model_Layout_Link $link
+     * @param Mage_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Theme_File_Factory $fileFactory,
-        Mage_Core_Model_Layout_Link $link
+        Mage_Core_Model_Layout_Link $link,
+        Mage_Core_Model_Event_Manager $eventManager
     ) {
         $this->_filesystem = $filesystem;
         $this->_fileFactory = $fileFactory;
         $this->_link = $link;
+        $this->_eventManager = $eventManager;
     }
 
     /**
@@ -54,6 +62,7 @@ class Mage_Core_Model_Theme_CopyService
         $this->_copyDatabaseCustomization($source, $target);
         $this->_copyLayoutCustomization($source, $target);
         $this->_copyFilesystemCustomization($source, $target);
+        $this->_eventManager->dispatch('theme_copy_after', array('sourceTheme' => $source, 'targetTheme' => $target));
     }
 
     /**

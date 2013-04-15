@@ -139,14 +139,4 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return (int)$this->_configuration->getNode(self::XML_PATH_DAYS_TO_EXPIRE);
     }
-
-    /**
-     * Get staging theme id which was launched in editor
-     *
-     * @return int|null
-     */
-    public function getEditableThemeId()
-    {
-        return $this->_backendSession->getData(Mage_DesignEditor_Model_State::CURRENT_THEME_SESSION_KEY);
-    }
 }

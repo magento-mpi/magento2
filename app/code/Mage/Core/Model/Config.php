@@ -23,6 +23,11 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     const CACHE_TAG = 'CONFIG';
 
     /**
+     * Default configuration scope
+     */
+    const SCOPE_DEFAULT = 'default';
+
+    /**
      * Stores configuration scope
      */
     const SCOPE_STORES = 'stores';
