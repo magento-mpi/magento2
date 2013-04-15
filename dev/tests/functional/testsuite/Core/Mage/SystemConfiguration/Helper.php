@@ -157,7 +157,6 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
      */
     public function configurePaypal($parameters)
     {
-        $this->markTestIncomplete('MAGETWO-8455');
         $this->configure($parameters);
     }
 
