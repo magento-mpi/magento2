@@ -30,37 +30,79 @@ class Integrity_Modular_FallbackTest extends PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    static protected $_locales;
+    static protected $_checkThemeLocales = array();
 
     /**
-     * @var array
+     * @var Mage_Core_Model_Theme_Collection
      */
-    static protected $_themes;
+    static protected $_themeCollection;
 
     public static function setUpBeforeClass()
     {
         $objectManager = Mage::getObjectManager();
         self::$_fallback = $objectManager->get('Mage_Core_Model_Design_FileResolution_Strategy_Fallback');
 
-        // Locales to be checked
-        $localeModel = new Zend_Locale;
-        self::$_locales = array_keys($localeModel->getLocaleList());
-        self::$_locales[] = null;
-
         // Themes to be checked
-        /** @var $themeCollection Mage_Core_Model_Theme_Collection */
-        $themeCollection = $objectManager->get('Mage_Core_Model_Theme_Collection');
-        $themeCollection->addDefaultPattern('*');
-        foreach ($themeCollection as $theme) {
-            self::$_themes[] = $theme;
-        }
+        self::$_themeCollection = $objectManager->get('Mage_Core_Model_Theme_Collection');
+        self::$_themeCollection->addDefaultPattern('*');
 
-        // Add empty theme, so we surely reach the final fallback level
-        $themeCollection->setBaseDir(__DIR__ . '/_files/fallback_tests/empty_theme')
-            ->addDefaultPattern('*');
-        foreach ($themeCollection as $theme) {
-            self::$_themes[] = $theme;
+        // Compose list of locales, needed to be checked for themes
+        self::$_checkThemeLocales = array();
+        foreach (self::$_themeCollection as $theme) {
+            $themeLocales = self::_getThemeLocales($theme);
+            $themeLocales[] = null; // Default non-localized file will need to be checked as well
+            self::$_checkThemeLocales[$theme->getFullPath()] = $themeLocales;
         }
+    }
+
+    /**
+     * Return array of locales, supported by the theme
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @return array
+     */
+    static protected function _getThemeLocales(Mage_Core_Model_Theme $theme)
+    {
+        $result = array();
+        $patternDir = self::_getLocalePatternDir($theme);
+        $localeModel = new Zend_Locale;
+        foreach (array_keys($localeModel->getLocaleList()) as $locale) {
+            $dir = str_replace('<locale_placeholder>', $locale, $patternDir);
+            if (is_dir($dir)) {
+                $result[] = $locale;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Return pattern for theme locale directories, where <locale_placeholder> is placed to mark a locale's location.
+     *
+     * @param Mage_Core_Model_Theme $theme
+     * @return string
+     * @throws Exception
+     */
+    static protected function _getLocalePatternDir(Mage_Core_Model_Theme $theme)
+    {
+        $localePlaceholder = '<locale_placeholder>';
+        /** @var $fallbackRule Mage_Core_Model_Design_Fallback_List_View */
+        $fallbackRule = Mage::getObjectManager()->get('Mage_Core_Model_Design_Fallback_List_View');
+        $params = array(
+            'area' => $theme->getArea(),
+            'theme' => $theme,
+            'locale' => $localePlaceholder,
+        );
+        $patternDirs = $fallbackRule->getPatternDirs($params);
+        $themePath = '/' . $theme->getFullPath() . '/';
+        foreach ($patternDirs as $patternDir) {
+            $patternPath = $patternDir . '/';
+            if ((strpos($patternPath, $themePath) !== false) // It is theme's directory
+                && (strpos($patternPath, $localePlaceholder) !== false) // It is localized directory
+            ) {
+                return $patternDir;
+            }
+        }
+        throw new Exception('Unable to determine theme locale path');
     }
 
     /**
@@ -74,15 +116,13 @@ class Integrity_Modular_FallbackTest extends PHPUnit_Framework_TestCase
         list(, $file) = explode(Mage_Core_Model_Design_Package::SCOPE_SEPARATOR, $modularCall);
 
         $wrongResolutions = array();
-        foreach (self::$_themes as $theme) {
+        foreach (self::$_themeCollection as $theme) {
             if ($area && ($theme->getArea() != $area)) {
                 continue;
             }
 
-            foreach (self::$_locales as $locale) {
-                $found = $this->_getFileResolutions($theme, $locale, $file);
-                $wrongResolutions = array_merge($wrongResolutions, $found);
-            }
+            $found = $this->_getFileResolutions($theme, $file);
+            $wrongResolutions = array_merge($wrongResolutions, $found);
         }
 
         if ($wrongResolutions) {
@@ -101,11 +141,10 @@ class Integrity_Modular_FallbackTest extends PHPUnit_Framework_TestCase
      * Resolves file to find its fallback'ed paths
      *
      * @param Mage_Core_Model_Theme $theme
-     * @param string $locale
      * @param string $file
      * @return array
      */
-    protected function _getFileResolutions(Mage_Core_Model_Theme $theme, $locale, $file)
+    protected function _getFileResolutions(Mage_Core_Model_Theme $theme, $file)
     {
         $found = array();
         $fileResolved = self::$_fallback->getFile($theme->getArea(), $theme, $file);
@@ -113,11 +152,12 @@ class Integrity_Modular_FallbackTest extends PHPUnit_Framework_TestCase
             $found[$fileResolved] = $fileResolved;
         }
 
-        $fileResolved = self::$_fallback->getViewFile($theme->getArea(), $theme, $locale, $file);
-        if (file_exists($fileResolved)) {
-            $found[$fileResolved] = $fileResolved;
+        foreach (self::$_checkThemeLocales[$theme->getFullPath()] as $locale) {
+            $fileResolved = self::$_fallback->getViewFile($theme->getArea(), $theme, $locale, $file);
+            if (file_exists($fileResolved)) {
+                $found[$fileResolved] = $fileResolved;
+            }
         }
-
         return $found;
     }
 
@@ -126,23 +166,15 @@ class Integrity_Modular_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public static function modularFallbackDataProvider()
     {
-        $blackListPaths = self::_getBlackListPaths();
-
         $result = array();
-        $root = self::_getRootDir();
-        $directory = new RecursiveDirectoryIterator($root, RecursiveDirectoryIterator::SKIP_DOTS);
-        $iterator = new RecursiveIteratorIterator($directory);
-        foreach ($iterator as $file) {
+        foreach (self::_getFilesToProcess() as $file) {
             $file = (string) $file;
 
-            if (self::_isDirectoryBlacklisted($file, $blackListPaths)) {
-                continue;
-            }
-
-            // Try to find modular context
             $modulePattern = '[A-Z][a-z]+_[A-Z][a-z]+';
             $filePattern = '[[:alnum:]_/-]+\\.[[:alnum:]_./-]+';
-            $pattern = '#' . $modulePattern . Mage_Core_Model_Design_Package::SCOPE_SEPARATOR . $filePattern . '#';
+            $pattern = '#' . $modulePattern
+                . preg_quote(Mage_Core_Model_Design_Package::SCOPE_SEPARATOR)
+                . $filePattern . '#S';
             if (!preg_match_all($pattern, file_get_contents($file), $matches)) {
                 continue;
             }
@@ -166,53 +198,32 @@ class Integrity_Modular_FallbackTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Return paths, that we should not look into for optimization purposes
+     * Return list of files, that must be processed, searching for modular calls to view files
      *
      * @return array
      */
-    protected static function _getBlackListPaths()
+    protected static function _getFilesToProcess()
     {
-        $root = self::_getRootDir();
-        $result = array(
-            $root . '/.git',
-            $root . '/var',                                                    // Application cache
-            __DIR__,                                                           // Hardcoded values in some modular tests
-            Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir(),  // Integration tests cache
-        );
-
-        foreach ($result as $key => $dir) {
-            $result[$key] = str_replace('/', DIRECTORY_SEPARATOR, $dir . '/');
+        $result = array();
+        $rootDir = self::_getRootDir();
+        foreach (array('app/code', 'app/design') as $subDir) {
+            $iterator = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($rootDir . "/{$subDir}", RecursiveDirectoryIterator::SKIP_DOTS)
+            );
+            $result = array_merge($result, iterator_to_array($iterator));
         }
 
         return $result;
     }
 
     /**
-     * Returns application root directory
+     * Return application root directory
      *
      * @return string
      */
     static protected function _getRootDir()
     {
-        return realpath(__DIR__ . '/../../../../../../');
-    }
-
-    /**
-     * Test, whether file is in a blacklisted directory
-     *
-     * @param string $file
-     * @param array $blackListPaths
-     * @return bool
-     */
-    protected static function _isDirectoryBlacklisted($file, $blackListPaths)
-    {
-        $file .= DIRECTORY_SEPARATOR;
-        foreach ($blackListPaths as $path) {
-            if (substr($file, 0, strlen($path)) == $path) {
-                return true;
-            }
-        }
-        return false;
+        return realpath(__DIR__ . '/../../../../../');
     }
 
     /**
@@ -227,8 +238,8 @@ class Integrity_Modular_FallbackTest extends PHPUnit_Framework_TestCase
     {
         $file = str_replace(DIRECTORY_SEPARATOR, '/', $file);
         $areaPatterns = array(
-            '#app/code/[^/]+/[^/]+/view/([^/]+)/#',
-            '#app/design/([^/]+)/#',
+            '#app/code/[^/]+/[^/]+/view/([^/]+)/#S',
+            '#app/design/([^/]+)/#S',
         );
         foreach ($areaPatterns as $pattern) {
             if (preg_match($pattern, $file, $matches)) {
