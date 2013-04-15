@@ -270,14 +270,9 @@
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell" name="catalog.product.edit.tab.crosssell"/>
         </container>
     </adminhtml_catalog_product_crosssellgrid>
-<!--
-Layout handle for simple products
--->
+
     <adminhtml_catalog_product_simple>
         <update handle="adminhtml_catalog_product_superconfig_config"/>
-        <reference name="product_tabs">
-            <action method="addTab"><name>downloadable_items</name><block>Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable</block></action>
-        </reference>
         <reference name="product-type-tabs">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
                 <block type="Mage_Core_Block_Template" name="attribute-block-template"
@@ -292,14 +287,9 @@ Layout handle for simple products
             </block>
         </reference>
     </adminhtml_catalog_product_simple>
-<!--
-Layout handle for virtual products
--->
+
     <adminhtml_catalog_product_virtual>
         <update handle="adminhtml_catalog_product_superconfig_config"/>
-        <reference name="product_tabs">
-            <action method="addTab"><name>downloadable_items</name><block>Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable</block></action>
-        </reference>
         <reference name="product-type-tabs">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config" name="admin.product.edit.tab.super.config.grid.container">
                 <block type="Mage_Core_Block_Template" name="attribute-block-template"
@@ -315,9 +305,6 @@ Layout handle for virtual products
         </reference>
     </adminhtml_catalog_product_virtual>
 
-<!--
-Layout handle for grouped products
--->
     <adminhtml_catalog_product_grouped>
         <update handle="adminhtml_catalog_product_grouped_grid_popup"/>
         <reference name="product-type-tabs">

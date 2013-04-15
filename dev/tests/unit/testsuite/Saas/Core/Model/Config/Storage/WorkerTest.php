@@ -68,8 +68,14 @@ class Saas_Core_Model_Config_Storage_WorkerTest extends PHPUnit_Framework_TestCa
             array(), array(), '', false, false);
         $this->_storageLocalesMock = $this->getMock('Saas_Core_Model_Config_Storage_Locales',
             array(), array(), '', false, false);
-        $this->_model = new Saas_Core_Model_Config_Storage_Worker($this->_cacheMock, $this->_loaderMock, $this->_factoryMock,
-            $this->_resourcesConfigMock, $this->_storageModulesMock, $this->_storageLocalesMock);
+        $this->_model = new Saas_Core_Model_Config_Storage_Worker(
+            $this->_cacheMock,
+            $this->_loaderMock,
+            $this->_factoryMock,
+            $this->_resourcesConfigMock,
+            $this->_storageModulesMock,
+            $this->_storageLocalesMock
+        );
     }
 
     protected function tearDown()

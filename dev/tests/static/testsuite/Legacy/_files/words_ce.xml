@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 -->
-<!-- These are the settings for legacy testing of Magento 2 Core -->
+<!-- These are the settings for legacy testing of Magento 2 Community Edition -->
 <config>
     <words>
         <!-- Mage_XmlConnect -->
@@ -128,4 +128,4 @@
             <word>staging</word>
         </item>
     </whitelist>
-    </config>
+</config>

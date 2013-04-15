@@ -83,7 +83,7 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
      */
     public function cancelAction()
     {
-//      TODO: delete index task from queue
+        // @TODO: delete index task from queue
 
         $this->_endAjax(array(
             'error'       => false,

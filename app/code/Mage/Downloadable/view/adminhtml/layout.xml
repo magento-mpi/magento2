@@ -32,6 +32,24 @@
         </reference>
     </adminhtml_catalog_product_downloadable>
 
+    <adminhtml_catalog_product_simple>
+        <reference name="product_tabs">
+            <action method="addTab">
+                <name>downloadable_items</name>
+                <block>Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable</block>
+            </action>
+        </reference>
+    </adminhtml_catalog_product_simple>
+
+    <adminhtml_catalog_product_virtual>
+        <reference name="product_tabs">
+            <action method="addTab">
+                <name>downloadable_items</name>
+                <block>Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable</block>
+            </action>
+        </reference>
+    </adminhtml_catalog_product_virtual>
+
     <adminhtml_sales_order_view>
         <reference name="order_items">
             <action method="addItemRender"><type>downloadable</type><block>Mage_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default</block><template>Mage_Downloadable::sales/order/view/items/renderer/downloadable.phtml</template></action>

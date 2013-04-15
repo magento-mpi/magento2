@@ -33,7 +33,7 @@ return function (array $params)
         readfile($robotsFile);
         return;
     }
-    if(isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443) {
+    if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443) {
         /**
          * Hot fix for nginx. Zend_Controller_Request_Http::isSecure
          * works incorrectly in nginx and it leads to infinite loop
