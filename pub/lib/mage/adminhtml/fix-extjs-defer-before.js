@@ -6,14 +6,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*@cc_on
+/*jshint browser:true jquery:true*/
 // code only for IE7 when ExtJs overwrite "defer" function in PrototypeJs
-(function(){
-    var last = null;
-    var ie7 = @if(@_jscript_version==5.7) 1 @end + 0;
-    var ie8 = @if(@_jscript_version==5.8) 1 @end + 0;
-    if (ie7 || ie8) {
-    if (ie7) {
+(function($){
+    var last = null
+    version = parseInt($.browser.version);
+    if (version === 7) {
         var eDefer = Function.prototype.defer;
         Function.prototype.defer = function() {
             // prevent throw stack overflow exception
@@ -24,5 +22,4 @@
             return this;
         };
     }
-})();
-@*/
+})(jQuery);
