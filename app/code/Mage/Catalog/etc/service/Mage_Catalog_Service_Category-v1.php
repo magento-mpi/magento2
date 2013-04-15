@@ -14,16 +14,27 @@ $resourceDefinition = array(
                 'identity'   => true,
                 'nullable'   => false,
                 'primary'    => true,
+                '_constraint' => array(
+                    'class' => 'Magento_Validator_Int'
+                )
             ),
             // END: EXCERPTED FROM ORIGINAL DEFINITION
 
             'store_id'        => array(
                 'default'  => null,
-                'required' => false
+                'required' => false,
+                '_constraint' => array(
+                    'class' => 'Magento_Validator_Int'
+                )
             ),
 
             'data_namespace'  => 'catalog_category',
             'response_schema' => array()
+        ),
+        'save' => array(
+            '_constraint' => array(
+                'class' => 'Mage_Eav_Model_Validator_Attribute_Data'
+            )
         )
     ),
     'response_schema' => array(

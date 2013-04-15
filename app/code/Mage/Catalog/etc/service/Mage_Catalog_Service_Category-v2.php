@@ -19,11 +19,19 @@ $resourceDefinition = array(
 
             'store_id'        => array(
                 'default'  => null,
-                'required' => true // ! incompatible change ! new version has been introduced
+                'required' => true, // ! incompatible change ! new version has been introduced
+                '_constraint' => array(
+                    'class' => 'Magento_Validator_Int'
+                )
             ),
 
             'data_namespace'  => 'catalog_category',
             'response_schema' => array()
+        ),
+        'save' => array(
+            '_constraint' => array(
+                'class' => 'Mage_Eav_Model_Validator_Attribute_Data'
+            )
         )
     ),
     'response_schema' => array(
