@@ -110,10 +110,10 @@
          * @param {String|Object} data - optional - Object or String depending on api operation
          * @param {Object} reqObj - optional - Below is the object and allowed properties
          *                              {
-                                             "version":1, //version of the api
-                                             "successCallback": successCallBackFunction,
-                                             "errorCallBack": errorCallBackFunction
-                                         };
+         "version":1, //version of the api
+         "successCallback": successCallBackFunction,
+         "errorCallBack": errorCallBackFunction
+         };
          */
         call: function(resURI, method, data, reqObj) {
             if (!reqObj) {
@@ -125,7 +125,7 @@
             //No data necessary if its part of the uri
             data = url.indexOf(data) > -1 ? null : data;
 
-            this._poster(url, method, data, reqObj.successCallback, reqObj.errorCallback);
+            this._poster(url, method, data, reqObj.successCallback, reqObj.errorCallBack);
         },
 
         /**
@@ -138,7 +138,7 @@
          * @param errorCallback
          * @private
          */
-        _poster: function(url, method, data, successCallback, errorCallback) {
+        _poster: function(url, method, data, successCallback, errorCallBack) {
             $.ajax({
                 url: url,
                 type: method, //HTTP Method
@@ -161,8 +161,8 @@
 
                 error: function(xhr, error) {
                     this.element.trigger("webapi.error");
-                    if (errorCallback) {
-                        errorCallback.call(this,xhr, error);
+                    if (errorCallBack) {
+                        errorCallBack.call(this,xhr, error);
                     }
                 },
 
@@ -202,10 +202,10 @@
              * @param {String|Object} data - optional - Object or String depending on Service operation
              * @param {Object} reqObj - optional - Below is the object and allowed properties
              *                              {
-                                             "version":1, //version of the api
-                                             "successCallback": successCallBackFunction,
-                                             "errorCallBack": errorCallBackFunction
-                                             };
+             "version":1, //version of the api
+             "successCallback": successCallBackFunction,
+             "errorCallBack": errorCallBackFunction
+             };
              */
             get: function(data, reqObj) {
                 if (this.context) {
@@ -248,7 +248,7 @@
     };
 
     var errorCallBack = function(xhr, error) {
-        console.log("Error!");
+        console.log("Error! Response:" + xhr.responseText);
     };
 
     var productRequest = {
@@ -280,7 +280,3 @@
     API.call(API.resource.uri.products, API.resource.method.get, 1, productRequest);
 
 })(jQuery);
-
-
-
-
