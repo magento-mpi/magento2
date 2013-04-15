@@ -103,7 +103,6 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * Fails due to MAGE-5616
      * <p>Create customer via 'Create order' form (required fields are not filled).</p>
      *
      * @param string $emptyField
@@ -269,7 +268,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
             $this->addParameter('fieldId', $fieldName);
             $this->assertMessagePresent('validation', 'empty_required_field');
         }
-        $this->assertMessagePresent('validation', 'invalid_cvv');
+        $this->assertMessagePresent('validation', 'empty_required_field_cc_number');
         $this->assertTrue($this->verifyMessagesCount(5), $this->getParsedMessages());
     }
 
@@ -336,9 +335,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $xpath = $this->_getControlXpath('dropdown', 'card_type');
-        $this->addParameter('fieldXpath', $xpath);
-        $this->assertMessagePresent('validation', 'invalid_cvv');
+        $this->assertMessagePresent('validation', 'empty_required_field_cc_number');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
