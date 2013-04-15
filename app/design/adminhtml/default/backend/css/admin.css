@@ -4090,6 +4090,7 @@ table tbody tr:nth-child(odd):hover th {
 .grid .filter .range input {
     margin-top: 0;
     vertical-align: middle;
+    width: 80%;
 }
 
 .grid .filter .range select {
@@ -4117,8 +4118,8 @@ table tbody tr:nth-child(odd):hover th {
 
 .grid .filter .date:before {
     position: absolute;
-    left: 61px;
-    top: 2px;
+    left: 85%;
+    top: 1px;
     margin-top: 0;
     text-shadow: none;
     width: 16px;
