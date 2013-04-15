@@ -1,0 +1,27 @@
+{"type": "object",
+    "$schema": "http://magento.com/dev/jsonschema/v1",
+    "id": "http://jsonschema.net",
+    "required": false,
+    "properties": {
+        "$attribute": {
+            "id": "http://magento.com/dev/jsonschema/v1/$attribute",
+            "required": false,
+            "type": "object",
+            "properties": {
+                "$operator": {
+                    "id": "http://magento.com/dev/jsonschema/v1/$operator",
+                    "required": false,
+                    "type": "array",
+                    "items": [
+                        {
+                            "id": "http://magento.com/dev/jsonschema/v1/$any",
+                            "required": false,
+                            "type": "object",
+                            "properties": {}
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

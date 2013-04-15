@@ -57,6 +57,7 @@ abstract class Mage_Core_Service_Abstract
         if (! $context instanceof Mage_Core_Service_Context) {
             $params  = $context;
             $context = $this->_objectManager->get('Mage_Core_Service_Context');
+            // @todo better to void following such conventions
             if (is_string($params) || is_numeric($params)) {
                 $params = array('id' => $params);
             }
@@ -68,9 +69,10 @@ abstract class Mage_Core_Service_Abstract
 
             $requestParams = (array)Mage::app()->getRequest()->getParam($requestSchema->getDataNamespace());
 
-            // TODO we need to have addData and _filter are working recursively and not as it is right now
+            // @todo we need to have addData and _parseAndValidate are working recursively and not as it is right now
             $context->addData($requestParams);
-            $this->_filter($context, $requestSchema);
+
+            $this->_parseAndValidate($context, $requestSchema);
 
             // @todo how to declare and extract global variables such as `store_id`?
 
@@ -82,11 +84,29 @@ abstract class Mage_Core_Service_Abstract
         return $context;
     }
 
-    protected function _filter(Mage_Core_Service_Context $context, Varien_Object $requestSchema)
+    protected function _parseAndValidate(Mage_Core_Service_Context $context, Varien_Object $requestSchema)
     {
         foreach ($context->getData() as $key => $value) {
             if (!$requestSchema->hasData($key)) {
                 $context->unsetData($key);
+            } else {
+                // @todo move into more appropriate place
+                $config = $requestSchema->getData($key);
+                switch ($config['content_type']) {
+                    case 'json':
+                        $value = json_decode($value, true);
+                        break;
+                    case 'xml':
+                        $value = array(); // convert from xml to assoc array
+                        break;
+                }
+
+                if (isset($config['schema'])) {
+                    $dataSchema = $this->_definition->getDataSchema($config['schema']);
+                    $dataSchema->validate($value);
+                }
+
+                $context->setData($key, $value);
             }
         }
     }

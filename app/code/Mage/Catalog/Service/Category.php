@@ -11,7 +11,7 @@
  */
 class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
 {
-    const SERVICE_ID = 'catalogCategory';
+    const SERVICE_ID = 'Mage_Catalog_Service_Category';
 
     /**
      * Return resource object or resource object data.
@@ -60,7 +60,16 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
         $collection->addIdFilter($categoryIds);
 
         $filters = $context->getFilters();
-        $collection->addAttributeToFilter($filters);
+
+        foreach ($filters as $field => $value) {
+            // $filters['offset']
+
+            // $filters['limit']
+
+            // $filters['sort']
+
+            // $filters['{attribute_code}']
+        }
 
         // TODO or not TODO
         //$collection->load();

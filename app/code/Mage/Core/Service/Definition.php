@@ -17,10 +17,17 @@ class Mage_Core_Service_Definition extends Varien_Object
      */
     protected $_responseSchemas = array();
 
+    /**
+     * @var array $_dataSchemas
+     */
+    protected $_dataSchemas = array();
+
     /** @var Magento_ObjectManager */
     protected $_objectManager;
 
-    public function __construct(Magento_ObjectManager $objectManager, array $definitions = null)
+    public function __construct(
+        Magento_ObjectManager $objectManager,
+        array $definitions = null)
     {
         $this->_objectManager = $objectManager;
 
@@ -43,12 +50,13 @@ class Mage_Core_Service_Definition extends Varien_Object
         $hash = $serviceClass . '::' . $serviceMethod;
         if (!isset($this->_requestSchemas[$hash])) {
             if (null !== $serviceMethod) {
-                $schema = $this->getElement($serviceClass . '/request_schema/' . $serviceMethod);
+                $schema = $this->getNode($serviceClass . '/request_schema/' . $serviceMethod);
             }
             if (!$schema) {
-                $schema = $this->getElement($serviceClass . '/request_schema/*');
+                $schema = $this->getNode($serviceClass . '/request_schema/*');
             }
-            $this->_requestSchemas[$hash] = new Varien_Object($schema);
+            $this->_requestSchemas[$hash] = $this->_objectManager->get('Mage_Core_Service_RequestSchema');
+            $this->_requestSchemas[$hash]->load($schema);
         }
 
         return $this->_requestSchemas[$hash];
@@ -64,21 +72,36 @@ class Mage_Core_Service_Definition extends Varien_Object
         $hash = $serviceClass . '::' . $serviceMethod;
         if (!isset($this->_responseSchemas[$hash])) {
             if (null !== $serviceMethod) {
-                $schema = $this->getElement($serviceClass . '/response_schema/' . $serviceMethod);
+                $schema = $this->getNode($serviceClass . '/response_schema/' . $serviceMethod);
             }
             if (!$schema) {
-                $schema = $this->getElement($serviceClass . '/response_schema/*');
+                $schema = $this->getNode($serviceClass . '/response_schema/*');
             }
 
-            $this->_responseSchemas[$hash] = new Varien_Object($schema);
+            $this->_responseSchemas[$hash] = $this->_objectManager->get('Mage_Core_Service_ResponseSchema');
+            $this->_responseSchemas[$hash]->load($schema);
         }
 
         return $this->_responseSchemas[$hash];
     }
 
+    /**
+     * @param string $schemaId
+     * @return Mage_Core_Service_DataSchema $dataSchema
+     */
+    public function getDataSchema($schemaId)
+    {
+        if (!isset($this->_dataSchemas[$schemaId])) {
+            $this->_dataSchemas[$schemaId] = $this->_objectManager->get('Mage_Core_Service_DataSchema');
+            $this->_dataSchemas[$schemaId]->load($schemaId);
+        }
+
+        return $this->_dataSchemas[$schemaId];
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public function getElement($path, $default = null)
+    public function getNode($path, $default = null)
     {
         $result = $this->getDefinitions()->getData($path);
         if (null !== $default && null === $result) {
@@ -96,6 +119,20 @@ class Mage_Core_Service_Definition extends Varien_Object
 
     /**
      * @todo this is a prototype
+     *
+     * Definitions may be area-specific with an ability to be extended and replaced for target area
+     * or better to say for some unique global context
+     *
+     * Eg, in default case we work with default definitions while when application runs in "safe" mode
+     * we have a specific subset of definitions which extend/overrides the default ones
+     *
+     * Regarding versioning: we design all "internal" definitions to be 100% matched to WEB API needs.
+     * When we bootstrap new WEB API we use all "internal" definitions as a first version of WEB API.
+     * All upcoming changes for "internal" usage should be implemented within new files
+     * and not directly in original definition files. Following this way we have clear way of controlling
+     * when we should introduce new WEB API version.
+     * Also we won't need to "replicate" entirely all "internal" definitions to fix WEB API version.
+     *
      */
     protected function _prepareDefinitions(array $definitions = null)
     {
@@ -108,7 +145,7 @@ class Mage_Core_Service_Definition extends Varien_Object
                     'request_schema'  => array(
                         // having all schemas defined on the same level will let us to share schemas between methods
                         '*' => array( // `*` - defines default service-level schema
-                            '_ref'             => 'entity/catalogCategory',
+                            '_ref'             => 'entity/catalog_product',
 
                             // BEGIN: EXCERPTED FROM ORIGINAL DEFINITION
                             'product_id'       => array(
@@ -128,15 +165,20 @@ class Mage_Core_Service_Definition extends Varien_Object
                             ),
                             // END: EXCERPTED FROM ORIGINAL DEFINITION
 
+                            'filters'          => array(
+                                'default'      => null,
+                                'content_type' => 'json'
+                            ),
+
                             'store_id'         => array(
                                 'default' => null
                             ),
-                            'data_namespace' => 'catalog_product',
+                            'data_namespace'   => 'catalog_product',
                         )
                     ),
                     'response_schema' => array(
                         '*' => array( // `*` - defines default service-level schema
-                            '_ref'             => 'entity/catalogProduct',
+                            '_ref'             => 'entity/catalog_product',
                             'name'             => array(
                                 'required' => true
                             ),
@@ -195,10 +237,10 @@ class Mage_Core_Service_Definition extends Varien_Object
                 'Mage_Catalog_Service_Category' => array(
                     'request_schema'  => array(
                         '*' => array( // `*` - defines default service-level schema
-                            '_ref'      => 'entity/catalogCategory',
+                            '_ref'            => 'entity/catalog_category',
 
                             // BEGIN: EXCERPTED FROM ORIGINAL DEFINITION
-                            'entity_id' => array(
+                            'entity_id'       => array(
                                 'label'      => 'Entity ID',
                                 'type'       => Varien_Db_Ddl_Table::TYPE_SMALLINT,
                                 'input_type' => 'label',
@@ -209,8 +251,14 @@ class Mage_Core_Service_Definition extends Varien_Object
                             ),
                             // END: EXCERPTED FROM ORIGINAL DEFINITION
 
-                            'store_id'  => array(
+                            'store_id'        => array(
                                 'default' => null
+                            ),
+
+                            'filters'         => array(
+                                'default'      => null,
+                                'content_type' => 'json',
+                                'schema'       => 'service/filters.schema'
                             ),
 
                             'data_namespace'  => 'catalog_category',
@@ -219,13 +267,13 @@ class Mage_Core_Service_Definition extends Varien_Object
                     ),
                     'response_schema' => array(
                         '*'    => array( // `*` - defines default service-level schema
-                            '_ref'      => 'entity/catalogCategory',
+                            '_ref'      => 'entity/catalog_category',
 
                             'entity_id' => array(),
                             'name'      => array()
                         ),
                         'item' => array( // defines method-specific schema
-                            '_ref'      => 'entity/catalogCategory',
+                            '_ref'      => 'entity/catalog_category',
 
                             'entity_id' => array(),
                             'name'      => array(),
