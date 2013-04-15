@@ -22,12 +22,18 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
     protected $_eventManager;
 
     /**
+     * @var Saas_Index_Model_Flag
+     */
+    protected $_flag;
+
+    /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param Mage_Core_Controller_Response_Http $response
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param Mage_Core_Model_Authorization $authorizationModel
+     * @param Mage_Core_Model_Event_Manager $eventManager
      * @param string $areaCode
      * @param array $invokeArgs
      */
@@ -47,6 +53,8 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
         );
         $this->_authorizationModel = $authorizationModel;
         $this->_eventManager = $eventManager;
+        $this->_flag = Mage::getModel('Saas_Index_Model_Flag');
+        $this->_flag->loadSelf();
     }
 
     /**
@@ -70,6 +78,10 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
 
         /** @var $eventManager Mage_Core_Model_Event_Manager */
         $this->_eventManager->dispatch('application_process_refresh_catalog');
+
+
+        $this->_flag->setState(Saas_Index_Model_Flag::STATE_QUEUED);
+        $this->_flag->save();
 
         $this->_endAjax(array(
             'error'       => false,
@@ -97,7 +109,9 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
      */
     public function updateStatusAction()
     {
-        $isTaskFinished = !$this->isTaskAdded();
+        $isTaskFinished = ($this->_flag->getState() == Saas_Index_Model_Flag::STATE_FINISHED ||
+            $this->_flag->getState() == Saas_Index_Model_Flag::STATE_NOTIFIED);
+
         $this->_endAjax(array(
             'status_html' => $this->_getStatusHtml(),
             'is_finished' => $isTaskFinished,
@@ -111,7 +125,7 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
      */
     public function isTaskAdded()
     {
-        return $this->isTaskProcessing() || isset($_GET['added']);
+        return $this->_flag->getState() == Saas_Index_Model_Flag::STATE_QUEUED;
     }
 
     /**
@@ -121,7 +135,7 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
      */
     public function isTaskProcessing()
     {
-        return isset($_GET['processing']);
+        return $this->_flag->getState() == Saas_Index_Model_Flag::STATE_PROCESSING;
     }
 
     /**
