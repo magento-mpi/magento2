@@ -24,7 +24,7 @@
         $_imgHtml = $_helper->categoryAttribute($_category, $_imgHtml, 'image');
     }
 ?>
-<?php echo $this->getMessagesBlock()->toHtml() ?>
+<?php echo $this->getLayout()->renderElement('messages') ?>
 <div class="category-view">
     <?php if($_imgUrl): ?>
         <?php echo $_imgHtml ?>

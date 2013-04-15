@@ -21,6 +21,33 @@ class Mage_Wishlist_IndexController
     implements Mage_Catalog_Controller_Product_View_Interface
 {
     /**
+     * @var Mage_Wishlist_Model_Config
+     */
+    protected $_wishlistConfig;
+
+    /**
+     * @param Mage_Core_Controller_Request_Http $request
+     * @param Mage_Core_Controller_Response_Http $response
+     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Controller_Varien_Front $frontController
+     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Mage_Wishlist_Model_Config $wishlistConfig
+     * @param string $areaCode
+     */
+    public function __construct(
+        Mage_Core_Controller_Request_Http $request,
+        Mage_Core_Controller_Response_Http $response,
+        Magento_ObjectManager $objectManager,
+        Mage_Core_Controller_Varien_Front $frontController,
+        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Mage_Wishlist_Model_Config $wishlistConfig,
+        $areaCode = null
+    ) {
+        $this->_wishlistConfig = $wishlistConfig;
+        parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $areaCode);
+    }
+
+    /**
      * Action list where need check enabled cookie
      *
      * @var array
@@ -587,22 +614,32 @@ class Mage_Wishlist_IndexController
             return $this->norouteAction();
         }
 
+        $sharingLimit = $this->_wishlistConfig->getSharingEmailLimit();
+        $textLimit = $this->_wishlistConfig->getSharingTextLimit();
+        $emailsLeft = $sharingLimit - $wishlist->getShared();
         $emails  = explode(',', $this->getRequest()->getPost('emails'));
-        $message = nl2br(htmlspecialchars((string) $this->getRequest()->getPost('message')));
         $error   = false;
-        if (empty($emails)) {
-            $error = $this->__('Email address can\'t be empty.');
-        }
-        else {
-            foreach ($emails as $index => $email) {
-                $email = trim($email);
-                if (!Zend_Validate::is($email, 'EmailAddress')) {
-                    $error = $this->__('Please input a valid email address.');
-                    break;
+        $message = (string) $this->getRequest()->getPost('message');
+        if (strlen($message) > $textLimit) {
+            $error = $this->__('Message length must not exceed %d symbols', $textLimit);
+        } else {
+            $message = nl2br(htmlspecialchars($message));
+            if (empty($emails)) {
+                $error = $this->__('Email address can\'t be empty.');
+            } else if (count($emails) > $emailsLeft) {
+                $error = $this->__('This wishlist can be shared %d more times.', $emailsLeft);
+            } else {
+                foreach ($emails as $index => $email) {
+                    $email = trim($email);
+                    if (!Zend_Validate::is($email, 'EmailAddress')) {
+                        $error = $this->__('Please input a valid email address.');
+                        break;
+                    }
+                    $emails[$index] = $email;
                 }
-                $emails[$index] = $email;
             }
         }
+
         if ($error) {
             Mage::getSingleton('Mage_Wishlist_Model_Session')->addError($error);
             Mage::getSingleton('Mage_Wishlist_Model_Session')->setSharingForm($this->getRequest()->getPost());
@@ -613,6 +650,7 @@ class Mage_Wishlist_IndexController
         $translate = Mage::getSingleton('Mage_Core_Model_Translate');
         /* @var $translate Mage_Core_Model_Translate */
         $translate->setTranslateInline(false);
+        $sent = 0;
 
         try {
             $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
@@ -623,7 +661,7 @@ class Mage_Wishlist_IndexController
                     ->createBlock('Mage_Wishlist_Block_Share_Email_Rss')
                     ->setWishlistId($wishlist->getId())
                     ->toHtml();
-                $message .=$rss_url;
+                $message .= $rss_url;
             }
             $wishlistBlock = $this->getLayout()->createBlock('Mage_Wishlist_Block_Share_Email_Items')->toHtml();
 
@@ -632,24 +670,31 @@ class Mage_Wishlist_IndexController
             $emailModel = Mage::getModel('Mage_Core_Model_Email_Template');
 
             $sharingCode = $wishlist->getSharingCode();
-            foreach($emails as $email) {
-                $emailModel->sendTransactional(
-                    Mage::getStoreConfig('wishlist/email/email_template'),
-                    Mage::getStoreConfig('wishlist/email/email_identity'),
-                    $email,
-                    null,
-                    array(
-                        'customer'      => $customer,
-                        'salable'       => $wishlist->isSalable() ? 'yes' : '',
-                        'items'         => $wishlistBlock,
-                        'addAllLink'    => Mage::getUrl('*/shared/allcart', array('code' => $sharingCode)),
-                        'viewOnSiteLink'=> Mage::getUrl('*/shared/index', array('code' => $sharingCode)),
-                        'message'       => $message
-                    )
-                );
-            }
 
-            $wishlist->setShared(1);
+            try {
+                foreach($emails as $email) {
+                    $emailModel->sendTransactional(
+                        Mage::getStoreConfig('wishlist/email/email_template'),
+                        Mage::getStoreConfig('wishlist/email/email_identity'),
+                        $email,
+                        null,
+                        array(
+                            'customer'      => $customer,
+                            'salable'       => $wishlist->isSalable() ? 'yes' : '',
+                            'items'         => $wishlistBlock,
+                            'addAllLink'    => Mage::getUrl('*/shared/allcart', array('code' => $sharingCode)),
+                            'viewOnSiteLink'=> Mage::getUrl('*/shared/index', array('code' => $sharingCode)),
+                            'message'       => $message
+                        )
+                    );
+                    $sent++;
+                }
+            } catch (Exception $e) {
+                $wishlist->setShared($wishlist->getShared() + $sent);
+                $wishlist->save();
+                throw $e;
+            }
+            $wishlist->setShared($wishlist->getShared() + $sent);
             $wishlist->save();
 
             $translate->setTranslateInline(true);
@@ -659,10 +704,8 @@ class Mage_Wishlist_IndexController
                 $this->__('Your Wishlist has been shared.')
             );
             $this->_redirect('*/*', array('wishlist_id' => $wishlist->getId()));
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $translate->setTranslateInline(true);
-
             Mage::getSingleton('Mage_Wishlist_Model_Session')->addError($e->getMessage());
             Mage::getSingleton('Mage_Wishlist_Model_Session')->setSharingForm($this->getRequest()->getPost());
             $this->_redirect('*/*/share');

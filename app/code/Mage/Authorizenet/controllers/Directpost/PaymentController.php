@@ -69,7 +69,9 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             $result['error_msg'] = $this->__('There was an error processing your order. Please contact us or try again later.');
         }
 
-        if (!empty($data['controller_action_name'])) {
+        if (!empty($data['controller_action_name'])
+            && strpos($data['controller_action_name'], 'sales_order_') === false
+        ) {
             if (!empty($data['key'])) {
                 $result['key'] = $data['key'];
             }
@@ -102,6 +104,14 @@ class Mage_Authorizenet_Directpost_PaymentController extends Mage_Core_Controlle
             $cancelOrder = empty($redirectParams['x_invoice_num']);
             $this->_returnCustomerQuote($cancelOrder, $redirectParams['error_msg']);
         }
+
+        if (isset($redirectParams['controller_action_name'])
+            && strpos($redirectParams['controller_action_name'], 'sales_order_') !== false
+        ) {
+            unset($redirectParams['controller_action_name']);
+            unset($params['redirect_parent']);
+        }
+
         Mage::register('authorizenet_directpost_form_params', array_merge($params, $redirectParams));
         $this->addPageLayoutHandles();
         $this->loadLayout(false)->renderLayout();

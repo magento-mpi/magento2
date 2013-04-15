@@ -318,6 +318,14 @@
                     </enterprise_pagecache>
                 </observers>
             </core_layout_render_element>
+            <core_message_block_render_grouped_html_after>
+                <observers>
+                    <enterprise_pagecache>
+                        <class>Enterprise_PageCache_Model_Observer</class>
+                        <method>renderBlockPlaceholder</method>
+                    </enterprise_pagecache>
+                </observers>
+            </core_message_block_render_grouped_html_after>
             <customer_login>
                 <observers>
                     <enterprise_pagecache>

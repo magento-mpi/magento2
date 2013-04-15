@@ -31,7 +31,7 @@
 
         _events: function() {
             this.btnCssUpdate.on('click', $.proxy(this._updateCustomCss, this));
-            this.customCssCode.on('input onchange', $.proxy(this._editCustomCss, this));
+            this.customCssCode.on('input onchange change', $.proxy(this._editCustomCss, this));
         },
 
         _editCustomCss: function()
@@ -49,9 +49,10 @@
                 data: {custom_css_content: $(this.customCssCode).val()},
                 dataType: 'json',
                 success: $.proxy(function(response) {
-                    if (response.message_html) {
-                        $('#vde-tab-custom-messages-placeholder').append(response.message_html);
-                    }
+                    this.element.trigger('addMessage', {
+                        containerId: '#vde-tab-custom-messages-placeholder',
+                        message: response.message
+                    });
                     this.element.trigger('refreshIframe');
                     this._prepareUpdateButton();
                 }, this),
@@ -67,6 +68,7 @@
                 this.btnCssUpdate.attr('disabled', 'disabled');
                 $(this.btnUpdateDownload).fadeOut();
             } else {
+                this.btnCssUpdate.removeAttr('disabled');
                 $(this.btnUpdateDownload).fadeIn();
             }
         }

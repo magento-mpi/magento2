@@ -603,8 +603,6 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                                $decimalItems[] = array('weight' => $weightItem, 'qty' => 1);
                            }
                            $checkWeight = false;
-                       } else {
-                           $itemWeight = $itemWeight * $item->getQty();
                        }
                    }
                 } else {

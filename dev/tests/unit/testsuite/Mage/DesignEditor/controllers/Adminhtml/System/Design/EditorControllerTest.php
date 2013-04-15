@@ -36,6 +36,7 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
                 $this->_objectManagerMock,
                 $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false),
                 $this->getMock('Mage_Core_Model_Layout_Factory', array(), array(), '', false),
+                $this->getMock('Mage_DesignEditor_Model_Theme_Context', array(), array(), '', false),
                 null,
                 array(
                     'translator' => 'translator',

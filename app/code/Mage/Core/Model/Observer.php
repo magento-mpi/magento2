@@ -91,6 +91,8 @@ class Mage_Core_Model_Observer
     }
 
     /**
+     * Apply customized static files to frontend
+     *
      * @param Varien_Event_Observer $observer
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
