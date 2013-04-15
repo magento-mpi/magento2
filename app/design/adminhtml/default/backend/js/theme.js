@@ -401,22 +401,27 @@
             });
         });
 
-        $('.element-color-picker input')
-            .on('blur', function() {
-                $(this).siblings('.color-box')
-                    .removeClass('active')
-                    .find('.farbtastic').hide();
-                $(this).trigger('change.quickStyleElement');
-            });
-
+        $(document).on('click', function(e) {
+            var target = $(e.target);
+            if (target.closest('.control').find('.color-box').length < 1) {
+                $('.element-color-picker')
+                    .find('.color-box')
+                    .removeClass('active').end()
+                    .find('.farbtastic')
+                    .hide();
+            }
+        });
         $('.color-box')
             .on('click.showColorPicker', function() {
+                $('.element-color-picker')
+                    .find('.color-box')
+                    .removeClass('active').end()
+                    .find('.farbtastic')
+                    .hide();
                 $(this)
                     .addClass('active')
-                    .siblings('input').focus();
-                $(this)
-                    .find('.farbtastic')
-                        .show();
+                    .siblings('input').end()
+                    .find('.farbtastic').show();
             });
 
         switcherForIe8();
