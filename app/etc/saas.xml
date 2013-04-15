@@ -19,11 +19,11 @@
                 <Enterprise_Queue_Model_Queue_HandlerInterface>Saas_Queue_Model_Queue_DefaultHandler</Enterprise_Queue_Model_Queue_HandlerInterface>
                 <Enterprise_Queue_Model_Queue_AdapterInterface>Enterprise_Queue_Model_Queue_Adapter_Gearman</Enterprise_Queue_Model_Queue_AdapterInterface>
             </preferences>
-            <Mage_Core_Model_Config>
-                <parameters>
-                    <storage>Saas_Core_Model_Config_Storage</storage>
-                </parameters>
-            </Mage_Core_Model_Config>
+            <!--<Mage_Core_Model_Config>-->
+                <!--<parameters>-->
+                    <!--<storage>Saas_Core_Model_Config_Storage</storage>-->
+                <!--</parameters>-->
+            <!--</Mage_Core_Model_Config>-->
             <Saas_Queue_Helper_Gearman>
                 <parameters>
                     <config>Mage_Core_Model_Config_Primary</config>

@@ -67,19 +67,19 @@
                     </saas_queue>
                 </observers>
             </application_process_refresh_catalog>
-            <application_process_reinit_config>
-                <observers>
-                    <reinit_config_observer>
-                        <asynchronous>true</asynchronous>
-                        <priority>10</priority>
-                        <class>Saas_Queue_Model_Observer_Config</class>
-                        <method>processReinitConfig</method>
-                        <params>
-                            <task_name>regenerate_config</task_name>
-                        </params>
-                    </reinit_config_observer>
-                </observers>
-            </application_process_reinit_config>
+            <!--<application_process_reinit_config>-->
+                <!--<observers>-->
+                    <!--<reinit_config_observer>-->
+                        <!--<asynchronous>true</asynchronous>-->
+                        <!--<priority>10</priority>-->
+                        <!--<class>Saas_Queue_Model_Observer_Config</class>-->
+                        <!--<method>processReinitConfig</method>-->
+                        <!--<params>-->
+                            <!--<task_name>regenerate_config</task_name>-->
+                        <!--</params>-->
+                    <!--</reinit_config_observer>-->
+                <!--</observers>-->
+            <!--</application_process_reinit_config>-->
         </events>
     </global>
     <workers>
