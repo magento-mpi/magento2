@@ -222,8 +222,7 @@
                 },
                 cut: this.search,
                 paste: this.search,
-                input: this.search,
-                select: this._onSelectItem
+                input: this.search
             }, this.options.events));
 
             this._bindDropdown();
