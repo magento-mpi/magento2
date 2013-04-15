@@ -515,7 +515,14 @@ view_order:
                             -
                                 gift_options: *giftMessage
                             -
-                                gift_options_for_order: *giftMessageForOrder
+                                gift_options_for_order:
+                                    xpath: //form[@id='giftmessage_order_%orderId%_form']
+                                    fields:
+                                        from_order_level: //input[contains(@name, '[sender]')]
+                                        to_order_level: //input[contains(@name, '[recipient]')]
+                                        message_order_level: //textarea[contains(@name, '[message]')]
+                                    pageelements:
+                                        order_gift_message_block: //div[@class='giftmessage-order-create box-left' and contains(.,'Gift Message for the Entire Order')]
                             -
                                 comments_history:
                                     xpath: //div[@class='entry-edit'][./div/h4='Comments History']
