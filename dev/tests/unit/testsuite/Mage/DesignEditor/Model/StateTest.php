@@ -124,7 +124,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         );
         $this->_theme = $this->getMock('Mage_Core_Model_Theme', array('getId'), array(), '', false);
         $this->_themeContext = $this->getMock('Mage_DesignEditor_Model_Theme_Context',
-            array('getVisibleTheme', 'reset'), array(), '', false);
+            array('getEditableThemeId', 'getVisibleTheme', 'reset'), array(), '', false);
         $this->_themeContext->expects($this->any())
             ->method('getVisibleTheme')
             ->will($this->returnValue($this->_theme));
@@ -178,7 +178,6 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
 
     public function testUpdateDesignMode()
     {
-        $this->markTestIncomplete('MAGETWO-9248');
         $this->_setAdditionalExpectations();
         $request = $this->getMock('Mage_Core_Controller_Request_Http', array('getParam'),
             array(), '', false);
@@ -195,6 +194,9 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->method('setData')
             ->with('vde_current_mode', Mage_DesignEditor_Model_State::MODE_DESIGN);
         $this->_themeContext->expects($this->once())->method('getVisibleTheme');
+        $this->_themeContext->expects($this->any())
+            ->method('getEditableThemeId')
+            ->will($this->returnValue(self::THEME_ID));
         $this->_theme->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(self::THEME_ID));
@@ -241,7 +243,6 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
 
     public function testUpdateNavigationMode()
     {
-        $this->markTestIncomplete('MAGETWO-9248');
         $this->_setAdditionalExpectations();
         $request = $this->getMock('Mage_Core_Controller_Request_Http', array('getParam', 'isAjax', 'getPathInfo'),
             array(), '', false);
