@@ -289,12 +289,12 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
             'general modular skin file' => array(
                 'fixture_script.js', 'frontend', 'package/custom_theme2', 'en_US',
                 'Fixture_Module',
-                "%s/frontend/package/custom_theme2/fixture_script.js",
+                "%s/frontend/package/custom_theme2/Fixture_Module/fixture_script.js",
             ),
             'localized modular skin file' => array(
                 'fixture_script.js', 'frontend', 'package/custom_theme2', 'ru_RU',
                 'Fixture_Module',
-                "%s/frontend/package/custom_theme2/locale/ru_RU/fixture_script.js",
+                "%s/frontend/package/custom_theme2/locale/ru_RU/Fixture_Module/fixture_script.js",
             ),
         );
     }
