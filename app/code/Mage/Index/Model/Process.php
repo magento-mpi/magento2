@@ -274,7 +274,10 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
             return $this;
         }
 
+        // Commented  due to deadlock
+        // @todo: Verify: It is required for partial update
         //$this->_getResource()->updateProcessStartDate($this);
+
         $this->_setEventNamespace($event);
         $isError = false;
 
