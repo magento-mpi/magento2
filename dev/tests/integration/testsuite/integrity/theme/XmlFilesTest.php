@@ -17,9 +17,6 @@ class Integrity_Theme_XmlFilesTest extends PHPUnit_Framework_TestCase
      */
     public function testViewConfigFile($file)
     {
-        if (strpos($file, 'app/design/frontend/magento2/reference/view.xml') !== false) {
-            $this->markTestIncomplete('MAGETWO-9204');
-        }
         $this->_validateConfigFile($file, Mage::getBaseDir('lib') . '/Magento/Config/etc/view.xsd');
     }
 
