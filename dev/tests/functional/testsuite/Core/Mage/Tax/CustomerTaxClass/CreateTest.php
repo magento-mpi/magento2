@@ -76,7 +76,11 @@ class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
         $this->fillCompositeMultiselect($multiselect, $taxClassName);
         $this->verifyCompositeMultiselect($multiselect, $taxClassName);
         $this->addCompositeMultiselectValue($multiselect, $taxClassName, null, false);
-        $this->waitForElementOrAlert('tax_class_exists');
+        $this->waitUntil(function ($testCase) {
+            /** @var Mage_Selenium_TestCase $testCase */
+            $testCase->alertText();
+            return true;
+        }, $this->_browserTimeout * 1000);
         $alertText = $this->alertText();
         $this->acceptAlert();
         $this->assertEquals($this->_getMessageXpath('tax_class_exists'), $alertText);

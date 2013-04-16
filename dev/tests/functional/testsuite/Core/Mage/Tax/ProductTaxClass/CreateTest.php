@@ -72,7 +72,11 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
         $taxClass = $this->generate('string', 26);
         $this->addCompositeMultiselectValue('product_tax_class', $taxClass);
         $this->addCompositeMultiselectValue('product_tax_class', $taxClass, null, false);
-        $this->waitForElementOrAlert('tax_class_exists');
+        $this->waitUntil(function ($testCase) {
+            /** @var Mage_Selenium_TestCase $testCase */
+            $testCase->alertText();
+            return true;
+        }, $this->_browserTimeout * 1000);
         $this->assertTrue($this->alertIsPresent(), 'No validation alert');
         $alertText = $this->alertText();
         $this->acceptAlert();
