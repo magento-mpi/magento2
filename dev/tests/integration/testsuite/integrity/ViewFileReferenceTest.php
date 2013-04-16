@@ -20,7 +20,7 @@
  * The test is intended to be deleted before Magento 2 release. With the release, having non-modular files with the
  * same paths as modular ones, is legitimate.
  */
-class Integrity_Modular_FallbackTest extends PHPUnit_Framework_TestCase
+class Integrity_ViewFileReferenceTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Core_Model_Design_FileResolution_Strategy_Fallback
