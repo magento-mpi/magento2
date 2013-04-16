@@ -12,14 +12,19 @@
 
 class Mage_Core_Service_Registry
 {
-    private static $registry;
-    private $services = array();
+    const WEBSERVICE_CACHE_NAME = 'config_webservice';
+    const WEBSERVICE_CACHE_TAG = 'WEBSERVICE';
+    const CONFIG_CACHE_ID = 'API-RESOURCE-CACHE';
+
+    private static $_registry;
+    private $_services  = array();
 
     /**
      * Private constructor to prevent instantiation
      */
     private function __construct ()
     {
+        $this->loadFromCache();
     }
 
     /**
@@ -29,10 +34,10 @@ class Mage_Core_Service_Registry
      */
     public static function getInstance ()
     {
-        if (! self::$registry) {
-            self::$registry = new Mage_Core_Service_Registry();
+        if (! self::$_registry) {
+            self::$_registry = new Mage_Core_Service_Registry();
         }
-        return self::$registry;
+        return self::$_registry;
     }
 
     /**
@@ -55,20 +60,21 @@ class Mage_Core_Service_Registry
      *
      * @param string serviceName
      * @param string serviceVersion
-     * @return Mage_Core_Service_Registry_ServiceMetadata
+     * @param string module such as Catalog
      */
-    public function addService ($serviceName, $serviceVersion, $className)
+    public function addService ($serviceName, $serviceVersion, $module)
     {
-        $key = $serviceName . ':' . $serviceVersion;
         try {
             $serviceMetadata = $this->getService($serviceName, $serviceVersion);
         }
         catch (InvalidArgumentException $e) {
-            $serviceMetadata = new Mage_Core_Service_Registry_ServiceMetadata($serviceName, $serviceVersion, $className);
-            $this->services[$key] = $serviceMetadata;
+            $this->_services[$serviceName][$serviceVersion] = array(
+                'name' => $serviceName,
+                'version' => $serviceVersion,
+                'module' => $module,
+                'methods' => array()
+            );
         }
-
-        return $serviceMetadata;
     }
 
     /**
@@ -81,12 +87,14 @@ class Mage_Core_Service_Registry
      */
     public function getService ($serviceName, $serviceVersion)
     {
-        $key = $serviceName . ':' . $serviceVersion;
-        if (isset($this->services[$key])) {
-            return $this->services[$key];
+        if (isset($this->_services[$serviceName])
+            && isset($this->_services[$serviceName][$serviceVersion])) {
+            $service = $this->_services[$serviceName][$serviceVersion];
+            $service['classname'] = "Mage_{$service['module']}_Service_{$service['name']}_{$service['version']}";
+            return $service;
         }
 
-        throw new InvalidArgumentException(sprintf('Service "%s" was not found in registry.', $key));
+        throw new InvalidArgumentException(sprintf('Service "%s:%s" was not found in registry.', $serviceName, $serviceVersion));
     }
 
     /**
@@ -100,13 +108,34 @@ class Mage_Core_Service_Registry
      * @param string inputElement name of the XML element in the XSD representing the root of the data input structure
      * @param string outputSchema location of the XSD file describing the output from this method
      * @param string outputElement name of the XML element in the XSD representing the root of the data output structure
-     * @return Mage_Core_Service_Registry_MethodMetadata
      * @throw InvalidArgumentException if the service does not exist
      */
-    public function addMethod ($methodName, $serviceName, $serviceVersion, $permissions, $inputSchema, $inputElement, $outputSchema, $outputElement)
+    public function addMethod ($methodName, $serviceName, $serviceVersion, $permissions)
     {
-        $serviceMetadata = $this->getService($serviceName, $serviceVersion);
-        return $serviceMetadata->addMethod($methodName, $permissions, $inputSchema, $inputElement, $outputSchema, $outputElement);
+        try {
+            $methodMetadata = $this->getMethod($methodName, $serviceName, $serviceVersion);
+        }
+        catch (InvalidArgumentException $e) {
+            $this->_services[$serviceName][$serviceVersion]['methods'][$methodName] = array(
+                'name' => $methodName,
+                'permissions' => $permissions,
+            );
+        }
+    }
+
+    /**
+     * Add additional properties to an existing method
+     *
+     * @param string methodName name of the method to add
+     * @param string serviceName name of the service containing the method
+     * @param string serviceVersion version of the service containing the method
+     * @param array properties additional properties
+     * @throws InvalidArgumentException if the service or method do not exist
+     */
+    public function addMethodProperties ($methodName, $serviceName, $serviceVersion, $properties)
+    {
+        $methodMetadata = $this->getMethod($methodName, $serviceName, $serviceVersion);
+        $this->_services[$serviceName][$serviceVersion]['methods'][$methodName] = array_merge($methodMetadata, $properties);
     }
 
     /**
@@ -119,8 +148,36 @@ class Mage_Core_Service_Registry
      */
     public function getMethod ($methodName, $serviceName, $serviceVersion)
     {
-        $serviceMetadata = $this->getService($serviceName, $serviceVersion);
-        return $serviceMetadata->getMethod($methodName);
+        if (isset($this->_services[$serviceName])
+            && isset($this->_services[$serviceName][$serviceVersion])
+            && isset($this->_services[$serviceName][$serviceVersion]['methods'][$methodName])) {
+            $method = $this->_services[$serviceName][$serviceVersion]['methods'][$methodName];
+            $method['schema'] = "Mage/{$this->_services[$serviceName][$serviceVersion]['module']}/etc/{$serviceVersion}-{$serviceName}.xsd";
+            $method['request_element'] = $method['name'] + 'Request';
+            $method['response_element'] = $method['name'] + 'Response';
+        }
+
+        throw new InvalidArgumentException(sprintf('Method "%s" of Service "%s:%s" was not found in registry.', $methodName, $serviceName, $serviceVersion));
     }
 
+    public function saveToCache (Mage_Core_Model_CacheInterface $cache)
+    {
+        if ($cache->canUse(self::WEBSERVICE_CACHE_NAME)) {
+            $cache->save(
+                serialize($this->_services),
+                self::CONFIG_CACHE_ID,
+                array(self::WEBSERVICE_CACHE_TAG)
+            );
+        }
+    }
+
+    private function loadFromCache (Mage_Core_Model_CacheInterface $cache)
+    {
+        if ($cache->canUse(Mage_Core_Service_Config::WEBSERVICE_CACHE_NAME)) {
+            $cachedData = $cache->load(self::CONFIG_CACHE_ID);
+            if ($cachedData !== false) {
+                $this->_services = unserialize($cachedData);
+            }
+        }
+    }
 }
