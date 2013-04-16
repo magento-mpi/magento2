@@ -8,7 +8,6 @@
  */
 /*jshint browser:true jquery:true*/
 /*global FORM_KEY*/
-/*global Validation*/
 (function($) {
     'use strict';
 
@@ -32,13 +31,10 @@
                     $('#new_category_name').focus();
                 });
 
-            /* @todo rewrite using jQuery validation */
-            /* Validation doesn't work for this invisible <select> after recent changes for some reason */
-            $('#new_category_parent').css({border: 0, height: 0,padding: 0, width: 0}).show();
-            Validation.add('validate-parent-category', $.mage.__('Choose existing category.'), function() {
+            $.validator.addMethod('validate-parent-category', function() {
                 return $('#new_category_parent').val() || $('#new_category_parent-suggest').val() === '';
-            });
-            var newCategoryForm = new Validation(this.element.get(0));
+            }, $.mage.__('Choose existing category.'));
+            var newCategoryForm = this.element.find('#new_category_form').mage('validation');
 
             this.element.dialog({
                 title: $.mage.__('Create Category'),
@@ -59,7 +55,7 @@
                 close: function() {
                     $('#new_category_name, #new_category_parent-suggest').val('');
                     clearParentCategory();
-                    newCategoryForm.reset();
+                    newCategoryForm.validate().resetForm();
                     $('#category_ids-suggest').focus();
                 },
                 buttons: [{
@@ -67,7 +63,7 @@
                     'class': 'action-create primary',
                     'data-action': 'save',
                     click: function(event) {
-                        if (!newCategoryForm.validate()) {
+                        if (!newCategoryForm.valid()) {
                             return;
                         }
 

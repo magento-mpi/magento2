@@ -22,16 +22,18 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form();
+        $form = new Varien_Data_Form(array('id' => 'new_category_form'));
+        $form->setUseContainer(true);
 
         $form->addField('new_category_messages', 'note', array());
 
-        $fieldset = $form->addFieldset('new_category_form', array());
+        $fieldset = $form->addFieldset('new_category_form_fieldset', array());
 
         $fieldset->addField('new_category_name', 'text', array(
             'label'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Category Name'),
             'title'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Category Name'),
             'required' => true,
+            'name'     => 'new_category_name',
         ));
 
         $fieldset->addField('new_category_parent', 'select', array(
@@ -40,6 +42,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
             'required' => true,
             'options'  => array(),
             'class'    => 'validate-parent-category',
+            'name'     => 'new_category_parent',
         ));
 
         $this->setForm($form);
