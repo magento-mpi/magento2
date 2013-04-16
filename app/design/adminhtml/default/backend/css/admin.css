@@ -1652,7 +1652,7 @@ input.mage-error ~ .addafter {
 }
 
 .fieldset .tooltip .help {
-    margin: 7px 0 0 15px; 
+    margin: 7px 0 0 15px;
 }
 
 .fieldset-alt .field-option-store-view {
@@ -3007,7 +3007,7 @@ table tbody tr:nth-child(odd):hover th {
     background: url(Mage_Backend::images/logo-magento-go.png) no-repeat;
 }
 
-/* 
+/*
 .page-login .logo {
     display: block;
     width: 100px;
@@ -3093,7 +3093,7 @@ table tbody tr:nth-child(odd):hover th {
 
 .page-login .action-login,
 .page-login .action-retrieve {
-    font-size: 22px; 
+    font-size: 22px;
     padding: 14px 22px 16px;
 }
 
@@ -4746,6 +4746,25 @@ tr.dynamic-grid input.input-text {
     table-layout: fixed;
 }
 
+#cross_sell_product_grid table.data th,
+#up_sell_product_grid table.data th,
+#related_product_grid table.data th,
+#productGrid_table th,
+.ui-dialog .data th {
+    word-wrap: normal;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+#cross_sell_product_grid table.data th > span,
+#up_sell_product_grid table.data th > span,
+#related_product_grid table.data th > span,
+#productGrid_table th > span,
+.ui-dialog .data th > span {
+    white-space: normal;
+}
+
+
 table .col-draggable {
     width: 1%;
 }
@@ -4754,6 +4773,7 @@ table .col-default,
 table .col-select,
 table .col-qty,
 table .col-actions,
+table .col-action,
 table .col-id {
     width: 5%;
 }
@@ -4776,7 +4796,7 @@ table .col-sku {
 }
 
 table .col-attr-name {
-    width: 120px;
+    width: 8%;
 }
 
 table .col-draggable .draggable-handle {
@@ -5471,7 +5491,7 @@ table .col-draggable .draggable-handle {
 }
 
 .message-system-list li {
-    padding: 5px 13px 7px 36px; 
+    padding: 5px 13px 7px 36px;
     position: relative;
 }
 
