@@ -24,7 +24,7 @@ class Mage_Core_Service_Registry
      */
     private function __construct ()
     {
-        $this->loadFromCache();
+//        $this->loadFromCache();
     }
 
     /**
@@ -90,7 +90,7 @@ class Mage_Core_Service_Registry
         if (isset($this->_services[$serviceName])
             && isset($this->_services[$serviceName][$serviceVersion])) {
             $service = $this->_services[$serviceName][$serviceVersion];
-            $service['classname'] = "Mage_{$service['module']}_Service_{$service['name']}_{$service['version']}";
+            $service['classname'] = "Mage_{$service['module']}_Service_V{$service['version']}_{$service['name']}";
             return $service;
         }
 
@@ -135,7 +135,10 @@ class Mage_Core_Service_Registry
     public function addMethodProperties ($methodName, $serviceName, $serviceVersion, $properties)
     {
         $methodMetadata = $this->getMethod($methodName, $serviceName, $serviceVersion);
-        $this->_services[$serviceName][$serviceVersion]['methods'][$methodName] = array_merge($methodMetadata, $properties);
+
+        foreach ($properties as $name => $value) {
+            $this->_services[$serviceName][$serviceVersion]['methods'][$methodName][$name] = $value;
+        }
     }
 
     /**
@@ -155,6 +158,7 @@ class Mage_Core_Service_Registry
             $method['schema'] = "Mage/{$this->_services[$serviceName][$serviceVersion]['module']}/etc/{$serviceVersion}-{$serviceName}.xsd";
             $method['request_element'] = $method['name'] + 'Request';
             $method['response_element'] = $method['name'] + 'Response';
+            return $method;
         }
 
         throw new InvalidArgumentException(sprintf('Method "%s" of Service "%s:%s" was not found in registry.', $methodName, $serviceName, $serviceVersion));
