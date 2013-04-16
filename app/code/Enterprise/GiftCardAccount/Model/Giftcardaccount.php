@@ -200,7 +200,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
             Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->setCards($quote, $cards);
 
             if ($saveQuote) {
-                $quote->save();
+                $quote->collectTotals()->save();
             }
         }
 

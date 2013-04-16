@@ -53,6 +53,13 @@
             <preferences>
                 <Mage_Index_Model_System_Message_IndexOutdated>Saas_Index_Model_System_Message_IndexOutdated</Mage_Index_Model_System_Message_IndexOutdated>
             </preferences>
+            <Mage_AdminNotification_Model_System_MessageList>
+                <parameters>
+                    <messages>
+                        <refresh_index_finished>Saas_Index_Model_System_Message_IndexRefreshed</refresh_index_finished>
+                    </messages>
+                </parameters>
+            </Mage_AdminNotification_Model_System_MessageList>
         </di>
     </adminhtml>
 </config>

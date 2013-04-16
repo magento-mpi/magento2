@@ -272,6 +272,9 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
 
             if ($ruleJob->hasSuccess()) {
                 $this->_getSession()->addSuccess($ruleJob->getSuccess());
+                Mage::getModel('Mage_CatalogRule_Model_Flag')->loadSelf()
+                    ->setState(0)
+                    ->save();
             } elseif ($ruleJob->hasError()) {
                 $this->_getSession()->addError($errorMessage . ' ' . $ruleJob->getError());
             }

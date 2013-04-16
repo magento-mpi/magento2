@@ -24,11 +24,13 @@ var widgetTools = {
         }
     },
 
+    dialogOpened : false,
+
     openDialog: function(widgetUrl) {
-        if (jQuery('.ui-dialog-content').size()) {
+        if (this.dialogOpened) {
             return
         }
-
+        var oThis = this;
         this.dialogWindow = jQuery('<div/>').dialog({
             autoOpen:   false,
             title:      jQuery.mage.__('Insert Widget...'),
@@ -45,9 +47,10 @@ var widgetTools = {
             },
             close: function(event, ui) {
                 jQuery(this).dialog('destroy').remove();
+                oThis.dialogOpened = false;
             }
         });
-
+        this.dialogOpened = true;
         this.dialogWindow.dialog('open');
     }
 }
@@ -218,7 +221,7 @@ WysiwygWidget.Widget.prototype = {
                     onComplete: function(transport) {
                         try {
                             widgetTools.onAjaxSuccess(transport);
-                            jQuery('.ui-dialog-content').dialog('destroy').remove();
+                            widgetTools.dialogWindow.dialog('close');
 
                             if (typeof(tinyMCE) != "undefined" && tinyMCE.activeEditor) {
                                 tinyMCE.activeEditor.focus();

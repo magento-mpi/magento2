@@ -43,8 +43,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_BackgroundUploader
     protected $_template = 'Mage_DesignEditor::editor/form/renderer/background-uploader.phtml';
 
     /**
-
-    /**
      * Get URL of image upload action
      *
      * @return string

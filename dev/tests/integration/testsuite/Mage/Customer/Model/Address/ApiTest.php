@@ -86,7 +86,7 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
             'suffix' => 'M',
             'telephone' => '5',
             'is_default_billing' => false,
-            'is_default_shipping' => false
+            'is_default_shipping' => true
         );
 
         // Call api to create the address
@@ -108,6 +108,16 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
         $newAddressData['street'] = trim(implode("\n", $newAddressData['street']));
         $newAddressData['customer_address_id'] = $newAddressId;
         $this->_verifyAddress($newAddressData, $newAddressModel->getData());
+        $this->assertEquals(
+            false,
+            $newAddressModel->getCustomer()->getDefaultBillingAddress(),
+            "Default billing address was not updated"
+        );
+        $this->assertEquals(
+            $newAddressModel->getId(),
+            $newAddressModel->getCustomer()->getDefaultShippingAddress()->getId(),
+            "Default shipping address was not updated"
+        );
     }
 
     /**
@@ -148,7 +158,9 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
         // Data to set in existing address
         $updateData = (object)array(
             'firstname' => $newFirstname,
-            'telephone' => $newTelephone
+            'telephone' => $newTelephone,
+            'is_default_billing' => true,
+            'is_default_shipping' => false
         );
 
         // update a customer's address
@@ -177,6 +189,16 @@ class Mage_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
             $newTelephone,
             $customerAddress->getTelephone(),
             'Telephone is not updated.'
+        );
+        $this->assertEquals(
+            $customerAddress->getId(),
+            $customerAddress->getCustomer()->getDefaultBillingAddress()->getId(),
+            "Default billing address was not updated"
+        );
+        $this->assertEquals(
+            false,
+            $customerAddress->getCustomer()->getDefaultShippingAddress(),
+            "Default shipping address was not updated"
         );
     }
 

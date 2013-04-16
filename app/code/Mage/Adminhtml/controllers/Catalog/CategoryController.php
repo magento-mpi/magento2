@@ -250,7 +250,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $refreshTree = 'false';
         $data = $this->getRequest()->getPost();
         if ($data) {
-            $category->addData($data['general']);
+            $category->addData($this->_filterCategoryPostData($data['general']));
             if (!$category->getId()) {
                 $parentId = $this->getRequest()->getParam('parent');
                 if (!$parentId) {
@@ -360,6 +360,23 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         }
 
         $this->getResponse()->setBody($body);
+    }
+
+    /**
+     * Filter category data
+     *
+     * @param array $rawData
+     * @return array
+     */
+    protected function _filterCategoryPostData(array $rawData)
+    {
+        $data = $rawData;
+        // @todo It is a workaround to prevent saving this data in category model and it has to be refactored in future
+        if (isset($data['image']) && is_array($data['image'])) {
+            $data['image_additional_data'] = $data['image'];
+            unset($data['image']);
+        }
+        return $data;
     }
 
     /**

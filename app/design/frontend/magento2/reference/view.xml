@@ -61,9 +61,9 @@
         <var name="product_page_main_image:height">495</var>
 
         <var name="product_page_main_image_default:type">image</var>
-        <var name="product_page_main_image:width">400</var>
-        <var name="product_page_main_image:ratio">1</var>
-        <var name="product_page_main_image:height">495</var>
+        <var name="product_page_main_image_default:width">400</var>
+        <var name="product_page_main_image_default:ratio">1</var>
+        <var name="product_page_main_image_default:height">495</var>
 
         <var name="product_page_more_views:type">thumbnail</var>
         <var name="product_page_more_views:width">90</var>

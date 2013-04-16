@@ -15,6 +15,26 @@ class Saas_Index_Block_Backend_Index extends Mage_Backend_Block_Widget_Container
     const TASK_TIME_CHECK = 2500;
 
     /**
+     * @var Saas_Index_Model_Flag
+     */
+    protected $_flag;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Saas_Index_Model_FlagFactory $flagFactory
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Saas_Index_Model_FlagFactory $flagFactory,
+        array $data = array()
+    ) {
+        $this->_flag = $flagFactory->create();
+        $this->_flag->loadSelf();
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Initialize "controller"
      */
     protected function _construct()
@@ -66,7 +86,7 @@ class Saas_Index_Block_Backend_Index extends Mage_Backend_Block_Widget_Container
      */
     public function isTaskAdded()
     {
-        return $this->isTaskProcessing() || isset($_GET['added']);
+        return $this->isTaskProcessing() || $this->_flag->getState() == Saas_Index_Model_Flag::STATE_QUEUED;
     }
 
     /**
@@ -76,7 +96,7 @@ class Saas_Index_Block_Backend_Index extends Mage_Backend_Block_Widget_Container
      */
     public function isTaskProcessing()
     {
-        return isset($_GET['processing']);
+        return $this->_flag->getState() == Saas_Index_Model_Flag::STATE_PROCESSING;
     }
 
     /**
