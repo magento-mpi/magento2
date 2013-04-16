@@ -92,8 +92,8 @@ class Tools_View_Generator_CopyRuleTest extends PHPUnit_Framework_TestCase
         $patternDirMap = array();
         $filesystemGlobMap = array();
         foreach ($fixture as $fixtureInfo) {
-            $patternDirMap[] = $fixtureInfo['pattern_dir_map'];
-            $filesystemGlobMap[] = $fixtureInfo['filesystem_glob_map'];
+            $patternDirMap = array_merge($patternDirMap, $fixtureInfo['pattern_dir_map']);
+            $filesystemGlobMap = array_merge($filesystemGlobMap, $fixtureInfo['filesystem_glob_map']);
         }
 
         return array(

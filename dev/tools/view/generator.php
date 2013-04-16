@@ -37,7 +37,11 @@ if (isset($options['help'])) {
     exit(0);
 }
 
-echo "Deploying...\n";
+$logWriter = new Zend_Log_Writer_Stream('php://output');
+$logWriter->setFormatter(new Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
+$logger = new Zend_Log($logWriter);
+
+$logger->log('Deploying...', Zend_Log::INFO);
 try {
     $config = new Generator_Config(BP, $options);
 
@@ -60,7 +64,7 @@ try {
     );
     $deployment->run($copyRules);
 } catch (Exception $e) {
-    echo 'Error: ' . $e->getMessage();
+    $logger->log('Error: ' . $e->getMessage(), Zend_Log::ERR);
     exit(1);
 }
-echo "Completed successfully.";
+$logger->log('Completed successfully.', Zend_Log::INFO);
