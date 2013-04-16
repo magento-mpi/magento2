@@ -32,14 +32,8 @@ class Core_Mage_SystemConfiguration_CheckoutTabTest extends Mage_Selenium_TestCa
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $this->navigate('manage_stores');
-        //Data
-        $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view');
-        //Steps
-        $this->storeHelper()->createStore($storeViewData, 'store_view');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_store_view');
         $this->admin('system_configuration');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
     }
 
     /**
