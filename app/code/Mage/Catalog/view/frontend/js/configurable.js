@@ -222,8 +222,12 @@
             $.each(imagesArray || {}, function (k, v) {
                 result.push(v);
             });
-            $('[data-role=base-image]').attr('src', (result.length === 1 ? result.pop() : null) || this.options.parentImage);
-
+            // trigger events when image is changed
+            if (result.length === 1) {
+                this.element.find('[data-role="main-image"]').attr('src', result[0]).trigger('imageChanged', result[0]);
+            } else {
+                this.element.find('[data-role="main-image"]').attr('src', this.options.parentImage).trigger('loadOriginalImage', this.options.parentImage);
+            }
             this._fitImageToContainer();
         },
 
@@ -232,7 +236,7 @@
          * @private
          */
         _fitImageToContainer: function () {
-            var $image = $('[data-role=base-image]'),
+            var $image = this.element.find('[data-role=base-image]'),
                 width = $image.width(),
                 height = $image.height(),
                 parentWidth = $image.parent().width(),
@@ -242,6 +246,8 @@
             if (width < parentWidth && height < parentHeight) {
                 return;
             }
+            if (width === parentWidth || height === parentHeight)
+                return;
             // Resize Image to fit parent container
             $image.css({
                 width:  width > height ? parentWidth : '',
