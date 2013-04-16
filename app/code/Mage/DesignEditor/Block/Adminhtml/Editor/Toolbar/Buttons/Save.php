@@ -172,15 +172,13 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
      */
     protected function _getSaveInitData()
     {
-        $message = "You are about to apply current changes for your live store, are you sure want to do this?";
         $data = array(
             'button' => array(
                 'event'     => 'save',
                 'target'    => 'body',
                 'eventData' => array(
                     'theme_id' => $this->getTheme()->getId(),
-                    'save_url' => $this->getSaveUrl(),
-                    'confirm_message' => $this->__($message)
+                    'save_url' => $this->getSaveUrl()
                 )
             ),
         );
