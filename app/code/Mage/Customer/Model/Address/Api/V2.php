@@ -139,21 +139,21 @@ class Mage_Customer_Model_Address_Api_V2 extends Mage_Customer_Model_Address_Api
      */
     protected function _saveDefaultAddresses($addressData, $address)
     {
-        if (isset($addressData->is_default_billing)) {
+        if (isset($addressData->is_default_billing) || isset($addressData->is_default_shipping)) {
             $customer = $address->getCustomer();
-            if ($addressData->is_default_billing) {
-                $customer->setDefaultBilling($address->getId());
-            } else {
-                $customer->setDefaultBilling(null);
+            if (isset($addressData->is_default_billing)) {
+                if ($addressData->is_default_billing) {
+                    $customer->setDefaultBilling($address->getId());
+                } else {
+                    $customer->setDefaultBilling(null);
+                }
             }
-            $customer->save();
-        }
-        if (isset($addressData->is_default_shipping)) {
-            $customer = $address->getCustomer();
-            if ($addressData->is_default_shipping) {
-                $customer->setDefaultShipping($address->getId());
-            } else {
-                $customer->setDefaultShipping(null);
+            if (isset($addressData->is_default_shipping)) {
+                if ($addressData->is_default_shipping) {
+                    $customer->setDefaultShipping($address->getId());
+                } else {
+                    $customer->setDefaultShipping(null);
+                }
             }
             $customer->save();
         }
