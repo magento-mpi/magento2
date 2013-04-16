@@ -1,13 +1,14 @@
 <?php
 
-class Mage_Core_Service_DataSchema extends Mage_Core_Service_AbstractSchema
+class Mage_Core_Service_DataSchema extends Varien_Object
 {
-    /**
-     * @param mixed $data
-     * @param mixed $schema
-     */
-    public function validate($data)
+    public function load($schema)
     {
-        return true;
+        if (is_array($schema)) {
+            $this->setData($schema);
+        } elseif (is_string($schema)) {
+            // @todo load schema file by file name reference
+            throw new Exception('Need to be implemented: load schema file by file name reference in ' . __METHOD__);
+        }
     }
 }

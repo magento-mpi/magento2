@@ -11,7 +11,7 @@ class Mage_Core_Service_Manager extends Varien_Object
     }
 
     /**
-     * Call service method
+     * Call a service method
      *
      * @param string $serviceClass
      * @param string $serviceMethod
@@ -20,20 +20,18 @@ class Mage_Core_Service_Manager extends Varien_Object
      */
     public function call($serviceClass, $serviceMethod, $context = null)
     {
-        // implement ACL and other routine procedures here (debugging, profiling, etc)
-
         $service  = $this->getService($serviceClass);
 
-        $response = $service->$serviceMethod($context);
+        $response = $service->call($serviceMethod, $context);
 
         return $response;
     }
 
     /**
-     * Look up for service model
+     * Retrieve a service instance
      *
      * @param string $serviceClass
-     * @return Mage_Core_Service_Abstract $service
+     * @return Mage_Core_Service_Type_Abstract $service
      */
     public function getService($serviceClass)
     {

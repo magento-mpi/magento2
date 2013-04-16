@@ -287,11 +287,8 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
             return false;
         }
 
-        $serviceManager = Mage::getSingleton('Mage_Core_Service_Manager');
-        //$argsObject = new Mage_Core_Service_Args();
-        //$product = $serviceManager->call('Mage_Catalog_Service_Product', 'getItem', $argsObject);
-        //$product = $serviceManager->call('Mage_Catalog_Service_Product', 'getItem', array('id' => $productId));
-        $product = $serviceManager->call('Mage_Catalog_Service_Product', 'getItem', $productId);
+        $product = Mage::getSingleton('Mage_Catalog_Model_Product');
+        $product->load($productId);
 
         if (!$product->getid()) {
             return false;
@@ -308,7 +305,8 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
             $categoryId = null;
         }
         if ($categoryId) {
-            $category = $serviceManager->call('Mage_Catalog_Service_Category', 'getItem', array('id' => $categoryId));
+            $serviceManager = Mage::getSingleton('Mage_Core_Service_Manager');
+            $category = $serviceManager->call('Mage_Catalog_Service_Category', 'item', array('entity_id' => $categoryId));
             $product->setCategory($category);
             Mage::register('current_category', $category);
         }

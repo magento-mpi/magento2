@@ -42,7 +42,6 @@ class Mage_Core_Service_Definition extends Varien_Object
      */
     public function getRequestSchema($serviceClass, $serviceMethod = null, $requestSchema = null)
     {
-        // supports dependency injection
         if (null !== $requestSchema) {
             return $requestSchema;
         }
@@ -50,12 +49,12 @@ class Mage_Core_Service_Definition extends Varien_Object
         $hash = $serviceClass . '::' . $serviceMethod;
         if (!isset($this->_requestSchemas[$hash])) {
             if (null !== $serviceMethod) {
-                $schema = $this->getNode($serviceClass . '/request_schema/' . $serviceMethod);
+                $schema = $this->_getNode($serviceClass . '/request_schema/' . $serviceMethod);
             }
             if (!$schema) {
-                $schema = $this->getNode($serviceClass . '/request_schema/*');
+                $schema = $this->_getNode($serviceClass . '/request_schema/*');
             }
-            $this->_requestSchemas[$hash] = $this->_objectManager->get('Mage_Core_Service_RequestSchema');
+            $this->_requestSchemas[$hash] = $this->_objectManager->get('Mage_Core_Service_DataSchema');
             $this->_requestSchemas[$hash]->load($schema);
         }
 
@@ -72,13 +71,13 @@ class Mage_Core_Service_Definition extends Varien_Object
         $hash = $serviceClass . '::' . $serviceMethod;
         if (!isset($this->_responseSchemas[$hash])) {
             if (null !== $serviceMethod) {
-                $schema = $this->getNode($serviceClass . '/response_schema/' . $serviceMethod);
+                $schema = $this->_getNode($serviceClass . '/response_schema/' . $serviceMethod);
             }
             if (!$schema) {
-                $schema = $this->getNode($serviceClass . '/response_schema/*');
+                $schema = $this->_getNode($serviceClass . '/response_schema/*');
             }
 
-            $this->_responseSchemas[$hash] = $this->_objectManager->get('Mage_Core_Service_ResponseSchema');
+            $this->_responseSchemas[$hash] = $this->_objectManager->get('Mage_Core_Service_DataSchema');
             $this->_responseSchemas[$hash]->load($schema);
         }
 
@@ -101,18 +100,13 @@ class Mage_Core_Service_Definition extends Varien_Object
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public function getNode($path, $default = null)
+    protected function _getNode($path, $default = null)
     {
-        $result = $this->getDefinitions()->getData($path);
+        $result = $this->_definitions->getData($path);
         if (null !== $default && null === $result) {
             $result = $default;
         }
         return $result;
-    }
-
-    public function getDefinitions()
-    {
-        return $this->_definitions;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -273,15 +267,22 @@ class Mage_Core_Service_Definition extends Varien_Object
                             'name'      => array()
                         ),
                         'item' => array( // defines method-specific schema
-                            '_ref'      => 'entity/catalog_category',
+                            '_ref'                  => 'entity/catalog_category',
 
-                            'entity_id' => array(),
-                            'name'      => array(),
-                            'is_active' => array(),
-                            'parent_id' => array(),
-                            'path'      => array(),
-                            'url_key'   => array(),
-                            'url_path'  => array()
+                            'entity_id'             => array(),
+                            'name'                  => array(),
+                            'is_active'             => array(),
+                            'parent_id'             => array(),
+                            'path'                  => array(),
+                            'url_key'               => array(),
+                            'url_path'              => array(),
+                            'additional_attributes' => array(
+                                '_elements' => array(
+                                    'path'     => array(),
+                                    'url_key'  => array(),
+                                    'url_path' => array()
+                                )
+                            )
                         )
                     )
                 )

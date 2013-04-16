@@ -2,6 +2,8 @@
 /**
  * Abstract entity API service.
  *
+ * Purpose: expose and manage business entities.
+ *
  * {license_notice}
  *
  * @copyright   {copyright}

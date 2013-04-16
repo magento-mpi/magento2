@@ -9,9 +9,12 @@
  *
  * @service true
  */
-class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
+class Mage_Catalog_Service_Category extends Mage_Core_Service_Type_Entity_Abstract
 {
-    const SERVICE_ID = 'Mage_Catalog_Service_Category';
+    public function create($context)
+    {
+        //
+    }
 
     /**
      * Return resource object or resource object data.
@@ -39,6 +42,7 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
         }
 
         $this->prepareResponse(get_class($this), 'item', $category, $context->getResponseSchema());
+
 
         return $category;
     }
@@ -79,13 +83,25 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
         return $collection;
     }
 
+    public function update($context)
+    {
+        //
+    }
+
+    public function delete($context)
+    {
+        //
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Save object.
      *
      * @param mixed $context
      * @return Varien_Object $category
      */
-    public function save($context)
+    protected function _save($context)
     {
         $context = $this->prepareContext(get_class($this), 'save', $context);
 
@@ -174,15 +190,5 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Abstract
         }
 
         return true;
-    }
-
-    /**
-     * Returns unique service identifier.
-     *
-     * @return string
-     */
-    protected function _getServiceId()
-    {
-        return self::SERVICE_ID;
     }
 }
