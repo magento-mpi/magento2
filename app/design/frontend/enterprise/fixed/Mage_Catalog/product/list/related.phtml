@@ -25,7 +25,7 @@
                     <?php endif; ?>
                 <?php endif; ?>
                 <div class="item-info">
-                    <a href="<?php echo $_item->getProductUrl() ?>" class="product-image"><img src="<?php echo $this->getSmallImageSidebarUrl($_item) ?>" width="<?php echo $this->getSmallImageSidebarSize()?>" height="1<?php echo $this->getSmallImageSidebarSize()?>" alt="<?php echo $this->escapeHtml($_item->getName()) ?>" title="<?php echo $this->escapeHtml($_item->getName()) ?>" /></a>
+                    <a href="<?php echo $_item->getProductUrl() ?>" class="product-image"><img src="<?php echo $this->getSmallImageSidebarUrl($_item) ?>" width="<?php echo $this->getSmallImageSidebarSize()?>" height="<?php echo $this->getSmallImageSidebarSize()?>" alt="<?php echo $this->escapeHtml($_item->getName()) ?>" title="<?php echo $this->escapeHtml($_item->getName()) ?>" /></a>
                     <div class="product-details">
                         <h3 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->escapeHtml($_item->getName()) ?></a></h3>
                         <?php echo $this->getPriceHtml($_item, true, '-related') ?>
