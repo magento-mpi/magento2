@@ -8,6 +8,8 @@
 class Saas_Index_Model_System_Message_IndexRefreshed implements Mage_AdminNotification_Model_System_MessageInterface
 {
     /**
+     * Process synchronization flag
+     *
      * @var Saas_Index_Model_Flag
      */
     protected $_flag;
@@ -15,11 +17,13 @@ class Saas_Index_Model_System_Message_IndexRefreshed implements Mage_AdminNotifi
     /**
      * Flag is displayed
      *
-     * @var int
+     * @var bool
      */
     protected $_isDisplayed = null;
 
     /**
+     * Index helper
+     *
      * @var Saas_Index_Helper_Data
      */
     protected $_helper;

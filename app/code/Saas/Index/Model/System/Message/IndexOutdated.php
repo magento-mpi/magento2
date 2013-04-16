@@ -31,6 +31,11 @@ class Saas_Index_Model_System_Message_IndexOutdated extends  Mage_Index_Model_Sy
         parent::__construct($helperFactory, $indexer, $urlBuilder, $authorization);
     }
 
+    /**
+     * Check whether message should be displayed
+     *
+     * @return bool
+     */
     public function isDisplayed()
     {
         $state = $this->_flag->getState();
