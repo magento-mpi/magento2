@@ -220,9 +220,14 @@ class Mage_DesignEditor_Model_State
     protected function _setTheme()
     {
         if ($this->_themeContext->getEditableThemeId()) {
+            $themeId = $this->_themeContext->getVisibleTheme()->getId();
             $this->_application->getStore()->setConfig(
                 Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID,
-                $this->_themeContext->getVisibleTheme()->getId()
+                $themeId
+            );
+            $this->_application->getConfig()->setNode(
+                'default/' . Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID,
+                $themeId
             );
         }
     }
