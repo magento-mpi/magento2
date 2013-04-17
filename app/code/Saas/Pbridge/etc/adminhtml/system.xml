@@ -192,9 +192,8 @@
                 <field id="test_mode" showInWebsite="0"/>
                 <field id="debug" showInWebsite="0"/>
             </group>
-            <group id="pbridge_styling" translate="label" module="Saas_Pbridge" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+            <group id="pbridge_styling" translate="label" type="text" module="Saas_Pbridge" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Payment Bridge Styling</label>
-                <frontend_type>text</frontend_type>
                 <field id="css" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Inline CSS styles</label>
                 </field>
