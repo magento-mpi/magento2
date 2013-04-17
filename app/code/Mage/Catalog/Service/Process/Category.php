@@ -17,23 +17,23 @@ class Mage_Catalog_Service_Process_Category extends Mage_Core_Service_Type_Proce
      */
     public function initCategoryToView($context)
     {
-        $context = $this->prepareContext(get_class($this), 'view', $context);
-
-        Mage::dispatchEvent('catalog_controller_category_init_before', array('controller_action' => $context->getControllerAction()));
-
-        Mage::dispatchEvent('catalog_category_show_before', array('context' => $context));
-
-        $category = $this->_serviceManager->getService('Mage_Catalog_Service_Entity_Category')->call('item', $context);
-
-        if (!$this->canShow($category)) {
-            return false;
-        }
-
-        Mage::getSingleton('Mage_Catalog_Model_Session')->setLastVisitedCategoryId($category->getId());
-
-        Mage::register('current_category', $category);
-
         try {
+            $context = $this->prepareContext(get_class($this), 'view', $context);
+
+            Mage::dispatchEvent('catalog_controller_category_init_before', array('controller_action' => $context->getControllerAction()));
+
+            Mage::dispatchEvent('catalog_category_show_before', array('context' => $context));
+
+            $category = $this->_serviceManager->getService('Mage_Catalog_Service_Entity_Category')->call('item', $context);
+
+            if (!$this->canShow($category)) {
+                return false;
+            }
+
+            Mage::getSingleton('Mage_Catalog_Model_Session')->setLastVisitedCategoryId($category->getId());
+
+            Mage::register('current_category', $category);
+
             Mage::dispatchEvent(
                 'catalog_controller_category_init_after',
                 array(
@@ -41,9 +41,11 @@ class Mage_Catalog_Service_Process_Category extends Mage_Core_Service_Type_Proce
                     'controller_action' => $context->getControllerAction()
                 )
             );
-        } catch (Mage_Core_Exception $e) {
-            Mage::logException($e);
-            return false;
+        } catch (Mage_Core_Service_Exception $e) {
+            $code = $e->getCode() ? $e->getCode() : Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR;
+            throw new Mage_Core_Service_Exception($e->getMessage(), $code);
+        } catch (Exception $e) {
+            throw new Mage_Core_Service_Exception($e->getMessage(), Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
         }
 
         return $category;
@@ -51,14 +53,14 @@ class Mage_Catalog_Service_Process_Category extends Mage_Core_Service_Type_Proce
 
     public function view($context)
     {
-        $context = $this->prepareContext(get_class($this), 'view', $context);
-
-        $category = $this->initCategoryToView($context);
-        if (!$category) {
-            throw new Mage_Core_Service_Exception_Authorization();
-        }
-
         try {
+            $context  = $this->prepareContext(get_class($this), 'view', $context);
+
+            $category = $this->initCategoryToView($context);
+            if (!$category) {
+                throw new Mage_Core_Service_Exception('', Mage_Core_Service_Exception::HTTP_NOT_FOUND);
+            }
+
             $design   = Mage::getSingleton('Mage_Catalog_Model_Design');
             $settings = $design->getDesignSettings($category);
 
@@ -118,8 +120,11 @@ class Mage_Catalog_Service_Process_Category extends Mage_Core_Service_Type_Proce
             $output = $layoutService->render($layout);
 
             $context->getResponse()->appendBody($output);
+        } catch (Mage_Core_Service_Exception $e) {
+            $code = $e->getCode() ? $e->getCode() : Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR;
+            throw new Mage_Core_Service_Exception($e->getMessage(), $code);
         } catch (Exception $e) {
-            throw new Mage_Core_Service_Exception_Execution($e->getMessage());
+            throw new Mage_Core_Service_Exception($e->getMessage(), Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
         }
     }
 

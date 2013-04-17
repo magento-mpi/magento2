@@ -7,22 +7,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Core_Service_Exception extends RuntimeException
+class Mage_Core_Service_Exception extends RuntimeException
 {
     /**#@+
      * Error HTTP response codes.
      */
-    const HTTP_BAD_REQUEST = 400;
-    const HTTP_UNAUTHORIZED = 401;
-    const HTTP_FORBIDDEN = 403;
-    const HTTP_NOT_FOUND = 404;
-    const HTTP_METHOD_NOT_ALLOWED = 405;
-    const HTTP_NOT_ACCEPTABLE = 406;
-    const HTTP_INTERNAL_ERROR = 500;
+    const HTTP_BAD_REQUEST          = 400;
+    const HTTP_UNAUTHORIZED         = 401;
+    const HTTP_FORBIDDEN            = 403;
+    const HTTP_NOT_FOUND            = 404;
+    const HTTP_METHOD_NOT_ALLOWED   = 405;
+    const HTTP_NOT_ACCEPTABLE       = 406;
+    const HTTP_INTERNAL_ERROR       = 500;
     /**#@-*/
 
-    const ORIGINATOR_SENDER = 'Sender';
-    const ORIGINATOR_RECEIVER = 'Receiver';
+    const ORIGINATOR_SENDER     = 'Sender';
+    const ORIGINATOR_RECEIVER   = 'Receiver';
 
     /**
      * Initialize exception with HTTP code.

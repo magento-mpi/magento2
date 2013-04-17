@@ -41,12 +41,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
                     'current_area'          => $this->_currentArea,
                     'default_layout_handle' => $this->getDefaultLayoutHandle()
                 ));
-        } catch (Mage_Core_Service_Exception_Authorization $e) {
-            // @todo what?
-            if (!$this->getResponse()->isRedirect()) {
-                $this->_forward('noRoute');
-            }
-        } catch (Mage_Core_Service_Exception_Execution $e) {
+        } catch (Core_Service_Exception $e) {
             // @todo what?
             if (!$this->getResponse()->isRedirect()) {
                 $this->_forward('noRoute');

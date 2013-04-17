@@ -70,7 +70,7 @@ abstract class Mage_Core_Service_Type_Abstract
         }
 
         if (false === $result) {
-            throw new Mage_Core_Service_Exception_Authorization($serviceClass . '/' . $serviceMethod);
+            throw new Mage_Core_Service_Exception($serviceClass . '/' . $serviceMethod, Mage_Core_Service_Exception::HTTP_FORBIDDEN);
         }
 
         return $result;
