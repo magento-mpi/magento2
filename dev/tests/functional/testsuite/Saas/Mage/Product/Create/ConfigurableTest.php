@@ -20,6 +20,7 @@ class Saas_Mage_Product_Create_ConfigurableTest extends Core_Mage_Product_Create
 {
     /**
      * <p>Creating Configurable product with Downloadable product</p>
+     * <p>Override original testcase. Downloadable product is not available in Saas</p>
      *
      * @test
      * @TestlinkId TL-MAGE-3363

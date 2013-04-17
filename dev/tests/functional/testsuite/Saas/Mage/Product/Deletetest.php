@@ -18,6 +18,11 @@
      */
 class Saas_Mage_Product_DeleteTest extends Core_Mage_Product_DeleteTest
 {
+    /**
+     * <p>Override DataProvider to exclude downloadable product type</p>
+     *
+     * @return array
+     */
     public function deleteSingleProductDataProvider()
     {
         return array(
@@ -28,6 +33,11 @@ class Saas_Mage_Product_DeleteTest extends Core_Mage_Product_DeleteTest
         );
     }
 
+    /**
+     * Override DataProvider to exclude downloadable product type
+     *
+     * @return array
+     */
     public function deleteAssociatedProductDataProvider()
     {
         return array(
