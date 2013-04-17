@@ -53,7 +53,8 @@ try {
     $themes->setItemObjectClass('Generator_ThemeLight');
     $themes->addDefaultPattern('*');
 
-    $generator = new Generator_CopyRule($filesystem, $themes, new Mage_Core_Model_Design_Fallback_List_View($dirs));
+    $fallbackFactory = new Mage_Core_Model_Design_Fallback_Factory($dirs);
+    $generator = new Generator_CopyRule($filesystem, $themes, $fallbackFactory->createViewFileRule());
     $copyRules = $generator->getCopyRules();
 
     $deployment = new Generator_ThemeDeployment(

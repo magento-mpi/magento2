@@ -42,15 +42,9 @@ class Mage_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHPUni
             array(Mage_Core_Model_Dir::THEMES => $this->_viewDir)
         );
 
-        $fallbackFile = new Mage_Core_Model_Design_Fallback_List_File($dirs);
-        $fallbackLocale = new Mage_Core_Model_Design_Fallback_List_Locale($dirs);
-        $fallbackViewFile = new Mage_Core_Model_Design_Fallback_List_View($dirs);
-
         return Mage::getObjectManager()->create(
             'Mage_Core_Model_Design_FileResolution_Strategy_Fallback',
-            array('dirs' => $dirs, 'fallbackFile' => $fallbackFile, 'fallbackLocale' => $fallbackLocale,
-                'fallbackViewFile' => $fallbackViewFile
-            )
+            array('fallbackFactory' => new Mage_Core_Model_Design_Fallback_Factory($dirs))
         );
     }
 
