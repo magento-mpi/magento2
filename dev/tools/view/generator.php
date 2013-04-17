@@ -31,15 +31,15 @@ Usage: php -f generator.php -- [--source <dir>] [--destination <dir>] [--dry-run
 USAGE
 );
 
-$options = getopt('', array('help', 'dry-run', 'source:', 'destination:'));
-if (isset($options['help'])) {
-    echo SYNOPSIS;
-    exit(0);
-}
-
 $logWriter = new Zend_Log_Writer_Stream('php://output');
 $logWriter->setFormatter(new Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
 $logger = new Zend_Log($logWriter);
+
+$options = getopt('', array('help', 'dry-run', 'source:', 'destination:'));
+if (isset($options['help'])) {
+    $logger->log(SYNOPSIS, Zend_Log::INFO);
+    exit(0);
+}
 
 $logger->log('Deploying...', Zend_Log::INFO);
 try {
