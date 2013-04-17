@@ -17,6 +17,7 @@
             <codePool>core</codePool>
             <depends>
                 <Enterprise_Pbridge/>
+                <Saas_Paypal/>
             </depends>
         </Saas_Pbridge>
     </modules>
@@ -26,11 +27,12 @@
                 <class>Saas_Pbridge_Model</class>
             </saas_pbridge>
         </models>
+        <!-- TODO this functionality is apsend in GO 1.x
         <blocks>
             <saas_pbridge>
                 <class>Saas_Pbridge_Block</class>
             </saas_pbridge>
-        </blocks>
+        </blocks>-->
         <helpers>
             <saas_pbridge>
                 <class>Saas_Pbridge_Helper</class>

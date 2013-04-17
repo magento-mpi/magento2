@@ -14,14 +14,15 @@ class Saas_Pbridge_Model_Payment_Method_Paypal_Boarding extends Enterprise_Pbrid
      *
      * @var string
      */
-    protected $_code  = Saas_Paypal_Model_Boarding_Config::METHOD_DIRECT_BOARDING;
+    //TODO should it be replaced to constant???
+    protected $_code  = 'paypal_direct_boarding';// Saas_Paypal_Model_Boarding_Config::METHOD_DIRECT_BOARDING;
 
     /**
      * Website Payments Pro instance type
      *
      * @var $_proType string
      */
-    protected $_proType = 'saas_pbridge/payment_method_paypal_boarding_pro';
+    protected $_proType = 'Saas_Pbridge_Model_Payment_Method_Paypal_Boarding_Pro';
 
     /**
      * Override enterprise PBridge method to fix PayPal Website Payments Pro with Permissions
@@ -32,6 +33,7 @@ class Saas_Pbridge_Model_Payment_Method_Paypal_Boarding extends Enterprise_Pbrid
     public function isAvailable($quote = null)
     {
         return $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote)
-            && $this->_pro->getConfig()->isMethodAvailable(Saas_Paypal_Model_Boarding_Config::METHOD_DIRECT_BOARDING);
+            && $this->_pro->getConfig()->isMethodAvailable($this->_code);
+        //TODO Saas_Paypal_Model_Boarding_Config::METHOD_DIRECT_BOARDING was replaced to $this->_code
     }
 }

@@ -15,5 +15,5 @@ class Saas_Pbridge_Model_Payment_Method_Paypal_Boarding_Pro extends Enterprise_P
      *
      * @var string
      */
-    protected $_configType = 'saas_paypal/boarding_config';
+    protected $_configType = 'Saas_Paypal_Model_Boarding_Config';
 }

@@ -25,7 +25,7 @@ class Saas_Pbridge_Model_Pbridge_Merchant_Api extends Enterprise_Pbridge_Model_P
     protected function _prepareRequestParams($request)
     {
         if (!$this->_action) {
-            Mage::throwException(Mage::helper('saas_pbridge')->__('Payment Bridge action is not set.'));
+            Mage::throwException(Mage::helper('Saas_Pbridge_Helper_Data')->__('Payment Bridge action is not set.'));
         }
         $request['action'] = $this->_action;
         return parent::_prepareRequestParams($request);

@@ -356,7 +356,7 @@ class Saas_Pbridge_Model_Pbridge_Merchant
         $paypalCertModel = Mage::getModel('Mage_Paypal_Model_Cert');
         $paypalCertModel->loadByWebsite(Mage::app()->getWebsite($websiteCode)->getId());
         if ($paypalCertModel->getid()) {
-            $certContent = Mage::helper('Mage_Core')->decrypt($paypalCertModel->getContent());
+            $certContent = Mage::helper('Mage_Core_Helper_Data')->decrypt($paypalCertModel->getContent());
             $sectionsCfg['configuration']['paypal_direct']['api_cert'] = $certContent;
         } else {
             $sectionsCfg['configuration']['paypal_direct']['api_cert'] = '';
@@ -474,7 +474,7 @@ class Saas_Pbridge_Model_Pbridge_Merchant
                 $api->doUpdatePaymentServicesConfiguration($sectionsCfg);
                 break;
             default:
-                Mage::throwException(Mage::helper('Saas_Pbridge')->__("Method is not present."));
+                Mage::throwException(Mage::helper('Saas_Pbridge_Helper_Data')->__("Method is not present."));
                 break;
         }
 
@@ -629,7 +629,7 @@ class Saas_Pbridge_Model_Pbridge_Merchant
         if (!isset($serviceCgf['password'])) {
             return null;
         }
-        return Mage::helper('Mage_Core')->decrypt($serviceCgf['password']);
+        return Mage::helper('Mage_Core_Helper_Data')->decrypt($serviceCgf['password']);
     }
 
     /**
