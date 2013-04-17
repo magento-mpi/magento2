@@ -34,6 +34,15 @@
 }
 
 .header .logo {
+    display: block;
+    width: 109px;
+    height: 27px;
+    text-indent: -999em;
+    background: url(Mage_Backend::images/logo-magento-small.png) no-repeat;
+    margin: 0;
+}
+/*
+.header .logo {
     display: inline-block;
     width: 100px;
     height: 27px;
@@ -80,7 +89,7 @@
     line-height: 1;
     font-weight: normal;
     color: #000;
-}
+}*/
 
 .header-panel {
     float: right;
@@ -571,6 +580,7 @@
     color: #676056;
     text-shadow: 0 1px 0 #fff;
     box-shadow: none;
+    filter: none;
 }
 
 .search button[type="submit"]:hover,

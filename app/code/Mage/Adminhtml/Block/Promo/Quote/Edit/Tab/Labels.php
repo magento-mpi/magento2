@@ -115,7 +115,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
     {
         $fieldset = $form->addFieldset('store_labels_fieldset', array(
             'legend' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Store View Specific Labels'),
-            'table_class' => 'form-list stores-tree',
+            'class' => 'store-scope',
         ));
         $renderer = $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');
         $fieldset->setRenderer($renderer);

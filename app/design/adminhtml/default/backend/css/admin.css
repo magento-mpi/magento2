@@ -116,8 +116,34 @@ button.primary:visited,
 .primary:visited,
 .popup-window .add-widget,
 .popup-window .add-widget:visited {
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.1);
+    border: 1px solid #e4731c;
     color: #fff;
-    background: #f47b20;
+    text-shadow: 0 1px 1px #8e3b05;
+    background: #f58227;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y1ODIyNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmMDcyMWMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #f58227 0%, #f0721c 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f58227), color-stop(100%,#f0721c));
+    background: -webkit-linear-gradient(top, #f58227 0%,#f0721c 100%);
+    background: -o-linear-gradient(top, #f58227 0%,#f0721c 100%);
+    background: -ms-linear-gradient(top, #f58227 0%,#f0721c 100%);
+    background: linear-gradient(to bottom, #f58227 0%,#f0721c 100%);
+}
+
+.eq-ie8 input[type=button].primary,
+.eq-ie8 input[type=submit].primary,
+.eq-ie8 input[type=reset].primary,
+.eq-ie8 button.primary,
+.eq-ie8 input[type=button].primary:visited,
+.eq-ie8 input[type=submit].primary:visited,
+.eq-ie8 input[type=reset].primary:visited,
+.eq-ie8 button.primary:visited,
+.eq-ie8 .primary,
+.eq-ie8 .primary:visited,
+.eq-ie8 .popup-window .add-widget,
+.eq-ie8 .popup-window .add-widget:visited,
+.page-login button.primary {
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f58227', endColorstr='#f0721c',GradientType=0 );
 }
 
 input[type=button].primary:hover,
@@ -131,10 +157,33 @@ button.primary:focus,
 .primary:hover,
 .primary:focus,
 .popup-window .add-widget:hover,
-.popup-window .add-widget:focus {
-    background: #e2701a;
+.popup-window .add-widget:focus{
     color: #fff;
-    text-shadow: 0 -1px 2px #955326;
+    background: #e47821;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2U0NzgyMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkZTY4MTciIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #e47821 0%, #de6817 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e47821), color-stop(100%,#de6817));
+    background: -webkit-linear-gradient(top, #e47821 0%,#de6817 100%);
+    background: -o-linear-gradient(top, #e47821 0%,#de6817 100%);
+    background: -ms-linear-gradient(top, #e47821 0%,#de6817 100%);
+    background: linear-gradient(to bottom, #e47821 0%,#de6817 100%);
+}
+
+.eq-ie8 input[type=button].primary:hover,
+.eq-ie8 input[type=submit].primary:hover,
+.eq-ie8 input[type=reset].primary:hover,
+.eq-ie8 button.primary:hover,
+.eq-ie8 input[type=button].primary:focus,
+.eq-ie8 input[type=submit].primary:focus,
+.eq-ie8 input[type=reset].primary:focus,
+.eq-ie8 button.primary:focus,
+.eq-ie8 .primary:hover,
+.eq-ie8 .primary:focus,
+.eq-ie8 .popup-window .add-widget:hover,
+.eq-ie8 .popup-window .add-widget:focus,
+.page-login button.primary:hover,
+.page-login button.primary:focus {
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e47821', endColorstr='#de6817',GradientType=0 );
 }
 
 input[type=button].primary:active,
@@ -147,25 +196,55 @@ input[type=reset].primary.active,
 button.primary.active,
 .primary:active,
 .primary.active,
-.popup-window .add-widget:active {
-    box-shadow: 0 1px 5px #955326 inset;
+.popup-window .add-widget:active,
+.page-login button.primary:active {
+    background: #e2701a;
+    box-shadow: 0 1px 2px #bf5f16 inset;
+    text-shadow: 0 -1px 1px #bf5f16;
+}
+
+.eq-ie8 input[type=button].primary:active,
+.eq-ie8 input[type=submit].primary:active,
+.eq-ie8 input[type=reset].primary:active,
+.eq-ie8 button.primary:active,
+.eq-ie8 input[type=button].primary.active,
+.eq-ie8 input[type=submit].primary.active,
+.eq-ie8 input[type=reset].primary.active,
+.eq-ie8 button.primary.active,
+.eq-ie8 .primary:active,
+.eq-ie8 .primary.active,
+.eq-ie8 .popup-window .add-widget:active {
+    filter: none;
 }
 
 input[type=button].primary[disabled],
+input[type=button].primary[disabled]:hover,
 input[type=submit].primary[disabled],
+input[type=submit].primary[disabled]:hover,
 input[type=reset].primary[disabled],
+input[type=reset].primary[disabled]:hover,
 button.primary[disabled],
+button.primary[disabled]:hover,
 input[type=button].primary.disabled,
+input[type=button].primary.disabled:hover,
 input[type=submit].primary.disabled,
+input[type=submit].primary.disabled:hover,
 input[type=reset].primary.disabled,
+input[type=reset].primary.disabled:hover,
 button.primary.disabled,
+button.primary.disabled:hover,
 .primary[disabled],
-.primary.disabled {
+.primary[disabled]:hover,
+.primary.disabled,
+.primary.disabled:hover {
     cursor: not-allowed;
-    opacity: 0.65;
+    color: #fff;
+    opacity: 0.6;
     box-shadow: none;
+    border: 1px solid #e4731c;
     text-shadow: none;
-    background: #d98236 !important;
+    background: #f47b20 !important;
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=60);
 }
 
 /*
@@ -190,6 +269,10 @@ button.primary.disabled,
 .pager .action-previous,
 .pager .action-next:hover,
 .pager .action-previous:hover,
+.pager .action-next.disabled:focus,
+.pager .action-previous.disabled:focus,
+.pager .action-next.disabled:active,
+.pager .action-previous.disabled:active,
 .data-table .action-.delete,
 .data-table .action-.delete:hover,
 .data-table .action-.delete:active,
@@ -267,7 +350,15 @@ button.primary.disabled,
 .notification .action-close,
 .notification .action-close:hover,
 .notification .action-close:active,
-.notification .action-close.active {
+.notification .action-close.active,
+.page-login .action-forgotpassword,
+.page-login .action-forgotpassword:hover,
+.page-login .action-forgotpassword:active,
+.page-login .action-forgotpassword.active,
+.page-login .action-back,
+.page-login .action-back:hover,
+.page-login .action-back:active,
+.page-login .action-back.active {
     border: none;
     border-radius: 0;
     background: none;
@@ -277,13 +368,92 @@ button.primary.disabled,
     text-shadow: none;
 }
 
-.data-table .action-.delete[disabled],
-.data-table .action-delete[disabled],
-#product-variations-matrix .action-choose[disabled],
-.image-panel .action-close[disabled],
-.image-panel-controls .action-remove[disabled],
-.suggest-expandable .action-show-all[disabled],
-.fieldset-wrapper-title .action-add[disabled],
+.eq-ie8 .customer-current-activity .action-refresh,
+.eq-ie8 .pager .action-next,
+.eq-ie8 .pager .action-previous,
+.eq-ie8 .pager .action-next:hover,
+.eq-ie8 .pager .action-previous:hover,
+.eq-ie8 .pager .action-next.disabled:focus,
+.eq-ie8 .pager .action-previous.disabled:focus,
+.eq-ie8 .pager .action-next.disabled:active,
+.eq-ie8 .pager .action-previous.disabled:active,
+.eq-ie8 .data-table .action-.delete,
+.eq-ie8 .data-table .action-.delete:hover,
+.eq-ie8 .data-table .action-.delete:active,
+.eq-ie8 .data-table .action-.delete.active,
+.eq-ie8 .data-table .action-delete,
+.eq-ie8 .data-table .action-delete:hover,
+.eq-ie8 .data-table .action-delete:active,
+.eq-ie8 .data-table .action-delete.active,
+.eq-ie8 #product-variations-matrix .action-choose,
+.eq-ie8 #product-variations-matrix .action-choose:hover,
+.eq-ie8 #product-variations-matrix .action-choose:active,
+.eq-ie8 #product-variations-matrix .action-choose.active,
+.eq-ie8 .image-panel .action-close,
+.eq-ie8 .eq-ie8 .image-panel .action-close:hover,
+.eq-ie8 .image-panel .action-close:active,
+.eq-ie8 .image-panel .action-close.active,
+.eq-ie8 .image-panel-controls .action-remove,
+.eq-ie8 .image-panel-controls .action-remove:hover,
+.eq-ie8 .image-panel-controls .action-remove:active,
+.eq-ie8 .image-panel-controls .action-remove.active,
+.eq-ie8 .suggest-expandable .action-show-all,
+.eq-ie8 .suggest-expandable .action-show-all:hover,
+.eq-ie8 .suggest-expandable .action-show-all:active,
+.eq-ie8 .suggest-expandable .action-show-all.active,
+.eq-ie8 .fieldset-wrapper-title .action-add,
+.eq-ie8 .fieldset-wrapper-title .action-add:hover,
+.eq-ie8 .fieldset-wrapper-title .action-add:active,
+.eq-ie8 .fieldset-wrapper-title .action-add.active,
+.eq-ie8 .custom-file > .action-add,
+.eq-ie8 .custom-file > .action-add:hover,
+.eq-ie8 .custom-file > .action-add:active,
+.eq-ie8 .custom-file > .action-add.active,
+.eq-ie8 .vde-tools-header .action-close,
+.eq-ie8 .vde-tools-header .action-close:hover,
+.eq-ie8 .vde-tools-header .action-close:active,
+.eq-ie8 .vde-tools-header .action-close.active,
+.eq-ie8 .image .action-delete,
+.eq-ie8 .image .action-delete:hover,
+.eq-ie8 .image .action-delete:active,
+.eq-ie8 .image .action-delete.active,
+.eq-ie8 .fieldset-wrapper-title .actions .action-delete,
+.eq-ie8 .fieldset-wrapper-title .actions .action-delete:hover,
+.eq-ie8 .fieldset-wrapper-title .actions .action-delete:active,
+.eq-ie8 .fieldset-wrapper-title .actions .action-delete.active,
+.eq-ie8 .address-list-item-actions .action-delete,
+.eq-ie8 .address-list-item-actions .action-delete:hover,
+.eq-ie8 .address-list-item-actions .action-delete:active,
+.eq-ie8 .address-list-item-actions .action-delete.active,
+.eq-ie8 .notification .action-close,
+.eq-ie8 .notification .action-close:hover,
+.eq-ie8 .notification .action-close:active,
+.eq-ie8 .notification .action-close.active,
+.eq-ie8 .page-login .action-forgotpassword,
+.eq-ie8 .page-login .action-forgotpassword:hover,
+.eq-ie8 .page-login .action-forgotpassword:active,
+.eq-ie8 .page-login .action-forgotpassword.active,
+.eq-ie8 .page-login .action-back,
+.eq-ie8 .page-login .action-back:hover,
+.eq-ie8 .page-login .action-back:active,
+.eq-ie8 .page-login .action-back.active {
+    border: none;
+    border-radius: 0;
+    background: none;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    text-shadow: none;
+    filter: none;
+}
+
+.data-table .action-.delete:disabled,
+.data-table .action-delete:disabled,
+#product-variations-matrix .action-choose:disabled,
+.image-panel .action-close:disabled,
+.image-panel-controls .action-remove:disabled,
+.suggest-expandable .action-show-all:disabled,
+.fieldset-wrapper-title .action-add:disabled,
 #store-view-window [class^='action-close'],
 #store-view-window [class^='action-close']:hover,
 #store-view-window [class^='action-close']:active,
@@ -365,6 +535,20 @@ button.primary.disabled,
 .notification .action-close:active,
 .notification .action-close.active,
 .notification .action-close[disabled] {
+    border: 0;
+    border-radius: 0;
+    background: none;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+.vde-image-sizing .action-connect,
+.vde-image-sizing .action-connect:hover,
+.vde-image-sizing .action-connect:active,
+.vde-image-sizing .action-connect.active,
+.vde-image-sizing .action-connect:disabled {
     border: none;
     border-radius: 0;
     background: none;
@@ -430,7 +614,7 @@ button.primary.disabled,
     border: 1px solid #cac2b5;
     border-radius: 3px;
     background: #fff;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
     z-index: 990;
 }
 
@@ -624,6 +808,7 @@ button.primary.disabled,
     color: #676056;
     font-size: 12px;
     padding: 5px 4px;
+    filter: none;
 }
 
 .suggest-expandable .actions-split .action-toggle span {
@@ -738,9 +923,10 @@ button.primary.disabled,
 }
 
 .actions-split > .action-toggle {
-    border-left: 1px solid #c8c3b5;
+    border-left: 1px solid #c5c0b9;
     border-radius: 0 5px 5px 0;
-    padding: 5px 7px;
+    margin-left: -1px;
+    padding: 4px 7px;
 }
 
 .actions-split > .action-toggle > span {
@@ -763,7 +949,12 @@ button.primary.disabled,
 }
 
 .actions-split > .action-toggle.primary {
-    border-left: 1px solid #bd6f2c;
+    border-left: 1px solid #e1721d;
+}
+
+.actions-split > .action-toggle.primary:hover {
+    background: #e2701a;
+    margin-left: -1px;
 }
 
 .actions-split.active .dropdown-menu {
@@ -911,11 +1102,20 @@ textarea,
     height: auto;
 }
 
+textarea {
+    resize: vertical;
+}
+
 select {
+    height: 28px;
     padding: 4px 4px 5px;
     margin: 0 0 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 select[multiple],
@@ -1068,6 +1268,10 @@ fieldset.field [class^='fields-group-'] .field .control {
 
 .multi-input > input {
     width: 100%;
+}
+
+.control .input-file {
+    margin-top: 4px;
 }
 
 /* TODO: remove styles for images when images will be replaced by font icons */
@@ -1375,7 +1579,6 @@ input.mage-error ~ .addafter {
 .fieldset .control .addon .textarea {
     border-radius: 4px;
     width: 100%;
-    resize: vertical;
 }
 
 .fieldset > .field > input[type="checkbox"] {
@@ -1415,6 +1618,10 @@ input.mage-error ~ .addafter {
 
 .fieldset-alt .field-option-title {
     width: 50%;
+}
+
+.fieldset .tooltip .help {
+    margin: 7px 0 0 15px; 
 }
 
 .fieldset-alt .field-option-store-view {
@@ -2220,6 +2427,9 @@ table tbody tr:nth-child(odd):hover th {
     background: #19a3d1;
     border-radius: 3px;
     color: #fff;
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding-box;
+    background-clip: padding-box;
 }
 
 .navigation .level-0 > .submenu a[href="#"] {
@@ -2636,39 +2846,143 @@ table tbody tr:nth-child(odd):hover th {
 /*
     Login page
 -------------------------------------- */
-
-.page-login form {
-    border: 1px solid #b5dcd6;
-    border-radius: 5px;
+.page-login  {
+    height: 100%;
 }
 
-.page-login .fieldset {
-    border: none;
-    margin: 0;
+.page-login .wrapper {
+    min-height: 100%;
+    padding: 0;
+}
+
+.page-login .wrapper-inner {
+    overflow: auto;
+    padding-bottom: 140px;
+}
+
+.page-login .footer {
+    clear: both;
+    height: 140px;
+    margin-top: -140px;
+    position: relative;
 }
 
 .page-login .footer-content {
+    max-width: none;
     min-width: 0;
-    max-width: auto;
+}
+.page-login .footer-copyright {
+    text-align: right;
 }
 
-.page-login .footer,
+.page-login .footer .links {
+    margin: 0 0 25px 0;
+    padding: 0;
+}
+
+.page-login .footer .links li {
+    display: inline-block;
+    float: left;
+    width: 185px;
+    margin-right: 55px;
+    padding-left: 27px;
+}
+
+.page-login .footer .links li.info-billing {
+    background: url(Mage_Backend::images/billing.png) no-repeat;
+}
+
+.page-login .footer .links li.info-support {
+    background: url(Mage_Backend::images/support.png) no-repeat;
+}
+
+.page-login .footer .links strong {
+    display: block;
+    color: #676056;
+    font-size: 16px;
+    font-weight: normal;
+    margin-bottom: 5px;
+    font-family: 'CallunaSans';
+}
+
+.page-login .footer .links a {
+    font-size: 11px;
+}
+
 .page-login .form-login {
-    width: 600px;
-    margin: 0 auto;
-    position: static;
+    width: 280px;
+    margin: 160px auto 60px;
+    padding: 30px 25px;
+    border: 1px solid #e3ded5;
+    border-radius: 5px;
+    background: #f7f2ec;
+}
+
+.page-login .fieldset {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.page-login .fieldset > .legend {
+    border-bottom: 0;
+    margin-bottom: 15px;
+}
+
+.page-login .fieldset > .legend span {
+    font-size: 32px;
+    line-height: 32px;
+    padding: 0;
+    color: #8a847c;
+    display: inline;
+}
+
+.page-login .fieldset .field {
+    margin: 0 0 13px;
+}
+
+.page-login .form-inline .label  {
+    width: auto;
+    padding: 0;
+    margin-bottom: 13px;
+}
+
+.page-login .field-username label,
+.page-login .field-password label,
+.page-login .field-confirmation label {
+    display: none;
+}
+
+.eq-ie8 .page-login .field-username label,
+.eq-ie8 .page-login .field-password label,
+.eq-ie8 .page-login .field-confirmation label {
+    display: block;
+}
+
+.page-login .form-inline .label + .control {
+    width: auto;
+    float: none;
 }
 
 .page-login .header {
-    width: 564px;
-    margin: 0 auto;
-    padding: 50px 18px;
+    margin-bottom: 30px;
 }
 
 .page-login .logo {
     display: block;
+    width: 262px;
+    height: 64px;
+    text-indent: -999em;
+    background: url(Mage_Backend::images/logo-magento.png) no-repeat;
+}
+
+/* 
+.page-login .logo {
+    display: block;
     width: 100px;
-    height: 70px;
+    height: 65px;
     margin: 0;
     text-indent: -999em;
     position: relative;
@@ -2678,7 +2992,7 @@ table tbody tr:nth-child(odd):hover th {
 .page-login .logo:before,
 .page-login .logo:after {
     font-family: 'admin-icons';
-    font-size: 68px;
+    font-size: 65px;
     content: '\e00d';
     position: absolute;
     bottom: 0;
@@ -2705,31 +3019,74 @@ table tbody tr:nth-child(odd):hover th {
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 80px;
+    left: 70px;
     font-size: 154px;
-    margin-top: -38px;
+    margin-top: -42px;
     text-indent: 0;
     line-height: 1;
     font-weight: normal;
     color: #000;
-}
+}*/
 
 .page-login .form-actions {
-    padding: 0 20px 0 0;
+    padding: 0;
+    margin: 0;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-}
-
-.page-login .actions {
-    margin: 0 18px 0 20%;
-    padding-left: 4px;
 }
 
 .page-login .actions,
 .page-login .links {
     display: inline-block;
     vertical-align: middle;
+}
+
+.page-login input[type=text],
+.page-login input[type=password] {
+    border-color:#cac3b4;
+    font-size: 18px;
+    padding: 12px 12px 14px;
+    height: auto;
+}
+
+.page-login :-ms-input-placeholder {
+    color: #bebab1 !important;
+}
+
+.page-login ::-webkit-input-placeholder {
+    color: #bebab1 !important;
+}
+
+.page-login :-moz-placeholder {
+    color: #bebab1 !important;
+}
+
+.page-login .action-login,
+.page-login .action-retrieve {
+    font-size: 22px; 
+    padding: 14px 22px 16px;
+}
+
+.page-login .action-retrieve,
+.page-login .action-reset {
+    font-size: 18px;
+    padding: 10px 17px 10px;
+}
+
+.page-login .action-forgotpassword,
+.page-login .action-back {
+    font-size: 12px;
+    color: #1c8bb8;
+    text-decoration: underline;
+    position: absolute;
+    left: 0;
+    bottom: -70px;
+}
+
+.page-login .action-forgotpassword:hover,
+.page-login .action-back:hover {
+    text-decoration: none;
 }
 
 /*
@@ -3223,14 +3580,22 @@ table tbody tr:nth-child(odd):hover th {
     left: -1px;
 }
 
+.col-2-left-layout .main-col,
+.col-2-right-layout .main-col {
+    min-width: 730px;
+}
+
 /* Sidebar title and store view switcher*/
 /* TODO: temporary styles */
-.side-col h3,
-.side-col > .store-switcher {
+.side-col h3 {
     padding: 0 17px;
     margin-top: 16px;
 }
 
+.field-store-switcher {
+    padding: 0 0 20px;
+    margin: 0;
+}
 .side-col .ui-tabs h3 {
     margin-bottom: 5px;
     color: #524c44;
@@ -3241,8 +3606,30 @@ table tbody tr:nth-child(odd):hover th {
     padding-top: 6px;
 }
 
-.side-col > .store-switcher > a {
-    white-space: nowrap;
+.field-store-switcher,
+.field-store-switcher > .label + .control {
+    display: inline-block;
+}
+
+.field-store-switcher > .label {
+    margin: 0;
+}
+
+.side-col > .field-store-switcher {
+    padding: 19px 18px 0;
+}
+
+.side-col > .field-store-switcher > .label {
+    margin: 0 0 6px;
+    display:block;
+}
+.dashboard-container .field-store-switcher {
+    padding: 20px 0;
+}
+
+.toolbar .field-store-switcher {
+    padding: 0;
+    margin-right: 20px;
 }
 
 /*
@@ -3453,11 +3840,11 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .config-nav .item {
-    border-bottom: 1px solid #E5E1DB;
+    border-top: 1px solid #E5E1DB;
 }
 
-.config-nav .item:last-child {
-    border: 0;
+.config-nav .item:first-child {
+    border-top: 0;
 }
 
 .config-nav .title {
@@ -3472,7 +3859,6 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .config-nav .item-nav {
-    position: relative;
     display: block;
     padding: 8px 18px;
     text-decoration: none;
@@ -3487,6 +3873,7 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .config-nav .item-nav.active {
+    position: relative;
     border-left: 3px solid #d87e34;
     padding-left: 15px;
     background: #dedcd8;
@@ -3606,7 +3993,7 @@ table tbody tr:nth-child(odd):hover th {
     Content actions panel (with buttons, switchers...)
 -------------------------------------- */
 .page-actions {
-    padding: 14px 0 18px;
+    padding: 0 0 20px;
     text-align: right;
 }
 
@@ -3619,6 +4006,10 @@ table tbody tr:nth-child(odd):hover th {
     display: inline-block;
     vertical-align: top;
     margin: 6px 10px 0 0;
+}
+
+.main-col .page-actions {
+    padding: 20px 0;
 }
 
 .page-actions .store-switcher {
@@ -3767,7 +4158,15 @@ table tbody tr:nth-child(odd):hover th {
     padding: 15px;
 }
 
+.eq-ie8 .grid table td.empty-text {
+    border-width: 0 1px 1px;
+}
+
 .grid table tr:last-child td.empty-text {
+    border-width: 0 1px 1px;
+}
+
+.eq-ie8 .grid table tr td.empty-text {
     border-width: 0 1px 1px;
 }
 
@@ -3829,6 +4228,11 @@ table tbody tr:nth-child(odd):hover th {
 .grid-actions .filter-actions {
     float: right;
     margin-left: 30px;
+}
+
+.grid-actions .filter-actions button {
+    float: left;
+    margin-left: 4px;
 }
 
 .grid-actions .pager select {
@@ -4211,10 +4615,6 @@ table tbody tr:nth-child(odd):hover th {
     display: inline;
 }
 
-.massaction .entry-edit .field-row button {
-    padding: 3px 10px;
-}
-
 .massaction .entry-edit .outer-span .entry-edit {
     float: none;
 }
@@ -4464,7 +4864,8 @@ table .col-draggable .draggable-handle {
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
-.data-table .required-entry:after {
+.data-table th.required-entry:after,
+.data-table td.required-entry:after {
     content: '*';
     color: red;
 }
@@ -4594,6 +4995,29 @@ table .col-draggable .draggable-handle {
     background-color: #fbfaf6;
 }
 
+.eq-ie8 .invitation_information .data-table tbody tr td,
+.eq-ie8 .invitation_information .data-table tbody tr th,
+.eq-ie8 .invitee_information .data-table tbody tr td,
+.eq-ie8 .invitee_information .data-table tbody tr th,
+.eq-ie8 .inviter_information .data-table tbody tr td,
+.eq-ie8 .inviter_information .data-table tbody tr th,
+.eq-ie8 .customer-information .data-table tbody tr td,
+.eq-ie8 .customer-information .data-table tbody tr th,
+.eq-ie8 .order-information .data-table tbody tr td,
+.eq-ie8 .order-information .data-table tbody tr th,
+.eq-ie8 .order-account-information .data-table tbody tr td,
+.eq-ie8 .order-account-information .data-table tbody tr th,
+.eq-ie8 [class^=" adminhtml-rma-"] .data-table tbody tr td,
+.eq-ie8 [class^=" adminhtml-rma-"] .data-table tbody tr th,
+.eq-ie8 [class^=" adminhtml-sales-transactions-"] .data-table tbody tr th,
+.eq-ie8 [class^=" adminhtml-sales-transactions-"] .data-table tbody tr td,
+.eq-ie8 [class^=" adminhtml-sales-"] .order-payment-method .data-table tbody tr th,
+.eq-ie8 [class^=" adminhtml-sales-"] .order-payment-method .data-table tbody tr td,
+.eq-ie8 [class^=" adminhtml-sales-billing-agreement-"] .log-details .data-table tbody tr th,
+.eq-ie8 [class^=" adminhtml-sales-billing-agreement-"] .log-details .data-table tbody tr td {
+    border-bottom: 1px solid #ededed;
+}
+
 /*
     Content alignments in tables
 -------------------------------------- */
@@ -4701,12 +5125,29 @@ table .col-draggable .draggable-handle {
     Customer Reviews
 -------------------------------------- */
 .field-detailed_rating .control-value {
-    width: 100%;
+    padding: 0;
+}
+
+.field-detailed_rating .nested {
+    padding: 0;
+}
+
+.field-detailed_rating .field-rating {
+    margin: 15px 0 0 0;
+}
+
+.field-detailed_rating .field-rating:first-child {
+    margin-top: 0;
+}
+
+.field-detailed_rating .field-rating .label {
+    width: 75px;
 }
 
 .field-detailed_rating .field-rating .control {
     unicode-bidi: bidi-override;
     direction: rtl;
+    width: 125px;
 }
 
 .field-detailed_rating input[type="radio"] {
@@ -4756,14 +5197,30 @@ table .col-draggable .draggable-handle {
     margin: 0 0 5px;
 }
 
-.tree-store-scope .field .label {
-    padding-top: 0;
+.tree-store-scope [class^="field field-website_"] .label,
+.tree-store-scope [class^="field field-group_"] .label,
+.tree-store-scope [class^="field field-w_"] .label,
+.tree-store-scope [class^="field field-sg_"] .label {
+    text-align: left;
+    font-family: 'CallunaSans', Arial, sans-serif;
+    font-size: 18px;
+    padding-right: 0;
+    width: auto;
+}
+
+.tree-store-scope [class^="field field-group_"] .label,
+.tree-store-scope [class^="field field-sg_"] .label {
+    padding-left: 20px;
 }
 
 .tree-store-scope .field input[type="checkbox"] {
     margin-right: 3px;
     position: relative;
     top: 2px;
+}
+
+.tree-store-scope .tooltip .help {
+    margin-top: 11px;
 }
 
 /*
@@ -5128,3 +5585,4 @@ table .col-draggable .draggable-handle {
 .fieldset-wrapper-title:after {
     clear: both;
 }
+
