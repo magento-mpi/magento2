@@ -62,6 +62,7 @@ class Saas_Launcher_Adminhtml_Storelauncher_Tax_DrawerController
                 'tax_rate_collection' => '',
             ));
         }
+        $this->getResponse()->setHeader('Content-Type', 'text/plain');
         $this->getResponse()->setBody($responseContent);
     }
 }
