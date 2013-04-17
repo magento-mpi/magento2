@@ -335,11 +335,13 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         if (!$isRedirectNeeded && !$request->getParam('forwarded')) {
             if ($request->getParam('isIframe')) {
                 $request->setParam('forwarded', true)
+                    ->setRouteName('adminhtml')
                     ->setControllerName('auth')
                     ->setActionName('deniedIframe')
                     ->setDispatched(false);
             } else if ($request->getParam('isAjax')) {
                 $request->setParam('forwarded', true)
+                    ->setRouteName('adminhtml')
                     ->setControllerName('auth')
                     ->setActionName('deniedJson')
                     ->setDispatched(false);

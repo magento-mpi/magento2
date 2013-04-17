@@ -14,6 +14,13 @@
         <Enterprise_Queue>
             <version>2.0.0.0</version>
             <active>false</active>
+            <system_requirements>
+                <php>
+                    <extensions>
+                        <gearman/>
+                    </extensions>
+                </php>
+            </system_requirements>
         </Enterprise_Queue>
     </modules>
     <global>

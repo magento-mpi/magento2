@@ -45,9 +45,9 @@ class Mage_Catalog_Model_Observer_Reindex
         /** @var $category Mage_Catalog_Model_Category */
         $category = $observer->getDataObject();
         if ($category && count($category->getAffectedProductIds()) > 0) {
-            /** @var $catalogSearchFulltext Mage_CatalogSearch_Model_Resource_Fulltext */
-            $catalogSearchFulltext = $this->_objectManager->get('Mage_CatalogSearch_Model_Resource_Fulltext');
-            $catalogSearchFulltext->rebuildIndex(null, $category->getAffectedProductIds());
+            /** @var $resource Mage_CatalogSearch_Model_Resource_Fulltext */
+            $resource = $this->_objectManager->get('Mage_CatalogSearch_Model_Resource_Fulltext');
+            $resource->rebuildIndex(null, $category->getAffectedProductIds());
         }
         return $this;
     }

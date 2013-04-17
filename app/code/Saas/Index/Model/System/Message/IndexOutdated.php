@@ -8,6 +8,36 @@
 class Saas_Index_Model_System_Message_IndexOutdated extends  Mage_Index_Model_System_Message_IndexOutdated
 {
     /**
+     * @var Saas_Index_Model_Flag
+     */
+    protected $_flag;
+
+    /**
+     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Mage_Index_Model_Indexer $indexer
+     * @param Mage_Core_Model_UrlInterface $urlBuilder
+     * @param Mage_Core_Model_Authorization $authorization
+     * @param Saas_Index_Model_FlagFactory $flagFactory
+     */
+    public function __construct(
+        Mage_Core_Model_Factory_Helper $helperFactory,
+        Mage_Index_Model_Indexer $indexer,
+        Mage_Core_Model_UrlInterface $urlBuilder,
+        Mage_Core_Model_Authorization $authorization,
+        Saas_Index_Model_FlagFactory $flagFactory
+    ) {
+        $this->_flag = $flagFactory->create();
+        $this->_flag->loadSelf();
+        parent::__construct($helperFactory, $indexer, $urlBuilder, $authorization);
+    }
+
+    public function isDisplayed()
+    {
+        $state = $this->_flag->getState();
+        return parent::isDisplayed() && ($state == Saas_Index_Model_Flag::STATE_NOTIFIED || is_null($state));
+    }
+
+    /**
      * Retrieve message text
      *
      * @return string

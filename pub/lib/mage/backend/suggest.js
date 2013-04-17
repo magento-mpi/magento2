@@ -222,8 +222,7 @@
                 },
                 cut: this.search,
                 paste: this.search,
-                input: this.search,
-                select: this._onSelectItem
+                input: this.search
             }, this.options.events));
 
             this._bindDropdown();
@@ -332,8 +331,8 @@
                 return;
             }
             this._selectItem(e);
-            this._trigger('select', e || null, {item: this._focused});
             this._blurItem();
+            this._trigger('select', e || null, {item: this._selectedItem});
         },
 
         /**
@@ -389,7 +388,9 @@
          */
         close: function(e) {
             this._renderedContext = null;
-            this.dropdown.hide().empty();
+            if (this.dropdown.length) {
+                this.dropdown.hide().empty();
+            }
             this._trigger('close', e);
         },
 

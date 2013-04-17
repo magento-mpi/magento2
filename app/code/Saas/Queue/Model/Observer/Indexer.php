@@ -25,13 +25,19 @@ class Saas_Queue_Model_Observer_Indexer extends Saas_Queue_Model_ObserverAbstrac
     protected $_indexer;
 
     /**
-     * Basic class initialization
-     *
-     * @param Mage_Index_Model_Indexer $indexer
+     * @var Saas_Index_Model_Flag
      */
-    public function __construct(Mage_Index_Model_Indexer $indexer)
+    protected $_flag;
+
+    /**
+     * @param Mage_Index_Model_Indexer $indexer
+     * @param Saas_Index_Model_FlagFactory $flagFactory
+     */
+    public function __construct(Mage_Index_Model_Indexer $indexer, Saas_Index_Model_FlagFactory $flagFactory)
     {
         $this->_indexer = $indexer;
+        $this->_flag = $flagFactory->create();
+        $this->_flag->loadSelf();
     }
 
     /**
@@ -50,7 +56,13 @@ class Saas_Queue_Model_Observer_Indexer extends Saas_Queue_Model_ObserverAbstrac
      */
     public function processReindexAll(Varien_Event_Observer $observer)
     {
+        $this->_flag->setState(Saas_Index_Model_Flag::STATE_PROCESSING);
+        $this->_flag->save();
+
         $this->_indexer->reindexAll();
+
+        $this->_flag->setState(Saas_Index_Model_Flag::STATE_FINISHED);
+        $this->_flag->save();
         return $this;
     }
 
@@ -62,7 +74,13 @@ class Saas_Queue_Model_Observer_Indexer extends Saas_Queue_Model_ObserverAbstrac
      */
     public function processReindexRequired(Varien_Event_Observer $observer)
     {
+        $this->_flag->setState(Saas_Index_Model_Flag::STATE_PROCESSING);
+        $this->_flag->save();
+
         $this->_indexer->reindexRequired();
+
+        $this->_flag->setState(Saas_Index_Model_Flag::STATE_FINISHED);
+        $this->_flag->save();
         return $this;
     }
 }

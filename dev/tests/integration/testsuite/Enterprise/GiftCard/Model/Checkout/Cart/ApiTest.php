@@ -32,6 +32,14 @@ class Enterprise_GiftCard_Model_Checkout_Cart_ApiTest extends PHPUnit_Framework_
         $giftCards = $this->_loadGiftCards($quote->getId());
         $this->assertCount(1, $giftCards, "Exactly 1 gift card must be applied to the shopping cart.");
         $this->assertEquals($giftCardAccountCode, $giftCards[0]['c']);
+        /** @var Mage_Sales_Model_Quote $updatedQuote */
+        $updatedQuote = Mage::getModel('Mage_Sales_Model_Quote')->load($quote->getId());
+        $this->assertEquals(
+            $quote->getBaseGrandTotal() - $giftCards[0]['ba'],
+            $updatedQuote->getBaseGrandTotal(),
+            "Base grand total was not updated.",
+            0.0001 // comparison precision
+        );
     }
 
     /**

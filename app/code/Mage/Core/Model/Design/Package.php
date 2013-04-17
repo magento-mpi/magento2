@@ -507,9 +507,9 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             /** @var $themeModel Mage_Core_Model_Theme */
             $themeModel = $params['themeModel'];
             $themePath = $themeModel->getThemePath();
-            if (!$themePath) {
-                // For virtual themes we get path from the parent
-                $themePath = $themeModel->getParentTheme()->getThemePath();
+            while (empty($themePath) && $themeModel) {
+                $themePath = $themeModel->getThemePath();
+                $themeModel = $themeModel->getParentTheme();
             }
             $subPath = self::getPublishedViewFileRelPath($params['area'], $themePath, $params['locale'], $file,
                 $params['module']);

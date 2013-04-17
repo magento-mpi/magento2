@@ -30,24 +30,57 @@
     <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
         <?php list($_imgWidth, $_imgHeight) = $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image')->getOriginalSizeArray(); ?>
         <?php if ($_imgWidth > $_zoomSize+10 && $_imgHeight > $_zoomSize+10):?>
-            <a class="product-image image-zoom" data-role="base-image-zoom" title="<?php echo $this->escapeHtml($_product->getImageLabel()); ?>" href="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image'); ?>">
-                <?php
+            <div data-role="main-image-parent">
+                <a class="product-image image-zoom" id="main-image" data-role="main-image-anchor" title="<?php echo $this->escapeHtml($_product->getImageLabel()); ?>" href="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image'); ?>">
+                    <?php
                     $_img = '<img data-role="base-image" src="'.$this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image')->resize($_zoomSize).'" height="'.$_zoomSize.'" width="'.$_zoomSize.'" alt="'.$this->escapeHtml($_product->getImageLabel()).'" title="'.$this->escapeHtml($_product->getImageLabel()).'" />';
                     echo $_helper->productAttribute($_product, $_img, 'image');
-                ?>
-            </a>
+                    ?>
+                </a>
+            </div>
+            <script data-container="image-tmpl" type="text/x-jQuery-tmpl">
+                <a class="product-image image-zoom" id="main-image"  data-role="main-image-anchor" title="<?php echo $this->escapeHtml($_product->getImageLabel()); ?>" href="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image'); ?>">
+                    <?php
+                    $_img = '<img data-role="main-image" src="'.$this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image')->resize($_zoomSize).'" height="'.$_zoomSize.'" width="'.$_zoomSize.'" alt="'.$this->escapeHtml($_product->getImageLabel()).'" title="'.$this->escapeHtml($_product->getImageLabel()).'" />';
+                    echo $_helper->productAttribute($_product, $_img, 'image');
+                    ?>
+                </a>
+                <img data-role="hidden-true-img" class="no-display" src="#"/>
+            </script>
             <script type="text/javascript">
-                jQuery(function($) {
+                jQuery(document).ready(function(){
+                    var imgSize = <?php echo $_zoomSize?>;
                     var options = {
-                            zoomType: 'reverse',//Values: standard, reverse
-                            zoomWidth: 374,
-                            zoomHeight: 327,
-                            xOffset: 0,
-                            yOffset: 50,
-                            imageOpacity: 0.6,
-                            title : false
+                        zoomType: 'reverse',//Values: standard, reverse
+                        zoomWidth: 374,
+                        zoomHeight: 327,
+                        xOffset: 0,
+                        yOffset: 50,
+                        imageOpacity: 0.6,
+                        title : false
                     };
-                    $('[data-role=base-image-zoom]').jqzoom(options);
+                    jQuery('[data-role="main-image-anchor"]').jqzoom(options);
+                    /* On these events, need to remove all elements associated with jqzoom
+                    * add back the original element using jQuery template
+                    * update image source and attach jqzoom
+                    */
+                    jQuery('[data-role="main-image-parent"]').on('imageChanged', function(event, data) {
+                        jQuery('[data-role="main-image-anchor"]').remove();
+                        jQuery('[data-container="image-tmpl"]').tmpl().appendTo('[data-role="main-image-parent"]');
+                        jQuery('[data-role="main-image-anchor"]').attr('href', data).find('[data-role="main-image"]').attr('src', data);
+                        // Hidden image element to get actual image size
+                        jQuery('[data-role="hidden-true-img"]').attr('src', data).load(function() {
+                            if (jQuery(this).height() <= imgSize && jQuery(this).width() <= imgSize) {
+                                return;
+                            }
+                            jQuery('[data-role="main-image-anchor"]').jqzoom(options);
+                        });
+                    });
+                    jQuery('[data-role="main-image-parent"]').on('loadOriginalImage', function(event, data) {
+                        jQuery('[data-role="main-image-anchor"]').remove();
+                        jQuery('[data-container="image-tmpl"]').tmpl().appendTo('[data-role="main-image-parent"]');
+                        jQuery('[data-role="main-image-anchor"]').jqzoom(options);
+                    });
                 });
             </script>
             <p class="notice"><?php echo $this->__('Roll over image to zoom'); ?></p>

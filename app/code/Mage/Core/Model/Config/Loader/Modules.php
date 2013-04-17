@@ -172,6 +172,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         }
         foreach ($declaredModules as $moduleName => $module) {
             if ($module['active'] == 'true') {
+                $this->_assertSystemRequirements($module['module']->modules->{$moduleName}, $moduleName);
                 $module['module']->modules->{$moduleName}->active = 'true';
                 $unsortedConfig->extend(new Mage_Core_Model_Config_Base($module['module']));
             }
@@ -225,5 +226,28 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
             $collectModuleFiles['custom'],
             $collectModuleFiles['base']
         );
+    }
+
+    /**
+     * Halt if a required extension is not available
+     *
+     * @param SimpleXMLElement $xml
+     * @param string $moduleName
+     * @throws Magento_Exception
+     */
+    protected function _assertSystemRequirements(SimpleXMLElement $xml, $moduleName)
+    {
+        $sys = 'system_requirements';
+        if (!isset($xml->{$sys}) || !isset($xml->{$sys}->php) || !isset($xml->{$sys}->php->extensions)) {
+            return;
+        }
+        foreach ($xml->{$sys}->php->extensions->children() as $node) {
+            $extension = $node->getName();
+            if (!extension_loaded($extension)) {
+                throw new Magento_Exception(
+                    "The module '{$moduleName}' cannot be enabled without PHP extension '{$extension}'"
+                );
+            }
+        }
     }
 }
