@@ -37,6 +37,7 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
      * @param Saas_Index_Model_FlagFactory $flagFactory
      * @param string $areaCode
      * @param array $invokeArgs
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
