@@ -48,14 +48,18 @@
     <?php echo $this->getBackButtonHtml() ?>
 </div>
 
+<?php if ($this->getUseContainer()): ?>
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="product-edit-form" enctype="multipart/form-data">
+<?php endif; ?>
     <?php echo $this->getBlockHtml('formkey')?>
     <div id="product-edit-form-tabs"></div>
     <?php echo $this->getChildHtml('product-type-tabs') ?>
     <input type="hidden" id="attribute_set_id" value="<?php echo $this->getProduct()->getAttributeSetId()?>"/>
     <input type="hidden" id="product_type_id" value="<?php echo $this->getProduct()->getTypeId()?>"/>
     <input type="hidden" id="attribute_set_id" value="<?php echo $this->getProduct()->getAttributeSetId()?>"/>
+<?php if ($this->getUseContainer()): ?>
 </form>
+<?php endif; ?>
 <script type="text/javascript">
 
 jQuery(function($) {
