@@ -17,6 +17,12 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper
      */
     protected $_fieldLocator;
 
+    /**
+     * Dependency Field model
+     *
+     * @var Mage_Backend_Model_Config_Structure_Element_Dependency_FieldFactory
+     */
+    protected $_fieldFactory;
 
     /**
      * Application object
@@ -28,14 +34,17 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper
     /**
      * @param Mage_Core_Model_App $application
      * @param Mage_Backend_Model_Config_Structure_SearchInterface $fieldLocator
+     * @param Mage_Backend_Model_Config_Structure_Element_Dependency_FieldFactory $dependencyFieldFactory
      */
     public function __construct(
         Mage_Core_Model_App $application,
-        Mage_Backend_Model_Config_Structure_SearchInterface $fieldLocator
+        Mage_Backend_Model_Config_Structure_SearchInterface $fieldLocator,
+        Mage_Backend_Model_Config_Structure_Element_Dependency_FieldFactory $dependencyFieldFactory
     ) {
 
         $this->_fieldLocator = $fieldLocator;
         $this->_application = $application;
+        $this->_fieldFactory = $dependencyFieldFactory;
     }
 
     /**
@@ -51,11 +60,7 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper
         $output = array();
 
         foreach ($dependencies as $depend) {
-            /** @var $field Mage_Backend_Model_Config_Structure_Element_Dependency_Field */
-            $field = Mage::getModel('Mage_Backend_Model_Config_Structure_Element_Dependency_Field', array(
-                'fieldData' => $depend,
-                'fieldPrefix' => $fieldPrefix,
-            ));
+            $field = $this->_fieldFactory->create(array('fieldData' => $depend, 'fieldPrefix' => $fieldPrefix));
             $shouldAddDependency = true;
             /** @var Mage_Backend_Model_Config_Structure_Element_Field $dependentField  */
             $dependentField = $this->_fieldLocator->getElement($depend['id']);
@@ -71,7 +76,7 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper
                 $shouldAddDependency = !$field->isValueSatisfy($valueInStore);
             }
             if ($shouldAddDependency) {
-                $output[$field->getDependentId()] = $field;
+                $output[$field->getId()] = $field;
             }
         }
         return $output;

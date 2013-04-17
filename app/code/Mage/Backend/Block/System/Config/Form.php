@@ -412,10 +412,10 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     {
         foreach ($dependencies as $dependentField) {
             /** @var $dependentField Mage_Backend_Model_Config_Structure_Element_Dependency_Field */
-            $fieldNameFrom = $this->_generateElementName($dependentField->getDependentId(), null, '_');
+            $fieldNameFrom = $this->_generateElementName($dependentField->getId(), null, '_');
             $this->_getDependence()
                 ->addFieldMap($elementId, $elementName)
-                ->addFieldMap($this->_generateElementId($dependentField->getDependentId()), $fieldNameFrom)
+                ->addFieldMap($this->_generateElementId($dependentField->getId()), $fieldNameFrom)
                 ->addFieldDependence($elementName, $fieldNameFrom, $dependentField);
         }
     }
