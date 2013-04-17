@@ -119,7 +119,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             array(), '', false
         );
         $this->_objectManager = $this->getMock('Magento_ObjectManager');
-        $this->_application = $this->getMock('Mage_Core_Model_App', array('getStore'),
+        $this->_application = $this->getMock('Mage_Core_Model_App', array('getStore', 'getConfig'),
             array(), '', false
         );
         $this->_theme = $this->getMock('Mage_Core_Model_Theme', array('getId'), array(), '', false);
@@ -223,6 +223,15 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_application->expects($this->once())
             ->method('getStore')
             ->will($this->returnValue($store));
+
+        $config = $this->getMock('Mage_Core_Model_Config', array('setNode'), array(), '', false);
+        $config->expects($this->once())
+            ->method('setNode')
+            ->with('default/' . Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID, self::THEME_ID);
+
+        $this->_application->expects($this->once())
+            ->method('getConfig')
+            ->will($this->returnValue($config));
 
         $this->_model->update(self::AREA_CODE, $request, $controller);
     }
