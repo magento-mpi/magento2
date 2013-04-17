@@ -34,7 +34,19 @@
             $.validator.addMethod('validate-parent-category', function() {
                 return $('#new_category_parent').val() || $('#new_category_parent-suggest').val() === '';
             }, $.mage.__('Choose existing category.'));
-            var newCategoryForm = this.element.find('#new_category_form').mage('validation');
+            var newCategoryForm = this.element.find('#new_category_form').mage('validation', {
+                errorPlacement: function(error, element) {
+                    error.insertAfter(element.is('#new_category_parent') ?
+                        $('#new_category_parent-suggest').closest('.mage-suggest') :
+                        element);
+                }
+            }).on('highlight.validate', function(e) {
+                    var options = $(this).validation('option');
+                    if ($(e.target).is('#new_category_parent')) {
+                        options.highlight($('#new_category_parent-suggest').get(0),
+                            options.errorClass, options.validClass || '');
+                    }
+                })
 
             this.element.dialog({
                 title: $.mage.__('Create Category'),
@@ -55,7 +67,10 @@
                 close: function() {
                     $('#new_category_name, #new_category_parent-suggest').val('');
                     clearParentCategory();
-                    newCategoryForm.validate().resetForm();
+                    var validationOptions = newCategoryForm.validation('option');
+                    validationOptions.unhighlight($('#new_category_parent-suggest').get(0),
+                        validationOptions.errorClass, validationOptions.validClass || '');
+                    newCategoryForm.validation('clearError');
                     $('#category_ids-suggest').focus();
                 },
                 buttons: [{
