@@ -6,7 +6,7 @@
  */
 
 ;
-(function($) {
+(function($, document) {
     'use strict';
 
     $.widget('mage.globalSearch', {
@@ -368,6 +368,18 @@
                 .trigger('change');
         }
     };
+    var updateColorPickerValues = function() {
+        $('.element-color-picker').each(function(){
+            var _this = $(this);
+            _this.find('.color-box.active').removeClass('active');
+            if (_this.find('.farbtastic').is(':visible')) {
+                _this
+                    .find('.farbtastic').hide()
+                    .end()
+                    .find('input').trigger('change.quickStyleElement');
+            }
+        });
+    };
 
     $(document).ready(function() {
         $('.header-panel .search').globalSearch();
@@ -404,31 +416,21 @@
         $(document).on('click', function(e) {
             var target = $(e.target);
             if (target.closest('.control').find('.color-box').length < 1) {
-                $('.element-color-picker')
-                    .find('.color-box')
-                    .removeClass('active').end()
-                    .find('.farbtastic')
-                    .hide();
+                updateColorPickerValues();
             }
         });
         $('.color-box')
             .on('click.showColorPicker', function() {
-                $('.element-color-picker')
-                    .find('.color-box')
-                    .removeClass('active').end()
-                    .find('.farbtastic')
-                    .hide();
+                updateColorPickerValues();  // Update values is other color picker is not closed yet
                 $(this)
                     .addClass('active')
                     .siblings('input').end()
                     .find('.farbtastic').show();
             });
-
-        switcherForIe8();
     });
 
     $(document).on('ajaxComplete', function() {
         $('details').details();
         switcherForIe8();
     });
-})(window.jQuery);
+})(window.jQuery, document);
