@@ -71,15 +71,6 @@
                 project.setProperty('max_instances', Math.min(project.getProperty('env.instance_count'),
                     project.getProperty('env.bamboo_instance_count')
                 ));
-                // Environment variables tests_executed_* specified on job level overrides branch/plan variable
-                var testsExecuted = '', variableIndex = 0;
-                while (project.getProperty('env.tests_executed_' + variableIndex) !== null) {
-                    testsExecuted += project.getProperty('env.tests_executed_' + variableIndex);
-                    variableIndex++;
-                }
-                project.setProperty('tests_executed', testsExecuted === ''
-                    ? project.getProperty('env.bamboo_tests_executed') : testsExecuted
-                );
                 var echo = project.createTask('echo');
                 echo.setMessage('Maximum ' + project.getProperty('env.instance_count')
                     + ' instances supported by environment, '
@@ -113,7 +104,7 @@
         ]]></script>
 
         <exec executable="php">
-            <arg line="-f ${dir.build_directory}/instance-0/dev/tests/functional/parallel-run.php ${tests_executed} --
+            <arg line="-f ${dir.build_directory}/instance-0/dev/tests/functional/parallel-run.php ${env.bamboo_tests_executed} --
                 --log-junit ${basedir}/test-cases-report.xml
                 --max-instances ${max_instances}
                 ${env.bamboo_executer_options}
@@ -216,15 +207,6 @@
                 project.setProperty('max_instances', Math.min(project.getProperty('env.instance_count'),
                     project.getProperty('env.bamboo_instance_count')
                 ));
-                // Environment variable 'tests_executed' specified on job level overrides branch/plan variable
-                var testsExecuted = '', variableIndex = 0;
-                while (project.getProperty('env.tests_executed_' + variableIndex) !== null) {
-                    testsExecuted += project.getProperty('env.tests_executed_' + variableIndex);
-                    variableIndex++;
-                }
-                project.setProperty('tests_executed', testsExecuted === ''
-                    ? project.getProperty('env.bamboo_tests_executed_ee') : testsExecuted
-                );
                 var echo = project.createTask('echo');
                 echo.setMessage('Maximum ' + project.getProperty('env.instance_count')
                     + ' instances supported by environment, '
@@ -264,7 +246,7 @@
         ]]></script>
 
         <exec executable="php">
-            <arg line="-f ${dir.build_directory}/instance-0/dev/tests/functional/parallel-run.php ${tests_executed} --
+            <arg line="-f ${dir.build_directory}/instance-0/dev/tests/functional/parallel-run.php ${env.bamboo_tests_executed_ee} --
                 --log-junit ${basedir}/test-cases-report.xml
                 --max-instances ${max_instances}
                 ${env.bamboo_executer_options}
@@ -361,15 +343,6 @@
                 project.setProperty('max_instances', Math.min(project.getProperty('env.instance_count'),
                     project.getProperty('env.bamboo_instance_count')
                 ));
-                // Environment variable 'tests_executed' specified on job level overrides branch/plan variable
-                var testsExecuted = '', variableIndex = 0;
-                while (project.getProperty('env.tests_executed_' + variableIndex) !== null) {
-                    testsExecuted += project.getProperty('env.tests_executed_' + variableIndex);
-                    variableIndex++;
-                }
-                project.setProperty('tests_executed', testsExecuted === ''
-                    ? project.getProperty('env.bamboo_tests_executed_ee') : testsExecuted
-                );
                 var echo = project.createTask('echo');
                 echo.setMessage('Maximum ' + project.getProperty('env.instance_count')
                     + ' instances supported by environment, '
@@ -412,7 +385,7 @@
         ]]></script>
 
         <exec executable="php">
-            <arg line="-f ${dir.build_directory}/instance-0/dev/tests/functional/parallel-run.php ${tests_executed} --
+            <arg line="-f ${dir.build_directory}/instance-0/dev/tests/functional/parallel-run.php ${env.bamboo_tests_executed_saas} --
                 --log-junit ${basedir}/test-cases-report.xml
                 --max-instances ${max_instances}
                 --no-install
