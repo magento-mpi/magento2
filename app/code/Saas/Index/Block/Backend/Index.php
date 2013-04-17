@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Block class for search index refresh
  *
@@ -29,8 +29,9 @@ class Saas_Index_Block_Backend_Index extends Mage_Backend_Block_Widget_Container
         Saas_Index_Model_FlagFactory $flagFactory,
         array $data = array()
     ) {
-        $this->_flag = $flagFactory->create();
-        $this->_flag->loadSelf();
+        $this->_flag = $flagFactory->create()
+            ->loadSelf();
+
         parent::__construct($context, $data);
     }
 

@@ -14,7 +14,8 @@ class Saas_Index_Model_FlagTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_flagMock = $this->getMock('Saas_Index_Model_Flag', array('getState'), array(), '', false);
+        $this->_flagMock = $this->getMock('Saas_Index_Model_Flag', array('getState', 'setState', 'save'), array(), '',
+            false);
     }
 
     /**
@@ -24,9 +25,21 @@ class Saas_Index_Model_FlagTest extends PHPUnit_Framework_TestCase
      */
     public function testIsShowIndexNotification($state, $result)
     {
-        $this->_flagMock->expects($this->once())->method('getState')
-            ->will($this->returnValue($state));
+        $this->_flagMock->expects($this->once())->method('getState')->will($this->returnValue($state));
+
         $this->assertEquals($result, $this->_flagMock->isShowIndexNotification());
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForIsShowIndexNotification()
+    {
+        return array(
+            array(Saas_Index_Model_Flag::STATE_NOTIFIED, true),
+            array(null, true),
+            array('unknown', false),
+        );
     }
 
     /**
@@ -36,30 +49,9 @@ class Saas_Index_Model_FlagTest extends PHPUnit_Framework_TestCase
      */
     public function testIsTaskAdded($state, $result)
     {
-        $this->_flagMock->expects($this->once())->method('getState')
-            ->will($this->returnValue($state));
+        $this->_flagMock->expects($this->once())->method('getState')->will($this->returnValue($state));
+
         $this->assertEquals($result, $this->_flagMock->isTaskAdded());
-    }
-
-    public function testIsTaskFinished()
-    {
-        $this->_flagMock->expects($this->once())->method('getState')
-            ->will($this->returnValue(Saas_Index_Model_Flag::STATE_FINISHED));
-        $this->assertTrue($this->_flagMock->isTaskFinished());
-    }
-
-    public function testIsTaskProcessing()
-    {
-        $this->_flagMock->expects($this->once())->method('getState')
-            ->will($this->returnValue(Saas_Index_Model_Flag::STATE_PROCESSING));
-        $this->assertTrue($this->_flagMock->isTaskProcessing());
-    }
-
-    public function testIsTaskNotified()
-    {
-        $this->_flagMock->expects($this->once())->method('getState')
-            ->will($this->returnValue(Saas_Index_Model_Flag::STATE_NOTIFIED));
-        $this->assertTrue($this->_flagMock->isTaskNotified());
     }
 
     /**
@@ -75,14 +67,33 @@ class Saas_Index_Model_FlagTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return array
+     * @param string $method
+     * @param string $status
+     * @dataProvider dataProviderTaskStatusMethods
      */
-    public function dataProviderForIsShowIndexNotification()
+    public function testTaskStatusMethods($method, $status)
+    {
+        $this->_flagMock->expects($this->once())->method('getState')
+            ->will($this->returnValue($status));
+
+        $this->assertTrue($this->_flagMock->$method());
+    }
+
+    public function dataProviderTaskStatusMethods()
     {
         return array(
-            array(Saas_Index_Model_Flag::STATE_NOTIFIED, true),
-            array(null, true),
-            array('unknown', false),
+            array('isTaskFinished', Saas_Index_Model_Flag::STATE_FINISHED),
+            array('isTaskProcessing', Saas_Index_Model_Flag::STATE_PROCESSING),
+            array('isTaskNotified', Saas_Index_Model_Flag::STATE_NOTIFIED),
         );
+    }
+
+    public function testSaveAsNotified()
+    {
+        $this->_flagMock->expects($this->once())->method('setState')->with(Saas_Index_Model_Flag::STATE_NOTIFIED)
+            ->will($this->returnSelf());
+        $this->_flagMock->expects($this->once())->method('save');
+
+        $this->_flagMock->saveAsNotified();
     }
 }

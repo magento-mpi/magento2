@@ -1,5 +1,7 @@
 <?php
 /**
+ * System message IndexOutdated decorator
+ *
  * {license_notice}
  *
  * @copyright {copyright}
@@ -38,12 +40,11 @@ class Saas_Index_Model_System_Message_Decorator_IndexOutdated
         Saas_Index_Helper_Data $helper,
         Mage_Core_Model_UrlInterface $urlBuilder,
         Saas_Index_Model_FlagFactory $flagFactory
-    )
-    {
+    ) {
         $this->_helper = $helper;
         $this->_urlBuilder = $urlBuilder;
-        $this->_flag = $flagFactory->create();
-        $this->_flag->loadSelf();
+        $this->_flag = $flagFactory->create()
+            ->loadSelf();
         $this->_message = $message;
     }
 

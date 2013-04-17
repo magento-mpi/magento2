@@ -7,6 +7,9 @@
  */
 class Saas_Index_Model_System_Message_IndexRefreshed implements Mage_AdminNotification_Model_System_MessageInterface
 {
+    /**
+     * Message Identity
+     */
     const MESSAGE_IDENTITY = 'INDEX_REFRESH_FINISHED';
 
     /**
@@ -36,8 +39,8 @@ class Saas_Index_Model_System_Message_IndexRefreshed implements Mage_AdminNotifi
      */
     public function __construct(Saas_Index_Model_FlagFactory $flagFactory, Saas_Index_Helper_Data $helper)
     {
-        $this->_flag = $flagFactory->create();
-        $this->_flag->loadSelf();
+        $this->_flag = $flagFactory->create()
+            ->loadSelf();
         $this->_helper = $helper;
     }
 
@@ -61,8 +64,7 @@ class Saas_Index_Model_System_Message_IndexRefreshed implements Mage_AdminNotifi
         if (null === $this->_isDisplayed) {
             $this->_isDisplayed = $this->_flag->isTaskFinished();
             if ($this->_isDisplayed) {
-                $this->_flag->setState(Saas_Index_Model_Flag::STATE_NOTIFIED);
-                $this->_flag->save();
+                $this->_flag->saveAsNotified();
             }
         }
         return $this->_isDisplayed;

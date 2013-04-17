@@ -1,5 +1,7 @@
 <?php
 /**
+ * Model Flag
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -60,5 +62,14 @@ class Saas_Index_Model_Flag extends Mage_Core_Model_Flag
     public function isTaskNotified()
     {
         return $this->getState() == self::STATE_NOTIFIED;
+    }
+
+    /**
+     * Change status to self::STATE_NOTIFIED and save
+     */
+    public function saveAsNotified()
+    {
+        $this->setState(self::STATE_NOTIFIED)
+            ->save();
     }
 }

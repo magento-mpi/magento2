@@ -15,44 +15,45 @@ class Saas_Index_Block_Backend_IndexTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_blockMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_flagMock;
 
     public function setUp()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $factoryMock = $this->getMock('Saas_Index_Model_FlagFactory', array('create'), array(), '', false);
         $this->_flagMock = $this->getMock('Saas_Index_Model_Flag',
-            array('getState', 'loadSelf', 'isTaskProcessing', 'isTaskAdded'),
-            array(), '', false
-        );
+            array('getState', 'loadSelf', 'isTaskProcessing', 'isTaskAdded'), array(), '', false);
+        $this->_flagMock->expects($this->once())->method('loadSelf')->will($this->returnSelf());
+        $factoryMock = $this->getMock('Saas_Index_Model_FlagFactory', array('create'), array(), '', false);
         $factoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_flagMock));
 
-        $arguments = array(
+        $objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $this->_block = $objectManager->getObject('Saas_Index_Block_Backend_Index', array(
             'flagFactory' => $factoryMock,
+        ));
+    }
+
+    /**
+     * @param string $route
+     * @param string $method
+     * @dataProvider dataProviderUrlMethods
+     */
+    public function testGetUrlMethods($route, $method)
+    {
+        $blockMock = $this->getMock('Saas_Index_Block_Backend_Index', array('getUrl'), array(), '', false);
+        $blockMock->expects($this->once())->method('getUrl')->with($route)
+            ->will($this->returnValue('some-url'));
+
+        $this->assertEquals('some-url', $blockMock->$method());
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderUrlMethods()
+    {
+        return array(
+            array('adminhtml/saas_index/updateStatus', 'getUpdateStatusUrl'),
+            array('adminhtml/saas_index/refresh', 'getRefreshIndexUrl'),
         );
-        $this->_block = $objectManagerHelper->getObject('Saas_Index_Block_Backend_Index', $arguments);
-        $this->_blockMock = $this->getMock('Saas_Index_Block_Backend_Index', array('getUrl'), array(), '', false);
-    }
-
-    public function testGetUpdateStatusUrl()
-    {
-        $this->_blockMock->expects($this->once())->method('getUrl')
-            ->with('adminhtml/saas_index/updateStatus')
-            ->will($this->returnValue('some-url'));
-        $this->assertEquals('some-url', $this->_blockMock->getUpdateStatusUrl());
-    }
-
-    public function testGetRefreshIndexUrl()
-    {
-        $this->_blockMock->expects($this->once())->method('getUrl')
-            ->with('adminhtml/saas_index/refresh')
-            ->will($this->returnValue('some-url'));
-        $this->assertEquals('some-url', $this->_blockMock->getRefreshIndexUrl());
     }
 
     public function testGetTaskCheckTime()
@@ -60,17 +61,25 @@ class Saas_Index_Block_Backend_IndexTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Saas_Index_Block_Backend_Index::TASK_TIME_CHECK, $this->_block->getTaskCheckTime());
     }
 
-    public function testIsTaskProcessing()
+    /**
+     * @param string $method
+     * @dataProvider dataProviderDecorationMethods
+     */
+    public function testDecorationMethods($method)
     {
-        $result = 'some result';
-        $this->_flagMock->expects($this->once())->method('isTaskProcessing')->will($this->returnValue($result));
-        $this->assertEquals($result, $this->_block->isTaskProcessing());
+        $this->_flagMock->expects($this->once())->method($method)->will($this->returnValue('some result'));
+
+        $this->assertEquals('some result', $this->_block->$method());
     }
 
-    public function testIsTaskAdded()
+    /**
+     * @return array
+     */
+    public function dataProviderDecorationMethods()
     {
-        $result = 'some result';
-        $this->_flagMock->expects($this->once())->method('isTaskAdded')->will($this->returnValue($result));
-        $this->assertEquals($result, $this->_block->isTaskAdded());
+        return array(
+            array('isTaskProcessing'),
+            array('isTaskAdded'),
+        );
     }
 }
