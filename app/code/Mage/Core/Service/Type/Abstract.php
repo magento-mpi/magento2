@@ -20,6 +20,11 @@ abstract class Mage_Core_Service_Type_Abstract
      */
     protected $_objectManager;
 
+    /**
+     * @param Mage_Core_Service_Manager $manager
+     * @param Mage_Core_Service_Definition $definition
+     * @param Magento_ObjectManager $objectManager
+     */
     public function __construct(
         Mage_Core_Service_Manager $manager,
         Mage_Core_Service_Definition $definition,
@@ -40,8 +45,35 @@ abstract class Mage_Core_Service_Type_Abstract
     final public function call($serviceMethod, $context = null)
     {
         // implement ACL and other routine procedures here (debugging, profiling, etc)
+        $this->authorize(get_class($this), $serviceMethod);
 
         return $this->$serviceMethod($context);
+    }
+
+    public function authorize($serviceClass, $serviceMethod)
+    {
+        $user = $this->_serviceManager->getUser();
+        $acl  = $this->_serviceManager->getAcl();
+
+        if ($user && $acl) {
+            try {
+                $result = $acl->isAllowed($user->getAclRole(), $serviceClass . '/' . $serviceMethod);
+            } catch (Exception $e) {
+                try {
+                    if (!$acl->has($serviceClass . '/' . $serviceMethod)) {
+                        $result = $acl->isAllowed($user->getAclRole(), null);
+                    }
+                } catch (Exception $e) {
+                    $result = false;
+                }
+            }
+        }
+
+        if (false === $result) {
+            throw new Mage_Core_Service_Exception_Authorization($serviceClass . '/' . $serviceMethod);
+        }
+
+        return $result;
     }
 
     /**
@@ -55,18 +87,22 @@ abstract class Mage_Core_Service_Type_Abstract
     public function prepareContext($serviceClass, $serviceMethod, $context = null)
     {
         if (!$context instanceof Mage_Core_Service_Context) {
-            $params = $context;
-            // @todo better to void following such conventions
-            if (is_string($params) || is_numeric($params)) {
-                $params = array('id' => $params);
-            }
+            $params  = $context;
             $context = $this->_objectManager->get('Mage_Core_Service_Context');
+            $context->setData($params);
         } else {
-            $params = array();
+            $params = $context->getData();
         }
 
         if (!$context->getIsPrepared()) {
-            $requestSchema = $this->_definition->getRequestSchema($serviceClass, $serviceMethod, $context->getRequestSchema());
+            $requestSchema = $context->getRequestSchema();
+            if (!$requestSchema instanceof Mage_Core_Service_DataSchema) {
+                $params = $requestSchema;
+                $requestSchema = $this->_definition->getRequestSchema($serviceClass, $serviceMethod, $context->getVersion());
+                if (!empty($params) && is_array($params)) {
+                    $requestSchema->addData($params);
+                }
+            }
 
             if ($requestSchema->getDataNamespace()) {
                 $requestParams = (array)Mage::app()->getRequest()->getParam($requestSchema->getDataNamespace());
@@ -76,12 +112,10 @@ abstract class Mage_Core_Service_Type_Abstract
             }
 
             $this->parse($params, $requestSchema);
+
             $this->filter($params, $requestSchema);
+
             $this->validate($params, $requestSchema);
-
-            // @todo where and how to declare and extract global variables such as `store_id`?
-
-            // @todo where and how to apply ACL rules?
 
             $context->setData($params);
 
@@ -96,16 +130,18 @@ abstract class Mage_Core_Service_Type_Abstract
         if (is_array($data)) {
             foreach ($data as $key => $value) {
                 $config = $schema->getData($key);
-                switch ($config['content_type']) {
-                    case 'json':
-                        $value = json_decode($value, true);
-                        break;
-                    case 'xml':
-                        $value = array(); // convert from xml to assoc array
-                        break;
-                }
+                if (isset($config['content_type'])) {
+                    switch ($config['content_type']) {
+                        case 'json':
+                            $value = json_decode($value, true);
+                            break;
+                        case 'xml':
+                            $value = array(); // convert from xml to assoc array
+                            break;
+                    }
 
-                $data[$key] = $value;
+                    $data[$key] = $value;
+                }
             }
         }
     }
@@ -169,20 +205,19 @@ abstract class Mage_Core_Service_Type_Abstract
      * @param string $serviceClass
      * @param string $serviceMethod
      * @param mixed & $response
-     * @param mixed $responseSchema [optional]
-     * @param array $extraResponseSchemaParameters [optional]
+     * @param mixed $context
      * @return bool
      */
-    public function prepareResponse($serviceClass, $serviceMethod, & $response, $responseSchema = null, array $extraResponseSchemaParameters = array())
+    public function prepareResponse($serviceClass, $serviceMethod, & $response, $context)
     {
-        if (!$responseSchema instanceof Varien_Object) {
-            $params = $responseSchema;
-            $responseSchema = $this->_definition->getResponseSchema($serviceClass, $serviceMethod);
-            $responseSchema->addData($params);
-        }
+        $responseSchema = $context->getResponseSchema();
 
-        if (!empty($extraResponseSchemaParameters)) {
-            $responseSchema->addData($extraResponseSchemaParameters);
+        if (!$responseSchema instanceof Mage_Core_Service_DataSchema) {
+            $params = $responseSchema;
+            $responseSchema = $this->_definition->getResponseSchema($serviceClass, $serviceMethod, $context->getVersion());
+            if (!empty($params) && is_array($params)) {
+                $responseSchema->addData($params);
+            }
         }
 
         if ($response instanceof Varien_Object) {
@@ -204,13 +239,15 @@ abstract class Mage_Core_Service_Type_Abstract
     {
         foreach ($data as $key => & $value) {
             $config = $schema->getData($key);
-            switch ($config['accept_type']) {
-                case 'json':
-                    $value = json_encode($value);
-                    break;
-                case 'xml':
-                    $value = '<value />'; // convert to xml string
-                    break;
+            if (isset($config['content_type'])) {
+                switch ($config['accept_type']) {
+                    case 'json':
+                        $value = json_encode($value);
+                        break;
+                    case 'xml':
+                        $value = '<value />'; // convert to xml string
+                        break;
+                }
             }
         }
 

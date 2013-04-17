@@ -37,19 +37,15 @@ class Mage_Core_Service_Definition extends Varien_Object
     /**
      * @param string $serviceClass
      * @param string $serviceMethod [optional]
-     * @param Varien_Object $requestSchema [optional]
-     * @return Varien_Object $requestSchema
+     * @param string $version [optional]
+     * @return Mage_Core_Service_DataSchema $requestSchema
      */
-    public function getRequestSchema($serviceClass, $serviceMethod = null, $requestSchema = null)
+    public function getRequestSchema($serviceClass, $serviceMethod = null, $version = null)
     {
-        if (null !== $requestSchema) {
-            return $requestSchema;
-        }
-
-        $hash = $serviceClass . '::' . $serviceMethod;
+        $hash = $serviceClass . '::' . $serviceMethod . '::' . $version;
         if (!isset($this->_requestSchemas[$hash])) {
             if (null !== $serviceMethod) {
-                $schema = $this->_getNode($serviceClass . '/request_schema/' . $serviceMethod);
+                $schema = $this->_getNode($serviceClass . '/methods/' . $serviceMethod .  '/request_schema', $version);
             }
             if (!$schema) {
                 $schema = $this->_getNode($serviceClass . '/request_schema/*');
@@ -228,7 +224,7 @@ class Mage_Core_Service_Definition extends Varien_Object
                         )
                     )
                 ),
-                'Mage_Catalog_Service_Category' => array(
+                'Mage_Catalog_Service_Entity_Category' => array(
                     'request_schema'  => array(
                         '*' => array( // `*` - defines default service-level schema
                             '_ref'            => 'entity/catalog_category',

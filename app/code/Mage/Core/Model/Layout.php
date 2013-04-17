@@ -161,6 +161,10 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     protected $_translator;
 
+    protected $_isLoaded    = false;
+    protected $_isGenerated = false;
+    protected $_isRendered  = false;
+
     /**
      * @param Mage_Core_Model_BlockFactory $blockFactory
      * @param Magento_Data_Structure $structure
@@ -1522,5 +1526,35 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function getBlockFactory()
     {
         return $this->_blockFactory;
+    }
+
+    public function setIsLoaded($flag)
+    {
+        $this->_isLoaded = $flag;
+    }
+
+    public function getIsLoaded()
+    {
+        return $this->_isLoaded;
+    }
+
+    public function setIsGenerated($flag)
+    {
+        $this->_isGenerated = $flag;
+    }
+
+    public function getIsGenerated()
+    {
+        return $this->_isGenerated;
+    }
+
+    public function setIsRendered($flag)
+    {
+        $this->_isRendered = $flag;
+    }
+
+    public function getIsRendered()
+    {
+        return $this->_isRendered;
     }
 }

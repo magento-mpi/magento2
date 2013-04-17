@@ -25,14 +25,4 @@ class Mage_Core_Service_Type_Utility_Default extends Mage_Core_Service_Type_Abst
     {
         //
     }
-
-    /**
-     * Returns unique service identifier.
-     *
-     * @return string
-     */
-    protected function _getServiceId()
-    {
-        // TODO: Implement _getServiceId() method.
-    }
 }

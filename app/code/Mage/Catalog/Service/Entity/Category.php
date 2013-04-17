@@ -9,7 +9,7 @@
  *
  * @service true
  */
-class Mage_Catalog_Service_Category extends Mage_Core_Service_Type_Entity_Abstract
+class Mage_Catalog_Service_Entity_Category extends Mage_Core_Service_Type_Entity_Abstract
 {
     public function create($context)
     {
@@ -41,8 +41,7 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Type_Entity_Abstra
             $category->load($id);
         }
 
-        $this->prepareResponse(get_class($this), 'item', $category, $context->getResponseSchema());
-
+        $this->prepareResponse(get_class($this), 'item', $category, $context);
 
         return $category;
     }
@@ -78,7 +77,7 @@ class Mage_Catalog_Service_Category extends Mage_Core_Service_Type_Entity_Abstra
         // TODO or not TODO
         //$collection->load();
 
-        $this->prepareResponse(get_class($this), 'items', $collection, $context->getResponseSchema());
+        $this->prepareResponse(get_class($this), 'items', $collection, $context);
 
         return $collection;
     }

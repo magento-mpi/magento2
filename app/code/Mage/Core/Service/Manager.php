@@ -2,12 +2,22 @@
 
 class Mage_Core_Service_Manager extends Varien_Object
 {
+    const AREA_SERVICES = 'services';
+
     /** @var Magento_ObjectManager */
     protected $_objectManager;
 
-    public function __construct(Magento_ObjectManager $objectManager)
+    /**
+     * Access Control List builder
+     *
+     * @var Mage_Core_Model_Acl_Builder
+     */
+    protected $_aclBuilder;
+
+    public function __construct(Magento_ObjectManager $objectManager, Mage_Core_Model_Acl_Builder $aclBuilder)
     {
         $this->_objectManager = $objectManager;
+        $this->_aclBuilder = $aclBuilder;
     }
 
     /**
@@ -37,5 +47,24 @@ class Mage_Core_Service_Manager extends Varien_Object
     {
         $service = $this->_objectManager->get($serviceClass);
         return $service;
+    }
+
+    /**
+     * @return Magento_Acl
+     */
+    public function getAcl()
+    {
+        $acl = $this->_aclBuilder->getAcl(self::AREA_SERVICES);
+        return $acl;
+    }
+
+    /**
+     * @return Mage_User_Model_User
+     */
+    public function getUser()
+    {
+        // @toto remove stub
+        $user = Mage::getSingleton('Mage_User_Model_User')->setUserId(1);
+        return $user;
     }
 }
