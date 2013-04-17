@@ -22,22 +22,6 @@
         </Saas_Pbridge>
     </modules>
     <global>
-        <models>
-            <saas_pbridge>
-                <class>Saas_Pbridge_Model</class>
-            </saas_pbridge>
-        </models>
-        <!-- TODO this functionality is apsend in GO 1.x
-        <blocks>
-            <saas_pbridge>
-                <class>Saas_Pbridge_Block</class>
-            </saas_pbridge>
-        </blocks>-->
-        <helpers>
-            <saas_pbridge>
-                <class>Saas_Pbridge_Helper</class>
-            </saas_pbridge>
-        </helpers>
         <payment>
             <cc>
                 <types>
@@ -138,7 +122,7 @@
                 <using_pbridge>1</using_pbridge>
             </verisign>
             <pbridge_paypal_direct_boarding>
-                <model>saas_pbridge/payment_method_paypal_boarding</model>
+                <model>Saas_Pbridge_Model_Payment_Method_Paypal_Boarding</model>
                 <active>1</active>
                 <group>paypal</group>
             </pbridge_paypal_direct_boarding>
