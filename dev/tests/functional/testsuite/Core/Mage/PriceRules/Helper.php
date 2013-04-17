@@ -30,11 +30,6 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
     public function createRule($createRuleData)
     {
         $this->clickButton('add_new_rule');
-        if ($this->getCurrentPage() == 'create_shopping_cart_price_rule'){
-            if (!$this->controlIsVisible('fieldset', 'general_information')){
-                $this->markTestIncomplete('MAGETWO-7500 #67');
-            }
-        }
         $this->fillTabs($createRuleData);
         $this->saveForm('save_rule');
     }
