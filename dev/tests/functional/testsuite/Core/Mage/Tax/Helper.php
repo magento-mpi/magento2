@@ -164,7 +164,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
             /** @var Mage_Selenium_TestCase $testCase */
             $testCase->alertText();
             return true;
-        }, $this->_browserTimeout * 1000);
+        }, 5000);
         $alertText = $this->alertText();
         $this->acceptAlert();
         $this->assertSame($this->_getMessageXpath($msg), $alertText, 'Confirmation message is incorrect');

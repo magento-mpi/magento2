@@ -76,7 +76,7 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
             /** @var Mage_Selenium_TestCase $testCase */
             $testCase->alertText();
             return true;
-        }, $this->_browserTimeout * 1000);
+        }, 5000);
         $this->assertTrue($this->alertIsPresent(), 'No validation alert');
         $alertText = $this->alertText();
         $this->acceptAlert();
