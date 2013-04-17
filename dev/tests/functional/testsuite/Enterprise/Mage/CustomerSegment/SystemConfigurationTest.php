@@ -34,7 +34,7 @@ class Enterprise_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Selen
         $config = $this->loadDataSet('CustomerSegment', 'enable_customer_segment');
         //Steps
         $this->systemConfigurationHelper()->configure($config);
-        $this->navigate('dashboard');
+        $this->navigate($this->pageAfterAdminLogin);
         //Verification
         $this->assertEquals(true, $this->controlIsPresent('pageelement', 'menu_element_customer_segments'),
             'segment is disabled');
@@ -50,7 +50,7 @@ class Enterprise_Mage_CustomerSegment_SystemConfigurationTest extends Mage_Selen
         $config = $this->loadDataSet('CustomerSegment', 'disable_customer_segment');
         //Steps
         $this->systemConfigurationHelper()->configure($config);
-        $this->navigate('dashboard');
+        $this->navigate($this->pageAfterAdminLogin);
         //Verification
         $this->assertEquals(false, $this->controlIsPresent('pageelement', 'menu_element_customer_segments'),
             'segment is enabled');

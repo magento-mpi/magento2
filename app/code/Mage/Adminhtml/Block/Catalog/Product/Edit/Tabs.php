@@ -238,7 +238,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
      */
     protected function _translateHtml($html)
     {
-        Mage::getSingleton('Mage_Core_Model_Translate_Inline')->processResponseBody($html);
+        $this->_translator->processResponseBody($html);
         return $html;
     }
 }

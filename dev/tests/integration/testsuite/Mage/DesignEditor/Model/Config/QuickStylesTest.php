@@ -17,7 +17,7 @@ class Mage_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framework_T
     protected $_model;
 
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     protected $_design;
 
@@ -26,8 +26,8 @@ class Mage_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framework_T
      */
     protected function setUp()
     {
-        $this->_design = Mage::getObjectManager()->get('Mage_Core_Model_Design_Package');
-        $this->_design->setDesignTheme('package/test', Mage_Core_Model_Design_Package::DEFAULT_AREA);
+        $this->_design = Mage::getObjectManager()->get('Mage_Core_Model_Design_PackageInterface');
+        $this->_design->setDesignTheme('package/test', Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA);
         $quickStylesPath = $this->_design->getFilename('Mage_DesignEditor::controls/quick_styles.xml');
         $this->assertFileExists($quickStylesPath);
         $this->_model = Mage::getObjectManager()->create('Mage_DesignEditor_Model_Config_Control_QuickStyles',

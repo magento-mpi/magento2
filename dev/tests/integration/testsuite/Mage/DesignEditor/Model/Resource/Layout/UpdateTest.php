@@ -22,14 +22,14 @@ class Mage_DesignEditor_Model_Resource_Layout_UpdateTest extends PHPUnit_Framewo
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     protected $_design;
 
     protected function setUp()
     {
         $this->_objectManager = Mage::getObjectManager();
-        $this->_design = $this->_objectManager->get('Mage_Core_Model_Design_Package');
+        $this->_design = $this->_objectManager->get('Mage_Core_Model_Design_PackageInterface');
 
         $this->_themeId = $this->_design->getDesignTheme()->getThemeId();
         /** @var $theme Mage_Core_Model_Theme */

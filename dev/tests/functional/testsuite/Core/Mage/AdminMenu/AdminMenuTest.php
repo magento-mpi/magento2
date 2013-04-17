@@ -70,7 +70,7 @@ class Core_Mage_AdminMenu_AdminMenuTest extends Mage_Selenium_TestCase
      */
     public function testHubMenuItemIsHighlighted ()
     {
-        $this->navigate('store_launcher');
+        $this->navigate($this->pageAfterAdminLogin);
         $this->assertEquals(1, $this->getControlCount('pageelement', 'active_menu_element'),
             'Top level menu item Hub isn\'t active');
         $this->assertTrue($this->controlIsPresent('pageelement', 'active_hub_menu'),

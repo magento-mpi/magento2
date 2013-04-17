@@ -52,13 +52,14 @@ class Mage_DesignEditor_PageController extends Mage_Core_Controller_Front_Action
                 throw new InvalidArgumentException($this->__('Incorrect Design Editor layout.'));
             }
 
+            /** @var $helper Mage_DesignEditor_Helper_Data */
+            $helper = $this->_objectManager->get('Mage_DesignEditor_Helper_Data');
+
             $handle = $this->getRequest()->getParam('handle');
 
             if (!$handle || !preg_match('/^[a-z][_a-z\d]*$/i', $handle)
                 || !$this->getLayout()->getUpdate()->pageHandleExists($handle)
             ) {
-                /** @var $helper Mage_DesignEditor_Helper_Data */
-                $helper = $this->_objectManager->get('Mage_DesignEditor_Helper_Data');
                 $handle = $helper->getDefaultHandle();
 
                 /** @var $backendSession Mage_Backend_Model_Session */
@@ -72,7 +73,9 @@ class Mage_DesignEditor_PageController extends Mage_Core_Controller_Front_Action
 
             // set sanitize and wrapping flags
             $layout->setSanitizing(true);
-            $layout->setWrapping(true);
+
+            // Only allow drag and drop when inline translation is disabled
+            $layout->setWrapping(!$helper->isAllowed());
 
             $this->loadLayout(array(
                 'default',

@@ -98,7 +98,7 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
         Mage_Core_Model_Layout_Translator $translator,
         Mage_Core_Model_Layout_ScheduledStructure $scheduledStructure,
         Mage_DesignEditor_Helper_Data $helper,
-        $area = Mage_Core_Model_Design_Package::DEFAULT_AREA
+        $area = Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA
     ) {
         $this->_helper       = $helper;
         parent::__construct($blockFactory, $structure, $argumentProcessor, $translator, $scheduledStructure, $area);
@@ -132,17 +132,19 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
     public function getOutput()
     {
         $output = parent::getOutput();
-        if (preg_match('/<body\s*[^>]*>.*<\/body>/is', $output, $body)) {
-            $oldBody = $body[0];
-            // Replace script tags
-            $newBody = preg_replace('/<script\s*[^>]*>.*?<\/script>/is', '', $oldBody);
-            // Replace JS events
-            foreach ($this->_jsEvents as $event) {
-                $newBody = preg_replace("/(<[^>]+){$event}\\s*=\\s*(['\"])/is", "$1{$event}-vde=$2", $newBody);
+        if (!$this->_helper->isAllowed()) {
+            if (preg_match('/<body\s*[^>]*>.*<\/body>/is', $output, $body)) {
+                $oldBody = $body[0];
+                // Replace script tags
+                $newBody = preg_replace('/<script\s*[^>]*>.*?<\/script>/is', '', $oldBody);
+                // Replace JS events
+                foreach ($this->_jsEvents as $event) {
+                    $newBody = preg_replace("/(<[^>]+){$event}\\s*=\\s*(['\"])/is", "$1{$event}-vde=$2", $newBody);
+                }
+                // Replace href JS
+                $newBody = preg_replace('/(<[^>]+)href\s*=\s*([\'"])javascript:/is', '$1href-vde=$2', $newBody);
+                $output = str_replace($oldBody, $newBody, $output);
             }
-            // Replace href JS
-            $newBody = preg_replace('/(<[^>]+)href\s*=\s*([\'"])javascript:/is', '$1href-vde=$2', $newBody);
-            $output = str_replace($oldBody, $newBody, $output);
         }
         return $output;
     }

@@ -68,7 +68,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     {
         $this->dispatch('backend/admin/auth/login');
         $this->assertFalse($this->getResponse()->isRedirect());
-        $expected = 'Log in to Admin Panel';
+        $expected = 'Log into Magento Admin Page';
         $this->assertContains($expected, $this->getResponse()->getBody(), 'There is no login form');
     }
 

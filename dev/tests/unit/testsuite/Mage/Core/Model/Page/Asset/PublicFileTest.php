@@ -23,9 +23,7 @@ class Mage_Core_Model_Page_Asset_PublicFileTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_designPackage = $this->getMock(
-            'Mage_Core_Model_Design_Package', array('getPublicFileUrl'), array(), '', false
-        );
+        $this->_designPackage = $this->getMock('Mage_Core_Model_Design_PackageInterface');
         $this->_object = new Mage_Core_Model_Page_Asset_PublicFile($this->_designPackage, 'test/style.css', 'css');
     }
 

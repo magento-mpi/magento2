@@ -69,7 +69,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Seleni
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         return array('simple' => $simple['general_name'],
-                     'user'   => array('email' => $userData['email'], 'password' => $userData['password']));
+            'user'   => array('email' => $userData['email'], 'password' => $userData['password']));
     }
 
     /**
@@ -90,8 +90,14 @@ class Core_Mage_CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Seleni
         //Data
         $shippingMethod = $this->loadDataSet('ShippingMethod', $shipping . '_enable');
         $shippingData = $this->loadDataSet('Shipping', 'shipping_' . $shipping);
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_' . $shippingDestination,
-            array('general_name' => $testData['simple'], 'shipping_data' => $shippingData));
+        $checkoutData = $this->loadDataSet(
+            'OnePageCheckout',
+            'signedin_flatrate_checkmoney_' . $shippingDestination,
+            array(
+                'general_name' => $testData['simple'],
+                'shipping_data' => $shippingData
+            )
+        );
         //Steps
         $this->navigate('system_configuration');
         if ($shippingOrigin) {

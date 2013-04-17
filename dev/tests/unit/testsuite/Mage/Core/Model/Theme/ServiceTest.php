@@ -46,12 +46,12 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Core_Model_Theme_Service(
             $this->_themeFactoryMock,
             $this->getMock('Mage_Core_Model_Theme_CopyService', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false),
+            $this->getMock('Mage_Core_Model_Design_PackageInterface'),
             $this->getMock('Mage_Core_Model_App', array(), array(), '', false),
             $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false),
             $this->getMock('Mage_DesignEditor_Model_Resource_Layout_Update', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Config_Storage_WriterInterface', array(), array(), '', false),
+            $this->getMock('Mage_Core_Model_Config_Storage_WriterInterface'),
             $this->_configCacheTypeMock
         );
     }
@@ -107,7 +107,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
      * @expectedException UnexpectedValueException
      * @expectedExceptionMessage Theme is not recognized. Requested id: -1
      */
-    public function testAssignThemeToStoresWrongThemeId()
+    public function testReassignThemeToStoresWrongThemeId()
     {
         $this->_themeMock->expects($this->once())
             ->method('load')
@@ -117,7 +117,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue(false));
 
-        $this->_model->assignThemeToStores(-1);
+        $this->_model->reassignThemeToStores(-1);
     }
 
     /**
@@ -160,8 +160,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
             $themesMock[] = $theme;
         }
 
-        $designMock = $this->getMock('Mage_Core_Model_Design_Package', array('getConfigurationDesignTheme'),
-            array(), '', false);
+        $designMock = $this->getMock('Mage_Core_Model_Design_PackageInterface');
         $designMock->expects($this->any())
             ->method('getConfigurationDesignTheme')
             ->with($this->anything(), $this->arrayHasKey('store'))

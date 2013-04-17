@@ -28,6 +28,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('PaymentMethod/savedcc_without_3Dsecure');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
     }
 
     protected function assertPreConditions()
@@ -65,6 +66,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      */
     public function orderWithout3DSecureSmoke($simpleSku)
     {
+        $this->markTestIncomplete('MAGETWO-9242');
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_savedcc');
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',

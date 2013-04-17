@@ -22,6 +22,19 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
      * <p>Preconditions:</p>
      *
      * <p>Log in to Backend.</p>
+     *
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
+    }
+
+    /**
+     * <p>Preconditions:</p>
+     *
+     * <p>Log in to Backend.</p>
      */
     public function assertPreConditions()
     {
@@ -70,6 +83,7 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
         $this->orderHelper()->createOrder($orderData);
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
+        $this->addParameter('orderId', $this->defineIdFromUrl());
         $this->orderHelper()->verifyGiftMessage($orderData['gift_messages']);
     }
 
@@ -96,6 +110,7 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
         $this->orderHelper()->createOrder($orderData);
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
+        $this->addParameter('orderId', $this->defineIdFromUrl());
         $this->orderHelper()->verifyGiftMessage($orderData['gift_messages']);
     }
 
@@ -122,6 +137,7 @@ class Core_Mage_Order_Create_WithGiftMessageTest extends Mage_Selenium_TestCase
         $this->orderHelper()->createOrder($orderData);
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
+        $this->addParameter('orderId', $this->defineIdFromUrl());
         $this->orderHelper()->verifyGiftMessage($this->loadDataSet('SalesOrder',
                                                                    'gift_messages_with_empty_fields_expected',
                                                                    array('sku_product' => $simpleSku)));

@@ -344,7 +344,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object implements Mage_Co
      */
     protected function _checkBaseUrl($request)
     {
-        if (!Mage::isInstalled() || $request->getPost()) {
+        if (!Mage::isInstalled() || $request->getPost() || strtolower($request->getMethod()) == 'post') {
             return;
         }
 

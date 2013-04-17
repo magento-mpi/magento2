@@ -210,6 +210,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         //Data
         $fileUrl = $this->getConfigHelper()->getPathToTestFiles($fileName);
         $expectedContent = file_get_contents($fileUrl);
+        $expectedContent = str_replace(array("\r\n", "\n"), '', $expectedContent);
         //Steps:
         $this->navigate('theme_list');
         $this->themeHelper()->openTheme($themeData);
@@ -217,6 +218,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
 
         $selectedFileUrl = $this->getControlAttribute('link', $linkName, 'href');
         $downloadedFileContent = $this->getFile($selectedFileUrl);
+        $downloadedFileContent = str_replace(array("\r\n", "\n"), '', $downloadedFileContent);
         $this->assertEquals($expectedContent, $downloadedFileContent, 'File was not downloaded or not equal to expected.');
     }
 
