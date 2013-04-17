@@ -23,6 +23,7 @@
 
         _create: function() {
             this.btnCssUpdate = $(this.options.btnUpdateCss);
+            this.btnCssDelete = $(this.options.btnDeleteCss);
             this.customCssCode = $(this.options.customCssCode);
             this.btnUpdateDownload = $(this.options.btnUpdateDownload);
             this._prepareUpdateButton();
@@ -31,6 +32,7 @@
 
         _events: function() {
             this.btnCssUpdate.on('click', $.proxy(this._updateCustomCss, this));
+            this.btnCssDelete.on('click', $.proxy(this._deleteCustomCss, this));
             this.customCssCode.on('input onchange change', $.proxy(this._editCustomCss, this));
         },
 
@@ -41,7 +43,7 @@
             }
         },
 
-        _updateCustomCss: function()
+        _postUpdatedCustomCssContent: function()
         {
             $.ajax({
                 type: 'POST',
@@ -60,6 +62,17 @@
                     alert($.mage.__('Error: unknown error.'));
                 }
             });
+        },
+
+        _updateCustomCss: function()
+        {
+            this._postUpdatedCustomCssContent();
+        },
+
+        _deleteCustomCss: function()
+        {
+            $(this.customCssCode).val('');
+            this._postUpdatedCustomCssContent();
         },
 
         _prepareUpdateButton: function()
