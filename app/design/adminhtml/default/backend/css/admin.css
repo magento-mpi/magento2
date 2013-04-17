@@ -4319,6 +4319,25 @@ tr.dynamic-grid input.input-text {
     table-layout: fixed;
 }
 
+#cross_sell_product_grid table.data th,
+#up_sell_product_grid table.data th,
+#related_product_grid table.data th,
+#productGrid_table th,
+.ui-dialog .data th {
+    word-wrap: normal;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+#cross_sell_product_grid table.data th > span,
+#up_sell_product_grid table.data th > span,
+#related_product_grid table.data th > span,
+#productGrid_table th > span,
+.ui-dialog .data th > span {
+    white-space: normal;
+}
+
+
 table .col-draggable {
     width: 1%;
 }
@@ -4327,6 +4346,7 @@ table .col-default,
 table .col-select,
 table .col-qty,
 table .col-actions,
+table .col-action,
 table .col-id {
     width: 5%;
 }
@@ -4349,7 +4369,7 @@ table .col-sku {
 }
 
 table .col-attr-name {
-    width: 120px;
+    width: 8%;
 }
 
 table .col-draggable .draggable-handle {
@@ -4987,7 +5007,7 @@ table .col-draggable .draggable-handle {
 }
 
 .message-system-list li {
-    padding: 5px 13px 7px 36px; 
+    padding: 5px 13px 7px 36px;
     position: relative;
 }
 

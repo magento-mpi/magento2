@@ -56,11 +56,6 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testIsDesignHandleDeclaredInCode($handleName)
     {
-        if ($handleName === 'checkout_cart_configure_type_giftcard'
-            || $handleName === 'checkout_cart_configurefailed_type_giftcard'
-        ) {
-            $this->markTestIncomplete('MAGETWO-9182');
-        }
         $this->assertArrayHasKey(
             $handleName,
             $this->_getCodeFrontendHandles(),
