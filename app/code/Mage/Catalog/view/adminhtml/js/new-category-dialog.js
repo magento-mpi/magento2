@@ -104,7 +104,7 @@
                             .success(
                                 function (data) {
                                     if (!data.error) {
-                                        $('#category_ids-suggest').trigger('select', {
+                                        $('#category_ids-suggest').trigger('selectItem', {
                                             id: data.category.entity_id,
                                             label: data.category.name
                                         });
