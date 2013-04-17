@@ -7,4 +7,4 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* fixture skin file located inside the default skin of the default theme */
+/* Non-modular file in package/custom_theme, which overrides js lib file */

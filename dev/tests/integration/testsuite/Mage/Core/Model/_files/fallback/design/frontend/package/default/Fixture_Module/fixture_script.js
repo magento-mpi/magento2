@@ -7,4 +7,4 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* localized fixture skin file located inside the nested skin of the custom theme */
+/* Modular file in package/default */
