@@ -104,11 +104,11 @@ class Mage_Core_Model_Design_Fallback_List_FileTest extends PHPUnit_Framework_Te
             ),
             'no namespace' => array(
                 array('namespace' => null),
-                "Required parameter 'namespace' was not passed",
+                "Parameters 'namespace' and 'module' should either be both set or unset",
             ),
             'no module' => array(
                 array('module' => null),
-                "Required parameter 'module' was not passed",
+                "Parameters 'namespace' and 'module' should either be both set or unset",
             ),
         );
     }
