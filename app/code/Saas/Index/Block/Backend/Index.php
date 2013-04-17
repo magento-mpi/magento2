@@ -60,16 +60,6 @@ class Saas_Index_Block_Backend_Index extends Mage_Backend_Block_Widget_Container
     }
 
     /**
-     * Get url for delete task from queue
-     *
-     * @return string
-     */
-    public function getCancelIndexUrl()
-    {
-        return $this->getUrl('adminhtml/saas_index/cancel');
-    }
-
-    /**
      * Get url for put index into queue
      *
      * @return string
@@ -80,23 +70,23 @@ class Saas_Index_Block_Backend_Index extends Mage_Backend_Block_Widget_Container
     }
 
     /**
-     * Dummy method! Check is task added into the queue
+     * Check is task added into the queue
      *
      * @return bool
      */
     public function isTaskAdded()
     {
-        return $this->isTaskProcessing() || $this->_flag->getState() == Saas_Index_Model_Flag::STATE_QUEUED;
+        return $this->_flag->isTaskAdded();
     }
 
     /**
-     * Dummy method!  Check is task currently is processing
+     * Check is task currently is processing
      *
      * @return bool
      */
     public function isTaskProcessing()
     {
-        return $this->_flag->getState() == Saas_Index_Model_Flag::STATE_PROCESSING;
+        return $this->_flag->isTaskProcessing();
     }
 
     /**

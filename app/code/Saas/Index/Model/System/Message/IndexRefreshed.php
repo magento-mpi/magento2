@@ -7,6 +7,8 @@
  */
 class Saas_Index_Model_System_Message_IndexRefreshed implements Mage_AdminNotification_Model_System_MessageInterface
 {
+    const MESSAGE_IDENTITY = 'INDEX_REFRESH_FINISHED';
+
     /**
      * Process synchronization flag
      *
@@ -46,7 +48,7 @@ class Saas_Index_Model_System_Message_IndexRefreshed implements Mage_AdminNotifi
      */
     public function getIdentity()
     {
-        return 'INDEX_REFRESH_FINISHED';
+        return self::MESSAGE_IDENTITY;
     }
 
     /**
@@ -57,7 +59,7 @@ class Saas_Index_Model_System_Message_IndexRefreshed implements Mage_AdminNotifi
     public function isDisplayed()
     {
         if (null === $this->_isDisplayed) {
-            $this->_isDisplayed = $this->_flag->getState() == Saas_Index_Model_Flag::STATE_FINISHED;
+            $this->_isDisplayed = $this->_flag->isTaskFinished();
             if ($this->_isDisplayed) {
                 $this->_flag->setState(Saas_Index_Model_Flag::STATE_NOTIFIED);
                 $this->_flag->save();

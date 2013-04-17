@@ -27,7 +27,7 @@ class Saas_Index_Model_System_Message_IndexRefreshedTest extends PHPUnit_Framewo
         $helper = new Magento_Test_Helper_ObjectManager($this);
         $factoryMock = $this->getMock('Saas_Index_Model_FlagFactory', array('create'), array(), '', false);
         $this->_flagMock = $this->getMock('Saas_Index_Model_Flag',
-            array('getState', 'setState', 'save', 'loadSelf'),
+            array('getState', 'setState', 'save', 'loadSelf', 'isTaskFinished'),
             array(), '', false
         );
         $this->_flagMock->expects($this->once())->method('loadSelf');
@@ -43,14 +43,14 @@ class Saas_Index_Model_System_Message_IndexRefreshedTest extends PHPUnit_Framewo
 
     public function testGetIdentity()
     {
-        $this->assertEquals('INDEX_REFRESH_FINISHED', $this->_model->getIdentity());
+        $this->assertEquals(Saas_Index_Model_System_Message_IndexRefreshed::MESSAGE_IDENTITY, $this->_model->getIdentity());
     }
 
     public function testIsDisplayedWithNotFinishedState()
     {
         $this->_flagMock->expects($this->any())
-            ->method('getState')
-            ->will($this->returnValue(Saas_Index_Model_Flag::STATE_QUEUED));
+            ->method('isTaskFinished')
+            ->will($this->returnValue(false));
         $this->_flagMock->expects($this->never())->method('save');
         $this->assertFalse($this->_model->isDisplayed());
     }
@@ -58,8 +58,8 @@ class Saas_Index_Model_System_Message_IndexRefreshedTest extends PHPUnit_Framewo
     public function testIsDisplayedWithFinishedState()
     {
         $this->_flagMock->expects($this->any())
-            ->method('getState')
-            ->will($this->returnValue(Saas_Index_Model_Flag::STATE_FINISHED));
+            ->method('isTaskFinished')
+            ->will($this->returnValue(true));
         $this->_flagMock->expects($this->once())->method('setState')->with(Saas_Index_Model_Flag::STATE_NOTIFIED);
         $this->_flagMock->expects($this->once())->method('save');
         $this->assertTrue($this->_model->isDisplayed());

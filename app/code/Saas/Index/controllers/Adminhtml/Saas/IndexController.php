@@ -81,23 +81,8 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
         /** @var $eventManager Mage_Core_Model_Event_Manager */
         $this->_eventManager->dispatch('application_process_refresh_catalog');
 
-
         $this->_flag->setState(Saas_Index_Model_Flag::STATE_QUEUED);
         $this->_flag->save();
-
-        $this->_endAjax(array(
-            'error'       => false,
-            'message'     => '', //here you can add error message if needed
-            'status_html' => $this->_getStatusHtml(),
-        ));
-    }
-
-    /**
-     * Delete task from queue
-     */
-    public function cancelAction()
-    {
-        // @TODO: delete index task from queue
 
         $this->_endAjax(array(
             'error'       => false,
@@ -111,33 +96,10 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
      */
     public function updateStatusAction()
     {
-        $isTaskFinished = ($this->_flag->getState() == Saas_Index_Model_Flag::STATE_FINISHED ||
-            $this->_flag->getState() == Saas_Index_Model_Flag::STATE_NOTIFIED);
-
         $this->_endAjax(array(
             'status_html' => $this->_getStatusHtml(),
-            'is_finished' => $isTaskFinished,
+            'is_finished' => $this->_flag->isTaskFinished() || $this->_flag->isTaskNotified(),
         ));
-    }
-
-    /**
-     * Dummy method! Check is task added into the queue
-     *
-     * @return bool
-     */
-    public function isTaskAdded()
-    {
-        return $this->isTaskProcessing() || $this->_flag->getState() == Saas_Index_Model_Flag::STATE_QUEUED;
-    }
-
-    /**
-     * Dummy method!  Check is task currently is processing
-     *
-     * @return bool
-     */
-    public function isTaskProcessing()
-    {
-        return $this->_flag->getState() == Saas_Index_Model_Flag::STATE_PROCESSING;
     }
 
     /**
