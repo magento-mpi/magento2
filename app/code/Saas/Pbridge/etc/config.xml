@@ -93,7 +93,7 @@
             <admin_system_config_changed_section_payment>
                 <observers>
                     <saas_pbridge>
-                        <class>saas_pbridge/pbridge_merchant</class>
+                        <class>Saas_Pbridge_Model_Pbridge_Merchant</class>
                         <method>updatePbridgePaymentConfiguration</method>
                     </saas_pbridge>
                 </observers>
@@ -101,7 +101,7 @@
             <admin_system_config_changed_section_payment_services>
                 <observers>
                     <saas_pbridge>
-                        <class>saas_pbridge/pbridge_merchant</class>
+                        <class>Saas_Pbridge_Model_Pbridge_Merchant</class>
                         <method>updatePbridgePaymentServicesConfiguration</method>
                     </saas_pbridge>
                 </observers>
@@ -109,7 +109,7 @@
             <paypal_onboarding_activation_success>
                 <observers>
                     <enterprise_pbridge>
-                        <class>saas_pbridge/pbridge_merchant</class>
+                        <class>Saas_Pbridge_Model_Pbridge_Merchant</class>
                         <method>updatePbridgePaypalBoardingConfiguration</method>
                     </enterprise_pbridge>
                 </observers>
