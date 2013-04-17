@@ -86,7 +86,7 @@ class Enterprise_Mage_CmsBanners_Helper extends Mage_Selenium_AbstractHelper
         $xpathTR = $this->search($searchPage, 'cms_banners_grid');
         $this->assertNotEquals(null, $xpathTR, 'CMS Banner is not found');
         $cellId = $this->getColumnIdByName('Banner Name');
-        $this->addParameter('bannerName', $this->getElement($xpathTR . '//td[' . $cellId . ']')->text());
+        $this->addParameter('elementTitle', $this->getElement($xpathTR . '//td[' . $cellId . ']')->text());
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->getElement($xpathTR . '//td[' . $cellId . ']')->click();
         $this->waitForPageToLoad();
@@ -100,7 +100,6 @@ class Enterprise_Mage_CmsBanners_Helper extends Mage_Selenium_AbstractHelper
      */
     public function deleteCmsBanner(array $searchPage)
     {
-        $this->addParameter('elementTitle', $searchPage['filter_banner_name']);
         $this->openCmsBanner($searchPage);
         $this->clickButtonAndConfirm('delete_banner', 'confirmation_for_delete');
     }

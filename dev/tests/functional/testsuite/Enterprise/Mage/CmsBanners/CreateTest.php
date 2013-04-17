@@ -26,12 +26,6 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
     }
 
-    public function tearDownAfterTestClass()
-    {
-        $this->navigate('manage_stores');
-        $this->storeHelper()->deleteStore(self::$storeViewData);
-    }
-
     /**
      * <p>Preconditions</p>
      * <p>Creates Category, Product and Promotion Rules to use during tests</p>
@@ -68,10 +62,8 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
         $this->priceRulesHelper()->createRule($ruleData);
         //Verification Shopping Cart Price Rule
         $this->assertMessagePresent('success', 'success_saved_rule');
-        $this->navigate('manage_stores');
-        self::$storeViewData = $this->loadDataSet('StoreView', 'generic_store_view');
-        $this->storeHelper()->createStore(self::$storeViewData, 'store_view');
-        $this->assertMessagePresent('success', 'success_saved_store_view');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
 
         return array('category_path'      => $product['general_categories'], 'filter_sku' => $product['general_sku'],
                      'catalog_rule_name'  => $priceRuleData['info']['rule_name'],
