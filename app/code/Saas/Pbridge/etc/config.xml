@@ -17,7 +17,7 @@
             <codePool>core</codePool>
             <depends>
                 <Enterprise_Pbridge/>
-                <Saas_Paypal/>
+                <!--<Saas_Paypal/>-->
             </depends>
         </Saas_Pbridge>
     </modules>
