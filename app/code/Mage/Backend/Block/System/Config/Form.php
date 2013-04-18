@@ -223,7 +223,8 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $fieldsetConfig = array(
             'legend' => $group->getLabel(),
             'comment' => $group->getComment(),
-            'expanded' => $group->isExpanded()
+            'expanded' => $group->isExpanded(),
+            'group' => $group->getData()
         );
 
         $fieldset = $form->addFieldset($this->_generateElementId($group->getPath()), $fieldsetConfig);

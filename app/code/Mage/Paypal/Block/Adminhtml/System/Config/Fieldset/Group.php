@@ -22,7 +22,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Group
      */
     protected function _getHeaderCommentHtml($element)
     {
-        $groupConfig = $this->getGroup()->getData();
+        $groupConfig = $element->getGroup();
 
         if (empty($groupConfig['help_url']) || !$element->getComment()) {
             return parent::_getHeaderCommentHtml($element);
