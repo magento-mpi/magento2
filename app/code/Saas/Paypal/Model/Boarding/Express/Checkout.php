@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento Saas Edition
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Saas
  * @package     Saas_Paypal
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
@@ -35,7 +19,7 @@ class Saas_Paypal_Model_Boarding_Express_Checkout extends Mage_Paypal_Model_Expr
      *
      * @var string
      */
-    protected $_apiType = 'saas_paypal/api_nvp';
+    protected $_apiType = 'Saas_Paypal_Model_Api_Nvp';
 
     /**
      * Payment method type
@@ -62,7 +46,7 @@ class Saas_Paypal_Model_Boarding_Express_Checkout extends Mage_Paypal_Model_Expr
             } else {
                 $defaultBillingAddress = $customer->getDefaultBillingAddress();
                 if ($defaultBillingAddress && $defaultBillingAddress->getId()) {
-                    $billingAddress = Mage::getModel('sales/quote_address')
+                    $billingAddress = Mage::getModel('Mage_Sales_Model_Quote_Address')
                         ->importCustomerAddress($defaultBillingAddress);
                     $this->_quote->setBillingAddress($billingAddress);
                 }
@@ -71,10 +55,10 @@ class Saas_Paypal_Model_Boarding_Express_Checkout extends Mage_Paypal_Model_Expr
             if (is_null($shippingAddress)) {
                 $defaultShippingAddress = $customer->getDefaultShippingAddress();
                 if ($defaultShippingAddress && $defaultShippingAddress->getId()) {
-                    $shippingAddress = Mage::getModel('sales/quote_address')
+                    $shippingAddress = Mage::getModel('Mage_Sales_Model_Quote_Address')
                     ->importCustomerAddress($defaultShippingAddress);
                 } else {
-                    $shippingAddress = Mage::getModel('sales/quote_address');
+                    $shippingAddress = Mage::getModel('Mage_Sales_Model_Quote_Address');
                 }
             }
             $this->_quote->setShippingAddress($shippingAddress);

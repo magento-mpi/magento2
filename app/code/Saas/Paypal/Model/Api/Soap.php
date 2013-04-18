@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento Saas Edition
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Magento Enterprise Edition License
- * that is bundled with this package in the file LICENSE_EE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://www.magentocommerce.com/license/enterprise-edition
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Saas
  * @package     Saas_Paypal
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://www.magentocommerce.com/license/enterprise-edition
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
@@ -73,7 +57,6 @@ class Saas_Paypal_Model_Api_Soap extends Mage_Paypal_Model_Api_Abstract
     public function getWsdl()
     {
         return Mage::getModuleDir('etc', 'Saas_Paypal')  . DS . 'wsdl' . DS . 'PayPalSvc.wsdl';
-        //return sprintf('https://www%s.paypal.com/wsdl/PayPalSvc.wsdl', $this->_config->sandboxFlag ? '.sandbox' : '');
     }
 
     /**
@@ -169,8 +152,8 @@ class Saas_Paypal_Model_Api_Soap extends Mage_Paypal_Model_Api_Abstract
      * Do the API call
      *
      * @param Saas_Paypal_Model_Api_Soap_Operation_Abstract $operation
+     * @throws Exception
      * @return stdClass
-     * @throws Mage_Core_Exception
      */
     public function call(Saas_Paypal_Model_Api_Soap_Operation_Abstract $operation)
     {
@@ -232,13 +215,13 @@ class Saas_Paypal_Model_Api_Soap extends Mage_Paypal_Model_Api_Abstract
                 : sprintf('#%s: %s.', $error->ErrorCode, $shortMessage);
             $this->_callErrors[] = $error->ErrorCode;
 
-            $e = Mage::exception('Saas_Paypal', Mage::helper('paypal')->__('PayPal NVP gateway errors: %s Correlation ID: %s. Version: %s.',
+            $e = Mage::exception('Saas_Paypal', Mage::helper('Mage_Paypal_Helper_Data')->__('PayPal NVP gateway errors: %s Correlation ID: %s. Version: %s.',
                 $errorInfo,
                 isset($response->CorrelationID) ? $response->CorrelationID : '',
                 isset($response->Version) ? $response->Version : ''
             ));
             Mage::logException($e);
-            $e->setMessage(Mage::helper('paypal')->__('PayPal gateway has rejected request. %s', $errorInfo));
+            $e->setMessage(Mage::helper('Mage_Paypal_Helper_Data')->__('PayPal gateway has rejected request. %s', $errorInfo));
             throw $e;
 
         }
@@ -252,7 +235,7 @@ class Saas_Paypal_Model_Api_Soap extends Mage_Paypal_Model_Api_Abstract
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            Mage::getModel('core/log_adapter', 'paypal_onboarding_requests.log')
+            Mage::getModel('Mage_Core_Model_Log_Adapter', 'paypal_onboarding_requests.log')
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);
         }
@@ -264,7 +247,7 @@ class Saas_Paypal_Model_Api_Soap extends Mage_Paypal_Model_Api_Abstract
     public function callEnterBoarding()
     {
         /* @var $operation Saas_Paypal_Model_Api_Soap_Operation_EnterBoarding */
-        $operation = Mage::getModel('saas_paypal/api_soap_operation_enterBoarding');
+        $operation = Mage::getModel('Saas_Paypal_Model_Api_Soap_Operation_EnterBoarding');
         $response = $this->call($operation);
         $operation->setResponse($this, $response);
     }
@@ -275,7 +258,7 @@ class Saas_Paypal_Model_Api_Soap extends Mage_Paypal_Model_Api_Abstract
     public function callGetBoardingDetails()
     {
         /* @var $operation Saas_Paypal_Model_Api_Soap_Operation_GetBoardingDetails */
-        $operation = Mage::getModel('saas_paypal/api_soap_operation_getBoardingDetails');
+        $operation = Mage::getModel('Saas_Paypal_Model_Api_Soap_Operation_GetBoardingDetails');
         $response = $this->call($operation);
         $operation->setResponse($this, $response);
     }

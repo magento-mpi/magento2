@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento Saas Edition
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Magento Enterprise Edition License
- * that is bundled with this package in the file LICENSE_EE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://www.magentocommerce.com/license/enterprise-edition
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Saas
  * @package     Saas_Paypal
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://www.magentocommerce.com/license/enterprise-edition
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /*
@@ -69,7 +53,7 @@ class Saas_Paypal_Model_Api_Permission_Nvp extends Mage_Paypal_Model_Api_Abstrac
             $request['scope'][] = $group;
         }
 
-        $request['callback'] = Mage::helper('saas_paypal')->getRedirectUrl();
+        $request['callback'] = Mage::helper('Saas_Paypal_Helper_Data')->getRedirectUrl();
         $response = $this->call(self::CALL_REQUEST_PERMISSIONS, $this->_prepareRequest($request));
 
         return $response['token'];
@@ -287,7 +271,7 @@ class Saas_Paypal_Model_Api_Permission_Nvp extends Mage_Paypal_Model_Api_Abstrac
             $debugData['http_error'] = array('error' => $http->getError(), 'code' => $http->getErrno());
             $this->_debug($debugData);
 
-            Mage::throwException(Mage::helper('paypal')->__('Unable to communicate with the PayPal gateway.'));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Unable to communicate with the PayPal gateway.'));
         }
         $http->close();
 
@@ -296,7 +280,7 @@ class Saas_Paypal_Model_Api_Permission_Nvp extends Mage_Paypal_Model_Api_Abstrac
         if (!$this->_checkCallResponse($response)) {
             $debugData['call_error'] = array('error' => 'Operation failed', 'response' => $response);
             $this->_debug($debugData);
-            Mage::throwException(Mage::helper('paypal')->__('PayPal permissions operation failed.'));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('PayPal permissions operation failed.'));
         }
         $debugData['response'] = $response;
         $this->_debug($debugData);
@@ -314,11 +298,11 @@ class Saas_Paypal_Model_Api_Permission_Nvp extends Mage_Paypal_Model_Api_Abstrac
     protected function _checkCallResponse($response)
     {
         if (!isset($response['responseEnvelope_ack'])) {
-            Mage::throwException(Mage::helper('paypal')->__('Incorrect PayPal response'));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Incorrect PayPal response'));
         }
 
         $ack = $response['responseEnvelope_ack'];
-        if ($ack == 'Success' ||  $ack == 'SuccessWithWarning') {
+        if ($ack == 'Success' || $ack == 'SuccessWithWarning') {
             return true;
         }
 
@@ -364,7 +348,7 @@ class Saas_Paypal_Model_Api_Permission_Nvp extends Mage_Paypal_Model_Api_Abstrac
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            Mage::getModel('core/log_adapter', 'paypal_onboarding_requests.log')
+            Mage::getModel('Mage_Core_Model_Log_Adapter', 'paypal_onboarding_requests.log')
                 ->log($debugData);
         }
     }

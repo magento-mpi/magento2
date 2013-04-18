@@ -158,8 +158,7 @@ class Saas_Paypal_Model_Observer extends Mage_Paypal_Model_Observer
         $requestParam = Mage_Paypal_Block_Adminhtml_System_Config_Field_Country::REQUEST_PARAM_COUNTRY;
         $countryCode  = Mage::app()->getRequest()->getParam($requestParam);
         if (is_null($countryCode) || preg_match('/^[a-zA-Z]{2}$/', $countryCode) == 0) {
-            //TODO should to know correct model
-            $countryCode = (string)Mage::getSingleton('adminhtml/config_data')
+            $countryCode = (string)Mage::getSingleton('Mage_Backend_Model_Config')
                 ->getConfigDataValue('paypal/general/merchant_country');
         }
         if (empty($countryCode)) {

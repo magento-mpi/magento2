@@ -194,8 +194,7 @@ class Saas_Paypal_Model_Boarding_Onboarding
 
         if ($force || Mage::getStoreConfig($configPath) != $activity) {
             Mage::getConfig()->saveConfig($configPath, $activity);
-            //TODO should to know correct model
-            Mage::getSingleton('adminhtml/config_data')->setConfigDataValue($configPath, $activity);
+            Mage::getSingleton('Mage_Backend_Model_Config')->setConfigDataValue($configPath, $activity);
         }
     }
 
@@ -325,8 +324,7 @@ class Saas_Paypal_Model_Boarding_Onboarding
      */
     protected function _getMerchantCountryCode()
     {
-        //TODO should to know correct model
-        return (string)Mage::getSingleton('adminhtml/config_data')
+        return (string)Mage::getSingleton('Mage_Backend_Model_Config')
             ->getConfigDataValue('paypal/general/merchant_country');
     }
 
