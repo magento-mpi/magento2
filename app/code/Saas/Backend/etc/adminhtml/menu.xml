@@ -10,6 +10,5 @@
 <config>
     <menu>
         <remove id="Mage_Adminhtml::system_cache"/>
-        <remove id="Mage_Adminhtml::system_tools"/>
     </menu>
 </config>
