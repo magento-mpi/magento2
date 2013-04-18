@@ -57,7 +57,6 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
         parent::__construct('<config/>');
         $this->_params = $params;
         $this->_dir = $dir ?: new Mage_Core_Model_Dir(
-            new Magento_Filesystem(new Magento_Filesystem_Adapter_Local()),
             $baseDir,
             $this->getParam(Mage::PARAM_APP_URIS, array()),
             $this->getParam(Mage::PARAM_APP_DIRS, array())
@@ -162,10 +161,12 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
     public function configure(Magento_ObjectManager $objectManager)
     {
         Magento_Profiler::start('initial');
+
+        $appMode = $this->getParam(Mage::PARAM_MODE, Mage_Core_Model_App_State::MODE_DEFAULT);
         $objectManager->configure(array(
             'Mage_Core_Model_App_State' => array(
                 'parameters' => array(
-                    'mode' => $this->getParam(Mage::PARAM_MODE, Mage_Core_Model_App_State::MODE_DEFAULT),
+                    'mode' => $appMode,
                 ),
             ),
             'Mage_Core_Model_Config_Loader_Local' => array(
@@ -195,8 +196,25 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
                     'scopeCode' => $this->getParam(Mage::PARAM_RUN_CODE, ''),
                     'scopeType' => $this->getParam(Mage::PARAM_RUN_TYPE, 'store'),
                 )
-            )
+            ),
         ));
+
+        if ($appMode == Mage_Core_Model_App_State::MODE_PRODUCTION) {
+            $objectManager->configure(array(
+                'Mage_Core_Model_Dir_Verification' => array(
+                    'parameters' => array(
+                        'writableDirCodes' => array(
+                            Mage_Core_Model_Dir::MEDIA,
+                            Mage_Core_Model_Dir::VAR_DIR,
+                            Mage_Core_Model_Dir::TMP,
+                            Mage_Core_Model_Dir::CACHE,
+                            Mage_Core_Model_Dir::LOG,
+                            Mage_Core_Model_Dir::SESSION,
+                        ),
+                    ),
+                ),
+            ));
+        }
 
         $configurators = $this->getNode('global/configurators');
         if ($configurators) {

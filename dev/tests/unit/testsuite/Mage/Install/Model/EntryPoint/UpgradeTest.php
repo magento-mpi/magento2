@@ -26,6 +26,14 @@ class Mage_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_TestCa
     {
         $this->_config = $this->getMock('Mage_Core_Model_Config_Primary', array('getParam'), array(), '', false);
 
+        $dirVerification = $this->getMock('Mage_Core_Model_Dir_Verification', array(), array(), '', false);
+        $dirVerification->expects($this->once())
+            ->method('createMissingDirectories')
+            ->will($this->returnValue($dirVerification));
+        $dirVerification->expects($this->once())
+            ->method('verifyWriteAccess')
+            ->will($this->returnValue($dirVerification));
+
         $cacheFrontend = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
         $cacheFrontend->expects($this->once())->method('clean')->with('all', array());
         $cacheFrontendPool = $this->getMock(
@@ -51,6 +59,7 @@ class Mage_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_TestCa
             array('Mage_Core_Model_Db_Updater', $update),
             array('Mage_Core_Model_Config_Primary', $this->_config),
             array('Mage_Index_Model_Indexer', $this->_indexer),
+            array('Mage_Core_Model_Dir_Verification', $dirVerification),
         )));
     }
 
