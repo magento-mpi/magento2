@@ -183,15 +183,13 @@ jQuery(function($) {
 
     $('.widget-button-save .item-default').parent().hide();
 
-    $(function() {
-        if ($.trim($('#name').val()) == '') {
-            $('#name').focus();
-        }
+    if ($.trim($('#name').val()) == '') {
+        $('#name').focus();
+    }
 
-        $('#product-online-switcher')
-            .prop('checked', $('#status').val() == '1')
-            .trigger('change');
-    });
+    $('#product-online-switcher')
+        .prop('checked', $('#status').val() == '1')
+        .trigger('change');
 
     $('#product-online-switcher').on('change', function(event) {
         $('#status').val($(this).prop('checked') ? '1' : '2');
