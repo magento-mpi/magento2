@@ -159,45 +159,6 @@
 }
 
 /*
-    Theme Loader
--------------------------------------- */
-.theme-loader {
-    width: 75px;
-    height: 75px;
-    border: 1px solid #f98e4e;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    margin: -50px 0 0 -50px;
-    background-color: rgba(255, 255, 255, .8);
-    text-align: center;
-    line-height: 100px;
-}
-
-.eq-ie8 .theme-loader {
-    background: #fff;
-}
-
-[class^=' adminhtml-system-design-editor'] .col-1-layout {
-    padding: 0;
-    min-width: 960px;
-    max-width: 1300px;
-}
-
-.eq-ie8 [class^=' adminhtml-system-design-editor'] .col-1-layout {
-    border-top: 0;
-    border-bottom: 0;
-}
-
-.eq-ie8 [class^=' adminhtml-system-design-editor'] .ui-tabs-panel {
-    border-bottom: 1px solid #b7b2a6;
-}
-
-.eq-ie8 [class^=' adminhtml-system-design-editor'] #theme_selector_tabs {
-    border-top: 1px solid #b7b2a6;
-}
-
-/*
     Themes Tabs
 -------------------------------------- */
 

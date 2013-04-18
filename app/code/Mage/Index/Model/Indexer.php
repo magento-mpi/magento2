@@ -226,6 +226,7 @@ class Mage_Index_Model_Indexer
      */
     protected function _runAll($method, $args)
     {
+        return;
         $checkLocks = $method != 'register';
         $processed = array();
         foreach ($this->_processesCollection as $process) {
