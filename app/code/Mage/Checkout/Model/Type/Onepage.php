@@ -582,9 +582,9 @@ class Mage_Checkout_Model_Type_Onepage
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        //$customer = Mage::getModel('Mage_Customer_Model_Customer');
+        /** @var $customer Mage_Customer_Model_Customer */
         $customer = $quote->getCustomer();
-        /* @var $customer Mage_Customer_Model_Customer */
+        /** @var $customerBilling Mage_Customer_Model_Address */
         $customerBilling = $billing->exportCustomerAddress();
         $customer->addAddress($customerBilling);
         $billing->setCustomerAddress($customerBilling);
@@ -594,6 +594,9 @@ class Mage_Checkout_Model_Type_Onepage
             $customer->addAddress($customerShipping);
             $shipping->setCustomerAddress($customerShipping);
             $customerShipping->setIsDefaultShipping(true);
+        } elseif ($shipping && $shipping->getSameAsBilling()) {
+            $shipping->setCustomerAddress($billing->getCustomerAddress());
+            $customerBilling->setIsDefaultShipping(true);
         } else {
             $customerBilling->setIsDefaultShipping(true);
         }
