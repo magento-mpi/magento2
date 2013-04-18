@@ -52,9 +52,9 @@
                 $($(e.target).is(document) ? 'body' : e.target).loader('hide');
             });
             this._on({
-                'show': 'show',
-                'hide': 'hide',
-                'contentUpdated': '_contentUpdated'
+                'show.loader': 'show',
+                'hide.loader': 'hide',
+                'contentUpdated.loader': '_contentUpdated'
             });
         },
 
