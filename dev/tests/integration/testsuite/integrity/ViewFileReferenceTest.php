@@ -23,6 +23,11 @@
 class Integrity_ViewFileReferenceTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var Mage_Core_Model_Design_Fallback_Rule_RuleInterface
+     */
+    static protected $_fallbackRule;
+
+    /**
      * @var Mage_Core_Model_Design_FileResolution_Strategy_Fallback
      */
     static protected $_fallback;
@@ -40,6 +45,11 @@ class Integrity_ViewFileReferenceTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         $objectManager = Mage::getObjectManager();
+
+        /** @var $fallbackFactory Mage_Core_Model_Design_Fallback_Factory */
+        $fallbackFactory = $objectManager->get('Mage_Core_Model_Design_Fallback_Factory');
+        self::$_fallbackRule = $fallbackFactory->createViewFileRule();
+
         self::$_fallback = $objectManager->get('Mage_Core_Model_Design_FileResolution_Strategy_Fallback');
 
         // Themes to be checked
@@ -85,14 +95,12 @@ class Integrity_ViewFileReferenceTest extends PHPUnit_Framework_TestCase
     static protected function _getLocalePatternDir(Mage_Core_Model_Theme $theme)
     {
         $localePlaceholder = '<locale_placeholder>';
-        /** @var $fallbackRule Mage_Core_Model_Design_Fallback_List_View */
-        $fallbackRule = Mage::getObjectManager()->get('Mage_Core_Model_Design_Fallback_List_View');
         $params = array(
             'area' => $theme->getArea(),
             'theme' => $theme,
             'locale' => $localePlaceholder,
         );
-        $patternDirs = $fallbackRule->getPatternDirs($params);
+        $patternDirs = self::$_fallbackRule->getPatternDirs($params);
         $themePath = '/' . $theme->getFullPath() . '/';
         foreach ($patternDirs as $patternDir) {
             $patternPath = $patternDir . '/';
