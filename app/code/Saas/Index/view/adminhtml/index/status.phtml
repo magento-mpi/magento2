@@ -18,8 +18,7 @@ $isTaskAdded = $this->isTaskAdded();
         <?php if ($this->isTaskProcessing()):?>
             <?php echo $this->__('The search index refresh has already started. Please wait until it finishes.')?>
         <?php else: ?>
-            <?php echo $this->__('The search index refresh is already in queue. You can cancel the refresh any time before it starts.')?>
+            <?php echo $this->__('The search index refresh is already in queue.')?>
         <?php endif; ?>
-        <?php echo $this->getButtonsHtml('cancel')?>
     <?php endif; ?>
 </div>
