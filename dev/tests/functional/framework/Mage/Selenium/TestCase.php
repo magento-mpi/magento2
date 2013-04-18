@@ -1043,7 +1043,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if ($locator === null) {
             $locator = $this->_getMessageXpath('general_validation');
         }
-        return count($this->getElements($locator)) == $count;
+        $actualCount = 0;
+        /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
+        foreach ($this->getElements($locator, false) as $element) {
+            if ($element->displayed()) {
+                $actualCount++;
+            }
+        }
+        return $actualCount == $count;
     }
 
     /**
@@ -1946,7 +1953,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $containerElements = $containerUimap->$getMethod($this->_paramsHelper);
         $fillData = array();
         foreach ($dataToFill as $fieldName => $fieldValue) {
-            if ($fieldValue == '%noValue%' || is_array($fieldValue)) {
+            if ($fieldValue === '%noValue%' || is_array($fieldValue)) {
                 $fillData['skipped'][$fieldName] = $fieldValue;
                 continue;
             }

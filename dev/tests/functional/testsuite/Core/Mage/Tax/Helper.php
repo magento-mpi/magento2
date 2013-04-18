@@ -160,7 +160,11 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
         $this->assertSame($this->_getMessageXpath('confirmation_for_delete_class'), $alertText,
             'Confirmation message is incorrect');
         //Second message
-        $this->assertTrue($this->alertIsPresent(), 'There is no confirmation message');
+        $this->waitUntil(function ($testCase) {
+            /** @var Mage_Selenium_TestCase $testCase */
+            $testCase->alertText();
+            return true;
+        }, 5000);
         $alertText = $this->alertText();
         $this->acceptAlert();
         $this->assertSame($this->_getMessageXpath($msg), $alertText, 'Confirmation message is incorrect');

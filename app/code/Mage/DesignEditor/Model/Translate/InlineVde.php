@@ -58,7 +58,9 @@ class Mage_DesignEditor_Model_Translate_InlineVde implements Mage_Core_Model_Tra
     protected $_url;
 
     /**
-     * @var boolean
+     * Flag about inserted styles and scripts for inline translates
+     *
+     * @var bool
      */
     protected $_isScriptInserted = false;
 

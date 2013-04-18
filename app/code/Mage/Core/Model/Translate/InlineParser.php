@@ -39,13 +39,6 @@ class Mage_Core_Model_Translate_InlineParser
     protected $_content;
 
     /**
-     * Flag about inserted styles and scripts for inline translates
-     *
-     * @var bool
-     */
-    protected $_isScriptInserted    = false;
-
-    /**
      * Current content is JSON or Response body
      *
      * @var bool

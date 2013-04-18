@@ -114,21 +114,21 @@ applications:
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    go: &go
-        fallbackOrderFixture: 'enterprise, default'
-        fallbackOrderHelper: 'Enterprise, Core'
+    saas: &saas
+        fallbackOrderFixture: 'saas, enterprise, default'
+        fallbackOrderHelper: 'Saas, Enterprise, Core'
         design_theme: Enterprise/Magento Fixed Design
         ftp: *ftp
         areas:
             admin:
-                url: '{{go_admin_url}}'
+                url: '{{saas_admin_url}}'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
                 after_login_page: 'store_launcher'
             frontend:
-                url: '{{go_url}}'
+                url: '{{saas_url}}'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox

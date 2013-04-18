@@ -56,9 +56,9 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
-     * @covers Mage_Core_Model_Theme_Service::assignThemeToStores
+     * @covers Mage_Core_Model_Theme_Service::reassignThemeToStores
      */
-    public function testAssignThemeToStores()
+    public function testReassignThemeToStores()
     {
         $originalCount = $this->_getThemeCollection()->count();
 
@@ -69,7 +69,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
         $this->assertTrue((bool)$physicalTheme->getId(), 'Physical theme is not loaded');
 
         $storeView = Mage::app()->getAnyStoreView()->getId();
-        $themeService->assignThemeToStores($physicalTheme->getId(), array($storeView));
+        $themeService->reassignThemeToStores($physicalTheme->getId(), array($storeView));
         $this->assertEquals($originalCount + 1, $this->_getThemeCollection()->count());
 
         $configItem = Mage::getSingleton('Mage_Core_Model_Config_Data')->getCollection()

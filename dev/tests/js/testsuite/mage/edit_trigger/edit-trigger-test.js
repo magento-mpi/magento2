@@ -63,7 +63,7 @@ EditTriggerTest.prototype.testTriggerClick = function() {
         trigger = jQuery('.translate-edit-icon'),
         editElement = jQuery('.edit'),
         editTriggered = false;
-    $(document).on('edit.editTrigger', function(){editTriggered = true});
+    $(document).on('edit.editTrigger', function() { editTriggered = true; });
     editElement.trigger('mousemove');
     trigger.trigger('click');
     assertEquals(true, editTriggered);
