@@ -447,7 +447,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
                 Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Source file moving failed'));
             }
         }
-        $this->_removeBoom($sourceFile);
+        $this->_removeBom($sourceFile);
         // trying to create source adapter for file and catch possible exception to be convinced in its adequacy
         try {
             $this->_getSourceAdapter($sourceFile);
@@ -461,10 +461,10 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
     /**
      * Remove BOM from a file
      *
-     * @param resource $sourceFile
+     * @param string $sourceFile
      * @return $this
      */
-    protected function _removeBoom($sourceFile)
+    protected function _removeBom($sourceFile)
     {
         $string = file_get_contents($sourceFile);
         if ($string !== false && substr($string, 0, 3) == pack("CCC", 0xef, 0xbb, 0xbf)) {
