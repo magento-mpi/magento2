@@ -40,7 +40,7 @@
         _editCustomCss: function()
         {
             if ($.trim($(this.customCssCode).val())) {
-                this.btnCssUpdate.removeAttr('disabled');
+                this.btnCssUpdate.removeProp('disabled');
             }
         },
 
@@ -79,13 +79,11 @@
         _prepareUpdateButton: function()
         {
             if (!$.trim($(this.customCssCode).val())) {
-                this.btnCssUpdate.attr('disabled', 'disabled');
-                $(this.btnUpdateDownload).fadeOut();
-                $(this.btnCssDelete).fadeOut();
+                this.btnCssUpdate.prop('disabled', 'disabled');
+                this.btnUpdateDownload.add(this.btnCssDelete).fadeOut();
             } else {
-                this.btnCssUpdate.removeAttr('disabled');
-                $(this.btnUpdateDownload).fadeIn();
-                $(this.btnCssDelete).fadeIn();
+                this.btnCssUpdate.removeProp('disabled');
+                this.btnUpdateDownload.add(this.btnCssDelete).fadeIn();
             }
         }
     });
