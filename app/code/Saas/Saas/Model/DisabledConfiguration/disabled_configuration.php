@@ -128,4 +128,6 @@ return array(
     'google/googleshopping/debug',
 
     'payment/authorizenet/currency',
+    'payment/cc/active',
+    'payment/ccsave/active',
 );

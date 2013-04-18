@@ -14,8 +14,6 @@
     <global>
         <di>
             <preferences>
-                <Mage_Payment_Model_Method_Cc>Saas_Payment_Model_Method_Cc</Mage_Payment_Model_Method_Cc>
-                <Mage_Payment_Model_Method_Ccsave>Saas_Payment_Model_Method_Ccsave</Mage_Payment_Model_Method_Ccsave>
                 <Mage_Payment_Helper_Data>Saas_Payment_Helper_Data</Mage_Payment_Helper_Data>
             </preferences>
         </di>
