@@ -16,12 +16,12 @@
             drawerHeaderInner: '.drawer-header-inner',
             drawerContent: '.drawer-content',
             drawerFooter: '.drawer-footer',
+            drawerDependencies: {},
             btnOpenDrawer: '.action-open-drawer',
             btnCloseDrawer: '.action-close-drawer',
             btnSaveDrawer: '.action-save-settings',
             drawerTopPosition: '.navigation',
             stickyHeaderClass: 'fixed'
-
         },
 
         _create: function() {
@@ -35,7 +35,6 @@
             this.drawerTopPosition = $(this.options.drawerTopPosition);
             this._startDrawerClose = false;
             this._bind();
-            this._handleHash();
         },
 
         _bind: function() {
@@ -72,7 +71,7 @@
 
             $(window)
                 .scroll($.proxy(this._drawerFixedHeader, this))
-                .hashchange($.proxy(this._handleHash, this))
+                .hashchange($.proxy(this.handleHash, this))
                 .resize($.proxy(function(){
                 delay && clearTimeout(delay);
                 var delay = setTimeout($.proxy(this._drawerMinHeight, this), 100);
@@ -187,6 +186,37 @@
             }
         },
 
+        setDependencies: function(tileCode, dependencies) {
+            this.options.drawerDependencies[tileCode] = dependencies;
+        },
+
+        _drawerPreLoad: function(tileCode) {
+            if (this.options.drawerDependencies[tileCode] !== undefined) {
+                head.js.apply(this, this.options.drawerDependencies[tileCode]);
+            }
+        },
+
+        _drawerLoad: function(dataLoadUrl, dataSaveUrl, tileCode) {
+            var postData = {
+                    tileCode: tileCode
+                },
+                ajaxOptions = {
+                    type: 'POST',
+                    showLoader: true,
+                    data: postData,
+                    dataType: 'json',
+                    url: dataLoadUrl,
+                    success: $.proxy(this._drawerAfterLoad, this),
+                    error: this._ajaxFailure
+                };
+
+            $.ajax(ajaxOptions);
+
+            this.btnSaveDrawer
+                .attr('tile-code', tileCode)
+                .attr('data-save-url', dataSaveUrl);
+        },
+
         _drawerAfterLoad: function(result, status) {
             if (result.success) {
                 $('.title', this.drawerHeader).text(result.tile_header);
@@ -225,32 +255,17 @@
             window.location.hash = hashString.replace('tile-', '');
         },
 
-        _handleHash: function() {
-            if (window.location.hash == '') {
+        handleHash: function() {
+            if (window.location.hash == '' || window.location.hash == '#') {
                 this.drawerClose();
                 return;
             }
             var hashString = window.location.hash.replace('#', ''),
                 elem = $('#tile-' + hashString).find(this.options.btnOpenDrawer),
-                tileCode = elem.attr('data-drawer').replace('open-drawer-', ''),
-                postData = {
-                    tileCode: tileCode
-                },
-                ajaxOptions = {
-                    type: 'POST',
-                    showLoader: true,
-                    data: postData,
-                    dataType: 'json',
-                    url: elem.attr('data-load-url'),
-                    success: $.proxy(this._drawerAfterLoad, this),
-                    error: this._ajaxFailure
-                };
+                tileCode = elem.attr('data-drawer').replace('open-drawer-', '');
 
-            $.ajax(ajaxOptions);
-
-            this.btnSaveDrawer
-                .attr('tile-code', tileCode)
-                .attr('data-save-url', elem.attr('data-save-url'));
+            this._drawerPreLoad(tileCode);
+            this._drawerLoad(elem.attr('data-load-url'), elem.attr('data-save-url'), tileCode);
         },
 
         _ajaxFailure: function() {

@@ -54,19 +54,27 @@
     </div>
     <script type="text/javascript">
         (function ($) {
-            $('#tile-<?php echo $this->getTileCode() ?> .action-open-drawer').on('click', function() {
-                head.js(
-                    "<?php echo $this->getViewFileUrl('jquery/editableMultiselect/js/jquery.editable.js') ?>",
-                    "<?php echo $this->getViewFileUrl('jquery/editableMultiselect/js/jquery.multiselect.js') ?>",
-                    "<?php echo $this->getViewFileUrl('mage/backend/editablemultiselect.js') ?>",
+            head.js(
+                "<?php echo $this->getViewFileUrl('jquery/jquery.ba-hashchange.min.js') ?>",
+                "<?php echo $this->getViewFileUrl('Saas_Launcher::page/launcher.js') ?>",
+                function () {
+                    $('#drawer').drawer();
+                    $('#drawer').drawer('setDependencies',
+                        '<?php echo $this->getTileCode() ?>',
+                        [
+                            "<?php echo $this->getViewFileUrl('jquery/editableMultiselect/js/jquery.editable.js') ?>",
+                            "<?php echo $this->getViewFileUrl('jquery/editableMultiselect/js/jquery.multiselect.js') ?>",
+                            "<?php echo $this->getViewFileUrl('mage/backend/editablemultiselect.js') ?>",
 
-                    "<?php echo $this->getViewFileUrl('jquery/fileUploader/jquery.iframe-transport.js') ?>",
-                    "<?php echo $this->getViewFileUrl('jquery/fileUploader/jquery.fileupload.js') ?>",
-                    "<?php echo $this->getViewFileUrl('jquery/fileUploader/load-image.min.js') ?>",
-                    "<?php echo $this->getViewFileUrl('jquery/fileUploader/canvas-to-blob.min.js') ?>",
-                    "<?php echo $this->getViewFileUrl('jquery/fileUploader/jquery.fileupload-fp.js') ?>"
-                );
-            });
+                            "<?php echo $this->getViewFileUrl('jquery/fileUploader/jquery.iframe-transport.js') ?>",
+                            "<?php echo $this->getViewFileUrl('jquery/fileUploader/jquery.fileupload.js') ?>",
+                            "<?php echo $this->getViewFileUrl('jquery/fileUploader/load-image.min.js') ?>",
+                            "<?php echo $this->getViewFileUrl('jquery/fileUploader/canvas-to-blob.min.js') ?>",
+                            "<?php echo $this->getViewFileUrl('jquery/fileUploader/jquery.fileupload-fp.js') ?>"
+                        ]
+                    );
+                }
+            );
         })(jQuery);
     </script>
 </article>
