@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Saas
  * @package     Saas_Paypal
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
@@ -34,7 +18,7 @@ class Saas_Paypal_Boarding_ExpressController extends Mage_Paypal_Controller_Expr
      *
      * @var string
      */
-    protected $_configType = 'saas_paypal/boarding_config';
+    protected $_configType = 'Saas_Paypal_Model_Boarding_Config';
 
     /**
      * Config method type
@@ -48,7 +32,7 @@ class Saas_Paypal_Boarding_ExpressController extends Mage_Paypal_Controller_Expr
      *
      * @var string
      */
-    protected $_checkoutType = 'saas_paypal/boarding_express_checkout';
+    protected $_checkoutType = 'Saas_Paypal_Model_Boarding_Express_Checkout';
 
     /**
      * Redirect to login page
@@ -56,10 +40,10 @@ class Saas_Paypal_Boarding_ExpressController extends Mage_Paypal_Controller_Expr
     public function redirectLogin()
     {
         $this->setFlag('', 'no-dispatch', true);
-        Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl('checkout/cart'));
+        Mage::getSingleton('Mage_Customer_Model_Session')->setBeforeAuthUrl(Mage::getUrl('checkout/cart'));
         $this->getResponse()->setRedirect(
-            Mage::helper('core/url')->addRequestParam(
-                Mage::helper('customer')->getLoginUrl(),
+            Mage::helper('Mage_Core_Helper_Url')->addRequestParam(
+                Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl(),
                 array('context' => 'checkout')
             )
         );
@@ -78,7 +62,7 @@ class Saas_Paypal_Boarding_ExpressController extends Mage_Paypal_Controller_Expr
         try {
             $this->_initCheckout();
 
-            $customer = Mage::getSingleton('customer/session')->getCustomer();
+            $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
             if ($customer && $customer->getId()) {
                 $this->_checkout->setCustomerWithAddressChange(
                     $customer, $this->_getQuote()->getBillingAddress(), $this->_getQuote()->getShippingAddress()
@@ -127,7 +111,7 @@ class Saas_Paypal_Boarding_ExpressController extends Mage_Paypal_Controller_Expr
         $quote = $this->_getQuote();
         if (!$quote->hasItems() || $quote->getHasError()) {
             $this->getResponse()->setHeader('HTTP/1.1','403 Forbidden');
-            Mage::throwException(Mage::helper('paypal')->__('Unable to initialize Express Checkout.'));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Unable to initialize Express Checkout.'));
         }
         $this->_checkout = Mage::getSingleton($this->_checkoutType, array(
             'config' => $this->_config,
@@ -144,7 +128,7 @@ class Saas_Paypal_Boarding_ExpressController extends Mage_Paypal_Controller_Expr
      */
     private function _getCheckoutSession()
     {
-        return Mage::getSingleton('checkout/session');
+        return Mage::getSingleton('Mage_Checkout_Model_Session');
     }
 
     /**
@@ -170,10 +154,9 @@ class Saas_Paypal_Boarding_ExpressController extends Mage_Paypal_Controller_Expr
         $baseSubtotal = $this->_getCheckoutSession()->getQuote()->getBaseSubtotal();
         $minAmountActive = Mage::getStoreConfig('sales/minimum_order/active');
         $minAmount = $minAmountActive ? Mage::getStoreConfig('sales/minimum_order/amount') : 0;
-        if($baseSubtotal >= $minAmount) {
+        if ($baseSubtotal >= $minAmount) {
             return true;
         }
         return false;
     }
-
 }

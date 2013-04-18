@@ -63,7 +63,7 @@ class Saas_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->_is_ec_credentials;
     }
 
-   /**
+    /**
      * Check if WPP API Credentials is Active
      *
      * @return bool

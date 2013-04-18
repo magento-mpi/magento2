@@ -114,7 +114,8 @@ class Saas_Paypal_Model_Boarding_Config extends Mage_Paypal_Model_Config
         $result = true;
 
         if (!$this->isMethodActive($methodCode) || !$this->boarding_account ||
-            !in_array($methodCode, $this->_availableMethods)) {
+            !in_array($methodCode, $this->_availableMethods)
+        ) {
             $result = false;
         }
 
@@ -224,7 +225,7 @@ class Saas_Paypal_Model_Boarding_Config extends Mage_Paypal_Model_Config
     {
         return sprintf('https://www.%spaypal.com/cgi-bin/webscr%s',
             $this->sandboxFlag ? 'sandbox.' : '',
-            $params ? '?' . http_build_query($params,'','&') : ''
+            $params ? '?' . http_build_query($params, '', '&') : ''
         );
     }
 

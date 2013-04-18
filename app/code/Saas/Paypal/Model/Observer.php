@@ -80,7 +80,8 @@ class Saas_Paypal_Model_Observer extends Mage_Paypal_Model_Observer
         try {
             Mage::getModel('Saas_Paypal_Model_Boarding_Onboarding')
                 ->updateMethodStatus();
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+        }
     }
 
     /**
@@ -162,7 +163,7 @@ class Saas_Paypal_Model_Observer extends Mage_Paypal_Model_Observer
                 ->getConfigDataValue('paypal/general/merchant_country');
         }
         if (empty($countryCode)) {
-            $countryCode = Mage::helper('core')->getDefaultCountry();
+            $countryCode = Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry();
         }
 
         $paymentGroups   = $observer->getEvent()->getConfig()->getNode('sections/payment/groups');

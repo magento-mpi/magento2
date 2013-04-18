@@ -13,9 +13,6 @@
     </modules>
     <global>
         <models>
-            <saas_paypal>
-                <class>Saas_Paypal_Model</class>
-            </saas_paypal>
             <paypal>
                 <rewrite>
                     <config>Saas_Paypal_Model_Config</config>
@@ -31,9 +28,6 @@
             </paypaluk>
         </models>
         <blocks>
-            <saas_paypal>
-                <class>Saas_Paypal_Block</class>
-            </saas_paypal>
             <paypal>
                 <rewrite>
                     <logo>Saas_Paypal_Block_Logo</logo>
@@ -51,11 +45,6 @@
                 </setup>
             </saas_paypal_setup>
         </resources>
-        <helpers>
-            <saas_paypal>
-                <class>Saas_Paypal_Helper</class>
-            </saas_paypal>
-        </helpers>
     </global>
     <default>
         <fieldsets>

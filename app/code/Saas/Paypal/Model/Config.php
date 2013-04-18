@@ -20,18 +20,6 @@ class Saas_Paypal_Model_Config extends Mage_Paypal_Model_Config
      */
     const LOCALE_DE         = 'DE';
 
-//    /**
-//     * Get "What Is PayPal" localized URL
-//     * Supposed to be used with "mark" as popup window
-//     *
-//     * @param Mage_Core_Model_Locale|null $locale
-//     * @return string
-//     */
-//    public function getPaymentMarkWhatIsPaypalUrl(Mage_Core_Model_Locale $locale = null)
-//    {
-//        return parent::getPaymentMarkWhatIsPaypalUrl($locale);
-//    }
-
     /**
      * Return supported types for PayPal logo
      *
