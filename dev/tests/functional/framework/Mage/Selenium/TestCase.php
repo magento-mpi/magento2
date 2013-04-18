@@ -2207,7 +2207,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         //@TODO Temporary fix for ChromeDriver bug
         try {
             $availableElement->click();
-        } catch (Exception $e) {
+        } catch (PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e) {
             $this->getElement($locator)->click();
         }
         if ($willChangePage) {
@@ -2383,7 +2383,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         //@TODO Temporary fix for ChromeDriver bug
         try {
             $tabElement->click();
-        } catch (Exception $e) {
+        } catch (PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e) {
             $this->getControlElement('tab', $tabName)->click();
         }
         if ($waitAjax !== false) {
@@ -2863,6 +2863,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $messagesXpath = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
         $this->clickControl($controlType, $controlName, false);
+        $this->waitForAjax();
         $this->waitForElementVisible($messagesXpath);
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->addParameter('store', $this->defineParameterFromUrl('store'));
@@ -4036,7 +4037,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $elements = $this->elements($this->using($locatorType)->value($locator));
         if (empty($elements) && $failIfEmpty) {
             $this->assertEmptyPageErrors();
-            $this->fail('Element(s) with locator: "' . $locator . '" is not found on page');
+            $this->fail($this->locationToString() . 'Element(s) with locator: "' . $locator
+                . '" is not found on page');
         }
         return $elements;
     }
