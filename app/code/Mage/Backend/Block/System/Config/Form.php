@@ -362,6 +362,15 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
             $sharedClass = ' shared shared-' . str_replace('/', '-', $field->getConfigPath());
         }
 
+        $requiresClass = '';
+        $requiredPaths = array_merge($field->getRequiredFields($fieldPrefix), $field->getRequiredGroups($fieldPrefix));
+        if (!empty($requiredPaths)) {
+            $requiresClass = ' requires';
+            foreach ($requiredPaths as $requiredPath) {
+                $requiresClass .= ' requires-' . $this->_generateElementId($requiredPath);
+            }
+        }
+
         $formField = $fieldset->addField($elementId, $field->getType(), array(
             'name' => $elementName,
             'label' => $field->getLabel($labelPrefix),
@@ -370,7 +379,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
             'hint' => $field->getHint(),
             'value' => $data,
             'inherit' => $inherit,
-            'class' => $field->getFrontendClass() . $sharedClass,
+            'class' => $field->getFrontendClass() . $sharedClass . $requiresClass,
             'field_config' => $field->getData(),
             'scope' => $this->getScope(),
             'scope_id' => $this->getScopeId(),

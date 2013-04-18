@@ -186,6 +186,19 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
     }
 
     /**
+     * Retrieve config path for given id
+     *
+     * @param string $id
+     * @param string $fieldPrefix
+     * @return string
+     */
+    protected function _getPath($id, $fieldPrefix = '')
+    {
+        $path = isset($this->_data['path']) ? $this->_data['path'] : '';
+        return $path . '/' . $fieldPrefix . $id;
+    }
+
+    /**
      * Retrieve element config path
      *
      * @param string $fieldPrefix
@@ -193,7 +206,6 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
      */
     public function getPath($fieldPrefix = '')
     {
-        $path = isset($this->_data['path']) ? $this->_data['path'] : '';
-        return $path . '/' . $fieldPrefix . $this->getId();
+        return $this->_getPath($this->getId(), $fieldPrefix);
     }
 }
