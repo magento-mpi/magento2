@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Saas_Mage_Product_Helper extends Core_Mage_Product_Helper
+class Saas_Mage_Product_Helper extends Enterprise_Mage_Product_Helper
 {
     #*********************************************************************************
     #*                         Test  Methods for creating product                    *
