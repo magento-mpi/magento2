@@ -28,7 +28,19 @@ abstract class Mage_Core_Model_EntryPointAbstract
             $objectManager = new Mage_Core_Model_ObjectManager($definitions, $config);
         }
         $this->_objectManager = $objectManager;
+        $this->_verifyDirectories();
         Mage::setObjectManager($objectManager);
+    }
+
+    /**
+     * Verify existence and write access to the application directories
+     */
+    protected function _verifyDirectories()
+    {
+        /** @var $verification Mage_Core_Model_Dir_Verification */
+        $verification = $this->_objectManager->get('Mage_Core_Model_Dir_Verification');
+        $verification->createMissingDirectories()
+            ->verifyWriteAccess();
     }
 
     /**

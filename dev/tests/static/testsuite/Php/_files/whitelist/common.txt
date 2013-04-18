@@ -43,6 +43,7 @@ app/code/Mage/Core/Model/Design.php
 app/code/Mage/Core/Model/Design/FileResolution
 app/code/Mage/Core/Model/Design/Fallback
 app/code/Mage/Core/Model/Design/Source/Design.php
+app/code/Mage/Core/Model/Dir
 app/code/Mage/Core/Model/Dir.php
 app/code/Mage/Core/Model/EntryPoint
 app/code/Mage/Core/Model/Layout.php
