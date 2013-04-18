@@ -33,7 +33,6 @@ class Mage_Core_Model_Design_Fallback_Factory
      */
     public function createLocaleFileRule()
     {
-
         $themesDir = $this->_dirs->getDir(Mage_Core_Model_Dir::THEMES);
         return new Mage_Core_Model_Design_Fallback_Rule_Theme(
             new Mage_Core_Model_Design_Fallback_Rule_Simple("$themesDir/<area>/<theme_path>/locale/<locale>")
