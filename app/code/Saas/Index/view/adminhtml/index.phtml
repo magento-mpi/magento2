@@ -19,7 +19,6 @@
         checkTime: <?php echo $this->getTaskCheckTime()?>,
         isTaskAdded: <?php echo $this->isTaskAdded() ? 1 : 0?>,
         refreshBtn: jQuery('#refresh_index'),
-        cancelBtn: jQuery('#cancel_index'),
         intervalId: null,
 
         /**
@@ -29,7 +28,6 @@
          */
         updateStatusHtml: function (html) {
             jQuery('#index-status').replaceWith(html);
-            this.cancelBtn = jQuery('#cancel_index');
         },
 
         /**
@@ -87,34 +85,6 @@
                 clearInterval(this.intervalId);
                 this.intervalId = null;
             }
-        },
-
-        /**
-         * Delete task from queue
-         *
-         * @return {boolean}
-         */
-        cancelIndex: function () {
-            this.stopIndexUpdate();
-            var self = this,
-                ajaxOptions = {
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {form_key: '<?php echo $this->getFormKey()?>'},
-                    url: '<?php echo $this->getCancelIndexUrl()?>',
-                    success: function (result) {
-                        if (result.error) {
-                            self.enableBtn(self.cancelBtn);
-                            alert(result.message);
-                        } else {
-                            self.updateStatusHtml(result.status_html);
-                            self.enableBtn(self.refreshBtn);
-                        }
-                    }
-                };
-            self.disableBtn(self.cancelBtn);
-            jQuery.ajax(ajaxOptions);
-            return false;
         },
 
         /**

@@ -31,8 +31,10 @@ class Enterprise_Mage_CustomerSegment_CreateTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $config = $this->loadDataSet('CustomerSegment', 'enable_customer_segment');
-        $this->systemConfigurationHelper()->configure($config);
+        $configFirst = $this->loadDataSet('CustomerSegment', 'enable_customer_segment');
+        $this->systemConfigurationHelper()->configure($configFirst);
+        $configSecond = $this->loadDataSet('SingleStoreMode', 'disable_single_store_mode');
+        $this->systemConfigurationHelper()->configure($configSecond);
     }
 
     /**

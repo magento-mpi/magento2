@@ -12,18 +12,6 @@
     var init = $.validator.prototype.init;
     $.extend(true, $.validator.prototype, {
         /**
-         * validator initialization
-         */
-        init: function() {
-            init.apply(this, arguments);
-            var highlight = this.settings.highlight;
-            this.settings.highlight = function (element) {
-                highlight.apply(this, arguments);
-                $(element).trigger('highlight.validate');
-            };
-        },
-
-        /**
          * Focus invalid fields
          */
         focusInvalid: function() {
@@ -69,7 +57,19 @@
                 ':disabled select, .ignore-validate select, .no-display.template select, ' +
                 ':disabled textarea, .ignore-validate textarea, .no-display.template textarea',
             errorElement: 'label',
-            errorUrl: typeof BASE_URL !== 'undefined' ? BASE_URL : null
+            errorUrl: typeof BASE_URL !== 'undefined' ? BASE_URL : null,
+            highlight: function(element) {
+                if ($.validator.defaults.highlight && $.isFunction($.validator.defaults.highlight)) {
+                    $.validator.defaults.highlight.apply(this, arguments);
+                }
+                $(element).trigger('highlight.validate');
+            },
+            unhighlight: function(element) {
+                if ($.validator.defaults.unhighlight && $.isFunction($.validator.defaults.unhighlight)) {
+                    $.validator.defaults.unhighlight.apply(this, arguments);
+                }
+                $(element).trigger('unhighlight.validate');
+            }
         },
 
         /**
