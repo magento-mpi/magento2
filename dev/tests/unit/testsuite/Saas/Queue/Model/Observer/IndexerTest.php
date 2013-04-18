@@ -35,19 +35,18 @@ class Saas_Queue_Model_Observer_IndexerTest extends PHPUnit_Framework_TestCase
     {
         $this->_indexerMock = $this->getMockBuilder('Mage_Index_Model_Indexer')
             ->disableOriginalConstructor()->getMock();
-        $factoryMock = $this->getMock('Saas_Index_Model_FlagFactory', array('create'), array(), '', false);
         $this->_flagMock = $this->getMock('Saas_Index_Model_Flag',
             array('getState', 'loadSelf', 'setState', 'save'), array(), '', false
         );
         $this->_flagMock->expects($this->once())->method('loadSelf');
+        $factoryMock = $this->getMock('Saas_Index_Model_FlagFactory', array('create'), array(), '', false);
         $factoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_flagMock));
 
-        $helper = new Magento_Test_Helper_ObjectManager($this);
-        $arguments = array(
+        $objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $this->_model = $objectManager->getObject('Saas_Queue_Model_Observer_Indexer', array(
             'indexer' => $this->_indexerMock,
             'flagFactory' => $factoryMock,
-        );
-        $this->_model = $helper->getObject('Saas_Queue_Model_Observer_Indexer', $arguments);
+        ));
     }
 
     /**

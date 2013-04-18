@@ -230,7 +230,7 @@ detele_store:
 # 'Delete Website' Page
 detele_website:
     mca: system_store/deleteWebsite/item_id/%id%/
-    title: Delete Website / Stores / Settings / Stores / Magento Admin
+    title: Delete Website / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -248,7 +248,7 @@ detele_website:
 # 'Delete Store View' Page
 detele_store_view:
     mca: system_store/deleteStore/item_id/%id%/
-    title: Delete Store View / Stores / Settings / Stores / Magento Admin
+    title: Delete Store View / Settings / Stores / Magento Admin
     uimap:
         form:
             fieldsets:

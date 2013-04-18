@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend '=> Mage::helper('Mage_CatalogRule_Helper_Data')->__('General Information'))
+            array('legend' => Mage::helper('Mage_CatalogRule_Helper_Data')->__('General Information'))
         );
 
         if ($model->getId()) {

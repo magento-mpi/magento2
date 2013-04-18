@@ -177,7 +177,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      */
     public function duplicateTheme()
     {
-        $this->markTestIncomplete('Functionality is not implemented');
+        $this->markTestIncomplete('Functionality is not yet implemented');
         //Steps
         $themeData = $this->themeHelper()->createTheme();
         $themeData['id'] = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
@@ -277,6 +277,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->waitForAjax();
         $this->addParameter('id', $themeData['id']);
         $this->designEditorHelper()->mouseOver('theme_thumbnail');
+        $this->waitForAjax();
         $this->clickButton('preview_demo_button');
         $this->_windowId = $this->selectLastWindow();
         $this->addParameter('id', $themeData['id']);
