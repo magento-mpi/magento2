@@ -39,7 +39,7 @@
         _editCustomCss: function()
         {
             if ($.trim($(this.customCssCode).val())) {
-                this.btnCssUpdate.removeAttr('disabled');
+                this.btnCssUpdate.removeProp('disabled');
             }
         },
 
@@ -78,10 +78,10 @@
         _prepareUpdateButton: function()
         {
             if (!$.trim($(this.customCssCode).val())) {
-                this.btnCssUpdate.attr('disabled', 'disabled');
+                this.btnCssUpdate.prop('disabled', 'disabled');
                 $(this.btnUpdateDownload).addClass('no-display');
             } else {
-                this.btnCssUpdate.removeAttr('disabled');
+                this.btnCssUpdate.removeProp('disabled');
                 $(this.btnUpdateDownload).removeClass('no-display');
             }
         }
