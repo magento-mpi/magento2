@@ -26,7 +26,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
 
         $fieldset = $form->addFieldset('email_fieldset', array(
             'legend' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Email Templates'),
-            'table_class'  => 'form-list stores-tree',
+            'class'  => 'tree-store-scope',
             'comment' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Emails will be sent only for specified store views. Email store view matches the store view customer was registered on.'),
         ));
 
@@ -77,7 +77,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Templates
         $fieldset = $form->addFieldset('labels_fieldset', array(
             'legend' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Titles and Descriptions Per Store View'),
             'comment' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Overrides default titles and descriptions. Note that if email an template is not specified for this store view, the respective variable values will be deleted.'),
-            'table_class'  => 'form-list stores-tree'
+            'class'  => 'tree-store-scope'
         ));
 
         foreach (Mage::app()->getWebsites() as $website) {

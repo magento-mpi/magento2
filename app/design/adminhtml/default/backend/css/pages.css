@@ -19,7 +19,17 @@
     overflow: hidden;
     padding: 5px 6px 3px;
     margin-left: 12px;
-    color: #7a7976;;
+    color: #7a7976;
+}
+
+.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back,
+.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
+.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
+.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back,
+.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
+.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back:active {
+    filter: none;
+    border: 0;
 }
 
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
@@ -585,6 +595,10 @@
 /*
     Customer
 ---------------------------------------*/
+#customer_info_tabs_account_content #_accountsendemail {
+    margin-top: 8px;
+}
+
 .customer-information:before,
 .customer-information:after {
     content: "";
@@ -800,6 +814,22 @@
     min-width: 20%;
 }
 
+/* Content */
+
+.field-store_default_content .buttons-set {
+    margin-bottom: 9px;
+}
+
+.field-store_default_content .buttons-set button {
+    margin-right: 4px;
+}
+
+.field-store_0_content_use input[type="checkbox"] {
+    margin-right: 3px;
+    position: relative;
+    top: 2px;
+}
+
 /*
     CMS -> Manage Hierarchy
 -------------------------------------- */
@@ -812,16 +842,13 @@
 }
 
 .cms-hierarchy #tree-container {
-    margin: 5px 0 10px 0;
+    margin-top: 25px;
+    overflow: auto;
+    padding-bottom: 10px;
 }
 
 .cms-hierarchy .buttons-set {
     margin-bottom: 10px;
-}
-
-.cms-hierarchy #cms_page_grid_container .actions {
-    position: relative;
-    top: 4px;
 }
 
 .cms-hierarchy .cms-hierarchy-tree {
@@ -849,24 +876,17 @@
     margin-right: 8px;
 }
 
+.cms-hierarchy-node #node_properties_fieldset #node_preview {
+    position: relative;
+    top: 6px;
+}
+
 /*
-    CMS -> Banners
+    CMS -> Widgets
 -------------------------------------- */
 
-/* Content */
-
-.field-store_default_content .buttons-set {
-    margin-bottom: 9px;
-}
-
-.field-store_default_content .buttons-set button {
-    margin-right: 4px;
-}
-
-.field-store_0_content_use input[type="checkbox"] {
-    margin-right: 3px;
-    position: relative;
-    top: 2px;
+#widget_instace_tabs_properties_section_content .widget-option-label {
+    margin-top: 6px;
 }
 
 /*
@@ -897,6 +917,56 @@
 
 .cms-manage-content-actions textarea {
     width: 100%;
+}
+
+/*
+    System -> Export
+-------------------------------------- */
+
+#export_filter_grid .grid td .input-text-range-date {
+    vertical-align: middle;
+}
+
+#export_filter_grid .grid td .ui-datepicker-trigger {
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+#export_filter_grid .grid select {
+    margin-bottom: 0;
+}
+
+#export_filter_grid .grid table td:first-child,
+#export_filter_grid .grid tr th:first-child {
+    border-left: 0;
+}
+
+#export_filter_grid .data thead {
+    border-left: 1px solid #837F79;
+}
+
+#export_filter_grid .data tbody {
+    border-left: 1px solid #c0bbaf;
+}
+
+/*
+    System -> Roles
+-------------------------------------- */
+
+#gws_container ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+#gws_container ul ul {
+    margin: .8em 0 .8em 1.4em;
+}
+
+#gws_container input[type="checkbox"] {
+    margin-right: 3px;
+    position: relative;
+    top: -1px;
 }
 
 /*
@@ -1614,12 +1684,12 @@
 /*
     Tags
 -------------------------------------- */
-.tag-title .page-actions {
-    float: right;
+.tag-title {
+    overflow: hidden;
 }
 
-.tag-title .store-switcher {
-    padding: 14px 0 18px;
+.tag-title .page-actions {
+    float: right;
 }
 
 /*
@@ -1752,12 +1822,13 @@
     width: auto;
 }
 
+[class^=" adminhtml-sales-"] .order-information .fieldset-wrapper > .fieldset-wrapper-title .title {
+    width: 100%;
+}
+
 #order-data .actions .action-add,
-#order-data .actions .action-add:active,
-#order-data .actions .action-add:hover,
 #order-data .actions .action-delete,
-#order-data .actions .action-delete:active,
-#order-data .actions .action-delete:hover {
+#order-customer-selector .actions .action-add {
     margin: 0 0 0 20px;
 }
 
@@ -1982,6 +2053,10 @@
     float: right;
 }
 
+[class^=" adminhtml-sales-order-"] .fieldset-wrapper address {
+    overflow: auto;
+}
+
 /*
     Orders comments
 -------------------------------------- */
@@ -2088,14 +2163,17 @@
     width: 10%;
 }
 
-[class^=" adminhtml-sales-"] .col-select,
 [class^=" adminhtml-sales-"] .col-actions,
-[class^=" adminhtml-rma-"] .col-select,
 [class^=" adminhtml-rma-"] .col-actions,
 [class^=" adminhtml-rma-"] .col-default,
-.adminhtml-giftwrapping-index .col-select,
 .adminhtml-giftwrapping-index .col-actions {
     width: 50px;
+}
+
+[class^=" adminhtml-sales-"] .col-select,
+[class^=" adminhtml-rma-"] .col-select,
+.adminhtml-giftwrapping-index .col-select {
+    width: 60px;
 }
 
 [class^=" adminhtml-sales-"] .col-qty,
@@ -2105,6 +2183,7 @@
 [class^=" adminhtml-rma-"] .col-condition {
     width: 70px;
 }
+
 [class^=" adminhtml-sales-"] .col-refund,
 [class^=" adminhtml-sales-transactions-"] .col-closed,
 .adminhtml-sales-order-view .col-closed {
@@ -2127,6 +2206,13 @@
     width: 75px;
 }
 
+[class^=" adminhtml-sales-"] .col-gtbase,
+[class^=" adminhtml-sales-"] .col-gtpurchased {
+    text-align: right;
+    white-space: normal;
+    width: 75px;
+}
+
 [class^=" adminhtml-sales-"] .col-order-number,
 [class^=" adminhtml-sales-"] .col-rma-number,
 [class^=" adminhtml-rma-"] .col-order-number,
@@ -2134,28 +2220,26 @@
     text-align: left;
 }
 
-[class^=" adminhtml-sales-"] .col-gtbase,
-[class^=" adminhtml-sales-"] .col-gtpurchased {
-    text-align: right;
-    width: 80px;
-}
-
 [class^=" adminhtml-rma-"] .col-status,
 [class^=" adminhtml-rma-"] .col-reason,
 [class^=" adminhtml-rma-"] .col-resolution,
-.adminhtml-sales-order-view .col-memo,
-[class^=" adminhtml-sales-transactions-"] .col-transaction-type {
+[class^=" adminhtml-sales-transactions-"] .col-transaction-type,
+.adminhtml-sales-order-view .col-memo {
     width: 100px;
 }
 
-[class^=" adminhtml-sales-"] .col-parent-transaction-id,
-[class^=" adminhtml-sales-"] .col-transaction-id {
-    width: 140px;
+[class^=" adminhtml-sales-"] tr.headings .col-parent-transaction-id > span,
+[class^=" adminhtml-sales-"] tr.headings .col-method > span,
+[class^=" adminhtml-sales-"] tr.headings .col-transaction-id > span,
+[class^=" adminhtml-sales-"] tr.headings .col-transaction-type > span,
+[class^=" adminhtml-sales-"] tr.headings .col-gtbase > span,
+[class^=" adminhtml-sales-"] tr.headings .col-gtpurchased > span,
+[class^=" adminhtml-sales-order-"] tr.headings .col-discont > span {
+    white-space: normal;
 }
 
 [class^=" adminhtml-sales-"] .col-period,
 [class^=" adminhtml-rma-"] .col-period {
-    white-space: nowrap;
     width: 150px;
 }
 
@@ -2172,6 +2256,22 @@
 [class^=" adminhtml-sales-transactions-"] .log-details .data-table tbody tr th,
 [class^=" adminhtml-sales-transactions-"] .col-key {
     width: 22%;
+}
+
+.adminhtml-sales-order-index .col-1-layout table.data {
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
+[class^=" adminhtml-sales-"] .col-from-store {
+    width: 15%;
+}
+
+[class^=" adminhtml-sales-"] .col-2-left-layout .hor-scroll {
+    margin-bottom: -4px;
+    overflow: auto;
+    padding-bottom: 4px;
+    width: 100%;
 }
 
 [class^=" adminhtml-sales-order-"] .order-totals .actions,
@@ -2848,6 +2948,27 @@ table.items-to-invoice tbody tr:hover td {
     float: left;
     position: relative;
     bottom: -14px;
+}
+
+/*
+    URL rewrite
+-------------------------------------- */
+.adminhtml-urlrewrite-edit .field-url-rewrite-option-select .label {
+    width: auto;
+}
+
+/*
+    Shopping Cart Price Rule
+-------------------------------------- */
+.fieldset .field-coupon_code,
+.fieldset .field-rule_use_auto_generation {
+    margin-bottom: 0;
+}
+.field-rule_use_auto_generation .label {
+    margin-left: 5px;
+}
+.field-rule_use_auto_generation .nested {
+    margin-bottom: 29px;
 }
 
 /*
