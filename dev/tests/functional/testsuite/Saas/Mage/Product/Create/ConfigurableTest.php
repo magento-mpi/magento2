@@ -22,10 +22,12 @@ class Saas_Mage_Product_Create_ConfigurableTest extends Core_Mage_Product_Create
      * <p>Creating Configurable product with Downloadable product</p>
      * <p>Override original testcase. Downloadable product is not available in Saas</p>
      *
+     * @param array $attrData
+     *
      * @test
      * @TestlinkId TL-MAGE-3363
      */
-    public function configurableWithDownloadableProduct()
+    public function configurableWithDownloadableProduct($attrData = null)
     {
         $this->markTestIncomplete('Functionality is absent in Magento Go.');
     }

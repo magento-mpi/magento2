@@ -123,7 +123,7 @@ class Core_Mage_StoreLauncher_Product_DrawerTest extends Mage_Selenium_TestCase
             $this->getControlAttribute('fieldset', 'product_tile', 'class'), 'Tile state is not Equal to Complete');
         $this->navigate('manage_products');
         $this->productHelper()->openProduct($productSearch);
-        $productData[] = $category;
+        $productData = array_merge($productData, $category);
         $this->productHelper()->verifyProductInfo($productData);
     }
 }

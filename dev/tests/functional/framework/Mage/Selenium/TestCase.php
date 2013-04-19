@@ -2208,6 +2208,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         try {
             $availableElement->click();
         } catch (PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e) {
+            $this->waitForControlStopsMoving($controlType, $controlName);
             $this->getElement($locator)->click();
         }
         if ($willChangePage) {
@@ -4395,6 +4396,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     /**
     * Wait till window will close
     *
+    * @param int $countBeforeClose
     * @param int $timeout
     * @return bool
     */
