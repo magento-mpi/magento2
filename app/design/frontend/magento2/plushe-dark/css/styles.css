@@ -7151,3 +7151,13 @@ textarea {
 .switcher .options:hover strong + button {
   color: #35c8f4;
 }
+.form.send.friend .fieldset.create.account:after,
+.form.address.edit .fieldset.create.account:after,
+.form.edit.account .fieldset.create.account:after,
+.form.search.advanced .fieldset.create.account:after,
+.form.orders.search .fieldset.create.account:after,
+.form.contact .fieldset.create.account:after,
+.form.password.forget .fieldset.create.account:after,
+.form.create.account .fieldset.create.account:after {
+  color: #c4c4c4;
+}
