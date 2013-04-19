@@ -568,6 +568,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $waitConditions = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
         $waitConditions[] = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'choose_affected_attribute_set');
         $this->waitForControlVisible('button', 'save_split_select');
+        $this->execute(array('script' => "window.scrollTo(0, 0);", 'args' => array()));
+        $this->waitForControlStopsMoving('button', 'save_split_select');
         $this->clickButton('save_split_select', false);
         $this->addParameter('additionalAction', $additionalAction);
         $this->waitForControlVisible('button', 'save_product_by_action');
