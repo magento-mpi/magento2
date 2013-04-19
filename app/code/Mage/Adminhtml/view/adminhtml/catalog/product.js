@@ -45,7 +45,11 @@ var Product = {};
             });
             wrapper.append(iframe);
             wrapper.on('dialogclose', function () {
-                this.remove();
+                var dialog = this;
+                //ie9 break script execution on iframe removing
+                window.setInterval(function() {
+                    $(dialog).remove();
+                }, 50);
             });
         }
     });
