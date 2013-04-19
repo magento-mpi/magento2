@@ -29,7 +29,11 @@
                 <?php if($_i++%10==0): ?>
                     <th>&nbsp;</th>
                 <?php endif; ?>
-                <td class="a-right"><a href="#" title="<?php echo $this->__('Remove Product') ?>"><img class="btn-remove" data-url='<?php echo $this->helper('Mage_Catalog_Helper_Product_Compare')->getRemoveUrl($_item) ?>' src="<?php echo $this->getViewFileUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove Product') ?>" /></a></td>
+                <td class="a-right">
+                    <a href="#" class="action delete" title="<?php echo $this->__('Remove Product') ?>">
+                        <span><?php echo $this->__('Remove Product') ?></span>
+                    </a>
+                </td>
             <?php endforeach; ?>
             </tr>
         </thead>
@@ -130,7 +134,7 @@
     <?php if ($_total): ?>
         head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/list.js')?>", function() {
             $('#product-comparison').compareList({
-                productRemoveSelector: 'img.btn-remove',
+                productRemoveSelector: 'a.action.delete',
                 ajaxSpinner: '#compare-list-please-wait',
                 windowCloseSelector: '#window-close',
                 windowPrintSelector: 'a.link-print',

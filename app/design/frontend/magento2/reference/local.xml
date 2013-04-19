@@ -47,6 +47,7 @@
         </block>
 
         <remove name="tags_popular" />
+        <remove name="report.bugs" />
         <remove name="catalog.compare.sidebar"/>
         <remove name="product_tag_list" />
 
@@ -63,6 +64,9 @@
             </block>
         </reference>
         <move element="top.links" destination="customer" />
+        <reference name="catalog.topnav">
+            <action method="setColumnsLimit"><limit>1</limit></action>
+        </reference>
     </default>
 
     <catalog_category_view>
@@ -130,6 +134,22 @@
             <block type="Mage_Review_Block_Product_View" as="content" name="product.redirect" template="redirect.phtml" />
         </reference>
     </review_product_list>
+
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="removeLink" translate="label"><name>tags</name></action>
+        </reference>
+
+        <reference name="customer_account_navigation">
+            <action method="removeLink" translate="label"><name>downloadable_products</name></action>
+        </reference>
+        <reference name="customer_account_navigation">
+            <action method="removeLink" translate="label"><name>recurring_profiles</name></action>
+        </reference>
+        <reference name="customer_account_navigation">
+            <action method="removeLink" translate="label"><name>OAuth Customer Tokens</name></action>
+        </reference>
+    </customer_account>
 
     <!-- Temporary add homepage html -->
     <cms_index_index translate="label" type="page" parent="cms_page_view">

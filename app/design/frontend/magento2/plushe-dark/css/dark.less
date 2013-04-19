@@ -1,0 +1,264 @@
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     magento2
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+@primary1: #5e5e5e;
+@primary2: #6d6d6d;
+@primary3: #464646;
+@primary5: #ababab;
+@primary6: #828282;
+
+@secondary1: #35c8f4;
+
+@headerBg : #313131;
+@headerBgImage : none;
+@pageMainBg : #464646;
+@searchFieldBg : #ababab;
+@textColor: #c4c4c4;
+
+a,
+a:visited,
+a > span {
+    color: @textColor;
+    &:hover {
+        color: @secondary1;
+    }
+}
+
+.header {
+    border-bottom: 1px solid #1b1b1b;
+}
+
+.navigation {
+    border-top: 1px solid @primary3;
+}
+
+.action.showcart {
+    .qty {
+        color: #333;
+    }
+}
+
+.primaryAction() {
+    span {
+        color: #333;
+    }
+}
+
+.formField() {
+    .addon {
+        .addafter {
+            color: #333;
+        }
+    }
+}
+
+input, select, textarea {
+    color: #333;
+}
+
+.toolbar {
+    .modes {
+        .mode {
+            border: 1px solid @primary3;
+            background: @primary1;
+            span {
+                color: @primary5;
+
+            }
+            &:hover {
+                background: @primary4;
+                border-color: @primary4;
+                span {
+                    color: #fff;
+                }
+            }
+            &.active {
+                border-color: #ababab;
+            }
+        }
+    }
+}
+
+.products.wrapper .products.list {
+    .item {
+        &:hover {
+            border: 1px solid @headerBg;
+            box-shadow: 0 0 1px 1px rgba(49, 49, 49, 0.3);
+        }
+    }
+}
+
+.products.wrapper.grid .products.list {
+    .item {
+        .secondary {
+            border: 1px solid @headerBg;
+            box-shadow: 0 1px 1px 1px rgba(49, 49, 49, 0.3);
+        }
+    }
+}
+
+.form.send.friend,
+.form.address.edit,
+.form.edit.account,
+.form.password.forget,
+.form.create.account {
+    .fieldset {
+        .legend {
+            background: @primary3;
+        }
+    }
+}
+
+.toolbar .limiter select,
+.toolbar .sorter select {
+    border:1px solid @primary5;
+    background: @primary1;
+    color: @textColor;
+}
+
+.reviews.summary {
+    .action.view + .action.add {
+        &:before {
+            color:@textColor;
+        }
+    }
+}
+
+.block.filter {
+    .filtered {
+        .item {
+            border-top: 1px solid #c2c2c2;
+        }
+    }
+    .action.remove {
+        background: @primary1;
+        top: 0;
+         &:hover {
+            background: @primary4;
+        }
+    }
+}
+
+.data-tabs-styling() {
+    > .item.title {
+        > .switch {
+            background: @primary1;
+        }
+        &:not(.disabled) > .switch:active,
+        &:not(.disabled) > .switch:focus,
+        &:not(.disabled) > .switch:hover,
+        &.active > .switch {
+            background: @primary3;
+        }
+    }
+    > .item.content {
+        background: @primary3;
+    }
+}
+
+.action.delete {
+    span {
+        color: @primary4;
+    }
+    &:focus,
+    &:active,
+    &:hover {
+        span {
+            color: @secondary1;
+        }
+    }
+}
+
+.footer {
+    border-top: 1px solid @primary1;
+    box-shadow: 0 -1px 0 0 rgba(49, 49, 49, 1);
+}
+
+.page.main > .page.title {
+    padding-bottom: 10px;
+    border-bottom: 1px solid @navBg;
+    box-shadow: 0 1px 0 0 rgba(94, 94, 94, 1);
+}
+
+.action.mailto {
+    span {
+        color: @textColor;
+        &:hover {
+            color: @secondary1;
+        }
+    }
+}
+
+.minicart {
+    .product.options.wrapper {
+        .more {
+            color: @textColor;
+            border-bottom: none;
+            &:hover {
+                color: @secondary1;
+            }
+        }
+    }
+}
+
+.block.minicart {
+    .products.minilist {
+        .item {
+            .product.options.wrapper + .action.edit {
+                &:hover:before {
+                    color: @textColor;
+                }
+            }
+        }
+    }
+}
+
+.opc.wrapper {
+    > .opc {
+        .section {
+            &.active {
+                > .step-title {
+                    color: @textColor;
+                }
+            }
+        }
+    }
+}
+
+.checkout.methods.items {
+    background: none;
+}
+
+.cart.summary {
+    .block {
+        > .content {
+            background: none;
+        }
+    }
+}
+
+.customer.welcome {
+    .header .content & .customer.name {
+        &:focus span,
+        &:hover span,
+        &.active span {
+            color: @secondary1;
+        }
+    }
+}
+
+.header {
+    > .content {
+        .links {
+            a:hover span {
+                color: @secondary1;
+            }
+        }
+    }
+}
