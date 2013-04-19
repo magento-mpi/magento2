@@ -285,7 +285,7 @@ class Saas_Paypal_Model_Boarding_Onboarding
         if ($method == Saas_Paypal_Model_Boarding_Config::METHOD_DIRECT_BOARDING) {
             $this->_activateMethod(Saas_Paypal_Model_Boarding_Config::METHOD_EXPRESS_BOARDING);
         } elseif ($method == Saas_Paypal_Model_Boarding_Config::METHOD_EXPRESS_BOARDING) {
-            Mage::getResourceSingleton('sales/order_payment')->updatePaymentMethodName(
+            Mage::getResourceSingleton('Mage_Sales_Model_Resource_Order_Payment')->updatePaymentMethodName(
                 Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS,
                 Saas_Paypal_Model_Boarding_Config::METHOD_EXPRESS_BOARDING
             );
