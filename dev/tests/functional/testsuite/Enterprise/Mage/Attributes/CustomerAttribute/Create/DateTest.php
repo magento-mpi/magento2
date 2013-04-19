@@ -75,6 +75,7 @@ class Enterprise_Mage_Attributes_CustomerAttribute_Create_DateTest extends Mage_
      */
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
+        $this->markTestIncomplete('MAGETWO-9471');
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
