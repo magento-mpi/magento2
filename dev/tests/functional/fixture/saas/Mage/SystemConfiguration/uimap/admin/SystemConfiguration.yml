@@ -1,0 +1,18 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_SystemConfiguration
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Manage System Configuration
+system_configuration:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    current_configuration_scope:
+                        xpath: //div[contains(@class, "store-switcher")]
