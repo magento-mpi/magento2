@@ -30,11 +30,12 @@ a > span {
 }
 
 .header {
-    border-bottom: 1px solid #1b1b1b;
+    border-bottom: none;
 }
 
 .navigation {
     border-top: 1px solid @primary3;
+    box-shadow: 0 -1px 0 0 rgba(27, 27, 27, 1);
 }
 
 .action.showcart {
@@ -80,6 +81,15 @@ input, select, textarea {
             &.active {
                 border-color: #ababab;
             }
+        }
+    }
+    .action.next,
+    .action.previous {
+        span {
+            color: @textColor;
+        }
+        &:hover span {
+            color: @secondary1;
         }
     }
 }
@@ -157,7 +167,7 @@ input, select, textarea {
         }
     }
     > .item.content {
-        background: @primary3;
+        background: none;
     }
 }
 
@@ -177,6 +187,16 @@ input, select, textarea {
 .footer {
     border-top: 1px solid @primary1;
     box-shadow: 0 -1px 0 0 rgba(49, 49, 49, 1);
+    .links {
+        li {
+            &:after {
+                color: @primary5;
+            }
+        }
+        + .links li:first-child:before {
+            color: @primary5;
+        }
+    }
 }
 
 .page.main > .page.title {
@@ -260,4 +280,26 @@ input, select, textarea {
             }
         }
     }
+
+.switcher {
+    .options {
+        > ul {
+            li {
+                a {
+                    color: @textColor;
+                    &:hover{
+                        color: @secondary1;
+                    }
+                    
+                }
+            }
+        }
+        &.active strong,
+        &:hover strong,
+        &.active strong + button,
+        &:hover strong + button {
+            color: @secondary1;
+        }
+    }
 }
+

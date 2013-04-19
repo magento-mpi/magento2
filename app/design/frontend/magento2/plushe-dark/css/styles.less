@@ -1286,6 +1286,7 @@ select {
     .select();
 }
 
+textarea.mage-error,
 select.mage-error,
 input[type="password"].mage-error,
 input[type="text"].mage-error {
@@ -4423,6 +4424,16 @@ and (max-width : 768px) {
                 }
             }
         }
+    }
+}
+
+/*
+ *    MISC
+ *
+----------------------------------------------------------------------------- */
+.action.back {
+    span:before {
+        content:'\00AB\00A0';
     }
 }
 
