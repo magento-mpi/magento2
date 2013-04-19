@@ -31,7 +31,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     /**#@-*/
 
     /** @var string */
-    protected $_resourceName;
+    protected $_serviceName;
 
     /** @var string */
     protected $_methodName;
@@ -180,19 +180,19 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      *
      * @return string
      */
-    public function getResourceName()
+    public function getServiceName()
     {
-        return $this->_resourceName;
+        return $this->_serviceName;
     }
 
     /**
      * Set resource type.
      *
-     * @param string $resourceName
+     * @param string $serviceName
      */
-    public function setResourceName($resourceName)
+    public function setServiceName($serviceName)
     {
-        $this->_resourceName = $resourceName;
+        $this->_serviceName = $serviceName;
     }
 
     /**
@@ -240,7 +240,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      */
     public function setResourceVersion($resourceVersion)
     {
-        $versionPrefix = Mage_Webapi_Model_ConfigAbstract::VERSION_NUMBER_PREFIX;
+        $versionPrefix = Mage_Core_Service_Config::VERSION_NUMBER_PREFIX;
         if (preg_match("/^{$versionPrefix}?(\d+)$/i", $resourceVersion, $matches)) {
             $versionNumber = (int)$matches[1];
         } else {
@@ -261,7 +261,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      */
     public function getOperationName()
     {
-        $operationName = $this->getResourceName() . ucfirst($this->getMethodName());
+        $operationName = $this->getServiceName() . ucfirst($this->getMethodName());
         return $operationName;
     }
 }

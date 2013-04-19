@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Rest controller dispatcher.
+ * Test REST API dispatcher.
  *
  * {license_notice}
  *
@@ -21,11 +21,11 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
     /** @var Mage_Webapi_Controller_Router_Rest */
     protected $_routerMock;
 
-    /** @var Mage_Webapi_Controller_Action_Factory */
-    protected $_controllerFactory;
+    /** @var Mage_Core_Service_Factory */
+    protected $_serviceFactory;
 
-    /** @var Mage_Webapi_Model_Config_Rest */
-    protected $_apiConfigMock;
+    /** @var Mage_Core_Service_Config */
+    protected $_serviceConfig;
 
     /** @var Mage_Webapi_Model_Authorization */
     protected $_authorizationMock;
@@ -36,13 +36,13 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         /** Init dependencies for SUT. */
-        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Rest')->disableOriginalConstructor()
+        $this->_serviceConfig = $this->getMockBuilder('Mage_Core_Service_Config')->disableOriginalConstructor()
             ->getMock();
         $requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')->disableOriginalConstructor()
             ->getMock();
         $this->_responseMock = $this->getMockBuilder('Mage_Webapi_Controller_Response_Rest')
             ->disableOriginalConstructor()->getMock();
-        $this->_controllerFactory = $this->getMockBuilder('Mage_Webapi_Controller_Action_Factory')
+        $this->_serviceFactory = $this->getMockBuilder('Mage_Core_Service_Factory')
             ->disableOriginalConstructor()->getMock();
         $this->_restPresentation = $this->getMockBuilder('Mage_Webapi_Controller_Dispatcher_Rest_Presentation')
             ->disableOriginalConstructor()->getMock();
@@ -55,10 +55,10 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
 
         /** Init SUT. */
         $this->_restDispatcher = new Mage_Webapi_Controller_Dispatcher_Rest(
-            $this->_apiConfigMock,
+            $this->_serviceConfig,
             $requestMock,
             $this->_responseMock,
-            $this->_controllerFactory,
+            $this->_serviceFactory,
             $this->_restPresentation,
             $this->_routerMock,
             $this->_authorizationMock,
@@ -73,8 +73,8 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
         unset($this->_authenticationMock);
         unset($this->_responseMock);
         unset($this->_routerMock);
-        unset($this->_controllerFactory);
-        unset($this->_apiConfigMock);
+        unset($this->_serviceFactory);
+        unset($this->_serviceConfig);
         unset($this->_authorizationMock);
         unset($this->_restPresentation);
         parent::tearDown();
@@ -106,23 +106,16 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
         /** Init route mock. */
         $routeMock = $this->getMockBuilder('Mage_Webapi_Controller_Router_Route_Rest')->disableOriginalConstructor()
             ->getMock();
-        $routeMock->expects($this->any())->method('getResourceName');
+        $routeMock->expects($this->any())->method('getServiceName');
         $this->_routerMock->expects($this->once())->method('match')->will($this->returnValue($routeMock));
-        /** Mock Api Config getMethodNameByOperation method to return isDeleted method of Varien_Object. */
-        $this->_apiConfigMock->expects($this->once())->method('getMethodNameByOperation')->will(
-            $this->returnValue('isDeleted')
-        );
-        /** Mock Api config identifyVersionSuffix method to return empty string. */
-        $this->_apiConfigMock->expects($this->once())->method('identifyVersionSuffix')->will($this->returnValue(''));
-        $this->_apiConfigMock->expects($this->once())->method('checkDeprecationPolicy');
-        $this->_authorizationMock->expects($this->once())->method('checkResourceAcl');
-        /** Create fake controller mock, e.g., Varien_Object object. */
-        $controllerMock = $this->getMockBuilder('Varien_Object')->disableOriginalConstructor()->getMock();
-        /** Assert that isDeleted method will be executed once. */
-        $controllerMock->expects($this->once())->method('isDeleted');
-        /** Mock factory mock to return fake action controller. */
-        $this->_controllerFactory->expects($this->once())->method('createActionController')->will(
-            $this->returnValue($controllerMock)
+
+        $this->_serviceConfig->expects($this->once())->method('checkDeprecationPolicy');
+        // $this->_authorizationMock->expects($this->once())->method('checkResourceAcl');
+        /** Create fake service mock, e.g., Varien_Object object. */
+        $serviceMock = $this->getMockBuilder('Varien_Object')->disableOriginalConstructor()->getMock();
+        /** Mock factory mock to return fake service. */
+        $this->_serviceFactory->expects($this->once())->method('createServiceInstance')->will(
+            $this->returnValue($serviceMock)
         );
         /** Mock Rest presentation fetchRequestData method to return empty array. */
         $this->_restPresentation->expects($this->once())->method('fetchRequestData')->will(

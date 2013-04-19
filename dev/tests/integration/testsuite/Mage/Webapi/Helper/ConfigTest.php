@@ -139,31 +139,31 @@ class Mage_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetResourceNamePartsException()
+    public function testGetServiceNamePartsException()
     {
         $className = 'Vendor_Module_Webapi_Resource_Invalid';
         $this->setExpectedException(
             'InvalidArgumentException',
             sprintf('The controller class name "%s" is invalid.', $className)
         );
-        $this->_helper->getResourceNameParts($className);
+        $this->_helper->getServiceNameParts($className);
     }
 
     /**
-     * @dataProvider dataProviderForTestGetResourceNameParts
+     * @dataProvider dataProviderForTestGetServiceNameParts
      * @param $className
      * @param $expectedParts
      */
-    public function testGetResourceNameParts($className, $expectedParts)
+    public function testGetServiceNameParts($className, $expectedParts)
     {
         $this->assertEquals(
             $expectedParts,
-            $this->_helper->getResourceNameParts($className),
+            $this->_helper->getServiceNameParts($className),
             "Resource parts for REST route were identified incorrectly."
         );
     }
 
-    public static function dataProviderForTestGetResourceNameParts()
+    public static function dataProviderForTestGetServiceNameParts()
     {
         return array(
             array('Vendor_Customer_Controller_Webapi_Customer_Address', array('VendorCustomer', 'Address')),

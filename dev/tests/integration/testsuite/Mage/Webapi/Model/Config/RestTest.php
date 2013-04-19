@@ -21,9 +21,9 @@ require_once __DIR__ . '/../_files/resource_with_invalid_name.php';
 
 
 /**
- * Test of API configuration class: Mage_Webapi_Model_Config.
+ * Test of API configuration class: Mage_Core_Service_Config.
  */
-class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Service_Config_RestTest extends PHPUnit_Framework_TestCase
 {
     const WEBAPI_AREA_FRONT_NAME = 'webapi';
 
@@ -102,12 +102,12 @@ class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
 
     public function testGetRestRouteToItemInvalidArguments()
     {
-        $resourceName = 'vendorModuleResources';
+        $serviceName = 'vendorModuleResources';
         $this->setExpectedException(
             'InvalidArgumentException',
-            sprintf('No route to the item of "%s" resource was found.', $resourceName)
+            sprintf('No route to the item of "%s" resource was found.', $serviceName)
         );
-        $this->_apiConfig->getRestRouteToItem($resourceName);
+        $this->_apiConfig->getRestRouteToItem($serviceName);
     }
 
     public function testGetMethodRestRoutes()
@@ -121,13 +121,13 @@ class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
 
     public function testGetMethodRestRoutesException()
     {
-        $resourceName = 'vendorModuleResourceSubresource';
+        $serviceName = 'vendorModuleResourceSubresource';
         $methodName = 'multiUpdate';
         $this->setExpectedException(
             'InvalidArgumentException',
-            sprintf('"%s" resource does not have any REST routes for "%s" method.', $resourceName, $methodName)
+            sprintf('"%s" resource does not have any REST routes for "%s" method.', $serviceName, $methodName)
         );
-        $this->_apiConfig->getMethodRestRoutes($resourceName, $methodName, 'v1');
+        $this->_apiConfig->getMethodRestRoutes($serviceName, $methodName, 'v1');
     }
 
     /**
@@ -150,14 +150,14 @@ class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
         $appMock->expects($this->any())->method('getConfig')->will($this->returnValue($configMock));
         $this->_appClone = clone $appMock;
         $objectManager->configure(array(
-            'Mage_Webapi_Model_Config_Reader_Rest' => array(
+            'Mage_Core_Service_Config_Reader' => array(
                 'parameters' => array(
                     'cache' => $cache
                 )
             )
         ));
-        /** @var Mage_Webapi_Model_Config_Reader_Rest $reader */
-        $reader = $objectManager->get('Mage_Webapi_Model_Config_Reader_Rest');
+        /** @var Mage_Core_Service_Config_Reader $reader */
+        $reader = $objectManager->get('Mage_Core_Service_Config_Reader');
         $reader->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToResources));
 
         /** Initialize SUT. */

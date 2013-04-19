@@ -306,7 +306,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         }
         if ($categoryId) {
             $serviceManager = Mage::getSingleton('Mage_Core_Service_Manager');
-            $category = $serviceManager->call('Mage_Catalog_Service_Entity_Category', 'item', array('entity_id' => $categoryId));
+            $category = $serviceManager->call('Mage_Catalog_Service_CategoryEntity', 'item', array('entity_id' => $categoryId));
             $product->setCategory($category);
             Mage::register('current_category', $category);
         }

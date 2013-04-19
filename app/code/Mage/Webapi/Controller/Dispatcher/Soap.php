@@ -9,8 +9,8 @@
  */
 class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_DispatcherInterface
 {
-    /** @var Mage_Webapi_Model_Config_Soap */
-    protected $_apiConfig;
+    /** @var Mage_Core_Service_Config */
+    protected $_serviceConfig;
 
     /** @var Mage_Webapi_Model_Soap_Server */
     protected $_soapServer;
@@ -36,7 +36,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Config_Soap $apiConfig
+     * @param Mage_Core_Service_Config $serviceConfig
      * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Mage_Webapi_Controller_Response $response
      * @param Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover
@@ -46,7 +46,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
      * @param Mage_Webapi_Controller_Dispatcher_Soap_Handler $soapHandler
      */
     public function __construct(
-        Mage_Webapi_Model_Config_Soap $apiConfig,
+        Mage_Core_Service_Config $serviceConfig,
         Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Controller_Response $response,
         Mage_Webapi_Model_Soap_AutoDiscover $autoDiscover,
@@ -55,7 +55,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
         Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
         Mage_Webapi_Controller_Dispatcher_Soap_Handler $soapHandler
     ) {
-        $this->_apiConfig = $apiConfig;
+        $this->_serviceConfig = $serviceConfig;
         $this->_autoDiscover = $autoDiscover;
         $this->_soapServer = $soapServer;
         $this->_request = $request;
@@ -103,11 +103,11 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
         $this->_setResponseContentType('text/xml');
         $this->_response->setHttpResponseCode(400);
         $details = array();
-        foreach ($this->_apiConfig->getResourcesNames() as $resourceName) {
-            $details['availableResources'][$resourceName] = sprintf(
+        foreach ($this->_serviceConfig->getResourcesNames() as $serviceName) {
+            $details['availableResources'][$serviceName] = sprintf(
                 '%s?wsdl&resources[%s]=%s',
                 $this->_soapServer->getEndpointUri(),
-                $resourceName,
+                $serviceName,
                 // TODO: Change logic after versioning removal
                 1
             );
@@ -165,7 +165,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap implements Mage_Webapi_Controller_D
         $this->_soapServer->setWSDL($this->_soapServer->generateUri(true))
             ->setEncoding($this->_soapServer->getApiCharset())
             ->setSoapVersion(SOAP_1_2)
-            ->setClassmap($this->_apiConfig->getTypeToClassMap());
+            ->setClassmap($this->_serviceConfig->getTypeToClassMap());
         use_soap_error_handler(false);
         // TODO: Headers are not available at this point.
         // $this->_soapHandler->setRequestHeaders($this->_getRequestHeaders());

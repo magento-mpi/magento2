@@ -14,8 +14,11 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     const HEADER_SECURITY = 'Security';
     const RESULT_NODE_NAME = 'result';
 
+    /** @var Mage_Core_Service_Config */
+    protected $_serviceConfig;
+
     /** @var Mage_Webapi_Model_Config_Soap */
-    protected $_apiConfig;
+    protected $_soapApiConfig;
 
     /**
      * WS-Security UsernameToken object from request.
@@ -33,9 +36,9 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     /**
      * Action controller factory.
      *
-     * @var Mage_Webapi_Controller_Action_Factory
+     * @var Mage_Core_Service_Factory
      */
-    protected $_controllerFactory;
+    protected $_serviceFactory;
 
     /** @var Mage_Webapi_Model_Authorization */
     protected $_authorization;
@@ -56,27 +59,30 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Config_Soap $apiConfig
+     * @param Mage_Core_Service_Config $serviceConfig
+     * @param Mage_Webapi_Model_Config_Soap $soapApiConfig
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Controller_Dispatcher_Soap_Authentication $authentication
-     * @param Mage_Webapi_Controller_Action_Factory $controllerFactory
+     * @param Mage_Core_Service_Factory $controllerFactory
      * @param Mage_Webapi_Model_Authorization $authorization
      * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
      */
     public function __construct(
-        Mage_Webapi_Model_Config_Soap $apiConfig,
+        Mage_Core_Service_Config $serviceConfig,
+        Mage_Webapi_Model_Config_Soap $soapApiConfig,
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Controller_Dispatcher_Soap_Authentication $authentication,
-        Mage_Webapi_Controller_Action_Factory $controllerFactory,
+        Mage_Core_Service_Factory $controllerFactory,
         Mage_Webapi_Model_Authorization $authorization,
         Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
     ) {
-        $this->_apiConfig = $apiConfig;
+        $this->_serviceConfig = $serviceConfig;
+        $this->_soapApiConfig = $soapApiConfig;
         $this->_helper = $helper;
         $this->_authentication = $authentication;
-        $this->_controllerFactory = $controllerFactory;
+        $this->_serviceFactory = $controllerFactory;
         $this->_authorization = $authorization;
         $this->_request = $request;
         $this->_errorProcessor = $errorProcessor;
@@ -104,35 +110,29 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                     );
                 }
                 $this->_authentication->authenticate($this->_usernameToken);
-                $resourceName = $this->_apiConfig->getResourceNameByOperation($operation);
-                if (!$resourceName) {
-                    throw new Mage_Webapi_Exception(
-                        $this->_helper->__('Method "%s" is not found.', $operation),
-                        Mage_Webapi_Exception::HTTP_NOT_FOUND
-                    );
-                }
-                $controllerClass = $this->_apiConfig->getControllerClassByOperationName($operation);
-                $controllerInstance = $this->_controllerFactory->createServiceInstance(
-                    $controllerClass,
-                    $this->_request
-                );
-                $method = $this->_apiConfig->getMethodNameByOperation($operation);
+                $serviceName = $this->_soapApiConfig->getServiceNameByOperation($operation);
+                $serviceInstance = $this->_serviceFactory->createServiceInstance($serviceName);
+                $method = $this->_soapApiConfig->getMethodNameByOperation($operation);
 
-                $this->_authorization->checkResourceAcl($resourceName, $method);
+                /**
+                 * TODO: Uncomment authorization check after it is refactored.
+                 * TODO: Uncomment its testing in Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest::testCall()
+                 */
+                // $this->_authorization->checkResourceAcl($serviceName, $method);
 
                 $arguments = reset($arguments);
                 $arguments = get_object_vars($arguments);
 
-                $this->_apiConfig->checkDeprecationPolicy($resourceName, $method);
+                $this->_serviceConfig->checkDeprecationPolicy($serviceName, $method);
                 // TODO: Refactor after versioning removal
                 $action = $method;
                 $arguments = $this->_helper->prepareMethodParams(
-                    $controllerClass,
+                    $serviceName,
                     $action,
                     $arguments,
-                    $this->_apiConfig
+                    $this->_serviceConfig
                 );
-                $outputData = call_user_func_array(array($controllerInstance, $action), $arguments);
+                $outputData = call_user_func_array(array($serviceInstance, $action), $arguments);
                 return (object)array(self::RESULT_NODE_NAME => $outputData);
             } catch (Mage_Webapi_Exception $e) {
                 throw new Mage_Webapi_Model_Soap_Fault($e->getMessage(), $e->getOriginator(), $e);

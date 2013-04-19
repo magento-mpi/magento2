@@ -86,7 +86,7 @@ class Mage_Webapi_Controller_Request_SoapTest extends PHPUnit_Framework_TestCase
     public function testGetRequestedResources()
     {
         /** Prepare mocks for SUT constructor. */
-        $resources = array('resourceName_1' => 'version', 'resourceName_2' => 'version');
+        $resources = array('serviceName_1' => 'version', 'serviceName_2' => 'version');
         $requestParams = array(
             Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL => true,
             Mage_Webapi_Model_Soap_Server::REQUEST_PARAM_RESOURCES => $resources,

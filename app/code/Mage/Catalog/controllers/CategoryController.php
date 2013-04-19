@@ -32,7 +32,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             // we may extract all data from request within services as a default behaviour
             $categoryId = (int)$this->getRequest()->getParam('id', false);
 
-            $serviceManager->getService('Mage_Catalog_Service_Process_Category')
+            $serviceManager->getService('Mage_Catalog_Service_CategoryProcess')
                 ->call('view', array(
                     'controller_action'     => $this, // [backward compatibility]
                     'response'              => $this->getResponse(), // [use response as a container for output]

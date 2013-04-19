@@ -23,7 +23,7 @@ include __DIR__ . '/../../_files/Controller/AutoDiscover/ModuleB.php';
  */
 class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Model_Config_Soap */
+    /** @var Mage_Webapi_Model_Config_Rest */
     protected $_config;
 
     /** @var Mage_Webapi_Model_Soap_AutoDiscover */
@@ -37,7 +37,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
      *
      * @var string
      */
-    protected $_resourceName;
+    protected $_serviceName;
 
     /**
      * Resource under the test data from config.
@@ -72,14 +72,14 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $objectManager = Mage::getObjectManager();
         $this->_helper = $objectManager->get('Mage_Webapi_Helper_Config');
         $reader = $objectManager->create(
-            'Mage_Webapi_Model_Config_Reader_Soap',
+            'Mage_Core_Service_Config_Reader',
             array(
                 'cache' => $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false)
             )
         );
         $reader->setDirectoryScanner($directoryScanner);
-        $this->_config = new Mage_Webapi_Model_Config_Soap($reader, $this->_helper, $app);
-        $objectManager->addSharedInstance($this->_config, 'Mage_Webapi_Model_Config_Soap');
+        $this->_config = new Mage_Webapi_Model_Config_Rest($reader, $this->_helper, $app);
+        $objectManager->addSharedInstance($this->_config, 'Mage_Webapi_Model_Config_Rest');
         $wsdlFactory = new Mage_Webapi_Model_Soap_Wsdl_Factory($objectManager);
         $cache = $this->getMock('Mage_Core_Model_CacheInterface');
         $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(
@@ -89,9 +89,9 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
             $cache
         );
 
-        $this->_resourceName = 'vendorModuleB';
-        $this->_resourceData = $this->_config->getResourceDataMerged($this->_resourceName, 'v1');
-        $xml = $this->_autoDiscover->generate(array($this->_resourceName => $this->_resourceData),
+        $this->_serviceName = 'vendorModuleB';
+        $this->_resourceData = $this->_config->getResourceDataMerged($this->_serviceName, 'v1');
+        $xml = $this->_autoDiscover->generate(array($this->_serviceName => $this->_resourceData),
             'http://magento.host/api/soap');
         $this->_dom = new DOMDocument('1.0', 'utf-8');
         $this->_dom->loadXML($xml);
@@ -118,7 +118,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $portType = $this->_assertPortType();
 
         foreach ($this->_resourceData['methods'] as $methodName => $methodData) {
-            $operationName = $this->_autoDiscover->getOperationName($this->_resourceName, $methodName);
+            $operationName = $this->_autoDiscover->getOperationName($this->_serviceName, $methodName);
             $this->_assertBindingOperation($operationName, $binding);
             $portOperation = $this->_assertPortTypeOperation($operationName, $portType);
             // Assert portType operation input
@@ -426,7 +426,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         /** @var DOMElement $portOperation */
         $portOperation = $this->_xpath->query($operationXpath, $portType)->item(0);
         $this->assertNotNull($portOperation, sprintf('Operation "%s" was not found in portType "%s".',
-            $operationName, $this->_autoDiscover->getPortTypeName($this->_resourceName)));
+            $operationName, $this->_autoDiscover->getPortTypeName($this->_serviceName)));
         return $portOperation;
     }
 
@@ -442,7 +442,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         /** @var DOMElement $bindingOperation */
         $bindingOperation = $this->_xpath->query($operationXpath, $binding)->item(0);
         $this->assertNotNull($bindingOperation, sprintf('Operation "%s" was not found in binding "%s".',
-            $operationName, $this->_autoDiscover->getBindingName($this->_resourceName)));
+            $operationName, $this->_autoDiscover->getBindingName($this->_serviceName)));
     }
 
     /**
@@ -457,10 +457,10 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         /** @var DOMElement $binding */
         $binding = $bindings->item(0);
         $this->assertTrue($binding->hasAttribute('name'));
-        $bindingName = $this->_autoDiscover->getBindingName($this->_resourceName);
+        $bindingName = $this->_autoDiscover->getBindingName($this->_serviceName);
         $this->assertEquals($bindingName, $binding->getAttribute('name'));
         $this->assertTrue($binding->hasAttribute('type'));
-        $portTypeName = $this->_autoDiscover->getPortTypeName($this->_resourceName);
+        $portTypeName = $this->_autoDiscover->getPortTypeName($this->_serviceName);
         $this->assertEquals(Wsdl::TYPES_NS . ':' . $portTypeName,
             $binding->getAttribute('type'));
         /** @var DOMElement $soapBinding */
@@ -485,7 +485,7 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         /** @var DOMElement $portType */
         $portType = $portTypes->item(0);
         $this->assertTrue($portType->hasAttribute('name'));
-        $expectedName = $this->_autoDiscover->getPortTypeName($this->_resourceName);
+        $expectedName = $this->_autoDiscover->getPortTypeName($this->_serviceName);
         $this->assertEquals($expectedName, $portType->getAttribute('name'));
 
         return $portType;
@@ -502,8 +502,8 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $port = $service->getElementsByTagName('port')->item(0);
         $this->assertNotNull($port, 'port node is not found within service node.');
         $this->assertTrue($port->hasAttribute('name'));
-        $this->assertEquals($this->_autoDiscover->getPortName($this->_resourceName), $port->getAttribute('name'));
-        $bindingName = $this->_autoDiscover->getBindingName($this->_resourceName);
+        $this->assertEquals($this->_autoDiscover->getPortName($this->_serviceName), $port->getAttribute('name'));
+        $bindingName = $this->_autoDiscover->getBindingName($this->_serviceName);
         $this->assertEquals(Wsdl::TYPES_NS . ':' . $bindingName, $port->getAttribute('binding'));
     }
 
@@ -518,8 +518,8 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
         $service = $this->_dom->getElementsByTagNameNS(Wsdl::WSDL_NS_URI, 'service')->item(0);
         $this->assertNotNull($service, 'service node is not found in WSDL.');
         $this->assertTrue($service->hasAttribute('name'));
-        $this->assertEquals($this->_autoDiscover->getServiceName($this->_resourceName), $service->getAttribute('name'));
+        $this->assertEquals($this->_autoDiscover->getServiceName($this->_serviceName), $service->getAttribute('name'));
 
-        $this->_assertPortNode($service, $this->_resourceName);
+        $this->_assertPortNode($service, $this->_serviceName);
     }
 }

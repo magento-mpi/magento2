@@ -20,18 +20,16 @@ class Mage_Core_Service_Type_Utility_Layout extends Mage_Core_Service_Type_Abstr
      * Constructor
      *
      * @param Mage_Core_Service_Manager $manager
-     * @param Mage_Core_Service_Definition $definition
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param string $areaCode
      */
     public function __construct(
         Mage_Core_Service_Manager $manager,
-        Mage_Core_Service_Definition $definition,
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Layout_Factory $layoutFactory
     ) {
-        parent::__construct($manager, $definition, $objectManager);
+        parent::__construct($manager, $objectManager);
         $this->_layoutFactory   = $layoutFactory;
     }
 

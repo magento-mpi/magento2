@@ -12,9 +12,6 @@ abstract class Mage_Core_Service_Type_Abstract
     /** @var Mage_Core_Service_Manager */
     protected $_serviceManager;
 
-    /** @var Mage_Core_Service_Definition */
-    protected $_definition;
-
     /**
      * @var Magento_ObjectManager
      */
@@ -22,16 +19,13 @@ abstract class Mage_Core_Service_Type_Abstract
 
     /**
      * @param Mage_Core_Service_Manager $manager
-     * @param Mage_Core_Service_Definition $definition
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
         Mage_Core_Service_Manager $manager,
-        Mage_Core_Service_Definition $definition,
         Magento_ObjectManager $objectManager)
     {
         $this->_serviceManager = $manager;
-        $this->_definition = $definition;
         $this->_objectManager = $objectManager;
     }
 
@@ -82,42 +76,36 @@ abstract class Mage_Core_Service_Type_Abstract
      * @param string $serviceClass
      * @param string $serviceMethod
      * @param mixed $context [optional]
-     * @return Mage_Core_Service_Context $context
+     * @return Magento_Data_Array $context
      */
     public function prepareContext($serviceClass, $serviceMethod, $context = null)
     {
-        if (!$context instanceof Mage_Core_Service_Context) {
-            $params  = $context;
-            $context = $this->_objectManager->get('Mage_Core_Service_Context');
-            $context->setData($params);
-        } else {
-            $params = $context->getData();
+        if (!$context instanceof Magento_Data_Array) {
+            $context = new Magento_Data_Array($context);
         }
 
         if (!$context->getIsPrepared()) {
             $requestSchema = $context->getRequestSchema();
-            if (!$requestSchema instanceof Mage_Core_Service_DataSchema) {
-                $params = $requestSchema;
-                $requestSchema = $this->_definition->getRequestSchema($serviceClass, $serviceMethod, $context->getVersion());
-                if (!empty($params) && is_array($params)) {
-                    $requestSchema->addData($params);
-                }
+            if (!$requestSchema instanceof Magento_Data_Schema) {
+                $requestSchema = $this->_serviceManager->getRequestSchema($serviceClass, $serviceMethod, $context->getVersion(), $requestSchema);
             }
 
             if ($requestSchema->getDataNamespace()) {
                 $requestParams = (array)Mage::app()->getRequest()->getParam($requestSchema->getDataNamespace());
                 if (!empty($requestParams)) {
-                    $params = array_merge($requestParams, $params);
+                    $context->addData($requestParams);
                 }
             }
 
-            $this->parse($params, $requestSchema);
+            $data = $context->getData();
 
-            $this->filter($params, $requestSchema);
+            $this->parse($data, $requestSchema);
 
-            $this->validate($params, $requestSchema);
+            $this->filter($data, $requestSchema);
 
-            $context->setData($params);
+            $this->validate($data, $requestSchema);
+
+            $context->setData($data);
 
             $context->setIsPrepared(true);
         }
@@ -155,13 +143,14 @@ abstract class Mage_Core_Service_Type_Abstract
     public function filter(& $data, $schema)
     {
         if (is_array($data)) {
+            $fields =  $schema->getData('fields');
             foreach ($data as $key => & $value) {
-                $config = $schema->getData($key);
-                if (!$schema->hasData($key)) {
+                if (!array_key_exists($key, $fields)) {
                     unset($data[$key]);
                 } else {
+                    $config = $fields[$key];
                     if (isset($config['schema'])) {
-                        $schema = $this->_definition->getDataSchema($config['schema']);
+                        $schema = $this->_serviceManager->getContentSchema($config['schema']);
                         $this->filter($value, $schema);
 
                         $data[$key] = $value;
@@ -183,7 +172,7 @@ abstract class Mage_Core_Service_Type_Abstract
             foreach ($data as $key => $value) {
                 $config = $schema->getData($key);
                 if (isset($config['schema'])) {
-                    $schema = $this->_definition->getDataSchema($config['schema']);
+                    $schema = $this->_serviceManager->getContentSchema($config['schema']);
                     $this->validate($value, $schema);
                 } else {
                     $this->_validate($value, $schema->getData($key));
@@ -212,9 +201,9 @@ abstract class Mage_Core_Service_Type_Abstract
     {
         $responseSchema = $context->getResponseSchema();
 
-        if (!$responseSchema instanceof Mage_Core_Service_DataSchema) {
+        if (!$responseSchema instanceof Magento_Data_Schema) {
             $params = $responseSchema;
-            $responseSchema = $this->_definition->getResponseSchema($serviceClass, $serviceMethod, $context->getVersion());
+            $responseSchema = $this->_serviceManager->getResponseSchema($serviceClass, $serviceMethod, $context->getVersion());
             if (!empty($params) && is_array($params)) {
                 $responseSchema->addData($params);
             }
@@ -237,8 +226,9 @@ abstract class Mage_Core_Service_Type_Abstract
 
     public function prepare(& $data, $schema)
     {
+        $fields = $schema->getData('fields');
         foreach ($data as $key => & $value) {
-            $config = $schema->getData($key);
+            $config = $fields[$key];
             if (isset($config['content_type'])) {
                 switch ($config['accept_type']) {
                     case 'json':
@@ -257,7 +247,7 @@ abstract class Mage_Core_Service_Type_Abstract
     public function applySchema($data, $schema)
     {
         $result = array();
-        foreach ($schema->getData() as $key => $config) {
+        foreach ($schema->getData('fields') as $key => $config) {
             $result[$key] = $this->_fetchValue($key, $config, $data, $schema);
         }
         return $result;

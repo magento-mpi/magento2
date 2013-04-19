@@ -159,10 +159,10 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      * @return string
      * @throws InvalidArgumentException
      */
-    public function translateResourceName($class)
+    public function translateServiceName($class)
     {
-        $resourceNameParts = $this->getResourceNameParts($class);
-        return lcfirst(implode('', $resourceNameParts));
+        $serviceNameParts = $this->getServiceNameParts($class);
+        return lcfirst(implode('', $serviceNameParts));
     }
 
     /**
@@ -177,20 +177,20 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      * @return array
      * @throws InvalidArgumentException When class is not valid API resource.
      */
-    public function getResourceNameParts($className)
+    public function getServiceNameParts($className)
     {
-        if (preg_match(Mage_Webapi_Model_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
+        if (preg_match(Mage_Core_Service_Config_Reader::RESOURCE_CLASS_PATTERN, $className, $matches)) {
             $moduleNamespace = $matches[1];
             $moduleName = $matches[2];
             $moduleNamespace = ($moduleNamespace == 'Mage') ? '' : $moduleNamespace;
-            $resourceNameParts = explode('_', trim($matches[3], '_'));
-            if ($moduleName == $resourceNameParts[0]) {
+            $serviceNameParts = explode('_', trim($matches[3], '_'));
+            if ($moduleName == $serviceNameParts[0]) {
                 /** Avoid duplication of words in resource name */
                 $moduleName = '';
             }
-            $parentResourceName = $moduleNamespace . $moduleName . array_shift($resourceNameParts);
-            array_unshift($resourceNameParts, $parentResourceName);
-            return $resourceNameParts;
+            $parentServiceName = $moduleNamespace . $moduleName . array_shift($serviceNameParts);
+            array_unshift($serviceNameParts, $parentServiceName);
+            return $serviceNameParts;
         }
         throw new InvalidArgumentException(sprintf('The controller class name "%s" is invalid.', $className));
     }
@@ -310,7 +310,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
     public  function isSubresource(ReflectionMethod $methodReflection)
     {
         $className = $methodReflection->getDeclaringClass()->getName();
-        if (preg_match(Mage_Webapi_Model_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
+        if (preg_match(Mage_Core_Service_Config_Reader::RESOURCE_CLASS_PATTERN, $className, $matches)) {
             return count(explode('_', trim($matches[3], '_'))) > 1;
         }
         throw new InvalidArgumentException(sprintf('"%s" is not a valid resource class.', $className));
@@ -332,9 +332,8 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
             $tag = $docBlock->getTag($annotationTag);
             if ($tag) {
                 return $tag->getContent();
-            } else {
-                return null;
             }
         }
+        return null;
     }
 }

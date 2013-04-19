@@ -150,4 +150,25 @@
             </updates>
         </layout>
     </adminhtml>
+    <!--TODO: Change to webapi-->
+    <global>
+        <events>
+            <core_service_config_reader_reflect_method_data>
+                <observers>
+                    <webapi_config_reflector_rest_add_method_reflection_data>
+                        <class>Mage_Webapi_Model_Config_Reader_Reflector_Rest</class>
+                        <method>addMethodReflectionData</method>
+                    </webapi_config_reflector_rest_add_method_reflection_data>
+                </observers>
+            </core_service_config_reader_reflect_method_data>
+            <core_service_config_reader_reflect_class_data_after>
+                <observers>
+                    <webapi_config_reflector_rest_add_postreflection_data>
+                        <class>Mage_Webapi_Model_Config_Reader_Reflector_Rest</class>
+                        <method>addPostReflectionData</method>
+                    </webapi_config_reflector_rest_add_postreflection_data>
+                </observers>
+            </core_service_config_reader_reflect_class_data_after>
+        </events>
+    </global>
 </config>
