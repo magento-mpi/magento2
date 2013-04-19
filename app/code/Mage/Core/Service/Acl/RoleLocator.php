@@ -10,12 +10,12 @@
 
 class Mage_Core_Service_Acl_RoleLocator implements Magento_Authorization_RoleLocator
 {
-    /** @var Mage_Core_Service_Manager */
-    protected $_serviceManager;
+    /** @var Mage_Core_Service_Context */
+    protected $_serviceContext;
 
-    public function __construct(Mage_Core_Service_Manager $manager)
+    public function __construct(Mage_Core_Service_Context $context)
     {
-        $this->_serviceManager = $manager;
+        $this->_serviceContext = $context;
     }
 
     /**
@@ -25,6 +25,6 @@ class Mage_Core_Service_Acl_RoleLocator implements Magento_Authorization_RoleLoc
      */
     public function getAclRoleId()
     {
-        return $this->_serviceManager->getUser()->getAclRole();
+        return $this->_serviceContext->getUser()->getAclRole();
     }
 }

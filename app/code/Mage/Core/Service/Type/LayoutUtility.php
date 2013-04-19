@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Service_Type_Utility_Layout extends Mage_Core_Service_Type_Abstract
+class Mage_Core_Service_Type_LayoutUtility extends Mage_Core_Service_Type_Abstract
 {
     /**
      * @var Mage_Core_Model_Layout_Factory
@@ -26,10 +26,10 @@ class Mage_Core_Service_Type_Utility_Layout extends Mage_Core_Service_Type_Abstr
      */
     public function __construct(
         Mage_Core_Service_Manager $manager,
-        Magento_ObjectManager $objectManager,
+        Mage_Core_Service_Context $context,
         Mage_Core_Model_Layout_Factory $layoutFactory
     ) {
-        parent::__construct($manager, $objectManager);
+        parent::__construct($manager, $context);
         $this->_layoutFactory   = $layoutFactory;
     }
 

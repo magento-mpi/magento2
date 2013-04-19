@@ -9,28 +9,23 @@
  *
  * @service true
  */
-class Mage_Catalog_Service_CategoryEntity extends Mage_Core_Service_Type_Entity_Abstract
+class Mage_Catalog_Service_CategoryEntity extends Mage_Core_Service_Type_DefaultEntity
 {
-    public function create($context)
-    {
-        //
-    }
-
     /**
      * Return resource object or resource object data.
      *
-     * @param mixed $context
+     * @param mixed $request
      * @return Mage_Catalog_Model_Category
      */
-    public function item($context)
+    public function item($request)
     {
-        $context = $this->prepareContext(get_class($this), 'item', $context);
+        $request = $this->prepareRequest(get_class($this), 'item', $request);
 
         /** @var $category Mage_Catalog_Model_Category */
         $category = Mage::getModel('Mage_Catalog_Model_Category');
 
         // `set` methods are creating troubles
-        foreach ($context->getData() as $k => $v) {
+        foreach ($request->getData() as $k => $v) {
             $category->setDataUsingMethod($k, $v);
         }
 
@@ -41,7 +36,7 @@ class Mage_Catalog_Service_CategoryEntity extends Mage_Core_Service_Type_Entity_
             $category->load($id);
         }
 
-        $this->prepareResponse(get_class($this), 'item', $category, $context);
+        $this->prepareResponse(get_class($this), 'item', $category, $request);
 
         return $category;
     }
@@ -49,47 +44,86 @@ class Mage_Catalog_Service_CategoryEntity extends Mage_Core_Service_Type_Entity_
     /**
      * Returns collection of resource objects.
      *
-     * @param mixed $context
+     * @param mixed $request
      * @return Mage_Catalog_Model_Resource_Category_Collection
      */
-    public function items($context)
+    public function items($request)
     {
-        $context = $this->prepareContext(get_class($this), 'items', $context);
+        $request = $this->prepareRequest(get_class($this), 'items', $request);
 
         /** @var $collection Mage_Catalog_Model_Resource_Category_Collection */
         $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection');
 
-        $categoryIds = $context->getCategoryIds();
+        $categoryIds = $request->getCategoryIds();
         $collection->addIdFilter($categoryIds);
 
-        $filters = $context->getFilters();
+        $filters = $request->getFilters();
 
         foreach ($filters as $field => $value) {
-            // $filters['offset']
+            // $field === 'offset'
 
-            // $filters['limit']
+            // $field === 'limit'
 
-            // $filters['sort']
+            // $field === 'sort'
 
-            // $filters['{attribute_code}']
+            // $field === '{attribute_code}'
         }
 
-        // TODO or not TODO
-        //$collection->load();
+        // @todo or not TODO
+        $collection->load();
 
-        $this->prepareResponse(get_class($this), 'items', $collection, $context);
+        $this->prepareResponse(get_class($this), 'items', $collection, $request);
 
         return $collection;
     }
 
-    public function update($context)
+    public function create($request)
+    {
+        $request = $this->prepareRequest(get_class($this), 'create', $request);
+
+        $this->_save($request);
+    }
+
+    public function update($request)
+    {
+        $request = $this->prepareRequest(get_class($this), 'update', $request);
+
+        $this->_save($request);
+    }
+
+    public function delete($request)
     {
         //
     }
 
-    public function delete($context)
+    /**
+     * Move category action
+     *
+     * @param mixed $request
+     * @return Varien_Object
+     */
+    public function move($request)
     {
-        //
+        $request = $this->prepareRequest(get_class($this), 'move', $request);
+
+        $category = $this->item($request);
+        if (!$category->getId()) {
+            return false;
+        }
+
+        /**
+         * New parent category identifier
+         */
+        $parentNodeId = $request->getPid();
+        /**
+         * Category id after which we have put our category
+         */
+        $prevNodeId = $request->getAid();
+
+        // TODO move logic out from model
+        $category->move($parentNodeId, $prevNodeId);
+
+        return true;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,14 +131,12 @@ class Mage_Catalog_Service_CategoryEntity extends Mage_Core_Service_Type_Entity_
     /**
      * Save object.
      *
-     * @param mixed $context
+     * @param mixed $request
      * @return Varien_Object $category
      */
-    protected function _save($context)
+    protected function _save($request)
     {
-        $context = $this->prepareContext(get_class($this), 'save', $context);
-
-        $category = $this->item($context);
+        $category = $this->item($request);
         if (!$category->getId()) {
             return false;
         }
@@ -113,7 +145,7 @@ class Mage_Catalog_Service_CategoryEntity extends Mage_Core_Service_Type_Entity_
             'catalog_category_prepare_save',
             array(
                 'category' => $category,
-                'context'  => $context
+                'request'  => $request
             )
         );
 
@@ -135,36 +167,6 @@ class Mage_Catalog_Service_CategoryEntity extends Mage_Core_Service_Type_Entity_
         $category->save();
 
         return $category;
-    }
-
-    /**
-     * Move category action
-     *
-     * @param mixed $context
-     * @return Varien_Object
-     */
-    public function move($context)
-    {
-        $context = $this->prepareContext(get_class($this), 'move', $context);
-
-        $category = $this->item($context);
-        if (!$category->getId()) {
-            return false;
-        }
-
-        /**
-         * New parent category identifier
-         */
-        $parentNodeId = $context->getPid();
-        /**
-         * Category id after which we have put our category
-         */
-        $prevNodeId = $context->getAid();
-
-        // TODO move logic out from model
-        $category->move($parentNodeId, $prevNodeId);
-
-        return true;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

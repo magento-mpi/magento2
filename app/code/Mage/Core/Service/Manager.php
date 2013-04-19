@@ -7,12 +7,8 @@ class Mage_Core_Service_Manager extends Varien_Object
     /** @var Mage_Core_Service_Factory */
     protected $_serviceFactory;
 
-    /**
-     * Access Control List builder
-     *
-     * @var Mage_Core_Model_Acl_Builder
-     */
-    protected $_aclBuilder;
+    /** @var Mage_Core_Service_Context */
+    protected $_serviceContext;
 
     /**
      * @var array $_requestSchemas
@@ -29,10 +25,12 @@ class Mage_Core_Service_Manager extends Varien_Object
      */
     protected $_contentSchemas = array();
 
-    public function __construct(Mage_Core_Service_Factory $serviceFactory, Mage_Core_Model_Acl_Builder $aclBuilder)
+    public function __construct(
+        Mage_Core_Service_Factory $serviceFactory,
+        Mage_Core_Service_Context $serviceContext)
     {
         $this->_serviceFactory = $serviceFactory;
-        $this->_aclBuilder = $aclBuilder;
+        $this->_serviceContext = $serviceContext;
     }
 
     /**
@@ -62,25 +60,6 @@ class Mage_Core_Service_Manager extends Varien_Object
     {
         $service = $this->_serviceFactory->createServiceInstance($serviceId);
         return $service;
-    }
-
-    /**
-     * @return Magento_Acl
-     */
-    public function getAcl()
-    {
-        $acl = $this->_aclBuilder->getAcl(self::AREA_SERVICES);
-        return $acl;
-    }
-
-    /**
-     * @return Mage_User_Model_User
-     */
-    public function getUser()
-    {
-        // @toto remove stub
-        $user = Mage::getSingleton('Mage_User_Model_User')->setUserId(1);
-        return $user;
     }
 
     /**
@@ -155,24 +134,24 @@ class Mage_Core_Service_Manager extends Varien_Object
     }
 
     /**
-     * @param string $schemaId
+     * @param mixed $schemaFile
      * @return Magento_Data_Schema $contentSchema
      */
-    public function getContentSchema($schemaId)
+    public function getContentSchema($schemaFile)
     {
-        if (!isset($this->_contentSchemas[$schemaId])) {
-            $this->_contentSchemas[$schemaId] = new Magento_Data_Schema();
-            $this->_contentSchemas[$schemaId]->load($schemaId);
+        if (!isset($this->_contentSchemas[$schemaFile])) {
+            $this->_contentSchemas[$schemaFile] = new Magento_Data_Schema();
+            $this->_contentSchemas[$schemaFile]->load($schemaFile);
         }
 
-        return $this->_contentSchemas[$schemaId];
+        return $this->_contentSchemas[$schemaFile];
     }
 }
 
 /**
  * @todo this is a prototype
  *
- * Definitions may be area-specific with an ability to be extended and replaced for target area
+ * Service definitions may be area-specific with an ability to be extended and replaced for target area
  * or better to say for some unique global context
  *
  * Eg, in default case we work with default definitions while when application runs in "safe" mode
@@ -183,6 +162,6 @@ class Mage_Core_Service_Manager extends Varien_Object
  * All upcoming changes for "internal" usage should be implemented within new files
  * and not directly in original definition files.
  * Following this way we have clear way of controlling of when we should introduce new WEB API version.
- * Also we won't need to "replicate" entirely all "internal" definitions to fix WEB API version.
+ * Also we won't need to "replicate" entirely all "internal" definitions to have WEB API version independent (meaning stable).
  *
  */

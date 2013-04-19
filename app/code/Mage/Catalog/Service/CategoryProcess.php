@@ -9,22 +9,22 @@
  *
  * @service true
  */
-class Mage_Catalog_Service_CategoryProcess extends Mage_Core_Service_Type_Process_Abstract
+class Mage_Catalog_Service_CategoryProcess extends Mage_Core_Service_Type_DefaultProcess
 {
     /**
-     * @param mixed $context
+     * @param mixed $request
      * @return bool
      */
-    public function initCategoryToView($context)
+    public function initCategoryToView($request)
     {
         try {
-            $context = $this->prepareContext(get_class($this), 'view', $context);
+            $request = $this->prepareRequest(get_class($this), 'view', $request);
 
-            Mage::dispatchEvent('catalog_controller_category_init_before', array('controller_action' => $context->getControllerAction()));
+            Mage::dispatchEvent('catalog_controller_category_init_before', array('controller_action' => $request->getControllerAction()));
 
-            Mage::dispatchEvent('catalog_category_show_before', array('context' => $context));
+            Mage::dispatchEvent('catalog_category_show_before', array('context' => $request));
 
-            $category = $this->_serviceManager->getService('Mage_Catalog_Service_CategoryEntity')->call('item', $context);
+            $category = $this->_serviceManager->getService('Mage_Catalog_Service_CategoryEntity')->call('item', $request);
 
             if (!$this->canShow($category)) {
                 return false;
@@ -38,7 +38,7 @@ class Mage_Catalog_Service_CategoryProcess extends Mage_Core_Service_Type_Proces
                 'catalog_controller_category_init_after',
                 array(
                     'category'          => $category,
-                    'controller_action' => $context->getControllerAction()
+                    'controller_action' => $request->getControllerAction()
                 )
             );
         } catch (Mage_Core_Service_Exception $e) {
@@ -51,12 +51,12 @@ class Mage_Catalog_Service_CategoryProcess extends Mage_Core_Service_Type_Proces
         return $category;
     }
 
-    public function view($context)
+    public function view($request)
     {
         try {
-            $context  = $this->prepareContext(get_class($this), 'view', $context);
+            $request  = $this->prepareRequest(get_class($this), 'view', $request);
 
-            $category = $this->initCategoryToView($context);
+            $category = $this->initCategoryToView($request);
             if (!$category) {
                 throw new Mage_Core_Service_Exception('', Mage_Core_Service_Exception::HTTP_NOT_FOUND);
             }
@@ -71,13 +71,13 @@ class Mage_Catalog_Service_CategoryProcess extends Mage_Core_Service_Type_Proces
 
             Mage::getSingleton('Mage_Catalog_Model_Session')->setLastViewedCategoryId($category->getId());
 
-            /** @var $layoutService Mage_Core_Service_Type_Utility_Layout */
-            $layoutService = $this->_serviceManager->getService('Mage_Core_Service_Type_Utility_Layout');
+            /** @var $layoutService Mage_Core_Service_Type_LayoutUtility */
+            $layoutService = $this->_serviceManager->getService('Mage_Core_Service_Type_LayoutUtility');
 
             /** @var $layout Mage_Core_Model_Layout */
-            $layout = $layoutService->getLayout($context->getCurrentArea());
+            $layout = $layoutService->getLayout($request->getCurrentArea());
 
-            $defaultHandle = $context->getDefaultLayoutHandle();
+            $defaultHandle = $request->getDefaultLayoutHandle();
             if ($defaultHandle) {
                 if ($category->getIsAnchor()) {
                     $type = $category->hasChildren() ? 'layered' : 'layered_without_children';
@@ -90,7 +90,7 @@ class Mage_Catalog_Service_CategoryProcess extends Mage_Core_Service_Type_Proces
                 );
             }
 
-            $layoutService->load($layout, $context->getLayoutHandles());
+            $layoutService->load($layout, $request->getLayoutHandles());
 
             // apply custom layout update once layout is loaded
             if ($layoutUpdates = $settings->getLayoutUpdates()) {
@@ -119,7 +119,7 @@ class Mage_Catalog_Service_CategoryProcess extends Mage_Core_Service_Type_Proces
 
             $output = $layoutService->render($layout);
 
-            $context->getResponse()->appendBody($output);
+            $request->getResponse()->appendBody($output);
         } catch (Mage_Core_Service_Exception $e) {
             $code = $e->getCode() ? $e->getCode() : Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR;
             throw new Mage_Core_Service_Exception($e->getMessage(), $code);

@@ -12,10 +12,8 @@ abstract class Mage_Core_Service_Type_Abstract
     /** @var Mage_Core_Service_Manager */
     protected $_serviceManager;
 
-    /**
-     * @var Magento_ObjectManager
-     */
-    protected $_objectManager;
+    /** @var Mage_Core_Service_Context */
+    protected $_serviceContext;
 
     /**
      * @param Mage_Core_Service_Manager $manager
@@ -23,10 +21,10 @@ abstract class Mage_Core_Service_Type_Abstract
      */
     public function __construct(
         Mage_Core_Service_Manager $manager,
-        Magento_ObjectManager $objectManager)
+        Mage_Core_Service_Context $context)
     {
         $this->_serviceManager = $manager;
-        $this->_objectManager = $objectManager;
+        $this->_serviceContext = $manager;
     }
 
     /**
@@ -46,8 +44,8 @@ abstract class Mage_Core_Service_Type_Abstract
 
     public function authorize($serviceClass, $serviceMethod)
     {
-        $user = $this->_serviceManager->getUser();
-        $acl  = $this->_serviceManager->getAcl();
+        $user = $this->_serviceContext->getUser();
+        $acl  = $this->_serviceContext->getAcl();
 
         if ($user && $acl) {
             try {
@@ -71,33 +69,33 @@ abstract class Mage_Core_Service_Type_Abstract
     }
 
     /**
-     * Prepare service context object
+     * Prepare service request object
      *
      * @param string $serviceClass
      * @param string $serviceMethod
-     * @param mixed $context [optional]
-     * @return Magento_Data_Array $context
+     * @param mixed $request [optional]
+     * @return Magento_Data_Array $request
      */
-    public function prepareContext($serviceClass, $serviceMethod, $context = null)
+    public function prepareRequest($serviceClass, $serviceMethod, $request = null)
     {
-        if (!$context instanceof Magento_Data_Array) {
-            $context = new Magento_Data_Array($context);
+        if (!$request instanceof Magento_Data_Array) {
+            $request = new Magento_Data_Array($request);
         }
 
-        if (!$context->getIsPrepared()) {
-            $requestSchema = $context->getRequestSchema();
+        if (!$request->getIsPrepared()) {
+            $requestSchema = $request->getRequestSchema();
             if (!$requestSchema instanceof Magento_Data_Schema) {
-                $requestSchema = $this->_serviceManager->getRequestSchema($serviceClass, $serviceMethod, $context->getVersion(), $requestSchema);
+                $requestSchema = $this->_serviceManager->getRequestSchema($serviceClass, $serviceMethod, $request->getVersion(), $requestSchema);
             }
 
             if ($requestSchema->getDataNamespace()) {
                 $requestParams = (array)Mage::app()->getRequest()->getParam($requestSchema->getDataNamespace());
                 if (!empty($requestParams)) {
-                    $context->addData($requestParams);
+                    $request->addData($requestParams);
                 }
             }
 
-            $data = $context->getData();
+            $data = $request->getData();
 
             $this->parse($data, $requestSchema);
 
@@ -105,53 +103,30 @@ abstract class Mage_Core_Service_Type_Abstract
 
             $this->validate($data, $requestSchema);
 
-            $context->setData($data);
+            $request->setData($data);
 
-            $context->setIsPrepared(true);
+            $request->setIsPrepared(true);
         }
 
-        return $context;
+        return $request;
     }
 
     public function parse(& $data, $schema)
     {
         if (is_array($data)) {
+            $fields = $schema->getData('fields');
             foreach ($data as $key => $value) {
-                $config = $schema->getData($key);
-                if (isset($config['content_type'])) {
-                    switch ($config['content_type']) {
-                        case 'json':
-                            $value = json_decode($value, true);
-                            break;
-                        case 'xml':
-                            $value = array(); // convert from xml to assoc array
-                            break;
-                    }
-
-                    $data[$key] = $value;
-                }
-            }
-        }
-    }
-
-    /**
-     * @param mixed $data
-     * @param mixed $schema
-     *
-     * @return void
-     */
-    public function filter(& $data, $schema)
-    {
-        if (is_array($data)) {
-            $fields =  $schema->getData('fields');
-            foreach ($data as $key => & $value) {
-                if (!array_key_exists($key, $fields)) {
-                    unset($data[$key]);
-                } else {
-                    $config = $fields[$key];
-                    if (isset($config['schema'])) {
-                        $schema = $this->_serviceManager->getContentSchema($config['schema']);
-                        $this->filter($value, $schema);
+                if (array_key_exists($key, $fields)) {
+                    $config = $schema->getData($key);
+                    if (isset($config['content_type'])) {
+                        switch ($config['content_type']) {
+                            case 'json':
+                                $value = json_decode($value, true);
+                                break;
+                            case 'xml':
+                                $value = array(); // convert from xml to assoc array
+                                break;
+                        }
 
                         $data[$key] = $value;
                     }
@@ -166,19 +141,48 @@ abstract class Mage_Core_Service_Type_Abstract
      *
      * @return void
      */
+    public function filter(& $data, $schema)
+    {
+        if (is_array($data)) {
+            $fields = $schema->getData('fields');
+            foreach ($data as $key => & $value) {
+                if (array_key_exists($key, $fields)) {
+                    $config = $fields[$key];
+                    if (isset($config['schema'])) {
+                        $schema = $this->_serviceManager->getContentSchema($config['schema']);
+                        $this->filter($value, $schema);
+
+                        $data[$key] = $value;
+                    }
+                } else {
+                    unset($data[$key]);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param mixed $data
+     * @param mixed $schema
+     *
+     * @return void
+     */
     public function validate(& $data, $schema)
     {
         if (is_array($data)) {
+            $fields = $schema->getData('fields');
             foreach ($data as $key => $value) {
-                $config = $schema->getData($key);
-                if (isset($config['schema'])) {
-                    $schema = $this->_serviceManager->getContentSchema($config['schema']);
-                    $this->validate($value, $schema);
-                } else {
-                    $this->_validate($value, $schema->getData($key));
-                }
+                if (array_key_exists($key, $fields)) {
+                    $config = $schema->getData($key);
+                    if (isset($config['schema'])) {
+                        $schema = $this->_serviceManager->getContentSchema($config['schema']);
+                        $this->validate($value, $schema);
+                    } else {
+                        $this->_validate($value, $schema->getData($key));
+                    }
 
-                $data[$key] = $value;
+                    $data[$key] = $value;
+                }
             }
         }
     }

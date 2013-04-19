@@ -9,13 +9,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Service_Type_Utility_Default extends Mage_Core_Service_Type_Abstract
+class Mage_Core_Service_Type_DefaultUtility extends Mage_Core_Service_Type_Abstract
 {
-    public function map($data, $inSchema, $outSchema)
-    {
-        //
-    }
-
     public function refreshSystemConfiguration()
     {
         //

@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstract process service.
+ * Default Process service.
  *
  * Purpose: implement a business process by orchestrating other services.
  *
@@ -11,7 +11,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Mage_Core_Service_Type_Process_Abstract extends Mage_Core_Service_Type_Abstract
+abstract class Mage_Core_Service_Type_DefaultProcess extends Mage_Core_Service_Type_Abstract
 {
     public function start()
     {
