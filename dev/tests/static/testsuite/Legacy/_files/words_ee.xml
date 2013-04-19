@@ -25,5 +25,9 @@
             <path>app/code/Enterprise/Enterprise/sql/enterprise_enterprise_setup/upgrade-1.11.0.1-1.11.0.2.php</path>
             <word>Enterprise_Staging</word>
         </item>
+        <item>
+            <path>dev/tests/functional/testsuite/Enterprise/Mage/GiftWrapping/</path>
+            <word>Enterprise_Staging</word>
+        </item>
     </whitelist>
 </config>
