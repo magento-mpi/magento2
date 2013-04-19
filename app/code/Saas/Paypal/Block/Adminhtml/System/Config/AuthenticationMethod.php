@@ -28,7 +28,7 @@
  * Custom renderer for PayPal EnterBoarding button
  */
 class Saas_Paypal_Block_Adminhtml_System_Config_AuthenticationMethod
-    extends Mage_Adminhtml_Block_System_Config_Form_Field implements Varien_Data_Form_Element_Renderer_Interface
+    extends Mage_Backend_Block_System_Config_Form_Field
 {
     /**
      * Set template to the block
@@ -53,7 +53,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_AuthenticationMethod
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         /** @var $paypalHelper Saas_Paypal_Helper_Data */
-        $paypalHelper = Mage::helper('saas_paypal');
+        $paypalHelper = Mage::helper('Saas_Paypal_Helper_Data');
         $isAccelerated  = $paypalHelper->isEcAcceleratedBoarding();
         $isEcCredentials = $paypalHelper->isEcCredentials();
         $isEcPermissions = $paypalHelper->isEcPermissions();
@@ -63,9 +63,9 @@ class Saas_Paypal_Block_Adminhtml_System_Config_AuthenticationMethod
             : Saas_Paypal_Model_System_Config_Source_AuthenticationMethod::TYPE_PERMISSIONS
         );
         $element->setDisabled(!$isEcCredentials);
-        $forceFieldsetHide = Mage_Adminhtml_Block_System_Config_Form::SCOPE_STORES == $element->getScope();
-        $forceFieldHide = Mage_Adminhtml_Block_System_Config_Form::SCOPE_WEBSITES == $element->getScope();
-        $element->setScopeLabel(Mage::helper('adminhtml')->__('[GLOBAL]'));
+        $forceFieldsetHide = Mage_Backend_Block_System_Config_Form::SCOPE_STORES == $element->getScope();
+        $forceFieldHide = Mage_Backend_Block_System_Config_Form::SCOPE_WEBSITES == $element->getScope();
+        $element->setScopeLabel(Mage::helper('Mage_Backend_Helper_Data')->__('[GLOBAL]'));
         $render = parent::render($element);
         $this->addData(array(
             'force_fieldset_hide'           => $forceFieldsetHide,

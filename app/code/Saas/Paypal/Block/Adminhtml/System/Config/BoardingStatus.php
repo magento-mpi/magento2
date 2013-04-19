@@ -28,7 +28,7 @@
  * Custom renderer for PayPal EnterBoarding button
  */
 class Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus
-    extends Mage_Adminhtml_Block_Abstract implements Varien_Data_Form_Element_Renderer_Interface
+    extends Mage_Backend_Block_Abstract implements Varien_Data_Form_Element_Renderer_Interface
 {
     /**
      * Set template to itself
@@ -53,8 +53,9 @@ class Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         $data = $element->getOriginalData();
-        $helper = Mage::helper('paypal');
 
+        /** @var $helper Saas_Paypal_Helper_Data */
+        $helper = Mage::helper('Saas_Paypal_Helper_Data');
         $accountData = Mage::getStoreConfig($data['account_id_config_path']);
 
         if ($accountData) {
@@ -93,7 +94,8 @@ class Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus
      */
     public function getStatusName()
     {
-        $helper = Mage::helper('paypal');
+        /** @var $helper Saas_Paypal_Helper_Data */
+        $helper = Mage::helper('Saas_Paypal_Helper_Data');
         $statusLabels = array(
             Saas_Paypal_Model_Boarding_Onboarding::METHOD_STATUS_DISABLED  => $helper->__('Disabled'),
             Saas_Paypal_Model_Boarding_Onboarding::METHOD_STATUS_ACTIVE    => $helper->__('Active'),
@@ -117,13 +119,13 @@ class Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus
     }
 
     /**
-     * Is boarding button displayin allowed by current scope
+     * Is boarding button displaying allowed by current scope
      *
      * @return boolean
      */
     public function isDisplayButton()
     {
-        return $this->getForm()->getScope() !== Mage_Adminhtml_Block_System_Config_Form::SCOPE_STORES;
+        return $this->getForm()->getScope() !== Mage_Backend_Block_System_Config_Form::SCOPE_STORES;
     }
 
     /**
@@ -150,7 +152,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus
             $country = Mage::getStoreConfig('paypal/general/merchant_country', $this->getForm()->getScopeId());
         }
         if (empty($country)) {
-            $country = Mage::helper('core')->getDefaultCountry();
+            $country = Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry();
         }
         return $country;
     }

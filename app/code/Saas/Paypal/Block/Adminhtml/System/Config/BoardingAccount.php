@@ -28,7 +28,7 @@
  * Custom renderer for PayPal boarding account field, hide it if necessary
  */
 class Saas_Paypal_Block_Adminhtml_System_Config_BoardingAccount
-    extends Mage_Adminhtml_Block_System_Config_Form_Field
+    extends Mage_Backend_Block_System_Config_Form_Field
 {
     /**
      * Hotfix for switching authentication method
@@ -39,15 +39,13 @@ class Saas_Paypal_Block_Adminhtml_System_Config_BoardingAccount
      */
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
-        /**
-         * @var Mage_Paypal_Model_Config $paypalConfig
-         */
-        $paypalConfig = Mage::getModel('paypal/config')
+        /** @var $paypalConfig Mage_Paypal_Model_Config */
+        $paypalConfig = Mage::getModel('Mage_Paypal_Model_Config')
             ->setMethod(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS);
         if ($paypalConfig->isMethodActive(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS) &&
             !$element->hasValue()
         ) {
-            $element->setValue($paypalConfig->business_account);
+            $element->setValue($paypalConfig->businessAccount);
         }
         return parent::render($element);
     }
@@ -62,7 +60,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_BoardingAccount
     protected function _decorateRowHtml($element, $html)
     {
         $additionalAttributes = '';
-        if (!Mage::helper('saas_paypal')->isEcAcceleratedBoarding()) {
+        if (!Mage::helper('Saas_Paypal_Helper_Data')->isEcAcceleratedBoarding()) {
             $additionalAttributes = ' style="display: none;"';
         }
         // TODO: invent better way to hide element.

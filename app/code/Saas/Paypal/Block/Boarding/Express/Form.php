@@ -41,6 +41,6 @@ class Saas_Paypal_Block_Boarding_Express_Form extends Mage_Paypal_Block_Express_
     public function _construct()
     {
         parent::_construct();
-        $this->_config = Mage::getModel('saas_paypal/boarding_config')->setMethod($this->getMethodCode());
+        $this->_config = Mage::getModel('Saas_Paypal_Model_Boarding_Config')->setMethod($this->getMethodCode());
     }
 }

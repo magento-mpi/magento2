@@ -36,9 +36,11 @@ class Saas_Paypal_Block_Logo extends Mage_Paypal_Block_Logo
      */
     public function getAlt()
     {
+        /** @var $paypalHelper Mage_Paypal_Helper_Data */
+        $paypalHelper = Mage::helper('Mage_Paypal_Helper_Data');
         if ($this->_getConfig()->getMerchantCountry() == Saas_Paypal_Model_Config::LOCALE_DE) {
-            return Mage::helper('paypal')->__('PayPal empfohlen');
+            return $paypalHelper->__('PayPal empfohlen');
         }
-        return Mage::helper('paypal')->__('Additional Options');
+        return $paypalHelper->__('Additional Options');
     }
 }

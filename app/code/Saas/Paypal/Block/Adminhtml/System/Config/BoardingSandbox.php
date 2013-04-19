@@ -28,7 +28,7 @@
  * Custom renderer for PayPal boarding account field, hide it if necessary
  */
 class Saas_Paypal_Block_Adminhtml_System_Config_BoardingSandbox
-    extends Mage_Adminhtml_Block_System_Config_Form_Field
+    extends Mage_Backend_Block_System_Config_Form_Field
 {
     /**
      * Show/hide or skips it
@@ -40,7 +40,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_BoardingSandbox
     protected function _decorateRowHtml($element, $html)
     {
         $additionalAttributes = '';
-        if (!Mage::helper('saas_paypal')->isEcAcceleratedBoarding() || true) {
+        if (!Mage::helper('Saas_Paypal_Helper_Data')->isEcAcceleratedBoarding() || true) {
             $additionalAttributes = ' style="display: none;"';
         }
         // TODO: invent better way to hide element.

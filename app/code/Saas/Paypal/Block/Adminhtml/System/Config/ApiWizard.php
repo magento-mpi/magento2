@@ -48,19 +48,21 @@ class Saas_Paypal_Block_Adminhtml_System_Config_ApiWizard extends Mage_Paypal_Bl
      */
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        $buttonUrl = Mage::helper('core')->jsonEncode(
+        $corelHelper = Mage::helper('Mage_Core_Helper_Data');
+        $buttonUrl = $corelHelper->jsonEncode(
             $element->getFieldConfig()->{'button_url'}->asCanonicalArray()
         );
-        $sandboxButtonUrl = Mage::helper('core')->jsonEncode(
+        $sandboxButtonUrl = $corelHelper->jsonEncode(
             $element->getFieldConfig()->{'sandbox_button_url'}->asCanonicalArray()
         );
 
         $originalData = $element->getOriginalData();
+        $paypalHelper = Mage::helper('Mage_Paypal_Helper_Data');
         $this->addData(array(
-            'button_label' => Mage::helper('paypal')->__($originalData['button_label']),
+            'button_label' => $paypalHelper->__($originalData['button_label']),
             'button_url'   => $buttonUrl,
             'html_id' => $element->getHtmlId(),
-            'sandbox_button_label' => Mage::helper('paypal')->__($originalData['sandbox_button_label']),
+            'sandbox_button_label' => $paypalHelper->__($originalData['sandbox_button_label']),
             'sandbox_button_url'   => $sandboxButtonUrl,
             'sandbox_html_id' => 'sandbox_' . $element->getHtmlId(),
         ));

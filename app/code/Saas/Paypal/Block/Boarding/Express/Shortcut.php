@@ -57,19 +57,19 @@ class Saas_Paypal_Block_Boarding_Express_Shortcut extends Mage_Core_Block_Templa
     protected $_startAction = 'paypal/boarding_express/start/button/1';
 
     /**
-     * Express checkout model factory name
+     * Express checkout model name
      *
      * @var string
      */
-    protected $_checkoutType = 'saas_paypal/boarding_express_checkout';
+    protected $_checkoutType = 'Saas_Paypal_Model_Boarding_Express_Checkout';
 
     protected function _beforeToHtml()
     {
         $result = parent::_beforeToHtml();
-        $config = Mage::getModel('saas_paypal/boarding_config', array($this->_paymentMethodCode));
+        $config = Mage::getModel('Saas_Paypal_Model_Boarding_Config', array($this->_paymentMethodCode));
         $isInCatalog = $this->getIsInCatalogProduct();
         $quote = ($isInCatalog || '' == $this->getIsQuoteAllowed())
-            ? null : Mage::getSingleton('checkout/session')->getQuote();
+            ? null : Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
 
         // check visibility on cart or product page
         $context = $isInCatalog ? 'visible_on_product' : 'visible_on_cart';
@@ -85,15 +85,17 @@ class Saas_Paypal_Block_Boarding_Express_Shortcut extends Mage_Core_Block_Templa
             return $result;
         }
 
+        /** @var $paypalHelper Mage_Paypal_Helper_Data */
+        $paypalHelper = Mage::helper('Mage_Paypal_Helper_Data');
         // check payment method availability
-        $methodInstance = Mage::helper('payment')->getMethodInstance($this->_paymentMethodCode);
+        $methodInstance = $paypalHelper->getMethodInstance($this->_paymentMethodCode);
         if (!$methodInstance->isAvailable($quote)) {
             $this->_shouldRender = false;
             return $result;
         }
 
         // set misc data
-        $this->setShortcutHtmlId($this->helper('core')->uniqHash('ec_shortcut_'))
+        $this->setShortcutHtmlId($this->helper('Mage_Core_Helper_Data')->uniqHash('ec_shortcut_'))
             ->setCheckoutUrl($this->getUrl($this->_startAction))
         ;
 
@@ -108,12 +110,12 @@ class Saas_Paypal_Block_Boarding_Express_Shortcut extends Mage_Core_Block_Templa
         }
 
         // ask whether to create a billing agreement
-        $customerId = Mage::getSingleton('customer/session')->getCustomerId(); // potential issue for caching
-        if (Mage::helper('paypal')->shouldAskToCreateBillingAgreement($config, $customerId)) {
+        $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId(); // potential issue for caching
+        if ($paypalHelper->shouldAskToCreateBillingAgreement($config, $customerId)) {
             $this->setConfirmationUrl($this->getUrl($this->_startAction,
                 array(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1)
             ));
-            $this->setConfirmationMessage(Mage::helper('paypal')->__('Would you like to sign a billing agreement to streamline further purchases with PayPal?'));
+            $this->setConfirmationMessage($paypalHelper->__('Would you like to sign a billing agreement to streamline further purchases with PayPal?'));
         }
 
         return $result;

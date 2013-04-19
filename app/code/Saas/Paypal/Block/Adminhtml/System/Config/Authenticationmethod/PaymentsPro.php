@@ -28,7 +28,7 @@
  * Custom renderer for PayPal Payment Pro authentication method
  */
 class Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro
-    extends Mage_Adminhtml_Block_System_Config_Form_Field implements Varien_Data_Form_Element_Renderer_Interface
+    extends Mage_Backend_Block_System_Config_Form_Field implements Varien_Data_Form_Element_Renderer_Interface
 {
 
     /**
@@ -66,7 +66,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro
         if ($this->_isNeedForceBoarding()) {
             $element->setValue(self::AUTHENTICATION_METHOD_OPTION_DIRECT_BOARDING);
         }
-        $element->setScopeLabel(Mage::helper('adminhtml')->__('[GLOBAL]'));
+        $element->setScopeLabel(Mage::helper('Mage_Backend_Helper_Data')->__('[GLOBAL]'));
         $render = parent::render($element);
         $this->addData(array(
             'render'   => $render,
@@ -85,7 +85,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro
     protected function _decorateRowHtml($element, $html)
     {
         if ($this->_isNeedForceBoarding()
-            || Mage_Adminhtml_Block_System_Config_Form::SCOPE_WEBSITES == $element->getScope()
+            || Mage_Backend_Block_System_Config_Form::SCOPE_WEBSITES == $element->getScope()
         ) {
             return '<tr id="row_' . $element->getHtmlId() . '" style="display:none;">' . $html . '</tr>';
         }
@@ -104,7 +104,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro
         $wppAuthPath  = 'payment/'. $methodDirect .'/authentication_method';
         $authPermOpt = Saas_Paypal_Model_System_Config_Source_AuthenticationMethod::TYPE_PERMISSIONS;
         $isBoardingActive = Mage::getStoreConfigFlag("payment/{$methodDirectBoarding}/active", $this->_storeId);
-        $isBoardingWasActivated = Mage::getModel('saas_paypal/boarding_config')->getWasActivated(
+        $isBoardingWasActivated = Mage::getModel('Saas_Paypal_Model_Boarding_Config')->getWasActivated(
             $methodDirectBoarding,
             $this->_storeId
         );
