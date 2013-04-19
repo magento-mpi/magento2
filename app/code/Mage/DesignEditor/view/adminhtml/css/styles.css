@@ -1559,6 +1559,7 @@
     min-height: 250px;
 }
 
+.tab-panel form > span.field-row + .fieldset,
 .tab-panel form > div:first-child + .fieldset.column,
 .fieldset.column:first-child {
     margin-left: 0;
@@ -1808,7 +1809,7 @@
     text-align: right;
 }
 
-.vde-tools-image-settings .note {
+.vde-image-sizing .note {
     border-bottom: 1px solid #31302b;
     padding-bottom: 10px;
 }
