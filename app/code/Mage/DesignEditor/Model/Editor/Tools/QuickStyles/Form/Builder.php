@@ -114,15 +114,12 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      */
     protected function _isFormEmpty($form)
     {
-        $isEmpty = false;
+        $isEmpty = true;
         /** @var  $elements Varien_Data_Form_Element_Collection */
         $elements = $form->getElements();
-        if (!$elements->count()) {
-            $isEmpty = true;
-        }
         foreach ($elements as $element) {
-            if (!$element->getElements()->count()) {
-                $isEmpty = true;
+            if ($element->getElements()->count()) {
+                $isEmpty = false;
                 break;
             }
         }

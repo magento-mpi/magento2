@@ -87,7 +87,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
      * Initialize form elements
      *
      * @param Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration $controlsConfig
-     * @param Varien_Data_Form$form
+     * @param Varien_Data_Form $form
      * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
      */
     protected function _initFormElements($controlsConfig, $form)
