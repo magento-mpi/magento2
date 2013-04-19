@@ -241,6 +241,6 @@ class Mage_DesignEditor_Model_State
             if ($this->_cacheManager->canUse($cacheCode)) {
                 $this->_cacheManager->banUse($cacheCode);
             }
-        }
+      }
     }
 }

@@ -20,16 +20,20 @@
     $.widget('vde.vde_panel', {
         options: {
             switchModeEvent: 'switchMode',
+            continueSwitchModeEvent: 'continueSwitchMode',
             loadEvent: 'loaded',
             saveEvent: 'save',
+            saveConfirmEvent: 'save-confirm',
             saveAndAssignEvent: 'save-and-assign',
+            saveAndAssignConfirmEvent: 'save-and-assign-confirm',
             cellSelector: '.vde_toolbar_cell',
             handlesHierarchySelector: '#vde_handles_hierarchy',
             treeSelector: '#vde_handles_tree',
             viewLayoutButtonSelector: '.view-layout',
             navigationModeButtonSelector: '.switch-to-navigation',
             viewLayoutUrl: null,
-            editorFrameSelector: null
+            editorFrameSelector: null,
+            dialogSelectorSave: '#dialog-message-save'
         },
         editorFrame: null,
 
@@ -50,7 +54,12 @@
                 $body.trigger('contentUpdated');
             });
             $body.on(this.options.saveEvent, $.proxy(this._onSave, this));
+            $body.on(this.options.saveConfirmEvent, $.proxy(this._onSaveConfirm, this));
             $body.on(this.options.saveAndAssignEvent, $.proxy(this._onSaveAndAssign, this));
+            $body.on(this.options.saveAndAssignConfirmEvent, $.proxy(this._onSaveAndAssignConfirm, this));
+
+            $('[data-frame="editor"]')
+                .on(this.options.continueSwitchModeEvent, $.proxy(this._continueSwitchMode, this));
         },
 
         _initCells : function() {
@@ -72,7 +81,8 @@
         },
 
         /**
-         * Switch mode event handler
+         * Switch mode event handler.
+         * Fire an event to determine if inline translation text is being edited.
          * @protected
          */
         _onSwitchMode: function(event, data) {
@@ -104,19 +114,19 @@
         _onSave: function(event, eventData) {
             var saveConfirmEvent = this.options.saveConfirmEvent;
             if (eventData.confirm_message) {
-                var dialog = this._getDialog();
+                var dialog = $(this.options.dialogSelectorSave);
                 dialog.find('.messages').html('');
                 dialog.find('.confirm_message').html(eventData.confirm_message);
                 var buttons = [
                     {
-                        text: $.mage.__('Save'),
+                        text: 'Save',
                         click: function() {
                             $('body').trigger(saveConfirmEvent, eventData);
                         },
                         'class': 'primary'
                     },
                     {
-                        text: $.mage.__('Close'),
+                        text: 'Close',
                         click: function() {
                             $( this ).dialog('close');
                         },
@@ -128,6 +138,10 @@
             } else {
                 $('body').trigger(saveConfirmEvent, eventData);
             }
+        },
+
+        _onSaveConfirm: function(event, eventData) {
+            console.log('_onSaveConfirm');
             if (!eventData.save_url) {
                 throw Error('Save url is not defined');
             }
@@ -137,20 +151,23 @@
             };
 
             var onSaveSuccess = eventData.onSaveSuccess || function(response) {
-                var dialog = eventData.dialog || this._getDialog();
+                var dialog = eventData.dialog || $(this.options.dialogSelectorSave);
                 var message;
                 if (response.error) {
-                    alert($.mage.__('Error') + ': "' + response.message + '".');
+                    message = [
+                        '<div class="message-success">',
+                        $.mage.__('Error') + ': "' + response.message + '".',
+                        '</div>'
+                    ];
                 } else {
-                    alert(response.message);
+                    console.log(response.message);
+                    message = [
+                        '<div class="message-success">',
+                        response.message,
+                        '</div>'
+                    ];
                 }
-                var messagesElement = dialog.find('.messages');
-                if (dialog.dialog('isOpen')) {
-                    messagesElement.append(message.join(''));
-                } else {
-                    dialog.dialog('open');
-                    messagesElement.html(message.join(''));
-                }
+                dialog.find('.messages').html(dialog.find('.messages').html() + message.join(''));
             };
 
             if ($(this.options.editorFrameSelector).get(0)) {
@@ -178,21 +195,67 @@
         },
 
         _onSaveAndAssign: function(event, eventData) {
-            //NOTE: Line below makes copy of eventData to have an ability to unset 'confirm_message' later
-            // and to not miss this 'confirm_message' for next calls of method
-            var tempData = jQuery.extend({}, eventData);
+           var saveAndAssignConfirmEvent = this.options.saveAndAssignConfirmEvent;
 
-            if (tempData.confirm_message && !confirm(tempData.confirm_message)) {
-                return;
-            }
-            tempData.confirm_message = null;
-            tempData.onSaveSuccess = function(response) {
+            /*eventData.onSaveSuccess = function(response) {
                 if (response.error) {
                     alert($.mage.__('Error') + ': "' + response.message + '".');
                 }
-            }
-            $(event.target).trigger('save', tempData);
-            $(event.target).trigger('assign', tempData);
+            }*/
+            eventData.confirm_buttons = [
+                {
+                    text: 'Save',
+                    click: function() {
+                        $('body').trigger(saveAndAssignConfirmEvent, eventData);
+                    },
+                    'class': 'primary'
+                },
+                {
+                    text: 'Close',
+                    click: function() {
+                        $( this ).dialog('close');
+                    },
+                    'class': 'action-close'
+                }
+            ];
+            $(event.target).trigger('assign', eventData);
+
+            /*var saveAndAssignConfirmEvent = this.options.saveAndAssignConfirmEvent;
+            if (eventData.confirm_message) {
+                var dialog = this._getDialog();
+                dialog.find('.messages').html('');
+                dialog.find('.confirm_message').html(eventData.confirm_message);
+
+                var buttons = [
+                    {
+                        text: 'Save',
+                        click: function() {
+                            $('body').trigger(saveAndAssignConfirmEvent, eventData);
+                        },
+                        'class': 'primary'
+                    },
+                    {
+                        text: 'Close',
+                        click: function() {
+                            $( this ).dialog('close');
+                        },
+                        'class': 'action-close'
+                    }
+                ];
+                dialog.dialog('option', 'buttons', buttons);
+                dialog.dialog('open');
+            } else {
+                $('body').trigger(saveAndAssignConfirmEvent, eventData);
+            }*/
+        },
+
+        _onSaveAndAssignConfirm: function(event, eventData) {
+            //NOTE: Line below makes copy of eventData to have an ability to unset 'confirm_message' later
+            // and to not miss this 'confirm_message' for next calls of _onSaveAndAssign
+            var tempData = jQuery.extend({}, eventData);
+            tempData.confirm_message = null;
+            $('body').trigger(this.options.saveConfirmEvent, tempData);
+            $('body').trigger('assign-confirm', tempData);
         },
 
         saveTemporaryLayoutChanges: function(themeId, saveChangesUrl, modeUrl) {
@@ -216,6 +279,9 @@
             }
         },
 
+        _getDialog: function() {
+            return $(this.options.dialogSelectorSave);
+        },
         _preparePostItems: function(items) {
             var postData = {};
             $.each(items, function(index, item){
