@@ -1328,10 +1328,18 @@ h6 {
 .reviews.summary .reviews.actions span {
   color: #ffffff;
 }
+.reviews.summary .reviews.actions a {
+  position: relative;
+  padding-left: 7px;
+  display: inline-block;
+}
 .reviews.summary .action.view span:before {
   content: ' ';
 }
 .reviews.summary .action.view + .action.add:before {
+  position: absolute;
+  top: 0;
+  left: 0;
   content: ' | ';
 }
 .reviews.summary.short:not(.no-rating) .action.view span {
@@ -1428,6 +1436,17 @@ form.send.friend .actions .secondary {
 -------------------------------------- */
 form.search.advanced {
   width: 50%;
+}
+form.search.advanced .range.price .field.with-addon {
+  margin-left: 50px;
+  position: relative;
+}
+form.search.advanced .range.price .field.with-addon:before {
+  position: absolute;
+  top: 10px;
+  margin-right: 100%;
+  right: 14px;
+  content: "— ";
 }
 form.search.advanced .actions {
   text-align: right;
@@ -1637,6 +1656,7 @@ form.search.advanced .actions .action.search span {
   background-clip: padding-box;
   height: 32px;
   line-height: 1;
+  border-radius: 0;
 }
 .no-borderradius .block.add.review .fieldset > .field:not(.ratings) .addon .addbefore,
 .no-borderradius .block.add.review .fieldset > .field:not(.ratings) .addon .addafter {
@@ -1936,6 +1956,9 @@ textarea.mage-error {
 }
 .mage-error {
   color: #cd2d2d;
+}
+div.mage-error {
+  padding-top: 4px;
 }
 /*
  *    Mage_CatalogSearch
@@ -2365,9 +2388,6 @@ select:disabled {
 .opc.wrapper .form:not(.login) .field.taxvat {
   margin: 0 40% 30px 0;
 }
-.opc.wrapper .form:not(.login) .field.password {
-  margin: 20px 30% 0 0;
-}
 .opc.wrapper .form:not(.login) .field.choice {
   width: 100%;
   display: block;
@@ -2648,6 +2668,7 @@ select:disabled {
   color: #fff;
   text-decoration: none;
   margin-right: 10px;
+  float: right;
 }
 .cart.main.actions .action span {
   font-size: 14px;
@@ -2660,6 +2681,26 @@ select:disabled {
 .cart.main.actions .action:active,
 .cart.main.actions .action:hover {
   background: #ae1523;
+}
+.cart.main.actions .action.continue {
+  border: none;
+  border-radius: 0;
+  background: none;
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  float: left;
+  line-height: 35px;
+}
+.cart.main.actions .action.continue span {
+  color: #ae1523;
+  text-decoration: underline;
+  text-transform: none;
+}
+.cart.main.actions .action.continue:hover span {
+  color: #c4c4c4;
 }
 .items.data {
   width: 100%;
@@ -4968,6 +5009,7 @@ select:disabled {
   background-clip: padding-box;
   height: 32px;
   line-height: 1;
+  border-radius: 0;
 }
 .no-borderradius .fieldset > .field .addon .addbefore,
 .no-borderradius .fieldset > .field .addon .addafter {
@@ -5042,7 +5084,7 @@ select:disabled {
   border-top: 1px solid #ffffff;
 }
 .product.info.main .product.addto.links span:hover {
-  color: #ae1523;
+  color: #c4c4c4;
 }
 .product.info.main .product.addto.links .action {
   float: left;
@@ -5115,6 +5157,7 @@ select:disabled {
   background-clip: padding-box;
   height: 32px;
   line-height: 1;
+  border-radius: 0;
 }
 .no-borderradius .product.main.info .product.options.wrapper .field .addon .addbefore,
 .no-borderradius .product.main.info .product.options.wrapper .field .addon .addafter {
@@ -5233,7 +5276,7 @@ select:disabled {
 }
 .box.tocart .label {
   display: block;
-  text-align: center;
+  text-align: left;
   text-transform: uppercase;
   font-weight: 600;
   line-height: 25px;
@@ -5797,6 +5840,7 @@ img[align="right"] {
   background-clip: padding-box;
   height: 32px;
   line-height: 1;
+  border-radius: 0;
 }
 .no-borderradius .my-account .field .addon .addbefore,
 .no-borderradius .my-account .field .addon .addafter {
@@ -6558,6 +6602,7 @@ img[align="right"] {
   background-clip: padding-box;
   height: 32px;
   line-height: 1;
+  border-radius: 0;
 }
 .no-borderradius .form.password.forget .fieldset > .field .addon .addbefore,
 .no-borderradius .form.create.account .fieldset > .field .addon .addbefore,
@@ -6936,6 +6981,44 @@ img[align="right"] {
   font-size: 20px;
   line-height: 1;
   font-weight: 400;
+}
+/* Widgets */
+.sidebar .widget.minilist .item.product {
+  margin-bottom: 10px;
+  text-align: center;
+}
+.sidebar .widget.minilist .item.product .product.photo {
+  float: none;
+  text-align: center;
+  display: block;
+}
+.sidebar .widget.minilist .item.product .product.name a {
+  font-size: 16px;
+}
+.sidebar .widget.minilist .item.product .actions {
+  margin-top: 10px;
+  float: none;
+}
+.sidebar .widget.minilist .item.product .actions .primary {
+  float: none;
+}
+.sidebar .widget.minilist .item.product .actions .action {
+  float: none;
+}
+.sidebar .widget.photos .items {
+  *zoom: 1;
+}
+.sidebar .widget.photos .items:before,
+.sidebar .widget.photos .items:after {
+  content: "";
+  display: table;
+}
+.sidebar .widget.photos .items:after {
+  clear: both;
+}
+.sidebar .widget.photos .items .item {
+  width: 50%;
+  float: left;
 }
 /* Legacy code*/
 .sidebar .block-title strong {

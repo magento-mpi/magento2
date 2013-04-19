@@ -1013,9 +1013,9 @@ h6 {
     &:before,
     > span:before{
       display: block;
-      top:0;
-      left:0;
-      width:100%;
+      top: 0;
+      left: 0;
+      width: 100%;
       font-family: "MUI-Icons";
       content: "\e01a\e01a\e01a\e01a\e01a";
       font-style: normal;
@@ -1032,12 +1032,20 @@ h6 {
     span {
       color: @secondary3;
     }
+    a {
+      position: relative;
+      padding-left: 7px;
+      display: inline-block;
+    }
   }
   .action.view {
-    span:before { content:' '; }
+    span:before { content: ' '; }
   }
   .action.view + .action.add {
     &:before {
+      position: absolute;
+      top: 0;
+      left: 0;
       content: ' | ';
     }
   }
@@ -1095,13 +1103,25 @@ form.send.friend {
 -------------------------------------- */
 form.search.advanced {
   width: 50%;
+  .range.price {
+    .field.with-addon {
+      margin-left: 50px;
+      position: relative;
+      &:before {
+        position: absolute;
+        top: 10px;
+        margin-right: 100%;
+        right: 14px;
+        content: "— ";
+      }
+    }
+  }
   .actions {
     text-align: right;
     .action.search {
       .primaryAction();
     }
   }
-
 }
 
 /*
@@ -1430,6 +1450,10 @@ textarea.mage-error {
   color: @messageError;
 }
 
+div.mage-error {
+  padding-top: 4px;
+}
+
 /*
  *    Mage_CatalogSearch
  *
@@ -1686,27 +1710,27 @@ select {
       .clearfix();
       text-align: right;
       button.action {
-        float:right;
+        float: right;
         .primaryAction();
       }
       .secondary {
-        padding-top:10px;
-        clear:right;
-        float:right;
+        padding-top: 10px;
+        clear: right;
+        float: right;
       }
     }
     .field.fullname + .field.company,
     .field.name-lastname + .field.company,
     .field.country,
     .field.taxvat {
-      margin:0 40% 30px 0;
+      margin: 0 40% 30px 0;
     }
 
     .field.password {
-      margin: 20px 30% 0 0;
+//      margin: 20px 30% 0 0;
     }
     .field.choice {
-      width:100%;
+      width: 100%;
       display: block;
     }
     .field.persistent,
@@ -1906,6 +1930,20 @@ select {
   .action {
     .secondaryAction();
     margin-right: 10px;
+    float: right;
+    &.continue {
+      .resetAction();
+      float: left;
+      line-height: 35px;
+      span {
+        color: @navBg;
+        text-decoration: underline;
+        text-transform: none;
+      }
+      &:hover span {
+        color: @secondary4;
+      }
+    }
   }
 }
 .items.data {
@@ -3454,7 +3492,9 @@ select {
 @imageHeight:180px;
 @imageWidth:180px;
 
-.products.wrapper .products.list {
+.products.wrapper .products.list,
+.widget.new.grid .products.list,
+.widget.new.list .products.list {
   .item {
     .product.photo {
       display: block;
@@ -3539,7 +3579,8 @@ select {
   }
 }
 
-.products.wrapper.grid .products.list {
+.products.wrapper.grid .products.list,
+.widget.new.grid .products.list {
   .item.product {
     .borderBox;
     width: 20%;
@@ -3575,7 +3616,8 @@ select {
     }
   }
 }
-.products.wrapper.list .products.list {
+.products.wrapper.list .products.list,
+.widget.new.list .products.list {
   margin-bottom: 20px;
   .item.product {
     display: block;
@@ -3603,6 +3645,15 @@ select {
   }
   .product.description {
     margin: 9px 0;
+  }
+}
+.widget.new.list .products.list {
+  .actions {
+    .secondary {
+      position: static;
+      margin: 10px 0 0 0;
+      border-top: 0;
+    }
   }
 }
 
@@ -3761,7 +3812,7 @@ select {
     padding-top: 10px;
     border-top: 1px solid @primary2;
     span:hover {
-      color: @primary3;
+      color: @secondary4;
     }
     .action {
       float: left;
@@ -3840,7 +3891,7 @@ select {
   }
   .label {
     display: block;
-    text-align: center;
+    text-align: left;
     text-transform: uppercase;
     font-weight: 600;
     line-height: 25px;
@@ -4857,6 +4908,42 @@ and (max-width : 768px)  {
       font-size: 20px;
       line-height: 1;
       font-weight: 400;
+    }
+  }
+}
+
+/* Widgets */
+.sidebar .widget.minilist {
+  .item.product {
+    margin-bottom: 10px;
+    text-align: center;
+    .product.photo {
+      float: none;
+      text-align: center;
+      display: block;
+    }
+    .product.name a {
+      font-size: 16px;
+    }
+    .actions {
+      margin-top: 10px;
+      float: none;
+      .primary {
+        float: none;
+      }
+      .action {
+        float: none;
+      }
+    }
+  }
+}
+
+.sidebar .widget.photos {
+  .items {
+    .clearfix();
+    .item {
+      width: 50%;
+      float: left;
     }
   }
 }
