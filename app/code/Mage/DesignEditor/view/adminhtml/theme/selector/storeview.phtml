@@ -15,7 +15,7 @@
 <div class="fade" id="store-view-window">
     <div class="popup">
         <header class="popup-header">
-            <strong class="popup-title"><?php echo $this->__('Select Storeviews to make your changes live:') ?></strong>
+            <strong class="popup-title"><?php echo $this->__('Select store views to make your changes live:') ?></strong>
         </header>
         <div class="popup-content">
             <form method="post" action="">
@@ -57,9 +57,9 @@
 </div>
 
 <script type="text/javascript">
-    (function ($) {
-        $( document ).ready(function( ) {
-            $( 'body' ).themeAssign(<?php echo $this->getOptionsJson(); ?>);
+    (function($) {
+        $(document).ready(function() {
+            $('body').themeAssign(<?php echo $this->getOptionsJson(); ?>);
         });
     })(jQuery);
 </script>
