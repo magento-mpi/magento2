@@ -63,7 +63,6 @@ class Enterprise_Mage_Rma_ItemAttribute_CreateTest extends Mage_Selenium_TestCas
      */
     public function withAttributeCodeThatAlreadyExists()
     {
-        $this->markTestIncomplete('MAGETWO-9471');
         //Data
         $attrData = $this->loadDataSet('RMAItemsAttribute', 'rma_item_attribute_textfield');
         //Steps

@@ -112,7 +112,7 @@ new_rma_item_attribute:
             save_and_continue_edit: //button[span='Save and Continue Edit']
             delete_attribute: //button[span='Delete Attribute']
         messages: &rmaAttributeMessage
-            exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute with the same code already exists')]
+            exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute with the same code already exists.')]
             empty_attribute_code: //*[@id='advice-required-entry-attribute_code']
             empty_sort_order: //*[@id='advice-required-entry-sort_order']
             empty_admin_title: //*[@id='advice-required-option-frontend_label[0]']
