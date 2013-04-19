@@ -13,11 +13,11 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
     extends Saas_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
 {
     /**
-     * Helper factory
+     * Launcher Helper
      *
-     * @var Mage_Core_Model_Factory_Helper|PHPUnit_Framework_MockObject_MockObject
+     * @var Saas_Launcher_Helper_Data|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_helperFactory;
+    protected $_helperMock;
 
     /**
      * Configuration loader
@@ -40,6 +40,13 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
      */
     protected $_modelLogo;
 
+    /**
+     * Logo backend config model
+     *
+     * @var Mage_Core_Model_Theme_Service|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_themeService;
+
     protected function setUp()
     {
         $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
@@ -50,19 +57,13 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
             ->method('getCode')
             ->will($this->returnValue('default'));
 
-        $helperMock = $this->getMock('Saas_Launcher_Helper_Data', array(), array(), '', false);
-        $helperMock->expects($this->any())
+        $this->_helperMock =  $this->getMock('Saas_Launcher_Helper_Data', array(), array(), '', false);
+        $this->_helperMock->expects($this->any())
             ->method('getCurrentStoreView')
             ->will($this->returnValue($store));
-        $helperMock->expects($this->any())
+        $this->_helperMock->expects($this->any())
             ->method('getTmpLogoPath')
             ->will($this->returnArgument(0));
-
-        $this->_helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper',
-            array(), array(), '', false, false
-        );
-        $this->_helperFactory->expects($this->any())->method('get')->with('Saas_Launcher_Helper_Data')
-            ->will($this->returnValue($helperMock));
 
         $this->_configLoader = $this->getMock('Mage_Backend_Model_Config_Loader',
             array(), array(), '', false, false
@@ -112,6 +113,20 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
         $this->_modelLogo->expects($this->any())->method('save')
             ->will($this->returnSelf());
 
+        $themeMock = $this->getMockBuilder('Mage_Core_Model_Theme')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getId'))
+            ->getMock();
+        $themeMock->expects($this->any())->method('getId')->will($this->returnValue(20));
+
+        $this->_themeService = $this->getMockBuilder('Mage_Core_Model_Theme_Service')
+            ->disableOriginalConstructor()
+            ->setMethods(array('reassignThemeToStores'))
+            ->getMock();
+        $this->_themeService->expects($this->any())->method('reassignThemeToStores')
+            ->with($this->equalTo(1), $this->equalTo(array(1)))
+            ->will($this->returnValue($themeMock));
+
         parent::setUp();
     }
 
@@ -127,10 +142,11 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
         return new Saas_Launcher_Model_Storelauncher_Design_SaveHandler(
             $config,
             $backendConfigModel,
-            $this->_helperFactory,
+            $this->_helperMock,
             $this->_configLoader,
             $this->_configWriter,
-            $this->_modelLogo
+            $this->_modelLogo,
+            $this->_themeService
         );
     }
 
@@ -204,7 +220,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
             'design' => array(
                 'theme' => array(
                     'fields' => array(
-                        'theme_id' => array('value' => '1'),
+                        'theme_id' => array('value' => '20'),
                     ),
                 ),
             ),
