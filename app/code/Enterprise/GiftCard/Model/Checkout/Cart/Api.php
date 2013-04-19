@@ -13,13 +13,13 @@ class Enterprise_GiftCard_Model_Checkout_Cart_Api extends Mage_Checkout_Model_Ap
      * List gift cards account belonging to quote
      *
      * @param  string $quoteId
-     * @param null|string $storeId
+     * @param null|string $store
      * @return array
      */
-    public function items($quoteId, $storeId = null)
+    public function items($quoteId, $store = null)
     {
         /** @var $quote Mage_Sales_Model_Quote */
-        $quote = $this->_getQuote($quoteId, $storeId);
+        $quote = $this->_getQuote($quoteId, $store);
 
         $giftcardsList = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($quote);
         // map short names of giftcard account attributes to long
@@ -39,13 +39,13 @@ class Enterprise_GiftCard_Model_Checkout_Cart_Api extends Mage_Checkout_Model_Ap
      *
      * @param string $giftcardAccountCode
      * @param  string $quoteId
-     * @param null|string $storeId
+     * @param null|string $store
      * @return bool
      */
-    public function add($giftcardAccountCode, $quoteId, $storeId = null)
+    public function add($giftcardAccountCode, $quoteId, $store = null)
     {
         /** @var $quote Mage_Sales_Model_Quote */
-        $quote = $this->_getQuote($quoteId, $storeId);
+        $quote = $this->_getQuote($quoteId, $store);
 
         /** @var $giftcardAccount Enterprise_GiftCardAccount_Model_Giftcardaccount */
         $giftcardAccount = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
@@ -67,13 +67,13 @@ class Enterprise_GiftCard_Model_Checkout_Cart_Api extends Mage_Checkout_Model_Ap
      *
      * @param string $giftcardAccountCode
      * @param  string $quoteId
-     * @param null|string $storeId
+     * @param null|string $store
      * @return bool
      */
-    public function remove($giftcardAccountCode, $quoteId, $storeId = null)
+    public function remove($giftcardAccountCode, $quoteId, $store = null)
     {
         /** @var $quote Mage_Sales_Model_Quote */
-        $quote = $this->_getQuote($quoteId, $storeId);
+        $quote = $this->_getQuote($quoteId, $store);
 
         /** @var $giftcardAccount Enterprise_GiftCardAccount_Model_Giftcardaccount */
         $giftcardAccount = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
