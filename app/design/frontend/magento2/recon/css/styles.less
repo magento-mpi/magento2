@@ -514,7 +514,6 @@ h6 {
   .title {
     .titleH1();
     margin: 0;
-    color: @secondary4;
   }
 }
 .page.main > .page.title {
@@ -2767,16 +2766,6 @@ select {
 @subNavHeight: auto;
 @subNavPadding: 10px;
 
-.navigation {
-  a {
-    text-decoration: none;
-    &:focus,
-    &:active {
-      outline:none;
-    }
-  }
-}
-
 .navigation.fixed {
   > ul > .level-top {
     display: inline;
@@ -2785,7 +2774,7 @@ select {
       padding:0;
       float:left;
       &:before {
-        content:'';
+        content: '';
         background: @primary4;
         position: absolute;
         display: block;
@@ -2806,6 +2795,13 @@ select {
 }
 
 .navigation {
+  a {
+    text-decoration: none;
+    &:focus,
+    &:active {
+      outline:none;
+    }
+  }
   text-indent: @subNavHeight;
   background-color: @navBg;
   position: relative;
@@ -3236,8 +3232,11 @@ select {
     text-decoration: none;
   }
   dt {
-    font-size: 24px;
-    color: @secondary4;
+    font-size: 16px;
+    color: @navBg;
+    font-weight: 700;
+    font-style: italic;
+    text-transform: uppercase;
   }
   dd {
     margin: 0;
@@ -4913,6 +4912,19 @@ and (max-width : 768px)  {
 }
 
 /* Widgets */
+.sidebar .widget {
+  margin-bottom: 30px;
+}
+
+.sidebar {
+  .widget-cms-link-inline,
+  .widget-cms-link,
+  span.widget {
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+}
+
 .sidebar .widget.minilist {
   .item.product {
     margin-bottom: 10px;

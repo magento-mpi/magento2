@@ -142,23 +142,22 @@
 
     function checkWrap() {
         var navWidth = $('.navigation > ul').width();
-        var totalWidth=0;
+        var totalWidth = 0;
         var stop = 0;
         $('.navigation > ul > li').each(function(index) {
             totalWidth = totalWidth + $(this).outerWidth();
             if(totalWidth > navWidth && stop == 0) {
                 stop = index - 1;
-            };
+            }
         });
         if (stop > 0) {
             var items = $('.navigation > ul > li');
             items
-                .slice(stop,items.lenght)
+                .slice(stop, items.lenght)
                 .wrapAll('<li class="level-top more parent">')
                 .wrapAll('<div class="submenu"/>')
                 .wrapAll('<ul />');
         }
-
     }
 
     function listScroll() {

@@ -2783,16 +2783,6 @@ select {
 @subNavHeight: auto;
 @subNavPadding: 10px;
 
-.navigation {
-  a {
-    text-decoration: none;
-    &:focus,
-    &:active {
-      outline:none;
-    }
-  }
-}
-
 .navigation.fixed {
   > ul > .level-top {
     display: inline;
@@ -2827,6 +2817,13 @@ select {
   position: relative;
   z-index: 2;
   .clearfix;
+  a {
+    text-decoration: none;
+    &:focus,
+    &:active {
+      outline: none;
+    }
+  }
   > ul {
     position: relative;
     text-indent: 0;
@@ -2989,9 +2986,6 @@ select {
       }
     }
   }
-/*    li.level1 {
-        display: inline-block; width:20%; vertical-align: top;
-    }*/
 }
 .level-top.more {
   &:after {
@@ -4942,8 +4936,8 @@ and (max-width : 768px)  {
     display: block;
     line-height: 1.2;
     font-size: 72px;
-    color:#fff;
-    text-shadow:2px 0 6px rgba(0,0,0,.40);
+    color: #fff;
+    text-shadow: 2px 0 6px rgba(0,0,0,.40);
   }
   .banner.action {
     .primaryAction();
@@ -4957,6 +4951,19 @@ and (max-width : 768px)  {
 }
 
 /* Widgets */
+.sidebar .widget {
+  margin-bottom: 30px;
+}
+
+.sidebar {
+  .widget-cms-link-inline,
+  .widget-cms-link,
+  span.widget {
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+}
+
 .sidebar .widget.minilist {
   .item.product {
     margin-bottom: 10px;
