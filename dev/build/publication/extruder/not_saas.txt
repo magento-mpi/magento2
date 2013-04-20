@@ -26,7 +26,6 @@ app/design/frontend/default/iphone/Mage_Downloadable
 app/design/frontend/enterprise/iphone_html5/Mage_Downloadable
 app/design/frontend/enterprise/iphone_html5/Enterprise_TargetRule
 app/design/frontend/enterprise/iphone_html5/Enterprise_Wishlist
-app/design/frontend/magento2/reference/!Enterprise_Wishlist
 app/design/frontend/magento2/reference/Enterprise_Checkout
 app/design/frontend/magento2/reference/Enterprise_TargetRule
 app/etc/modules/XEnterprise_Edition.xml.dist
