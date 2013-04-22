@@ -247,7 +247,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
             $this->addParameter('rowNumber', $key + 1);
             if ($isCheck) {
                 if (!isset($options[$key]) || !isset($options[$key]['admin_option_name'])) {
-                    $this->addVerificationMessage('Admin Option Name for option with index ' . $key + 1
+                    $this->addVerificationMessage('Admin Option Name for option with index ' . ($key + 1)
                                                   . ' is not set. Exist more options than specified.');
                     continue;
                 }
