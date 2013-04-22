@@ -32,6 +32,7 @@
                     $('#attribute-' + $entity.find('[name$="[code]"]').val() + '-container select').removeAttr('disabled');
                     $entity.remove();
                     updateGenerateVariationsButtonAvailability();
+                    event.stopImmediatePropagation();
                 },
                 'click .toggle': function (event) {
                     $(event.target).parent().next('fieldset').toggle();
