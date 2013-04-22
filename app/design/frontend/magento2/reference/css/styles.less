@@ -2781,11 +2781,16 @@ div.mage-error {
     table-layout: fixed;
 
     .cell.label {
-        width:140px;
-        padding-left:30px;
+        width:130px;
+        padding-left:10px;
         font-weight: 600;
         text-align: left;
         border-right:1px solid @primary2;
+        .attribute.label {
+            display: block;
+            width: 100%;
+            word-break:break-all;
+        }
         &.product {
             border-bottom:1px solid @primary2;
         }
@@ -2795,6 +2800,11 @@ div.mage-error {
         vertical-align: top;
         p:first-child {
             margin-top:0;
+        }
+        .attibute.value {
+            width:100%;
+            word-break:break-all;
+            overflow: hidden;
         }
     }
     .cell.product {
@@ -2857,6 +2867,7 @@ div.mage-error {
     z-index: 2;
     top:0;
     left:0;
+    width:auto;
     background-color: @pageMainBg;
     th {
         background-color: @pageMainBg;

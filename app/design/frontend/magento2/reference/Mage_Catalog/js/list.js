@@ -14,11 +14,9 @@
             var products = $('thead td', this.element);
 
             if (products.length > this.options.productsInRow) {
-                //var headings = $('<table></table>').addClass('comparison headings data table').insertBefore(this.element.closest('.container'));
-                var headings = $('<table></table>').addClass('comparison headings data table').insertBefore(this.element);
+                var headings = $('<table></table>').addClass('comparison headings data table').insertBefore(this.element.closest('.container'));
                 this.element.addClass('scroll');
                 $('th',this.element).each(function(){
-                    //console.log(el);
                     var some = $(this).clone();
                     var height = $(this).height();
                     some.css('height', function() {

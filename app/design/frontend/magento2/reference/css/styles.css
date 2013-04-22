@@ -3538,11 +3538,16 @@ div.mage-error {
   table-layout: fixed;
 }
 .data.comparison .cell.label {
-  width: 140px;
-  padding-left: 30px;
+  width: 130px;
+  padding-left: 10px;
   font-weight: 600;
   text-align: left;
   border-right: 1px solid #e5e5e5;
+}
+.data.comparison .cell.label .attribute.label {
+  display: block;
+  width: 100%;
+  word-break: break-all;
 }
 .data.comparison .cell.label.product {
   border-bottom: 1px solid #e5e5e5;
@@ -3553,6 +3558,11 @@ div.mage-error {
 }
 .data.comparison .cell p:first-child {
   margin-top: 0;
+}
+.data.comparison .cell .attibute.value {
+  width: 100%;
+  word-break: break-all;
+  overflow: hidden;
 }
 .data.comparison .cell.product {
   width: 140px;
@@ -3632,6 +3642,7 @@ div.mage-error {
   z-index: 2;
   top: 0;
   left: 0;
+  width: auto;
   background-color: #ffffff;
 }
 .comparison.headings th {
