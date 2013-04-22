@@ -31,7 +31,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
         }
 
         $serviceManager = Mage::getSingleton('Mage_Core_Service_Manager');
-        $category = $serviceManager->getService('Mage_Catalog_Service_CategoryEntity')
+        $category = $serviceManager->getService('catalog_category')
             ->call('initCategoryToView', array(
                 'entity_id' => $categoryId,
                 'store_id'  => Mage::app()->getStore()->getId(),
@@ -66,7 +66,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
         if ($category = $this->_initCatagory()) {
             $serviceManager = Mage::getSingleton('Mage_Core_Service_Manager');
             /** @var $layoutService Mage_Core_Service_Type_LayoutUtility */
-            $layoutService = $serviceManager->getService('Mage_Core_Service_Type_LayoutUtility');
+            $layoutService = $serviceManager->getService('layout');
             $layout = $layoutService->getLayout($this->_currentArea);
 
             $layout->getUpdate()->addHandle('default');

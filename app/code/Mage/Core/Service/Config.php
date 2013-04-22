@@ -27,232 +27,163 @@ class Mage_Core_Service_Config
     const VERSION_NUMBER_PREFIX = 'V';
     /**#@-*/
 
-    /** @var Mage_Core_Service_Config_Reader */
+    const CACHE_ID = 'services';
+
+    /**
+     * @var Mage_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @var Mage_Core_Model_Cache_Type_Config
+     */
+    protected $_configCacheType;
+
+    /**
+     * @var Mage_Core_Service_Config_Reader
+     */
     protected $_reader;
 
-    /** @var Mage_Webapi_Helper_Config */
-    protected $_helper;
-
-    /** @var Mage_Core_Model_App */
-    protected $_application;
-
     /**
-     * Resources configuration data.
+     * Module configuration reader
      *
-     * @var array
+     * @var Mage_Core_Model_Config_Modules_Reader
      */
-    protected $_data;
+    protected $_moduleReader;
 
     /**
-     * Initialize dependencies. Initialize data.
-     *
-     * @param Mage_Core_Service_Config_Reader $reader
-     * @param Mage_Webapi_Helper_Config $helper
-     * @param Mage_Core_Model_App $application
+     * @param Mage_Core_Model_Config $config
+     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      */
     public function __construct(
-        Mage_Core_Service_Config_Reader $reader,
-        Mage_Webapi_Helper_Config $helper,
-        Mage_Core_Model_App $application
+        Mage_Core_Model_Config $config,
+        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        Mage_Core_Model_Config_Modules_Reader $moduleReader
     ) {
-        $this->_reader = $reader;
-        $this->_helper = $helper;
-        $this->_application = $application;
-        $this->_data = $this->_reader->getData();
+        $this->_config = $config;
+        $this->_configCacheType = $configCacheType;
+        $this->_moduleReader = $moduleReader;
     }
 
     /**
-     * Retrieve all data about the services registered in the system.
+     * Retrieve list of service files from each module
      *
      * @return array
      */
-    public function getData()
+    protected function _getServiceFiles()
     {
-        return $this->_data;
+        $files = $this->_moduleReader
+            ->getModuleConfigurationFiles('service.xml');
+        return (array) $files;
     }
 
     /**
-     * Retrieve data type details for the given type name.
+     * Reader object initialization
      *
-     * @param string $typeName
-     * @return array
-     * @throws InvalidArgumentException
+     * @return Mage_Core_Service_Config_Reader
      */
-    public function getTypeData($typeName)
+    protected function _getReader()
     {
-        if (!isset($this->_data['types'][$typeName])) {
-            throw new InvalidArgumentException(sprintf('Data type "%s" was not found in config.', $typeName));
+        if (null === $this->_reader) {
+            $serviceFiles = $this->_getServiceFiles();
+            $this->_reader = $this->_config->getModelInstance('Mage_Core_Service_Config_Reader',
+                array('configFiles' => $serviceFiles)
+            );
         }
-        return $this->_data['types'][$typeName];
+        return $this->_reader;
     }
 
     /**
-     * Add or update type data in config.
+     * Return services loaded from cache if enabled or from files merged previously
      *
-     * @param string $typeName
-     * @param array $data
+     * @return array
      */
-    public function setTypeData($typeName, $data)
+    public function getServices()
     {
-        if (!isset($this->_data['types'][$typeName])) {
-            $this->_data['types'][$typeName] = $data;
+        $services = $this->_loadFromCache();
+        if ($services && is_string($services)) {
+            $data = unserialize($services);
+            $_array = isset($data['config']['services']) ? $data['config']['services'] : array();
+            $this->_services = new Varien_Object($_array);
         } else {
-            $this->_data['types'][$typeName] = array_merge_recursive($this->_data['types'][$typeName], $data);
+            $services = $this->_getReader()->getServices();
+
+            $data = $this->toArray($services);
+
+            $this->_saveToCache(serialize($data));
+            $_array = isset($data['config']['services']) ? $data['config']['services'] : array();
+            $this->_services = new Varien_Object($_array);
         }
+
+        return $this->_services;
     }
 
     /**
-     * Identify controller class by operation name.
+     * Load services from cache
      *
-     * @param string $serviceName
-     * @return string
-     * @throws LogicException
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @return null|string
      */
-    public function getServiceClassByServiceName($serviceName)
+    private function _loadFromCache()
     {
-        if (isset($this->_data['resources'][$serviceName]['controller'])) {
-            return $this->_data['resources'][$serviceName]['controller'];
-        }
-        throw new LogicException(sprintf('Resource "%s" must have associated controller class.', $serviceName));
+        return $this->_configCacheType->load(self::CACHE_ID);
     }
 
     /**
-     * Retrieve method metadata.
+     * Save services into the cache
      *
-     * @param Zend\Server\Reflection\ReflectionMethod $methodReflection
-     * @return array
-     * @throws InvalidArgumentException If specified method was not previously registered in API config.
+     * @param $data
+     * @return Mage_Core_Service_Config
      */
-    public function getMethodMetadata(ReflectionMethod $methodReflection)
+    private function _saveToCache($data)
     {
-        $serviceName = $this->_helper->translateServiceName($methodReflection->getDeclaringClass()->getName());
-        $methodName = $methodReflection->getName();
-
-        if (!isset($this->_data['resources'][$serviceName]['methods'][$methodName])) {
-            throw new InvalidArgumentException(sprintf(
-                'The "%s" method is not registered in "%s" resource.',
-                $methodName,
-                $serviceName
-            ));
-        }
-        return $this->_data['resources'][$serviceName]['methods'][$methodName];
+        $this->_configCacheType->save($data, self::CACHE_ID);
+        return $this;
     }
 
-    /**
-     * Retrieve mapping of complex types defined in WSDL to real data classes.
-     *
-     * @return array
-     */
-    public function getTypeToClassMap()
+    public function toArray($root)
     {
-        return !is_null($this->_data['type_to_class_map']) ? $this->_data['type_to_class_map'] : array();
-    }
+        $result = array();
 
-    /**
-     * Identify deprecation policy for the specified operation.
-     *
-     * Return result in the following format:<pre>
-     * array(
-     *     'removed'      => true,            // either 'deprecated' or 'removed' item must be specified
-     *     'deprecated'   => true,
-     *     'use_resource' => 'operationName'  // resource to be used instead
-     *     'use_method'   => 'operationName'  // method to be used instead
-     * )
-     * </pre>
-     *
-     * @param string $serviceName
-     * @param string $method
-     * @return array|bool On success array with policy details; false otherwise.
-     * @throws InvalidArgumentException
-     */
-    public function getDeprecationPolicy($serviceName, $method)
-    {
-        $deprecationPolicy = false;
-        $resourceData = $this->getServiceData($serviceName);
-        if (!isset($resourceData['methods'][$method])) {
-            throw new InvalidArgumentException(sprintf(
-                'Method "%s" does not exist in resource "%s".',
-                $method,
-                $serviceName
-            ));
+        if ($root->hasAttributes()) {
+            foreach ($root->attributes as $attr) {
+                $result[$attr->name] = $attr->value;
+            }
         }
-        $methodData = $resourceData['methods'][$method];
-        if (isset($methodData['deprecation_policy']) && is_array($methodData['deprecation_policy'])) {
-            $deprecationPolicy = $methodData['deprecation_policy'];
-        }
-        return $deprecationPolicy;
-    }
 
-    /**
-     * Check if specified method is deprecated or removed.
-     *
-     * Throw exception in two cases:<br/>
-     * - method is removed<br/>
-     * - method is deprecated and developer mode is enabled
-     *
-     * @param string $serviceName
-     * @param string $method
-     * @throws Mage_Webapi_Exception
-     * @throws LogicException
-     */
-    public function checkDeprecationPolicy($serviceName, $method)
-    {
-        $deprecationPolicy = $this->getDeprecationPolicy($serviceName, $method);
-        if ($deprecationPolicy) {
-            /** Initialize message with information about what method should be used instead of requested one. */
-            if (isset($deprecationPolicy['use_resource']) && isset($deprecationPolicy['use_method'])) {
-                $messageUseMethod = $this->_helper
-                    ->__('Please use "%s" method in "%s" resource instead.',
-                    $deprecationPolicy['use_method'],
-                    $deprecationPolicy['use_resource']
-                );
+        $children = $root->childNodes;
+
+        if ($children->length == 1) {
+            $child = $children->item(0);
+            if ($child->nodeType == XML_TEXT_NODE) {
+                $result['_value'] = $child->nodeValue;
+                if (count($result) == 1) {
+                    return $result['_value'];
+                } else {
+                    return $result;
+                }
+            }
+        }
+
+        $group = array();
+
+        for ($i = 0; $i < $children->length; $i++) {
+            $child = $children->item($i);
+
+            if (!isset($result[$child->nodeName])) {
+                $result[$child->nodeName] = $this->toArray($child);
             } else {
-                $messageUseMethod = '';
-            }
+                if (!isset($group[$child->nodeName])) {
+                    $tmp = $result[$child->nodeName];
+                    $result[$child->nodeName] = array($tmp);
+                    $group[$child->nodeName] = 1;
+                }
 
-            $badRequestCode = Mage_Webapi_Exception::HTTP_BAD_REQUEST;
-            if (isset($deprecationPolicy['removed'])) {
-                $removalMessage = $this->_helper
-                    ->__('"%s" method in "%s" resource was removed.',
-                    $method,
-                    $serviceName
-                );
-                throw new Mage_Webapi_Exception($removalMessage . ' ' . $messageUseMethod, $badRequestCode);
-            } elseif (isset($deprecationPolicy['deprecated']) && $this->_application->isDeveloperMode()) {
-                $deprecationMessage = $this->_helper
-                    ->__('"%s" method in "%s" resource is deprecated.',
-                    $method,
-                    $serviceName
-                );
-                throw new Mage_Webapi_Exception($deprecationMessage . ' ' . $messageUseMethod, $badRequestCode);
+                $result[$child->nodeName][] = $this->toArray($child);
             }
         }
-    }
 
-    /**
-     * Retrieve the list of all resource names.
-     *
-     * @return array
-     */
-    public function getResourcesNames()
-    {
-        return array_keys($this->_data['resources']);
-    }
-
-    /**
-     * Retrieve resource data.
-     *
-     * @param string $serviceName
-     * @return array
-     * @throws LogicException In case when resource with specified name is not defined or its data is not an array
-     */
-    public function getServiceData($serviceName)
-    {
-        if (!isset($this->_data['resources'][$serviceName]) || !is_array($this->_data['resources'][$serviceName])) {
-            throw new LogicException(sprintf('Resource "%s" is not defined or is invalid.', $serviceName));
-        }
-        return $this->_data['resources'][$serviceName];
+        return $result;
     }
 
     /**
@@ -273,5 +204,19 @@ class Mage_Core_Service_Config
     public function addService($module, $serviceId, $serviceClass, $serviceVersion, $methodName, $permissions)
     {
 
+    }
+
+    /**
+     * @param string $serviceReferenceId
+     * @return string
+     */
+    public function getServiceClassByServiceName($serviceReferenceId)
+    {
+        $result = $this->getServices()->getData($serviceReferenceId . '/class');
+        if (empty($result)) {
+            $result = $serviceReferenceId;
+        }
+
+        return $result;
     }
 }

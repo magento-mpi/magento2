@@ -21,21 +21,21 @@ class Mage_Core_Service_Factory
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Service_Config $config
      */
-    public function __construct(Magento_ObjectManager $objectManager/*, Mage_Core_Service_Config $config*/)
+    public function __construct(Magento_ObjectManager $objectManager, Mage_Core_Service_Config $config)
     {
         $this->_objectManager = $objectManager;
-        /*$this->_config = $config;*/
+        $this->_config = $config;
     }
 
     /**
      * Create service instance.
      *
-     * @param string $serviceName
+     * @param string $servicereferenceId
      * @return object
      */
-    public function createServiceInstance($className)
+    public function createServiceInstance($servicereferenceId)
     {
-        /*$className = $this->_config->getServiceClassByServiceName($className);*/
+        $className = $this->_config->getServiceClassByServiceName($servicereferenceId);
         return $this->_objectManager->create($className);
     }
 
