@@ -80,7 +80,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_AuthenticationMethod
             'is_default_scope'              => $element->getScope() == 'default',
         ));
 
-        $fieldConfig = $element->getFieldConfig()->asArray();
+        $fieldConfig = $element->getFieldConfig();
         if (!empty($fieldConfig['create_account_link'])) {
             $this->setCreateAccountLink($fieldConfig['create_account_link']);
         }
