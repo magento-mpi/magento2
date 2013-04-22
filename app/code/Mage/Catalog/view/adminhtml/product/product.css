@@ -684,6 +684,7 @@
 
 .mage-new-category-dialog .ui-dialog-content .fieldset {
     padding: 0;
+    margin: 0;
 }
 
 .mage-new-category-dialog .ui-dialog-content .label {
@@ -694,13 +695,16 @@
     width: 75%;
 }
 
+.mage-new-category-dialog .ui-dialog-content .field-include_in_navigation_menu input[type="checkbox"] {
+    margin: 0 5px 0 0;
+}
+
 .mage-new-category-dialog .ui-dialog-buttonset {
     text-align: left;
 }
 
-.mage-new-category-dialog .ui-dialog-buttonset [class^="action-"],
-.mage-new-category-dialog .ui-dialog-buttonset .action-cancel:hover {
-    margin: 0 25px 0 0;
+.mage-new-category-dialog .ui-dialog-buttonset .action-create {
+    margin: 0 0 0 25%;
     vertical-align: middle;
 }
 

@@ -40,13 +40,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
 
         $fieldset = $form->addFieldset('new_category_form_fieldset', array());
 
-        $fieldset->addField('new_category_name', 'text', array(
-            'label'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Category Name'),
-            'title'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Category Name'),
-            'required' => true,
-            'name'     => 'new_category_name',
-        ));
-
         $fieldset->addField('new_category_parent', 'select', array(
             'label'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Parent Category'),
             'title'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Parent Category'),
@@ -54,6 +47,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
             'options'  => array(),
             'class'    => 'validate-parent-category',
             'name'     => 'new_category_parent',
+        ));
+
+        $fieldset->addField('new_category_name', 'text', array(
+            'label'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Category Name'),
+            'title'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Category Name'),
+            'required' => true,
+            'name'     => 'new_category_name',
         ));
 
         $this->setForm($form);

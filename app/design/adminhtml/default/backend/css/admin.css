@@ -291,11 +291,6 @@ button.primary.disabled:hover,
 .action-manage-images:active,
 .action-manage-images.active,
 .action-manage-images[disabled],
-.mage-new-category-dialog .action-cancel,
-.mage-new-category-dialog .action-cancel:hover,
-.mage-new-category-dialog .action-cancel:active,
-.mage-new-category-dialog .action-cancel.active,
-.mage-new-category-dialog .action-cancel[disabled],
 .notification-entry-dialog .action-cancel,
 .notification-entry-dialog .action-cancel:hover,
 .notification-entry-dialog .action-cancel:active,
@@ -561,8 +556,7 @@ button.primary.disabled:hover,
 /*
     Actions as links
 -------------------------------------- */
-.notification-entry-dialog .action-cancel,
-.mage-new-category-dialog .action-cancel {
+.notification-entry-dialog .action-cancel {
     background: none;
     border: none;
     color: #6d665e;
@@ -572,8 +566,7 @@ button.primary.disabled:hover,
     text-decoration: underline;
 }
 
-.notification-entry-dialog .action-cancel:hover,
-.mage-new-category-dialog .action-cancel:hover {
+.notification-entry-dialog .action-cancel:hover {
     color: #000;
     border-bottom-color: #000;
 }
@@ -3428,7 +3421,6 @@ table tbody tr:nth-child(odd):hover th {
     padding: 5px 15px 5px 24px;
     color: #333;
     font-size: 13px;
-    font-weight: bold;
     text-decoration: none;
 }
 

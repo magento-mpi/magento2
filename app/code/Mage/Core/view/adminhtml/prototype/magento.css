@@ -480,6 +480,11 @@
     margin-left: 10px;
 }
 
+.ui-dialog .ui-dialog-notes {
+    background: #f3efea;
+    padding: 20px;
+}
+
 .ui-resizable {
     position: relative;
 }
