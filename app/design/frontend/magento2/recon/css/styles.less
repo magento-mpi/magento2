@@ -166,6 +166,7 @@ strong { font-weight: 700; }
     display: inline-block;
     vertical-align: middle;
     text-align: center;
+    text-decoration: none;
   }
 }
 
@@ -184,6 +185,7 @@ strong { font-weight: 700; }
     display: inline-block;
     vertical-align: middle;
     text-align: center;
+    text-decoration: none;
   }
 }
 
@@ -2789,10 +2791,10 @@ select {
   }
   .action.clear {
     float:left;
-    margin-top: 10px;
+    margin-top:10px;
   }
   .actions {
-    margin-top: 15px;
+    margin-top:15px;
     .clearfix();
   }
 }
@@ -2801,27 +2803,25 @@ select {
 
 .catalog-product-compare-index {
   .action.print {
-    float: right;
-    margin-bottom: 20px;
+    float:right;
+    margin-top:-50px;
   }
 }
-.comarision.wrapper {
-  clear: both;
+.comparison.wrapper {
+  clear:both;
   position: relative;
   z-index: 1;
   &:after {
     content:'';
     position: absolute;
     z-index: 2;
-    right:0;
-    top:0;
-    height:100%;
+    right:0; top:0; height:100%;
     width:15px;
 
   }
   margin-bottom:50px;
 }
-.comarision.container {
+.comparison.container {
   overflow-y: hidden;
   overflow-x: auto;
 }
@@ -2829,13 +2829,19 @@ select {
   table-layout: fixed;
 
   .cell.label {
-    width:140px;
-    padding-left:30px;
+    width:130px;
+    padding-left:10px;
     font-weight: 600;
     text-align: left;
-    border-right:1px solid @borderColor;
+    border-right:1px solid @primary2;
+
+    .attribute.label {
+      display: block;
+      width: 100%;
+      word-break:break-all;
+    }
     &.product {
-      border-bottom:1px solid @borderColor;
+      border-bottom:1px solid @primary2;
     }
   }
   .cell {
@@ -2844,8 +2850,13 @@ select {
     p:first-child {
       margin-top:0;
     }
+    .attibute.value {
+      width:100%;
+      overflow: hidden;
+    }
   }
   .cell.product {
+    width:140px;
     &.info {
       border-bottom:1px solid @primary2;
     }
@@ -2856,9 +2867,7 @@ select {
   td:last-child {
     border-right:1px solid @primary2;
   }
-  tr:nth-child(odd) .cell.attribute {
-    background-color: @reconSecondary1;
-  }
+
   .product.photo {
     .img.photo.container {
       display: inline-block!important;
@@ -2876,7 +2885,6 @@ select {
   .addto.links {
     margin-top:15px;
     padding-top:15px;
-    border-top:1px solid @primary2;
     font-size: 12px;
   }
   .cell.remove {
@@ -2904,6 +2912,7 @@ select {
   z-index: 2;
   top:0;
   left:0;
+  width:auto;
   background-color: @pageMainBg;
   th {
     background-color: @pageMainBg;
@@ -3200,7 +3209,6 @@ select {
     }
     .addto.links {
       padding: 10px 0 0;
-      border-top: 1px solid @primary2;
       span:hover {
         color: @primary3;
       }
@@ -3275,7 +3283,8 @@ select {
     .item.product {
       .borderBox;
       width: 20%;
-      padding: 0 1%;
+      padding-left: 1%;
+      padding-right: 1%;
       .col2-left-layout &,
       .col2-right-layout &,
       .col3-layout & {
@@ -3289,8 +3298,6 @@ select {
     }
   }
 }
-
-.products.list.items {}
 
 .product.info.detailed {
   float: right;
@@ -3648,7 +3655,8 @@ select {
 
 .products.wrapper .products.list,
 .widget.new.grid .products.list,
-.widget.new.list .products.list {
+.widget.new.list .products.list,
+.widget.viewed.grid .products.list {
   .item {
     .product.photo {
       display: block;
@@ -3664,8 +3672,6 @@ select {
     border: solid transparent;
     border-width: 2px 2px 0 2px;
     background: transparent;
-    @tparams : background 0.0s linear 0.2s, border 0.0s linear 0.2s;
-    .transitions(@tparams);
     &:hover {
       border-color: @navBg;
       background: @navBg;
@@ -3690,8 +3696,6 @@ select {
       visibility: hidden;
       .action.tocart,
       .secondary {
-        @tparams : visibility 0s linear 0.2s;
-        .transitions(@tparams);
         visibility: hidden;
       }
     }
@@ -3734,7 +3738,8 @@ select {
 }
 
 .products.wrapper.grid .products.list,
-.widget.new.grid .products.list {
+.widget.new.grid .products.list,
+.widget.viewed.grid .products.list {
   .item.product {
     .borderBox;
     width: 20%;
@@ -3792,7 +3797,7 @@ select {
   }
   .secondary {
     bottom: 0;
-    top: auto!important;
+    top: auto !important;
     margin-left: 18px;
     border-width: 2px 0 0;
     right: 20px;

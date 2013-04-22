@@ -155,6 +155,7 @@ body {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  text-decoration: none;
 }
 .temp button span:before {
   vertical-align: top;
@@ -863,6 +864,7 @@ h6 {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  text-decoration: none;
 }
 .page.bottom .link.locator:before {
   color: #4d4d8f;
@@ -912,6 +914,7 @@ h6 {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  text-decoration: none;
 }
 .page.bottom .place.blog .link.blog:after {
   font-family: "icons";
@@ -927,6 +930,7 @@ h6 {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  text-decoration: none;
 }
 .page.bottom .place.blog .link.blog:before {
   position: absolute;
@@ -994,6 +998,7 @@ h6 {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  text-decoration: none;
 }
 .page.bottom .place.communication .social.link:active {
   outline: 0;
@@ -1230,6 +1235,7 @@ h6 {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  text-decoration: none;
 }
 .action.switch span:active {
   outline: 0;
@@ -1532,6 +1538,7 @@ form.search.advanced .actions .action.search span {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  text-decoration: none;
 }
 .block.reviews.list .review.content:before {
   position: absolute;
@@ -2170,6 +2177,7 @@ select:disabled {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  text-decoration: none;
 }
 .block.search .action.search span:active {
   outline: 0;
@@ -3413,6 +3421,7 @@ select:disabled {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  text-decoration: none;
 }
 .action.delete span:active {
   outline: 0;
@@ -3484,6 +3493,7 @@ select:disabled {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  text-decoration: none;
 }
 .action.close span:active {
   outline: 0;
@@ -3636,6 +3646,7 @@ select:disabled {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  text-decoration: none;
 }
 .action.subscribe span:active {
   outline: 0;
@@ -3728,15 +3739,15 @@ select:disabled {
 }
 .catalog-product-compare-index .action.print {
   float: right;
-  margin-bottom: 20px;
+  margin-top: -50px;
 }
-.comarision.wrapper {
+.comparison.wrapper {
   clear: both;
   position: relative;
   z-index: 1;
   margin-bottom: 50px;
 }
-.comarision.wrapper:after {
+.comparison.wrapper:after {
   content: '';
   position: absolute;
   z-index: 2;
@@ -3745,7 +3756,7 @@ select:disabled {
   height: 100%;
   width: 15px;
 }
-.comarision.container {
+.comparison.container {
   overflow-y: hidden;
   overflow-x: auto;
 }
@@ -3753,14 +3764,19 @@ select:disabled {
   table-layout: fixed;
 }
 .data.comparison .cell.label {
-  width: 140px;
-  padding-left: 30px;
+  width: 130px;
+  padding-left: 10px;
   font-weight: 600;
   text-align: left;
-  border-right: 1px solid #d9d9d9;
+  border-right: 1px solid #bdc0cb;
+}
+.data.comparison .cell.label .attribute.label {
+  display: block;
+  width: 100%;
+  word-break: break-all;
 }
 .data.comparison .cell.label.product {
-  border-bottom: 1px solid #d9d9d9;
+  border-bottom: 1px solid #bdc0cb;
 }
 .data.comparison .cell {
   padding: 15px;
@@ -3768,6 +3784,13 @@ select:disabled {
 }
 .data.comparison .cell p:first-child {
   margin-top: 0;
+}
+.data.comparison .cell .attibute.value {
+  width: 100%;
+  overflow: hidden;
+}
+.data.comparison .cell.product {
+  width: 140px;
 }
 .data.comparison .cell.product.info {
   border-bottom: 1px solid #bdc0cb;
@@ -3798,7 +3821,6 @@ select:disabled {
 .data.comparison .addto.links {
   margin-top: 15px;
   padding-top: 15px;
-  border-top: 1px solid #bdc0cb;
   font-size: 12px;
 }
 .data.comparison .cell.remove {
@@ -3847,6 +3869,7 @@ select:disabled {
   z-index: 2;
   top: 0;
   left: 0;
+  width: auto;
   background-color: #ffffff;
 }
 .comparison.headings th {
@@ -4228,7 +4251,6 @@ select:disabled {
 .block.upsell .products.list .item.product .addto.links,
 .block.related .products.list .item.product .addto.links {
   padding: 10px 0 0;
-  border-top: 1px solid #bdc0cb;
 }
 .block.widget.viewed .products.list .item.product .addto.links span:hover,
 .block.crosssell .products.list .item.product .addto.links span:hover,
@@ -4297,7 +4319,8 @@ select:disabled {
   /* Opera/IE 8+ */
 
   width: 20%;
-  padding: 0 1%;
+  padding-left: 1%;
+  padding-right: 1%;
 }
 .col2-left-layout .block.widget.viewed .products.list.items.widget-viewed-grid .item.product,
 .col2-right-layout .block.widget.viewed .products.list.items.widget-viewed-grid .item.product,
@@ -4408,6 +4431,7 @@ select:disabled {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  text-decoration: none;
 }
 .block.filter .action.remove span:active {
   outline: 0;
@@ -4536,6 +4560,7 @@ select:disabled {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  text-decoration: none;
 }
 .toolbar .modes .mode span:active {
   outline: 0;
@@ -4749,6 +4774,7 @@ select:disabled {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  text-decoration: none;
 }
 .toolbar .action.sort span:active {
   outline: 0;
@@ -4795,6 +4821,7 @@ select:disabled {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  text-decoration: none;
 }
 .toolbar .action.next span:active,
 .toolbar .action.previous span:active {
@@ -4818,35 +4845,34 @@ select:disabled {
 ----------------------------------------------------------------------------- */
 .products.wrapper .products.list .item,
 .widget.new.grid .products.list .item,
-.widget.new.list .products.list .item {
+.widget.new.list .products.list .item,
+.widget.viewed.grid .products.list .item {
   z-index: 1;
   position: relative;
   border-style: solid;
   border-color: transparent;
   border-width: 2px 2px 0 2px;
   background: transparent;
-  -webkit-transition: background 0s linear 0.2s, border 0s linear 0.2s;
-  -moz-transition: background 0s linear 0.2s, border 0s linear 0.2s;
-  -ms-transition: background 0s linear 0.2s, border 0s linear 0.2s;
-  -o-transition: background 0s linear 0.2s, border 0s linear 0.2s;
-  transition: background 0s linear 0.2s, border 0s linear 0.2s;
 }
 .products.wrapper .products.list .item .product.photo,
 .widget.new.grid .products.list .item .product.photo,
-.widget.new.list .products.list .item .product.photo {
+.widget.new.list .products.list .item .product.photo,
+.widget.viewed.grid .products.list .item .product.photo {
   display: block;
   margin-bottom: 10px;
   text-align: center;
 }
 .products.wrapper .products.list .item .product.photo > .photo,
 .widget.new.grid .products.list .item .product.photo > .photo,
-.widget.new.list .products.list .item .product.photo > .photo {
+.widget.new.list .products.list .item .product.photo > .photo,
+.widget.viewed.grid .products.list .item .product.photo > .photo {
   display: block;
   margin: 0 auto;
 }
 .products.wrapper .products.list .item:hover,
 .widget.new.grid .products.list .item:hover,
-.widget.new.list .products.list .item:hover {
+.widget.new.list .products.list .item:hover,
+.widget.viewed.grid .products.list .item:hover {
   border-color: #bdc0cb;
   border-radius: 3px 3px 0 0;
   background: #ffffff;
@@ -4854,55 +4880,60 @@ select:disabled {
 }
 .products.wrapper .products.list .item:hover .product.actions,
 .widget.new.grid .products.list .item:hover .product.actions,
-.widget.new.list .products.list .item:hover .product.actions {
+.widget.new.list .products.list .item:hover .product.actions,
+.widget.viewed.grid .products.list .item:hover .product.actions {
   visibility: hidden;
   opacity: 1;
 }
 .products.wrapper .products.list .item:hover .product.actions .action.tocart,
 .widget.new.grid .products.list .item:hover .product.actions .action.tocart,
 .widget.new.list .products.list .item:hover .product.actions .action.tocart,
+.widget.viewed.grid .products.list .item:hover .product.actions .action.tocart,
 .products.wrapper .products.list .item:hover .product.actions .secondary,
 .widget.new.grid .products.list .item:hover .product.actions .secondary,
-.widget.new.list .products.list .item:hover .product.actions .secondary {
+.widget.new.list .products.list .item:hover .product.actions .secondary,
+.widget.viewed.grid .products.list .item:hover .product.actions .secondary {
   visibility: visible;
 }
 .products.wrapper .products.list .item .product.actions,
 .widget.new.grid .products.list .item .product.actions,
-.widget.new.list .products.list .item .product.actions {
+.widget.new.list .products.list .item .product.actions,
+.widget.viewed.grid .products.list .item .product.actions {
   opacity: 0.8;
   visibility: hidden;
 }
 .products.wrapper .products.list .item .product.actions .action.tocart,
 .widget.new.grid .products.list .item .product.actions .action.tocart,
 .widget.new.list .products.list .item .product.actions .action.tocart,
+.widget.viewed.grid .products.list .item .product.actions .action.tocart,
 .products.wrapper .products.list .item .product.actions .secondary,
 .widget.new.grid .products.list .item .product.actions .secondary,
-.widget.new.list .products.list .item .product.actions .secondary {
-  -webkit-transition: visibility 0s linear 0.2s;
-  -moz-transition: visibility 0s linear 0.2s;
-  -ms-transition: visibility 0s linear 0.2s;
-  -o-transition: visibility 0s linear 0.2s;
-  transition: visibility 0s linear 0.2s;
+.widget.new.list .products.list .item .product.actions .secondary,
+.widget.viewed.grid .products.list .item .product.actions .secondary {
   visibility: hidden;
 }
 .products.wrapper .products.list .item .price-box,
 .widget.new.grid .products.list .item .price-box,
-.widget.new.list .products.list .item .price-box {
+.widget.new.list .products.list .item .price-box,
+.widget.viewed.grid .products.list .item .price-box {
   font-size: 14px;
   color: #393939;
 }
 .products.wrapper .products.list .item .price-box,
 .widget.new.grid .products.list .item .price-box,
 .widget.new.list .products.list .item .price-box,
+.widget.viewed.grid .products.list .item .price-box,
 .products.wrapper .products.list .item .product.reviews,
 .widget.new.grid .products.list .item .product.reviews,
-.widget.new.list .products.list .item .product.reviews {
+.widget.new.list .products.list .item .product.reviews,
+.widget.viewed.grid .products.list .item .product.reviews {
   display: block;
   margin-bottom: 7px;
 }
 .products.wrapper .products.list .item .secondary,
 .widget.new.grid .products.list .item .secondary,
-.widget.new.list .products.list .item .secondary {
+.widget.new.list .products.list .item .secondary,
+.widget.viewed.grid .products.list .item .secondary {
   padding: 10px 0;
   border-style: solid;
   border-color: #bdc0cb;
@@ -4921,7 +4952,8 @@ select:disabled {
 }
 .products.wrapper .products.list .item .secondary .action,
 .widget.new.grid .products.list .item .secondary .action,
-.widget.new.list .products.list .item .secondary .action {
+.widget.new.list .products.list .item .secondary .action,
+.widget.viewed.grid .products.list .item .secondary .action {
   float: left;
   font-size: 11px;
   color: #596078;
@@ -4932,21 +4964,25 @@ select:disabled {
 }
 .products.wrapper .products.list .item .secondary .action:first-child,
 .widget.new.grid .products.list .item .secondary .action:first-child,
-.widget.new.list .products.list .item .secondary .action:first-child {
+.widget.new.list .products.list .item .secondary .action:first-child,
+.widget.viewed.grid .products.list .item .secondary .action:first-child {
   margin-right: 5px;
 }
 .products.wrapper .products.list .item .secondary .action span:hover,
 .widget.new.grid .products.list .item .secondary .action span:hover,
-.widget.new.list .products.list .item .secondary .action span:hover {
+.widget.new.list .products.list .item .secondary .action span:hover,
+.widget.viewed.grid .products.list .item .secondary .action span:hover {
   color: #000000;
 }
 .products.wrapper .products.list .item .secondary .action span:hover:before,
 .widget.new.grid .products.list .item .secondary .action span:hover:before,
-.widget.new.list .products.list .item .secondary .action span:hover:before {
+.widget.new.list .products.list .item .secondary .action span:hover:before,
+.widget.viewed.grid .products.list .item .secondary .action span:hover:before {
   font-size: 11px;
 }
 .products.wrapper.grid .products.list .item.product,
-.widget.new.grid .products.list .item.product {
+.widget.new.grid .products.list .item.product,
+.widget.viewed.grid .products.list .item.product {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -4964,8 +5000,10 @@ select:disabled {
 }
 .col2-left-layout .products.wrapper.grid .products.list .item.product,
 .col2-left-layout .widget.new.grid .products.list .item.product,
+.col2-left-layout .widget.viewed.grid .products.list .item.product,
 .col2-right-layout .products.wrapper.grid .products.list .item.product,
-.col2-right-layout .widget.new.grid .products.list .item.product {
+.col2-right-layout .widget.new.grid .products.list .item.product,
+.col2-right-layout .widget.viewed.grid .products.list .item.product {
   display: inline;
   float: left;
   width: 25%;
@@ -4978,7 +5016,8 @@ select:disabled {
   margin-bottom: 30px;
 }
 .col3-layout .products.wrapper.grid .products.list .item.product,
-.col3-layout .widget.new.grid .products.list .item.product {
+.col3-layout .widget.new.grid .products.list .item.product,
+.col3-layout .widget.viewed.grid .products.list .item.product {
   display: inline;
   float: left;
   width: 33.33333333333333%;
@@ -4991,7 +5030,8 @@ select:disabled {
   margin-bottom: 30px;
 }
 .products.wrapper.grid .products.list .secondary,
-.widget.new.grid .products.list .secondary {
+.widget.new.grid .products.list .secondary,
+.widget.viewed.grid .products.list .secondary {
   border-width: 0 2px 2px 2px;
   background: #ffffff;
   top: 100%;
@@ -5008,7 +5048,8 @@ select:disabled {
   right: -2px;
 }
 .products.wrapper.grid .products.list .secondary .action,
-.widget.new.grid .products.list .secondary .action {
+.widget.new.grid .products.list .secondary .action,
+.widget.viewed.grid .products.list .secondary .action {
   padding: 10px 0;
 }
 .products.wrapper.list .products.list,
@@ -5167,6 +5208,7 @@ select:disabled {
   overflow: hidden;
   vertical-align: top;
   display: inline-block;
+  text-decoration: none;
 }
 .debug {
   outline: 2px solid red;
@@ -5588,6 +5630,7 @@ select:disabled {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  text-decoration: none;
 }
 .action.mailto span:active {
   outline: 0;
@@ -5726,6 +5769,7 @@ select:disabled {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  text-decoration: none;
 }
 .product.data > .item.title > .switch:after {
   position: absolute;
@@ -6637,6 +6681,7 @@ img[align="right"] {
   display: inline-block;
   vertical-align: middle;
   text-align: center;
+  text-decoration: none;
 }
 .action.reload span:active {
   outline: 0;
