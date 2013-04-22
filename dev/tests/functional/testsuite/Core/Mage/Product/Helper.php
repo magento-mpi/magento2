@@ -18,8 +18,8 @@
  */
 class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
 {
-    public $productTabs = array('images', 'meta_information', 'prices', 'design', 'autosettings', 'websites',
-        'related', 'up_sells', 'cross_sells', 'custom_options', 'downloadable_information', 'general', 'inventory');
+    public $productTabs = array('images', 'meta_information', 'prices', 'design', 'autosettings', 'inventory',
+        'websites', 'related', 'up_sells', 'cross_sells', 'custom_options', 'downloadable_information', 'general');
 
     #**************************************************************************************
     #*                                                    Frontend Helper Methods         *
@@ -868,7 +868,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->openProductTab('general');
         $this->fillUserAttributesOnTab($generalTab, 'general');
         if (isset($generalTab['general_categories'])) {
-            $this->selectProductCategories($generalTab['general_categories']);
+            $categories = $generalTab['general_categories'];
             unset($generalTab['general_categories']);
         }
         if (isset($generalTab['general_configurable_attributes'])) {
@@ -892,6 +892,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             unset($generalTab['general_grouped_data']);
         }
         $this->fillTab($generalTab, 'general');
+        if (isset($categories)) {
+            $this->selectProductCategories($categories);
+        }
         if (isset($attributeTitle)) {
             $this->fillConfigurableSettings($attributeTitle);
         }
@@ -961,7 +964,14 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $selectedQty = $this->getControlCount(self::UIMAP_TYPE_FIELDSET, 'chosen_category');
         $this->clickControl(self::FIELD_TYPE_INPUT, 'general_categories', false);
-        $this->waitForControlEditable(self::FIELD_TYPE_INPUT, 'general_categories');
+        $this->waitUntil(function ($testCase) {
+                /** @var Mage_Selenium_TestCase $testCase */
+                $class = $testCase->getControlAttribute('field', 'general_categories', 'class');
+                if (strpos($class, 'mage-suggest-state-loading') === false) {
+                    return true;
+                }
+            }, 40000
+        );
         $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'categories_list');
         $toSelect = '';
         foreach ($categoryData as $categoryPath) {
