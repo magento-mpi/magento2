@@ -450,7 +450,7 @@ a:visited:hover {
   line-height: 8px;
   height: 8px;
   overflow: hidden;
-  content: "\e012";
+  content: "\e016";
   font-style: normal;
   speak: none;
   font-weight: normal;
@@ -484,7 +484,7 @@ a:visited:hover {
   line-height: 8px;
   height: 8px;
   overflow: hidden;
-  content: "\e012";
+  content: "\e016";
   font-style: normal;
   speak: none;
   font-weight: normal;
@@ -3859,7 +3859,7 @@ select:disabled {
   line-height: 11px;
   height: 11px;
   overflow: hidden;
-  content: "\e012";
+  content: "\e016";
   font-style: normal;
   speak: none;
   font-weight: normal;
@@ -3894,6 +3894,7 @@ select:disabled {
   z-index: 3;
 }
 .action.showcart.active:before {
+  background: #fff;
   content: '';
   height: 2px;
   position: absolute;
@@ -8154,6 +8155,9 @@ img[align="right"] {
 .data.wishlist td {
   vertical-align: top;
 }
+.data.wishlist .col.photo {
+  width: 100px;
+}
 .data.wishlist .col.remove {
   width: 5%;
 }
@@ -8200,11 +8204,15 @@ img[align="right"] {
 .data.wishlist .action.delete {
   color: #d3d3d3;
 }
+.data.wishlist .product.name a {
+  color: #000000;
+}
 .data.wishlist .box.tocart {
   margin: 15px 0;
   padding: 15px 0;
 }
 .data.wishlist .box.tocart .qty {
+  margin-right: 10px;
   width: 50px;
 }
 .data.wishlist .price-box .price-excluding-tax,
@@ -8267,6 +8275,9 @@ img[align="right"] {
 }
 .data.wishlist + .actions .action.update {
   margin-left: 10px;
+}
+.data.wishlist + .actions .action.tocart {
+  float: right;
 }
 .data.wishlist + .actions .primary {
   padding: 0 0 30px;

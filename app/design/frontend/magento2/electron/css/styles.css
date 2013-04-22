@@ -447,7 +447,7 @@ a:visited:hover {
   line-height: 8px;
   height: 8px;
   overflow: hidden;
-  content: "\e012";
+  content: "\e016";
   font-style: normal;
   speak: none;
   font-weight: normal;
@@ -481,7 +481,7 @@ a:visited:hover {
   line-height: 8px;
   height: 8px;
   overflow: hidden;
-  content: "\e012";
+  content: "\e016";
   font-style: normal;
   speak: none;
   font-weight: normal;
@@ -3790,7 +3790,7 @@ select:disabled {
   line-height: 11px;
   height: 11px;
   overflow: hidden;
-  content: "\e012";
+  content: "\e016";
   font-style: normal;
   speak: none;
   font-weight: normal;
