@@ -41,13 +41,22 @@ html,
 a,
 a:visited,
 a > span {
-    color: @secondary1;
+    color: @primary3;
     &:hover {
-        color: @secondary2;
+        color: @primary4;
     }
 }
 
-// General block */
+.category-view > p,
+.std,
+.dashboard.welcome {
+    a,
+    a:visited {
+        .colorA(@secondary1,@secondary2);
+    }
+}
+
+// General block
 
 .column.main .block {
     > .title {
