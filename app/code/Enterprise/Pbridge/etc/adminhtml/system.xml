@@ -386,54 +386,55 @@
                                 <comment>Gives effect only when payment bridge is active.</comment>
                                 <config_path>payment/paypal_direct/using_pbridge</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                         </group>
                     </group>
                     <group id="wpp_settings">
                         <field id="heading_cc">
                             <depends>
-                                <field id="*/wpp_and_express_checkout/using_pbridge">0</field>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/using_pbridge">0</field>
                             </depends>
                         </field>
                         <field id="cctypes">
                             <depends>
-                                <field id="*/wpp_and_express_checkout/using_pbridge">0</field>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/using_pbridge">0</field>
                             </depends>
                         </field>
                         <group id="wpp_settings_advanced">
                             <field id="verify_peer">
                                 <depends>
-                                    <field id="*/wpp_and_express_checkout/using_pbridge">0</field>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/using_pbridge">0</field>
                                 </depends>
                             </field>
                             <field id="centinel">
                                 <depends>
-                                    <field id="*/wpp_and_express_checkout/using_pbridge">0</field>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/using_pbridge">0</field>
                                 </depends>
                             </field>
                             <field id="heading_3dsecure">
                                 <depends>
-                                    <field id="*/wpp_and_express_checkout/using_pbridge">0</field>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/using_pbridge">0</field>
                                 </depends>
                             </field>
                             <field id="centinel_is_mode_strict">
                                 <depends>
-                                    <field id="*/wpp_and_express_checkout/using_pbridge">0</field>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/using_pbridge">0</field>
                                 </depends>
                             </field>
                             <field id="centinel_api_url">
                                 <depends>
-                                    <field id="*/wpp_and_express_checkout/using_pbridge">0</field>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/using_pbridge">0</field>
                                 </depends>
                             </field>
                             <field id="line_items_enabled">
                                 <depends>
-                                    <field id="*/wpp_and_express_checkout/using_pbridge">0</field>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/using_pbridge">0</field>
                                 </depends>
                             </field>
                             <field id="useccv">
                                 <depends>
-                                    <field id="*/wpp_and_express_checkout/using_pbridge">0</field>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/using_pbridge">0</field>
                                 </depends>
                             </field>
                         </group>
@@ -447,49 +448,50 @@
                                 <comment>Gives effect only when payment bridge is active.</comment>
                                 <config_path>payment/paypaluk_direct/using_pbridge</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                         </group>
                     </group>
                     <group id="settings_pp_pe">
                         <field id="heading_cc">
                             <depends>
-                                <field id="*/pp_pe_api_settings/using_pbridge">0</field>
+                                <field id="*/*/*/pp_pe_required_settings/pp_pe_api_settings/using_pbridge">0</field>
                             </depends>
                         </field>
                         <field id="cctypes">
                             <depends>
-                                <field id="*/pp_pe_api_settings/using_pbridge">0</field>
+                                <field id="*/*/*/pp_pe_required_settings/pp_pe_api_settings/using_pbridge">0</field>
                             </depends>
                         </field>
                         <group id="settings_pp_pe_advanced">
                             <field id="verify_peer">
                                 <depends>
-                                    <field id="*/pp_pe_api_settings/using_pbridge">0</field>
+                                    <field id="*/*/*/pp_pe_required_settings/pp_pe_api_settings/using_pbridge">0</field>
                                 </depends>
                             </field>
                             <field id="useccv">
                                 <depends>
-                                    <field id="*/pp_pe_api_settings/using_pbridge">0</field>
+                                    <field id="*/*/*/pp_pe_required_settings/pp_pe_api_settings/using_pbridge">0</field>
                                 </depends>
                             </field>
                             <field id="heading_3dsecure">
                                 <depends>
-                                    <field id="*/pp_pe_api_settings/using_pbridge">0</field>
+                                    <field id="*/*/*/pp_pe_required_settings/pp_pe_api_settings/using_pbridge">0</field>
                                 </depends>
                             </field>
                             <field id="centinel">
                                 <depends>
-                                    <field id="*/pp_pe_api_settings/using_pbridge">0</field>
+                                    <field id="*/*/*/pp_pe_required_settings/pp_pe_api_settings/using_pbridge">0</field>
                                 </depends>
                             </field>
                             <field id="centinel_is_mode_strict">
                                 <depends>
-                                    <field id="*/pp_pe_api_settings/using_pbridge">0</field>
+                                    <field id="*/*/*/pp_pe_required_settings/pp_pe_api_settings/using_pbridge">0</field>
                                 </depends>
                             </field>
                             <field id="centinel_api_url">
                                 <depends>
-                                    <field id="*/pp_pe_api_settings/using_pbridge">0</field>
+                                    <field id="*/*/*/pp_pe_required_settings/pp_pe_api_settings/using_pbridge">0</field>
                                 </depends>
                             </field>
                         </group>
@@ -503,49 +505,50 @@
                                 <comment>Gives effect only when payment bridge is active.</comment>
                                 <config_path>payment/verisign/using_pbridge</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                         </group>
                     </group>
                     <group id="settings_paypal_payflow">
                         <field id="cctypes">
                             <depends>
-                                <field id="*/paypal_payflow_api_settings/using_pbridge">0</field>
+                                <field id="*/*/*/paypal_payflow_required/paypal_payflow_api_settings/using_pbridge">0</field>
                             </depends>
                         </field>
                         <field id="heading_cc">
                             <depends>
-                                <field id="*/paypal_payflow_api_settings/using_pbridge">0</field>
+                                <field id="*/*/*/paypal_payflow_required/paypal_payflow_api_settings/using_pbridge">0</field>
                             </depends>
                         </field>
                         <group id="settings_paypal_payflow_advanced">
                             <field id="verify_peer">
                                 <depends>
-                                    <field id="*/paypal_payflow_api_settings/using_pbridge">0</field>
+                                    <field id="*/*/*/paypal_payflow_required/paypal_payflow_api_settings/using_pbridge">0</field>
                                 </depends>
                             </field>
                             <field id="useccv">
                                 <depends>
-                                    <field id="*/paypal_payflow_api_settings/using_pbridge">0</field>
+                                    <field id="*/*/*/paypal_payflow_required/paypal_payflow_api_settings/using_pbridge">0</field>
                                 </depends>
                             </field>
                             <field id="heading_3dsecure">
                                 <depends>
-                                    <field id="*/paypal_payflow_api_settings/using_pbridge">0</field>
+                                    <field id="*/*/*/paypal_payflow_required/paypal_payflow_api_settings/using_pbridge">0</field>
                                 </depends>
                             </field>
                             <field id="centinel">
                                 <depends>
-                                    <field id="*/paypal_payflow_api_settings/using_pbridge">0</field>
+                                    <field id="*/*/*/paypal_payflow_required/paypal_payflow_api_settings/using_pbridge">0</field>
                                 </depends>
                             </field>
                             <field id="centinel_is_mode_strict">
                                 <depends>
-                                    <field id="*/paypal_payflow_api_settings/using_pbridge">0</field>
+                                    <field id="*/*/*/paypal_payflow_required/paypal_payflow_api_settings/using_pbridge">0</field>
                                 </depends>
                             </field>
                             <field id="centinel_api_url">
                                 <depends>
-                                    <field id="*/paypal_payflow_api_settings/using_pbridge">0</field>
+                                    <field id="*/*/*/paypal_payflow_required/paypal_payflow_api_settings/using_pbridge">0</field>
                                 </depends>
                             </field>
                         </group>

@@ -103,7 +103,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
      * @param Varien_Data_Form_Element_Abstract $element
      * @return bool
      */
-    protected function _getCollapseState($element)
+    protected function _isCollapseState($element)
     {
         return false;
     }

@@ -12,7 +12,6 @@
 /**
  * Test class for Mage_Paypal_Model_Payflowadvanced
  *
- * @group module:Mage_Paypal
  */
 class Mage_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCase
 {

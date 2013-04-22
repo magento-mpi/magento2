@@ -159,7 +159,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
         if ($prodTagAdmin) {
             // Add tag name to parameters
             $tagName = $this->getControlAttribute('field', 'tag_name', 'value');
-            $this->addParameter('elementTitle', $tagName);
+            $this->addParameter('elementTitle', 'Edit Tag '.'\''. $tagName .'\'');
             //Fill additional options
             $this->clickButton('save_and_continue_edit');
             $this->clickButton('reset');
@@ -203,7 +203,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
         $cellId = $this->getColumnIdByName('Tag');
         $this->addParameter('tableLineXpath', $xpathTR);
         $this->addParameter('cellIndex', $cellId);
-        $this->addParameter('elementTitle', $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text'));
+        $this->addParameter('elementTitle', 'Edit Tag '.'\'' . $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text').'\'');
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->clickControl('pageelement', 'table_line_cell_index', false);
         $this->waitForPageToLoad();

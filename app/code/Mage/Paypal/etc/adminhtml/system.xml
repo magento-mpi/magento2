@@ -383,7 +383,7 @@
                                 <backend_model>Mage_Paypal_Model_System_Config_Backend_Cert</backend_model>
                                 <attribute type="shared">1</attribute>
                                 <depends>
-                                    <field id="api_authentication">0</field>
+                                    <field id="api_authentication">1</field>
                                 </depends>
                             </field>
                             <field id="api_wizard" translate="button_label attribute" sortOrder="70" showInDefault="1" showInWebsite="1">
@@ -432,7 +432,10 @@
                             <config_path>payment/payflow_advanced/active</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <comment>Both section above must be complete.</comment>
-                            <attribute type="requires">express,payments_advanced</attribute>
+                            <requires>
+                                <group id="express" />
+                                <group id="payments_advanced" />
+                            </requires>
                             <frontend_class>paypal-enabler</frontend_class>
                         </field>
                     </group>
@@ -846,7 +849,9 @@
                             <label>Enable this Solution</label>
                             <config_path>payment/paypal_direct/active</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                            <attribute type="requires">wpp_and_express_checkout</attribute>
+                            <requires>
+                                <group id="wpp_and_express_checkout" />
+                            </requires>
                             <frontend_class>paypal-enabler</frontend_class>
                         </field>
                     </group>
@@ -1016,7 +1021,9 @@
                             <label>Enable this Solution</label>
                             <config_path>payment/paypal_standard/active</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                            <attribute type="requires">wps_required_settings_business_account</attribute>
+                            <requires>
+                                <field id="business_account" />
+                            </requires>
                             <frontend_class>paypal-enabler paypal-ec-conflicts</frontend_class>
                         </field>
                     </group>
@@ -1141,7 +1148,9 @@
                             <label>Enable this Solution</label>
                             <config_path>payment/verisign/active</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                            <attribute type="requires">paypal_payflow_api_settings</attribute>
+                            <requires>
+                                <group id="paypal_payflow_api_settings" />
+                            </requires>
                             <frontend_class>paypal-enabler paypal-ec-separate</frontend_class>
                         </field>
                     </group>
@@ -1393,7 +1402,9 @@
                             <label>Enable Payflow Link</label>
                             <config_path>payment/payflow_link/active</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                            <attribute type="requires">payflow_link_payflow_link</attribute>
+                            <requires>
+                                <group id="payflow_link_payflow_link" />
+                            </requires>
                             <frontend_class>paypal-enabler paypal-ec-independent</frontend_class>
                         </field>
                         <group id="payflow_link_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="30">
@@ -1416,7 +1427,10 @@
                             <config_path>payment/paypal_express/active</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <attribute type="shared">1</attribute>
-                            <attribute type="requires">payflow_link_required_enable_payflow_link,payflow_link_express_checkout</attribute>
+                            <requires>
+                                <group id="payflow_link_express_checkout" />
+                                <field id="enable_payflow_link" />
+                            </requires>
                             <frontend_class>paypal-enabler paypal-ec-enabler</frontend_class>
                         </field>
                     </group>
@@ -1608,7 +1622,9 @@
                             <label>Enable this Solution</label>
                             <config_path>payment/paypaluk_direct/active</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                            <attribute type="requires">pp_pe_api_settings</attribute>
+                            <requires>
+                                <group id="pp_pe_api_settings" />
+                            </requires>
                             <frontend_class>paypal-enabler paypal-ec-pe</frontend_class>
                         </field>
                     </group>
@@ -1760,7 +1776,9 @@
                             <label>Enable this Solution</label>
                             <config_path>payment/hosted_pro/active</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                            <attribute type="requires">pphs_required_settings_pphs</attribute>
+                            <requires>
+                                <group id="pphs_required_settings_pphs" />
+                            </requires>
                             <frontend_class>paypal-enabler paypal-ec-separate</frontend_class>
                         </field>
                     </group>
@@ -1917,7 +1935,9 @@
                             <config_path>payment/paypal_express/active</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <attribute type="shared">1</attribute>
-                            <attribute type="requires">express_checkout_required_express_checkout</attribute>
+                            <requires>
+                                <group id="express_checkout_required_express_checkout" />
+                            </requires>
                             <frontend_class>paypal-enabler paypal-ec-enabler</frontend_class>
                         </field>
                     </group>

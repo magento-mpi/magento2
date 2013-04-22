@@ -91,6 +91,7 @@ tinyMceWysiwygSetup.prototype =
             theme_advanced_toolbar_align : 'left',
             theme_advanced_statusbar_location : 'bottom',
             theme_advanced_resizing : true,
+            theme_advanced_resize_horizontal : false,
             convert_urls : false,
             relative_urls : false,
             content_css: this.config.content_css,

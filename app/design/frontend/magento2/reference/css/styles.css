@@ -1,8 +1,8 @@
 /**
  * {license_notice}
  *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 @font-face {
   font-family: 'MUI-Icons';
@@ -60,21 +60,9 @@
   -moz-box-shadow: @arguments;
   -webkit-box-shadow: @arguments;
 }*/
-/**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
- */
 /* =============================================================================
    Switchable terms
    ========================================================================== */
-/**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
- */
 /*
     Fieldset
 -------------------------------------- */
@@ -943,14 +931,20 @@ a > span:hover {
 .reviews.summary {
   line-height: 16px;
 }
+.reviews.summary .action {
+  font-size: 12px;
+}
 .reviews.summary .reviews.actions {
+  font-size: 12px;
   display: inline;
 }
 .reviews.summary .action.view span:before {
   content: ' ';
 }
 .reviews.summary .action.view + .action.add:before {
-  content: ' | ';
+  content: '\00A0|\00A0\00A0';
+  display: inline-block;
+  color: #332e29;
 }
 .reviews.summary.short:not(.no-rating) .action.view span {
   display: none;
@@ -1514,7 +1508,6 @@ ul.messages ul {
   text-transform: uppercase;
   font-weight: 600;
   padding: 0 0 5px;
-  padding-left: 3px;
 }
 .fieldset.giftcard > .field {
   margin: 0 0 10px;
@@ -1733,6 +1726,9 @@ select:disabled {
 .block.search .action.search span:after {
   text-indent: 0;
   display: block;
+}
+.block.search .action.search .search.autocomplete {
+  display: none!important;
 }
 .block.search {
   display: inline-block;
@@ -2190,7 +2186,7 @@ select:disabled {
   text-transform: uppercase;
 }
 .items.data input.qty {
-  width: 40px;
+  width: 50px;
   text-align: center;
 }
 .items.data td.col.price,
@@ -2293,6 +2289,7 @@ select:disabled {
   padding-bottom: 15px;
 }
 .cart.summary .block {
+  margin-bottom: 0;
   border-bottom: 1px solid #e5e5e5;
   font-size: 12px;
 }
@@ -3186,7 +3183,6 @@ select:disabled {
   font-weight: 600;
   color: #fff;
   line-height: 1.7em;
-  padding: 0;
   vertical-align: middle;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -3200,7 +3196,7 @@ select:disabled {
   min-width: 1.87em;
   min-height: 1.7em;
   text-align: center;
-  padding: 0;
+  padding: 0 4px;
 }
 .action.showcart .qty.empty {
   display: none;
@@ -4287,8 +4283,8 @@ select:disabled {
   display: inline-block;
   line-height: 1;
 }
-.products.wrapper .products.list .item .secondary .action span:before {
-  font-size: 12px;
+.products.wrapper.grid {
+  margin-bottom: 20px;
 }
 .products.wrapper.grid .products.list .item.product {
   display: inline;
@@ -4455,14 +4451,7 @@ select:disabled {
 }
 .action.tocompare span:before,
 .action.towishlist span:before {
-  content: "\e02d ";
-  font-family: "MUI-icons";
-  font-weight: 400;
-  font-size: 14px;
-  height: 14px;
-  overflow: hidden;
-  vertical-align: top;
-  display: inline-block;
+  content: "\002B\00A0";
 }
 .debug {
   outline: 2px solid red;
@@ -4649,7 +4638,6 @@ select:disabled {
 }
 .product.info.main .product.addto.links .action {
   float: left;
-  font-size: 14px;
   margin-right: 15px;
 }
 .product.main.info .product.options.wrapper .field {
@@ -6147,15 +6135,18 @@ img[align="right"] {
 .form.contact .fieldset {
   width: auto;
   background: none;
+  margin-bottom: 0;
 }
 .form.search.advanced .fieldset .legend,
 .form.orders.search .fieldset .legend,
 .form.contact .fieldset .legend {
   background: none;
 }
-.form.search.advanced .action,
-.form.orders.search .action,
-.form.contact .action {
+.form.search.advanced .actions,
+.form.orders.search .actions,
+.form.contact .actions {
+  width: auto;
+  padding-right: 30px;
   text-align: right;
 }
 .form.search.advanced .action,
@@ -6178,6 +6169,34 @@ img[align="right"] {
   text-transform: uppercase;
   font-weight: 600;
   line-height: 16px;
+}
+.form.search.advanced .fields.range .field:first-child .control,
+.form.orders.search .fields.range .field:first-child .control,
+.form.contact .fields.range .field:first-child .control {
+  padding-right: 30px;
+}
+.form.search.advanced .fields.range .field:first-child .control:after,
+.form.orders.search .fields.range .field:first-child .control:after,
+.form.contact .fields.range .field:first-child .control:after {
+  content: '\2014';
+  display: inline-block;
+  text-align: center;
+  margin-right: -30px;
+  width: 25px;
+}
+.form.contact .fieldset .field {
+  float: left;
+  width: 40%;
+  margin-right: 60%;
+}
+.form.contact .fieldset .field.comment {
+  width: 55%;
+  margin-left: -55%;
+  margin-right: 0;
+  float: none;
+}
+.form.contact .fieldset .field.comment textarea {
+  min-height: 13.2em;
 }
 /*
  *    Mage_Customer

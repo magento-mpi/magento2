@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<!-- These are the settings for legacy testing of Magento Go edition (in addition to Magento 2 Core and EE) -->
+<config>
+    <whitelist>
+        <item>
+            <path>app/code/Saas/Launcher/view/adminhtml/page/promotestore/googleanalytics/drawer.phtml</path>
+            <word>staging</word>
+        </item>
+    </whitelist>
+</config>

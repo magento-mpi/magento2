@@ -14,20 +14,23 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_SendTe
     /** @var Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send */
     protected $_block;
 
-    public static function setUpBeforeClass()
-    {
-        parent::setUpBeforeClass();
-        $model = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount');
-        Mage::register('current_giftcardaccount', $model);
-    }
-
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
+
+        $model = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount');
+        Mage::register('current_giftcardaccount', $model);
+
         $layout = Mage::getModel('Mage_Core_Model_Layout');
 
         $this->_block = $layout
             ->createBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send');
+    }
+
+    protected function tearDown()
+    {
+        Mage::unregister('current_giftcardaccount');
+        parent::tearDown();
     }
 
     /**

@@ -22,7 +22,7 @@ class Magento_Test_TestCase_ObjectManagerTest extends PHPUnit_Framework_TestCase
         'eventManager'    => 'Mage_Core_Model_Event_Manager',
         'translator'      => 'Mage_Core_Model_Translate',
         'cache'           => 'Mage_Core_Model_CacheInterface',
-        'designPackage'   => 'Mage_Core_Model_Design_Package',
+        'designPackage'   => 'Mage_Core_Model_Design_PackageInterface',
         'session'         => 'Mage_Core_Model_Session',
         'storeConfig'     => 'Mage_Core_Model_Store_Config',
         'frontController' => 'Mage_Core_Controller_Varien_Front'

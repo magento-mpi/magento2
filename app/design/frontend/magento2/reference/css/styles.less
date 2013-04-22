@@ -1,8 +1,8 @@
 /**
  * {license_notice}
  *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 @fontsFolder : '../fonts/';
@@ -811,7 +811,11 @@ a > span {
 @starSize : 16px;
 .reviews.summary {
     line-height: @starSize;
+    .action {
+        font-size: 12px;
+    }
     .reviews.actions {
+        font-size: 12px;
         display: inline;
     }
     .action.view {
@@ -821,7 +825,9 @@ a > span {
     }
     .action.view + .action.add {
         &:before {
-            content: ' | ';
+            content: '\00A0|\00A0\00A0';
+            display: inline-block;
+            color:@link;
         }
     }
     &.short:not(.no-rating) {
@@ -1227,7 +1233,6 @@ ul.messages ul {
     padding: 0;
     .label {
         .labelStyle();
-        padding-left: 3px;
     }
     > .field {
         .fieldStyle();
@@ -1298,6 +1303,9 @@ select {
         .hideText(16px);
         :after {
         }
+    }
+    .search.autocomplete {
+        display: none!important;
     }
     float: left;
 }
@@ -1669,7 +1677,7 @@ select {
         text-transform: uppercase;
     }
     input.qty {
-        width: 40px;
+        width: 50px;
         text-align: center
     }
     td.col.price,
@@ -1777,6 +1785,7 @@ select {
         padding-bottom: 15px;
     }
     .block {
+        margin-bottom:0;
         border-bottom: 1px solid @primary2;
         > .title {
             cursor: pointer;
@@ -2501,13 +2510,12 @@ select {
         color: #fff;
         @height: 1.7em;
         line-height: @height;
-        padding: 0;
         vertical-align: middle;
         .borderBox;
         min-width: 1.1*@height;
         min-height: @height;
         text-align: center;
-        padding: 0;
+        padding: 0 4px;
         &:after {
         }
     }
@@ -3334,14 +3342,13 @@ select {
                 vertical-align: top;
                 display: inline-block;
                 line-height: 1;
-                span:before {
-                    font-size: 12px
-                }
             }
         }
     }
 }
-
+.products.wrapper.grid {
+    margin-bottom:20px;
+}
 .products.wrapper.grid .products.list {
     .item.product {
         @columns: 10;
@@ -3474,14 +3481,7 @@ select {
 .action.towishlist {
     font-size: 12px;
     span:before {
-        content: "\e02d ";
-        font-family: "MUI-icons";
-        font-weight: 400;
-        font-size: 14px;
-        height: 14px;
-        overflow: hidden;
-        vertical-align: top;
-        display: inline-block;
+        content: "\002B\00A0";
     }
 }
 
@@ -3563,7 +3563,6 @@ select {
         border-top: 1px solid @primary2;
         .action {
             float: left;
-            font-size: 14px;
             margin-right: 15px;
         }
     }
@@ -4197,16 +4196,50 @@ and (max-width : 768px) {
     .fieldset {
         width:auto;
         background: none;
+        margin-bottom:0;
         .legend {
             background: none;
         }
     }
-    .action {
+    .actions {
         width:auto;
+        padding-right:30px;
         text-align:right;
     }
     .action {
         .primaryAction();
+    }
+    .fields.range {
+        .field:first-child {
+            .control {
+                padding-right:30px;
+                &:after {
+                content:'\2014';
+                display: inline-block;
+                text-align: center;
+                margin-right:-30px;
+                width:25px;
+                }
+            }
+        }
+    }
+}
+.form.contact {
+    .fieldset {
+        .field {
+            float:left;
+            width:40%;
+            margin-right:60%;
+            &.comment {
+                width:55%;
+                margin-left:-55%;
+                margin-right:0;
+                float:none;
+                textarea {
+                    min-height: 13.2em;
+                }
+            }
+        }
     }
 }
 

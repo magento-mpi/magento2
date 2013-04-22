@@ -93,21 +93,31 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     protected $_appState;
 
     /**
+     * Store list manager
+     *
+     * @var Mage_Core_Model_StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool
      * @param Mage_Core_Model_App_State $appState
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool,
-        Mage_Core_Model_App_State $appState
+        Mage_Core_Model_App_State $appState,
+        Mage_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_moduleReader = $moduleReader;
         $this->_filesystem = $filesystem;
         $this->_resolutionPool = $resolutionPool;
         $this->_appState = $appState;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -188,6 +198,8 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * Get default theme which declared in configuration
      *
+     * Write default theme to core_config_data
+     *
      * @param string $area
      * @param array $params
      * @return string|int
@@ -200,10 +212,37 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         $store = isset($params['store']) ? $params['store'] : null;
 
         if ($this->_isThemePerStoveView($area)) {
-            return Mage::getStoreConfig(self::XML_PATH_THEME_ID, $store)
-                ?: (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
+            if ($this->_storeManager->isSingleStoreMode()) {
+                /** @var $config Mage_Core_Model_Config */
+                $config = Mage::getSingleton('Mage_Core_Model_Config');
+                $value = $config->getNode('default/' . self::XML_PATH_THEME_ID);
+                $hasNoTheme = $value instanceof Mage_Core_Model_Config_Element && (string)$value === '';
+                $hasNoValue = !(string)$value;
+
+                if ($hasNoTheme) {
+                    $theme = null;
+                } elseif ($hasNoValue) {
+                    $theme = (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
+                } else {
+                    $theme = (string)$value;
+                }
+            } else {
+                $value = Mage::getStoreConfig(self::XML_PATH_THEME_ID, $store);
+                $hasNoTheme = $value === '';
+                $hasNoValue = $value === NULL;
+                if ($hasNoTheme) {
+                    $theme = null;
+                } elseif ($hasNoValue) {
+                    $theme = (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
+                } else {
+                    $theme = $value;
+                }
+            }
+        } else {
+            $theme = (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
         }
-        return (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
+
+        return $theme;
     }
 
     /**
@@ -215,6 +254,16 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     private function _isThemePerStoveView($area)
     {
         return $area == self::DEFAULT_AREA;
+    }
+
+    /**
+     * Get default theme form config file
+     *
+     * @return string
+     */
+    protected function _getDefaultTheme()
+    {
+
     }
 
     /**
@@ -350,7 +399,9 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * Notify that view file resolved path was changed (i.e. it was published to a public directory)
      *
-     * @param array $params
+     * @param $targetPath
+     * @param $themeFile
+     * @param $params
      * @return Mage_Core_Model_Design_Package
      */
     protected function _notifyViewFileLocationChanged($targetPath, $themeFile, $params)

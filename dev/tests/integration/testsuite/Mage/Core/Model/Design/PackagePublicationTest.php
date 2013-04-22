@@ -12,13 +12,13 @@
 class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Mage_Core_Model_Design_Package');
+        $this->_model = Mage::getModel('Mage_Core_Model_Design_PackageInterface');
     }
 
     protected function tearDown()
@@ -301,7 +301,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         $actualCssContent = file_get_contents($expectedCssFile);
 
         $this->assertNotRegExp(
-            '/url\(.*?' . Mage_Core_Model_Design_Package::SCOPE_SEPARATOR . '.*?\)/',
+            '/url\(.*?' . Mage_Core_Model_Design_PackageInterface::SCOPE_SEPARATOR . '.*?\)/',
             $actualCssContent,
             'Published CSS file must not contain scope separators in URLs.'
         );
@@ -323,24 +323,24 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
     {
         return array(
             'frontend' => array(
-                'widgets.css',
+                'product/product.css',
                 array(
-                    'area'    => 'frontend',
+                    'area'    => 'adminhtml',
                     'package' => 'default',
-                    'theme'   => 'default',
+                    'theme'   => 'backend',
                     'locale'  => 'en_US',
-                    'module'  => 'Mage_Reports',
+                    'module'  => 'Mage_Catalog',
                 ),
-                'frontend/default/default/en_US/Mage_Reports/widgets.css',
+                'adminhtml/default/backend/en_US/Mage_Catalog/product/product.css',
                 array(
-                    'url(../Mage_Catalog/images/i_block-list.gif)',
+                    'url(../../Mage_Backend/images/gallery-image-base-label.png)',
                 ),
                 array(
-                    'frontend/default/default/en_US/Mage_Catalog/images/i_block-list.gif',
+                    'adminhtml/default/backend/en_US/Mage_Backend/images/gallery-image-base-label.png',
                 ),
             ),
             'adminhtml' => array(
-                'Mage_Paypal::boxes.css',
+                'Mage_Paypal::styles.css',
                 array(
                     'area'    => 'adminhtml',
                     'package' => 'package',
@@ -348,7 +348,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                     'locale'  => 'en_US',
                     'module'  => false,
                 ),
-                'adminhtml/package/test/en_US/Mage_Paypal/boxes.css',
+                'adminhtml/package/test/en_US/Mage_Paypal/styles.css',
                 array(
                     'url(logo.gif)',
                     'url(section.png)',
@@ -402,7 +402,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                 Mage_Core_Model_Dir::THEMES => "$appInstallDir/media_for_change",
             )
         ));
-        $this->_model = Mage::getModel('Mage_Core_Model_Design_Package');
+        $this->_model = Mage::getModel('Mage_Core_Model_Design_PackageInterface');
         $this->_model->setDesignTheme('test/default');
         $themePath = $this->_model->getDesignTheme()->getFullPath();
         $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
@@ -512,7 +512,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
                 Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design/'
             )
         ));
-        $this->_model = Mage::getModel('Mage_Core_Model_Design_Package'); // Reinit model with new directories
+        $this->_model = Mage::getModel('Mage_Core_Model_Design_PackageInterface'); // Reinit model with new directories
         $this->_model->setDesignTheme('test/default');
     }
 

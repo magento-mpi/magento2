@@ -11,7 +11,7 @@
 # 'Store Launcher' page
 store_launcher:
     mca: launcher/storelauncher_index/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'launcher/storelauncher')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'launcher/hub')]
     title: Magento Admin
     uimap: &store_launcher
         form:
@@ -37,7 +37,7 @@ store_launcher:
                             open_drawer: //div[@class='tile-teaser']//button[@class='action-open-drawer']
                             edit_drawer: //div[@class='tile-done']//button[@class='action-open-drawer']
                         links:
-                            additional_action: //div[@class='tile-done']//p[@class='tile-more-info']/a
+                            additional_action: //div[@class='tile-done']//footer[@class='tile-more-info']//a
                 -
                     common_drawer:
                         xpath: //div[@id='drawer']
@@ -87,7 +87,7 @@ store_launcher:
                     tax_rules_tile:
                         xpath: //article[@id='tile-tax']
                         buttons:
-                            confirm_info: //button[normalize-space()='Set Tax Rules']
+                            confirm_info: //button[normalize-space()='Open Tax Rules']
                         pageelements:
                             title: //h2
                             text: //div[@class='tile-teaser']//p
@@ -131,18 +131,18 @@ store_launcher:
                         xpath: //article[@id='tile-payments']
                         buttons:
                             open_payment_drawer: //button[normalize-space()='Payment Methods']
-                            configure_other_payment_method: //button[normalize-space()='Configure Other Payment Methods']
+                            edit_payment_drawer: //button[normalize-space()='Edit Payments']
                 -
                     payment_drawer:
                         xpath: //div[@id='drawer']
                         buttons:
-                            choose_paypal_express: //button[span='Choose PayPal Express']
-                            choose_paypal_standard: //button[span='Chose Standard']
-                            choose_paypal_advanced: //button[span='Chose Advanced']
-                            choose_paypal_payments_pro: //button[span='Chose Payments Pro']
-                            choose_paypal_payflow_link: //button[span='Chose Payflow Link']
-                            choose_paypal_payflow_pro: //button[span='Chose Payflow Pro']
-                            choose_authorize: //button[span='Choose Authorize.net']
+                            choose_paypal_express: //button[@data-payment-config = 'express-checkout']
+                            choose_paypal_standard: //button[@data-payment-config = 'paypal-standard']
+                            choose_paypal_advanced: //button[@data-payment-config = 'payments-advanced']
+                            choose_paypal_payments_pro: //button[@data-payment-config = 'payments-pro']
+                            choose_paypal_payflow_link: //button[@data-payment-config = 'payflow-link']
+                            choose_paypal_payflow_pro: //button[@data-payment-config = 'payflow-pro']
+                            choose_authorize: //button[@data-payment-config = 'authorize']
                             confirm_paypal_express: //div[@id='express-checkout']//button[span='Confirm']
                             confirm_paypal_standard: //div[@id='paypal-standard']//button[span='Confirm']
                             confirm_paypal_advanced: //div[@id='payments-advanced']//button[span='Confirm']

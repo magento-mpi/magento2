@@ -54,8 +54,11 @@ class Core_Mage_CheckoutOnePage_Guest_WithProductsTest extends Mage_Selenium_Tes
      */
     public function withSimpleProduct($data)
     {
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
-                                           array('general_name' => $data['simple']));
+        $checkoutData = $this->loadDataSet(
+            'OnePageCheckout',
+            'guest_flatrate_checkmoney_usa',
+            array('general_name' => $data['simple'])
+        );
         //Steps
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -76,8 +79,11 @@ class Core_Mage_CheckoutOnePage_Guest_WithProductsTest extends Mage_Selenium_Tes
     public function withVirtualProduct($data)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_virtual',
-                                           array('general_name' => $data['virtual']));
+        $checkoutData = $this->loadDataSet(
+            'OnePageCheckout',
+            'guest_flatrate_checkmoney_virtual',
+            array('general_name' => $data['virtual'])
+        );
         //Steps
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();

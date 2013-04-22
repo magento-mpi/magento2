@@ -568,8 +568,9 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
         if (array_key_exists($type . '_first_name', $addressData)
             && array_key_exists($type . '_last_name', $addressData)
         ) {
+            /*@TODO remove comments after fix MAGETWO-8894
             $addressData[$type . '_name'] =
-                $addressData[$type . '_first_name'] . ' ' . $addressData[$type . '_last_name'];
+                $addressData[$type . '_first_name'] . ' ' . $addressData[$type . '_last_name'];*/
             $skipFields[] = $type . '_first_name';
             $skipFields[] = $type . '_last_name';
         }
@@ -592,6 +593,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
     {
         $agreements = (isset($checkoutData['agreement'])) ? $checkoutData['agreement'] : array();
         foreach ($agreements as $agreement) {
+            $this->markTestIncomplete('MAGETWO-9011');
             $id = isset($agreement['agreement_id']) ? $agreement['agreement_id'] : null;
             $this->addParameter('termsId', $id);
             $this->fillCheckbox('agreement_select', $agreement['agreement_select']);

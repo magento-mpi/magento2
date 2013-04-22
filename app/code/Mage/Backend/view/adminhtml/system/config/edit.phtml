@@ -27,7 +27,7 @@
 <script type="text/javascript">
 (function($, window) {
     $(function() {
-        var configForm = jQuery('#config-edit-form').mage('form').mage('validation', {
+        window.configForm = jQuery('#config-edit-form').mage('form').mage('validation', {
             submitHandler: function(form)
             {
                 $$('.requires').each(function(element) {
@@ -41,7 +41,7 @@
             }
         });
 
-        var adminSystemConfig = {
+        window.adminSystemConfig = {
             getUp: function (element, tag) {
                 var $element = Element.extend(element);
                 if (typeof $element.upTag == 'undefined') {
@@ -294,7 +294,7 @@
             // fill eventObj with required elements
             adminSystemConfig.mapClasses(element, false, function(className) {
                 var requiredElement = Element.extend(document.getElementById(className.substr(9)));
-                if (typeof requiredElement != 'undefined') {
+                if (requiredElement) {
                     eventObj.requires.push(requiredElement);
                 }
             }, 'requires');

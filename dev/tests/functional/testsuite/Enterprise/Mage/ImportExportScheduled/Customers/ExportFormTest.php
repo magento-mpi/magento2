@@ -95,7 +95,8 @@ class Enterprise_Mage_ImportExportScheduled_Customers_ExportFormTest extends Mag
         // Precondition
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
-                'entity_type' => 'Customers Main File'));
+                'entity_type' => 'Customers Main File'
+            ));
         $this->importExportScheduledHelper()->createExport($exportData);
         $this->assertMessagePresent('success', 'success_saved_export');
         //Step 1

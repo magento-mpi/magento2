@@ -112,7 +112,7 @@ newsletter_template_new:
 
         messages:
             empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field.') and not(contains(@style,'display: none;'))]"
-            invalid_email: //div[@id='advice-validate-email-sender_email' and contains(.,'Please enter a valid email address. For example johndoe@domain.com.')]
+            invalid_email: //label[@class='mage-error' and contains(.,'Please enter a valid email address. For example johndoe@domain.com.')]
 
 # Newsletter edit template page
 edit_news_template:

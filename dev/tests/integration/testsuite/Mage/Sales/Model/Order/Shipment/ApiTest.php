@@ -10,6 +10,45 @@
 class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Ensure that partial shipment works correctly.
+     *
+     * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/order_with_shipping.php
+     */
+    public function testPartialShipmentCreate()
+    {
+        $order = $this->_getOrderFixture();
+        $items = $order->getAllItems();
+        $this->assertCount(1, $items, "Exactly one order item was expected to exist.");
+        /** @var Mage_Sales_Model_Order_Item $orderItem */
+        $orderItem = reset($items);
+        $qtyToShip = 3;
+        $this->assertGreaterThan(
+            $qtyToShip,
+            $orderItem->getQtyOrdered(),
+            "Product quantity ordered must more than $qtyToShip for this test."
+        );
+        /** Create partial shipment via API. */
+        $shipmentIncrementId = Magento_Test_Helper_Api::call(
+            $this,
+            'salesOrderShipmentCreate',
+            array(
+                'orderIncrementId' => $this->_getOrderFixture()->getIncrementId(),
+                'itemsQty' => array(
+                    (object)array('order_item_id' => $orderItem->getId(), 'qty' => $qtyToShip)
+                )
+            )
+        );
+        $this->assertGreaterThan(0, (int)$shipmentIncrementId, 'Shipment was not created.');
+        /** Ensure that shipment was created partially. */
+        $shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment')->load($shipmentIncrementId, 'increment_id');
+        $this->assertEquals(
+            $qtyToShip,
+            (int)$shipment->getTotalQty(),
+            "Items quantity shipped is invalid, partial shipment failed."
+        );
+    }
+
+    /**
      * Test retrieving the list of shipments related to the order via API.
      *
      * @magentoDataFixture Mage/Sales/Model/Order/Api/_files/shipment.php

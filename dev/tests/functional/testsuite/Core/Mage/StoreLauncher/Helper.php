@@ -29,7 +29,7 @@ class Core_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Open Drawer popup
      *
-     * @param $tile fieldset name from UIMap
+     * @param string $tile Fieldset name from UIMap
      * @return bool
      */
     public function openDrawer($tile)
@@ -43,7 +43,8 @@ class Core_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
             if ($this->controlIsPresent('button', $btnName)) {
                 $tileElement = $this->mouseOverDrawer($tile);
                 $tileButton =
-                    $this->getChildElement($tileElement, $this->_getControlXpath('button', $btnName), false);
+                    $this->getChildElements($tileElement, $this->_getControlXpath('button', $btnName), false);
+                $tileButton = array_shift($tileButton);
                 if ($tileButton->displayed()) {
                     $tileButton->click();
                     $this->waitForAjax();
@@ -70,6 +71,8 @@ class Core_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
 
     /**
      * Save Drawer
+     *
+     * @return bool
      */
     public function saveDrawer()
     {
@@ -104,6 +107,9 @@ class Core_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
      */
     public function getTileBgColor($element)
     {
+        /**
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
+         */
         $elementId = $element->attribute('id');
         if ($elementId) {
             $script =
@@ -135,8 +141,8 @@ class Core_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
     /**
      * Change Tile State by direct DB query
      *
-     * @param $tileCode Correspond value from DB
-     * @param $tileState STATE_TODO|STATE_COMPLETE|STATE_DISMISSED|STATE_SKIPPED
+     * @param string $tileCode Correspond value from DB
+     * @param int $tileState STATE_TODO|STATE_COMPLETE|STATE_DISMISSED|STATE_SKIPPED
      * @return bool
      */
     public function setTileState($tileCode, $tileState)
@@ -161,6 +167,6 @@ class Core_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
                 $this->fail($e->getMessage());
             }
         }
-        $this->fail('Could not set Tile state');
+        return $this->fail('Could not set Tile state');
     }
 }

@@ -194,7 +194,7 @@ add_new_review:
 
 edit_review:
     mca: catalog_product_review/edit/id/%id%/
-    title: Edit Review / Customer Reviews / User Content / Marketing / Magento Admi
+    title: Edit Review / Customer Reviews / User Content / Marketing / Magento Admin
     uimap: &editReview
         form:
             fieldsets:

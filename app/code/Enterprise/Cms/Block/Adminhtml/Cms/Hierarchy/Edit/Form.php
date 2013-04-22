@@ -34,12 +34,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Mage_Core_Model_StoreManager $storeManager,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);

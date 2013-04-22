@@ -31,7 +31,7 @@ $quote->setStoreId(1)
     ->assignCustomerWithAddressChange($customer)
     ->setCheckoutMethod($customer->getMode())
     ->setPasswordHash($customer->encryptPassword($customer->getPassword()))
-    ->addProduct($product->load($product->getId()), 2);
+    ->addProduct($product->load($product->getId()), 5);
 
 /** @var $rate Mage_Sales_Model_Quote_Address_Rate */
 $rate = Mage::getModel('Mage_Sales_Model_Quote_Address_Rate');

@@ -19,7 +19,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_FinanceTest extends P
 {
     protected function tearDown()
     {
-        Mage::getSingleton('Mage_Core_Model_StoreManager')->reinitStores();
+        Mage::getSingleton('Mage_Core_Model_StoreManagerInterface')->reinitStores();
     }
 
     /**

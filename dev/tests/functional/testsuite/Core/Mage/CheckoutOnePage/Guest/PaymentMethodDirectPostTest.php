@@ -33,7 +33,7 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodDirectPostTest extends Mage_S
     /**
      * <p>Creating Simple product</p>
      *
-     * @return string
+     * @return array
      * @test
      */
     public function preconditionsForTests()
@@ -41,6 +41,8 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodDirectPostTest extends Mage_S
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         //Verification
@@ -60,10 +62,16 @@ class Core_Mage_CheckoutOnePage_Guest_PaymentMethodDirectPostTest extends Mage_S
      */
     public function authorizeDirectPost($testData)
     {
+        $this->markTestIncomplete('MAGETWO-8885');
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
-            array('general_name' => $testData['sku'],
-                'payment_data' => $this->loadDataSet('Payment', 'payment_authorizenetdp')));
+        $checkoutData = $this->loadDataSet(
+            'OnePageCheckout',
+            'guest_flatrate_checkmoney_usa',
+            array(
+                'general_name' => $testData['sku'],
+                'payment_data' => $this->loadDataSet('Payment', 'payment_authorizenetdp')
+            )
+        );
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenetdp_enable');

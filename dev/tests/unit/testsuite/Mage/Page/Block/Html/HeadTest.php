@@ -47,7 +47,7 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         $this->_pageAssets->expects($this->once())
             ->method('add')
             ->with(
-                Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS . '/test.css',
+                Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS . '/test.css',
                 $this->isInstanceOf('Mage_Core_Model_Page_Asset_ViewFile')
             );
         $assetViewFile = $this->getMock('Mage_Core_Model_Page_Asset_ViewFile', array(), array(), '', false);
@@ -63,7 +63,7 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         $this->_pageAssets->expects($this->once())
             ->method('add')
             ->with(
-                Mage_Core_Model_Design_Package::CONTENT_TYPE_JS . '/test.js',
+                Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS . '/test.js',
                 $this->isInstanceOf('Mage_Core_Model_Page_Asset_ViewFile')
             );
         $assetViewFile = $this->getMock('Mage_Core_Model_Page_Asset_ViewFile', array(), array(), '', false);

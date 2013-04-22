@@ -337,7 +337,7 @@ report_tag_customer:
 # Tags: Tags Submitted by Customer
 tags_submitted_by_customer:
     mca: report_tag/customerDetail/id/%id%/
-    title: Tags Submitted by %elementTitle% / Customers / Tags / Reports / Magento Admin
+    title: Tags Submitted by %elementTitle% / Customers / Tags / Reports / Reports / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -353,7 +353,7 @@ tags_submitted_by_customer:
 report_tag_product:
     mca: report_tag/product/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_tag/product/')]
-    title: Products / Tags / Reports / Magento Admin
+    title: Products / Tags / Reports / Reports / Magento Admin
     uimap:
         form:
             fieldsets:

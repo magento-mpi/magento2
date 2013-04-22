@@ -57,7 +57,6 @@ class Mage_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testAddComment()
     {
-        $this->markTestSkipped("Skipped due to bug in addComment implementation: MAGETWO-6895.");
         /** @var $order Mage_Sales_Model_Order */
         $order = Mage::registry('order');
 
@@ -81,7 +80,7 @@ class Mage_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
         $historyAfter = $orderAfter->getAllStatusHistory();
         $this->assertCount($historySizeBefore + 1, $historyAfter, "History item was not created.");
         /** @var Mage_Sales_Model_Order_Status_History $createdHistoryItem */
-        $createdHistoryItem = end($historyAfter);
+        $createdHistoryItem = reset($historyAfter);
         $this->assertEquals($statusChangeComment, $createdHistoryItem->getComment(), 'Comment is invalid.');
     }
 

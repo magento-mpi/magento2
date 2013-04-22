@@ -32,7 +32,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
      */
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
-        $html = Mage::getModel('Mage_Core_Model_StoreManager')->isSingleStoreMode() ? '' : $this->toHtml();
+        $html = Mage::getModel('Mage_Core_Model_StoreManagerInterface')->isSingleStoreMode() ? '' : $this->toHtml();
         return $html;
     }
 

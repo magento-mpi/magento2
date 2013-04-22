@@ -51,8 +51,9 @@ frontend_gift_card_validation:
     general_stock_availability: In Stock
     general_weight: 2.56
     general_categories: Default Category
-    general_gift_card_amounts: *giftCardAmounts
-    general_gift_card_allow_open_amount: Yes
+    general_giftcard_data:
+        general_amounts: *giftCardAmounts
+        general_allow_open_amount: Yes
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_min_allowed_qty_default: No

@@ -38,13 +38,13 @@ manage_customer_attributes:
         messages: &customerAttributeMessages
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' or text()='Failed' and not(contains(@style,'display: none;'))]"
             success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The customer attribute has been deleted.')]
-            exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute with the same code already exists')]
+            exists_attribute_code: //span[@data-ui-id='messages-message-error' and contains(.,'Attribute with the same code already exists.')]
             success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The customer attribute has been saved.')]
-            wrong_length_attribute_code: //div[@id='advice-validate-length-attribute_code']
-            invalid_attribute_code: //div[@id='advice-validate-code-attribute_code']
+            wrong_length_attribute_code: //label[normalize-space(@class)='mage-error' and contains(.,'Maximum length of this field must be equal or less than 21 symbols.')]
+            invalid_attribute_code: //label[normalize-space(@class)='mage-error' and contains(.,'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.')]
             error_invalid_position: //div[@id='advice-validate-digits-position']
-            invalid_lines_range: //div[@id='advice-validate-digits-range-multiline_count']
-            use_numbers_only: "//input[@id='max_file_size']/following-sibling::*[text()='Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas.' or text()='Failed' and not(contains(@style,'display: none;'))]"
+            invalid_lines_range: //label[normalize-space(@class)='mage-error' and contains(.,'The value is not within the specified range.')]
+            use_numbers_only:  //label[normalize-space(@class)='mage-error' and contains(.,'Please enter a valid number in this field.')]
             delete_confirm_message: Are you sure you want to do this?
 
 # Add New Customer Attribute page

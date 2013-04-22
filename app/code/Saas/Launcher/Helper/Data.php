@@ -30,7 +30,7 @@ class Saas_Launcher_Helper_Data extends Mage_Core_Helper_Data
     /**
      * Store Manager
      *
-     * @var Mage_Core_Model_StoreManager
+     * @var Mage_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -44,13 +44,13 @@ class Saas_Launcher_Helper_Data extends Mage_Core_Helper_Data
     /**
      * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_Config_Modules $config
-     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Core_Model_Config $configModel
      */
     public function __construct(
         Mage_Core_Helper_Context $context,
         Mage_Core_Model_Config_Modules $config,
-        Mage_Core_Model_StoreManager $storeManager,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Core_Model_Config $configModel
     ) {
         parent::__construct($context, $config);

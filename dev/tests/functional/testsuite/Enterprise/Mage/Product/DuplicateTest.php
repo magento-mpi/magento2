@@ -36,6 +36,7 @@ class Enterprise_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      */
     public function duplicateGiftCard()
     {
+        $this->markTestIncomplete('MAGETWO-8963');
         //Data
         $productData = $this->loadDataSet('Product', 'gift_card_required');
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
@@ -47,9 +48,10 @@ class Enterprise_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($search);
         $this->productHelper()->saveProduct('duplicate');
         //Verifying
-        $productData['inventory_qty'] = '0';
+        $productData['general_sku'] = $this->productHelper()->getGeneratedSku($productData['general_sku']);
+        $productData['product_online_status'] = 'Disabled';
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'success_duplicated_product');
-        $this->productHelper()->verifyProductInfo($productData, array('general_sku', 'product_online_status'));
+        $this->productHelper()->verifyProductInfo($productData);
     }
 }

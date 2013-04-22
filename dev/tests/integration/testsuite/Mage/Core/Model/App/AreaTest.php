@@ -41,7 +41,7 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
 
         // try second time and make sure it won't load second time
         $this->_model->load(Mage_Core_Model_App_Area::PART_DESIGN);
-        $this->assertSame($design, Mage::getDesign());
+        $this->assertSame($design, Mage::getDesign()->setArea(Mage::getDesign()->getArea()));
     }
 
     // @codingStandardsIgnoreStart

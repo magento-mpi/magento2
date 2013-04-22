@@ -217,7 +217,7 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         $this->productHelper()->deleteAllCustomOptions();
         //Verifying
-        $this->assertEquals(0, $this->getControlCount('fieldset', 'custom_option_set'),
+        $this->assertFalse($this->controlIsVisible('fieldset', 'custom_option_set'),
             'Not all custom options were deleted');
     }
 

@@ -26,7 +26,7 @@ class Mage_Core_Model_Design_Package_ProxyTest extends PHPUnit_Framework_TestCas
     protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento_ObjectManager');
-        $this->_packageMock = $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false);
+        $this->_packageMock = $this->getMock('Mage_Core_Model_Design_PackageInterface');
         $this->_objectManager->expects($this->once())
             ->method('get')
             ->with('Mage_Core_Model_Design_Package')

@@ -45,7 +45,7 @@ class Mage_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_Test
         $this->_storeConfig = $this->getMock('Mage_Core_Model_Store_Config', array('getConfigFlag'));
 
         $this->_isMergingAllowed = true;
-        $this->_designPackage = $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false);
+        $this->_designPackage = $this->getMock('Mage_Core_Model_Design_PackageInterface');
         $this->_designPackage->expects($this->any())
             ->method('isMergingViewFilesAllowed')
             ->will($this->returnCallback(array($this, 'isMergingAllowed')));
@@ -144,12 +144,12 @@ class Mage_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_Test
         return array(
             'js' => array(
                 $jsAssets,
-                Mage_Core_Model_Design_Package::CONTENT_TYPE_JS,
+                Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS,
                 Mage_Core_Model_Page_Asset_MergeService::XML_PATH_MERGE_JS_FILES,
             ),
             'css' => array(
                 $cssAssets,
-                Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS,
+                Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS,
                 Mage_Core_Model_Page_Asset_MergeService::XML_PATH_MERGE_CSS_FILES,
             ),
         );

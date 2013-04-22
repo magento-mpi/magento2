@@ -18,6 +18,7 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        Mage::getConfig();
         Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
 
         $this->_model = $this->getMockForAbstractClass(

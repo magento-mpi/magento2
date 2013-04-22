@@ -20,7 +20,7 @@ scheduled_export:
    frequency: %noValue%
    status: %noValue%
    server_type: Remote FTP
-   file_path: %noValue%
+   file_path: var/export
    file_name: %noValue%
    host: %noValue%
    user_name: %noValue%

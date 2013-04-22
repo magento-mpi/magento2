@@ -25,27 +25,18 @@ class Core_Mage_StoreLauncher_Payment_DrawerTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->markTestIncomplete('MAGETWO-8724');
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $paypalConfig = $this->loadDataSet('PaymentMethod', 'paypal_disable');
-        $this->systemConfigurationHelper()->configure($paypalConfig);
-        $authorizeConfig = $this->loadDataSet('PaymentMethod', 'authorize_net_disable');
-        $this->systemConfigurationHelper()->configure($authorizeConfig);
-        $this->admin();
-    }
-
-    /**
-     * Restore payments settings
-     */
-    protected function tearDownAfterTest()
-    {
         $this->loginAdminUser();
         $tileState = $this->getControlAttribute('fieldset', 'payment_tile', 'class');
         $changeState = ('tile-store-settings tile-payments tile-complete' == $tileState) ? true : false;
         if ($changeState) {
             $this->storeLauncherHelper()->setTileState('payments', Core_Mage_StoreLauncher_Helper::$STATE_TODO);
         }
+        $this->navigate('system_configuration');
+        $paypalConfig = $this->loadDataSet('PaymentMethod', 'paypal_disable');
+        $this->systemConfigurationHelper()->configure($paypalConfig);
+        $authorizeConfig = $this->loadDataSet('PaymentMethod', 'authorize_net_disable');
+        $this->systemConfigurationHelper()->configure($authorizeConfig);
+        $this->admin();
     }
 
     /**
@@ -62,8 +53,8 @@ class Core_Mage_StoreLauncher_Payment_DrawerTest extends Mage_Selenium_TestCase
         $this->storeLauncherHelper()->openDrawer('payment_tile');
         $this->storeLauncherHelper()->saveDrawer();
         //Verification
-        $this->storeLauncherHelper()->mouseOverDrawer('payment_tile');
-        $this->assertTrue($this->controlIsVisible('button', 'open_payment_drawer'), 'Tile state is changed');
+        $this->assertEquals('tile-store-settings tile-payments tile-todo',
+            $this->getControlAttribute('fieldset', 'payment_tile', 'class'), 'Tile state is changed');
     }
 
     /**
@@ -96,9 +87,8 @@ class Core_Mage_StoreLauncher_Payment_DrawerTest extends Mage_Selenium_TestCase
         $this->controlIsVisible('pageelement', 'setup_seccessful');
         $this->storeLauncherHelper()->saveDrawer();
         //Verification
-        $this->storeLauncherHelper()->mouseOverDrawer('payment_tile');
-        $this->assertTrue($this->controlIsVisible('button', 'configure_other_payment_method'),
-            'Tile state is not changed');
+        $this->assertEquals('tile-store-settings tile-payments tile-complete',
+            $this->getControlAttribute('fieldset', 'payment_tile', 'class'), 'Tile state is not changed');
     }
 
     /**
@@ -141,8 +131,11 @@ class Core_Mage_StoreLauncher_Payment_DrawerTest extends Mage_Selenium_TestCase
         $this->controlIsVisible('pageelement', 'setup_seccessful');
         $this->storeLauncherHelper()->saveDrawer();
         //Verification
-        $this->storeLauncherHelper()->mouseOverDrawer('payment_tile');
-        $this->clickButton('configure_other_payment_method', false);
+        $tileElement = $this->storeLauncherHelper()->mouseOverDrawer('payment_tile');
+        $action = $this->getChildElement($tileElement,
+            $this->_getControlXpath(self::FIELD_TYPE_LINK, 'additional_action'));
+        $this->assertNotNull($action, 'Could not find "Additional action link"');
+        $action->click();
         $this->addParameter('tabName', 'sales_payment_methods');
         $this->validatePage('system_configuration_tabs');
     }

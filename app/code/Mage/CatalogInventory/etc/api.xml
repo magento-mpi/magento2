@@ -3,8 +3,6 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -26,6 +24,10 @@
                         <title>Update product stock data</title>
                         <acl>cataloginventory/update</acl>
                     </update>
+                    <multiUpdate>
+                        <title>Update multi product stock data</title>
+                        <acl>cataloginventory/update</acl>
+                    </multiUpdate>
                 </methods>
                 <faults module="Mage_CatalogInventory">
                     <not_exists>
@@ -36,6 +38,10 @@
                         <code>102</code>
                         <message>Product inventory is not updated. Details are in error message.</message>
                     </not_updated>
+                    <multi_update_not_match>
+                        <code>103</code>
+                        <message>Quantity of product IDs and product data should match. Inventory was not updated.</message>
+                    </multi_update_not_match>
                 </faults>
             </cataloginventory_stock_item>
         </resources>

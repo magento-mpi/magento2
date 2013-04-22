@@ -30,7 +30,7 @@
                 }
                 step.addClass('allow');
             });
-            parent.jQuery('#checkoutSteps').trigger('gotoSection', "<?php echo $this->getGotoSection() ?>");
+            parent.jQuery('#checkoutSteps').trigger('gotoSection', '<?php echo $this->getGotoSection() ?>');
             parent.jQuery('#checkout-review-submit').show();
             parent.jQuery('#iframe-warning').hide();
             <?php if ($this->getErrorMsg()): ?>

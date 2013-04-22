@@ -84,7 +84,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Design_Package|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Core_Model_Design_PackageInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_designPackage;
 
@@ -114,9 +114,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             array(), '', false
         );
         $this->_objectManager = $this->getMock('Magento_ObjectManager');
-        $this->_designPackage = $this->getMock('Mage_Core_Model_Design_Package', array('getConfigPathByArea'),
-            array(), '', false
-        );
+        $this->_designPackage = $this->getMock('Mage_Core_Model_Design_PackageInterface');
         $this->_application = $this->getMock('Mage_Core_Model_App', array('getStore'),
             array(), '', false
         );
@@ -207,7 +205,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $store = $this->getMock('Mage_Core_Model_Store', array('setConfig'), array(), '', false);
         $store->expects($this->once())
             ->method('setConfig')
-            ->with(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID, self::THEME_ID);
+            ->with(Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID, self::THEME_ID);
 
         $this->_application->expects($this->once())
             ->method('getStore')
@@ -224,7 +222,6 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
                 Mage_DesignEditor_Model_State::CURRENT_HANDLE_SESSION_KEY,
                 Mage_DesignEditor_Model_State::CURRENT_MODE_SESSION_KEY,
                 Mage_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY,
-                Mage_DesignEditor_Model_State::VIRTUAL_THEME_SESSION_KEY,
                 Mage_DesignEditor_Model_State::CURRENT_THEME_SESSION_KEY
             ))
             ->will($this->returnValue($this->_backendSession));

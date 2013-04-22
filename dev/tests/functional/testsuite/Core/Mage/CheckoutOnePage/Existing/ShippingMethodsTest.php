@@ -86,10 +86,15 @@ class Core_Mage_CheckoutOnePage_Existing_ShippingMethodsTest extends Mage_Seleni
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         $shippingMethod = $this->loadDataSet('ShippingMethod', $shipping . '_enable');
         $shippingData = $this->loadDataSet('Shipping', 'shipping_' . $shipping);
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_' . $shippingDestination,
-            array('general_name'  => $simpleSku,
-                  'email_address' => $userData['email'],
-                  'shipping_data' => $shippingData));
+        $checkoutData = $this->loadDataSet(
+            'OnePageCheckout',
+            'exist_flatrate_checkmoney_' . $shippingDestination,
+            array(
+                'general_name'  => $simpleSku,
+                'email_address' => $userData['email'],
+                'shipping_data' => $shippingData
+            )
+        );
         //Steps
         $this->navigate('system_configuration');
         if ($shippingOrigin) {

@@ -6,6 +6,7 @@ LICENSE_EE.txt
 app/code/Enterprise
 app/design/adminhtml/default/enterprise
 app/design/frontend/enterprise
+app/design/frontend/magento2/reference
 app/design/install/default/enterprise
 app/etc/enterprise.xml
 app/etc/modules/XEnterprise_Edition.xml.dist

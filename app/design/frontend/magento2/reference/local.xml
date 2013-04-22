@@ -3,8 +3,8 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     default_default
+ * @category    Magento
+ * @package     Design
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -35,12 +35,7 @@
             <action method="addJs"><file>js/tabs.js</file></action>
             <action method="addJs"><file>js/selectivizr-min.js</file><params/><if>lt IE 9</if></action>
         </reference>
-        <reference name="page.bottom">
-            <container name="place.communication" label="Newsletter Placeholder" htmlTag="div" htmlClass="place communication" />
-        </reference>
 
-        <!-- <move element="form.subscribe" destination="place.communication" after="-" /> -->
-        <move element="place.communication" destination="page.bottom" after="-" />
         <move element="external.pagecache.cookie" destination="content.bottom" after="-" />
 
         <block type="Mage_Page_Block_Html_Header" name="customer">
@@ -121,7 +116,7 @@
             </block>
         </reference>
         <reference name="content.bottom">
-            <block type="Mage_Reports_Block_Product_Widget_Viewed" page_size="6" template="Mage_Catalog::product/list/items.phtml">
+            <block type="Mage_Reports_Block_Product_Widget_Viewed" name="product.viewed.products" page_size="6" template="Mage_Catalog::product/list/items.phtml">
                 <action method="setType"><type>widget-viewed</type></action>
                 <action method="setViewMode"><mode>grid</mode></action>
                 <action method="setImageType"><image>recently_viewed_products_grid_content_widget</image></action>
@@ -140,10 +135,10 @@
     <cms_index_index translate="label" type="page" parent="cms_page_view">
         <label>CMS Home Page</label>
         <!-- <remove name="page.main.title" /> -->
-        <remove name="content" />
-        <reference name="content.top">
-            <block type="Mage_Core_Block_Template" name="default_home_page" template="Mage_Cms::default/home.phtml"/>
-        </reference>
+<!--         <remove name="content" />
+<reference name="content.top">
+    <block type="Mage_Core_Block_Template" name="default_home_page" template="Mage_Cms::default/home.phtml"/>
+</reference> -->
 <!--         <reference name="page.bottom">
     <block type="Mage_Core_Block_Template" name="footer.banners" template="Mage_Cms::default/footerbanners.phtml" after="-"/>
 </reference> -->

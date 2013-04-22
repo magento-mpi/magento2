@@ -19,7 +19,7 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_objectManager;
+    protected $_fileFactory;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -35,6 +35,16 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
      * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_targetTheme;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_link;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_linkCollection;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject[]
@@ -76,29 +86,83 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
         );
         $this->_targetTheme->setId(123);
 
-        $this->_objectManager = $this->getMockForAbstractClass('Magento_ObjectManager');
+        $this->_fileFactory = $this->getMock('Mage_Core_Model_Theme_File_Factory', array('create'), array(), '', false);
         $this->_filesystem = $this->getMock(
             'Magento_Filesystem', array('isDirectory', 'searchKeys', 'copy'),
             array($this->getMockForAbstractClass('Magento_Filesystem_AdapterInterface'))
         );
-        $this->_object = new Mage_Core_Model_Theme_CopyService($this->_objectManager, $this->_filesystem);
+
+        $this->_link = $this->getMock('Mage_Core_Model_Layout_Link', array('getCollection'), array(), '', false);
+        $this->_linkCollection = $this->getMock('Mage_Core_Model_Resource_Layout_Link_Collection',
+            array('addFieldToFilter', 'getIterator'), array(), '', false);
+        $this->_link->expects($this->any())->method('getCollection')->will($this->returnValue($this->_linkCollection));
+
+        $this->_object = new Mage_Core_Model_Theme_CopyService($this->_filesystem, $this->_fileFactory, $this->_link);
     }
 
     protected function tearDown()
     {
         $this->_object = null;
         $this->_filesystem = null;
-        $this->_objectManager = null;
+        $this->_fileFactory = null;
         $this->_sourceTheme = null;
         $this->_targetTheme = null;
+        $this->_link = null;
         $this->_sourceFiles = array();
         $this->_targetFiles = array();
     }
 
+    /**
+     * @covers Mage_Core_Model_Theme_CopyService::_copyLayoutCustomization
+     */
+    public function testCopyLayoutUpdates()
+    {
+        $this->_sourceTheme->expects($this->once())->method('getFiles')->will($this->returnValue(array()));
+        $this->_targetTheme->expects($this->once())->method('getFiles')->will($this->returnValue(array()));
+
+        $sourceLink = $this->getMock('Mage_Core_Model_Layout_Link', array('delete'),
+            array(), '', false);
+        $targetLinkOne = $this->getMock('Mage_Core_Model_Layout_Link', array('setId', 'setThemeId', 'save'),
+            array(), '', false);
+        $targetLinkTwo = $this->getMock('Mage_Core_Model_Layout_Link', array('setId', 'setThemeId', 'save'),
+            array(), '', false);
+
+
+        $this->_linkCollection->expects($this->any())->method('addFieldToFilter')
+            ->will($this->returnValue($this->_linkCollection));
+
+        $sourceLink->expects($this->exactly(2))->method('delete');
+
+        $targetLinkOne->expects($this->at(0))->method('setId')->with(null);
+        $targetLinkOne->expects($this->at(1))->method('setThemeId')->with(123);
+        $targetLinkOne->expects($this->at(2))->method('save');
+
+        $targetLinkTwo->expects($this->at(0))->method('setId')->with(null);
+        $targetLinkTwo->expects($this->at(1))->method('setThemeId')->with(123);
+        $targetLinkTwo->expects($this->at(2))->method('save');
+
+        $returnValue = $this->onConsecutiveCalls(
+            new ArrayIterator(array($sourceLink, $sourceLink)),
+            new ArrayIterator(array($targetLinkOne, $targetLinkTwo))
+        );
+        $this->_linkCollection->expects($this->any())->method('getIterator')
+            ->will($returnValue);
+
+        $this->_object->copy($this->_sourceTheme, $this->_targetTheme);
+    }
+
+    /**
+     * @covers Mage_Core_Model_Theme_CopyService::_copyDatabaseCustomization
+     */
     public function testCopyDatabaseCustomization()
     {
         $this->_sourceTheme->expects($this->once())->method('getFiles')->will($this->returnValue($this->_sourceFiles));
         $this->_targetTheme->expects($this->once())->method('getFiles')->will($this->returnValue($this->_targetFiles));
+
+        $this->_linkCollection->expects($this->any())->method('addFieldToFilter')
+            ->will($this->returnValue($this->_linkCollection));
+        $this->_linkCollection->expects($this->any())->method('getIterator')
+            ->will($this->returnValue(new ArrayIterator(array())));
 
         foreach ($this->_targetFiles as $targetFile) {
             $targetFile->expects($this->once())->method('delete');
@@ -122,20 +186,28 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
             'sort_order'    => 20,
         ));
         $newFileTwo->expects($this->at(1))->method('save');
-        $this->_objectManager
+        $this->_fileFactory
             ->expects($this->any())
             ->method('create')
-            ->with('Mage_Core_Model_Theme_File')
+            ->with(array())
             ->will($this->onConsecutiveCalls($newFileOne, $newFileTwo))
         ;
 
         $this->_object->copy($this->_sourceTheme, $this->_targetTheme);
     }
 
+    /**
+     * @covers Mage_Core_Model_Theme_CopyService::_copyFilesystemCustomization
+     */
     public function testCopyFilesystemCustomization()
     {
         $this->_sourceTheme->expects($this->once())->method('getFiles')->will($this->returnValue(array()));
         $this->_targetTheme->expects($this->once())->method('getFiles')->will($this->returnValue(array()));
+
+        $this->_linkCollection->expects($this->any())->method('addFieldToFilter')
+            ->will($this->returnValue($this->_linkCollection));
+        $this->_linkCollection->expects($this->any())->method('getIterator')
+            ->will($this->returnValue(new ArrayIterator(array())));
 
         $this->_sourceTheme
             ->expects($this->once())->method('getCustomizationPath')->will($this->returnValue('source/path'));

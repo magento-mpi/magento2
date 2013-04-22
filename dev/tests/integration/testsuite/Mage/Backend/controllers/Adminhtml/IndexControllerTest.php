@@ -61,7 +61,7 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
     {
         $this->dispatch('backend/admin/index/index');
         $this->assertFalse($this->getResponse()->isRedirect());
-        $expected = 'Log in to Admin Panel';
+        $expected = 'Log into Magento Admin Page';
         $this->assertContains($expected, $this->getResponse()->getBody(), 'There is no login form');
     }
 

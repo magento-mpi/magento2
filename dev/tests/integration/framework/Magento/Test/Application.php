@@ -170,6 +170,7 @@ class Magento_Test_Application
             ->setResourceConfig(Mage::getObjectManager()->get('Mage_Core_Model_Config_Resource'));
         Mage::getObjectManager()->get('Mage_Core_Model_Resource')
             ->setCache(Mage::getObjectManager()->get('Mage_Core_Model_CacheInterface'));
+        Mage::getConfig(); // Loading full config to initialize global application area
     }
 
     /**

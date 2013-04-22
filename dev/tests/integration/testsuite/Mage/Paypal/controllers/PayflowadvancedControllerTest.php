@@ -32,15 +32,15 @@ class Mage_Paypal_PayflowadvancedControllerTest extends Magento_Test_TestCase_Co
     {
         $this->dispatch('paypal/payflowadvanced/cancelpayment');
         $this->assertContains(
-            'window_top.checkout.gotoSection("payment");',
+            "parent.jQuery('#checkoutSteps').trigger('gotoSection', 'payment');",
             $this->getResponse()->getBody()
         );
         $this->assertContains(
-            'window_top.document.getElementById(\'checkout-review-submit\').show();',
+            "parent.jQuery('#checkout-review-submit').show();",
             $this->getResponse()->getBody()
         );
         $this->assertContains(
-            'window_top.document.getElementById(\'iframe-warning\').hide();',
+            "parent.jQuery('#iframe-warning').hide();",
             $this->getResponse()->getBody()
         );
     }
@@ -49,15 +49,15 @@ class Mage_Paypal_PayflowadvancedControllerTest extends Magento_Test_TestCase_Co
     {
         $this->dispatch('paypal/payflowadvanced/returnurl');
         $this->assertContains(
-            'window_top.checkout.gotoSection("payment");',
+            "parent.jQuery('#checkoutSteps').trigger('gotoSection', 'payment');",
             $this->getResponse()->getBody()
         );
         $this->assertContains(
-            'window_top.document.getElementById(\'checkout-review-submit\').show();',
+            "parent.jQuery('#checkout-review-submit').show();",
             $this->getResponse()->getBody()
         );
         $this->assertContains(
-            'window_top.document.getElementById(\'iframe-warning\').hide();',
+            "parent.jQuery('#iframe-warning').hide();",
             $this->getResponse()->getBody()
         );
     }

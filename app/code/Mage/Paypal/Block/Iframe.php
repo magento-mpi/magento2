@@ -144,7 +144,7 @@ class Mage_Paypal_Block_Iframe extends Mage_Payment_Block_Form
     protected function _toHtml()
     {
         if ($this->_isAfterPaymentSave()) {
-
+            $this->setTemplate('hss/js.phtml');
             return parent::_toHtml();
         }
         if (!$this->_shouldRender) {
