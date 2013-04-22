@@ -189,7 +189,7 @@
                             <attribute type="requires">wpp_and_express_checkout</attribute>
                         </field>
                     </group>
-                    <group id="wpp_settings_wpp_and_express_checkout_authentication_method_0" sortOrder="0" extends="*/wpp/wpp_settings">
+                    <group id="wpp_settings_wpp_and_express_checkout_authentication_method_0" sortOrder="0" extends="*/paypal_payments/wpp/wpp_settings">
                         <field id="title"/>
                         <field id="payment_action"/>
                         <field id="cctypes"/>
@@ -209,7 +209,7 @@
                             <field id="*/wpp_and_express_checkout/authentication_method">0</field>
                         </depends>
                     </group>
-                    <group id="wpp_settings_wpp_and_express_checkout_authentication_method_1" extends="*/wpp/wpp_settings">
+                    <group id="wpp_settings_wpp_and_express_checkout_authentication_method_1" extends="*/paypal_payments/wpp/wpp_settings">
                         <field id="direct_boarding_title" translate="label comment" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Title</label>
                             <comment>It is recommended to set this value to "Debit or Credit Card" per store views.</comment>
@@ -262,7 +262,7 @@
                             <field id="*/wpp_and_express_checkout/authentication_method">1</field>
                         </depends>
                     </group>
-                    <group id="wpp_settings_wpp_and_express_checkout_authentication_method_1_direct_boarding_allowspecific_1" extends="*/wpp/wpp_settings_wpp_and_express_checkout_authentication_method_1">
+                    <group id="wpp_settings_wpp_and_express_checkout_authentication_method_1_direct_boarding_allowspecific_1" extends="*/paypal_payments/wpp/wpp_settings_wpp_and_express_checkout_authentication_method_1">
                         <group id="wpp_settings_advanced">
                             <field id="direct_boarding_specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="0">
                                 <label>Countries Payment Applicable From</label>
@@ -275,7 +275,7 @@
                             <field id="direct_boarding_allowspecific">1</field>
                         </depends>
                     </group>
-                    <group id="wpp_settings_wpp_direct_boarding_allowspecific_1" extends="*/wpp/wpp_settings">
+                    <group id="wpp_settings_wpp_direct_boarding_allowspecific_1" extends="*/paypal_payments/wpp/wpp_settings">
                         <group id="wpp_settings_advanced">
                             <field id="direct_boarding_specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="0">
                                 <label>Countries Payment Applicable From</label>
@@ -299,7 +299,7 @@
                             <field id="direct_boarding_allowspecific">1</field>
                         </depends>
                     </group>
-                    <group id="wpp_settings_express_checkout_0" translate="label" extends="wpp_settings_express_checkout">
+                    <group id="wpp_settings_express_checkout_0" translate="label" extends="*/paypal_payments/wpp/wpp_settings_express_checkout">
                         <field id="title"/>
                         <field id="sort_order"/>
                         <field id="payment_action"/>
@@ -323,7 +323,7 @@
                             <field id="*/wpp_and_express_checkout/authentication_method">0</field>
                         </depends>
                     </group>
-                    <group id="wpp_settings_express_checkout_1" translate="label" extends="wpp_settings_express_checkout">
+                    <group id="wpp_settings_express_checkout_1" translate="label" extends="*/paypal_payments/wpp/wpp_settings_express_checkout">
                         <field id="boarding_title" extends="//paypal_payments/express_checkout//settings_ec/*/boarding_title"/>
                         <field id="boarding_sort_order" extends="//paypal_payments/express_checkout//settings_ec/*/boarding_sort_order"/>
                         <field id="boarding_payment_action" extends="//paypal_payments/express_checkout//settings_ec/*/boarding_payment_action"/>
@@ -342,15 +342,23 @@
                             <field id="*/wpp_and_express_checkout/authentication_method">1</field>
                         </depends>
                     </group>
-                    <group id="wpp_settings_express_checkout_1_boarding_allowspecific_1" translate="label" extends="wpp_settings_express_checkout_1">
+                    <group id="wpp_settings_express_checkout_1_boarding_allowspecific_1" translate="label" extends="*/paypal_payments/wpp/wpp_settings_express_checkout_1">
                         <group id="wpp_settings_express_checkout_advanced" translate="label" module="Saas_Paypal">
                             <field id="boarding_specificcountry" extends="//paypal_payments/express_checkout//settings_ec_advanced/*/boarding_specificcountry"/>
                         </group>
+                        <depends>
+                            <field id="*/wpp_and_express_checkout/authentication_method">1</field>
+                            <field id="boarding_allowspecific">1</field>
+                        </depends>
                     </group>
-                    <group id="wpp_settings_express_checkout_1_boarding_line_items_enabled_1" translate="label" extends="wpp_settings_express_checkout_1">
+                    <group id="wpp_settings_express_checkout_1_boarding_line_items_enabled_1" translate="label" extends="*/paypal_payments/wpp/wpp_settings_express_checkout_1">
                         <group id="wpp_settings_express_checkout_advanced" translate="label" module="Saas_Paypal">
                             <field id="boarding_transfer_shipping_options" extends="//paypal_payments/express_checkout//settings_ec_advanced/*/boarding_transfer_shipping_options"/>
                         </group>
+                        <depends>
+                            <field id="*/wpp_and_express_checkout/authentication_method">1</field>
+                            <field id="boarding_line_items_enabled">1</field>
+                        </depends>
                     </group>
                 </group>
                 <group id="wps">
@@ -369,7 +377,7 @@
                         <field id="*/account/merchant_country" negative="1">AU</field>
                     </depends>
                 </group>
-                <group id="wps_au" extends="wps">
+                <group id="wps_au" extends="*/paypal_payments/wps">
                     <attribute type="learn_more_link">https://www.paypal-australia.com.au/business/accept-payments/accept-payments-on-your-website/website-payments-standard</attribute>
                     <depends>
                         <field id="*/account/merchant_country">AU</field>
@@ -415,7 +423,7 @@
                         <field id="*/account/merchant_country" negative="1">AU</field>
                     </depends>
                 </group>
-                <group id="paypal_verisign_au" extends="paypal_verisign">
+                <group id="paypal_verisign_au" extends="*/paypal_payments/paypal_verisign">
                     <attribute type="learn_more_link">https://www.paypal-australia.com.au/business/accept-payments/accept-a-payment-gateway</attribute>
                     <group id="settings_paypal_payflow">
                         <field id="cctypes">
@@ -485,7 +493,7 @@
                         <field id="*/account/merchant_country" negative="1">AU</field>
                     </depends>
                 </group>
-                <group id="payments_pro_hosted_solution_au" extends="payments_pro_hosted_solution">
+                <group id="payments_pro_hosted_solution_au" extends="*/paypal_payments/payments_pro_hosted_solution">
                     <attribute type="learn_more_link">https://www.paypal-australia.com.au/business/accept-payments/accept-payments-on-your-website/hss</attribute>
                     <depends>
                         <field id="*/account/merchant_country">AU</field>
@@ -519,7 +527,7 @@
                                 <attribute type="create_account_link">http://www.paypal.com/webapps/mpp/referral/paypal-express-checkout?partner_id=NB9WWHYEMVUMS</attribute>
                             </field>
                         </group>
-                        <group id="express_checkout_required_express_checkout_authentication_method_0" extends="express_checkout_required_express_checkout">
+                        <group id="express_checkout_required_express_checkout_authentication_method_0" extends="*/paypal_payments/express_checkout/express_checkout_required/express_checkout_required_express_checkout">
                             <field id="business_account"/>
                             <field id="api_username"/>
                             <field id="api_password"/>
@@ -534,7 +542,7 @@
                                 <field id="authentication_method">0</field>
                             </depends>
                         </group>
-                        <group id="express_checkout_required_express_checkout_authentication_method_1" extends="express_checkout_required_express_checkout">
+                        <group id="express_checkout_required_express_checkout_authentication_method_1" extends="*/paypal_payments/express_checkout/express_checkout_required/express_checkout_required_express_checkout">
                             <field id="boarding_business_account" sortOrder="10" showInDefault="1" showInWebsite="1">
                                 <label>Email to Send PayPal Payments</label>
                                 <config_path>paypal/onboarding/boarding_account</config_path>
@@ -564,13 +572,13 @@
                                 <field id="authentication_method">1</field>
                             </depends>
                         </group>
-                        <group id="express_checkout_required_am_0" extends="express_checkout_required" showInStore="1">
+                        <group id="express_checkout_required_am_0" extends="*/paypal_payments/express_checkout/express_checkout_required/express_checkout_required" showInStore="1">
                             <field id="enable_express_checkout"/>
                             <depends>
                                 <field id="*/express_checkout_required_express_checkout/authentication_method">0</field>
                             </depends>
                         </group>
-                        <group id="express_checkout_required_am_1" extends="express_checkout_required" showInStore="1">
+                        <group id="express_checkout_required_am_1" extends="*/paypal_payments/express_checkout/express_checkout_required/express_checkout_required" showInStore="1">
                             <field id="boarding_enable_express_checkout" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
                                 <label>Enable this Solution</label>
                                 <config_path>payment/paypal_express_boarding/active</config_path>
@@ -583,7 +591,7 @@
                                 <field id="*/express_checkout_required_express_checkout/authentication_method">1</field>
                             </depends>
                         </group>
-                        <group id="settings_ec_ec_am_0" extends="settings_ec">
+                        <group id="settings_ec_ec_am_0" extends="*/paypal_payments/express_checkout/express_checkout_required/settings_ec">
                             <field id="title"/>
                             <field id="sort_order"/>
                             <field id="payment_action"/>
@@ -607,7 +615,7 @@
                                 <field id="*/express_checkout_required_express_checkout/authentication_method">0</field>
                             </depends>
                         </group>
-                        <group id="settings_ec_ec_am_1" extends="settings_ec">
+                        <group id="settings_ec_ec_am_1" extends="*/paypal_payments/express_checkout/express_checkout_required/settings_ec">
                             <field id="boarding_title" translate="label comment" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
                                 <label>Title</label>
                                 <comment>It is recommended to set this value to "PayPal" per store views.</comment>
@@ -675,7 +683,7 @@
                                 <field id="*/express_checkout_required_express_checkout/authentication_method">1</field>
                             </depends>
                         </group>
-                        <group id="settings_ec_boarding_line_items_enabled_1" extends="settings_ec">
+                        <group id="settings_ec_boarding_line_items_enabled_1" extends="*/paypal_payments/express_checkout/express_checkout_required/settings_ec">
                             <group id="settings_ec_advanced">
                                 <field id="boarding_transfer_shipping_options" translate="label tooltip comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                                     <label>Transfer Shipping Options</label>
@@ -691,7 +699,7 @@
                                 <field id="*/express_checkout_required_express_checkout/authentication_method">1</field>
                             </depends>
                         </group>
-                        <group id="settings_ec_am_1" extends="settings_ec">
+                        <group id="settings_ec_am_1" extends="*/paypal_payments/express_checkout/express_checkout_required/settings_ec">
                             <group id="settings_ec_advanced">
                                 <field id="boarind_allow_ba_signup" extends="//paypal_payments/express_checkout//settings_ec//allow_ba_signup">
                                     <config_path>payment/paypal_express_boarding/allow_ba_signup</config_path>
