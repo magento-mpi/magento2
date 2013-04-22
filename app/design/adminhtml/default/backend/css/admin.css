@@ -4049,7 +4049,7 @@ table tbody tr:nth-child(odd):hover th {
     max-width: 1259px;
 }
 
-.lt-ie9 .page-actions.fixed .page-actions-inner {
+.lt-ie10 .page-actions.fixed .page-actions-inner {
     background: #f5f2ed;
 }
 

@@ -23,9 +23,9 @@
             <div class="product details">
                 <strong class="product name"><?php echo $this->escapeHtml($_product->getName()) ?></strong>
                 <?php if($_product->getIsSalable()): ?>
-                    <p class="availabale stock" title="<?php echo $this->__('Availability') ?>"><span><?php echo $this->__('In stock') ?></span></p>
+                    <p class="available stock" title="<?php echo $this->__('Availability') ?>"><span><?php echo $this->__('In stock') ?></span></p>
                 <?php else: ?>
-                    <p class="unavailabale stock" title="<?php echo $this->__('Availability') ?>"><span><?php echo $this->__('Out of stock') ?></span></p>
+                    <p class="unavailable stock" title="<?php echo $this->__('Availability') ?>"><span><?php echo $this->__('Out of stock') ?></span></p>
                 <?php endif; ?>
                 <?php echo $this->getChildHtml('', true);?>
             </div>

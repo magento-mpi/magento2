@@ -2917,7 +2917,17 @@ INSERT INTO `core_theme` (`theme_id`, `parent_id`, `theme_path`, `theme_version`
 	(13, NULL, 'pro/fluid', '2.0.0.0', 'Magento Fluid Design', 'preview_magento_fluid_design.jpeg', '2.0.0.0', '*', 1, 'frontend', 0),
 	(14, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
 	(15, 14, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
-	(16, 14, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0);
+	(16, 14, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
+	(23, 12, 'magento2/modern2', '1.0.0.0', 'Modern 2', 'preview_modern2.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(24, 12, 'magento2/piece-of-cake', '1.0.0.0', 'Piece of Cake', 'preview_piece_of_cake.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(26, 12, 'magento2/upstream', '1.0.0.0', 'Upstream', 'preview_upstream.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(27, 24, 'magento2/electron', '1.0.0.0', 'Electron', 'preview_electron.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(28, 12, 'magento2/hobby', '1.0.0.0', 'Hobby', 'preview_hobby.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(29, 12, 'magento2/plushe-dark', '1.0.0.0', 'Plushe Dark', 'preview_plushe_dark.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(30, 12, 'magento2/plushe_blue', '1.0.0.0', 'Plushe Blue', 'preview_plushe_blue.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(31, 28, 'magento2/recon', '1.0.0.0', 'Recon', 'preview_recon.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(32, 23, 'magento2/skater', '1.0.0.0', 'Skater', 'preview_skater.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+	(33, 26, 'magento2/umecha', '1.0.0.0', 'Umecha', 'preview_umecha.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0);
 
 
 
