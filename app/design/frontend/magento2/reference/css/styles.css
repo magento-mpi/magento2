@@ -3515,13 +3515,13 @@ div.mage-error {
   float: right;
   margin-top: -50px;
 }
-.comarision.wrapper {
+.comparison.wrapper {
   clear: both;
   position: relative;
   z-index: 1;
   margin-bottom: 50px;
 }
-.comarision.wrapper:after {
+.comparison.wrapper:after {
   content: '';
   position: absolute;
   z-index: 2;
@@ -3530,7 +3530,7 @@ div.mage-error {
   height: 100%;
   width: 15px;
 }
-.comarision.container {
+.comparison.container {
   overflow-y: hidden;
   overflow-x: auto;
 }
@@ -3561,7 +3561,6 @@ div.mage-error {
 }
 .data.comparison .cell .attibute.value {
   width: 100%;
-  word-break: break-all;
   overflow: hidden;
 }
 .data.comparison .cell.product {
@@ -6847,6 +6846,47 @@ img[align="right"] {
 }
 .block.poll .poll.answer {
   display: block;
+}
+.block.poll .fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.block.poll .field {
+  margin: 10px 0;
+}
+.block.poll .legend {
+  font-weight: 600;
+  float: left;
+}
+.block.poll .legend  + br {
+  display: block;
+  clear: both;
+}
+.block.poll .action.submit {
+  border: none;
+  border-radius: 0;
+  background: #c2c2c2;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.block.poll .action.submit span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.block.poll .action.submit:focus,
+.block.poll .action.submit:active,
+.block.poll .action.submit:hover {
+  background: #999999;
+}
+.block.poll .actions {
+  margin-top: 15px;
 }
 /*
  *    Mage_Customer

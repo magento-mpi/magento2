@@ -2759,7 +2759,7 @@ div.mage-error {
         margin-top:-50px;
     }
 }
-.comarision.wrapper {
+.comparison.wrapper {
     clear:both;
     position: relative;
     z-index: 1;
@@ -2773,7 +2773,7 @@ div.mage-error {
     }
     margin-bottom:50px;
 }
-.comarision.container {
+.comparison.container {
     overflow-y: hidden;
     overflow-x: auto;
 }
@@ -2803,7 +2803,6 @@ div.mage-error {
         }
         .attibute.value {
             width:100%;
-            word-break:break-all;
             overflow: hidden;
         }
     }
@@ -4655,6 +4654,28 @@ and (max-width : 768px) {
     }
     .poll.answer {
         display: block;
+    }
+    .fieldset {
+        border:0;
+        margin:0;
+        padding:0;
+    }
+    .field {
+        margin:10px 0;
+    }
+    .legend {
+        font-weight: 600;
+        float:left;
+        & + br {
+            display: block;
+            clear:both;
+        }
+    }
+    .action.submit {
+        .secondaryAction();
+    }
+    .actions {
+        margin-top:15px;
     }
 }
 
