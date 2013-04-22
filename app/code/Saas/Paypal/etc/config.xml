@@ -143,7 +143,7 @@
         </routers>
         <layout>
             <updates>
-                <saas_paypal>
+                <saas_paypal module="Saas_Paypal">
                     <file>layout.xml</file>
                 </saas_paypal>
             </updates>
