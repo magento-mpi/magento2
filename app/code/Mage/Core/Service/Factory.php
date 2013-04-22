@@ -38,4 +38,15 @@ class Mage_Core_Service_Factory
         /*$className = $this->_config->getServiceClassByServiceName($className);*/
         return $this->_objectManager->create($className);
     }
+
+    /**
+     * Create service helper instance.
+     *
+     * @param string $serviceHelperClassRef
+     * @return object
+     */
+    public function createServiceHelperInstance($serviceHelperClassRef)
+    {
+        return $this->_objectManager->create($serviceHelperClassRef);
+    }
 }

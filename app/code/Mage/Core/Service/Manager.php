@@ -63,6 +63,18 @@ class Mage_Core_Service_Manager extends Varien_Object
     }
 
     /**
+     * Retrieve a service helper instance
+     *
+     * @param string $serviceHelperClassRef
+     * @return Mage_Core_Service_Helper_Abstract $serviceHelper
+     */
+    public function getServiceHelper($serviceHelperClassRef)
+    {
+        $serviceHelper = $this->_serviceFactory->createServiceHelperInstance($serviceHelperClassRef);
+        return $serviceHelper;
+    }
+
+    /**
      * @param string $serviceClass
      * @param string $serviceMethod [optional]
      * @param string $version [optional]

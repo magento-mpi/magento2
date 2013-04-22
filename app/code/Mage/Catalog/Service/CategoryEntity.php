@@ -57,15 +57,14 @@ class Mage_Catalog_Service_CategoryEntity extends Mage_Core_Service_Type_Abstrac
         $collection->addIdFilter($categoryIds);
 
         $filters = $request->getFilters();
+        $_filters = array(
+            'limit'  => 10,
+            'offset' => 2
+        );
 
-        foreach ($filters as $field => $value) {
-            // $field === 'offset'
-
-            // $field === 'limit'
-
-            // $field === 'sort'
-
-            // $field === '{attribute_code}'
+        if ($filters) {
+            $helper = $this->_serviceManager->getServiceHelper('Mage_Core_Service_Helper_Filters');
+            $helper->applyFiltersToCollection($collection, $filters);
         }
 
         // @todo or not TODO
