@@ -119,12 +119,6 @@
                 </group>
                 <group id="paypal_verisign_with_express_checkout_us" extends="*/paypal_payments/paypal_verisign_with_express_checkout">
                     <group id="paypal_payflow_required">
-                        <group id="paypal_payflow_api_settings">
-                            <field id="business_account" extends="payment/paypal_payments/payflow_advanced/required_settings/express/business_account" translate="label" sortOrder="10">
-                                <frontend_class>not-required</frontend_class>
-                                <label>Email Associated with PayPal Merchant Account (Optional)</label>
-                            </field>
-                        </group>
                         <field id="enable_paypal_payflow">
                             <frontend_class>paypal-enabler paypal-ec-pe</frontend_class>
                         </field>
@@ -274,7 +268,7 @@
             </group>
             <group id="paypal_payments">
                 <depends>
-                    <field id="*/account/merchant_country" separator="," />
+                    <field id="*/account/merchant_country" separator=","/>
                 </depends>
                 <group id="payflow_advanced" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
                     <label>Payments Advanced (Includes Express Checkout)</label>
@@ -292,21 +286,25 @@
                             <field id="partner" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1">
                                 <label>Partner</label>
                                 <config_path>payment/payflow_advanced/partner</config_path>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="vendor" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1">
                                 <label>Vendor</label>
                                 <config_path>payment/payflow_advanced/vendor</config_path>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="user" translate="label comment tooltip" type="text" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>User</label>
                                 <comment>PayPal recommends that you set up an additional User on your account at manager.paypal.com</comment>
                                 <tooltip>PayPal recommends you set up an additional User on your account at manager.paypal.com, instead of entering your admin username and password here. This will enhance your security and prevent service interruptions if you later change your password. If you do not want to set up an additional User, you can re-enter your Merchant Login here.</tooltip>
                                 <config_path>payment/payflow_advanced/user</config_path>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="pwd" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>Password</label>
                                 <config_path>payment/payflow_advanced/pwd</config_path>
                                 <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="sandbox_flag" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1">
                                 <label>Test Mode</label>
@@ -318,6 +316,7 @@
                                 <label>Use Proxy</label>
                                 <config_path>payment/payflow_advanced/use_proxy</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="proxy_host" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1">
                                 <label>Proxy Host</label>
@@ -325,6 +324,7 @@
                                 <depends>
                                     <field id="use_proxy">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="proxy_port" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1">
                                 <label>Proxy Port</label>
@@ -332,9 +332,11 @@
                                 <depends>
                                     <field id="use_proxy">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="payflow_advanced_info" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="90">
                                 <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Payflowlink_Advanced</frontend_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                         </group>
                         <group id="express" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="20">
@@ -396,7 +398,8 @@
                                     <![CDATA[https://www.sandbox.paypal.com/us/cgi-bin/webscr?cmd=_login-api-run]]>
                                 </attribute>
                                 <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_ApiWizard</frontend_model>
-                                <label></label>
+                                <label/>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="sandbox_flag" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1">
                                 <label>Sandbox Mode</label>
@@ -433,10 +436,11 @@
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <comment>Both section above must be complete.</comment>
                             <requires>
-                                <group id="express" />
-                                <group id="payments_advanced" />
+                                <group id="express"/>
+                                <group id="payments_advanced"/>
                             </requires>
                             <frontend_class>paypal-enabler</frontend_class>
+                            <attribute type="shared">1</attribute>
                         </field>
                     </group>
                     <group id="settings_payments_advanced" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
@@ -446,11 +450,13 @@
                             <label>Title</label>
                             <comment>It is recommended to set this value to "Debit or Credit Card" per store views.</comment>
                             <config_path>payment/payflow_advanced/title</config_path>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                             <label>Payment Action</label>
                             <config_path>payment/payflow_advanced/payment_action</config_path>
                             <source_model>Mage_Paypal_Model_System_Config_Source_PaymentActions</source_model>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <group id="settings_payments_advanced_advanced" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40">
                             <label>Advanced Settings</label>
@@ -459,6 +465,7 @@
                                 <label>Payment Applicable From</label>
                                 <config_path>payment/payflow_advanced/allowspecific</config_path>
                                 <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1">
                                 <label>Countries Payment Applicable From</label>
@@ -467,21 +474,25 @@
                                 <depends>
                                     <field id="allowspecific">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="debug" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>Debug Mode</label>
                                 <config_path>payment/payflow_advanced/debug</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="verify_peer" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1">
                                 <label>Enable SSL verification</label>
                                 <config_path>payment/payflow_advanced/verify_peer</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="csc_editable" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>CVV Entry is Editable</label>
                                 <config_path>payment/payflow_advanced/csc_editable</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="csc_required" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1">
                                 <label>Require CVV Entry</label>
@@ -490,16 +501,19 @@
                                 <depends>
                                     <field id="csc_editable">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="email_confirmation" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1">
                                 <label>Send Email Confirmation</label>
                                 <config_path>payment/payflow_advanced/email_confirmation</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="url_method" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1">
                                 <label>URL method for Cancel URL and Return URL</label>
                                 <config_path>payment/payflow_advanced/url_method</config_path>
                                 <source_model>Mage_Paypal_Model_System_Config_Source_UrlMethod</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <group id="billing_agreement" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
                                 <label>PayPal Billing Agreement Settings</label>
@@ -568,6 +582,7 @@
                                 <field id="heading_sftp" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1">
                                     <label>SFTP Credentials</label>
                                     <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
+                                    <attribute type="shared">1</attribute>
                                 </field>
                                 <field id="settlement_reports_ftp_login" translate="label" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="1">
                                     <label>Login</label>
@@ -724,7 +739,7 @@
                         </field>
                         <field id="order_valid_period" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1">
                             <label>Order Valid Period (days)</label>
-                            <comment>Specifies what the Order Valid Period is on the merchant&#8217;s PayPal account. It must mirror the setting in PayPal.</comment>
+                            <comment>Specifies what the Order Valid Period is on the merchant&#x2019;s PayPal account. It must mirror the setting in PayPal.</comment>
                             <config_path>payment/paypal_express/order_valid_period</config_path>
                             <attribute type="shared">1</attribute>
                             <depends>
@@ -833,26 +848,27 @@
                         <group id="wpp_and_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="10">
                             <label>Website Payments Pro and Express Checkout</label>
                             <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
-                            <field id="business_account" extends="payment/paypal_payments/payflow_advanced/required_settings/express/business_account"></field>
-                            <field id="api_authentication" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_authentication"></field>
-                            <field id="api_username" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_username"></field>
-                            <field id="api_password" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_password"></field>
-                            <field id="api_signature" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_signature"></field>
-                            <field id="api_cert" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_cert"></field>
-                            <field id="api_wizard" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_wizard"></field>
-                            <field id="sandbox_flag" extends="payment/paypal_payments/payflow_advanced/required_settings/express/sandbox_flag"></field>
-                            <field id="use_proxy" extends="payment/paypal_payments/payflow_advanced/required_settings/express/use_proxy"></field>
-                            <field id="proxy_host" extends="payment/paypal_payments/payflow_advanced/required_settings/express/proxy_host"></field>
-                            <field id="proxy_port" extends="payment/paypal_payments/payflow_advanced/required_settings/express/proxy_port"></field>
+                            <field id="business_account" extends="payment/paypal_payments/payflow_advanced/required_settings/express/business_account"/>
+                            <field id="api_authentication" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_authentication"/>
+                            <field id="api_username" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_username"/>
+                            <field id="api_password" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_password"/>
+                            <field id="api_signature" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_signature"/>
+                            <field id="api_cert" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_cert"/>
+                            <field id="api_wizard" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_wizard"/>
+                            <field id="sandbox_flag" extends="payment/paypal_payments/payflow_advanced/required_settings/express/sandbox_flag"/>
+                            <field id="use_proxy" extends="payment/paypal_payments/payflow_advanced/required_settings/express/use_proxy"/>
+                            <field id="proxy_host" extends="payment/paypal_payments/payflow_advanced/required_settings/express/proxy_host"/>
+                            <field id="proxy_port" extends="payment/paypal_payments/payflow_advanced/required_settings/express/proxy_port"/>
                         </group>
                         <field id="enable_wpp" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
                             <label>Enable this Solution</label>
                             <config_path>payment/paypal_direct/active</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <requires>
-                                <group id="wpp_and_express_checkout" />
+                                <group id="wpp_and_express_checkout"/>
                             </requires>
                             <frontend_class>paypal-enabler</frontend_class>
+                            <attribute type="shared">1</attribute>
                         </field>
                     </group>
                     <group id="wpp_settings" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
@@ -862,15 +878,18 @@
                             <label>Title</label>
                             <comment>It is recommended to set this value to "Debit or Credit Card" per store views.</comment>
                             <config_path>payment/paypal_direct/title</config_path>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                             <label>Payment Action</label>
                             <config_path>payment/paypal_direct/payment_action</config_path>
                             <source_model>Mage_Paypal_Model_System_Config_Source_PaymentActions</source_model>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <field id="heading_cc" translate="label" sortOrder="40" showInDefault="1" showInWebsite="1">
                             <label>Credit Card Settings</label>
                             <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <field id="cctypes" translate="label comment" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="1">
                             <label>Allowed Credit Card Types</label>
@@ -879,6 +898,7 @@
                             </comment>
                             <config_path>payment/paypal_direct/cctypes</config_path>
                             <source_model>Mage_Paypal_Model_Config::getWppCcTypesAsOptionArray</source_model>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <group id="wpp_settings_advanced" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60">
                             <label>Advanced Settings</label>
@@ -887,6 +907,7 @@
                                 <label>Payment Applicable From</label>
                                 <config_path>payment/paypal_direct/allowspecific</config_path>
                                 <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1">
                                 <label>Countries Payment Applicable From</label>
@@ -895,35 +916,42 @@
                                 <depends>
                                     <field id="allowspecific">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="debug" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>Debug Mode</label>
                                 <config_path>payment/paypal_direct/debug</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="verify_peer" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1">
                                 <label>Enable SSL verification</label>
                                 <config_path>payment/paypal_direct/verify_peer</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="line_items_enabled" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>Transfer Cart Line Items</label>
                                 <config_path>payment/paypal_direct/line_items_enabled</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="useccv" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1">
                                 <label>Require CVV Entry</label>
                                 <config_path>payment/paypal_direct/useccv</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="heading_3dsecure" translate="label" sortOrder="55" showInDefault="1" showInWebsite="1">
                                 <label>3D Secure</label>
                                 <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="centinel" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1">
                                 <label>3D Secure Card Validation</label>
                                 <config_path>payment/paypal_direct/centinel</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="centinel_is_mode_strict" translate="label comment" type="select" sortOrder="65" showInDefault="1" showInWebsite="1">
                                 <label>Severe 3D Secure Card Validation</label>
@@ -933,6 +961,7 @@
                                 <depends>
                                     <field id="centinel">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="centinel_api_url" translate="label comment" type="text" sortOrder="70" showInDefault="1" showInWebsite="1">
                                 <label>Centinel Custom API URL</label>
@@ -942,67 +971,68 @@
                                 <depends>
                                     <field id="centinel">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <group id="wpp_billing_agreement" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
                                 <label>PayPal Billing Agreement Settings</label>
-                                <field id="active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/active"></field>
-                                <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/title"></field>
-                                <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/payment_action"></field>
-                                <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allowspecific"></field>
-                                <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/specificcountry"></field>
-                                <field id="debug" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/debug"></field>
-                                <field id="verify_peer" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/verify_peer"></field>
-                                <field id="line_items_enabled" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/line_items_enabled"></field>
-                                <field id="allow_billing_agreement_wizard" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allow_billing_agreement_wizard"></field>
+                                <field id="active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/active"/>
+                                <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/title"/>
+                                <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/payment_action"/>
+                                <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allowspecific"/>
+                                <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/specificcountry"/>
+                                <field id="debug" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/debug"/>
+                                <field id="verify_peer" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/verify_peer"/>
+                                <field id="line_items_enabled" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/line_items_enabled"/>
+                                <field id="allow_billing_agreement_wizard" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allow_billing_agreement_wizard"/>
                             </group>
                             <group id="wpp_settlement_report" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="90">
                                 <label>Settlement Report Settings</label>
-                                <field id="heading_sftp" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_sftp"></field>
-                                <field id="settlement_reports_ftp_login" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_login"></field>
-                                <field id="settlement_reports_ftp_password" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_password"></field>
-                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_sandbox"></field>
-                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_ip"></field>
-                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_path"></field>
-                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_schedule"></field>
-                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_active"></field>
-                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_schedule"></field>
-                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_time"></field>
+                                <field id="heading_sftp" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_sftp"/>
+                                <field id="settlement_reports_ftp_login" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_login"/>
+                                <field id="settlement_reports_ftp_password" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_password"/>
+                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_sandbox"/>
+                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_ip"/>
+                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_path"/>
+                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_schedule"/>
+                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_active"/>
+                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_schedule"/>
+                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_time"/>
                             </group>
                             <group id="wpp_frontend" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="100">
                                 <label>Frontend Experience Settings</label>
-                                <field id="logo" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/logo"></field>
-                                <field id="paypal_pages" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_pages"></field>
-                                <field id="page_style" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/page_style"></field>
-                                <field id="paypal_hdrimg" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrimg"></field>
-                                <field id="paypal_hdrbackcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbackcolor"></field>
-                                <field id="paypal_hdrbordercolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbordercolor"></field>
-                                <field id="paypal_payflowcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_payflowcolor"></field>
+                                <field id="logo" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/logo"/>
+                                <field id="paypal_pages" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_pages"/>
+                                <field id="page_style" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/page_style"/>
+                                <field id="paypal_hdrimg" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrimg"/>
+                                <field id="paypal_hdrbackcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbackcolor"/>
+                                <field id="paypal_hdrbordercolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbordercolor"/>
+                                <field id="paypal_payflowcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_payflowcolor"/>
                             </group>
                         </group>
                     </group>
                     <group id="wpp_settings_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
                         <label>Basic Settings - PayPal Express Checkout</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
-                        <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/title"></field>
-                        <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/payment_action"></field>
-                        <field id="visible_on_cart" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_cart"></field>
-                        <field id="visible_on_product" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_product"></field>
-                        <field id="authorization_honor_period" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/authorization_honor_period"></field>
-                        <field id="order_valid_period" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/order_valid_period"></field>
-                        <field id="child_authorization_number" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/child_authorization_number"></field>
+                        <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/title"/>
+                        <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/payment_action"/>
+                        <field id="visible_on_cart" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_cart"/>
+                        <field id="visible_on_product" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_product"/>
+                        <field id="authorization_honor_period" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/authorization_honor_period"/>
+                        <field id="order_valid_period" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/order_valid_period"/>
+                        <field id="child_authorization_number" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/child_authorization_number"/>
                         <group id="wpp_settings_express_checkout_advanced" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
                             <label>Advanced Settings</label>
                             <fieldset_css>config-advanced</fieldset_css>
-                            <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/allowspecific"></field>
-                            <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/specificcountry"></field>
-                            <field id="debug" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/debug"></field>
-                            <field id="verify_peer" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/verify_peer"></field>
-                            <field id="line_items_enabled" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/line_items_enabled"></field>
-                            <field id="transfer_shipping_options" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/transfer_shipping_options"></field>
-                            <field id="button_flavor" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/button_flavor"></field>
-                            <field id="solution_type" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/solution_type"></field>
-                            <field id="require_billing_address" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/require_billing_address"></field>
-                            <field id="allow_ba_signup" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/allow_ba_signup"></field>
+                            <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/allowspecific"/>
+                            <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/specificcountry"/>
+                            <field id="debug" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/debug"/>
+                            <field id="verify_peer" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/verify_peer"/>
+                            <field id="line_items_enabled" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/line_items_enabled"/>
+                            <field id="transfer_shipping_options" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/transfer_shipping_options"/>
+                            <field id="button_flavor" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/button_flavor"/>
+                            <field id="solution_type" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/solution_type"/>
+                            <field id="require_billing_address" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/require_billing_address"/>
+                            <field id="allow_ba_signup" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/allow_ba_signup"/>
                         </group>
                     </group>
                 </group>
@@ -1016,15 +1046,16 @@
                     <group id="wps_required_settings" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="10">
                         <label>Required PayPal Settings</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
-                        <field id="business_account" extends="payment/paypal_payments/payflow_advanced/required_settings/express/business_account"></field>
+                        <field id="business_account" extends="payment/paypal_payments/payflow_advanced/required_settings/express/business_account"/>
                         <field id="enable_wps" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
                             <label>Enable this Solution</label>
                             <config_path>payment/paypal_standard/active</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <requires>
-                                <field id="business_account" />
+                                <field id="business_account"/>
                             </requires>
                             <frontend_class>paypal-enabler paypal-ec-conflicts</frontend_class>
+                            <attribute type="shared">1</attribute>
                         </field>
                     </group>
                     <group id="settings_payments_standart" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
@@ -1034,11 +1065,13 @@
                             <label>Title</label>
                             <comment>It is recommended to set this value to "PayPal" per store views.</comment>
                             <config_path>payment/paypal_standard/title</config_path>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                             <label>Payment Action</label>
                             <config_path>payment/paypal_standard/payment_action</config_path>
                             <source_model>Mage_Paypal_Model_System_Config_Source_PaymentActions</source_model>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <group id="settings_payments_standart_advanced" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="40">
                             <label>Advanced Settings</label>
@@ -1047,6 +1080,7 @@
                                 <label>Payment Applicable From</label>
                                 <config_path>payment/paypal_standard/allowspecific</config_path>
                                 <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="specificcountry" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1">
                                 <label>Countries Payment Applicable From</label>
@@ -1055,16 +1089,19 @@
                                 <depends>
                                     <field id="allowspecific">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="sandbox_flag" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>Sandbox Mode</label>
                                 <config_path>payment/paypal_standard/sandbox_flag</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="line_items_enabled" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>Transfer Cart Line Items</label>
                                 <config_path>payment/paypal_standard/line_items_enabled</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="line_items_summary" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                                 <label>Summary Text for Aggregated Cart</label>
@@ -1073,16 +1110,19 @@
                                 <depends>
                                     <field id="line_items_enabled">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="debug" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1">
                                 <label>Debug Mode</label>
                                 <config_path>payment/paypal_standard/debug</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="verify_peer" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1">
                                 <label>Enable SSL verification</label>
                                 <config_path>payment/paypal_standard/verify_peer</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                         </group>
                     </group>
@@ -1104,30 +1144,36 @@
                             <field id="partner" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1">
                                 <label>Partner</label>
                                 <config_path>payment/verisign/partner</config_path>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="user" translate="label" type="obscure" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>User</label>
                                 <config_path>payment/verisign/user</config_path>
                                 <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="vendor" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>Vendor</label>
                                 <config_path>payment/verisign/vendor</config_path>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="pwd" translate="label" type="obscure" sortOrder="50" showInDefault="1" showInWebsite="1">
                                 <label>Password</label>
                                 <config_path>payment/verisign/pwd</config_path>
                                 <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="sandbox_flag" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1">
                                 <label>Test Mode</label>
                                 <config_path>payment/verisign/sandbox_flag</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="use_proxy" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1">
                                 <label>Use Proxy</label>
                                 <config_path>payment/verisign/use_proxy</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="proxy_host" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1">
                                 <label>Proxy Host</label>
@@ -1135,6 +1181,7 @@
                                 <depends>
                                     <field id="use_proxy">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="proxy_port" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1">
                                 <label>Proxy Port</label>
@@ -1142,6 +1189,7 @@
                                 <depends>
                                     <field id="use_proxy">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                         </group>
                         <field id="enable_paypal_payflow" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
@@ -1149,9 +1197,10 @@
                             <config_path>payment/verisign/active</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <requires>
-                                <group id="paypal_payflow_api_settings" />
+                                <group id="paypal_payflow_api_settings"/>
                             </requires>
                             <frontend_class>paypal-enabler paypal-ec-separate</frontend_class>
+                            <attribute type="shared">1</attribute>
                         </field>
                     </group>
                     <group id="settings_paypal_payflow" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
@@ -1161,15 +1210,18 @@
                             <label>Title</label>
                             <comment>It is recommended to set this value to "Debit or Credit Card" per store views.</comment>
                             <config_path>payment/verisign/title</config_path>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                             <label>Payment Action</label>
                             <config_path>payment/verisign/payment_action</config_path>
                             <source_model>Mage_Paypal_Model_System_Config_Source_PaymentActions</source_model>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <field id="heading_cc" translate="label" sortOrder="40" showInDefault="1" showInWebsite="1">
                             <label>Credit Card Settings</label>
                             <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <field id="cctypes" translate="label comment" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="1">
                             <label>Allowed Credit Card Types</label>
@@ -1178,6 +1230,7 @@
                             </comment>
                             <config_path>payment/verisign/cctypes</config_path>
                             <source_model>Mage_Paypal_Model_Config::getPayflowproCcTypesAsOptionArray</source_model>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <group id="settings_paypal_payflow_advanced" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60">
                             <label>Advanced Settings</label>
@@ -1186,6 +1239,7 @@
                                 <label>Payment Applicable From</label>
                                 <config_path>payment/verisign/allowspecific</config_path>
                                 <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="specificcountry" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1">
                                 <label>Countries Payment Applicable From</label>
@@ -1194,30 +1248,36 @@
                                 <depends>
                                     <field id="allowspecific">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="debug" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>Debug Mode</label>
                                 <config_path>payment/verisign/debug</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="verify_peer" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1">
                                 <label>Enable SSL verification</label>
                                 <config_path>payment/verisign/verify_peer</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="useccv" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>Require CVV Entry</label>
                                 <config_path>payment/verisign/useccv</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="heading_3dsecure" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1">
                                 <label>3D Secure</label>
                                 <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="centinel" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1">
                                 <label>3D Secure Card Validation</label>
                                 <config_path>payment/verisign/centinel</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="centinel_is_mode_strict" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1">
                                 <label>Severe 3D Secure Card Validation</label>
@@ -1227,6 +1287,7 @@
                                 <depends>
                                     <field id="centinel">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="centinel_api_url" translate="label comment" type="text" sortOrder="80" showInDefault="1" showInWebsite="1">
                                 <label>Centinel API URL</label>
@@ -1236,19 +1297,20 @@
                                 <depends>
                                     <field id="centinel">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <group id="paypal_payflow_settlement_report" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="90">
                                 <label>Settlement Report Settings</label>
-                                <field id="heading_sftp" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_sftp"></field>
-                                <field id="settlement_reports_ftp_login" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_login"></field>
-                                <field id="settlement_reports_ftp_password" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_password"></field>
-                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_sandbox"></field>
-                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_ip"></field>
-                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_path"></field>
-                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_schedule"></field>
-                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_active"></field>
-                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_schedule"></field>
-                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_time"></field>
+                                <field id="heading_sftp" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_sftp"/>
+                                <field id="settlement_reports_ftp_login" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_login"/>
+                                <field id="settlement_reports_ftp_password" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_password"/>
+                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_sandbox"/>
+                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_ip"/>
+                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_path"/>
+                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_schedule"/>
+                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_active"/>
+                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_schedule"/>
+                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_time"/>
                             </group>
                         </group>
                     </group>
@@ -1260,19 +1322,24 @@
                         <label>Required PayPal Settings</label>
                         <group id="paypal_payflow_api_settings" type="group" translate="label">
                             <label>Payflow Pro and Express Checkout</label>
+                            <field id="business_account" extends="payment/paypal_payments/payflow_advanced/required_settings/express/business_account" translate="label" sortOrder="10">
+                                <frontend_class>not-required</frontend_class>
+                                <label>Email Associated with PayPal Merchant Account (Optional)</label>
+                                <attribute type="shared">1</attribute>
+                            </field>
                         </group>
                     </group>
                     <group id="settings_paypal_payflow" type="group" translate="label">
                         <group id="settings_paypal_payflow_advanced" type="group" translate="label">
                             <group id="paypal_payflow_frontend" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="100">
                                 <label>Frontend Experience Settings</label>
-                                <field id="logo" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/logo"></field>
-                                <field id="paypal_pages" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_pages"></field>
-                                <field id="page_style" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/page_style"></field>
-                                <field id="paypal_hdrimg" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrimg"></field>
-                                <field id="paypal_hdrbackcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbackcolor"></field>
-                                <field id="paypal_hdrbordercolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbordercolor"></field>
-                                <field id="paypal_payflowcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_payflowcolor"></field>
+                                <field id="logo" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/logo"/>
+                                <field id="paypal_pages" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_pages"/>
+                                <field id="page_style" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/page_style"/>
+                                <field id="paypal_hdrimg" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrimg"/>
+                                <field id="paypal_hdrbackcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbackcolor"/>
+                                <field id="paypal_hdrbordercolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbordercolor"/>
+                                <field id="paypal_payflowcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_payflowcolor"/>
                             </group>
                         </group>
                     </group>
@@ -1284,26 +1351,31 @@
                             <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Field_Hidden</frontend_model>
                             <frontend_class>paypal-ec-payflow-enabler</frontend_class>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <field id="title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Title</label>
                             <config_path>payment/paypaluk_express/title</config_path>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                             <label>Payment Action</label>
                             <config_path>payment/paypaluk_express/payment_action</config_path>
                             <source_model>Mage_Paypal_Model_System_Config_Source_PaymentActions</source_model>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <field id="visible_on_cart" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Shortcut on Shopping Cart</label>
                             <comment>Also affects mini-shopping cart.</comment>
                             <config_path>payment/paypaluk_express/visible_on_cart</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <field id="visible_on_product" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Shortcut on Product View</label>
                             <config_path>payment/paypaluk_express/visible_on_product</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <group id="paypal_payflow_express_checkout_advanced" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="60">
                             <label>Advanced Settings</label>
@@ -1312,6 +1384,7 @@
                                 <label>Payment Applicable From</label>
                                 <config_path>payment/paypaluk_express/allowspecific</config_path>
                                 <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="specificcountry" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1">
                                 <label>Countries Payment Applicable From</label>
@@ -1320,21 +1393,25 @@
                                 <depends>
                                     <field id="allowspecific">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="debug" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>Debug Mode</label>
                                 <config_path>payment/paypaluk_express/debug</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="verify_peer" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1">
                                 <label>Enable SSL verification</label>
                                 <config_path>payment/paypaluk_express/verify_peer</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="line_items_enabled" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>Transfer Cart Line Items</label>
                                 <config_path>payment/paypaluk_express/line_items_enabled</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                         </group>
                     </group>
@@ -1355,30 +1432,36 @@
                             <field id="partner" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1">
                                 <label>Partner</label>
                                 <config_path>payment/payflow_link/partner</config_path>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="vendor" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1">
                                 <label>Vendor</label>
                                 <config_path>payment/payflow_link/vendor</config_path>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="user" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>User</label>
                                 <comment>If you do not have multiple users set up on your account, please re-enter your Vendor/Merchant Login here.</comment>
                                 <config_path>payment/payflow_link/user</config_path>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="pwd" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>Password</label>
                                 <config_path>payment/payflow_link/pwd</config_path>
                                 <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="sandbox_flag" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1">
                                 <label>Test Mode</label>
                                 <config_path>payment/payflow_link/sandbox_flag</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="use_proxy" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1">
                                 <label>Use Proxy</label>
                                 <config_path>payment/payflow_link/use_proxy</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="proxy_host" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1">
                                 <label>Proxy Host</label>
@@ -1386,6 +1469,7 @@
                                 <depends>
                                     <field id="use_proxy">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="proxy_port" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1">
                                 <label>Proxy Port</label>
@@ -1393,9 +1477,11 @@
                                 <depends>
                                     <field id="use_proxy">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="payflowlink_info" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="90">
                                 <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Payflowlink_Info</frontend_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                         </group>
                         <field id="enable_payflow_link" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
@@ -1403,24 +1489,25 @@
                             <config_path>payment/payflow_link/active</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <requires>
-                                <group id="payflow_link_payflow_link" />
+                                <group id="payflow_link_payflow_link"/>
                             </requires>
                             <frontend_class>paypal-enabler paypal-ec-independent</frontend_class>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <group id="payflow_link_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="30">
                             <label>Express Checkout</label>
                             <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
-                            <field id="business_account" extends="payment/paypal_payments/payflow_advanced/required_settings/express/business_account"></field>
-                            <field id="api_authentication" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_authentication"></field>
-                            <field id="api_username" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_username"></field>
-                            <field id="api_password" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_password"></field>
-                            <field id="api_signature" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_signature"></field>
-                            <field id="api_cert" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_cert"></field>
-                            <field id="api_wizard" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_wizard"></field>
-                            <field id="sandbox_flag" extends="payment/paypal_payments/payflow_advanced/required_settings/express/sandbox_flag"></field>
-                            <field id="use_proxy" extends="payment/paypal_payments/payflow_advanced/required_settings/express/use_proxy"></field>
-                            <field id="proxy_host" extends="payment/paypal_payments/payflow_advanced/required_settings/express/proxy_host"></field>
-                            <field id="proxy_port" extends="payment/paypal_payments/payflow_advanced/required_settings/express/proxy_port"></field>
+                            <field id="business_account" extends="payment/paypal_payments/payflow_advanced/required_settings/express/business_account"/>
+                            <field id="api_authentication" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_authentication"/>
+                            <field id="api_username" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_username"/>
+                            <field id="api_password" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_password"/>
+                            <field id="api_signature" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_signature"/>
+                            <field id="api_cert" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_cert"/>
+                            <field id="api_wizard" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_wizard"/>
+                            <field id="sandbox_flag" extends="payment/paypal_payments/payflow_advanced/required_settings/express/sandbox_flag"/>
+                            <field id="use_proxy" extends="payment/paypal_payments/payflow_advanced/required_settings/express/use_proxy"/>
+                            <field id="proxy_host" extends="payment/paypal_payments/payflow_advanced/required_settings/express/proxy_host"/>
+                            <field id="proxy_port" extends="payment/paypal_payments/payflow_advanced/required_settings/express/proxy_port"/>
                         </group>
                         <field id="enable_express_checkout" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                             <label>Enable Express Checkout</label>
@@ -1428,8 +1515,8 @@
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <attribute type="shared">1</attribute>
                             <requires>
-                                <group id="payflow_link_express_checkout" />
-                                <field id="enable_payflow_link" />
+                                <group id="payflow_link_express_checkout"/>
+                                <field id="enable_payflow_link"/>
                             </requires>
                             <frontend_class>paypal-enabler paypal-ec-enabler</frontend_class>
                         </field>
@@ -1441,11 +1528,13 @@
                             <label>Title</label>
                             <comment>It is recommended to set this value to "Debit or Credit Card" per store views.</comment>
                             <config_path>payment/payflow_link/title</config_path>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                             <label>Payment Action</label>
                             <config_path>payment/payflow_link/payment_action</config_path>
                             <source_model>Mage_Paypal_Model_System_Config_Source_PaymentActions</source_model>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <group id="settings_payflow_link_advanced" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40">
                             <label>Advanced Settings</label>
@@ -1454,6 +1543,7 @@
                                 <label>Payment Applicable From</label>
                                 <config_path>payment/payflow_link/allowspecific</config_path>
                                 <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="specificcountry" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1">
                                 <label>Countries Payment Applicable From</label>
@@ -1462,21 +1552,25 @@
                                 <depends>
                                     <field id="allowspecific">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="debug" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>Debug Mode</label>
                                 <config_path>payment/payflow_link/debug</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="verify_peer" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1">
                                 <label>Enable SSL verification</label>
                                 <config_path>payment/payflow_link/verify_peer</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="csc_editable" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>CVV Entry is Editable</label>
                                 <config_path>payment/payflow_link/csc_editable</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="csc_required" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1">
                                 <label>Require CVV Entry</label>
@@ -1485,76 +1579,79 @@
                                 <depends>
                                     <field id="csc_editable">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="email_confirmation" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1">
                                 <label>Send Email Confirmation</label>
                                 <config_path>payment/payflow_link/email_confirmation</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="url_method" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1">
                                 <label>URL method for Cancel URL and Return URL</label>
                                 <config_path>payment/payflow_link/url_method</config_path>
                                 <source_model>Mage_Paypal_Model_System_Config_Source_UrlMethod</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <group id="payflow_link_settlement_report" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="80">
                                 <label>Settlement Report Settings</label>
-                                <field id="heading_sftp" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_sftp"></field>
-                                <field id="settlement_reports_ftp_login" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_login"></field>
-                                <field id="settlement_reports_ftp_password" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_password"></field>
-                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_sandbox"></field>
-                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_ip"></field>
-                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_path"></field>
-                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_schedule"></field>
-                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_active"></field>
-                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_schedule"></field>
-                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_time"></field>
+                                <field id="heading_sftp" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_sftp"/>
+                                <field id="settlement_reports_ftp_login" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_login"/>
+                                <field id="settlement_reports_ftp_password" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_password"/>
+                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_sandbox"/>
+                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_ip"/>
+                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_path"/>
+                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_schedule"/>
+                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_active"/>
+                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_schedule"/>
+                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_time"/>
                             </group>
                             <group id="payflow_link_frontend" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="90">
                                 <label>Frontend Experience Settings</label>
-                                <field id="logo" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/logo"></field>
-                                <field id="paypal_pages" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_pages"></field>
-                                <field id="page_style" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/page_style"></field>
-                                <field id="paypal_hdrimg" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrimg"></field>
-                                <field id="paypal_hdrbackcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbackcolor"></field>
-                                <field id="paypal_hdrbordercolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbordercolor"></field>
-                                <field id="paypal_payflowcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_payflowcolor"></field>
+                                <field id="logo" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/logo"/>
+                                <field id="paypal_pages" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_pages"/>
+                                <field id="page_style" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/page_style"/>
+                                <field id="paypal_hdrimg" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrimg"/>
+                                <field id="paypal_hdrbackcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbackcolor"/>
+                                <field id="paypal_hdrbordercolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbordercolor"/>
+                                <field id="paypal_payflowcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_payflowcolor"/>
                             </group>
                         </group>
                     </group>
                     <group id="settings_payflow_link_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
                         <label>Basic Settings - PayPal Express Checkout</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
-                        <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/title"></field>
-                        <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/payment_action"></field>
-                        <field id="visible_on_cart" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_cart"></field>
-                        <field id="visible_on_product" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_product"></field>
-                        <field id="authorization_honor_period" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/authorization_honor_period"></field>
-                        <field id="order_valid_period" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/order_valid_period"></field>
-                        <field id="child_authorization_number" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/child_authorization_number"></field>
+                        <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/title"/>
+                        <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/payment_action"/>
+                        <field id="visible_on_cart" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_cart"/>
+                        <field id="visible_on_product" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_product"/>
+                        <field id="authorization_honor_period" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/authorization_honor_period"/>
+                        <field id="order_valid_period" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/order_valid_period"/>
+                        <field id="child_authorization_number" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/child_authorization_number"/>
                         <group id="settings_payflow_link_express_checkout_advanced" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
                             <label>Advanced Settings</label>
                             <fieldset_css>config-advanced</fieldset_css>
-                            <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/allowspecific"></field>
-                            <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/specificcountry"></field>
-                            <field id="debug" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/debug"></field>
-                            <field id="verify_peer" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/verify_peer"></field>
-                            <field id="line_items_enabled" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/line_items_enabled"></field>
-                            <field id="transfer_shipping_options" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/transfer_shipping_options"></field>
-                            <field id="button_flavor" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/button_flavor"></field>
-                            <field id="solution_type" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/solution_type"></field>
-                            <field id="require_billing_address" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/require_billing_address"></field>
-                            <field id="allow_ba_signup" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/allow_ba_signup"></field>
+                            <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/allowspecific"/>
+                            <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/specificcountry"/>
+                            <field id="debug" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/debug"/>
+                            <field id="verify_peer" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/verify_peer"/>
+                            <field id="line_items_enabled" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/line_items_enabled"/>
+                            <field id="transfer_shipping_options" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/transfer_shipping_options"/>
+                            <field id="button_flavor" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/button_flavor"/>
+                            <field id="solution_type" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/solution_type"/>
+                            <field id="require_billing_address" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/require_billing_address"/>
+                            <field id="allow_ba_signup" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/allow_ba_signup"/>
                             <group id="payflow_link_billing_agreement" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="100">
                                 <label>PayPal Billing Agreement Settings</label>
-                                <field id="active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/active"></field>
-                                <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/title"></field>
-                                <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/payment_action"></field>
-                                <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allowspecific"></field>
-                                <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/specificcountry"></field>
-                                <field id="debug" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/debug"></field>
-                                <field id="verify_peer" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/verify_peer"></field>
-                                <field id="line_items_enabled" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/line_items_enabled"></field>
-                                <field id="allow_billing_agreement_wizard" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allow_billing_agreement_wizard"></field>
+                                <field id="active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/active"/>
+                                <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/title"/>
+                                <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/payment_action"/>
+                                <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allowspecific"/>
+                                <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/specificcountry"/>
+                                <field id="debug" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/debug"/>
+                                <field id="verify_peer" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/verify_peer"/>
+                                <field id="line_items_enabled" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/line_items_enabled"/>
+                                <field id="allow_billing_agreement_wizard" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allow_billing_agreement_wizard"/>
                             </group>
                         </group>
                     </group>
@@ -1578,30 +1675,36 @@
                             <field id="partner" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1">
                                 <label>Partner</label>
                                 <config_path>paypal/wpuk/partner</config_path>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="user" translate="label" type="obscure" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>User</label>
                                 <config_path>paypal/wpuk/user</config_path>
                                 <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="vendor" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>Vendor</label>
                                 <config_path>paypal/wpuk/vendor</config_path>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="pwd" translate="label" type="obscure" sortOrder="50" showInDefault="1" showInWebsite="1">
                                 <label>Password</label>
                                 <config_path>paypal/wpuk/pwd</config_path>
                                 <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="sandbox_flag" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1">
                                 <label>Test Mode</label>
                                 <config_path>paypal/wpuk/sandbox_flag</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="use_proxy" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1">
                                 <label>API Uses Proxy</label>
                                 <config_path>paypal/wpuk/use_proxy</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="proxy_host" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1">
                                 <label>Proxy Host</label>
@@ -1609,6 +1712,7 @@
                                 <depends>
                                     <field id="use_proxy">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="proxy_port" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1">
                                 <label>Proxy Port</label>
@@ -1616,6 +1720,7 @@
                                 <depends>
                                     <field id="use_proxy">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                         </group>
                         <field id="enable_pp_pe" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
@@ -1623,9 +1728,10 @@
                             <config_path>payment/paypaluk_direct/active</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <requires>
-                                <group id="pp_pe_api_settings" />
+                                <group id="pp_pe_api_settings"/>
                             </requires>
                             <frontend_class>paypal-enabler paypal-ec-pe</frontend_class>
+                            <attribute type="shared">1</attribute>
                         </field>
                     </group>
                     <group id="settings_pp_pe" type="group" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
@@ -1635,15 +1741,18 @@
                             <label>Title</label>
                             <comment>It is recommended to set this value to "Debit or Credit Card" per store views.</comment>
                             <config_path>payment/paypaluk_direct/title</config_path>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                             <label>Payment Action</label>
                             <config_path>payment/paypaluk_direct/payment_action</config_path>
                             <source_model>Mage_Paypal_Model_System_Config_Source_PaymentActions</source_model>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <field id="heading_cc" translate="label" sortOrder="40" showInDefault="1" showInWebsite="1">
                             <label>Credit Card Settings</label>
                             <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <field id="cctypes" translate="label" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="1">
                             <label>Allowed Credit Card Types</label>
@@ -1652,6 +1761,7 @@
                             </comment>
                             <config_path>payment/paypaluk_direct/cctypes</config_path>
                             <source_model>Mage_Paypal_Model_Config::getWppPeCcTypesAsOptionArray</source_model>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <group id="settings_pp_pe_advanced" type="group" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60">
                             <label>Advanced Settings</label>
@@ -1660,6 +1770,7 @@
                                 <label>Payment Applicable From</label>
                                 <config_path>payment/paypaluk_direct/allowspecific</config_path>
                                 <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="specificcountry" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1">
                                 <label>Countries Payment Applicable From</label>
@@ -1668,30 +1779,36 @@
                                 <depends>
                                     <field id="allowspecific">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="debug" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>Debug Mode</label>
                                 <config_path>payment/paypaluk_direct/debug</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="verify_peer" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1">
                                 <label>Enable SSL verification</label>
                                 <config_path>payment/paypaluk_direct/verify_peer</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="useccv" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>Require CVV Entry</label>
                                 <config_path>payment/paypaluk_direct/useccv</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="heading_3dsecure" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1">
                                 <label>3D Secure</label>
                                 <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="centinel" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1">
                                 <label>3D Secure Card Validation</label>
                                 <config_path>payment/paypaluk_direct/centinel</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="centinel_is_mode_strict" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1">
                                 <label>Severe 3D Secure Card Validation</label>
@@ -1701,6 +1818,7 @@
                                 <depends>
                                     <field id="centinel">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="centinel_api_url" translate="label comment" type="text" sortOrder="80" showInDefault="1" showInWebsite="1">
                                 <label>Centinel API URL</label>
@@ -1710,41 +1828,42 @@
                                 <depends>
                                     <field id="centinel">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <group id="pp_pe_settlement_report" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="90">
                                 <label>Settlement Report Settings</label>
-                                <field id="heading_sftp" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_sftp"></field>
-                                <field id="settlement_reports_ftp_login" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_login"></field>
-                                <field id="settlement_reports_ftp_password" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_password"></field>
-                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_sandbox"></field>
-                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_ip"></field>
-                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_path"></field>
-                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_schedule"></field>
-                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_active"></field>
-                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_schedule"></field>
-                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_time"></field>
+                                <field id="heading_sftp" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_sftp"/>
+                                <field id="settlement_reports_ftp_login" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_login"/>
+                                <field id="settlement_reports_ftp_password" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_password"/>
+                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_sandbox"/>
+                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_ip"/>
+                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_path"/>
+                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_schedule"/>
+                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_active"/>
+                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_schedule"/>
+                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_time"/>
                             </group>
                             <group id="pp_pe_frontend" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="100">
                                 <label>Frontend Experience Settings</label>
-                                <field id="logo" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/logo"></field>
-                                <field id="paypal_pages" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_pages"></field>
-                                <field id="page_style" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/page_style"></field>
-                                <field id="paypal_hdrimg" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrimg"></field>
-                                <field id="paypal_hdrbackcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbackcolor"></field>
-                                <field id="paypal_hdrbordercolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbordercolor"></field>
-                                <field id="paypal_payflowcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_payflowcolor"></field>
+                                <field id="logo" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/logo"/>
+                                <field id="paypal_pages" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_pages"/>
+                                <field id="page_style" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/page_style"/>
+                                <field id="paypal_hdrimg" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrimg"/>
+                                <field id="paypal_hdrbackcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbackcolor"/>
+                                <field id="paypal_hdrbordercolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbordercolor"/>
+                                <field id="paypal_payflowcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_payflowcolor"/>
                             </group>
                         </group>
                     </group>
                     <group id="settings_pp_pe_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
                         <label>Basic Settings - PayPal Express Checkout</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
-                        <field id="enable_express_pe" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/enable_express_pe"></field>
-                        <field id="title" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/title"></field>
-                        <field id="payment_action" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/payment_action"></field>
-                        <field id="visible_on_cart" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/visible_on_cart"></field>
-                        <field id="visible_on_product" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/visible_on_product"></field>
-                        <group id="pp_pe_express_checkout_advanced" type="group" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/paypal_payflow_express_checkout_advanced"></group>
+                        <field id="enable_express_pe" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/enable_express_pe"/>
+                        <field id="title" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/title"/>
+                        <field id="payment_action" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/payment_action"/>
+                        <field id="visible_on_cart" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/visible_on_cart"/>
+                        <field id="visible_on_product" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/visible_on_product"/>
+                        <group id="pp_pe_express_checkout_advanced" type="group" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/paypal_payflow_express_checkout_advanced"/>
                     </group>
                 </group>
                 <group id="payments_pro_hosted_solution" type="group" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
@@ -1760,26 +1879,27 @@
                         <group id="pphs_required_settings_pphs" type="group" translate="label" showInDefault="1" showInWebsite="1" sortOrder="10">
                             <label>Payments Pro Hosted Solution</label>
                             <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
-                            <field id="business_account" extends="payment/paypal_payments/payflow_advanced/required_settings/express/business_account"></field>
-                            <field id="api_authentication" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_authentication"></field>
-                            <field id="api_username" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_username"></field>
-                            <field id="api_password" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_password"></field>
-                            <field id="api_signature" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_signature"></field>
-                            <field id="api_cert" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_cert"></field>
-                            <field id="api_wizard" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_wizard"></field>
-                            <field id="sandbox_flag" extends="payment/paypal_payments/payflow_advanced/required_settings/express/sandbox_flag"></field>
-                            <field id="use_proxy" extends="payment/paypal_payments/payflow_advanced/required_settings/express/use_proxy"></field>
-                            <field id="proxy_host" extends="payment/paypal_payments/payflow_advanced/required_settings/express/proxy_host"></field>
-                            <field id="proxy_port" extends="payment/paypal_payments/payflow_advanced/required_settings/express/proxy_port"></field>
+                            <field id="business_account" extends="payment/paypal_payments/payflow_advanced/required_settings/express/business_account"/>
+                            <field id="api_authentication" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_authentication"/>
+                            <field id="api_username" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_username"/>
+                            <field id="api_password" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_password"/>
+                            <field id="api_signature" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_signature"/>
+                            <field id="api_cert" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_cert"/>
+                            <field id="api_wizard" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_wizard"/>
+                            <field id="sandbox_flag" extends="payment/paypal_payments/payflow_advanced/required_settings/express/sandbox_flag"/>
+                            <field id="use_proxy" extends="payment/paypal_payments/payflow_advanced/required_settings/express/use_proxy"/>
+                            <field id="proxy_host" extends="payment/paypal_payments/payflow_advanced/required_settings/express/proxy_host"/>
+                            <field id="proxy_port" extends="payment/paypal_payments/payflow_advanced/required_settings/express/proxy_port"/>
                         </group>
                         <field id="pphs_enable" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
                             <label>Enable this Solution</label>
                             <config_path>payment/hosted_pro/active</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <requires>
-                                <group id="pphs_required_settings_pphs" />
+                                <group id="pphs_required_settings_pphs"/>
                             </requires>
                             <frontend_class>paypal-enabler paypal-ec-separate</frontend_class>
+                            <attribute type="shared">1</attribute>
                         </field>
                     </group>
                     <group id="pphs_settings" type="group" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
@@ -1789,16 +1909,19 @@
                             <label>Title</label>
                             <comment>It is recommended to set this value to "PayPal" per store views.</comment>
                             <config_path>payment/hosted_pro/title</config_path>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                             <label>Payment Action</label>
                             <config_path>payment/hosted_pro/payment_action</config_path>
                             <source_model>Mage_Paypal_Model_System_Config_Source_PaymentActions</source_model>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <field id="display_ec" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                             <label>Display Express Checkout in the Payment Information step</label>
                             <config_path>payment/hosted_pro/display_ec</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <attribute type="shared">1</attribute>
                         </field>
                         <group id="pphs_settings_advanced" type="group" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
                             <label>Advanced Settings</label>
@@ -1807,6 +1930,7 @@
                                 <label>Payment Applicable From</label>
                                 <config_path>payment/hosted_pro/allowspecific</config_path>
                                 <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="specificcountry" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1">
                                 <label>Countries Payment Applicable From</label>
@@ -1815,29 +1939,32 @@
                                 <depends>
                                     <field id="allowspecific">1</field>
                                 </depends>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="debug" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>Debug Mode</label>
                                 <config_path>payment/hosted_pro/debug</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <field id="verify_peer" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1">
                                 <label>Enable SSL verification</label>
                                 <config_path>payment/hosted_pro/verify_peer</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
                             </field>
                             <group id="pphs_settlement_report" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="40">
                                 <label>Settlement Report Settings</label>
-                                <field id="heading_sftp" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_sftp"></field>
-                                <field id="settlement_reports_ftp_login" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_login"></field>
-                                <field id="settlement_reports_ftp_password" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_password"></field>
-                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_sandbox"></field>
-                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_ip"></field>
-                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_path"></field>
-                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_schedule"></field>
-                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_active"></field>
-                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_schedule"></field>
-                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_time"></field>
+                                <field id="heading_sftp" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_sftp"/>
+                                <field id="settlement_reports_ftp_login" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_login"/>
+                                <field id="settlement_reports_ftp_password" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_password"/>
+                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_sandbox"/>
+                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_ip"/>
+                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_path"/>
+                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_schedule"/>
+                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_active"/>
+                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_schedule"/>
+                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_time"/>
                             </group>
                         </group>
                     </group>
@@ -1857,51 +1984,51 @@
                         <group id="pphs_settings_advanced" type="group" translate="label">
                             <group id="pphs_billing_agreement" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="35">
                                 <label>PayPal Billing Agreement Settings</label>
-                                <field id="active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/active"></field>
-                                <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/title"></field>
-                                <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/payment_action"></field>
-                                <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allowspecific"></field>
-                                <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/specificcountry"></field>
-                                <field id="debug" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/debug"></field>
-                                <field id="verify_peer" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/verify_peer"></field>
-                                <field id="line_items_enabled" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/line_items_enabled"></field>
-                                <field id="allow_billing_agreement_wizard" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allow_billing_agreement_wizard"></field>
+                                <field id="active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/active"/>
+                                <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/title"/>
+                                <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/payment_action"/>
+                                <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allowspecific"/>
+                                <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/specificcountry"/>
+                                <field id="debug" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/debug"/>
+                                <field id="verify_peer" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/verify_peer"/>
+                                <field id="line_items_enabled" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/line_items_enabled"/>
+                                <field id="allow_billing_agreement_wizard" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allow_billing_agreement_wizard"/>
                             </group>
                             <group id="pphs_frontend" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
                                 <label>Frontend Experience Settings</label>
-                                <field id="logo" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/logo"></field>
-                                <field id="paypal_pages" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_pages"></field>
-                                <field id="page_style" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/page_style"></field>
-                                <field id="paypal_hdrimg" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrimg"></field>
-                                <field id="paypal_hdrbackcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbackcolor"></field>
-                                <field id="paypal_hdrbordercolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbordercolor"></field>
-                                <field id="paypal_payflowcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_payflowcolor"></field>
+                                <field id="logo" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/logo"/>
+                                <field id="paypal_pages" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_pages"/>
+                                <field id="page_style" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/page_style"/>
+                                <field id="paypal_hdrimg" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrimg"/>
+                                <field id="paypal_hdrbackcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbackcolor"/>
+                                <field id="paypal_hdrbordercolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbordercolor"/>
+                                <field id="paypal_payflowcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_payflowcolor"/>
                             </group>
                         </group>
                     </group>
                     <group id="pphs_settings_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
                         <label>Basic Settings - PayPal Express Checkout</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
-                        <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/title"></field>
-                        <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/payment_action"></field>
-                        <field id="visible_on_cart" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_cart"></field>
-                        <field id="visible_on_product" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_product"></field>
-                        <field id="authorization_honor_period" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/authorization_honor_period"></field>
-                        <field id="order_valid_period" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/order_valid_period"></field>
-                        <field id="child_authorization_number" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/child_authorization_number"></field>
+                        <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/title"/>
+                        <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/payment_action"/>
+                        <field id="visible_on_cart" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_cart"/>
+                        <field id="visible_on_product" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_product"/>
+                        <field id="authorization_honor_period" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/authorization_honor_period"/>
+                        <field id="order_valid_period" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/order_valid_period"/>
+                        <field id="child_authorization_number" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/child_authorization_number"/>
                         <group id="pphs_settings_express_checkout_advanced" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
                             <label>Advanced Settings</label>
                             <fieldset_css>config-advanced</fieldset_css>
-                            <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/allowspecific"></field>
-                            <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/specificcountry"></field>
-                            <field id="debug" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/debug"></field>
-                            <field id="verify_peer" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/verify_peer"></field>
-                            <field id="line_items_enabled" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/line_items_enabled"></field>
-                            <field id="transfer_shipping_options" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/transfer_shipping_options"></field>
-                            <field id="button_flavor" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/button_flavor"></field>
-                            <field id="solution_type" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/solution_type"></field>
-                            <field id="require_billing_address" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/require_billing_address"></field>
-                            <field id="allow_ba_signup" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/allow_ba_signup"></field>
+                            <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/allowspecific"/>
+                            <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/specificcountry"/>
+                            <field id="debug" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/debug"/>
+                            <field id="verify_peer" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/verify_peer"/>
+                            <field id="line_items_enabled" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/line_items_enabled"/>
+                            <field id="transfer_shipping_options" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/transfer_shipping_options"/>
+                            <field id="button_flavor" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/button_flavor"/>
+                            <field id="solution_type" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/solution_type"/>
+                            <field id="require_billing_address" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/require_billing_address"/>
+                            <field id="allow_ba_signup" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/allow_ba_signup"/>
                         </group>
                     </group>
                 </group>
@@ -1918,17 +2045,17 @@
                         <group id="express_checkout_required_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="10">
                             <label>Express Checkout</label>
                             <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
-                            <field id="business_account" extends="payment/paypal_payments/payflow_advanced/required_settings/express/business_account"></field>
-                            <field id="api_authentication" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_authentication"></field>
-                            <field id="api_username" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_username"></field>
-                            <field id="api_password" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_password"></field>
-                            <field id="api_signature" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_signature"></field>
-                            <field id="api_cert" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_cert"></field>
-                            <field id="api_wizard" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_wizard"></field>
-                            <field id="sandbox_flag" extends="payment/paypal_payments/payflow_advanced/required_settings/express/sandbox_flag"></field>
-                            <field id="use_proxy" extends="payment/paypal_payments/payflow_advanced/required_settings/express/use_proxy"></field>
-                            <field id="proxy_host" extends="payment/paypal_payments/payflow_advanced/required_settings/express/proxy_host"></field>
-                            <field id="proxy_port" extends="payment/paypal_payments/payflow_advanced/required_settings/express/proxy_port"></field>
+                            <field id="business_account" extends="payment/paypal_payments/payflow_advanced/required_settings/express/business_account"/>
+                            <field id="api_authentication" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_authentication"/>
+                            <field id="api_username" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_username"/>
+                            <field id="api_password" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_password"/>
+                            <field id="api_signature" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_signature"/>
+                            <field id="api_cert" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_cert"/>
+                            <field id="api_wizard" extends="payment/paypal_payments/payflow_advanced/required_settings/express/api_wizard"/>
+                            <field id="sandbox_flag" extends="payment/paypal_payments/payflow_advanced/required_settings/express/sandbox_flag"/>
+                            <field id="use_proxy" extends="payment/paypal_payments/payflow_advanced/required_settings/express/use_proxy"/>
+                            <field id="proxy_host" extends="payment/paypal_payments/payflow_advanced/required_settings/express/proxy_host"/>
+                            <field id="proxy_port" extends="payment/paypal_payments/payflow_advanced/required_settings/express/proxy_port"/>
                         </group>
                         <field id="enable_express_checkout" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
                             <label>Enable this Solution</label>
@@ -1936,7 +2063,7 @@
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <attribute type="shared">1</attribute>
                             <requires>
-                                <group id="express_checkout_required_express_checkout" />
+                                <group id="express_checkout_required_express_checkout"/>
                             </requires>
                             <frontend_class>paypal-enabler paypal-ec-enabler</frontend_class>
                         </field>
@@ -1944,60 +2071,60 @@
                     <group id="settings_ec" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
                         <label>Basic Settings - PayPal Express Checkout</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
-                        <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/title"></field>
-                        <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/payment_action"></field>
-                        <field id="visible_on_cart" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_cart"></field>
-                        <field id="visible_on_product" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_product"></field>
-                        <field id="authorization_honor_period" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/authorization_honor_period"></field>
-                        <field id="order_valid_period" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/order_valid_period"></field>
-                        <field id="child_authorization_number" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/child_authorization_number"></field>
+                        <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/title"/>
+                        <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/payment_action"/>
+                        <field id="visible_on_cart" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_cart"/>
+                        <field id="visible_on_product" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_product"/>
+                        <field id="authorization_honor_period" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/authorization_honor_period"/>
+                        <field id="order_valid_period" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/order_valid_period"/>
+                        <field id="child_authorization_number" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/child_authorization_number"/>
                         <group id="settings_ec_advanced" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
                             <label>Advanced Settings</label>
                             <fieldset_css>config-advanced</fieldset_css>
-                            <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/allowspecific"></field>
-                            <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/specificcountry"></field>
-                            <field id="debug" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/debug"></field>
-                            <field id="verify_peer" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/verify_peer"></field>
-                            <field id="line_items_enabled" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/line_items_enabled"></field>
-                            <field id="transfer_shipping_options" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/transfer_shipping_options"></field>
-                            <field id="button_flavor" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/button_flavor"></field>
-                            <field id="solution_type" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/solution_type"></field>
-                            <field id="require_billing_address" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/require_billing_address"></field>
-                            <field id="allow_ba_signup" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/allow_ba_signup"></field>
+                            <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/allowspecific"/>
+                            <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/specificcountry"/>
+                            <field id="debug" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/debug"/>
+                            <field id="verify_peer" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/verify_peer"/>
+                            <field id="line_items_enabled" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/line_items_enabled"/>
+                            <field id="transfer_shipping_options" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/transfer_shipping_options"/>
+                            <field id="button_flavor" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/button_flavor"/>
+                            <field id="solution_type" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/solution_type"/>
+                            <field id="require_billing_address" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/require_billing_address"/>
+                            <field id="allow_ba_signup" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/allow_ba_signup"/>
                             <group id="express_checkout_billing_agreement" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="100">
                                 <label>PayPal Billing Agreement Settings</label>
-                                <field id="active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/active"></field>
-                                <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/title"></field>
-                                <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/payment_action"></field>
-                                <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allowspecific"></field>
-                                <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/specificcountry"></field>
-                                <field id="debug" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/debug"></field>
-                                <field id="verify_peer" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/verify_peer"></field>
-                                <field id="line_items_enabled" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/line_items_enabled"></field>
-                                <field id="allow_billing_agreement_wizard" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allow_billing_agreement_wizard"></field>
+                                <field id="active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/active"/>
+                                <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/title"/>
+                                <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/payment_action"/>
+                                <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allowspecific"/>
+                                <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/specificcountry"/>
+                                <field id="debug" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/debug"/>
+                                <field id="verify_peer" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/verify_peer"/>
+                                <field id="line_items_enabled" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/line_items_enabled"/>
+                                <field id="allow_billing_agreement_wizard" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allow_billing_agreement_wizard"/>
                             </group>
                             <group id="express_checkout_settlement_report" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="110">
                                 <label>Settlement Report Settings</label>
-                                <field id="heading_sftp" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_sftp"></field>
-                                <field id="settlement_reports_ftp_login" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_login"></field>
-                                <field id="settlement_reports_ftp_password" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_password"></field>
-                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_sandbox"></field>
-                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_ip"></field>
-                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_path"></field>
-                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_schedule"></field>
-                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_active"></field>
-                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_schedule"></field>
-                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_time"></field>
+                                <field id="heading_sftp" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_sftp"/>
+                                <field id="settlement_reports_ftp_login" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_login"/>
+                                <field id="settlement_reports_ftp_password" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_password"/>
+                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_sandbox"/>
+                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_ip"/>
+                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_path"/>
+                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_schedule"/>
+                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_active"/>
+                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_schedule"/>
+                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_time"/>
                             </group>
                             <group id="express_checkout_frontend" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="120">
                                 <label>Frontend Experience Settings</label>
-                                <field id="logo" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/logo"></field>
-                                <field id="paypal_pages" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_pages"></field>
-                                <field id="page_style" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/page_style"></field>
-                                <field id="paypal_hdrimg" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrimg"></field>
-                                <field id="paypal_hdrbackcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbackcolor"></field>
-                                <field id="paypal_hdrbordercolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbordercolor"></field>
-                                <field id="paypal_payflowcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_payflowcolor"></field>
+                                <field id="logo" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/logo"/>
+                                <field id="paypal_pages" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_pages"/>
+                                <field id="page_style" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/page_style"/>
+                                <field id="paypal_hdrimg" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrimg"/>
+                                <field id="paypal_hdrbackcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbackcolor"/>
+                                <field id="paypal_hdrbordercolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_hdrbordercolor"/>
+                                <field id="paypal_payflowcolor" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/frontend/paypal_payflowcolor"/>
                             </group>
                         </group>
                     </group>
