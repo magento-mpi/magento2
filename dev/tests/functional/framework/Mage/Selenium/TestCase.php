@@ -1043,14 +1043,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if ($locator === null) {
             $locator = $this->_getMessageXpath('general_validation');
         }
-        $actualCount = 0;
-        /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
-        foreach ($this->getElements($locator, false) as $element) {
-            if ($element->displayed()) {
-                $actualCount++;
-            }
-        }
-        return $actualCount == $count;
+        return count($this->getElements($locator)) == $count;
     }
 
     /**
