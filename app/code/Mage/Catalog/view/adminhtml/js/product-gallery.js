@@ -276,7 +276,7 @@
                 imageWidth = image.width(),
                 pointer = $('.image-pointer', panel),
                 pointerWidth = pointer.width(),
-                padding = 15,
+                padding = -3,
                 pointerOffset = posX + padding + pointerWidth / 2 + imageWidth / 2;
 
             pointer.css({left: pointerOffset});

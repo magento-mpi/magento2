@@ -92,9 +92,11 @@
     bottom: 0;
     margin: auto;
     width: 100%;
+    z-index: 1;
 }
 
-.image.base-image:before {
+.image-label {
+    visibility: hidden;
     position: absolute;
     top: 0;
     left: 0;
@@ -102,10 +104,15 @@
     height: 33px;
     background: url(Mage_Backend::images/gallery-image-base-label.png) no-repeat;
     content: '';
-    z-index: 1;
+    z-index: 2;
 }
 
-.image.hidden-for-front:after {
+.image.base-image .image-label {
+    visibility: visible;
+}
+
+.image-fade {
+    visibility: hidden;
     position: absolute;
     left: 0;
     right: 0;
@@ -118,10 +125,19 @@
     color: #a69a8f;
     font: 18px/110px 'CallunaSans', Arial, sans-serif;
     font-weight: 500;
-    z-index: 1;
+    z-index: 3;
 }
 
-.gallery .image.hidden-for-front:after {
+.eq-ie8 .image-fade {
+    background: #f7f2ec;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+}
+
+.image.hidden-for-front .image-fade {
+    visibility: visible;
+}
+
+.gallery .image.hidden-for-front .image-fade {
     line-height: 160px;
 }
 
@@ -142,6 +158,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    z-index: 1;
 }
 
 .image .actions [class^="action-"],
