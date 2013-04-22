@@ -287,10 +287,18 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
             return false;
         }
 
-        $product = Mage::getSingleton('Mage_Catalog_Model_Product');
-        $product->load($productId);
+//        $product = Mage::getSingleton('Mage_Catalog_Model_Product');
+//        $product->load($productId);
 
-        if (!$product->getid()) {
+        $serviceManager = Mage::getSingleton('Mage_Core_Service_Manager');
+        $product = $serviceManager->getService('Mage_Catalog_Service_ProductEntity')
+            ->call('item', array(
+                'entity_id' => $productId,
+                'store_id'  => Mage::app()->getStore()->getId(),
+                //'fields'    => 'entity_id,name,store_id,sku,stock_item'
+            ));
+
+        if (!$product->getId()) {
             return false;
         }
 

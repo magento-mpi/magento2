@@ -53,17 +53,20 @@ class Mage_Catalog_Service_CategoryEntity extends Mage_Core_Service_Type_Abstrac
         /** @var $collection Mage_Catalog_Model_Resource_Category_Collection */
         $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection');
 
-        $categoryIds = $request->getCategoryIds();
-        $collection->addIdFilter($categoryIds);
+        $helper = $this->_serviceManager->getServiceHelper('Mage_Core_Service_Helper_Filters');
+
+        $helper->applyPaginationToCollection($collection, $request);
 
         $filters = $request->getFilters();
-        $_filters = array(
-            'limit'  => 10,
-            'offset' => 2
+        $filters = array(
+            '$and'  => array(
+                'entity_id' => array(
+                    'in' => array(1,2)
+                ),
+                'is_active' => 'prod'
+            )
         );
-
         if ($filters) {
-            $helper = $this->_serviceManager->getServiceHelper('Mage_Core_Service_Helper_Filters');
             $helper->applyFiltersToCollection($collection, $filters);
         }
 

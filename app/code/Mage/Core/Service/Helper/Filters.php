@@ -9,21 +9,58 @@
  */
 class Mage_Core_Service_Helper_Filters extends Mage_Core_Service_Helper_Abstract
 {
-    public function applyFiltersToCollection($collection, array $filters = array())
+
+    public function applyPaginationToCollection($collection, $request)
     {
-        foreach ($filters as $key => $value) {
-            $method = '_' . $key;
-            $this->$method($collection, $value);
+        $limit = $request->getLimit();
+        if ($limit) {
+            $collection->setPageSize($limit);
+        }
+
+        $offset = $request->getOffset();
+        if ($offset) {
+            $collection->setCurPage($offset);
         }
     }
 
-    protected function _limit($collection, $value)
+    public function applyFiltersToCollection($collection, array $filters = array())
     {
-        $collection->setPageSize($value);
+        foreach ($filters as $key => $condition) {
+            switch ($key) {
+                case '$and':
+                    $this->applyAndConditionToCollection($collection, $condition);
+                    break;
+                case '$or':
+                    $this->applyOrConditionToCollection($collection, $condition);
+                    break;
+                case '$func':
+                    $this->applyFunctionalConditionToCollection($collection, $key, $condition);
+                    break;
+                default:
+                    $this->applyAttributeConditionToCollection($collection, $key, $condition);
+            }
+        }
     }
 
-    protected function _offset($collection, $value)
+    public function applyAndConditionToCollection($collection, $condition)
     {
-        $collection->setCurPage($value);
+        foreach ($condition as $attribute => $_condition) {
+            $collection->addAttributeToFilter($attribute, $_condition);
+        }
+    }
+
+    public function applyOrConditionToCollection($collection, $condition)
+    {
+        //
+    }
+
+    public function applyAttributeConditionToCollection($collection, $attribute, $condition)
+    {
+        $collection->addAttributeToFilter($attribute, $condition);
+    }
+
+    public function applyFunctionalConditionToCollection($collection, $method, $arguments)
+    {
+        $collection->$method($arguments);
     }
 }

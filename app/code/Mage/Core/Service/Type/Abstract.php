@@ -17,14 +17,14 @@ abstract class Mage_Core_Service_Type_Abstract
 
     /**
      * @param Mage_Core_Service_Manager $manager
-     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Service_Context $context
      */
     public function __construct(
         Mage_Core_Service_Manager $manager,
         Mage_Core_Service_Context $context)
     {
         $this->_serviceManager = $manager;
-        $this->_serviceContext = $manager;
+        $this->_serviceContext = $context;
     }
 
     /**
@@ -95,15 +95,11 @@ abstract class Mage_Core_Service_Type_Abstract
                 }
             }
 
-            $data = $request->getData();
+            $this->parse($request, $requestSchema);
 
-            $this->parse($data, $requestSchema);
+            $this->filter($request, $requestSchema);
 
-            $this->filter($data, $requestSchema);
-
-            $this->validate($data, $requestSchema);
-
-            $request->setData($data);
+            $this->validate($request, $requestSchema);
 
             $request->setIsPrepared(true);
         }
@@ -111,85 +107,83 @@ abstract class Mage_Core_Service_Type_Abstract
         return $request;
     }
 
+    /**
+     * @param Varien_Object $data
+     * @param Magento_Data_Schema $schema
+     */
     public function parse(& $data, $schema)
     {
-        if (is_array($data)) {
-            $fields = $schema->getData('fields');
-            foreach ($data as $key => $value) {
-                if (array_key_exists($key, $fields)) {
-                    if (isset($fields[$key]['content_type'])) {
-                        switch ($fields[$key]['content_type']) {
-                            case 'json':
-                                $value = json_decode($value, true);
-                                break;
-                            case 'xml':
-                                $value = array(); // convert from xml to assoc array
-                                break;
-                            case 'list':
-                                $value = explode(',', $value);
-                                break;
-                        }
-
-                        $data[$key] = $value;
+        $fields = $schema->getData('fields');
+        foreach ($data->getData() as $key => $value) {
+            if (array_key_exists($key, $fields)) {
+                if (isset($fields[$key]['content_type'])) {
+                    switch ($fields[$key]['content_type']) {
+                        case 'json':
+                            $value = json_decode($value, true);
+                            break;
+                        case 'xml':
+                            $value = array(); // convert from xml to assoc array
+                            break;
+                        case 'list':
+                            $value = explode(',', $value);
+                            break;
                     }
+
+                    $data->setDataUsingMethod($key, $value);
                 }
             }
         }
     }
 
     /**
-     * @param mixed $data
-     * @param mixed $schema
+     * @param Varien_Object $data
+     * @param Magento_Data_Schema $schema
      *
      * @return void
      */
     public function filter(& $data, $schema)
     {
-        if (is_array($data)) {
-            $fields = $schema->getData('fields');
-            $requestedFields = $schema->getRequestedFields();
-            if (!empty($requestedFields)) {
-                $requestedFields = array_flip($requestedFields);
-                $fields = array_intersect_key($fields, $requestedFields);
-            }
-            foreach ($data as $key => & $value) {
-                if (array_key_exists($key, $fields)) {
-                    $config = $fields[$key];
-                    if (isset($config['schema'])) {
-                        $schema = $this->_serviceManager->getContentSchema($config['schema']);
-                        $this->filter($value, $schema);
+        $fields = $schema->getData('fields');
+        $requestedFields = $schema->getRequestedFields();
+        if (!empty($requestedFields)) {
+            $requestedFields = array_flip($requestedFields);
+            $fields = array_intersect_key($fields, $requestedFields);
+        }
+        foreach ($data->getData() as $key => $value) {
+            if (array_key_exists($key, $fields)) {
+                $config = $fields[$key];
+                if (isset($config['schema'])) {
+                    $schema = $this->_serviceManager->getContentSchema($config['schema']);
+                    $this->filter($value, $schema);
 
-                        $data[$key] = $value;
-                    }
-                } else {
-                    unset($data[$key]);
+                    $data->setDataUsingMethod($key, $value);
                 }
+            } else {
+                $data->unsetData($key, $value);
             }
         }
     }
 
     /**
-     * @param mixed $data
-     * @param mixed $schema
+     * @param Varien_Object $data
+     * @param Magento_Data_Schema $schema
      *
      * @return void
      */
     public function validate(& $data, $schema)
     {
-        if (is_array($data)) {
-            $fields = $schema->getData('fields');
-            foreach ($data as $key => $value) {
-                if (array_key_exists($key, $fields)) {
-                    $config = $schema->getData($key);
-                    if (isset($config['schema'])) {
-                        $schema = $this->_serviceManager->getContentSchema($config['schema']);
-                        $this->validate($value, $schema);
-                    } else {
-                        $this->_validate($value, $schema->getData($key));
-                    }
-
-                    $data[$key] = $value;
+        $fields = $schema->getData('fields');
+        foreach ($data->getData() as $key => $value) {
+            if (array_key_exists($key, $fields)) {
+                $config = $schema->getData($key);
+                if (isset($config['schema'])) {
+                    $schema = $this->_serviceManager->getContentSchema($config['schema']);
+                    $this->validate($value, $schema);
+                } else {
+                    $this->_validate($value, $schema->getData($key));
                 }
+
+                $data->setDataUsingMethod($key, $value);
             }
         }
     }
@@ -222,8 +216,8 @@ abstract class Mage_Core_Service_Type_Abstract
 
         $responseSchema->setRequestedFields($request->getFields());
 
-        if ($response instanceof Varien_Object) {
-            $data = $response->getData();
+        if (!$response instanceof Varien_Object) {
+            $data = new Varien_Object($response);
         } else {
             $data = & $response;
         }
@@ -232,15 +226,19 @@ abstract class Mage_Core_Service_Type_Abstract
         $this->validate($data, $responseSchema);
         $this->prepare($data, $responseSchema);
 
-        if ($response instanceof Varien_Object) {
-            $response->setData($data);
+        if (!$response instanceof Varien_Object) {
+            $response = $data->getData();
         }
     }
 
+    /**
+     * @param Varien_Object $data
+     * @param Magento_Data_Schema $schema
+     */
     public function prepare(& $data, $schema)
     {
         $fields = $schema->getData('fields');
-        foreach ($data as $key => & $value) {
+        foreach ($data->getData() as $key => $value) {
             $config = $fields[$key];
             if (isset($config['content_type'])) {
                 switch ($config['accept_type']) {
@@ -252,42 +250,52 @@ abstract class Mage_Core_Service_Type_Abstract
                         break;
                 }
             }
+            $data->setDataUsingMethod($key, $value);
         }
 
-        $data = $this->applySchema($data, $schema);
+        $this->applySchema($data, $schema);
     }
 
-    public function applySchema($data, $schema)
+    /**
+     * @param Varien_Object $data
+     * @param Magento_Data_Schema $schema
+     * @return Varien_Object $data
+     */
+    public function applySchema(& $data, $schema)
     {
-        $result = array();
         foreach ($schema->getData('fields') as $key => $config) {
-            $result[$key] = $this->_fetchValue($key, $config, $data, $schema);
+            $this->_fetchValue($data, $key, $config, $schema);
         }
-        return $result;
     }
 
-    protected function _fetchValue($key, $config, $data, $schema)
+    protected function _fetchValue($data, $key, $config, $schema)
     {
         if (isset($config['_elements'])) {
             $result = array();
             foreach ($config['_elements'] as $_key => $_config) {
-                $result[$_key] = $this->_fetchValue($_key, $_config, $data, $schema);
+                $result[$_key] = $this->_fetchValue($data, $_key, $_config, $schema);
             }
-            return $result;
+            $data->setDataUsingMethod($key, $result);
         }
 
         if (isset($config['get_callback'])) {
-            $result = call_user_func($config['get_callback'], array(
-                'data'   => $data,
-                'config' => $config,
-                'schema' => $schema
-            ));
-        } else {
-            if ($data instanceof Varien_Object) {
-                $result = $data->getDataUsingMethod($key);
-            } else {
-                $result = $data[$key];
+            if (is_string($config['get_callback'])) {
+                if (strpos($config['get_callback'], '/') !== false) {
+                    list ($method, $key) = explode('/', $config['get_callback']);
+                    $result = $data->$method();
+                    $result = array_key_exists($key, $result) ? $result[$key] : null;
+                } else {
+                    $result = $data->$config['get_callback']();
+                }
+            } else {var_dump($config['get_callback']);
+                $result = call_user_func($config['get_callback'], array(
+                    'data'   => $data,
+                    'config' => $config,
+                    'schema' => $schema
+                ));
             }
+        } else {
+            $result = $data->getDataUsingMethod($key);
         }
 
         return $result;

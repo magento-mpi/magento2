@@ -12,7 +12,7 @@
  * @Version 1.0
  * @Path /products
  */
-class Mage_Catalog_Service_Product extends Mage_Core_Service_Type_DefaultEntity
+class Mage_Catalog_Service_Product extends Mage_Core_Service_Type_Abstract
 {
     /**#@+
      * Identifier types for _getObject()
