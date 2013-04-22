@@ -61,27 +61,6 @@
                             <field id="use_proxy" showInDefault="0" showInWebsite="0"/>
                             <field id="proxy_host" showInDefault="0" showInWebsite="0"/>
                             <field id="proxy_port" showInDefault="0" showInWebsite="0"/>
-                            <field id="api_wizard">
-                                <button_url><![CDATA[https://www.paypal.com/us/cgi-bin/webscr?cmd=_login-api-run]]></button_url>
-                                <attribute type="sandbox_button_url"><![CDATA[https://www.sandbox.paypal.com/us/cgi-bin/webscr?cmd=_login-api-run]]></attribute>
-                                <depends>
-                                    <field id="*/account/merchant_country" separator="," negative="1">FR,AU</field>
-                                </depends>
-                            </field>
-                            <field id="api_wizard_fr">
-                                <button_url><![CDATA[https://www.paypal.com/fr/cgi-bin/webscr?cmd=_login-api-run]]></button_url>
-                                <attribute type="sandbox_button_url"><![CDATA[https://www.sandbox.paypal.com/fr/cgi-bin/webscr?cmd=_login-api-run]]></attribute>
-                                <depends>
-                                    <field id="*/account/merchant_country">FR</field>
-                                </depends>
-                            </field>
-                            <field id="api_wizard_au">
-                                <button_url><![CDATA[https://www.paypal.com/au/cgi-bin/webscr?cmd=_login-api-run]]></button_url>
-                                <attribute type="sandbox_button_url"><![CDATA[https://www.sandbox.paypal.com/au/cgi-bin/webscr?cmd=_login-api-run]]></attribute>
-                                <depends>
-                                    <field id="*/account/merchant_country">AU</field>
-                                </depends>
-                            </field>
                         </group>
                         <group id="payments_advanced">
                             <field id="use_proxy" showInDefault="0" showInWebsite="0"/>
@@ -92,18 +71,16 @@
                     <group id="settings_payments_advanced">
                         <group id="settings_payments_advanced_advanced">
                             <group id="settlement_report" showInDefault="0" showInWebsite="0">
-                                <group id="heading_sftp" showInDefault="1" showInWebsite="0"/>
-                                <group id="settlement_reports_ftp_login" showInDefault="1" showInWebsite="0"/>
-                                <group id="settlement_reports_ftp_password" showInDefault="1" showInWebsite="0"/>
-                                <group id="settlement_reports_ftp_advanced">
-                                    <field id="settlement_reports_ftp_sandbox" showInDefault="1" showInWebsite="0"/>
-                                    <field id="settlement_reports_ftp_ip" showInDefault="1" showInWebsite="0"/>
-                                    <field id="settlement_reports_ftp_path" showInDefault="1" showInWebsite="0"/>
-                                    <field id="heading_schedule" showInDefault="1" showInWebsite="0"/>
-                                    <field id="settlement_reports_active" showInDefault="1" showInWebsite="0"/>
-                                    <field id="settlement_reports_schedule" showInDefault="1" showInWebsite="0"/>
-                                    <field id="settlement_reports_time" showInDefault="1" showInWebsite="0"/>
-                                </group>
+                                <field id="heading_sftp" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_ftp_login" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_ftp_password" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_ftp_sandbox" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_ftp_ip" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_ftp_path" showInDefault="1" showInWebsite="0"/>
+                                <field id="heading_schedule" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_active" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_schedule" showInDefault="1" showInWebsite="0"/>
+                                <field id="settlement_reports_time" showInDefault="1" showInWebsite="0"/>
                             </group>
                             <group id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0"/>
                             <group id="billing_agreement">
