@@ -175,6 +175,19 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 }
             }
 
+            if ($this->getRequest()->getParam('id')) {
+                if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_Tag')) {
+                    if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tag::tag_all')){
+                        $this->addTab('product-tags', array(
+                            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Tags'),
+                            'url'   => $this->getUrl('*/*/tagGrid', array('_current' => true)),
+                            'class' => 'ajax',
+                            'group_code' => self::ADVANCED_TAB_GROUP_CODE,
+                        ));
+                    }
+                }
+            }
+
             if (isset($advancedGroups['autosettings'])) {
                 $this->addTab('autosettings', $advancedGroups['autosettings']);
                 unset($advancedGroups['autosettings']);
