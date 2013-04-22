@@ -9,8 +9,8 @@
 
 // *
 // *    Mage_Catalog
+// *    Layered Navigation
 // *
-// *    Layered Navigationi
 // ----------------------------------------------------------------------------- */
 .block.filter {
     color: @primary2;
@@ -93,7 +93,7 @@
 // *
 // ----------------------------------------------------------------------------- */
 
-.block-compare {
+.block.compare {
     ol {
         list-style: none;
         margin: 0 0 8px;
@@ -101,29 +101,26 @@
     }
     .item {
         .sidebarItem();
+        .sidebarProduct();
         padding-right: 25px;
-        .product-name {
-            margin: 0;
-        }
-        .btn-remove {
-            color: @primary1;
-            .iconAfter("\e01a",10px,'icons');
-            .hideText(13px);
+        .action.delete {
             position: absolute;
-            top: 8px;
+            top: 6px;
             right: 5px;
-            &:hover {
-                color: @primary4;
+            text-decoration: none;
+            span:after {
+                font-size: 8px;
+                height: 14px;
             }
         }
     }
-    .block-content .actions {
+    .content .actions {
         .clearfix;
-        > a {
-            .colorAnoUnderline(@primary3,@primary4);
+        .action.clear {
             .customFont(10px);
+            text-decoration: none;
         }
-        .button {
+        .action.compare {
             .resetAction();
             .secondaryAction();
             float: left;
@@ -134,37 +131,99 @@
 
 // *
 // *    Mage_Catalog
-// *    Sidebar recently compared products
+// *    Compared products list
 // *
-//----------------------------------------------------------------------------- */
+// ----------------------------------------------------------------------------- */
 
-.block.compared {
-    ol {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        > .item {
-            .sidebarItem();
-            .product.name {
-                margin: 0;
-                font-size: 12px;
-                font-weight: normal;
-                a {
-                    text-decoration: underline;
-                    .colorA(@primary3,@primary4);
+.comparison.wrapper {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 50px;
+}
+
+.comparison.container {
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+.data.comparison {
+    border-collapse: separate;
+    .cell {
+        padding: 15px;
+        vertical-align: top;
+        &.label {
+            width: 150px;
+            padding-left: 10px;
+            font-weight: 600;
+            text-align: left;
+            border-right: 1px solid @primary1;
+            &.product {
+                width: 150px;
+            }
+        }
+        p:first-child {
+            margin-top: 0;
+        }
+        &.product {
+            font-size: 12px;
+            position: relative;
+            width: 140px;
+            .product.reviews {
+                margin: 5px 0;
+                .action.view {
+                    font-size: 11px;
                 }
             }
-
+            .primary {
+                 margin: 10px 0;
+            }
         }
+        .attribute {
+          font-size: 12px;
+        }
+    }
+    td:last-child {
+        border-right: 1px solid @primary1;
+    }
+    tr:nth-child(odd) .cell.attribute {
+        background-color: @primary6;
+
+    }
+    .product.photo {
+        .img.photo.container {
+            display: inline-block !important;
+        }
+        text-align: center;
+        display: block;
+        margin: 0 auto 15px;
+    }
+    .cell.remove {
+        padding-top: 0;
+        padding-bottom: 0;
+        text-align: right;
+    }
+}
+
+.comparison.headings {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: auto;
+    background-color: @commonBg;
+    th {
+        background-color: @commonBg;
     }
 }
 
 // *
 // *    Mage_Catalog
+// *    Sidebar recently compared products
 // *    Sidebar Recently Viewed Products
 // *
-// ----------------------------------------------------------------------------- */
+//----------------------------------------------------------------------------- */
 
+.block.compared,
 .block.viewed.links {
     ol {
         list-style: none;
@@ -172,16 +231,7 @@
         padding: 0;
         > .item {
             .sidebarItem();
-            .product.name {
-                margin: 0;
-                font-size: 12px;
-                font-weight: normal;
-                a {
-                    text-decoration: underline;
-                    .colorA(@primary3,@primary4);
-                }
-            }
-
+            .sidebarProduct();
         }
     }
 }
@@ -548,13 +598,12 @@
     > .item {
         .clearfix;
         border-bottom: 1px solid @primary6;
-        display: block;
-        float: left;
         padding: 9px 0;
         position: relative;
         z-index: 1;
         .product.photo {
             display: block;
+            float: left;
             margin-bottom: 10px;
             > .photo {
                 display: block;
@@ -826,4 +875,3 @@
         color: @primary1;
     }
 }
-

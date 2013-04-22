@@ -93,7 +93,7 @@
 // *
 // ----------------------------------------------------------------------------- */
 
-.block-compare {
+.block.compare {
     ol {
         list-style: none;
         margin: 0 0 8px;
@@ -101,35 +101,26 @@
     }
     .item {
         .sidebarItem();
+        .sidebarProduct();
         padding-right: 25px;
-        .product-name {
-            margin: 0;
-            a {
-                opacity: 0.8;
-                &:hover {
-                    opacity: 1;
-                }
-            }
-        }
-        .btn-remove {
-            color: @secondary4;
-            .iconAfter("\e01a",10px,'icons');
-            .hideText(13px);
+        .action.delete {
             position: absolute;
-            top: 8px;
+            top: 6px;
             right: 5px;
-            &:hover {
-                color: @secondary4;
+            text-decoration: none;
+            span:after {
+                font-size: 8px;
+                height: 14px;
             }
         }
     }
-    .block-content .actions {
+    .content .actions {
         .clearfix;
-        > a {
-            .colorAnoUnderline(@secondary3,@secondary1);
+        .action.clear {
             .customFont(10px);
+            text-decoration: none;
         }
-        .button {
+        .action.compare {
             .resetAction();
             .secondaryAction();
             float: left;
@@ -140,39 +131,102 @@
 
 // *
 // *    Mage_Catalog
-// *    Sidebar recently compared products
+// *    Compared products list
 // *
 // ----------------------------------------------------------------------------- */
 
-.block.compared {
-    ol {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        > .item {
-            .sidebarItem();
-            .product.name {
-                margin: 0;
-                font-size: 12px;
-                font-weight: normal;
-                a {
-                    text-decoration: underline;
-                    &:hover {
-                        text-decoration: none;
-                    }
+.comparison.wrapper {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 50px;
+}
+
+.comparison.container {
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+.data.comparison {
+    border-collapse: separate;
+    .cell {
+        padding: 15px;
+        vertical-align: top;
+        &.label {
+            width: 150px;
+            padding-left: 10px;
+            font-weight: 600;
+            text-align: left;
+            border-right: 1px solid @primary9;
+            &.product {
+                width: 150px;
+            }
+        }
+        p:first-child {
+            margin-top: 0;
+        }
+        &.product {
+            font-size: 12px;
+            position: relative;
+            width: 140px;
+            .product.reviews {
+                margin: 5px 0;
+                .action.view {
+                    font-size: 11px;
                 }
             }
-
+            .primary {
+                margin: 10px 0;
+            }
+            .price {
+                .customFont(14px,uppercase,0,400);
+            }
         }
+        .attribute {
+            font-size: 12px;
+        }
+    }
+    td:last-child {
+        border-right: 1px solid @primary9;
+    }
+    tr:nth-child(odd) .cell.attribute {
+        background-color: @primary9;
+
+    }
+    .product.photo {
+        .img.photo.container {
+            display: inline-block !important;
+        }
+        text-align: center;
+        display: block;
+        margin: 0 auto 15px;
+    }
+    .cell.remove {
+        padding-top: 0;
+        padding-bottom: 0;
+        text-align: right;
+    }
+}
+
+.comparison.headings {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: auto;
+    background: @bodyBg @bodyBgImage;
+    th {
+        background: @bodyBg @bodyBgImage;
     }
 }
 
 // *
 // *    Mage_Catalog
+// *    Sidebar recently compared products
 // *    Sidebar Recently Viewed Products
 // *
-// ----------------------------------------------------------------------------- */
+//----------------------------------------------------------------------------- */
 
+.block.compared,
 .block.viewed.links {
     ol {
         list-style: none;
@@ -180,11 +234,7 @@
         padding: 0;
         > .item {
             .sidebarItem();
-            .product.name {
-                margin: 0;
-                font-size: 12px;
-                font-weight: normal;
-            }
+            .sidebarProduct();
         }
     }
 }

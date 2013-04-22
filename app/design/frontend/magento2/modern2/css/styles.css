@@ -206,7 +206,9 @@ textarea {
   color: #111111;
   font: 14px/1.43 Arial, Helvetica, sans-serif;
 }
-html,
+html {
+  background: #f6f4f3 url(../images/header-bg.jpg);
+}
 .page.wrapper {
   background: #ffffff;
 }
@@ -1520,12 +1522,12 @@ ul.messages ul {
 .block.filter .count:after {
   content: ')';
 }
-.block-compare ol {
+.block.compare ol {
   list-style: none;
   margin: 0 0 8px;
   padding: 0;
 }
-.block-compare .item {
+.block.compare .item {
   background: #f6f4f3;
   color: #666666;
   font-size: 12px;
@@ -1535,82 +1537,60 @@ ul.messages ul {
   z-index: 1;
   padding-right: 25px;
 }
-.block-compare .item a {
+.block.compare .item a {
   color: #666666;
 }
-.block-compare .item a:hover {
+.block.compare .item a:hover {
   color: #111111;
 }
-.block-compare .item .product-name {
+.block.compare .item .product.name {
   margin: 0;
-}
-.block-compare .item .btn-remove {
-  color: #999999;
-  width: 13px;
-  display: block;
-  line-height: 0;
-  white-space: nowrap;
-  vertical-align: middle;
-  text-align: center;
-  text-indent: -999em;
-  position: absolute;
-  top: 8px;
-  right: 5px;
-}
-.block-compare .item .btn-remove:after {
-  font-family: "icons";
-  font-size: 10px;
-  line-height: 10px;
-  height: 10px;
-  overflow: hidden;
-  content: "\e01a";
-  font-style: normal;
-  speak: none;
+  font-size: 12px;
   font-weight: normal;
-  -webkit-font-smoothing: antialiased;
-  display: inline-block;
-  vertical-align: middle;
-  text-align: center;
 }
-.block-compare .item .btn-remove:active {
-  outline: 0;
+.block.compare .item .product.name a {
+  text-decoration: underline;
+  color: #666666;
 }
-.block-compare .item .btn-remove:after {
-  text-indent: 0;
-  display: block;
+.block.compare .item .product.name a > span {
+  color: #666666;
+  text-decoration: underline;
 }
-.block-compare .item .btn-remove:hover {
+.block.compare .item .product.name a:hover,
+.block.compare .item .product.name a:hover > span {
   color: #111111;
+  text-decoration: underline;
 }
-.block-compare .block-content .actions {
+.block.compare .item .action.delete {
+  position: absolute;
+  top: 6px;
+  right: 5px;
+  text-decoration: none;
+}
+.block.compare .item .action.delete span:after {
+  font-size: 8px;
+  height: 14px;
+}
+.block.compare .content .actions {
   *zoom: 1;
 }
-.block-compare .block-content .actions:before,
-.block-compare .block-content .actions:after {
+.block.compare .content .actions:before,
+.block.compare .content .actions:after {
   content: "";
   display: table;
 }
-.block-compare .block-content .actions:after {
+.block.compare .content .actions:after {
   clear: both;
 }
-.block-compare .block-content .actions > a {
-  color: #666666;
-  text-decoration: none;
+.block.compare .content .actions .action.clear {
   font-size: 10px;
   font-family: "comfortaa", Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-}
-.block-compare .block-content .actions > a > span {
-  color: #666666;
-}
-.block-compare .block-content .actions > a:hover,
-.block-compare .block-content .actions > a:hover > span {
-  color: #111111;
   text-decoration: none;
 }
-.block-compare .block-content .actions .button {
+.block.compare .content .actions .action.compare {
   border: none;
   background: none;
   margin: 0;
@@ -1629,53 +1609,93 @@ ul.messages ul {
   float: left;
   margin-right: 15px;
 }
-.block-compare .block-content .actions .button:hover {
+.block.compare .content .actions .action.compare:hover {
   background: #e2e2e2;
   color: #111111;
 }
-.block.compared ol {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.block.compared ol > .item {
-  background: #f6f4f3;
-  color: #666666;
-  font-size: 12px;
-  padding: 6px 8px;
-  margin: 0 0 1px;
+.comparison.wrapper {
   position: relative;
   z-index: 1;
+  margin-bottom: 50px;
 }
-.block.compared ol > .item a {
-  color: #666666;
+.comparison.container {
+  overflow-y: hidden;
+  overflow-x: auto;
 }
-.block.compared ol > .item a:hover {
-  color: #111111;
+.data.comparison {
+  border-collapse: separate;
 }
-.block.compared ol > .item .product.name {
-  margin: 0;
+.data.comparison .cell {
+  padding: 15px;
+  vertical-align: top;
+}
+.data.comparison .cell.label {
+  width: 150px;
+  padding-left: 10px;
+  font-weight: 600;
+  text-align: left;
+  border-right: 1px solid #999999;
+}
+.data.comparison .cell.label.product {
+  width: 150px;
+}
+.data.comparison .cell p:first-child {
+  margin-top: 0;
+}
+.data.comparison .cell.product {
   font-size: 12px;
-  font-weight: normal;
+  position: relative;
+  width: 140px;
 }
-.block.compared ol > .item .product.name a {
-  text-decoration: underline;
-  color: #666666;
+.data.comparison .cell.product .product.reviews {
+  margin: 5px 0;
 }
-.block.compared ol > .item .product.name a > span {
-  color: #666666;
-  text-decoration: underline;
+.data.comparison .cell.product .product.reviews .action.view {
+  font-size: 11px;
 }
-.block.compared ol > .item .product.name a:hover,
-.block.compared ol > .item .product.name a:hover > span {
-  color: #111111;
-  text-decoration: underline;
+.data.comparison .cell.product .primary {
+  margin: 10px 0;
 }
+.data.comparison .cell .attribute {
+  font-size: 12px;
+}
+.data.comparison td:last-child {
+  border-right: 1px solid #999999;
+}
+.data.comparison tr:nth-child(odd) .cell.attribute {
+  background-color: #e2e2e2;
+}
+.data.comparison .product.photo {
+  text-align: center;
+  display: block;
+  margin: 0 auto 15px;
+}
+.data.comparison .product.photo .img.photo.container {
+  display: inline-block !important;
+}
+.data.comparison .cell.remove {
+  padding-top: 0;
+  padding-bottom: 0;
+  text-align: right;
+}
+.comparison.headings {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: auto;
+  background-color: #ffffff;
+}
+.comparison.headings th {
+  background-color: #ffffff;
+}
+.block.compared ol,
 .block.viewed.links ol {
   list-style: none;
   margin: 0;
   padding: 0;
 }
+.block.compared ol > .item,
 .block.viewed.links ol > .item {
   background: #f6f4f3;
   color: #666666;
@@ -1685,26 +1705,33 @@ ul.messages ul {
   position: relative;
   z-index: 1;
 }
+.block.compared ol > .item a,
 .block.viewed.links ol > .item a {
   color: #666666;
 }
+.block.compared ol > .item a:hover,
 .block.viewed.links ol > .item a:hover {
   color: #111111;
 }
+.block.compared ol > .item .product.name,
 .block.viewed.links ol > .item .product.name {
   margin: 0;
   font-size: 12px;
   font-weight: normal;
 }
+.block.compared ol > .item .product.name a,
 .block.viewed.links ol > .item .product.name a {
   text-decoration: underline;
   color: #666666;
 }
+.block.compared ol > .item .product.name a > span,
 .block.viewed.links ol > .item .product.name a > span {
   color: #666666;
   text-decoration: underline;
 }
+.block.compared ol > .item .product.name a:hover,
 .block.viewed.links ol > .item .product.name a:hover,
+.block.compared ol > .item .product.name a:hover > span,
 .block.viewed.links ol > .item .product.name a:hover > span {
   color: #111111;
   text-decoration: underline;
@@ -2223,8 +2250,6 @@ ul.messages ul {
 .products.list.items > .item {
   *zoom: 1;
   border-bottom: 1px solid #e2e2e2;
-  display: block;
-  float: left;
   padding: 9px 0;
   position: relative;
   z-index: 1;
@@ -2239,6 +2264,7 @@ ul.messages ul {
 }
 .products.list.items > .item .product.photo {
   display: block;
+  float: left;
   margin-bottom: 10px;
 }
 .products.list.items > .item .product.photo > .photo {
@@ -2986,27 +3012,6 @@ ul.messages ul {
   font-size: 12px;
   margin: -37px 0 0;
 }
-.block.widget.viewed .primary {
-  margin: 0 0 10px;
-}
-.block.related .products.list.items > .item,
-.block.upsell .products.list.items > .item {
-  border: 0;
-}
-.block.related .products.list.items > .item .details,
-.block.upsell .products.list.items > .item .details {
-  padding: 0;
-}
-.block.related .products.list.items > .item .product.actions .secondary,
-.block.upsell .products.list.items > .item .product.actions .secondary {
-  border: 0;
-  margin: 0;
-  position: relative;
-}
-.block.related .products.list.items > .item .product.actions .secondary .action,
-.block.upsell .products.list.items > .item .product.actions .secondary .action {
-  padding: 0;
-}
 .block.related,
 .block.upsell {
   *zoom: 1;
@@ -3040,6 +3045,29 @@ ul.messages ul {
   margin: 0;
   padding: 10px 20px 20px;
   float: none;
+  vertical-align: top;
+}
+.block.related .products.list .item.product .product.photo,
+.block.upsell .products.list .item.product .product.photo {
+  float: none;
+}
+.block.related .products.list.items > .item,
+.block.upsell .products.list.items > .item {
+  border: 0;
+}
+.block.related .products.list.items > .item .details,
+.block.upsell .products.list.items > .item .details {
+  padding: 0;
+}
+.block.related .products.list.items > .item .product.actions .secondary,
+.block.upsell .products.list.items > .item .product.actions .secondary {
+  border: 0;
+  margin: 0;
+  position: relative;
+}
+.block.related .products.list.items > .item .product.actions .secondary .action,
+.block.upsell .products.list.items > .item .product.actions .secondary .action {
+  padding: 0;
 }
 .block.crosssell {
   margin: 50px 0 0;
@@ -3157,6 +3185,9 @@ ul.messages ul {
 }
 .block.widget.viewed .content > ol:after {
   clear: both;
+}
+.block.widget.viewed .primary {
+  margin: 0 0 10px;
 }
 .block.widget.viewed .products.list.items > .item .addto.links .action {
   display: inline-block;
@@ -5780,7 +5811,7 @@ body.type-bundle {
   border: 0;
 }
 .data-table td {
-  border-right: 1px solid #333333;
+  border-right: 1px solid #999999;
   padding: 5px;
   vertical-align: top;
 }

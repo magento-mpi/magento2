@@ -210,7 +210,9 @@ textarea {
   color: #333333;
   font: 14px/1.43 Arial, Helvetica, sans-serif;
 }
-html,
+html {
+  background: #ee2375;
+}
 .page.wrapper {
   background: #ffffff;
   background-image: url(../images/content-bg.jpg);
@@ -1543,12 +1545,12 @@ ul.messages ul {
 .block.filter .count:after {
   content: ')';
 }
-.block-compare ol {
+.block.compare ol {
   list-style: none;
   margin: 0 0 8px;
   padding: 0;
 }
-.block-compare .item {
+.block.compare .item {
   background: #6ab92d;
   color: #f6f4f3;
   font-size: 12px;
@@ -1558,91 +1560,54 @@ ul.messages ul {
   z-index: 1;
   padding-right: 25px;
 }
-.block-compare .item a {
+.block.compare .item a {
   color: #f6f4f3;
   opacity: 0.8;
   text-decoration: underline;
 }
-.block-compare .item a:hover {
+.block.compare .item a:hover {
   color: #f6f4f3;
   opacity: 1;
 }
-.block-compare .item .product-name {
+.block.compare .item .product.name {
   margin: 0;
-}
-.block-compare .item .product-name a {
-  opacity: 0.8;
-}
-.block-compare .item .product-name a:hover {
-  opacity: 1;
-}
-.block-compare .item .btn-remove {
-  color: #4f8b22;
-  width: 13px;
-  display: block;
-  line-height: 0;
-  white-space: nowrap;
-  vertical-align: middle;
-  text-align: center;
-  text-indent: -999em;
-  position: absolute;
-  top: 8px;
-  right: 5px;
-}
-.block-compare .item .btn-remove:after {
-  font-family: "icons";
-  font-size: 10px;
-  line-height: 10px;
-  height: 10px;
-  overflow: hidden;
-  content: "\e01a";
-  font-style: normal;
-  speak: none;
+  font-size: 12px;
   font-weight: normal;
-  -webkit-font-smoothing: antialiased;
-  display: inline-block;
-  vertical-align: middle;
-  text-align: center;
 }
-.block-compare .item .btn-remove:active {
-  outline: 0;
+.block.compare .item .product.name a {
+  text-decoration: underline;
+  color: #ffffff;
 }
-.block-compare .item .btn-remove:after {
-  text-indent: 0;
-  display: block;
+.block.compare .item .action.delete {
+  position: absolute;
+  top: 6px;
+  right: 5px;
+  text-decoration: none;
 }
-.block-compare .item .btn-remove:hover {
-  color: #4f8b22;
+.block.compare .item .action.delete span:after {
+  font-size: 8px;
+  height: 14px;
 }
-.block-compare .block-content .actions {
+.block.compare .content .actions {
   *zoom: 1;
 }
-.block-compare .block-content .actions:before,
-.block-compare .block-content .actions:after {
+.block.compare .content .actions:before,
+.block.compare .content .actions:after {
   content: "";
   display: table;
 }
-.block-compare .block-content .actions:after {
+.block.compare .content .actions:after {
   clear: both;
 }
-.block-compare .block-content .actions > a {
-  color: #6ab92d;
-  text-decoration: none;
+.block.compare .content .actions .action.clear {
   font-size: 10px;
   font-family: Amaranth, Arial, Helvetica, sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-}
-.block-compare .block-content .actions > a > span {
-  color: #6ab92d;
-}
-.block-compare .block-content .actions > a:hover,
-.block-compare .block-content .actions > a:hover > span {
-  color: #ee2375;
   text-decoration: none;
 }
-.block-compare .block-content .actions .button {
+.block.compare .content .actions .action.compare {
   border: none;
   background: none;
   margin: 0;
@@ -1661,48 +1626,100 @@ ul.messages ul {
   float: left;
   margin-right: 15px;
 }
-.block-compare .block-content .actions .button:hover {
+.block.compare .content .actions .action.compare:hover {
   background: #6ab92d;
 }
-.block.compared ol {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.block.compared ol > .item {
-  background: #6ab92d;
-  color: #f6f4f3;
-  font-size: 12px;
-  padding: 6px 8px;
-  margin: 0 0 1px;
+.comparison.wrapper {
   position: relative;
   z-index: 1;
+  margin-bottom: 50px;
 }
-.block.compared ol > .item a {
-  color: #f6f4f3;
-  opacity: 0.8;
-  text-decoration: underline;
+.comparison.container {
+  overflow-y: hidden;
+  overflow-x: auto;
+  margin-left: 130px;
 }
-.block.compared ol > .item a:hover {
-  color: #f6f4f3;
-  opacity: 1;
+.data.comparison {
+  border-collapse: separate;
 }
-.block.compared ol > .item .product.name {
-  margin: 0;
+.data.comparison .cell {
+  padding: 15px;
+  vertical-align: top;
+}
+.data.comparison .cell.label {
+  width: 150px;
+  padding-left: 10px;
+  font-weight: 600;
+  text-align: left;
+  border-right: 1px solid #f6f4f3;
+}
+.data.comparison .cell.label.product {
+  width: 150px;
+}
+.data.comparison .cell p:first-child {
+  margin-top: 0;
+}
+.data.comparison .cell.product {
   font-size: 12px;
-  font-weight: normal;
+  position: relative;
+  width: 140px;
 }
-.block.compared ol > .item .product.name a {
-  text-decoration: underline;
+.data.comparison .cell.product .product.reviews {
+  margin: 5px 0;
 }
-.block.compared ol > .item .product.name a:hover {
-  text-decoration: none;
+.data.comparison .cell.product .product.reviews .action.view {
+  font-size: 11px;
 }
+.data.comparison .cell.product .primary {
+  margin: 10px 0;
+}
+.data.comparison .cell.product .price {
+  font-size: 14px;
+  font-family: Amaranth, Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+.data.comparison .cell .attribute {
+  font-size: 12px;
+}
+.data.comparison td:last-child {
+  border-right: 1px solid #f6f4f3;
+}
+.data.comparison tr:nth-child(odd) .cell.attribute {
+  background-color: #f6f4f3;
+}
+.data.comparison .product.photo {
+  text-align: center;
+  display: block;
+  margin: 0 auto 15px;
+}
+.data.comparison .product.photo .img.photo.container {
+  display: inline-block !important;
+}
+.data.comparison .cell.remove {
+  padding-top: 0;
+  padding-bottom: 0;
+  text-align: right;
+}
+.comparison.headings {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: auto;
+  background: #ffffff url(../images/content-bg.jpg);
+}
+.comparison.headings th {
+  background: #ffffff url(../images/content-bg.jpg);
+}
+.block.compared ol,
 .block.viewed.links ol {
   list-style: none;
   margin: 0;
   padding: 0;
 }
+.block.compared ol > .item,
 .block.viewed.links ol > .item {
   background: #6ab92d;
   color: #f6f4f3;
@@ -1712,19 +1729,27 @@ ul.messages ul {
   position: relative;
   z-index: 1;
 }
+.block.compared ol > .item a,
 .block.viewed.links ol > .item a {
   color: #f6f4f3;
   opacity: 0.8;
   text-decoration: underline;
 }
+.block.compared ol > .item a:hover,
 .block.viewed.links ol > .item a:hover {
   color: #f6f4f3;
   opacity: 1;
 }
+.block.compared ol > .item .product.name,
 .block.viewed.links ol > .item .product.name {
   margin: 0;
   font-size: 12px;
   font-weight: normal;
+}
+.block.compared ol > .item .product.name a,
+.block.viewed.links ol > .item .product.name a {
+  text-decoration: underline;
+  color: #ffffff;
 }
 .block.poll .content .fieldset {
   border: 0;
@@ -5811,7 +5836,7 @@ body.type-bundle {
   border: 0;
 }
 .data-table td {
-  border-right: 1px solid #333333;
+  border-right: 1px solid #999999;
   padding: 5px;
   vertical-align: top;
 }
