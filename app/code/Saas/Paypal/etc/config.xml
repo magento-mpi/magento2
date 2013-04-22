@@ -31,7 +31,7 @@
             <paypal>
                 <rewrite>
                     <logo>Saas_Paypal_Block_Logo</logo>
-                    <adminhtml_system_config_fieldset_global>Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Global</adminhtml_system_config_fieldset_global>
+                    <!--<adminhtml_system_config_fieldset_global>Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Global</adminhtml_system_config_fieldset_global>-->
                     <adminhtml_system_config_apiWizard>Saas_Paypal_Block_Adminhtml_System_Config_ApiWizard</adminhtml_system_config_apiWizard>
                     <adminhtml_system_config_fieldset_location>Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location</adminhtml_system_config_fieldset_location>
                     <adminhtml_system_config_fieldset_hint>Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint</adminhtml_system_config_fieldset_hint>

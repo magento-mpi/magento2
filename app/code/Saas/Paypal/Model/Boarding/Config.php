@@ -83,6 +83,18 @@ class Saas_Paypal_Model_Boarding_Config extends Mage_Paypal_Model_Config
     );
 
     /**
+     * @var Mage_Core_Model_Resource_Config
+     */
+    protected $_resource;
+
+    public function __construct(Mage_Core_Model_Resource_Config $resource, $params = array())
+    {
+        $this->_resource = $resource;
+        parent::__construct($params);
+
+    }
+
+    /**
      * Get permission groups for requested payment method
      *
      * @param string $methodCode
@@ -102,7 +114,8 @@ class Saas_Paypal_Model_Boarding_Config extends Mage_Paypal_Model_Config
      * Check whether method available for checkout or not
      * Logic based on merchant country, methods dependence
      *
-     * @param string $method Method code
+     * @param null $methodCode
+     * @internal param string $method Method code
      * @return bool
      */
     public function isMethodAvailable($methodCode = null)
@@ -373,7 +386,7 @@ class Saas_Paypal_Model_Boarding_Config extends Mage_Paypal_Model_Config
      */
     public function setWasActivated($paymentMethod, $value, $scope = 'default', $scopeId = 0)
     {
-        Mage::getConfig()->saveConfig('payment/'.$paymentMethod.'/was_activated',
+        $this->_resource->saveConfig('payment/'.$paymentMethod.'/was_activated',
             $value, $scope, $scopeId);
         return $this;
     }

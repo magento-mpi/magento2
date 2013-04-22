@@ -1,0 +1,94 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_saas
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * @see Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro
+ */
+/** @var $this Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro */
+?>
+<?php echo $this->getRender(); ?>
+
+<script type="text/javascript">
+    Event.observe(window, "load", function() {
+        var paymentsProAuthMethodId                 = '<?php echo $this->getHtmlId() ?>';
+        var paymentsProApiCredOpt                   = '<?php echo $this->getAuthMethOpt('api_credentials') ?>';
+        var paymentsProPermissionsOpt               = '<?php echo $this->getAuthMethOpt('permissions') ?>';
+        var paymentsProBillAgrFieldSet              = 'payment_wpp_billing_agreement';
+        var paymentsProBillAgrEnable                = 'payment_wpp_billing_agreement_active';
+        var paymentsProApiCredEnable                = 'payment_wpp_required_settings_enable_wpp';
+        var paymentsProApiCredEnableRow             = 'row_' + paymentsProApiCredEnable;;
+        var paymentsProPermissionsEnable            = 'payment_wpp_required_settings_enable_wpp_boarding';
+        var paymentsProPermissionsEnableRow         = 'row_' + paymentsProPermissionsEnable;
+        var paymentsProApiCredEnableInitVal         = $(paymentsProApiCredEnable).value;
+        var paymentsProPermissionsEnableInitVal     = $(paymentsProPermissionsEnable).value;
+
+        if ($(paymentsProAuthMethodId).value == paymentsProPermissionsOpt) {
+            $(paymentsProApiCredEnableRow).hide();
+        } else if ($(paymentsProAuthMethodId).value == paymentsProApiCredOpt) {
+            $(paymentsProPermissionsEnableRow).hide();
+            <?php if($this->isWppApiCredActive() && !$this->getBusinessAccount()): ?>
+                setTimeout(function() {
+                    alert('<?php echo $this->__('The following error occurred: PayPal Express Checkout is required for Payments Pro. Please enable Express Checkout by completing the configuration for Payments Pro.'); ?>');
+                }, 10);
+            <?php endif; ?>
+        }
+
+        var paymentsProAuthMethodChanged = function() {
+            if ($(paymentsProAuthMethodId).value == paymentsProPermissionsOpt) {
+                $(paymentsProApiCredEnableRow).hide();
+                $(paymentsProPermissionsEnableRow).show();
+                $(paymentsProBillAgrEnable).value = 0;
+                if (paymentsProApiCredEnableInitVal == 1) {
+                    $(paymentsProApiCredEnable).value = 0;
+                    $(paymentsProPermissionsEnable).value = 1;
+                }
+                changeExpressCheckoutType(paymentsProPermissionsOpt);
+            } else if ($(paymentsProAuthMethodId).value == paymentsProApiCredOpt) {
+                $(paymentsProPermissionsEnableRow).hide();
+                $(paymentsProApiCredEnableRow).show();
+                if (paymentsProApiCredEnableInitVal == 1) {
+                    $(paymentsProApiCredEnable).value = 1;
+                    $(paymentsProPermissionsEnable).value = 0;
+                }
+                changeExpressCheckoutType(paymentsProApiCredOpt);
+            }
+        };
+        var changeExpressCheckoutType = function(ecType) {
+            if (typeof ecAuthenticationMethodField != 'undefined') {
+                $(ecAuthenticationMethodField.id).value = ecType;
+                fireEvent($(ecAuthenticationMethodField.id), 'change');
+            }
+        }
+        var paymentsProApiCredEnableChanged = function() {
+            if ($(paymentsProApiCredEnable).value == 0) {
+                $(paymentsProBillAgrEnable).value = 0;
+            }
+        }
+        Event.observe($(paymentsProAuthMethodId), 'change', paymentsProAuthMethodChanged);
+        Event.observe($(paymentsProApiCredEnable), 'change', paymentsProApiCredEnableChanged);
+    });
+</script>

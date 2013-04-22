@@ -63,6 +63,19 @@ class Saas_Paypal_Model_Boarding_Onboarding
     protected $_configType = 'Saas_Paypal_Model_Boarding_Config';
 
     /**
+     * @var Mage_Core_Model_Resource_Config
+     */
+    protected $_resource;
+
+    /**
+     * @param Mage_Core_Model_Resource_Config $resource
+     */
+    public function __construct(Mage_Core_Model_Resource_Config $resource)
+    {
+        $this->_resource = $resource;
+    }
+
+    /**
      * Config instance getter
      *
      * @return Saas_Paypal_Model_Boarding_Config
@@ -147,22 +160,13 @@ class Saas_Paypal_Model_Boarding_Onboarding
         if (!empty($details['token']) && !empty($details['tokenSecret'])) {
             $payerId = $api->getPayerId($details['token'], $details['tokenSecret']);
 
-            $this->_mageConfig()->saveConfig('paypal/onboarding/access_token', $details['token']);
-            $this->_mageConfig()->saveConfig('paypal/onboarding/access_token_secret', $details['tokenSecret']);
-            $this->_mageConfig()->saveConfig('paypal/onboarding/receiver_id', $payerId);
+            $this->_saveConfig('paypal/onboarding/access_token', $details['token'])
+                ->_saveConfig('paypal/onboarding/access_token_secret', $details['tokenSecret'])
+                ->_saveConfig('paypal/onboarding/receiver_id', $payerId);
 
             return $payerId;
         }
         return '';
-    }
-
-    /**
-     * Getter for Mage::getConfig()
-     * @return Mage_Core_Model_Config
-     */
-    protected function _mageConfig()
-    {
-        return Mage::getConfig();
     }
 
     /**
@@ -177,7 +181,7 @@ class Saas_Paypal_Model_Boarding_Onboarding
         $configPath = sprintf('payment/%s/status', $method);
 
         if ($force || Mage::getStoreConfig($configPath) != $status) {
-            Mage::getConfig()->saveConfig($configPath, $status);
+            $this->_saveConfig($configPath, $status);
         }
     }
 
@@ -193,7 +197,7 @@ class Saas_Paypal_Model_Boarding_Onboarding
         $configPath = sprintf('payment/%s/active', $method);
 
         if ($force || Mage::getStoreConfig($configPath) != $activity) {
-            Mage::getConfig()->saveConfig($configPath, $activity);
+            $this->_saveConfig($configPath, $activity);
             Mage::getSingleton('Mage_Backend_Model_Config')->setConfigDataValue($configPath, $activity);
         }
     }
@@ -255,7 +259,7 @@ class Saas_Paypal_Model_Boarding_Onboarding
             Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('An error has occurred while boarding process.'));
         }
 
-        Mage::getConfig()->saveConfig('paypal/onboarding/payment_method', $method);
+        $this->_saveConfig('paypal/onboarding/payment_method', $method);
 
         $this->_resetStoreConfig();
 
@@ -277,7 +281,7 @@ class Saas_Paypal_Model_Boarding_Onboarding
             ? ('payment/'. Mage_Paypal_Model_Config::METHOD_WPP_DIRECT .'/authentication_method')
             : ('payment/'. Saas_Paypal_Model_Boarding_Config::METHOD_EXPRESS_BOARDING .'/authentification_method');
 
-        $this->_mageConfig()->saveConfig(
+        $this->_saveConfig(
             $authConfigPath,
             Saas_Paypal_Model_System_Config_Source_AuthenticationMethod::TYPE_PERMISSIONS
         );
@@ -336,5 +340,18 @@ class Saas_Paypal_Model_Boarding_Onboarding
     protected function _getDefaultCountryCode()
     {
         return Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry();
+    }
+
+    /**
+     * @param $path
+     * @param $value
+     * @param string $scope
+     * @param int $scopeId
+     * @return $this
+     */
+    protected function _saveConfig($path, $value, $scope = 'default', $scopeId = 0)
+    {
+        $this->_resource->saveConfig($path, $value, $scope, $scopeId);
+        return $this;
     }
 }
