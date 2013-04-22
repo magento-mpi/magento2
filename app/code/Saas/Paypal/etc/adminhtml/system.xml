@@ -106,7 +106,7 @@
                                 <label>Authentication Method</label>
                                 <config_path>payment/paypal_direct/authentication_method</config_path>
                                 <source_model>Saas_Paypal_Model_System_Config_Source_AuthenticationMethod</source_model>
-                                <frontend_model>Saas_Paypal_Model_Adminhtml_System_Config_Authenticationmethod_PaymentsPro</frontend_model>
+                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro</frontend_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="business_account">
@@ -171,7 +171,7 @@
                                 <attribute type="status_label">Account Status</attribute>
                                 <attribute type="account_label">Paypal Account</attribute>
                                 <attribute type="account_id_label">Paypal Account ID</attribute>
-                                <frontend_model>Saas_Paypal_Model_Adminhtml_System_Config_BoardingStatus</frontend_model>
+                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus</frontend_model>
                                 <attribute type="payment_method">paypal_direct_boarding</attribute>
                                 <attribute type="status_config_path">payment/paypal_direct_boarding/status</attribute>
                                 <attribute type="account_config_path">paypal/onboarding/boarding_account</attribute>
@@ -541,7 +541,7 @@
                                 <label>Authentication Method</label>
                                 <frontend_class>ec-auth-method</frontend_class>
                                 <source_model>Saas_Paypal_Model_System_Config_Source_AuthenticationMethod</source_model>
-                                <frontend_model>Saas_Paypal_Model_System_Config_Source_AuthenticationMethod</frontend_model>
+                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_AuthenticationMethod</frontend_model>
                                 <config_path>payment/paypal_express_boarding/authentification_method</config_path>
                                 <attribute type="create_account_link">http://www.paypal.com/webapps/mpp/referral/paypal-express-checkout?partner_id=NB9WWHYEMVUMS</attribute>
                             </field>
@@ -565,7 +565,7 @@
                             <field id="boarding_business_account" sortOrder="10" showInDefault="1" showInWebsite="1">
                                 <label>Email to Send PayPal Payments</label>
                                 <config_path>paypal/onboarding/boarding_account</config_path>
-                                <frontend_model>Saas_Paypal_Model_Adminhtml_System_Config_BoardingAccount</frontend_model>
+                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingAccount</frontend_model>
                                 <attribute type="tooltip">Don't have a PayPal account? Simply enter your email address and start accepting payments immediately.</attribute>
                                 <attribute type="validate">validate-email</attribute>
                             </field>
@@ -573,12 +573,12 @@
                                 <label>Sandbox Mode</label>
                                 <config_path>paypal/onboarding/sandbox_flag</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                                <frontend_model>Saas_Paypal_Model_Adminhtml_System_Config_BoardingSandbox</frontend_model>
+                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingSandbox</frontend_model>
                             </field>
                             <field id="status" translate="label button_label status_label account_label" sortOrder="17" showInDefault="1" showInWebsite="1">
                                 <label>Boarding Status</label>
                                 <button_label>Setup or change your site permissions with Paypal</button_label>
-                                <frontend_model>Saas_Paypal_Model_Adminhtml_System_Config_BoardingSandbox</frontend_model>
+                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingSandbox</frontend_model>
                                 <attribute type="status_label">Account Status</attribute>
                                 <attribute type="account_label">Paypal Account</attribute>
                                 <attribute type="account_id_label">Paypal Account ID</attribute>
