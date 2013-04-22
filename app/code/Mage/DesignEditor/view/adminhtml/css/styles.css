@@ -1845,6 +1845,10 @@
     vertical-align: text-bottom;
 }
 
+.eq-ie8 .vde-image-sizing .action-reset .ui-button-text {
+    vertical-align: bottom;
+}
+
 #add_white_borders {
     margin-right: 8px;
 }
