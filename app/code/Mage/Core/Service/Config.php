@@ -14,18 +14,7 @@ use Zend\Server\Reflection\ReflectionMethod;
  */
 class Mage_Core_Service_Config
 {
-    /**#@+
-     * Cache parameters.
-     */
-    const WEBSERVICE_CACHE_NAME = Mage_Webapi_Model_Cache_Type::TYPE_IDENTIFIER;
-    const WEBSERVICE_CACHE_TAG = Mage_Webapi_Model_Cache_Type::CACHE_TAG;
-    /**#@-*/
-
-    /**#@+
-     * Version parameters.
-     */
     const VERSION_NUMBER_PREFIX = 'V';
-    /**#@-*/
 
     const CACHE_ID = 'services';
 
