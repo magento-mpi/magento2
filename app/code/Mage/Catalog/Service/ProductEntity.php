@@ -1,6 +1,6 @@
 <?php
 /**
- * API Product service.
+ * Catalog Product Entity Service.
  *
  * {license_notice}
  *
@@ -59,7 +59,7 @@ class Mage_Catalog_Service_ProductEntity extends Mage_Core_Service_Type_Abstract
     {
         $request = $this->prepareRequest(get_class($this), 'items', $request);
 
-        /** @var $collection Mage_Catalog_Model_Resource_Category_Collection */
+        /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
 
         $helper = $this->_serviceManager->getServiceHelper('Mage_Core_Service_Helper_Filters');

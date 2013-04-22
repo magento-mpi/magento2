@@ -89,13 +89,10 @@ $schema = array(
         'category_ids'                   => array(
             'required' => false
         ),
-        'options_container'              => array(
+        'has_options'                    => array(
             'required' => false
         ),
         'required_options'               => array(
-            'required' => false
-        ),
-        'has_options'                    => array(
             'required' => false
         ),
         'created_at'                     => array(
@@ -236,5 +233,40 @@ $schema = array(
         'stock_item'                     => array(
             'required' => true
         ),
+
+        'wishlist_enabled'               => array(
+            'required' => false
+        ),
+        'wishList_add_url'               => array(
+            'required'     => false,
+            'get_callback' => array('Mage_Wishlist_Helper_Data', 'getAddUrl')
+        ),
+        'compare_add_url'                => array(
+            'required'     => false,
+            'get_callback' => array('Mage_Catalog_Helper_Product_Compare', 'getAddUrl')
+        ),
+        'email_to_friend_url'            => array(
+            'required'     => false,
+            'get_callback' => array('Mage_Catalog_Helper_Product', 'getEmailToFriendUrl')
+        ),
+        'can_email_to_friend'            => array(
+            'required'     => false,
+            'get_callback' => array('Mage_Catalog_Block_Product_View', 'canEmailToFriend')
+        ),
+        'has_options'                    => array(
+            'required' => false
+        ),
+        'options_container'              => array(
+            'required' => false,
+            'default'  => 'container2'
+        ),
+        'json_config'                    => array(
+            'required'     => false,
+            'get_callback' => array('Mage_Catalog_Helper_Product', 'getJsonConfig')
+        ),
+        'submit_url_for_product'         => array(
+            'required'     => false,
+            'get_callback' => array('Mage_Catalog_Block_Product_View', 'getSubmitUrl')
+        )
     )
 );

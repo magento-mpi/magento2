@@ -120,64 +120,9 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
      */
     public function getJsonConfig()
     {
-        $config = array();
-        if (!$this->hasOptions()) {
-            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
-        }
+        $config = Mage::helper('Mage_Catalog_Helper_Product')->getJsonConfig($this->getProduct());
 
-        $_request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest(false, false, false);
-        /* @var $product Mage_Catalog_Model_Product */
-        $product = $this->getProduct();
-        $_request->setProductClassId($product->getTaxClassId());
-        $defaultTax = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($_request);
-
-        $_request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest();
-        $_request->setProductClassId($product->getTaxClassId());
-        $currentTax = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($_request);
-
-        $_regularPrice = $product->getPrice();
-        $_finalPrice = $product->getFinalPrice();
-        $_priceInclTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $_finalPrice, true);
-        $_priceExclTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $_finalPrice);
-        $_tierPrices = array();
-        $_tierPricesInclTax = array();
-        foreach ($product->getTierPrice() as $tierPrice) {
-            $_tierPrices[] = Mage::helper('Mage_Core_Helper_Data')->currency($tierPrice['website_price'], false, false);
-            $_tierPricesInclTax[] = Mage::helper('Mage_Core_Helper_Data')->currency(
-                Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, (int)$tierPrice['website_price'], true),
-                false, false);
-        }
-        $config = array(
-            'productId'           => $product->getId(),
-            'priceFormat'         => Mage::app()->getLocale()->getJsPriceFormat(),
-            'includeTax'          => Mage::helper('Mage_Tax_Helper_Data')->priceIncludesTax() ? 'true' : 'false',
-            'showIncludeTax'      => Mage::helper('Mage_Tax_Helper_Data')->displayPriceIncludingTax(),
-            'showBothPrices'      => Mage::helper('Mage_Tax_Helper_Data')->displayBothPrices(),
-            'productPrice'        => Mage::helper('Mage_Core_Helper_Data')->currency($_finalPrice, false, false),
-            'productOldPrice'     => Mage::helper('Mage_Core_Helper_Data')->currency($_regularPrice, false, false),
-            'priceInclTax'        => Mage::helper('Mage_Core_Helper_Data')->currency($_priceInclTax, false, false),
-            'priceExclTax'        => Mage::helper('Mage_Core_Helper_Data')->currency($_priceExclTax, false, false),
-            'defaultTax'          => $defaultTax,
-            'currentTax'          => $currentTax,
-            'idSuffix'            => '_clone',
-            'oldPlusDisposition'  => 0,
-            'plusDisposition'     => 0,
-            'plusDispositionTax'  => 0,
-            'oldMinusDisposition' => 0,
-            'minusDisposition'    => 0,
-            'tierPrices'          => $_tierPrices,
-            'tierPricesInclTax'   => $_tierPricesInclTax,
-        );
-
-        $responseObject = new Varien_Object();
-        Mage::dispatchEvent('catalog_product_view_config', array('response_object'=>$responseObject));
-        if (is_array($responseObject->getAdditionalOptions())) {
-            foreach ($responseObject->getAdditionalOptions() as $option=>$value) {
-                $config[$option] = $value;
-            }
-        }
-
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
+        return $config;
     }
 
     /**

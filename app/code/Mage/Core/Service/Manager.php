@@ -75,6 +75,19 @@ class Mage_Core_Service_Manager extends Varien_Object
     }
 
     /**
+     * Retrieve an object instance of given class name reference
+     *
+     * @param string $classRef
+     * @return $object
+     */
+    public function getObject($classRef)
+    {
+        $object = $this->_serviceFactory->createObjectInstance($classRef);
+        return $object;
+    }
+
+
+    /**
      * @param string $serviceClass
      * @param string $serviceMethod [optional]
      * @param string $version [optional]

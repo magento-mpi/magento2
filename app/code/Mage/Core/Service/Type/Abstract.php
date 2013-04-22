@@ -264,7 +264,8 @@ abstract class Mage_Core_Service_Type_Abstract
     public function applySchema(& $data, $schema)
     {
         foreach ($schema->getData('fields') as $key => $config) {
-            $this->_fetchValue($data, $key, $config, $schema);
+            $result = $this->_fetchValue($data, $key, $config, $schema);
+            $data->setData($key, $result);
         }
     }
 
@@ -276,6 +277,7 @@ abstract class Mage_Core_Service_Type_Abstract
                 $result[$_key] = $this->_fetchValue($data, $_key, $_config, $schema);
             }
             $data->setDataUsingMethod($key, $result);
+            return;
         }
 
         if (isset($config['get_callback'])) {
@@ -287,12 +289,9 @@ abstract class Mage_Core_Service_Type_Abstract
                 } else {
                     $result = $data->$config['get_callback']();
                 }
-            } else {var_dump($config['get_callback']);
-                $result = call_user_func($config['get_callback'], array(
-                    'data'   => $data,
-                    'config' => $config,
-                    'schema' => $schema
-                ));
+            } else {
+                $callbackObject = $this->_serviceManager->getObject($config['get_callback'][0]);
+                $result = $callbackObject->$config['get_callback'][1]($data);
             }
         } else {
             $result = $data->getDataUsingMethod($key);

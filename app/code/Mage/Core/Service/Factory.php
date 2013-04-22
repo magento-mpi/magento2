@@ -49,4 +49,15 @@ class Mage_Core_Service_Factory
     {
         return $this->_objectManager->create($serviceHelperClassRef);
     }
+
+    /**
+     * Create an instance.
+     *
+     * @param string $classRef
+     * @return object
+     */
+    public function createObjectInstance($classRef)
+    {
+        return $this->_objectManager->create($classRef);
+    }
 }
