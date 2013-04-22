@@ -1281,8 +1281,11 @@ fieldset.field [class^='fields-group-'] .field .control {
     Form Validation
 -------------------------------------- */
 label.mage-error {
+    display: block;
     color: red;
     text-align: left;
+    clear: both;
+    margin: 3px 0 0 0;
 }
 
 textarea.mage-error,
