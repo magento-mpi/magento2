@@ -171,6 +171,7 @@ strong { font-weight: 700; }
     display: inline-block;
     vertical-align: middle;
     text-align: center;
+    text-decoration: none;
   }
 }
 
@@ -189,6 +190,7 @@ strong { font-weight: 700; }
     display: inline-block;
     vertical-align: middle;
     text-align: center;
+    text-decoration: none;
   }
 }
 
@@ -2817,27 +2819,25 @@ select {
 
 .catalog-product-compare-index {
   .action.print {
-    float: right;
-    margin-bottom: 20px;
+    float:right;
+    margin-top:-50px;
   }
 }
-.comarision.wrapper {
-  clear: both;
+.comparison.wrapper {
+  clear:both;
   position: relative;
   z-index: 1;
   &:after {
     content:'';
     position: absolute;
     z-index: 2;
-    right:0;
-    top:0;
-    height:100%;
+    right:0; top:0; height:100%;
     width:15px;
 
   }
   margin-bottom:50px;
 }
-.comarision.container {
+.comparison.container {
   overflow-y: hidden;
   overflow-x: auto;
 }
@@ -2845,13 +2845,18 @@ select {
   table-layout: fixed;
 
   .cell.label {
-    width:140px;
-    padding-left:30px;
+    width:130px;
+    padding-left:10px;
     font-weight: 600;
     text-align: left;
-    border-right:1px solid @borderColor;
+    border-right:1px solid @primary2;
+    .attribute.label {
+      display: block;
+      width: 100%;
+      word-break:break-all;
+    }
     &.product {
-      border-bottom:1px solid @borderColor;
+      border-bottom:1px solid @primary2;
     }
   }
   .cell {
@@ -2860,8 +2865,13 @@ select {
     p:first-child {
       margin-top:0;
     }
+    .attibute.value {
+      width:100%;
+      overflow: hidden;
+    }
   }
   .cell.product {
+    width:140px;
     &.info {
       border-bottom:1px solid @primary2;
     }
@@ -2892,7 +2902,6 @@ select {
   .addto.links {
     margin-top:15px;
     padding-top:15px;
-    border-top:1px solid @primary2;
     font-size: 12px;
   }
   .cell.remove {
@@ -2920,11 +2929,13 @@ select {
   z-index: 2;
   top:0;
   left:0;
+  width:auto;
   background-color: @pageMainBg;
   th {
     background-color: @pageMainBg;
   }
 }
+
 
 /*
  *    Mage_Catalog
@@ -3217,7 +3228,6 @@ select {
     }
     .addto.links {
       padding: 10px 0 0;
-      border-top: 1px solid @primary2;
       span:hover {
         color: @primary3;
       }
@@ -3255,7 +3265,7 @@ select {
     .actionLink();
   }
   .field.choice.related {
-    margin:0 0 10px;
+    margin: 0 0 10px;
   }
 }
 
@@ -3265,6 +3275,7 @@ select {
 .block.related {
   clear:both;
   .blocklist();
+
 }
 
 .block.crosssell {
@@ -3292,7 +3303,8 @@ select {
     .item.product {
       .borderBox;
       width: 20%;
-      padding: 0 1%;
+      padding-left: 1%;
+      padding-right: 1%;
       .col2-left-layout &,
       .col2-right-layout &,
       .col3-layout & {
@@ -3306,8 +3318,6 @@ select {
     }
   }
 }
-
-.products.list.items {}
 
 .product.info.detailed {
   float: right;
@@ -3664,7 +3674,8 @@ select {
 
 .products.wrapper .products.list,
 .widget.new.grid .products.list,
-.widget.new.list .products.list {
+.widget.new.list .products.list,
+.widget.viewed.grid .products.list {
   .item {
     .product.photo {
       display: block;
@@ -3681,8 +3692,6 @@ select {
     border-color: transparent;
     border-width: 2px 2px 0 2px;
     background: transparent;
-    @tparams : background 0.0s linear 0.2s, border 0.0s linear 0.2s;
-    .transitions(@tparams);
     &:hover {
       border-color: @primary2;
       border-radius: 3px 3px 0 0;
@@ -3703,8 +3712,6 @@ select {
       visibility: hidden;
       .action.tocart,
       .secondary {
-        @tparams : visibility 0s linear 0.2s;
-        .transitions(@tparams);
         visibility: hidden;
       }
     }
@@ -3748,7 +3755,8 @@ select {
 }
 
 .products.wrapper.grid .products.list,
-.widget.new.grid .products.list {
+.widget.new.grid .products.list,
+.widget.viewed.grid .products.list {
   .item.product {
     .borderBox;
     width: 20%;
@@ -3911,6 +3919,7 @@ select {
     overflow: hidden;
     vertical-align: top;
     display: inline-block;
+    text-decoration: none;
   }
 }
 
@@ -5192,6 +5201,5 @@ and (max-width : 768px)  {
     }
   }
 }
-
 
 @import url(old.less);
