@@ -3661,6 +3661,200 @@ select:disabled {
 /*
  *    Mage_Catalog
  *
+ *    Compare
+----------------------------------------------------------------------------- */
+.block.compare > .title .qty {
+  font-size: 16px;
+  margin-right: -5px;
+}
+.block.compare > .title .qty:before {
+  content: '(';
+}
+.block.compare > .title .qty:after {
+  content: ')';
+}
+.block.compare .item {
+  padding-right: 20px;
+  overflow: hidden;
+}
+.block.compare .product.name {
+  float: left;
+}
+.block.compare .action.delete {
+  margin-right: -20px;
+  float: right;
+}
+.block.compare .action.compare {
+  display: inline-block;
+  border: none;
+  border-radius: 0;
+  background: #596078;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  color: #fff;
+  text-decoration: none;
+  float: right;
+}
+.block.compare .action.compare span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.block.compare .action.compare:focus,
+.block.compare .action.compare:active,
+.block.compare .action.compare:hover {
+  background: #14148f;
+}
+.block.compare .action.clear {
+  float: left;
+  margin-top: 10px;
+}
+.block.compare .actions {
+  margin-top: 15px;
+  *zoom: 1;
+}
+.block.compare .actions:before,
+.block.compare .actions:after {
+  content: "";
+  display: table;
+}
+.block.compare .actions:after {
+  clear: both;
+}
+.catalog-product-compare-index .action.print {
+  float: right;
+  margin-bottom: 20px;
+}
+.comarision.wrapper {
+  clear: both;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 50px;
+}
+.comarision.wrapper:after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 15px;
+}
+.comarision.container {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.data.comparison {
+  table-layout: fixed;
+}
+.data.comparison .cell.label {
+  width: 140px;
+  padding-left: 30px;
+  font-weight: 600;
+  text-align: left;
+  border-right: 1px solid #d9d9d9;
+}
+.data.comparison .cell.label.product {
+  border-bottom: 1px solid #d9d9d9;
+}
+.data.comparison .cell {
+  padding: 15px;
+  vertical-align: top;
+}
+.data.comparison .cell p:first-child {
+  margin-top: 0;
+}
+.data.comparison .cell.product.info {
+  border-bottom: 1px solid #bdc0cb;
+}
+.data.comparison .cell.attribute {
+  font-size: 12px;
+}
+.data.comparison td:last-child {
+  border-right: 1px solid #bdc0cb;
+}
+.data.comparison tr:nth-child(odd) .cell.attribute {
+  background-color: #ffffff;
+}
+.data.comparison .product.photo {
+  text-align: center;
+  display: block;
+  margin: 0 auto 15px;
+}
+.data.comparison .product.photo .img.photo.container {
+  display: inline-block !important;
+}
+.data.comparison .actions,
+.data.comparison .price-box,
+.data.comparison .product.rating,
+.data.comparison .product.name {
+  margin: 15px 0;
+}
+.data.comparison .addto.links {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #bdc0cb;
+  font-size: 12px;
+}
+.data.comparison .cell.remove {
+  padding-top: 0;
+  padding-bottom: 0;
+  text-align: right;
+}
+.data.comparison .cell.remove .action.delete {
+  float: right;
+  display: inline-block;
+  border: none;
+  border-radius: 0;
+  background: #596078;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  color: #fff;
+  text-decoration: none;
+  padding: 4px;
+  margin-right: -15px;
+}
+.data.comparison .cell.remove .action.delete span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.data.comparison .cell.remove .action.delete:focus,
+.data.comparison .cell.remove .action.delete:active,
+.data.comparison .cell.remove .action.delete:hover {
+  background: #14148f;
+}
+.data.comparison .cell.remove .action.delete span {
+  overflow: hidden;
+  line-height: 0;
+}
+.data.comparison .cell.remove .action.delete span:after {
+  content: "\e012";
+  font-size: 12px;
+}
+.comparison.headings {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+}
+.comparison.headings th {
+  background-color: #ffffff;
+}
+/*
+ *    Mage_Catalog
+ *
  *    Global Navigation
 ----------------------------------------------------------------------------- */
 .navigation.fixed > ul > .level-top {
