@@ -103,7 +103,6 @@
          * @protected
          */
         _onAssignConfirm: function() {
-            console.log('_onAssignConfirm');
             var stores = this._getCheckboxes();
             var dialog = this._getDialog();
 
@@ -188,7 +187,6 @@
          * @param themeId
          */
         assignThemeSuccess: function(response, stores, themeId) {
-            console.log('assignThemeSuccess');
             var dialog = this._getDialog();
             if (response.error) {
                 var message = [
@@ -197,7 +195,6 @@
                     '</div>'
                 ];
             } else {
-                console.log(response.success);
                 var message = [
                     '<div class="message-success">',
                     response.success,

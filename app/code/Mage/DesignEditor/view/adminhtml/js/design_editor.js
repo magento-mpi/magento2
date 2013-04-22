@@ -141,7 +141,6 @@
         },
 
         _onSaveConfirm: function(event, eventData) {
-            console.log('_onSaveConfirm');
             if (!eventData.save_url) {
                 throw Error('Save url is not defined');
             }
@@ -160,7 +159,6 @@
                         '</div>'
                     ];
                 } else {
-                    console.log(response.message);
                     message = [
                         '<div class="message-success">',
                         response.message,
@@ -196,12 +194,6 @@
 
         _onSaveAndAssign: function(event, eventData) {
            var saveAndAssignConfirmEvent = this.options.saveAndAssignConfirmEvent;
-
-            /*eventData.onSaveSuccess = function(response) {
-                if (response.error) {
-                    alert($.mage.__('Error') + ': "' + response.message + '".');
-                }
-            }*/
             eventData.confirm_buttons = [
                 {
                     text: 'Save',
@@ -213,43 +205,19 @@
                 {
                     text: 'Close',
                     click: function() {
-                        $( this ).dialog('close');
+                        $(this).dialog('close');
                     },
                     'class': 'action-close'
                 }
             ];
             $(event.target).trigger('assign', eventData);
-
-            /*var saveAndAssignConfirmEvent = this.options.saveAndAssignConfirmEvent;
-            if (eventData.confirm_message) {
-                var dialog = this._getDialog();
-                dialog.find('.messages').html('');
-                dialog.find('.confirm_message').html(eventData.confirm_message);
-
-                var buttons = [
-                    {
-                        text: 'Save',
-                        click: function() {
-                            $('body').trigger(saveAndAssignConfirmEvent, eventData);
-                        },
-                        'class': 'primary'
-                    },
-                    {
-                        text: 'Close',
-                        click: function() {
-                            $( this ).dialog('close');
-                        },
-                        'class': 'action-close'
-                    }
-                ];
-                dialog.dialog('option', 'buttons', buttons);
-                dialog.dialog('open');
-            } else {
-                $('body').trigger(saveAndAssignConfirmEvent, eventData);
-            }*/
         },
 
         _onSaveAndAssignConfirm: function(event, eventData) {
+            if (eventData.dialog) {
+                eventData.dialog.find('.messages').html('');
+            }
+
             //NOTE: Line below makes copy of eventData to have an ability to unset 'confirm_message' later
             // and to not miss this 'confirm_message' for next calls of _onSaveAndAssign
             var tempData = jQuery.extend({}, eventData);

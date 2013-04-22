@@ -351,7 +351,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 $editableTheme->getId()
             );
             $this->_themeContext->copyChanges();
-            $response = array('message' =>  $this->_helper->__('All changes applied'));
+            $response = array('message' =>  $this->_helper->__('Theme successfully saved: all changes applied'));
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $response = array('error' => true, 'message' => $this->_helper->__('Unknown error'));
