@@ -1047,7 +1047,6 @@ AdminOrder.prototype = {
                 enableElements('save');
                 jQuery('#edit_form').off('invalid-form.validate');
             });
-            jQuery('#edit_form').triggerHandler('save');
         }
         if (this.orderItemChanged) {
             if (confirm('You have item changes')) {
