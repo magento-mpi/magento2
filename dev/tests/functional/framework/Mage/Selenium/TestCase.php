@@ -3782,7 +3782,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->controlIsEditable(self::UIMAP_TYPE_FIELDSET, 'system_messages_list')
         ) {
             $this->clickControl('button', 'close_messages_list', false);
-            $this->waitForControlNotVisible(self::UIMAP_TYPE_FIELDSET, 'system_messages_list');
         }
     }
 

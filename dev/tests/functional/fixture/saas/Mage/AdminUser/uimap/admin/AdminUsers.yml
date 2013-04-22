@@ -21,3 +21,5 @@ new_admin_role:
                             -
                                 role_resources:
                                     xpath: //form[@id='role-edit-form']
+                                    checkboxes:
+                                        hub: //*[@data-ui-id='Saas_Launcher::hub']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
