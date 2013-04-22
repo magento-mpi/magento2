@@ -117,4 +117,18 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
         }
         return $select;
     }
+
+    /**
+     * Get total number of persistent entities in the system
+     *
+     * @return int
+     */
+    public function countAll()
+    {
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select();
+        $select->from($this->getMainTable(), 'COUNT(*)');
+        $result = (int)$adapter->fetchOne($select);
+        return $result;
+    }
 }
