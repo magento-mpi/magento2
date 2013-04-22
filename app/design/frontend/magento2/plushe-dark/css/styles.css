@@ -6991,14 +6991,6 @@ img[align="right"] {
 .no-display {
   display: none;
 }
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2
- * @copyright   {copyright}
- * @license     {license_link}
- */
 a,
 a:visited,
 a > span {

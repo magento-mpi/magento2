@@ -55,22 +55,6 @@
   font-weight: 400;
   font-style: normal;
 }
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 /*CSS3 transition*/
 /*all .25s ease|linear|ease-in|ease-out|ease-in-out|cubic-bezier*/
 /*.box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
@@ -78,25 +62,9 @@
   -moz-box-shadow: @arguments;
   -webkit-box-shadow: @arguments;
 }*/
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 /* =============================================================================
    Switchable terms
    ========================================================================== */
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 /*
     Fieldset
 -------------------------------------- */
@@ -5503,14 +5471,6 @@ body.type-bundle {
 .action.back.customization:hover {
   color: #74dc74;
 }
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 img[align="left"] {
   margin: 0 22px 22px 0;
 }
@@ -6931,25 +6891,9 @@ img[align="right"] {
   line-height: 1;
   font-weight: 400;
 }
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 .no-display {
   display: none;
 }
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 .button.btn-cart {
   border: none;
   border-radius: 0;
