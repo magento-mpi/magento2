@@ -32,7 +32,7 @@
  * @author      Magento Saas Team <saas@magentocommerce.com>
  */
 class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
-    extends Mage_Adminhtml_Block_System_Config_Form_Fieldset
+    extends Mage_Backend_Block_System_Config_Form_Fieldset
 {
     /**
      * Add conflicts resolution js code to the fieldset
