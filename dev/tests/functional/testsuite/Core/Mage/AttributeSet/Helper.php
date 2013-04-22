@@ -173,6 +173,7 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_AbstractHelper
             $this->clickControl('link', 'group_attribute', false);
             $this->moveto($assignedAttribute);
             $this->buttondown();
+            $this->focusOnElement($this->waitForControl('pageelement', 'unassigned_placeholder'));
             $this->moveto($this->getControlElement('pageelement', 'unassigned_placeholder'));
             $this->buttonup();
             if ($this->alertIsPresent()) {
