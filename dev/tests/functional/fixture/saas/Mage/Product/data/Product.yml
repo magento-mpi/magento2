@@ -366,3 +366,85 @@ simple_product:
     up_sells_data: *upSellsProductsData
     cross_sells_data: *crossSellsProductsData
     custom_options_data: *customOptionsData
+
+duplicate_simple:
+    product_attribute_set: Default
+    product_online_status: Enabled
+    general_name: Duplicate Simple Product(%randomize%)
+    general_sku: simple_sku_%randomize%
+    general_price: 4.95
+    general_tax_class: None
+    general_weight: 2.56
+    general_categories: Default Category
+    general_description: %noValue%
+    meta_information_meta_title: Meta Title for Simple Product
+    meta_information_meta_keywords: Meta Keywords for Simple Product
+    meta_information_meta_description: Meta Description for Product
+    prices_special_price: 3.99
+    prices_special_price_from: %currentDate%
+    prices_special_price_to: %currentDate%
+    prices_tier_price_data: *tierPriceData
+    prices_enable_googlecheckout: No
+    design_custom_design: %design_theme%
+    design_active_from: %currentDate%
+    design_active_to: %currentDate%
+    design_custom_layout_update: Custom Layout Update
+    design_page_layout: 3 columns
+    design_display_product_options_in: Product Info Column
+    autosettings_news_from: %currentDate%
+    autosettings_news_to: %currentDate%
+    autosettings_url_key: simple-product-url-key
+    autosettings_visibility: Catalog, Search
+    autosettings_short_description: %noValue%
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
+    websites: Main Website
+    related_data: &relatedDuplicate
+        related_1:
+            related_search_sku: %noValue%
+            related_product_position: 10
+    up_sells_data: &upSellsDuplicate
+        up_sells_1:
+            up_sells_search_sku: %noValue%
+            up_sells_product_position: 20
+    cross_sells_data: &crossSellsDuplicate
+        cross_sells_1:
+            cross_sells_search_sku: %noValue%
+            cross_sells_product_position: 30
+    custom_options_data: *customOptionsData
+
+duplicate_virtual:
+    product_attribute_set: Default
+    product_online_status: Enabled
+    general_name: Duplicate Virtual Product(%randomize%)
+    general_sku: virtual_sku_%randomize%
+    general_price: 14.95
+    general_tax_class: None
+    general_categories: Default Category
+    general_description: %noValue%
+    meta_information_meta_title: Meta Title for Virtual Product
+    meta_information_meta_keywords: Meta Keywords for Virtual Product
+    meta_information_meta_description: Meta Description for Product
+    prices_special_price: 13.99
+    prices_special_price_from: %currentDate%
+    prices_special_price_to: %currentDate%
+    prices_tier_price_data: *tierPriceData
+    prices_enable_googlecheckout: No
+    design_custom_design: %design_theme%
+    design_active_from: %currentDate%
+    design_active_to: %currentDate%
+    design_custom_layout_update: Custom Layout Update
+    design_page_layout: 3 columns
+    design_display_product_options_in: Product Info Column
+    autosettings_allow_gift_message_default: No
+    autosettings_allow_gift_message: Yes
+    autosettings_short_description: %noValue%
+    autosettings_news_from: %currentDate%
+    autosettings_news_to: %currentDate%
+    autosettings_url_key: virtual-product-url-key
+    autosettings_visibility: Catalog, Search
+    websites: Main Website
+    related_data: *relatedDuplicate
+    up_sells_data: *upSellsDuplicate
+    cross_sells_data: *crossSellsDuplicate
+    custom_options_data: *customOptionsData
