@@ -28,8 +28,8 @@ abstract class Mage_Core_Model_EntryPointAbstract
             $objectManager = new Mage_Core_Model_ObjectManager($definitions, $config);
         }
         $this->_objectManager = $objectManager;
-        $this->_verifyDirectories();
         Mage::setObjectManager($objectManager);
+        $this->_verifyDirectories();
     }
 
     /**
@@ -39,8 +39,7 @@ abstract class Mage_Core_Model_EntryPointAbstract
     {
         /** @var $verification Mage_Core_Model_Dir_Verification */
         $verification = $this->_objectManager->get('Mage_Core_Model_Dir_Verification');
-        $verification->createMissingDirectories()
-            ->verifyWriteAccess();
+        $verification->createAndVerifyDirectories();
     }
 
     /**
