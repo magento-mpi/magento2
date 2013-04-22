@@ -27,13 +27,7 @@
         <input type="checkbox" id="send_confirmation" name="order[send_confirmation]" value="1" checked="checked"/>
     </p>
     <?php endif; ?>
-    <p><?php
-        $_widget = new stdClass();
-        $_widget->button = new stdClass();
-        $_widget->button->event = 'save';
-        $_widget->button->target = '#edit_form';
-        echo $this->getButtonHtml(Mage::helper('Mage_Sales_Helper_Data')->__('Submit Order'),null ,'save', null, array('mage-init' => $_widget));
-    ?></p>
+    <p><?php echo $this->getButtonHtml(Mage::helper('Mage_Sales_Helper_Data')->__('Submit Order'),'order.submit()' ,'save'); ?></p>
 </div>
 
 <script type="text/javascript">

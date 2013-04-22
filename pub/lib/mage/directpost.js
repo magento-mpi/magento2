@@ -261,13 +261,13 @@ directPost.prototype = {
                 editForm.append(this.createHiddenElement('controller', this.controller));
                 disableElements('save');
                 // Temporary solutions will be removed after refactoring Authorize.Net (sales) functionality
-                editForm.triggerHandler('save');
+                order.submit();
             } else {
                 editForm.attr('action', this.nativeAction);
                 editForm.attr('target', '_top');
                 disableElements('save');
                 // Temporary solutions will be removed after refactoring Authorize.Net (sales) functionality
-                editForm.triggerHandler('save');
+                order.submit();
             }
         }
     },
