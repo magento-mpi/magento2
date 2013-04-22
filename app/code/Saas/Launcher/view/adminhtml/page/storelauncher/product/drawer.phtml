@@ -45,5 +45,16 @@ jQuery(function ($) {
 
     $('#image-container').baseImage();
     $('#media_gallery_content').productGallery({'template': '#media_gallery_content-template'});
+
+    $('#drawer').find('.wysiwyg-editor').each(function(index, element) {
+        tinyMCE.execCommand('mceRemoveControl', false, $(element).attr('id'));
+        tinyMCE.execCommand('mceAddControl', true, $(element).attr('id'));
+    });
+
+    $('#drawer').bind('drawerClose.drawer', function() {
+        $('#drawer').find('.wysiwyg-editor').each(function(index, element) {
+            tinyMCE.execCommand('mceRemoveControl', false, $(element).attr('id'));
+        });
+    });
 });
 </script>
