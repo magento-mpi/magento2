@@ -3802,6 +3802,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function clearInvalidedCache()
     {
+        //Skip for Saas
+        $fallbackOrder = $this->_configHelper->getFixturesFallbackOrder();
+        if (end($fallbackOrder) == 'saas') {
+            return;
+        }
         $this->navigate('cache_storage_management');
         $invalided = array('cache_disabled', 'cache_invalided');
         foreach ($invalided as $value) {
@@ -3830,6 +3835,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function reindexInvalidedData()
     {
+        //Skip for Saas
+        $fallbackOrder = $this->_configHelper->getFixturesFallbackOrder();
+        if (end($fallbackOrder) == 'saas') {
+            return;
+        }
         $this->navigate('index_management');
         $invalided = array('reindex_required', 'update_required');
         foreach ($invalided as $value) {
