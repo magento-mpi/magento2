@@ -7,9 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @service true
  */
-class Mage_Catalog_Service_CategoryEntity extends Mage_Core_Service_Type_DefaultEntity
+class Mage_Catalog_Service_CategoryEntity extends Mage_Core_Service_Type_Abstract
 {
     /**
      * Return resource object or resource object data.
@@ -124,6 +123,28 @@ class Mage_Catalog_Service_CategoryEntity extends Mage_Core_Service_Type_Default
         $category->move($parentNodeId, $prevNodeId);
 
         return true;
+    }
+
+    /**
+     * @param mixed $request
+     * @return $category | false
+     */
+    public function initCategoryToView($request)
+    {
+        try {
+            $category = $this->call('item', $request);
+
+            if (!$this->canShow($category)) {
+                return false;
+            }
+        } catch (Mage_Core_Service_Exception $e) {
+            $code = $e->getCode() ? $e->getCode() : Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR;
+            throw new Mage_Core_Service_Exception($e->getMessage(), $code);
+        } catch (Exception $e) {
+            throw new Mage_Core_Service_Exception($e->getMessage(), Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
+        }
+
+        return $category;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

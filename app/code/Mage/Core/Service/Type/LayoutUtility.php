@@ -59,7 +59,7 @@ class Mage_Core_Service_Type_LayoutUtility extends Mage_Core_Service_Type_Abstra
      * @param Mage_Core_Model_Layout $layout
      * @param mixed $handles
      */
-    public function load($layout, $handles = null)
+    public function loadLayout($layout, $handles = null)
     {
         // if handles were specified in arguments load them first
         if (false !== $handles && '' !== $handles) {
@@ -71,7 +71,7 @@ class Mage_Core_Service_Type_LayoutUtility extends Mage_Core_Service_Type_Abstra
         $layout->setIsLoaded(true);
     }
 
-    public function generate($layout)
+    public function generateLayout($layout)
     {
         $this->generateLayoutXml($layout);
 
@@ -138,15 +138,11 @@ class Mage_Core_Service_Type_LayoutUtility extends Mage_Core_Service_Type_Abstra
      * @param string $output
      * @return $this
      */
-    public function render($layout = null, $output = '')
+    public function renderLayout($layout = null, $output = '')
     {
-        //$this->_renderTitles($layout);
-
         if ('' !== $output) {
             $layout->addOutputElement($output);
         }
-
-        //Mage::dispatchEvent('controller_action_layout_render_before');
 
         if (!$layout->isDirectOutput()) {
             $output = $layout->getOutput();

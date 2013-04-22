@@ -117,14 +117,16 @@ abstract class Mage_Core_Service_Type_Abstract
             $fields = $schema->getData('fields');
             foreach ($data as $key => $value) {
                 if (array_key_exists($key, $fields)) {
-                    $config = $schema->getData($key);
-                    if (isset($config['content_type'])) {
-                        switch ($config['content_type']) {
+                    if (isset($fields[$key]['content_type'])) {
+                        switch ($fields[$key]['content_type']) {
                             case 'json':
                                 $value = json_decode($value, true);
                                 break;
                             case 'xml':
                                 $value = array(); // convert from xml to assoc array
+                                break;
+                            case 'list':
+                                $value = explode(',', $value);
                                 break;
                         }
 
@@ -145,6 +147,11 @@ abstract class Mage_Core_Service_Type_Abstract
     {
         if (is_array($data)) {
             $fields = $schema->getData('fields');
+            $requestedFields = $schema->getRequestedFields();
+            if (!empty($requestedFields)) {
+                $requestedFields = array_flip($requestedFields);
+                $fields = array_intersect_key($fields, $requestedFields);
+            }
             foreach ($data as $key => & $value) {
                 if (array_key_exists($key, $fields)) {
                     $config = $fields[$key];
@@ -198,20 +205,22 @@ abstract class Mage_Core_Service_Type_Abstract
      * @param string $serviceClass
      * @param string $serviceMethod
      * @param mixed & $response
-     * @param mixed $context
+     * @param mixed $request
      * @return bool
      */
-    public function prepareResponse($serviceClass, $serviceMethod, & $response, $context)
+    public function prepareResponse($serviceClass, $serviceMethod, & $response, $request)
     {
-        $responseSchema = $context->getResponseSchema();
+        $responseSchema = $request->getResponseSchema();
 
         if (!$responseSchema instanceof Magento_Data_Schema) {
             $params = $responseSchema;
-            $responseSchema = $this->_serviceManager->getResponseSchema($serviceClass, $serviceMethod, $context->getVersion());
+            $responseSchema = $this->_serviceManager->getResponseSchema($serviceClass, $serviceMethod, $request->getVersion());
             if (!empty($params) && is_array($params)) {
                 $responseSchema->addData($params);
             }
         }
+
+        $responseSchema->setRequestedFields($request->getFields());
 
         if ($response instanceof Varien_Object) {
             $data = $response->getData();

@@ -28,6 +28,13 @@ $schema = array(
                     'class' => 'Magento_Validator_Int'
                 )
             )
+        ),
+        'fields'    => array(
+            'label'        => 'Partial Response Fields List',
+            'type'         => 'mixed',
+            'required'     => false,
+            'default'      => null,
+            'content_type' => 'list'
         )
     )
 );
