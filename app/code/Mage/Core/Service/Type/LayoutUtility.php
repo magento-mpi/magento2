@@ -33,37 +33,28 @@ class Mage_Core_Service_Type_LayoutUtility extends Mage_Core_Service_Type_Abstra
         $this->_layoutFactory   = $layoutFactory;
     }
 
-    public function addLayoutHandles($layout, $handles)
-    {
-        $layout->getUpdate()->addHandle($handles);
-    }
-
     /**
-     * Add layout updates handles associated with the action page
+     * Retrieve layout object
      *
-     * @param Mage_Core_Model_Layout $layout
-     * @param string $handle
-     * @param array $parameters page parameters
-     * @return bool
+     * @return Mage_Core_Model_Layout
      */
-    public function addPageLayoutHandles($layout, $handle, array $parameters = array())
+    public function getLayout($area)
     {
-        $pageHandles = array($handle);
-        foreach ($parameters as $key => $value) {
-            $pageHandles[] = $handle . '_' . $key . '_' . $value;
-        }
-        return $layout->getUpdate()->addPageHandles(array_reverse($pageHandles));
+        return $this->_layoutFactory->createLayout(array('area' => $area));
     }
 
     /**
      * @param Mage_Core_Model_Layout $layout
-     * @param mixed $handles
+     * @param mixed $handle
      */
-    public function loadLayout($layout, $handles = null)
+    public function loadLayout($layout, $handle = null)
     {
-        // if handles were specified in arguments load them first
-        if (false !== $handles && '' !== $handles) {
-            $layout->getUpdate()->addHandle($handles ? $handles : 'default');
+        if (null === $handle) {
+            $handle = 'default';
+        }
+
+        if ($handle) {
+            $this->addLayoutHandle($layout, $handle);
         }
 
         $this->loadLayoutUpdates($layout);
@@ -71,13 +62,11 @@ class Mage_Core_Service_Type_LayoutUtility extends Mage_Core_Service_Type_Abstra
         $layout->setIsLoaded(true);
     }
 
-    public function generateLayout($layout)
+    public function addLayoutHandle($layout, $handle)
     {
-        $this->generateLayoutXml($layout);
-
-        $this->generateLayoutBlocks($layout);
-
-        $layout->setIsGenerated(true);
+        if ($handle) {
+            $layout->getUpdate()->addHandle($handle);
+        }
     }
 
     public function loadLayoutUpdates($layout)
@@ -90,8 +79,15 @@ class Mage_Core_Service_Type_LayoutUtility extends Mage_Core_Service_Type_Abstra
         Magento_Profiler::start('layout_load');
         $layout->getUpdate()->load();
         Magento_Profiler::stop('layout_load');
+    }
 
-        return $this;
+    public function generateLayout($layout)
+    {
+        $this->generateLayoutXml($layout);
+
+        $this->generateLayoutBlocks($layout);
+
+        $layout->setIsGenerated(true);
     }
 
     public function generateLayoutXml($layout = null)
@@ -109,8 +105,6 @@ class Mage_Core_Service_Type_LayoutUtility extends Mage_Core_Service_Type_Abstra
             'controller_action_layout_generate_xml_after',
             array('layout' => $layout)
         );
-
-        return $this;
     }
 
     public function generateLayoutBlocks($layout = null)
@@ -129,14 +123,12 @@ class Mage_Core_Service_Type_LayoutUtility extends Mage_Core_Service_Type_Abstra
             'controller_action_layout_generate_blocks_after',
             array('layout' => $layout)
         );
-
-        return $this;
     }
 
     /**
      * @param null $layout
      * @param string $output
-     * @return $this
+     * @return $string $output | true
      */
     public function renderLayout($layout = null, $output = '')
     {
@@ -151,30 +143,5 @@ class Mage_Core_Service_Type_LayoutUtility extends Mage_Core_Service_Type_Abstra
         }
 
         return true;
-    }
-
-    protected function _renderTitles($layout, $titles)
-    {
-        if ($titles) {
-            $titleBlock = $layout->getBlock('head');
-            if ($titleBlock) {
-                $title = trim($titleBlock->getTitle());
-                if ($title) {
-                    array_unshift($titles, $title);
-                }
-
-                $titleBlock->setTitle(array_reverse($titles));
-            }
-        }
-    }
-
-    /**
-     * Retrieve layout object
-     *
-     * @return Mage_Core_Model_Layout
-     */
-    public function getLayout($area)
-    {
-        return $this->_layoutFactory->createLayout(array('area' => $area));
     }
 }

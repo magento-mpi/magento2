@@ -15,9 +15,18 @@
             <title>Layout Service</title>
             <class>Mage_Core_Service_Type_LayoutUtility</class>
             <methods>
+                <getLayout>
+                    <title>Retrieve an empty Layout instance</title>
+                </getLayout>
                 <loadLayout>
-                    <title>Retrieve Layout</title>
+                    <title>Load Layout</title>
                 </loadLayout>
+                <addLayoutHandle>
+                    <title>Add Layout Handle to render</title>
+                </addLayoutHandle>
+                <loadLayoutUpdates>
+                    <title>Load Layout Updates</title>
+                </loadLayoutUpdates>
                 <generateLayout>
                     <title>Generate Layout</title>
                 </generateLayout>

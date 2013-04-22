@@ -52,6 +52,11 @@ class Mage_Core_Service_Config
     protected $_moduleReader;
 
     /**
+     * @var Varien_Object
+     */
+    protected $_services;
+
+    /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
@@ -109,7 +114,7 @@ class Mage_Core_Service_Config
         } else {
             $services = $this->_getReader()->getServices();
 
-            $data = $this->toArray($services);
+            $data = $this->_toArray($services);
 
             $this->_saveToCache(serialize($data));
             $_array = isset($data['config']['services']) ? $data['config']['services'] : array();
@@ -141,7 +146,7 @@ class Mage_Core_Service_Config
         return $this;
     }
 
-    public function toArray($root)
+    protected function _toArray($root)
     {
         $result = array();
 
@@ -171,7 +176,7 @@ class Mage_Core_Service_Config
             $child = $children->item($i);
 
             if (!isset($result[$child->nodeName])) {
-                $result[$child->nodeName] = $this->toArray($child);
+                $result[$child->nodeName] = $this->_toArray($child);
             } else {
                 if (!isset($group[$child->nodeName])) {
                     $tmp = $result[$child->nodeName];
@@ -179,7 +184,7 @@ class Mage_Core_Service_Config
                     $group[$child->nodeName] = 1;
                 }
 
-                $result[$child->nodeName][] = $this->toArray($child);
+                $result[$child->nodeName][] = $this->_toArray($child);
             }
         }
 
