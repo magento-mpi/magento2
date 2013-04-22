@@ -144,7 +144,7 @@
         <layout>
             <updates>
                 <saas_paypal>
-                    <file>saas/paypal.xml</file>
+                    <file>layout.xml</file>
                 </saas_paypal>
             </updates>
         </layout>
