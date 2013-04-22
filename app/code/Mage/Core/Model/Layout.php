@@ -17,6 +17,7 @@
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 {
@@ -161,6 +162,16 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     protected $_translator;
 
+    protected $_datasources = array();
+
+    protected $_dataSourceFactory;
+
+    /**
+     * Renderers registered for particular name
+     * @var array
+     */
+    protected $_renderers = array();
+
     /**
      * @param Mage_Core_Model_BlockFactory $blockFactory
      * @param Magento_Data_Structure $structure
@@ -175,6 +186,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         Mage_Core_Model_Layout_Argument_Processor $argumentProcessor,
         Mage_Core_Model_Layout_Translator $translator,
         Mage_Core_Model_Layout_ScheduledStructure $scheduledStructure,
+        Magento_Datasource_Factory $dataSourceFactory,
         $area = Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA
     ) {
         $this->_blockFactory = $blockFactory;
@@ -186,6 +198,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
         $this->_renderingOutput = new Varien_Object;
         $this->_scheduledStructure = $scheduledStructure;
+        $this->_dataSourceFactory = $dataSourceFactory;
     }
 
     /**
@@ -274,6 +287,10 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $this->_scheduledStructure->flushScheduledStructure();
 
         $this->_readStructure($this->getNode());
+
+        $this->_dataSourceFactory
+            ->init($this->getDatasources());
+
         while (false === $this->_scheduledStructure->isStructureEmpty()) {
             $this->_scheduleElement(key($this->_scheduledStructure->getStructure()));
         };
@@ -365,6 +382,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             switch ($node->getName()) {
                 case self::TYPE_CONTAINER:
                 case self::TYPE_BLOCK:
+                    $this->_initDataSources($node);
                     $this->_scheduleStructure($node, $parent);
                     $this->_readStructure($node);
                     break;
@@ -398,6 +416,32 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                     break;
             }
         }
+    }
+
+    /**
+     * Grab information about data source from the node
+     *
+     * @param Mage_Core_Model_Layout_Element $node
+     * @return Mage_Core_Model_Layout
+     */
+    protected function _initDataSources($node)
+    {
+        if (!$dataSources = $node->xpath('data')) {
+            return $this;
+        }
+        $nodeName = $node->getAttribute('name');
+        foreach ($dataSources as $dataSourceNode) {
+            $dataSourceName = $dataSourceNode->getAttribute('service-call');
+            if (isset($this->_datasources[$dataSourceName])) {
+                $this->_datasources[$dataSourceName]['namespaces'][$nodeName] =
+                    $dataSourceNode->getAttribute('alias');
+            } else {
+                $this->_datasources[$dataSourceName] = array(
+                    'namespaces' => array($nodeName => $dataSourceNode->getAttribute('alias'))
+                );
+            }
+        }
+        return $this;
     }
 
     /**
@@ -737,10 +781,21 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
 
         $arguments = $this->_argumentProcessor->process($arguments);
+        $dictionary = $this->_dataSourceFactory->getByNamespace((string)$node['name']);
 
-        $block = $this->_createBlock($className, $elementName, array('data' => $arguments));
+        $block = $this->_createBlock($className, $elementName,
+            array('data' => $arguments, 'dictionary' => $dictionary));
+
+        if (!empty($node['module'])) {
+            $block->setModuleName((string)$node['module']);
+        }
+
         if (!empty($node['template'])) {
-            $block->setTemplate((string)$node['template']);
+            $templateFileName = (string)$node['template'];
+            if ($block instanceof Mage_Core_Block_Template) {
+                $block->assign($dictionary);
+            }
+            $block->setTemplate($templateFileName);
         }
 
         $this->_scheduledStructure->unsetElement($elementName);
@@ -752,6 +807,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
 
         return $block;
+    }
+
+    public function getDatasources()
+    {
+        return $this->_datasources;
     }
 
     /**
@@ -1065,6 +1125,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         unset($args['@attributes']);
 
         foreach ($args as $key => $arg) {
+            $matches = array();
             if (($arg instanceof Mage_Core_Model_Layout_Element)) {
                 if (isset($arg['helper'])) {
                     $args[$key] = $this->_getArgsByHelper($arg);
@@ -1077,6 +1138,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                         $args[$key] = $arr;
                     }
                 }
+            } else if (preg_match('/\{\{([a-zA-Z\.]*)\}\}/', $arg, $matches)) {
+                $args[$key] = $this->_dataSourceFactory->getArgumentValue($matches[1]);
             }
         }
 
@@ -1522,5 +1585,77 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function getBlockFactory()
     {
         return $this->_blockFactory;
+    }
+
+    /**
+     * @param $namespace
+     * @param $staticType
+     * @param $dynamicType
+     * @param $type
+     * @param $template
+     * @param string $dataSourceName
+     * @param array $data
+     * @return $this
+     */
+    public function addAdjustableRenderer($namespace, $staticType, $dynamicType, $type, $template,
+        $dataSourceName = '', $data = array()
+    ) {
+        if (!isset($namespace)) {
+            $this->_renderers[$namespace] = array();
+        }
+        if (!isset($namespace)) {
+            $this->_renderers[$namespace][$staticType] = array();
+        }
+        $this->_renderers[$namespace][$staticType][$dynamicType] = array(
+            'type' => $type,
+            'template' => $template,
+            'dataSourceName' => $dataSourceName,
+            'data' => $data
+        );
+        return $this;
+    }
+
+    /**
+     * @param $namespace
+     * @param $staticType
+     * @param $dynamicType
+     * @return null
+     */
+    public function getRendererOptions($namespace, $staticType, $dynamicType)
+    {
+        if (!isset($this->_renderers[$namespace])) {
+            return null;
+        }
+        if (!isset($this->_renderers[$namespace][$staticType])) {
+            return null;
+        }
+        if (!isset($this->_renderers[$namespace][$staticType][$dynamicType])) {
+            return null;
+        }
+        return $this->_renderers[$namespace][$staticType][$dynamicType];
+    }
+
+    /**
+     * @param $namespace
+     * @param $staticType
+     * @param $dynamicType
+     * @param $data
+     */
+    public function executeRenderer($namespace, $staticType, $dynamicType, $data = array())
+    {
+        if ($options = $this->getRendererOptions($namespace, $staticType, $dynamicType)) {
+            $dictionary = array();
+            if (!empty($options['dataSourceName'])) {
+                $dictionary = $this->_dataSourceFactory->get($options['dataSourceName']);
+            }
+            /** @var $block Mage_Core_Block_Template */
+            $block = $this->createBlock($options['type'], '')
+                ->setData($data)
+                ->assign($dictionary)
+                ->setTemplate($options['template'])
+                ->assign($data);
+
+            echo $block->toHtml();
+        }
     }
 }

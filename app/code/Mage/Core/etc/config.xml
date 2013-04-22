@@ -95,6 +95,7 @@
             <preferences>
                 <Mage_Core_Model_Session_Abstract>Mage_Core_Model_Session</Mage_Core_Model_Session_Abstract>
                 <Mage_Core_Model_LocaleInterface>Mage_Core_Model_Locale</Mage_Core_Model_LocaleInterface>
+                <Magento_Datasource_Config_Interface>Mage_Core_Model_Datasource_Config</Magento_Datasource_Config_Interface>
             </preferences>
             <Magento_Data_Structure>
                 <shared>0</shared>
@@ -110,6 +111,9 @@
             <Mage_Core_Model_Page_Asset_Collection>
                 <shared>0</shared>
             </Mage_Core_Model_Page_Asset_Collection>
+            <Mage_Core_Block_Twig_Wrapper>
+                <shared>0</shared>
+            </Mage_Core_Block_Twig_Wrapper>
         </di>
     </global>
     <frontend>
