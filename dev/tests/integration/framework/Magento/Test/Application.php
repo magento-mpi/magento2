@@ -172,9 +172,9 @@ class Magento_Test_Application
         $objectManager->get('Mage_Core_Model_Resource')
             ->setCache(Mage::getObjectManager()->get('Mage_Core_Model_CacheInterface'));
 
+        /** @var Mage_Core_Model_Dir_Verification $verification */
         $verification = $objectManager->get('Mage_Core_Model_Dir_Verification');
-        $verification->createMissingDirectories()
-            ->verifyWriteAccess();
+        $verification->createAndVerifyDirectories();
 
         Mage::getConfig(); // Loading full config to initialize global application area
     }

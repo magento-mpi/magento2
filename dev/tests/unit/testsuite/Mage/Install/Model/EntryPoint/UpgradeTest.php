@@ -28,11 +28,7 @@ class Mage_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_TestCa
 
         $dirVerification = $this->getMock('Mage_Core_Model_Dir_Verification', array(), array(), '', false);
         $dirVerification->expects($this->once())
-            ->method('createMissingDirectories')
-            ->will($this->returnValue($dirVerification));
-        $dirVerification->expects($this->once())
-            ->method('verifyWriteAccess')
-            ->will($this->returnValue($dirVerification));
+            ->method('createAndVerifyDirectories');
 
         $cacheFrontend = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
         $cacheFrontend->expects($this->once())->method('clean')->with('all', array());

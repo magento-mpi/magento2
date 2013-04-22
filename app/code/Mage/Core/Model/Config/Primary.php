@@ -199,23 +199,6 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base impleme
             ),
         ));
 
-        if ($appMode == Mage_Core_Model_App_State::MODE_PRODUCTION) {
-            $objectManager->configure(array(
-                'Mage_Core_Model_Dir_Verification' => array(
-                    'parameters' => array(
-                        'writableDirCodes' => array(
-                            Mage_Core_Model_Dir::MEDIA,
-                            Mage_Core_Model_Dir::VAR_DIR,
-                            Mage_Core_Model_Dir::TMP,
-                            Mage_Core_Model_Dir::CACHE,
-                            Mage_Core_Model_Dir::LOG,
-                            Mage_Core_Model_Dir::SESSION,
-                        ),
-                    ),
-                ),
-            ));
-        }
-
         $configurators = $this->getNode('global/configurators');
         if ($configurators) {
             $configurators = $configurators->asArray();
