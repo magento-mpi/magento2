@@ -12,7 +12,7 @@ class Mage_Core_Model_Website_Limitation
     /**
      * XML-node that stores limitation of number of websites in the system
      */
-    const XML_PATH_NUM_PRODUCTS = 'limitations/website';
+    const XML_PATH_NUM_WEBSITES = 'limitations/website';
 
     /**
      * @var Mage_Core_Model_Resource_Website
@@ -43,7 +43,7 @@ class Mage_Core_Model_Website_Limitation
      */
     public function isCreateRestricted()
     {
-        $limit = (int)$this->_config->getNode(self::XML_PATH_NUM_PRODUCTS);
+        $limit = (int)$this->_config->getNode(self::XML_PATH_NUM_WEBSITES);
         if ($limit > 0) {
             return $this->_resource->countAll() >= $limit;
         }
@@ -57,6 +57,6 @@ class Mage_Core_Model_Website_Limitation
      */
     public function getCreateRestrictedMessage()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->__('Maximum allowed number of websites is reached.');
+        return Mage::helper('Mage_Core_Helper_Data')->__('You are using the maximum number of Websites allowed.');
     }
 }
