@@ -472,12 +472,8 @@
     border: none;
 }
 
-.ui-dialog .ui-dialog-buttonset {
-    text-align: right;
-}
-
 .ui-dialog .ui-dialog-buttonset button {
-    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .ui-dialog .note {
