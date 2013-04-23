@@ -266,10 +266,7 @@
                     </depends>
                 </group>
             </group>
-            <group id="paypal_payments">
-                <depends>
-                    <field id="*/account/merchant_country" separator=","/>
-                </depends>
+            <group id="paypal_payments" showInDefault="0" showInWebsite="0" showInStore="0">
                 <group id="payflow_advanced" type="text" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
                     <label>Payments Advanced (Includes Express Checkout)</label>
                     <fieldset_css>pp-method-general</fieldset_css>
