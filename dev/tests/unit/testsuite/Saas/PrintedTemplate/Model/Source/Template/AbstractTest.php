@@ -61,6 +61,7 @@ class Saas_PrintedTemplate_Model_Source_Template_AbstractTest extends PHPUnit_Fr
 
         $collectionDb = $this->getMockBuilder('Varien_Data_Collection_Db')
             ->setMethods(array('addFieldToFilter', 'toOptionArray'))
+            ->disableOriginalConstructor()
             ->getMock();
         $collectionDb->expects($this->any())
             ->method('addFieldToFilter')

@@ -64,6 +64,13 @@
                 </product_attributes>
             </item>
         </wishlist>
+        <di>
+            <Mage_Wishlist_Model_Resource_Item_Collection_Grid>
+                <parameters>
+                    <resource>Mage_Wishlist_Model_Resource_Item</resource>
+                </parameters>
+            </Mage_Wishlist_Model_Resource_Item_Collection_Grid>
+        </di>
     </global>
     <frontend>
         <routers>

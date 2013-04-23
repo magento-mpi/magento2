@@ -9,7 +9,7 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Option_CollectionTest extends 
 {
     public function testAddProductFilter()
     {
-        $collection = new Enterprise_GiftRegistry_Model_Resource_Item_Option_Collection;
+        $collection = Mage::getModel('Enterprise_GiftRegistry_Model_Resource_Item_Option_Collection');
         $select = $collection->getSelect();
         $this->assertSame(array(), $select->getPart(Zend_Db_Select::WHERE));
 
@@ -24,7 +24,7 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Option_CollectionTest extends 
 
     public function testAddProductFilterZero()
     {
-        $collection = new Enterprise_GiftRegistry_Model_Resource_Item_Option_Collection;
+        $collection = Mage::getModel('Enterprise_GiftRegistry_Model_Resource_Item_Option_Collection');
         $collection->addProductFilter(0);
         $this->assertSame(array(), $collection->getSelect()->getPart(Zend_Db_Select::WHERE));
         foreach ($collection as $item) {

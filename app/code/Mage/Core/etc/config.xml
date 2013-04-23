@@ -95,10 +95,46 @@
             <preferences>
                 <Mage_Core_Model_Session_Abstract>Mage_Core_Model_Session</Mage_Core_Model_Session_Abstract>
                 <Mage_Core_Model_LocaleInterface>Mage_Core_Model_Locale</Mage_Core_Model_LocaleInterface>
+                <Varien_Data_Collection_Db_FetchStrategyInterface>Varien_Data_Collection_Db_FetchStrategy_Query</Varien_Data_Collection_Db_FetchStrategyInterface>
             </preferences>
             <Magento_Data_Structure>
                 <shared>0</shared>
             </Magento_Data_Structure>
+            <Mage_Core_Model_Resource_Website_Collection_FetchStrategy>
+                <parameters>
+                    <cache>Mage_Core_Model_Cache_Type_Collection</cache>
+                </parameters>
+            </Mage_Core_Model_Resource_Website_Collection_FetchStrategy>
+            <Mage_Core_Model_Resource_Store_Group_Collection_FetchStrategy>
+                <parameters>
+                    <cache>Mage_Core_Model_Cache_Type_Collection</cache>
+                </parameters>
+            </Mage_Core_Model_Resource_Store_Group_Collection_FetchStrategy>
+            <Mage_Core_Model_Resource_Store_Collection_FetchStrategy>
+                <parameters>
+                    <cache>Mage_Core_Model_Cache_Type_Collection</cache>
+                </parameters>
+            </Mage_Core_Model_Resource_Store_Collection_FetchStrategy>
+            <Mage_Core_Model_Resource_Website_Collection>
+                <parameters>
+                    <fetchStrategy>Mage_Core_Model_Resource_Website_Collection_FetchStrategy</fetchStrategy>
+                </parameters>
+            </Mage_Core_Model_Resource_Website_Collection>
+            <Mage_Core_Model_Resource_Website_Grid_Collection>
+                <parameters>
+                    <fetchStrategy>Mage_Core_Model_Resource_Website_Collection_FetchStrategy</fetchStrategy>
+                </parameters>
+            </Mage_Core_Model_Resource_Website_Grid_Collection>
+            <Mage_Core_Model_Resource_Store_Group_Collection>
+                <parameters>
+                    <fetchStrategy>Mage_Core_Model_Resource_Store_Group_Collection_FetchStrategy</fetchStrategy>
+                </parameters>
+            </Mage_Core_Model_Resource_Store_Group_Collection>
+            <Mage_Core_Model_Resource_Store_Collection>
+                <parameters>
+                    <fetchStrategy>Mage_Core_Model_Resource_Store_Collection_FetchStrategy</fetchStrategy>
+                </parameters>
+            </Mage_Core_Model_Resource_Store_Collection>
             <Mage_Core_Model_Store_StorageFactory>
                 <parameters>
                     <config>Mage_Core_Model_Config_Proxy</config>
