@@ -67,7 +67,6 @@
         <catalog_product translate="title" module="Mage_Catalog">
             <title>Catalog Product Service</title>
             <class>Mage_Catalog_Service_ProductEntity</class>
-            <api_version>1.0.0</api_version>
             <methods>
                 <create>
                     <title>Create new product</title>
