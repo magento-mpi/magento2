@@ -1174,7 +1174,7 @@ form.search.advanced {
       top: 0;
       color: @navBg;
     }
-    }
+  }
 }
 
 .block.add.review {
@@ -1727,7 +1727,7 @@ select {
     }
 
     .field.password {
-//      margin: 20px 30% 0 0;
+      //      margin: 20px 30% 0 0;
     }
     .field.choice {
       width: 100%;
@@ -2011,12 +2011,12 @@ select {
       margin-top:0;
     }
     &:before {
-//      content:'';
-//      border-top:1px solid @primary2;
-//      display: block;
-//      height:0px;
-//      overflow: hidden;
-//      margin:0 0 10px;
+      //      content:'';
+      //      border-top:1px solid @primary2;
+      //      display: block;
+      //      height:0px;
+      //      overflow: hidden;
+      //      margin:0 0 10px;
     }
   }
   .item.options {
@@ -2042,19 +2042,19 @@ select {
   float: left;
   width: 665px;
   thead tr {
-   th {
-     padding: 3px 10px;
-     .tax-flag {
-       white-space: nowrap;
-     }
-     &.qty {
-       text-align: center;
-     }
-   }
-   &:first-child th {
-     font-weight: 600;
-     text-transform: uppercase;
-   }
+    th {
+      padding: 3px 10px;
+      .tax-flag {
+        white-space: nowrap;
+      }
+      &.qty {
+        text-align: center;
+      }
+    }
+    &:first-child th {
+      font-weight: 600;
+      text-transform: uppercase;
+    }
   }
   tbody {
     &:nth-child(even) {
@@ -2079,7 +2079,7 @@ select {
 }
 .cart.summary {
   margin-top: 33px;
-  background: @primary1;
+  background: @reconSecondary2;
   float: right;
   width: 290px;
   padding: 20px;
@@ -2316,6 +2316,9 @@ select {
     > .content {
       text-align: left;
       width: 310px;
+      .product.photo + .product.details {
+        margin-left: 69px;
+      }
       .subtotal {
         clear: both;
         padding: 10px;
@@ -2588,7 +2591,7 @@ select {
       color: @primary1;
       span {
         color: @primary1;
-    }
+      }
     }
     .product.options.wrapper + .action.edit {
       &:before {
@@ -3057,7 +3060,7 @@ select {
         .pageWidth;
         padding-top: @subNavPadding;
         padding-bottom: @subNavPadding;
-      /* Submenu styles */
+        /* Submenu styles */
         li.column {
           direction: rtl;
           > ul {
@@ -3129,9 +3132,9 @@ select {
       }
     }
   }
-/*    li.level1 {
-        display: inline-block; width:20%; vertical-align: top;
-    }*/
+  /*    li.level1 {
+          display: inline-block; width:20%; vertical-align: top;
+      }*/
 }
 .level-top.more {
   &:after {
@@ -3184,6 +3187,50 @@ select {
  *
  *    Product lists
 ----------------------------------------------------------------------------- */
+.productItems() {
+  @spacing: 0 0 10px;
+  .item.product {
+    .column(4);
+    display: inline-block;
+    vertical-align: top;
+    .borderBox;
+    margin: 0;
+    padding: 20px;
+    float: none;
+    .product.photo {
+      float: left;
+      margin-right: 20px;
+    }
+    .product.details {
+      overflow: hidden;
+    }
+    .product.name,
+    .price-box {
+      margin: @spacing;
+    }
+    .addto.links {
+      padding: 10px 0 0;
+      span:hover {
+        color: @primary3;
+      }
+      .action:after {
+        content: '';
+        display: block;
+      }
+    }
+    .actions {
+      display: none;
+      .primary {
+        margin: 0 0 10px;
+      }
+    }
+    &:hover {
+      .actions {
+        display: block;
+      }
+    }
+  }
+}
 
 .blocklist() {
   margin: 30px 0;
@@ -3191,6 +3238,7 @@ select {
   border-top: 1px solid @primary2;
   .products.list {
     margin: 0 -20px;
+    .productItems();
   }
 }
 
@@ -3208,7 +3256,7 @@ select {
 .block.crosssell,
 .block.upsell,
 .block.related {
-  clear:both;
+  clear: both;
   .blocklist();
 }
 
@@ -4124,20 +4172,20 @@ select {
 //  }
 //}
 
-  .product.data {
-    .data-accordion();
-    .data-accordion-styling();
-    margin-bottom: 30px;
-    .product.description {
-      padding: 10px;
-    }
+.product.data {
+  .data-accordion();
+  .data-accordion-styling();
+  margin-bottom: 30px;
+  .product.description {
+    padding: 10px;
   }
-  .temp-upsell-placeholder {
-    .column(12);
-    background: red;
-    height: 200px;
-    margin-top: 20px;
-  }
+}
+.temp-upsell-placeholder {
+  .column(12);
+  background: red;
+  height: 200px;
+  margin-top: 20px;
+}
 
 /*
  *    Mage_Bundle
@@ -4538,7 +4586,7 @@ and (max-width : 768px)  {
       position: absolute;
       top:100%;
       margin-left:-11px;
-    //min-width: 100%;
+      //min-width: 100%;
       float:left;
       right:0;
       text-align: left;

@@ -2841,7 +2841,7 @@ select:disabled {
 }
 .cart.summary {
   margin-top: 33px;
-  background: #ffffff;
+  background: #242424;
   float: right;
   width: 290px;
   padding: 20px;
@@ -3110,6 +3110,9 @@ select:disabled {
 .minicart.wrapper .block.minicart > .content {
   text-align: left;
   width: 310px;
+}
+.minicart.wrapper .block.minicart > .content .product.photo + .product.details {
+  margin-left: 69px;
 }
 .minicart.wrapper .block.minicart > .content .subtotal {
   clear: both;
@@ -3913,8 +3916,8 @@ select:disabled {
   z-index: 2;
   *zoom: 1;
   /*    li.level1 {
-        display: inline-block; width:20%; vertical-align: top;
-    }*/
+          display: inline-block; width:20%; vertical-align: top;
+      }*/
 
 }
 .navigation a {
@@ -4200,6 +4203,89 @@ select:disabled {
 .block.upsell .products.list,
 .block.related .products.list {
   margin: 0 -20px;
+}
+.block.widget.viewed .products.list .item.product,
+.block.crosssell .products.list .item.product,
+.block.upsell .products.list .item.product,
+.block.related .products.list .item.product {
+  display: inline;
+  float: left;
+  width: 33.33333333333333%;
+  margin: 0 0%;
+  display: inline-block;
+  vertical-align: top;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  margin: 0;
+  padding: 20px;
+  float: none;
+}
+.block.widget.viewed .products.list .item.product .product.photo,
+.block.crosssell .products.list .item.product .product.photo,
+.block.upsell .products.list .item.product .product.photo,
+.block.related .products.list .item.product .product.photo {
+  float: left;
+  margin-right: 20px;
+}
+.block.widget.viewed .products.list .item.product .product.details,
+.block.crosssell .products.list .item.product .product.details,
+.block.upsell .products.list .item.product .product.details,
+.block.related .products.list .item.product .product.details {
+  overflow: hidden;
+}
+.block.widget.viewed .products.list .item.product .product.name,
+.block.crosssell .products.list .item.product .product.name,
+.block.upsell .products.list .item.product .product.name,
+.block.related .products.list .item.product .product.name,
+.block.widget.viewed .products.list .item.product .price-box,
+.block.crosssell .products.list .item.product .price-box,
+.block.upsell .products.list .item.product .price-box,
+.block.related .products.list .item.product .price-box {
+  margin: 0 0 10px;
+}
+.block.widget.viewed .products.list .item.product .addto.links,
+.block.crosssell .products.list .item.product .addto.links,
+.block.upsell .products.list .item.product .addto.links,
+.block.related .products.list .item.product .addto.links {
+  padding: 10px 0 0;
+}
+.block.widget.viewed .products.list .item.product .addto.links span:hover,
+.block.crosssell .products.list .item.product .addto.links span:hover,
+.block.upsell .products.list .item.product .addto.links span:hover,
+.block.related .products.list .item.product .addto.links span:hover {
+  color: #ae1523;
+}
+.block.widget.viewed .products.list .item.product .addto.links .action:after,
+.block.crosssell .products.list .item.product .addto.links .action:after,
+.block.upsell .products.list .item.product .addto.links .action:after,
+.block.related .products.list .item.product .addto.links .action:after {
+  content: '';
+  display: block;
+}
+.block.widget.viewed .products.list .item.product .actions,
+.block.crosssell .products.list .item.product .actions,
+.block.upsell .products.list .item.product .actions,
+.block.related .products.list .item.product .actions {
+  display: none;
+}
+.block.widget.viewed .products.list .item.product .actions .primary,
+.block.crosssell .products.list .item.product .actions .primary,
+.block.upsell .products.list .item.product .actions .primary,
+.block.related .products.list .item.product .actions .primary {
+  margin: 0 0 10px;
+}
+.block.widget.viewed .products.list .item.product:hover .actions,
+.block.crosssell .products.list .item.product:hover .actions,
+.block.upsell .products.list .item.product:hover .actions,
+.block.related .products.list .item.product:hover .actions {
+  display: block;
 }
 .block.crosssell .products.list.items.crosssell {
   margin: 0 -13px;
