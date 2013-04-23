@@ -44,8 +44,7 @@
          * @protected
          */
         _onRegisterElements: function(e, data){
-            var content = data.content || 'body';
-            content = $(content).contents();
+            var content = data.content ? $(data.content).contents() : $('body');
             this._registerElements(content, data.elements);
         },
 
@@ -56,10 +55,12 @@
          * @param elements
          * @protected
          */
-        _registerElements: function(content, elements) {
-            for (var eventType in elements) {
-                for (var i = 0; i < elements[eventType].length; i++){
-                    content.find(elements[eventType][i]).on(eventType, $.proxy(this._onChangeTheme, this));
+        _registerElements: function(content, selectorsByEvent) {
+            console.log(selectorsByEvent);
+            for (var eventType in selectorsByEvent) {
+                for (var i = 0; i < selectorsByEvent[eventType].length; i++){
+                    var selector = selectorsByEvent[eventType][i];
+                    content.find(selector).on(eventType, $.proxy(this._onChangeTheme, this));
                 }
             }
         },
@@ -71,6 +72,7 @@
          * @protected
          */
         _onChangeTheme: function(event) {
+            console.log('change');
             if (confirm($.mage.__('You want to change theme. It is necessary to create customization. Do you want to create?'))) {
                 this._createVirtualTheme();
             }
