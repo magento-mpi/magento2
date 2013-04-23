@@ -210,6 +210,7 @@
                     '</div>'
                 ];
             } else {
+                this.storesByThemes[themeId] = stores;
                 var message = [
                     '<div class="message-success">',
                     response.success,
@@ -223,7 +224,6 @@
                         'theme_id',
                         response.themeId
                     ].join('/');
-                    this.storesByThemes[themeId] = stores;
 
                     if (this.options.openNewOnAssign) {
                         window.open(url);
