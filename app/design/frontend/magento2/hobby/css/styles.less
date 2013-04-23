@@ -3922,7 +3922,7 @@ select {
     font-size: 11px;
     height: 12px;
     overflow: hidden;
-    vertical-align: top;
+    vertical-align: baseline;
     display: inline-block;
     text-decoration: none;
   }
@@ -4425,6 +4425,47 @@ and (max-width : 768px)  {
 @import url(cms.less);
 
 /*
+ *    Mage_Tag
+ *
+----------------------------------------------------------------------------- */
+.tags {
+  .action.add {
+    .primaryAction();
+  }
+}
+
+.tags.items {
+  margin: 15px 0;
+  .tag.item {
+    display: inline-block;
+    margin-bottom: 5px;
+    .tag.text {
+      margin-right: 3px;
+    }
+    .amount {
+      margin-right: 6px;
+    }
+  }
+}
+
+.dashboard.tags {
+  .product.tags {
+    margin-left: 10px;
+  }
+}
+
+.data.table.tags {
+  .item.actions {
+    .links {
+      margin-top: 10px;
+      .action.towishlist {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+/*
  *    Mage_Customer
  *
  *    Account
@@ -4573,7 +4614,8 @@ and (max-width : 768px)  {
 
 .data.table.orders,
 .data.wishlist,
-.data.table.reviews {
+.data.table.reviews,
+.data.table.tags {
   width: 100%;
   td,
   th {

@@ -5228,7 +5228,7 @@ select:disabled {
   font-size: 11px;
   height: 11px;
   overflow: hidden;
-  vertical-align: top;
+  vertical-align: baseline;
   display: inline-block;
   text-decoration: none;
 }
@@ -6062,6 +6062,58 @@ img[align="right"] {
   display: block;
 }
 /*
+ *    Mage_Tag
+ *
+----------------------------------------------------------------------------- */
+.tags .action.add {
+  border: none;
+  border-radius: 0;
+  background: #ae1523;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.tags .action.add:hover,
+.tags .action.add:active {
+  background: #d74957;
+}
+.tags .action.add span {
+  font-size: 14px;
+  font-weight: 700;
+  font-style: italic;
+  color: #ffffff;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.tags.items {
+  margin: 15px 0;
+}
+.tags.items .tag.item {
+  display: inline-block;
+  margin-bottom: 5px;
+}
+.tags.items .tag.item .tag.text {
+  margin-right: 3px;
+  color: #ffffff;
+}
+.tags.items .tag.item .amount {
+  margin-right: 6px;
+}
+.product.info .block.tags {
+  padding: 10px;
+}
+.dashboard.tags .product.tags {
+  margin-left: 10px;
+}
+.data.table.tags .item.actions .links {
+  margin-top: 10px;
+}
+.data.table.tags .item.actions .links .action.towishlist {
+  margin-left: 0;
+}
+/*
  *    Mage_Customer
  *
  *    Account
@@ -6379,59 +6431,72 @@ img[align="right"] {
 }
 .data.table.orders,
 .data.wishlist,
-.data.table.reviews {
+.data.table.reviews,
+.data.table.tags {
   width: 100%;
 }
 .data.table.orders td,
 .data.wishlist td,
 .data.table.reviews td,
+.data.table.tags td,
 .data.table.orders th,
 .data.wishlist th,
-.data.table.reviews th {
+.data.table.reviews th,
+.data.table.tags th {
   padding: 10px 20px;
   text-align: left;
 }
 .data.table.orders td.col.total,
 .data.wishlist td.col.total,
 .data.table.reviews td.col.total,
+.data.table.tags td.col.total,
 .data.table.orders th.col.total,
 .data.wishlist th.col.total,
-.data.table.reviews th.col.total {
+.data.table.reviews th.col.total,
+.data.table.tags th.col.total {
   text-align: right;
 }
 .data.table.orders td.col.actions,
 .data.wishlist td.col.actions,
 .data.table.reviews td.col.actions,
+.data.table.tags td.col.actions,
 .data.table.orders th.col.actions,
 .data.wishlist th.col.actions,
-.data.table.reviews th.col.actions {
+.data.table.reviews th.col.actions,
+.data.table.tags th.col.actions {
   white-space: nowrap;
 }
 .data.table.orders td.col.actions .action:last-child,
 .data.wishlist td.col.actions .action:last-child,
 .data.table.reviews td.col.actions .action:last-child,
+.data.table.tags td.col.actions .action:last-child,
 .data.table.orders th.col.actions .action:last-child,
 .data.wishlist th.col.actions .action:last-child,
-.data.table.reviews th.col.actions .action:last-child {
+.data.table.reviews th.col.actions .action:last-child,
+.data.table.tags th.col.actions .action:last-child {
   margin-left: 20px;
 }
 .data.table.orders td em,
 .data.wishlist td em,
 .data.table.reviews td em,
+.data.table.tags td em,
 .data.table.orders th em,
 .data.wishlist th em,
-.data.table.reviews th em {
+.data.table.reviews th em,
+.data.table.tags th em {
   font-style: normal;
 }
 .data.table.orders th,
 .data.wishlist th,
-.data.table.reviews th {
+.data.table.reviews th,
+.data.table.tags th {
   font-size: 16px;
   font-weight: 400;
 }
 .data.table.orders tr:nth-child(odd) td,
 .data.wishlist tr:nth-child(odd) td,
-.data.table.reviews tr:nth-child(odd) td {
+.data.table.reviews tr:nth-child(odd) td,
+.data.table.tags tr:nth-child(odd) td {
   background: #000000;
 }
 .customer.menu .customer {
