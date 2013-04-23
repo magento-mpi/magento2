@@ -7224,3 +7224,33 @@ img[align="right"] {
 .data.table.reviews .product.name {
   margin: 0;
 }
+/*
+ *    My Account -> My Wishlist
+ *
+----------------------------------------------------------------------------- */
+.data.table.wishlist {
+  width: 100%;
+}
+.data.table.wishlist thead th {
+  padding-top: 0;
+  padding-bottom: 10px;
+  text-align: left;
+  font-weight: 400;
+  font-size: 16px;
+}
+.data.table.wishlist td,
+.data.table.wishlist th {
+  padding: 16px 10px 10px;
+  vertical-align: top;
+}
+.data.table.wishlist td:first-child,
+.data.table.wishlist th:first-child {
+  padding-left: 20px;
+}
+.data.table.wishlist td:last-child,
+.data.table.wishlist th:last-child {
+  padding-right: 20px;
+}
+.data.table.wishlist tbody tr:nth-child(even) {
+  background: #f8f8f8;
+}
