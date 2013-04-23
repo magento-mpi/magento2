@@ -17,9 +17,10 @@ class Mage_Catalog_Service_ProductEntity extends Mage_Core_Service_Type_Abstract
      * Return resource object or resource object data.
      *
      * @param mixed $request
+     * @param mixed $version [optional]
      * @return Mage_Catalog_Model_Product
      */
-    public function item($request)
+    public function item($request, $version = null)
     {
         $request = $this->prepareRequest(get_class($this), 'item', $request);
 
@@ -53,9 +54,10 @@ class Mage_Catalog_Service_ProductEntity extends Mage_Core_Service_Type_Abstract
      * Return info about several products.
      *
      * @param mixed $request
+     * @param mixed $version [optional]
      * @return Mage_Catalog_Model_Resource_Product_Collection
      */
-    public function items($request)
+    public function items($request, $version = null)
     {
         $request = $this->prepareRequest(get_class($this), 'items', $request);
 
@@ -77,25 +79,5 @@ class Mage_Catalog_Service_ProductEntity extends Mage_Core_Service_Type_Abstract
         $this->prepareResponse(get_class($this), 'items', $collection, $request);
 
         return $collection;
-    }
-
-    /**
-     * Return array which represents XSD "price" complex type.
-     *
-     * @todo should be a part of template rendering helper
-     *
-     * @param $amount
-     * @param $currencyCode
-     * @return array
-     */
-    private function _getPrice($amount, $currencyCode)
-    {
-        $price = array(
-            'amount' => $amount,
-            'currencyCode' => $currencyCode,
-            'formattedPrice' => $this->_coreHelper->currency($amount, true, false),
-        );
-
-        return $price;
     }
 }

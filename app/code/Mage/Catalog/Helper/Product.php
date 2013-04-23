@@ -290,7 +290,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
 //        $product = Mage::getSingleton('Mage_Catalog_Model_Product');
 //        $product->load($productId);
 
-        $serviceManager = Mage::getSingleton('Mage_Core_Service_Manager');
+        $serviceManager = Mage::getSingleton('Mage_Catalog_ServiceManager');
         $product = $serviceManager->getService('catalog_product')
             ->call('item', array(
                 'entity_id' => $productId,
@@ -313,7 +313,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
             $categoryId = null;
         }
         if ($categoryId) {
-            $serviceManager = Mage::getSingleton('Mage_Core_Service_Manager');
+            $serviceManager = Mage::getSingleton('Mage_Catalog_ServiceManager');
             $category = $serviceManager->call('Mage_Catalog_Service_CategoryEntity', 'item', array('entity_id' => $categoryId));
             $product->setCategory($category);
             Mage::register('current_category', $category);

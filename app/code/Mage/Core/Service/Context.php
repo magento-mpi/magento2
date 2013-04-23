@@ -16,13 +16,29 @@ class Mage_Core_Service_Context
      */
     protected $_storeManager;
 
+    /**
+     * @var Mage_Core_Model_Config
+     */
+    protected $_config;
+
     public function __construct(
         Mage_Core_Model_Acl_Builder $aclBuilder,
-        Mage_Core_Model_StoreManager $storeManager)
+        Mage_Core_Model_StoreManager $storeManager,
+        Mage_Core_Model_Config $config)
     {
         $this->_aclBuilder = $aclBuilder;
 
         $this->_storeManager = $storeManager;
+
+        $this->_config = $config;
+    }
+
+    /**
+     * @return Mage_Core_Model_Config
+     */
+    public function getConfig()
+    {
+        return $this->_config;
     }
 
     /**

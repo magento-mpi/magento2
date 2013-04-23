@@ -31,15 +31,16 @@ abstract class Mage_Core_Service_Type_Abstract
      * Call service method (alternative approach)
      *
      * @param string $serviceMethod
-     * @param mixed $context [optional]
+     * @param mixed $request [optional]
+     * @param mixed $version [optional]
      * @return mixed (service execution response)
      */
-    final public function call($serviceMethod, $context = null)
+    final public function call($serviceMethod, $request = null, $version = null)
     {
         // implement ACL and other routine procedures here (debugging, profiling, etc)
         $this->authorize(get_class($this), $serviceMethod);
 
-        return $this->$serviceMethod($context);
+        return $this->$serviceMethod($request, $version);
     }
 
     public function authorize($serviceClass, $serviceMethod)

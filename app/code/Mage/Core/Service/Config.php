@@ -1,5 +1,4 @@
 <?php
-use Zend\Server\Reflection\ReflectionMethod;
 
 /**
  * Web API configuration.
@@ -43,7 +42,7 @@ class Mage_Core_Service_Config
     /**
      * @var Varien_Object
      */
-    protected $_services;
+    protected $_services = null;
 
     /**
      * @param Mage_Core_Model_Config $config
@@ -95,19 +94,21 @@ class Mage_Core_Service_Config
      */
     public function getServices()
     {
-        $services = $this->_loadFromCache();
-        if ($services && is_string($services)) {
-            $data = unserialize($services);
-            $_array = isset($data['config']['services']) ? $data['config']['services'] : array();
-            $this->_services = new Varien_Object($_array);
-        } else {
-            $services = $this->_getReader()->getServices();
+        if (null === $this->_services) {
+            $services = '';//$this->_loadFromCache();
+            if ($services && is_string($services)) {
+                $data = unserialize($services);
+                $_array = isset($data['config']['services']) ? $data['config']['services'] : array();
+                $this->_services = new Varien_Object($_array);
+            } else {
+                $services = $this->_getReader()->getServices();
 
-            $data = $this->_toArray($services);
+                $data = $this->_toArray($services);
 
-            $this->_saveToCache(serialize($data));
-            $_array = isset($data['config']['services']) ? $data['config']['services'] : array();
-            $this->_services = new Varien_Object($_array);
+                $this->_saveToCache(serialize($data));
+                $_array = isset($data['config']['services']) ? $data['config']['services'] : array();
+                $this->_services = new Varien_Object($_array);
+            }
         }
 
         return $this->_services;
@@ -163,9 +164,9 @@ class Mage_Core_Service_Config
 
         for ($i = 0; $i < $children->length; $i++) {
             $child = $children->item($i);
-
+            $_children = & $this->_toArray($child);
             if (!isset($result[$child->nodeName])) {
-                $result[$child->nodeName] = $this->_toArray($child);
+                $result[$child->nodeName] = $_children;
             } else {
                 if (!isset($group[$child->nodeName])) {
                     $tmp = $result[$child->nodeName];
@@ -173,7 +174,7 @@ class Mage_Core_Service_Config
                     $group[$child->nodeName] = 1;
                 }
 
-                $result[$child->nodeName][] = $this->_toArray($child);
+                $result[$child->nodeName][] = $_children;
             }
         }
 
@@ -202,14 +203,35 @@ class Mage_Core_Service_Config
 
     /**
      * @param string $serviceReferenceId
+     * @param mixed $version
      * @return string
      */
-    public function getServiceClassByServiceName($serviceReferenceId)
+    public function getServiceClassByServiceName($serviceReferenceId, $version)
     {
-        $result = $this->getServices()->getData($serviceReferenceId . '/class');
+        $result = null;
+        if (null !== $version) {
+            $result = $this->getServices()->getData($serviceReferenceId . '/' . $version .  '/' . 'class');
+        }
+
+        if (!$result) {
+            $result = $this->getServices()->getData($serviceReferenceId . '/' . 'class');
+        }
+
         if (empty($result)) {
             $result = $serviceReferenceId;
         }
+
+        return $result;
+    }
+
+    /**
+     * @param string $callerReferenceId
+     * @param string $serviceReferenceId
+     * @return string
+     */
+    public function getServiceVersionBind($callerReferenceId, $serviceReferenceId)
+    {
+        $result = $this->getServices()->getData($callerReferenceId . '/depends/' . $serviceReferenceId . '/api_version');
 
         return $result;
     }

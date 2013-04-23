@@ -12,32 +12,62 @@
 <config>
     <services>
         <catalog_category translate="title" module="Mage_Catalog">
-            <title>Catalog Category Service</title>
-            <class>Mage_Catalog_Service_CategoryEntity</class>
-            <methods>
-                <create>
-                    <title>Create new category</title>
-                </create>
-                <item>
-                    <title>Retrieve a category</title>
-                </item>
-                <items>
-                    <title>Retrieve category collection by filters</title>
-                </items>
-                <update>
-                    <title>Update category</title>
-                </update>
-                <move>
-                    <title>Move category in tree</title>
-                </move>
-                <delete>
-                    <title>Delete category</title>
-                </delete>
-            </methods>
+            <V1>
+                <title>Catalog Category Service</title>
+                <class>Mage_Catalog_Service_V1_CategoryEntity</class>
+                <version>V1</version>
+                <methods>
+                    <create>
+                        <title>Create new category</title>
+                    </create>
+                    <item>
+                        <title>Retrieve a category</title>
+                    </item>
+                    <items>
+                        <title>Retrieve category collection by filters</title>
+                    </items>
+                    <update>
+                        <title>Update category</title>
+                    </update>
+                    <move>
+                        <title>Move category in tree</title>
+                    </move>
+                    <delete>
+                        <title>Delete category</title>
+                    </delete>
+                </methods>
+            </V1>
+            <V2>
+                <title>Catalog Category Service</title>
+                <class>Mage_Catalog_Service_V2_CategoryEntity</class>
+                <version>V2</version>
+                <methods>
+                    <create>
+                        <title>Create new category</title>
+                    </create>
+                    <item>
+                        <title>Retrieve a category</title>
+                    </item>
+                    <items>
+                        <title>Retrieve category collection by filters</title>
+                    </items>
+                    <update>
+                        <title>Update category</title>
+                    </update>
+                    <move>
+                        <title>Move category in tree</title>
+                    </move>
+                    <delete>
+                        <title>Delete category</title>
+                    </delete>
+                </methods>
+            </V2>
         </catalog_category>
+
         <catalog_product translate="title" module="Mage_Catalog">
             <title>Catalog Product Service</title>
             <class>Mage_Catalog_Service_ProductEntity</class>
+            <api_version>1.0.0</api_version>
             <methods>
                 <create>
                     <title>Create new product</title>

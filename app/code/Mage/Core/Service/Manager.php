@@ -10,6 +10,9 @@ class Mage_Core_Service_Manager extends Varien_Object
     /** @var Mage_Core_Service_Context */
     protected $_serviceContext;
 
+    /** @var Mage_Core_Service_Config */
+    protected $_config;
+
     /**
      * @var array $_requestSchemas
      */
@@ -25,27 +28,48 @@ class Mage_Core_Service_Manager extends Varien_Object
      */
     protected $_contentSchemas = array();
 
+    /**
+     * @param Mage_Core_Service_Factory $serviceFactory
+     * @param Mage_Core_Service_Context $serviceContext
+     * @param Mage_Core_Service_Config $config
+     */
     public function __construct(
         Mage_Core_Service_Factory $serviceFactory,
-        Mage_Core_Service_Context $serviceContext)
+        Mage_Core_Service_Context $serviceContext,
+        Mage_Core_Service_Config $config)
     {
         $this->_serviceFactory = $serviceFactory;
         $this->_serviceContext = $serviceContext;
+        $this->_config = $config;
+    }
+
+    public function getCallerId()
+    {
+        return 'Mage_Core';
     }
 
     /**
      * Call a service method
      *
-     * @param string $serviceClass
+     * @param string $serviceReferenceId
      * @param string $serviceMethod
      * @param mixed $context [optional]
+     * @param mixed $version [optional]
      * @return mixed (service execution response)
      */
-    public function call($serviceClass, $serviceMethod, $context = null)
+    public function call($serviceReferenceId, $serviceMethod, $context = null, $version = null)
     {
-        $service  = $this->getService($serviceClass);
+        if (null === $version) {
+            $version = (string) $this->_serviceContext->getConfig()->getNode('global/api_version');
+        }
 
-        $response = $service->call($serviceMethod, $context);
+        $service  = $this->getService($serviceReferenceId, $version);
+
+        if (null === $version) {
+            $version = $this->getServiceVersionBind($this->getCallerId(), $serviceReferenceId, $version);
+        }
+
+        $response = $service->call($serviceMethod, $context, $version);
 
         return $response;
     }
@@ -53,12 +77,17 @@ class Mage_Core_Service_Manager extends Varien_Object
     /**
      * Retrieve a service instance
      *
-     * @param string $serviceId
+     * @param string $serviceReferenceId
+     * @param mixed $version [optional]
      * @return Mage_Core_Service_Type_Abstract $service
      */
-    public function getService($serviceId)
+    public function getService($serviceReferenceId, $version = null)
     {
-        $service = $this->_serviceFactory->createServiceInstance($serviceId);
+        if (null === $version) {
+            $version = (string) $this->_serviceContext->getConfig()->getNode('global/api_version');
+        }
+
+        $service = $this->_serviceFactory->createServiceInstance($serviceReferenceId, $version);
         return $service;
     }
 
@@ -170,6 +199,16 @@ class Mage_Core_Service_Manager extends Varien_Object
         }
 
         return $this->_contentSchemas[$schemaFile];
+    }
+
+    /**
+     * @param string $callerReferenceId
+     * @param string $serviceReferenceId
+     * @return string
+     */
+    public function getServiceVersionBind($callerReferenceId, $serviceReferenceId)
+    {
+        return $this->_config->getServiceVersionBind($callerReferenceId, $serviceReferenceId);
     }
 }
 

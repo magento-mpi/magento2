@@ -14,9 +14,10 @@ class Mage_Catalog_Service_CategoryEntity extends Mage_Core_Service_Type_Abstrac
      * Return resource object or resource object data.
      *
      * @param mixed $request
+     * @param mixed $version [optional]
      * @return Mage_Catalog_Model_Category
      */
-    public function item($request)
+    public function item($request, $version = null)
     {
         $request = $this->prepareRequest(get_class($this), 'item', $request);
 
@@ -44,9 +45,10 @@ class Mage_Catalog_Service_CategoryEntity extends Mage_Core_Service_Type_Abstrac
      * Returns collection of resource objects.
      *
      * @param mixed $request
+     * @param mixed $version [optional]
      * @return Mage_Catalog_Model_Resource_Category_Collection
      */
-    public function items($request)
+    public function items($request, $version = null)
     {
         $request = $this->prepareRequest(get_class($this), 'items', $request);
 
@@ -78,21 +80,29 @@ class Mage_Catalog_Service_CategoryEntity extends Mage_Core_Service_Type_Abstrac
         return $collection;
     }
 
-    public function create($request)
+    /**
+     * @param $request
+     * @param mixed $version [optional]
+     */
+    public function create($request, $version = null)
     {
         $request = $this->prepareRequest(get_class($this), 'create', $request);
 
         $this->_save($request);
     }
 
-    public function update($request)
+    /**
+     * @param $request
+     * @param mixed $version [optional]
+     */
+    public function update($request, $version = null)
     {
         $request = $this->prepareRequest(get_class($this), 'update', $request);
 
         $this->_save($request);
     }
 
-    public function delete($request)
+    public function delete($request, $version = null)
     {
         //
     }
@@ -101,9 +111,10 @@ class Mage_Catalog_Service_CategoryEntity extends Mage_Core_Service_Type_Abstrac
      * Move category action
      *
      * @param mixed $request
+     * @param mixed $version [optional]
      * @return Varien_Object
      */
-    public function move($request)
+    public function move($request, $version = null)
     {
         $request = $this->prepareRequest(get_class($this), 'move', $request);
 
@@ -129,6 +140,7 @@ class Mage_Catalog_Service_CategoryEntity extends Mage_Core_Service_Type_Abstrac
 
     /**
      * @param mixed $request
+     * @param mixed $version [optional]
      * @return $category | false
      */
     public function initCategoryToView($request)

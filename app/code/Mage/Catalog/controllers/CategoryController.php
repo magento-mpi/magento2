@@ -30,7 +30,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             return false;
         }
 
-        $serviceManager = Mage::getSingleton('Mage_Core_Service_Manager');
+        $serviceManager = Mage::getSingleton('Mage_Catalog_ServiceManager');
         $category = $serviceManager->getService('catalog_category')
             ->call('initCategoryToView', array(
                 'entity_id' => $categoryId,
@@ -64,7 +64,8 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
     public function viewAction()
     {
         if ($category = $this->_initCatagory()) {
-            $serviceManager = Mage::getSingleton('Mage_Core_Service_Manager');
+            /** @var $serviceManager Mage_Catalog_ServiceManager */
+            $serviceManager = Mage::getSingleton('Mage_Catalog_ServiceManager');
             /** @var $layoutService Mage_Core_Service_Type_LayoutUtility */
             $layoutService = $serviceManager->getService('layout');
             $layout = $layoutService->getLayout($this->_currentArea);

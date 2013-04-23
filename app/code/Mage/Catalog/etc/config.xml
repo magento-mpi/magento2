@@ -13,6 +13,7 @@
     <modules>
         <Mage_Catalog>
             <version>1.6.0.0.22</version>
+            <api_version_bind>1.0.0-2.0.0</api_version_bind>
             <active>true</active>
             <depends>
                 <Mage_Eav/>
