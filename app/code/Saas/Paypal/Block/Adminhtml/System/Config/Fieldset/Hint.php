@@ -41,8 +41,8 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         $elementOriginalData = $element->getOriginalData();
-        if (isset($elementOriginalData['help_link'])) {
-            $this->setHelpLink($elementOriginalData['help_link']);
+        if (isset($elementOriginalData['help_url'])) {
+            $this->setHelpUrl($elementOriginalData['help_url']);
         }
         $js = '
             paypalToggleSolution = function(id, url) {
@@ -90,6 +90,6 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
                 });
             });
         ';
-        return $this->toHtml() . $this->helper('adminhtml/js')->getScript($js);
+        return $this->toHtml() . $this->helper('Mage_Adminhtml_Helper_Js')->getScript($js);
     }
 }

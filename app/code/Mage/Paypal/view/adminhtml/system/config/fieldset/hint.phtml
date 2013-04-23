@@ -14,10 +14,10 @@
  */
 ?>
 <?php
-    if ($this->getHelpLink()):
+    if ($this->getHelpUrl()):
 ?>
-<div class="paypal-payment-notice">
-    <?php echo Mage::helper('Mage_Paypal_Helper_Data')->__('Not sure what PayPal payment method to use? Click <a href="%s" target="_blank">here</a> to learn more.', $this->getHelpLink()); ?>
+<div id="<?php echo $this->getHtmlId(); ?>" class="paypal-payment-notice">
+    <?php echo Mage::helper('Mage_Paypal_Helper_Data')->__('Not sure what PayPal payment method to use? Click <a href="%s" target="_blank">here</a> to learn more.', $this->getHelpUrl()); ?>
 </div>
 <?php
     endif;

@@ -12,19 +12,22 @@
 <config>
     <system>
         <section id="payment">
-            <group id="paypal_notice" translate="label" module="Saas_Paypal">
+            <group id="paypal_notice" showInDefault="0" showInWebsite="0" showInStore="0">
+                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint</frontend_model>
+            </group>
+            <group id="paypal_notice_saas" showInDefault="1" showInWebsite="1" showInStore="1" extends="*/paypal_notice">
                 <depends>
                     <field id="*/account/merchant_country" separator="," negative="1">GB,AU</field>
                 </depends>
             </group>
-            <group id="paypal_notice_gb" extends="*/paypal_notice" module="Saas_Paypal">
-                <attribute type="help_link">https://www.paypal-business.co.uk/how-to-take-online-payments-with-paypal/index.htm</attribute>
+            <group id="paypal_notice_saas_gb" showInDefault="1" showInWebsite="1" showInStore="1" extends="*/paypal_notice">
+                <help_url>https://www.paypal-business.co.uk/how-to-take-online-payments-with-paypal/index.htm</help_url>
                 <depends>
                     <field id="*/account/merchant_country">GB</field>
                 </depends>
             </group>
-            <group id="paypal_notice_au" extends="*/paypal_notice" module="Saas_Paypal">
-                <attribute type="help_link">https://www.paypal-australia.com.au/business/accept-payments</attribute>
+            <group id="paypal_notice_saas_au" showInDefault="1" showInWebsite="1" showInStore="1" extends="*/paypal_notice">
+                <help_url>https://www.paypal-australia.com.au/business/accept-payments</help_url>
                 <depends>
                     <field id="*/account/merchant_country">AU</field>
                 </depends>
@@ -718,3 +721,4 @@
         </section>
     </system>
 </config>
+
