@@ -7,8 +7,7 @@
 //  * @license     {license_link}
 //  */
 
-// Reviews */
-
+// Reviews
 .block.reviews.dashboard,
 .reviews.summary {
     @starSize: 14px;
@@ -114,8 +113,11 @@
                 clear: both;
                 display: block !important;
             }
-            strong:before {
-                content: " ";
+            strong {
+                font-weight: 400;
+                &:before {
+                    content: " ";
+                }
             }
         }
         .formFieldset();
@@ -332,8 +334,11 @@
 
 .block.related,
 .block.upsell {
+    .clearfix;
+    .blocklist();
     .products.list.items > .item {
         border: 0;
+        vertical-align: top;
         .details {
             padding: 0;
         }
@@ -349,12 +354,6 @@
             float: none;
         }
     }
-}
-
-.block.related,
-.block.upsell {
-    .clearfix;
-    .blocklist();
 }
 
 .block.crosssell {
@@ -447,7 +446,6 @@
 //        position: absolute;
 //        bottom: 4px;
 //    }
-//
 //}
 }
 
@@ -658,6 +656,16 @@
     .product.options.wrapper {
         margin-bottom: 15px;
     }
+}
+
+.product-pricing {
+    background: @commonBg;
+    border: 1px solid @primary7;
+    border-top: 0;
+    color: @primary3;
+    font-size: 12px;
+    margin: -5px 0 0;
+    padding: 0 15px 5px;
 }
 
 .action.primary.customize,
@@ -1213,7 +1221,8 @@ body.type-bundle {
 }
 
 // *
-// *    Configurable product
+// *    Configurable poduct
+// *
 // -------------------------------------- */
 .type-configurable .options.configure .field {
     .clearfix;
@@ -1233,6 +1242,7 @@ body.type-bundle {
 
 // *
 // *    Grouped product
+// *
 // -------------------------------------- */
 .product-grouped-product {
     .product.add.form {
@@ -1284,6 +1294,7 @@ body.type-bundle {
 
 // *
 // *    Email to a friend
+// *
 // -------------------------------------- */
 .send.friend {
     font-size: 13px;

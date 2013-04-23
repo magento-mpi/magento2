@@ -114,8 +114,11 @@
                 clear: both;
                 display: block !important;
             }
-            strong:before {
-                content: " ";
+            strong {
+                font-weight: 400;
+                &:before {
+                    content: " ";
+                }
             }
         }
         .formFieldset();
@@ -149,7 +152,6 @@
     }
     .actions {
         padding-top: 20px;
-        text-align: right;
         position: relative;
         z-index: 1;
     }
@@ -346,6 +348,9 @@
             .action {
                 padding: 0;
             }
+        }
+        .product.photo {
+            float: none;
         }
     }
 }
@@ -647,6 +652,16 @@
     .product.options.wrapper {
         margin-bottom: 15px;
     }
+}
+
+.product-pricing {
+    background: @commonBg;
+    border: 1px solid @primary6;
+    border-top: 0;
+    color: @primary3;
+    font-size: 12px;
+    margin: -5px 0 0;
+    padding: 0 15px 5px;
 }
 
 .action.primary.customize,

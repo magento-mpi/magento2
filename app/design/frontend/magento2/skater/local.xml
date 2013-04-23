@@ -43,8 +43,6 @@
             <action method="setShowPart"><value>customer</value></action>
         </block>
 
-
-
         <remove name="tags_popular" />
 
         <remove name="top.links" />
@@ -192,7 +190,7 @@
     </catalog_product_compare_index>
 
     <customer_account translate="label" type="page" parent="default">
-        <move element="page.main.title" destination="my.account.wrapper" before="-" />
+        <move element="page.main.title" destination="main" before="-" />
     </customer_account>
 
 </layout>
