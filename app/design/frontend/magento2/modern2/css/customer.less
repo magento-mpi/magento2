@@ -240,6 +240,17 @@
     margin: 45px 0 0;
 }
 
+.account {
+    .column.main > .page.title {
+        margin-top: 47px;
+        .action.add {
+            .primaryAction();
+            float: right;
+            margin: -32px 0 0;
+        }
+    }
+}
+
 .block.account.nav {
     font-size: 13px;
     margin-top: 27px;
@@ -352,7 +363,6 @@
             }
         }
     }
-
     .block {
         margin-top: 50px;
         &.welcome {
@@ -434,13 +444,6 @@
             }
         }
     }
-
-    .page.title .action.add {
-        .primaryAction();
-        float: right;
-        margin: -32px 0 0;
-    }
-
     .data.table.orders,
     .data.wishlist {
         width: 100%;
@@ -569,7 +572,52 @@
             }
         }
     }
+    .giftcardaccount {
+        position: relative;
+        .giftcard.form {
+            padding: 0;
+        }
+        .field.giftcard {
+            .clearfix;
+        }
+        .label {
+            float: left;
+            width: 25%;
+        }
+        .control {
+            float: left;
+            width: 75%;
+        }
+        .actions {
+            .clearfix;
+            .primary {
+                float: right;
+                padding: 0 0 0 20px;
+            }
+            .secondary {
+                float: right;
+                position: relative;
+                left: inherit;
+                top: inherit;
+                .action.check {
+                    .resetAction();
+                    .secondaryAction();
+                    padding: 8px 9px 7px;
+                }
+            }
+        }
+        .load.indicator {
+            background: @commonBg;
+            border: 3px solid @primary8;
+            display: block;
+            left: 50%;
+            margin: -20px 0 0 -86px;
+            position: absolute;
+            top: 50%;
+        }
+    }
 }
+
 .wishlist-index-index .actions .primary {
     text-align: right;
 }

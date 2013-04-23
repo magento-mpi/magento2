@@ -91,15 +91,12 @@
             margin: 10px 0 0;
             border: 0;
             > .field {
-                margin: 18px 0 0;
+                margin: 0 0 18px;
                 > .label {
                     margin-top: 4px;
                 }
                 .nested {
                     margin-top: 14px;
-                }
-                &:first-child {
-                    margin: 0;
                 }
             }
         }
@@ -340,8 +337,7 @@
     }
 }
 
-// Step Review */
-
+// Step Review
 .checkout.submit.order {
     .actions {
         margin-top: 15px;
@@ -350,13 +346,16 @@
             float: right;
         }
         .secondary {
-            float: left;
-            line-height: 32px;
+            font-size: 12px;
+            margin: 5px 0 0;
         }
     }
 }
 
 .order.data.items {
+    thead th {
+        padding: 3px 1px;
+    }
     tfoot tr:first-child td {
         border-top: 1px solid @primary7;
         padding-top: 15px;
@@ -371,13 +370,18 @@
     tr.total:last-child td {
         padding-bottom: 20px;
     }
+    tr.total .amount {
+        .customFont(17px,uppercase,0,400);
+    }
     tr.grand.total td {
         vertical-align: middle;
     }
     tr.grand.total .amount {
         color: @secondary1;
         font-size: 18px;
-        font-weight: bold;
+        strong {
+            font-weight: 400;
+        }
     }
     tbody tr:nth-child(odd) {
         background: @secondBg;
