@@ -122,14 +122,14 @@ class Magento_Test_Helper_Memory
      */
     public static function convertToBytes($number)
     {
-        $number = mb_convert_encoding($number, 'ASCII');
-        $number = str_replace(array(',', ' ', '?'), '', $number);
-        $number = strtoupper($number);
-        if (!preg_match('/^(\d+(?:\.\d+)?)([' . self::MEMORY_UNITS . ']?)$/', $number, $matches)) {
+        if (!preg_match('/^(.*\d)\s*(\D)$/', $number, $matches)) {
             throw new InvalidArgumentException("Number format '$number' is not recognized.");
         }
-        $result = (float)$matches[1];
-        $unitSymbol = $matches[2];
+        $unitSymbol = strtoupper($matches[2]);
+        if (false === strpos(self::MEMORY_UNITS, $unitSymbol)) {
+            throw new InvalidArgumentException("The number '$number' has an unrecognized unit: '$unitSymbol'.");
+        }
+        $result = self::_convertToNumber($matches[1]);
         $pow = $unitSymbol ? strpos(self::MEMORY_UNITS, $unitSymbol) : 0;
         $is32Bit = PHP_INT_SIZE == 4;
         if ($is32Bit && $pow >= 4) {
@@ -139,5 +139,30 @@ class Magento_Test_Helper_Memory
             $result *= pow(1024, $pow);
         }
         return (int)$result;
+    }
+
+    /**
+     * Remove non-numeric characters in the string to cast it to a numeric value
+     *
+     * Incoming number can be presented in arbitrary format that depends on locale. We don't posses locale information.
+     * So the best can be done is to treat number as an integer and eliminate delimiters.
+     * Method will not behave correctly with non-integer numbers for the following reason:
+     * - if value has more than one delimiter, such as in French notation: "1 234,56" -- then we can infer decimal part
+     * - but the value has only one delimiter, such as "234,56", then it is impossible to know whether it is decimal
+     *   separator or not. Only knowing the right format would allow this.
+     *
+     * @param $number
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    protected static function _convertToNumber($number)
+    {
+        preg_match_all('/(\D+)/', $number, $matches);
+        if (count(array_unique($matches[0])) > 1) {
+            throw new InvalidArgumentException(
+                "The number '$number' seems to have decimal part. Only integer numbers are supported."
+            );
+        }
+        return preg_replace('/\D+/', '', $number);
     }
 }
