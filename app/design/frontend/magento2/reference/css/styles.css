@@ -7207,7 +7207,7 @@ img[align="right"] {
 }
 .data.table.reviews th,
 .data.table.reviews td {
-  padding: 3px 5px;
+  padding: 8px 5px;
 }
 .data.table.reviews th {
   text-align: left;
@@ -7220,4 +7220,7 @@ img[align="right"] {
 .data.table.reviews tbody td {
   border-bottom: 1px solid #e5e5e5;
   vertical-align: top;
+}
+.data.table.reviews .product.name {
+  margin: 0;
 }
