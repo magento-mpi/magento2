@@ -43,8 +43,6 @@
             <action method="setShowPart"><value>customer</value></action>
         </block>
 
-        <remove name="tags_popular" />
-
         <remove name="top.links" />
         <move element="minicart" destination="panel.menu" after="-" />
 

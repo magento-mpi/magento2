@@ -446,7 +446,8 @@
     }
     .data.table.orders,     // My Orders
     .data.wishlist,         // My Whishlist
-    .data.table.reviews {   // My product reviews
+    .data.table.reviews,    // My Product Reviews
+    .data.tags {            // My Tags
         width: 100%;
         td,
         th {
@@ -635,6 +636,70 @@
         }
         .col.actions {
             width: 10%;
+        }
+    }
+    // Tags
+    .tags.cloud {
+        .item {
+            display: inline;
+        }
+    }
+    .tag.edit {
+        .action.delete span:after {
+            height: 12px;
+            font-size: 10px;
+            line-height: 12px;
+        }
+    }
+    .data.tags {
+        td {
+            vertical-align: top;
+        }
+        .col {
+            &.photo {
+                width: 110px;
+            }
+            .actions {
+                margin-top: 0;
+                .addto.links {
+                    margin: 10px 0 0;
+                    a,
+                    a span {
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+        .reviews {
+            &.actions {
+                .action.view {
+                    &:after {
+                        content: '';
+                    }
+                    span:before {
+                        content: ' ';
+                    }
+                }
+            }
+            &.summary {
+                margin: 10px 0;
+            }
+        }
+        .price-box {
+            .price-label {
+                display: none;
+            }
+            .price {
+                font-size: 14px;
+            }
+        }
+        .old-price {
+            color: @primary1;
+            text-decoration: line-through;
+        }
+        .price-excluding-tax,
+        .price-including-tax {
+            display: block;
         }
     }
 }
