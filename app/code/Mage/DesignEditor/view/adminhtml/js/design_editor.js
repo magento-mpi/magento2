@@ -111,6 +111,13 @@
             }
         },
 
+        /**
+         * Handler for 'save' event
+         *
+         * @param event
+         * @param eventData
+         * @private
+         */
         _onSave: function(event, eventData) {
             var saveConfirmEvent = this.options.saveConfirmEvent;
             if (eventData.confirm_message) {
@@ -119,14 +126,14 @@
                 dialog.find('.confirm_message').html(eventData.confirm_message);
                 var buttons = [
                     {
-                        text: 'Save',
+                        text: $.mage.__('Save'),
                         click: function() {
                             $('body').trigger(saveConfirmEvent, eventData);
                         },
                         'class': 'primary'
                     },
                     {
-                        text: 'Close',
+                        text: $.mage.__('Close'),
                         click: function() {
                             $( this ).dialog('close');
                         },
@@ -140,6 +147,13 @@
             }
         },
 
+        /**
+         * Handler for 'save-confirm' event
+         *
+         * @param event
+         * @param eventData
+         * @private
+         */
         _onSaveConfirm: function(event, eventData) {
             if (!eventData.save_url) {
                 throw Error('Save url is not defined');
@@ -192,18 +206,25 @@
             });
         },
 
+        /**
+         * Handler for 'save-and-assign' event
+         *
+         * @param event
+         * @param eventData
+         * @private
+         */
         _onSaveAndAssign: function(event, eventData) {
            var saveAndAssignConfirmEvent = this.options.saveAndAssignConfirmEvent;
             eventData.confirm_buttons = [
                 {
-                    text: 'Save',
+                    text: $.mage.__('Save'),
                     click: function() {
                         $('body').trigger(saveAndAssignConfirmEvent, eventData);
                     },
                     'class': 'primary'
                 },
                 {
-                    text: 'Close',
+                    text: $.mage.__('Close'),
                     click: function() {
                         $(this).dialog('close');
                     },
@@ -213,6 +234,13 @@
             $(event.target).trigger('assign', eventData);
         },
 
+        /**
+         * Handler for 'save-and-assign-confirm' event
+         *
+         * @param event
+         * @param eventData
+         * @private
+         */
         _onSaveAndAssignConfirm: function(event, eventData) {
             if (eventData.dialog) {
                 eventData.dialog.find('.messages').html('');
@@ -247,9 +275,16 @@
             }
         },
 
+        /**
+         * Get dialog element
+         *
+         * @returns {*|HTMLElement}
+         * @private
+         */
         _getDialog: function() {
             return $(this.options.dialogSelectorSave);
         },
+
         _preparePostItems: function(items) {
             var postData = {};
             $.each(items, function(index, item){
@@ -257,6 +292,7 @@
             });
             return postData;
         },
+
         _post: function(action, data) {
             var url = action;
             var postResult;
@@ -280,6 +316,7 @@
             });
             return postResult;
         },
+
         _destroy: function() {
             $('body').off(this.options.saveEvent + ' ' + this.options.saveAndAssignEvent);
             this.element.find( this.options.cellSelector ).each( function(i, element) {

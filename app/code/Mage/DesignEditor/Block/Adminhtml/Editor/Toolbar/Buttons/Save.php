@@ -150,11 +150,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
             'label'          => $this->__('Save'),
             'data_attribute' => array('mage-init' => $this->_getSaveInitData()),
             'options'        => array(
-                /*array(
-                    'label'          => $this->__('Save'),
-                    'data_attribute' => array('mage-init' => $this->_getSaveInitData()),
-                    'disabled'       => true
-                ),*/
                 array(
                     'label'          => $this->__('Save and Assign'),
                     'data_attribute' => array('mage-init' => $this->_getSaveAndAssignInitData())
