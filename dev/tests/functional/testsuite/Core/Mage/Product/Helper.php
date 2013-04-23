@@ -1604,8 +1604,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $locationBeforeMove = $attributeBlock2->location();
                 $attempts = 2;
                 while ($attempts > 0) {
+                    $this->focusOnElement($attributeBlock2);
                     $this->moveto($attributeBlock1);
                     $this->buttondown();
+                    $this->focusOnElement($attributeBlock2);
                     $this->moveto($attributeBlock2);
                     $this->buttonup();
                     $locationAfterMove = $attributeBlock2->location();
