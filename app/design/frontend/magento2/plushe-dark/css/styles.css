@@ -1402,6 +1402,54 @@ a:visited:hover {
 .field.ratings .field.rating .control .rating-5:before {
   content: "\e01a\e01a\e01a\e01a\e01a";
 }
+/* Review details */
+.review.view .product.name {
+  display: inline-block;
+  margin: 0 0 0;
+}
+.review.view .product.details {
+  float: left;
+  margin-right: 30px;
+}
+.review.view .product.photo {
+  display: block;
+  margin-bottom: 30px;
+}
+.review.view .review.details {
+  margin: 30px 0;
+  display: table;
+}
+.review.view .review.details .ratings.summary {
+  margin-bottom: 30px;
+}
+.review.view .review.details .ratings.summary strong {
+  font-weight: 600;
+  display: block;
+  margin: 0 0 15px;
+}
+.review.view .review.details .ratings.summary .item {
+  display: table-row;
+}
+.review.view .review.details .ratings.summary .label {
+  padding: 0 0 10px;
+  padding-right: 10px;
+  display: table-cell;
+  margin-right: ;
+}
+.review.view .review.details .ratings.summary .label:after {
+  content: ': ';
+}
+.review.view .review.details .review.date {
+  font-size: 12px;
+}
+.review.view .review.details .review.title {
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 0 15px;
+}
+.customer.review.view + .actions {
+  clear: both;
+}
 /*
  *    MESSAGES
  *

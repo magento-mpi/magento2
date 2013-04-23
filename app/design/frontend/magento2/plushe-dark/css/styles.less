@@ -1105,6 +1105,61 @@ a:visited {
     }
 }
 
+/* Review details */
+
+.review.view {
+    .product.name {
+        display: inline-block;
+        margin:0 0 0;
+    }
+    .product.details {
+        float:left;
+        margin-right:30px;
+    }
+    .product.photo {
+        display: block;
+        margin-bottom:30px;
+    }
+    .review.details {
+        margin:30px 0;
+        display: table;
+
+        .ratings.summary {
+            margin-bottom:30px;
+            strong {
+                font-weight: 600;
+                display: block;
+                margin:0 0 15px;
+            }
+            .item {
+                display: table-row;
+            }
+            .label {
+                padding:0 0 10px;
+                padding-right:10px;
+                display: table-cell;
+                &:after {
+                    content:': ';
+                }
+                margin-right:;
+            }
+        }
+        .review.date  {
+            font-size: 12px;
+        }
+        .review.title  {
+            font-weight: 600;
+            font-size: 16px;
+            margin:0 0 15px;
+        }
+    }
+}
+
+.customer.review.view + .actions {
+    clear:both;
+}
+
+
 /*
  *    MESSAGES
  *

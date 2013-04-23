@@ -754,7 +754,8 @@
                 <type>color-picker</type>
                 <selector><![CDATA[
                     .page.title .title,
-                    .std .page-title h1
+                    .std .page-title h1,
+                    .review.view .product.name
                 ]]></selector>
                 <attribute>color</attribute>
                 <var>Mage_DesignEditor::page-headings:color-picker</var>
