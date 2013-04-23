@@ -34,6 +34,11 @@
          */
         themeId: null,          //@TODO try to remove usage of themeId by passing it to method directly as param
 
+        /**
+         * List of themes and stores that assigned to them
+         *
+         * @type {Array.<number>}
+         */
         storesByThemes: [],
 
         /**
@@ -59,8 +64,11 @@
         },
 
         /**
-         * Assign event handler
-         * @protected
+         * Handler for 'assign' event
+         *
+         * @param event
+         * @param data
+         * @private
          */
         _onAssign: function(event, data) {
             this.themeId = data.theme_id;
@@ -76,16 +84,16 @@
             dialog.find('.messages').html('');
             var buttons = data.confirm_buttons || [
                 {
-                    text: 'Assign',
+                    text: $.mage.__('Assign'),
                     click: function() {
                         $('body').trigger(assignConfirmEvent);
                     },
                     'class': 'primary'
                 },
                 {
-                    text: 'Close',
+                    text: $.mage.__('Close'),
                     click: function() {
-                        $( this ).dialog( "close" );
+                        $(this).dialog('close');
                     },
                     'class': 'action-close'
                 }
@@ -99,8 +107,9 @@
         },
 
         /**
-         * "Assign" button click handler (button is on "Select Store-views" popup)
-         * @protected
+         * Handler for 'assign-confirm' event
+         *
+         * @private
          */
         _onAssignConfirm: function() {
             var stores = this._getCheckboxes();
@@ -120,6 +129,12 @@
             this.themeId = null;
         },
 
+        /**
+         * Get the IDs of those stores-views, whose checkboxes are set in the popup.
+         *
+         * @returns {Array.<number>}
+         * @private
+         */
         _getCheckboxes: function() {
             var stores = [];
             var checkedValue = 1;
@@ -235,6 +250,12 @@
             return postData;
         },
 
+        /**
+         * Set checkboxes according to array passed
+         *
+         * @param {Array.<number>} stores
+         * @private
+         */
         _setCheckboxes: function(stores) {
             this._getDialog().find('input[type=checkbox]').each(function(index, element) {
                 element = $(element);
@@ -245,6 +266,12 @@
             });
         },
 
+        /**
+         * Get dialog element
+         *
+         * @returns {*|HTMLElement}
+         * @private
+         */
         _getDialog: function() {
             var selector = this.options.isMultipleStoreViewMode
                 ? this.options.dialogSelector : this.options.dialogSelectorSsm;
