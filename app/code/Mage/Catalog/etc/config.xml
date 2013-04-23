@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>1.6.0.0.22</version>
+            <version>1.6.0.0.23</version>
             <api_versions>
                 <V1>
                     <title>API Version V1</title>
