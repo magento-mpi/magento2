@@ -400,6 +400,12 @@
             .cart.summary .summary.title,
             .cart.summary .block,
             .data-table td,
+            .data.comparison .cell.product.info,
+            .data.comparison .addto.links,
+            .data.comparison .cell.label,
+            .data.comparison .cell.label.product,
+            .data.comparison .cell.label,
+            .data.comparison td:last-child,
             .block.widget.viewed,
             .block.crosssell,
             .block.upsell,
@@ -424,7 +430,6 @@
             .login.container .block.new:before,
             .block.filter .filtered .item,
             .block.add.review .fieldset > .legend
-
         ]]></selector>
         <attribute>border-color</attribute>
         <var>Mage_DesignEditor::image-stroke-keylines</var>
@@ -467,7 +472,6 @@
 
             .banner.main .banner.action span,
             .opc.wrapper .form:not(.login) .actions button.action span
-
         ]]></selector>
         <attribute>color</attribute>
         <var>Mage_DesignEditor::button-text</var>
@@ -563,6 +567,7 @@
             .minicart.wrapper .action.previous span,
             .minicart.wrapper .action.next span,
             .action.delete span,
+            .data.comparison .cell.remove .action.delete span,
             .toolbar .modes .mode span,
             .toolbar .action.next span,
             .toolbar .action.previous span,
@@ -579,6 +584,7 @@
             .minicart.wrapper .action.previous:hover span,
             .minicart.wrapper .action.next:hover span,
             .action.delete:hover span,
+            .data.comparison .cell.remove .action.delete:hover span,
             .toolbar .modes .mode:hover span,
             .toolbar .action.next:hover span,
             .toolbar .action.previous:hover span,
