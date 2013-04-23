@@ -368,7 +368,9 @@
             .block.dashboard:not(.welcome):not(.orders) .content,
             .block.reviews.list .item.review:nth-child(odd),
             .fieldset.bundle.options > .field,
-            .block.bundle.summary
+            .block.bundle.summary,
+            .data.table.reviews tbody tr:nth-child(even) td,
+            .data.table.wishlist tbody tr:nth-child(even)
         ]]></selector>
         <attribute>background-color</attribute>
         <var>Mage_DesignEditor::form-background</var>
@@ -431,7 +433,8 @@
             .product.photo.thumbs .item.thumb .active img,
             .login.container .block.new:before,
             .block.filter .filtered .item,
-            .block.add.review .fieldset > .legend
+            .block.add.review .fieldset > .legend,
+            .data.table.reviews tbody td
         ]]></selector>
         <attribute>border-color</attribute>
         <var>Mage_DesignEditor::image-stroke-keylines</var>
@@ -473,7 +476,10 @@
             .form.contact .action span,
 
             .banner.main .banner.action span,
-            .opc.wrapper .form:not(.login) .actions button.action span
+            .opc.wrapper .form:not(.login) .actions button.action span,
+
+            .data.table.wishlist + .actions .primary .action.share span,
+            .data.table.wishlist + .actions .primary .action.update span
         ]]></selector>
         <attribute>color</attribute>
         <var>Mage_DesignEditor::button-text</var>
@@ -515,7 +521,10 @@
             .form.contact .action,
 
             .banner.main .banner.action,
-            .opc.wrapper .form:not(.login) .actions button.action
+            .opc.wrapper .form:not(.login) .actions button.action,
+
+            .data.table.wishlist + .actions .primary .action.share,
+            .data.table.wishlist + .actions .primary .action.update
         ]]></selector>
         <attribute>background-color</attribute>
         <var>Mage_DesignEditor::button-background</var>
@@ -557,7 +566,10 @@
             .form.contact .action:hover,
 
             .banner.main .banner.action:hover,
-            .opc.wrapper .form:not(.login) .actions button.action:hover
+            .opc.wrapper .form:not(.login) .actions button.action:hover,
+
+            .data.table.wishlist + .actions .primary .action.share:hover,
+            .data.table.wishlist + .actions .primary .action.update:hover
         ]]></selector>
         <attribute>background-color</attribute>
         <var>Mage_DesignEditor::button-hover</var>
