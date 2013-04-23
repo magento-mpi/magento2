@@ -9,7 +9,8 @@
  */
 ?>
 <p class="tag edit">
-    <?php echo $this->__('<strong>Tag Name:</strong> %s', $this->escapeHtml($this->getTagInfo()->getName())) ?>
+    <strong><?php echo $this->__('Tag'); ?></strong>
+    <span class="tag text"><?php echo $this->escapeHtml($this->getTagInfo()->getName()); ?></span>
     <a href="#" class="action delete" title="<?php echo $this->__('Delete') ?>" onclick="if(confirm('<?php echo $this->__('Are you sure you want to delete this tag?') ?>')) window.location='<?php echo $this->getTagInfo()->getRemoveTagUrl(); ?>'; return false;"><span><?php echo $this->__('Delete') ?></span></a>
 </p>
 <div class="toolbar tags"><?php echo $this->getToolbarHtml() ?></div>

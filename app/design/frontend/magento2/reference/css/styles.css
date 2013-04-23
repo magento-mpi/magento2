@@ -2582,6 +2582,59 @@ div.mage-error {
 .data-table td:last-child {
   border: 0;
 }
+.form.giftcard.redeem .field {
+  margin: 15px 0;
+}
+.form.giftcard.redeem .label {
+  margin-bottom: 10px;
+  display: block;
+}
+.form.giftcard.redeem .primary {
+  display: inline;
+  margin-right: 15px;
+}
+.form.giftcard.redeem .primary .action {
+  border: none;
+  border-radius: 0;
+  background: #da370a;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.form.giftcard.redeem .primary .action span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.form.giftcard.redeem .secondary {
+  display: inline;
+}
+.form.giftcard.redeem .secondary .action {
+  border: none;
+  border-radius: 0;
+  background: #c2c2c2;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.form.giftcard.redeem .secondary .action span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.form.giftcard.redeem .secondary .action:focus,
+.form.giftcard.redeem .secondary .action:active,
+.form.giftcard.redeem .secondary .action:hover {
+  background: #999999;
+}
 .block.giftcard .form.add .fieldset {
   position: relative;
   z-index: 1;
@@ -3479,6 +3532,84 @@ div.mage-error {
 .action.subscribe span:after {
   text-indent: 0;
   display: block;
+}
+.form.newsletter.manage .fieldset {
+  margin: 0 0 20px;
+  padding: 0;
+  border: 0;
+}
+.form.newsletter.manage .fieldset .legend {
+  float: left;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+.form.newsletter.manage .fieldset .legend + br {
+  display: block;
+  clear: both;
+}
+.form.newsletter.manage .action.save {
+  border: none;
+  border-radius: 0;
+  background: #da370a;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.form.newsletter.manage .action.save span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.form.newsletter.manage .actions .primary {
+  margin-bottom: 15px;
+}
+/*
+ *    Mage_Tags
+ *
+----------------------------------------------------------------------------- */
+.tags.product,
+.tags.items.cloud {
+  margin: 0 0 20px;
+}
+.tags.product .item,
+.tags.items.cloud .item {
+  display: inline-block;
+  margin: 0 0 5px 5px;
+}
+.tags.product .item:first-child,
+.tags.items.cloud .item:first-child {
+  margin-left: 0;
+}
+.data.table.tags .col.photo {
+  width: 1px;
+}
+.data.table.tags .addto.links {
+  margin-top: 15px;
+}
+.tag.edit {
+  line-height: 16px;
+}
+.tag.edit strong {
+  font-weight: 400;
+}
+.tag.edit strong:after {
+  content: ': ';
+}
+.tag.edit .tag.text {
+  font-weight: 600;
+}
+.tag.edit .tag.text:before {
+  content: "\201C";
+}
+.tag.edit .tag.text:after {
+  content: "\201D ";
+}
+.tag.edit .action {
+  vertical-align: middle;
 }
 /*
  *    Widgets
@@ -7268,25 +7399,32 @@ img[align="right"] {
  *    My Account -> My Product Reviews
  *
 ----------------------------------------------------------------------------- */
+.data.table.tags,
 .data.table.reviews {
   width: 100%;
 }
+.data.table.tags th,
 .data.table.reviews th,
+.data.table.tags td,
 .data.table.reviews td {
   padding: 8px 5px;
 }
+.data.table.tags th,
 .data.table.reviews th {
   text-align: left;
   text-transform: uppercase;
   border-bottom: 1px solid #e5e5e5;
 }
+.data.table.tags tbody tr:nth-child(even) td,
 .data.table.reviews tbody tr:nth-child(even) td {
   background: #e5e5e5;
 }
+.data.table.tags tbody td,
 .data.table.reviews tbody td {
   border-bottom: 1px solid #e5e5e5;
   vertical-align: top;
 }
+.data.table.tags .product.name,
 .data.table.reviews .product.name {
   margin: 0;
 }

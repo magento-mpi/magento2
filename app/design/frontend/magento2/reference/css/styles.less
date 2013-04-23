@@ -2039,12 +2039,33 @@ div.mage-error {
         vertical-align: top;
     }
     td:last-child {
-        border: 0
+        border: 0;
     }
     tbody tr:nth-child(even) {
     }
 }
-
+.form.giftcard.redeem {
+    .field {
+        margin:15px 0;
+    }
+    .label {
+        margin-bottom:10px;
+        display: block;
+    }
+    .primary {
+        display: inline;
+        .action {
+            .primaryAction();
+        }
+        margin-right:15px;
+    }
+    .secondary {
+        display: inline;
+        .action {
+            .secondaryAction();
+        }
+    }
+}
 .block.giftcard {
     .form.add .fieldset {
         position: relative;
@@ -2078,6 +2099,7 @@ div.mage-error {
         }
     }
 }
+
 
 .cart.totals {
     .table.totals {
@@ -2754,6 +2776,76 @@ div.mage-error {
         .hideText(16px);
         color: #fff;
     }
+}
+
+.form.newsletter.manage {
+    .fieldset {
+        margin:0 0 20px;
+        padding:0;
+        border:0;
+        .legend {
+            float:left;
+            margin-bottom:20px;
+            font-weight: 600;
+        }
+        .legend + br {
+            display: block;
+            clear:both;
+        }
+    }
+    .action.save {
+        .primaryAction();
+    }
+    .actions .primary {
+        margin-bottom:15px;
+    }
+}
+
+/*
+ *    Mage_Tags
+ *
+----------------------------------------------------------------------------- */
+
+.tags.product,
+.tags.items.cloud {
+    .item {
+        display: inline-block;
+        margin:0 0 5px 5px;
+        &:first-child {
+            margin-left:0;
+        }
+    }
+    margin:0 0 20px;
+}
+.data.table.tags {
+    .col.photo {
+        width:1px;
+    }
+    .addto.links {
+        margin-top:15px;
+    }
+}
+.tag.edit {
+    line-height: 16px;
+    strong {
+        font-weight: 400;
+        &:after {
+            content:': ';
+        }
+    }
+    .tag.text {
+        font-weight: 600;
+        &:before {
+            content:"\201C";
+        }
+        &:after {
+            content:"\201D ";
+        }
+    }
+    .action {
+        vertical-align: middle;
+    }
+
 }
 
 /*
@@ -5015,6 +5107,7 @@ and (max-width : 768px) {
  *
 ----------------------------------------------------------------------------- */
 
+.data.table.tags,
 .data.table.reviews {
     width: 100%;
 
