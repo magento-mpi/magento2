@@ -6,14 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 @font-face {
   font-family: 'MUI-Icons';
   src: url('../mui/fonts/MUI-Icons.eot');
@@ -63,22 +55,6 @@
   font-weight: 400;
   font-style: normal;
 }
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 /*CSS3 transition*/
 /*all .25s ease|linear|ease-in|ease-out|ease-in-out|cubic-bezier*/
 /*.box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
@@ -86,25 +62,9 @@
   -moz-box-shadow: @arguments;
   -webkit-box-shadow: @arguments;
 }*/
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 /* =============================================================================
    Switchable terms
    ========================================================================== */
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 /*
     Fieldset
 -------------------------------------- */
@@ -1735,6 +1695,7 @@ select:focus {
 select:disabled {
   opacity: 0.5;
 }
+textarea.mage-error,
 select.mage-error,
 input[type="password"].mage-error,
 input[type="text"].mage-error {
@@ -2182,6 +2143,15 @@ div.mage-error {
   font-size: 24px;
   color: #74dc74;
 }
+.order.review.data th.col.price,
+.order.review.data th.col.subtotal {
+  text-align: right;
+  padding-right: 10px;
+}
+.order.review.data th.col.item {
+  text-align: left;
+  padding-left: 20px;
+}
 /*
  *    Mage_Checkout
  *
@@ -2213,7 +2183,7 @@ div.mage-error {
 .cart.main.actions .action.clear {
   border: none;
   border-radius: 0;
-  background: #74dc74;
+  background: #6d838c;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
@@ -2223,7 +2193,7 @@ div.mage-error {
 .cart.main.actions .action.update span,
 .cart.main.actions .action.clear span {
   font-size: 14px;
-  color: #4d5d64;
+  color: #fff;
   text-transform: uppercase;
   font-weight: 600;
   line-height: 16px;
@@ -2234,7 +2204,7 @@ div.mage-error {
 .cart.main.actions .action.clear:active,
 .cart.main.actions .action.update:hover,
 .cart.main.actions .action.clear:hover {
-  background: #74dc74;
+  background: #6d838c;
 }
 .items.data {
   width: 100%;
@@ -3176,6 +3146,11 @@ div.mage-error {
   text-indent: 0;
   display: block;
 }
+.action.delete:focus,
+.action.delete:active,
+.action.delete:hover {
+  outline: none;
+}
 .action.delete:focus span,
 .action.delete:active span,
 .action.delete:hover span {
@@ -3317,6 +3292,35 @@ div.mage-error {
   display: none;
 }
 /*
+ *    Mage_Sales
+ *
+----------------------------------------------------------------------------- */
+.block.reorder {
+  padding-right: 30px;
+}
+.block.reorder .item {
+  padding-left: 20px;
+}
+.block.reorder .item input {
+  float: left;
+  margin-top: 2px;
+  margin-left: -20px;
+}
+.block.reorder .subtitle {
+  display: block;
+  margin: 0 0 15px;
+  font-weight: 600;
+}
+.block.reorder .actions {
+  margin: 15px 0 0;
+}
+.block.reorder .actions .primary,
+.block.reorder .actions .secondary {
+  margin-right: 5px;
+  display: inline-block;
+  vertical-align: middle;
+}
+/*
  *    Mage_Newsletter
  *
 ----------------------------------------------------------------------------- */
@@ -3428,6 +3432,197 @@ div.mage-error {
   padding: 0;
   margin: 0;
   list-style-type: none;
+}
+/*
+ *    Mage_Catalog
+ *
+ *    Compare
+----------------------------------------------------------------------------- */
+.block.compare > .title .qty {
+  font-size: 16px;
+  margin-right: -5px;
+}
+.block.compare > .title .qty:before {
+  content: '(';
+}
+.block.compare > .title .qty:after {
+  content: ')';
+}
+.block.compare .item {
+  padding-right: 20px;
+  overflow: hidden;
+}
+.block.compare .product.name {
+  float: left;
+}
+.block.compare .action.delete {
+  margin-right: -20px;
+  float: right;
+}
+.block.compare .action.compare {
+  border: none;
+  border-radius: 0;
+  background: #6d838c;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  float: right;
+}
+.block.compare .action.compare span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.block.compare .action.compare:focus,
+.block.compare .action.compare:active,
+.block.compare .action.compare:hover {
+  background: #6d838c;
+}
+.block.compare .action.clear {
+  float: left;
+  margin-top: 10px;
+}
+.block.compare .actions {
+  margin-top: 15px;
+  *zoom: 1;
+}
+.block.compare .actions:before,
+.block.compare .actions:after {
+  content: "";
+  display: table;
+}
+.block.compare .actions:after {
+  clear: both;
+}
+.catalog-product-compare-index .action.print {
+  float: right;
+  margin-top: -50px;
+}
+.comarision.wrapper {
+  clear: both;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 50px;
+}
+.comarision.wrapper:after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 15px;
+}
+.comarision.container {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.data.comparison {
+  table-layout: fixed;
+}
+.data.comparison .cell.label {
+  width: 140px;
+  padding-left: 30px;
+  font-weight: 600;
+  text-align: left;
+  border-right: 1px solid #e5e5e5;
+}
+.data.comparison .cell.label.product {
+  border-bottom: 1px solid #e5e5e5;
+}
+.data.comparison .cell {
+  padding: 15px;
+  vertical-align: top;
+}
+.data.comparison .cell p:first-child {
+  margin-top: 0;
+}
+.data.comparison .cell.product {
+  width: 140px;
+}
+.data.comparison .cell.product.info {
+  border-bottom: 1px solid #e5e5e5;
+}
+.data.comparison .cell.attribute {
+  font-size: 12px;
+}
+.data.comparison td:last-child {
+  border-right: 1px solid #e5e5e5;
+}
+.data.comparison tr:nth-child(odd) .cell.attribute {
+  background-color: #546972;
+}
+.data.comparison .product.photo {
+  text-align: center;
+  display: block;
+  margin: 0 auto 15px;
+}
+.data.comparison .product.photo .img.photo.container {
+  display: inline-block !important;
+}
+.data.comparison .actions,
+.data.comparison .price-box,
+.data.comparison .product.rating,
+.data.comparison .product.name {
+  margin: 15px 0;
+}
+.data.comparison .addto.links {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e5e5e5;
+  font-size: 12px;
+}
+.data.comparison .cell.remove {
+  padding-top: 0;
+  padding-bottom: 0;
+  text-align: right;
+}
+.data.comparison .cell.remove .action.delete {
+  float: right;
+  border: none;
+  border-radius: 0;
+  background: #6d838c;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  padding: 4px;
+  margin-right: -15px;
+}
+.data.comparison .cell.remove .action.delete span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.data.comparison .cell.remove .action.delete:focus,
+.data.comparison .cell.remove .action.delete:active,
+.data.comparison .cell.remove .action.delete:hover {
+  background: #6d838c;
+}
+.data.comparison .cell.remove .action.delete span {
+  overflow: hidden;
+  line-height: 0;
+}
+.data.comparison .cell.remove .action.delete span:after {
+  content: "\e012";
+  font-size: 12px;
+}
+.comparison.headings {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  background-color: #4d5d64;
+}
+.comparison.headings th {
+  background-color: #4d5d64;
 }
 /*
  *    Mage_Catalog
@@ -4028,6 +4223,7 @@ div.mage-error {
  *    Product Listing
 ----------------------------------------------------------------------------- */
 .toolbar {
+  clear: both;
   margin: 17px 0;
   *zoom: 1;
 }
@@ -4079,7 +4275,6 @@ div.mage-error {
   padding: 4px;
   margin: 0 3px;
   border: 1px solid #6d838c;
-  background: #6d838c;
   overflow: hidden;
 }
 .toolbar .modes .mode span {
@@ -4957,7 +5152,7 @@ div.mage-error {
 }
 .product.media {
   float: left;
-  width: 550px;
+  width: 540px;
   padding-bottom: 30px;
 }
 .box.tocart {
@@ -5511,14 +5706,6 @@ body.type-bundle {
 .action.back.customization:hover {
   color: #74dc74;
 }
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 img[align="left"] {
   margin: 0 22px 22px 0;
 }
@@ -5561,7 +5748,7 @@ img[align="right"] {
   transition: visibility 0s linear 0.2s, opacity 0.2s linear 0s;
 }
 .customer.welcome .menu > ul li {
-  margin: 5px 0;
+  margin: 10px 0;
   display: block;
   white-space: nowrap;
 }
@@ -6499,7 +6686,7 @@ img[align="right"] {
 .form.send.friend .actions > .primary .action.add {
   border: none;
   border-radius: 0;
-  background: #74dc74;
+  background: #6d838c;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
@@ -6508,7 +6695,7 @@ img[align="right"] {
 }
 .form.send.friend .actions > .primary .action.add span {
   font-size: 14px;
-  color: #4d5d64;
+  color: #fff;
   text-transform: uppercase;
   font-weight: 600;
   line-height: 16px;
@@ -6516,7 +6703,7 @@ img[align="right"] {
 .form.send.friend .actions > .primary .action.add:focus,
 .form.send.friend .actions > .primary .action.add:active,
 .form.send.friend .actions > .primary .action.add:hover {
-  background: #74dc74;
+  background: #6d838c;
 }
 .form.send.friend .actions > .primary .limit {
   margin: 0;
@@ -6613,6 +6800,24 @@ img[align="right"] {
 }
 .form.contact .fieldset .field.comment textarea {
   min-height: 13.2em;
+}
+/*
+ *    MISC
+ *
+----------------------------------------------------------------------------- */
+.action.back span:before {
+  content: '\00AB\00A0';
+}
+/*
+ *    Mage_Poll
+ *
+ *    Account
+----------------------------------------------------------------------------- */
+.block.poll .item {
+  margin: 0 15px;
+}
+.block.poll .poll.answer {
+  display: block;
 }
 /*
  *    Mage_Customer
@@ -6939,25 +7144,9 @@ img[align="right"] {
   line-height: 1;
   font-weight: 400;
 }
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 .no-display {
   display: none;
 }
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 .button.btn-cart {
   border: none;
   border-radius: 0;

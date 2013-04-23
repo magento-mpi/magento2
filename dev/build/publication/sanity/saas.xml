@@ -58,13 +58,6 @@
         </item>
         <item>
             <!-- MUST be refactored -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <path>app/design/frontend/magento2/reference/css/styles.less</path>
-        </item>
-        <item>
-            <!-- MUST be refactored -->
             <word>Moneybookers</word>
             <word>GoogleOptimizer</word>
             <path>tmt_templates/mc/en_US/db/empty_data.sql</path>

@@ -1,11 +1,11 @@
-// **
-// * {license_notice}
-// *
-// * @category    design
-// * @package     magento2_skater
-// * @copyright   {copyright}
-// * @license     {license_link}
-// */
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @package     magento2_skater
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
 
 // Reviews */
 
@@ -61,6 +61,7 @@
 
 // *
 // *    Customer Reviews
+// *
 // -------------------------------------- */
 
 .block.reviews.list {
@@ -290,68 +291,13 @@
 // ----------------------------------------------------------------------------- */
 
 .productItems() {
-    @spacing: 0 0 10px;
     .item.product {
         .column(2,10);
-        display: inline-block;
-        vertical-align: top;
         .borderBox;
+        display: inline-block;
         margin: 0;
         padding: 10px 20px 20px;
         float: none;
-        .product.details {
-            overflow: hidden;
-            margin-top: 15px;
-        }
-        .product.name,
-        .price-box {
-            margin: @spacing;
-        }
-        .price-box {
-            .price {
-                .customFont(16px,none,0,400);
-            }
-            line-height: 1;
-            .old-price {
-                color: @primary8;
-                font-size: 14px;
-                text-decoration: line-through;
-                .price-label {
-                    display: none;
-                }
-            }
-            .special-price .price-label {
-                display: none;
-            }
-            .minimal-price-link {
-                font-size: 12px;
-                .colorA(@primary3,@primary4);
-            }
-        }
-        .price-excluding-tax,
-        .price-including-tax {
-            display: block;
-            font-size: 12px;
-            line-height: 22px;
-            .label {
-                display: inline-block;
-                line-height: 20px;
-                margin-top: 3px;
-            }
-            .clearfix;
-            .price {
-                font-size: 16px;
-                float: left;
-                margin-right: 5px;
-            }
-        }
-        .addto.links {
-            .action {
-                display: block;
-                line-height: 1.4em;
-                margin: 0 0 3px;
-            }
-        }
     }
 }
 
@@ -363,7 +309,8 @@
     }
 }
 
-.block.related {
+.block.related,
+.block.crosssell {
     .action.select {
         .resetAction();
         .actionLink();
@@ -383,47 +330,58 @@
     margin: 0 0 10px;
 }
 
-.block.widget.viewed,
-.block.crosssell,
-.block.upsell,
-.block.related {
-    clear: both;
+.block.related,
+.block.upsell {
+    .products.list.items > .item {
+        border: 0;
+        .details {
+            padding: 0;
+        }
+        .product.actions .secondary {
+            border: 0;
+            margin: 0;
+            position: relative;
+            .action {
+                padding: 0;
+            }
+        }
+        .product.photo {
+            float: none;
+        }
+    }
+}
+
+.block.related,
+.block.upsell {
+    .clearfix;
     .blocklist();
 }
 
-.block.widget.viewed.grid,
 .block.crosssell {
-    .list .item > .product {
-        padding: 5px 9px;
-        border: 1px solid transparent;
-        background: transparent;
-        position: relative;
-        .primary {
-            margin: 0 0 10px;
+    margin: 50px 0 0;
+    .content > .items {
+        .clearfix;
+        .productGrid();
+    }
+}
+
+.block.widget.viewed {
+    margin: 50px 0 0;
+    .content > ol {
+        .clearfix;
+    }
+}
+
+.block.widget.viewed {
+    .products.list.items > .item {
+        .addto.links .action {
+            display: inline-block;
+            margin: 0 0 0 -1px;
         }
-        .product.actions {
-            .primary,
-            .action.tocart,
-            .secondary {
-                visibility: hidden;
-            }
-        }
-        &:hover {
-            background: @primary5;
-            border-color: @primary7;
-            box-shadow: 0 2px 5px @primary1Opacity;
-            padding: 10px 23px 5px;
-            margin: -5px -14px 0;
-            position: relative;
-            z-index: 99;
-            .product.actions {
-                visibility: hidden;
-                opacity: 1;
-                .primary,
-                .action.tocart,
-                .secondary {
-                    visibility: visible;
-                }
+        .product.actions .primary {
+            text-align: center;
+            .action.tocart {
+                margin: 8px auto 0;
             }
         }
     }
@@ -476,7 +434,7 @@
         }
     }
 
-///
+//
 //&.after {
 //    padding: 0 0 20px;
 //    &:after {
@@ -490,7 +448,7 @@
 //        bottom: 4px;
 //    }
 //
-//}*/
+//}
 }
 
 .block.minicart {
@@ -1308,7 +1266,7 @@ body.type-bundle {
                     font-size: 12px;
                     color: @primary4;
                 }
-                .price-box  {
+                .price-box {
                     margin: 0;
                     font-size: 12px;
                     .price {
@@ -1424,13 +1382,13 @@ body.type-bundle {
                 }
             }
             .field.required .label {
-                 em {
-                     display: none;
-                 }
-                 &:after {
-                     content: ' *';
-                     color: @errorColor;
-                 }
+                em {
+                    display: none;
+                }
+                &:after {
+                    content: ' *';
+                    color: @errorColor;
+                }
             }
         }
     }

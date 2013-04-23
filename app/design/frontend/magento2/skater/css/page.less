@@ -1,11 +1,11 @@
-// **
-// * {license_notice}
-// *
-// * @category    design
-// * @package     magento2_skater
-// * @copyright   {copyright}
-// * @license     {license_link}
-// */
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @package     magento2_skater
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
 
 // *
 // *    Mage_Page
@@ -17,7 +17,10 @@ html, body, button, input, select, textarea {
     font: 14px/1.43 Arial, Helvetica, sans-serif;
 }
 
-html,
+html {
+    background: @footerBg;
+}
+
 .page.wrapper {
     background: @bodyBg;
     background-image: @bodyBgImage;
@@ -42,9 +45,18 @@ html,
 a,
 a:visited,
 a > span {
-    color: @secondary1;
+    color: @primary3;
     &:hover {
-        color: @secondary2;
+        color: @primary4;
+    }
+}
+
+.category-view > p,
+.std,
+.dashboard.welcome {
+    a,
+    a:visited {
+        .colorA(@secondary1,@secondary2);
     }
 }
 

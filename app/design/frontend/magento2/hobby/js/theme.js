@@ -141,24 +141,26 @@
     };
 
     function checkWrap() {
-        var navWidth = $('.navigation > ul').width();
-        var totalWidth=0;
-        var stop = 0;
-        $('.navigation > ul > li').each(function(index) {
+        var navWidth = $('.navigation > ul').width(),
+        totalWidth = 0,
+        stop = 0,
+        topLevelItems = $('.navigation > ul > li'),
+        itemsNum = topLevelItems.length;
+
+        topLevelItems.each(function(index) {
             totalWidth = totalWidth + $(this).outerWidth();
             if(totalWidth > navWidth && stop == 0) {
                 stop = index - 1;
-            };
+            }
         });
+
         if (stop > 0) {
-            var items = $('.navigation > ul > li');
-            items
-                .slice(stop,items.lenght)
+            topLevelItems
+                .slice(stop, itemsNum)
                 .wrapAll('<li class="level-top more parent">')
                 .wrapAll('<div class="submenu"/>')
                 .wrapAll('<ul />');
         }
-
     }
 
     function listScroll() {
@@ -186,7 +188,7 @@
                             items.removeClass('shown');
                             items.removeClass('hidden');
                             listInner.animate({
-                            left: '-=' + itemWidth*perpage,
+                            left: '-=' + itemWidth*perpage
                         }, 400, 'easeInOutCubic', function() {
                             // Animation complete.
                             page = page + 1;
