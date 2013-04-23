@@ -95,6 +95,7 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_AbstractHelper
                     $this->fail("Attribute with title '$value' does not exist");
                 }
                 $moveElement = $this->getControlElement('link', 'unassigned_attribute');
+                $this->focusOnElement($moveElement);
                 $moveElement->click();
                 $this->moveto($moveElement);
                 $this->buttondown();
