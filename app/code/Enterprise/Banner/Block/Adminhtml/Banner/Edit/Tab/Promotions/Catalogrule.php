@@ -90,13 +90,13 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
         ));
 
         $this->addColumn('catalogrule_name', array(
-            'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Rule Name'),
+            'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Rule'),
             'align'     =>'left',
             'index'     => 'name',
         ));
 
         $this->addColumn('catalogrule_from_date', array(
-            'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Start Date'),
+            'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Start on'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -104,7 +104,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
         ));
 
         $this->addColumn('catalogrule_to_date', array(
-            'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Expiration Date'),
+            'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('End on'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',

@@ -107,7 +107,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser extends Mage_Adminhtml_Block_Wid
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Rule Name'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Rule'),
             'align'     => 'left',
             'index'     => 'name',
         ));

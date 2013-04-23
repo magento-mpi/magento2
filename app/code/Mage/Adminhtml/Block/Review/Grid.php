@@ -164,7 +164,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Backend_Block_Widget_Grid_Ex
          */
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
-                'header'    => $helper->__('Visible In'),
+                'header'    => $helper->__('Visibility'),
                 'index'     => 'stores',
                 'type'      => 'store',
                 'store_view' => true,
@@ -180,7 +180,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Backend_Block_Widget_Grid_Ex
         ));
 
         $this->addColumn('name', array(
-            'header'    => $helper->__('Product Name'),
+            'header'    => $helper->__('Product'),
             'align'     =>'left',
             'type'      => 'text',
             'index'     => 'name',
