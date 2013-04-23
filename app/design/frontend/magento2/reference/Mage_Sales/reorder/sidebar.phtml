@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     base_default
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -50,21 +50,21 @@
             </div>
         </form>
     </div>
-<?php echo $this->getPagerHtml(); ?>
-<script type="text/javascript">
-    head.js(
-        "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-        "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-        "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-        "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-        function() {
-            jQuery('#reorder-validate-detail').validation({
-                errorPlacement: function(error, element) {
-                    error.appendTo('#cart-sidebar-reorder-advice-container');
-                }
-            });
-        }
-    );
-</script>
-<?php endif ?>
+    <?php echo $this->getPagerHtml(); ?>
+    <script type="text/javascript">
+        head.js(
+            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
+            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
+            function() {
+                jQuery('#reorder-validate-detail').validation({
+                    errorPlacement: function(error, element) {
+                        error.appendTo('#cart-sidebar-reorder-advice-container');
+                    }
+                });
+            }
+        );
+    </script>
 </div>
+<?php endif ?>

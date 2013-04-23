@@ -42,10 +42,6 @@ Product reviews page
         <reference name="root">
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
-        <reference name="head">
-            <action method="addJs"><file>jquery/jqzoom/js/jquery.jqzoom-core-pack.js</file></action>
-            <action method="addCss"><file>jquery/jqzoom/css/jquery.jqzoom.css</file></action>
-        </reference>
         <reference name="content">
             <block type="Mage_Review_Block_Product_View" name="product.info" template="Mage_Catalog::product/view.phtml">
                 <block type="Mage_Catalog_Block_Product_View_Media" name="product.info.media" as="media" template="product/view/media.phtml">

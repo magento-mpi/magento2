@@ -60,24 +60,53 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
         $form->setFieldNameSuffix('imagesizing');
         $form->addType('button_button', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Button');
 
+        $isFilePresent = true;
         try{
             /** @var $controlsConfig Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration */
             $controlsConfig = $this->_controlFactory->create(
                 Mage_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_IMAGE_SIZING,
                 $this->getTheme()
             );
-
-            $whiteBorder = $controlsConfig->getControlData('product_image_border');
-            $controls = $controlsConfig->getAllControlsData();
         } catch (Magento_Exception $e) {
-            $whiteBorder = array();
-            $controls = array();
+            $isFilePresent = false;
         }
 
+        if ($isFilePresent) {
+            $this->_initFormElements($controlsConfig, $form);
+        } else {
+            $hintMessage = $this->__('Editing image sizing is restricted or not provided for this theme.');
+            $form->addField('imagesize-tab-error', 'note', array(
+                'after_element_html' => '<p class="error-notice">' . $hintMessage . '</p>'
+            ));
+        }
+
+        return parent::_prepareForm();
+    }
+
+    /**
+     * Initialize form elements
+     *
+     * @param Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration $controlsConfig
+     * @param Varien_Data_Form $form
+     * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
+     */
+    protected function _initFormElements($controlsConfig, $form)
+    {
+        $hintMessage =  $this->__('Width is a required field. If only width is specified,'
+            . ' the image will be re-sized proportionally. If both width and height are specified,'
+            . ' the image will be re-sized exactly.'
+            . ' You will need to update your custom CSS in order to have the resized images displayed correctly '
+            . ' in your store.');
+
+        $form->addField('information_hint', 'note', array(
+            'after_element_html' => '<p class="note">' . $hintMessage . '</p>'));
+
+        $whiteBorder = $controlsConfig->getControlData('product_image_border');
         if ($whiteBorder) {
             $this->_addWhiteBorderElement($whiteBorder);
         }
 
+        $controls = $controlsConfig->getAllControlsData();
         foreach ($controls as $name => $control ) {
             if ($control['type'] != 'image-sizing') {
                 continue;
@@ -92,21 +121,22 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
         ));
         $this->_addElementTypes($fieldset);
 
-        $fieldset->addField('save_image_sizing', 'button_button', array(
-            'name'  => 'save_image_sizing',
-            'title' => $this->__('Update'),
-            'value' => $this->__('Update'),
-            'data-mage-init' => $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode(array(
-                'button' => array(
-                    'event'  => 'saveForm',
-                    'target' => 'body'
-                )
-            )))
-        ));
-
-        parent::_prepareForm();
-        return parent::_prepareForm();
+        if ($whiteBorder || $controls) {
+            $fieldset->addField('save_image_sizing', 'button_button', array(
+                'name'  => 'save_image_sizing',
+                'title' => $this->__('Update'),
+                'value' => $this->__('Update'),
+                'data-mage-init' => $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode(array(
+                    'button' => array(
+                        'event'  => 'saveForm',
+                        'target' => 'body'
+                    )
+                )))
+            ));
+        }
+        return $this;
     }
+
 
     /**
      * Add white border checkbox to form

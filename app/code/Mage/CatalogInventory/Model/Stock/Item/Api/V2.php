@@ -48,19 +48,19 @@ class Mage_CatalogInventory_Model_Stock_Item_Api_V2 extends Mage_CatalogInventor
      * Update stock data of multiple products at once
      *
      * @param array $productIds
-     * @param array $productData
+     * @param array $productsData
      * @return boolean
      */
-    public function multiUpdate($productIds, $productData)
+    public function multiUpdate($productIds, $productsData)
     {
-        if (count($productIds) != count($productData)) {
+        if (count($productIds) != count($productsData)) {
             $this->_fault('multi_update_not_match');
         }
 
-        $productData = (array)$productData;
+        $productsData = (array)$productsData;
 
         foreach ($productIds as $index => $productId) {
-            $this->update($productId, $productData[$index]);
+            $this->update($productId, $productsData[$index]);
         }
 
         return true;

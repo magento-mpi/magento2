@@ -12,52 +12,14 @@
 class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mage_Backend_Utility_Controller
 {
     /**
-     * Identifier theme
-     *
-     * @var int
-     */
-    protected static $_themeId;
-
-    /**
      * @var Mage_Core_Helper_Data
      */
     protected $_dataHelper;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->_dataHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
-    }
-
-    /**
-     * Create theme is db
-     */
-    public static function prepareTheme()
-    {
-        $theme = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
-        $theme->setData(array(
-            'theme_code'           => 'default',
-            'package_code'         => 'default',
-            'area'                 => 'frontend',
-            'parent_id'            => null,
-            'theme_path'           => 'default/demo',
-            'theme_version'        => '2.0.0.0',
-            'theme_title'          => 'Default',
-            'magento_version_from' => '2.0.0.0-dev1',
-            'magento_version_to'   => '*',
-            'is_featured'          => '0'
-        ));
-        $theme->save();
-        self::$_themeId = $theme->getId();
-    }
-
-    /**
-     * Delete theme from db
-     */
-    public static function prepareThemeRollback()
-    {
-        $theme = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
-        $theme->load(self::$_themeId)->delete();
     }
 
     public function testIndexAction()
@@ -109,11 +71,9 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
     }
 
     /**
-     * Data provider for testGetLayoutUpdateAction
-     *
      * @return array
      */
-    public function getLayoutUpdateActionDataProvider()
+    public static function getLayoutUpdateActionDataProvider()
     {
         $correctXml = new Varien_Simplexml_Element('<?xml version="1.0" encoding="UTF-8"?><layout/>');
         $correctXml = $correctXml->asNiceXml();

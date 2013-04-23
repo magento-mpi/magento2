@@ -29,6 +29,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         Mage::getDesign()->setDesignTheme('test/default');
 
         $this->_model = Mage::getModel('Mage_Core_Model_Layout_Merge', array(
+            'design'    => Mage::getDesign(),
             'arguments' => array('area' => 'frontend', 'theme' => Mage::getDesign()->getDesignTheme()->getId())
         ));
     }

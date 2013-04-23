@@ -37,10 +37,10 @@ class Enterprise_GiftCard_Model_Customer_Api extends Mage_Api_Model_Resource_Abs
      *
      * @param string $code
      * @param int $customerId
-     * @param int $storeId
+     * @param int $store
      * @return boolean
      */
-    public function redeem($code, $customerId, $storeId = null)
+    public function redeem($code, $customerId, $store = null)
     {
         if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             $this->_fault('redemption_disabled');
@@ -49,7 +49,7 @@ class Enterprise_GiftCard_Model_Customer_Api extends Mage_Api_Model_Resource_Abs
         $card = $this->_getGiftCard($code);
 
         Mage::app()->setCurrentStore(
-            Mage::app()->getStore($storeId)
+            Mage::app()->getStore($store)
         );
 
         try {

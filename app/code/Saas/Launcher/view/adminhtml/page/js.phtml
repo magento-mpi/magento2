@@ -13,23 +13,22 @@
 
 <script type="text/javascript">
 (function($) {
-    $(document).ready(function() {
-        head.js(
-            "<?php echo $this->getViewFileUrl('jquery/jquery.ba-hashchange.min.js') ?>",
-            "<?php echo $this->getViewFileUrl('Saas_Launcher::page/launcher.js') ?>",
-            function () {
-                $('#drawer').drawer();
-            }
-        );
+    head.js(
+        "<?php echo $this->getViewFileUrl('jquery/jquery.ba-hashchange.min.js') ?>",
+        "<?php echo $this->getViewFileUrl('Saas_Launcher::page/launcher.js') ?>",
+        function () {
+            $('#drawer').drawer();
+            $('#drawer').drawer('handleHash');
+        }
+    );
 
-        $('.tile-store-settings [class^="action"]')
-            .add('.tile-store-settings a')
-            .on('focus.tileFocus', function() {
-                $(this).closest('.tile-store-settings').addClass('focus');
-            })
-            .on('blur.tileBlur', function() {
-                $(this).closest('.tile-store-settings').removeClass('focus');
-            });
-    });
+    $('.tile-store-settings [class^="action"]')
+        .add('.tile-store-settings a')
+        .on('focus.tileFocus', function() {
+            $(this).closest('.tile-store-settings').addClass('focus');
+        })
+        .on('blur.tileBlur', function() {
+            $(this).closest('.tile-store-settings').removeClass('focus');
+        });
 })(jQuery);
 </script>

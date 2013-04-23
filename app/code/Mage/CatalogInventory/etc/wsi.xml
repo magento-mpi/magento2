@@ -88,7 +88,7 @@
                     <xsd:sequence>
                         <xsd:element minOccurs="1" maxOccurs="1" name="sessionId" type="xsd:string" />
                         <xsd:element minOccurs="1" maxOccurs="1" name="productIds" type="typens:ArrayOfString" />
-                        <xsd:element minOccurs="1" maxOccurs="1" name="productData" type="typens:catalogInventoryStockItemUpdateEntityArray" />
+                        <xsd:element minOccurs="1" maxOccurs="1" name="productsData" type="typens:catalogInventoryStockItemUpdateEntityArray" />
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>

@@ -1,0 +1,61 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @package     magento2_upstream
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+/*
+    Compare
+-------------------------------------- */
+.block-compare {
+    margin-bottom: 50px;
+    .block-title {
+        strong {
+            text-transform: uppercase;
+            font: 16px/1.333 @oswald;
+            font-weight: 700;
+        }
+    }
+    ol {
+        .resetList;
+        .item {
+            position: relative;
+            .btn-remove {
+                .iconAfter('\e015', 16px, Icons);
+                .hideText(16px);
+                position: absolute;
+                right: 0;
+                top: 0;
+                .colorA(@color5, @color6);
+            }
+            .product-name {
+                line-height: 1.333;
+                padding-right: 20px;
+                margin: 0 0 10px 0;
+            }
+        }
+    }
+    .actions {
+        text-align: right;
+        a {
+            font-size: 12px;
+        }
+        button {
+            margin-left: 10px;
+        }
+    }
+}
+
+/*
+    Compare Page
+-------------------------------------- */
+.catalog-product-compare-index {
+    .link-print {
+        float: right;
+        margin-top: -69px;
+        .buttonStyles(@color3, @light, @color8, @dark);
+    }
+}

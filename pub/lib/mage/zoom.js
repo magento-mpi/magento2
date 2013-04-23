@@ -740,7 +740,7 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
                 enlarged = data.enlarged.wrapper;
 
             if(!data.loading){
-                if(!$this.hasClass(settings.main.activeTrackClass)) {
+                if(!$this.hasClass(settings.main.activeTrackClass) && settings.useLens) {
 
                     utils.setData({
                         pageX: e.pageX,
@@ -774,12 +774,12 @@ var data = { pageX:0, pageY:0, timer:0, loading: false, currentItem:-1, switchDi
                     }
 
                     $this.addClass(settings.main.activeTrackClass);
+                    enlarged.show();
 
                 } else if (settings.useGallery){
                     method.showGallery();
                 }
 
-                enlarged.show();
             }
         },
 

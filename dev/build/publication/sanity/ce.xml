@@ -27,13 +27,6 @@
     <whitelist>
         <item>
             <!-- MUST be refactored -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <path>app/design/frontend/magento2/reference/css/styles.less</path>
-        </item>
-        <item>
-            <!-- MUST be refactored -->
             <word>enterprise</word>
             <path>dev/tests/functional/fixture/_testFiles/Mage_Cms--widgets.css</path>
         </item>

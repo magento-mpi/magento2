@@ -26,6 +26,11 @@ class Mage_Core_Model_Layout_Merge
     /**#@-*/
 
     /**
+     * @var Mage_Core_Model_Design_PackageInterface
+     */
+    protected $_design;
+
+    /**
      * @var string
      */
     private $_area;
@@ -85,9 +90,10 @@ class Mage_Core_Model_Layout_Merge
     /**
      * Init merge model
      *
+     * @param Mage_Core_Model_Design_PackageInterface $design
      * @param array $arguments
      */
-    public function __construct(array $arguments = array())
+    public function __construct(Mage_Core_Model_Design_PackageInterface $design, array $arguments = array())
     {
         /* Default values */
         if (isset($arguments['area']) && isset($arguments['theme'])) {
@@ -95,10 +101,10 @@ class Mage_Core_Model_Layout_Merge
             $this->_theme = $arguments['theme'];
         } elseif (isset($arguments['area'])) {
             $this->_area = $arguments['area'];
-            $this->_theme = null;
+            $this->_theme = $design->getArea() === $arguments['area'] ? $design->getDesignTheme()->getId() : null;
         } else {
-            $this->_area = Mage::getDesign()->getArea();
-            $this->_theme = Mage::getDesign()->getDesignTheme()->getId();
+            $this->_area = $design->getArea();
+            $this->_theme = $design->getDesignTheme()->getId();
         }
 
         $this->_storeId = Mage::app()->getStore(empty($arguments['store']) ? null : $arguments['store'])->getId();
@@ -108,6 +114,7 @@ class Mage_Core_Model_Layout_Merge
             $this->_subst['from'][] = '{{' . $key . '}}';
             $this->_subst['to'][] = $value;
         }
+        $this->_design = $design;
     }
 
     /**
@@ -604,7 +611,7 @@ class Mage_Core_Model_Layout_Merge
                 continue;
             }
             /* Resolve layout update filename with fallback to the module */
-            $filename = Mage::getDesign()->getFilename($file, $layoutParams + array('module' => $module));
+            $filename = $this->_design->getFilename($file, $layoutParams + array('module' => $module));
             if (!is_readable($filename)) {
                 throw new Magento_Exception("Layout update file '{$filename}' doesn't exist or isn't readable.");
             }
@@ -612,7 +619,7 @@ class Mage_Core_Model_Layout_Merge
         }
 
         /* Custom local layout updates file for the current theme */
-        $filename = Mage::getDesign()->getFilename('local.xml', $layoutParams);
+        $filename = $this->_design->getFilename('local.xml', $layoutParams);
         if (is_readable($filename)) {
             $updateFiles[] = $filename;
         }

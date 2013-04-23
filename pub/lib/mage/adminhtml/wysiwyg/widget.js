@@ -360,7 +360,7 @@ WysiwygWidget.chooser.prototype = {
             title:      this.config.buttons.open,
             modal:      true,
             resizable:  false,
-            zIndex:     this.getMaxZIndex(),
+            zIndex:     widgetTools.getMaxZIndex(),
             width:      900,
             dialogClass: 'popup-window',
             open: function () {

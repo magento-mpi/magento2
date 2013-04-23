@@ -373,7 +373,9 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                     </div>
                 </div>
                 <div class="field field-payflow-pro-password required">
-                    <label for="payflow-pro-password" class="label"><span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Password'); ?></span></label>
+                    <label for="payflow-pro-password" class="label">
+                        <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Password'); ?></span>
+                    </label>
                     <div class="control">
                         <input type="password" class="input-text required-entry" id="payflow-pro-password" name="groups[verisign][fields][pwd][value]" value="<?php echo $this->getObscuredConfigValue('payment/verisign/pwd'); ?>">
                     </div>
@@ -400,7 +402,9 @@ $saveActionUrl = $this->getUrl('*/storelauncher_payments_drawer/savePayment');
                     </div>
                 </div>
                 <div class="field field-authorize-key required">
-                    <label for="authorize-key" class="label"><span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Transaction Key'); ?></span></label>
+                    <label for="authorize-key" class="label">
+                        <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Transaction Key'); ?></span>
+                    </label>
                     <div class="control">
                         <input type="password" class="input-text required-entry" id="authorize-key" name="groups[authorizenet][fields][trans_key][value]" value="<?php echo $this->getObscuredConfigValue('payment/authorizenet/trans_key'); ?>">
                     </div>

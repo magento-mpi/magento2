@@ -58,6 +58,7 @@ class Routine
         'html'  => array('*.html', '*.htm'),
         'css'   => array('*.css'),
         'js'    => array('*.js'),
+        'less'  => array('*.less'),
         'flex'  => array('*.as'),
         'sql'   => array('*.sql'),
     );

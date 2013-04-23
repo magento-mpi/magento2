@@ -15,7 +15,8 @@
  * @see Mage_Page_Block_Html_Topmenu
  */
 ?>
-<?php $_menu = $this->getHtml('level-top','submenu', 1) ?>
+<?php $columnsLimit = $this->getColumnsLimit() ? : 0; ?>
+<?php $_menu = $this->getHtml('level-top','submenu', $columnsLimit) ?>
 <?php if ($_menu): ?>
 <nav class="navigation">
     <ul>

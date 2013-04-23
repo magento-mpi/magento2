@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     base_default
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -68,8 +68,8 @@
                 <container name="content.aside" label="Main Content Aside" />
                 <container name="content.bottom" label="Main Content Bottom" />
             </container>
-            <container name="left" as="left" label="Left Column" htmlTag="div" htmlClass="column left sidebar"/>
-            <container name="right" as="right" label="Right Column" htmlTag="div" htmlClass="column right sidebar"/>
+            <container name="left" as="left" label="Left Column" />
+            <container name="right" as="right" label="Right Column" />
 
             <container name="page.bottom.container" as="page_bottom" label="Before Page Footer Container" htmlTag="div" htmlClass="page bottom">
                 <container name="page.bottom" label="Before Page Footer" htmlTag="div" htmlClass="content" />
@@ -80,7 +80,7 @@
                     <block type="Mage_Page_Block_Switch" name="store_switcher" as="store_switcher" template="switch/stores.phtml"/>
                     <block type="Mage_Page_Block_Template_Links" name="footer_links" template="template/links.phtml"/>
                     <block type="Mage_Page_Block_Html_Footer" name="copyright" template="html/copyright.phtml" />
-                    <block type="Mage_Page_Block_Html_Footer" name="report-bugs" template="html/reportbugs.phtml" />
+                    <block type="Mage_Page_Block_Html_Footer" name="report.bugs" template="html/reportbugs.phtml" />
                 </container>
             </container>
 
