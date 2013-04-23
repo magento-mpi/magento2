@@ -50,6 +50,8 @@
                     drawerForm = $("#drawer-form"),
                     postData;
 
+                $(this.options.drawer).trigger('drawerBeforeSave');
+
                 if (!drawerForm.valid()) {
                     return false;
                 }
