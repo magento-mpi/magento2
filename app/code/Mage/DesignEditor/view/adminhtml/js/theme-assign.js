@@ -15,34 +15,38 @@
     $.widget('vde.themeAssign', {
         options: {
             assignEvent:        'assign',
-            assignNextEvent:    'assign-next',
+            assignConfirmEvent: 'assign-confirm',
             loadEvent:          'loaded',
-            storeView: {
-                windowSelector: '#store-view-window'
-            },
-            closePopupBtn: '[class^="action-close"]',
-            assignUrl: null,
-            afterAssignUrl: null,
-            storesByThemes: {},
+            dialogSelector:     '#dialog-message-assign',
+            dialogSelectorSsm:  '#dialog-message-assign-ssm',
+            closePopupBtn:      '[class^="action-close"]',
+            assignUrl:          null,
+            afterAssignUrl:     null,
+            storesByThemes:     [],
             isMultipleStoreViewMode: null,
-            redirectOnAssign: false,
-            openNewOnAssign: true
+            redirectOnAssign:   false,
+            openNewOnAssign:    true,
+            refreshOnAssign:    true
         },
 
         /**
          * Identifier of a theme currently processed
-         *
-         * It is set in showStoreViews(), used and then cleared in _onAssignNext()
          */
         themeId: null,          //@TODO try to remove usage of themeId by passing it to method directly as param
 
-        storesByThemes: {},     //@TODO use property instead of an option
+        /**
+         * List of themes and stores that assigned to them
+         *
+         * @type {Array.<number>}
+         */
+        storesByThemes: [],
 
         /**
          * Form creation
          * @protected
          */
         _create: function() {
+            this.storesByThemes = this.options.storesByThemes;
             this._bind();
         },
 
@@ -53,68 +57,94 @@
         _bind: function() {
             //this.element is <body>
             this.element.on(this.options.assignEvent, $.proxy(this._onAssign, this));
-            this.element.on(this.options.assignNextEvent, $.proxy(this._onAssignNext, this));
-            this.element.on('click.closePopup', this.options.closePopupBtn, $.proxy(this._closePopup, this));
-            this.element.on('keyup', $.proxy(function(e) {
-                //ESC button
-                if (e.keyCode === 27) {
-                    this._closePopup();
-                }
-            }, this));
+            this.element.on(this.options.assignConfirmEvent, $.proxy(this._onAssignConfirm, this));
             this.element.on(this.options.loadEvent, $.proxy(function() {
                 this.element.trigger('contentUpdated');
             }, this));
         },
 
         /**
-         * Close assign to a store pop-up
+         * Handler for 'assign' event
+         *
          * @param event
          * @param data
-         * @protected
+         * @private
          */
-        _closePopup: function(event, data) {
-            $(this.options.storeView.windowSelector).hide();
+        _onAssign: function(event, data) {
+            this.themeId = data.theme_id;
+            if (this.options.isMultipleStoreViewMode) {
+                var stores = this.storesByThemes[data.theme_id] || [];
+                this._setCheckboxes(stores);
+            }
+
+            var assignConfirmEvent = this.options.assignConfirmEvent;
+
+            var dialog = this._getDialog();
+            data.dialog = dialog;
+            dialog.find('.messages').html('');
+            var buttons = data.confirm_buttons || [
+                {
+                    text: $.mage.__('Assign'),
+                    click: function() {
+                        $('body').trigger(assignConfirmEvent);
+                    },
+                    'class': 'primary'
+                },
+                {
+                    text: $.mage.__('Close'),
+                    click: function() {
+                        $(this).dialog('close');
+                    },
+                    'class': 'action-close'
+                }
+            ];
+            dialog.dialog('option', 'buttons', buttons);
+            if (data.confirm_message) {
+                dialog.find('.confirm_message').html(data.confirm_message);
+            }
+
+            dialog.dialog('open');
+        },
+
+        /**
+         * Handler for 'assign-confirm' event
+         *
+         * @private
+         */
+        _onAssignConfirm: function() {
+            var stores = this._getCheckboxes();
+            var dialog = this._getDialog();
+
+            if (this.options.isMultipleStoreViewMode && !this._isStoreChanged(this.themeId, stores)) {
+                var message = [
+                    '<div class="message message-error">',
+                    $.mage.__('No stores were reassigned.'),
+                    '</div>'
+                ].join('');
+                dialog.find('.messages').html(message);
+                return;
+            }
+
+            this.sendAssignRequest(this.themeId, stores);
             this.themeId = null;
         },
 
         /**
-         * Assign event handler
-         * @protected
+         * Get the IDs of those stores-views, whose checkboxes are set in the popup.
+         *
+         * @returns {Array.<number>}
+         * @private
          */
-        _onAssign: function(event, data) {
-            if (this.options.isMultipleStoreViewMode) {
-                this.showStoreViews(data.theme_id);
-            } else {
-                if (data.confirm_message && !confirm(data.confirm_message)) {
-                    return;
-                }
-                this.sendAssignRequest(data.theme_id, null);
-            }
-        },
-
-        /**
-         * "Assign" button click handler (button is on "Select Store-views" popup)
-         * @protected
-         */
-        _onAssignNext: function() {
+        _getCheckboxes: function() {
             var stores = [];
             var checkedValue = 1;
-            $(this.options.storeView.windowSelector).find('form').serializeArray().each(function(object, index) {
+            this._getDialog().find('form').serializeArray().each(function(object, index) {
                 if (parseInt(object.value, 10) === checkedValue) {
                     stores.push(parseInt(object.name.match('storeviews\\[(\\d+)\\]')[1], 10));
                 }
             });
 
-            if (!this._isStoreChanged(this.themeId, stores)) {
-                alert($.mage.__('No stores were reassigned.'));
-                return;
-            }
-
-            var popUp = $(this.options.storeView.windowSelector);
-            popUp.hide();
-
-            this.sendAssignRequest(this.themeId, stores);
-            this.themeId = null;
+            return stores;
         },
 
         /**
@@ -123,28 +153,8 @@
          */
         _isStoreChanged: function(themeId, storesToAssign) {
             var assignedStores = this.options.storesByThemes[themeId] || [] ;
-            return !(storesToAssign.length === assignedStores.length
-                && $(storesToAssign).not(assignedStores).length === 0);
-        },
-
-        /**
-         * Show store-view selector window
-         * @public
-         */
-        showStoreViews: function(themeId) {
-            var popUp = $(this.options.storeView.windowSelector);
-            var storesByThemes = this.options.storesByThemes;
-            popUp.find('input[type=checkbox]').each(function(index, element) {
-                element = $(element);
-
-                var storeViewId = parseInt(element.attr('id').replace('storeview_', ''), 10);
-                element.attr(
-                    'checked',
-                    !(!storesByThemes[themeId] || storesByThemes[themeId].indexOf(storeViewId) === -1)
-                );
-            });
-            this.themeId = themeId;
-            popUp.show();
+            return !(storesToAssign.length === assignedStores.length &&
+                $(storesToAssign).not(assignedStores).length === 0);
         },
 
         /**
@@ -192,24 +202,37 @@
          * @param themeId
          */
         assignThemeSuccess: function(response, stores, themeId) {
+            var dialog = this._getDialog();
             if (response.error) {
-                alert($.mage.__('Error') + ': "' + response.message + '".');
-            } else if (this.options.redirectOnAssign && this.options.afterAssignUrl != null) {
-                var defaultStore = 0;
-                var url = [
-                    this.options.afterAssignUrl + 'store_id',
-                    stores ? stores[0] : defaultStore,
-                    'theme_id',
-                    response.themeId
-                ].join('/');
-                this.options.storesByThemes[themeId] = stores;
+                var message = [
+                    '<div class="message message-error">',
+                    $.mage.__('Error'), ': "', response.message, '".',
+                    '</div>'
+                ];
+            } else {
+                var message = [
+                    '<div class="message-success">',
+                    response.success,
+                    '</div>'
+                ];
+                if (this.options.redirectOnAssign && this.options.afterAssignUrl != null) {
+                    var defaultStore = 0;
+                    var url = [
+                        this.options.afterAssignUrl + 'store_id',
+                        stores ? stores[0] : defaultStore,
+                        'theme_id',
+                        response.themeId
+                    ].join('/');
+                    this.storesByThemes[themeId] = stores;
 
-                if (this.options.openNewOnAssign) {
-                    window.open(url);
-                } else {
-                    document.location = url;
+                    if (this.options.openNewOnAssign) {
+                        window.open(url);
+                    } else {
+                        document.location = url;
+                    }
                 }
             }
+            dialog.find('.messages').html(dialog.find('.messages').html() + message.join(''));
         },
 
         /**
@@ -225,6 +248,34 @@
                 postData[index] = item.getPostData();
             });
             return postData;
+        },
+
+        /**
+         * Set checkboxes according to array passed
+         *
+         * @param {Array.<number>} stores
+         * @private
+         */
+        _setCheckboxes: function(stores) {
+            this._getDialog().find('input[type=checkbox]').each(function(index, element) {
+                element = $(element);
+
+                var storeViewId = parseInt(element.attr('id').replace('storeview_', ''), 10);
+                var isChecked = !(!stores || stores.indexOf(storeViewId) === -1);
+                element.attr('checked', isChecked);
+            });
+        },
+
+        /**
+         * Get dialog element
+         *
+         * @returns {*|HTMLElement}
+         * @private
+         */
+        _getDialog: function() {
+            var selector = this.options.isMultipleStoreViewMode
+                ? this.options.dialogSelector : this.options.dialogSelectorSsm;
+            return $(selector);
         }
     });
 
