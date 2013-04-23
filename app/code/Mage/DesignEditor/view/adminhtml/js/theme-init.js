@@ -56,7 +56,6 @@
          * @protected
          */
         _registerElements: function(content, selectorsByEvent) {
-            console.log(selectorsByEvent);
             for (var eventType in selectorsByEvent) {
                 for (var i = 0; i < selectorsByEvent[eventType].length; i++){
                     var selector = selectorsByEvent[eventType][i];
@@ -72,7 +71,6 @@
          * @protected
          */
         _onChangeTheme: function(event) {
-            console.log('change');
             if (confirm($.mage.__('You want to change theme. It is necessary to create customization. Do you want to create?'))) {
                 this._createVirtualTheme();
             }
