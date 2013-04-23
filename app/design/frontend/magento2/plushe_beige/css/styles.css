@@ -7266,6 +7266,9 @@ img[align="right"] {
 .data.table.wishlist textarea {
   width: 100%;
 }
+.data.table.wishlist .box.tocart .qty {
+  width: 50px;
+}
 .data.table.wishlist + .actions .primary {
   margin-bottom: 15px;
 }
