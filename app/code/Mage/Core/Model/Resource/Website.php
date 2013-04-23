@@ -95,10 +95,10 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
      * Retrieve default stores select object
      * Select fields website_id, store_id
      *
-     * @param boolean $withDefault include/exclude default admin website
+     * @param boolean $includeDefault include/exclude default admin website
      * @return Varien_Db_Select
      */
-    public function getDefaultStoresSelect($withDefault = false)
+    public function getDefaultStoresSelect($includeDefault = false)
     {
         $ifNull  = $this->_getReadAdapter()
             ->getCheckSql('store_group_table.default_store_id IS NULL', '0', 'store_group_table.default_store_id');
@@ -112,24 +112,24 @@ class Mage_Core_Model_Resource_Website extends Mage_Core_Model_Resource_Db_Abstr
                     . ' AND website_table.default_group_id = store_group_table.group_id',
                 array('store_id' => $ifNull)
             );
-        if (!$withDefault) {
+        if (!$includeDefault) {
             $select->where('website_table.website_id <> ?', 0);
         }
         return $select;
     }
 
     /**
-     * Get total number of persistent entities in the system, excluding admin website by default
+     * Get total number of persistent entities in the system, excluding the admin website by default
      *
-     * @param bool $countAdmin
+     * @param bool $includeDefault
      * @return int
      */
-    public function countAll($countAdmin = false)
+    public function countAll($includeDefault = false)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from($this->getMainTable(), 'COUNT(*)');
-        if (!$countAdmin) {
-            $select->where(sprintf('%s <> %s', $adapter->quoteIdentifier('code'), $adapter->quote('admin')));
+        if (!$includeDefault) {
+            $select->where('website_id <> ?', 0);
         }
         return (int)$adapter->fetchOne($select);
     }
