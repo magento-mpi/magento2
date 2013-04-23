@@ -1158,7 +1158,7 @@ a:visited:hover {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  border: 1px solid #c2c2c2;
+  border: 1px solid #cac3b4;
   border-radius: 3px;
   background: #ffffff;
   padding: 0 10px 0;
@@ -1579,7 +1579,7 @@ textarea {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  border: 1px solid #c2c2c2;
+  border: 1px solid #cac3b4;
   border-radius: 3px;
   background: #ffffff;
   padding: 0 10px 0;
@@ -1615,7 +1615,7 @@ input[type="text"] {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  border: 1px solid #c2c2c2;
+  border: 1px solid #cac3b4;
   border-radius: 3px;
   background: #ffffff;
   padding: 0 10px 0;
@@ -1668,7 +1668,7 @@ select {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  border: 1px solid #c2c2c2;
+  border: 1px solid #cac3b4;
   border-radius: 3px;
   background: #ffffff;
   padding: 0 10px 0;
@@ -1720,14 +1720,14 @@ div.mage-error {
   box-shadow: none;
   text-shadow: none;
   outline: none;
-  border: 1px solid #c2c2c2;
+  border: 1px solid #cac3b4;
   background: #ffffff;
   padding: 7px;
   border-radius: 0 3px 3px 0;
   float: left;
 }
 .block.search .action.search span {
-  color: #c2c2c2;
+  color: #cac3b4;
   width: 16px;
   display: block;
   line-height: 0px;
@@ -1778,10 +1778,10 @@ div.mage-error {
   width: 100%;
   border-radius: 3px 0 0 3px;
   border-right: 0;
-  border-color: #c2c2c2;
+  border-color: #cac3b4;
 }
 .block.search input:focus {
-  border-color: #c2c2c2;
+  border-color: #cac3b4;
 }
 .block.search .action.advanced {
   display: none;
@@ -2183,7 +2183,7 @@ div.mage-error {
 .cart.main.actions .action.clear {
   border: none;
   border-radius: 0;
-  background: #c2c2c2;
+  background: #cac3b4;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
@@ -2785,7 +2785,7 @@ div.mage-error {
   vertical-align: middle;
   text-align: center;
   text-indent: -999em;
-  color: #c2c2c2;
+  color: #cac3b4;
   margin-left: -10px;
   overflow: hidden;
 }
@@ -3115,7 +3115,7 @@ div.mage-error {
   display: inline-block;
 }
 .action.delete span {
-  color: #c2c2c2;
+  color: #cac3b4;
   width: 16px;
   display: block;
   line-height: 0px;
@@ -3462,7 +3462,7 @@ div.mage-error {
 .block.compare .action.compare {
   border: none;
   border-radius: 0;
-  background: #c2c2c2;
+  background: #cac3b4;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
@@ -3594,7 +3594,7 @@ div.mage-error {
   float: right;
   border: none;
   border-radius: 0;
-  background: #c2c2c2;
+  background: #cac3b4;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
@@ -3774,7 +3774,7 @@ div.mage-error {
   left: 0;
   top: 100%;
   background: #f8f8f8;
-  border-bottom: 1px solid #c2c2c2;
+  border-bottom: 1px solid #cac3b4;
   width: 100%;
   z-index: 1;
 }
@@ -4151,7 +4151,7 @@ div.mage-error {
   padding: 0;
 }
 .block.filter .filtered .item {
-  border-top: 1px solid #c2c2c2;
+  border-top: 1px solid #cac3b4;
   padding: 2px 0 5px;
   margin: 0 0 5px;
   position: relative;
@@ -4169,7 +4169,7 @@ div.mage-error {
   position: absolute;
   top: -1px;
   right: 0;
-  background: #c2c2c2;
+  background: #cac3b4;
 }
 .block.filter .action.remove span {
   color: #fff;
@@ -4284,11 +4284,11 @@ div.mage-error {
   display: inline-block;
   padding: 4px;
   margin: 0 3px;
-  border: 1px solid #c2c2c2;
+  border: 1px solid #cac3b4;
   overflow: hidden;
 }
 .toolbar .modes .mode span {
-  color: #c2c2c2;
+  color: #cac3b4;
   width: 13px;
   display: block;
   line-height: 0px;
@@ -4327,8 +4327,8 @@ div.mage-error {
   color: #fff;
 }
 .toolbar .modes .mode.active {
-  border-color: #c2c2c2;
-  background: #c2c2c2;
+  border-color: #cac3b4;
+  background: #cac3b4;
   cursor: default;
 }
 .toolbar .modes .mode.active span {
@@ -4395,7 +4395,7 @@ div.mage-error {
   list-style-type: none;
   padding: 0 30px 0 7px;
   margin: 0 -8px;
-  border: 1px solid #c2c2c2;
+  border: 1px solid #cac3b4;
   visibility: hidden;
   top: -24px;
   background: #fff;
@@ -4532,7 +4532,7 @@ div.mage-error {
 }
 .toolbar .action.next span,
 .toolbar .action.previous span {
-  color: #c2c2c2;
+  color: #cac3b4;
   width: 16px;
   display: block;
   line-height: 0px;
@@ -4598,7 +4598,7 @@ div.mage-error {
   margin: 0 auto;
 }
 .products.wrapper .products.list .item:hover {
-  border: 1px solid #c2c2c2;
+  border: 1px solid #cac3b4;
   background: #f8f8f8;
   z-index: 99;
 }
@@ -4629,7 +4629,7 @@ div.mage-error {
   margin-bottom: 7px;
 }
 .products.wrapper .products.list .item .secondary {
-  border: solid #c2c2c2;
+  border: solid #cac3b4;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -4716,7 +4716,7 @@ div.mage-error {
 }
 .products.wrapper.list .products.list .item.product {
   display: block;
-  border-bottom: 1px solid #c2c2c2;
+  border-bottom: 1px solid #cac3b4;
   padding: 9px 9px 9px 9px;
   *zoom: 1;
   margin-bottom: -1px;
@@ -4785,10 +4785,10 @@ div.mage-error {
   vertical-align: middle;
 }
 .stock[title].unavailable {
-  color: #c2c2c2;
+  color: #cac3b4;
 }
 .stock[title].unavailable span:before {
-  background: #c2c2c2;
+  background: #cac3b4;
 }
 .product.item .product.description {
   font-size: 12px;
@@ -4896,7 +4896,7 @@ div.mage-error {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  border: 1px solid #c2c2c2;
+  border: 1px solid #cac3b4;
   border-radius: 3px;
   background: #ffffff;
   padding: 0 10px 0;
@@ -5059,7 +5059,7 @@ div.mage-error {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  border: 1px solid #c2c2c2;
+  border: 1px solid #cac3b4;
   border-radius: 3px;
   background: #ffffff;
   padding: 0 10px 0;
@@ -5219,7 +5219,7 @@ div.mage-error {
   vertical-align: middle;
   text-align: center;
   text-indent: -999em;
-  color: #c2c2c2;
+  color: #cac3b4;
 }
 .action.mailto span:after {
   font-family: "icons";
@@ -6238,7 +6238,7 @@ img[align="right"] {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  border: 1px solid #c2c2c2;
+  border: 1px solid #cac3b4;
   border-radius: 3px;
   background: #ffffff;
   padding: 0 10px 0;
@@ -6696,7 +6696,7 @@ img[align="right"] {
 .form.send.friend .actions > .primary .action.add {
   border: none;
   border-radius: 0;
-  background: #c2c2c2;
+  background: #cac3b4;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
@@ -6848,7 +6848,7 @@ img[align="right"] {
 .block.poll .action.submit {
   border: none;
   border-radius: 0;
-  background: #c2c2c2;
+  background: #cac3b4;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
