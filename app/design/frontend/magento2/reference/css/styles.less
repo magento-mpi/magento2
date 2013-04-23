@@ -4953,3 +4953,32 @@ and (max-width : 768px) {
 }
 
 @import url(old.less);
+
+
+/*
+ *    My Account -> My Product Reviews
+ *
+----------------------------------------------------------------------------- */
+
+.data.table.reviews {
+    width: 100%;
+
+    th, td {
+        padding: 3px 5px;
+    }
+
+    th {
+        text-align: left;
+        text-transform: uppercase;
+        border-bottom: 1px solid @primary2;
+    }
+
+    tbody tr:nth-child(even) td {
+        background: @primary2;
+    }
+
+    tbody td {
+        border-bottom: 1px solid @primary2;
+        vertical-align: top;
+    }
+}
