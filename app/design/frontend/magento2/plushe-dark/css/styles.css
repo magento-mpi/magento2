@@ -2,7 +2,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     magento2
+ * @package     magento2_plushe-dark
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -1704,6 +1704,7 @@ select:focus {
 select:disabled {
   opacity: 0.5;
 }
+textarea.mage-error,
 select.mage-error,
 input[type="password"].mage-error,
 input[type="text"].mage-error {
@@ -5191,7 +5192,7 @@ div.mage-error {
     background: #464646;
   }
   .product.data > .item.content {
-    background: #464646;
+    background: none;
   }
   .temp-upsell-placeholder {
     display: inline;
@@ -6650,6 +6651,13 @@ img[align="right"] {
   min-height: 13.2em;
 }
 /*
+ *    MISC
+ *
+----------------------------------------------------------------------------- */
+.action.back span:before {
+  content: '\00AB\00A0';
+}
+/*
  *    Mage_Poll
  *
  *    Account
@@ -6991,14 +6999,6 @@ img[align="right"] {
 .no-display {
   display: none;
 }
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2
- * @copyright   {copyright}
- * @license     {license_link}
- */
 a,
 a:visited,
 a > span {
@@ -7010,10 +7010,11 @@ a > span:hover {
   color: #35c8f4;
 }
 .header {
-  border-bottom: 1px solid #1b1b1b;
+  border-bottom: none;
 }
 .navigation {
   border-top: 1px solid #464646;
+  box-shadow: 0 -1px 0 0 #1b1b1b;
 }
 .action.showcart .qty {
   color: #333;
@@ -7039,6 +7040,14 @@ textarea {
 }
 .toolbar .modes .mode.active {
   border-color: #ababab;
+}
+.toolbar .action.next span,
+.toolbar .action.previous span {
+  color: #c4c4c4;
+}
+.toolbar .action.next:hover span,
+.toolbar .action.previous:hover span {
+  color: #35c8f4;
 }
 .products.wrapper .products.list .item:hover {
   border: 1px solid #313131;
@@ -7086,6 +7095,12 @@ textarea {
   border-top: 1px solid #5e5e5e;
   box-shadow: 0 -1px 0 0 #313131;
 }
+.footer .links li:after {
+  color: #ababab;
+}
+.footer .links + .links li:first-child:before {
+  color: #ababab;
+}
 .page.main > .page.title {
   padding-bottom: 10px;
   border-bottom: 1px solid #313131;
@@ -7123,4 +7138,26 @@ textarea {
 }
 .header > .content .links a:hover span {
   color: #35c8f4;
+}
+.switcher .options > ul li a {
+  color: #c4c4c4;
+}
+.switcher .options > ul li a:hover {
+  color: #35c8f4;
+}
+.switcher .options.active strong,
+.switcher .options:hover strong,
+.switcher .options.active strong + button,
+.switcher .options:hover strong + button {
+  color: #35c8f4;
+}
+.form.send.friend .fieldset.create.account:after,
+.form.address.edit .fieldset.create.account:after,
+.form.edit.account .fieldset.create.account:after,
+.form.search.advanced .fieldset.create.account:after,
+.form.orders.search .fieldset.create.account:after,
+.form.contact .fieldset.create.account:after,
+.form.password.forget .fieldset.create.account:after,
+.form.create.account .fieldset.create.account:after {
+  color: #c4c4c4;
 }

@@ -1,3 +1,9 @@
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
 /* Use this script if you need to support IE 7 and IE 6. */
 
 window.onload = function() {

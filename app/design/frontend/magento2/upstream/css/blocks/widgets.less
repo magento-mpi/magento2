@@ -1,16 +1,15 @@
-//
-// {license_notice}
-//
-// @category    design
-// @package     magento2_upstream
-// @copyright   {copyright}
-// @license     {license_link}
-//
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @package     magento2_upstream
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
 
 /*
-    Widgets
+    Related, Crosssell, ...
 -------------------------------------- */
-
 .productItems() {
     @spacing: 0 0 10px;
     .item.product,
@@ -82,8 +81,7 @@
             background: @light;
         }
     }
-    .products.list,
-    .products-list {
+    .products.list {
         margin: 0 -20px;
         padding-top: 20px;
         .productItems();
@@ -94,7 +92,7 @@
 .block.crosssell,
 .block.upsell,
 .block.related,
-.column.main .widget-new-products {
+.column.main .block.widget.new {
     clear: both;
     .blocklist();
 }

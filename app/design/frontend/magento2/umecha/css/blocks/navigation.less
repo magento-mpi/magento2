@@ -1,11 +1,11 @@
-//
-// {license_notice}
-//
-// @category    design
-// @package     magento2_umecha
-// @copyright   {copyright}
-// @license     {license_link}
-//
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @package     magento2_umecha
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
 
 /*
     Navigation
@@ -45,6 +45,7 @@
                 margin: 12px -27px 0 -27px;
                 background-color: @color3;
                 border-radius: 5px;
+                z-index: 2;
                 &:before {
                     position: absolute;
                     top: -8px;
@@ -124,6 +125,74 @@
                             overflow: hidden;
                             white-space: nowrap;
                             text-overflow: ellipsis;
+                        }
+                    }
+                }
+            }
+            &.more.parent {
+                > a {
+                    .iconAfter('\e012', 8px, Icons);
+                    &:after {
+                        margin: -4px 0 0 8px;
+                    }
+                }
+                > .submenu {
+                    left: auto;
+                    right: 0;
+                    > ul {
+                        &:before {
+                            left: auto;
+                            right: 30px;
+                        }
+                        .column {
+                            > a {
+                                span {
+                                    text-transform: uppercase;
+                                    padding-left: 17px;
+                                }
+                                & + .submenu {
+                                    margin-top: 11px;
+                                }
+                            }
+                        }
+                        .level1 {
+                            > a {
+                                span {
+                                    text-transform: capitalize;
+                                    padding-left: 27px;
+                                }
+                                & + .submenu {
+                                    margin-top: 0;
+                                }
+                            }
+                        }
+                        .level2 {
+                            > a {
+                                span {
+                                    padding-left: 37px;
+                                }
+                            }
+                        }
+                        .level3 {
+                            > a {
+                                span {
+                                    padding-left: 47px;
+                                }
+                            }
+                        }
+                        .level4 {
+                            > a {
+                                span {
+                                    padding-left: 57px;
+                                }
+                            }
+                            li[class^="level"] {
+                                > a {
+                                    span {
+                                        padding-left: 67px;
+                                    }
+                                }
+                            }
                         }
                     }
                 }

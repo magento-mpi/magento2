@@ -2,11 +2,10 @@
  * {license_notice}
  *
  * @category    design
- * @package     magento2
+ * @package     magento2_plushe-dark
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 @fontsFolder : '../fonts/';
 @import url(fonts.less);
 @font-face {
@@ -1287,6 +1286,7 @@ select {
     .select();
 }
 
+textarea.mage-error,
 select.mage-error,
 input[type="password"].mage-error,
 input[type="text"].mage-error {
@@ -4424,6 +4424,16 @@ and (max-width : 768px) {
                 }
             }
         }
+    }
+}
+
+/*
+ *    MISC
+ *
+----------------------------------------------------------------------------- */
+.action.back {
+    span:before {
+        content:'\00AB\00A0';
     }
 }
 

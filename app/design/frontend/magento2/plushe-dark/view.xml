@@ -194,22 +194,26 @@
         <var name="product_summary_image_size">58</var>         <!-- New Product image size used for summary block-->
     </vars>
     <vars module="Mage_DesignEditor">
-            <var name="store-name:font-picker">"marvel"</var>
-            <var name="store-name:color-picker">#ffff00</var>
-            <var name="store-name:logo-uploader"></var>
+        <var name="store-name:font-picker">"marvel"</var>
+        <var name="store-name:color-picker"></var>
+        <var name="store-name:logo-uploader"></var>
+
         <var name="header-background:color-picker">#313131</var>
         <var name="header-background:image-uploader"></var>
         <var name="header-background:tile">repeat</var>
 
+        <var name="menu-border">#464646</var>
         <var name="menu-background">#313131</var>
         <var name="menu-stroke"></var>
         <var name="menu-links">#ababab</var>
         <var name="menu-links-hover">#828282</var>
 
+        <var name="submenu-links">#c4c4c4</var>
+        <var name="submenu-links-hover">#35c8f4</var>
+
         <var name="header-links">#ababab</var>
         <var name="header-links-hover">#35c8f4</var>
-            <var name="header-scroll-bar-background"></var>
-            <var name="header-scroll-bar-handle"></var>
+
         <var name="search-field">#ababab</var>
         <var name="search-field-text">#333333</var>
         <var name="search-field-stroke">#464646</var>
@@ -219,54 +223,36 @@
         <var name="page-background:tile">no-repeat</var>
 
         <var name="footer-background:color-picker">#464646</var>
-
+        <var name="footer-background:image-uploader"></var>
+        <var name="footer-background:tile">no-repeat</var>
+        <var name="footer-links">#ababab</var>
+        <var name="footer-links-hover">#35c8f4</var>
+        <var name="footer-text">#c4c4c4</var>
+        <var name="footer-border">#5e5e5e</var>
 
         <var name="form-background">#5e5e5e</var>
-
         <var name="form-field-stroke">#464646</var>
         <var name="form-field-stroke-clicked">#999999</var>
         <var name="image-stroke-keylines">#ababab</var>
-            <var name="scroll-bar-background"></var>
-            <var name="scroll-bar-handle"></var>
-
-            <var name="radio-checkbox-icon"></var>
-            <var name="radio-checkbox-background"></var>
-            <var name="radio-checkbox-stroke"></var>
 
         <var name="button-background">#35c8f4</var>
         <var name="button-text">#333333</var>
         <var name="button-hover">#35c8f4</var>
         <var name="icons">#c4c4c4</var>
         <var name="icons-hover">#35c8f4</var>
-            <var name="icons2">#837d75</var>
 
-            <var name="accents">#55c2e6</var>
-            <var name="size-swatches">#f8f8f8</var>
-            <var name="size-swatches-unavailable">#e5e5e5</var>
-            <var name="size-swatches-hover">#675f55</var>
+        <var name="error-box">#ff3200</var>
+        <var name="error-icon">#ffffff</var>
+        <var name="success-box">#d3edd5</var>
+        <var name="success-icon">#ffffff</var>
+        <var name="notice-box">#ffedb8</var>
+        <var name="notice-icon">#ffffff</var>
 
-
-            <var name="tooltip-text">#675f55</var>
-            <var name="tooltip-box">#ffffff</var>
-            <var name="tooltip-stroke">#c2c2c2</var>
-            <var name="tooltip2-text">#ffffff</var>
-            <var name="tooltip2-box">#000000</var>
-            <var name="tooltip2-stroke">#c2c2c2</var>
-
-            <var name="error-box">#ff3200</var>
-            <var name="error-icon">#ffffff</var>
-            <var name="success-box">#d3edd5</var>
-            <var name="success-icon">#ffffff</var>
-            <var name="notice-box">#ffedb8</var>
-            <var name="notice-icon">#ffffff</var>
-
-
-            <var name="banner-text:font-picker">"marvel", Arial, sans-serif</var>
-            <var name="banner-text:color-picker">#ff00ff</var>
-            <var name="page-headings:font-picker">"sourcesanspro", Arial, sans-serif</var>
-            <var name="page-headings:color-picker">#c4c4c4</var>
-            <var name="menu:font-picker">"sourcesanspro", Arial, sans-serif</var>
-            <var name="menu:color-picker">#ababab</var>
+        <var name="page-headings:font-picker">"sourcesanspro", Arial, sans-serif</var>
+        <var name="page-headings:color-picker">#c4c4c4</var>
+        
+        <var name="menu:font-picker">"sourcesanspro", Arial, sans-serif</var>
+        <var name="menu:color-picker">#ababab</var>
 
         <var name="body-text:font-picker">"sourcesanspro", Arial, sans-serif</var>
         <var name="body-text:color-picker">#c4c4c4</var>
@@ -274,12 +260,7 @@
         <var name="buttons:font-picker">"sourcesanspro", Arial, sans-serif</var>
         <var name="buttons:color-picker">#333333</var>
 
-        <var name="text-links">#c4c4c4</var>
-        <var name="text-links-hover">#35c8f4</var>
-        <var name="text-links-active">#c4c4c4</var>
-        <var name="text-links-product">#c4c4c4</var>
-        <var name="small-links">#c4c4c4</var>
-        <var name="small-links-hover">#35c8f4</var>
+        <var name="cms-links">#c4c4c4</var>
+        <var name="cms-links-hover">#35c8f4</var>
     </vars>
-
 </view>

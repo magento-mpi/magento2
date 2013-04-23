@@ -1,8 +1,10 @@
 /**
  * {license_notice}
  *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @category    design
+ * @package     magento2_electron
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 @font-face {
   font-family: 'MUI-Icons';
@@ -160,21 +162,9 @@ body {
   -moz-box-shadow: @arguments;
   -webkit-box-shadow: @arguments;
 }*/
-/**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
- */
 /* =============================================================================
    Switchable terms
    ========================================================================== */
-/**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
- */
 /*
     Fieldset
 -------------------------------------- */
@@ -271,10 +261,8 @@ textarea {
   font: 400 12px/1.33 Arial, Helvetica, sans-serif;
 }
 body {
-  padding-bottom: 0;
-}
-.page.wrapper {
   background: url(../images/bg_page.png) repeat #2f2f38;
+  padding-bottom: 0;
 }
 a,
 a:visited {
@@ -459,7 +447,7 @@ a:visited:hover {
   line-height: 8px;
   height: 8px;
   overflow: hidden;
-  content: "\e012";
+  content: "\e016";
   font-style: normal;
   speak: none;
   font-weight: normal;
@@ -493,7 +481,7 @@ a:visited:hover {
   line-height: 8px;
   height: 8px;
   overflow: hidden;
-  content: "\e012";
+  content: "\e016";
   font-style: normal;
   speak: none;
   font-weight: normal;
@@ -3802,7 +3790,7 @@ select:disabled {
   line-height: 11px;
   height: 11px;
   overflow: hidden;
-  content: "\e012";
+  content: "\e016";
   font-style: normal;
   speak: none;
   font-weight: normal;
@@ -5852,6 +5840,7 @@ select:disabled {
 }
 .prices.tier {
   background: #9ba4ad;
+  color: #333333;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   line-height: 16px;

@@ -1,8 +1,10 @@
 /**
  * {license_notice}
  *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @category    design
+ * @package     magento2_recon
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 @fontsFolder : '../fonts/';
 @import url(fonts.less);
@@ -164,6 +166,7 @@ strong { font-weight: 700; }
     display: inline-block;
     vertical-align: middle;
     text-align: center;
+    text-decoration: none;
   }
 }
 
@@ -182,6 +185,7 @@ strong { font-weight: 700; }
     display: inline-block;
     vertical-align: middle;
     text-align: center;
+    text-decoration: none;
   }
 }
 
@@ -512,7 +516,6 @@ h6 {
   .title {
     .titleH1();
     margin: 0;
-    color: @secondary4;
   }
 }
 .page.main > .page.title {
@@ -1011,9 +1014,9 @@ h6 {
     &:before,
     > span:before{
       display: block;
-      top:0;
-      left:0;
-      width:100%;
+      top: 0;
+      left: 0;
+      width: 100%;
       font-family: "MUI-Icons";
       content: "\e01a\e01a\e01a\e01a\e01a";
       font-style: normal;
@@ -1030,12 +1033,20 @@ h6 {
     span {
       color: @secondary3;
     }
+    a {
+      position: relative;
+      padding-left: 7px;
+      display: inline-block;
+    }
   }
   .action.view {
-    span:before { content:' '; }
+    span:before { content: ' '; }
   }
   .action.view + .action.add {
     &:before {
+      position: absolute;
+      top: 0;
+      left: 0;
       content: ' | ';
     }
   }
@@ -1093,13 +1104,25 @@ form.send.friend {
 -------------------------------------- */
 form.search.advanced {
   width: 50%;
+  .range.price {
+    .field.with-addon {
+      margin-left: 50px;
+      position: relative;
+      &:before {
+        position: absolute;
+        top: 10px;
+        margin-right: 100%;
+        right: 14px;
+        content: "— ";
+      }
+    }
+  }
   .actions {
     text-align: right;
     .action.search {
       .primaryAction();
     }
   }
-
 }
 
 /*
@@ -1428,6 +1451,10 @@ textarea.mage-error {
   color: @messageError;
 }
 
+div.mage-error {
+  padding-top: 4px;
+}
+
 /*
  *    Mage_CatalogSearch
  *
@@ -1684,27 +1711,27 @@ select {
       .clearfix();
       text-align: right;
       button.action {
-        float:right;
+        float: right;
         .primaryAction();
       }
       .secondary {
-        padding-top:10px;
-        clear:right;
-        float:right;
+        padding-top: 10px;
+        clear: right;
+        float: right;
       }
     }
     .field.fullname + .field.company,
     .field.name-lastname + .field.company,
     .field.country,
     .field.taxvat {
-      margin:0 40% 30px 0;
+      margin: 0 40% 30px 0;
     }
 
     .field.password {
-      margin: 20px 30% 0 0;
+//      margin: 20px 30% 0 0;
     }
     .field.choice {
-      width:100%;
+      width: 100%;
       display: block;
     }
     .field.persistent,
@@ -1904,6 +1931,20 @@ select {
   .action {
     .secondaryAction();
     margin-right: 10px;
+    float: right;
+    &.continue {
+      .resetAction();
+      float: left;
+      line-height: 35px;
+      span {
+        color: @navBg;
+        text-decoration: underline;
+        text-transform: none;
+      }
+      &:hover span {
+        color: @secondary4;
+      }
+    }
   }
 }
 .items.data {
@@ -2720,22 +2761,174 @@ select {
 /*
  *    Mage_Catalog
  *
+ *    Compare
+----------------------------------------------------------------------------- */
+.block.compare {
+  > .title .qty {
+    font-size: 16px;
+    margin-right:-5px;
+    &:before {
+      content:'(';
+    }
+    &:after {
+      content:')';
+    }
+  }
+  .item {
+    padding-right:20px;
+    overflow: hidden;
+  }
+  .product.name {
+    float:left;
+  }
+  .action.delete {
+    margin-right:-20px;
+    float:right;
+  }
+  .action.compare {
+    .secondaryAction();
+    float:right;
+  }
+  .action.clear {
+    float:left;
+    margin-top:10px;
+  }
+  .actions {
+    margin-top:15px;
+    .clearfix();
+  }
+}
+
+
+
+.catalog-product-compare-index {
+  .action.print {
+    float:right;
+    margin-top:-50px;
+  }
+}
+.comparison.wrapper {
+  clear:both;
+  position: relative;
+  z-index: 1;
+  &:after {
+    content:'';
+    position: absolute;
+    z-index: 2;
+    right:0; top:0; height:100%;
+    width:15px;
+
+  }
+  margin-bottom:50px;
+}
+.comparison.container {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.data.comparison {
+  table-layout: fixed;
+
+  .cell.label {
+    width:130px;
+    padding-left:10px;
+    font-weight: 600;
+    text-align: left;
+    border-right:1px solid @primary2;
+
+    .attribute.label {
+      display: block;
+      width: 100%;
+      word-break:break-all;
+    }
+    &.product {
+      border-bottom:1px solid @primary2;
+    }
+  }
+  .cell {
+    padding:15px;
+    vertical-align: top;
+    p:first-child {
+      margin-top:0;
+    }
+    .attibute.value {
+      width:100%;
+      overflow: hidden;
+    }
+  }
+  .cell.product {
+    width:140px;
+    &.info {
+      border-bottom:1px solid @primary2;
+    }
+  }
+  .cell.attribute {
+    font-size: 12px;
+  }
+  td:last-child {
+    border-right:1px solid @primary2;
+  }
+
+  .product.photo {
+    .img.photo.container {
+      display: inline-block!important;
+    }
+    text-align: center;
+    display: block;
+    margin:0 auto 15px;
+  }
+  .actions,
+  .price-box,
+  .product.rating,
+  .product.name {
+    margin:15px 0;
+  }
+  .addto.links {
+    margin-top:15px;
+    padding-top:15px;
+    font-size: 12px;
+  }
+  .cell.remove {
+    padding-top:0;
+    padding-bottom:0;
+    text-align: right;
+    .action.delete {
+      float:right;
+      .secondaryAction();
+      padding:4px;
+      span {
+        overflow: hidden;
+        line-height: 0;
+        &:after {
+          content:"\e012";
+          font-size: 12px;
+        }
+      }
+      margin-right:-15px;
+    }
+  }
+}
+.comparison.headings {
+  position: absolute;
+  z-index: 2;
+  top:0;
+  left:0;
+  width:auto;
+  background-color: @pageMainBg;
+  th {
+    background-color: @pageMainBg;
+  }
+}
+
+
+/*
+ *    Mage_Catalog
+ *
  *    Global Navigation
 ----------------------------------------------------------------------------- */
 
 
 @subNavHeight: auto;
 @subNavPadding: 10px;
-
-.navigation {
-  a {
-    text-decoration: none;
-    &:focus,
-    &:active {
-      outline:none;
-    }
-  }
-}
 
 .navigation.fixed {
   > ul > .level-top {
@@ -2745,7 +2938,7 @@ select {
       padding:0;
       float:left;
       &:before {
-        content:'';
+        content: '';
         background: @primary4;
         position: absolute;
         display: block;
@@ -2766,6 +2959,13 @@ select {
 }
 
 .navigation {
+  a {
+    text-decoration: none;
+    &:focus,
+    &:active {
+      outline:none;
+    }
+  }
   text-indent: @subNavHeight;
   background-color: @navBg;
   position: relative;
@@ -3009,7 +3209,6 @@ select {
     }
     .addto.links {
       padding: 10px 0 0;
-      border-top: 1px solid @primary2;
       span:hover {
         color: @primary3;
       }
@@ -3084,7 +3283,8 @@ select {
     .item.product {
       .borderBox;
       width: 20%;
-      padding: 0 1%;
+      padding-left: 1%;
+      padding-right: 1%;
       .col2-left-layout &,
       .col2-right-layout &,
       .col3-layout & {
@@ -3098,8 +3298,6 @@ select {
     }
   }
 }
-
-.products.list.items {}
 
 .product.info.detailed {
   float: right;
@@ -3196,8 +3394,11 @@ select {
     text-decoration: none;
   }
   dt {
-    font-size: 24px;
-    color: @secondary4;
+    font-size: 16px;
+    color: @navBg;
+    font-weight: 700;
+    font-style: italic;
+    text-transform: uppercase;
   }
   dd {
     margin: 0;
@@ -3452,7 +3653,10 @@ select {
 @imageHeight:180px;
 @imageWidth:180px;
 
-.products.wrapper .products.list {
+.products.wrapper .products.list,
+.widget.new.grid .products.list,
+.widget.new.list .products.list,
+.widget.viewed.grid .products.list {
   .item {
     .product.photo {
       display: block;
@@ -3468,8 +3672,6 @@ select {
     border: solid transparent;
     border-width: 2px 2px 0 2px;
     background: transparent;
-    @tparams : background 0.0s linear 0.2s, border 0.0s linear 0.2s;
-    .transitions(@tparams);
     &:hover {
       border-color: @navBg;
       background: @navBg;
@@ -3494,8 +3696,6 @@ select {
       visibility: hidden;
       .action.tocart,
       .secondary {
-        @tparams : visibility 0s linear 0.2s;
-        .transitions(@tparams);
         visibility: hidden;
       }
     }
@@ -3537,7 +3737,9 @@ select {
   }
 }
 
-.products.wrapper.grid .products.list {
+.products.wrapper.grid .products.list,
+.widget.new.grid .products.list,
+.widget.viewed.grid .products.list {
   .item.product {
     .borderBox;
     width: 20%;
@@ -3573,7 +3775,8 @@ select {
     }
   }
 }
-.products.wrapper.list .products.list {
+.products.wrapper.list .products.list,
+.widget.new.list .products.list {
   margin-bottom: 20px;
   .item.product {
     display: block;
@@ -3594,13 +3797,22 @@ select {
   }
   .secondary {
     bottom: 0;
-    top: auto!important;
+    top: auto !important;
     margin-left: 18px;
     border-width: 2px 0 0;
     right: 20px;
   }
   .product.description {
     margin: 9px 0;
+  }
+}
+.widget.new.list .products.list {
+  .actions {
+    .secondary {
+      position: static;
+      margin: 10px 0 0 0;
+      border-top: 0;
+    }
   }
 }
 
@@ -3759,7 +3971,7 @@ select {
     padding-top: 10px;
     border-top: 1px solid @primary2;
     span:hover {
-      color: @primary3;
+      color: @secondary4;
     }
     .action {
       float: left;
@@ -3838,7 +4050,7 @@ select {
   }
   .label {
     display: block;
-    text-align: center;
+    text-align: left;
     text-transform: uppercase;
     font-weight: 600;
     line-height: 25px;
@@ -4855,6 +5067,55 @@ and (max-width : 768px)  {
       font-size: 20px;
       line-height: 1;
       font-weight: 400;
+    }
+  }
+}
+
+/* Widgets */
+.sidebar .widget {
+  margin-bottom: 30px;
+}
+
+.sidebar {
+  .widget-cms-link-inline,
+  .widget-cms-link,
+  span.widget {
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+}
+
+.sidebar .widget.minilist {
+  .item.product {
+    margin-bottom: 10px;
+    text-align: center;
+    .product.photo {
+      float: none;
+      text-align: center;
+      display: block;
+    }
+    .product.name a {
+      font-size: 16px;
+    }
+    .actions {
+      margin-top: 10px;
+      float: none;
+      .primary {
+        float: none;
+      }
+      .action {
+        float: none;
+      }
+    }
+  }
+}
+
+.sidebar .widget.photos {
+  .items {
+    .clearfix();
+    .item {
+      width: 50%;
+      float: left;
     }
   }
 }

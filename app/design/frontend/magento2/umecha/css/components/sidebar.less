@@ -1,11 +1,11 @@
-//
-// {license_notice}
-//
-// @category    design
-// @package     magento2_umecha
-// @copyright   {copyright}
-// @license     {license_link}
-//
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @package     magento2_umecha
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
 
 /*
     Sidebar
@@ -86,6 +86,35 @@
     /* PayPal banner */
     .paypal-logo {
         margin: 0 0 50px 0;
+    }
+
+    .widget.new {
+        .block;
+        .products.minilist {
+            float: none;
+            border-right: 0;
+            max-width: 100%;
+            padding: 0;
+            > .item {
+                margin-bottom: 30px;
+                padding: 0 0 10px;
+                width: auto;
+                visibility: visible;
+                border: solid @color2;
+                border-width: 0 0 1px;
+                &:before {
+                    display: none;
+                }
+                .actions {
+                    margin: 5px 0;
+                }
+            }
+        }
+        &.photos {
+            .img.photo.container {
+                margin: 0 auto 20px;
+            }
+        }
     }
     .item {
         .product.name {

@@ -1928,6 +1928,10 @@ a.action.showcart .qty.empty {
 .navigation a:hover > span {
   color: #393939;
 }
+.wf-loading .navigation a {
+  letter-spacing: -0.19em;
+  word-spacing: -0.19em;
+}
 .navigation > ul > .level-top {
   position: relative;
   display: inline-block;
@@ -1951,6 +1955,7 @@ a.action.showcart .qty.empty {
   padding: 10px;
   border-radius: 0 0 5px 5px;
   box-shadow: 0 3px 2px rgba(0, 0, 0, 0.25);
+  z-index: 2;
 }
 .navigation > ul > .level-top > .submenu > ul {
   position: relative;
@@ -2020,6 +2025,57 @@ a.action.showcart .qty.empty {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+.navigation > ul > .level-top.more.parent > a:after {
+  font-family: "Icons";
+  font-size: 8px;
+  line-height: 8px;
+  height: 8px;
+  content: '\e012';
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.navigation > ul > .level-top.more.parent > a:after {
+  margin: -4px 0 0 8px;
+}
+.navigation > ul > .level-top.more.parent > .submenu {
+  left: auto;
+  right: 0;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul:before {
+  left: auto;
+  right: 30px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .column > a span {
+  text-transform: uppercase;
+  padding-left: 17px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .column > a + .submenu {
+  margin-top: 11px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level1 > a span {
+  text-transform: capitalize;
+  padding-left: 27px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level1 > a + .submenu {
+  margin-top: 0;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level2 > a span {
+  padding-left: 37px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level3 > a span {
+  padding-left: 47px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level4 > a span {
+  padding-left: 57px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level4 li[class^="level"] > a span {
+  padding-left: 67px;
 }
 /*
     Breadcrumbs
@@ -4027,13 +4083,13 @@ body.type-bundle {
   background: none;
 }
 /*
-    Widgets
+    Related, Crosssell, ...
 -------------------------------------- */
 .block.widget.viewed,
 .block.crosssell,
 .block.upsell,
 .block.related,
-.column.main .widget-new-products {
+.column.main .block.widget.new {
   clear: both;
   margin: 30px 0 65px;
   border-top: 3px solid #e0e0e0;
@@ -4042,7 +4098,7 @@ body.type-bundle {
 .block.crosssell > .title,
 .block.upsell > .title,
 .block.related > .title,
-.column.main .widget-new-products > .title {
+.column.main .block.widget.new > .title {
   font: 24px 'Oswald', Arial, sans-serif;
   text-align: center;
   margin-top: -23px;
@@ -4053,7 +4109,7 @@ body.type-bundle {
 .block.crosssell > .title > strong,
 .block.upsell > .title > strong,
 .block.related > .title > strong,
-.column.main .widget-new-products > .title > strong {
+.column.main .block.widget.new > .title > strong {
   padding: 0 22px;
   background: #ffffff;
 }
@@ -4061,12 +4117,7 @@ body.type-bundle {
 .block.crosssell .products.list,
 .block.upsell .products.list,
 .block.related .products.list,
-.column.main .widget-new-products .products.list,
-.block.widget.viewed .products-list,
-.block.crosssell .products-list,
-.block.upsell .products-list,
-.block.related .products-list,
-.column.main .widget-new-products .products-list {
+.column.main .block.widget.new .products.list {
   margin: 0 -20px;
   padding-top: 20px;
 }
@@ -4074,22 +4125,12 @@ body.type-bundle {
 .block.crosssell .products.list .item.product,
 .block.upsell .products.list .item.product,
 .block.related .products.list .item.product,
-.column.main .widget-new-products .products.list .item.product,
-.block.widget.viewed .products-list .item.product,
-.block.crosssell .products-list .item.product,
-.block.upsell .products-list .item.product,
-.block.related .products-list .item.product,
-.column.main .widget-new-products .products-list .item.product,
+.column.main .block.widget.new .products.list .item.product,
 .block.widget.viewed .products.list > .item,
 .block.crosssell .products.list > .item,
 .block.upsell .products.list > .item,
 .block.related .products.list > .item,
-.column.main .widget-new-products .products.list > .item,
-.block.widget.viewed .products-list > .item,
-.block.crosssell .products-list > .item,
-.block.upsell .products-list > .item,
-.block.related .products-list > .item,
-.column.main .widget-new-products .products-list > .item {
+.column.main .block.widget.new .products.list > .item {
   display: inline;
   float: left;
   width: 33.33333333333333%;
@@ -4107,22 +4148,12 @@ body.type-bundle {
 .block.crosssell .products.list .item.product .product.photo,
 .block.upsell .products.list .item.product .product.photo,
 .block.related .products.list .item.product .product.photo,
-.column.main .widget-new-products .products.list .item.product .product.photo,
-.block.widget.viewed .products-list .item.product .product.photo,
-.block.crosssell .products-list .item.product .product.photo,
-.block.upsell .products-list .item.product .product.photo,
-.block.related .products-list .item.product .product.photo,
-.column.main .widget-new-products .products-list .item.product .product.photo,
+.column.main .block.widget.new .products.list .item.product .product.photo,
 .block.widget.viewed .products.list > .item .product.photo,
 .block.crosssell .products.list > .item .product.photo,
 .block.upsell .products.list > .item .product.photo,
 .block.related .products.list > .item .product.photo,
-.column.main .widget-new-products .products.list > .item .product.photo,
-.block.widget.viewed .products-list > .item .product.photo,
-.block.crosssell .products-list > .item .product.photo,
-.block.upsell .products-list > .item .product.photo,
-.block.related .products-list > .item .product.photo,
-.column.main .widget-new-products .products-list > .item .product.photo {
+.column.main .block.widget.new .products.list > .item .product.photo {
   float: left;
   margin-right: 20px;
 }
@@ -4130,86 +4161,46 @@ body.type-bundle {
 .block.crosssell .products.list .item.product .product.details,
 .block.upsell .products.list .item.product .product.details,
 .block.related .products.list .item.product .product.details,
-.column.main .widget-new-products .products.list .item.product .product.details,
-.block.widget.viewed .products-list .item.product .product.details,
-.block.crosssell .products-list .item.product .product.details,
-.block.upsell .products-list .item.product .product.details,
-.block.related .products-list .item.product .product.details,
-.column.main .widget-new-products .products-list .item.product .product.details,
+.column.main .block.widget.new .products.list .item.product .product.details,
 .block.widget.viewed .products.list > .item .product.details,
 .block.crosssell .products.list > .item .product.details,
 .block.upsell .products.list > .item .product.details,
 .block.related .products.list > .item .product.details,
-.column.main .widget-new-products .products.list > .item .product.details,
-.block.widget.viewed .products-list > .item .product.details,
-.block.crosssell .products-list > .item .product.details,
-.block.upsell .products-list > .item .product.details,
-.block.related .products-list > .item .product.details,
-.column.main .widget-new-products .products-list > .item .product.details {
+.column.main .block.widget.new .products.list > .item .product.details {
   overflow: hidden;
 }
 .block.widget.viewed .products.list .item.product .product.name,
 .block.crosssell .products.list .item.product .product.name,
 .block.upsell .products.list .item.product .product.name,
 .block.related .products.list .item.product .product.name,
-.column.main .widget-new-products .products.list .item.product .product.name,
-.block.widget.viewed .products-list .item.product .product.name,
-.block.crosssell .products-list .item.product .product.name,
-.block.upsell .products-list .item.product .product.name,
-.block.related .products-list .item.product .product.name,
-.column.main .widget-new-products .products-list .item.product .product.name,
+.column.main .block.widget.new .products.list .item.product .product.name,
 .block.widget.viewed .products.list > .item .product.name,
 .block.crosssell .products.list > .item .product.name,
 .block.upsell .products.list > .item .product.name,
 .block.related .products.list > .item .product.name,
-.column.main .widget-new-products .products.list > .item .product.name,
-.block.widget.viewed .products-list > .item .product.name,
-.block.crosssell .products-list > .item .product.name,
-.block.upsell .products-list > .item .product.name,
-.block.related .products-list > .item .product.name,
-.column.main .widget-new-products .products-list > .item .product.name,
+.column.main .block.widget.new .products.list > .item .product.name,
 .block.widget.viewed .products.list .item.product .price-box,
 .block.crosssell .products.list .item.product .price-box,
 .block.upsell .products.list .item.product .price-box,
 .block.related .products.list .item.product .price-box,
-.column.main .widget-new-products .products.list .item.product .price-box,
-.block.widget.viewed .products-list .item.product .price-box,
-.block.crosssell .products-list .item.product .price-box,
-.block.upsell .products-list .item.product .price-box,
-.block.related .products-list .item.product .price-box,
-.column.main .widget-new-products .products-list .item.product .price-box,
+.column.main .block.widget.new .products.list .item.product .price-box,
 .block.widget.viewed .products.list > .item .price-box,
 .block.crosssell .products.list > .item .price-box,
 .block.upsell .products.list > .item .price-box,
 .block.related .products.list > .item .price-box,
-.column.main .widget-new-products .products.list > .item .price-box,
-.block.widget.viewed .products-list > .item .price-box,
-.block.crosssell .products-list > .item .price-box,
-.block.upsell .products-list > .item .price-box,
-.block.related .products-list > .item .price-box,
-.column.main .widget-new-products .products-list > .item .price-box {
+.column.main .block.widget.new .products.list > .item .price-box {
   margin: 0 0 10px;
 }
 .block.widget.viewed .products.list .item.product .addto.links,
 .block.crosssell .products.list .item.product .addto.links,
 .block.upsell .products.list .item.product .addto.links,
 .block.related .products.list .item.product .addto.links,
-.column.main .widget-new-products .products.list .item.product .addto.links,
-.block.widget.viewed .products-list .item.product .addto.links,
-.block.crosssell .products-list .item.product .addto.links,
-.block.upsell .products-list .item.product .addto.links,
-.block.related .products-list .item.product .addto.links,
-.column.main .widget-new-products .products-list .item.product .addto.links,
+.column.main .block.widget.new .products.list .item.product .addto.links,
 .block.widget.viewed .products.list > .item .addto.links,
 .block.crosssell .products.list > .item .addto.links,
 .block.upsell .products.list > .item .addto.links,
 .block.related .products.list > .item .addto.links,
-.column.main .widget-new-products .products.list > .item .addto.links,
-.block.widget.viewed .products-list > .item .addto.links,
-.block.crosssell .products-list > .item .addto.links,
-.block.upsell .products-list > .item .addto.links,
-.block.related .products-list > .item .addto.links,
-.column.main .widget-new-products .products-list > .item .addto.links {
+.column.main .block.widget.new .products.list > .item .addto.links {
   padding: 10px 0 0;
   border-top: 1px solid #e0e0e0;
 }
@@ -4217,22 +4208,12 @@ body.type-bundle {
 .block.crosssell .products.list .item.product .addto.links .action:after,
 .block.upsell .products.list .item.product .addto.links .action:after,
 .block.related .products.list .item.product .addto.links .action:after,
-.column.main .widget-new-products .products.list .item.product .addto.links .action:after,
-.block.widget.viewed .products-list .item.product .addto.links .action:after,
-.block.crosssell .products-list .item.product .addto.links .action:after,
-.block.upsell .products-list .item.product .addto.links .action:after,
-.block.related .products-list .item.product .addto.links .action:after,
-.column.main .widget-new-products .products-list .item.product .addto.links .action:after,
+.column.main .block.widget.new .products.list .item.product .addto.links .action:after,
 .block.widget.viewed .products.list > .item .addto.links .action:after,
 .block.crosssell .products.list > .item .addto.links .action:after,
 .block.upsell .products.list > .item .addto.links .action:after,
 .block.related .products.list > .item .addto.links .action:after,
-.column.main .widget-new-products .products.list > .item .addto.links .action:after,
-.block.widget.viewed .products-list > .item .addto.links .action:after,
-.block.crosssell .products-list > .item .addto.links .action:after,
-.block.upsell .products-list > .item .addto.links .action:after,
-.block.related .products-list > .item .addto.links .action:after,
-.column.main .widget-new-products .products-list > .item .addto.links .action:after {
+.column.main .block.widget.new .products.list > .item .addto.links .action:after {
   content: '';
   display: block;
 }
@@ -4240,108 +4221,58 @@ body.type-bundle {
 .block.crosssell .products.list .item.product .actions,
 .block.upsell .products.list .item.product .actions,
 .block.related .products.list .item.product .actions,
-.column.main .widget-new-products .products.list .item.product .actions,
-.block.widget.viewed .products-list .item.product .actions,
-.block.crosssell .products-list .item.product .actions,
-.block.upsell .products-list .item.product .actions,
-.block.related .products-list .item.product .actions,
-.column.main .widget-new-products .products-list .item.product .actions,
+.column.main .block.widget.new .products.list .item.product .actions,
 .block.widget.viewed .products.list > .item .actions,
 .block.crosssell .products.list > .item .actions,
 .block.upsell .products.list > .item .actions,
 .block.related .products.list > .item .actions,
-.column.main .widget-new-products .products.list > .item .actions,
-.block.widget.viewed .products-list > .item .actions,
-.block.crosssell .products-list > .item .actions,
-.block.upsell .products-list > .item .actions,
-.block.related .products-list > .item .actions,
-.column.main .widget-new-products .products-list > .item .actions {
+.column.main .block.widget.new .products.list > .item .actions {
   visibility: hidden;
 }
 .block.widget.viewed .products.list .item.product .actions .primary,
 .block.crosssell .products.list .item.product .actions .primary,
 .block.upsell .products.list .item.product .actions .primary,
 .block.related .products.list .item.product .actions .primary,
-.column.main .widget-new-products .products.list .item.product .actions .primary,
-.block.widget.viewed .products-list .item.product .actions .primary,
-.block.crosssell .products-list .item.product .actions .primary,
-.block.upsell .products-list .item.product .actions .primary,
-.block.related .products-list .item.product .actions .primary,
-.column.main .widget-new-products .products-list .item.product .actions .primary,
+.column.main .block.widget.new .products.list .item.product .actions .primary,
 .block.widget.viewed .products.list > .item .actions .primary,
 .block.crosssell .products.list > .item .actions .primary,
 .block.upsell .products.list > .item .actions .primary,
 .block.related .products.list > .item .actions .primary,
-.column.main .widget-new-products .products.list > .item .actions .primary,
-.block.widget.viewed .products-list > .item .actions .primary,
-.block.crosssell .products-list > .item .actions .primary,
-.block.upsell .products-list > .item .actions .primary,
-.block.related .products-list > .item .actions .primary,
-.column.main .widget-new-products .products-list > .item .actions .primary {
+.column.main .block.widget.new .products.list > .item .actions .primary {
   margin: 0 0 10px;
 }
 .block.widget.viewed .products.list .item.product:hover .actions,
 .block.crosssell .products.list .item.product:hover .actions,
 .block.upsell .products.list .item.product:hover .actions,
 .block.related .products.list .item.product:hover .actions,
-.column.main .widget-new-products .products.list .item.product:hover .actions,
-.block.widget.viewed .products-list .item.product:hover .actions,
-.block.crosssell .products-list .item.product:hover .actions,
-.block.upsell .products-list .item.product:hover .actions,
-.block.related .products-list .item.product:hover .actions,
-.column.main .widget-new-products .products-list .item.product:hover .actions,
+.column.main .block.widget.new .products.list .item.product:hover .actions,
 .block.widget.viewed .products.list > .item:hover .actions,
 .block.crosssell .products.list > .item:hover .actions,
 .block.upsell .products.list > .item:hover .actions,
 .block.related .products.list > .item:hover .actions,
-.column.main .widget-new-products .products.list > .item:hover .actions,
-.block.widget.viewed .products-list > .item:hover .actions,
-.block.crosssell .products-list > .item:hover .actions,
-.block.upsell .products-list > .item:hover .actions,
-.block.related .products-list > .item:hover .actions,
-.column.main .widget-new-products .products-list > .item:hover .actions {
+.column.main .block.widget.new .products.list > .item:hover .actions {
   visibility: visible;
 }
 .col2-left-layout .block.widget.viewed .products.list .item.product,
 .col2-left-layout .block.crosssell .products.list .item.product,
 .col2-left-layout .block.upsell .products.list .item.product,
 .col2-left-layout .block.related .products.list .item.product,
-.col2-left-layout .column.main .widget-new-products .products.list .item.product,
-.col2-left-layout .block.widget.viewed .products-list .item.product,
-.col2-left-layout .block.crosssell .products-list .item.product,
-.col2-left-layout .block.upsell .products-list .item.product,
-.col2-left-layout .block.related .products-list .item.product,
-.col2-left-layout .column.main .widget-new-products .products-list .item.product,
+.col2-left-layout .column.main .block.widget.new .products.list .item.product,
 .col2-left-layout .block.widget.viewed .products.list > .item,
 .col2-left-layout .block.crosssell .products.list > .item,
 .col2-left-layout .block.upsell .products.list > .item,
 .col2-left-layout .block.related .products.list > .item,
-.col2-left-layout .column.main .widget-new-products .products.list > .item,
-.col2-left-layout .block.widget.viewed .products-list > .item,
-.col2-left-layout .block.crosssell .products-list > .item,
-.col2-left-layout .block.upsell .products-list > .item,
-.col2-left-layout .block.related .products-list > .item,
-.col2-left-layout .column.main .widget-new-products .products-list > .item,
+.col2-left-layout .column.main .block.widget.new .products.list > .item,
 .col2-right-layout .block.widget.viewed .products.list .item.product,
 .col2-right-layout .block.crosssell .products.list .item.product,
 .col2-right-layout .block.upsell .products.list .item.product,
 .col2-right-layout .block.related .products.list .item.product,
-.col2-right-layout .column.main .widget-new-products .products.list .item.product,
-.col2-right-layout .block.widget.viewed .products-list .item.product,
-.col2-right-layout .block.crosssell .products-list .item.product,
-.col2-right-layout .block.upsell .products-list .item.product,
-.col2-right-layout .block.related .products-list .item.product,
-.col2-right-layout .column.main .widget-new-products .products-list .item.product,
+.col2-right-layout .column.main .block.widget.new .products.list .item.product,
 .col2-right-layout .block.widget.viewed .products.list > .item,
 .col2-right-layout .block.crosssell .products.list > .item,
 .col2-right-layout .block.upsell .products.list > .item,
 .col2-right-layout .block.related .products.list > .item,
-.col2-right-layout .column.main .widget-new-products .products.list > .item,
-.col2-right-layout .block.widget.viewed .products-list > .item,
-.col2-right-layout .block.crosssell .products-list > .item,
-.col2-right-layout .block.upsell .products-list > .item,
-.col2-right-layout .block.related .products-list > .item,
-.col2-right-layout .column.main .widget-new-products .products-list > .item {
+.col2-right-layout .column.main .block.widget.new .products.list > .item {
   display: inline;
   float: left;
   width: 33.33333333333333%;
@@ -4356,22 +4287,12 @@ body.type-bundle {
 .col3-layout .block.crosssell .products.list .item.product,
 .col3-layout .block.upsell .products.list .item.product,
 .col3-layout .block.related .products.list .item.product,
-.col3-layout .column.main .widget-new-products .products.list .item.product,
-.col3-layout .block.widget.viewed .products-list .item.product,
-.col3-layout .block.crosssell .products-list .item.product,
-.col3-layout .block.upsell .products-list .item.product,
-.col3-layout .block.related .products-list .item.product,
-.col3-layout .column.main .widget-new-products .products-list .item.product,
+.col3-layout .column.main .block.widget.new .products.list .item.product,
 .col3-layout .block.widget.viewed .products.list > .item,
 .col3-layout .block.crosssell .products.list > .item,
 .col3-layout .block.upsell .products.list > .item,
 .col3-layout .block.related .products.list > .item,
-.col3-layout .column.main .widget-new-products .products.list > .item,
-.col3-layout .block.widget.viewed .products-list > .item,
-.col3-layout .block.crosssell .products-list > .item,
-.col3-layout .block.upsell .products-list > .item,
-.col3-layout .block.related .products-list > .item,
-.col3-layout .column.main .widget-new-products .products-list > .item {
+.col3-layout .column.main .block.widget.new .products.list > .item {
   display: inline;
   float: left;
   width: 50%;
@@ -4875,6 +4796,42 @@ body.type-bundle {
 .sidebar .paypal-logo {
   margin: 0 0 50px 0;
 }
+.sidebar .widget.new {
+  margin-bottom: 50px;
+}
+.sidebar .widget.new > .title,
+.sidebar .widget.new > .block-title {
+  margin-bottom: 10px;
+}
+.sidebar .widget.new > .title strong,
+.sidebar .widget.new > .block-title strong {
+  text-transform: uppercase;
+  font: 16px/1.333 'Oswald', Arial, sans-serif;
+  font-weight: 700;
+}
+.sidebar .widget.new .products.minilist {
+  float: none;
+  border-right: 0;
+  max-width: 100%;
+  padding: 0;
+}
+.sidebar .widget.new .products.minilist > .item {
+  margin-bottom: 30px;
+  padding: 0 0 10px;
+  width: auto;
+  visibility: visible;
+  border: solid #e0e0e0;
+  border-width: 0 0 1px;
+}
+.sidebar .widget.new .products.minilist > .item:before {
+  display: none;
+}
+.sidebar .widget.new .products.minilist > .item .actions {
+  margin: 5px 0;
+}
+.sidebar .widget.new.photos .img.photo.container {
+  margin: 0 auto 20px;
+}
 /*
     Recently Viewed
 -------------------------------------- */
@@ -5004,15 +4961,15 @@ ul.messages ul {
   position: relative;
   margin-bottom: 31px;
   background-color: #ffffff;
-  background-color: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjE4JSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjNmM2YzYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-  background-color: -moz-linear-gradient(top, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
-  background-color: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(18%, #ffffff), color-stop(100%, #c6c6c6));
-  background-color: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
-  background-color: -o-linear-gradient(top, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
-  background-color: -ms-linear-gradient(top, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
-  background-color: linear-gradient(to bottom, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjE4JSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjNmM2YzYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(18%, #ffffff), color-stop(100%, #c6c6c6));
+  background: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
+  background: -o-linear-gradient(top, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
+  background: -ms-linear-gradient(top, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
+  background: linear-gradient(to bottom, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
   box-shadow: 0 2px 6px #000;
-  z-index: 2;
+  z-index: 100;
 }
 .header > .wrapper {
   background: #000000;

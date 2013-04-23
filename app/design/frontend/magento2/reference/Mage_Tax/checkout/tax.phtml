@@ -46,7 +46,14 @@
         <?php endforeach; ?>
     <?php endforeach; ?>
 <?php endif;?>
-<tr <?php if ($this->helper('Mage_Tax_Helper_Data')->displayFullSummary() && $_value!=0): ?> class="summary-total tax total" onclick="expandDetails(this, '.summary-details-<?php echo $taxIter;?>')"<?php endif; ?>>
+<?php
+    $attributes = 'class="tax total"';
+    if ($this->helper('Mage_Tax_Helper_Data')->displayFullSummary() && $_value!=0) {
+        $attributes = 'class="summary-total tax total" onclick="expandDetails(this, \'.summary-details-' . $taxIter . '\')"';
+    }
+?>
+
+<tr <?php echo $attributes; ?>>
     <td style="<?php echo $_style ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>">
         <?php if ($this->helper('Mage_Tax_Helper_Data')->displayFullSummary()): ?>
             <div class="summary-collapse"><?php echo $this->getTotal()->getTitle() ?></div>
