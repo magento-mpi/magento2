@@ -95,7 +95,9 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
                 'modules'       => self::_wrapXml(self::XML_MEDIA_DIR . $fixture['modules']),
                 'tenantModules' => isset($fixture['tenantModules'])
                     ? self::_wrapXml(self::XML_MEDIA_DIR . $fixture['tenantModules']) : null,
-                'groupModules'  => isset($fixture['groupModules'])
+            ),
+            'groupConfiguration' => array(
+                'modules' => isset($fixture['groupModules'])
                     ? self::_wrapXml(self::XML_MEDIA_DIR . $fixture['groupModules']) : null,
             ),
             'version_hash'        => '1234567',
@@ -113,7 +115,7 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $xmlSaasOn = self::XML_SAAS_ON;
         $xmlSaasOff = '<modules><Saas><active>false</active></Saas></modules>';
-        $xmlSaas1On = '<modules><Saas1><active>true</active></Saas1></modules>';
+        $xmlSaasOneOn = '<modules><Saas1><active>true</active></Saas1></modules>';
         $xmlEmpty = '<modules/>';
 
         return array(
@@ -122,11 +124,11 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
             'non_empty_allowed' => array(array('modules' => $xmlSaasOn, 'tenantModules' => $xmlSaasOn,), $xmlSaasOn),
             'non_empty_allowed_group' => array(
                 array(
-                    'modules' => $xmlSaas1On,
+                    'modules' => $xmlSaasOneOn,
                     'tenantModules' => $xmlSaasOn,
-                    'groupModules' => $xmlSaas1On,
+                    'groupModules' => $xmlSaasOneOn,
                 ),
-                $xmlSaas1On
+                $xmlSaasOneOn
             ),
             'non_empty_allowed_non_active' => array(
                 array(
@@ -151,7 +153,7 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
                     'tenantModules' =>
                         '<modules><Saas1><active>true</active></Saas1><Saas2><active>false</active></Saas2></modules>',
                 ),
-                $xmlSaas1On
+                $xmlSaasOneOn
             ),
         );
     }
