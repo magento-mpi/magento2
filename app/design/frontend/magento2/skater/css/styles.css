@@ -4577,8 +4577,13 @@ body.type-bundle {
 .product-grouped-product .product.info.main .box.tocart {
   padding: 15px 0;
 }
+.sendfriend-product-send .page.title {
+  text-align: center;
+}
 .send.friend {
   font-size: 13px;
+  margin: 0 auto;
+  width: 70%;
 }
 .send.friend .legend {
   float: left;
@@ -4735,16 +4740,6 @@ body.type-bundle {
   display: inline-block;
   margin-top: -4px;
 }
-.send.friend:after {
-  content: attr(data-hasrequired);
-  display: block;
-  letter-spacing: normal;
-  word-spacing: normal;
-  color: #dc0000;
-  font-size: 12px;
-  text-align: right;
-  margin: 10px 0 0;
-}
 .send.friend .fieldset.recipients .fields {
   list-style: none;
   margin: 18px 0 0;
@@ -4778,6 +4773,7 @@ body.type-bundle {
 }
 .send.friend .fieldset.recipients .fields.additional {
   position: relative;
+  margin-top: 40px;
 }
 .send.friend .fieldset.recipients .fields.additional .action.delete {
   position: absolute;
