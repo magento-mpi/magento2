@@ -1293,8 +1293,13 @@ body.type-bundle {
 // *    Email to a friend
 // *
 // -------------------------------------- */
+.sendfriend-product-send .page.title {
+    text-align: center;
+}
 .send.friend {
     font-size: 13px;
+    margin: 0 auto;
+    width: 70%;
     .legend {
         float: left;
         line-height: 1.2;
@@ -1365,16 +1370,6 @@ body.type-bundle {
             margin-top: -4px;
         }
     }
-    &:after {
-        content: attr(data-hasrequired);
-        display: block;
-        letter-spacing: normal;
-        word-spacing: normal;
-        color: @errorColor;
-        font-size: 12px;
-        text-align: right;
-        margin: 10px 0 0;
-    }
     .fieldset.recipients {
         .fields {
             .formInline(25%);
@@ -1383,6 +1378,7 @@ body.type-bundle {
             padding: 0 30px 0 0;
             &.additional {
                 position: relative;
+                margin-top: 40px;
                 .action.delete {
                     position: absolute;
                     right: 0;
