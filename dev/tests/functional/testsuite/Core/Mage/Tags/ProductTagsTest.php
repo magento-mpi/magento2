@@ -41,6 +41,7 @@ class Core_Mage_Tags_ProductTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
      */
     public function addFromFrontendTags($tags, $status, $testData)
     {
+        $this->markTestSkipped('Due to bug MAGETWO-8429');
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
