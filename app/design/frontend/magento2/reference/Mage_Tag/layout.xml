@@ -65,6 +65,9 @@ All tags page
         <reference name="root">
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
+        <reference name="page.main.title">
+            <action method="setPageTitle" translate="title" module="Mage_Tag"><title>All Tags</title></action>
+        </reference>
         <reference name="content">
             <block type="Mage_Tag_Block_All" name="tags_all" template="cloud.phtml"/>
         </reference>

@@ -10,10 +10,10 @@
 ?>
 <p class="tag edit">
     <?php echo $this->__('<strong>Tag Name:</strong> %s', $this->escapeHtml($this->getTagInfo()->getName())) ?>
-    <a href="#" class="action delete" title="<?php echo $this->__('Delete') ?>" onclick="if(confirm('<?php echo $this->__('Are you sure you want to delete this tag?') ?>')) window.location='<?php echo $this->getTagInfo()->getRemoveTagUrl(); ?>'; return false;" class="button btn-remove"><span><?php echo $this->__('Delete') ?></span></a>
+    <a href="#" class="action delete" title="<?php echo $this->__('Delete') ?>" onclick="if(confirm('<?php echo $this->__('Are you sure you want to delete this tag?') ?>')) window.location='<?php echo $this->getTagInfo()->getRemoveTagUrl(); ?>'; return false;"><span><?php echo $this->__('Delete') ?></span></a>
 </p>
 <div class="toolbar tags"><?php echo $this->getToolbarHtml() ?></div>
-<table class="data table tagged" id="my-tags-table">
+<table class="data table tags" id="my-tags-table">
 <?php if( sizeof($this->getMyProducts()) > 0 ): ?>
 <?php $imageBlock =  $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image'); ?>
     <tbody>
@@ -28,7 +28,7 @@
             </td>
             <td class="col item">
                 <div class="product details">
-                    <strong class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->escapeHtml($_product->getName()) ?></a></strong>
+                    <strong class="product name"><a href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->escapeHtml($_product->getName()) ?></a></strong>
                     <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
                     <?php echo $this->getPriceHtml($_product) ?>
                     <div class="product description"><?php echo $this->escapeHtml($_product->getDescription()) ?></div>

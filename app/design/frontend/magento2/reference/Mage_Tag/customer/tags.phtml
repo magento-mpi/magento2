@@ -10,7 +10,7 @@
 ?>
 <?php if($this->getTags()): ?>
     <p class="tags text"><?php echo $this->__('Click on a tag to view your corresponding products.') ?></p>
-    <ul class="tags list items">
+    <ul class="tags items cloud">
         <?php foreach ($this->getTags() as $_tag): ?>
             <li class="tag item"><a class="tag text" href="<?php echo $this->getUrl('tag/customer/view', array('tagId' => $_tag->getTagId())) ?>" style="font-size:<?php echo $_tag->getRatio()*70+75 ?>%;"><?php echo $this->escapeHtml($_tag->getName()) ?></a></li>
         <?php endforeach; ?>
