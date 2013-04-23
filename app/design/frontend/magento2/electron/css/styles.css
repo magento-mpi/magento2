@@ -5840,6 +5840,7 @@ select:disabled {
 }
 .prices.tier {
   background: #9ba4ad;
+  color: #333333;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   line-height: 16px;
