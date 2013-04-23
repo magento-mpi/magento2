@@ -145,7 +145,7 @@ button,
 input,
 select,
 textarea {
-  color: #a52a2a;
+  color: #837d75;
   font: 400 14px/1.33 "sourcesanspro";
 }
 html {
@@ -856,7 +856,7 @@ a:visited:hover {
 }
 .switcher .options.active strong,
 .switcher .options:hover strong {
-  color: #a52a2a;
+  color: #837d75;
 }
 .action.switch {
   border: none;
@@ -904,7 +904,7 @@ a:visited:hover {
 .action.switch:focus,
 .action.switch:hover,
 .action.switch.active {
-  color: #a52a2a;
+  color: #837d75;
 }
 .action.switch.active span:after {
   content: "\e029";
@@ -1862,7 +1862,7 @@ div.mage-error {
 }
 .opc.wrapper > .opc .section.active > .step-title {
   background: #f8f8f8;
-  color: #a52a2a;
+  color: #837d75;
   margin-bottom: 0;
 }
 .opc.wrapper > .opc .section.active > .step-title h2:after {
@@ -2844,11 +2844,11 @@ div.mage-error {
   margin: 7px 0;
 }
 .minicart .product.options.wrapper .more {
-  color: #a52a2a;
+  color: #837d75;
   font-size: 12px;
   line-height: 1;
   padding: 0;
-  border-bottom: 1px dotted #a52a2a;
+  border-bottom: 1px dotted #837d75;
   cursor: help;
 }
 .minicart .product.options.wrapper:hover {
@@ -3103,7 +3103,7 @@ div.mage-error {
   margin: 0 8px;
 }
 .block.minicart .products.minilist .item .product.options.wrapper + .action.edit:hover:before {
-  color: #a52a2a;
+  color: #837d75;
 }
 .block.minicart .products.minilist .item .action.delete {
   position: absolute;
@@ -3751,14 +3751,14 @@ div.mage-error {
   zoom: 1;
   z-index: 2;
   margin-left: -10px;
-  color: #a52a2a;
+  color: #837d75;
 }
 .navigation > ul > .level-top > a > span {
   color: #4d4a45;
 }
 .navigation > ul > .level-top > a:active span,
 .navigation > ul > .level-top > a:focus span {
-  color: #a52a2a;
+  color: #837d75;
 }
 .navigation > ul > .level-top > a:active:after,
 .navigation > ul > .level-top > a:focus:after {
@@ -3827,7 +3827,7 @@ div.mage-error {
 .navigation > ul > .level-top.hover:hover > a span,
 .navigation > ul > .level-top.hover.parent.hover > a span,
 .navigation > ul > .level-top.hover.parent > a span {
-  color: #a52a2a;
+  color: #837d75;
 }
 .navigation > ul > .level-top.hover:hover > a:after,
 .navigation > ul > .level-top.hover.hover > a:after,
@@ -3894,7 +3894,7 @@ div.mage-error {
 }
 .level-top.more li.level-top.hover > a span,
 .level-top.more li.level-top:hover > a span {
-  color: #a52a2a;
+  color: #837d75;
 }
 .level-top.more li.level-top.hover.parent:before,
 .level-top.more li.level-top:hover.parent:before {
@@ -4752,7 +4752,7 @@ div.mage-error {
 }
 /* General product item styling */
 .product.name {
-  color: #a52a2a;
+  color: #837d75;
   font-weight: 600;
   line-height: 1.2;
   display: block;
@@ -5798,7 +5798,7 @@ img[align="right"] {
 .header .content .customer.welcome .customer.name:focus span,
 .header .content .customer.welcome .customer.name:hover span,
 .header .content .customer.welcome .customer.name.active span {
-  color: #a52a2a;
+  color: #837d75;
   outline: 0;
 }
 .header .content .customer.welcome .customer.name.active span:after {
