@@ -376,6 +376,7 @@ a:visited:hover {
 }
 .sidebar .block .actions .button > span,
 .sidebar .block .actions .tocart > span {
+  border: none;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
   background: #9ea5ac;
@@ -640,6 +641,7 @@ a:visited:hover {
   margin: 15px 0 0;
 }
 .page.title .title + .action > span {
+  border: none;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
   background: #9ea5ac;
@@ -812,10 +814,7 @@ a:visited:hover {
   display: inline;
 }
 .header > .content .links a {
-  border-bottom: 1px solid #e5e5e5;
-}
-.header > .content .links a:hover {
-  border-bottom-color: #9ba4ad;
+  text-decoration: underline;
 }
 .header > .content .links .top-link-checkout {
   border: 1px solid #b17805;
@@ -838,6 +837,7 @@ a:visited:hover {
   margin: 0;
   padding: 7px 10px 6px;
   position: relative;
+  text-decoration: none;
 }
 .header > .content .links .top-link-checkout:hover {
   background: #ffd263;
@@ -887,10 +887,7 @@ a:visited:hover {
   display: inline;
 }
 .header .panel .links a {
-  border-bottom: 1px solid #758390;
-}
-.header .panel .links a:hover {
-  border-bottom-color: #9ba4ad;
+  border-bottom: 1px solid;
 }
 .header .panel > .links {
   display: inline;
@@ -965,10 +962,7 @@ a:visited:hover {
   display: inline;
 }
 .footer .links a {
-  border-bottom: 1px solid #646971;
-}
-.footer .links a:hover {
-  border-bottom-color: #9ba4ad;
+  border-bottom: 1px solid;
 }
 .footer .links + .links {
   clear: both;
@@ -2606,6 +2600,7 @@ select:disabled {
   float: right;
 }
 .cart.main.actions .action.update > span {
+  border: none;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
   background: #9ea5ac;
@@ -2857,6 +2852,7 @@ select:disabled {
   z-index: 1;
 }
 .cart.summary .block .action > span {
+  border: none;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
   background: #9ea5ac;
@@ -2935,6 +2931,7 @@ select:disabled {
   z-index: 1;
 }
 .block.shipping .fieldset.rates .actions .action > span {
+  border: none;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
   background: #9ea5ac;
@@ -3896,6 +3893,7 @@ select:disabled {
   z-index: 1;
 }
 .action.subscribe > span {
+  border: none;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
   background: #9ea5ac;
@@ -4048,7 +4046,6 @@ select:disabled {
   border-width: 0 1px 1px;
   font-size: 13px;
   background: #4a4a52;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
   margin: 0;
   position: absolute;
   left: -1px;
@@ -4127,15 +4124,6 @@ select:disabled {
 .navigation > ul > .level-top.hover.parent > a {
   background: #4a4a52;
   color: #95c6db;
-}
-.navigation > ul > .level-top.hover.parent > a:after {
-  border-bottom: 1px solid #4a4a52;
-  content: '';
-  position: absolute;
-  left: 1px;
-  bottom: -1px;
-  width: 100%;
-  z-index: 5;
 }
 /* Exceptions */
 .no-rgba .navigation .level-top > a:after {
@@ -4458,10 +4446,7 @@ select:disabled {
   margin: 9px 0 11px;
 }
 .block.filter dd a {
-  border-bottom: 1px solid #758390;
-}
-.block.filter dd a:hover {
-  border-bottom-color: #9ba4ad;
+  border-bottom: 1px solid;
 }
 .block.filter dd .count {
   color: #999;
@@ -4493,10 +4478,7 @@ select:disabled {
 }
 .block.account.nav .nav.items .nav.item a {
   color: #9ba4ad;
-  border-bottom: 1px solid #758390;
-}
-.block.account.nav .nav.items .nav.item a:hover {
-  border-bottom-color: #9ba4ad;
+  border-bottom: 1px solid;
 }
 .my-account .block.dashboard,
 .my-account .block.addresses {
@@ -7645,6 +7627,7 @@ img[align="right"] {
   z-index: 1;
 }
 .form.giftcard.redeem .actions .secondary .action > span {
+  border: none;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
   background: #9ea5ac;
@@ -7826,6 +7809,7 @@ img[align="right"] {
   z-index: 1;
 }
 .send.friend .actions .action.add > span {
+  border: none;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
   background: #9ea5ac;
@@ -8008,6 +7992,7 @@ img[align="right"] {
 }
 .data.wishlist + .actions .action.share > span,
 .data.wishlist + .actions .action.update > span {
+  border: none;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
   background: #9ea5ac;
