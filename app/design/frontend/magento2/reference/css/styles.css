@@ -7230,6 +7230,7 @@ img[align="right"] {
 ----------------------------------------------------------------------------- */
 .data.table.wishlist {
   width: 100%;
+  margin-bottom: 15px;
 }
 .data.table.wishlist thead th {
   padding-top: 0;
@@ -7253,4 +7254,30 @@ img[align="right"] {
 }
 .data.table.wishlist tbody tr:nth-child(even) {
   background: #f8f8f8;
+}
+.data.table.wishlist textarea {
+  width: 100%;
+}
+.data.table.wishlist + .actions .primary {
+  margin-bottom: 15px;
+}
+.data.table.wishlist + .actions .primary .action.share,
+.data.table.wishlist + .actions .primary .action.update {
+  border: none;
+  border-radius: 0;
+  background: #da370a;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  padding: 5px 11px;
+}
+.data.table.wishlist + .actions .primary .action.share span,
+.data.table.wishlist + .actions .primary .action.update span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
 }
