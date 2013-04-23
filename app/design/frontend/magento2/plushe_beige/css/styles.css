@@ -7206,3 +7206,86 @@ img[align="right"] {
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/*
+ *    My Account -> My Product Reviews
+ *
+----------------------------------------------------------------------------- */
+.data.table.reviews {
+  width: 100%;
+}
+.data.table.reviews th,
+.data.table.reviews td {
+  padding: 8px 5px;
+}
+.data.table.reviews th {
+  text-align: left;
+  text-transform: uppercase;
+  border-bottom: 1px solid #008000;
+}
+.data.table.reviews tbody tr:nth-child(even) td {
+  background: #008000;
+}
+.data.table.reviews tbody td {
+  border-bottom: 1px solid #008000;
+  vertical-align: top;
+}
+.data.table.reviews .product.name {
+  margin: 0;
+}
+/*
+ *    My Account -> My Wishlist
+ *
+----------------------------------------------------------------------------- */
+.data.table.wishlist {
+  width: 100%;
+  margin-bottom: 15px;
+}
+.data.table.wishlist thead th {
+  padding-top: 0;
+  padding-bottom: 10px;
+  text-align: left;
+  font-weight: 400;
+  font-size: 16px;
+}
+.data.table.wishlist td,
+.data.table.wishlist th {
+  padding: 16px 10px 10px;
+  vertical-align: top;
+}
+.data.table.wishlist td:first-child,
+.data.table.wishlist th:first-child {
+  padding-left: 20px;
+}
+.data.table.wishlist td:last-child,
+.data.table.wishlist th:last-child {
+  padding-right: 20px;
+}
+.data.table.wishlist tbody tr:nth-child(even) {
+  background: #f8f8f8;
+}
+.data.table.wishlist textarea {
+  width: 100%;
+}
+.data.table.wishlist + .actions .primary {
+  margin-bottom: 15px;
+}
+.data.table.wishlist + .actions .primary .action.share,
+.data.table.wishlist + .actions .primary .action.update {
+  border: none;
+  border-radius: 0;
+  background: #993333;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  padding: 5px 11px;
+}
+.data.table.wishlist + .actions .primary .action.share span,
+.data.table.wishlist + .actions .primary .action.update span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
