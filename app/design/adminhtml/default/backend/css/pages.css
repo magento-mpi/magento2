@@ -2866,6 +2866,13 @@ table.items-to-invoice tbody tr:hover td {
 }
 
 /*
+    Product Image Placeholders
+-------------------------------------- */
+#catalog_placeholder .delete-image > input {
+    margin-right: 5px;
+}
+
+/*
     Clearfix
 -------------------------------------- */
 .order-gift-options:before,
