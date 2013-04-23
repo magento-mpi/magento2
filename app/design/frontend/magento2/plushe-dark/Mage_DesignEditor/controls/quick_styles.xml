@@ -366,7 +366,9 @@
             .form.password.forget .fieldset,
             .form.create.account .fieldset,
             .block.dashboard:not(.welcome):not(.orders) .content,
-            .block.reviews.list .item.review:nth-child(odd)
+            .block.reviews.list .item.review:nth-child(odd),
+            .fieldset.bundle.options > .field,
+            .block.bundle.summary
         ]]></selector>
         <attribute>background-color</attribute>
         <var>Mage_DesignEditor::form-background</var>
