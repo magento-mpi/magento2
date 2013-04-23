@@ -42,7 +42,7 @@
     <?php echo $this->getChildHtml('agreements') ?>
     <div class="buttons-set actions" id="review-buttons-container">
         <div class="primary"><?php echo $this->getChildHtml('button') ?></div>
-        <div class=""><?php echo $this->__('Forgot an Item?') ?> <a href="<?php echo $this->getUrl('checkout/cart') ?>" class="action edit"><span><?php echo $this->__('Edit Your Cart') ?></span></a></div>
+        <div class="secondary"><?php echo $this->__('Forgot an Item?') ?> <a href="<?php echo $this->getUrl('checkout/cart') ?>" class="action edit"><span><?php echo $this->__('Edit Your Cart') ?></span></a></div>
         <span class="please-wait load indicator" id="review-please-wait" style="display:none;">
             <span><?php echo $this->__('Submitting order information...') ?></span>
         </span>
