@@ -7269,68 +7269,110 @@ body.type-bundle {
   content: ' | ';
 }
 .my-account .data.table.orders,
-.my-account .data.wishlist {
+.my-account .data.wishlist,
+.my-account .data.table.reviews {
   width: 100%;
 }
 .my-account .data.table.orders td,
 .my-account .data.wishlist td,
+.my-account .data.table.reviews td,
 .my-account .data.table.orders th,
-.my-account .data.wishlist th {
+.my-account .data.wishlist th,
+.my-account .data.table.reviews th {
   padding: 10px 5px;
   text-align: left;
 }
 .my-account .data.table.orders td.col.total,
 .my-account .data.wishlist td.col.total,
+.my-account .data.table.reviews td.col.total,
 .my-account .data.table.orders th.col.total,
-.my-account .data.wishlist th.col.total {
+.my-account .data.wishlist th.col.total,
+.my-account .data.table.reviews th.col.total {
   text-align: right;
 }
 .my-account .data.table.orders td.col.actions,
 .my-account .data.wishlist td.col.actions,
+.my-account .data.table.reviews td.col.actions,
 .my-account .data.table.orders th.col.actions,
-.my-account .data.wishlist th.col.actions {
+.my-account .data.wishlist th.col.actions,
+.my-account .data.table.reviews th.col.actions {
   white-space: nowrap;
   width: 10%;
 }
 .my-account .data.table.orders td em,
 .my-account .data.wishlist td em,
+.my-account .data.table.reviews td em,
 .my-account .data.table.orders th em,
-.my-account .data.wishlist th em {
+.my-account .data.wishlist th em,
+.my-account .data.table.reviews th em {
   font-style: normal;
 }
 .my-account .data.table.orders th,
-.my-account .data.wishlist th {
+.my-account .data.wishlist th,
+.my-account .data.table.reviews th {
   font-size: 13px;
   font-weight: bold;
   border-bottom: 1px solid #e2e2e2;
 }
 .my-account .data.table.orders tr:nth-child(even) td,
-.my-account .data.wishlist tr:nth-child(even) td {
+.my-account .data.wishlist tr:nth-child(even) td,
+.my-account .data.table.reviews tr:nth-child(even) td {
   background: #f6f4f3;
 }
 .my-account .data.table.orders a,
-.my-account .data.wishlist a {
-  color: #333333;
+.my-account .data.wishlist a,
+.my-account .data.table.reviews a {
+  color: #666666;
   text-decoration: none;
 }
 .my-account .data.table.orders a > span,
-.my-account .data.wishlist a > span {
-  color: #333333;
+.my-account .data.wishlist a > span,
+.my-account .data.table.reviews a > span {
+  color: #666666;
   text-decoration: underline;
 }
 .my-account .data.table.orders a:hover,
 .my-account .data.wishlist a:hover,
+.my-account .data.table.reviews a:hover,
 .my-account .data.table.orders a:hover > span,
-.my-account .data.wishlist a:hover > span {
+.my-account .data.wishlist a:hover > span,
+.my-account .data.table.reviews a:hover > span {
   color: #111111;
   text-decoration: underline;
 }
 .my-account .data.table.orders a:hover,
-.my-account .data.wishlist a:hover {
+.my-account .data.wishlist a:hover,
+.my-account .data.table.reviews a:hover {
+  text-decoration: none;
+}
+.my-account .data.table.orders .product.name a,
+.my-account .data.wishlist .product.name a,
+.my-account .data.table.reviews .product.name a {
+  color: #111111;
+}
+.my-account .data.table.orders .product.name a > span,
+.my-account .data.wishlist .product.name a > span,
+.my-account .data.table.reviews .product.name a > span {
+  color: #111111;
+  text-decoration: underline;
+}
+.my-account .data.table.orders .product.name a:hover,
+.my-account .data.wishlist .product.name a:hover,
+.my-account .data.table.reviews .product.name a:hover,
+.my-account .data.table.orders .product.name a:hover > span,
+.my-account .data.wishlist .product.name a:hover > span,
+.my-account .data.table.reviews .product.name a:hover > span {
+  color: #b10000;
+  text-decoration: underline;
+}
+.my-account .data.table.orders .product.name a:hover,
+.my-account .data.wishlist .product.name a:hover,
+.my-account .data.table.reviews .product.name a:hover {
   text-decoration: none;
 }
 .my-account .data.table.orders .action.view:after,
-.my-account .data.wishlist .action.view:after {
+.my-account .data.wishlist .action.view:after,
+.my-account .data.table.reviews .action.view:after {
   content: ' |';
 }
 .my-account .data.wishlist td {
@@ -7347,9 +7389,6 @@ body.type-bundle {
 }
 .my-account .data.wishlist .col.item .description {
   margin: 0 0 10px;
-}
-.my-account .data.wishlist .col.item .product.name a:hover {
-  color: #b10000;
 }
 .my-account .data.wishlist .col.actions {
   width: 30%;
@@ -7494,6 +7533,18 @@ body.type-bundle {
   margin: -20px 0 0 -86px;
   position: absolute;
   top: 50%;
+}
+.my-account .data.table.reviews td {
+  vertical-align: top;
+}
+.my-account .data.table.reviews .col.date {
+  width: 5%;
+}
+.my-account .data.table.reviews .col.item {
+  width: 25%;
+}
+.my-account .data.table.reviews .col.actions {
+  width: 10%;
 }
 .wishlist-index-index .actions .primary {
   text-align: right;
