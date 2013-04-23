@@ -200,4 +200,39 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
             ),
         );
     }
+
+    /**
+     * @param array $groupConfig
+     * @param string $expectedResult
+     * @dataProvider loadLimitationsDataProvider
+     */
+    public function testLoadLimitations(array $groupConfig, $expectedResult)
+    {
+        $configData = array(
+            'tenantConfiguration' => array('local' => self::_wrapXml(self::XML_MEDIA_DIR)),
+            'groupConfiguration' => $groupConfig,
+            'version_hash'        => '1234567',
+        );
+        $config = new Saas_Saas_Model_Tenant_Config(__DIR__, $configData);
+        $result = $config->getApplicationParams();
+        $result = $result[Mage::PARAM_CUSTOM_LOCAL_CONFIG];
+        $this->assertXmlStringEqualsXmlString(self::_wrapXml(self::XML_MEDIA_DIR . $expectedResult), $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function loadLimitationsDataProvider()
+    {
+        return array(
+            'no limitations' => array(
+                array('some_other_config' => $this->_wrapXml('<some_config/>')),
+                ''
+            ),
+            'with limitations' => array(
+                array('limitations' => $this->_wrapXml('<limitations><limit1>1</limit1></limitations>')),
+                '<limitations><limit1>1</limit1></limitations>'
+            ),
+        );
+    }
 }

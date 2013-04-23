@@ -68,7 +68,11 @@ class Saas_Saas_Model_Tenant_Config
         if (array_key_exists('groupConfiguration', $tenantData)) {
             $this->_groupConfiguration = $tenantData['groupConfiguration'];
         }
-        $this->_config = $this->_mergeConfig(array($this->_getLocalConfig(), $this->_getModulesConfig()));
+        $this->_config = $this->_mergeConfig(array(
+            $this->_getLocalConfig(),
+            $this->_getModulesConfig(),
+            $this->_getLimitationsConfig(),
+        ));
 
         $dirName = (string)$this->_config->getNode('global/web/dir/media');
         if (!$dirName) {
@@ -239,5 +243,21 @@ class Saas_Saas_Model_Tenant_Config
             }
         }
         return $nodeModules;
+    }
+
+    /**
+     * Get configuration of functional limitations
+     *
+     * If no limitation configuration exists, empty configuration object is returned
+     *
+     * @return Varien_Simplexml_Config
+     */
+    protected function _getLimitationsConfig()
+    {
+        $config = new Varien_Simplexml_Config();
+        if (array_key_exists('limitations', $this->_groupConfiguration)) {
+            $config->loadString($this->_groupConfiguration['limitations']);
+        }
+        return $config;
     }
 }
