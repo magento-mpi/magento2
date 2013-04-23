@@ -1287,10 +1287,7 @@ h6 {
   margin: 0;
 }
 /* Reviews */
-.reviews.summary {
-  line-height: 16px;
-}
-.reviews.summary .rating {
+.rating {
   width: 80px;
   margin-right: 3px;
   line-height: 1;
@@ -1299,7 +1296,7 @@ h6 {
   vertical-align: top;
   margin-top: -1px;
 }
-.reviews.summary .rating > span {
+.rating > span {
   display: block;
   overflow: hidden;
   color: #f47a1f;
@@ -1308,11 +1305,11 @@ h6 {
   line-height: 1;
   margin-top: -16px;
 }
-.reviews.summary .rating > span:before {
+.rating > span:before {
   margin-top: -16px;
 }
-.reviews.summary .rating:before,
-.reviews.summary .rating > span:before {
+.rating:before,
+.rating > span:before {
   display: block;
   top: 0;
   left: 0;
@@ -1324,6 +1321,9 @@ h6 {
   speak: none;
   font-weight: normal;
   -webkit-font-smoothing: antialiased;
+}
+.reviews.summary {
+  line-height: 16px;
 }
 .reviews.summary .reviews.actions {
   text-align: right;
@@ -4201,89 +4201,6 @@ select:disabled {
 .block.related .products.list {
   margin: 0 -20px;
 }
-.block.widget.viewed .products.list .item.product,
-.block.crosssell .products.list .item.product,
-.block.upsell .products.list .item.product,
-.block.related .products.list .item.product {
-  display: inline;
-  float: left;
-  width: 33.33333333333333%;
-  margin: 0 0%;
-  display: inline-block;
-  vertical-align: top;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-  margin: 0;
-  padding: 20px;
-  float: none;
-}
-.block.widget.viewed .products.list .item.product .product.photo,
-.block.crosssell .products.list .item.product .product.photo,
-.block.upsell .products.list .item.product .product.photo,
-.block.related .products.list .item.product .product.photo {
-  float: left;
-  margin-right: 20px;
-}
-.block.widget.viewed .products.list .item.product .product.details,
-.block.crosssell .products.list .item.product .product.details,
-.block.upsell .products.list .item.product .product.details,
-.block.related .products.list .item.product .product.details {
-  overflow: hidden;
-}
-.block.widget.viewed .products.list .item.product .product.name,
-.block.crosssell .products.list .item.product .product.name,
-.block.upsell .products.list .item.product .product.name,
-.block.related .products.list .item.product .product.name,
-.block.widget.viewed .products.list .item.product .price-box,
-.block.crosssell .products.list .item.product .price-box,
-.block.upsell .products.list .item.product .price-box,
-.block.related .products.list .item.product .price-box {
-  margin: 0 0 10px;
-}
-.block.widget.viewed .products.list .item.product .addto.links,
-.block.crosssell .products.list .item.product .addto.links,
-.block.upsell .products.list .item.product .addto.links,
-.block.related .products.list .item.product .addto.links {
-  padding: 10px 0 0;
-}
-.block.widget.viewed .products.list .item.product .addto.links span:hover,
-.block.crosssell .products.list .item.product .addto.links span:hover,
-.block.upsell .products.list .item.product .addto.links span:hover,
-.block.related .products.list .item.product .addto.links span:hover {
-  color: #ae1523;
-}
-.block.widget.viewed .products.list .item.product .addto.links .action:after,
-.block.crosssell .products.list .item.product .addto.links .action:after,
-.block.upsell .products.list .item.product .addto.links .action:after,
-.block.related .products.list .item.product .addto.links .action:after {
-  content: '';
-  display: block;
-}
-.block.widget.viewed .products.list .item.product .actions,
-.block.crosssell .products.list .item.product .actions,
-.block.upsell .products.list .item.product .actions,
-.block.related .products.list .item.product .actions {
-  display: none;
-}
-.block.widget.viewed .products.list .item.product .actions .primary,
-.block.crosssell .products.list .item.product .actions .primary,
-.block.upsell .products.list .item.product .actions .primary,
-.block.related .products.list .item.product .actions .primary {
-  margin: 0 0 10px;
-}
-.block.widget.viewed .products.list .item.product:hover .actions,
-.block.crosssell .products.list .item.product:hover .actions,
-.block.upsell .products.list .item.product:hover .actions,
-.block.related .products.list .item.product:hover .actions {
-  display: block;
-}
 .block.crosssell .products.list.items.crosssell {
   margin: 0 -13px;
 }
@@ -4877,6 +4794,18 @@ select:disabled {
   background: #ae1523;
   z-index: 99;
 }
+.products.wrapper .products.list .item:hover a,
+.widget.new.grid .products.list .item:hover a,
+.widget.new.list .products.list .item:hover a,
+.widget.viewed.grid .products.list .item:hover a {
+  color: #ffffff;
+}
+.products.wrapper .products.list .item:hover a span,
+.widget.new.grid .products.list .item:hover a span,
+.widget.new.list .products.list .item:hover a span,
+.widget.viewed.grid .products.list .item:hover a span {
+  color: #ffffff;
+}
 .products.wrapper .products.list .item:hover .product.actions,
 .widget.new.grid .products.list .item:hover .product.actions,
 .widget.new.list .products.list .item:hover .product.actions,
@@ -5215,6 +5144,7 @@ select:disabled {
   overflow: hidden;
   vertical-align: top;
   display: inline-block;
+  text-decoration: none;
 }
 .debug {
   outline: 2px solid red;
@@ -6362,47 +6292,60 @@ img[align="right"] {
   background: #393939;
 }
 .data.table.orders,
-.data.wishlist {
+.data.wishlist,
+.data.table.reviews {
   width: 100%;
 }
 .data.table.orders td,
 .data.wishlist td,
+.data.table.reviews td,
 .data.table.orders th,
-.data.wishlist th {
+.data.wishlist th,
+.data.table.reviews th {
   padding: 10px 20px;
   text-align: left;
 }
 .data.table.orders td.col.total,
 .data.wishlist td.col.total,
+.data.table.reviews td.col.total,
 .data.table.orders th.col.total,
-.data.wishlist th.col.total {
+.data.wishlist th.col.total,
+.data.table.reviews th.col.total {
   text-align: right;
 }
 .data.table.orders td.col.actions,
 .data.wishlist td.col.actions,
+.data.table.reviews td.col.actions,
 .data.table.orders th.col.actions,
-.data.wishlist th.col.actions {
+.data.wishlist th.col.actions,
+.data.table.reviews th.col.actions {
   white-space: nowrap;
 }
 .data.table.orders td.col.actions .action:last-child,
 .data.wishlist td.col.actions .action:last-child,
+.data.table.reviews td.col.actions .action:last-child,
 .data.table.orders th.col.actions .action:last-child,
-.data.wishlist th.col.actions .action:last-child {
+.data.wishlist th.col.actions .action:last-child,
+.data.table.reviews th.col.actions .action:last-child {
   margin-left: 20px;
 }
 .data.table.orders td em,
 .data.wishlist td em,
+.data.table.reviews td em,
 .data.table.orders th em,
-.data.wishlist th em {
+.data.wishlist th em,
+.data.table.reviews th em {
   font-style: normal;
 }
 .data.table.orders th,
-.data.wishlist th {
+.data.wishlist th,
+.data.table.reviews th {
   font-size: 16px;
   font-weight: 400;
 }
 .data.table.orders tr:nth-child(odd) td,
-.data.wishlist tr:nth-child(odd) td {
+.data.wishlist tr:nth-child(odd) td,
+.data.table.reviews tr:nth-child(odd) td {
   background: #000000;
 }
 .customer.menu .customer {
