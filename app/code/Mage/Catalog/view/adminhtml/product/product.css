@@ -488,6 +488,10 @@
     top: 30px;
 }
 
+.field-tax_class_id .addon select {
+    border-radius: 4px;
+}
+
 /* Variations Search Field */
 #variations-search-field {
     margin-bottom: 16px;
