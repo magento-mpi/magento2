@@ -263,7 +263,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 return $helper;
             }
         }
-        return parent::__call($command, $arguments);
+        $result = null;
+        try {
+            $result = parent::__call($command, $arguments);
+        } catch (Exception $e) {
+            $this->markTestSkipped($e->getMessage());
+
+        }
+        return $result;
     }
 
     /**
