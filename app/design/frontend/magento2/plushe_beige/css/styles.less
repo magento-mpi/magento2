@@ -74,9 +74,9 @@ strong {
 @primary1: @color1;
 //@primary1: darken(#f8f8f8 , 30%);
 @primary2: green;
-@primary3: orange;
-@primary4: yellow;
-@primary5: blue;
+@primary3: @color2;
+@primary4: @color9;
+@primary5: @color4;
 @primary6: brown;
 @primeBlack: #7f7f7;
 @primeBlackOpacity: rgba(0, 0, 0, 0.5);
@@ -84,8 +84,8 @@ strong {
 
 // Secondary colors
 
-@secondary1: #da370a;
-@secondary2: #55c2e6;
+@secondary1: @color5;
+@secondary2: blue;
 
 .resetAction() {
     border: none;
@@ -208,10 +208,10 @@ strong {
  *
 ----------------------------------------------------------------------------- */
 
-@pageMainBg : #fff;
+@pageMainBg : @color3;
 
-@headerBg : #d6d7d2;
-@headerBgImage : url(../images/header-bg.jpg);
+@headerBg : @color7;
+@headerBgImage : @color6;
 
 @navBg : @headerBg;
 @navBgImage : @headerBgImage;
@@ -267,7 +267,7 @@ html {
     background: @pageMainBg;
 }
 
-@link : #332e29;
+@link : magenta;
 @linkHover : @secondary1;
 .actionLink() {
     display: inline;
@@ -282,7 +282,7 @@ html {
 
 a,
 a:visited {
-    color: #332e29;
+    color: @color8;
     text-decoration: none;
     &:hover {
         color: @secondary1;
