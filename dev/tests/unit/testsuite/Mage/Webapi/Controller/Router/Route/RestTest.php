@@ -26,30 +26,16 @@ class Mage_Webapi_Controller_Router_Route_RestTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * Test setResourceName and getResourceName methods.
+     * Test setServiceName and getServiceName methods.
      */
-    public function testResourceName()
+    public function testServiceName()
     {
         /** Assert that new object has no Resource name set. */
-        $this->assertNull($this->_restRoute->getResourceName(), 'New object has a set Resource name.');
+        $this->assertNull($this->_restRoute->getServiceName(), 'New object has a set Resource name.');
         /** Set Resource name. */
-        $resourceName = 'Resource name';
-        $this->_restRoute->setResourceName($resourceName);
+        $serviceName = 'Resource name';
+        $this->_restRoute->setServiceName($serviceName);
         /** Assert that Resource name was set. */
-        $this->assertEquals($resourceName, $this->_restRoute->getResourceName(), 'Resource name is wrong.');
-    }
-
-    /**
-     * Test setResourceType and getResourceType methods.
-     */
-    public function testResourceType()
-    {
-        /** Assert that new object has no Resource type set. */
-        $this->assertNull($this->_restRoute->getResourceType(), 'New object has a set Resource type.');
-        /** Set Resource type. */
-        $resourceType = 'Resource type';
-        $this->_restRoute->setResourceType($resourceType);
-        /** Assert that Resource type was set. */
-        $this->assertEquals($resourceType, $this->_restRoute->getResourceType(), 'Resource type is wrong.');
+        $this->assertEquals($serviceName, $this->_restRoute->getServiceName(), 'Resource name is wrong.');
     }
 }

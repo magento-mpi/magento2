@@ -1,18 +1,11 @@
 <?php
 /**
+ * Product controller.
+ *
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Product controller
- *
- * @category   Mage
- * @package    Mage_Catalog
  */
 class Mage_Catalog_ProductController
     extends Mage_Core_Controller_Front_Action
@@ -96,4 +89,17 @@ class Mage_Catalog_ProductController
         $this->loadLayout();
         $this->renderLayout();
     }
+
+    /**
+     * Test action for product service
+     * @todo remove
+     */
+    public function serviceAction()
+    {
+        /** @var $product Mage_Catalog_Service_Product_Extended */
+        $productService = Mage::getObjectManager()->create('Mage_Catalog_Service_Product_Extended');
+        $data = $productService->getLinks(1);
+        die(nl2br(print_r($data, true)));
+    }
+
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Core
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <services>
+        <layout translate="title" module="Mage_Core">
+            <title>Layout Service</title>
+            <class>Mage_Core_Service_Type_LayoutUtility</class>
+            <methods>
+                <getLayout>
+                    <title>Retrieve an empty Layout instance</title>
+                </getLayout>
+                <loadLayout>
+                    <title>Load Layout</title>
+                </loadLayout>
+                <addLayoutHandle>
+                    <title>Add Layout Handle to render</title>
+                </addLayoutHandle>
+                <loadLayoutUpdates>
+                    <title>Load Layout Updates</title>
+                </loadLayoutUpdates>
+                <generateLayout>
+                    <title>Generate Layout</title>
+                </generateLayout>
+                <generateLayoutXml>
+                    <title>Generate Layout XML Schema</title>
+                </generateLayoutXml>
+                <generateLayoutBlocks>
+                    <title>Generate Layout Blocks</title>
+                </generateLayoutBlocks>
+                <renderLayout>
+                    <title>Render Layout Schema</title>
+                </renderLayout>
+            </methods>
+        </layout>
+    </services>
+</config>

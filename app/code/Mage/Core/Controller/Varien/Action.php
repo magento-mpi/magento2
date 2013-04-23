@@ -167,6 +167,15 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
         return $this;
     }
 
+    /**
+     * Get current used area code
+     * @return string $areaCode
+     */
+    public function getCurrentArea()
+    {
+        return $this->_currentArea;
+    }
+
     public function hasAction($action)
     {
         return method_exists($this, $this->getActionMethodName($action));

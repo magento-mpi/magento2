@@ -107,6 +107,13 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     protected $_cacheManager;
 
     /**
+     * Set of fields to be retrieved on entity loading.
+     *
+     * @var array
+     */
+    protected $_fieldset = array();
+
+    /**
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
@@ -311,6 +318,30 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         $this->getResource()->afterLoad($this);
         $this->_afterLoad();
         return $this;
+    }
+
+    /**
+     * Set active set of fields to be used for entity loading.
+     *
+     * @param array $fieldset
+     * @return Mage_Core_Model_Abstract
+     */
+    public function setFieldset($fieldset)
+    {
+        if (is_array($fieldset)) {
+            $this->_fieldset = $fieldset;
+        }
+        return $this;
+    }
+
+    /**
+     * Get active set of fields to be used for entity loading.
+     *
+     * @return array
+     */
+    public function getFieldset()
+    {
+        return $this->_fieldset;
     }
 
     /**

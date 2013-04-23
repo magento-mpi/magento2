@@ -182,7 +182,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
     /**
      * Retrieve select object for loading base entity row
      *
-     * @param Varien_Object $object
+     * @param Mage_Core_Model_Abstract $object
      * @param mixed $rowId
      * @return Varien_Db_Select
      */

@@ -46,33 +46,14 @@ class Mage_Webapi_Controller_Router_Rest
         $routes = $this->_apiConfig->getAllRestRoutes();
         foreach ($routes as $route) {
             $params = $route->match($request);
-            if ($params !== false) {
+            if ($params !== false
+                && $route->getHttpMethod() == $request->getHttpMethod()
+            ) {
                 $request->setParams($params);
                 /** Initialize additional request parameters using data from route */
-                $request->setResourceName($route->getResourceName());
-                $request->setResourceType($route->getResourceType());
+                $request->setServiceName($route->getServiceName());
+                $request->setMethodName($route->getMethodName());
                 return $route;
-            }
-        }
-        throw new Mage_Webapi_Exception($this->_helper->__('Request does not match any route.'),
-            Mage_Webapi_Exception::HTTP_NOT_FOUND);
-    }
-
-    /**
-     * Check whether current request matches any route of specified method or not. Method version is taken into account.
-     *
-     * @param Mage_Webapi_Controller_Request_Rest $request
-     * @param string $methodName
-     * @param string $version
-     * @throws Mage_Webapi_Exception In case when request does not match any route of specified method.
-     */
-    public function checkRoute(Mage_Webapi_Controller_Request_Rest $request, $methodName, $version)
-    {
-        $resourceName = $request->getResourceName();
-        $routes = $this->_apiConfig->getMethodRestRoutes($resourceName, $methodName, $version);
-        foreach ($routes as $route) {
-            if ($route->match($request)) {
-                return;
             }
         }
         throw new Mage_Webapi_Exception($this->_helper->__('Request does not match any route.'),

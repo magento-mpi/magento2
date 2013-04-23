@@ -111,6 +111,21 @@
                 <shared>0</shared>
             </Mage_Core_Model_Page_Asset_Collection>
         </di>
+        <areas>
+            <services>
+                <base_controller>bla-bla-bla</base_controller>
+                <acl>
+                    <resourceLoader>Mage_Core_Service_Acl_ResourceLoader</resourceLoader>
+
+                    <roleLoader>Mage_User_Model_Acl_Loader_Role</roleLoader>
+                    <ruleLoader>Mage_User_Model_Acl_Loader_Rule</ruleLoader>
+
+                    <roleLocator>Mage_Core_Service_Acl_RoleLocator</roleLocator>
+                    <policy>Magento_Authorization_Policy_Acl</policy>
+                </acl>
+            </services>
+        </areas>
+        <api_version>V1</api_version>
     </global>
     <frontend>
         <di>

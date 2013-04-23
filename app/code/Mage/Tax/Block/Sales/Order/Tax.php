@@ -228,9 +228,9 @@ class Mage_Tax_Block_Sales_Order_Tax extends Mage_Core_Block_Template
     {
 //        $store  = $this->getStore();
 //        $parent = $this->getParentBlock();
-//        if ($this->_config->displaySales) {
+//        if ($this->_serviceConfig->displaySales) {
 //
-//        } elseif ($this->_config->displaySales) {
+//        } elseif ($this->_serviceConfig->displaySales) {
 //
 //        }
     }

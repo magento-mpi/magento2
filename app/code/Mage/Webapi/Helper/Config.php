@@ -1,5 +1,6 @@
 <?php
-use Zend\Server\Reflection\ReflectionMethod;
+use Zend\Server\Reflection\ReflectionMethod,
+    Zend\Code\Reflection\DocBlockReflection;
 
 /**
  * Webapi config helper.
@@ -106,8 +107,8 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      *
      * Example:
      * <pre>
-     *  Mage_Customer_Model_Webapi_CustomerData => CustomerData
-     *  Mage_Catalog_Model_Webapi_ProductData => CatalogProductData
+     *  Mage_Customer_Service_CustomerData => CustomerData
+     *  Mage_Catalog_Service_ProductData => CatalogProductData
      * </pre>
      *
      * @param string $class
@@ -116,7 +117,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      */
     public function translateTypeName($class)
     {
-        if (preg_match('/(.*)_(.*)_Model_Webapi_\2?(.*)/', $class, $matches)) {
+        if (preg_match('/(.*)_(.*)_Service_\2?(.*)/', $class, $matches)) {
             $moduleNamespace = $matches[1] == 'Mage' ? '' : $matches[1];
             $moduleName = $matches[2];
             $typeNameParts = explode('_', $matches[3]);
@@ -158,72 +159,40 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
      * @return string
      * @throws InvalidArgumentException
      */
-    public function translateResourceName($class)
+    public function translateServiceName($class)
     {
-        $resourceNameParts = $this->getResourceNameParts($class);
-        return lcfirst(implode('', $resourceNameParts));
+        $serviceNameParts = $this->getServiceNameParts($class);
+        return lcfirst(implode('', $serviceNameParts));
     }
 
     /**
      * Identify the list of resource name parts including subresources using class name.
      *
      * Examples of input/output pairs: <br/>
-     * - 'Mage_Customer_Controller_Webapi_Customer_Address' => array('Customer', 'Address') <br/>
-     * - 'Vendor_Customer_Controller_Webapi_Customer_Address' => array('VendorCustomer', 'Address') <br/>
-     * - 'Mage_Catalog_Controller_Webapi_Product' => array('Catalog', 'Product')
+     * - 'Mage_Customer_Service_Customer_Address' => array('Customer', 'Address') <br/>
+     * - 'Vendor_Customer_Service_Customer_Address' => array('VendorCustomer', 'Address') <br/>
+     * - 'Mage_Catalog_Service_Product' => array('Catalog', 'Product')
      *
      * @param string $className
      * @return array
      * @throws InvalidArgumentException When class is not valid API resource.
      */
-    public function getResourceNameParts($className)
+    public function getServiceNameParts($className)
     {
-        if (preg_match(Mage_Webapi_Model_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
+        if (preg_match(Mage_Core_Service_Config_Reader::RESOURCE_CLASS_PATTERN, $className, $matches)) {
             $moduleNamespace = $matches[1];
             $moduleName = $matches[2];
             $moduleNamespace = ($moduleNamespace == 'Mage') ? '' : $moduleNamespace;
-            $resourceNameParts = explode('_', trim($matches[3], '_'));
-            if ($moduleName == $resourceNameParts[0]) {
+            $serviceNameParts = explode('_', trim($matches[3], '_'));
+            if ($moduleName == $serviceNameParts[0]) {
                 /** Avoid duplication of words in resource name */
                 $moduleName = '';
             }
-            $parentResourceName = $moduleNamespace . $moduleName . array_shift($resourceNameParts);
-            array_unshift($resourceNameParts, $parentResourceName);
-            return $resourceNameParts;
+            $parentServiceName = $moduleNamespace . $moduleName . array_shift($serviceNameParts);
+            array_unshift($serviceNameParts, $parentServiceName);
+            return $serviceNameParts;
         }
         throw new InvalidArgumentException(sprintf('The controller class name "%s" is invalid.', $className));
-    }
-
-    /**
-     * Identify API method name without version suffix by its reflection.
-     *
-     * @param ReflectionMethod|string $method Method name or method reflection.
-     * @return string Method name without version suffix on success.
-     * @throws InvalidArgumentException When method name is invalid API resource method.
-     */
-    public function getMethodNameWithoutVersionSuffix($method)
-    {
-        if ($method instanceof ReflectionMethod) {
-            $methodNameWithSuffix = $method->getName();
-        } else {
-            $methodNameWithSuffix = $method;
-        }
-        $regularExpression = $this->getMethodNameRegularExpression();
-        if (preg_match($regularExpression, $methodNameWithSuffix, $methodMatches)) {
-            $methodName = $methodMatches[1];
-            return $methodName;
-        }
-        throw new InvalidArgumentException(sprintf('"%s" is an invalid API resource method.', $methodNameWithSuffix));
-    }
-
-    /**
-     * Get regular expression to be used for method name separation into name itself and version.
-     *
-     * @return string
-     */
-    public function getMethodNameRegularExpression()
-    {
-        return sprintf('/(%s)(V\d+)/', implode('|', Mage_Webapi_Controller_ActionAbstract::getAllowedMethods()));
     }
 
     /**
@@ -252,7 +221,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE => $bodyPosMultiUpdate,
             Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE => $bodyPosMultiDelete
         );
-        $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
+        $methodName = $methodReflection->getName();
         $isBodyExpected = isset($bodyParamPositions[$methodName]);
         if ($isBodyExpected) {
             $bodyParamPosition = $bodyParamPositions[$methodName];
@@ -300,7 +269,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
                 Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
                 Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
             );
-            $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
+            $methodName = $methodReflection->getName();
             if (in_array($methodName, $methodsWithId)) {
                 $isIdFieldExpected = true;
             }
@@ -341,9 +310,30 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
     public  function isSubresource(ReflectionMethod $methodReflection)
     {
         $className = $methodReflection->getDeclaringClass()->getName();
-        if (preg_match(Mage_Webapi_Model_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
+        if (preg_match(Mage_Core_Service_Config_Reader::RESOURCE_CLASS_PATTERN, $className, $matches)) {
             return count(explode('_', trim($matches[3], '_'))) > 1;
         }
         throw new InvalidArgumentException(sprintf('"%s" is not a valid resource class.', $className));
+    }
+
+    /**
+     * Retrieve method annotation tag value.
+     *
+     * @param Zend\Server\Reflection\ReflectionMethod|Zend\Server\Reflection\ReflectionClass $entityReflection
+     * @param string $annotationTag
+     * @return string|null Return null if tag is not set
+     */
+    public function getAnnotationValue($entityReflection, $annotationTag)
+    {
+        $methodDocumentation = $entityReflection->getDocComment();
+        if ($methodDocumentation) {
+            /** Zend server reflection is not able to work with annotation tags. */
+            $docBlock = new DocBlockReflection($methodDocumentation);
+            $tag = $docBlock->getTag($annotationTag);
+            if ($tag) {
+                return $tag->getContent();
+            }
+        }
+        return null;
     }
 }

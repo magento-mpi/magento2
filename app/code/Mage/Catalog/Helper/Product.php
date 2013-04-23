@@ -155,6 +155,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
      */
     public function canShow($product, $where = 'catalog')
     {
+        // TODO: we shouldn't allow this case for any reason
         if (is_int($product)) {
             $product = Mage::getModel('Mage_Catalog_Model_Product')->load($product);
         }
@@ -286,14 +287,18 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
             return false;
         }
 
-        $product = Mage::getModel('Mage_Catalog_Model_Product')
-            ->setStoreId(Mage::app()->getStore()->getId())
-            ->load($productId);
+//        $product = Mage::getSingleton('Mage_Catalog_Model_Product');
+//        $product->load($productId);
 
-        if (!$this->canShow($product)) {
-            return false;
-        }
-        if (!in_array(Mage::app()->getStore()->getWebsiteId(), $product->getWebsiteIds())) {
+        $serviceManager = Mage::getSingleton('Mage_Catalog_ServiceManager');
+        $product = $serviceManager->getService('catalog_product')
+            ->call('item', array(
+                'entity_id' => $productId,
+                'store_id'  => Mage::app()->getStore()->getId(),
+                //'fields'    => 'entity_id,name,store_id,sku,stock_item'
+            ));
+
+        if (!$product->getId()) {
             return false;
         }
 
@@ -307,9 +312,9 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         } elseif (!$product->canBeShowInCategory($categoryId)) {
             $categoryId = null;
         }
-
         if ($categoryId) {
-            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
+            $serviceManager = Mage::getSingleton('Mage_Catalog_ServiceManager');
+            $category = $serviceManager->call('Mage_Catalog_Service_CategoryEntity', 'item', array('entity_id' => $categoryId));
             $product->setCategory($category);
             Mage::register('current_category', $category);
         }
@@ -321,9 +326,9 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         try {
             Mage::dispatchEvent('catalog_controller_product_init', array('product' => $product));
             Mage::dispatchEvent('catalog_controller_product_init_after',
-                            array('product' => $product,
-                                'controller_action' => $controller
-                            )
+                array('product' => $product,
+                    'controller_action' => $controller
+                )
             );
         } catch (Mage_Core_Exception $e) {
             Mage::logException($e);
@@ -500,5 +505,73 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     public function getTypeSwitcherControlLabel()
     {
         return $this->__((string)Mage::getConfig()->getNode(self::XML_PATH_PRODUCT_TYPE_SWITCHER_LABEL));
+    }
+
+    /**
+     * Get JSON encoded configuration array which can be used for JS dynamic
+     * price calculation depending on product options
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return string
+     */
+    public function getJsonConfig($product)
+    {
+        $config = array();
+        if (!$product->getTypeInstance()->hasOptions($product)) {
+            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
+        }
+
+        $_request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest(false, false, false);
+
+        $_request->setProductClassId($product->getTaxClassId());
+        $defaultTax = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($_request);
+
+        $_request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest();
+        $_request->setProductClassId($product->getTaxClassId());
+        $currentTax = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($_request);
+
+        $_regularPrice = $product->getPrice();
+        $_finalPrice = $product->getFinalPrice();
+        $_priceInclTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $_finalPrice, true);
+        $_priceExclTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $_finalPrice);
+        $_tierPrices = array();
+        $_tierPricesInclTax = array();
+        foreach ($product->getTierPrice() as $tierPrice) {
+            $_tierPrices[] = Mage::helper('Mage_Core_Helper_Data')->currency($tierPrice['website_price'], false, false);
+            $_tierPricesInclTax[] = Mage::helper('Mage_Core_Helper_Data')->currency(
+                Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, (int)$tierPrice['website_price'], true),
+                false, false);
+        }
+        $config = array(
+            'productId'           => $product->getId(),
+            'priceFormat'         => Mage::app()->getLocale()->getJsPriceFormat(),
+            'includeTax'          => Mage::helper('Mage_Tax_Helper_Data')->priceIncludesTax() ? 'true' : 'false',
+            'showIncludeTax'      => Mage::helper('Mage_Tax_Helper_Data')->displayPriceIncludingTax(),
+            'showBothPrices'      => Mage::helper('Mage_Tax_Helper_Data')->displayBothPrices(),
+            'productPrice'        => Mage::helper('Mage_Core_Helper_Data')->currency($_finalPrice, false, false),
+            'productOldPrice'     => Mage::helper('Mage_Core_Helper_Data')->currency($_regularPrice, false, false),
+            'priceInclTax'        => Mage::helper('Mage_Core_Helper_Data')->currency($_priceInclTax, false, false),
+            'priceExclTax'        => Mage::helper('Mage_Core_Helper_Data')->currency($_priceExclTax, false, false),
+            'defaultTax'          => $defaultTax,
+            'currentTax'          => $currentTax,
+            'idSuffix'            => '_clone',
+            'oldPlusDisposition'  => 0,
+            'plusDisposition'     => 0,
+            'plusDispositionTax'  => 0,
+            'oldMinusDisposition' => 0,
+            'minusDisposition'    => 0,
+            'tierPrices'          => $_tierPrices,
+            'tierPricesInclTax'   => $_tierPricesInclTax,
+        );
+
+        $responseObject = new Varien_Object();
+        Mage::dispatchEvent('catalog_product_view_config', array('response_object'=>$responseObject));
+        if (is_array($responseObject->getAdditionalOptions())) {
+            foreach ($responseObject->getAdditionalOptions() as $option=>$value) {
+                $config[$option] = $value;
+            }
+        }
+
+        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
     }
 }

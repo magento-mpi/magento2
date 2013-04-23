@@ -87,9 +87,9 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
      * Retrieve select object for loading entity attributes values
      * Join attribute store value
      *
-     * @param Varien_Object $object
+     * @param Mage_Core_Model_Abstract $object
      * @param string $table
-     * @return Varien_Db_Select
+     * @return Zend_Db_Select|bool Return false in case when no attributes should be loaded from current table
      */
     protected function _getLoadAttributesSelect($object, $table)
     {
@@ -121,6 +121,10 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
                 ' AND set_table.attribute_set_id = ?', $setId),
                 array()
             );
+        }
+        $skipCurrentSelect = !$this->_applyFieldsetFilter($select, $object->getFieldset());
+        if ($skipCurrentSelect) {
+            return false;
         }
         return $select;
     }
