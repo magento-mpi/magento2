@@ -4306,7 +4306,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 . 'var top = element[0].documentOffsetTop() - (window.innerHeight / 2);'
                 . 'element[0].focus();window.scrollTo( 0, top );';
         } else {
-            return;
+            //scroll element into view
+            $location = $element->location();
+            $script = 'if ((window.scrollY + arguments[1]) > arguments[0]) {'
+                .   'var top = Math.abs(window.scrollY - arguments[0]) + arguments[1];'
+                .   '} else if (window.innerHeight < arguments[0]){'
+                .   'var top = arguments[0] - window.innerHeight + arguments[1];'
+                .   '};window.scrollTo(0, top);';
+            $this->execute(array('script' => $script, 'args' => array($location['y'] , 100)));
         }
         $this->execute(array('script' => $script, 'args' => array()));
     }
