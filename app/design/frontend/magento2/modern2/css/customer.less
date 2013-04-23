@@ -444,8 +444,9 @@
             }
         }
     }
-    .data.table.orders,
-    .data.wishlist {
+    .data.table.orders,     // My Orders
+    .data.wishlist,         // My Whishlist
+    .data.table.reviews {   // My product reviews
         width: 100%;
         td,
         th {
@@ -471,8 +472,14 @@
             background: @primary7;
         }
         a {
-            .colorA(@primary2,@primary4);
+            .colorA(@primary3,@primary4);
             text-decoration: none;
+            &:hover {
+                text-decoration: none;
+            }
+        }
+        .product.name a {
+            .colorA(@primary4,@secondary3);
             &:hover {
                 text-decoration: none;
             }
@@ -481,6 +488,7 @@
             content: ' |';
         }
     }
+    // My Whishlist
     .data.wishlist {
         td {
             vertical-align: top;
@@ -497,9 +505,6 @@
             }
             .description {
                 margin: 0 0 10px;
-            }
-            .product.name a:hover {
-                color: @secondary3;
             }
         }
         .col.actions {
@@ -572,6 +577,7 @@
             }
         }
     }
+    // Giftcard Account
     .giftcardaccount {
         position: relative;
         .giftcard.form {
@@ -614,6 +620,21 @@
             margin: -20px 0 0 -86px;
             position: absolute;
             top: 50%;
+        }
+    }
+    // My Product Reviews
+    .data.table.reviews {
+        td {
+            vertical-align: top;
+        }
+        .col.date {
+            width: 5%;
+        }
+        .col.item {
+            width: 25%;
+        }
+        .col.actions {
+            width: 10%;
         }
     }
 }
