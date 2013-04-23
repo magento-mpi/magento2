@@ -121,7 +121,7 @@
         _onSave: function(event, eventData) {
             var saveConfirmEvent = this.options.saveConfirmEvent;
             if (eventData.confirm_message) {
-                var dialog = $(this.options.dialogSelectorSave);
+                var dialog = this._getDialog();
                 dialog.find('.messages').html('');
                 dialog.find('.confirm_message').html(eventData.confirm_message);
                 var buttons = [
@@ -164,7 +164,7 @@
             };
 
             var onSaveSuccess = eventData.onSaveSuccess || function(response) {
-                var dialog = eventData.dialog || $(this.options.dialogSelectorSave);
+                var dialog = eventData.dialog || this._getDialog();
                 var message;
                 if (response.error) {
                     message = [
@@ -179,7 +179,13 @@
                         '</div>'
                     ];
                 }
-                dialog.find('.messages').html(dialog.find('.messages').html() + message.join(''));
+                var messagesElement = dialog.find('.messages');
+                if (dialog.dialog('isOpen')) {
+                    messagesElement.append(message.join(''));
+                } else {
+                    dialog.dialog('open');
+                    messagesElement.html(message.join(''));
+                }
             };
 
             if ($(this.options.editorFrameSelector).get(0)) {
