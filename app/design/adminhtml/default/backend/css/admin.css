@@ -1164,6 +1164,10 @@ select[disabled].multiselect > option[selected] {
     background: #6d6d6d;
 }
 
+.eq-ie8 select[disabled="disabled"][multiple="multiple"] option[selected="selected"]{
+    background-color: #ddd;
+}
+
 textarea:-moz-placeholder,
 input:-moz-placeholder {
     color: #999 !important;
