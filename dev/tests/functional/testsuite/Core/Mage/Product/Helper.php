@@ -1913,7 +1913,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->openProductTab($type);
         $this->addParameter('tableXpath', $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, $type));
         if (!$this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'specific_table_no_records_found')) {
-            $this->execute(array('script' => "window.scrollTo(0, 0);", 'args' => array()));
+            $this->focusOnElement($this->getControlElement('checkbox', $type . '_select_all'));
             $this->fillCheckbox($type . '_select_all', 'No');
             if ($saveChanges) {
                 $this->saveProduct('continueEdit');
