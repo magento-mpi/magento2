@@ -1862,6 +1862,10 @@ input.mage-error ~ .addafter {
     margin-right: -2px;
 }
 
+.eq-ie8 .field-apply_to .multiselect {
+    height: 120px;
+}
+
 /*
     Calendar
 -------------------------------------- */
