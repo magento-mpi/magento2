@@ -4995,6 +4995,7 @@ and (max-width : 768px) {
 
 .data.table.wishlist {
     width: 100%;
+    margin-bottom: 15px;
 
     thead th {
         padding-top: 0;
@@ -5022,5 +5023,21 @@ and (max-width : 768px) {
 
     tbody tr:nth-child(even) {
         background: @primary1;
+    }
+
+    textarea {
+        width: 100%;
+    }
+
+    & + .actions {
+        .primary {
+            margin-bottom: 15px;
+
+            .action.share,
+            .action.update {
+                .primaryAction;
+                padding: 5px 11px;
+            }
+        }
     }
 }
