@@ -46,6 +46,7 @@ app/code/Mage/Core/Model/Design/Source/Design.php
 app/code/Mage/Core/Model/Dir
 app/code/Mage/Core/Model/Dir.php
 app/code/Mage/Core/Model/EntryPoint
+app/code/Mage/Core/Model/EntryPointAbstract.php
 app/code/Mage/Core/Model/Layout.php
 app/code/Mage/Core/Model/Layout/Factory.php
 app/code/Mage/Core/Model/Layout/Update.php
@@ -75,7 +76,12 @@ app/code/Mage/ImportExport/Model/Resource/Customer/Storage.php
 app/code/Mage/ImportExport/Model/Resource/Import/CustomerComposite/Data.php
 app/code/Mage/ImportExport/controllers/Adminhtml/ImportController.php
 app/code/Mage/Index/Model/Indexer/Abstract.php
+app/code/Mage/Index/Model/EntryPoint/Shell.php
+app/code/Mage/Index/Model/EntryPoint/Indexer.php
 app/code/Mage/Index/Model/Shell.php
+app/code/Mage/Install/Model/EntryPoint/Upgrade.php
+app/code/Mage/Install/Model/EntryPoint/Console.php
+app/code/Mage/Log/Model/EntryPoint/Shell.php
 app/code/Mage/Log/Model/Resource/Helper
 app/code/Mage/Log/Model/Resource/Shell.php
 app/code/Mage/Log/Model/Shell.php
