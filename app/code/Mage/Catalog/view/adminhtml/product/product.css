@@ -712,10 +712,6 @@
     width: 75%;
 }
 
-.mage-new-category-dialog .ui-dialog-content .field-include_in_navigation_menu input[type="checkbox"] {
-    margin: 0 5px 0 0;
-}
-
 .mage-new-category-dialog .ui-dialog-buttonset {
     text-align: left;
 }
