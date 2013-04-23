@@ -590,6 +590,12 @@
     z-index: 2;
 }
 
+#product-variations-matrix .action-upload input[type="file"] {
+    opacity: 0;
+    background: none;
+    border: none;
+}
+
 #product-variations-matrix .action-upload:hover {
     color: #7e7e7e;
 }

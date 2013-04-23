@@ -896,7 +896,7 @@ button.primary.disabled:hover,
 }
 
 .page-actions.fixed #product-template-suggest-container {
-    margin-left: 148px;
+    display: none;
 }
 
 /*
@@ -3643,6 +3643,10 @@ table tbody tr:nth-child(odd):hover th {
     text-shadow: 0 1px 0 #fff;
 }
 
+.side-col .ui-tabs .ui-accordion-header:focus {
+    outline: none;
+}
+
 .side-col .ui-accordion-header:before {
     position: absolute;
     left: 4px;
@@ -4820,6 +4824,10 @@ table .col-draggable .draggable-handle {
 .eq-ie8 .data-table td,
 .eq-ie8 .data-table tbody tr td {
     border-width: 0 0 1px;
+}
+
+.eq-ie8 .data-table td > .field {
+    margin-bottom: 0;
 }
 
 .data-table tbody tr.selected td,
