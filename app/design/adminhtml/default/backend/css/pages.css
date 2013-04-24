@@ -2868,6 +2868,7 @@ table.items-to-invoice tbody tr:hover td {
 /*
     Product Image Placeholders
 -------------------------------------- */
+#catalog_placeholder .input-file,
 #catalog_placeholder .delete-image > input {
     margin-right: 5px;
 }
