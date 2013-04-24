@@ -112,15 +112,6 @@
         </reference>
     </review_product_list>
 
-    <!-- Temporary add homepage html -->
-    <cms_index_index translate="label" type="page" parent="cms_page_view">
-        <label>CMS Home Page</label>
-        <remove name="content" />
-        <reference name="content.top">
-            <block type="Mage_Core_Block_Template" name="default_home_page" template="Mage_Cms::default/home.phtml"/>
-        </reference>
-    </cms_index_index>
-
     <print>
         <reference name="head">
             <!-- <action method="addCss"><file>css/print.css</file></action> -->
