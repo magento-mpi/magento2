@@ -75,11 +75,14 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
      */
     public function cancelAction()
     {
+
         $session = Mage::getSingleton('Mage_Checkout_Model_Session');
         $session->setQuoteId($session->getPaypalStandardQuoteId(true));
         if ($session->getLastRealOrderId()) {
             $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
             if ($order->getId()) {
+                Mage::getSingleton('Mage_Core_Model_Event_Manager')->dispatch('payment_cancel_action',
+                    array('order' => $order, 'quote' => $session->getQuote()));
                 $order->cancel()->save();
             }
         }
