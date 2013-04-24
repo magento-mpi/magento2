@@ -268,11 +268,14 @@
                 return;
             }
             var tileCode = window.location.hash.replace('#', ''),
-                elem = $('#tile-' + tileCode).find(this.options.btnOpenDrawer);
+                tile = $('#tile-' + tileCode),
+                elem = tile.find(this.options.btnOpenDrawer);
 
             if (elem.length == 0) {
                 window.location.hash = '';
                 return;
+            } else if (elem.length > 1) {
+                elem = elem.eq(tile.hasClass('tile-complete') ? 0 : 1);
             }
             this._drawerPreLoad(elem.attr('data-load-url'), elem.attr('data-save-url'), tileCode);
         },
