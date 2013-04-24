@@ -449,6 +449,12 @@
                             <config_path>payment/payflow_advanced/title</config_path>
                             <attribute type="shared">1</attribute>
                         </field>
+                        <field id="sort_order" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <config_path>payment/payflow_advanced/sort_order</config_path>
+                            <frontend_class>validate-number</frontend_class>
+                            <attribute type="shared">1</attribute>
+                        </field>
                         <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                             <label>Payment Action</label>
                             <config_path>payment/payflow_advanced/payment_action</config_path>
@@ -526,6 +532,12 @@
                                 <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                                     <label>Title</label>
                                     <config_path>payment/paypal_billing_agreement/title</config_path>
+                                    <attribute type="shared">1</attribute>
+                                </field>
+                                <field id="sort_order" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                                    <label>Sort Order</label>
+                                    <config_path>payment/paypal_billing_agreement/sort_order</config_path>
+                                    <frontend_class>validate-number</frontend_class>
                                     <attribute type="shared">1</attribute>
                                 </field>
                                 <field id="payment_action" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
@@ -706,6 +718,12 @@
                             <config_path>payment/paypal_express/title</config_path>
                             <attribute type="shared">1</attribute>
                         </field>
+                        <field id="sort_order" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <config_path>payment/paypal_express/sort_order</config_path>
+                            <frontend_class>validate-number</frontend_class>
+                            <attribute type="shared">1</attribute>
+                        </field>
                         <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                             <label>Payment Action</label>
                             <config_path>payment/paypal_express/payment_action</config_path>
@@ -877,6 +895,12 @@
                             <config_path>payment/paypal_direct/title</config_path>
                             <attribute type="shared">1</attribute>
                         </field>
+                        <field id="sort_order" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
+                            <label>Sort Order</label>
+                            <config_path>payment/paypal_direct/sort_order</config_path>
+                            <frontend_class>validate-number</frontend_class>
+                            <attribute type="shared">1</attribute>
+                        </field>
                         <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                             <label>Payment Action</label>
                             <config_path>payment/paypal_direct/payment_action</config_path>
@@ -974,6 +998,7 @@
                                 <label>PayPal Billing Agreement Settings</label>
                                 <field id="active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/active"/>
                                 <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/title"/>
+                                <field id="sort_order" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/sort_order"/>
                                 <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/payment_action"/>
                                 <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allowspecific"/>
                                 <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/specificcountry"/>
@@ -1011,6 +1036,7 @@
                         <label>Basic Settings - PayPal Express Checkout</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
                         <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/title"/>
+                        <field id="sort_order" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/sort_order"/>
                         <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/payment_action"/>
                         <field id="visible_on_cart" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_cart"/>
                         <field id="visible_on_product" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_product"/>
@@ -1062,6 +1088,12 @@
                             <label>Title</label>
                             <comment>It is recommended to set this value to "PayPal" per store views.</comment>
                             <config_path>payment/paypal_standard/title</config_path>
+                            <attribute type="shared">1</attribute>
+                        </field>
+                        <field id="sort_order" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <config_path>payment/paypal_standard/sort_order</config_path>
+                            <frontend_class>validate-number</frontend_class>
                             <attribute type="shared">1</attribute>
                         </field>
                         <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
@@ -1209,6 +1241,12 @@
                             <config_path>payment/verisign/title</config_path>
                             <attribute type="shared">1</attribute>
                         </field>
+                        <field id="sort_order" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <config_path>payment/verisign/sort_order</config_path>
+                            <frontend_class>validate-number</frontend_class>
+                            <attribute type="shared">1</attribute>
+                        </field>
                         <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                             <label>Payment Action</label>
                             <config_path>payment/verisign/payment_action</config_path>
@@ -1353,6 +1391,12 @@
                         <field id="title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Title</label>
                             <config_path>payment/paypaluk_express/title</config_path>
+                            <attribute type="shared">1</attribute>
+                        </field>
+                        <field id="sort_order" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <config_path>payment/paypaluk_express/sort_order</config_path>
+                            <frontend_class>validate-number</frontend_class>
                             <attribute type="shared">1</attribute>
                         </field>
                         <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
@@ -1527,6 +1571,12 @@
                             <config_path>payment/payflow_link/title</config_path>
                             <attribute type="shared">1</attribute>
                         </field>
+                        <field id="sort_order" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <config_path>payment/payflow_link/sort_order</config_path>
+                            <frontend_class>validate-number</frontend_class>
+                            <attribute type="shared">1</attribute>
+                        </field>
                         <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                             <label>Payment Action</label>
                             <config_path>payment/payflow_link/payment_action</config_path>
@@ -1619,6 +1669,7 @@
                         <label>Basic Settings - PayPal Express Checkout</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
                         <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/title"/>
+                        <field id="sort_order" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/sort_order"/>
                         <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/payment_action"/>
                         <field id="visible_on_cart" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_cart"/>
                         <field id="visible_on_product" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_product"/>
@@ -1642,6 +1693,7 @@
                                 <label>PayPal Billing Agreement Settings</label>
                                 <field id="active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/active"/>
                                 <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/title"/>
+                                <field id="sort_order" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/sort_order" />
                                 <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/payment_action"/>
                                 <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allowspecific"/>
                                 <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/specificcountry"/>
@@ -1738,6 +1790,12 @@
                             <label>Title</label>
                             <comment>It is recommended to set this value to "Debit or Credit Card" per store views.</comment>
                             <config_path>payment/paypaluk_direct/title</config_path>
+                            <attribute type="shared">1</attribute>
+                        </field>
+                        <field id="sort_order" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <config_path>payment/paypaluk_direct/sort_order</config_path>
+                            <frontend_class>validate-number</frontend_class>
                             <attribute type="shared">1</attribute>
                         </field>
                         <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
@@ -1857,6 +1915,7 @@
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
                         <field id="enable_express_pe" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/enable_express_pe"/>
                         <field id="title" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/title"/>
+                        <field id="sort_order" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/sort_order"/>
                         <field id="payment_action" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/payment_action"/>
                         <field id="visible_on_cart" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/visible_on_cart"/>
                         <field id="visible_on_product" extends="payment/paypal_payments/paypal_verisign_with_express_checkout/paypal_payflow_express_checkout/visible_on_product"/>
@@ -1906,6 +1965,12 @@
                             <label>Title</label>
                             <comment>It is recommended to set this value to "PayPal" per store views.</comment>
                             <config_path>payment/hosted_pro/title</config_path>
+                            <attribute type="shared">1</attribute>
+                        </field>
+                        <field id="sort_order" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <config_path>payment/hosted_pro/sort_order</config_path>
+                            <frontend_class>validate-number</frontend_class>
                             <attribute type="shared">1</attribute>
                         </field>
                         <field id="payment_action" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
@@ -1983,6 +2048,7 @@
                                 <label>PayPal Billing Agreement Settings</label>
                                 <field id="active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/active"/>
                                 <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/title"/>
+                                <field id="sort_order" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/sort_order"/>
                                 <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/payment_action"/>
                                 <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allowspecific"/>
                                 <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/specificcountry"/>
@@ -2007,6 +2073,7 @@
                         <label>Basic Settings - PayPal Express Checkout</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
                         <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/title"/>
+                        <field id="sort_order" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/sort_order"/>
                         <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/payment_action"/>
                         <field id="visible_on_cart" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_cart"/>
                         <field id="visible_on_product" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_product"/>
@@ -2069,6 +2136,7 @@
                         <label>Basic Settings - PayPal Express Checkout</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
                         <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/title"/>
+                        <field id="sort_order" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/sort_order" />
                         <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/payment_action"/>
                         <field id="visible_on_cart" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_cart"/>
                         <field id="visible_on_product" extends="payment/paypal_payments/payflow_advanced/settings_express_checkout/visible_on_product"/>
@@ -2092,6 +2160,7 @@
                                 <label>PayPal Billing Agreement Settings</label>
                                 <field id="active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/active"/>
                                 <field id="title" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/title"/>
+                                <field id="sort_order" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/sort_order"/>
                                 <field id="payment_action" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/payment_action"/>
                                 <field id="allowspecific" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/allowspecific"/>
                                 <field id="specificcountry" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/billing_agreement/specificcountry"/>
