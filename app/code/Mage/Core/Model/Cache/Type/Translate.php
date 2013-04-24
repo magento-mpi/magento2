@@ -10,8 +10,6 @@
 
 /**
  * System / Cache Management / Cache type "Translations"
- *
- * @todo utilize the class for all manipulations with the cache type
  */
 class Mage_Core_Model_Cache_Type_Translate extends Magento_Cache_Frontend_Decorator_TagScope
 {

@@ -128,6 +128,11 @@
                     <config>Mage_Core_Model_Config_Modules_Proxy</config>
                 </parameters>
             </Mage_Core_Model_Event_Config>
+            <Mage_Core_Model_Translate>
+                <parameters>
+                    <cache>Mage_Core_Model_Cache_Type_Translate</cache>
+                </parameters>
+            </Mage_Core_Model_Translate>
             <Mage_Install_Model_Installer>
                 <parameters>
                     <config>Mage_Core_Model_Config_Proxy</config>

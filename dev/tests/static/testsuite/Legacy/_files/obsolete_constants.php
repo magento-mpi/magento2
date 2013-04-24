@@ -17,6 +17,7 @@ return array(
     array('CACHE_TAG', 'Mage_Core_Model_Resource_Db_Collection_Abstract',
         'Mage_Core_Model_Cache_Type_Collection::CACHE_TAG'
     ),
+    array('CACHE_TAG', 'Mage_Core_Model_Translate', 'Mage_Core_Model_Cache_Type_Translate::CACHE_TAG'),
     array('CACHE_TAG', 'Mage_Rss_Block_Catalog_NotifyStock'),
     array('CACHE_TAG', 'Mage_Rss_Block_Catalog_Review'),
     array('CACHE_TAG', 'Mage_Rss_Block_Order_New'),
