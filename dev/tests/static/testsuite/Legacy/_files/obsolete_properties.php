@@ -14,7 +14,6 @@ return array(
     array('_addMinimalPrice', 'Mage_Catalog_Model_Resource_Product_Collection'),
     array('_alias', 'Mage_Core_Block_Abstract'),
     array('_anonSuffix'),
-    array('_applyFilters'),
     array('_baseDirCache', 'Mage_Core_Model_Config'),
     array('_cacheConf'),
     array('_canUseLocalModules'),
