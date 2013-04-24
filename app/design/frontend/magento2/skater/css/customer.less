@@ -453,10 +453,10 @@
         float: right;
         margin: -32px 0 0;
     }
-    .data.table.orders,     // My Orders
-    .data.wishlist,         // My Whishlist
-    .data.table.reviews,    // My Product Reviews
-    .data.tags {            // My Tags
+    .data.table.orders, // My Orders
+    .data.wishlist, // My Whishlist
+    .data.table.reviews, // My Product Reviews
+    .data.tags { // My Tags
         background: @commonBg;
         border: 1px solid @primary7;
         border-collapse: separate;
@@ -493,7 +493,7 @@
             content: ' |';
         }
     }
-    // My Whishlist
+// My Whishlist
     .data.wishlist {
         td {
             vertical-align: top;
@@ -575,7 +575,7 @@
             }
         }
     }
-    // Giftcard Account
+// Giftcard Account
     .giftcardaccount {
         position: relative;
         .giftcard.form {
@@ -620,7 +620,7 @@
             top: 50%;
         }
     }
-    // My Product Reviews
+// My Product Reviews
     .data.table.reviews {
         td {
             vertical-align: top;
@@ -633,6 +633,62 @@
         }
         .col.actions {
             width: 10%;
+        }
+    }
+    .review.view {
+        .clearfix;
+        .product.name {
+            display: inline-block;
+            margin: 0;
+        }
+        .product.details {
+            float: left;
+            margin: 0 20px 0 0;
+        }
+        .review {
+            &.title {
+                font-size: 14px;
+                font-weight: bold;
+            }
+            &.date {
+                color: @primary3;
+                font-size: 11px;
+                margin: 10px 0;
+                .date {
+                    color: @primary4;
+                    font-weight: bold;
+                }
+            }
+        }
+        .review.details {
+            margin: 20px 0 10px;
+            display: table;
+            .ratings.summary {
+                margin: 0 0 10px;
+                strong {
+                    display: block;
+                    margin: 0 0 5px;
+                }
+                .item {
+                    display: table-row;
+                }
+                .label {
+                    padding: 0 0 10px;
+                    padding-right: 10px;
+                    display: table-cell;
+                    &:after {
+                        content: ': ';
+                    }
+                }
+            }
+            .review.date {
+                font-size: 12px;
+            }
+            .review.title {
+                font-weight: 600;
+                font-size: 16px;
+                margin: 0 0 15px;
+            }
         }
     }
 // Tags
@@ -700,6 +756,7 @@
         }
     }
 }
+
 .wishlist-index-index .actions .primary {
     text-align: right;
 }

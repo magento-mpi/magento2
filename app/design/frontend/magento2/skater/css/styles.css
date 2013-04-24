@@ -7657,6 +7657,68 @@ body.type-bundle {
 .my-account .data.table.reviews .col.actions {
   width: 10%;
 }
+.my-account .review.view {
+  *zoom: 1;
+}
+.my-account .review.view:before,
+.my-account .review.view:after {
+  content: "";
+  display: table;
+}
+.my-account .review.view:after {
+  clear: both;
+}
+.my-account .review.view .product.name {
+  display: inline-block;
+  margin: 0;
+}
+.my-account .review.view .product.details {
+  float: left;
+  margin: 0 20px 0 0;
+}
+.my-account .review.view .review.title {
+  font-size: 14px;
+  font-weight: bold;
+}
+.my-account .review.view .review.date {
+  color: #666666;
+  font-size: 11px;
+  margin: 10px 0;
+}
+.my-account .review.view .review.date .date {
+  color: #111111;
+  font-weight: bold;
+}
+.my-account .review.view .review.details {
+  margin: 20px 0 10px;
+  display: table;
+}
+.my-account .review.view .review.details .ratings.summary {
+  margin: 0 0 10px;
+}
+.my-account .review.view .review.details .ratings.summary strong {
+  display: block;
+  margin: 0 0 5px;
+}
+.my-account .review.view .review.details .ratings.summary .item {
+  display: table-row;
+}
+.my-account .review.view .review.details .ratings.summary .label {
+  padding: 0 0 10px;
+  padding-right: 10px;
+  display: table-cell;
+}
+.my-account .review.view .review.details .ratings.summary .label:after {
+  content: ': ';
+}
+.my-account .review.view .review.details .review.date {
+  font-size: 12px;
+}
+.my-account .review.view .review.details .review.title {
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 0 15px;
+}
 .my-account .tags.cloud .item {
   display: inline;
 }
