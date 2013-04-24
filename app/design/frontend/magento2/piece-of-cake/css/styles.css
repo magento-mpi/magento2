@@ -2778,6 +2778,25 @@ select:disabled {
 .review .items.data td.col.qty {
   padding-top: 16px;
 }
+.items.data td.col.qty .control.qty div.mage-error {
+  background: #fff;
+  border: 1px solid #333;
+  position: absolute;
+  padding: 5px;
+  margin: 10px 0 0 -60px;
+  width: 150px;
+}
+.items.data td.col.qty .control.qty div.mage-error:before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 75px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #333;
+  height: 0;
+  width: 0;
+}
 .items.data th.col.qty {
   text-transform: uppercase;
 }
