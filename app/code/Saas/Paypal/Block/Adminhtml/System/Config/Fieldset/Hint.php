@@ -43,6 +43,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
         $elementOriginalData = $element->getOriginalData();
         if (isset($elementOriginalData['help_url'])) {
             $this->setHelpUrl($elementOriginalData['help_url']);
+            $this->setHtmlId($element->getId());
         }
         $js = '
             paypalToggleSolution = function(id, url) {
