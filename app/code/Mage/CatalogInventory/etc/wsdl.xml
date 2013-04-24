@@ -71,7 +71,7 @@
     <message name="catalogInventoryStockItemMultiUpdateRequest">
         <part name="sessionId" type="xsd:string"/>
         <part name="productIds" type="typens:ArrayOfString"/>
-        <part name="productData" type="typens:catalogInventoryStockItemUpdateEntityArray"/>
+        <part name="productsData" type="typens:catalogInventoryStockItemUpdateEntityArray"/>
     </message>
     <message name="catalogInventoryStockItemMultiUpdateResponse">
         <part name="result" type="xsd:boolean"/>

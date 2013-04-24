@@ -44,8 +44,16 @@ var Product = {};
                 });
             });
             wrapper.append(iframe);
+
             wrapper.on('dialogclose', function () {
-                this.remove();
+                var dialog = this;
+                var doc = iframe.get(0).document;
+                if (doc && $.isFunction(doc.execCommand)) {
+                    //IE9 break script loading but not execution on iframe removing
+                    doc.execCommand('stop');
+                    iframe.remove();
+                }
+                $(dialog).remove();
             });
         }
     });

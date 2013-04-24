@@ -149,7 +149,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Name of the first page after logging into the back-end
      * @var string
      */
-    protected $_pageAfterAdminLogin = 'store_launcher';
+    protected $_pageAfterAdminLogin = 'dashboard';
 
     /**
      * Array of messages on page

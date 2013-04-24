@@ -474,7 +474,7 @@ varienGridMassaction.prototype = {
             if($(tdElement).down('a') || $(tdElement).down('select')) {
                 return;
             }
-            if (trElement.title && trElement.title.trim() != '#') {
+            if (trElement.title && trElement.title.strip() != '#') {
                 this.getOldCallback('row_click')(grid, evt);
             }
             else{
