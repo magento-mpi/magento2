@@ -88,6 +88,9 @@ class Mage_Core_Model_Dir_Verification
         return $result;
     }
 
+    /**
+     * Create the required directories, if they don't exist, and verify write access for existing directories
+     */
     public function createAndVerifyDirectories()
     {
         $this->_createMissingDirectories();
