@@ -12,8 +12,8 @@
  */
 (function($) {
     $(document).ready(function() {
-        $('#edit_form').on('submit', function(event) {
-            event.target.submit();
+        $(document).on("beforeSubmit", function(event) {
+            return event.target.submit();
         })
     });
 })( jQuery );
