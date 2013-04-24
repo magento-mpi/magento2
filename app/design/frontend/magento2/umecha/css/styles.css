@@ -70,7 +70,7 @@ textarea {
   font: 400 12px/1.786 Arial, Verdana, sans-serif;
 }
 html {
-  min-width: 1025px;
+  min-width: 1035px;
 }
 body {
   position: relative;
@@ -5561,6 +5561,15 @@ ul.messages ul {
 .create.account > .actions {
   padding: 10px 230px 0;
   margin-bottom: 41px;
+}
+.password.reset {
+  display: inline;
+  float: left;
+  width: 50%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .forget {
   display: inline;

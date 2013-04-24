@@ -461,8 +461,6 @@ strong {
   padding-right: 15px;
   margin: 0 auto;
   width: 970px;
-  padding-left: 0;
-  padding-right: 0;
   *zoom: 1;
 }
 .header > .panel:before,
@@ -554,8 +552,6 @@ strong {
   padding-right: 15px;
   margin: 0 auto;
   width: 970px;
-  padding-left: 0;
-  padding-right: 0;
   *zoom: 1;
 }
 .header > .content:before,
@@ -6508,7 +6504,8 @@ body.type-bundle {
 }
 .customer-account-login .page.title,
 .customer-account-forgotpassword .page.title,
-.customer-account-create .page.title {
+.customer-account-create .page.title,
+.customer-account-resetpassword .page.title {
   text-align: center;
 }
 .login.container {
@@ -6917,6 +6914,158 @@ body.type-bundle {
 .form.create.account a:hover > span {
   color: #111111;
   text-decoration: underline;
+}
+.form.password.reset .fieldset {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 490px;
+  margin: 0;
+  letter-spacing: -0.31em;
+  word-spacing: -0.43em;
+  border: 0;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.form.password.reset .fieldset > * {
+  letter-spacing: normal;
+  word-spacing: normal;
+}
+.form.password.reset .fieldset > .legend + br {
+  display: none;
+}
+.form.password.reset .fieldset > .field {
+  *zoom: 1;
+}
+.form.password.reset .fieldset > .field:before,
+.form.password.reset .fieldset > .field:after {
+  content: "";
+  display: table;
+}
+.form.password.reset .fieldset > .field:after {
+  clear: both;
+}
+.form.password.reset .fieldset > .field > .control,
+.form.password.reset .fieldset > .field > .label {
+  margin: 0;
+  float: left;
+  width: 34%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.form.password.reset .fieldset > .field > .control {
+  width: 66%;
+}
+.form.password.reset .fieldset > .field.no-label .control {
+  margin-left: 34%;
+}
+.form.password.reset .fieldset .legend {
+  float: left;
+  line-height: 1.2;
+  font-size: 16px;
+  font-family: Amaranth, Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-bottom: 20px;
+  width: 100%;
+  margin: 15px 0 5px;
+}
+.form.password.reset .fieldset .legend + br {
+  display: block;
+  clear: both;
+}
+.form.password.reset .fieldset > .field {
+  margin: 0 0 20px;
+}
+.form.password.reset .fieldset > .field .label {
+  margin-top: 6px;
+  font-size: 13px;
+}
+.form.password.reset .fieldset .field.choice.newsletter {
+  padding-left: 27%;
+}
+.form.password.reset .fieldset .field.choice.newsletter .label {
+  float: none;
+}
+.form.password.reset .fieldset .field.choice.newsletter .choice input {
+  margin-top: 3px;
+}
+.form.password.reset .actions {
+  margin: 15px auto 0;
+  position: relative;
+  width: 490px;
+}
+.form.password.reset .actions .primary {
+  text-align: center;
+}
+.form.password.reset .actions .secondary {
+  font-size: 12px;
+  position: absolute;
+  left: 0;
+  top: 12px;
+}
+.form.password.reset .actions .secondary a {
+  color: #666666;
+}
+.form.password.reset .actions .secondary a > span {
+  color: #666666;
+  text-decoration: underline;
+}
+.form.password.reset .actions .secondary a:hover,
+.form.password.reset .actions .secondary a:hover > span {
+  color: #111111;
+  text-decoration: underline;
+}
+.form.password.reset .actions .secondary a span:before {
+  font-family: "icons";
+  font-size: 12px;
+  line-height: 12px;
+  height: 12px;
+  overflow: hidden;
+  content: '\e020';
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.form.password.reset .actions .secondary a span:before {
+  position: relative;
+  top: -1px;
+}
+.form.password.reset .action.submit {
+  border: none;
+  background: #ee2375;
+  display: inline-block;
+  margin: 0;
+  padding: 4px 12px;
+  outline: none;
+  padding: 10px 50px 9px;
+  text-decoration: none;
+  margin: 0 auto;
+}
+.form.password.reset .action.submit span {
+  font-size: 14px;
+  font-family: Amaranth, Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  line-height: 16px;
+}
+.form.password.reset .action.submit:hover {
+  background: #6ab92d;
+}
+.form.password.reset .action.submit span {
+  font-size: 15px;
+}
+.form.password.reset .action.submit span {
+  font-size: 15px;
 }
 .my-account {
   font-size: 13px;

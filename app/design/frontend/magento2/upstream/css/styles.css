@@ -5517,6 +5517,15 @@ ul.messages ul {
   padding: 10px 230px 0;
   margin-bottom: 41px;
 }
+.password.reset {
+  display: inline;
+  float: left;
+  width: 50%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
 .forget {
   display: inline;
   float: left;
