@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Saas_Design_Model_Limitation_Specification_Backend_ThemesTest extends PHPUnit_Framework_TestCase
+class Saas_Downloadable_Model_Limitation_Specification_Backend_ReportTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -23,7 +23,7 @@ class Saas_Design_Model_Limitation_Specification_Backend_ThemesTest extends PHPU
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_modelSpecification = $objectManagerHelper->getObject(
-            'Saas_Design_Model_Limitation_Specification_Backend_Themes'
+            'Saas_Downloadable_Model_Limitation_Specification_Backend_Report'
         );
     }
 
@@ -48,12 +48,12 @@ class Saas_Design_Model_Limitation_Specification_Backend_ThemesTest extends PHPU
     public function dataProviderForIsSatisfiedBy()
     {
         return array(
-            array('Mage_Theme_Adminhtml', 'unknown', 'unknown'),
-            array('Mage_Theme_Adminhtml', 'system_design_theme', 'unknown'),
-            array('Mage_Theme_Adminhtml', 'unknown', 'index'),
-            array('unknown', 'system_design_theme', 'unknown'),
-            array('unknown', 'system_design_theme', 'index'),
-            array('unknown', 'unknown', 'new'),
+            array('Mage_Adminhtml', 'unknown', 'unknown'),
+            array('Mage_Adminhtml', 'report_product', 'unknown'),
+            array('Mage_Adminhtml', 'unknown', 'downloads'),
+            array('unknown', 'report_product', 'unknown'),
+            array('unknown', 'report_product', 'downloads'),
+            array('unknown', 'unknown', 'downloads'),
             array('unknown', 'unknown', 'unknown'),
         );
     }
@@ -65,9 +65,9 @@ class Saas_Design_Model_Limitation_Specification_Backend_ThemesTest extends PHPU
     public function testIsNotSatisfied($action)
     {
         $this->_requestMock->expects($this->any())->method('getControllerModule')
-            ->will($this->returnValue('Mage_Theme_Adminhtml'));
+            ->will($this->returnValue('Mage_Adminhtml'));
         $this->_requestMock->expects($this->any())->method('getControllerName')
-            ->will($this->returnValue('system_design_theme'));
+            ->will($this->returnValue('report_product'));
         $this->_requestMock->expects($this->any())->method('getActionName')
             ->will($this->returnValue($action));
 
@@ -80,10 +80,9 @@ class Saas_Design_Model_Limitation_Specification_Backend_ThemesTest extends PHPU
     public function dataProviderForIsNotSatisfied()
     {
         return array(
-            array('index'),
-            array('new'),
-            array('grid'),
-            array('edit'),
+            array('downloads'),
+            array('exportDownloadsCsv'),
+            array('exportDownloadsExcel'),
         );
     }
 }
