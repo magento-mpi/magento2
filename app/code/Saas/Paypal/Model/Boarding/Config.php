@@ -83,13 +83,17 @@ class Saas_Paypal_Model_Boarding_Config extends Mage_Paypal_Model_Config
     );
 
     /**
-     * @var Mage_Core_Model_Resource_Config
+     * @var Mage_Core_Model_Config_Storage_WriterInterface
      */
-    protected $_resource;
+    protected $_configWriter;
 
-    public function __construct(Mage_Core_Model_Resource_Config $resource, $params = array())
+    /**
+     * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
+     * @param array $params
+     */
+    public function __construct(Mage_Core_Model_Config_Storage_WriterInterface $configWriter, $params = array())
     {
-        $this->_resource = $resource;
+        $this->_configWriter = $configWriter;
         parent::__construct($params);
 
     }
@@ -386,7 +390,7 @@ class Saas_Paypal_Model_Boarding_Config extends Mage_Paypal_Model_Config
      */
     public function setWasActivated($paymentMethod, $value, $scope = 'default', $scopeId = 0)
     {
-        $this->_resource->saveConfig('payment/'.$paymentMethod.'/was_activated',
+        $this->_configWriter->saveConfig('payment/'.$paymentMethod.'/was_activated',
             $value, $scope, $scopeId);
         return $this;
     }

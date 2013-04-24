@@ -63,16 +63,16 @@ class Saas_Paypal_Model_Boarding_Onboarding
     protected $_configType = 'Saas_Paypal_Model_Boarding_Config';
 
     /**
-     * @var Mage_Core_Model_Resource_Config
+     * @var Mage_Core_Model_Config_Storage_WriterInterface
      */
-    protected $_resource;
+    protected $_configWriter;
 
     /**
-     * @param Mage_Core_Model_Resource_Config $resource
+     * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
      */
-    public function __construct(Mage_Core_Model_Resource_Config $resource)
+    public function __construct(Mage_Core_Model_Config_Storage_WriterInterface $configWriter)
     {
-        $this->_resource = $resource;
+        $this->_configWriter = $configWriter;
     }
 
     /**
@@ -351,7 +351,7 @@ class Saas_Paypal_Model_Boarding_Onboarding
      */
     protected function _saveConfig($path, $value, $scope = 'default', $scopeId = 0)
     {
-        $this->_resource->saveConfig($path, $value, $scope, $scopeId);
+        $this->_configWriter->saveConfig($path, $value, $scope, $scopeId);
         return $this;
     }
 }
