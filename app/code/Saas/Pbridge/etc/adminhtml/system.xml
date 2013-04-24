@@ -50,139 +50,87 @@
                 <field id="cgi_url" showInDefault="0" showInWebsite="0"/>
                 <field id="allow_partial_authorization" showInDefault="0" showInWebsite="0"/>
             </group>
-<!-- TODO: Changed when PayPal moved
-                <paypal_payments>
-                    <wpp>
-                        <fields>
-                            <wpp_settings>
-                                <fields>
-                                    <wpp_settings_advanced>
-                                        <fields>
-                                            <centinel translate="label">
-                                                <label>Enable 3D Secure Card Validation on Frontend</label>
-                                            </centinel>
-                                            <centinel_backend translate="label">
-                                                <label>Enable 3D Secure Card Validation in Admin</label>
-                                                <frontend_type>select</frontend_type>
-                                                <config_path>payment/paypal_direct/centinel_backend</config_path>
-                                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                                                <sort_order>61</sort_order>
-                                                <show_in_default>1</show_in_default>
-                                                <show_in_website>0</show_in_website>
-                                                <depends><centinel>1</centinel></depends>
-                                            </centinel_backend>
-                                            <direct_boarding_centinel translate="label">
-                                                <label>Enable 3D Secure Card Validation on Frontend</label>
-                                                <show_in_website>0</show_in_website>
-                                            </direct_boarding_centinel>
-                                            <direct_boarding_centinel_backend translate="label">
-                                                <label>Enable 3D Secure Card Validation in Admin</label>
-                                                <frontend_type>select</frontend_type>
-                                                <config_path>payment/paypal_direct_boarding/centinel_backend</config_path>
-                                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                                                <sort_order>61</sort_order>
-                                                <show_in_default>1</show_in_default>
-                                                <show_in_website>0</show_in_website>
-                                                <depends><direct_boarding_centinel>1</direct_boarding_centinel></depends>
-                                            </direct_boarding_centinel_backend>
-                                        </fields>
-                                    </wpp_settings_advanced>
-                                </fields>
-                            </wpp_settings>
-                            <wpp_required_settings>
-                                <fields>
-                                    <wpp_and_express_checkout>
-                                        <fields>
-                                            <using_pbridge>
-                                                <show_in_default>0</show_in_default>
-                                                <show_in_website>0</show_in_website>
-                                                <show_in_store>0</show_in_store>
-                                            </using_pbridge>
-                                        </fields>
-                                    </wpp_and_express_checkout>
-                                </fields>
-                            </wpp_required_settings>
-                        </fields>
-                    </wpp>
-                    <payments_pro_payflow_edition>
-                        <fields>
-                            <pp_pe_required_settings>
-                                <fields>
-                                    <pp_pe_api_settings>
-                                        <fields>
-                                            <using_pbridge>
-                                                <show_in_default>0</show_in_default>
-                                                <show_in_website>0</show_in_website>
-                                            </using_pbridge>
-                                        </fields>
-                                    </pp_pe_api_settings>
-                                </fields>
-                            </pp_pe_required_settings>
-                            <settings_pp_pe>
-                                <fields>
-                                    <settings_pp_pe_advanced>
-                                        <fields>
-                                            <centinel translate="label">
-                                                <label>Enable 3D Secure Card Validation on Frontend</label>
-                                                <show_in_website>0</show_in_website>
-                                            </centinel>
-                                            <centinel_backend translate="label">
-                                                <label>Enable 3D Secure Card Validation in Admin</label>
-                                                <frontend_type>select</frontend_type>
-                                                <config_path>payment/paypaluk_direct/centinel_backend</config_path>
-                                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                                                <sort_order>61</sort_order>
-                                                <show_in_default>1</show_in_default>
-                                                <show_in_website>0</show_in_website>
-                                                <depends><centinel>1</centinel></depends>
-                                            </centinel_backend>
-                                        </fields>
-                                    </settings_pp_pe_advanced>
-                                </fields>
-                            </settings_pp_pe>
-                        </fields>
-                    </payments_pro_payflow_edition>
-                    <paypal_verisign>
-                        <fields>
-                            <settings_paypal_payflow>
-                                <fields>
-                                    <settings_paypal_payflow_advanced>
-                                        <fields>
-                                            <centinel translate="label">
-                                                <label>Enable 3D Secure Card Validation on Frontend</label>
-                                                <show_in_website>0</show_in_website>
-                                            </centinel>
-                                            <centinel_backend translate="label">
-                                                <label>Enable 3D Secure Card Validation in Admin</label>
-                                                <frontend_type>select</frontend_type>
-                                                <config_path>payment/verisign/centinel_backend</config_path>
-                                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                                                <sort_order>61</sort_order>
-                                                <show_in_default>1</show_in_default>
-                                                <show_in_website>0</show_in_website>
-                                                <depends><centinel>1</centinel></depends>
-                                            </centinel_backend>
-                                        </fields>
-                                    </settings_paypal_payflow_advanced>
-                                </fields>
-                            </settings_paypal_payflow>
-                            <paypal_payflow_required>
-                                <fields>
-                                    <paypal_payflow_api_settings>
-                                        <fields>
-                                            <using_pbridge>
-                                                <show_in_default>0</show_in_default>
-                                                <show_in_website>0</show_in_website>
-                                                <show_in_store>0</show_in_store>
-                                            </using_pbridge>
-                                        </fields>
-                                    </paypal_payflow_api_settings>
-                                </fields>
-                            </paypal_payflow_required>
-                        </fields>
-                    </paypal_verisign>
-                </paypal_payments>
--->
+
+            <group id="paypal_payments">
+                <group id="wpp">
+                    <group id="wpp_settings">
+                        <group id="wpp_settings_advanced">
+                            <field id="centinel" translate="label">
+                                <label>Enable 3D Secure Card Validation on Frontend</label>
+                            </field>
+                            <field id="centinel_backend" translate="label" type="select" sortOrder="61" showInDefault="1" showInWebsite="0">
+                                <label>Enable 3D Secure Card Validation in Admin</label>
+                                <config_path>payment/paypal_direct/centinel_backend</config_path>
+                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <depends>
+                                    <field id="*/wpp_settings_advanced/centinel">1</field>
+                                </depends>
+                            </field>
+                            <field id="direct_boarding_centinel" translate="label" showInWebsite="0">
+                                <label>Enable 3D Secure Card Validation on Frontend</label>
+                            </field>
+                            <field id="direct_boarding_centinel_backend" translate="label" type="select" sortOrder="61" showInDefault="1" showInWebsite="0">
+                                <label>Enable 3D Secure Card Validation in Admin</label>
+                                <config_path>payment/paypal_direct_boarding/centinel_backend</config_path>
+                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <depends>
+                                    <field id="*/wpp_settings_advanced/direct_boarding_centinel">1</field>
+                                </depends>
+                            </field>
+                        </group>
+                    </group>
+                    <group id="wpp_required_settings">
+                        <group id="wpp_and_express_checkout">
+                            <field id="using_pbridge" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                        </group>
+                    </group>
+                </group>
+                <group id="payments_pro_payflow_edition">
+                    <group id="pp_pe_required_settings">
+                        <group id="pp_pe_api_settings">
+                            <field id="using_pbridge" showInDefault="0" showInWebsite="0" />
+                        </group>
+                    </group>
+                    <group id="settings_pp_pe">
+                        <group id="settings_pp_pe_advanced">
+                            <field id="centinel" translate="label" showInWebsite="0">
+                                <label>Enable 3D Secure Card Validation on Frontend</label>
+                            </field>
+                            <field id="centinel_backend" translate="label" type="select" sortOrder="61" showInDefault="1" showInWebsite="0" showInStore="1">
+                                <label>Enable 3D Secure Card Validation in Admin</label>
+                                <config_path>payment/paypaluk_direct/centinel_backend</config_path>
+                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <depends>
+                                    <field id="*/settings_pp_pe_advanced/centinel">1</field>
+                                </depends>
+                            </field>
+                        </group>
+                    </group>
+                </group>
+                <group id="paypal_verisign">
+                    <group id="settings_paypal_payflow">
+                        <group id="settings_paypal_payflow_advanced">
+                            <field id="centinel" translate="label" showInWebsite="0">
+                                <label>Enable 3D Secure Card Validation on Frontend</label>
+                            </field>
+                            <field id="centinel_backend" translate="label" type="select" sortOrder="61" showInDefault="1" showInWebsite="0" showInStore="1">
+                                <label>Enable 3D Secure Card Validation in Admin</label>
+                                <config_path>payment/verisign/centinel_backend</config_path>
+                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <depends>
+                                    <field id="*/settings_paypal_payflow_advanced/centinel">1</field>
+                                </depends>
+                            </field>
+                        </group>
+                    </group>
+                    <group id="paypal_payflow_required">
+                        <group id="paypal_payflow_api_settings">
+                            <field id="using_pbridge" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                        </group>
+                    </group>
+                </group>
+            </group>
+
         </section>
         <section id="payment_services">
             <group id="centinel">
