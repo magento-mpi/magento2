@@ -27,12 +27,14 @@
 <?php
 /**
  * @see Saas_Paypal_Block_Adminhtml_System_Config_EnterBoarding
+ * @var $this Saas_Paypal_Block_Adminhtml_System_Config_EnterBoarding
  */
 
 /** @var Saas_Paypal_Helper_Data $paypalHelper */
 $paypalHelper = Mage::helper('Saas_Paypal_Helper_Data');
 
 ?>
+<h1><?php echo $this->getHtmlId(); ?></h1>
 <?php $_account = $this->getAccount() ?>
 <?php if ($this->isDisplayAccount() && !empty($_account)) : ?>
 <tr id="row0_<?php echo $this->getHtmlId() ?>">
@@ -54,8 +56,7 @@ $paypalHelper = Mage::helper('Saas_Paypal_Helper_Data');
     <td class="label pp-permissions-links" colspan="2">
     <?php if (!$this->isPermissionActive()) : ?>
         <?php echo $this->__('You will need a PayPal business account to enable the solution.') ?>
-        <?php $_createLink = $this->getMerchantCountry() == 'US' ? 'https://www.paypal.com/webapps/mpp/referral/paypal-payments-pro?partner_id=NB9WWHYEMVUMS' : 'https://www.paypal.com/webapps/mpp/referral/website-payments-pro?partner_id=NB9WWHYEMVUMS' ?>
-        <a href="<?php echo $_createLink ?>" target="_blank"><?php echo $this->__('Click here to create an account') ?></a>
+        <a href="<?php echo $this->getCreateLink(); ?>" target="_blank"><?php echo $this->__('Click here to create an account') ?></a>
         <br />
         <?php echo $this->__('Already have a PayPal business account?')?>
     <?php endif; ?>

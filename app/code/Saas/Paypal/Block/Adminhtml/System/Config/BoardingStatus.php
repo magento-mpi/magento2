@@ -28,21 +28,10 @@
  * Custom renderer for PayPal EnterBoarding button
  */
 class Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus
-    extends Mage_Backend_Block_Abstract implements Varien_Data_Form_Element_Renderer_Interface
+    extends Mage_Backend_Block_Abstract
+    implements Varien_Data_Form_Element_Renderer_Interface
 {
-    /**
-     * Set template to itself
-     *
-     * @return Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus
-     */
-    protected function _prepareLayout()
-    {
-        parent::_prepareLayout();
-        if (!$this->getTemplate()) {
-            $this->setTemplate('saas/paypal/system/config/boarding_status.phtml');
-        }
-        return $this;
-    }
+    protected $_template = 'Saas_Paypal::system/config/boarding_status.phtml';
 
     /**
      * Render element html
@@ -70,11 +59,12 @@ class Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus
             'account_label'  => $accountLabel,
             'status_label'   => $helper->__($data['status_label']),
             'payment_method' => $data['payment_method'],
+            'create_link'    => $data['create_link'],
             'status'         => Mage::getStoreConfig($data['status_config_path']),
             'account'        => $accountData,
-            'html_id'        => $element->getHtmlId(),
+            'html_id'        => $element->getId(),
         ));
-        return $this->_toHtml();
+        return $this->toHtml();
     }
 
     /**
@@ -136,24 +126,5 @@ class Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus
     public function isPermissionActive()
     {
         return $this->getStatus() === Saas_Paypal_Model_Boarding_Onboarding::METHOD_STATUS_ACTIVE;
-    }
-
-    /**
-     * Returns currently selected merchant country
-     *
-     * @return string
-     */
-    public function getMerchantCountry()
-    {
-        $country = $this->getRequest()->getParam(
-            Mage_Paypal_Block_Adminhtml_System_Config_Field_Country::REQUEST_PARAM_COUNTRY
-        );
-        if (empty($country)) {
-            $country = Mage::getStoreConfig('paypal/general/merchant_country', $this->getForm()->getScopeId());
-        }
-        if (empty($country)) {
-            $country = Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry();
-        }
-        return $country;
     }
 }

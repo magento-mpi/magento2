@@ -168,19 +168,31 @@
                                     <field id="authentication_method">0</field>
                                 </depends>
                             </field>
-                            <field id="direct_boarding_status" translate="label button_label status_label account_label" sortOrder="17" showInDefault="1" showInWebsite="1">
+                            <field id="direct_boarding_status" type="select" translate="label button_label status_label account_label" sortOrder="17" showInDefault="0" showInWebsite="0" showInStore="0">
                                 <label>Boarding Status</label>
+                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus</frontend_model>
                                 <button_label>Setup or change your site permissions with Paypal</button_label>
                                 <attribute type="status_label">Account Status</attribute>
                                 <attribute type="account_label">Paypal Account</attribute>
                                 <attribute type="account_id_label">Paypal Account ID</attribute>
-                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus</frontend_model>
                                 <attribute type="payment_method">paypal_direct_boarding</attribute>
                                 <attribute type="status_config_path">payment/paypal_direct_boarding/status</attribute>
                                 <attribute type="account_config_path">paypal/onboarding/boarding_account</attribute>
                                 <attribute type="account_id_config_path">paypal/onboarding/receiver_id</attribute>
                                 <depends>
                                     <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="direct_boarding_status_us" extends="*/paypal_payments/wpp/wpp_required_settings/wpp_and_express_checkout/direct_boarding_status" showInDefault="1" showInWebsite="1" showInStore="1">
+                                <attribute type="create_link">https://www.paypal.com/webapps/mpp/referral/paypal-payments-pro?partner_id=NB9WWHYEMVUMS</attribute>
+                                <depends>
+                                    <field id="*/account/merchant_country">US</field>
+                                </depends>
+                            </field>
+                            <field id="direct_boarding_status_other" extends="*/paypal_payments/wpp/wpp_required_settings/wpp_and_express_checkout/direct_boarding_status" showInDefault="1" showInWebsite="1" showInStore="1">
+                                <attribute type="create_link">https://www.paypal.com/webapps/mpp/referral/website-payments-pro?partner_id=NB9WWHYEMVUMS</attribute>
+                                <depends>
+                                    <field id="*/account/merchant_country" negative="1">US</field>
                                 </depends>
                             </field>
                         </group>
