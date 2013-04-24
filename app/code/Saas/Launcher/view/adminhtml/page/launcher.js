@@ -11,7 +11,6 @@
     'use strict';
     $.widget("storeCreation.drawer", {
         options: {
-            drawer: '#drawer',
             drawerHeader: '.drawer-header',
             drawerHeaderInner: '.drawer-header-inner',
             drawerContent: '.drawer-content',
@@ -50,8 +49,7 @@
                     drawerForm = $("#drawer-form"),
                     postData;
 
-                $(this.options.drawer).trigger('drawerBeforeSave');
-
+                this.element.trigger('drawerBeforeSave');
                 if (!drawerForm.valid()) {
                     return false;
                 }
@@ -277,7 +275,7 @@
                 window.location.hash = '';
                 return;
             } else if (elem.length > 1) {
-                elem = elem.eq(tile.hasClass('tile-complete') ? 0 : 1);
+                elem = elem.eq(tile.hasClass('tile-complete') ? 1 : 0);
             }
             this._drawerPreLoad(elem.attr('data-load-url'), elem.attr('data-save-url'), tileCode);
         },
