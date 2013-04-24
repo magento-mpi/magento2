@@ -1105,6 +1105,61 @@ a:visited {
     }
 }
 
+/* Review details */
+
+.review.view {
+  .product.name {
+    display: inline-block;
+    margin:0 0 0;
+  }
+  .product.details {
+    float:left;
+    margin-right:30px;
+  }
+  .product.photo {
+    display: block;
+    margin-bottom:30px;
+  }
+  .review.details {
+    margin:30px 0;
+    display: table;
+
+    .ratings.summary {
+      margin-bottom:30px;
+      strong {
+        font-weight: 600;
+        display: block;
+        margin:0 0 15px;
+      }
+      .item {
+        display: table-row;
+      }
+      .label {
+        padding:0 0 10px;
+        padding-right:10px;
+        display: table-cell;
+        &:after {
+          content:': ';
+        }
+        margin-right:;
+      }
+    }
+    .review.date  {
+      font-size: 12px;
+    }
+    .review.title  {
+      font-weight: 600;
+      font-size: 16px;
+      margin:0 0 15px;
+    }
+  }
+}
+
+.customer.review.view + .actions {
+  clear:both;
+}
+
+
 /*
  *    MESSAGES
  *
@@ -1984,12 +2039,33 @@ div.mage-error {
         vertical-align: top;
     }
     td:last-child {
-        border: 0
+        border: 0;
     }
     tbody tr:nth-child(even) {
     }
 }
-
+.form.giftcard.redeem {
+  .field {
+    margin:15px 0;
+  }
+  .label {
+    margin-bottom:10px;
+    display: block;
+  }
+  .primary {
+    display: inline;
+    .action {
+      .primaryAction();
+    }
+    margin-right:15px;
+  }
+  .secondary {
+    display: inline;
+    .action {
+      .secondaryAction();
+    }
+  }
+}
 .block.giftcard {
     .form.add .fieldset {
         position: relative;
@@ -2701,6 +2777,76 @@ div.mage-error {
     }
 }
 
+.form.newsletter.manage {
+  .fieldset {
+    margin:0 0 20px;
+    padding:0;
+    border:0;
+    .legend {
+      float:left;
+      margin-bottom:20px;
+      font-weight: 600;
+    }
+    .legend + br {
+      display: block;
+      clear:both;
+    }
+  }
+  .action.save {
+    .primaryAction();
+  }
+  .actions .primary {
+    margin-bottom:15px;
+  }
+}
+
+/*
+ *    Mage_Tags
+ *
+----------------------------------------------------------------------------- */
+
+.tags.product,
+.tags.items.cloud {
+  .item {
+    display: inline-block;
+    margin:0 0 5px 5px;
+    &:first-child {
+      margin-left:0;
+    }
+  }
+  margin:0 0 20px;
+}
+.data.table.tags {
+  .col.photo {
+    width:1px;
+  }
+  .addto.links {
+    margin-top:15px;
+  }
+}
+.tag.edit {
+  line-height: 16px;
+  strong {
+    font-weight: 400;
+    &:after {
+      content:': ';
+    }
+  }
+  .tag.text {
+    font-weight: 600;
+    &:before {
+      content:"\201C";
+    }
+    &:after {
+      content:"\201D ";
+    }
+  }
+  .action {
+    vertical-align: middle;
+  }
+
+}
+
 /*
  *    Widgets
  *
@@ -2759,7 +2905,7 @@ div.mage-error {
     margin-top:-50px;
   }
 }
-.comarision.wrapper {
+.comparison.wrapper {
   clear:both;
   position: relative;
   z-index: 1;
@@ -2773,7 +2919,7 @@ div.mage-error {
   }
   margin-bottom:50px;
 }
-.comarision.container {
+.comparison.container {
   overflow-y: hidden;
   overflow-x: auto;
 }
@@ -2781,11 +2927,16 @@ div.mage-error {
   table-layout: fixed;
 
   .cell.label {
-    width:140px;
-    padding-left:30px;
+    width:130px;
+    padding-left:10px;
     font-weight: 600;
     text-align: left;
     border-right:1px solid @primary2;
+    .attribute.label {
+      display: block;
+      width: 100%;
+      word-break:break-all;
+    }
     &.product {
       border-bottom:1px solid @primary2;
     }
@@ -2795,6 +2946,10 @@ div.mage-error {
     vertical-align: top;
     p:first-child {
       margin-top:0;
+    }
+    .attibute.value {
+      width:100%;
+      overflow: hidden;
     }
   }
   .cell.product {
@@ -2857,6 +3012,7 @@ div.mage-error {
   z-index: 2;
   top:0;
   left:0;
+  width:auto;
   background-color: @pageMainBg;
   th {
     background-color: @pageMainBg;
@@ -4645,6 +4801,28 @@ and (max-width : 768px) {
   .poll.answer {
     display: block;
   }
+  .fieldset {
+    border:0;
+    margin:0;
+    padding:0;
+  }
+  .field {
+    margin:10px 0;
+  }
+  .legend {
+    font-weight: 600;
+    float:left;
+    & + br {
+      display: block;
+      clear:both;
+    }
+  }
+  .action.submit {
+    .secondaryAction();
+  }
+  .actions {
+    margin-top:15px;
+  }
 }
 
 
@@ -4929,6 +5107,7 @@ and (max-width : 768px) {
  *
 ----------------------------------------------------------------------------- */
 
+.data.table.tags,
 .data.table.reviews {
   width: 100%;
 

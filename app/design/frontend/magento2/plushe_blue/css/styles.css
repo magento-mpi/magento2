@@ -1393,6 +1393,54 @@ a:visited:hover {
 .field.ratings .field.rating .control .rating-5:before {
   content: "\e01a\e01a\e01a\e01a\e01a";
 }
+/* Review details */
+.review.view .product.name {
+  display: inline-block;
+  margin: 0 0 0;
+}
+.review.view .product.details {
+  float: left;
+  margin-right: 30px;
+}
+.review.view .product.photo {
+  display: block;
+  margin-bottom: 30px;
+}
+.review.view .review.details {
+  margin: 30px 0;
+  display: table;
+}
+.review.view .review.details .ratings.summary {
+  margin-bottom: 30px;
+}
+.review.view .review.details .ratings.summary strong {
+  font-weight: 600;
+  display: block;
+  margin: 0 0 15px;
+}
+.review.view .review.details .ratings.summary .item {
+  display: table-row;
+}
+.review.view .review.details .ratings.summary .label {
+  padding: 0 0 10px;
+  padding-right: 10px;
+  display: table-cell;
+  margin-right: ;
+}
+.review.view .review.details .ratings.summary .label:after {
+  content: ': ';
+}
+.review.view .review.details .review.date {
+  font-size: 12px;
+}
+.review.view .review.details .review.title {
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 0 15px;
+}
+.customer.review.view + .actions {
+  clear: both;
+}
 /*
  *    MESSAGES
  *
@@ -2530,6 +2578,59 @@ div.mage-error {
 .data-table td:last-child {
   border: 0;
 }
+.form.giftcard.redeem .field {
+  margin: 15px 0;
+}
+.form.giftcard.redeem .label {
+  margin-bottom: 10px;
+  display: block;
+}
+.form.giftcard.redeem .primary {
+  display: inline;
+  margin-right: 15px;
+}
+.form.giftcard.redeem .primary .action {
+  border: none;
+  border-radius: 0;
+  background: #74dc74;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.form.giftcard.redeem .primary .action span {
+  font-size: 14px;
+  color: #546972;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.form.giftcard.redeem .secondary {
+  display: inline;
+}
+.form.giftcard.redeem .secondary .action {
+  border: none;
+  border-radius: 0;
+  background: #6d838c;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.form.giftcard.redeem .secondary .action span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.form.giftcard.redeem .secondary .action:focus,
+.form.giftcard.redeem .secondary .action:active,
+.form.giftcard.redeem .secondary .action:hover {
+  background: #6d838c;
+}
 .block.giftcard .form.add .fieldset {
   position: relative;
   z-index: 1;
@@ -3419,6 +3520,84 @@ div.mage-error {
   text-indent: 0;
   display: block;
 }
+.form.newsletter.manage .fieldset {
+  margin: 0 0 20px;
+  padding: 0;
+  border: 0;
+}
+.form.newsletter.manage .fieldset .legend {
+  float: left;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+.form.newsletter.manage .fieldset .legend + br {
+  display: block;
+  clear: both;
+}
+.form.newsletter.manage .action.save {
+  border: none;
+  border-radius: 0;
+  background: #74dc74;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.form.newsletter.manage .action.save span {
+  font-size: 14px;
+  color: #546972;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.form.newsletter.manage .actions .primary {
+  margin-bottom: 15px;
+}
+/*
+ *    Mage_Tags
+ *
+----------------------------------------------------------------------------- */
+.tags.product,
+.tags.items.cloud {
+  margin: 0 0 20px;
+}
+.tags.product .item,
+.tags.items.cloud .item {
+  display: inline-block;
+  margin: 0 0 5px 5px;
+}
+.tags.product .item:first-child,
+.tags.items.cloud .item:first-child {
+  margin-left: 0;
+}
+.data.table.tags .col.photo {
+  width: 1px;
+}
+.data.table.tags .addto.links {
+  margin-top: 15px;
+}
+.tag.edit {
+  line-height: 16px;
+}
+.tag.edit strong {
+  font-weight: 400;
+}
+.tag.edit strong:after {
+  content: ': ';
+}
+.tag.edit .tag.text {
+  font-weight: 600;
+}
+.tag.edit .tag.text:before {
+  content: "\201C";
+}
+.tag.edit .tag.text:after {
+  content: "\201D ";
+}
+.tag.edit .action {
+  vertical-align: middle;
+}
 /*
  *    Widgets
  *
@@ -3502,13 +3681,13 @@ div.mage-error {
   float: right;
   margin-top: -50px;
 }
-.comarision.wrapper {
+.comparison.wrapper {
   clear: both;
   position: relative;
   z-index: 1;
   margin-bottom: 50px;
 }
-.comarision.wrapper:after {
+.comparison.wrapper:after {
   content: '';
   position: absolute;
   z-index: 2;
@@ -3517,7 +3696,7 @@ div.mage-error {
   height: 100%;
   width: 15px;
 }
-.comarision.container {
+.comparison.container {
   overflow-y: hidden;
   overflow-x: auto;
 }
@@ -3525,11 +3704,16 @@ div.mage-error {
   table-layout: fixed;
 }
 .data.comparison .cell.label {
-  width: 140px;
-  padding-left: 30px;
+  width: 130px;
+  padding-left: 10px;
   font-weight: 600;
   text-align: left;
   border-right: 1px solid #e5e5e5;
+}
+.data.comparison .cell.label .attribute.label {
+  display: block;
+  width: 100%;
+  word-break: break-all;
 }
 .data.comparison .cell.label.product {
   border-bottom: 1px solid #e5e5e5;
@@ -3540,6 +3724,10 @@ div.mage-error {
 }
 .data.comparison .cell p:first-child {
   margin-top: 0;
+}
+.data.comparison .cell .attibute.value {
+  width: 100%;
+  overflow: hidden;
 }
 .data.comparison .cell.product {
   width: 140px;
@@ -3619,6 +3807,7 @@ div.mage-error {
   z-index: 2;
   top: 0;
   left: 0;
+  width: auto;
   background-color: #4d5d64;
 }
 .comparison.headings th {
@@ -6819,6 +7008,47 @@ img[align="right"] {
 .block.poll .poll.answer {
   display: block;
 }
+.block.poll .fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.block.poll .field {
+  margin: 10px 0;
+}
+.block.poll .legend {
+  font-weight: 600;
+  float: left;
+}
+.block.poll .legend + br {
+  display: block;
+  clear: both;
+}
+.block.poll .action.submit {
+  border: none;
+  border-radius: 0;
+  background: #6d838c;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.block.poll .action.submit span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.block.poll .action.submit:focus,
+.block.poll .action.submit:active,
+.block.poll .action.submit:hover {
+  background: #6d838c;
+}
+.block.poll .actions {
+  margin-top: 15px;
+}
 /*
  *    Mage_Customer
  *
@@ -7156,25 +7386,32 @@ img[align="right"] {
  *    My Account -> My Product Reviews
  *
 ----------------------------------------------------------------------------- */
+.data.table.tags,
 .data.table.reviews {
   width: 100%;
 }
+.data.table.tags th,
 .data.table.reviews th,
+.data.table.tags td,
 .data.table.reviews td {
   padding: 8px 5px;
 }
+.data.table.tags th,
 .data.table.reviews th {
   text-align: left;
   text-transform: uppercase;
   border-bottom: 1px solid #e5e5e5;
 }
+.data.table.tags tbody tr:nth-child(even) td,
 .data.table.reviews tbody tr:nth-child(even) td {
   background: #e5e5e5;
 }
+.data.table.tags tbody td,
 .data.table.reviews tbody td {
   border-bottom: 1px solid #e5e5e5;
   vertical-align: top;
 }
+.data.table.tags .product.name,
 .data.table.reviews .product.name {
   margin: 0;
 }
