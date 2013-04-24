@@ -94,31 +94,30 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openTaxItem(array $taxSearchData, $type)
     {
-        $xpathTR = $this->search($taxSearchData, 'manage_tax_' . $type);
-        $this->assertNotNull($xpathTR, 'Search item is not found');
-        $url = $this->getElement($xpathTR)->attribute('title');
+        $taxSearchData = $this->_prepareDataForSearch($taxSearchData);
+        $taxLocator = $this->search($taxSearchData, 'manage_tax_' . $type);
+        $this->assertNotNull($taxLocator, 'Search item is not found');
+        $TaxRowElement = $this->getElement($taxLocator);
+        $taxUrl = $TaxRowElement->attribute('title');
         switch ($type) {
             case 'rate':
                 $cellId = $this->getColumnIdByName('Name');
-                $this->addParameter($type, $this->defineParameterFromUrl($type, $url));
+                $cellElement = $this->getChildElement($TaxRowElement, 'td[' . $cellId . ']');
+                $this->addParameter('elementTitle', trim($cellElement->text()));
+                $this->addParameter($type, $this->defineParameterFromUrl($type, $taxUrl));
                 break;
             case 'rule':
                 $cellId = $this->getColumnIdByName('Tax Identifier');
-                $this->addParameter($type, $this->defineParameterFromUrl($type, $url));
-                break;
-            case 'customer_class':
-            case 'product_class':
-                $cellId = $this->getColumnIdByName('class Core_Mage_Name');
-                $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
+                $cellElement = $this->getChildElement($TaxRowElement, 'td[' . $cellId . ']');
+                $this->addParameter('elementTitle', trim($cellElement->text()));
+                $this->addParameter($type, $this->defineParameterFromUrl($type, $taxUrl));
                 break;
             default:
                 throw new OutOfRangeException('Unsupported value for parameter $type');
                 break;
         }
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $cellId);
-        $this->addParameter('elementTitle', $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text'));
-        $this->clickControl('pageelement', 'table_line_cell_index');
+        $this->url($taxUrl);
+        $this->validatePage();
     }
 
     /**
