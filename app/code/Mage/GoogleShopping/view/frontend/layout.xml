@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Mage_GoogleShopping
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <default>
+        <reference name="head">
+            <action method="addMetaTag" ifconfig="google/googleshopping/verify_meta_tag"><metadata helper="Mage_GoogleShopping_Helper_SiteVerification::getMetaTag" /></action>
+        </reference>
+    </default>
+</layout>

@@ -116,4 +116,60 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
             ->with('css/test.css');
         $this->_block->removeItem('css', 'test.css');
     }
+
+    /**
+     * @dataProvider addMetaTagProvider
+     */
+    public function testAddMetaTag($metaTag, $content, $expected)
+    {
+        $this->_block->setDescription('description');
+        $this->_block->setKeywords('keywords');
+        $this->_block->setRobots('robots');
+        $this->_block->addMetaTag($metaTag, $content);
+        $this->assertEquals($expected, $this->_block->getMetaTags());
+    }
+
+    public function addMetaTagProvider()
+    {
+        return array(
+            array(
+                'metaTag' => 'test_name',
+                'content' => 'test_content',
+                'expected' => array(
+                    array('name' => 'description', 'content' => 'description'),
+                    array('name' => 'keywords', 'content' => 'keywords'),
+                    array('name' => 'robots', 'content' => 'robots'),
+                    array('name' => 'test_name', 'content' => 'test_content')
+                )
+            ),
+            array(
+                'metaTag' => array('name' => 'test_name', 'content' => 'test_content'),
+                'content' => null,
+                'expected' => array(
+                    array('name' => 'description', 'content' => 'description'),
+                    array('name' => 'keywords', 'content' => 'keywords'),
+                    array('name' => 'robots', 'content' => 'robots'),
+                    array('name' => 'test_name', 'content' => 'test_content')
+                )
+            ),
+            array(
+                'metaTag' => 'test_name',
+                'content' => null,
+                'expected' => array(
+                    array('name' => 'description', 'content' => 'description'),
+                    array('name' => 'keywords', 'content' => 'keywords'),
+                    array('name' => 'robots', 'content' => 'robots')
+                )
+            ),
+            array(
+                'metaTag' => array('name' => 'test_name', 'content' => null),
+                'content' => null,
+                'expected' => array(
+                    array('name' => 'description', 'content' => 'description'),
+                    array('name' => 'keywords', 'content' => 'keywords'),
+                    array('name' => 'robots', 'content' => 'robots')
+                )
+            ),
+        );
+    }
 }

@@ -173,6 +173,63 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     }
 
     /**
+     * Add Meta element to HEAD entity
+     *
+     * @param string|array $metaData
+     * @param strign $content
+     * @return Mage_Page_Block_Html_Head
+     */
+    public function addMetaTag($metaData, $content = null)
+    {
+        $this->_initMetaTags();
+        if (!is_array($metaData)) {
+            $metaData = array('name' => $metaData, 'content' => $content);
+        }
+        if (!empty($metaData['name']) && !empty($metaData['content'])) {
+             $this->_data['meta_tag'][] = $metaData;
+        }
+        return $this;
+    }
+
+    /**
+     * Create empy array form meta tags
+     *
+     * @return $this
+     */
+    protected function _initMetaTags()
+    {
+        if (!isset($this->_data['meta_tag'])) {
+            $this->_data['meta_tag'] = array();
+        }
+        return $this;
+    }
+
+    /**
+     * Get default Meta elements
+     *
+     * @return array
+     */
+    public function getDefaultMetaTags()
+    {
+        return array(
+            array('name' => 'description', 'content' => $this->getDescription()),
+            array('name' => 'keywords', 'content' => $this->getKeywords()),
+            array('name' => 'robots', 'content' => $this->getRobots()),
+        );
+    }
+
+    /**
+     * Get Meta elements
+     *
+     * @return array
+     */
+    public function getMetaTags()
+    {
+        $this->_initMetaTags();
+        return array_merge($this->getDefaultMetaTags(), $this->_data['meta_tag']);
+    }
+
+    /**
      * Remove Item from HEAD entity
      *
      * @param string $type
