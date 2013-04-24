@@ -31,10 +31,10 @@ class Saas_Sitemap_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-    * Retrieve google verification code
-    *
-    * @return string
-    */
+     * Retrieve google verification code
+     *
+     * @return string
+     */
     public function getGoogleVerificationCode()
     {
         return $this->_config->getConfig(self::XML_PATH_GOOGLE_VERIFICATION_CODE);

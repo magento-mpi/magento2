@@ -10,7 +10,7 @@
 class Saas_Sitemap_Block_Html_Head extends Mage_Page_Block_Html_Head
 {
     /**
-     * @var Mage_Core_Model_Store
+     * @var Saas_Sitemap_Helper_Data
      */
     protected $_helper;
 

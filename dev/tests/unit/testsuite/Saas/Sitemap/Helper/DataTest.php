@@ -13,7 +13,7 @@ class Saas_Sitemap_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected $_storeConfigMock;
 
     /**
-     * @var Saas_Sitemap_Block_Html_Head
+     * @var Saas_Sitemap_Helper_Data
      */
     protected $_helperData;
 

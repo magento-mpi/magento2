@@ -6,17 +6,19 @@
  * @license     {license_link}
  */
 ?>
-    <meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>"/>
-    <title><?php echo $this->getTitle() ?></title>
-    <meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />
-    <meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>" />
-    <meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>"/>
-    <?php if ($this->getGoogleVerificationCode()) { ?>
-    <meta name="google-site-verification" content="<?php echo htmlspecialchars($this->getGoogleVerificationCode()); ?>"/>
-    <?php } ?>
-    <link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon"/>
-    <link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon"/>
-    <link rel="stylesheet" href="<?php echo $this->getViewFileUrl('Mage_Page::css/validate.css') ?>" type="text/css" media="all"/>
+<meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>"/>
+<title><?php echo $this->getTitle() ?></title>
+<meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>"/>
+<meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>"/>
+<meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>"/>
+<?php if ($this->getGoogleVerificationCode()): ?>
+    <meta name="google-site-verification"
+          content="<?php echo htmlspecialchars($this->getGoogleVerificationCode()); ?>"/>
+<?php endif; ?>
+<link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon"/>
+<link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon"/>
+<link rel="stylesheet" href="<?php echo $this->getViewFileUrl('Mage_Page::css/validate.css') ?>" type="text/css"
+      media="all"/>
 <?php echo $this->getCssJsHtml() ?>
 <?php echo $this->getChildHtml() ?>
 <?php echo $this->getIncludes() ?>
