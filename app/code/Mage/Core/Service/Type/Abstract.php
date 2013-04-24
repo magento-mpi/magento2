@@ -9,21 +9,21 @@
  */
 abstract class Mage_Core_Service_Type_Abstract
 {
-    /** @var Mage_Core_Service_Manager */
-    protected $_serviceManager;
+    /** @var Mage_Core_Service_ObjectManager */
+    protected $_serviceObjectManager;
 
     /** @var Mage_Core_Service_Context */
     protected $_serviceContext;
 
     /**
-     * @param Mage_Core_Service_Manager $manager
+     * @param Mage_Core_Service_ObjectManager $serviceObjectManager
      * @param Mage_Core_Service_Context $context
      */
     public function __construct(
-        Mage_Core_Service_Manager $manager,
+        Mage_Core_Service_ObjectManager $serviceObjectManager,
         Mage_Core_Service_Context $context)
     {
-        $this->_serviceManager = $manager;
+        $this->_serviceObjectManager = $serviceObjectManager;
         $this->_serviceContext = $context;
     }
 
@@ -86,7 +86,7 @@ abstract class Mage_Core_Service_Type_Abstract
         if (!$request->getIsPrepared()) {
             $requestSchema = $request->getRequestSchema();
             if (!$requestSchema instanceof Magento_Data_Schema) {
-                $requestSchema = $this->_serviceManager->getRequestSchema($serviceClass, $serviceMethod, $request->getVersion(), $requestSchema);
+                $requestSchema = $this->_serviceObjectManager->getRequestSchema($serviceClass, $serviceMethod, $request->getVersion(), $requestSchema);
             }
 
             if ($requestSchema->getDataNamespace()) {
@@ -154,7 +154,7 @@ abstract class Mage_Core_Service_Type_Abstract
             if (array_key_exists($key, $fields)) {
                 $config = $fields[$key];
                 if (isset($config['schema'])) {
-                    $schema = $this->_serviceManager->getContentSchema($config['schema']);
+                    $schema = $this->_serviceObjectManager->getContentSchema($config['schema']);
                     $this->filter($value, $schema);
 
                     $data->setDataUsingMethod($key, $value);
@@ -178,7 +178,7 @@ abstract class Mage_Core_Service_Type_Abstract
             if (array_key_exists($key, $fields)) {
                 $config = $schema->getData($key);
                 if (isset($config['schema'])) {
-                    $schema = $this->_serviceManager->getContentSchema($config['schema']);
+                    $schema = $this->_serviceObjectManager->getContentSchema($config['schema']);
                     $this->validate($value, $schema);
                 } else {
                     $this->_validate($value, $schema->getData($key));
@@ -209,7 +209,7 @@ abstract class Mage_Core_Service_Type_Abstract
 
         if (!$responseSchema instanceof Magento_Data_Schema) {
             $params = $responseSchema;
-            $responseSchema = $this->_serviceManager->getResponseSchema($serviceClass, $serviceMethod, $request->getVersion());
+            $responseSchema = $this->_serviceObjectManager->getResponseSchema($serviceClass, $serviceMethod, $request->getVersion());
             if (!empty($params) && is_array($params)) {
                 $responseSchema->addData($params);
             }
@@ -291,7 +291,7 @@ abstract class Mage_Core_Service_Type_Abstract
                     $result = $data->$config['get_callback']();
                 }
             } else {
-                $callbackObject = $this->_serviceManager->getObject($config['get_callback'][0]);
+                $callbackObject = $this->_serviceObjectManager->getObject($config['get_callback'][0]);
                 $result = $callbackObject->$config['get_callback'][1]($data);
             }
         } else {

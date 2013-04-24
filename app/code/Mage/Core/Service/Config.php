@@ -95,7 +95,7 @@ class Mage_Core_Service_Config
     public function getServices()
     {
         if (null === $this->_services) {
-            $services = '';//$this->_loadFromCache();
+            $services = $this->_loadFromCache();
             if ($services && is_string($services)) {
                 $data = unserialize($services);
                 $_array = isset($data['config']['services']) ? $data['config']['services'] : array();
@@ -209,8 +209,8 @@ class Mage_Core_Service_Config
     public function getServiceClassByServiceName($serviceReferenceId, $version)
     {
         $result = null;
-        if (null !== $version) {
-            $result = $this->getServices()->getData($serviceReferenceId . '/' . $version .  '/' . 'class');
+        if (!empty($version)) {
+            $result = $this->getServices()->getData($serviceReferenceId . '/versions/' . $version .  '/class');
         }
 
         if (!$result) {
@@ -231,7 +231,13 @@ class Mage_Core_Service_Config
      */
     public function getServiceVersionBind($callerReferenceId, $serviceReferenceId)
     {
-        $result = $this->getServices()->getData($callerReferenceId . '/depends/' . $serviceReferenceId . '/api_version');
+        $resolvedModuleName = $this->getServices()->getData($serviceReferenceId.'/module');
+
+        $result = $this->_config->getNode('modules/' . $callerReferenceId . '/depends/' . $resolvedModuleName . '/services/' . $serviceReferenceId . '/version');
+
+        if (!$result) {
+            $result = $this->_config->getNode('global/api_version');
+        }
 
         return $result;
     }

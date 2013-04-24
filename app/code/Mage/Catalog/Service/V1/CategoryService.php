@@ -8,7 +8,7 @@
  * @license     {license_link}
  *
  */
-class Mage_Catalog_Service_V1_CategoryEntity extends Mage_Catalog_Service_CategoryEntity
+class Mage_Catalog_Service_V1_CategoryService extends Mage_Catalog_Service_CategoryService
 {
     //
 }

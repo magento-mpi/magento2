@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Core_Service_Manager extends Varien_Object
+class Mage_Core_Service_ObjectManager extends Varien_Object
 {
     const AREA_SERVICES = 'services';
 
@@ -60,14 +60,10 @@ class Mage_Core_Service_Manager extends Varien_Object
     public function call($serviceReferenceId, $serviceMethod, $context = null, $version = null)
     {
         if (null === $version) {
-            $version = (string) $this->_serviceContext->getConfig()->getNode('global/api_version');
+            $version = (string) $this->getServiceVersionBind($this->getCallerId(), $serviceReferenceId);
         }
 
         $service  = $this->getService($serviceReferenceId, $version);
-
-        if (null === $version) {
-            $version = $this->getServiceVersionBind($this->getCallerId(), $serviceReferenceId, $version);
-        }
 
         $response = $service->call($serviceMethod, $context, $version);
 
@@ -84,7 +80,7 @@ class Mage_Core_Service_Manager extends Varien_Object
     public function getService($serviceReferenceId, $version = null)
     {
         if (null === $version) {
-            $version = (string) $this->_serviceContext->getConfig()->getNode('global/api_version');
+            $version = (string) $this->getServiceVersionBind($this->getCallerId(), $serviceReferenceId);
         }
 
         $service = $this->_serviceFactory->createServiceInstance($serviceReferenceId, $version);

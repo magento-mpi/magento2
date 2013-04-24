@@ -11,9 +11,9 @@
 -->
 <config>
     <services>
-        <layout translate="title" module="Mage_Core">
+        <Mage_Core_Service_LayoutService translate="title" module="Mage_Core">
             <title>Layout Service</title>
-            <class>Mage_Core_Service_Type_LayoutUtility</class>
+            <class>Mage_Core_Service_LayoutService</class>
             <methods>
                 <getLayout>
                     <title>Retrieve an empty Layout instance</title>
@@ -40,6 +40,6 @@
                     <title>Render Layout Schema</title>
                 </renderLayout>
             </methods>
-        </layout>
+        </Mage_Core_Service_LayoutService>
     </services>
 </config>

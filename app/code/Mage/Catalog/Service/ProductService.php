@@ -11,7 +11,7 @@
 /**
  *
  */
-class Mage_Catalog_Service_ProductEntity extends Mage_Core_Service_Type_Abstract
+class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstract
 {
     /**
      * Return resource object or resource object data.

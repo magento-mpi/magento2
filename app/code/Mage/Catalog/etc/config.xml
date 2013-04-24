@@ -25,9 +25,11 @@
             <active>true</active>
             <depends>
                 <Mage_Eav>
-                    <eav_attribute>
-                        <version>V2</version>
-                    </eav_attribute>
+                    <services>
+                        <eav_attribute>
+                            <version>V2</version>
+                        </eav_attribute>
+                    </services>
                 </Mage_Eav>
                 <Mage_Cms/>
                 <Mage_Index/>

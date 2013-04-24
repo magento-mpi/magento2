@@ -8,7 +8,7 @@
  * @license     {license_link}
  *
  */
-class Mage_Catalog_Service_CategoryEntity extends Mage_Core_Service_Type_Abstract
+class Mage_Catalog_Service_CategoryService extends Mage_Core_Service_Type_Abstract
 {
     /**
      * Return resource object or resource object data.

@@ -11,62 +11,48 @@
 -->
 <config>
     <services>
-        <catalog_category translate="title" module="Mage_Catalog">
-            <V1>
-                <title>Catalog Category Service</title>
-                <class>Mage_Catalog_Service_V1_CategoryEntity</class>
-                <version>V1</version>
-                <methods>
-                    <create>
-                        <title>Create new category</title>
-                    </create>
-                    <item>
-                        <title>Retrieve a category</title>
-                    </item>
-                    <items>
-                        <title>Retrieve category collection by filters</title>
-                    </items>
-                    <update>
-                        <title>Update category</title>
-                    </update>
-                    <move>
-                        <title>Move category in tree</title>
-                    </move>
-                    <delete>
-                        <title>Delete category</title>
-                    </delete>
-                </methods>
-            </V1>
-            <V2>
-                <title>Catalog Category Service</title>
-                <class>Mage_Catalog_Service_V2_CategoryEntity</class>
-                <version>V2</version>
-                <methods>
-                    <create>
-                        <title>Create new category</title>
-                    </create>
-                    <item>
-                        <title>Retrieve a category</title>
-                    </item>
-                    <items>
-                        <title>Retrieve category collection by filters</title>
-                    </items>
-                    <update>
-                        <title>Update category</title>
-                    </update>
-                    <move>
-                        <title>Move category in tree</title>
-                    </move>
-                    <delete>
-                        <title>Delete category</title>
-                    </delete>
-                </methods>
-            </V2>
-        </catalog_category>
+        <Mage_Catalog_Service_CategoryService translate="title" module="Mage_Catalog">
+            <title>Catalog Category Service</title>
+            <class>Mage_Catalog_Service_CategoryService</class>
+            <methods>
+                <create>
+                    <title>Create new category</title>
+                    <rest_route>PUT /category</rest_route>
+                </create>
+                <item>
+                    <title>Retrieve a category</title>
+                    <rest_route>GET /category</rest_route>
+                </item>
+                <items>
+                    <title>Retrieve category collection by filters</title>
+                    <rest_route>GET /category/list</rest_route>
+                </items>
+                <update>
+                    <title>Update category</title>
+                    <rest_route>POST /category</rest_route>
+                </update>
+                <move>
+                    <title>Move category in tree</title>
+                    <rest_route>POST /category/move</rest_route>
+                </move>
+                <delete>
+                    <title>Delete category</title>
+                    <rest_route>DELETE /category</rest_route>
+                </delete>
+            </methods>
+            <versions>
+                <V1>
+                    <class>Mage_Catalog_Service_V1_CategoryService</class>
+                </V1>
+                <V2>
+                    <class>Mage_Catalog_Service_V2_CategoryService</class>
+                </V2>
+            </versions>
+        </Mage_Catalog_Service_CategoryService>
 
-        <catalog_product translate="title" module="Mage_Catalog">
+        <Mage_Catalog_Service_ProductService translate="title" module="Mage_Catalog">
             <title>Catalog Product Service</title>
-            <class>Mage_Catalog_Service_ProductEntity</class>
+            <class>Mage_Catalog_Service_ProductService</class>
             <methods>
                 <create>
                     <title>Create new product</title>
@@ -84,6 +70,6 @@
                     <title>Delete product</title>
                 </delete>
             </methods>
-        </catalog_product>
+        </Mage_Catalog_Service_ProductService>
     </services>
 </config>

@@ -30,8 +30,9 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             return false;
         }
 
-        $serviceManager = Mage::getSingleton('Mage_Catalog_ServiceManager');
-        $category = $serviceManager->getService('catalog_category')
+        /** @var $serviceManager Mage_Core_Service_ObjectManager */
+        $serviceManager = Mage::getSingleton('Mage_Core_Service_ObjectManager');
+        $category = $serviceManager->getService('Mage_Catalog_Service_CategoryService')
             ->call('initCategoryToView', array(
                 'entity_id' => $categoryId,
                 'store_id'  => Mage::app()->getStore()->getId(),
@@ -64,10 +65,10 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
     public function viewAction()
     {
         if ($category = $this->_initCatagory()) {
-            /** @var $serviceManager Mage_Catalog_ServiceManager */
-            $serviceManager = Mage::getSingleton('Mage_Catalog_ServiceManager');
-            /** @var $layoutService Mage_Core_Service_Type_LayoutUtility */
-            $layoutService = $serviceManager->getService('layout');
+            /** @var $serviceManager Mage_Core_Service_ObjectManager */
+            $serviceManager = Mage::getSingleton('Mage_Core_Service_ObjectManager');
+            /** @var $layoutService Mage_Core_Service_LayoutService */
+            $layoutService = $serviceManager->getService('Mage_Core_Service_LayoutService');
             $layout = $layoutService->getLayout($this->_currentArea);
 
             $layout->getUpdate()->addHandle('default');
