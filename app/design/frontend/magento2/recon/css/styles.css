@@ -333,6 +333,7 @@ textarea {
   font-size: 14px;
 }
 html {
+  min-width: 1025px;
   background: #101010 url(../images/body-bg.jpg);
 }
 a,
@@ -1287,10 +1288,7 @@ h6 {
   margin: 0;
 }
 /* Reviews */
-.reviews.summary {
-  line-height: 16px;
-}
-.reviews.summary .rating {
+.rating {
   width: 80px;
   margin-right: 3px;
   line-height: 1;
@@ -1299,7 +1297,7 @@ h6 {
   vertical-align: top;
   margin-top: -1px;
 }
-.reviews.summary .rating > span {
+.rating > span {
   display: block;
   overflow: hidden;
   color: #f47a1f;
@@ -1308,11 +1306,11 @@ h6 {
   line-height: 1;
   margin-top: -16px;
 }
-.reviews.summary .rating > span:before {
+.rating > span:before {
   margin-top: -16px;
 }
-.reviews.summary .rating:before,
-.reviews.summary .rating > span:before {
+.rating:before,
+.rating > span:before {
   display: block;
   top: 0;
   left: 0;
@@ -1324,6 +1322,52 @@ h6 {
   speak: none;
   font-weight: normal;
   -webkit-font-smoothing: antialiased;
+}
+.review.view {
+  *zoom: 1;
+}
+.review.view:before,
+.review.view:after {
+  content: "";
+  display: table;
+}
+.review.view:after {
+  clear: both;
+}
+.review.view .product.name {
+  margin: 0.5em 0;
+  font-family: "archivonarrow", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.2;
+  font-size: 28px;
+  color: #ae1523;
+}
+.review.view .product.details {
+  float: left;
+  width: 300px;
+}
+.review.view .review.details {
+  float: right;
+  width: 480px;
+}
+.review.view .review.details .review.title {
+  margin: 0.5em 0;
+  font-family: "archivonarrow", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.2;
+  font-size: 20px;
+  color: #ae1523;
+}
+.review.view .review.details .reviews.summary {
+  margin: 10px 0;
+}
+.review.view .review.details .review.content {
+  margin: 20px 0;
+}
+.reviews.summary {
+  line-height: 16px;
 }
 .reviews.summary .reviews.actions {
   text-align: right;
@@ -2841,7 +2885,7 @@ select:disabled {
 }
 .cart.summary {
   margin-top: 33px;
-  background: #ffffff;
+  background: #242424;
   float: right;
   width: 290px;
   padding: 20px;
@@ -3110,6 +3154,9 @@ select:disabled {
 .minicart.wrapper .block.minicart > .content {
   text-align: left;
   width: 310px;
+}
+.minicart.wrapper .block.minicart > .content .product.photo + .product.details {
+  margin-left: 69px;
 }
 .minicart.wrapper .block.minicart > .content .subtotal {
   clear: both;
@@ -3913,8 +3960,8 @@ select:disabled {
   z-index: 2;
   *zoom: 1;
   /*    li.level1 {
-        display: inline-block; width:20%; vertical-align: top;
-    }*/
+          display: inline-block; width:20%; vertical-align: top;
+      }*/
 
 }
 .navigation a {
@@ -4877,6 +4924,18 @@ select:disabled {
   background: #ae1523;
   z-index: 99;
 }
+.products.wrapper .products.list .item:hover a,
+.widget.new.grid .products.list .item:hover a,
+.widget.new.list .products.list .item:hover a,
+.widget.viewed.grid .products.list .item:hover a {
+  color: #ffffff;
+}
+.products.wrapper .products.list .item:hover a span,
+.widget.new.grid .products.list .item:hover a span,
+.widget.new.list .products.list .item:hover a span,
+.widget.viewed.grid .products.list .item:hover a span {
+  color: #ffffff;
+}
 .products.wrapper .products.list .item:hover .product.actions,
 .widget.new.grid .products.list .item:hover .product.actions,
 .widget.new.list .products.list .item:hover .product.actions,
@@ -5213,8 +5272,9 @@ select:disabled {
   font-size: 11px;
   height: 11px;
   overflow: hidden;
-  vertical-align: top;
+  vertical-align: baseline;
   display: inline-block;
+  text-decoration: none;
 }
 .debug {
   outline: 2px solid red;
@@ -6046,6 +6106,58 @@ img[align="right"] {
   display: block;
 }
 /*
+ *    Mage_Tag
+ *
+----------------------------------------------------------------------------- */
+.tags .action.add {
+  border: none;
+  border-radius: 0;
+  background: #ae1523;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.tags .action.add:hover,
+.tags .action.add:active {
+  background: #d74957;
+}
+.tags .action.add span {
+  font-size: 14px;
+  font-weight: 700;
+  font-style: italic;
+  color: #ffffff;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.tags.items {
+  margin: 15px 0;
+}
+.tags.items .tag.item {
+  display: inline-block;
+  margin-bottom: 5px;
+}
+.tags.items .tag.item .tag.text {
+  margin-right: 3px;
+  color: #ffffff;
+}
+.tags.items .tag.item .amount {
+  margin-right: 6px;
+}
+.product.info .block.tags {
+  padding: 10px;
+}
+.dashboard.tags .product.tags {
+  margin-left: 10px;
+}
+.data.table.tags .item.actions .links {
+  margin-top: 10px;
+}
+.data.table.tags .item.actions .links .action.towishlist {
+  margin-left: 0;
+}
+/*
  *    Mage_Customer
  *
  *    Account
@@ -6362,47 +6474,73 @@ img[align="right"] {
   background: #393939;
 }
 .data.table.orders,
-.data.wishlist {
+.data.wishlist,
+.data.table.reviews,
+.data.table.tags {
   width: 100%;
 }
 .data.table.orders td,
 .data.wishlist td,
+.data.table.reviews td,
+.data.table.tags td,
 .data.table.orders th,
-.data.wishlist th {
+.data.wishlist th,
+.data.table.reviews th,
+.data.table.tags th {
   padding: 10px 20px;
   text-align: left;
 }
 .data.table.orders td.col.total,
 .data.wishlist td.col.total,
+.data.table.reviews td.col.total,
+.data.table.tags td.col.total,
 .data.table.orders th.col.total,
-.data.wishlist th.col.total {
+.data.wishlist th.col.total,
+.data.table.reviews th.col.total,
+.data.table.tags th.col.total {
   text-align: right;
 }
 .data.table.orders td.col.actions,
 .data.wishlist td.col.actions,
+.data.table.reviews td.col.actions,
+.data.table.tags td.col.actions,
 .data.table.orders th.col.actions,
-.data.wishlist th.col.actions {
+.data.wishlist th.col.actions,
+.data.table.reviews th.col.actions,
+.data.table.tags th.col.actions {
   white-space: nowrap;
 }
 .data.table.orders td.col.actions .action:last-child,
 .data.wishlist td.col.actions .action:last-child,
+.data.table.reviews td.col.actions .action:last-child,
+.data.table.tags td.col.actions .action:last-child,
 .data.table.orders th.col.actions .action:last-child,
-.data.wishlist th.col.actions .action:last-child {
+.data.wishlist th.col.actions .action:last-child,
+.data.table.reviews th.col.actions .action:last-child,
+.data.table.tags th.col.actions .action:last-child {
   margin-left: 20px;
 }
 .data.table.orders td em,
 .data.wishlist td em,
+.data.table.reviews td em,
+.data.table.tags td em,
 .data.table.orders th em,
-.data.wishlist th em {
+.data.wishlist th em,
+.data.table.reviews th em,
+.data.table.tags th em {
   font-style: normal;
 }
 .data.table.orders th,
-.data.wishlist th {
+.data.wishlist th,
+.data.table.reviews th,
+.data.table.tags th {
   font-size: 16px;
   font-weight: 400;
 }
 .data.table.orders tr:nth-child(odd) td,
-.data.wishlist tr:nth-child(odd) td {
+.data.wishlist tr:nth-child(odd) td,
+.data.table.reviews tr:nth-child(odd) td,
+.data.table.tags tr:nth-child(odd) td {
   background: #000000;
 }
 .customer.menu .customer {

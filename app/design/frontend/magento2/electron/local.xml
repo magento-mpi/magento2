@@ -47,9 +47,9 @@
             <action method="setIsLink"><link>1</link></action>
         </block>
 
-        <remove name="tags_popular" />
+        <!-- <remove name="tags_popular" /> -->
         <!--<remove name="catalog.compare.sidebar"/>-->
-        <remove name="product_tag_list" />
+        <!-- <remove name="product_tag_list" /> -->
 
         <remove name="top.links" />
         <reference name="header.panel">
@@ -162,6 +162,13 @@
                 <action method="setImageType"><image>recently_viewed_products_grid_content_widget</image></action>
             </block>
         </reference>
+
+        <move element="product_tag_list" destination="content.bottom" after="-" as="product_tags" />
+        <reference name="product_tag_list">
+            <action method="setAtLabel" translate="label"><label>none</label></action>
+            <action method="setTitle" translate="value"><value>Tags</value></action>
+        </reference>
+
     </catalog_product_view>
 
     <catalog_product_view_type_grouped>

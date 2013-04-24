@@ -114,8 +114,11 @@
                 clear: both;
                 display: block !important;
             }
-            strong:before {
-                content: " ";
+            strong {
+                font-weight: 400;
+                &:before {
+                    content: " ";
+                }
             }
         }
         .formFieldset();
@@ -149,7 +152,6 @@
     }
     .actions {
         padding-top: 20px;
-        text-align: right;
         position: relative;
         z-index: 1;
     }
@@ -346,6 +348,9 @@
             .action {
                 padding: 0;
             }
+        }
+        .product.photo {
+            float: none;
         }
     }
 }
@@ -649,6 +654,16 @@
     }
 }
 
+.product-pricing {
+    background: @commonBg;
+    border: 1px solid @primary6;
+    border-top: 0;
+    color: @primary3;
+    font-size: 12px;
+    margin: -5px 0 0;
+    padding: 0 15px 5px;
+}
+
 .action.primary.customize,
 .action.primary.tocart {
     .primaryAction;
@@ -824,6 +839,19 @@
     margin-top: 50px;
 }
 
+.block.tags {
+    .tags.cloud {
+        margin: 0 0 10px;
+        > .item {
+            display: inline;
+        }
+    }
+    .action.view {
+        .secondaryAction();
+        text-decoration: none;
+    }
+}
+
 .block.product.tags {
     font-size: 12px;
     margin: 50px 0 0;
@@ -983,6 +1011,12 @@ body.type-bundle {
     }
     .product.options.wrapper > .required {
         color: @errorColor;
+    }
+    .product-pricing {
+        background: none;
+        border: 0;
+        margin: 0 0 10px;
+        padding: 0;
     }
 }
 
@@ -1272,8 +1306,13 @@ body.type-bundle {
 // *    Email to a friend
 // *
 // -------------------------------------- */
+.sendfriend-product-send .page.title {
+    text-align: center;
+}
 .send.friend {
     font-size: 13px;
+    margin: 0 auto;
+    width: 70%;
     .legend {
         float: left;
         line-height: 1.2;
@@ -1344,16 +1383,6 @@ body.type-bundle {
             margin-top: -4px;
         }
     }
-    &:after {
-        content: attr(data-hasrequired);
-        display: block;
-        letter-spacing: normal;
-        word-spacing: normal;
-        color: @errorColor;
-        font-size: 12px;
-        text-align: right;
-        margin: 10px 0 0;
-    }
     .fieldset.recipients {
         .fields {
             .formInline(25%);
@@ -1362,6 +1391,7 @@ body.type-bundle {
             padding: 0 30px 0 0;
             &.additional {
                 position: relative;
+                margin-top: 40px;
                 .action.delete {
                     position: absolute;
                     right: 0;

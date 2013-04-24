@@ -2,11 +2,10 @@
  * {license_notice}
  *
  * @category    design
- * @package     magento2
+ * @package     magento2_plushe_beige
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 @fontsFolder : '../fonts/';
 @import url(fonts.less);
 @font-face {
@@ -71,21 +70,21 @@ strong {
 
 // Primary colors
 
-@primary1: #f8f8f8;
+@primary1: @color1;
 //@primary1: darken(#f8f8f8 , 30%);
-@primary2: #e5e5e5;
-@primary3: #c2c2c2;
-@primary4: #999999;
-@primary5: #837d75;
-@primary6: #675f55;
+@primary2: green;
+@primary3: @color2;
+@primary4: @color9;
+@primary5: @color4;
+@primary6: @color10;
 @primeBlack: #7f7f7;
 @primeBlackOpacity: rgba(0, 0, 0, 0.5);
 @commonBg : #fff;
 
 // Secondary colors
 
-@secondary1: #da370a;
-@secondary2: #55c2e6;
+@secondary1: @color5;
+@secondary2: blue;
 
 .resetAction() {
     border: none;
@@ -208,10 +207,10 @@ strong {
  *
 ----------------------------------------------------------------------------- */
 
-@pageMainBg : #fff;
+@pageMainBg : @color3;
 
-@headerBg : #d6d7d2;
-@headerBgImage : url(../images/header-bg.jpg);
+@headerBg : @color7;
+@headerBgImage : @color6;
 
 @navBg : @headerBg;
 @navBgImage : @headerBgImage;
@@ -267,7 +266,7 @@ html {
     background: @pageMainBg;
 }
 
-@link : #332e29;
+@link : magenta;
 @linkHover : @secondary1;
 .actionLink() {
     display: inline;
@@ -282,7 +281,7 @@ html {
 
 a,
 a:visited {
-    color: #332e29;
+    color: @color8;
     text-decoration: none;
     &:hover {
         color: @secondary1;
@@ -4954,3 +4953,96 @@ and (max-width : 768px) {
 }
 
 @import url(old.less);
+@import url(extra.less);
+
+
+/*
+ *    My Account -> My Product Reviews
+ *
+----------------------------------------------------------------------------- */
+
+.data.table.reviews {
+  width: 100%;
+
+  th, td {
+    padding: 8px 5px;
+  }
+
+  th {
+    text-align: left;
+    text-transform: uppercase;
+    border-bottom: 1px solid @primary2;
+  }
+
+  tbody tr:nth-child(even) td {
+    background: @primary2;
+  }
+
+  tbody td {
+    border-bottom: 1px solid @primary2;
+    vertical-align: top;
+  }
+
+  .product.name {
+    margin: 0;
+  }
+}
+
+
+/*
+ *    My Account -> My Wishlist
+ *
+----------------------------------------------------------------------------- */
+
+.data.table.wishlist {
+  width: 100%;
+  margin-bottom: 15px;
+
+  thead th {
+    padding-top: 0;
+    padding-bottom: 10px;
+    text-align: left;
+    font-weight: 400;
+    font-size: 16px;
+  }
+
+  td,
+  th {
+    padding: 16px 10px 10px;
+    vertical-align: top;
+  }
+
+  td:first-child,
+  th:first-child{
+    padding-left: 20px;
+  }
+
+  td:last-child,
+  th:last-child{
+    padding-right: 20px;
+  }
+
+  tbody tr:nth-child(even) {
+    background: @primary1;
+  }
+
+  textarea {
+    width: 100%;
+  }
+
+  .box.tocart .qty {
+    width: 50px;
+  }
+
+  & + .actions {
+    .primary {
+      margin-bottom: 15px;
+
+      .action.share,
+      .action.update {
+        .primaryAction;
+        padding: 5px 11px;
+      }
+    }
+  }
+}

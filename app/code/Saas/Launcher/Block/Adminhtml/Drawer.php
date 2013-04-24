@@ -59,7 +59,7 @@ class Saas_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
         if (!isset($tile)) {
             throw new Saas_Launcher_Exception('Tile was not set.');
         }
-        return $tile->getCode();
+        return $tile->getTileCode();
     }
 
     /**
