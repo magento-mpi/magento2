@@ -899,6 +899,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function validate()
     {
+        $this->_enforceFunctionalLimitations();
         return $this->_getResource()->validate($this);
     }
 
@@ -914,5 +915,31 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );
         return $result;
+    }
+
+    /**
+     * Check limitations before save
+     *
+     * @return Mage_Catalog_Model_Abstract
+     */
+    protected function _beforeSave()
+    {
+        $result = parent::_beforeSave();
+        $this->_enforceFunctionalLimitations();
+        return $result;
+    }
+
+    /**
+     * Sub-routine for enforcing functional limitations
+     *
+     * @throws Mage_Core_Exception
+     */
+    protected function _enforceFunctionalLimitations()
+    {
+        /** @var $limitation Mage_Catalog_Model_Category_Limitation */
+        $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Category_Limitation');
+        if ($this->isObjectNew() && $limitation->isCreateRestricted()) {
+            throw new Mage_Core_Exception($limitation->getCreateRestrictedMessage());
+        }
     }
 }
