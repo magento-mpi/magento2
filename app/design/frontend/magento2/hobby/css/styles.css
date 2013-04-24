@@ -331,6 +331,7 @@ textarea {
   color: #393939;
 }
 html {
+  min-width: 1025px;
   background: #ffffff;
 }
 .page.wrapper {

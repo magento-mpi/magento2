@@ -211,7 +211,11 @@ textarea {
   font: 14px/1.43 Arial, Helvetica, sans-serif;
 }
 html {
+  min-width: 1025px;
   background: #ee2375;
+}
+body {
+  position: relative;
 }
 .page.wrapper {
   background: #ffffff;
@@ -457,6 +461,8 @@ strong {
   padding-right: 15px;
   margin: 0 auto;
   width: 970px;
+  padding-left: 0;
+  padding-right: 0;
   *zoom: 1;
 }
 .header > .panel:before,
@@ -548,6 +554,8 @@ strong {
   padding-right: 15px;
   margin: 0 auto;
   width: 970px;
+  padding-left: 0;
+  padding-right: 0;
   *zoom: 1;
 }
 .header > .content:before,

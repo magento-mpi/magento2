@@ -333,6 +333,7 @@ textarea {
   font-size: 14px;
 }
 html {
+  min-width: 1025px;
   background: #101010 url(../images/body-bg.jpg);
 }
 a,

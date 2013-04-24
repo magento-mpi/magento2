@@ -150,6 +150,10 @@ textarea {
 }
 html {
   background: #ffffff;
+  min-width: 1025px;
+}
+body {
+  position: relative;
 }
 .page.wrapper {
   background: #ffffff;
@@ -6296,8 +6300,7 @@ img[align="right"] {
 .form.orders.search .fieldset .legend + br,
 .form.contact .fieldset .legend + br,
 .form.password.forget .fieldset .legend + br,
-.form.create.account .fieldset .legend + br,
-.form.wishlist.share .fieldset .legend + br {
+.form.create.account .fieldset .legend + br {
   display: block;
   clear: both;
 }

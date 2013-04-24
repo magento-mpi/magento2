@@ -299,10 +299,12 @@ html, body, button, input, select, textarea {
 
 html {
     background: @footerBg;
+    min-width: 1025px;
 }
 
 body {
     padding-bottom: 0;
+    position: relative;
 }
 
 .page.wrapper {
@@ -3043,6 +3045,8 @@ select {
     z-index: 2;
     > ul {
         .pageWidth();
+        padding-left: 0;
+        padding-right: 0;
     }
     &:hover,
     &.hover {

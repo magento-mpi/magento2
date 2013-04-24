@@ -69,7 +69,11 @@ textarea {
   color: #5e5e5e;
   font: 400 12px/1.786 Arial, Verdana, sans-serif;
 }
+html {
+  min-width: 1025px;
+}
 body {
+  position: relative;
   background-color: #f5e1db;
   background-image: url(../images/main-bg.jpg);
   background-repeat: repeat;

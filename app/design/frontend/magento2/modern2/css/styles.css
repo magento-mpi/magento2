@@ -208,6 +208,10 @@ textarea {
 }
 html {
   background: #f6f4f3 url(../images/header-bg.jpg);
+  min-width: 1025px;
+}
+body {
+  position: relative;
 }
 .page.wrapper {
   background: #ffffff;

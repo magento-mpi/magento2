@@ -309,7 +309,12 @@ html, body, button, input, select, textarea {
     font: 400 12px/1.33 Arial, Helvetica, sans-serif;
 }
 
+html {
+  min-width: 1025px;
+}
+
 body {
+    position: relative;
     background: url(../images/bg_page.png) repeat #2f2f38;
     padding-bottom: 0;
 }
@@ -326,7 +331,7 @@ body {
         color: @linkHover;
     }
     span,
-    span:hover { color:inherit; }
+    span:hover { color: inherit; }
 }
 
 a,

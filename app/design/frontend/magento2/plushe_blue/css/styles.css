@@ -149,7 +149,11 @@ textarea {
   font: 400 14px/1.33 "sourcesanspro";
 }
 html {
+  min-width: 1025px;
   background: #4d5d64;
+}
+body {
+  position: relative;
 }
 .page.wrapper {
   background: #4d5d64;
