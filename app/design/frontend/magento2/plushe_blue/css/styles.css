@@ -7381,7 +7381,71 @@ img[align="right"] {
     .primaryAction;
     padding: 5px 11px;
 }
-*//*
+*/
+.form.wishlist.share .fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.form.wishlist.share .fieldset .legend {
+  float: left;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+.form.wishlist.share .fieldset .legend + br {
+  display: block;
+  clear: both;
+}
+.form.wishlist.share .fieldset .field {
+  margin: 0 0 20px;
+}
+.form.wishlist.share .action.submit {
+  border: none;
+  border-radius: 0;
+  background: #74dc74;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  padding: 5px 11px;
+}
+.form.wishlist.share .action.submit span {
+  font-size: 14px;
+  color: #546972;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.form.wishlist.share .actions .primary {
+  margin-bottom: 15px;
+}
+.form.newsletter.manage .action.save {
+  padding: 5px 11px;
+}
+.table.data.wishlist .item-options dl {
+  margin: 0;
+}
+.table.data.wishlist .item-options dl dt {
+  display: inline;
+  float: left;
+  clear: left;
+  font-weight: 600;
+}
+.table.data.wishlist .item-options dl dt:after {
+  content: ':';
+  margin-right: 5px;
+}
+.table.data.wishlist .item-options dl dd {
+  margin: 0;
+}
+.table.data.wishlist .col.photo {
+  width: 100px;
+}
+.table.data.wishlist .col.actions {
+  width: 200px;
+}
+/*
  *    My Account -> My Product Reviews
  *
 ----------------------------------------------------------------------------- */
