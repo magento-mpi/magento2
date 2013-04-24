@@ -43,7 +43,7 @@ class Varien_Data_Collection_Db_FetchStrategy_Cache implements Varien_Data_Colle
      * @param Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param string $cacheIdPrefix
      * @param array $cacheTags
-     * @param null $cacheLifetime
+     * @param int|bool|null $cacheLifetime
      */
     public function __construct(
         Magento_Cache_FrontendInterface $cache,

@@ -31,7 +31,7 @@ class Mage_AdminNotification_Model_Resource_System_Message_Collection
     public function __construct(
         Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Mage_AdminNotification_Model_System_MessageList $messageList,
-        $resource = null
+        Mage_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         $this->_messageList = $messageList;
         parent::__construct($fetchStrategy, $resource);

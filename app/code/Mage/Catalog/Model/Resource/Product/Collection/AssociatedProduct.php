@@ -100,5 +100,7 @@ class Mage_Catalog_Model_Resource_Product_Collection_AssociatedProduct
             ->addFieldToFilter('entity_id', array('neq' => $this->getProduct()->getId()))
             ->addFilterByRequiredOptions()
             ->joinAttribute('name', 'catalog_product/name', 'entity_id', null, 'inner');
+
+        return $this;
     }
 }

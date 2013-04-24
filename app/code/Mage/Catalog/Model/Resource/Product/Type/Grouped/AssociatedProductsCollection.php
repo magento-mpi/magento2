@@ -47,5 +47,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollect
             ->addAttributeToSelect('*')
             ->addFilterByRequiredOptions()
             ->addAttributeToFilter('type_id', $allowProductTypes);
+
+        return $this;
     }
 }
