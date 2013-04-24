@@ -48,10 +48,10 @@
                     $('#giftcard-form').giftCard({
                         giftCardCodeSelector: '#giftcard-code',
                         checkStatus: 'button.action.check',
-                        giftCardStatusUrl: '<?php echo Mage::getUrl('enterprise_giftcardaccount/cart/quickCheck') ?>',
+                        giftCardStatusUrl: '<?php echo Mage::getUrl('enterprise_giftcardaccount/cart/quickCheck',  array('_secure' => true)) ?>',
                         giftCardStatusId: '#giftcard-balance-lookup',
                         giftCardSpinnerId: '#gc-please-wait',
-                        messages: '.col-main .messages'
+                        messages: '.page.messages .messages'
                     }).validation();
                 });
         })(jQuery);
