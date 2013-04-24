@@ -13,13 +13,50 @@ class Mage_Core_Model_Dir_VerificationTest extends PHPUnit_Framework_TestCase
      * @param array $expectedDirs
      * @dataProvider createAndVerifyDirectoriesDataProvider
      */
-    public function testCreateAndVerifyDirectories($mode, $expectedDirs)
+    public function testCreateAndVerifyDirectoriesNonExisting($mode, $expectedDirs)
     {
-        // Plan
+        $model = $this->_createModelForVerification($mode, false, $actualCreatedDirs, $actualVerifiedDirs);
+        $model->createAndVerifyDirectories();
+
+        // Check
+        $this->assertEquals($expectedDirs, $actualCreatedDirs);
+        $this->assertEmpty($actualVerifiedDirs,
+            'Non-existing directories must be just created, no write access verification is needed');
+    }
+
+    /**
+     * @param string $mode
+     * @param array $expectedDirs
+     * @dataProvider createAndVerifyDirectoriesDataProvider
+     */
+    public function testCreateAndVerifyDirectoriesExisting($mode, $expectedDirs)
+    {
+        $model = $this->_createModelForVerification($mode, true, $actualCreatedDirs, $actualVerifiedDirs);
+        $model->createAndVerifyDirectories();
+
+        // Check
+        $this->assertEmpty($actualCreatedDirs, 'Directories must not be created, when they exist');
+        $this->assertEquals($expectedDirs, $actualVerifiedDirs);
+    }
+
+    /**
+     * Create model to test creation of directories and verification of their write-access
+     *
+     * @param string $mode
+     * @param bool $isExist
+     * @param array $actualCreatedDirs
+     * @param array $actualVerifiedDirs
+     * @return Mage_Core_Model_Dir_Verification
+     */
+    protected function _createModelForVerification($mode, $isExist, &$actualCreatedDirs, &$actualVerifiedDirs)
+    {
         $dirs = new Mage_Core_Model_Dir('base_dir');
         $appState = new Mage_Core_Model_App_State($mode);
 
         $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $filesystem->expects($this->any())
+            ->method('isDirectory')
+            ->will($this->returnValue($isExist));
 
         $actualCreatedDirs = array();
         $callbackCreate = function ($dir) use (&$actualCreatedDirs) {
@@ -38,23 +75,11 @@ class Mage_Core_Model_Dir_VerificationTest extends PHPUnit_Framework_TestCase
             ->method('isWritable')
             ->will($this->returnCallback($callbackVerify));
 
-        // Do
-        $model = new Mage_Core_Model_Dir_Verification(
+        return new Mage_Core_Model_Dir_Verification(
             $filesystem,
             $dirs,
             $appState
         );
-        $model->createAndVerifyDirectories();
-
-        // Check
-        foreach ($actualCreatedDirs as $index => $dir) {
-            $actualCreatedDirs[$index] = str_replace(DIRECTORY_SEPARATOR, '/', $dir);
-        }
-        foreach ($actualVerifiedDirs as $index => $dir) {
-            $actualVerifiedDirs[$index] = str_replace(DIRECTORY_SEPARATOR, '/', $dir);
-        }
-        $this->assertEquals($expectedDirs, $actualCreatedDirs);
-        $this->assertEquals($expectedDirs, $actualVerifiedDirs);
     }
 
     /**
@@ -101,41 +126,16 @@ class Mage_Core_Model_Dir_VerificationTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testCreateAndVerifyDirectoriesWithExistingDirectory()
-    {
-        $dirs = new Mage_Core_Model_Dir('base_dir');
-        $appState = new Mage_Core_Model_App_State();
-
-        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-        $filesystem->expects($this->any())
-            ->method('isDirectory')
-            ->will($this->returnValue(true));
-        $filesystem->expects($this->any())
-            ->method('isWritable')
-            ->will($this->returnValue(true));
-        $filesystem->expects($this->never())
-            ->method('createDirectory');
-
-        $model = new Mage_Core_Model_Dir_Verification(
-            $filesystem,
-            $dirs,
-            $appState
-        );
-        $model->createAndVerifyDirectories();
-    }
-
     public function testCreateAndVerifyDirectoriesCreateException()
     {
         // Plan
-        $message = str_replace('/', DIRECTORY_SEPARATOR,
-            'Cannot create all required directories, check write access: base_dir/var/log, base_dir/var/session');
-        $this->setExpectedException('Magento_BootstrapException', $message);
+        $this->setExpectedException('Magento_BootstrapException',
+            'Cannot create or verify write access: base_dir/var/log, base_dir/var/session');
 
         $dirs = new Mage_Core_Model_Dir('base_dir');
         $appState = new Mage_Core_Model_App_State();
 
         $callback = function ($dir) {
-            $dir = str_replace(DIRECTORY_SEPARATOR, '/', $dir);
             if (($dir == 'base_dir/var/log') || ($dir == 'base_dir/var/session')) {
                 throw new Magento_Filesystem_Exception();
             }
@@ -157,12 +157,16 @@ class Mage_Core_Model_Dir_VerificationTest extends PHPUnit_Framework_TestCase
     public function testCreateAndVerifyDirectoriesWritableException()
     {
         // Plan
-        $message = str_replace('/', DIRECTORY_SEPARATOR,
-            'Write access is needed: base_dir/var/log, base_dir/var/session');
-        $this->setExpectedException('Magento_BootstrapException', $message);
+        $this->setExpectedException('Magento_BootstrapException',
+            'Cannot create or verify write access: base_dir/var/log, base_dir/var/session');
 
         $dirs = new Mage_Core_Model_Dir('base_dir');
         $appState = new Mage_Core_Model_App_State();
+
+        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $filesystem->expects($this->any())
+            ->method('isDirectory')
+            ->will($this->returnValue(true));
 
         $dirWritableMap = array(
             array('base_dir/pub/media',     null, true),
@@ -173,10 +177,6 @@ class Mage_Core_Model_Dir_VerificationTest extends PHPUnit_Framework_TestCase
             array('base_dir/var/log',       null, false),
             array('base_dir/var/session',   null, false),
         );
-        foreach ($dirWritableMap as $key => $val) {
-            $dirWritableMap[$key][0] = str_replace('/', DIRECTORY_SEPARATOR, $val[0]);
-        }
-        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
         $filesystem->expects($this->any())
             ->method('isWritable')
             ->will($this->returnValueMap($dirWritableMap));

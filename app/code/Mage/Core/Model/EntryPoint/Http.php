@@ -9,6 +9,9 @@
  */
 class Mage_Core_Model_EntryPoint_Http extends Mage_Core_Model_EntryPointAbstract
 {
+    /**
+     * Process http request, output html page or proper information about an exception (if any)
+     */
     public function processRequest()
     {
         try {
