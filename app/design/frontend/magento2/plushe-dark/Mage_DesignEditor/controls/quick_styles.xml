@@ -365,6 +365,7 @@
             .form.contact .fieldset,
             .form.password.forget .fieldset,
             .form.create.account .fieldset,
+            .form.wishlist.share .fieldset,
             .block.dashboard:not(.welcome):not(.orders) .content,
             .block.reviews.list .item.review:nth-child(odd),
             .fieldset.bundle.options > .field,
@@ -471,9 +472,9 @@
             .form.password.forget .action.submit span,
             .form.create.account .action.submit span,
             .form.search.advanced .action span,
-
             .form.orders.search .action span,
             .form.contact .action span,
+            .form.wishlist.share .action.submit span,
 
             .banner.main .banner.action span,
             .opc.wrapper .form:not(.login) .actions button.action span,
@@ -515,10 +516,10 @@
             .form.contact .action.submit,
             .form.password.forget .action.submit,
             .form.create.account .action.submit,
-
             .form.search.advanced .action,
             .form.orders.search .action,
             .form.contact .action,
+            .form.wishlist.share .action.submit,
 
             .banner.main .banner.action,
             .opc.wrapper .form:not(.login) .actions button.action,
@@ -560,10 +561,10 @@
             .form.contact .action.submit:hover,
             .form.password.forget .action.submit:hover,
             .form.create.account .action.submit:hover,
-
             .form.search.advanced .action:hover,
             .form.orders.search .action:hover,
             .form.contact .action:hover,
+            .form.wishlist.share .action.submit:hover,
 
             .banner.main .banner.action:hover,
             .opc.wrapper .form:not(.login) .actions button.action:hover,
