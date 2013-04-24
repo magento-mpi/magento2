@@ -202,17 +202,12 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $groupConfig
+     * @param array $configData
      * @param string $expectedResult
      * @dataProvider loadLimitationsDataProvider
      */
-    public function testLoadLimitations(array $groupConfig, $expectedResult)
+    public function testLoadLimitations(array $configData, $expectedResult)
     {
-        $configData = array(
-            'tenantConfiguration' => array('local' => self::_wrapXml(self::XML_MEDIA_DIR)),
-            'groupConfiguration' => $groupConfig,
-            'version_hash'        => '1234567',
-        );
         $config = new Saas_Saas_Model_Tenant_Config(__DIR__, $configData);
         $result = $config->getApplicationParams();
         $result = $result[Mage::PARAM_CUSTOM_LOCAL_CONFIG];
@@ -224,14 +219,42 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function loadLimitationsDataProvider()
     {
+        $limitationOne = '<limitations><limit1>1</limit1></limitations>';
+        $limitationTwo = '<limitations><limit1>2</limit1><limit2>3</limit2></limitations>';
+        $limitationThree = '<limitations><limit1>4</limit1><limit2>5</limit2></limitations>';
         return array(
             'no limitations' => array(
-                array('some_other_config' => $this->_wrapXml('<some_config/>')),
+                array(
+                    'tenantConfiguration' => array('local' => self::_wrapXml(self::XML_MEDIA_DIR)),
+                    'groupConfiguration' => array('some_other_config' => self::_wrapXml('<some_config/>')),
+                    'version_hash'        => '1234567',
+                ),
                 ''
             ),
-            'with limitations' => array(
-                array('limitations' => $this->_wrapXml('<limitations><limit1>1</limit1></limitations>')),
-                '<limitations><limit1>1</limit1></limitations>'
+            'only limitations' => array(
+                array(
+                    'tenantConfiguration' => array('local' => self::_wrapXml(self::XML_MEDIA_DIR)),
+                    'groupConfiguration' => array(
+                        'limitations' => $this->_wrapXml($limitationOne)),
+                    'version_hash'        => '1234567',
+                ),
+                $limitationOne
+            ),
+            'limitations configuration priority' => array(
+                /**
+                 * limitations configuration must must have priority over limitations settings specified
+                 * in other configuration parts
+                 */
+                array(
+                    'tenantConfiguration' => array(
+                        'local' => self::_wrapXml(self::XML_MEDIA_DIR . $limitationTwo),
+                        'modules' => self::_wrapXml($limitationThree),
+                    ),
+                    'groupConfiguration' => array(
+                        'limitations' => $this->_wrapXml($limitationOne)),
+                    'version_hash'        => '1234567',
+                ),
+                '<limitations><limit2>5</limit2><limit1>1</limit1></limitations>'
             ),
         );
     }
