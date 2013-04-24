@@ -34,7 +34,6 @@
 $paypalHelper = Mage::helper('Saas_Paypal_Helper_Data');
 
 ?>
-<h1><?php echo $this->getHtmlId(); ?></h1>
 <?php $_account = $this->getAccount() ?>
 <?php if ($this->isDisplayAccount() && !empty($_account)) : ?>
 <tr id="row0_<?php echo $this->getHtmlId() ?>">
@@ -97,7 +96,89 @@ function enterBoarding(methodCode, isAccelerated)
 }
 
 if (!FormElementDependenceController.prototype.redefined) {
-    FormElementDependenceController.prototype.trackChange = function(e, idTo, valuesFrom)
+    FormElementDependenceController.prototype.trackChange = function(e, idTo, valuesFrom) {
+        var shouldShowUp = true;
+        for (var idFrom in valuesFrom) {
+            var from = $(idFrom);
+            if (from) {
+                var values = valuesFrom[idFrom]['values'];
+                var isInArray = values.indexOf(from.value) != -1;
+                var isNegative = valuesFrom[idFrom]['negative'];
+                if (!from || isInArray && isNegative || !isInArray && !isNegative) {
+                    shouldShowUp = false;
+                }
+            }
+        }
+        // toggle target row
+        var headElement = $(idTo + '-head');
+        if (shouldShowUp) {
+            var currentConfig = this._config;
+            if ($(idTo).select('input', 'select', 'td')) {
+                $(idTo).select('input', 'select', 'td').each(function (item) {
+                    // don't touch hidden inputs (and Use Default inputs too), bc they may have custom logic
+                    if ((!item.type || item.type != 'hidden') && !($(item.id+'_inherit') && $(item.id+'_inherit').checked)
+                        && !(currentConfig.can_edit_price != undefined && !currentConfig.can_edit_price)) {
+                        item.disabled = false;
+                    }
+                });
+            }
+            if (headElement) {
+                headElement.show();
+                if (headElement.hasClassName('open')) {
+                    $(idTo).show();
+                } else {
+                    $(idTo).hide();
+                }
+            } else {
+                $(idTo).show();
+            }
+        } else {
+            if ($(idTo).select('input', 'select', 'td')) {
+                $(idTo).select('input', 'select', 'td').each(function (item){
+                    // don't touch hidden inputs (and Use Default inputs too), bc they may have custom logic
+                    if ((!item.type || item.type != 'hidden') && !($(item.id+'_inherit') && $(item.id+'_inherit').checked)) {
+                        item.disabled = true;
+                    }
+                });
+            }
+            if (headElement) {
+                headElement.hide();
+            }
+            $(idTo).hide();
+        }
+
+        var rowElement = $('row_' + idTo);
+        if (rowElement) {
+            if (shouldShowUp) {
+                rowElement.show();
+            } else {
+                rowElement.hide();
+            }
+        }
+
+        if (idTo == 'payment_paypal_group_all_in_one_wpp_us_wpp_required_settings_wpp_and_express_checkout_direct_boarding_status_us'
+            || idTo == 'payment_paypal_group_all_in_one_wpp_us_wpp_required_settings_wpp_and_express_checkout_direct_boarding_status_other'
+            || idTo == 'payment_paypal_group_all_in_one_saas_wpp_us_wpp_required_settings_wpp_and_express_checkout_direct_boarding_status_us'
+            || idTo == 'payment_paypal_group_all_in_one_saas_wpp_us_wpp_required_settings_wpp_and_express_checkout_direct_boarding_status_other'
+            || idTo == 'payment_paypal_group_all_in_one_gb_wpp_us_wpp_required_settings_wpp_and_express_checkout_direct_boarding_status_us'
+            || idTo == 'payment_paypal_group_all_in_one_gb_wpp_us_wpp_required_settings_wpp_and_express_checkout_direct_boarding_status_other') {
+            var elementList = [$('row0_'+idTo), $('row2_'+idTo)];
+            for (var i = 0; i < elementList.length; i++)
+            {
+                if (elementList[i]) {
+                    if (shouldShowUp) {
+                        elementList[i].show();
+                    } else {
+                        elementList[i].hide();
+                    }
+                }
+            }
+        }
+    }
+}
+FormElementDependenceController.prototype.redefined = 1;
+/*
+function(e, idTo, valuesFrom)
     {
         if (!$(idTo)) {
             return;
@@ -109,10 +190,14 @@ if (!FormElementDependenceController.prototype.redefined) {
             var from = $(idFrom);
             if (valuesFrom[idFrom] instanceof Array) {
                 if (!from || valuesFrom[idFrom].indexOf(from.value) == -1) {
+                    console.log(1);
+                    console.log(idFrom);
                     shouldShowUp = false;
                 }
             } else {
                 if (!from || from.value != valuesFrom[idFrom]) {
+                    console.log(2);
+                    console.log(idFrom);
                     shouldShowUp = false;
                 }
             }
@@ -130,15 +215,9 @@ if (!FormElementDependenceController.prototype.redefined) {
             });
             $(idTo).up(this._config.levels_up).show();
         } else {
-            var deleteFileFields = [
-                'payment_pphs_required_settings_pphs_api_cert_delete',
-                'payment_wpp_and_express_checkout_api_cert_delete',
-                'payment_express_checkout_required_express_checkout_api_cert_delete'
-            ];
             $(idTo).up(this._config.levels_up).select('input', 'select', 'td').each(function (item){
                 // don't touch hidden inputs (and Use Default inputs too), bc they may have custom logic
-                if ((!item.type || item.type != 'hidden') && !($(item.id+'_inherit') && $(item.id+'_inherit').checked)
-                    && deleteFileFields.indexOf(item.id) == -1) {
+                if ((!item.type || item.type != 'hidden') && !($(item.id+'_inherit') && $(item.id+'_inherit').checked)){
                     item.disabled = true;
                 }
             });
@@ -191,7 +270,6 @@ if (!FormElementDependenceController.prototype.redefined) {
         }
     }
 }
-FormElementDependenceController.prototype.redefined = 1;
-
+*/
 
 </script>
