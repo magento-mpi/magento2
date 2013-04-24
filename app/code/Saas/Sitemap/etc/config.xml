@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Saas_Sitemap>
+            <version>1.6.0.0</version>
+            <active>false</active>
+            <depends>
+                <Mage_Sitemap/>
+            </depends>
+        </Saas_Sitemap>
+    </modules>
+    <global>
+        <di>
+            <preferences>
+                <Mage_Page_Block_Html_Head>Saas_Sitemap_Block_Html_Head</Mage_Page_Block_Html_Head>
+            </preferences>
+        </di>
+    </global>
+    <default>
+        <sitemap>
+            <generate>
+                <verification_code/>
+            </generate>
+        </sitemap>
+    </default>
+</config>
