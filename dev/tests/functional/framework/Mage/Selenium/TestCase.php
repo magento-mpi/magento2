@@ -266,9 +266,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $result = null;
         try {
             $result = parent::__call($command, $arguments);
-        } catch (Exception $e) {
+        } catch (PHPUnit_Extensions_Selenium2TestCase_NoSeleniumException $e) {
             $this->markTestSkipped($e->getMessage());
-
         }
         return $result;
     }
