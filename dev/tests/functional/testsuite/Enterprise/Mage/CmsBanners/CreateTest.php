@@ -19,8 +19,6 @@
 class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
 {
 
-    public static $storeViewData;
-
     protected function assertPreconditions()
     {
         $this->loginAdminUser();
