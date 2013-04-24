@@ -57,7 +57,6 @@ class Enterprise_Mage_Attributes_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openAttribute($searchData)
     {
-        $this->waitForControlVisible('fieldset', 'attributes_grid');
         $searchData = $this->_prepareDataForSearch($searchData);
         $xpathTR = $this->search($searchData, 'attributes_grid');
         $this->assertNotNull($xpathTR, 'Attribute is not found');
