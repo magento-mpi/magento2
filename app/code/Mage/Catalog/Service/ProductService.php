@@ -18,6 +18,7 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
      *
      * @param mixed $request
      * @param mixed $version [optional]
+     * @throws Mage_Core_Service_Exception
      * @return Mage_Catalog_Model_Product
      */
     public function item($request, $version = null)
@@ -40,9 +41,26 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
         }
 
         if ($id) {
+            if ($version) {
+                if ('V1' === $version) {
+                    $product->setSkipReindex(false);
+                } elseif ('V2' === $version) {
+                    // should be implemented to skip re-indexing as the default case
+                    //$product->setSkipReindex(true);
+                }
+            }
+
             // TODO: we need this trick as because of improper handling when target record doesn't exist
             $product->setId(null);
-            $product->load($id);
+
+            try {
+                $product->load($id);
+            } catch (Mage_Core_Service_Exception $e) {
+                throw $e;
+            } catch (Exception $e) {
+                $message = Mage::helper('core')->__('An error occurred while loading the product.');
+                throw new Mage_Core_Service_Exception($message, Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
+            }
         }
 
         $this->prepareResponse(get_class($this), 'item', $product, $request);
@@ -51,10 +69,11 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
     }
 
     /**
-     * Return info about several products.
+     * Return collection of products.
      *
      * @param mixed $request
      * @param mixed $version [optional]
+     * @throws Mage_Core_Service_Exception
      * @return Mage_Catalog_Model_Resource_Product_Collection
      */
     public function items($request, $version = null)
@@ -68,16 +87,66 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
 
         $helper->applyPaginationToCollection($collection, $request);
 
-        $filters = $request->getFilters();
-        if ($filters) {
-            $helper->applyFiltersToCollection($collection, $filters);
-        }
+        $helper->applyFiltersToCollection($collection, $request);
 
-        // @todo or not TODO
-        $collection->load();
+        try {
+            $collection->load();
+        } catch (Mage_Core_Service_Exception $e) {
+            throw $e;
+        } catch (Exception $e) {
+            $message = Mage::helper('core')->__('An error occurred while loading the product collection.');
+            throw new Mage_Core_Service_Exception($message, Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
+        }
 
         $this->prepareResponse(get_class($this), 'items', $collection, $request);
 
         return $collection;
+    }
+
+    /**
+     * @param mixed $request
+     * @param string $version [optional]
+     * @throws Mage_Core_Service_Exception
+     */
+    public function create($request, $version = null)
+    {
+        $request = $this->prepareRequest(get_class($this), 'create', $request);
+
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::getModel('Mage_Catalog_Model_Product');
+
+        $product->setData($request->getData());
+
+        try {
+            $product->save();
+        } catch (Mage_Core_Service_Exception $e) {
+            throw $e;
+        } catch (Exception $e) {
+            $message = Mage::helper('core')->__('An error occurred while creating the product.');
+            throw new Mage_Core_Service_Exception($message, Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    /**
+     * @param mixed $request
+     * @param string $version [optional]
+     * @throws Mage_Core_Service_Exception
+     */
+    public function update($request, $version = null)
+    {
+        $request = $this->prepareRequest(get_class($this), 'update', $request);
+
+        $product = $this->item($request);
+
+        $product->addData($request->getData());
+
+        try {
+            $product->save();
+        } catch (Mage_Core_Service_Exception $e) {
+            throw $e;
+        } catch (Exception $e) {
+            $message = Mage::helper('core')->__('An error occurred while updating the product.');
+            throw new Mage_Core_Service_Exception($message, Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
+        }
     }
 }

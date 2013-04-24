@@ -152,8 +152,7 @@ class Mage_Catalog_Service_CategoryService extends Mage_Core_Service_Type_Abstra
                 return false;
             }
         } catch (Mage_Core_Service_Exception $e) {
-            $code = $e->getCode() ? $e->getCode() : Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR;
-            throw new Mage_Core_Service_Exception($e->getMessage(), $code);
+            throw $e;
         } catch (Exception $e) {
             throw new Mage_Core_Service_Exception($e->getMessage(), Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
         }

@@ -23,21 +23,24 @@ class Mage_Core_Service_Helper_Filters extends Mage_Core_Service_Helper_Abstract
         }
     }
 
-    public function applyFiltersToCollection($collection, array $filters = array())
+    public function applyFiltersToCollection($collection, $request)
     {
-        foreach ($filters as $key => $condition) {
-            switch ($key) {
-                case '$and':
-                    $this->applyAndConditionToCollection($collection, $condition);
-                    break;
-                case '$or':
-                    $this->applyOrConditionToCollection($collection, $condition);
-                    break;
-                case '$func':
-                    $this->applyFunctionalConditionToCollection($collection, $key, $condition);
-                    break;
-                default:
-                    $this->applyAttributeConditionToCollection($collection, $key, $condition);
+        $filters = $request->getFilters();
+        if ($filters) {
+            foreach ($filters as $key => $condition) {
+                switch ($key) {
+                    case '$and':
+                        $this->applyAndConditionToCollection($collection, $condition);
+                        break;
+                    case '$or':
+                        $this->applyOrConditionToCollection($collection, $condition);
+                        break;
+                    case '$func':
+                        $this->applyFunctionalConditionToCollection($collection, $key, $condition);
+                        break;
+                    default:
+                        $this->applyAttributeConditionToCollection($collection, $key, $condition);
+                }
             }
         }
     }
