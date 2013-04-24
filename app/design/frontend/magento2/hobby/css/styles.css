@@ -1333,6 +1333,47 @@ h6 {
   font-weight: normal;
   -webkit-font-smoothing: antialiased;
 }
+.review.view {
+  *zoom: 1;
+}
+.review.view:before,
+.review.view:after {
+  content: "";
+  display: table;
+}
+.review.view:after {
+  clear: both;
+}
+.review.view .product.name {
+  margin: 0.5em 0;
+  font-family: "benchnine";
+  line-height: 1.2;
+  font-weight: 400;
+  font-size: 30px;
+  color: #393939;
+}
+.review.view .product.details {
+  float: left;
+  width: 300px;
+}
+.review.view .review.details {
+  float: right;
+  width: 480px;
+}
+.review.view .review.details .review.title {
+  margin: 0.5em 0;
+  font-family: "benchnine";
+  line-height: 1.2;
+  font-weight: 400;
+  font-size: 24px;
+  color: #393939;
+}
+.review.view .review.details .reviews.summary {
+  margin: 10px 0;
+}
+.review.view .review.details .review.content {
+  margin: 20px 0;
+}
 .reviews.summary {
   line-height: 16px;
 }

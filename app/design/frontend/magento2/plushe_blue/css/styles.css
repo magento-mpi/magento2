@@ -1425,7 +1425,6 @@ a:visited:hover {
   padding: 0 0 10px;
   padding-right: 10px;
   display: table-cell;
-  margin-right: ;
 }
 .review.view .review.details .ratings.summary .label:after {
   content: ': ';
