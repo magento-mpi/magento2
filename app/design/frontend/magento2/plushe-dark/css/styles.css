@@ -1548,6 +1548,15 @@ ul.messages ul {
 .success-msg > *:first-child:after {
   border-right-color: #42b649;
 }
+.success-msg a,
+.success-msg a:visited {
+  color: #103f13;
+  text-decoration: underline;
+}
+.success-msg a:hover,
+.success-msg a:visited:hover {
+  color: #061607;
+}
 .notice-msg,
 .note-msg {
   background: #ffedb8;
@@ -1562,6 +1571,19 @@ ul.messages ul {
 .note-msg > *:first-child:after {
   border-right-color: #ffc000;
 }
+.notice-msg a,
+.note-msg a,
+.notice-msg a:visited,
+.note-msg a:visited {
+  color: #5f4800;
+  text-decoration: underline;
+}
+.notice-msg a:hover,
+.note-msg a:hover,
+.notice-msg a:visited:hover,
+.note-msg a:visited:hover {
+  color: #2c2100;
+}
 .error-msg {
   background: #ffd9d0;
   color: #911c00;
@@ -1572,6 +1594,15 @@ ul.messages ul {
 }
 .error-msg > *:first-child:after {
   border-right-color: #ff3200;
+}
+.error-msg a,
+.error-msg a:visited {
+  color: #5e1200;
+  text-decoration: underline;
+}
+.error-msg a:hover,
+.error-msg a:visited:hover {
+  color: #2b0800;
 }
 /*
  *    Mage_CatalogSearch
