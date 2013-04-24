@@ -34,7 +34,7 @@ class Mage_Core_Model_EntryPoint_HttpTest extends PHPUnit_Framework_TestCase
             array($config, $objectManager));
         ob_start();
         $model->processRequest();
-        $content = ob_get_flush();
+        $content = ob_get_clean();
 
         $headers = xdebug_get_headers();
         $this->assertContains('Content-Type: text/plain', $headers);

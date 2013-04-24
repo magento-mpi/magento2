@@ -56,6 +56,8 @@ class Mage_Core_Model_Dir_Verification
     protected $_dirsToVerify = array();
 
     /**
+     * Constructor - initialize object with required dependencies, determine application state
+     *
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_App_State $appState
@@ -83,7 +85,7 @@ class Mage_Core_Model_Dir_Verification
             ? self::$_productionDirs
             : self::$_nonProductionDirs;
         foreach ($codes as $code) {
-            $result[] = $this->_dirs->getDir($code);
+            $result[] = str_replace(DIRECTORY_SEPARATOR, '/', $this->_dirs->getDir($code));
         }
         return $result;
     }
@@ -93,53 +95,26 @@ class Mage_Core_Model_Dir_Verification
      */
     public function createAndVerifyDirectories()
     {
-        $this->_createMissingDirectories();
-        $this->_verifyWriteAccess();
-    }
-
-    /**
-     * Create the required application directories, if they are missed
-     *
-     * @throws Magento_BootstrapException
-     */
-    protected function _createMissingDirectories()
-    {
         $fails = array();
         foreach ($this->_dirsToVerify as $dir) {
-            try {
-                if ($this->_filesystem->isDirectory($dir)) {
-                    continue;
+            if ($this->_filesystem->isDirectory($dir)) {
+                if (!$this->_filesystem->isWritable($dir)) {
+                    $fails[] = $dir;
                 }
-                $this->_filesystem->createDirectory($dir);
-            } catch (Magento_Filesystem_Exception $e) {
-                $fails[] = $dir;
+            } else {
+                try {
+                    $this->_filesystem->createDirectory($dir);
+                } catch (Magento_Filesystem_Exception $e) {
+                    $fails[] = $dir;
+                }
             }
         }
 
         if ($fails) {
-            $dirList = str_replace('/', DIRECTORY_SEPARATOR, implode(', ', $fails));
+            $dirList = implode(', ', $fails);
             throw new Magento_BootstrapException(
-                "Cannot create all required directories, check write access: {$dirList}"
+                "Cannot create or verify write access: {$dirList}"
             );
-        }
-    }
-
-    /**
-     * Check the directories for write access
-     *
-     * @throws Magento_BootstrapException
-     */
-    protected function _verifyWriteAccess()
-    {
-        $fails = array();
-        foreach ($this->_dirsToVerify as $dir) {
-            if (!$this->_filesystem->isWritable($dir)) {
-                $fails[] = $dir;
-            }
-        }
-        if ($fails) {
-            $dirList = str_replace('/', DIRECTORY_SEPARATOR, implode(', ', $fails));
-            throw new Magento_BootstrapException("Write access is needed: {$dirList}");
         }
     }
 }
