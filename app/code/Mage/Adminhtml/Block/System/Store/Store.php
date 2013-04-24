@@ -34,7 +34,7 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widget_
     {
         /* Update default add button to add website button */
         $this->_updateButton('add', 'label', Mage::helper('Mage_Core_Helper_Data')->__('Create Website'));
-        $this->_updateButton('add', 'onclick', "setLocation('".$this->getUrl('*/*/newWebsite')."')");
+        $this->_updateButton('add', 'onclick', null);
 
         /* Add Store Group button */
         $this->_addButton('add_group', array(
@@ -58,12 +58,20 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widget_
         return parent::_prepareLayout();
     }
 
-    public function getAddNewButtonHtml()
+    /**
+     * Make additional actions, before rendering the block
+     *
+     * @return Mage_Adminhtml_Block_System_Store_Store
+     */
+    protected function _beforeToHtml()
     {
-        return join(' ', array(
-            $this->getChildHtml('add_new_website'),
-            $this->getChildHtml('add_new_group'),
-            $this->getChildHtml('add_new_store')
-        ));
+        parent::_beforeToHtml();
+
+        // Add javascript for the Create Website button
+        $block = $this->_layout->createBlock('Mage_Adminhtml_Block_System_Store_Store_Button_CreateWebsiteJs');
+        $html = $block->toHtml();
+        $this->_updateButton('add', 'after_html', $html);
+
+        return $this;
     }
 }
