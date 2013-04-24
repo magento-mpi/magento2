@@ -10,9 +10,9 @@
  */
 -->
 <layout>
-    <default>
+    <cms_index_index>
         <reference name="head">
             <action method="addMetaTag" ifconfig="google/googleshopping/verify_meta_tag"><metadata helper="Mage_GoogleShopping_Helper_SiteVerification::getMetaTag" /></action>
         </reference>
-    </default>
+    </cms_index_index>
 </layout>
