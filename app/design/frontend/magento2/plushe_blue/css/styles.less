@@ -1211,6 +1211,9 @@ a:visited {
 .successMsg() {
     background: #d3edd5;
     color: #1b6720;
+    a {
+        color: darken(#1b6720, 30%);
+    }
     >*:first-child:before {
         content: "\e013";
         background: #42b649;
@@ -1223,6 +1226,9 @@ a:visited {
 .noticeMsg() {
     background: #ffedb8;
     color: #926e00;
+    a {
+        color: darken(#926e00, 30%);
+    }
     >*:first-child:before {
         content: "\e00e";
         background: #ffc000;
@@ -1235,6 +1241,9 @@ a:visited {
 .errorMsg() {
     background: #ffd9d0;
     color: #911c00;
+    a {
+        color: darken(#911c00, 30%);
+    }
     >*:first-child:before {
         content: "\e00e";
         background: #ff3200;

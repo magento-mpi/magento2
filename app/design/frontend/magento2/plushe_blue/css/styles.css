@@ -1527,6 +1527,9 @@ ul.messages ul {
   background: #d3edd5;
   color: #1b6720;
 }
+.success-msg a {
+  color: #000000;
+}
 .success-msg > *:first-child:before {
   content: "\e013";
   background: #42b649;
@@ -1538,6 +1541,10 @@ ul.messages ul {
 .note-msg {
   background: #ffedb8;
   color: #926e00;
+}
+.notice-msg a,
+.note-msg a {
+  color: #000000;
 }
 .notice-msg > *:first-child:before,
 .note-msg > *:first-child:before {
@@ -1551,6 +1558,9 @@ ul.messages ul {
 .error-msg {
   background: #ffd9d0;
   color: #911c00;
+}
+.error-msg a {
+  color: #000000;
 }
 .error-msg > *:first-child:before {
   content: "\e00e";
