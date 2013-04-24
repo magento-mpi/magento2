@@ -19,6 +19,7 @@ dev/tests/integration/testsuite/integrity/modular/ViewFilesTest.php
 dev/tests/integration/testsuite/integrity/theme/RenderersTest.php
 dev/tests/integration/testsuite/Mage/ImportExport/Model/Import/Entity/_files/customer_composite_update_reward_enterprise.csv
 dev/tests/integration/testsuite/Theme
+dev/tests/integration/testsuite/integrity/modular/_files/view_files_ee.php
 dev/tests/static/testsuite/Integrity/Enterprise
 dev/tests/static/testsuite/Js/_files/{whitelist,blacklist}/ee.txt
 dev/tests/static/testsuite/Legacy/_files/obsolete_classes_ee.php
