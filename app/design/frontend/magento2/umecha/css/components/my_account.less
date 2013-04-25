@@ -1,0 +1,193 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @package     magento2_umecha
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+/*
+    MY ACCOUNT
+-------------------------------------- */
+body.account {
+    .page.title {
+        > .title {
+            float: left;
+        }
+        > .action {
+            float: right;
+            margin: 11px 0 0 10px;
+            .buttonStyles(@color3, @light, @color8, @dark);
+        }
+    }
+}
+
+.dashboard {
+    &.block {
+        .clearfix;
+        margin-bottom: 50px;
+        > .title {
+            font: 16px @font1;
+            text-transform: uppercase;
+            margin-bottom: 17px;
+        }
+        > .title,
+        .subtitle {
+            .action {
+                .resetAction;
+                .colorA(@link, @dark);
+                text-transform: capitalize;
+                font: 11px @defaultFont;
+                margin-left: 10px;
+            }
+        }
+        > .content {
+            .box {
+                .column(6);
+            }
+            address {
+                font-style: normal;
+                margin: .75em 0;
+            }
+        }
+    }
+    &.welcome {
+        > .title {
+            font: 24px @font1;
+            text-transform: none;
+        }
+    }
+    &.info {
+    }
+    &.addresses {
+    }
+}
+
+
+.my-account {
+    .page-title {
+        display: none;
+    }
+    > .toolbar:first-child {
+        margin-top: 8px;
+    }
+    .form {
+        > .fieldset,
+        > .actions {
+            padding: 0 100px 0 0;
+        }
+    }
+    .block.addresses {
+        > .title {
+            font: 16px @font1;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+        > .content {
+            .box {
+                margin: 10px 0 20px;
+                .subtitle {
+                    .action {
+                        .resetAction;
+                        font: 11px @defaultFont;
+                        font-weight: 400;
+                        text-transform: none;
+                        .colorA(@link, @dark);
+                        margin-left: 5px;
+                    }
+                }
+                address {
+                    font-style: normal;
+                }
+            }
+        }
+    }
+    .table.orders {
+        .col.actions {
+            .action {
+                margin-right: 5px;
+            }
+        }
+    }
+    .table.reviews {
+        .product.name {
+            line-height: 1.666;
+            margin-bottom: 0;
+        }
+    }
+}
+
+
+.customer-address-index .column.main .actions {
+    clear: left;
+}
+
+
+/*
+    My Wishlist
+-------------------------------------- */
+.form.wishlist {
+    > .actions {
+        margin: 20px 0;
+        padding: 0;
+    }
+}
+.table.wishlist {
+    th,
+    td {
+        padding: 5px 10px;
+    }
+    .item-options {
+        dl {
+            margin: 0;
+            dt {
+                display: inline;
+                float: left;
+                clear: left;
+                font-weight: 600;
+                &:after {
+                    content: ':';
+                    margin-right: 5px;
+                }
+            }
+            dd {
+                margin: 0;
+            }
+        }
+    }
+    .col.photo {
+        width: 100px;
+    }
+    .col.actions {
+        width: 220px;
+        input.qty {
+            width: 50px;
+        }
+    }
+}
+
+/*
+    Review details
+-------------------------------------- */
+.review.view {
+  .clearfix();
+  .product.details {
+    float: left;
+    width: 300px;
+  }
+  .review.details {
+    float: right;
+    width: 480px;
+    .review.title {
+
+    }
+    .reviews.summary {
+      margin: 10px 0;
+    }
+    .review.content {
+      margin: 20px 0;
+    }
+  }
+}

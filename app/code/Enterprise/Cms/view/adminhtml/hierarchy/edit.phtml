@@ -16,9 +16,11 @@
 
 <div class="cms-hierarchy">
 
+    <?php if ($this->getStoreSwitcherHtml()): ?>
     <fieldset class="fieldset fieldset-switcher">
         <?php echo $this->getStoreSwitcherHtml() ?>
     </fieldset>
+    <?php endif; ?>
 
     <?php echo $this->getParentBlock()->getChildHtml('hierarchy_manage') ?>
 
@@ -30,7 +32,9 @@
         </div>
         <?php endif; ?>
 
-        <div id="tree-container" class="cms-tree tree x-tree"></div>
+        <div class="fieldset">
+            <div id="tree-container" class="cms-tree tree x-tree"></div>
+        </div>
     </div>
 
     <div class="cms-hierarchy-node">

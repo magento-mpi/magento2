@@ -25,7 +25,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
      *
      * @var Mage_Core_Model_Factory_Helper
      */
-    protected $_helperFactory;
+    protected $_helperLauncher;
 
     /**
      * Config data loader
@@ -46,27 +46,36 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
      */
     protected $_modelLogo;
 
+
+    /**
+     * @var Mage_Core_Model_Theme_Service
+     */
+    protected $_themeService;
+
     /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Backend_Model_Config $backendConfigModel
      * @param Mage_Backend_Model_Config_Loader $configLoader
      * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
      * @param Mage_Backend_Model_Config_Backend_Image_Logo $modelLogo
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Saas_Launcher_Helper_Data $helperLauncher
+     * @param Mage_Core_Model_Theme_Service $themeService
      */
     public function __construct(
         Mage_Core_Model_Config $config,
         Mage_Backend_Model_Config $backendConfigModel,
-        Mage_Core_Model_Factory_Helper $helperFactory,
+        Saas_Launcher_Helper_Data $helperLauncher,
         Mage_Backend_Model_Config_Loader $configLoader,
         Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
-        Mage_Backend_Model_Config_Backend_Image_Logo $modelLogo
+        Mage_Backend_Model_Config_Backend_Image_Logo $modelLogo,
+        Mage_Core_Model_Theme_Service $themeService
     ) {
         parent::__construct($config, $backendConfigModel);
         $this->_configLoader = $configLoader;
         $this->_configWriter = $configWriter;
         $this->_modelLogo = $modelLogo;
-        $this->_helperFactory = $helperFactory;
+        $this->_helperLauncher = $helperLauncher;
+        $this->_themeService = $themeService;
     }
 
 
@@ -94,12 +103,12 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
         ) {
             throw new Saas_Launcher_Exception('Theme is required.');
         }
-        /** @var $helper Saas_Launcher_Helper_Data */
-        $helper = $this->_helperFactory->get('Saas_Launcher_Helper_Data');
-        $store = $helper->getCurrentStoreView();
-        if ($store) {
-            $this->_backendConfigModel->setStore($store->getCode());
-        }
+        $store = $this->_helperLauncher->getCurrentStoreView();
+        $theme = $this->_themeService->reassignThemeToStores(
+            $data['groups']['design']['theme']['fields']['theme_id']['value'],
+            array($this->_helperLauncher->getCurrentStoreView()->getId())
+        );
+        $data['groups']['design']['theme']['fields']['theme_id']['value'] = $theme->getId();
 
         if (!empty($data['logo_src'])) {
             $file = $data['logo_src'];
@@ -123,7 +132,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
                 ->setScopeId($scopeId)
                 ->setValue(array(
                     'value' => $file,
-                    'tmp_name' => $helper->getTmpLogoPath($file)
+                    'tmp_name' => $this->_helperLauncher->getTmpLogoPath($file)
                 ))
                 ->save();
             unset($data['logo_src']);

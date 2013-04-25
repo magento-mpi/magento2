@@ -36,9 +36,9 @@
     <?php case 'customer': ?>
         <?php if(Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()): ?>
             <li class="customer welcome">
-                <a href="#" class="customer link">
+                <strong class="customer name">
                     <span><?php echo $this->getWelcome(); ?></span>
-                </a>
+                </strong>
                 <?php if($this->getChildHtml()):?>
                 <menu class="menu">
                     <?php echo $this->getChildHtml();?>

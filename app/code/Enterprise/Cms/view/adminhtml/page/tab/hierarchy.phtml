@@ -9,14 +9,16 @@
  */
 /* @var $this Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy */
 ?>
-<div class="entry-edit">
-    <div class="entry-edit-head">
-        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('This Page Belongs To') ?></h4>
-    </div>
+<div class="entry-edit form-inline">
     <div class="fieldset fieldset-wide">
+        <legend class="legend">
+            <span><?php echo $this->__('This Page Belongs To') ?></span>
+        </legend><br />
+
         <input type="hidden" name="node_ids" id="node_ids" value="<?php echo $this->getSelectedNodeIds() ?>" />
         <input type="hidden" name="website_root" id="website_root" value="<?php echo $this->getPage()->getWebsiteRoot() ?>" />
         <input type="hidden" name="nodes_data" id="nodes_data" value="" />
+
         <div id="tree-container" class="cms-tree tree x-tree"></div>
     </div>
 </div>

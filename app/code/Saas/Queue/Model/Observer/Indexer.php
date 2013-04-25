@@ -53,6 +53,7 @@ class Saas_Queue_Model_Observer_Indexer extends Saas_Queue_Model_ObserverAbstrac
      *
      * @param  Varien_Event_Observer $observer
      * @return Saas_Queue_Model_Observer_Indexer
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function processReindexAll(Varien_Event_Observer $observer)
     {
@@ -71,6 +72,7 @@ class Saas_Queue_Model_Observer_Indexer extends Saas_Queue_Model_ObserverAbstrac
      *
      * @param  Varien_Event_Observer $observer
      * @return Saas_Queue_Model_Observer_Indexer
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function processReindexRequired(Varien_Event_Observer $observer)
     {
