@@ -17,7 +17,7 @@ class Mage_Catalog_Model_Category_LimitationTest extends PHPUnit_Framework_TestC
     public function testIsCreateRestricted($createNum, $totalCount, $configuredCount, $expected)
     {
         $resource = $this->getMock('Mage_Catalog_Model_Resource_Category', array(), array(), '', false);
-        $resource->expects($this->any())->method('countAll')->will($this->returnValue($totalCount));
+        $resource->expects($this->any())->method('countVisible')->will($this->returnValue($totalCount));
 
         $config = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $config->expects($this->once())->method('getNode')
