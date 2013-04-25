@@ -149,8 +149,8 @@ textarea {
   font: 400 14px/1.33 "sourcesanspro";
 }
 html {
-  min-width: 1025px;
   background: #4d5d64;
+  min-width: 1025px;
 }
 body {
   position: relative;
@@ -7025,9 +7025,7 @@ img[align="right"] {
   margin-right: 30%;
 }
 .form.address.edit .field.note.default,
-.form.address.edit .field.choice.set,
-.form.wishlist.share .field.emails,
-.form.wishlist.share .field.text {
+.form.address.edit .field.choice.set {
   width: 100%;
 }
 .form.search.advanced,
