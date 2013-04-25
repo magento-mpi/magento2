@@ -11,7 +11,7 @@
 /**
  * Factory for Mage_Core_Model_Theme_File
  */
-class Mage_Core_Model_Theme_File_Factory
+class Mage_Core_Model_Theme_FileFactory
 {
     /**
      * Object Manager instance
