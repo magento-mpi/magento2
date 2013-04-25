@@ -116,6 +116,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_AbstractHelper
         }
         $this->addParameter($type, $this->defineParameterFromUrl($type, $taxUrl));
         $this->url($taxUrl);
+        $this->waitForPageToLoad();
         $this->validatePage();
     }
 
