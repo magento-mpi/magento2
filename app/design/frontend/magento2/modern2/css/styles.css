@@ -263,7 +263,7 @@ a > span:hover {
 }
 .column.main .block > .title strong {
   font-size: 15px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -281,7 +281,7 @@ a > span:hover {
 .sidebar .block > .title strong,
 .sidebar .block > .block-title strong {
   font-size: 13px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -311,7 +311,7 @@ a > span:hover {
 .page.title .title {
   margin: 0;
   font-size: 25px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -508,7 +508,7 @@ strong {
   background: #dc0000;
   color: #ffffff;
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1090,7 +1090,7 @@ strong {
 }
 .block.newsletter .actions {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1158,7 +1158,7 @@ strong {
 }
 .navigation {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -1481,7 +1481,7 @@ ul.messages ul {
 .block.filter .action.reset {
   color: #666666;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1588,7 +1588,7 @@ ul.messages ul {
 }
 .block.compare .content .actions .action.clear {
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1605,7 +1605,7 @@ ul.messages ul {
   background: #f6f4f3;
   color: #333333;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1808,7 +1808,7 @@ ul.messages ul {
   background: #f6f4f3;
   color: #333333;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1863,7 +1863,7 @@ ul.messages ul {
   color: #666666;
   text-decoration: none;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1887,7 +1887,7 @@ ul.messages ul {
   background: #f6f4f3;
   color: #333333;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -2551,7 +2551,7 @@ ul.messages ul {
 }
 .action.tocart span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -2564,7 +2564,7 @@ ul.messages ul {
 .action.tocompare,
 .action.towishlist {
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -2691,7 +2691,7 @@ ul.messages ul {
 }
 .block.add.review .fieldset > .legend {
   font-size: 16px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -2823,7 +2823,7 @@ ul.messages ul {
 }
 .block.add.review .action.submit span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3231,7 +3231,7 @@ ul.messages ul {
 }
 .checkout.paypal.before:before {
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3248,7 +3248,7 @@ ul.messages ul {
 }
 .checkout.paypal.after:after {
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3324,7 +3324,7 @@ ul.messages ul {
 }
 .action.checkout span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3575,7 +3575,7 @@ ul.messages ul {
 }
 .product.info.main .product.addto.links .action {
   font-size: 11px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3757,7 +3757,7 @@ ul.messages ul {
 .action.primary.customize span,
 .action.primary.tocart span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3804,7 +3804,7 @@ ul.messages ul {
   color: #666666;
   float: left;
   font-size: 14px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3822,7 +3822,7 @@ ul.messages ul {
 .box.tocart .control input {
   border: 0;
   font-size: 18px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3850,7 +3850,7 @@ ul.messages ul {
   margin: 15px 0;
   background: #f6f4f3;
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3876,7 +3876,7 @@ ul.messages ul {
 }
 .action.mailto {
   font-size: 11px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4067,7 +4067,7 @@ ul.messages ul {
   background: #f6f4f3;
   color: #333333;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4159,7 +4159,7 @@ ul.messages ul {
   outline: none;
   color: #666666;
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4178,7 +4178,7 @@ ul.messages ul {
 .block.product.tags .items + .add.tag .label {
   display: block;
   font-size: 15px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4281,7 +4281,7 @@ body.type-bundle {
 }
 .fieldset.bundle.options .legend {
   font-size: 20px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4421,7 +4421,7 @@ body.type-bundle {
   display: block;
   margin: 40px 0 0;
   font-size: 15px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4474,7 +4474,7 @@ body.type-bundle {
   color: #666666;
   text-decoration: underline;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4584,7 +4584,7 @@ body.type-bundle {
   float: left;
   line-height: 1.2;
   font-size: 16px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4659,7 +4659,7 @@ body.type-bundle {
 }
 .send.friend .actions .action.submit span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4680,7 +4680,7 @@ body.type-bundle {
   background: #f6f4f3;
   color: #333333;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4844,7 +4844,7 @@ body.type-bundle {
 .opc.wrapper > .opc .section > .step-title h2 {
   display: inline-block;
   font-size: 16px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4853,7 +4853,7 @@ body.type-bundle {
 }
 .opc.wrapper > .opc .section > .step-title .number {
   font-size: 16px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4942,7 +4942,7 @@ body.type-bundle {
 }
 .opc.wrapper .form:not(.login) .actions button.action span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5032,7 +5032,7 @@ body.type-bundle {
 }
 .opc.wrapper .form:not(.login) .inner-box h4 {
   font-size: 14px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5209,7 +5209,7 @@ body.type-bundle {
 }
 .step.login.wrapper button.action span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5284,7 +5284,7 @@ body.type-bundle {
 }
 .order.data.items tr.total .amount {
   font-size: 17px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5326,7 +5326,7 @@ body.type-bundle {
 }
 .cart.main.actions a {
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5343,7 +5343,7 @@ body.type-bundle {
 }
 .cart.main.actions .action.continue {
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5376,7 +5376,7 @@ body.type-bundle {
 }
 .cart.main.actions .action.update {
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5427,7 +5427,7 @@ body.type-bundle {
   text-shadow: none;
   outline: none;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5526,7 +5526,7 @@ body.type-bundle {
 .items.data .item.actions .action.edit span,
 .items.data .item.actions .action.towishlist span {
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5578,7 +5578,7 @@ body.type-bundle {
 }
 .cart.summary .summary.title {
   font-size: 16px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5656,7 +5656,7 @@ body.type-bundle {
   background: #f6f4f3;
   color: #333333;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5934,7 +5934,7 @@ body.type-bundle {
 }
 .cart.totals .amount {
   font-size: 17px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -6533,7 +6533,7 @@ body.type-bundle {
 .login.container .action.login span,
 .login.container .action.create span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -6732,7 +6732,7 @@ body.type-bundle {
   float: left;
   line-height: 1.2;
   font-size: 16px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -6835,7 +6835,7 @@ body.type-bundle {
 .form.password.forget .action.submit span,
 .form.create.account .action.submit span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -6904,7 +6904,7 @@ body.type-bundle {
   float: left;
   line-height: 1.2;
   font-size: 16px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -6990,7 +6990,7 @@ body.type-bundle {
 }
 .form.password.reset .action.submit span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -7025,7 +7025,7 @@ body.type-bundle {
 }
 .account .column.main > .page.title .action.add span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -7078,7 +7078,7 @@ body.type-bundle {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 15px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -7260,7 +7260,7 @@ body.type-bundle {
 }
 .my-account .actions .primary .action span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -7599,7 +7599,7 @@ body.type-bundle {
 }
 .my-account .data.wishlist .col.actions .link-edit {
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -7716,7 +7716,7 @@ body.type-bundle {
   background: #f6f4f3;
   color: #333333;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -8003,7 +8003,7 @@ body.type-bundle {
   background: #f6f4f3;
   color: #333333;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -8123,7 +8123,7 @@ img[align="right"] {
   z-index: 1;
   color: #111111;
   font-size: 14px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -8163,7 +8163,7 @@ img[align="right"] {
 }
 .banner.main .banner.action span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -8213,7 +8213,7 @@ img[align="right"] {
 }
 .std .page-title h1 {
   font-size: 25px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -8221,7 +8221,7 @@ img[align="right"] {
 }
 .std h2 {
   font-size: 18px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -8229,7 +8229,7 @@ img[align="right"] {
 }
 .std h3 {
   font-size: 16px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -8262,7 +8262,7 @@ img[align="right"] {
 .form.search.advanced .legend,
 .form.contact .legend {
   font-size: 15px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -8355,7 +8355,7 @@ img[align="right"] {
 .form.search.advanced .actions button.action span,
 .form.contact .actions button.action span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
