@@ -127,6 +127,7 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
             'name' => 'customer_segment_ids',
             'values' => $this->_segmentCollection->toOptionArray(),
             'required' => true,
+            'can_be_empty' => true,
         ));
 
         $htmlIdPrefix = $form->getHtmlIdPrefix();
