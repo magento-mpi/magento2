@@ -154,7 +154,7 @@ new_product:
                                         general_price: //input[@id='price' and not(@disabled)]
                                         general_description: //textarea[@id='description']
                                         general_weight: //input[@id='weight' and not(@disabled)]
-                                        general_categories: //input[@id='category_ids-suggest'][not(@class='mage-suggest-state-loading')]
+                                        general_categories: //input[@id='category_ids-suggest']
                                         general_qty: //input[@name='product[quantity_and_stock_status][qty]']
                                         general_user_attr_field: //input[@id='%attributeCodeField%']
                                         general_weight_disabled: //input[@id='weight' and (@disabled)]
@@ -282,15 +282,15 @@ new_product:
                                 grouped_associated_products:
                                     xpath: //*[@id='grouped_product_container']
                                     buttons:
-                                        add_products_to_group: //button[@id='grouped-add-products']
+                                        add_products_to_group: //button[@data-role='add-product']
                                         remove_product_from_group: //tr[td[normalize-space(text())='%productSku%']]//button[text()='Delete']
                                     fields:
-                                        associated_product_default_qty: //tr[td[normalize-space(text())='%productSku%']]//input[@name='qty']
+                                        associated_product_default_qty: //tr[td[normalize-space(text())='%productSku%']]//td[@data-column='qty']/input
                                     links:
-                                        move_grouped_product: //tr[td[normalize-space(text())='%productSku%']]//*[@class='ui-icon ui-icon-grip-dotted-vertical']
+                                        move_grouped_product: //tr[td[normalize-space(text())='%productSku%']]//*[@class='draggable-handle']
                                     pageelements:
-                                        selected_grouped_product: //tr[td[normalize-space(text())='%productSku%']]
                                         grouped_assigned_products: //tr[not(contains(@style,'display: none;'))]/td[@data-column='sku']
+                                        selected_grouped_product: //tr[td[normalize-space(text())='%productSku%']]
                             -
                                 bundle_items:
                                     xpath: //*[@id='bundle_product-wrapper']
@@ -340,7 +340,7 @@ new_product:
                                     buttons:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']
-                                        add_selected_products: //button[span='Add Products']
+                                        add_selected_products: //button[span='Add Selected Products']
                                         cancel_select_products: //button[span='Cancel']
                                     links:
                                         close_select_product_grid: //a[span='close']
@@ -727,7 +727,7 @@ new_product:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_and_continue_edit: //*[@data-ui-id='product-edit-save-split-button']
-            save_split_select: //*[@data-ui-id='product-edit-save-split-button-dropdown']
+            save_split_select: //button[@data-ui-id='product-edit-save-split-button-dropdown']
             save_product_by_action: //*[@id='save-split-button-%additionalAction%-button']
             save_disabled: //*[@data-ui-id='product-edit-save-split-button' and contains(@class, 'disabled')]
         messages: *productMesssages
