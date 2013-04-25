@@ -1838,17 +1838,21 @@ a.action.showcart .qty.empty {
 .search.advanced {
   padding: 0 150px 0 50px;
 }
+.search.advanced .price .range .field {
+  float: left;
+}
 .search.advanced .price .range .field input {
   border-radius: 5px;
 }
 .search.advanced .price .range .field.with-addon {
   position: relative;
-  padding-left: 30px;
+  margin-left: 30px;
+  width: 30%;
 }
 .search.advanced .price .range .field.with-addon:before {
   content: '—';
   position: absolute;
-  left: 5px;
+  left: -22px;
   top: 3px;
 }
 .search.advanced .price .range .field.with-addon .addafter {
@@ -5815,6 +5819,16 @@ body.account .page.title > .action.disabled:active {
 }
 .review.view .review.details .review.content {
   margin: 20px 0;
+}
+/*
+    Newsletter Subscription
+-------------------------------------- */
+.form.newsletter.manage .actions {
+  position: relative;
+}
+.form.newsletter.manage .actions .primary {
+  position: absolute;
+  left: 26%;
 }
 /*
     Checkout
