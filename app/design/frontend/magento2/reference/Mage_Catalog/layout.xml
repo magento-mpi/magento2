@@ -26,7 +26,7 @@ Default layout, loads most of the pages
 
     <default>
         <reference name="right">
-            <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
+            <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="product/compare/block.phtml"/>
         </reference>
         <block type="Mage_Catalog_Block_Product_Price_Template" name="catalog_product_price_template" />
     </default>
@@ -136,7 +136,7 @@ Product view
         </reference>
         <update handle="page_calendar"/>
 
-        <block type="Mage_Catalog_Block_Product_View" name="product.info.form" template="product/view/form.phtml">
+        <block type="Mage_Catalog_Block_Product_View" name="product.info" template="product/view/form.phtml">
             <container name="product.info.form.content" label="invisible" as="product_info_form_content">
                 <block type="Mage_Catalog_Block_Product_View" name="product.info.addtocart" as="addtocart" template="product/view/addtocart.phtml"/>
             </container>
@@ -161,7 +161,7 @@ Product view
             </block>
         </block>
 
-        <move element="product.info.form" destination="product.info.main" after="product.tierprices"/>
+        <move element="product.info" destination="product.info.main" after="product.tierprices"/>
         <reference name="content">
                 <container name="product.info.main" label="invisible" htmlTag="div" htmlClass="product info main" before="-">
                     <block type="Mage_Catalog_Block_Product_View" name="product.price" template="product/view/price.phtml"/>

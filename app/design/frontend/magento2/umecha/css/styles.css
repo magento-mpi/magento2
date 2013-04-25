@@ -2,10 +2,10 @@
 /**
  * {license_notice}
  *
- * @category   design
- * @package    magento2_umecha
- * @copyright  {copyright}
- * @license    {license_link}
+ * @category    design
+ * @package     magento2_umecha
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 /* Fonts variables */
 /* Layout variables */
@@ -69,7 +69,11 @@ textarea {
   color: #5e5e5e;
   font: 400 12px/1.786 Arial, Verdana, sans-serif;
 }
+html {
+  min-width: 1025px;
+}
 body {
+  position: relative;
   background-color: #f5e1db;
   background-image: url(../images/main-bg.jpg);
   background-repeat: repeat;
@@ -1963,6 +1967,7 @@ a.action.showcart .qty.empty {
   margin: 12px -27px 0 -27px;
   background-color: #7b645f;
   border-radius: 5px;
+  z-index: 2;
 }
 .navigation > ul > .level-top > .submenu:before {
   position: absolute;
@@ -2040,6 +2045,57 @@ a.action.showcart .qty.empty {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+.navigation > ul > .level-top.more.parent > a:after {
+  font-family: "Icons";
+  font-size: 8px;
+  line-height: 8px;
+  height: 8px;
+  content: '\e012';
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.navigation > ul > .level-top.more.parent > a:after {
+  margin: -4px 0 0 8px;
+}
+.navigation > ul > .level-top.more.parent > .submenu {
+  left: auto;
+  right: 0;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul:before {
+  left: auto;
+  right: 30px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .column > a span {
+  text-transform: uppercase;
+  padding-left: 17px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .column > a + .submenu {
+  margin-top: 11px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level1 > a span {
+  text-transform: capitalize;
+  padding-left: 27px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level1 > a + .submenu {
+  margin-top: 0;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level2 > a span {
+  padding-left: 37px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level3 > a span {
+  padding-left: 47px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level4 > a span {
+  padding-left: 57px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level4 li[class^="level"] > a span {
+  padding-left: 67px;
 }
 /*
     Breadcrumbs
@@ -2670,6 +2726,114 @@ a.action.showcart .qty.empty {
 }
 .toolbar .action.previous span:after {
   content: '\e02b';
+}
+/*
+    Ratings
+-------------------------------------- */
+.field.ratings input[type="radio"] {
+  position: absolute;
+  margin-left: -999em;
+}
+.field.ratings {
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+.field.ratings > .label {
+  margin-bottom: 20px;
+}
+.field.ratings .nested {
+  display: table;
+}
+.field.ratings .field.rating {
+  display: table-row;
+}
+.field.ratings .field.rating > .label {
+  display: table-cell;
+  vertical-align: top;
+  padding: 4px 0 6px;
+}
+.field.ratings .field.rating .control {
+  padding: 0 5px;
+  display: table-cell;
+  z-index: 1;
+}
+.field.ratings .field.rating .control:before {
+  letter-spacing: 0.2em;
+  position: absolute;
+  z-index: 1;
+  display: block;
+  float: left;
+  font-family: "MUI-Icons";
+  content: "\e01a\e01a\e01a\e01a\e01a";
+  font-style: normal;
+  font-size: 16px;
+  color: rgba(225, 134, 134, 0.3);
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+}
+.field.ratings .field.rating .control input:focus + label:before,
+.field.ratings .field.rating .control input:checked + label:before {
+  color: #e18686;
+  opacity: 1;
+}
+.field.ratings .field.rating .control label {
+  position: absolute;
+  display: block;
+  cursor: pointer;
+}
+.field.ratings .field.rating .control label span {
+  display: none;
+}
+.field.ratings .field.rating .control label:before {
+  letter-spacing: 0.2em;
+  font-family: "MUI-Icons";
+  font-style: normal;
+  font-size: 16px;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  opacity: 0;
+}
+.field.ratings .field.rating .control label:hover:before {
+  color: #e18686;
+  opacity: 1;
+}
+.field.ratings .field.rating .control label:hover ~ label:before {
+  opacity: 0 !important;
+}
+.field.ratings .field.rating .control .rating-1 {
+  z-index: 6;
+}
+.field.ratings .field.rating .control .rating-1:before {
+  content: "\e01a";
+}
+.field.ratings .field.rating .control .rating-2 {
+  z-index: 5;
+}
+.field.ratings .field.rating .control .rating-2:before {
+  content: "\e01a\e01a";
+}
+.field.ratings .field.rating .control .rating-3 {
+  z-index: 4;
+}
+.field.ratings .field.rating .control .rating-3:before {
+  content: "\e01a\e01a\e01a";
+}
+.field.ratings .field.rating .control .rating-4 {
+  z-index: 3;
+}
+.field.ratings .field.rating .control .rating-4:before {
+  content: "\e01a\e01a\e01a\e01a";
+}
+.field.ratings .field.rating .control .rating-5 {
+  z-index: 2;
+}
+.field.ratings .field.rating .control .rating-5:before {
+  content: "\e01a\e01a\e01a\e01a\e01a";
 }
 /*
     Reviews
@@ -3803,7 +3967,7 @@ body.type-bundle {
   width: 100%;
 }
 .fieldset.bundle.options .nested .field {
-  margin: 10px 0;
+  margin: 5px 0;
 }
 .fieldset.bundle.options .nested .field.qty {
   margin-top: 20px;
@@ -4065,7 +4229,7 @@ body.type-bundle {
 .block.crosssell,
 .block.upsell,
 .block.related,
-.column.main .widget-new-products {
+.column.main .block.widget.new {
   clear: both;
   margin: 30px 0 65px;
 }
@@ -4073,7 +4237,7 @@ body.type-bundle {
 .block.crosssell > .title,
 .block.upsell > .title,
 .block.related > .title,
-.column.main .widget-new-products > .title {
+.column.main .block.widget.new > .title {
   background: url(../images/block-title-bg.png) no-repeat 50% 55%;
   font: 18px 'Droid Serif', Arial, sans-serif;
   text-align: center;
@@ -4085,7 +4249,7 @@ body.type-bundle {
 .block.crosssell > .title > strong,
 .block.upsell > .title > strong,
 .block.related > .title > strong,
-.column.main .widget-new-products > .title > strong {
+.column.main .block.widget.new > .title > strong {
   padding: 0 15px;
   background: #ffffff;
 }
@@ -4093,19 +4257,14 @@ body.type-bundle {
 .block.crosssell > .content,
 .block.upsell > .content,
 .block.related > .content,
-.column.main .widget-new-products > .content {
+.column.main .block.widget.new > .content {
   padding: 20px 0 0;
 }
 .block.widget.viewed .products.list,
 .block.crosssell .products.list,
 .block.upsell .products.list,
 .block.related .products.list,
-.column.main .widget-new-products .products.list,
-.block.widget.viewed .products-list,
-.block.crosssell .products-list,
-.block.upsell .products-list,
-.block.related .products-list,
-.column.main .widget-new-products .products-list {
+.column.main .block.widget.new .products.list {
   margin: 0 -20px;
   padding-top: 20px;
 }
@@ -4113,22 +4272,12 @@ body.type-bundle {
 .block.crosssell .products.list .item.product,
 .block.upsell .products.list .item.product,
 .block.related .products.list .item.product,
-.column.main .widget-new-products .products.list .item.product,
-.block.widget.viewed .products-list .item.product,
-.block.crosssell .products-list .item.product,
-.block.upsell .products-list .item.product,
-.block.related .products-list .item.product,
-.column.main .widget-new-products .products-list .item.product,
+.column.main .block.widget.new .products.list .item.product,
 .block.widget.viewed .products.list > .item,
 .block.crosssell .products.list > .item,
 .block.upsell .products.list > .item,
 .block.related .products.list > .item,
-.column.main .widget-new-products .products.list > .item,
-.block.widget.viewed .products-list > .item,
-.block.crosssell .products-list > .item,
-.block.upsell .products-list > .item,
-.block.related .products-list > .item,
-.column.main .widget-new-products .products-list > .item {
+.column.main .block.widget.new .products.list > .item {
   display: inline;
   float: left;
   width: 33.33333333333333%;
@@ -4146,22 +4295,12 @@ body.type-bundle {
 .block.crosssell .products.list .item.product .product.photo,
 .block.upsell .products.list .item.product .product.photo,
 .block.related .products.list .item.product .product.photo,
-.column.main .widget-new-products .products.list .item.product .product.photo,
-.block.widget.viewed .products-list .item.product .product.photo,
-.block.crosssell .products-list .item.product .product.photo,
-.block.upsell .products-list .item.product .product.photo,
-.block.related .products-list .item.product .product.photo,
-.column.main .widget-new-products .products-list .item.product .product.photo,
+.column.main .block.widget.new .products.list .item.product .product.photo,
 .block.widget.viewed .products.list > .item .product.photo,
 .block.crosssell .products.list > .item .product.photo,
 .block.upsell .products.list > .item .product.photo,
 .block.related .products.list > .item .product.photo,
-.column.main .widget-new-products .products.list > .item .product.photo,
-.block.widget.viewed .products-list > .item .product.photo,
-.block.crosssell .products-list > .item .product.photo,
-.block.upsell .products-list > .item .product.photo,
-.block.related .products-list > .item .product.photo,
-.column.main .widget-new-products .products-list > .item .product.photo {
+.column.main .block.widget.new .products.list > .item .product.photo {
   float: left;
   margin-right: 20px;
 }
@@ -4169,86 +4308,46 @@ body.type-bundle {
 .block.crosssell .products.list .item.product .product.details,
 .block.upsell .products.list .item.product .product.details,
 .block.related .products.list .item.product .product.details,
-.column.main .widget-new-products .products.list .item.product .product.details,
-.block.widget.viewed .products-list .item.product .product.details,
-.block.crosssell .products-list .item.product .product.details,
-.block.upsell .products-list .item.product .product.details,
-.block.related .products-list .item.product .product.details,
-.column.main .widget-new-products .products-list .item.product .product.details,
+.column.main .block.widget.new .products.list .item.product .product.details,
 .block.widget.viewed .products.list > .item .product.details,
 .block.crosssell .products.list > .item .product.details,
 .block.upsell .products.list > .item .product.details,
 .block.related .products.list > .item .product.details,
-.column.main .widget-new-products .products.list > .item .product.details,
-.block.widget.viewed .products-list > .item .product.details,
-.block.crosssell .products-list > .item .product.details,
-.block.upsell .products-list > .item .product.details,
-.block.related .products-list > .item .product.details,
-.column.main .widget-new-products .products-list > .item .product.details {
+.column.main .block.widget.new .products.list > .item .product.details {
   overflow: hidden;
 }
 .block.widget.viewed .products.list .item.product .product.name,
 .block.crosssell .products.list .item.product .product.name,
 .block.upsell .products.list .item.product .product.name,
 .block.related .products.list .item.product .product.name,
-.column.main .widget-new-products .products.list .item.product .product.name,
-.block.widget.viewed .products-list .item.product .product.name,
-.block.crosssell .products-list .item.product .product.name,
-.block.upsell .products-list .item.product .product.name,
-.block.related .products-list .item.product .product.name,
-.column.main .widget-new-products .products-list .item.product .product.name,
+.column.main .block.widget.new .products.list .item.product .product.name,
 .block.widget.viewed .products.list > .item .product.name,
 .block.crosssell .products.list > .item .product.name,
 .block.upsell .products.list > .item .product.name,
 .block.related .products.list > .item .product.name,
-.column.main .widget-new-products .products.list > .item .product.name,
-.block.widget.viewed .products-list > .item .product.name,
-.block.crosssell .products-list > .item .product.name,
-.block.upsell .products-list > .item .product.name,
-.block.related .products-list > .item .product.name,
-.column.main .widget-new-products .products-list > .item .product.name,
+.column.main .block.widget.new .products.list > .item .product.name,
 .block.widget.viewed .products.list .item.product .price-box,
 .block.crosssell .products.list .item.product .price-box,
 .block.upsell .products.list .item.product .price-box,
 .block.related .products.list .item.product .price-box,
-.column.main .widget-new-products .products.list .item.product .price-box,
-.block.widget.viewed .products-list .item.product .price-box,
-.block.crosssell .products-list .item.product .price-box,
-.block.upsell .products-list .item.product .price-box,
-.block.related .products-list .item.product .price-box,
-.column.main .widget-new-products .products-list .item.product .price-box,
+.column.main .block.widget.new .products.list .item.product .price-box,
 .block.widget.viewed .products.list > .item .price-box,
 .block.crosssell .products.list > .item .price-box,
 .block.upsell .products.list > .item .price-box,
 .block.related .products.list > .item .price-box,
-.column.main .widget-new-products .products.list > .item .price-box,
-.block.widget.viewed .products-list > .item .price-box,
-.block.crosssell .products-list > .item .price-box,
-.block.upsell .products-list > .item .price-box,
-.block.related .products-list > .item .price-box,
-.column.main .widget-new-products .products-list > .item .price-box {
+.column.main .block.widget.new .products.list > .item .price-box {
   margin: 0 0 10px;
 }
 .block.widget.viewed .products.list .item.product .addto.links,
 .block.crosssell .products.list .item.product .addto.links,
 .block.upsell .products.list .item.product .addto.links,
 .block.related .products.list .item.product .addto.links,
-.column.main .widget-new-products .products.list .item.product .addto.links,
-.block.widget.viewed .products-list .item.product .addto.links,
-.block.crosssell .products-list .item.product .addto.links,
-.block.upsell .products-list .item.product .addto.links,
-.block.related .products-list .item.product .addto.links,
-.column.main .widget-new-products .products-list .item.product .addto.links,
+.column.main .block.widget.new .products.list .item.product .addto.links,
 .block.widget.viewed .products.list > .item .addto.links,
 .block.crosssell .products.list > .item .addto.links,
 .block.upsell .products.list > .item .addto.links,
 .block.related .products.list > .item .addto.links,
-.column.main .widget-new-products .products.list > .item .addto.links,
-.block.widget.viewed .products-list > .item .addto.links,
-.block.crosssell .products-list > .item .addto.links,
-.block.upsell .products-list > .item .addto.links,
-.block.related .products-list > .item .addto.links,
-.column.main .widget-new-products .products-list > .item .addto.links {
+.column.main .block.widget.new .products.list > .item .addto.links {
   padding: 10px 0 0;
   border-top: 1px solid #e0e0e0;
 }
@@ -4256,22 +4355,12 @@ body.type-bundle {
 .block.crosssell .products.list .item.product .addto.links .action:after,
 .block.upsell .products.list .item.product .addto.links .action:after,
 .block.related .products.list .item.product .addto.links .action:after,
-.column.main .widget-new-products .products.list .item.product .addto.links .action:after,
-.block.widget.viewed .products-list .item.product .addto.links .action:after,
-.block.crosssell .products-list .item.product .addto.links .action:after,
-.block.upsell .products-list .item.product .addto.links .action:after,
-.block.related .products-list .item.product .addto.links .action:after,
-.column.main .widget-new-products .products-list .item.product .addto.links .action:after,
+.column.main .block.widget.new .products.list .item.product .addto.links .action:after,
 .block.widget.viewed .products.list > .item .addto.links .action:after,
 .block.crosssell .products.list > .item .addto.links .action:after,
 .block.upsell .products.list > .item .addto.links .action:after,
 .block.related .products.list > .item .addto.links .action:after,
-.column.main .widget-new-products .products.list > .item .addto.links .action:after,
-.block.widget.viewed .products-list > .item .addto.links .action:after,
-.block.crosssell .products-list > .item .addto.links .action:after,
-.block.upsell .products-list > .item .addto.links .action:after,
-.block.related .products-list > .item .addto.links .action:after,
-.column.main .widget-new-products .products-list > .item .addto.links .action:after {
+.column.main .block.widget.new .products.list > .item .addto.links .action:after {
   content: '';
   display: block;
 }
@@ -4279,108 +4368,58 @@ body.type-bundle {
 .block.crosssell .products.list .item.product .actions,
 .block.upsell .products.list .item.product .actions,
 .block.related .products.list .item.product .actions,
-.column.main .widget-new-products .products.list .item.product .actions,
-.block.widget.viewed .products-list .item.product .actions,
-.block.crosssell .products-list .item.product .actions,
-.block.upsell .products-list .item.product .actions,
-.block.related .products-list .item.product .actions,
-.column.main .widget-new-products .products-list .item.product .actions,
+.column.main .block.widget.new .products.list .item.product .actions,
 .block.widget.viewed .products.list > .item .actions,
 .block.crosssell .products.list > .item .actions,
 .block.upsell .products.list > .item .actions,
 .block.related .products.list > .item .actions,
-.column.main .widget-new-products .products.list > .item .actions,
-.block.widget.viewed .products-list > .item .actions,
-.block.crosssell .products-list > .item .actions,
-.block.upsell .products-list > .item .actions,
-.block.related .products-list > .item .actions,
-.column.main .widget-new-products .products-list > .item .actions {
+.column.main .block.widget.new .products.list > .item .actions {
   visibility: hidden;
 }
 .block.widget.viewed .products.list .item.product .actions .primary,
 .block.crosssell .products.list .item.product .actions .primary,
 .block.upsell .products.list .item.product .actions .primary,
 .block.related .products.list .item.product .actions .primary,
-.column.main .widget-new-products .products.list .item.product .actions .primary,
-.block.widget.viewed .products-list .item.product .actions .primary,
-.block.crosssell .products-list .item.product .actions .primary,
-.block.upsell .products-list .item.product .actions .primary,
-.block.related .products-list .item.product .actions .primary,
-.column.main .widget-new-products .products-list .item.product .actions .primary,
+.column.main .block.widget.new .products.list .item.product .actions .primary,
 .block.widget.viewed .products.list > .item .actions .primary,
 .block.crosssell .products.list > .item .actions .primary,
 .block.upsell .products.list > .item .actions .primary,
 .block.related .products.list > .item .actions .primary,
-.column.main .widget-new-products .products.list > .item .actions .primary,
-.block.widget.viewed .products-list > .item .actions .primary,
-.block.crosssell .products-list > .item .actions .primary,
-.block.upsell .products-list > .item .actions .primary,
-.block.related .products-list > .item .actions .primary,
-.column.main .widget-new-products .products-list > .item .actions .primary {
+.column.main .block.widget.new .products.list > .item .actions .primary {
   margin: 0 0 10px;
 }
 .block.widget.viewed .products.list .item.product:hover .actions,
 .block.crosssell .products.list .item.product:hover .actions,
 .block.upsell .products.list .item.product:hover .actions,
 .block.related .products.list .item.product:hover .actions,
-.column.main .widget-new-products .products.list .item.product:hover .actions,
-.block.widget.viewed .products-list .item.product:hover .actions,
-.block.crosssell .products-list .item.product:hover .actions,
-.block.upsell .products-list .item.product:hover .actions,
-.block.related .products-list .item.product:hover .actions,
-.column.main .widget-new-products .products-list .item.product:hover .actions,
+.column.main .block.widget.new .products.list .item.product:hover .actions,
 .block.widget.viewed .products.list > .item:hover .actions,
 .block.crosssell .products.list > .item:hover .actions,
 .block.upsell .products.list > .item:hover .actions,
 .block.related .products.list > .item:hover .actions,
-.column.main .widget-new-products .products.list > .item:hover .actions,
-.block.widget.viewed .products-list > .item:hover .actions,
-.block.crosssell .products-list > .item:hover .actions,
-.block.upsell .products-list > .item:hover .actions,
-.block.related .products-list > .item:hover .actions,
-.column.main .widget-new-products .products-list > .item:hover .actions {
+.column.main .block.widget.new .products.list > .item:hover .actions {
   visibility: visible;
 }
 .col2-left-layout .block.widget.viewed .products.list .item.product,
 .col2-left-layout .block.crosssell .products.list .item.product,
 .col2-left-layout .block.upsell .products.list .item.product,
 .col2-left-layout .block.related .products.list .item.product,
-.col2-left-layout .column.main .widget-new-products .products.list .item.product,
-.col2-left-layout .block.widget.viewed .products-list .item.product,
-.col2-left-layout .block.crosssell .products-list .item.product,
-.col2-left-layout .block.upsell .products-list .item.product,
-.col2-left-layout .block.related .products-list .item.product,
-.col2-left-layout .column.main .widget-new-products .products-list .item.product,
+.col2-left-layout .column.main .block.widget.new .products.list .item.product,
 .col2-left-layout .block.widget.viewed .products.list > .item,
 .col2-left-layout .block.crosssell .products.list > .item,
 .col2-left-layout .block.upsell .products.list > .item,
 .col2-left-layout .block.related .products.list > .item,
-.col2-left-layout .column.main .widget-new-products .products.list > .item,
-.col2-left-layout .block.widget.viewed .products-list > .item,
-.col2-left-layout .block.crosssell .products-list > .item,
-.col2-left-layout .block.upsell .products-list > .item,
-.col2-left-layout .block.related .products-list > .item,
-.col2-left-layout .column.main .widget-new-products .products-list > .item,
+.col2-left-layout .column.main .block.widget.new .products.list > .item,
 .col2-right-layout .block.widget.viewed .products.list .item.product,
 .col2-right-layout .block.crosssell .products.list .item.product,
 .col2-right-layout .block.upsell .products.list .item.product,
 .col2-right-layout .block.related .products.list .item.product,
-.col2-right-layout .column.main .widget-new-products .products.list .item.product,
-.col2-right-layout .block.widget.viewed .products-list .item.product,
-.col2-right-layout .block.crosssell .products-list .item.product,
-.col2-right-layout .block.upsell .products-list .item.product,
-.col2-right-layout .block.related .products-list .item.product,
-.col2-right-layout .column.main .widget-new-products .products-list .item.product,
+.col2-right-layout .column.main .block.widget.new .products.list .item.product,
 .col2-right-layout .block.widget.viewed .products.list > .item,
 .col2-right-layout .block.crosssell .products.list > .item,
 .col2-right-layout .block.upsell .products.list > .item,
 .col2-right-layout .block.related .products.list > .item,
-.col2-right-layout .column.main .widget-new-products .products.list > .item,
-.col2-right-layout .block.widget.viewed .products-list > .item,
-.col2-right-layout .block.crosssell .products-list > .item,
-.col2-right-layout .block.upsell .products-list > .item,
-.col2-right-layout .block.related .products-list > .item,
-.col2-right-layout .column.main .widget-new-products .products-list > .item {
+.col2-right-layout .column.main .block.widget.new .products.list > .item {
   display: inline;
   float: left;
   width: 33.33333333333333%;
@@ -4395,22 +4434,12 @@ body.type-bundle {
 .col3-layout .block.crosssell .products.list .item.product,
 .col3-layout .block.upsell .products.list .item.product,
 .col3-layout .block.related .products.list .item.product,
-.col3-layout .column.main .widget-new-products .products.list .item.product,
-.col3-layout .block.widget.viewed .products-list .item.product,
-.col3-layout .block.crosssell .products-list .item.product,
-.col3-layout .block.upsell .products-list .item.product,
-.col3-layout .block.related .products-list .item.product,
-.col3-layout .column.main .widget-new-products .products-list .item.product,
+.col3-layout .column.main .block.widget.new .products.list .item.product,
 .col3-layout .block.widget.viewed .products.list > .item,
 .col3-layout .block.crosssell .products.list > .item,
 .col3-layout .block.upsell .products.list > .item,
 .col3-layout .block.related .products.list > .item,
-.col3-layout .column.main .widget-new-products .products.list > .item,
-.col3-layout .block.widget.viewed .products-list > .item,
-.col3-layout .block.crosssell .products-list > .item,
-.col3-layout .block.upsell .products-list > .item,
-.col3-layout .block.related .products-list > .item,
-.col3-layout .column.main .widget-new-products .products-list > .item {
+.col3-layout .column.main .block.widget.new .products.list > .item {
   display: inline;
   float: left;
   width: 50%;
@@ -4926,6 +4955,42 @@ body.type-bundle {
 .sidebar .paypal-logo {
   margin: 0 0 50px 0;
 }
+.sidebar .widget.new {
+  margin-bottom: 50px;
+}
+.sidebar .widget.new > .title,
+.sidebar .widget.new > .block-title {
+  margin-bottom: 10px;
+}
+.sidebar .widget.new > .title strong,
+.sidebar .widget.new > .block-title strong {
+  text-transform: capitalize;
+  font: 14px/1 'Droid Serif', Arial, sans-serif;
+  font-weight: 400;
+}
+.sidebar .widget.new .products.minilist {
+  float: none;
+  border-right: 0;
+  max-width: 100%;
+  padding: 0;
+}
+.sidebar .widget.new .products.minilist > .item {
+  margin-bottom: 30px;
+  padding: 0 0 10px;
+  width: auto;
+  visibility: visible;
+  border: solid #e0e0e0;
+  border-width: 0 0 1px;
+}
+.sidebar .widget.new .products.minilist > .item:before {
+  display: none;
+}
+.sidebar .widget.new .products.minilist > .item .actions {
+  margin: 5px 0;
+}
+.sidebar .widget.new.photos .img.photo.container {
+  margin: 0 auto 20px;
+}
 .sidebar .item .product.name {
   font-family: Arial, Verdana, sans-serif;
 }
@@ -5061,7 +5126,7 @@ ul.messages ul {
 .header {
   position: relative;
   margin-bottom: 30px;
-  z-index: 2;
+  z-index: 100;
 }
 .header > .wrapper {
   background-color: #422937;
@@ -5671,6 +5736,10 @@ body.account .page.title > .action.disabled:active {
 .my-account .table.orders .col.actions .action {
   margin-right: 5px;
 }
+.my-account .table.reviews .product.name {
+  line-height: 1.666;
+  margin-bottom: 0;
+}
 .customer-address-index .column.main .actions {
   clear: left;
 }
@@ -5709,6 +5778,34 @@ body.account .page.title > .action.disabled:active {
 }
 .table.wishlist .col.actions input.qty {
   width: 50px;
+}
+/*
+    Review details
+-------------------------------------- */
+.review.view {
+  *zoom: 1;
+}
+.review.view:before,
+.review.view:after {
+  content: "";
+  display: table;
+}
+.review.view:after {
+  clear: both;
+}
+.review.view .product.details {
+  float: left;
+  width: 300px;
+}
+.review.view .review.details {
+  float: right;
+  width: 480px;
+}
+.review.view .review.details .reviews.summary {
+  margin: 10px 0;
+}
+.review.view .review.details .review.content {
+  margin: 20px 0;
 }
 /*
     Checkout
