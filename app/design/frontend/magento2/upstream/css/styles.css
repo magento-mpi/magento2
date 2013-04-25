@@ -4794,6 +4794,31 @@ body.type-bundle {
   text-align: center;
 }
 /*
+    Tags
+-------------------------------------- */
+.tags.items {
+  margin: 15px 0;
+}
+.tags.items .tag.item {
+  display: inline-block;
+  margin-bottom: 5px;
+}
+.tags.items .tag.item .tag.text {
+  margin-right: 3px;
+}
+.tags.items .tag.item .amount {
+  margin-right: 6px;
+}
+.dashboard.tags .product.tags {
+  margin-left: 10px;
+}
+.data.table.tags .item.actions .links {
+  margin-top: 10px;
+}
+.data.table.tags .item.actions .links .action.towishlist {
+  margin-left: 0;
+}
+/*
     Basic Pages Layout
 -------------------------------------- */
 .page {
