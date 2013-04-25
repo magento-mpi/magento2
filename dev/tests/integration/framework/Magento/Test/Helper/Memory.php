@@ -144,7 +144,7 @@ class Magento_Test_Helper_Memory
     /**
      * Remove non-numeric characters in the string to cast it to a numeric value
      *
-     * Incoming number can be presented in arbitrary format that depends on locale. We don't posses locale information.
+     * Incoming number can be presented in arbitrary format that depends on locale. We don't possess locale information.
      * So the best can be done is to treat number as an integer and eliminate delimiters.
      * Method will not behave correctly with non-integer numbers for the following reason:
      * - if value has more than one delimiter, such as in French notation: "1 234,56" -- then we can infer decimal part
