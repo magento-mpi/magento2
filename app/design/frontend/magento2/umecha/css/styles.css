@@ -4678,41 +4678,6 @@ body.type-bundle {
   text-shadow: none;
 }
 /*
-    Poll
--------------------------------------- */
-.block-poll {
-  margin-bottom: 50px;
-}
-.block-poll .block-title strong {
-  text-transform: uppercase;
-  font: 16px/1.333 'Droid Serif', Arial, sans-serif;
-  font-weight: 700;
-}
-.block-poll .block-subtitle {
-  font-family: 'Droid Serif', Arial, sans-serif;
-  margin: 0 0 5px;
-}
-.block-poll ul {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-  margin-bottom: 5px;
-}
-.block-poll ul > li {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-}
-.block-poll ul li {
-  padding: 0 3px;
-}
-.block-poll ul li.even {
-  background: #f2f2f2;
-}
-.block-poll .actions {
-  text-align: right;
-}
-/*
     PayPal
 -------------------------------------- */
 /* Paypal button */
@@ -4876,30 +4841,36 @@ body.type-bundle {
 /* Recently viewed block */
 .block.viewed,
 .block.reorder,
-.block.compared {
+.block.compared,
+.block.poll {
   margin-bottom: 50px;
 }
 .block.viewed > .title,
 .block.reorder > .title,
 .block.compared > .title,
+.block.poll > .title,
 .block.viewed > .block-title,
 .block.reorder > .block-title,
-.block.compared > .block-title {
+.block.compared > .block-title,
+.block.poll > .block-title {
   margin-bottom: 10px;
 }
 .block.viewed > .title strong,
 .block.reorder > .title strong,
 .block.compared > .title strong,
+.block.poll > .title strong,
 .block.viewed > .block-title strong,
 .block.reorder > .block-title strong,
-.block.compared > .block-title strong {
+.block.compared > .block-title strong,
+.block.poll > .block-title strong {
   text-transform: capitalize;
   font: 14px/1 'Droid Serif', Arial, sans-serif;
   font-weight: 400;
 }
 .block.viewed .product.name,
 .block.reorder .product.name,
-.block.compared .product.name {
+.block.compared .product.name,
+.block.poll .product.name {
   font-family: Arial, Verdana, sans-serif;
   font-size: 12px;
   font-weight: 400;
@@ -4959,26 +4930,33 @@ body.type-bundle {
 .sidebar .paypal-logo {
   margin: 0 0 50px 0;
 }
-.sidebar .widget.new {
+.sidebar .widget.new,
+.sidebar .block.wishlist {
   margin-bottom: 50px;
 }
 .sidebar .widget.new > .title,
-.sidebar .widget.new > .block-title {
+.sidebar .block.wishlist > .title,
+.sidebar .widget.new > .block-title,
+.sidebar .block.wishlist > .block-title {
   margin-bottom: 10px;
 }
 .sidebar .widget.new > .title strong,
-.sidebar .widget.new > .block-title strong {
+.sidebar .block.wishlist > .title strong,
+.sidebar .widget.new > .block-title strong,
+.sidebar .block.wishlist > .block-title strong {
   text-transform: capitalize;
   font: 14px/1 'Droid Serif', Arial, sans-serif;
   font-weight: 400;
 }
-.sidebar .widget.new .products.minilist {
+.sidebar .widget.new .products.minilist,
+.sidebar .block.wishlist .products.minilist {
   float: none;
   border-right: 0;
   max-width: 100%;
   padding: 0;
 }
-.sidebar .widget.new .products.minilist > .item {
+.sidebar .widget.new .products.minilist > .item,
+.sidebar .block.wishlist .products.minilist > .item {
   margin-bottom: 30px;
   padding: 0 0 10px;
   width: auto;
@@ -4986,13 +4964,16 @@ body.type-bundle {
   border: solid #e0e0e0;
   border-width: 0 0 1px;
 }
-.sidebar .widget.new .products.minilist > .item:before {
+.sidebar .widget.new .products.minilist > .item:before,
+.sidebar .block.wishlist .products.minilist > .item:before {
   display: none;
 }
-.sidebar .widget.new .products.minilist > .item .actions {
+.sidebar .widget.new .products.minilist > .item .actions,
+.sidebar .block.wishlist .products.minilist > .item .actions {
   margin: 5px 0;
 }
-.sidebar .widget.new.photos .img.photo.container {
+.sidebar .widget.new.photos .img.photo.container,
+.sidebar .block.wishlist.photos .img.photo.container {
   margin: 0 auto 20px;
 }
 .sidebar .item .product.name {
@@ -5032,6 +5013,33 @@ body.type-bundle {
 }
 .widget-viewed .block-products .block-content .item .price-box {
   margin: 0 0 5px;
+}
+/*
+    Polls
+-------------------------------------- */
+.block.poll .fieldset .legend {
+  margin-bottom: -20px;
+}
+.block.poll .fieldset .legend span {
+  font-size: 12px;
+}
+.block.poll .choice {
+  padding: 3px;
+  margin-bottom: 0;
+}
+.block.poll .choice:nth-child(even) {
+  background: #f2f2f2;
+}
+.block.poll .choice .label {
+  float: none;
+  width: auto;
+}
+.block.poll .choice .label span {
+  display: inline;
+}
+.block.poll .actions {
+  margin: 10px 0;
+  text-align: right;
 }
 /*
     Messages and Notices
