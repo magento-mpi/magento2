@@ -1,13 +1,13 @@
 <?php
-    /**
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Enterprise_Search
-     * @subpackage  unit_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Enterprise_Search
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 class Enterprise_Search_Model_Adapter_Solr_AbstractTest extends PHPUnit_Framework_TestCase
 {
