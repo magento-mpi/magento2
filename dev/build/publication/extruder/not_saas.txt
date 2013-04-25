@@ -3,6 +3,7 @@
 CHANGELOG.markdown
 app/code/Phoenix
 app/code/Enterprise/AdminGws
+app/code/Enterprise/BannerCustomerSegment
 app/code/Enterprise/CatalogEvent
 app/code/Enterprise/CatalogPermissions
 app/code/Enterprise/Checkout

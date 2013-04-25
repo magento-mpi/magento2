@@ -103,10 +103,6 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
                 $data['banner_sales_rules'] = $related;
             }
 
-            if (!isset($data['customer_segment_ids'])) {
-                $data['customer_segment_ids'] = array();
-            }
-
             // save model
             try {
                 if (!empty($data)) {

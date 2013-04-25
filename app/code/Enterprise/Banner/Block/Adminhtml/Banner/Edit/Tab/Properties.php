@@ -19,7 +19,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
-     * Set form id prefix, add customer segment binding, set values if banner is editing
+     * Set form id prefix, declare fields for banner properties
      *
      * @return Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties
      */
