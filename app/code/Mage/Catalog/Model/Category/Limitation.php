@@ -1,6 +1,6 @@
 <?php
 /**
- * Product functional limitations
+ * Category functional limitations
  *
  * {license_notice}
  *
@@ -15,11 +15,15 @@ class Mage_Catalog_Model_Category_Limitation
     const XML_PATH_NUM_CATEGORIES = 'limitations/catalog_category';
 
     /**
+     * Mage resource category
+     *
      * @var Mage_Catalog_Model_Resource_Category
      */
     private $_resource;
 
     /**
+     * Mage config
+     *
      * @var Mage_Core_Model_Config
      */
     private $_config;
@@ -39,28 +43,14 @@ class Mage_Catalog_Model_Category_Limitation
     /**
      * Whether creation is restricted
      *
-     * @param int $num Number of products to create
+     * @param int $categoriesCount number of categories to create
      * @return bool
      */
-    public function isCreateRestricted($num = 1)
+    public function isCreateRestricted($categoriesCount = 1)
     {
         $limit = (int)$this->_config->getNode(self::XML_PATH_NUM_CATEGORIES);
         if ($limit > 0) {
-            return $this->_resource->countAll() + $num > $limit;
-        }
-        return false;
-    }
-
-    /**
-     * Whether adding new product is restricted
-     *
-     * @return bool
-     */
-    public function isNewRestricted()
-    {
-        $limit = (int)$this->_config->getNode(self::XML_PATH_NUM_CATEGORIES);
-        if ($limit > 0) {
-            return $this->_resource->countAll() + 1 >= $limit;
+            return $this->_resource->countVisible() + $categoriesCount > $limit;
         }
         return false;
     }

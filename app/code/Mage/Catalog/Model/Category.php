@@ -899,7 +899,6 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function validate()
     {
-        $this->_enforceFunctionalLimitations();
         return $this->_getResource()->validate($this);
     }
 

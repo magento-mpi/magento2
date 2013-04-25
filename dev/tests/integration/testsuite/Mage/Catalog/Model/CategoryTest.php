@@ -388,16 +388,4 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
         $category = Mage::getModel('Mage_Catalog_Model_Category');
         $category->setName('test')->save();
     }
-
-    /**
-     * @magentoConfigFixture limitations/catalog_category 3
-     * @magentoDataFixture Mage/Catalog/_files/category.php
-     */
-    public function testValidateRestricted()
-    {
-        $this->setExpectedException('Mage_Core_Exception', 'Maximum allowed number of categories is reached.');
-        /** @var $product Mage_Catalog_Model_Category */
-        $category = Mage::getModel('Mage_Catalog_Model_Category');
-        $category->validate();
-    }
 }
