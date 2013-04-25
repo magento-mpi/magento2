@@ -430,6 +430,14 @@
     color: #000;
 }
 
+#group-fields-product-details-wrapper .action-add {
+    visibility: hidden;
+}
+
+#group-fields-product-details-wrapper.opened .action-add {
+    visibility: visible;
+}
+
 .action-manage-images {
     font: 11px/1.666 Arial, Verdana, sans-serif;
     color: #a29c94;
