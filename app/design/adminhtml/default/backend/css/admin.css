@@ -1614,7 +1614,7 @@ input.mage-error ~ .addafter {
 }
 
 .fieldset .tooltip .help {
-    margin: 7px 0 0 15px; 
+    margin: 7px 0 0 15px;
 }
 
 .fieldset-alt .field-option-store-view {
@@ -2971,7 +2971,7 @@ table tbody tr:nth-child(odd):hover th {
     background: url(Mage_Backend::images/logo-magento.png) no-repeat;
 }
 
-/* 
+/*
 .page-login .logo {
     display: block;
     width: 100px;
@@ -3057,7 +3057,7 @@ table tbody tr:nth-child(odd):hover th {
 
 .page-login .action-login,
 .page-login .action-retrieve {
-    font-size: 22px; 
+    font-size: 22px;
     padding: 14px 22px 16px;
 }
 
@@ -5578,3 +5578,11 @@ table .col-draggable .draggable-handle {
     clear: both;
 }
 
+/* Add Attribute popup */
+.attribute-popup {
+    background: none;
+}
+
+.attribute-popup .fieldset {
+    border: none;
+}

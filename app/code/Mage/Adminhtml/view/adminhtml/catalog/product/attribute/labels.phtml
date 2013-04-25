@@ -1,0 +1,33 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/** @var $this Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels  */
+?>
+<fieldset class="fieldset">
+    <legend class="legend"><span><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Titles (Size, Color, etc.)') ?></span></legend>
+    <table class="data-table" id="attribute-labels-table">
+        <thead>
+            <tr>
+                <?php foreach ($this->getStores() as $_store): ?>
+                    <th class="col-store-view"><?php echo $_store->getName() ?></th>
+                <?php endforeach; ?>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <?php $_labels = $this->getLabelValues() ?>
+                <?php foreach ($this->getStores() as $_store): ?>
+                <td class="col-store-view">
+                    <input class="input-text<?php if ($_store->getId() == Mage_Core_Model_App::ADMIN_STORE_ID): ?> required-option<?php endif; ?>" type="text" name="frontend_label[<?php echo $_store->getId() ?>]" value="<?php echo $this->escapeHtml($_labels[$_store->getId()]) ?>"<?php if ($this->getReadOnly()):?> disabled="disabled"<?php endif;?>/>
+                </td>
+                <?php endforeach; ?>
+            </tr>
+        </tbody>
+    </table>
+</fieldset>

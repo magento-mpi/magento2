@@ -33,7 +33,8 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
         $this->_title($this->__('Manage Attributes'));
 
         if($this->getRequest()->getParam('popup')) {
-            $this->loadLayout('popup');
+            $this->loadLayout(array('popup', $this->getDefaultLayoutHandle() . '_popup'));
+            $this->getLayout()->getBlock('root')->addBodyClass('attribute-popup');
         } else {
             $this->loadLayout()
                 ->_addBreadcrumb(Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'), Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'))
