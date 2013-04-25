@@ -149,8 +149,8 @@ textarea {
   font: 400 14px/1.33 "sourcesanspro";
 }
 html {
-  min-width: 1025px;
   background: #464646;
+  min-width: 1025px;
 }
 body {
   position: relative;
@@ -1438,7 +1438,6 @@ a:visited:hover {
   padding: 0 0 10px;
   padding-right: 10px;
   display: table-cell;
-  margin-right: ;
 }
 .review.view .review.details .ratings.summary .label:after {
   content: ': ';
@@ -7897,4 +7896,8 @@ textarea {
 }
 .block.giftcard .action.check:hover span {
   color: #35c8f4;
+}
+.my-account .box.information a,
+.my-account .box.information a:visited {
+  text-decoration: underline;
 }
