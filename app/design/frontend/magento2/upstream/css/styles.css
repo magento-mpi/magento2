@@ -4505,87 +4505,10 @@ body.type-bundle {
   vertical-align: baseline;
 }
 /*
-    Compare
--------------------------------------- */
-.block-compare {
-  margin-bottom: 50px;
-}
-.block-compare .block-title strong {
-  text-transform: uppercase;
-  font: 16px/1.333 'Oswald', Arial, sans-serif;
-  font-weight: 700;
-}
-.block-compare ol {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-}
-.block-compare ol > li {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-}
-.block-compare ol .item {
-  position: relative;
-}
-.block-compare ol .item .btn-remove {
-  width: 16px;
-  display: block;
-  line-height: 0;
-  white-space: nowrap;
-  vertical-align: middle;
-  text-align: center;
-  text-indent: -999em;
-  position: absolute;
-  right: 0;
-  top: 0;
-  color: #b1b1b1;
-}
-.block-compare ol .item .btn-remove:after {
-  font-family: "Icons";
-  font-size: 16px;
-  line-height: 16px;
-  height: 16px;
-  content: '\e015';
-  font-style: normal;
-  speak: none;
-  font-weight: normal;
-  -webkit-font-smoothing: antialiased;
-  display: inline-block;
-  vertical-align: middle;
-  text-align: center;
-}
-.block-compare ol .item .btn-remove:active {
-  outline: 0;
-}
-.block-compare ol .item .btn-remove:after {
-  text-indent: 0;
-  display: block;
-}
-.block-compare ol .item .btn-remove > span {
-  color: #b1b1b1;
-}
-.block-compare ol .item .btn-remove:hover,
-.block-compare ol .item .btn-remove:hover > span {
-  color: #8b8b8b;
-}
-.block-compare ol .item .product-name {
-  line-height: 1.333;
-  padding-right: 20px;
-  margin: 0 0 10px 0;
-}
-.block-compare .actions {
-  text-align: right;
-}
-.block-compare .actions a {
-  font-size: 12px;
-}
-.block-compare .actions button {
-  margin-left: 10px;
-}
-/*
-    Compare Page
--------------------------------------- */
+ *    Mage_Catalog
+ *
+ *    Compare
+----------------------------------------------------------------------------- */
 .catalog-product-compare-index .link-print {
   float: right;
   margin-top: -69px;
@@ -4637,6 +4560,202 @@ body.type-bundle {
   background: #514ba7;
   box-shadow: none;
   text-shadow: none;
+}
+.block.compare {
+  margin-bottom: 50px;
+}
+.block.compare > .title {
+  margin-bottom: 10px;
+}
+.block.compare > .title span {
+  text-transform: uppercase;
+  font: 16px/1.333 'Oswald', Arial, sans-serif;
+  font-weight: 700;
+}
+.block.compare > .title .qty {
+  font-size: 16px;
+  margin-right: -5px;
+}
+.block.compare > .title .qty:before {
+  content: '(';
+}
+.block.compare > .title .qty:after {
+  content: ')';
+}
+.block.compare .item {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.block.compare .product.name {
+  line-height: 1.333;
+  padding-right: 20px;
+  margin: 0 0 10px 0;
+}
+.block.compare .action.delete {
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #b1b1b1;
+}
+.block.compare .action.delete > span {
+  color: #b1b1b1;
+}
+.block.compare .action.delete:hover,
+.block.compare .action.delete:hover > span {
+  color: #8b8b8b;
+}
+.block.compare .action.compare {
+  float: right;
+}
+.block.compare .action.clear {
+  border: none;
+  border-radius: 0;
+  background: none;
+  margin: 0;
+  padding: 0;
+  text-shadow: none;
+  outline: none;
+  box-shadow: none !important;
+  color: #514ba7;
+  text-transform: none;
+  font: 11px Arial, Verdana, sans-serif;
+  float: left;
+  margin-top: 10px;
+}
+.block.compare .action.clear > span {
+  color: #514ba7;
+}
+.block.compare .action.clear:hover,
+.block.compare .action.clear:hover > span {
+  color: #000000;
+}
+.block.compare .action.clear:hover,
+.block.compare .action.clear:focus,
+.block.compare .action.clear:active {
+  background: none;
+}
+.block.compare .actions {
+  margin-top: 15px;
+  *zoom: 1;
+}
+.block.compare .actions:before,
+.block.compare .actions:after {
+  content: "";
+  display: table;
+}
+.block.compare .actions:after {
+  clear: both;
+}
+.catalog-product-compare-index .action.print {
+  float: right;
+  margin-top: -50px;
+}
+.comparison.wrapper {
+  clear: both;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 50px;
+}
+.comparison.wrapper:after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 15px;
+}
+.comparison.container {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.data.comparison {
+  table-layout: fixed;
+}
+.data.comparison .cell.label {
+  width: 130px;
+  padding-left: 10px;
+  font-weight: 600;
+  text-align: left;
+  border-right: 1px solid #e0e0e0;
+}
+.data.comparison .cell.label .attribute.label {
+  display: block;
+  width: 100%;
+  word-break: break-all;
+}
+.data.comparison .cell.label.product {
+  border-bottom: 1px solid #e0e0e0;
+}
+.data.comparison .cell {
+  padding: 15px;
+  vertical-align: top;
+}
+.data.comparison .cell p:first-child {
+  margin-top: 0;
+}
+.data.comparison .cell .attibute.value {
+  width: 100%;
+  overflow: hidden;
+}
+.data.comparison .cell.product {
+  width: 140px;
+}
+.data.comparison .cell.product.info {
+  border-bottom: 1px solid #e0e0e0;
+}
+.data.comparison .cell.attribute {
+  font-size: 12px;
+}
+.data.comparison td:last-child {
+  border-right: 1px solid #e0e0e0;
+}
+.data.comparison .product.photo {
+  text-align: center;
+  display: block;
+  margin: 0 auto 15px;
+}
+.data.comparison .product.photo .img.photo.container {
+  display: inline-block !important;
+}
+.data.comparison .actions,
+.data.comparison .price-box,
+.data.comparison .product.rating,
+.data.comparison .product.name {
+  margin: 15px 0;
+}
+.data.comparison .addto.links {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
+  font-size: 12px;
+}
+.data.comparison .cell.remove {
+  padding-top: 0;
+  padding-bottom: 0;
+  text-align: right;
+  border-bottom: 0;
+}
+.data.comparison .cell.remove .action.delete {
+  float: right;
+  padding: 4px;
+  margin-right: -15px;
+}
+.data.comparison .cell.remove .action.delete span {
+  overflow: hidden;
+  line-height: 0;
+}
+.comparison.headings {
+  position: absolute;
+  z-index: 2;
+  top: -24px;
+  left: 0;
+  width: auto;
+  background-color: #ffffff;
+}
+.comparison.headings th {
+  background-color: #ffffff;
 }
 /*
     PayPal
