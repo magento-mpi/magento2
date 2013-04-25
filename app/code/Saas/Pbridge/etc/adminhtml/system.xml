@@ -39,7 +39,7 @@
                     <label>Enable 3D Secure Card Validation in Admin</label>
                     <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                     <depends>
-                        <field id="*/authorizenet/centinel"/>
+                        <field id="*/authorizenet/centinel">1</field>
                     </depends>
                 </field>
                 <field id="test" sortOrder="200" showInWebsite="0"/>
