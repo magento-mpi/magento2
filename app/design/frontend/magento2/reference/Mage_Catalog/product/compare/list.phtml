@@ -8,22 +8,20 @@
  * @license     {license_link}
  */
 ?>
+<?php $_total=$this->getItems()->getSize() ?>
+<?php if($_total): ?>
 <a href="#" class="action print" title="<?php echo $this->__('Print This Page') ?>">
     <span><?php echo $this->__('Print This Page') ?></span>
 </a>
-<?php $_total=$this->getItems()->getSize() ?>
-<?php if($_total): ?>
 <?php $imageBlock =  $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image'); ?>
 <div class="comparison wrapper">
 <div class="comparison container">
     <table class="data-table data table comparison" id="product-comparison">
-    <?php $_i=0 ?>
-<?php if ($_total>2): ?>
         <thead>
             <tr>
             <?php $_i=0 ?>
             <?php foreach($this->getItems() as $_item): ?>
-                <?php if($_i++%10==0): ?>
+                <?php if($_i++==0): ?>
                     <th class="cell label remove">&nbsp;</th>
                 <?php endif; ?>
                 <td class="cell remove product">
@@ -34,13 +32,12 @@
             <?php endforeach; ?>
             </tr>
         </thead>
-<?php endif ?>
         <tbody>
             <tr>
             <?php $_i = 0; ?>
             <?php $_helper = $this->helper('Mage_Catalog_Helper_Output'); ?>
             <?php foreach($this->getItems() as $_item): ?>
-                <?php if($_i++%10==0): ?>
+                <?php if($_i++==0): ?>
                     <th class="cell label product">&nbsp;</th>
                 <?php endif; ?>
                 <td class="cell product info">
@@ -86,7 +83,7 @@
             <tr>
                 <?php $_i = 0 ?>
                 <?php foreach($this->getItems() as $_item): ?>
-                <?php if($_i++%10==0): ?>
+                <?php if($_i++==0): ?>
                 <th class="cell label">
                     <span class="attribute label">
                         <?php echo $_attribute->getStoreLabel() ? $_attribute->getStoreLabel() : $this->__($_attribute->getFrontendLabel()) ?>
@@ -115,6 +112,8 @@
     </table>
 </div>
 </div>
+<?php else: ?>
+    <p class="empty"><?php echo $this->__('You have no items to compare.') ?></p>
 <?php endif; ?>
 
 <script type="text/javascript">

@@ -365,8 +365,13 @@
             .form.contact .fieldset,
             .form.password.forget .fieldset,
             .form.create.account .fieldset,
+            .form.wishlist.share .fieldset,
             .block.dashboard:not(.welcome):not(.orders) .content,
-            .block.reviews.list .item.review:nth-child(odd)
+            .block.reviews.list .item.review:nth-child(odd),
+            .fieldset.bundle.options > .field,
+            .block.bundle.summary,
+            .data.table.reviews tbody tr:nth-child(even) td,
+            .data.table.wishlist tbody tr:nth-child(even)
         ]]></selector>
         <attribute>background-color</attribute>
         <var>Mage_DesignEditor::form-background</var>
@@ -400,6 +405,12 @@
             .cart.summary .summary.title,
             .cart.summary .block,
             .data-table td,
+            .data.comparison .cell.product.info,
+            .data.comparison .addto.links,
+            .data.comparison .cell.label,
+            .data.comparison .cell.label.product,
+            .data.comparison .cell.label,
+            .data.comparison td:last-child,
             .block.widget.viewed,
             .block.crosssell,
             .block.upsell,
@@ -423,8 +434,8 @@
             .product.photo.thumbs .item.thumb .active img,
             .login.container .block.new:before,
             .block.filter .filtered .item,
-            .block.add.review .fieldset > .legend
-
+            .block.add.review .fieldset > .legend,
+            .data.table.reviews tbody td
         ]]></selector>
         <attribute>border-color</attribute>
         <var>Mage_DesignEditor::image-stroke-keylines</var>
@@ -461,13 +472,15 @@
             .form.password.forget .action.submit span,
             .form.create.account .action.submit span,
             .form.search.advanced .action span,
-
             .form.orders.search .action span,
             .form.contact .action span,
+            .form.wishlist.share .action.submit span,
 
             .banner.main .banner.action span,
-            .opc.wrapper .form:not(.login) .actions button.action span
+            .opc.wrapper .form:not(.login) .actions button.action span,
 
+            .data.table.wishlist + .actions .primary .action.share span,
+            .data.table.wishlist + .actions .primary .action.update span
         ]]></selector>
         <attribute>color</attribute>
         <var>Mage_DesignEditor::button-text</var>
@@ -503,13 +516,16 @@
             .form.contact .action.submit,
             .form.password.forget .action.submit,
             .form.create.account .action.submit,
-
             .form.search.advanced .action,
             .form.orders.search .action,
             .form.contact .action,
+            .form.wishlist.share .action.submit,
 
             .banner.main .banner.action,
-            .opc.wrapper .form:not(.login) .actions button.action
+            .opc.wrapper .form:not(.login) .actions button.action,
+
+            .data.table.wishlist + .actions .primary .action.share,
+            .data.table.wishlist + .actions .primary .action.update
         ]]></selector>
         <attribute>background-color</attribute>
         <var>Mage_DesignEditor::button-background</var>
@@ -545,13 +561,16 @@
             .form.contact .action.submit:hover,
             .form.password.forget .action.submit:hover,
             .form.create.account .action.submit:hover,
-
             .form.search.advanced .action:hover,
             .form.orders.search .action:hover,
             .form.contact .action:hover,
+            .form.wishlist.share .action.submit:hover,
 
             .banner.main .banner.action:hover,
-            .opc.wrapper .form:not(.login) .actions button.action:hover
+            .opc.wrapper .form:not(.login) .actions button.action:hover,
+
+            .data.table.wishlist + .actions .primary .action.share:hover,
+            .data.table.wishlist + .actions .primary .action.update:hover
         ]]></selector>
         <attribute>background-color</attribute>
         <var>Mage_DesignEditor::button-hover</var>
@@ -563,6 +582,7 @@
             .minicart.wrapper .action.previous span,
             .minicart.wrapper .action.next span,
             .action.delete span,
+            .data.comparison .cell.remove .action.delete span,
             .toolbar .modes .mode span,
             .toolbar .action.next span,
             .toolbar .action.previous span,
@@ -579,6 +599,7 @@
             .minicart.wrapper .action.previous:hover span,
             .minicart.wrapper .action.next:hover span,
             .action.delete:hover span,
+            .data.comparison .cell.remove .action.delete:hover span,
             .toolbar .modes .mode:hover span,
             .toolbar .action.next:hover span,
             .toolbar .action.previous:hover span,
@@ -734,7 +755,8 @@
                 <type>color-picker</type>
                 <selector><![CDATA[
                     .page.title .title,
-                    .std .page-title h1
+                    .std .page-title h1,
+                    .review.view .product.name
                 ]]></selector>
                 <attribute>color</attribute>
                 <var>Mage_DesignEditor::page-headings:color-picker</var>

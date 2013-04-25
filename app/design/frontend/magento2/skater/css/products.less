@@ -7,8 +7,7 @@
 //  * @license     {license_link}
 //  */
 
-// Reviews */
-
+// Reviews
 .block.reviews.dashboard,
 .reviews.summary {
     @starSize: 14px;
@@ -114,8 +113,11 @@
                 clear: both;
                 display: block !important;
             }
-            strong:before {
-                content: " ";
+            strong {
+                font-weight: 400;
+                &:before {
+                    content: " ";
+                }
             }
         }
         .formFieldset();
@@ -332,8 +334,11 @@
 
 .block.related,
 .block.upsell {
+    .clearfix;
+    .blocklist();
     .products.list.items > .item {
         border: 0;
+        vertical-align: top;
         .details {
             padding: 0;
         }
@@ -349,12 +354,6 @@
             float: none;
         }
     }
-}
-
-.block.related,
-.block.upsell {
-    .clearfix;
-    .blocklist();
 }
 
 .block.crosssell {
@@ -447,7 +446,6 @@
 //        position: absolute;
 //        bottom: 4px;
 //    }
-//
 //}
 }
 
@@ -660,6 +658,16 @@
     }
 }
 
+.product-pricing {
+    background: @commonBg;
+    border: 1px solid @primary7;
+    border-top: 0;
+    color: @primary3;
+    font-size: 12px;
+    margin: -5px 0 0;
+    padding: 0 15px 5px;
+}
+
 .action.primary.customize,
 .action.primary.tocart {
     .primaryAction;
@@ -837,6 +845,22 @@
     margin-top: 50px;
 }
 
+.block.tags {
+    .tags.cloud {
+        margin: 0 0 10px;
+        > .item {
+            display: inline;
+        }
+    }
+    .action.view {
+        .secondaryAction();
+        text-decoration: none;
+        span {
+            color: @primary5;
+        }
+    }
+}
+
 .block.product.tags {
     font-size: 12px;
     margin: 50px 0 0;
@@ -1000,6 +1024,12 @@ body.type-bundle {
     }
     .product.options.wrapper > .required {
         color: @errorColor;
+    }
+    .product-pricing {
+        background: none;
+        border: 0;
+        margin: 0 0 10px;
+        padding: 0;
     }
 }
 
@@ -1213,7 +1243,8 @@ body.type-bundle {
 }
 
 // *
-// *    Configurable product
+// *    Configurable poduct
+// *
 // -------------------------------------- */
 .type-configurable .options.configure .field {
     .clearfix;
@@ -1233,6 +1264,7 @@ body.type-bundle {
 
 // *
 // *    Grouped product
+// *
 // -------------------------------------- */
 .product-grouped-product {
     .product.add.form {
@@ -1284,9 +1316,15 @@ body.type-bundle {
 
 // *
 // *    Email to a friend
+// *
 // -------------------------------------- */
+.sendfriend-product-send .page.title {
+    text-align: center;
+}
 .send.friend {
     font-size: 13px;
+    margin: 0 auto;
+    width: 70%;
     .legend {
         float: left;
         line-height: 1.2;
@@ -1357,16 +1395,6 @@ body.type-bundle {
             margin-top: -4px;
         }
     }
-    &:after {
-        content: attr(data-hasrequired);
-        display: block;
-        letter-spacing: normal;
-        word-spacing: normal;
-        color: @errorColor;
-        font-size: 12px;
-        text-align: right;
-        margin: 10px 0 0;
-    }
     .fieldset.recipients {
         .fields {
             .formInline(25%);
@@ -1375,6 +1403,7 @@ body.type-bundle {
             padding: 0 30px 0 0;
             &.additional {
                 position: relative;
+                margin-top: 40px;
                 .action.delete {
                     position: absolute;
                     right: 0;

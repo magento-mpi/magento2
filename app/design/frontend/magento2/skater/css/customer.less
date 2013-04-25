@@ -243,6 +243,17 @@
     margin: 45px 0 0;
 }
 
+.account {
+    .column.main > .page.title {
+        margin-top: 43px;
+        .action.add {
+            .primaryAction();
+            float: right;
+            margin: -32px 0 0;
+        }
+    }
+}
+
 .block.account.nav {
     font-size: 13px;
     margin-top: 25px;
@@ -437,15 +448,15 @@
             }
         }
     }
-
     .page.title .action.add {
         .primaryAction();
         float: right;
         margin: -32px 0 0;
     }
-
-    .data.table.orders,
-    .data.wishlist {
+    .data.table.orders, // My Orders
+    .data.wishlist, // My Whishlist
+    .data.table.reviews, // My Product Reviews
+    .data.tags { // My Tags
         background: @commonBg;
         border: 1px solid @primary7;
         border-collapse: separate;
@@ -473,16 +484,16 @@
             background: @secondBg;
         }
         a {
-            .colorA(@primary2,@primary4);
-            text-decoration: none;
-            &:hover {
-                text-decoration: none;
-            }
+            .colorA(@primary3,@primary4);
+        }
+        .product.name a {
+            .colorA(@secondary1,@secondary3);
         }
         .action.view:after {
             content: ' |';
         }
     }
+// My Whishlist
     .data.wishlist {
         td {
             vertical-align: top;
@@ -564,7 +575,188 @@
             }
         }
     }
+// Giftcard Account
+    .giftcardaccount {
+        position: relative;
+        .giftcard.form {
+            padding: 0;
+        }
+        .field.giftcard {
+            .clearfix;
+        }
+        .label {
+            float: left;
+            width: 25%;
+        }
+        .control {
+            float: left;
+            width: 75%;
+        }
+        .actions {
+            .clearfix;
+            .primary {
+                float: right;
+                padding: 0 0 0 20px;
+            }
+            .secondary {
+                float: right;
+                position: relative;
+                left: inherit;
+                top: inherit;
+                .action.check {
+                    .resetAction();
+                    .secondaryAction();
+                    padding: 7px 9px 6px;
+                }
+            }
+        }
+        .load.indicator {
+            background: @commonBg;
+            border: 3px solid @primary1;
+            display: block;
+            left: 50%;
+            margin: -20px 0 0 -86px;
+            position: absolute;
+            top: 50%;
+        }
+    }
+// My Product Reviews
+    .data.table.reviews {
+        td {
+            vertical-align: top;
+        }
+        .col.date {
+            width: 5%;
+        }
+        .col.item {
+            width: 25%;
+        }
+        .col.actions {
+            width: 10%;
+        }
+    }
+    .review.view {
+        .clearfix;
+        .product.name {
+            display: inline-block;
+            margin: 0;
+        }
+        .product.details {
+            float: left;
+            margin: 0 20px 0 0;
+        }
+        .review {
+            &.title {
+                font-size: 14px;
+                font-weight: bold;
+            }
+            &.date {
+                color: @primary3;
+                font-size: 11px;
+                margin: 10px 0;
+                .date {
+                    color: @primary4;
+                    font-weight: bold;
+                }
+            }
+        }
+        .review.details {
+            margin: 20px 0 10px;
+            display: table;
+            .ratings.summary {
+                margin: 0 0 10px;
+                strong {
+                    display: block;
+                    margin: 0 0 5px;
+                }
+                .item {
+                    display: table-row;
+                }
+                .label {
+                    padding: 0 0 10px;
+                    padding-right: 10px;
+                    display: table-cell;
+                    &:after {
+                        content: ': ';
+                    }
+                }
+            }
+            .review.date {
+                font-size: 12px;
+            }
+            .review.title {
+                font-weight: 600;
+                font-size: 16px;
+                margin: 0 0 15px;
+            }
+        }
+    }
+// Tags
+    .tags.cloud {
+        .item {
+            display: inline;
+        }
+    }
+    .tag.edit {
+        .action.delete span:after {
+            height: 12px;
+            font-size: 10px;
+            line-height: 12px;
+        }
+    }
+    .data.tags {
+        td {
+            vertical-align: top;
+        }
+        .col {
+            &.photo {
+                width: 110px;
+            }
+            .actions {
+                margin-top: 0;
+                .addto.links {
+                    margin: 10px 0 0;
+                    a,
+                    a span {
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+        .reviews {
+            &.actions {
+                .action.view {
+                    &:after {
+                        content: '';
+                    }
+                    span:before {
+                        content: ' ';
+                    }
+                }
+            }
+            &.summary {
+                margin: 10px 0;
+            }
+        }
+        .price-box {
+            .price-label {
+                display: none;
+            }
+            .price {
+                font-size: 14px;
+            }
+        }
+        .old-price {
+            color: @primary1;
+            text-decoration: line-through;
+        }
+        .price-excluding-tax,
+        .price-including-tax {
+            display: block;
+        }
+    }
 }
+
 .wishlist-index-index .actions .primary {
     text-align: right;
 }

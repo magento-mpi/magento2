@@ -1,10 +1,10 @@
 /**
  * {license_notice}
  *
- * @category   design
- * @package    magento2_upstream
- * @copyright  {copyright}
- * @license    {license_link}
+ * @category    design
+ * @package     magento2_upstream
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 /* Fonts variables */
 /* Layout variables */
@@ -68,7 +68,11 @@ textarea {
   color: #393939;
   font: 400 14px/1.786 Arial, Verdana, sans-serif;
 }
+html {
+  min-width: 1035px;
+}
 body {
+  position: relative;
   background-color: #9fb8d6;
   background-image: url(../images/main-bg.jpg);
   background-repeat: no-repeat;
@@ -2702,6 +2706,114 @@ a.action.showcart .qty.empty {
   content: '\e02b';
 }
 /*
+    Ratings
+-------------------------------------- */
+.field.ratings input[type="radio"] {
+  position: absolute;
+  margin-left: -999em;
+}
+.field.ratings {
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+.field.ratings > .label {
+  margin-bottom: 20px;
+}
+.field.ratings .nested {
+  display: table;
+}
+.field.ratings .field.rating {
+  display: table-row;
+}
+.field.ratings .field.rating > .label {
+  display: table-cell;
+  vertical-align: top;
+  padding: 4px 0 6px;
+}
+.field.ratings .field.rating .control {
+  padding: 0 5px;
+  display: table-cell;
+  z-index: 1;
+}
+.field.ratings .field.rating .control:before {
+  letter-spacing: 0.2em;
+  position: absolute;
+  z-index: 1;
+  display: block;
+  float: left;
+  font-family: "MUI-Icons";
+  content: "\e01a\e01a\e01a\e01a\e01a";
+  font-style: normal;
+  font-size: 16px;
+  color: rgba(255, 176, 51, 0.3);
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+}
+.field.ratings .field.rating .control input:focus + label:before,
+.field.ratings .field.rating .control input:checked + label:before {
+  color: #ffb033;
+  opacity: 1;
+}
+.field.ratings .field.rating .control label {
+  position: absolute;
+  display: block;
+  cursor: pointer;
+}
+.field.ratings .field.rating .control label span {
+  display: none;
+}
+.field.ratings .field.rating .control label:before {
+  letter-spacing: 0.2em;
+  font-family: "MUI-Icons";
+  font-style: normal;
+  font-size: 16px;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  opacity: 0;
+}
+.field.ratings .field.rating .control label:hover:before {
+  color: #ffb033;
+  opacity: 1;
+}
+.field.ratings .field.rating .control label:hover ~ label:before {
+  opacity: 0 !important;
+}
+.field.ratings .field.rating .control .rating-1 {
+  z-index: 6;
+}
+.field.ratings .field.rating .control .rating-1:before {
+  content: "\e01a";
+}
+.field.ratings .field.rating .control .rating-2 {
+  z-index: 5;
+}
+.field.ratings .field.rating .control .rating-2:before {
+  content: "\e01a\e01a";
+}
+.field.ratings .field.rating .control .rating-3 {
+  z-index: 4;
+}
+.field.ratings .field.rating .control .rating-3:before {
+  content: "\e01a\e01a\e01a";
+}
+.field.ratings .field.rating .control .rating-4 {
+  z-index: 3;
+}
+.field.ratings .field.rating .control .rating-4:before {
+  content: "\e01a\e01a\e01a\e01a";
+}
+.field.ratings .field.rating .control .rating-5 {
+  z-index: 2;
+}
+.field.ratings .field.rating .control .rating-5:before {
+  content: "\e01a\e01a\e01a\e01a\e01a";
+}
+/*
     Reviews
 -------------------------------------- */
 .reviews.summary {
@@ -3829,7 +3941,7 @@ body.type-bundle {
   width: 100%;
 }
 .fieldset.bundle.options .nested .field {
-  margin: 10px 0;
+  margin: 5px 0;
 }
 .fieldset.bundle.options .nested .field.qty {
   margin-top: 20px;
@@ -5534,7 +5646,7 @@ body.account .page.title > .action.disabled:active {
 .my-account .page-title {
   display: none;
 }
-.my-account > .toolbar {
+.my-account > .toolbar:first-child {
   margin-top: 0;
 }
 .my-account .form > .fieldset,
@@ -5578,6 +5690,10 @@ body.account .page.title > .action.disabled:active {
 .my-account .table.orders .col.actions .action {
   margin-right: 5px;
 }
+.my-account .table.reviews .product.name {
+  line-height: 1.666;
+  margin-bottom: 0;
+}
 .customer-address-index .column.main .actions {
   clear: left;
 }
@@ -5616,6 +5732,34 @@ body.account .page.title > .action.disabled:active {
 }
 .table.wishlist .col.actions input.qty {
   width: 50px;
+}
+/*
+    Review details
+-------------------------------------- */
+.review.view {
+  *zoom: 1;
+}
+.review.view:before,
+.review.view:after {
+  content: "";
+  display: table;
+}
+.review.view:after {
+  clear: both;
+}
+.review.view .product.details {
+  float: left;
+  width: 300px;
+}
+.review.view .review.details {
+  float: right;
+  width: 480px;
+}
+.review.view .review.details .reviews.summary {
+  margin: 10px 0;
+}
+.review.view .review.details .review.content {
+  margin: 20px 0;
 }
 /*
     Checkout

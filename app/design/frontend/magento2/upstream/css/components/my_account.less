@@ -69,7 +69,7 @@ body.account {
     .page-title {
         display: none;
     }
-    > .toolbar {
+    > .toolbar:first-child {
         margin-top: 0;
     }
     .form {
@@ -109,6 +109,12 @@ body.account {
             .action {
                 margin-right: 5px;
             }
+        }
+    }
+    .table.reviews {
+        .product.name {
+            line-height: 1.666;
+            margin-bottom: 0;
         }
     }
 }
@@ -160,3 +166,28 @@ body.account {
         }
     }
 }
+
+/*
+    Review details
+-------------------------------------- */
+.review.view {
+  .clearfix();
+  .product.details {
+    float: left;
+    width: 300px;
+  }
+  .review.details {
+    float: right;
+    width: 480px;
+    .review.title {
+
+    }
+    .reviews.summary {
+      margin: 10px 0;
+    }
+    .review.content {
+      margin: 20px 0;
+    }
+  }
+}
+

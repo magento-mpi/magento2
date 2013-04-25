@@ -44,6 +44,12 @@
         <item>
             <!-- MUST be refactored -->
             <word>TargetRule</word>
+            <word>GiftWrapping</word>
+            <path>app/design/adminhtml/default/backend/css/debug.css</path>
+        </item>
+        <item>
+            <!-- MUST be refactored -->
+            <word>TargetRule</word>
             <path>app/code/Saas/Launcher/view/adminhtml/page/promotestore/relatedproducts/drawer.phtml</path>
         </item>
         <item>

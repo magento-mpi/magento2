@@ -6,39 +6,52 @@
 //  * @copyright   {copyright}
 //  * @license     {license_link}
 //  */
-.button.btn-cart {
-    .primaryAction;
+
+// Newsletter Subscription
+
+.form.newsletter.manage {
+  .action.save {
     padding: 5px 11px;
+  }
 }
 
-.actions {
-    .primary {
-        .action.share,
-        .action.update {
-            .primaryAction;
-            padding: 5px 11px;
-        }
-    }
-}
+// My Wishlist
 
 .table.data.wishlist {
-    tbody tr:nth-child(odd) {
-        background: @primary1;
-    }
-    td {
-        padding: 35px 10px;
-        vertical-align: top;
-    }
-    th {
-        padding: 0 10px 35px 10px;
-        text-align: left;
-    }
-    textarea {
-        width: 100%;
-    }
-    & + .actions {
-        .primary {
-            margin-bottom: 15px;
+  .item-options {
+    dl {
+      margin: 0;
+      dt {
+        display: inline;
+        float: left;
+        clear: left;
+        font-weight: 600;
+        &:after {
+          content: ':';
+          margin-right: 5px;
         }
-     }
+      }
+      dd {
+        margin: 0;
+      }
+    }
+  }
+  .col.photo {
+    width: 100px;
+  }
+  .col.actions {
+    width: 200px;
+  }
+}
+
+// Advanced Search
+
+.form.search.advanced {
+  .field.price {
+    .range.price.fields.group {
+      .field:first-child input {
+        width: 96%;
+      }
+    }
+  }
 }

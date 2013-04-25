@@ -211,7 +211,11 @@ textarea {
   font: 14px/1.43 Arial, Helvetica, sans-serif;
 }
 html {
+  min-width: 1025px;
   background: #ee2375;
+}
+body {
+  position: relative;
 }
 .page.wrapper {
   background: #ffffff;
@@ -457,6 +461,8 @@ strong {
   padding-right: 15px;
   margin: 0 auto;
   width: 970px;
+  padding-left: 0;
+  padding-right: 0;
   *zoom: 1;
 }
 .header > .panel:before,
@@ -548,6 +554,8 @@ strong {
   padding-right: 15px;
   margin: 0 auto;
   width: 970px;
+  padding-left: 0;
+  padding-right: 0;
   *zoom: 1;
 }
 .header > .content:before,
@@ -1637,7 +1645,6 @@ ul.messages ul {
 .comparison.container {
   overflow-y: hidden;
   overflow-x: auto;
-  margin-left: 130px;
 }
 .data.comparison {
   border-collapse: separate;
@@ -2355,6 +2362,9 @@ ul.messages ul {
 .products.list.items > .item .product.reviews a {
   font-size: 11px;
 }
+.products.list.items > .item .product.reviews a span:before {
+  content: ' ';
+}
 .products.list.items > .item .product.actions .secondary {
   *zoom: 1;
   position: absolute;
@@ -2715,6 +2725,9 @@ ul.messages ul {
   clear: both;
   display: block !important;
 }
+.block.add.review .fieldset > .legend strong {
+  font-weight: 400;
+}
 .block.add.review .fieldset > .legend strong:before {
   content: " ";
 }
@@ -3031,28 +3044,6 @@ ul.messages ul {
 .block.widget.viewed .primary {
   margin: 0 0 10px;
 }
-.block.related .products.list.items > .item,
-.block.upsell .products.list.items > .item {
-  border: 0;
-}
-.block.related .products.list.items > .item .details,
-.block.upsell .products.list.items > .item .details {
-  padding: 0;
-}
-.block.related .products.list.items > .item .product.actions .secondary,
-.block.upsell .products.list.items > .item .product.actions .secondary {
-  border: 0;
-  margin: 0;
-  position: relative;
-}
-.block.related .products.list.items > .item .product.actions .secondary .action,
-.block.upsell .products.list.items > .item .product.actions .secondary .action {
-  padding: 0;
-}
-.block.related .products.list.items > .item .product.photo,
-.block.upsell .products.list.items > .item .product.photo {
-  float: none;
-}
 .block.related,
 .block.upsell {
   *zoom: 1;
@@ -3085,6 +3076,29 @@ ul.messages ul {
   display: inline-block;
   margin: 0;
   padding: 10px 20px 20px;
+  float: none;
+}
+.block.related .products.list.items > .item,
+.block.upsell .products.list.items > .item {
+  border: 0;
+  vertical-align: top;
+}
+.block.related .products.list.items > .item .details,
+.block.upsell .products.list.items > .item .details {
+  padding: 0;
+}
+.block.related .products.list.items > .item .product.actions .secondary,
+.block.upsell .products.list.items > .item .product.actions .secondary {
+  border: 0;
+  margin: 0;
+  position: relative;
+}
+.block.related .products.list.items > .item .product.actions .secondary .action,
+.block.upsell .products.list.items > .item .product.actions .secondary .action {
+  padding: 0;
+}
+.block.related .products.list.items > .item .product.photo,
+.block.upsell .products.list.items > .item .product.photo {
   float: none;
 }
 .block.crosssell {
@@ -3743,6 +3757,15 @@ ul.messages ul {
 .product.add.form .product.options.wrapper {
   margin-bottom: 15px;
 }
+.product-pricing {
+  background: #ffffff;
+  border: 1px solid #cccccc;
+  border-top: 0;
+  color: #666666;
+  font-size: 12px;
+  margin: -5px 0 0;
+  padding: 0 15px 5px;
+}
 .action.primary.customize,
 .action.primary.tocart {
   border: none;
@@ -4060,6 +4083,29 @@ ul.messages ul {
   height: 200px;
   margin-top: 50px;
 }
+.block.tags .tags.cloud {
+  margin: 0 0 10px;
+}
+.block.tags .tags.cloud > .item {
+  display: inline;
+}
+.block.tags .action.view {
+  background: #ee2375;
+  color: #ffffff;
+  font-size: 10px;
+  font-family: Amaranth, Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 9px;
+  text-decoration: none;
+}
+.block.tags .action.view:hover {
+  background: #6ab92d;
+}
+.block.tags .action.view span {
+  color: #ffffff;
+}
 .block.product.tags {
   font-size: 12px;
   margin: 50px 0 0;
@@ -4246,6 +4292,12 @@ body.type-bundle {
 }
 .bundle.options.container .product.options.wrapper > .required {
   color: #dc0000;
+}
+.bundle.options.container .product-pricing {
+  background: none;
+  border: 0;
+  margin: 0 0 10px;
+  padding: 0;
 }
 .col2-left-layout .bundle.options.container .product.options.wrapper,
 .col2-right-layout .bundle.options.container .product.options.wrapper {
@@ -4556,8 +4608,13 @@ body.type-bundle {
 .product-grouped-product .product.info.main .box.tocart {
   padding: 15px 0;
 }
+.sendfriend-product-send .page.title {
+  text-align: center;
+}
 .send.friend {
   font-size: 13px;
+  margin: 0 auto;
+  width: 70%;
 }
 .send.friend .legend {
   float: left;
@@ -4714,16 +4771,6 @@ body.type-bundle {
   display: inline-block;
   margin-top: -4px;
 }
-.send.friend:after {
-  content: attr(data-hasrequired);
-  display: block;
-  letter-spacing: normal;
-  word-spacing: normal;
-  color: #dc0000;
-  font-size: 12px;
-  text-align: right;
-  margin: 10px 0 0;
-}
 .send.friend .fieldset.recipients .fields {
   list-style: none;
   margin: 18px 0 0;
@@ -4757,6 +4804,7 @@ body.type-bundle {
 }
 .send.friend .fieldset.recipients .fields.additional {
   position: relative;
+  margin-top: 40px;
 }
 .send.friend .fieldset.recipients .fields.additional .action.delete {
   position: absolute;
@@ -4905,16 +4953,13 @@ body.type-bundle {
   margin-left: 25%;
 }
 .opc.wrapper .form:not(.login) .fieldset > .field {
-  margin: 18px 0 0;
+  margin: 0 0 18px;
 }
 .opc.wrapper .form:not(.login) .fieldset > .field > .label {
   margin-top: 4px;
 }
 .opc.wrapper .form:not(.login) .fieldset > .field .nested {
   margin-top: 14px;
-}
-.opc.wrapper .form:not(.login) .fieldset > .field:first-child {
-  margin: 0;
 }
 .opc.wrapper .form:not(.login) .actions {
   position: relative;
@@ -5256,8 +5301,11 @@ body.type-bundle {
   float: right;
 }
 .checkout.submit.order .actions .secondary {
-  float: left;
-  line-height: 32px;
+  font-size: 12px;
+  margin: 5px 0 0;
+}
+.order.data.items thead th {
+  padding: 3px 1px;
 }
 .order.data.items tfoot tr:first-child td {
   border-top: 1px solid #cccccc;
@@ -5273,13 +5321,22 @@ body.type-bundle {
 .order.data.items tr.total:last-child td {
   padding-bottom: 20px;
 }
+.order.data.items tr.total .amount {
+  font-size: 17px;
+  font-family: Amaranth, Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
 .order.data.items tr.grand.total td {
   vertical-align: middle;
 }
 .order.data.items tr.grand.total .amount {
   color: #ee2375;
   font-size: 18px;
-  font-weight: bold;
+}
+.order.data.items tr.grand.total .amount strong {
+  font-weight: 400;
 }
 .order.data.items tbody tr:nth-child(odd) {
   background: #fafafa;
@@ -5416,8 +5473,9 @@ body.type-bundle {
 .items.data thead th {
   color: #333333;
   font-size: 12px;
-  padding: 10px 0;
+  padding: 5px 0;
   text-align: center;
+  vertical-align: middle;
 }
 .items.data thead + tbody tr:first-child td {
   border-top: 1px solid #cccccc;
@@ -5652,9 +5710,6 @@ body.type-bundle {
 .cart.summary .block .giftcard.form {
   padding: 0;
 }
-.cart.table.wrapper.detailed + .cart.summary {
-  margin-top: 54px;
-}
 .block.shipping .content {
   *zoom: 1;
 }
@@ -5754,6 +5809,11 @@ body.type-bundle {
 .sp-methods .item.title,
 .items.methods .item.title {
   font-weight: bold;
+  margin-top: 5px;
+}
+.sp-methods dt > label img + a,
+.items.methods dt > label img + a {
+  font-weight: normal;
 }
 .sp-methods dd,
 .items.methods dd,
@@ -5766,7 +5826,7 @@ body.type-bundle {
 .sp-methods .item.options .field.choice,
 .items.methods .item.options .field.choice {
   padding: 0;
-  margin-bottom: 2px;
+  margin-bottom: 5px;
   display: block;
 }
 .sp-methods ul,
@@ -5901,9 +5961,12 @@ body.type-bundle {
 .cart.totals .amount {
   font-size: 17px;
   font-family: Amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0;
+}
+.cart.totals .amount strong {
+  font-weight: 400;
 }
 .cart.totals .mark strong {
   font-weight: normal;
@@ -5911,7 +5974,7 @@ body.type-bundle {
 .cart.totals td,
 .cart.totals th {
   text-align: right;
-  padding: 12px 0 12px 5px;
+  padding: 5px 0 5px 5px;
 }
 .cart.totals td:not(:first-child) strong {
   color: #ee2375;
@@ -6859,6 +6922,31 @@ body.type-bundle {
   font-size: 13px;
   margin: 45px 0 0;
 }
+.account .column.main > .page.title {
+  margin-top: 43px;
+}
+.account .column.main > .page.title .action.add {
+  border: none;
+  background: #ee2375;
+  display: inline-block;
+  margin: 0;
+  padding: 4px 12px;
+  outline: none;
+  float: right;
+  margin: -32px 0 0;
+}
+.account .column.main > .page.title .action.add span {
+  font-size: 14px;
+  font-family: Amaranth, Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  line-height: 16px;
+}
+.account .column.main > .page.title .action.add:hover {
+  background: #6ab92d;
+}
 .block.account.nav {
   font-size: 13px;
   margin-top: 25px;
@@ -7295,7 +7383,9 @@ body.type-bundle {
   background: #6ab92d;
 }
 .my-account .data.table.orders,
-.my-account .data.wishlist {
+.my-account .data.wishlist,
+.my-account .data.table.reviews,
+.my-account .data.tags {
   background: #ffffff;
   border: 1px solid #cccccc;
   border-collapse: separate;
@@ -7303,62 +7393,111 @@ body.type-bundle {
 }
 .my-account .data.table.orders td,
 .my-account .data.wishlist td,
+.my-account .data.table.reviews td,
+.my-account .data.tags td,
 .my-account .data.table.orders th,
-.my-account .data.wishlist th {
+.my-account .data.wishlist th,
+.my-account .data.table.reviews th,
+.my-account .data.tags th {
   padding: 10px 5px;
   text-align: left;
 }
 .my-account .data.table.orders td.col.total,
 .my-account .data.wishlist td.col.total,
+.my-account .data.table.reviews td.col.total,
+.my-account .data.tags td.col.total,
 .my-account .data.table.orders th.col.total,
-.my-account .data.wishlist th.col.total {
+.my-account .data.wishlist th.col.total,
+.my-account .data.table.reviews th.col.total,
+.my-account .data.tags th.col.total {
   text-align: right;
 }
 .my-account .data.table.orders td.col.actions,
 .my-account .data.wishlist td.col.actions,
+.my-account .data.table.reviews td.col.actions,
+.my-account .data.tags td.col.actions,
 .my-account .data.table.orders th.col.actions,
-.my-account .data.wishlist th.col.actions {
+.my-account .data.wishlist th.col.actions,
+.my-account .data.table.reviews th.col.actions,
+.my-account .data.tags th.col.actions {
   white-space: nowrap;
   width: 10%;
 }
 .my-account .data.table.orders td em,
 .my-account .data.wishlist td em,
+.my-account .data.table.reviews td em,
+.my-account .data.tags td em,
 .my-account .data.table.orders th em,
-.my-account .data.wishlist th em {
+.my-account .data.wishlist th em,
+.my-account .data.table.reviews th em,
+.my-account .data.tags th em {
   font-style: normal;
 }
 .my-account .data.table.orders th,
-.my-account .data.wishlist th {
+.my-account .data.wishlist th,
+.my-account .data.table.reviews th,
+.my-account .data.tags th {
   font-size: 13px;
   border-bottom: 1px solid #cccccc;
 }
 .my-account .data.table.orders tr:nth-child(even) td,
-.my-account .data.wishlist tr:nth-child(even) td {
+.my-account .data.wishlist tr:nth-child(even) td,
+.my-account .data.table.reviews tr:nth-child(even) td,
+.my-account .data.tags tr:nth-child(even) td {
   background: #fafafa;
 }
 .my-account .data.table.orders a,
-.my-account .data.wishlist a {
-  color: #333333;
-  text-decoration: none;
+.my-account .data.wishlist a,
+.my-account .data.table.reviews a,
+.my-account .data.tags a {
+  color: #666666;
 }
 .my-account .data.table.orders a > span,
-.my-account .data.wishlist a > span {
-  color: #333333;
+.my-account .data.wishlist a > span,
+.my-account .data.table.reviews a > span,
+.my-account .data.tags a > span {
+  color: #666666;
   text-decoration: underline;
 }
 .my-account .data.table.orders a:hover,
 .my-account .data.wishlist a:hover,
+.my-account .data.table.reviews a:hover,
+.my-account .data.tags a:hover,
 .my-account .data.table.orders a:hover > span,
-.my-account .data.wishlist a:hover > span {
+.my-account .data.wishlist a:hover > span,
+.my-account .data.table.reviews a:hover > span,
+.my-account .data.tags a:hover > span {
   color: #111111;
   text-decoration: underline;
 }
-.my-account .data.table.orders a:hover,
-.my-account .data.wishlist a:hover {
-  text-decoration: none;
+.my-account .data.table.orders .product.name a,
+.my-account .data.wishlist .product.name a,
+.my-account .data.table.reviews .product.name a,
+.my-account .data.tags .product.name a {
+  color: #ee2375;
+}
+.my-account .data.table.orders .product.name a > span,
+.my-account .data.wishlist .product.name a > span,
+.my-account .data.table.reviews .product.name a > span,
+.my-account .data.tags .product.name a > span {
+  color: #ee2375;
+  text-decoration: underline;
+}
+.my-account .data.table.orders .product.name a:hover,
+.my-account .data.wishlist .product.name a:hover,
+.my-account .data.table.reviews .product.name a:hover,
+.my-account .data.tags .product.name a:hover,
+.my-account .data.table.orders .product.name a:hover > span,
+.my-account .data.wishlist .product.name a:hover > span,
+.my-account .data.table.reviews .product.name a:hover > span,
+.my-account .data.tags .product.name a:hover > span {
+  color: #6ab92d;
+  text-decoration: underline;
 }
 .my-account .data.table.orders .action.view:after,
-.my-account .data.wishlist .action.view:after {
+.my-account .data.wishlist .action.view:after,
+.my-account .data.table.reviews .action.view:after,
+.my-account .data.tags .action.view:after {
   content: ' |';
 }
 .my-account .data.wishlist td {
@@ -7437,6 +7576,203 @@ body.type-bundle {
 }
 .my-account .data.wishlist .price-box .old-price .price {
   font-size: 12px;
+}
+.my-account .giftcardaccount {
+  position: relative;
+}
+.my-account .giftcardaccount .giftcard.form {
+  padding: 0;
+}
+.my-account .giftcardaccount .field.giftcard {
+  *zoom: 1;
+}
+.my-account .giftcardaccount .field.giftcard:before,
+.my-account .giftcardaccount .field.giftcard:after {
+  content: "";
+  display: table;
+}
+.my-account .giftcardaccount .field.giftcard:after {
+  clear: both;
+}
+.my-account .giftcardaccount .label {
+  float: left;
+  width: 25%;
+}
+.my-account .giftcardaccount .control {
+  float: left;
+  width: 75%;
+}
+.my-account .giftcardaccount .actions {
+  *zoom: 1;
+}
+.my-account .giftcardaccount .actions:before,
+.my-account .giftcardaccount .actions:after {
+  content: "";
+  display: table;
+}
+.my-account .giftcardaccount .actions:after {
+  clear: both;
+}
+.my-account .giftcardaccount .actions .primary {
+  float: right;
+  padding: 0 0 0 20px;
+}
+.my-account .giftcardaccount .actions .secondary {
+  float: right;
+  position: relative;
+  left: inherit;
+  top: inherit;
+}
+.my-account .giftcardaccount .actions .secondary .action.check {
+  border: none;
+  background: none;
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  background: #ee2375;
+  color: #ffffff;
+  font-size: 10px;
+  font-family: Amaranth, Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 9px;
+  padding: 7px 9px 6px;
+}
+.my-account .giftcardaccount .actions .secondary .action.check:hover {
+  background: #6ab92d;
+}
+.my-account .giftcardaccount .load.indicator {
+  background: #ffffff;
+  border: 3px solid #d9d9d9;
+  display: block;
+  left: 50%;
+  margin: -20px 0 0 -86px;
+  position: absolute;
+  top: 50%;
+}
+.my-account .data.table.reviews td {
+  vertical-align: top;
+}
+.my-account .data.table.reviews .col.date {
+  width: 5%;
+}
+.my-account .data.table.reviews .col.item {
+  width: 25%;
+}
+.my-account .data.table.reviews .col.actions {
+  width: 10%;
+}
+.my-account .review.view {
+  *zoom: 1;
+}
+.my-account .review.view:before,
+.my-account .review.view:after {
+  content: "";
+  display: table;
+}
+.my-account .review.view:after {
+  clear: both;
+}
+.my-account .review.view .product.name {
+  display: inline-block;
+  margin: 0;
+}
+.my-account .review.view .product.details {
+  float: left;
+  margin: 0 20px 0 0;
+}
+.my-account .review.view .review.title {
+  font-size: 14px;
+  font-weight: bold;
+}
+.my-account .review.view .review.date {
+  color: #666666;
+  font-size: 11px;
+  margin: 10px 0;
+}
+.my-account .review.view .review.date .date {
+  color: #111111;
+  font-weight: bold;
+}
+.my-account .review.view .review.details {
+  margin: 20px 0 10px;
+  display: table;
+}
+.my-account .review.view .review.details .ratings.summary {
+  margin: 0 0 10px;
+}
+.my-account .review.view .review.details .ratings.summary strong {
+  display: block;
+  margin: 0 0 5px;
+}
+.my-account .review.view .review.details .ratings.summary .item {
+  display: table-row;
+}
+.my-account .review.view .review.details .ratings.summary .label {
+  padding: 0 0 10px;
+  padding-right: 10px;
+  display: table-cell;
+}
+.my-account .review.view .review.details .ratings.summary .label:after {
+  content: ': ';
+}
+.my-account .review.view .review.details .review.date {
+  font-size: 12px;
+}
+.my-account .review.view .review.details .review.title {
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 0 15px;
+}
+.my-account .tags.cloud .item {
+  display: inline;
+}
+.my-account .tag.edit .action.delete span:after {
+  height: 12px;
+  font-size: 10px;
+  line-height: 12px;
+}
+.my-account .data.tags td {
+  vertical-align: top;
+}
+.my-account .data.tags .col.photo {
+  width: 110px;
+}
+.my-account .data.tags .col .actions {
+  margin-top: 0;
+}
+.my-account .data.tags .col .actions .addto.links {
+  margin: 10px 0 0;
+}
+.my-account .data.tags .col .actions .addto.links a,
+.my-account .data.tags .col .actions .addto.links a span {
+  text-decoration: none;
+}
+.my-account .data.tags .reviews.actions .action.view:after {
+  content: '';
+}
+.my-account .data.tags .reviews.actions .action.view span:before {
+  content: ' ';
+}
+.my-account .data.tags .reviews.summary {
+  margin: 10px 0;
+}
+.my-account .data.tags .price-box .price-label {
+  display: none;
+}
+.my-account .data.tags .price-box .price {
+  font-size: 14px;
+}
+.my-account .data.tags .old-price {
+  color: #d9d9d9;
+  text-decoration: line-through;
+}
+.my-account .data.tags .price-excluding-tax,
+.my-account .data.tags .price-including-tax {
+  display: block;
 }
 .wishlist-index-index .actions .primary {
   text-align: right;

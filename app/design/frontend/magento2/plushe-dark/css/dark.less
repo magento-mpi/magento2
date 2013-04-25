@@ -20,6 +20,8 @@
 @searchFieldBg : #ababab;
 @textColor: #c4c4c4;
 
+@link : #c4c4c4;
+
 a,
 a:visited,
 a > span {
@@ -116,7 +118,8 @@ input, select, textarea {
 .form.address.edit,
 .form.edit.account,
 .form.password.forget,
-.form.create.account {
+.form.create.account,
+.form.wishlist.share {
     .fieldset {
         .legend {
             background: @primary3;
@@ -315,6 +318,40 @@ input, select, textarea {
     .fieldset.create.account {
         &:after {
             color: @textColor;
+        }
+    }
+}
+
+.fieldset.bundle.options {
+    > .field {
+        background: @primary3;
+    }
+}
+
+.block.bundle.summary {
+    background: @primary3;
+}
+
+.block.discount {
+    .fieldset.coupon {
+        .action.cancel {
+            span {
+                color: @textColor;
+            }
+            &:hover span {
+                color: @secondary1;
+            }
+        }
+    }
+}
+
+.block.giftcard {
+    .action.check {
+        span {
+            color: @textColor;
+        }
+        &:hover span {
+            color: @secondary1;
         }
     }
 }
