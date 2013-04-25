@@ -4,7 +4,6 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- * @method Saas_Mage_SaasAdminMenu_Helper saasAdminMenuHelper() saasAdminMenuHelper()
  */
 class Saas_Mage_Sitemap_GoogleVerificationCodeTest extends Saas_Mage_TestCase
 {
