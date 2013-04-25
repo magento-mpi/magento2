@@ -873,25 +873,16 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
     }
 
     /**
-     * Get total number of records in the system
-     *
-     * @return int
-     */
-    public function countAll()
-    {
-        $adapter = $this->_getReadAdapter();
-        $select = $adapter->select();
-        $select->from($this->getEntityTable(), 'COUNT(*)');
-        return (int)$adapter->fetchOne($select);
-    }
-
-    /**
      * Get total visible categories (without root category)
      *
      * @return int
      */
     public function countVisible()
     {
-        return $this->countAll() - 1;
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select();
+        $select->from($this->getEntityTable(), 'COUNT(*)')
+            ->where('parent_id != ?', 0);
+        return (int)$adapter->fetchOne($select);
     }
 }

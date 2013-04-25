@@ -378,7 +378,7 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoConfigFixture limitations/catalog_category 3
+     * @magentoConfigFixture limitations/catalog_category 2
      * @magentoDataFixture Mage/Catalog/_files/category.php
      */
     public function testSaveRestricted()
