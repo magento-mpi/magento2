@@ -297,4 +297,34 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
         }
         return $this->_customerWebsiteSegments[$websiteId][$customerId];
     }
+
+    /**
+     * Retrieve segment ids for the current customer and current website
+     *
+     * @return array
+     */
+    public function getCurrentCustomerSegmentIds()
+    {
+        /** @var Mage_Customer_Model_Session $customerSession */
+        $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
+
+        $result = array();
+
+        /** @var Mage_Customer_Model_Customer $customer */
+        $customer = Mage::registry('segment_customer');
+        if (!$customer) {
+            $customer = $customerSession->getCustomer();
+        }
+        $websiteId = Mage::app()->getWebsite()->getId();
+
+        if (!$customer->getId()) {
+            $allSegmentIds = $customerSession->getCustomerSegmentIds();
+            if ((is_array($allSegmentIds) && isset($allSegmentIds[$websiteId]))) {
+                $result = $allSegmentIds[$websiteId];
+            }
+        } else {
+            $result = $this->getCustomerSegmentIdsForWebsite($customer->getId(), $websiteId);
+        }
+        return $result;
+    }
 }

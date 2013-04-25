@@ -170,51 +170,32 @@ class Enterprise_Banner_Block_Widget_Banner
      */
     public function getBannersContent()
     {
-        $bannersContent = array();
-        $aplliedRules = null;
-        $segmentIds = array();
-        $customer = Mage::registry('segment_customer');
-        if (!$customer) {
-            $customer = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
-        }
-        $websiteId = Mage::app()->getWebsite()->getId();
-
-        if (!$customer->getId()) {
-            $allSegmentIds = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerSegmentIds();
-            if ((is_array($allSegmentIds) && isset($allSegmentIds[$websiteId]))) {
-                $segmentIds = $allSegmentIds[$websiteId];
-            }
-        } else {
-            $segmentIds = Mage::getSingleton('Enterprise_CustomerSegment_Model_Customer')
-                ->getCustomerSegmentIdsForWebsite($customer->getId(), $websiteId);
-        }
-
         $this->_bannerResource->filterByTypes($this->getTypes());
 
         // Choose display mode
         switch ($this->getDisplayMode()) {
 
             case self::BANNER_WIDGET_DISPLAY_SALESRULE:
+                $appliedRules = array();
                 if (Mage::getSingleton('Mage_Checkout_Model_Session')->getQuoteId()) {
                     $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
-                    $aplliedRules = explode(',', $quote->getAppliedRuleIds());
+                    $appliedRules = explode(',', $quote->getAppliedRuleIds());
                 }
-                $bannerIds = $this->_bannerResource->getSalesRuleRelatedBannerIds($segmentIds, $aplliedRules);
-                $bannersContent = $this->_getBannersContent($bannerIds, $segmentIds);
+                $bannerIds = $this->_bannerResource->getSalesRuleRelatedBannerIds($appliedRules);
+                $bannersContent = $this->_getBannersContent($bannerIds);
                 break;
 
             case self::BANNER_WIDGET_DISPLAY_CATALOGRULE :
                 $bannerIds = $this->_bannerResource->getCatalogRuleRelatedBannerIds(
                     Mage::app()->getWebsite()->getId(),
-                    Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId(),
-                    $segmentIds
+                    Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerGroupId()
                 );
-                $bannersContent = $this->_getBannersContent($bannerIds, $segmentIds);
+                $bannersContent = $this->_getBannersContent($bannerIds);
                 break;
 
             case self::BANNER_WIDGET_DISPLAY_FIXED :
             default :
-                $bannersContent = $this->_getBannersContent($this->getBannerIds(), $segmentIds);
+                $bannersContent = $this->_getBannersContent($this->getBannerIds());
                 break;
         }
 
@@ -264,11 +245,9 @@ class Enterprise_Banner_Block_Widget_Banner
      * Get banners content by specified banners IDs depend on Rotation mode
      *
      * @param array $bannerIds
-     * @param array $segmentIds
-     * @param int $storeId
      * @return array
      */
-    protected function _getBannersContent($bannerIds, $segmentIds = array())
+    protected function _getBannersContent(array $bannerIds)
     {
         $this->_setRenderedParam('bannerIds', $bannerIds)
             ->_setRenderedParam('renderedBannerIds', array());
@@ -297,7 +276,7 @@ class Enterprise_Banner_Block_Widget_Banner
                         $bannerId = $bannerIds[array_rand($bannerIds, 1)];
                     }
 
-                    $_content = $bannerResource->getStoreContent($bannerId, $this->_currentStoreId, $segmentIds);
+                    $_content = $bannerResource->getStoreContent($bannerId, $this->_currentStoreId);
                     if (!empty($_content)) {
                         $content[$bannerId] = $_content;
                     }
@@ -355,7 +334,7 @@ class Enterprise_Banner_Block_Widget_Banner
 
                     $this->_sessionInstance->setData($this->getUniqueId(), $bannersSequence);
 
-                    $_content = $bannerResource->getStoreContent($bannerId, $this->_currentStoreId, $segmentIds);
+                    $_content = $bannerResource->getStoreContent($bannerId, $this->_currentStoreId);
                     if (!empty($_content)) {
                         $content[$bannerId] = $_content;
                     }
@@ -365,7 +344,7 @@ class Enterprise_Banner_Block_Widget_Banner
 
                 default:
                     // We must always render all available banners - so suggested values are ignored
-                    $content = $bannerResource->getBannersContent($bannerIds, $this->_currentStoreId, $segmentIds);
+                    $content = $bannerResource->getBannersContent($bannerIds, $this->_currentStoreId);
                     $this->_setRenderedParam('renderedBannerIds', $bannerIds);
                     break;
             }

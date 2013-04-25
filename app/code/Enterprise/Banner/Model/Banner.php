@@ -106,29 +106,6 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get banner content for specific store
-     *
-     * @param   store $store
-     * @return  string | false
-     */
-    public function getStoreContent($store = null)
-    {
-        $storeId = Mage::app()->getStore($store)->getId();
-        if ($this->hasStoreContents()) {
-            $contents = $this->_getData('store_contents');
-            if (isset($contents[$storeId])) {
-                return $contents[$storeId];
-            } elseif ($contents[0]) {
-                return $contents[0];
-            }
-            return false;
-        } elseif (!isset($this->_contents[$storeId])) {
-            $this->_contents[$storeId] = $this->_getResource()->getStoreContent($this->getId(), $storeId);
-        }
-        return $this->_contents[$storeId];
-    }
-
-    /**
      * Get all existing banner contents
      *
      * @return array
@@ -192,12 +169,6 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
             $this->_getResource()->saveSalesRules(
                 $this->getId(),
                 $this->getBannerSalesRules()
-            );
-        }
-        if ($this->hasCustomerSegmentIds()) {
-            $this->_getResource()->saveCustomerSegments(
-                $this->getId(),
-                $this->getCustomerSegmentIds()
             );
         }
         return parent::_afterSave();
