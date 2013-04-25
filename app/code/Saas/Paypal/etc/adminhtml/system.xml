@@ -47,7 +47,10 @@
                 </depends>
             </group>
 
-            <group id="paypal_payment_solutions" showInDefault="0" showInWebsite="0" showInStore="0"/>
+            <group id="paypal_payment_solutions" showInDefault="0" showInWebsite="0" showInStore="0">
+                <group id="paypal_verisign_ca" showInDefault="1" showInWebsite="1" showInStore="1"/>
+                <group id="paypal_verisign_aunz" showInDefault="1" showInWebsite="1" showInStore="1"/>
+            </group>
             <group id="paypal_payment_solutions_saas" extends="*/paypal_payment_solutions" showInDefault="1" showInWebsite="1" showInStore="1">
                 <depends>
                     <field id="*/account/merchant_country" separator="," negative="1">AU,US,GB</field>
@@ -474,7 +477,7 @@
                         <field id="*/account/merchant_country">AU</field>
                     </depends>
                 </group>
-                <group id="paypal_verisign_with_express_checkout">
+                <group id="paypal_verisign_with_express_checkout" showInDefault="1" showInWebsite="1" showInStore="1">
                     <group id="paypal_payflow_express_checkout">
                         <group id="paypal_payflow_express_checkout_advanced">
                             <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0"/>
