@@ -140,7 +140,7 @@ class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_Tag
      */
     public function getAfter()
     {
-        return 'reviews';
+        return 'product-reviews';
     }
 
     /**
