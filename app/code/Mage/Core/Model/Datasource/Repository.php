@@ -5,13 +5,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-class Magento_Datasource_Repository
+class Mage_Core_Model_Datasource_Repository
 {
+    /**
+     * @var array
+     */
     protected $_dataSources = array();
 
+    /**
+     * @var array
+     */
     protected $_namespaces = array();
 
+    /**
+     * @param $namespace
+     * @param $name
+     * @param $nameInNamespace
+     * @return $this
+     */
     public function addNameInNamespace($namespace, $name, $nameInNamespace)
     {
         if (isset($this->_namespaces[$namespace])) {
@@ -22,6 +33,10 @@ class Magento_Datasource_Repository
         return $this;
     }
 
+    /**
+     * @param $namespace
+     * @return array
+     */
     public function getByNamespace($namespace)
     {
         if (!isset($this->_namespaces[$namespace])) {
@@ -35,12 +50,21 @@ class Magento_Datasource_Repository
         return $dataSources;
     }
 
+    /**
+     * @param $name
+     * @param $dataSource
+     * @return $this
+     */
     public function add($name, $dataSource)
     {
         $this->_dataSources[$name] = $dataSource;
         return $this;
     }
 
+    /**
+     * @param $name
+     * @return null
+     */
     public function get($name)
     {
         if (!isset($this->_dataSources[$name])) {

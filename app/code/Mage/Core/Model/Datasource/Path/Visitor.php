@@ -5,14 +5,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class  Magento_Datasource_Path_Visitor
+class  Mage_Core_Model_Datasource_Path_Visitor
 {
+    /**
+     * @var null|string
+     */
     protected $_path = null;
 
+    /**
+     * @var string
+     */
     protected $_separator = '/';
 
+    /**
+     * @var
+     */
     protected $_currentPathElement;
 
+    /**
+     * @param $path
+     * @param string $separator
+     */
     public function __construct($path, $separator = '/')
     {
         $this->_path = trim($path, '{}');
@@ -20,11 +33,17 @@ class  Magento_Datasource_Path_Visitor
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getCurrentPathElement()
     {
         return $this->_currentPathElement;
     }
 
+    /**
+     * @return null|string
+     */
     public function chopCurrentPathElement()
     {
         if (strpos($this->_path, $this->_separator) !== false) {
@@ -38,11 +57,11 @@ class  Magento_Datasource_Path_Visitor
     }
 
     /**
-     * @param Magento_Datasource_Path_Visitable $object
+     * @param Mage_Core_Model_Datasource_Path_Visitable $object
      * @return null
      * @throws InvalidArgumentException
      */
-    public function visitObject(Magento_Datasource_Path_Visitable $object)
+    public function visitObject(Mage_Core_Model_Datasource_Path_Visitable $object)
     {
         $target = $object->visit($this);
         if ($target == null) {
@@ -51,6 +70,10 @@ class  Magento_Datasource_Path_Visitor
         return $target;
     }
 
+    /**
+     * @param array $target
+     * @return null
+     */
     public function visitArray(Array $target)
     {
         if (isset($target[$this->getCurrentPathElement()])) {
@@ -60,6 +83,11 @@ class  Magento_Datasource_Path_Visitor
         }
     }
 
+    /**
+     * @param $target
+     * @return null
+     * @throws InvalidArgumentException
+     */
     public function visit($target)
     {
         $this->chopCurrentPathElement();

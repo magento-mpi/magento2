@@ -161,14 +161,14 @@
                     </handlers>
                 </parameters>
             </Magento_Http_Handler_Composite>
-            <Magento_Datasource_Path_Composite>
+            <Mage_Core_Model_Datasource_Path_Composite>
                 <parameters>
                     <items>
-                        <data>Magento_Datasource_Factory</data>
+                        <data>Mage_Core_Model_Datasource_Factory</data>
                         <request>Mage_Core_Model_Datasource_Request_Visitor</request>
                     </items>
                 </parameters>
-            </Magento_Datasource_Path_Composite>
+            </Mage_Core_Model_Datasource_Path_Composite>
             <Mage_Core_Helper_Url>
                 <parameters>
                     <translate>Mage_Core_Model_Translate_Proxy</translate>

@@ -5,7 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Datasource_Config_Interface
+interface Mage_Core_Model_Datasource_Config_Interface
 {
+    /**
+     * @param $alias
+     * @return mixed
+     */
     public function getClassByAlias($alias);
 }

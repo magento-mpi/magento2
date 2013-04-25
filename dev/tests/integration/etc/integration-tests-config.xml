@@ -25,7 +25,7 @@
         <di>
             <preferences>
                 <Mage_Core_Model_Cookie>Magento_Test_Cookie</Mage_Core_Model_Cookie>
-                <Magento_Datasource_Config_Interface>Mage_Core_Model_Datasource_Config</Magento_Datasource_Config_Interface>
+                <Mage_Core_Model_Datasource_Config_Interface>Mage_Core_Model_Datasource_Config</Mage_Core_Model_Datasource_Config_Interface>
             </preferences>
         </di>
         <dev>

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Datasource_Config implements Magento_Datasource_Config_Interface
+class Mage_Core_Model_Datasource_Config implements Mage_Core_Model_Datasource_Config_Interface
 {
     const CONFIG_AREA = 'global';
 

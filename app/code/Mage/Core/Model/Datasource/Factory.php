@@ -5,8 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Datasource_Factory implements Magento_Datasource_Path_Visitable
+class Mage_Core_Model_Datasource_Factory implements Mage_Core_Model_Datasource_Path_Visitable
 {
+    /**
+     * @var Mage_Core_Model_Datasource_Config_Interface
+     */
     protected $_config;
 
     /**
@@ -14,24 +17,27 @@ class Magento_Datasource_Factory implements Magento_Datasource_Path_Visitable
      */
     protected $_objectManager;
 
-    /** @var Magento_Datasource_Repository */
+    /** @var Mage_Core_Model_Datasource_Repository */
     protected $_repository;
 
     /**
-     * @param Magento_Datasource_Config_Interface $config
+     * @param Mage_Core_Model_Datasource_Config_Interface $config
      * @param Magento_ObjectManager $objectManager
-     * @param Magento_Datasource_Repository $repository
+     * @param Mage_Core_Model_Datasource_Repository $repository
      */
     public function __construct(
-        Magento_Datasource_Config_Interface $config,
+        Mage_Core_Model_Datasource_Config_Interface $config,
         Magento_ObjectManager $objectManager,
-        Magento_Datasource_Repository $repository
+        Mage_Core_Model_Datasource_Repository $repository
     ) {
         $this->_config = $config;
         $this->_objectManager = $objectManager;
         $this->_repository = $repository;
     }
 
+    /**
+     * @return Mage_Core_Model_Datasource_Config_Interface
+     */
     public function getConfig()
     {
         return $this->_config;
@@ -47,7 +53,7 @@ class Magento_Datasource_Factory implements Magento_Datasource_Path_Visitable
      *      ))
      *
      * @param array $dataSourcesList
-     * @return Magento_Datasource_Factory
+     * @return Mage_Core_Model_Datasource_Factory
      */
     public function init(array $dataSourcesList)
     {
@@ -102,7 +108,7 @@ class Magento_Datasource_Factory implements Magento_Datasource_Path_Visitable
 
     /**
      * Retrieve repository for the data from service calls
-     * @return array|Magento_Datasource_Repository
+     * @return array|Mage_Core_Model_Datasource_Repository
      */
     public function getRepository()
     {
@@ -157,11 +163,11 @@ class Magento_Datasource_Factory implements Magento_Datasource_Path_Visitable
      */
     public function getArgumentValue($path)
     {
-        /** @var $visitor Magento_Datasource_Path_Visitor */
-        $visitor = $this->_objectManager->create('Magento_Datasource_Path_Visitor',
+        /** @var $visitor Mage_Core_Model_Datasource_Path_Visitor */
+        $visitor = $this->_objectManager->create('Mage_Core_Model_Datasource_Path_Visitor',
             array('path' => $path, 'separator' => '.'));
-        /** @var $pathRepository Magento_Datasource_Path_Composite */
-        $pathRepository = $this->_objectManager->create('Magento_Datasource_Path_Composite');
+        /** @var $pathRepository Mage_Core_Model_Datasource_Path_Composite */
+        $pathRepository = $this->_objectManager->create('Mage_Core_Model_Datasource_Path_Composite');
         $result = $visitor->visit($pathRepository);
         return $result;
     }
@@ -185,10 +191,10 @@ class Magento_Datasource_Factory implements Magento_Datasource_Path_Visitable
     /**
      * Make the Datasource Object visitable
      *
-     * @param Magento_Datasource_Path_Visitor $visitor
+     * @param Mage_Core_Model_Datasource_Path_Visitor $visitor
      * @return bool|mixed
      */
-    public function visit(Magento_Datasource_Path_Visitor $visitor)
+    public function visit(Mage_Core_Model_Datasource_Path_Visitor $visitor)
     {
         return $this->get($visitor->getCurrentPathElement());
     }
