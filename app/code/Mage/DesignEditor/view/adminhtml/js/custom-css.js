@@ -12,10 +12,11 @@
     $.widget('vde.customCssPanel', {
         options: {
             saveCustomCssUrl: null,
+            downloadCustomCssUrl: null,
             customCssCode: '#custom_code',
-            btnUpdateCss: '#vde-tab-custom .action-update',
-            btnDeleteCss: '#vde-tab-custom .action-delete',
-            btnUpdateDownload: '#vde-tab-custom .action-download'
+            btnUpdateCss: '[data-action="update"]',
+            btnDeleteCss: '[data-action="delete"]',
+            btnUpdateDownload: '[data-action="download"]'
         },
 
         updateButtons: function() {
@@ -23,10 +24,10 @@
         },
 
         _create: function() {
-            this.btnCssUpdate = $(this.options.btnUpdateCss);
-            this.btnCssDelete = $(this.options.btnDeleteCss);
-            this.customCssCode = $(this.options.customCssCode);
-            this.btnUpdateDownload = $(this.options.btnUpdateDownload);
+            this.btnCssUpdate = this.element.find(this.options.btnUpdateCss);
+            this.btnCssDelete = this.element.find(this.options.btnDeleteCss);
+            this.customCssCode = this.element.find(this.options.customCssCode);
+            this.btnUpdateDownload = this.element.find(this.options.btnUpdateDownload);
             this._prepareUpdateButton();
             this._events();
         },
@@ -35,6 +36,7 @@
             this.btnCssUpdate.on('click', $.proxy(this._updateCustomCss, this));
             this.btnCssDelete.on('click', $.proxy(this._deleteCustomCss, this));
             this.customCssCode.on('input onchange change', $.proxy(this._editCustomCss, this));
+            this.btnUpdateDownload.on('click', $.proxy(this._downloadCustomCss, this));
         },
 
         _editCustomCss: function()
@@ -42,6 +44,10 @@
             if ($.trim($(this.customCssCode).val())) {
                 this.btnCssUpdate.removeProp('disabled');
             }
+        },
+
+        _downloadCustomCss: function() {
+            $.mage.redirect(this.options.downloadCustomCssUrl);
         },
 
         _postUpdatedCustomCssContent: function()
@@ -72,7 +78,7 @@
 
         _deleteCustomCss: function()
         {
-            $(this.customCssCode).val('');
+            this.customCssCode.val('');
             this._postUpdatedCustomCssContent();
         },
 
