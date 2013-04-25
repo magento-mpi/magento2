@@ -144,11 +144,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                 'group_code' => self::ADVANCED_TAB_GROUP_CODE,
             ));
 
-            if (isset($advancedGroups['design'])) {
-                $this->addTab('design', $advancedGroups['design']);
-                unset($advancedGroups['design']);
-            }
-
             $alertPriceAllow = Mage::getStoreConfig('catalog/productalert/allow_price');
             $alertStockAllow = Mage::getStoreConfig('catalog/productalert/allow_stock');
             if (($alertPriceAllow || $alertStockAllow) && !$product->isGrouped()) {
@@ -173,6 +168,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                         ));
                     }
                 }
+            }
+
+            if (isset($advancedGroups['design'])) {
+                $this->addTab('design', $advancedGroups['design']);
+                unset($advancedGroups['design']);
             }
 
             if (isset($advancedGroups['autosettings'])) {
