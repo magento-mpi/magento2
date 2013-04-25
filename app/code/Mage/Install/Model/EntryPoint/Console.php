@@ -42,7 +42,7 @@ class Mage_Install_Model_EntryPoint_Console extends Mage_Core_Model_EntryPointAb
     /**
      * Run http application
      */
-    public function processRequest()
+    protected function _processRequest()
     {
         /**
          * @var $installer Mage_Install_Model_Installer_Console
@@ -60,29 +60,41 @@ class Mage_Install_Model_EntryPoint_Console extends Mage_Core_Model_EntryPointAb
         } else if (isset($this->_params['show_install_options'])) {
             var_export($installer->getAvailableInstallOptions());
         } else {
-            if (isset($this->_params['config']) && file_exists($this->_params['config'])) {
-                $config = (array) include($this->_params['config']);
-                $this->_params = array_merge((array)$config, $this->_params);
-            }
-            $isUninstallMode = isset($this->_params['uninstall']);
+            $this->_handleInstall($installer);
+        }
+    }
+
+    /**
+     * Install/Uninstall application
+     *
+     * @param Mage_Install_Model_Installer_Console $installer
+     *
+     * @SuppressWarnings(PHPMD.ExitExpression)
+     */
+    protected function _handleInstall(Mage_Install_Model_Installer_Console $installer)
+    {
+        if (isset($this->_params['config']) && file_exists($this->_params['config'])) {
+            $config = (array) include($this->_params['config']);
+            $this->_params = array_merge((array)$config, $this->_params);
+        }
+        $isUninstallMode = isset($this->_params['uninstall']);
+        if ($isUninstallMode) {
+            $result = $installer->uninstall();
+        } else {
+            $result = $installer->install($this->_params);
+        }
+        if (!$installer->hasErrors()) {
             if ($isUninstallMode) {
-                $result = $installer->uninstall();
+                $msg = $result ?
+                    'Uninstalled successfully' :
+                    'Ignoring attempt to uninstall non-installed application';
             } else {
-                $result = $installer->install($this->_params);
+                $msg = 'Installed successfully' . ($result ? ' (encryption key "' . $result . '")' : '');
             }
-            if (!$installer->hasErrors()) {
-                if ($isUninstallMode) {
-                    $msg = $result ?
-                        'Uninstalled successfully' :
-                        'Ignoring attempt to uninstall non-installed application';
-                } else {
-                    $msg = 'Installed successfully' . ($result ? ' (encryption key "' . $result . '")' : '');
-                }
-                echo $msg . PHP_EOL;
-            } else {
-                echo implode(PHP_EOL, $installer->getErrors()) . PHP_EOL;
-                exit(1);
-            }
+            echo $msg . PHP_EOL;
+        } else {
+            echo implode(PHP_EOL, $installer->getErrors()) . PHP_EOL;
+            exit(1);
         }
     }
 }
