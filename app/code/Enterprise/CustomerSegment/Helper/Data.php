@@ -104,6 +104,8 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
 
         $formData->setUseCustomerSegment(count($formData->getCustomerSegmentIds()) > 0);
 
+        $htmlIdPrefix = $form->getHtmlIdPrefix();
+
         /** @var Varien_Data_Form_Element_Fieldset $fieldset */
         $fieldset = $form->getElement('base_fieldset');
 
@@ -118,7 +120,7 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
                 ? $this->_getSpecificSegmentMessage()  : $this->_getAllSegmentsMessage(),
             'disabled' => $formData->getIsReadonly(),
             'after_element_html' => $this->_getChangeNoteMessageScript(
-                'rule_use_customer_segment',
+                "{$htmlIdPrefix}use_customer_segment",
                 'use_customer_segment-note'
             )
         ));
@@ -130,7 +132,6 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
             'can_be_empty' => true,
         ));
 
-        $htmlIdPrefix = $form->getHtmlIdPrefix();
         $fieldDependencies
             ->addFieldMap("{$htmlIdPrefix}use_customer_segment", 'use_customer_segment')
             ->addFieldMap("{$htmlIdPrefix}customer_segment_ids", 'customer_segment_ids')
