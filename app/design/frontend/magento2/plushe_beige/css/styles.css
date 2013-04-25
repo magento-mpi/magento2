@@ -150,6 +150,10 @@ textarea {
 }
 html {
   background: #eeece0;
+  min-width: 1025px;
+}
+body {
+  position: relative;
 }
 .page.wrapper {
   background: #eeece0;
@@ -1393,6 +1397,53 @@ a:visited:hover {
 .field.ratings .field.rating .control .rating-5:before {
   content: "\e01a\e01a\e01a\e01a\e01a";
 }
+/* Review details */
+.review.view .product.name {
+  display: inline-block;
+  margin: 0 0 0;
+}
+.review.view .product.details {
+  float: left;
+  margin-right: 30px;
+}
+.review.view .product.photo {
+  display: block;
+  margin-bottom: 30px;
+}
+.review.view .review.details {
+  margin: 30px 0;
+  display: table;
+}
+.review.view .review.details .ratings.summary {
+  margin-bottom: 30px;
+}
+.review.view .review.details .ratings.summary strong {
+  font-weight: 600;
+  display: block;
+  margin: 0 0 15px;
+}
+.review.view .review.details .ratings.summary .item {
+  display: table-row;
+}
+.review.view .review.details .ratings.summary .label {
+  padding: 0 0 10px;
+  padding-right: 10px;
+  display: table-cell;
+}
+.review.view .review.details .ratings.summary .label:after {
+  content: ': ';
+}
+.review.view .review.details .review.date {
+  font-size: 12px;
+}
+.review.view .review.details .review.title {
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 0 15px;
+}
+.customer.review.view + .actions {
+  clear: both;
+}
 /*
  *    MESSAGES
  *
@@ -2530,6 +2581,59 @@ div.mage-error {
 .data-table td:last-child {
   border: 0;
 }
+.form.giftcard.redeem .field {
+  margin: 15px 0;
+}
+.form.giftcard.redeem .label {
+  margin-bottom: 10px;
+  display: block;
+}
+.form.giftcard.redeem .primary {
+  display: inline;
+  margin-right: 15px;
+}
+.form.giftcard.redeem .primary .action {
+  border: none;
+  border-radius: 0;
+  background: #993333;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.form.giftcard.redeem .primary .action span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.form.giftcard.redeem .secondary {
+  display: inline;
+}
+.form.giftcard.redeem .secondary .action {
+  border: none;
+  border-radius: 0;
+  background: #cac3b4;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.form.giftcard.redeem .secondary .action span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.form.giftcard.redeem .secondary .action:focus,
+.form.giftcard.redeem .secondary .action:active,
+.form.giftcard.redeem .secondary .action:hover {
+  background: #a59f93;
+}
 .block.giftcard .form.add .fieldset {
   position: relative;
   z-index: 1;
@@ -3418,6 +3522,84 @@ div.mage-error {
 .action.subscribe span:after {
   text-indent: 0;
   display: block;
+}
+.form.newsletter.manage .fieldset {
+  margin: 0 0 20px;
+  padding: 0;
+  border: 0;
+}
+.form.newsletter.manage .fieldset .legend {
+  float: left;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+.form.newsletter.manage .fieldset .legend + br {
+  display: block;
+  clear: both;
+}
+.form.newsletter.manage .action.save {
+  border: none;
+  border-radius: 0;
+  background: #993333;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.form.newsletter.manage .action.save span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.form.newsletter.manage .actions .primary {
+  margin-bottom: 15px;
+}
+/*
+ *    Mage_Tags
+ *
+----------------------------------------------------------------------------- */
+.tags.product,
+.tags.items.cloud {
+  margin: 0 0 20px;
+}
+.tags.product .item,
+.tags.items.cloud .item {
+  display: inline-block;
+  margin: 0 0 5px 5px;
+}
+.tags.product .item:first-child,
+.tags.items.cloud .item:first-child {
+  margin-left: 0;
+}
+.data.table.tags .col.photo {
+  width: 1px;
+}
+.data.table.tags .addto.links {
+  margin-top: 15px;
+}
+.tag.edit {
+  line-height: 16px;
+}
+.tag.edit strong {
+  font-weight: 400;
+}
+.tag.edit strong:after {
+  content: ': ';
+}
+.tag.edit .tag.text {
+  font-weight: 600;
+}
+.tag.edit .tag.text:before {
+  content: "\201C";
+}
+.tag.edit .tag.text:after {
+  content: "\201D ";
+}
+.tag.edit .action {
+  vertical-align: middle;
 }
 /*
  *    Widgets
@@ -6028,7 +6210,9 @@ img[align="right"] {
 .form.orders.search .fieldset,
 .form.contact .fieldset,
 .form.password.forget .fieldset,
-.form.create.account .fieldset {
+.form.create.account .fieldset,
+.form.wishlist.share .fieldset,
+.form.password.reset .fieldset {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -6060,7 +6244,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field,
 .form.contact .fieldset > .field,
 .form.password.forget .fieldset > .field,
-.form.create.account .fieldset > .field {
+.form.create.account .fieldset > .field,
+.form.wishlist.share .fieldset > .field,
+.form.password.reset .fieldset > .field {
   width: 50%;
   display: inline-block;
   padding-right: 20px;
@@ -6073,7 +6259,9 @@ img[align="right"] {
 .form.orders.search .fieldset > *,
 .form.contact .fieldset > *,
 .form.password.forget .fieldset > *,
-.form.create.account .fieldset > * {
+.form.create.account .fieldset > *,
+.form.wishlist.share .fieldset > *,
+.form.password.reset .fieldset > * {
   letter-spacing: normal;
   word-spacing: normal;
 }
@@ -6084,7 +6272,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .legend + br,
 .form.contact .fieldset > .legend + br,
 .form.password.forget .fieldset > .legend + br,
-.form.create.account .fieldset > .legend + br {
+.form.create.account .fieldset > .legend + br,
+.form.wishlist.share .fieldset > .legend + br,
+.form.password.reset .fieldset > .legend + br {
   display: none;
 }
 .form.send.friend .fieldset .legend,
@@ -6094,7 +6284,9 @@ img[align="right"] {
 .form.orders.search .fieldset .legend,
 .form.contact .fieldset .legend,
 .form.password.forget .fieldset .legend,
-.form.create.account .fieldset .legend {
+.form.create.account .fieldset .legend,
+.form.wishlist.share .fieldset .legend,
+.form.password.reset .fieldset .legend {
   float: left;
   line-height: 1.2;
   font-size: 20px;
@@ -6112,7 +6304,9 @@ img[align="right"] {
 .form.orders.search .fieldset .legend + br,
 .form.contact .fieldset .legend + br,
 .form.password.forget .fieldset .legend + br,
-.form.create.account .fieldset .legend + br {
+.form.create.account .fieldset .legend + br,
+.form.wishlist.share .fieldset .legend + br,
+.form.password.reset .fieldset .legend + br {
   display: block;
   clear: both;
 }
@@ -6123,7 +6317,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field,
 .form.contact .fieldset > .field,
 .form.password.forget .fieldset > .field,
-.form.create.account .fieldset > .field {
+.form.create.account .fieldset > .field,
+.form.wishlist.share .fieldset > .field,
+.form.password.reset .fieldset > .field {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -6137,7 +6333,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field > .label,
 .form.contact .fieldset > .field > .label,
 .form.password.forget .fieldset > .field > .label,
-.form.create.account .fieldset > .field > .label {
+.form.create.account .fieldset > .field > .label,
+.form.wishlist.share .fieldset > .field > .label,
+.form.password.reset .fieldset > .field > .label {
   display: block;
 }
 .form.send.friend .fieldset > .field.choice > .control,
@@ -6147,7 +6345,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field.choice > .control,
 .form.contact .fieldset > .field.choice > .control,
 .form.password.forget .fieldset > .field.choice > .control,
-.form.create.account .fieldset > .field.choice > .control {
+.form.create.account .fieldset > .field.choice > .control,
+.form.wishlist.share .fieldset > .field.choice > .control,
+.form.password.reset .fieldset > .field.choice > .control {
   width: auto;
 }
 .form.send.friend .fieldset > .field.choice > .label,
@@ -6157,7 +6357,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field.choice > .label,
 .form.contact .fieldset > .field.choice > .label,
 .form.password.forget .fieldset > .field.choice > .label,
-.form.create.account .fieldset > .field.choice > .label {
+.form.create.account .fieldset > .field.choice > .label,
+.form.wishlist.share .fieldset > .field.choice > .label,
+.form.password.reset .fieldset > .field.choice > .label {
   display: inline;
 }
 .form.send.friend .fieldset > .field.required > .label > span:first-child:after,
@@ -6167,7 +6369,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field.required > .label > span:first-child:after,
 .form.contact .fieldset > .field.required > .label > span:first-child:after,
 .form.password.forget .fieldset > .field.required > .label > span:first-child:after,
-.form.create.account .fieldset > .field.required > .label > span:first-child:after {
+.form.create.account .fieldset > .field.required > .label > span:first-child:after,
+.form.wishlist.share .fieldset > .field.required > .label > span:first-child:after,
+.form.password.reset .fieldset > .field.required > .label > span:first-child:after {
   content: '*';
   color: red;
 }
@@ -6178,7 +6382,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .addon,
 .form.contact .fieldset > .field .addon,
 .form.password.forget .fieldset > .field .addon,
-.form.create.account .fieldset > .field .addon {
+.form.create.account .fieldset > .field .addon,
+.form.wishlist.share .fieldset > .field .addon,
+.form.password.reset .fieldset > .field .addon {
   padding: 0;
   display: table;
   width: 100%;
@@ -6191,6 +6397,8 @@ img[align="right"] {
 .form.contact .fieldset > .field .addon textarea,
 .form.password.forget .fieldset > .field .addon textarea,
 .form.create.account .fieldset > .field .addon textarea,
+.form.wishlist.share .fieldset > .field .addon textarea,
+.form.password.reset .fieldset > .field .addon textarea,
 .form.send.friend .fieldset > .field .addon select,
 .form.address.edit .fieldset > .field .addon select,
 .form.edit.account .fieldset > .field .addon select,
@@ -6199,6 +6407,8 @@ img[align="right"] {
 .form.contact .fieldset > .field .addon select,
 .form.password.forget .fieldset > .field .addon select,
 .form.create.account .fieldset > .field .addon select,
+.form.wishlist.share .fieldset > .field .addon select,
+.form.password.reset .fieldset > .field .addon select,
 .form.send.friend .fieldset > .field .addon input,
 .form.address.edit .fieldset > .field .addon input,
 .form.edit.account .fieldset > .field .addon input,
@@ -6206,7 +6416,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .addon input,
 .form.contact .fieldset > .field .addon input,
 .form.password.forget .fieldset > .field .addon input,
-.form.create.account .fieldset > .field .addon input {
+.form.create.account .fieldset > .field .addon input,
+.form.wishlist.share .fieldset > .field .addon input,
+.form.password.reset .fieldset > .field .addon input {
   display: table-cell;
   width: 100%;
   border-radius: 0;
@@ -6221,6 +6433,8 @@ img[align="right"] {
 .form.contact .fieldset > .field .addon .addbefore,
 .form.password.forget .fieldset > .field .addon .addbefore,
 .form.create.account .fieldset > .field .addon .addbefore,
+.form.wishlist.share .fieldset > .field .addon .addbefore,
+.form.password.reset .fieldset > .field .addon .addbefore,
 .form.send.friend .fieldset > .field .addon .addafter,
 .form.address.edit .fieldset > .field .addon .addafter,
 .form.edit.account .fieldset > .field .addon .addafter,
@@ -6228,7 +6442,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .addon .addafter,
 .form.contact .fieldset > .field .addon .addafter,
 .form.password.forget .fieldset > .field .addon .addafter,
-.form.create.account .fieldset > .field .addon .addafter {
+.form.create.account .fieldset > .field .addon .addafter,
+.form.wishlist.share .fieldset > .field .addon .addafter,
+.form.password.reset .fieldset > .field .addon .addafter {
   vertical-align: middle;
   width: 1px;
   height: 0;
@@ -6271,6 +6487,8 @@ img[align="right"] {
 .no-borderradius .form.contact .fieldset > .field .addon .addbefore,
 .no-borderradius .form.password.forget .fieldset > .field .addon .addbefore,
 .no-borderradius .form.create.account .fieldset > .field .addon .addbefore,
+.no-borderradius .form.wishlist.share .fieldset > .field .addon .addbefore,
+.no-borderradius .form.password.reset .fieldset > .field .addon .addbefore,
 .no-borderradius .form.send.friend .fieldset > .field .addon .addafter,
 .no-borderradius .form.address.edit .fieldset > .field .addon .addafter,
 .no-borderradius .form.edit.account .fieldset > .field .addon .addafter,
@@ -6278,7 +6496,9 @@ img[align="right"] {
 .no-borderradius .form.orders.search .fieldset > .field .addon .addafter,
 .no-borderradius .form.contact .fieldset > .field .addon .addafter,
 .no-borderradius .form.password.forget .fieldset > .field .addon .addafter,
-.no-borderradius .form.create.account .fieldset > .field .addon .addafter {
+.no-borderradius .form.create.account .fieldset > .field .addon .addafter,
+.no-borderradius .form.wishlist.share .fieldset > .field .addon .addafter,
+.no-borderradius .form.password.reset .fieldset > .field .addon .addafter {
   padding-top: 8px;
 }
 .form.send.friend .fieldset > .field .addon .addbefore:focus,
@@ -6289,6 +6509,8 @@ img[align="right"] {
 .form.contact .fieldset > .field .addon .addbefore:focus,
 .form.password.forget .fieldset > .field .addon .addbefore:focus,
 .form.create.account .fieldset > .field .addon .addbefore:focus,
+.form.wishlist.share .fieldset > .field .addon .addbefore:focus,
+.form.password.reset .fieldset > .field .addon .addbefore:focus,
 .form.send.friend .fieldset > .field .addon .addafter:focus,
 .form.address.edit .fieldset > .field .addon .addafter:focus,
 .form.edit.account .fieldset > .field .addon .addafter:focus,
@@ -6296,7 +6518,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .addon .addafter:focus,
 .form.contact .fieldset > .field .addon .addafter:focus,
 .form.password.forget .fieldset > .field .addon .addafter:focus,
-.form.create.account .fieldset > .field .addon .addafter:focus {
+.form.create.account .fieldset > .field .addon .addafter:focus,
+.form.wishlist.share .fieldset > .field .addon .addafter:focus,
+.form.password.reset .fieldset > .field .addon .addafter:focus {
   border-color: #999;
 }
 .control .form.send.friend .fieldset > .field .addon .addbefore,
@@ -6307,6 +6531,8 @@ img[align="right"] {
 .control .form.contact .fieldset > .field .addon .addbefore,
 .control .form.password.forget .fieldset > .field .addon .addbefore,
 .control .form.create.account .fieldset > .field .addon .addbefore,
+.control .form.wishlist.share .fieldset > .field .addon .addbefore,
+.control .form.password.reset .fieldset > .field .addon .addbefore,
 .control .form.send.friend .fieldset > .field .addon .addafter,
 .control .form.address.edit .fieldset > .field .addon .addafter,
 .control .form.edit.account .fieldset > .field .addon .addafter,
@@ -6314,7 +6540,9 @@ img[align="right"] {
 .control .form.orders.search .fieldset > .field .addon .addafter,
 .control .form.contact .fieldset > .field .addon .addafter,
 .control .form.password.forget .fieldset > .field .addon .addafter,
-.control .form.create.account .fieldset > .field .addon .addafter {
+.control .form.create.account .fieldset > .field .addon .addafter,
+.control .form.wishlist.share .fieldset > .field .addon .addafter,
+.control .form.password.reset .fieldset > .field .addon .addafter {
   width: 100%;
 }
 .form.send.friend .fieldset > .field .addon .addbefore:disabled,
@@ -6325,6 +6553,8 @@ img[align="right"] {
 .form.contact .fieldset > .field .addon .addbefore:disabled,
 .form.password.forget .fieldset > .field .addon .addbefore:disabled,
 .form.create.account .fieldset > .field .addon .addbefore:disabled,
+.form.wishlist.share .fieldset > .field .addon .addbefore:disabled,
+.form.password.reset .fieldset > .field .addon .addbefore:disabled,
 .form.send.friend .fieldset > .field .addon .addafter:disabled,
 .form.address.edit .fieldset > .field .addon .addafter:disabled,
 .form.edit.account .fieldset > .field .addon .addafter:disabled,
@@ -6332,7 +6562,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .addon .addafter:disabled,
 .form.contact .fieldset > .field .addon .addafter:disabled,
 .form.password.forget .fieldset > .field .addon .addafter:disabled,
-.form.create.account .fieldset > .field .addon .addafter:disabled {
+.form.create.account .fieldset > .field .addon .addafter:disabled,
+.form.wishlist.share .fieldset > .field .addon .addafter:disabled,
+.form.password.reset .fieldset > .field .addon .addafter:disabled {
   opacity: 0.5;
 }
 .form.send.friend .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
@@ -6343,6 +6575,8 @@ img[align="right"] {
 .form.contact .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .form.password.forget .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .form.create.account .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
+.form.wishlist.share .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
+.form.password.reset .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .form.send.friend .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.address.edit .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.edit.account .fieldset > .field .addon .addafter::-webkit-input-placeholder,
@@ -6350,7 +6584,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.contact .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.password.forget .fieldset > .field .addon .addafter::-webkit-input-placeholder,
-.form.create.account .fieldset > .field .addon .addafter::-webkit-input-placeholder {
+.form.create.account .fieldset > .field .addon .addafter::-webkit-input-placeholder,
+.form.wishlist.share .fieldset > .field .addon .addafter::-webkit-input-placeholder,
+.form.password.reset .fieldset > .field .addon .addafter::-webkit-input-placeholder {
   line-height: 1.333;
 }
 .form.send.friend .fieldset > .field .addon .addbefore:-ms-input-placeholder,
@@ -6361,6 +6597,8 @@ img[align="right"] {
 .form.contact .fieldset > .field .addon .addbefore:-ms-input-placeholder,
 .form.password.forget .fieldset > .field .addon .addbefore:-ms-input-placeholder,
 .form.create.account .fieldset > .field .addon .addbefore:-ms-input-placeholder,
+.form.wishlist.share .fieldset > .field .addon .addbefore:-ms-input-placeholder,
+.form.password.reset .fieldset > .field .addon .addbefore:-ms-input-placeholder,
 .form.send.friend .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.address.edit .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.edit.account .fieldset > .field .addon .addafter:-ms-input-placeholder,
@@ -6368,7 +6606,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.contact .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.password.forget .fieldset > .field .addon .addafter:-ms-input-placeholder,
-.form.create.account .fieldset > .field .addon .addafter:-ms-input-placeholder {
+.form.create.account .fieldset > .field .addon .addafter:-ms-input-placeholder,
+.form.wishlist.share .fieldset > .field .addon .addafter:-ms-input-placeholder,
+.form.password.reset .fieldset > .field .addon .addafter:-ms-input-placeholder {
   line-height: 1.333;
 }
 .form.send.friend .fieldset > .field .note,
@@ -6378,7 +6618,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .note,
 .form.contact .fieldset > .field .note,
 .form.password.forget .fieldset > .field .note,
-.form.create.account .fieldset > .field .note {
+.form.create.account .fieldset > .field .note,
+.form.wishlist.share .fieldset > .field .note,
+.form.password.reset .fieldset > .field .note {
   padding-left: 15px;
 }
 .form.send.friend .fieldset > .field .note:before,
@@ -6388,7 +6630,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .note:before,
 .form.contact .fieldset > .field .note:before,
 .form.password.forget .fieldset > .field .note:before,
-.form.create.account .fieldset > .field .note:before {
+.form.create.account .fieldset > .field .note:before,
+.form.wishlist.share .fieldset > .field .note:before,
+.form.password.reset .fieldset > .field .note:before {
   position: absolute;
   margin: 4px 0 0 -14px;
   content: '';
@@ -6408,7 +6652,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field:last-child,
 .form.contact .fieldset > .field:last-child,
 .form.password.forget .fieldset > .field:last-child,
-.form.create.account .fieldset > .field:last-child {
+.form.create.account .fieldset > .field:last-child,
+.form.wishlist.share .fieldset > .field:last-child,
+.form.password.reset .fieldset > .field:last-child {
   margin-bottom: 0;
 }
 .form.send.friend .fieldset > .field .nested,
@@ -6418,7 +6664,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .nested,
 .form.contact .fieldset > .field .nested,
 .form.password.forget .fieldset > .field .nested,
-.form.create.account .fieldset > .field .nested {
+.form.create.account .fieldset > .field .nested,
+.form.wishlist.share .fieldset > .field .nested,
+.form.password.reset .fieldset > .field .nested {
   padding: 0 0 5px;
 }
 .form.send.friend .fieldset > .field .nested .field,
@@ -6428,7 +6676,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .nested .field,
 .form.contact .fieldset > .field .nested .field,
 .form.password.forget .fieldset > .field .nested .field,
-.form.create.account .fieldset > .field .nested .field {
+.form.create.account .fieldset > .field .nested .field,
+.form.wishlist.share .fieldset > .field .nested .field,
+.form.password.reset .fieldset > .field .nested .field {
   margin: 5px 0;
 }
 .form.send.friend .fieldset > .field > .label,
@@ -6438,7 +6688,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field > .label,
 .form.contact .fieldset > .field > .label,
 .form.password.forget .fieldset > .field > .label,
-.form.create.account .fieldset > .field > .label {
+.form.create.account .fieldset > .field > .label,
+.form.wishlist.share .fieldset > .field > .label,
+.form.password.reset .fieldset > .field > .label {
   display: block;
   padding: 0 0 5px;
 }
@@ -6449,7 +6701,9 @@ img[align="right"] {
 .form.orders.search .fieldset > .field.note,
 .form.contact .fieldset > .field.note,
 .form.password.forget .fieldset > .field.note,
-.form.create.account .fieldset > .field.note {
+.form.create.account .fieldset > .field.note,
+.form.wishlist.share .fieldset > .field.note,
+.form.password.reset .fieldset > .field.note {
   width: 100%;
 }
 .form.send.friend .fieldset .field.street,
@@ -6459,7 +6713,9 @@ img[align="right"] {
 .form.orders.search .fieldset .field.street,
 .form.contact .fieldset .field.street,
 .form.password.forget .fieldset .field.street,
-.form.create.account .fieldset .field.street {
+.form.create.account .fieldset .field.street,
+.form.wishlist.share .fieldset .field.street,
+.form.password.reset .fieldset .field.street {
   width: 100%;
 }
 .form.send.friend .fieldset .field.fullname,
@@ -6469,7 +6725,9 @@ img[align="right"] {
 .form.orders.search .fieldset .field.fullname,
 .form.contact .fieldset .field.fullname,
 .form.password.forget .fieldset .field.fullname,
-.form.create.account .fieldset .field.fullname {
+.form.create.account .fieldset .field.fullname,
+.form.wishlist.share .fieldset .field.fullname,
+.form.password.reset .fieldset .field.fullname {
   width: 100%;
 }
 .form.send.friend .fieldset .field.fullname .fields.group-5 .field,
@@ -6479,7 +6737,9 @@ img[align="right"] {
 .form.orders.search .fieldset .field.fullname .fields.group-5 .field,
 .form.contact .fieldset .field.fullname .fields.group-5 .field,
 .form.password.forget .fieldset .field.fullname .fields.group-5 .field,
-.form.create.account .fieldset .field.fullname .fields.group-5 .field {
+.form.create.account .fieldset .field.fullname .fields.group-5 .field,
+.form.wishlist.share .fieldset .field.fullname .fields.group-5 .field,
+.form.password.reset .fieldset .field.fullname .fields.group-5 .field {
   width: 20%;
 }
 .form.send.friend .fieldset .field.choice.newsletter,
@@ -6489,7 +6749,9 @@ img[align="right"] {
 .form.orders.search .fieldset .field.choice.newsletter,
 .form.contact .fieldset .field.choice.newsletter,
 .form.password.forget .fieldset .field.choice.newsletter,
-.form.create.account .fieldset .field.choice.newsletter {
+.form.create.account .fieldset .field.choice.newsletter,
+.form.wishlist.share .fieldset .field.choice.newsletter,
+.form.password.reset .fieldset .field.choice.newsletter {
   width: 100%;
 }
 .form.send.friend .fieldset .field.dob .fields.group .field,
@@ -6499,7 +6761,9 @@ img[align="right"] {
 .form.orders.search .fieldset .field.dob .fields.group .field,
 .form.contact .fieldset .field.dob .fields.group .field,
 .form.password.forget .fieldset .field.dob .fields.group .field,
-.form.create.account .fieldset .field.dob .fields.group .field {
+.form.create.account .fieldset .field.dob .fields.group .field,
+.form.wishlist.share .fieldset .field.dob .fields.group .field,
+.form.password.reset .fieldset .field.dob .fields.group .field {
   width: 33%;
   position: relative;
   z-index: 1;
@@ -6511,7 +6775,9 @@ img[align="right"] {
 .form.orders.search .fieldset .field.dob .fields.group .field .label,
 .form.contact .fieldset .field.dob .fields.group .field .label,
 .form.password.forget .fieldset .field.dob .fields.group .field .label,
-.form.create.account .fieldset .field.dob .fields.group .field .label {
+.form.create.account .fieldset .field.dob .fields.group .field .label,
+.form.wishlist.share .fieldset .field.dob .fields.group .field .label,
+.form.password.reset .fieldset .field.dob .fields.group .field .label {
   position: absolute;
   bottom: 0;
   font-size: 12px;
@@ -6524,7 +6790,9 @@ img[align="right"] {
 .form.orders.search .fieldset .field.dob .fields.group .field input,
 .form.contact .fieldset .field.dob .fields.group .field input,
 .form.password.forget .fieldset .field.dob .fields.group .field input,
-.form.create.account .fieldset .field.dob .fields.group .field input {
+.form.create.account .fieldset .field.dob .fields.group .field input,
+.form.wishlist.share .fieldset .field.dob .fields.group .field input,
+.form.password.reset .fieldset .field.dob .fields.group .field input {
   margin-bottom: 16px;
 }
 .form.send.friend .action.save,
@@ -6535,6 +6803,8 @@ img[align="right"] {
 .form.contact .action.save,
 .form.password.forget .action.save,
 .form.create.account .action.save,
+.form.wishlist.share .action.save,
+.form.password.reset .action.save,
 .form.send.friend .action.submit,
 .form.address.edit .action.submit,
 .form.edit.account .action.submit,
@@ -6542,7 +6812,9 @@ img[align="right"] {
 .form.orders.search .action.submit,
 .form.contact .action.submit,
 .form.password.forget .action.submit,
-.form.create.account .action.submit {
+.form.create.account .action.submit,
+.form.wishlist.share .action.submit,
+.form.password.reset .action.submit {
   border: none;
   border-radius: 0;
   background: #993333;
@@ -6560,6 +6832,8 @@ img[align="right"] {
 .form.contact .action.save span,
 .form.password.forget .action.save span,
 .form.create.account .action.save span,
+.form.wishlist.share .action.save span,
+.form.password.reset .action.save span,
 .form.send.friend .action.submit span,
 .form.address.edit .action.submit span,
 .form.edit.account .action.submit span,
@@ -6567,7 +6841,9 @@ img[align="right"] {
 .form.orders.search .action.submit span,
 .form.contact .action.submit span,
 .form.password.forget .action.submit span,
-.form.create.account .action.submit span {
+.form.create.account .action.submit span,
+.form.wishlist.share .action.submit span,
+.form.password.reset .action.submit span {
   font-size: 14px;
   color: #fff;
   text-transform: uppercase;
@@ -6581,7 +6857,9 @@ img[align="right"] {
 .form.orders.search .actions,
 .form.contact .actions,
 .form.password.forget .actions,
-.form.create.account .actions {
+.form.create.account .actions,
+.form.wishlist.share .actions,
+.form.password.reset .actions {
   *zoom: 1;
   width: 690px;
 }
@@ -6593,6 +6871,8 @@ img[align="right"] {
 .form.contact .actions:before,
 .form.password.forget .actions:before,
 .form.create.account .actions:before,
+.form.wishlist.share .actions:before,
+.form.password.reset .actions:before,
 .form.send.friend .actions:after,
 .form.address.edit .actions:after,
 .form.edit.account .actions:after,
@@ -6600,7 +6880,9 @@ img[align="right"] {
 .form.orders.search .actions:after,
 .form.contact .actions:after,
 .form.password.forget .actions:after,
-.form.create.account .actions:after {
+.form.create.account .actions:after,
+.form.wishlist.share .actions:after,
+.form.password.reset .actions:after {
   content: "";
   display: table;
 }
@@ -6611,7 +6893,9 @@ img[align="right"] {
 .form.orders.search .actions:after,
 .form.contact .actions:after,
 .form.password.forget .actions:after,
-.form.create.account .actions:after {
+.form.create.account .actions:after,
+.form.wishlist.share .actions:after,
+.form.password.reset .actions:after {
   clear: both;
 }
 .form.send.friend .actions .primary,
@@ -6621,7 +6905,9 @@ img[align="right"] {
 .form.orders.search .actions .primary,
 .form.contact .actions .primary,
 .form.password.forget .actions .primary,
-.form.create.account .actions .primary {
+.form.create.account .actions .primary,
+.form.wishlist.share .actions .primary,
+.form.password.reset .actions .primary {
   float: right;
 }
 .form.send.friend .actions .secondary,
@@ -6631,7 +6917,9 @@ img[align="right"] {
 .form.orders.search .actions .secondary,
 .form.contact .actions .secondary,
 .form.password.forget .actions .secondary,
-.form.create.account .actions .secondary {
+.form.create.account .actions .secondary,
+.form.wishlist.share .actions .secondary,
+.form.password.reset .actions .secondary {
   float: left;
 }
 .form.send.friend .fieldset.create.account:after,
@@ -6641,7 +6929,9 @@ img[align="right"] {
 .form.orders.search .fieldset.create.account:after,
 .form.contact .fieldset.create.account:after,
 .form.password.forget .fieldset.create.account:after,
-.form.create.account .fieldset.create.account:after {
+.form.create.account .fieldset.create.account:after,
+.form.wishlist.share .fieldset.create.account:after,
+.form.password.reset .fieldset.create.account:after {
   content: attr(data-hasrequired);
   display: block;
   position: absolute;
@@ -7202,25 +7492,32 @@ img[align="right"] {
  *    My Account -> My Product Reviews
  *
 ----------------------------------------------------------------------------- */
+.data.table.tags,
 .data.table.reviews {
   width: 100%;
 }
+.data.table.tags th,
 .data.table.reviews th,
+.data.table.tags td,
 .data.table.reviews td {
   padding: 8px 5px;
 }
+.data.table.tags th,
 .data.table.reviews th {
   text-align: left;
   text-transform: uppercase;
   border-bottom: 1px solid #008000;
 }
+.data.table.tags tbody tr:nth-child(even) td,
 .data.table.reviews tbody tr:nth-child(even) td {
   background: #008000;
 }
+.data.table.tags tbody td,
 .data.table.reviews tbody td {
   border-bottom: 1px solid #008000;
   vertical-align: top;
 }
+.data.table.tags .product.name,
 .data.table.reviews .product.name {
   margin: 0;
 }
