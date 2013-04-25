@@ -11,24 +11,42 @@ class Saas_Mage_Sitemap_GoogleVerificationCodeTest extends Saas_Mage_TestCase
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
+
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->openConfigurationTab('catalog_google_sitemap');
+        $this->systemConfigurationHelper()->expandFieldSet('generation_settings');
     }
 
     /**
      * @test
-     * @group goinc-dasha
+     * @group goinc
      */
-    public function checkSroreConfigurationXmlSitemapVerificationOptionIsPresent()
+    public function checkFillingVerificationCode()
     {
-        $this->navigate('system_configuration');
-
-        $this->systemConfigurationHelper()->openConfigurationTab('catalog_google_sitemap');
-        $this->systemConfigurationHelper()->expandFieldSet('generation_settings');
-
-
-        //sleep(15);
-        echo $this->_getControlXpath('field','google_verification_code');
-        exit;
-        $this->fillField('google_verification_code', '123456');
+        // Fill value in backend
+        $value = 'some-code-' . $this->generate('string', 5);
+        $this->fillField('google_verification_code', $value);
         $this->clickButton('save_config');
+        $this->assertMessagePresent('success', 'success_saved_config');
+
+        // Check result on frontend
+        $this->frontend();
+        $this->assertEquals($value, $this->getControlAttribute('pageelement', 'google_site_verification', 'content'));
+    }
+
+    /**
+     * @test
+     * @group goinc
+     */
+    public function checkClearingVerificationCode()
+    {
+        // Fill value in backend
+        $this->fillField('google_verification_code', '');
+        $this->clickButton('save_config');
+        $this->assertMessagePresent('success', 'success_saved_config');
+
+        // Check result on frontend
+        $this->frontend();
+        $this->assertFalse($this->elementIsPresent('pageelement', 'google_site_verification'));
     }
 }

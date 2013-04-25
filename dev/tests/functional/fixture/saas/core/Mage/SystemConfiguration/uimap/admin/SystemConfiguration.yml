@@ -12,15 +12,11 @@
 
 # 'System Configuration' page
 system_configuration:
-    mca: system_config/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_config/')]
-    title: Configuration / Settings / Stores / Magento Admin
     uimap: &system_configuration_uimap
         form:
             tabs:
                 -
-                    general_general:
-                        xpath: //a[contains(@href, 'edit/section/general/')]
+                    catalog_google_sitemap:
                         fieldsets:
                             -
                                 generation_settings:
@@ -28,3 +24,17 @@ system_configuration:
                                     fields:
                                         google_verification_code: //input[@name='groups[generate][fields][verification_code][value]']
 
+system_configuration_tabs:
+    uimap: *system_configuration_uimap
+
+system_configuration_website:
+    uimap: *system_configuration_uimap
+
+system_configuration_store:
+    uimap: *system_configuration_uimap
+
+system_configuration_country:
+    uimap: *system_configuration_uimap
+
+system_configuration_website_base:
+    uimap: *system_configuration_uimap
