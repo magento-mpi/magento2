@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <adminhtml_export_index>
+        <reference name="content">
+            <block type="Mage_Adminhtml_Block_Template" template="Saas_ImportExport::export/status.phtml" name="export.status" alias="export_before" before="-"/>
+        </reference>
+    </adminhtml_export_index>
+</layout>
