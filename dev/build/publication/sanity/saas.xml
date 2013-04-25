@@ -44,6 +44,12 @@
         <item>
             <!-- MUST be refactored -->
             <word>TargetRule</word>
+            <word>GiftWrapping</word>
+            <path>app/design/adminhtml/default/backend/css/debug.css</path>
+        </item>
+        <item>
+            <!-- MUST be refactored -->
+            <word>TargetRule</word>
             <path>app/code/Saas/Launcher/view/adminhtml/page/promotestore/relatedproducts/drawer.phtml</path>
         </item>
         <item>
@@ -55,13 +61,6 @@
             <!-- MUST be refactored -->
             <word>TargetRule</word>
             <path>app/design/frontend/magento2/reference/Mage_Catalog/product/list/items.phtml</path>
-        </item>
-        <item>
-            <!-- MUST be refactored -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <path>app/design/frontend/magento2/reference/css/styles.less</path>
         </item>
         <item>
             <!-- MUST be refactored -->

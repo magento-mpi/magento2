@@ -23,12 +23,12 @@
             <action method="addCss"><file>mui/reset.css</file></action>
             <action method="addLinkRel"><type>stylesheet</type><href>//fonts.googleapis.com/css?family=Oswald:400,700</href></action>
             <action method="addCss"><file>css/styles.css</file></action>
-            <action method="addJs"><file>js/upstream.js</file></action>
             <action method="addJs"><file>js/head.js</file></action>
             <action method="addJs"><file>jquery/jquery.hoverIntent.js</file></action>
             <action method="addJs"><file>js/jquery.dropdowns.js</file></action>
             <action method="addJs"><file>js/tabs.js</file></action>
             <action method="addJs"><file>js/theme.js</file></action>
+            <action method="addJs"><file>js/upstream.js</file></action>
             <action method="addJs"><file>js/selectivizr-min.js</file><params/><if>lt IE 9</if></action>
         </reference>
 
