@@ -6,14 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 @font-face {
   font-family: 'MUI-Icons';
   src: url('../mui/fonts/MUI-Icons.eot');
@@ -63,22 +55,6 @@
   font-weight: 400;
   font-style: normal;
 }
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 /*CSS3 transition*/
 /*all .25s ease|linear|ease-in|ease-out|ease-in-out|cubic-bezier*/
 /*.box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
@@ -86,25 +62,9 @@
   -moz-box-shadow: @arguments;
   -webkit-box-shadow: @arguments;
 }*/
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 /* =============================================================================
    Switchable terms
    ========================================================================== */
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 /*
     Fieldset
 -------------------------------------- */
@@ -189,7 +149,11 @@ textarea {
   font: 400 14px/1.33 "sourcesanspro";
 }
 html {
+  min-width: 1025px;
   background: #4d5d64;
+}
+body {
+  position: relative;
 }
 .page.wrapper {
   background: #4d5d64;
@@ -1433,6 +1397,53 @@ a:visited:hover {
 .field.ratings .field.rating .control .rating-5:before {
   content: "\e01a\e01a\e01a\e01a\e01a";
 }
+/* Review details */
+.review.view .product.name {
+  display: inline-block;
+  margin: 0 0 0;
+}
+.review.view .product.details {
+  float: left;
+  margin-right: 30px;
+}
+.review.view .product.photo {
+  display: block;
+  margin-bottom: 30px;
+}
+.review.view .review.details {
+  margin: 30px 0;
+  display: table;
+}
+.review.view .review.details .ratings.summary {
+  margin-bottom: 30px;
+}
+.review.view .review.details .ratings.summary strong {
+  font-weight: 600;
+  display: block;
+  margin: 0 0 15px;
+}
+.review.view .review.details .ratings.summary .item {
+  display: table-row;
+}
+.review.view .review.details .ratings.summary .label {
+  padding: 0 0 10px;
+  padding-right: 10px;
+  display: table-cell;
+}
+.review.view .review.details .ratings.summary .label:after {
+  content: ': ';
+}
+.review.view .review.details .review.date {
+  font-size: 12px;
+}
+.review.view .review.details .review.title {
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 0 15px;
+}
+.customer.review.view + .actions {
+  clear: both;
+}
 /*
  *    MESSAGES
  *
@@ -1520,6 +1531,9 @@ ul.messages ul {
   background: #d3edd5;
   color: #1b6720;
 }
+.success-msg a {
+  color: #000000;
+}
 .success-msg > *:first-child:before {
   content: "\e013";
   background: #42b649;
@@ -1531,6 +1545,10 @@ ul.messages ul {
 .note-msg {
   background: #ffedb8;
   color: #926e00;
+}
+.notice-msg a,
+.note-msg a {
+  color: #000000;
 }
 .notice-msg > *:first-child:before,
 .note-msg > *:first-child:before {
@@ -1544,6 +1562,9 @@ ul.messages ul {
 .error-msg {
   background: #ffd9d0;
   color: #911c00;
+}
+.error-msg a {
+  color: #000000;
 }
 .error-msg > *:first-child:before {
   content: "\e00e";
@@ -1735,6 +1756,7 @@ select:focus {
 select:disabled {
   opacity: 0.5;
 }
+textarea.mage-error,
 select.mage-error,
 input[type="password"].mage-error,
 input[type="text"].mage-error {
@@ -2182,6 +2204,15 @@ div.mage-error {
   font-size: 24px;
   color: #74dc74;
 }
+.order.review.data th.col.price,
+.order.review.data th.col.subtotal {
+  text-align: right;
+  padding-right: 10px;
+}
+.order.review.data th.col.item {
+  text-align: left;
+  padding-left: 20px;
+}
 /*
  *    Mage_Checkout
  *
@@ -2213,7 +2244,7 @@ div.mage-error {
 .cart.main.actions .action.clear {
   border: none;
   border-radius: 0;
-  background: #74dc74;
+  background: #6d838c;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
@@ -2223,7 +2254,7 @@ div.mage-error {
 .cart.main.actions .action.update span,
 .cart.main.actions .action.clear span {
   font-size: 14px;
-  color: #4d5d64;
+  color: #fff;
   text-transform: uppercase;
   font-weight: 600;
   line-height: 16px;
@@ -2234,7 +2265,7 @@ div.mage-error {
 .cart.main.actions .action.clear:active,
 .cart.main.actions .action.update:hover,
 .cart.main.actions .action.clear:hover {
-  background: #74dc74;
+  background: #6d838c;
 }
 .items.data {
   width: 100%;
@@ -2559,6 +2590,59 @@ div.mage-error {
 }
 .data-table td:last-child {
   border: 0;
+}
+.form.giftcard.redeem .field {
+  margin: 15px 0;
+}
+.form.giftcard.redeem .label {
+  margin-bottom: 10px;
+  display: block;
+}
+.form.giftcard.redeem .primary {
+  display: inline;
+  margin-right: 15px;
+}
+.form.giftcard.redeem .primary .action {
+  border: none;
+  border-radius: 0;
+  background: #74dc74;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.form.giftcard.redeem .primary .action span {
+  font-size: 14px;
+  color: #546972;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.form.giftcard.redeem .secondary {
+  display: inline;
+}
+.form.giftcard.redeem .secondary .action {
+  border: none;
+  border-radius: 0;
+  background: #6d838c;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.form.giftcard.redeem .secondary .action span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.form.giftcard.redeem .secondary .action:focus,
+.form.giftcard.redeem .secondary .action:active,
+.form.giftcard.redeem .secondary .action:hover {
+  background: #6d838c;
 }
 .block.giftcard .form.add .fieldset {
   position: relative;
@@ -3176,6 +3260,11 @@ div.mage-error {
   text-indent: 0;
   display: block;
 }
+.action.delete:focus,
+.action.delete:active,
+.action.delete:hover {
+  outline: none;
+}
 .action.delete:focus span,
 .action.delete:active span,
 .action.delete:hover span {
@@ -3317,6 +3406,35 @@ div.mage-error {
   display: none;
 }
 /*
+ *    Mage_Sales
+ *
+----------------------------------------------------------------------------- */
+.block.reorder {
+  padding-right: 30px;
+}
+.block.reorder .item {
+  padding-left: 20px;
+}
+.block.reorder .item input {
+  float: left;
+  margin-top: 2px;
+  margin-left: -20px;
+}
+.block.reorder .subtitle {
+  display: block;
+  margin: 0 0 15px;
+  font-weight: 600;
+}
+.block.reorder .actions {
+  margin: 15px 0 0;
+}
+.block.reorder .actions .primary,
+.block.reorder .actions .secondary {
+  margin-right: 5px;
+  display: inline-block;
+  vertical-align: middle;
+}
+/*
  *    Mage_Newsletter
  *
 ----------------------------------------------------------------------------- */
@@ -3415,6 +3533,84 @@ div.mage-error {
   text-indent: 0;
   display: block;
 }
+.form.newsletter.manage .fieldset {
+  margin: 0 0 20px;
+  padding: 0;
+  border: 0;
+}
+.form.newsletter.manage .fieldset .legend {
+  float: left;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+.form.newsletter.manage .fieldset .legend + br {
+  display: block;
+  clear: both;
+}
+.form.newsletter.manage .action.save {
+  border: none;
+  border-radius: 0;
+  background: #74dc74;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.form.newsletter.manage .action.save span {
+  font-size: 14px;
+  color: #546972;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.form.newsletter.manage .actions .primary {
+  margin-bottom: 15px;
+}
+/*
+ *    Mage_Tags
+ *
+----------------------------------------------------------------------------- */
+.tags.product,
+.tags.items.cloud {
+  margin: 0 0 20px;
+}
+.tags.product .item,
+.tags.items.cloud .item {
+  display: inline-block;
+  margin: 0 0 5px 5px;
+}
+.tags.product .item:first-child,
+.tags.items.cloud .item:first-child {
+  margin-left: 0;
+}
+.data.table.tags .col.photo {
+  width: 1px;
+}
+.data.table.tags .addto.links {
+  margin-top: 15px;
+}
+.tag.edit {
+  line-height: 16px;
+}
+.tag.edit strong {
+  font-weight: 400;
+}
+.tag.edit strong:after {
+  content: ': ';
+}
+.tag.edit .tag.text {
+  font-weight: 600;
+}
+.tag.edit .tag.text:before {
+  content: "\201C";
+}
+.tag.edit .tag.text:after {
+  content: "\201D ";
+}
+.tag.edit .action {
+  vertical-align: middle;
+}
 /*
  *    Widgets
  *
@@ -3428,6 +3624,207 @@ div.mage-error {
   padding: 0;
   margin: 0;
   list-style-type: none;
+}
+/*
+ *    Mage_Catalog
+ *
+ *    Compare
+----------------------------------------------------------------------------- */
+.block.compare > .title .qty {
+  font-size: 16px;
+  margin-right: -5px;
+}
+.block.compare > .title .qty:before {
+  content: '(';
+}
+.block.compare > .title .qty:after {
+  content: ')';
+}
+.block.compare .item {
+  padding-right: 20px;
+  overflow: hidden;
+}
+.block.compare .product.name {
+  float: left;
+}
+.block.compare .action.delete {
+  margin-right: -20px;
+  float: right;
+}
+.block.compare .action.compare {
+  border: none;
+  border-radius: 0;
+  background: #6d838c;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  float: right;
+}
+.block.compare .action.compare span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.block.compare .action.compare:focus,
+.block.compare .action.compare:active,
+.block.compare .action.compare:hover {
+  background: #6d838c;
+}
+.block.compare .action.clear {
+  float: left;
+  margin-top: 10px;
+}
+.block.compare .actions {
+  margin-top: 15px;
+  *zoom: 1;
+}
+.block.compare .actions:before,
+.block.compare .actions:after {
+  content: "";
+  display: table;
+}
+.block.compare .actions:after {
+  clear: both;
+}
+.catalog-product-compare-index .action.print {
+  float: right;
+  margin-top: -50px;
+}
+.comparison.wrapper {
+  clear: both;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 50px;
+}
+.comparison.wrapper:after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 15px;
+}
+.comparison.container {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.data.comparison {
+  table-layout: fixed;
+}
+.data.comparison .cell.label {
+  width: 130px;
+  padding-left: 10px;
+  font-weight: 600;
+  text-align: left;
+  border-right: 1px solid #e5e5e5;
+}
+.data.comparison .cell.label .attribute.label {
+  display: block;
+  width: 100%;
+  word-break: break-all;
+}
+.data.comparison .cell.label.product {
+  border-bottom: 1px solid #e5e5e5;
+}
+.data.comparison .cell {
+  padding: 15px;
+  vertical-align: top;
+}
+.data.comparison .cell p:first-child {
+  margin-top: 0;
+}
+.data.comparison .cell .attibute.value {
+  width: 100%;
+  overflow: hidden;
+}
+.data.comparison .cell.product {
+  width: 140px;
+}
+.data.comparison .cell.product.info {
+  border-bottom: 1px solid #e5e5e5;
+}
+.data.comparison .cell.attribute {
+  font-size: 12px;
+}
+.data.comparison td:last-child {
+  border-right: 1px solid #e5e5e5;
+}
+.data.comparison tr:nth-child(odd) .cell.attribute {
+  background-color: #546972;
+}
+.data.comparison .product.photo {
+  text-align: center;
+  display: block;
+  margin: 0 auto 15px;
+}
+.data.comparison .product.photo .img.photo.container {
+  display: inline-block !important;
+}
+.data.comparison .actions,
+.data.comparison .price-box,
+.data.comparison .product.rating,
+.data.comparison .product.name {
+  margin: 15px 0;
+}
+.data.comparison .addto.links {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e5e5e5;
+  font-size: 12px;
+}
+.data.comparison .cell.remove {
+  padding-top: 0;
+  padding-bottom: 0;
+  text-align: right;
+}
+.data.comparison .cell.remove .action.delete {
+  float: right;
+  border: none;
+  border-radius: 0;
+  background: #6d838c;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  padding: 4px;
+  margin-right: -15px;
+}
+.data.comparison .cell.remove .action.delete span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.data.comparison .cell.remove .action.delete:focus,
+.data.comparison .cell.remove .action.delete:active,
+.data.comparison .cell.remove .action.delete:hover {
+  background: #6d838c;
+}
+.data.comparison .cell.remove .action.delete span {
+  overflow: hidden;
+  line-height: 0;
+}
+.data.comparison .cell.remove .action.delete span:after {
+  content: "\e012";
+  font-size: 12px;
+}
+.comparison.headings {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: auto;
+  background-color: #4d5d64;
+}
+.comparison.headings th {
+  background-color: #4d5d64;
 }
 /*
  *    Mage_Catalog
@@ -4028,6 +4425,7 @@ div.mage-error {
  *    Product Listing
 ----------------------------------------------------------------------------- */
 .toolbar {
+  clear: both;
   margin: 17px 0;
   *zoom: 1;
 }
@@ -4079,7 +4477,6 @@ div.mage-error {
   padding: 4px;
   margin: 0 3px;
   border: 1px solid #6d838c;
-  background: #6d838c;
   overflow: hidden;
 }
 .toolbar .modes .mode span {
@@ -4957,7 +5354,7 @@ div.mage-error {
 }
 .product.media {
   float: left;
-  width: 550px;
+  width: 540px;
   padding-bottom: 30px;
 }
 .box.tocart {
@@ -5511,14 +5908,6 @@ body.type-bundle {
 .action.back.customization:hover {
   color: #74dc74;
 }
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 img[align="left"] {
   margin: 0 22px 22px 0;
 }
@@ -5561,7 +5950,7 @@ img[align="right"] {
   transition: visibility 0s linear 0.2s, opacity 0.2s linear 0s;
 }
 .customer.welcome .menu > ul li {
-  margin: 5px 0;
+  margin: 10px 0;
   display: block;
   white-space: nowrap;
 }
@@ -5831,7 +6220,8 @@ img[align="right"] {
 .form.orders.search .fieldset,
 .form.contact .fieldset,
 .form.password.forget .fieldset,
-.form.create.account .fieldset {
+.form.create.account .fieldset,
+.form.wishlist.share .fieldset {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -5863,7 +6253,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field,
 .form.contact .fieldset > .field,
 .form.password.forget .fieldset > .field,
-.form.create.account .fieldset > .field {
+.form.create.account .fieldset > .field,
+.form.wishlist.share .fieldset > .field {
   width: 50%;
   display: inline-block;
   padding-right: 20px;
@@ -5876,7 +6267,8 @@ img[align="right"] {
 .form.orders.search .fieldset > *,
 .form.contact .fieldset > *,
 .form.password.forget .fieldset > *,
-.form.create.account .fieldset > * {
+.form.create.account .fieldset > *,
+.form.wishlist.share .fieldset > * {
   letter-spacing: normal;
   word-spacing: normal;
 }
@@ -5887,7 +6279,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .legend + br,
 .form.contact .fieldset > .legend + br,
 .form.password.forget .fieldset > .legend + br,
-.form.create.account .fieldset > .legend + br {
+.form.create.account .fieldset > .legend + br,
+.form.wishlist.share .fieldset > .legend + br {
   display: none;
 }
 .form.send.friend .fieldset .legend,
@@ -5897,7 +6290,8 @@ img[align="right"] {
 .form.orders.search .fieldset .legend,
 .form.contact .fieldset .legend,
 .form.password.forget .fieldset .legend,
-.form.create.account .fieldset .legend {
+.form.create.account .fieldset .legend,
+.form.wishlist.share .fieldset .legend {
   float: left;
   line-height: 1.2;
   font-size: 20px;
@@ -5915,7 +6309,8 @@ img[align="right"] {
 .form.orders.search .fieldset .legend + br,
 .form.contact .fieldset .legend + br,
 .form.password.forget .fieldset .legend + br,
-.form.create.account .fieldset .legend + br {
+.form.create.account .fieldset .legend + br,
+.form.wishlist.share .fieldset .legend + br {
   display: block;
   clear: both;
 }
@@ -5926,7 +6321,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field,
 .form.contact .fieldset > .field,
 .form.password.forget .fieldset > .field,
-.form.create.account .fieldset > .field {
+.form.create.account .fieldset > .field,
+.form.wishlist.share .fieldset > .field {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -5940,7 +6336,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field > .label,
 .form.contact .fieldset > .field > .label,
 .form.password.forget .fieldset > .field > .label,
-.form.create.account .fieldset > .field > .label {
+.form.create.account .fieldset > .field > .label,
+.form.wishlist.share .fieldset > .field > .label {
   display: block;
 }
 .form.send.friend .fieldset > .field.choice > .control,
@@ -5950,7 +6347,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field.choice > .control,
 .form.contact .fieldset > .field.choice > .control,
 .form.password.forget .fieldset > .field.choice > .control,
-.form.create.account .fieldset > .field.choice > .control {
+.form.create.account .fieldset > .field.choice > .control,
+.form.wishlist.share .fieldset > .field.choice > .control {
   width: auto;
 }
 .form.send.friend .fieldset > .field.choice > .label,
@@ -5960,7 +6358,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field.choice > .label,
 .form.contact .fieldset > .field.choice > .label,
 .form.password.forget .fieldset > .field.choice > .label,
-.form.create.account .fieldset > .field.choice > .label {
+.form.create.account .fieldset > .field.choice > .label,
+.form.wishlist.share .fieldset > .field.choice > .label {
   display: inline;
 }
 .form.send.friend .fieldset > .field.required > .label > span:first-child:after,
@@ -5970,7 +6369,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field.required > .label > span:first-child:after,
 .form.contact .fieldset > .field.required > .label > span:first-child:after,
 .form.password.forget .fieldset > .field.required > .label > span:first-child:after,
-.form.create.account .fieldset > .field.required > .label > span:first-child:after {
+.form.create.account .fieldset > .field.required > .label > span:first-child:after,
+.form.wishlist.share .fieldset > .field.required > .label > span:first-child:after {
   content: '*';
   color: #74dc74;
 }
@@ -5981,7 +6381,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .addon,
 .form.contact .fieldset > .field .addon,
 .form.password.forget .fieldset > .field .addon,
-.form.create.account .fieldset > .field .addon {
+.form.create.account .fieldset > .field .addon,
+.form.wishlist.share .fieldset > .field .addon {
   padding: 0;
   display: table;
   width: 100%;
@@ -5994,6 +6395,7 @@ img[align="right"] {
 .form.contact .fieldset > .field .addon textarea,
 .form.password.forget .fieldset > .field .addon textarea,
 .form.create.account .fieldset > .field .addon textarea,
+.form.wishlist.share .fieldset > .field .addon textarea,
 .form.send.friend .fieldset > .field .addon select,
 .form.address.edit .fieldset > .field .addon select,
 .form.edit.account .fieldset > .field .addon select,
@@ -6002,6 +6404,7 @@ img[align="right"] {
 .form.contact .fieldset > .field .addon select,
 .form.password.forget .fieldset > .field .addon select,
 .form.create.account .fieldset > .field .addon select,
+.form.wishlist.share .fieldset > .field .addon select,
 .form.send.friend .fieldset > .field .addon input,
 .form.address.edit .fieldset > .field .addon input,
 .form.edit.account .fieldset > .field .addon input,
@@ -6009,7 +6412,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .addon input,
 .form.contact .fieldset > .field .addon input,
 .form.password.forget .fieldset > .field .addon input,
-.form.create.account .fieldset > .field .addon input {
+.form.create.account .fieldset > .field .addon input,
+.form.wishlist.share .fieldset > .field .addon input {
   display: table-cell;
   width: 100%;
   border-radius: 0;
@@ -6024,6 +6428,7 @@ img[align="right"] {
 .form.contact .fieldset > .field .addon .addbefore,
 .form.password.forget .fieldset > .field .addon .addbefore,
 .form.create.account .fieldset > .field .addon .addbefore,
+.form.wishlist.share .fieldset > .field .addon .addbefore,
 .form.send.friend .fieldset > .field .addon .addafter,
 .form.address.edit .fieldset > .field .addon .addafter,
 .form.edit.account .fieldset > .field .addon .addafter,
@@ -6031,7 +6436,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .addon .addafter,
 .form.contact .fieldset > .field .addon .addafter,
 .form.password.forget .fieldset > .field .addon .addafter,
-.form.create.account .fieldset > .field .addon .addafter {
+.form.create.account .fieldset > .field .addon .addafter,
+.form.wishlist.share .fieldset > .field .addon .addafter {
   vertical-align: middle;
   width: 1px;
   height: 0;
@@ -6074,6 +6480,7 @@ img[align="right"] {
 .no-borderradius .form.contact .fieldset > .field .addon .addbefore,
 .no-borderradius .form.password.forget .fieldset > .field .addon .addbefore,
 .no-borderradius .form.create.account .fieldset > .field .addon .addbefore,
+.no-borderradius .form.wishlist.share .fieldset > .field .addon .addbefore,
 .no-borderradius .form.send.friend .fieldset > .field .addon .addafter,
 .no-borderradius .form.address.edit .fieldset > .field .addon .addafter,
 .no-borderradius .form.edit.account .fieldset > .field .addon .addafter,
@@ -6081,7 +6488,8 @@ img[align="right"] {
 .no-borderradius .form.orders.search .fieldset > .field .addon .addafter,
 .no-borderradius .form.contact .fieldset > .field .addon .addafter,
 .no-borderradius .form.password.forget .fieldset > .field .addon .addafter,
-.no-borderradius .form.create.account .fieldset > .field .addon .addafter {
+.no-borderradius .form.create.account .fieldset > .field .addon .addafter,
+.no-borderradius .form.wishlist.share .fieldset > .field .addon .addafter {
   padding-top: 8px;
 }
 .form.send.friend .fieldset > .field .addon .addbefore:focus,
@@ -6092,6 +6500,7 @@ img[align="right"] {
 .form.contact .fieldset > .field .addon .addbefore:focus,
 .form.password.forget .fieldset > .field .addon .addbefore:focus,
 .form.create.account .fieldset > .field .addon .addbefore:focus,
+.form.wishlist.share .fieldset > .field .addon .addbefore:focus,
 .form.send.friend .fieldset > .field .addon .addafter:focus,
 .form.address.edit .fieldset > .field .addon .addafter:focus,
 .form.edit.account .fieldset > .field .addon .addafter:focus,
@@ -6099,7 +6508,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .addon .addafter:focus,
 .form.contact .fieldset > .field .addon .addafter:focus,
 .form.password.forget .fieldset > .field .addon .addafter:focus,
-.form.create.account .fieldset > .field .addon .addafter:focus {
+.form.create.account .fieldset > .field .addon .addafter:focus,
+.form.wishlist.share .fieldset > .field .addon .addafter:focus {
   border-color: #999;
 }
 .control .form.send.friend .fieldset > .field .addon .addbefore,
@@ -6110,6 +6520,7 @@ img[align="right"] {
 .control .form.contact .fieldset > .field .addon .addbefore,
 .control .form.password.forget .fieldset > .field .addon .addbefore,
 .control .form.create.account .fieldset > .field .addon .addbefore,
+.control .form.wishlist.share .fieldset > .field .addon .addbefore,
 .control .form.send.friend .fieldset > .field .addon .addafter,
 .control .form.address.edit .fieldset > .field .addon .addafter,
 .control .form.edit.account .fieldset > .field .addon .addafter,
@@ -6117,7 +6528,8 @@ img[align="right"] {
 .control .form.orders.search .fieldset > .field .addon .addafter,
 .control .form.contact .fieldset > .field .addon .addafter,
 .control .form.password.forget .fieldset > .field .addon .addafter,
-.control .form.create.account .fieldset > .field .addon .addafter {
+.control .form.create.account .fieldset > .field .addon .addafter,
+.control .form.wishlist.share .fieldset > .field .addon .addafter {
   width: 100%;
 }
 .form.send.friend .fieldset > .field .addon .addbefore:disabled,
@@ -6128,6 +6540,7 @@ img[align="right"] {
 .form.contact .fieldset > .field .addon .addbefore:disabled,
 .form.password.forget .fieldset > .field .addon .addbefore:disabled,
 .form.create.account .fieldset > .field .addon .addbefore:disabled,
+.form.wishlist.share .fieldset > .field .addon .addbefore:disabled,
 .form.send.friend .fieldset > .field .addon .addafter:disabled,
 .form.address.edit .fieldset > .field .addon .addafter:disabled,
 .form.edit.account .fieldset > .field .addon .addafter:disabled,
@@ -6135,7 +6548,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .addon .addafter:disabled,
 .form.contact .fieldset > .field .addon .addafter:disabled,
 .form.password.forget .fieldset > .field .addon .addafter:disabled,
-.form.create.account .fieldset > .field .addon .addafter:disabled {
+.form.create.account .fieldset > .field .addon .addafter:disabled,
+.form.wishlist.share .fieldset > .field .addon .addafter:disabled {
   opacity: 0.5;
 }
 .form.send.friend .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
@@ -6146,6 +6560,7 @@ img[align="right"] {
 .form.contact .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .form.password.forget .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .form.create.account .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
+.form.wishlist.share .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .form.send.friend .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.address.edit .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.edit.account .fieldset > .field .addon .addafter::-webkit-input-placeholder,
@@ -6153,7 +6568,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.contact .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.password.forget .fieldset > .field .addon .addafter::-webkit-input-placeholder,
-.form.create.account .fieldset > .field .addon .addafter::-webkit-input-placeholder {
+.form.create.account .fieldset > .field .addon .addafter::-webkit-input-placeholder,
+.form.wishlist.share .fieldset > .field .addon .addafter::-webkit-input-placeholder {
   line-height: 1.333;
 }
 .form.send.friend .fieldset > .field .addon .addbefore:-ms-input-placeholder,
@@ -6164,6 +6580,7 @@ img[align="right"] {
 .form.contact .fieldset > .field .addon .addbefore:-ms-input-placeholder,
 .form.password.forget .fieldset > .field .addon .addbefore:-ms-input-placeholder,
 .form.create.account .fieldset > .field .addon .addbefore:-ms-input-placeholder,
+.form.wishlist.share .fieldset > .field .addon .addbefore:-ms-input-placeholder,
 .form.send.friend .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.address.edit .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.edit.account .fieldset > .field .addon .addafter:-ms-input-placeholder,
@@ -6171,7 +6588,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.contact .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.password.forget .fieldset > .field .addon .addafter:-ms-input-placeholder,
-.form.create.account .fieldset > .field .addon .addafter:-ms-input-placeholder {
+.form.create.account .fieldset > .field .addon .addafter:-ms-input-placeholder,
+.form.wishlist.share .fieldset > .field .addon .addafter:-ms-input-placeholder {
   line-height: 1.333;
 }
 .form.send.friend .fieldset > .field .note,
@@ -6181,7 +6599,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .note,
 .form.contact .fieldset > .field .note,
 .form.password.forget .fieldset > .field .note,
-.form.create.account .fieldset > .field .note {
+.form.create.account .fieldset > .field .note,
+.form.wishlist.share .fieldset > .field .note {
   padding-left: 15px;
 }
 .form.send.friend .fieldset > .field .note:before,
@@ -6191,7 +6610,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .note:before,
 .form.contact .fieldset > .field .note:before,
 .form.password.forget .fieldset > .field .note:before,
-.form.create.account .fieldset > .field .note:before {
+.form.create.account .fieldset > .field .note:before,
+.form.wishlist.share .fieldset > .field .note:before {
   position: absolute;
   margin: 4px 0 0 -14px;
   content: '';
@@ -6211,7 +6631,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field:last-child,
 .form.contact .fieldset > .field:last-child,
 .form.password.forget .fieldset > .field:last-child,
-.form.create.account .fieldset > .field:last-child {
+.form.create.account .fieldset > .field:last-child,
+.form.wishlist.share .fieldset > .field:last-child {
   margin-bottom: 0;
 }
 .form.send.friend .fieldset > .field .nested,
@@ -6221,7 +6642,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .nested,
 .form.contact .fieldset > .field .nested,
 .form.password.forget .fieldset > .field .nested,
-.form.create.account .fieldset > .field .nested {
+.form.create.account .fieldset > .field .nested,
+.form.wishlist.share .fieldset > .field .nested {
   padding: 0 0 5px;
 }
 .form.send.friend .fieldset > .field .nested .field,
@@ -6231,7 +6653,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field .nested .field,
 .form.contact .fieldset > .field .nested .field,
 .form.password.forget .fieldset > .field .nested .field,
-.form.create.account .fieldset > .field .nested .field {
+.form.create.account .fieldset > .field .nested .field,
+.form.wishlist.share .fieldset > .field .nested .field {
   margin: 5px 0;
 }
 .form.send.friend .fieldset > .field > .label,
@@ -6241,7 +6664,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field > .label,
 .form.contact .fieldset > .field > .label,
 .form.password.forget .fieldset > .field > .label,
-.form.create.account .fieldset > .field > .label {
+.form.create.account .fieldset > .field > .label,
+.form.wishlist.share .fieldset > .field > .label {
   display: block;
   padding: 0 0 5px;
 }
@@ -6252,7 +6676,8 @@ img[align="right"] {
 .form.orders.search .fieldset > .field.note,
 .form.contact .fieldset > .field.note,
 .form.password.forget .fieldset > .field.note,
-.form.create.account .fieldset > .field.note {
+.form.create.account .fieldset > .field.note,
+.form.wishlist.share .fieldset > .field.note {
   width: 100%;
 }
 .form.send.friend .fieldset .field.street,
@@ -6262,7 +6687,8 @@ img[align="right"] {
 .form.orders.search .fieldset .field.street,
 .form.contact .fieldset .field.street,
 .form.password.forget .fieldset .field.street,
-.form.create.account .fieldset .field.street {
+.form.create.account .fieldset .field.street,
+.form.wishlist.share .fieldset .field.street {
   width: 100%;
 }
 .form.send.friend .fieldset .field.fullname,
@@ -6272,7 +6698,8 @@ img[align="right"] {
 .form.orders.search .fieldset .field.fullname,
 .form.contact .fieldset .field.fullname,
 .form.password.forget .fieldset .field.fullname,
-.form.create.account .fieldset .field.fullname {
+.form.create.account .fieldset .field.fullname,
+.form.wishlist.share .fieldset .field.fullname {
   width: 100%;
 }
 .form.send.friend .fieldset .field.fullname .fields.group-5 .field,
@@ -6282,7 +6709,8 @@ img[align="right"] {
 .form.orders.search .fieldset .field.fullname .fields.group-5 .field,
 .form.contact .fieldset .field.fullname .fields.group-5 .field,
 .form.password.forget .fieldset .field.fullname .fields.group-5 .field,
-.form.create.account .fieldset .field.fullname .fields.group-5 .field {
+.form.create.account .fieldset .field.fullname .fields.group-5 .field,
+.form.wishlist.share .fieldset .field.fullname .fields.group-5 .field {
   width: 20%;
 }
 .form.send.friend .fieldset .field.choice.newsletter,
@@ -6292,7 +6720,8 @@ img[align="right"] {
 .form.orders.search .fieldset .field.choice.newsletter,
 .form.contact .fieldset .field.choice.newsletter,
 .form.password.forget .fieldset .field.choice.newsletter,
-.form.create.account .fieldset .field.choice.newsletter {
+.form.create.account .fieldset .field.choice.newsletter,
+.form.wishlist.share .fieldset .field.choice.newsletter {
   width: 100%;
 }
 .form.send.friend .fieldset .field.dob .fields.group .field,
@@ -6302,7 +6731,8 @@ img[align="right"] {
 .form.orders.search .fieldset .field.dob .fields.group .field,
 .form.contact .fieldset .field.dob .fields.group .field,
 .form.password.forget .fieldset .field.dob .fields.group .field,
-.form.create.account .fieldset .field.dob .fields.group .field {
+.form.create.account .fieldset .field.dob .fields.group .field,
+.form.wishlist.share .fieldset .field.dob .fields.group .field {
   width: 33%;
   position: relative;
   z-index: 1;
@@ -6314,7 +6744,8 @@ img[align="right"] {
 .form.orders.search .fieldset .field.dob .fields.group .field .label,
 .form.contact .fieldset .field.dob .fields.group .field .label,
 .form.password.forget .fieldset .field.dob .fields.group .field .label,
-.form.create.account .fieldset .field.dob .fields.group .field .label {
+.form.create.account .fieldset .field.dob .fields.group .field .label,
+.form.wishlist.share .fieldset .field.dob .fields.group .field .label {
   position: absolute;
   bottom: 0;
   font-size: 12px;
@@ -6327,7 +6758,8 @@ img[align="right"] {
 .form.orders.search .fieldset .field.dob .fields.group .field input,
 .form.contact .fieldset .field.dob .fields.group .field input,
 .form.password.forget .fieldset .field.dob .fields.group .field input,
-.form.create.account .fieldset .field.dob .fields.group .field input {
+.form.create.account .fieldset .field.dob .fields.group .field input,
+.form.wishlist.share .fieldset .field.dob .fields.group .field input {
   margin-bottom: 16px;
 }
 .form.send.friend .action.save,
@@ -6338,6 +6770,7 @@ img[align="right"] {
 .form.contact .action.save,
 .form.password.forget .action.save,
 .form.create.account .action.save,
+.form.wishlist.share .action.save,
 .form.send.friend .action.submit,
 .form.address.edit .action.submit,
 .form.edit.account .action.submit,
@@ -6345,7 +6778,8 @@ img[align="right"] {
 .form.orders.search .action.submit,
 .form.contact .action.submit,
 .form.password.forget .action.submit,
-.form.create.account .action.submit {
+.form.create.account .action.submit,
+.form.wishlist.share .action.submit {
   border: none;
   border-radius: 0;
   background: #74dc74;
@@ -6363,6 +6797,7 @@ img[align="right"] {
 .form.contact .action.save span,
 .form.password.forget .action.save span,
 .form.create.account .action.save span,
+.form.wishlist.share .action.save span,
 .form.send.friend .action.submit span,
 .form.address.edit .action.submit span,
 .form.edit.account .action.submit span,
@@ -6370,7 +6805,8 @@ img[align="right"] {
 .form.orders.search .action.submit span,
 .form.contact .action.submit span,
 .form.password.forget .action.submit span,
-.form.create.account .action.submit span {
+.form.create.account .action.submit span,
+.form.wishlist.share .action.submit span {
   font-size: 14px;
   color: #546972;
   text-transform: uppercase;
@@ -6384,7 +6820,8 @@ img[align="right"] {
 .form.orders.search .actions,
 .form.contact .actions,
 .form.password.forget .actions,
-.form.create.account .actions {
+.form.create.account .actions,
+.form.wishlist.share .actions {
   *zoom: 1;
   width: 690px;
 }
@@ -6396,6 +6833,7 @@ img[align="right"] {
 .form.contact .actions:before,
 .form.password.forget .actions:before,
 .form.create.account .actions:before,
+.form.wishlist.share .actions:before,
 .form.send.friend .actions:after,
 .form.address.edit .actions:after,
 .form.edit.account .actions:after,
@@ -6403,7 +6841,8 @@ img[align="right"] {
 .form.orders.search .actions:after,
 .form.contact .actions:after,
 .form.password.forget .actions:after,
-.form.create.account .actions:after {
+.form.create.account .actions:after,
+.form.wishlist.share .actions:after {
   content: "";
   display: table;
 }
@@ -6414,7 +6853,8 @@ img[align="right"] {
 .form.orders.search .actions:after,
 .form.contact .actions:after,
 .form.password.forget .actions:after,
-.form.create.account .actions:after {
+.form.create.account .actions:after,
+.form.wishlist.share .actions:after {
   clear: both;
 }
 .form.send.friend .actions .primary,
@@ -6424,7 +6864,8 @@ img[align="right"] {
 .form.orders.search .actions .primary,
 .form.contact .actions .primary,
 .form.password.forget .actions .primary,
-.form.create.account .actions .primary {
+.form.create.account .actions .primary,
+.form.wishlist.share .actions .primary {
   float: right;
 }
 .form.send.friend .actions .secondary,
@@ -6434,7 +6875,8 @@ img[align="right"] {
 .form.orders.search .actions .secondary,
 .form.contact .actions .secondary,
 .form.password.forget .actions .secondary,
-.form.create.account .actions .secondary {
+.form.create.account .actions .secondary,
+.form.wishlist.share .actions .secondary {
   float: left;
 }
 .form.send.friend .fieldset.create.account:after,
@@ -6444,7 +6886,8 @@ img[align="right"] {
 .form.orders.search .fieldset.create.account:after,
 .form.contact .fieldset.create.account:after,
 .form.password.forget .fieldset.create.account:after,
-.form.create.account .fieldset.create.account:after {
+.form.create.account .fieldset.create.account:after,
+.form.wishlist.share .fieldset.create.account:after {
   content: attr(data-hasrequired);
   display: block;
   position: absolute;
@@ -6499,7 +6942,7 @@ img[align="right"] {
 .form.send.friend .actions > .primary .action.add {
   border: none;
   border-radius: 0;
-  background: #74dc74;
+  background: #6d838c;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
@@ -6508,7 +6951,7 @@ img[align="right"] {
 }
 .form.send.friend .actions > .primary .action.add span {
   font-size: 14px;
-  color: #4d5d64;
+  color: #fff;
   text-transform: uppercase;
   font-weight: 600;
   line-height: 16px;
@@ -6516,7 +6959,7 @@ img[align="right"] {
 .form.send.friend .actions > .primary .action.add:focus,
 .form.send.friend .actions > .primary .action.add:active,
 .form.send.friend .actions > .primary .action.add:hover {
-  background: #74dc74;
+  background: #6d838c;
 }
 .form.send.friend .actions > .primary .limit {
   margin: 0;
@@ -6528,7 +6971,9 @@ img[align="right"] {
   margin-right: 30%;
 }
 .form.address.edit .field.note.default,
-.form.address.edit .field.choice.set {
+.form.address.edit .field.choice.set,
+.form.wishlist.share .field.emails,
+.form.wishlist.share .field.text {
   width: 100%;
 }
 .form.search.advanced,
@@ -6613,6 +7058,65 @@ img[align="right"] {
 }
 .form.contact .fieldset .field.comment textarea {
   min-height: 13.2em;
+}
+/*
+ *    MISC
+ *
+----------------------------------------------------------------------------- */
+.action.back span:before {
+  content: '\00AB\00A0';
+}
+/*
+ *    Mage_Poll
+ *
+ *    Account
+----------------------------------------------------------------------------- */
+.block.poll .item {
+  margin: 0 15px;
+}
+.block.poll .poll.answer {
+  display: block;
+}
+.block.poll .fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.block.poll .field {
+  margin: 10px 0;
+}
+.block.poll .legend {
+  font-weight: 600;
+  float: left;
+}
+.block.poll .legend + br {
+  display: block;
+  clear: both;
+}
+.block.poll .action.submit {
+  border: none;
+  border-radius: 0;
+  background: #6d838c;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.block.poll .action.submit span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.block.poll .action.submit:focus,
+.block.poll .action.submit:active,
+.block.poll .action.submit:hover {
+  background: #6d838c;
+}
+.block.poll .actions {
+  margin-top: 15px;
 }
 /*
  *    Mage_Customer
@@ -6939,77 +7443,127 @@ img[align="right"] {
   line-height: 1;
   font-weight: 400;
 }
-/**
- * {license_notice}
- *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
 .no-display {
   display: none;
 }
-/**
- * {license_notice}
+.form.newsletter.manage .action.save {
+  padding: 5px 11px;
+}
+.table.data.wishlist .item-options dl {
+  margin: 0;
+}
+.table.data.wishlist .item-options dl dt {
+  display: inline;
+  float: left;
+  clear: left;
+  font-weight: 600;
+}
+.table.data.wishlist .item-options dl dt:after {
+  content: ':';
+  margin-right: 5px;
+}
+.table.data.wishlist .item-options dl dd {
+  margin: 0;
+}
+.table.data.wishlist .col.photo {
+  width: 100px;
+}
+.table.data.wishlist .col.actions {
+  width: 200px;
+}
+.form.search.advanced .field.price .range.price.fields.group .field:first-child input {
+  width: 96%;
+}
+/*
+ *    My Account -> My Product Reviews
  *
- * @category    design
- * @package     magento2_plushe_blue
- * @copyright   {copyright}
- * @license     {license_link}
- */
-.button.btn-cart {
-  border: none;
-  border-radius: 0;
-  background: #74dc74;
-  margin: 0;
-  padding: 9px 11px 9px;
-  box-shadow: none;
-  text-shadow: none;
-  outline: none;
-  padding: 5px 11px;
-}
-.button.btn-cart span {
-  font-size: 14px;
-  color: #546972;
-  text-transform: uppercase;
-  font-weight: 600;
-  line-height: 16px;
-}
-.actions .primary .action.share,
-.actions .primary .action.update {
-  border: none;
-  border-radius: 0;
-  background: #74dc74;
-  margin: 0;
-  padding: 9px 11px 9px;
-  box-shadow: none;
-  text-shadow: none;
-  outline: none;
-  padding: 5px 11px;
-}
-.actions .primary .action.share span,
-.actions .primary .action.update span {
-  font-size: 14px;
-  color: #546972;
-  text-transform: uppercase;
-  font-weight: 600;
-  line-height: 16px;
-}
-.table.data.wishlist tbody tr:nth-child(odd) {
-  background: #546972;
-}
-.table.data.wishlist td {
-  padding: 35px 10px;
-  vertical-align: top;
-}
-.table.data.wishlist th {
-  padding: 0 10px 35px 10px;
-  text-align: left;
-}
-.table.data.wishlist textarea {
+----------------------------------------------------------------------------- */
+.data.table.tags,
+.data.table.reviews {
   width: 100%;
 }
-.table.data.wishlist + .actions .primary {
+.data.table.tags th,
+.data.table.reviews th,
+.data.table.tags td,
+.data.table.reviews td {
+  padding: 8px 5px;
+}
+.data.table.tags th,
+.data.table.reviews th {
+  text-align: left;
+  text-transform: uppercase;
+  border-bottom: 1px solid #e5e5e5;
+}
+.data.table.tags tbody tr:nth-child(even) td,
+.data.table.reviews tbody tr:nth-child(even) td {
+  background: #e5e5e5;
+}
+.data.table.tags tbody td,
+.data.table.reviews tbody td {
+  border-bottom: 1px solid #e5e5e5;
+  vertical-align: top;
+}
+.data.table.tags .product.name,
+.data.table.reviews .product.name {
+  margin: 0;
+}
+/*
+ *    My Account -> My Wishlist
+ *
+----------------------------------------------------------------------------- */
+.data.table.wishlist {
+  width: 100%;
   margin-bottom: 15px;
+}
+.data.table.wishlist thead th {
+  padding-top: 0;
+  padding-bottom: 10px;
+  text-align: left;
+  font-weight: 400;
+  font-size: 16px;
+}
+.data.table.wishlist td,
+.data.table.wishlist th {
+  padding: 16px 10px 10px;
+  vertical-align: top;
+}
+.data.table.wishlist td:first-child,
+.data.table.wishlist th:first-child {
+  padding-left: 20px;
+}
+.data.table.wishlist td:last-child,
+.data.table.wishlist th:last-child {
+  padding-right: 20px;
+}
+.data.table.wishlist tbody tr:nth-child(even) {
+  background: #546972;
+}
+.data.table.wishlist textarea {
+  width: 100%;
+}
+.data.table.wishlist .box.tocart .qty {
+  width: 50px;
+}
+.data.table.wishlist + .actions .primary {
+  margin-bottom: 15px;
+}
+.data.table.wishlist + .actions .primary .action.share,
+.data.table.wishlist + .actions .primary .action.update {
+  border: none;
+  border-radius: 0;
+  background: #74dc74;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  padding: 5px 11px;
+}
+.data.table.wishlist + .actions .primary .action.share span,
+.data.table.wishlist + .actions .primary .action.update span {
+  font-size: 14px;
+  color: #546972;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
 }

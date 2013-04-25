@@ -3,7 +3,7 @@
 /**
  * {license_notice}
  *
- * @category    Mage
+ * @category    Design
  * @package     magento2_modern2
  * @copyright   {copyright}
  * @license     {license_link}
@@ -71,9 +71,9 @@
         <var name="product_page_more_views:height">70</var>
 
         <var name="side_column_widget_product_thumbnail:type">thumbnail</var>
-        <var name="side_column_widget_product_thumbnail:width">70</var>
+        <var name="side_column_widget_product_thumbnail:width">60</var>
         <var name="side_column_widget_product_thumbnail:ratio">1</var>
-        <var name="side_column_widget_product_thumbnail:height">70</var>
+        <var name="side_column_widget_product_thumbnail:height">60</var>
 
         <var name="new_products_content_widget_list:type">small_image</var>
         <var name="new_products_content_widget_list:width">166</var>
@@ -86,24 +86,24 @@
         <var name="new_products_content_widget_grid:height">166</var>
 
         <var name="recently_compared_products_images_names_widget:type">thumbnail</var>
-        <var name="recently_compared_products_images_names_widget:width">50</var>
+        <var name="recently_compared_products_images_names_widget:width">60</var>
         <var name="recently_compared_products_images_names_widget:ratio">1</var>
-        <var name="recently_compared_products_images_names_widget:height">50</var>
+        <var name="recently_compared_products_images_names_widget:height">60</var>
 
         <var name="recently_viewed_products_images_names_widget:type">small_image</var>
-        <var name="recently_viewed_products_images_names_widget:width">50</var>
+        <var name="recently_viewed_products_images_names_widget:width">60</var>
         <var name="recently_viewed_products_images_names_widget:ratio">1</var>
-        <var name="recently_viewed_products_images_names_widget:height">50</var>
+        <var name="recently_viewed_products_images_names_widget:height">60</var>
 
         <var name="recently_compared_products_images_only_widget:type">thumbnail</var>
-        <var name="recently_compared_products_images_only_widget:width">76</var>
+        <var name="recently_compared_products_images_only_widget:width">60</var>
         <var name="recently_compared_products_images_only_widget:ratio">1</var>
-        <var name="recently_compared_products_images_only_widget:height"/>
+        <var name="recently_compared_products_images_only_widget:height">60</var>
 
         <var name="recently_viewed_products_images_only_widget:type">small_image</var>
-        <var name="recently_viewed_products_images_only_widget:width">76</var>
+        <var name="recently_viewed_products_images_only_widget:width">60</var>
         <var name="recently_viewed_products_images_only_widget:ratio">1</var>
-        <var name="recently_viewed_products_images_only_widget:height"/>
+        <var name="recently_viewed_products_images_only_widget:height">60</var>
 
         <var name="bundled_product_customization_page:type">thumbnail</var>
         <var name="bundled_product_customization_page:width">100</var>
@@ -141,9 +141,9 @@
         <var name="wishlist_thumbnail:height">113</var>
 
         <var name="wishlist_sidebar_block:type">thumbnail</var>
-        <var name="wishlist_sidebar_block:width">50</var>
+        <var name="wishlist_sidebar_block:width">60</var>
         <var name="wishlist_sidebar_block:ratio">1</var>
-        <var name="wishlist_sidebar_block:height">50</var>
+        <var name="wishlist_sidebar_block:height">60</var>
 
         <var name="shared_wishlist_email:type">small_image</var>
         <var name="shared_wishlist_email:width">135</var>
@@ -176,9 +176,9 @@
         <var name="mini_cart_product_thumbnail:height">64</var>
 
         <var name="new_products_images_only_widget:type">small_image</var>
-        <var name="new_products_images_only_widget:width">78</var>
+        <var name="new_products_images_only_widget:width">60</var>
         <var name="new_products_images_only_widget:ratio">1</var>
-        <var name="new_products_images_only_widget:height">78</var>
+        <var name="new_products_images_only_widget:height">60</var>
 
         <var name="cart_page_product_thumbnail:type">thumbnail</var>
         <var name="cart_page_product_thumbnail:width">80</var>
@@ -208,10 +208,6 @@
         <var name="header-checkout-button-background">#dc0000</var>
         <var name="header-checkout-button-text-hover">#ffffff</var>
         <var name="header-checkout-button-background-hover">#b10000</var>
-        <!--
-        <var name="search-field">#ffffff</var>
-        <var name="search-field-text">#675f55</var>
-        <var name="search-field-stroke">#c2c2c2</var>-->
 <!-- Menu -->
         <var name="menu-background">#111111</var>
         <var name="menu-links">#ffffff</var>

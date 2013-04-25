@@ -29,6 +29,7 @@ app/design/frontend/enterprise/fixed/Mage_Downloadable
 app/design/frontend/magento2/reference/Mage_Downloadable
 app/design/frontend/magento2/reference/Enterprise_Checkout
 app/design/frontend/magento2/reference/Enterprise_TargetRule
+app/design/frontend/magento2/reference/Mage_Downloadable
 app/etc/modules/XEnterprise_Edition.xml.dist
 dev/tests/integration/testsuite/Enterprise/AdminGws
 dev/tests/integration/testsuite/Enterprise/CatalogEvent

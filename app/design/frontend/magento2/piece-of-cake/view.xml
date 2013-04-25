@@ -201,10 +201,11 @@
         <var name="header-background:image-uploader">header-bg.jpg</var>
         <var name="header-background:tile">repeat</var>
 
-        <var name="menu-background">#f8f8f8</var>
-        <var name="menu-stroke">#c2c2c2</var>
-        <var name="menu-links">#675f55</var>
-        <var name="menu-links-hover">#f47a1f</var>
+        <var name="menu-background">#ffffff</var>
+        <var name="menu-stroke">#e5e5e5</var>
+        <var name="menu-links">#000000</var>
+        <var name="menu-links-hover">#ffffff</var>
+        <var name="menu-links-hover-background">#333333</var>
 
         <var name="header-links">#837d75</var>
         <var name="header-links-hover">#675f55</var>
@@ -218,20 +219,11 @@
         <var name="page-background:image-uploader"></var>
         <var name="page-background:tile">no-repeat</var>
 
-        <var name="form-background">#f8f8f8</var>
-        <var name="form-stroke">#c2c2c2</var>
-        <var name="form2-background">#e5e5e5</var>
-        <var name="form2-stroke">#c2c2c2</var>
-
         <var name="form-field-stroke">#c2c2c2</var>
         <var name="form-field-stroke-clicked">#999999</var>
         <var name="image-stroke-keylines">#e5e5e5</var>
         <var name="scroll-bar-background">#f8f8f8</var>
         <var name="scroll-bar-handle">#c2c2c2</var>
-
-        <var name="radio-checkbox-icon">#675f55</var>
-        <var name="radio-checkbox-background">#e5e5e5</var>
-        <var name="radio-checkbox-stroke">#999999</var>
 
         <var name="button-background">#f47a1f</var>
         <var name="button-text">#ffffff</var>
@@ -261,17 +253,15 @@
         <var name="notice-icon">#ffffff</var>
 
 
-        <var name="banner-text:font-picker">"marvel", Arial, sans-serif</var>
-        <var name="banner-text:color-picker">#675f55</var>
-        <var name="page-headings:font-picker">"sourcesanspro", Arial, sans-serif</var>
+        <var name="page-headings:font-picker">"Droid Serif", serif</var>
         <var name="page-headings:color-picker">#675f55</var>
-        <var name="menu:font-picker">"sourcesanspro", Arial, sans-serif</var>
+        <var name="menu:font-picker">"Droid Serif", serif</var>
         <var name="menu:color-picker">#675f55</var>
 
-        <var name="body-text:font-picker">"sourcesanspro", Arial, sans-serif</var>
+        <var name="body-text:font-picker">Georgia, "Times New Roman", Times, serif</var>
         <var name="body-text:color-picker">#675f55</var>
 
-        <var name="buttons:font-picker">"sourcesanspro", Arial, sans-serif</var>
+        <var name="buttons:font-picker">Georgia, "Times New Roman", Times, serif</var>
         <var name="buttons:color-picker">#ffffff</var>
 
         <var name="text-links">#675f55</var>
@@ -280,6 +270,9 @@
         <var name="text-links-product">#675f55</var>
         <var name="small-links">#675f55</var>
         <var name="small-links-hover">#c2c2c2</var>
+
+        <var name="text-links-border">#e5e5e5</var>
+        <var name="text-links-border-hover">#333</var>
     </vars>
 
 </view>

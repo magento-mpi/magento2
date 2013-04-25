@@ -68,8 +68,9 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     {
         $this->dispatch('backend/admin/auth/login');
         $this->assertFalse($this->getResponse()->isRedirect());
-        $expected = 'Log in to Admin Panel';
-        $this->assertContains($expected, $this->getResponse()->getBody(), 'There is no login form');
+        $body = $this->getResponse()->getBody();
+        $this->assertSelectCount('form#login-form input#username[type=text]', true, $body);
+        $this->assertSelectCount('form#login-form input#login[type=password]', true, $body);
     }
 
     /**
@@ -121,7 +122,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
         $this->_login();
         $this->dispatch('backend/admin/auth/logout');
         $this->assertRedirect($this->equalTo(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl()));
-        $this->assertFalse($this->_session->isLoggedIn(), 'User is not logouted');
+        $this->assertFalse($this->_session->isLoggedIn(), 'User is not logged out.');
     }
 
     /**
