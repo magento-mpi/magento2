@@ -56,7 +56,7 @@
             <group id="paypal_payment_solutions_saas_au" extends="*/paypal_payment_solutions" showInDefault="1" showInWebsite="1" showInStore="1">
                 <help_url>https://www.paypal-australia.com.au/business/accept-payments</help_url>
                 <depends>
-                    <field id="*/account/merchant_country">AU</field>
+                    <field id="*/account/merchant_country" negative="0">AU</field>
                 </depends>
             </group>
 
