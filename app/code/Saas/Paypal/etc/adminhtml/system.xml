@@ -102,10 +102,11 @@
                     </group>
                 </group>
                 <group id="wpp">
-                    <attribute type="activity_path">
-                        <path_1>payment/paypal_direct/active</path_1>
-                        <path_2>payment/paypal_direct_boarding/active</path_2>
-                    </attribute>
+                    <!--// TODO: attribute doesn't work for group-->
+                    <!--<attribute type="activity_path">-->
+                        <!--<path_1>payment/paypal_direct/active</path_1>-->
+                        <!--<path_2>payment/paypal_direct_boarding/active</path_2>-->
+                    <!--</attribute>-->
                     <group id="wpp_required_settings">
                         <group id="wpp_and_express_checkout">
                             <field id="authentication_method" translate="label" module="Saas_Paypal" type="select" sortOrder="15" showInDefault="1" showInWebsite="1">
@@ -182,12 +183,12 @@
                                 <attribute type="status_config_path">payment/paypal_direct_boarding/status</attribute>
                                 <attribute type="account_config_path">paypal/onboarding/boarding_account</attribute>
                                 <attribute type="account_id_config_path">paypal/onboarding/receiver_id</attribute>
+                                <attribute type="create_link">https://www.paypal.com/webapps/mpp/referral/paypal-payments-pro?partner_id=NB9WWHYEMVUMS</attribute>
                                 <depends>
                                     <field id="authentication_method">0</field>
                                 </depends>
                             </field>
                             <field id="direct_boarding_status_us" extends="*/paypal_payments/wpp/wpp_required_settings/wpp_and_express_checkout/direct_boarding_status" showInDefault="1" showInWebsite="1" showInStore="1">
-                                <attribute type="create_link">https://www.paypal.com/webapps/mpp/referral/paypal-payments-pro?partner_id=NB9WWHYEMVUMS</attribute>
                                 <depends>
                                     <field id="*/account/merchant_country">US</field>
                                 </depends>
@@ -204,7 +205,9 @@
                             <config_path>payment/paypal_direct_boarding/active</config_path>
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <frontend_class>paypal-enabler paypal-boarding-enabler</frontend_class>
-                            <attribute type="requires">wpp_and_express_checkout</attribute>
+                            <requires>
+                                <group id="wpp_and_express_checkout"/>
+                            </requires>
                         </field>
                     </group>
                     <group id="wpp_settings" showInDefault="0" showInWebsite="0" showInStore="0"/>
@@ -534,9 +537,10 @@
                     </depends>
                 </group>
                 <group id="express_checkout" showInWebsite="0" showInDefault="0" showInStore="0">
-                    <attribute type="activity_path">
-                        <path_3>payment/paypal_express_boarding/active</path_3>
-                    </attribute>
+                    <!--// TODO: attribute doesn't work for group-->
+                    <!--<attribute type="activity_path">-->
+                        <!--<path_3>payment/paypal_express_boarding/active</path_3>-->
+                    <!--</attribute>-->
                     <group id="express_checkout_required" showInDefault="0" showInWebsite="0" showInStore="0"/>
                     <group id="express_checkout_required_am_0" extends="*/paypal_payments/express_checkout/express_checkout_required" showInWebsite="1" showInDefault="1" showInStore="1">
                         <field id="enable_express_checkout"/>
@@ -551,7 +555,9 @@
                             <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                             <frontend_class>paypal-enabler paypal-ec-boarding-enabler</frontend_class>
                             <attribute type="shared">1</attribute>
-                            <attribute type="requires">express_checkout_required_express_checkout</attribute>
+                            <requires>
+                                <group id="express_checkout_required_express_checkout"/>
+                            </requires>
                         </field>
                         <depends>
                             <field id="*/express_checkout_required_express_checkout/authentication_method">1</field>

@@ -30,7 +30,6 @@
 class Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro
     extends Mage_Backend_Block_System_Config_Form_Field implements Varien_Data_Form_Element_Renderer_Interface
 {
-
     /**
      * Set template to the block
      *
@@ -103,10 +102,9 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro
         $methodDirectBoarding = Saas_Paypal_Model_Boarding_Config::METHOD_DIRECT_BOARDING;
         $wppAuthPath  = 'payment/'. $methodDirect .'/authentication_method';
         $authPermOpt = Saas_Paypal_Model_System_Config_Source_AuthenticationMethod::TYPE_PERMISSIONS;
-        $isBoardingActive = Mage::getStoreConfigFlag("payment/{$methodDirectBoarding}/active", $this->_storeId);
+        $isBoardingActive = Mage::getStoreConfigFlag("payment/{$methodDirectBoarding}/active");
         $isBoardingWasActivated = Mage::getModel('Saas_Paypal_Model_Boarding_Config')->getWasActivated(
-            $methodDirectBoarding,
-            $this->_storeId
+            $methodDirectBoarding
         );
         $isAuthMethodPerm = Mage::getStoreConfig($wppAuthPath) == $authPermOpt;
 
@@ -142,7 +140,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro
     public function isWppApiCredActive()
     {
         $wppActivePath = 'payment/'.  Mage_Paypal_Model_Config::METHOD_WPP_DIRECT .'/active';
-        return Mage::getStoreConfigFlag($wppActivePath, $this->_storeId);
+        return Mage::getStoreConfigFlag($wppActivePath);
     }
 
     /**
@@ -153,8 +151,6 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro
     public function getBusinessAccount()
     {
         $businessAccountPath = 'paypal/general/business_account';
-        return Mage::getStoreConfig($businessAccountPath, $this->_storeId);
+        return Mage::getStoreConfig($businessAccountPath);
     }
-
-
 }
