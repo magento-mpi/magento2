@@ -1,0 +1,30 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_SystemConfiguration
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Manage System Configuration
+
+# 'System Configuration' page
+system_configuration:
+    mca: system_config/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_config/')]
+    title: Configuration / Settings / Stores / Magento Admin
+    uimap: &system_configuration_uimap
+        form:
+            tabs:
+                -
+                    general_general:
+                        xpath: //a[contains(@href, 'edit/section/general/')]
+                        fieldsets:
+                            -
+                                generation_settings:
+                                    xpath: //fieldset[@id='sitemap_generate']
+                                    fields:
+                                        google_verification_code: //input[@name='groups[generate][fields][verification_code][value]']
+
