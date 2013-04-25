@@ -183,6 +183,7 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_MapperTest extends 
      * @param bool $isValueSatisfy
      * @param bool $isFieldVisible
      * @param string $id
+     * @param string $mockClassName
      * @return PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getDependencyField($isValueSatisfy, $isFieldVisible, $id, $mockClassName)
@@ -212,6 +213,7 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_MapperTest extends 
      *
      * @param bool $isVisible
      * @param string $path
+     * @param string $mockClassName
      * @return PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getField($isVisible, $path, $mockClassName)
