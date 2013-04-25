@@ -2797,7 +2797,7 @@ ul.messages ul {
   font-size: 0;
   line-height: 0;
   width: 0;
-  border-bottom: 5px solid #666;
+  border-bottom: 5px solid #666666;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 }
@@ -3478,7 +3478,7 @@ ul.messages ul {
   font-size: 0;
   line-height: 0;
   width: 0;
-  border-bottom: 5px solid #666;
+  border-bottom: 5px solid #666666;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 }
@@ -3673,7 +3673,7 @@ ul.messages ul {
   font-size: 0;
   line-height: 0;
   width: 0;
-  border-bottom: 5px solid #666;
+  border-bottom: 5px solid #666666;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 }
@@ -7177,7 +7177,7 @@ body.type-bundle {
   font-size: 0;
   line-height: 0;
   width: 0;
-  border-bottom: 5px solid #666;
+  border-bottom: 5px solid #666666;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 }
@@ -8334,6 +8334,13 @@ img[align="right"] {
 .form.search.advanced .fieldset > .field:first-child,
 .form.contact .fieldset > .field:first-child {
   margin: 0;
+}
+.form.search.advanced .fieldset > .field .addon .addbefore,
+.form.contact .fieldset > .field .addon .addbefore,
+.form.search.advanced .fieldset > .field .addon .addafter,
+.form.contact .fieldset > .field .addon .addafter {
+  background: none;
+  border: 0;
 }
 .form.search.advanced .actions,
 .form.contact .actions {
