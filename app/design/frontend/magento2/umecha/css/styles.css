@@ -5926,6 +5926,23 @@ body.account .page.title > .action.disabled:active {
 .table.wishlist td {
   padding: 5px 10px;
 }
+.table.wishlist .item-options {
+  background: #422937;
+  color: #ffffff;
+  display: none;
+  position: absolute;
+  border-radius: 5px;
+  padding: 10px;
+  right: 100%;
+  top: 50%;
+  margin-top: -20px;
+  margin-right: 15px;
+  max-width: 200px;
+  min-width: 100px;
+}
+.table.wishlist .item-options > p {
+  margin-top: 0;
+}
 .table.wishlist .item-options dl {
   margin: 0;
 }
@@ -5941,6 +5958,32 @@ body.account .page.title > .action.disabled:active {
 }
 .table.wishlist .item-options dl dd {
   margin: 0;
+}
+.table.wishlist .truncated .truncated_full_value {
+  position: relative;
+}
+.table.wishlist .truncated .truncated_full_value.show:before {
+  content: '';
+  border-left: 10px solid #422937;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+  display: block;
+  position: absolute;
+  top: 3px;
+  margin-top: 0;
+  left: -15px;
+  z-index: 2;
+}
+.table.wishlist .truncated .truncated_full_value.show .item-options {
+  display: block;
+}
+.table.wishlist .truncated .details {
+  font-size: 12px;
+  border-bottom: 1px dotted #7b645f;
+  cursor: help;
 }
 .table.wishlist .col.photo {
   width: 100px;
