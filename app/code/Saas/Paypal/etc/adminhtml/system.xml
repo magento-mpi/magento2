@@ -393,7 +393,7 @@
                         </depends>
                     </group>
                 </group>
-                <group id="wps" showInDefault="0" showInWebsite="0" showInStore="0">
+                <group id="wps">
                     <group id="settings_payments_standart">
                         <field id="payment_action" showInWebsite="0"/>
                         <group id="settings_payments_standart_advanced">
@@ -406,15 +406,16 @@
                         </group>
                     </group>
                 </group>
-                <group id="wps_au" extends="*/paypal_payment_solutions/wps_caau">
+                <group id="wps_caau" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                <group id="wps_au" extends="*/paypal_payment_solutions/wps_caau" showInDefault="1" showInWebsite="1" showInStore="1">
                     <more_url>https://www.paypal-australia.com.au/business/accept-payments/accept-payments-on-your-website/website-payments-standard</more_url>
                     <depends>
                         <field id="*/account/merchant_country">AU</field>
                     </depends>
                 </group>
-                <group id="wps_ca" extends="*/paypal_payment_solutions/wps_caau">
+                <group id="wps_ca" extends="*/paypal_payment_solutions/wps_caau" showInDefault="1" showInWebsite="1" showInStore="1">
                     <depends>
-                        <field id="*/account/merchant_country">AU</field>
+                        <field id="*/account/merchant_country">CA</field>
                     </depends>
                 </group>
                 <group id="paypal_verisign" showInDefault="0" showInWebsite="0" showInStore="0">
