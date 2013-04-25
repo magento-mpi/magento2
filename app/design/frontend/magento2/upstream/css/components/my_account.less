@@ -117,6 +117,35 @@ body.account {
             margin-bottom: 0;
         }
     }
+    .order-page {
+        .order.status {
+            font: 24px @oswald;
+        }
+        .order.date {
+            font-weight: 700;
+        }
+        .block.order {
+            .block;
+        }
+    }
+    .order-details {
+        dl {
+            margin: 0;
+            dt {
+                display: inline;
+                float: left;
+                clear: left;
+                font-weight: 600;
+                &:after {
+                    content: ':';
+                    margin-right: 5px;
+                }
+            }
+            dd {
+                margin: 0;
+            }
+        }
+    }
 }
 
 

@@ -5877,6 +5877,41 @@ body.account .page.title > .action.disabled:active {
   line-height: 1.666;
   margin-bottom: 0;
 }
+.my-account .order-page .order.status {
+  font: 24px 'Droid Serif', Arial, sans-serif;
+}
+.my-account .order-page .order.date {
+  font-weight: 700;
+}
+.my-account .order-page .block.order {
+  margin-bottom: 50px;
+}
+.my-account .order-page .block.order > .title,
+.my-account .order-page .block.order > .block-title {
+  margin-bottom: 10px;
+}
+.my-account .order-page .block.order > .title strong,
+.my-account .order-page .block.order > .block-title strong {
+  text-transform: capitalize;
+  font: 14px/1 'Droid Serif', Arial, sans-serif;
+  font-weight: 400;
+}
+.my-account .order-details dl {
+  margin: 0;
+}
+.my-account .order-details dl dt {
+  display: inline;
+  float: left;
+  clear: left;
+  font-weight: 600;
+}
+.my-account .order-details dl dt:after {
+  content: ':';
+  margin-right: 5px;
+}
+.my-account .order-details dl dd {
+  margin: 0;
+}
 .customer-address-index .column.main .actions {
   clear: left;
 }
