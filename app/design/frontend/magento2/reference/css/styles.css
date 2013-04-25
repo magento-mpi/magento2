@@ -7015,7 +7015,9 @@ img[align="right"] {
   margin-right: 30%;
 }
 .form.address.edit .field.note.default,
-.form.address.edit .field.choice.set {
+.form.address.edit .field.choice.set,
+.form.wishlist.share .field.emails,
+.form.wishlist.share .field.text {
   width: 100%;
 }
 .form.search.advanced,
