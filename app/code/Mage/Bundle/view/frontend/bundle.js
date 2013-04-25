@@ -84,13 +84,14 @@
                     selected.push(element.val());
                     config.selected[parts[2]] = selected;
                 } else if (element.is('input')) {
-                    if (element.is(":radio:checked")) {
-                            selected.push(element.val());
-                            config.selected[parts[2]] = selected;
-                    }
                     if (element.is(":checkbox")) {
                         if (element.is(":checked")) {
-                            config.selected[parts[2]].push(element.val());
+                            selected.push(element.val());
+                            if (parts[2] in config.selected) {
+                                config.selected[parts[2]].push(selected);
+                            } else {
+                                config.selected[parts[2]] = [selected];
+                            }
                         } else {
                             config.selected[parts[2]].splice($.inArray(element.val(), config.selected[parts[2]]), 1);
                         }
