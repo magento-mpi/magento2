@@ -61,6 +61,31 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
     protected $_bannerTypesFilter                = array();
 
     /**
+     * @var Mage_Core_Model_Event_Manager
+     */
+    private $_eventManager;
+
+    /**
+     * @var Enterprise_Banner_Model_Config
+     */
+    private $_bannerConfig;
+
+    /**
+     * @param Mage_Core_Model_Resource $resource
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Enterprise_Banner_Model_Config $bannerConfig
+     */
+    public function __construct(
+        Mage_Core_Model_Resource $resource,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Enterprise_Banner_Model_Config $bannerConfig
+    ) {
+        parent::__construct($resource);
+        $this->_eventManager = $eventManager;
+        $this->_bannerConfig = $bannerConfig;
+    }
+
+    /**
      * Initialize banner resource model
      *
      */
@@ -80,7 +105,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
      */
     public function filterByTypes($types = array())
     {
-        $this->_bannerTypesFilter = Mage::getSingleton('Enterprise_Banner_Model_Config')->explodeTypes($types);
+        $this->_bannerTypesFilter = $this->_bannerConfig->explodeTypes($types);
         return $this;
     }
 
@@ -220,7 +245,9 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
             $select->where(implode(' OR ', $filter));
         }
 
-        Mage::dispatchEvent('enterprise_banner_resource_banner_content_select_init', array('select' => $select));
+        $this->_eventManager->dispatch('enterprise_banner_resource_banner_content_select_init', array(
+            'select' => $select,
+        ));
 
         return $adapter->fetchOne($select);
     }

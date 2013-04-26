@@ -44,6 +44,13 @@
                 </observers>
             </enterprise_banner_save_after>
         </events>
+        <di>
+            <Enterprise_BannerCustomerSegment_Model_Observer>
+                <parameters>
+                    <segmentCustomer>Enterprise_CustomerSegment_Model_Customer_Proxy</segmentCustomer>
+                </parameters>
+            </Enterprise_BannerCustomerSegment_Model_Observer>
+        </di>
     </global>
     <adminhtml>
         <events>

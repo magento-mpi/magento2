@@ -58,7 +58,7 @@ class Enterprise_BannerCustomerSegment_Model_Observer
         /** @var Enterprise_Banner_Model_Banner $banner */
         $banner = $observer->getEvent()->getBanner();
 
-        $adapter = $banner->getResource()->getReadConnection();
+        $adapter = $this->_resource->getConnection('read');
         $select = $adapter->select()
             ->from($this->_resource->getTableName('enterprise_banner_customersegment'))
             ->where('banner_id = ?', $banner->getId())
@@ -89,7 +89,7 @@ class Enterprise_BannerCustomerSegment_Model_Observer
         $bannerId = $banner->getId();
         $segmentIds = $banner->getData('customer_segment_ids');
 
-        $adapter = $banner->getResource()->getReadConnection();
+        $adapter = $this->_resource->getConnection('write');
 
         $adapter->delete(
             $this->_resource->getTableName('enterprise_banner_customersegment'),
