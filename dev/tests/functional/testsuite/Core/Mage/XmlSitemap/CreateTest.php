@@ -33,8 +33,8 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('General/disable_http_only');
-        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
+//        $this->systemConfigurationHelper()->configure('General/disable_http_only');
+//        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
         $this->systemConfigurationHelper()->configure('XmlSitemap/admin_disable_push_to_robots');
     }
 
@@ -187,16 +187,10 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
      */
     public function withRequiredFieldsSaveNotPush()
     {
-        $websiteData = $this->loadDataSet('Website', 'generic_website');
         //Steps
-        $this->navigate('manage_stores');
-        $this->storeHelper()->createStore($websiteData, 'website');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_website');
         $this->navigate('system_configuration');
         //Enable Submission to Robots.txt = "No" and save config
-        $this->systemConfigurationHelper()->configure('XmlSitemap/admin_disable_push_to_robots');
-
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
         //Open Search Engine Robots tab
         $this->systemConfigurationHelper()->openConfigurationTab('general_design');
         $this->systemConfigurationHelper()->expandFieldSet('search_engine_robots');
@@ -246,6 +240,7 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmptyReset()
     {
         //Enable push to robots.txt option
+        $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('XmlSitemap/admin_enable_push_to_robots');
 
         //Open Search Engine Robots tab
