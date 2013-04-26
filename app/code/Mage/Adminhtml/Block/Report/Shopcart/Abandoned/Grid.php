@@ -127,7 +127,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Created At'),
+            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Created'),
             'type'      => 'datetime',
             'index'     => 'created_at',
             'filter_index'=> 'main_table.created_at',

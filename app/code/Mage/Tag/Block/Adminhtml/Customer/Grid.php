@@ -86,7 +86,7 @@ class Mage_Tag_Block_Adminhtml_Customer_Grid extends Mage_Adminhtml_Block_Widget
         ));
 
         $this->addColumn('product_sku', array(
-            'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('Product SKU'),
+            'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('SKU'),
             'filter'    => false,
             'sortable'  => false,
             'width'     => 50,

@@ -106,7 +106,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Backend_Block_Widget_Grid_Ex
         ));
 
         $this->addColumn('created_at', array(
-            'header'        => $helper->__('Created On'),
+            'header'        => $helper->__('Created'),
             'align'         => 'left',
             'type'          => 'datetime',
             'width'         => '100px',
@@ -188,7 +188,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Backend_Block_Widget_Grid_Ex
         ));
 
         $this->addColumn('sku', array(
-            'header'    => $helper->__('Product SKU'),
+            'header'    => $helper->__('SKU'),
             'align'     => 'right',
             'type'      => 'text',
             'width'     => '50px',

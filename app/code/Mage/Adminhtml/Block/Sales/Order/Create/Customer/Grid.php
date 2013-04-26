@@ -83,7 +83,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Customer_Grid extends Mage_Adminht
         ));
 
         $this->addColumn('store_name', array(
-            'header'    =>Mage::helper('Mage_Sales_Helper_Data')->__('Signed Up From'),
+            'header'    =>Mage::helper('Mage_Sales_Helper_Data')->__('Signed-up Point'),
             'align'     => 'center',
             'index'     =>'store_name',
             'width'     =>'130px',
