@@ -31,14 +31,14 @@
     $_isOldDisplayMode = 0;
     $whiteBorders =  $this->getVar("product_image_white_borders");
 ?>
-<?php if($whiteBorders == 0): ?>
+<?php //if($whiteBorders == 0): ?>
     <style scoped>
     .magento-zoom > .img > img {
         position:absolute;
-        top:0; bottom:0; left:0; right:0; margin:auto;
+        top:0; bottom:0; left:0; right:0; margin:auto; max-height: 100%; max-width: 100%;
     }
     </style>
-<?php endif;?>
+<?php //endif; ?>
 <div class="product photo main">
     <a class="product photo magento-zoom<?php echo (!$_hasImage) ? ' isPlaceholder' : ''; ?>" id="main-image" href="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'image'); ?>" >
         <?php echo $this->getChildBlock('product.image.main')->init($_product, $image)->toHtml() ?>
@@ -110,7 +110,9 @@
         <li class="item thumb">
             <a<?php echo $attributes; ?> class="magento-zoom" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>">
             <?php if ($whiteBorders): ?>
+                <span class="img" style="position:relative; z-index:1; display:block; width:<?php echo $thumbHeight;?>px; height:<?php echo $thumbHeight;?>px;">
                 <img src="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'thumbnail', $_image->getFile())->resize($thumbWidth,$thumbHeight); ?>" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" />
+                </span>
             <?php else: ?>
                 <span class="img" style="position:relative; z-index:1; display:block; width:<?php echo $thumbHeight;?>px; height:<?php echo $thumbHeight;?>px;">
                     <img src="<?php echo $this->helper('Mage_Catalog_Helper_Image')->init($_product, 'thumbnail', $_image->getFile())->constrainOnly(TRUE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($thumbWidth,$thumbHeight); ?>" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" />
