@@ -95,6 +95,12 @@ applications:
                 uimap_path: 'paypal_developer'
                 login: 'paypal_developer_login'
                 password: 'paypal_developer_password'
+            tmt_api: &tmtApi
+                url: 'http://tenant.stage.server/soap.php?action=wsdl'
+                base_page_uimap: ~
+                uimap_path: ~
+                login: 'login'
+                password: 'password'
     ee: &ee
         fallbackOrderFixture: 'enterprise, default'
         fallbackOrderHelper: 'Enterprise, Core'
@@ -133,4 +139,5 @@ applications:
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
+            tmt_api: *tmtApi
     default: *ee
