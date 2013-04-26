@@ -4584,7 +4584,8 @@ and (max-width : 768px) {
 .form.password.forget,
 .form.create.account,
 .form.wishlist.share,
-.form.password.reset {
+.form.password.reset,
+.form.add.tag {
     .fieldset {
         .borderBox();
         width: 690px;
@@ -4653,7 +4654,8 @@ and (max-width : 768px) {
         }
     }
     .action.save,
-    .action.submit {
+    .action.submit,
+    .action.add {
         .primaryAction();
     }
     .actions {
@@ -4785,6 +4787,18 @@ and (max-width : 768px) {
                 }
             }
         }
+    }
+}
+
+.form.add.tag {
+    > .field {
+        .formField();
+        .fieldStyle();
+        > .label {
+            display: block;
+            padding: 0 0 5px;
+        }
+        margin-bottom: 20px;
     }
 }
 

@@ -348,8 +348,6 @@
         <type>color-picker</type>
         <selector><![CDATA[
             .login.container,
-            .form.password.forget .fieldset,
-            .form.create.account .fieldset,
             .block.add.review,
             .opc.wrapper > .opc .section > .step,
             .opc.wrapper > .opc .section.active > .step-title,
@@ -360,9 +358,9 @@
             .form.send.friend .fieldset,
             .form.address.edit .fieldset,
             .form.edit.account .fieldset,
-            .form.search.advanced .fieldset,
-            .form.orders.search .fieldset,
-            .form.contact .fieldset,
+            .form.search.advanced,
+            .form.orders.search,
+            .form.contact,
             .form.password.forget .fieldset,
             .form.create.account .fieldset,
             .form.wishlist.share .fieldset,
@@ -371,7 +369,8 @@
             .fieldset.bundle.options > .field,
             .block.bundle.summary,
             .data.table.reviews tbody tr:nth-child(even) td,
-            .data.table.wishlist tbody tr:nth-child(even)
+            .data.table.wishlist tbody tr:nth-child(even),
+            .data.comparison tr:nth-child(odd) .cell.attribute
         ]]></selector>
         <attribute>background-color</attribute>
         <var>Mage_DesignEditor::form-background</var>
@@ -475,6 +474,7 @@
             .form.orders.search .action span,
             .form.contact .action span,
             .form.wishlist.share .action.submit span,
+            .form.add.tag .action.add span,
 
             .banner.main .banner.action span,
             .opc.wrapper .form:not(.login) .actions button.action span,
@@ -520,6 +520,7 @@
             .form.orders.search .action,
             .form.contact .action,
             .form.wishlist.share .action.submit,
+            .form.add.tag .action.add,
 
             .banner.main .banner.action,
             .opc.wrapper .form:not(.login) .actions button.action,
@@ -565,6 +566,7 @@
             .form.orders.search .action:hover,
             .form.contact .action:hover,
             .form.wishlist.share .action.submit:hover,
+            .form.add.tag .action.add:hover,
 
             .banner.main .banner.action:hover,
             .opc.wrapper .form:not(.login) .actions button.action:hover,
