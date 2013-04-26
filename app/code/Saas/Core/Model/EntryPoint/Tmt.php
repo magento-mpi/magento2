@@ -25,7 +25,8 @@ class Saas_Core_Model_EntryPoint_Tmt extends Mage_Core_Model_EntryPointAbstract
      */
     public function __construct(
         Mage_Core_Model_Config_Primary $config,
-        Magento_ObjectManager $objectManager = null, $params = array()
+        Magento_ObjectManager $objectManager = null,
+        $params = array()
     ) {
         parent::__construct($config, $objectManager);
         $this->_params = $params;
@@ -36,7 +37,8 @@ class Saas_Core_Model_EntryPoint_Tmt extends Mage_Core_Model_EntryPointAbstract
      */
     public function processRequest()
     {
-        $this->_objectManager->get('Mage_Core_Model_App');
+        $this->_objectManager->get('Mage_Core_Model_App')
+            ->loadArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
 
         $command = $this->_params['command'];
         $commandProcessorName = self::TENANT_COMMAND_NAMESPACE . $command;

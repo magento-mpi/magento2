@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * Command model for processing UnlockAdmin request
  *
  * {license_notice}
  *
