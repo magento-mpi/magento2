@@ -14,33 +14,41 @@
         <section id="payment">
             <group id="paypal_notice" showInDefault="0" showInWebsite="0" showInStore="0">
                 <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint</frontend_model>
+                <hide_in_single_store_mode>1</hide_in_single_store_mode>
             </group>
             <group id="paypal_notice_saas" showInDefault="1" showInWebsite="1" showInStore="1" extends="*/paypal_notice">
+                <hide_in_single_store_mode>0</hide_in_single_store_mode>
                 <depends>
                     <field id="*/account/merchant_country" separator="," negative="1">GB,AU</field>
                 </depends>
             </group>
             <group id="paypal_notice_saas_gb" showInDefault="1" showInWebsite="1" showInStore="1" extends="*/paypal_notice">
+                <hide_in_single_store_mode>0</hide_in_single_store_mode>
                 <help_url>https://www.paypal-business.co.uk/how-to-take-online-payments-with-paypal/index.htm</help_url>
                 <depends>
                     <field id="*/account/merchant_country">GB</field>
                 </depends>
             </group>
             <group id="paypal_notice_saas_au" showInDefault="1" showInWebsite="1" showInStore="1" extends="*/paypal_notice">
+                <hide_in_single_store_mode>0</hide_in_single_store_mode>
                 <help_url>https://www.paypal-australia.com.au/business/accept-payments</help_url>
                 <depends>
                     <field id="*/account/merchant_country">AU</field>
                 </depends>
             </group>
 
-            <group id="paypal_group_all_in_one" showInDefault="0" showInWebsite="0" showInStore="0"/>
+            <group id="paypal_group_all_in_one" showInDefault="0" showInWebsite="0" showInStore="0">
+                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+            </group>
 
             <group id="paypal_group_all_in_one_saas" extends="*/paypal_group_all_in_one" showInDefault="1" showInWebsite="1" showInStore="1">
+                <hide_in_single_store_mode>0</hide_in_single_store_mode>
                 <depends>
                     <field id="*/account/merchant_country" negative="1">GB</field>
                 </depends>
             </group>
             <group id="paypal_group_all_in_one_saas_gb" extends="*/paypal_group_all_in_one" showInDefault="1" showInWebsite="1" showInStore="1">
+                <hide_in_single_store_mode>0</hide_in_single_store_mode>
                 <help_url>https://www.paypal-business.co.uk/how-to-take-online-payments-with-paypal/index.htm</help_url>
                 <depends>
                     <field id="*/account/merchant_country">GB</field>
@@ -48,16 +56,19 @@
             </group>
 
             <group id="paypal_payment_solutions" showInDefault="0" showInWebsite="0" showInStore="0">
+                <hide_in_single_store_mode>1</hide_in_single_store_mode>
                 <group id="paypal_verisign_ca" showInDefault="1" showInWebsite="1" showInStore="1"/>
                 <group id="paypal_verisign_aunz" showInDefault="1" showInWebsite="1" showInStore="1"/>
                 <group id="express_checkout_usgb_exclude" showInDefault="1" showInWebsite="1" showInStore="1"/>
             </group>
             <group id="paypal_payment_solutions_saas" extends="*/paypal_payment_solutions" showInDefault="1" showInWebsite="1" showInStore="1">
+                <hide_in_single_store_mode>0</hide_in_single_store_mode>
                 <depends>
                     <field id="*/account/merchant_country" separator="," negative="1">AU,US,GB</field>
                 </depends>
             </group>
             <group id="paypal_payment_solutions_saas_au" extends="*/paypal_payment_solutions" showInDefault="1" showInWebsite="1" showInStore="1">
+                <hide_in_single_store_mode>0</hide_in_single_store_mode>
                 <help_url>https://www.paypal-australia.com.au/business/accept-payments</help_url>
                 <depends>
                     <field id="*/account/merchant_country" negative="0">AU</field>
@@ -65,11 +76,16 @@
             </group>
 
             <group id="paypal_alternative_payment_methods">
-                <group id="express_checkout_us" showInDefault="1" showInWebsite="1" showInStore="1"/>
-                <group id="express_checkout_gb" showInDefault="1" showInWebsite="1" showInStore="1"/>
+                <group id="express_checkout_us" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
+                </group>
+                <group id="express_checkout_gb" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
+                </group>
             </group>
 
             <group id="paypal_payments">
+                <hide_in_single_store_mode>1</hide_in_single_store_mode>
                 <group id="payflow_advanced">
                     <group id="required_settings">
                         <group id="express">
@@ -97,16 +113,27 @@
                                 <field id="settlement_reports_schedule" showInDefault="1" showInWebsite="0"/>
                                 <field id="settlement_reports_time" showInDefault="1" showInWebsite="0"/>
                             </group>
-                            <group id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
                             <group id="billing_agreement">
-                                <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                                <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                                </field>
                             </group>
                         </group>
                     </group>
                     <group id="settings_express_checkout">
                         <group id="settings_express_checkout_advanced">
-                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0"/>
-                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
                         </group>
                     </group>
                 </group>
@@ -182,6 +209,7 @@
                                 </depends>
                             </field>
                             <field id="direct_boarding_status" type="select" translate="label button_label status_label account_label" sortOrder="17" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
                                 <label>Boarding Status</label>
                                 <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus</frontend_model>
                                 <button_label>Setup or change your site permissions with Paypal</button_label>
@@ -198,11 +226,13 @@
                                 </depends>
                             </field>
                             <field id="direct_boarding_status_us" extends="*/paypal_payments/wpp/wpp_required_settings/wpp_and_express_checkout/direct_boarding_status" showInDefault="1" showInWebsite="1" showInStore="1">
+                                <hide_in_single_store_mode>0</hide_in_single_store_mode>
                                 <depends>
                                     <field id="*/account/merchant_country">US</field>
                                 </depends>
                             </field>
                             <field id="direct_boarding_status_other" extends="*/paypal_payments/wpp/wpp_required_settings/wpp_and_express_checkout/direct_boarding_status" showInDefault="1" showInWebsite="1" showInStore="1">
+                                <hide_in_single_store_mode>0</hide_in_single_store_mode>
                                 <attribute type="create_link">https://www.paypal.com/webapps/mpp/referral/website-payments-pro?partner_id=NB9WWHYEMVUMS</attribute>
                                 <depends>
                                     <field id="*/account/merchant_country" negative="1">US</field>
@@ -219,16 +249,23 @@
                             </requires>
                         </field>
                     </group>
-                    <group id="wpp_settings" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                    <group id="wpp_settings" showInDefault="0" showInWebsite="0" showInStore="0">
+                        <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                    </group>
                     <group id="wpp_settings_wpp_and_express_checkout_authentication_method_0" sortOrder="0" extends="*/paypal_payments/wpp/wpp_settings" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <field id="title"/>
                         <field id="payment_action"/>
                         <field id="cctypes"/>
                         <group id="wpp_settings_advanced">
                             <field id="allowspecific"/>
                             <field id="specificcountry"/>
-                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0"/>
-                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
                             <field id="line_items_enabled"/>
                             <field id="useccv"/>
                             <field id="heading_3dsecure"/>
@@ -241,6 +278,7 @@
                         </depends>
                     </group>
                     <group id="wpp_settings_wpp_and_express_checkout_authentication_method_1" extends="*/paypal_payments/wpp/wpp_settings" showInDefault="0" showInWebsite="0" showInStore="0">
+                        <hide_in_single_store_mode>1</hide_in_single_store_mode>
                         <field id="direct_boarding_title" translate="label comment" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Title</label>
                             <comment>It is recommended to set this value to "Debit or Credit Card" per store views.</comment>
@@ -262,7 +300,9 @@
                             <source_model>Mage_Paypal_Model_Config::getWppCcTypesAsOptionArray</source_model>
                         </field>
                         <group id="wpp_settings_advanced">
-                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
                             <field id="direct_boarding_allowspecific" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0">
                                 <label>Payment Applicable From</label>
                                 <config_path>payment/paypal_direct_boarding/allowspecific</config_path>
@@ -294,6 +334,7 @@
                         </depends>
                     </group>
                     <group id="wpp_settings_wpp_and_express_checkout_authentication_method_1_direct_boarding_allowspecific_1" extends="*/paypal_payments/wpp/wpp_settings_wpp_and_express_checkout_authentication_method_1" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <group id="wpp_settings_advanced">
                             <field id="direct_boarding_specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="0">
                                 <label>Countries Payment Applicable From</label>
@@ -306,6 +347,7 @@
                         </depends>
                     </group>
                     <group id="wpp_settings_wpp_and_express_checkout_authentication_method_1_direct_boarding_allowspecific_0" extends="*/paypal_payments/wpp/wpp_settings_wpp_and_express_checkout_authentication_method_1" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <depends>
                             <field id="direct_boarding_allowspecific" negative="1">1</field>
                         </depends>
@@ -334,8 +376,11 @@
                             <field id="direct_boarding_allowspecific">1</field>
                         </depends>
                     </group>
-                    <group id="wpp_settings_express_checkout" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                    <group id="wpp_settings_express_checkout" showInDefault="0" showInWebsite="0" showInStore="0">
+                        <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                    </group>
                     <group id="wpp_settings_express_checkout_0" extends="*/paypal_payments/wpp/wpp_settings_express_checkout" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <field id="title"/>
                         <field id="sort_order"/>
                         <field id="payment_action"/>
@@ -360,6 +405,7 @@
                         </depends>
                     </group>
                     <group id="wpp_settings_express_checkout_1" extends="*/paypal_payments/wpp/wpp_settings_express_checkout" showInDefault="0" showInWebsite="0" showInStore="0">
+                        <hide_in_single_store_mode>1</hide_in_single_store_mode>
                         <field id="boarding_title" extends="payment/paypal_payments/express_checkout/settings_ec_ec_am_1/boarding_title"/>
                         <field id="boarding_sort_order" extends="payment/paypal_payments/express_checkout/settings_ec_ec_am_1/boarding_sort_order"/>
                         <field id="boarding_payment_action" extends="payment/paypal_payments/express_checkout/settings_ec_ec_am_1/boarding_payment_action"/>
@@ -379,6 +425,7 @@
                         </depends>
                     </group>
                     <group id="wpp_settings_express_checkout_1_boarding_allowspecific_1" extends="*/paypal_payments/wpp/wpp_settings_express_checkout_1" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <group id="wpp_settings_express_checkout_advanced">
                             <field id="boarding_specificcountry" extends="payment/paypal_payments/express_checkout/settings_ec_ec_am_1/settings_ec_advanced/boarding_specificcountry"/>
                         </group>
@@ -387,11 +434,13 @@
                         </depends>
                     </group>
                     <group id="wpp_settings_express_checkout_1_boarding_allowspecific_0" extends="*/paypal_payments/wpp/wpp_settings_express_checkout_1" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <depends>
                             <field id="boarding_allowspecific" negative="1">1</field>
                         </depends>
                     </group>
                     <group id="wpp_settings_express_checkout_1_boarding_line_items_enabled_1" extends="*/paypal_payments/wpp/wpp_settings_express_checkout_1" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <group id="wpp_settings_express_checkout_advanced">
                             <field id="boarding_transfer_shipping_options" extends="payment/paypal_payments/express_checkout/settings_ec_boarding_line_items_enabled_1/settings_ec_advanced/boarding_transfer_shipping_options"/>
                         </group>
@@ -400,6 +449,7 @@
                         </depends>
                     </group>
                     <group id="wpp_settings_express_checkout_1_boarding_line_items_enabled_1" extends="*/paypal_payments/wpp/wpp_settings_express_checkout_1" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <depends>
                             <field id="boarding_line_items_enabled" negative="1">1</field>
                         </depends>
@@ -413,24 +463,33 @@
                             <field id="specificcountry" showInWebsite="0"/>
                             <field id="sandbox_flag" showInWebsite="0"/>
                             <field id="line_items_enabled" showInWebsite="0"/>
-                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0"/>
-                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
                         </group>
                     </group>
                 </group>
-                <group id="wps_caau" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                <group id="wps_caau" showInDefault="0" showInWebsite="0" showInStore="0">
+                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                </group>
                 <group id="wps_au" extends="*/paypal_payment_solutions/wps_caau" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
                     <more_url>https://www.paypal-australia.com.au/business/accept-payments/accept-payments-on-your-website/website-payments-standard</more_url>
                     <depends>
                         <field id="*/account/merchant_country">AU</field>
                     </depends>
                 </group>
                 <group id="wps_ca" extends="*/paypal_payment_solutions/wps_caau" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
                     <depends>
                         <field id="*/account/merchant_country">CA</field>
                     </depends>
                 </group>
                 <group id="paypal_verisign" showInDefault="0" showInWebsite="0" showInStore="0">
+                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
                     <group id="settings_paypal_payflow">
                         <field id="payment_action" showInDefault="1" showInWebsite="0" showInStore="0"/>
                         <field id="heading_cc" showInDefault="1" showInWebsite="0" showInStore="0"/>
@@ -443,8 +502,12 @@
                             <field id="centinel" showInDefault="1" showInWebsite="0" showInStore="0"/>
                             <field id="centinel_is_mode_strict" showInDefault="1" showInWebsite="0" showInStore="0"/>
                             <field id="centinel_api_url" showInDefault="1" showInWebsite="0" showInStore="0"/>
-                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0"/>
-                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
                         </group>
                     </group>
                     <group id="paypal_payflow_express_checkout" showInDefault="1" showInWebsite="0">
@@ -456,7 +519,9 @@
                             <field id="allowspecific" showInDefault="1" showInWebsite="0"/>
                             <field id="specificcountry" showInDefault="1" showInWebsite="0"/>
                             <field id="line_items_enabled" showInDefault="1" showInWebsite="0"/>
-                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
                         </group>
                     </group>
                     <group id="paypal_payflow_required">
@@ -468,11 +533,13 @@
                     </group>
                 </group>
                 <group id="paypal_verisign_saas" extends="*/paypal_payments/paypal_verisign" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
                     <depends>
                         <field id="*/account/merchant_country" negative="1">AU</field>
                     </depends>
                 </group>
                 <group id="paypal_verisign_au" extends="*/paypal_payments/paypal_verisign" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
                     <more_url>https://www.paypal-australia.com.au/business/accept-payments/accept-a-payment-gateway</more_url>
                     <group id="settings_paypal_payflow">
                         <field id="cctypes">
@@ -486,7 +553,9 @@
                 <group id="paypal_verisign_with_express_checkout" showInDefault="1" showInWebsite="1" showInStore="1">
                     <group id="paypal_payflow_express_checkout">
                         <group id="paypal_payflow_express_checkout_advanced">
-                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
                         </group>
                     </group>
                 </group>
@@ -494,8 +563,12 @@
                 <group id="payflow_link">
                     <group id="settings_payflow_link">
                         <group id="settings_payflow_link_advanced">
-                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0"/>
-                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
                         </group>
                     </group>
                     <group id="payflow_link_required">
@@ -526,16 +599,24 @@
                             <field id="centinel" showInDefault="1" showInWebsite="0" showInStore="0"/>
                             <field id="centinel_is_mode_strict" showInDefault="1" showInWebsite="0" showInStore="0"/>
                             <field id="centinel_api_url" showInDefault="1" showInWebsite="0" showInStore="0"/>
-                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0"/>
-                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
                         </group>
                     </group>
                 </group>
                 <group id="payments_pro_hosted_solution">
                     <group id="pphs_settings">
                         <group id="pphs_settings_advanced">
-                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0"/>
-                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                            <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
                         </group>
                     </group>
                 </group>
@@ -546,18 +627,23 @@
                     </depends>
                 </group>
                 <group id="express_checkout" showInWebsite="0" showInDefault="0" showInStore="0">
+                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
                     <!--// TODO: attribute doesn't work for group-->
                     <!--<attribute type="activity_path">-->
                         <!--<path_3>payment/paypal_express_boarding/active</path_3>-->
                     <!--</attribute>-->
-                    <group id="express_checkout_required" showInDefault="0" showInWebsite="0" showInStore="0"/>
+                    <group id="express_checkout_required" showInDefault="0" showInWebsite="0" showInStore="0">
+                        <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                    </group>
                     <group id="express_checkout_required_am_0" extends="*/paypal_payments/express_checkout/express_checkout_required" showInWebsite="1" showInDefault="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <field id="enable_express_checkout"/>
                         <depends>
                             <field id="*/express_checkout_required_express_checkout/authentication_method">0</field>
                         </depends>
                     </group>
                     <group id="express_checkout_required_am_1" extends="*/paypal_payments/express_checkout/express_checkout_required" showInWebsite="1" showInDefault="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <field id="boarding_enable_express_checkout" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
                             <label>Enable this Solution</label>
                             <config_path>payment/paypal_express_boarding/active</config_path>
@@ -573,6 +659,7 @@
                         </depends>
                     </group>
                     <group id="express_checkout_required_saas" extends="*/paypal_payments/express_checkout/express_checkout_required" showInWebsite="1" showInDefault="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <group id="express_checkout_required_express_checkout" showInStore="1">
                             <field id="authentication_method" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
                                 <label>Authentication Method</label>
@@ -629,8 +716,11 @@
                             </depends>
                         </group>
                     </group>
-                    <group id="settings_ec" showInDefault="0" showInWebsite="0" showInStore="0"/>
-                    <group id="settings_ec_ec_am_0" extends="*/paypal_payments/express_checkout/settings_ec">
+                    <group id="settings_ec" showInDefault="0" showInWebsite="0" showInStore="0">
+                        <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                    </group>
+                    <group id="settings_ec_ec_am_0" extends="*/paypal_payments/express_checkout/settings_ec" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <field id="title"/>
                         <field id="sort_order"/>
                         <field id="payment_action"/>
@@ -654,7 +744,8 @@
                             <field id="*/express_checkout_required_express_checkout/authentication_method">0</field>
                         </depends>
                     </group>
-                    <group id="settings_ec_ec_am_1" extends="*/paypal_payments/express_checkout/settings_ec">
+                    <group id="settings_ec_ec_am_1" extends="*/paypal_payments/express_checkout/settings_ec" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <field id="boarding_title" translate="label comment" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Title</label>
                             <comment>It is recommended to set this value to "PayPal" per store views.</comment>
@@ -722,7 +813,8 @@
                             <field id="*/express_checkout_required_express_checkout/authentication_method">1</field>
                         </depends>
                     </group>
-                    <group id="settings_ec_boarding_line_items_enabled_1" extends="*/paypal_payments/express_checkout/settings_ec">
+                    <group id="settings_ec_boarding_line_items_enabled_1" extends="*/paypal_payments/express_checkout/settings_ec" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <group id="settings_ec_advanced">
                             <field id="boarding_transfer_shipping_options" translate="label tooltip comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>Transfer Shipping Options</label>
@@ -738,7 +830,8 @@
                             <field id="*/express_checkout_required_express_checkout/authentication_method">1</field>
                         </depends>
                     </group>
-                    <group id="settings_ec_am_1" extends="*/paypal_payments/express_checkout/settings_ec">
+                    <group id="settings_ec_am_1" extends="*/paypal_payments/express_checkout/settings_ec" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <group id="settings_ec_advanced">
                             <field id="boarind_allow_ba_signup" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/allow_ba_signup">
                                 <config_path>payment/paypal_express_boarding/allow_ba_signup</config_path>
@@ -750,6 +843,7 @@
                     </group>
                 </group>
                 <group id="express_checkout_au" extends="*/paypal_payments/express_checkout" showInWebsite="1" showInDefault="1" showInStore="1">
+                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
                     <more_url>https://www.paypal-australia.com.au/business/accept-payments/accept-payments-on-your-website/express-checkout</more_url>
                     <group id="express_checkout_required">
                         <group id="express_checkout_required_express_checkout">
@@ -763,6 +857,7 @@
                     </depends>
                 </group>
                 <group id="express_checkout_saas" extends="*/paypal_payments/express_checkout" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
                     <depends>
                         <field id="*/account/merchant_country" negative="1">AU</field>
                     </depends>
