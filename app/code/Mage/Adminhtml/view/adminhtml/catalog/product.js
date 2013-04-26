@@ -22,9 +22,10 @@ var Product = {};
         _showPopup: function (event) {
             var wrapper = $('<div id="create_new_attribute"/>').appendTo('body').dialog({
                 title: 'New Attribute',
-                minWidth: 1000,
-                minHeight: 700,
+                width: 600,
+                minHeight: 650,
                 modal: true,
+                resizable: false,
                 resizeStop: function(event, ui) {
                     iframe.height($(this).outerHeight() + 'px');
                     iframe.width($(this).outerWidth() + 'px');

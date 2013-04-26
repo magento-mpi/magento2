@@ -31,7 +31,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Mage
         $fieldset = $form->addFieldset(
             'front_fieldset',
             array(
-                'legend'=>Mage::helper('Mage_Catalog_Helper_Data')->__('Frontend Properties')
+                'legend'=>Mage::helper('Mage_Catalog_Helper_Data')->__('Frontend Properties'),
+                'collapsable' => true
             )
         );
 

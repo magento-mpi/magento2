@@ -116,18 +116,18 @@ button.primary:visited,
 .primary:visited,
 .popup-window .add-widget,
 .popup-window .add-widget:visited {
-    box-shadow: inset 0 1px 1px rgba(255,255,255,.1);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, .1);
     border: 1px solid #e4731c;
     color: #fff;
     text-shadow: 0 1px 1px #8e3b05;
     background: #f58227;
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y1ODIyNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmMDcyMWMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
     background: -moz-linear-gradient(top, #f58227 0%, #f0721c 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f58227), color-stop(100%,#f0721c));
-    background: -webkit-linear-gradient(top, #f58227 0%,#f0721c 100%);
-    background: -o-linear-gradient(top, #f58227 0%,#f0721c 100%);
-    background: -ms-linear-gradient(top, #f58227 0%,#f0721c 100%);
-    background: linear-gradient(to bottom, #f58227 0%,#f0721c 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f58227), color-stop(100%, #f0721c));
+    background: -webkit-linear-gradient(top, #f58227 0%, #f0721c 100%);
+    background: -o-linear-gradient(top, #f58227 0%, #f0721c 100%);
+    background: -ms-linear-gradient(top, #f58227 0%, #f0721c 100%);
+    background: linear-gradient(to bottom, #f58227 0%, #f0721c 100%);
 }
 
 .eq-ie8 input[type=button].primary,
@@ -143,7 +143,7 @@ button.primary:visited,
 .eq-ie8 .popup-window .add-widget,
 .eq-ie8 .popup-window .add-widget:visited,
 .page-login button.primary {
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f58227', endColorstr='#f0721c',GradientType=0 );
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f58227', endColorstr='#f0721c', GradientType=0);
 }
 
 input[type=button].primary:hover,
@@ -157,16 +157,16 @@ button.primary:focus,
 .primary:hover,
 .primary:focus,
 .popup-window .add-widget:hover,
-.popup-window .add-widget:focus{
+.popup-window .add-widget:focus {
     color: #fff;
     background: #e47821;
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2U0NzgyMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkZTY4MTciIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
     background: -moz-linear-gradient(top, #e47821 0%, #de6817 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e47821), color-stop(100%,#de6817));
-    background: -webkit-linear-gradient(top, #e47821 0%,#de6817 100%);
-    background: -o-linear-gradient(top, #e47821 0%,#de6817 100%);
-    background: -ms-linear-gradient(top, #e47821 0%,#de6817 100%);
-    background: linear-gradient(to bottom, #e47821 0%,#de6817 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e47821), color-stop(100%, #de6817));
+    background: -webkit-linear-gradient(top, #e47821 0%, #de6817 100%);
+    background: -o-linear-gradient(top, #e47821 0%, #de6817 100%);
+    background: -ms-linear-gradient(top, #e47821 0%, #de6817 100%);
+    background: linear-gradient(to bottom, #e47821 0%, #de6817 100%);
 }
 
 .eq-ie8 input[type=button].primary:hover,
@@ -183,7 +183,7 @@ button.primary:focus,
 .eq-ie8 .popup-window .add-widget:focus,
 .page-login button.primary:hover,
 .page-login button.primary:focus {
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e47821', endColorstr='#de6817',GradientType=0 );
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e47821', endColorstr='#de6817', GradientType=0);
 }
 
 input[type=button].primary:active,
@@ -353,7 +353,12 @@ button.primary.disabled:hover,
 .page-login .action-back,
 .page-login .action-back:hover,
 .page-login .action-back:active,
-.page-login .action-back.active {
+.page-login .action-back.active,
+.attribute-popup .page-actions #reset,
+.attribute-popup .page-actions #reset:hover,
+.attribute-popup .page-actions #reset:active,
+.attribute-popup .page-actions #reset.active,
+.attribute-popup .page-actions #reset[disabled] {
     border: none;
     border-radius: 0;
     background: none;
@@ -556,7 +561,8 @@ button.primary.disabled:hover,
 /*
     Actions as links
 -------------------------------------- */
-.notification-entry-dialog .action-cancel {
+.notification-entry-dialog .action-cancel,
+.attribute-popup .page-actions #reset {
     background: none;
     border: none;
     color: #6d665e;
@@ -566,7 +572,8 @@ button.primary.disabled:hover,
     text-decoration: underline;
 }
 
-.notification-entry-dialog .action-cancel:hover {
+.notification-entry-dialog .action-cancel:hover,
+.attribute-popup .page-actions #reset:hover {
     color: #000;
     border-bottom-color: #000;
 }
@@ -2839,7 +2846,7 @@ table tbody tr:nth-child(odd):hover th {
 /*
     Login page
 -------------------------------------- */
-.page-login  {
+.page-login {
     height: 100%;
 }
 
@@ -2864,6 +2871,7 @@ table tbody tr:nth-child(odd):hover th {
     max-width: none;
     min-width: 0;
 }
+
 .page-login .footer-copyright {
     text-align: right;
 }
@@ -2936,7 +2944,7 @@ table tbody tr:nth-child(odd):hover th {
     margin: 0 0 13px;
 }
 
-.page-login .form-inline .label  {
+.page-login .form-inline .label {
     width: auto;
     padding: 0;
     margin-bottom: 13px;
@@ -3037,7 +3045,7 @@ table tbody tr:nth-child(odd):hover th {
 
 .page-login input[type=text],
 .page-login input[type=password] {
-    border-color:#cac3b4;
+    border-color: #cac3b4;
     font-size: 18px;
     padding: 12px 12px 14px;
     height: auto;
@@ -3381,6 +3389,7 @@ table tbody tr:nth-child(odd):hover th {
     padding: 0;
 
 }
+
 .store-switcher-alt .store-switcher-website:hover,
 .store-switcher-alt .store-switcher-store:hover {
     background: none;
@@ -3389,21 +3398,27 @@ table tbody tr:nth-child(odd):hover th {
 .store-switcher-website {
     margin: 5px 0 0;
 }
+
 .store-switcher-website > strong {
     padding-left: 13px;
 }
+
 .store-switcher-store {
     margin: 1px 0 0;
 }
+
 .store-switcher-store > strong {
     padding-left: 20px;
 }
+
 .store-switcher-alt .store-switcher-store > ul {
     margin-top: 1px;
 }
+
 .store-switcher-alt .store-switcher-store-view {
     padding: 0;
 }
+
 .store-switcher-store-view:first-child {
     border-top: 1px solid #e5e5e5;
 }
@@ -3411,6 +3426,7 @@ table tbody tr:nth-child(odd):hover th {
 .eq-ie8 .store-switcher-website {
     border-bottom: 0;
 }
+
 .eq-ie8 .store-switcher-store-view {
     border-bottom: 0;
     border-top: 1px solid #e5e5e5;
@@ -3588,6 +3604,7 @@ table tbody tr:nth-child(odd):hover th {
     padding: 0 0 20px;
     margin: 0;
 }
+
 .side-col .ui-tabs h3 {
     margin-bottom: 5px;
     color: #524c44;
@@ -3613,8 +3630,9 @@ table tbody tr:nth-child(odd):hover th {
 
 .side-col > .field-store-switcher > .label {
     margin: 0 0 6px;
-    display:block;
+    display: block;
 }
+
 .dashboard-container .field-store-switcher {
     padding: 20px 0;
 }
@@ -4028,12 +4046,12 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .page-actions.fixed .page-actions-inner {
-    background: -moz-linear-gradient(top,  rgba(245,242,237,1) 0%, rgba(245,242,237,1) 56%, rgba(245,242,237,0) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(245,242,237,1)), color-stop(56%,rgba(245,242,237,1)), color-stop(100%,rgba(245,242,237,0))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  rgba(245,242,237,1) 0%,rgba(245,242,237,1) 56%,rgba(245,242,237,0) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  rgba(245,242,237,1) 0%,rgba(245,242,237,1) 56%,rgba(245,242,237,0) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  rgba(245,242,237,1) 0%,rgba(245,242,237,1) 56%,rgba(245,242,237,0) 100%); /* IE10+ */
-    background: linear-gradient(to bottom,  rgba(245,242,237,1) 0%,rgba(245,242,237,1) 56%,rgba(245,242,237,0) 100%); /* W3C */
+    background: -moz-linear-gradient(top, rgba(245, 242, 237, 1) 0%, rgba(245, 242, 237, 1) 56%, rgba(245, 242, 237, 0) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(245, 242, 237, 1)), color-stop(56%, rgba(245, 242, 237, 1)), color-stop(100%, rgba(245, 242, 237, 0))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(245, 242, 237, 1) 0%, rgba(245, 242, 237, 1) 56%, rgba(245, 242, 237, 0) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(245, 242, 237, 1) 0%, rgba(245, 242, 237, 1) 56%, rgba(245, 242, 237, 0) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(245, 242, 237, 1) 0%, rgba(245, 242, 237, 1) 56%, rgba(245, 242, 237, 0) 100%); /* IE10+ */
+    background: linear-gradient(to bottom, rgba(245, 242, 237, 1) 0%, rgba(245, 242, 237, 1) 56%, rgba(245, 242, 237, 0) 100%); /* W3C */
     padding: 11px 20px 11px;
     min-height: 36px;
     margin: 0 auto;
@@ -4729,7 +4747,6 @@ tr.dynamic-grid input.input-text {
     white-space: normal;
 }
 
-
 table .col-draggable {
     width: 1%;
 }
@@ -5312,6 +5329,7 @@ table .col-draggable .draggable-handle {
 .attributes-edit-form .field-gift_wrapping_available .addon > .select {
     margin-bottom: 25px;
 }
+
 .attributes-edit-form .field-gift_message_available .addon > input[type="checkbox"],
 .attributes-edit-form .field-gift_wrapping_available .addon > input[type="checkbox"] {
     width: auto;
@@ -5528,6 +5546,106 @@ table .col-draggable .draggable-handle {
 }
 
 /*
+    Add Attribute Popup
+-------------------------------------- */
+#create_new_attribute {
+    overflow-x: hidden;
+}
+
+.attribute-popup {
+    background: none;
+}
+
+.attribute-popup .wrapper-popup {
+    padding: 0 0 100px;
+}
+
+.attribute-popup .fieldset,
+.attribute-popup .fieldset-wrapper {
+    border: none;
+    border-radius: 0;
+    padding: 4px 0 20px;
+    margin: 0 23px 20px;
+}
+
+.attribute-popup .fieldset-wrapper {
+    border-top: none;
+}
+
+.attribute-popup .fieldset-wrapper .fieldset-wrapper-title {
+    border-bottom: none;
+}
+
+.attribute-popup .fieldset > .field > input[type="checkbox"] {
+    margin-top: 7px;
+}
+
+.attribute-popup .fieldset .label {
+    width: 35%;
+}
+
+.attribute-popup .collapsable-wrapper,
+#manage-titles-wrapper .fieldset-wrapper-title {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.attribute-popup .collapsable-wrapper .fieldset-wrapper-title > .title:before {
+    color: #797269;
+    font-size: 14px;
+    top: 9px;
+}
+
+.attribute-popup form .entry-edit:first-child .fieldset {
+    border-bottom: 1px solid #dfdcd7;
+}
+
+.attribute-popup .fieldset .legend {
+    border: none;
+}
+
+.attribute-popup .page-actions {
+    position: fixed;
+    top: auto !important;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+    padding: 27px 50px 25px 23px;
+    border-top: 1px solid #dfdcd7;
+}
+
+.attribute-popup .page-actions [class^='action-'] {
+    margin-left: 18px;
+}
+
+.attribute-popup .page-actions #reset,
+.attribute-popup .page-actions #reset:hover,
+.attribute-popup .page-actions #reset:active,
+.attribute-popup .page-actions #reset:focus {
+    float: right;
+    vertical-align: middle;
+    margin: 5px 0 0 18px;
+}
+
+.attribute-popup .page-actions-placeholder {
+    display: none;
+}
+
+.attribute-popup .page-actions.fixed .page-actions-inner {
+    background: #fff;
+    padding: 0;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    margin: 0;
+}
+
+.attribute-popup .footer {
+    display: none;
+}
+
+/*
     Clearfix
 -------------------------------------- */
 .clearfix:before,
@@ -5576,13 +5694,4 @@ table .col-draggable .draggable-handle {
 .grid-actions:after,
 .fieldset-wrapper-title:after {
     clear: both;
-}
-
-/* Add Attribute popup */
-.attribute-popup {
-    background: none;
-}
-
-.attribute-popup .fieldset {
-    border: none;
 }

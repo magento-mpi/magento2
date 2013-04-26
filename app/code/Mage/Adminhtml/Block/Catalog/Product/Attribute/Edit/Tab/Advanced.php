@@ -35,7 +35,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extends M
 
         $fieldset = $form->addFieldset(
             'advanced_fieldset',
-            array('legend' => $this->__('Advanced Attribute Properties'))
+            array(
+                'legend' => $this->__('Advanced Attribute Properties'),
+                'collapsable' => true
+            )
         );
 
         $yesno = Mage::getModel('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();
