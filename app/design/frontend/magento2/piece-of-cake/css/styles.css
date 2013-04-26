@@ -1959,7 +1959,7 @@ select:disabled {
   border-color: #b5b5b5;
   border-right: 0;
   float: left;
-  line-height: 29px;
+  line-height: 1;
   height: 29px;
   width: 100%;
 }
