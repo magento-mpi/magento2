@@ -16,36 +16,40 @@
     <div id="manage-options-panel">
         <table class="data-table" cellspacing="0">
             <thead>
-            <tr id="attribute-options-table">
-                <th class="col-default"><?php echo $this->__('Is Default') ?></th>
-                <?php
-                $storelist = $this->getStores();
-                foreach ($storelist as $_store):
+                <tr id="attribute-options-table">
+                    <th class="col-draggable"></th>
+                    <th class="col-default"><?php echo $this->__('Is Default') ?></th>
+                    <?php
+                    $storelist = $this->getStores();
+                    foreach ($storelist as $_store):
+                        ?>
+                        <th><?php echo $_store->getName() ?></th>
+                        <?php endforeach;
+                    $storetotal = count($storelist) + 3;
                     ?>
-                    <th><?php echo $_store->getName() ?></th>
-                    <?php endforeach;
-                $storetotal = count($storelist) + 3;
-                ?>
-                <th class="col-position"><?php echo $this->__('Position') ?></th>
-                <th class="col-delete">&nbsp;</th>
-            </tr>
+                    <th class="col-position"><?php echo $this->__('Position') ?></th>
+                    <th class="col-delete">&nbsp;</th>
+                </tr>
             </thead>
             <tbody data-role="options-container"></tbody>
             <tfoot>
-            <th colspan="<?php echo $storetotal; ?>">
-                <?php if (!$this->getReadOnly() && !$this->canManageOptionDefaultOnly()):?>
-                    <button id="add_new_option_button" title="<?php echo $this->__('Add Option'); ?>"
-                        type="button" class="action- scalable add">
-                         <span><?php echo $this->__('Add Option'); ?></span>
-                    </button>
-                <?php endif; ?>
-            </th>
+                <th colspan="<?php echo $storetotal; ?>">
+                    <?php if (!$this->getReadOnly() && !$this->canManageOptionDefaultOnly()):?>
+                        <button id="add_new_option_button" title="<?php echo $this->__('Add Option'); ?>"
+                            type="button" class="action- scalable add">
+                             <span><?php echo $this->__('Add Option'); ?></span>
+                        </button>
+                    <?php endif; ?>
+                </th>
             </tfoot>
         </table>
         <input type="hidden" id="option-count-check" value="" />
     </div>
     <script id="row-template" type="text/jquery-template">
          <tr>
+            <td class="col-draggable">
+                <div data-role="draggable-handle" class="draggable-handle" title="<?php echo $this->__('Sort Option'); ?>"></div>
+            </td>
             <td class="col-default"><input class="input-radio" type="radio" name="default[]" value="{{id}}" <?php if ($this->getReadOnly()):?> disabled="disabled"<?php endif;?>/></td>
             <?php foreach ($this->getStores() as $_store): ?>
             <td class="col-{{id}}"><input name="option[value][{{id}}][<?php echo $_store->getId() ?>]" value="{{store<?php echo $_store->getId() ?>}}" class="input-text<?php if ($_store->getId() == Mage_Core_Model_App::ADMIN_STORE_ID): ?> required-option<?php endif; ?>" type="text" <?php if ($this->getReadOnly() || $this->canManageOptionDefaultOnly()):?> disabled="disabled"<?php endif;?>/></td>
