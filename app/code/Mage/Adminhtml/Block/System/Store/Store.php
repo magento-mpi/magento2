@@ -68,7 +68,9 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widget_
         parent::_beforeToHtml();
 
         // Add javascript for the Create Website button
-        $block = $this->_layout->createBlock('Mage_Adminhtml_Block_System_Store_Store_Button_CreateWebsiteJs');
+        /** @var $block Mage_Adminhtml_Block_System_Store_Button_CreateWebsiteJs */
+        $block = $this->_layout->createBlock('Mage_Adminhtml_Block_System_Store_Button_CreateWebsiteJs');
+        $block->setHtmlId('add');
         $html = $block->toHtml();
         $this->_updateButton('add', 'after_html', $html);
 
