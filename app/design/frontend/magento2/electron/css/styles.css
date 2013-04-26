@@ -2638,8 +2638,9 @@ select:disabled {
   text-transform: uppercase;
 }
 .items.data input.qty {
-  width: 40px;
+  line-height: 1;
   text-align: center;
+  width: 40px;
 }
 .items.data td.col.price,
 .items.data td.col.subtotal {
