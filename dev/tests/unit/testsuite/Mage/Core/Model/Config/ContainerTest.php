@@ -208,5 +208,16 @@ class Mage_Core_Model_Config_ContainerTest extends PHPUnit_Framework_TestCase
         $this->_model->setNode($path, 'value');
     }
 
+    public function testGetXpath()
+    {
+        $xpath = 'someXpath';
+        $expected = array();
 
+        $this->_dataMock->expects($this->once())
+            ->method('getXpath')
+            ->with($xpath)
+            ->will($this->returnValue($expected));
+
+        $this->assertEquals($expected, $this->_model->getXpath($xpath));
+    }
 }
