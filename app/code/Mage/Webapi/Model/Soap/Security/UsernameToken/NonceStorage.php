@@ -66,7 +66,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage
         $this->_cacheInstance->save(
             $timestamp,
             $this->getNonceCacheId($nonce),
-            array(Mage_Core_Service_Config::WEBSERVICE_CACHE_TAG),
+            array(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG),
             $nonceCacheTtl
         );
     }

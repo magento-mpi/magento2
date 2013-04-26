@@ -18,23 +18,20 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
     /**#@-*/
 
     /** @var string */
-    protected $_serviceName;
+    protected $_resourceName;
 
     /** @var string */
-    protected $_httpMethod;
-
-    /** @var string */
-    protected $_methodName;
+    protected $_resourceType;
 
     /**
      * Set route resource.
      *
-     * @param string $serviceName
+     * @param string $resourceName
      * @return Mage_Webapi_Controller_Router_Route_Rest
      */
-    public function setServiceName($serviceName)
+    public function setResourceName($resourceName)
     {
-        $this->_serviceName = $serviceName;
+        $this->_resourceName = $resourceName;
         return $this;
     }
 
@@ -43,52 +40,30 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
      *
      * @return string
      */
-    public function getServiceName()
+    public function getResourceName()
     {
-        return $this->_serviceName;
+        return $this->_resourceName;
     }
 
     /**
-     * Set HTTP method associated with current route.
+     * Set route resource type.
      *
-     * @param string $httpMethod
+     * @param string $resourceType
      * @return Mage_Webapi_Controller_Router_Route_Rest
      */
-    public function setHttpMethod($httpMethod)
+    public function setResourceType($resourceType)
     {
-        $this->_httpMethod = $httpMethod;
+        $this->_resourceType = $resourceType;
         return $this;
     }
 
     /**
-     * Get HTTP method associated with current route.
+     * Get route resource type.
      *
      * @return string
      */
-    public function getHttpMethod()
+    public function getResourceType()
     {
-        return $this->_httpMethod;
-    }
-
-    /**
-     * Retrieve service method name.
-     *
-     * @return string
-     */
-    public function getMethodName()
-    {
-        return $this->_methodName;
-    }
-
-    /**
-     * Set service method name.
-     *
-     * @param string $methodName
-     * @return Mage_Webapi_Controller_Router_Route_Rest
-     */
-    public function setMethodName($methodName)
-    {
-        $this->_methodName = $methodName;
-        return $this;
+        return $this->_resourceType;
     }
 }

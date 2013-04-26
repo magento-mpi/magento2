@@ -9,8 +9,8 @@
  */
 class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Request
 {
-    /** @var Mage_Core_Service_Config */
-    protected $_serviceConfig;
+    /** @var Mage_Webapi_Model_Config_Rest */
+    protected $_apiConfig;
 
     /** @var Mage_Webapi_Helper_Data */
     protected $_apiHelper;
@@ -24,18 +24,18 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Request
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Core_Service_Config $serviceConfig
+     * @param Mage_Webapi_Model_Config_Rest $apiConfig
      * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Webapi_Helper_Config $configHelper
      * @param Mage_Webapi_Controller_Request_Factory $requestFactory
      */
     public function __construct(
-        Mage_Core_Service_Config $serviceConfig,
+        Mage_Webapi_Model_Config_Rest $apiConfig,
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Helper_Config $configHelper,
         Mage_Webapi_Controller_Request_Factory $requestFactory
     ) {
-        $this->_serviceConfig = $serviceConfig;
+        $this->_apiConfig = $apiConfig;
         $this->_apiHelper = $helper;
         $this->_configHelper = $configHelper;
         $this->_request = $requestFactory->get();
@@ -50,56 +50,60 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Request
      */
     public function fetchRequestData($controllerInstance, $action)
     {
-        // TDOO: Consider reimplementation of code below according to new requirements
-        $requestParams = $this->_request->getParams();
-//        $methodReflection = Mage_Webapi_Helper_Data::createMethodReflection($controllerInstance, $action);
-//        $bodyParamName = $this->_configHelper->getOperationBodyParamName($methodReflection);
-//        $requestParams = array_merge(
-//            $this->_request->getParams(),
-//            array($bodyParamName => $this->_getRequestBody($this->_request->getHttpMethod()))
-//        );
-//        /** Convert names of ID and Parent ID params in request to those which are used in method interface. */
-//        $idArgumentName = $this->_configHelper->getOperationIdParamName($methodReflection);
-//        $parentIdParamName = Mage_Webapi_Controller_Router_Route_Rest::PARAM_PARENT_ID;
-//        $idParamName = Mage_Webapi_Controller_Router_Route_Rest::PARAM_ID;
-//        if (isset($requestParams[$parentIdParamName]) && ($idArgumentName != $parentIdParamName)) {
-//            $requestParams[$idArgumentName] = $requestParams[$parentIdParamName];
-//            unset($requestParams[$parentIdParamName]);
-//        } elseif (isset($requestParams[$idParamName]) && ($idArgumentName != $idParamName)) {
-//            $requestParams[$idArgumentName] = $requestParams[$idParamName];
-//            unset($requestParams[$idParamName]);
-//        }
-
-        return $this->_apiHelper->prepareMethodParams(
-            $controllerInstance,
-            $action,
-            $requestParams,
-            $this->_serviceConfig
+        $methodReflection = Mage_Webapi_Helper_Data::createMethodReflection($controllerInstance, $action);
+        $methodName = $this->_configHelper->getMethodNameWithoutVersionSuffix($methodReflection);
+        $bodyParamName = $this->_configHelper->getOperationBodyParamName($methodReflection);
+        $requestParams = array_merge(
+            $this->_request->getParams(),
+            array($bodyParamName => $this->_getRequestBody($methodName))
         );
+        /** Convert names of ID and Parent ID params in request to those which are used in method interface. */
+        $idArgumentName = $this->_configHelper->getOperationIdParamName($methodReflection);
+        $parentIdParamName = Mage_Webapi_Controller_Router_Route_Rest::PARAM_PARENT_ID;
+        $idParamName = Mage_Webapi_Controller_Router_Route_Rest::PARAM_ID;
+        if (isset($requestParams[$parentIdParamName]) && ($idArgumentName != $parentIdParamName)) {
+            $requestParams[$idArgumentName] = $requestParams[$parentIdParamName];
+            unset($requestParams[$parentIdParamName]);
+        } elseif (isset($requestParams[$idParamName]) && ($idArgumentName != $idParamName)) {
+            $requestParams[$idArgumentName] = $requestParams[$idParamName];
+            unset($requestParams[$idParamName]);
+        }
+
+        return $this->_apiHelper->prepareMethodParams($controllerInstance, $action, $requestParams, $this->_apiConfig);
     }
 
     /**
      * Retrieve request data. Ensure that data is not empty.
      *
-     * @param string $httpMethod
+     * @param string $method
      * @return array
      */
-    protected function _getRequestBody($httpMethod)
+    protected function _getRequestBody($method)
     {
-        // TODO: Implement filtration of item and collection requests
         $processedInputData = null;
-        switch ($httpMethod) {
-            case Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_POST:
+        switch ($method) {
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE:
                 $processedInputData = $this->_request->getBodyParams();
                 // TODO: Implement data filtration of item
                 break;
-            case Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_PUT:
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE:
+                $processedInputData = $this->_request->getBodyParams();
+                break;
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE:
                 $processedInputData = $this->_request->getBodyParams();
                 // TODO: Implement data filtration
                 break;
-            case Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_GET:
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE:
+                $processedInputData = $this->_request->getBodyParams();
+                // TODO: Implement fields filtration
+                break;
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE:
                 // break is intentionally omitted
-            case Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_DELETE:
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_GET:
+                // break is intentionally omitted
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE:
+                // break is intentionally omitted
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_LIST:
                 break;
         }
         return $processedInputData;

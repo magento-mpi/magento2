@@ -89,7 +89,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorageTest extends PHP
             ->expects($this->once())
             ->method('save')
             ->with($timestamp, $this->_nonceStorage->getNonceCacheId($nonce),
-            array(Mage_Core_Service_Config::WEBSERVICE_CACHE_TAG),
+            array(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG),
             Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage::NONCE_TTL
                 + Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage::NONCE_FROM_FUTURE_ACCEPTABLE_RANGE);
 

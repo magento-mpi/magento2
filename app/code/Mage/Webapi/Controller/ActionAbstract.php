@@ -133,4 +133,23 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     {
         return method_exists($this, $actionName);
     }
+
+    /**
+     * Retrieve list of allowed method names in action controllers.
+     *
+     * @return array
+     */
+    public static function getAllowedMethods()
+    {
+        return array(
+            self::METHOD_CREATE,
+            self::METHOD_GET,
+            self::METHOD_LIST,
+            self::METHOD_UPDATE,
+            self::METHOD_MULTI_UPDATE,
+            self::METHOD_DELETE,
+            self::METHOD_MULTI_DELETE,
+            self::METHOD_MULTI_CREATE,
+        );
+    }
 }
