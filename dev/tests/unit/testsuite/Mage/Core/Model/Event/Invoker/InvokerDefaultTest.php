@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Event_InvokerDefaultTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -28,7 +28,7 @@ class Mage_Core_Model_Event_InvokerDefaultTest extends PHPUnit_Framework_TestCas
     protected $_appStateMock;
 
     /**
-     * @var Mage_Core_Model_Event_InvokerDefault
+     * @var Mage_Core_Model_Event_Invoker_InvokerDefault
      */
     protected $_invokerDefault;
 
@@ -41,7 +41,7 @@ class Mage_Core_Model_Event_InvokerDefaultTest extends PHPUnit_Framework_TestCas
         $this->_appStateMock = $this->getMock('Mage_Core_Model_App_State', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_invokerDefault = $objectManagerHelper->getObject('Mage_Core_Model_Event_InvokerDefault', array(
+        $this->_invokerDefault = $objectManagerHelper->getObject('Mage_Core_Model_Event_Invoker_InvokerDefault', array(
             'observerFactory' => $this->_observerFactoryMock,
             'appState' => $this->_appStateMock,
         ));

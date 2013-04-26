@@ -51,7 +51,7 @@ class Saas_Saas_Model_EntryPoint_Worker extends Mage_Core_Model_EntryPointAbstra
          */
         $dispatcher = $this->_objectManager->create(
             'Mage_Core_Model_Event_Manager',
-            array('invoker' => 'Mage_Core_Model_Event_InvokerDefault')
+            array('invoker' => 'Mage_Core_Model_Event_Invoker_InvokerDefault')
         );
 
         $primaryConfig = $this->_objectManager->get('Mage_Core_Model_Config_Primary');

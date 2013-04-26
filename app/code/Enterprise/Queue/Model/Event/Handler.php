@@ -9,19 +9,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Queue_Model_Queue_DefaultHandler implements Enterprise_Queue_Model_Queue_HandlerInterface
+class Enterprise_Queue_Model_Event_Handler implements Enterprise_Queue_Model_Event_HandlerInterface
 {
     /**
-     * @var Magento_ObjectManager
+     * Queue client
+     *
+     * @var Magento_Queue_ClientInterface
      */
-    protected $_adapter;
+    protected $_client;
 
     /**
-     * @param Enterprise_Queue_Model_Queue_AdapterInterface $adapter
+     * @param Magento_Queue_ClientInterface $client
      */
-    public function __construct(Enterprise_Queue_Model_Queue_AdapterInterface $adapter)
+    public function __construct(Magento_Queue_ClientInterface $client)
     {
-        $this->_adapter = $adapter;
+        $this->_client = $client;
     }
 
     /**
@@ -30,12 +32,11 @@ class Enterprise_Queue_Model_Queue_DefaultHandler implements Enterprise_Queue_Mo
      * @param string $eventName
      * @param array $data
      * @param string|null $priority
-     * @return Enterprise_Queue_Model_Queue_DefaultHandler
+     * @return Enterprise_Queue_Model_Event_Handler
      */
     public function addTask($eventName, $data, $priority = null)
     {
-        $this->_adapter->addTask($eventName, $data, $priority);
-
+        $this->_client->addTask($eventName, $data, $priority);
         return $this;
     }
 }

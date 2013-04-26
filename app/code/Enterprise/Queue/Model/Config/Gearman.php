@@ -7,27 +7,41 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Queue_Helper_Gearman extends Mage_Core_Helper_Abstract
+class Enterprise_Queue_Model_Config_Gearman implements Magento_Queue_Client_ConfigInterface
 {
+    /**
+     * Configuration XPath of Gearman servers
+     */
+    const XML_PATH_QUEUE_ADAPTER_GEARMAN_SERVERS = 'global/queue/adapter/gearman/servers';
+
     /**
      * Configuration XPath of Gearman task additional params
      */
     const XML_PATH_QUEUE_ADAPTER_GEARMAN_TASK_PARAMS = 'global/queue/adapter/gearman/task/params';
 
     /**
+     * Application config
+     *
      * @var Mage_Core_Model_Config
      */
     protected $_config;
 
     /**
-     * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_ConfigInterface $config
      */
-    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_ConfigInterface $config)
+    public function __construct(Mage_Core_Model_ConfigInterface $config)
     {
         $this->_config = $config;
+    }
 
-        parent::__construct($context);
+    /**
+     * Return a comma-separated list of servers, each server specified in the format host:port
+     *
+     * @return string
+     */
+    public function getServers()
+    {
+        return $this->_config->getNode(self::XML_PATH_QUEUE_ADAPTER_GEARMAN_SERVERS);
     }
 
     /**

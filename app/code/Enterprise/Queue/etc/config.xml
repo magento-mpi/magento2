@@ -34,9 +34,9 @@
         </queue>
         <di>
             <preferences>
-                <Mage_Core_Model_Event_InvokerInterface>Enterprise_Queue_Model_Core_Event_InvokerAsynchronous</Mage_Core_Model_Event_InvokerInterface>
-                <Enterprise_Queue_Model_Queue_HandlerInterface>Enterprise_Queue_Model_Queue_DefaultHandler</Enterprise_Queue_Model_Queue_HandlerInterface>
-                <Enterprise_Queue_Model_Queue_AdapterInterface>Enterprise_Queue_Model_Queue_Adapter_Gearman</Enterprise_Queue_Model_Queue_AdapterInterface>
+                <Mage_Core_Model_Event_InvokerInterface>Enterprise_Queue_Model_Event_Invoker_Asynchronous</Mage_Core_Model_Event_InvokerInterface>
+                <Magento_Queue_ClientInterface>Magento_Queue_Model_Client_Gearman</Magento_Queue_ClientInterface>
+                <Magento_Queue_Client_ConfigInterface>Enterprise_Queue_Model_Config_Gearman</Magento_Queue_Client_ConfigInterface>
             </preferences>
         </di>
     </global>

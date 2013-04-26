@@ -1,40 +1,29 @@
 <?php
 /**
+ * Queue Event handler.
+ *
+ * In this class in future adapters can be created according to a type that has been provided in configuration.
+ *
  * {license_notice}
  *
- * @category    Saas
- * @package     Saas_Queue
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Queue handler.
- *
- * In this class in future adapters can be created according to a type that has been provided in configuration.
- */
-class Saas_Queue_Model_Queue_DefaultHandler implements Enterprise_Queue_Model_Queue_HandlerInterface
+class Saas_Queue_Model_Event_Handler implements Enterprise_Queue_Model_Event_HandlerInterface
 {
     /**
-     * @var Enterprise_Queue_Model_Queue_AdapterInterface
+     * Queue client
+     *
+     * @var Magento_Queue_ClientInterface
      */
-    protected $_adapter;
+    protected $_client;
 
     /**
-     * @var Saas_Queue_Helper_Gearman
+     * @param Magento_Queue_ClientInterface $client
      */
-    protected $_helper;
-
-    /**
-     * @param Enterprise_Queue_Model_Queue_AdapterInterface $adapter
-     * @param Saas_Queue_Helper_Gearman $helper
-     */
-    public function __construct(
-        Enterprise_Queue_Model_Queue_AdapterInterface $adapter,
-        Saas_Queue_Helper_Gearman $helper
-    ) {
-        $this->_adapter = $adapter;
-        $this->_helper = $helper;
+    public function __construct(Magento_Queue_ClientInterface $client)
+    {
+        $this->_client = $client;
     }
 
     /**
@@ -44,7 +33,7 @@ class Saas_Queue_Model_Queue_DefaultHandler implements Enterprise_Queue_Model_Qu
      * @param array $data
      * @param string|null $priority
      * @throws InvalidArgumentException
-     * @return Saas_Queue_Model_Queue_DefaultHandler
+     * @return Saas_Queue_Model_Event_Handler
      */
     public function addTask($eventName, $data, $priority = null)
     {
@@ -53,7 +42,6 @@ class Saas_Queue_Model_Queue_DefaultHandler implements Enterprise_Queue_Model_Qu
             $eventData = array();
         }
         unset($eventData['name']);
-        $taskData = $this->_helper->getTaskParams();
         if (
             !array_key_exists('params', $data['configuration']['config'])
             || !is_array($data['configuration']['config']['params'])
@@ -72,9 +60,8 @@ class Saas_Queue_Model_Queue_DefaultHandler implements Enterprise_Queue_Model_Qu
                 $params['event_area'] = $data['configuration']['config']['params']['event_area'];
             }
         }
-        $taskData['task_name'] = $taskName;
-        $taskData['params'] = $params;
-        $this->_adapter->addTask($taskName, $taskData, $priority);
+        $taskData = array('task_name' => $taskName, 'params' => $params);
+        $this->_client->addTask($taskName, $taskData, $priority);
         return $this;
     }
 }

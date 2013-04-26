@@ -34,7 +34,7 @@
         </queue>
         <di>
             <preferences>
-                <Enterprise_Queue_Model_Queue_HandlerInterface>Saas_Queue_Model_Queue_DefaultHandler</Enterprise_Queue_Model_Queue_HandlerInterface>
+                <Enterprise_Queue_Model_Event_HandlerInterface>Saas_Queue_Model_Event_Default</ <Enterprise_Queue_Model_Event_HandlerInterface>
             </preferences>
             <Saas_Queue_Model_Observer_Config>
                 <parameters>

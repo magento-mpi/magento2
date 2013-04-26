@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Event_InvokerDefault implements Mage_Core_Model_Event_InvokerInterface
+class Mage_Core_Model_Event_Invoker_InvokerDefault implements Mage_Core_Model_Event_InvokerInterface
 {
     /**
      * Observer model factory

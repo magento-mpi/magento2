@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Queue_Model_Core_Event_InvokerAsynchronousTest extends PHPUnit_Framework_TestCase
+class Enterprise_Queue_Model_Core_Event_Invoker_AsynchronousTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -28,21 +28,21 @@ class Enterprise_Queue_Model_Core_Event_InvokerAsynchronousTest extends PHPUnit_
     protected $_eventObserverMock;
 
     /**
-     * @var Enterprise_Queue_Model_Core_Event_InvokerAsynchronous
+     * @var Enterprise_Queue_Model_Core_Event_Invoker_Asynchronous
      */
     protected $_invokerAsynchronous;
 
     protected function setUp()
     {
-        $this->_queueHandlerMock = $this->getMock('Enterprise_Queue_Model_Queue_HandlerInterface');
-        $this->_invokerDefaultMock = $this->getMock('Mage_Core_Model_Event_InvokerDefault', array(), array(), '',
+        $this->_queueHandlerMock = $this->getMock('Enterprise_Queue_Model_Event_HandlerInterface');
+        $this->_invokerDefaultMock = $this->getMock('Mage_Core_Model_Event_Invoker_InvokerDefault', array(), array(), '',
             false);
         $this->_eventMock = $this->getMock('Varien_Event', array(), array(), '', false);
         $this->_eventObserverMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_invokerAsynchronous = $objectManagerHelper->getObject(
-            'Enterprise_Queue_Model_Core_Event_InvokerAsynchronous', array(
+            'Enterprise_Queue_Model_Core_Event_Invoker_Asynchronous', array(
             'queueHandler' => $this->_queueHandlerMock,
             'invokerDefault' => $this->_invokerDefaultMock,
         ));
@@ -54,8 +54,8 @@ class Enterprise_Queue_Model_Core_Event_InvokerAsynchronousTest extends PHPUnit_
             'model' => 'some_model',
             'method' => 'some_method',
             'config' => array(
-                Enterprise_Queue_Model_Core_Event_InvokerAsynchronous::CONFIG_PARAMETER_ASYNCHRONOUS => 1,
-                Enterprise_Queue_Model_Core_Event_InvokerAsynchronous::CONFIG_PARAMETER_PRIORITY => 7,
+                Enterprise_Queue_Model_Core_Event_Invoker_Asynchronous::CONFIG_PARAMETER_ASYNCHRONOUS => 1,
+                Enterprise_Queue_Model_Core_Event_Invoker_Asynchronous::CONFIG_PARAMETER_PRIORITY => 7,
             ),
         );
 
@@ -95,7 +95,7 @@ class Enterprise_Queue_Model_Core_Event_InvokerAsynchronousTest extends PHPUnit_
                     'model' => 'some_model',
                     'method' => 'some_method',
                     'config' => array(
-                        Enterprise_Queue_Model_Core_Event_InvokerAsynchronous::CONFIG_PARAMETER_ASYNCHRONOUS => 0,
+                        Enterprise_Queue_Model_Core_Event_Invoker_Asynchronous::CONFIG_PARAMETER_ASYNCHRONOUS => 0,
                     ),
                 ),
             ),
