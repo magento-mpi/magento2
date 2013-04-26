@@ -132,9 +132,11 @@ class Mage_Core_Model_Resource_Store_Group extends Mage_Core_Model_Resource_Db_A
         $select = $adapter->select()->from(array('main' => $this->getMainTable()), 'COUNT(*)');
         if (!$countAdmin) {
             $select->joinLeft(
-                array('core_store' => $this->getTable('core_store')),
-                'main.group_id = core_store.group_id'
-            )->where(sprintf('%s <> %s', $adapter->quoteIdentifier('code'), $adapter->quote('admin')));
+                array('core_website' => $this->getTable('core_website')),
+                'core_website.website_id = main.website_id',
+                null
+            )
+            ->where(sprintf('%s <> %s', $adapter->quoteIdentifier('code'), $adapter->quote('admin')));
         }
         return (int)$adapter->fetchOne($select);
     }
