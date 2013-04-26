@@ -34,7 +34,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
 
         foreach ($element->getSortedElements() as $field) {
             if ($field instanceof Varien_Data_Form_Element_Fieldset) {
-                $html .= '<tr><td colspan="4">' . $field->toHtml() . '</td></tr>';
+                $html .= '<tr id="row_' . $field->getHtmlId() . '"><td colspan="4">' . $field->toHtml() . '</td></tr>';
             } else {
                 $html .= $field->toHtml();
             }
