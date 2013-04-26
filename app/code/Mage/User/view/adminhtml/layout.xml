@@ -183,6 +183,7 @@
                             <header translate="true" module="Mage_User">User Name</header>
                             <type>text</type>
                             <index>username</index>
+                            <escape>1</escape>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="firstname">
@@ -190,6 +191,7 @@
                             <header translate="true" module="Mage_User">First Name</header>
                             <type>text</type>
                             <index>firstname</index>
+                            <escape>1</escape>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="lastname">
@@ -197,6 +199,7 @@
                             <header translate="true" module="Mage_User">Last Name</header>
                             <type>text</type>
                             <index>lastname</index>
+                            <escape>1</escape>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="email">

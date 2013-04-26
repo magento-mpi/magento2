@@ -43,10 +43,6 @@
             <action method="setShowPart"><value>customer</value></action>
         </block>
 
-
-
-        <remove name="tags_popular" />
-
         <remove name="top.links" />
         <move element="minicart" destination="panel.menu" after="-" />
 
@@ -163,19 +159,6 @@
         </reference>
     </review_product_list>
 
-    <!-- Temporary add homepage html -->
-    <cms_index_index translate="label" type="page" parent="cms_page_view">
-        <label>CMS Home Page</label>
-        <!-- <remove name="page.main.title" /> -->
-        <remove name="content" />
-        <reference name="content.top">
-            <block type="Mage_Core_Block_Template" name="default_home_page" template="Mage_Cms::default/home.phtml"/>
-        </reference>
-        <!--<reference name="page.bottom">
-            <block type="Mage_Core_Block_Template" name="footer.banners" template="Mage_Cms::default/footerbanners.phtml" after="-"/>
-        </reference>-->
-    </cms_index_index>
-
     <print>
         <reference name="head">
             <!-- <action method="addCss"><file>css/print.css</file></action> -->
@@ -192,7 +175,7 @@
     </catalog_product_compare_index>
 
     <customer_account translate="label" type="page" parent="default">
-        <move element="page.main.title" destination="my.account.wrapper" before="-" />
+        <move element="page.main.title" destination="main" before="-" />
     </customer_account>
 
 </layout>

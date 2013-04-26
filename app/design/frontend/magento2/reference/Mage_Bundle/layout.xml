@@ -164,7 +164,7 @@ Additional block for bundle product type
         <reference name="root">
             <action method="addBodyClass"><value>type-bundle</value></action>
         </reference>
-        <reference name="product.info.form">
+        <reference name="product.info">
             <block type="Mage_Bundle_Block_Catalog_Product_View" name="bundle.summary" as="form_top" template="catalog/product/view/summary.phtml" translate="label">
                 <label>Bundle Product View Summary</label>
                 <block type="Mage_Bundle_Block_Catalog_Product_Price" name="bundle.prices" as="bundle_prices" template="catalog/product/view/price.phtml">
@@ -185,7 +185,7 @@ Additional block for bundle product type
         </reference>
         <reference name="product.info.options.wrapper.bottom">
             <remove name="product.tierprices" />
-            <block type="Mage_Bundle_Block_Catalog_Product_View" name="bundle.tierprices" as="tierprices" before="-" template="Mage_Catalog::product/view/tierprices.phtml"/>
+            <block type="Mage_Bundle_Block_Catalog_Product_View" name="bundle.tierprices" as="tierprices" before="-" template="Mage_Bundle::catalog/product/view/tierprices.phtml"/>
             <block type="Mage_CatalogInventory_Block_Qtyincrements" name="product.info.qtyincrements" before="-" template="qtyincrements.phtml"/>
             <block type="Mage_Bundle_Block_Catalog_Product_View" name="bundle.back.button" as="backButton" after="-" template="catalog/product/view/backbutton.phtml"/>
             <action method="unsetChild"><block>product.info.addtocart</block></action>
@@ -194,7 +194,7 @@ Additional block for bundle product type
         </reference>
         <reference name="content">
             <container name="bundle.options.container" label="invisible" htmlTag="div" htmlClass="bundle options container" after="product.info.media" />
-            <move element="product.info.form" destination="bundle.options.container" before="-"/>
+            <move element="product.info" destination="bundle.options.container" before="-"/>
         </reference>
 
         <reference name="product.info.type">

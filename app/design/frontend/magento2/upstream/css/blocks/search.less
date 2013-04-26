@@ -1,11 +1,11 @@
-//
-// {license_notice}
-//
-// @category    design
-// @package     magento2_upstream
-// @copyright   {copyright}
-// @license     {license_link}
-//
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @package     magento2_upstream
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
 
 /*
     Search
@@ -88,17 +88,19 @@
     .price {
         .range {
             .field {
+                float: left;
                 input {
                     border-radius: 5px;
                 }
             }
             .field.with-addon {
                 position: relative;
-                padding-left: 30px;
+                margin-left: 30px;
+                width: 30%;
                 &:before {
                     content: '—';
                     position: absolute;
-                    left: 5px;
+                    left: -22px;
                     top: 3px;
                 }
                 .addafter {

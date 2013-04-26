@@ -22,9 +22,9 @@
                         <selector><![CDATA[.logo]]></selector>
                         <attribute>font-family</attribute>
                         <options>
-                            <option>"marvel"</option>
+                            <option>"Droid Serif", serif</option>
                             <option>Tahoma, Geneva, sans-serif</option>
-                            <option>Georgia, serif</option>
+                            <option>Georgia, "Times New Roman", sans-serif</option>
                         </options>
                         <var>Mage_DesignEditor::store-name:font-picker</var>
                     </control>
@@ -99,7 +99,11 @@
     <control name="menu-links" title="Menu Links" tab="header" column="middle">
         <type>color-picker</type>
         <selector><![CDATA[
-            .navigation > ul > .level-top > .submenu a, .navigation > ul > .level-top > .submenu a span
+            .navigation > ul > .level-top > a,
+            .navigation > ul > .level-top.hover.parent > a,
+            .navigation > ul > .level-top .submenu a,
+            .navigation > ul > .level-top > .submenu a,
+            .navigation > ul > .level-top > .submenu a span
         ]]></selector>
         <attribute>color</attribute>
         <var>Mage_DesignEditor::menu-links</var>
@@ -107,11 +111,26 @@
     <control name="menu-links-hover" title="Menu Links Hover" tab="header" column="middle">
         <type>color-picker</type>
         <selector><![CDATA[
+            .navigation > ul > .level-top > a:hover,
+            .navigation > ul > .level-top.hover.parent > a:hover,
+            .navigation > ul > .level-top .submenu a:hover,
             .navigation > ul > .level-top > .submenu a:hover,
             .navigation > ul > .level-top > .submenu a:hover span,
+            .navigation > ul > .level-top > .submenu > ul li:hover a,
+            .navigation > ul > .level-top.hover.parent > a > span:hover
         ]]></selector>
         <attribute>color</attribute>
         <var>Mage_DesignEditor::menu-links-hover</var>
+    </control>
+    <control name="menu-links-hover-background" title="Menu Links Hover Background" tab="header" column="middle">
+        <type>color-picker</type>
+        <selector><![CDATA[
+            .navigation > ul > .level-top > a:hover,
+            .navigation > ul > .level-top > .submenu > ul li:hover,
+            .navigation > ul > .level-top.hover.parent > a > span:hover
+        ]]></selector>
+        <attribute>background-color</attribute>
+        <var>Mage_DesignEditor::menu-links-hover-background</var>
     </control>
 
     <control name="header-links" title="Header Links" tab="header" column="right">
@@ -207,6 +226,7 @@
                     .navigation > ul > .level-top .submenu:before,
                     .navigation > ul > .level-top .submenu:after,
                     .navigation > ul > .level-top.hover.parent > a:after,
+                    .navigation > ul > .level-top > .submenu > ul li:hover > .submenu,
                     .minicart.wrapper .block.minicart:before,
                     .minicart.wrapper .block.minicart:after,
                     .opc.wrapper > .opc .section.active > .step:before,
@@ -366,43 +386,23 @@
     <var>Mage_DesignEditor::scroll-bar-handle</var>
 </control> -->
 
-
-    <control name="radio-checkbox-icon" title="Radio Buttons/Checkboxes Icon" tab="buttons" column="left">
-        <type>color-picker</type>
-        <selector>.menu a:hover</selector>
-        <attribute>color</attribute>
-        <var>Mage_DesignEditor::radio-checkbox-icon</var>
-    </control>
-    <control name="radio-checkbox-background" title="Radio Buttons/Checkboxes Background" tab="buttons" column="left">
-        <type>color-picker</type>
-        <selector>.menu a:hover</selector>
-        <attribute>color</attribute>
-        <var>Mage_DesignEditor::radio-checkbox-background</var>
-    </control>
-    <control name="radio-checkbox-stroke" title="Radio Buttons/Checkboxes Stroke" tab="buttons" column="left">
-        <type>color-picker</type>
-        <selector>.menu a:hover</selector>
-        <attribute>color</attribute>
-        <var>Mage_DesignEditor::radio-checkbox-stroke</var>
-    </control>
-
     <control name="button-text" title="Buttons Text" tab="buttons" column="left">
         <type>color-picker</type>
         <selector><![CDATA[
-            .block.add.review .action.submit span,
-            .step.login.wrapper button.action span,
-            .cart.summary .block .action span,
-            .action.checkout span,
-            .action.subscribe span,
-            .action.tocart span,
-            .action.primary.customize span,
-            .action.primary.tocart span,
-            .login.container .action.login span,
-            .login.container .action.create span,
-            .form.password.forget .action.submit span,
-            .form.create.account .action.submit span,
-            .banner.main .banner.action span,
-            .opc.wrapper .form:not(.login) .actions button.action span
+            .block.add.review .action.submit > span,
+            .step.login.wrapper button.action > span,
+            .cart.summary .block .action > span,
+            .action.checkout > span,
+            .action.subscribe > span,
+            .action.tocart > span,
+            .action.primary.customize > span,
+            .action.primary.tocart > span,
+            .login.container .action.login > span,
+            .login.container .action.create > span,
+            .form.password.forget .action.submit > span,
+            .form.create.account .action.submit > span,
+            .opc.wrapper .form:not(.login) .actions button.action > span,
+            .header > .content .links .top-link-checkout
         ]]></selector>
         <attribute>color</attribute>
         <var>Mage_DesignEditor::button-text</var>
@@ -410,20 +410,20 @@
     <control name="button-background" title="Buttons" tab="buttons" column="left">
         <type>color-picker</type>
         <selector><![CDATA[
-            .block.add.review .action.submit,
-            .step.login.wrapper button.action,
-            .cart.summary .block .action,
-            .action.checkout,
-            .action.subscribe,
-            .action.tocart,
-            .action.primary.customize,
-            .action.primary.tocart,
-            .login.container .action.login,
-            .login.container .action.create,
-            .form.password.forget .action.submit,
-            .form.create.account .action.submit,
-            .banner.main .banner.action,
-            .opc.wrapper .form:not(.login) .actions button.action
+            .block.add.review .action.submit > span,
+            .step.login.wrapper button.action > span,
+            .cart.summary .block .action > span,
+            .action.checkout > span,
+            .action.subscribe > span,
+            .action.tocart > span,
+            .action.primary.customize > span,
+            .action.primary.tocart > span,
+            .login.container .action.login > span,
+            .login.container .action.create > span,
+            .form.password.forget .action.submit > span,
+            .form.create.account .action.submit > span,
+            .opc.wrapper .form:not(.login) .actions button.action > span,
+            .header > .content .links .top-link-checkout
         ]]></selector>
         <attribute>background-color</attribute>
         <var>Mage_DesignEditor::button-background</var>
@@ -431,20 +431,20 @@
     <control name="button-hover" title="Buttons Hover" tab="buttons" column="left">
         <type>color-picker</type>
         <selector><![CDATA[
-            .block.add.review .action.submit:hover,
-            .step.login.wrapper button.action:hover,
-            .cart.summary .block .action:hover,
-            .action.checkout:hover,
-            .action.subscribe:hover,
-            .action.tocart:hover,
-            .action.primary.customize:hover,
-            .action.primary.tocart:hover,
-            .login.container .action.login:hover,
-            .login.container .action.create:hover,
-            .form.password.forget .action.submit:hover,
-            .form.create.account .action.submit:hover,
-            .banner.main .banner.action:hover,
-            .opc.wrapper .form:not(.login) .actions button.action:hover
+            .block.add.review .action.submit:hover > span,
+            .step.login.wrapper button.action:hover > span,
+            .cart.summary .block .action:hover > span,
+            .action.checkout:hover > span,
+            .action.subscribe:hover > span,
+            .action.tocart:hover > span,
+            .action.primary.customize:hover > span,
+            .action.primary.tocart:hover > span,
+            .login.container .action.login:hover > span,
+            .login.container .action.create:hover > span,
+            .form.password.forget .action.submit:hover > span,
+            .form.create.account .action.submit:hover > span,
+            .opc.wrapper .form:not(.login) .actions button.action:hover > span,
+            .header > .content .links .top-link-checkout:hover
         ]]></selector>
         <attribute>background-color</attribute>
         <var>Mage_DesignEditor::button-hover</var>
@@ -458,6 +458,7 @@
             .toolbar .modes .mode span,
             .toolbar .action.next span,
             .toolbar .action.previous span,
+            .toolbar .action.sort,
             .action.mailto span
         ]]></selector>
         <attribute>color</attribute>
@@ -469,7 +470,9 @@
             .minicart.wrapper .action.previous:hover span,
             .minicart.wrapper .action.next:hover span,
             .action.delete:hover span,
+            .toolbar .modes .mode.active span,
             .toolbar .modes .mode:hover span,
+            .toolbar .action.sort:hover,
             .toolbar .action.next:hover span,
             .toolbar .action.previous:hover span,
             .action.mailto:hover span
@@ -596,29 +599,6 @@
         <var>Mage_DesignEditor::notice-box</var>
     </control>
 
-
-    <control name="banner-text" title="Banner Text" tab="fonts" column="left">
-        <type>font</type>
-        <components>
-            <control name="banner-text:font-picker">
-                <type>font-picker</type>
-                <selector><![CDATA[.home.banners .banner.text]]></selector>
-                <attribute>font-family</attribute>
-                <options>
-                    <option>"marvel", Arial, sans-serif</option>
-                    <option>Tahoma, Geneva, sans-serif</option>
-                    <option>Georgia, serif</option>
-                </options>
-                <var>Mage_DesignEditor::banner-text:font-picker</var>
-            </control>
-            <control name="banner-text:color-picker">
-                <type>color-picker</type>
-                <selector><![CDATA[.home.banners .banner.text]]></selector>
-                <attribute>color</attribute>
-                <var>Mage_DesignEditor::banner-text:color-picker</var>
-            </control>
-        </components>
-    </control>
     <control name="menu" title="Menu &amp; Header Links" tab="fonts" column="left">
         <type>font</type>
         <components>
@@ -635,9 +615,9 @@
                 ]]></selector>
                 <attribute>font-family</attribute>
                 <options>
-                    <option>"sourcesanspro", Arial, sans-serif</option>
+                    <option>Georgia, "Times New Roman", sans-serif</option>
                     <option>Tahoma, Geneva, sans-serif</option>
-                    <option>Georgia, serif</option>
+                    <option>"Droid Serif", serif</option>
                 </options>
                 <var>Mage_DesignEditor::menu:font-picker</var>
             </control>
@@ -668,9 +648,9 @@
                 ]]></selector>
                 <attribute>font-family</attribute>
                 <options>
-                    <option>"sourcesanspro", Arial, sans-serif</option>
+                    <option>"Droid Serif", serif</option>
                     <option>Tahoma, Geneva, sans-serif</option>
-                    <option>Georgia, serif</option>
+                    <option>Georgia, "Times New Roman", sans-serif</option>
                 </options>
                 <var>Mage_DesignEditor::page-headings:font-picker</var>
             </control>
@@ -704,9 +684,8 @@
                 ]]></selector>
                 <attribute>font-family</attribute>
                 <options>
-                    <option>"sourcesanspro", Arial, sans-serif</option>
+                    <option>Georgia, "Times New Roman", sans-serif</option>
                     <option>Tahoma, Geneva, sans-serif</option>
-                    <option>Georgia, serif</option>
                 </options>
                 <var>Mage_DesignEditor::body-text:font-picker</var>
             </control>
@@ -733,46 +712,43 @@
             <control name="buttons:font-picker">
                 <type>font-picker</type>
                 <selector><![CDATA[
-                    .block.add.review .action.submit span,
-                    .step.login.wrapper button.action span,
-                    .cart.summary .block .action span,
-                    .action.checkout span,
-                    .action.subscribe span,
-                    .action.tocart span,
-                    .action.primary.customize span,
-                    .action.primary.tocart span,
-                    .login.container .action.login span,
-                    .login.container .action.create span,
-                    .form.password.forget .action.submit span,
-                    .form.create.account .action.submit span,
-                    .banner.main .banner.action span,
-                    .opc.wrapper .form:not(.login) .actions button.action span
+                    .block.add.review .action.submit > span,
+                    .step.login.wrapper button.action > span,
+                    .cart.summary .block .action > span,
+                    .action.checkout > span,
+                    .action.subscribe > span,
+                    .action.tocart > span,
+                    .action.primary.customize > span,
+                    .action.primary.tocart > span,
+                    .login.container .action.login > span,
+                    .login.container .action.create > span,
+                    .form.password.forget .action.submit > span,
+                    .form.create.account .action.submit > span,
+                    .opc.wrapper .form:not(.login) .actions button.action > span
                 ]]></selector>
                 <attribute>font-family</attribute>
                 <options>
-                    <option>"marvel", Arial, sans-serif</option>
+                    <option>Georgia, "Times New Roman", sans-serif</option>
                     <option>Tahoma, Geneva, sans-serif</option>
-                    <option>Georgia, serif</option>
                 </options>
                 <var>Mage_DesignEditor::buttons:font-picker</var>
             </control>
             <control name="buttons:color-picker">
                 <type>color-picker</type>
                 <selector><![CDATA[
-                    .block.add.review .action.submit span,
-                    .step.login.wrapper button.action span,
-                    .cart.summary .block .action span,
-                    .action.checkout span,
-                    .action.subscribe span,
-                    .action.tocart span,
-                    .action.primary.customize span,
-                    .action.primary.tocart span,
-                    .login.container .action.login span,
-                    .login.container .action.create span,
-                    .form.password.forget .action.submit span,
-                    .form.create.account .action.submit span,
-                    .banner.main .banner.action span,
-                    .opc.wrapper .form:not(.login) .actions button.action span
+                    .block.add.review .action.submit > span,
+                    .step.login.wrapper button.action > span,
+                    .cart.summary .block .action > span,
+                    .action.checkout > span,
+                    .action.subscribe > span,
+                    .action.tocart > span,
+                    .action.primary.customize > span,
+                    .action.primary.tocart > span,
+                    .login.container .action.login > span,
+                    .login.container .action.create > span,
+                    .form.password.forget .action.submit > span,
+                    .form.create.account .action.submit > span,
+                    .opc.wrapper .form:not(.login) .actions button.action > span
                 ]]></selector>
                 <attribute>color</attribute>
                 <var>Mage_DesignEditor::buttons:color-picker</var>
@@ -829,5 +805,27 @@
         ]]></selector>
         <attribute>color</attribute>
         <var>Mage_DesignEditor::small-links-hover</var>
+    </control>
+    <control name="text-links-border" title="Links Border" tab="fonts" column="right">
+        <type>color-picker</type>
+        <selector><![CDATA[
+            .header > .content .links a,
+            .footer .links a,
+            .block.account.nav .nav.items .nav.item a,
+            .block.filter dd a
+        ]]></selector>
+        <attribute>border-color</attribute>
+        <var>Mage_DesignEditor::text-links-border</var>
+    </control>
+    <control name="text-links-border-hover" title="Links Border Hover" tab="fonts" column="right">
+        <type>color-picker</type>
+        <selector><![CDATA[
+            .header > .content .links a:hover,
+            .footer .links a:hover,
+            .block.account.nav .nav.items .nav.item a:hover,
+            .block.filter dd a:hover
+        ]]></selector>
+        <attribute>border-color</attribute>
+        <var>Mage_DesignEditor::text-links-border-hover</var>
     </control>
 </controls>

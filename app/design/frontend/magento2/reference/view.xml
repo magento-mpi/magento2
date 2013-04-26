@@ -41,9 +41,9 @@
         <var name="category_page_grid:height">230</var>
 
         <var name="product_comparison_list:type">small_image</var>
-        <var name="product_comparison_list:width">125</var>
+        <var name="product_comparison_list:width">140</var>
         <var name="product_comparison_list:ratio">1</var>
-        <var name="product_comparison_list:height">125</var>
+        <var name="product_comparison_list:height">140</var>
 
         <var name="related_products_list:type">small_image</var>
         <var name="related_products_list:width">140</var>

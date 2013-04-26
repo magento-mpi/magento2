@@ -105,8 +105,7 @@ productConfigure.giftcardConfig = {};
                                         return parseFloat(value);
                                     }
 
-                                    jQuery.mage.extend('validation', 'validation',
-                                        '<?php echo $this->getViewFileUrl('Enterprise_GiftCard::catalog/product/composite/fieldset/validation-rules.js'); ?>');
+                                    head.js('<?php echo $this->getViewFileUrl('Enterprise_GiftCard::catalog/product/composite/fieldset/validation-rules.js'); ?>');
                                 //]]>
                                 </script>
                             <?php endif; ?>

@@ -1,11 +1,11 @@
-// **
-// * {license_notice}
-// *
-// * @category    design
-// * @package     magento2_skater
-// * @copyright   {copyright}
-// * @license     {license_link}
-// */
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @package     magento2_skater
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
 
 // *
 // *    Mage_Checkout
@@ -75,8 +75,9 @@
         th {
             color: @primary2;
             font-size: 12px;
-            padding: 10px 0;
+            padding: 5px 0;
             text-align: center;
+            vertical-align: middle;
         }
     }
     thead + tbody tr:first-child td {
@@ -286,10 +287,6 @@
     }
 }
 
-.cart.table.wrapper.detailed + .cart.summary {
-    margin-top: 54px;
-}
-
 .block.shipping {
     .content {
         .clearfix();
@@ -363,13 +360,17 @@
     dt,
     .item.title {
         font-weight: bold;
+        margin-top: 5px;
     }
+    dt > label img + a {
+         font-weight: normal;
+     }
     dd,
     .item.options {
         margin: 0;
         .field.choice {
             padding: 0;
-            margin-bottom: 2px;
+            margin-bottom: 5px;
             display: block;
         }
     }
@@ -429,7 +430,7 @@
     tbody th {
     }
     td {
-        border-right: 1px solid @primary2;
+        border-right: 1px solid @primary8;
         padding: 5px;
         vertical-align: top;
     }
@@ -480,14 +481,17 @@
         width: 100%;
     }
     .amount {
-        .customFont(17px);
+        .customFont(17px,uppercase,0,400);
+        strong {
+            font-weight: 400;
+        }
     }
     .mark strong {
         font-weight: normal;
     }
     td, th {
         text-align: right;
-        padding: 12px 0 12px 5px;
+        padding: 5px 0 5px 5px;
     }
     td:not(:first-child) {
         strong {
