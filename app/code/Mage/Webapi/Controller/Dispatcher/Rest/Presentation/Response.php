@@ -56,26 +56,37 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
     /**
      * Perform rendering of action results.
      *
-     * @param string $httpMethod
+     * @param string $method
      * @param array|null $outputData
      */
-    public function prepareResponse($httpMethod, $outputData = null)
+    public function prepareResponse($method, $outputData = null)
     {
-        // TODO: Implement filtration of item and collection responses
-        switch ($httpMethod) {
-            case Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_POST:
+        switch ($method) {
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE:
                 /** @var $createdItem Mage_Core_Model_Abstract */
                 $createdItem = $outputData;
                 $this->_response->setHeader('Location', $this->_getCreatedItemLocation($createdItem));
                 break;
-            case Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_GET:
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_GET:
                 // TODO: Implement fields filtration
                 $filteredData = $outputData;
                 $this->_render($filteredData);
                 break;
-            case Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_PUT:
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_LIST:
+                // TODO: Implement fields filtration
+                $filteredData = $outputData;
+                $this->_render($filteredData);
+                break;
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE:
                 // break is intentionally omitted
-            case Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_DELETE:
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE:
+                // break is intentionally omitted
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE:
+                $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Response_Rest::HTTP_MULTI_STATUS);
+                break;
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE:
+                // break is intentionally omitted
+            case Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE:
                 break;
         }
         $this->_renderMessages();
@@ -103,10 +114,10 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
             'Mage_Webapi_Controller_Router_Route',
             $this->_applicationConfig->getAreaFrontName() . '/:' . Mage_Webapi_Controller_Request::PARAM_API_TYPE
         );
-        $serviceName = $this->_request->getServiceName();
+        $resourceName = $this->_request->getResourceName();
         $routeToItem = $this->_routeFactory->createRoute(
             'Zend_Controller_Router_Route',
-            $this->_apiConfig->getRestRouteToItem($serviceName)
+            $this->_apiConfig->getRestRouteToItem($resourceName)
         );
         $chain = $apiTypeRoute->chain($routeToItem);
         $params = array(

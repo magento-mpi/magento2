@@ -25,7 +25,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
-    /** @var Mage_Core_Service_Config */
+    /** @var Mage_Webapi_Model_ConfigAbstract */
     protected $_apiConfig;
 
     protected function setUp()
@@ -34,16 +34,16 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
         $objectManager = Mage::getObjectManager();
         /** Prepare arguments for SUT constructor. */
         $pathToFixtures = __DIR__ . '/../_files/autodiscovery';
-        /** @var Mage_Core_Service_Config_Reader $reader */
+        /** @var Mage_Webapi_Model_Config_Reader_Soap $reader */
         $reader = $objectManager->create(
-            'Mage_Core_Service_Config_Reader',
+            'Mage_Webapi_Model_Config_Reader_Soap',
             array(
                 'cache' => $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false)
             )
         );
         $reader->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToFixtures));
         /** Initialize SUT. */
-        $this->_apiConfig = $objectManager->create('Mage_Webapi_Model_Config_Rest', array('reader' => $reader));
+        $this->_apiConfig = $objectManager->create('Mage_Webapi_Model_Config_Soap', array('reader' => $reader));
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 use Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy,
+    Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface,
     Zend\Soap\Wsdl;
 
 /**
@@ -23,9 +24,9 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
     const APP_INF_NS = 'inf';
 
     /**
-     * @var Mage_Core_Service_Config
+     * @var Mage_Webapi_Model_Config_Soap
      */
-    protected $_serviceConfig;
+    protected $_config;
 
     /**
      * @var Mage_Webapi_Helper_Config
@@ -38,14 +39,14 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
     protected $_dom;
 
     /**
-     * Construct strategy with resource serviceConfig.
+     * Construct strategy with resource config.
      *
-     * @param Mage_Core_Service_Config $serviceConfig
+     * @param Mage_Webapi_Model_Config_Soap $config
      * @param Mage_Webapi_Helper_Config $helper
      */
-    public function __construct(Mage_Core_Service_Config $serviceConfig, Mage_Webapi_Helper_Config $helper)
+    public function __construct(Mage_Webapi_Model_Config_Soap $config, Mage_Webapi_Helper_Config $helper)
     {
-        $this->_serviceConfig = $serviceConfig;
+        $this->_config = $config;
         $this->_helper = $helper;
     }
 
@@ -73,7 +74,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
 
         $complexType = $this->_dom->createElement(Wsdl::XSD_NS . ':complexType');
         $complexType->setAttribute('name', $type);
-        $typeData = $this->_serviceConfig->getTypeData($type);
+        $typeData = $this->_config->getTypeData($type);
         if (isset($typeData['documentation'])) {
             $this->addAnnotation($complexType, $typeData['documentation']);
         }
@@ -169,7 +170,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
             'documentation' => sprintf('An array of %s items.', $arrayItemType),
             'parameters' => $arrayTypeParameters,
         );
-        $this->_serviceConfig->setTypeData($arrayTypeName, $arrayTypeData);
+        $this->_config->setTypeData($arrayTypeName, $arrayTypeData);
         $this->addComplexType($arrayTypeName, $callInfo);
     }
 

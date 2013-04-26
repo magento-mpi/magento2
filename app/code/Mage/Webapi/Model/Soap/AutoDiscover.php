@@ -22,9 +22,9 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * API Resource config instance.
      * Used to retrieve complex types data.
      *
-     * @var Mage_Core_Service_Config
+     * @var Mage_Webapi_Model_Config_Soap
      */
-    protected $_serviceConfig;
+    protected $_apiConfig;
 
     /**
      * WSDL factory instance.
@@ -44,7 +44,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     /**
      * Construct auto discover with resource config and list of requested resources.
      *
-     * @param Mage_Core_Service_Config $serviceConfig
+     * @param Mage_Webapi_Model_Config_Soap $apiConfig
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
      * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Core_Model_CacheInterface $cache
@@ -52,12 +52,12 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * @throws InvalidArgumentException
      */
     public function __construct(
-        Mage_Core_Service_Config $serviceConfig,
+        Mage_Webapi_Model_Config_Soap $apiConfig,
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
         Mage_Webapi_Helper_Config $helper,
         Mage_Core_Model_CacheInterface $cache
     ) {
-        $this->_serviceConfig = $serviceConfig;
+        $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;
         $this->_helper = $helper;
         $this->_cache = $cache;
@@ -76,7 +76,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         /** Sort requested resources by names to prevent caching of the same wsdl file more than once. */
         ksort($requestedResources);
         $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedResources));
-        if ($this->_cache->canUse(Mage_Core_Service_Config::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
             $cachedWsdlContent = $this->_cache->load($cacheId);
             if ($cachedWsdlContent !== false) {
                 return $cachedWsdlContent;
@@ -85,8 +85,8 @@ class Mage_Webapi_Model_Soap_AutoDiscover
 
         $resources = array();
         try {
-            foreach ($requestedResources as $serviceName => $resourceVersion) {
-                $resources[$serviceName] = $this->_serviceConfig->getServiceData($serviceName);
+            foreach ($requestedResources as $resourceName => $resourceVersion) {
+                $resources[$resourceName] = $this->_apiConfig->getResourceDataMerged($resourceName, $resourceVersion);
             }
         } catch (Exception $e) {
             throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
@@ -94,8 +94,8 @@ class Mage_Webapi_Model_Soap_AutoDiscover
 
         $wsdlContent = $this->generate($resources, $endpointUrl);
 
-        if ($this->_cache->canUse(Mage_Core_Service_Config::WEBSERVICE_CACHE_NAME)) {
-            $this->_cache->save($wsdlContent, $cacheId, array(Mage_Core_Service_Config::WEBSERVICE_CACHE_TAG));
+        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+            $this->_cache->save($wsdlContent, $cacheId, array(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG));
         }
 
         return $wsdlContent;
@@ -114,18 +114,18 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         $wsdl = $this->_wsdlFactory->create(self::WSDL_NAME, $endPointUrl);
         $wsdl->addSchemaTypeSection();
 
-        foreach ($requestedResources as $serviceName => $resourceData) {
-            $portTypeName = $this->getPortTypeName($serviceName);
-            $bindingName = $this->getBindingName($serviceName);
+        foreach ($requestedResources as $resourceName => $resourceData) {
+            $portTypeName = $this->getPortTypeName($resourceName);
+            $bindingName = $this->getBindingName($resourceName);
             $portType = $wsdl->addPortType($portTypeName);
             $binding = $wsdl->addBinding($bindingName, Wsdl::TYPES_NS . ':' . $portTypeName);
             $wsdl->addSoapBinding($binding, 'document', 'http://schemas.xmlsoap.org/soap/http', SOAP_1_2);
-            $portName = $this->getPortName($serviceName);
-            $wsdlServiceName = $this->getServiceName($serviceName);
-            $wsdl->addService($wsdlServiceName, $portName, 'tns:' . $bindingName, $endPointUrl, SOAP_1_2);
+            $portName = $this->getPortName($resourceName);
+            $serviceName = $this->getServiceName($resourceName);
+            $wsdl->addService($serviceName, $portName, 'tns:' . $bindingName, $endPointUrl, SOAP_1_2);
 
             foreach ($resourceData['methods'] as $methodName => $methodData) {
-                $operationName = $this->getOperationName($serviceName, $methodName);
+                $operationName = $this->getOperationName($resourceName, $methodName);
                 $inputBinding = array('use' => 'literal');
                 $inputMessageName = $this->_createOperationInput($wsdl, $operationName, $methodData);
 
@@ -183,7 +183,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             'parameters' => $inputParameters,
             'callInfo' => $callInfo,
         );
-        $this->_serviceConfig->setTypeData($complexTypeName, $typeData);
+        $this->_apiConfig->setTypeData($complexTypeName, $typeData);
         $wsdl->addComplexType($complexTypeName);
         $wsdl->addMessage(
             $inputMessageName,
@@ -222,7 +222,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             'parameters' => $methodData['interface']['out']['parameters'],
             'callInfo' => $callInfo,
         );
-        $this->_serviceConfig->setTypeData($complexTypeName, $typeData);
+        $this->_apiConfig->setTypeData($complexTypeName, $typeData);
         $wsdl->addComplexType($complexTypeName);
         $wsdl->addMessage(
             $outputMessageName,
@@ -250,57 +250,57 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     /**
      * Get name for resource portType node.
      *
-     * @param string $serviceName
+     * @param string $resourceName
      * @return string
      */
-    public function getPortTypeName($serviceName)
+    public function getPortTypeName($resourceName)
     {
-        return $serviceName . 'PortType';
+        return $resourceName . 'PortType';
     }
 
     /**
      * Get name for resource binding node.
      *
-     * @param string $serviceName
+     * @param string $resourceName
      * @return string
      */
-    public function getBindingName($serviceName)
+    public function getBindingName($resourceName)
     {
-        return $serviceName . 'Binding';
+        return $resourceName . 'Binding';
     }
 
     /**
      * Get name for resource port node.
      *
-     * @param string $serviceName
+     * @param string $resourceName
      * @return string
      */
-    public function getPortName($serviceName)
+    public function getPortName($resourceName)
     {
-        return $serviceName . 'Port';
+        return $resourceName . 'Port';
     }
 
     /**
      * Get name for resource service.
      *
-     * @param string $serviceName
+     * @param string $resourceName
      * @return string
      */
-    public function getServiceName($serviceName)
+    public function getServiceName($resourceName)
     {
-        return $serviceName . 'Service';
+        return $resourceName . 'Service';
     }
 
     /**
      * Get name of operation based on resource and method names.
      *
-     * @param string $serviceName
+     * @param string $resourceName
      * @param string $methodName
      * @return string
      */
-    public function getOperationName($serviceName, $methodName)
+    public function getOperationName($resourceName, $methodName)
     {
-        return $serviceName . ucfirst($methodName);
+        return $resourceName . ucfirst($methodName);
     }
 
     /**
@@ -333,9 +333,9 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     protected function _collectCallInfo($requestedResources)
     {
-        foreach ($requestedResources as $serviceName => $resourceData) {
+        foreach ($requestedResources as $resourceName => $resourceData) {
             foreach ($resourceData['methods'] as $methodName => $methodData) {
-                $this->_processInterfaceCallInfo($methodData['interface'], $serviceName, $methodName);
+                $this->_processInterfaceCallInfo($methodData['interface'], $resourceName, $methodName);
             }
         }
     }
@@ -344,17 +344,17 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * Process call info data from interface.
      *
      * @param array $interface
-     * @param string $serviceName
+     * @param string $resourceName
      * @param string $methodName
      */
-    protected function _processInterfaceCallInfo($interface, $serviceName, $methodName)
+    protected function _processInterfaceCallInfo($interface, $resourceName, $methodName)
     {
         foreach ($interface as $direction => $interfaceData) {
             $direction = ($direction == 'in') ? 'requiredInput' : 'returned';
             foreach ($interfaceData['parameters'] as $parameterData) {
                 $parameterType = $parameterData['type'];
                 if (!$this->_helper->isTypeSimple($parameterType)) {
-                    $operation = $this->getOperationName($serviceName, $methodName);
+                    $operation = $this->getOperationName($resourceName, $methodName);
                     if ($parameterData['required']) {
                         $condition = ($direction == 'requiredInput') ? 'yes' : 'always';
                     } else {
@@ -362,7 +362,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                     }
                     $callInfo = array();
                     $callInfo[$direction][$condition]['calls'][] = $operation;
-                    $this->_serviceConfig->setTypeData($parameterType, array('callInfo' => $callInfo));
+                    $this->_apiConfig->setTypeData($parameterType, array('callInfo' => $callInfo));
                 }
             }
         }

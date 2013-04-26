@@ -18,13 +18,13 @@ include __DIR__ . '/../../../_files/Controller/Webapi/SubresourceB.php';
 /**#@-*/
 
 /**
- * Class for {@see Mage_Core_Service_Config} model testing.
+ * Class for {@see Mage_Webapi_Model_Config} model testing.
  *
  * The main purpose of this test case is to check config data structure after initialization.
  */
-class Mage_Core_Service_Config_Soap_DataTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Model_Config_Soap_DataTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Model_Config_Rest */
+    /** @var Mage_Webapi_Model_Config_Soap */
     protected $_config;
 
     /**
@@ -42,13 +42,13 @@ class Mage_Core_Service_Config_Soap_DataTest extends PHPUnit_Framework_TestCase
         $objectManager = Mage::getObjectManager();
         /** @var Mage_Webapi_Helper_Config $helper */
         $helper = $objectManager->get('Mage_Webapi_Helper_Config');
-        /** @var Mage_Webapi_Model_Config_Reader_Reflector_Soap $classReflector */
-        $classReflector = $objectManager->get('Mage_Webapi_Model_Config_Reader_Reflector_Soap');
-        $reader = new Mage_Core_Service_Config_Reader($classReflector, $appConfig, $cache);
+        /** @var Mage_Webapi_Model_Config_Reader_Soap_ClassReflector $classReflector */
+        $classReflector = $objectManager->get('Mage_Webapi_Model_Config_Reader_Soap_ClassReflector');
+        $reader = new Mage_Webapi_Model_Config_Reader_Soap($classReflector, $appConfig, $cache);
         $reader->setDirectoryScanner($directoryScanner);
 
         $this->_config = new Mage_Webapi_Model_Config_Soap($reader, $helper, $app);
-        $objectManager->addSharedInstance($this->_config, 'Mage_Webapi_Model_Config_Rest');
+        $objectManager->addSharedInstance($this->_config, 'Mage_Webapi_Model_Config_Soap');
     }
 
 

@@ -26,9 +26,9 @@ require_once __DIR__ . '/../_files/autodiscovery/reference_to_invalid_type/class
 /**#@-*/
 
 /**
- * Test of API configuration class: Mage_Core_Service_Config.
+ * Test of API configuration class: Mage_Webapi_Model_Config.
  */
-class Mage_Core_Service_Config_SoapTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Webapi_Model_Config_Soap
@@ -42,23 +42,23 @@ class Mage_Core_Service_Config_SoapTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderTestGetServiceNameByOperationPositive
+     * @dataProvider dataProviderTestGetResourceNameByOperationPositive
      * @param string $operation
      * @param string $resourceVersion
-     * @param string $expectedServiceName
+     * @param string $expectedResourceName
      * @param string $message
      */
-    public function testGetServiceNameByOperationPositive(
+    public function testGetResourceNameByOperationPositive(
         $operation,
         $resourceVersion,
-        $expectedServiceName,
+        $expectedResourceName,
         $message = 'Resource name was identified incorrectly by given operation.'
     ) {
-        $actualServiceName = $this->_apiConfig->getServiceNameByOperation($operation, $resourceVersion);
-        $this->assertEquals($expectedServiceName, $actualServiceName, $message);
+        $actualResourceName = $this->_apiConfig->getResourceNameByOperation($operation, $resourceVersion);
+        $this->assertEquals($expectedResourceName, $actualResourceName, $message);
     }
 
-    public function dataProviderTestGetServiceNameByOperationPositive()
+    public function dataProviderTestGetResourceNameByOperationPositive()
     {
         return array(
             array('vendorModuleResourceCreate', 'v1', 'vendorModuleResource'),
@@ -90,23 +90,23 @@ class Mage_Core_Service_Config_SoapTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderTestGetServiceNameByOperationNegative
+     * @dataProvider dataProviderTestGetResourceNameByOperationNegative
      * @param string $operation
      * @param string $resourceVersion
-     * @param string $expectedServiceName
+     * @param string $expectedResourceName
      * @param string $message
      */
-    public function testGetServiceNameByOperationNegative(
+    public function testGetResourceNameByOperationNegative(
         $operation,
         $resourceVersion,
-        $expectedServiceName,
+        $expectedResourceName,
         $message = 'Resource name was identified incorrectly by given operation.'
     ) {
-        $actualServiceName = $this->_apiConfig->getServiceNameByOperation($operation, $resourceVersion);
-        $this->assertEquals($expectedServiceName, $actualServiceName, $message);
+        $actualResourceName = $this->_apiConfig->getResourceNameByOperation($operation, $resourceVersion);
+        $this->assertEquals($expectedResourceName, $actualResourceName, $message);
     }
 
-    public function dataProviderTestGetServiceNameByOperationNegative()
+    public function dataProviderTestGetResourceNameByOperationNegative()
     {
         return array(
             array('customerUpdate', 'v1', false, "In case when resource is not found, 'false' is expected."),
@@ -120,20 +120,20 @@ class Mage_Core_Service_Config_SoapTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataProviderTestGetServiceNameByOperationException
+     * @dataProvider dataProviderTestGetResourceNameByOperationException
      * @param string $operation
      * @param string $resourceVersion
      */
-    public function testGetServiceNameByOperationException($operation, $resourceVersion)
+    public function testGetResourceNameByOperationException($operation, $resourceVersion)
     {
         $this->setExpectedException(
             'InvalidArgumentException',
             sprintf('The "%s" is not a valid API resource operation name.', $operation)
         );
-        $this->_apiConfig->getServiceNameByOperation($operation, $resourceVersion);
+        $this->_apiConfig->getResourceNameByOperation($operation, $resourceVersion);
     }
 
-    public function dataProviderTestGetServiceNameByOperationException()
+    public function dataProviderTestGetResourceNameByOperationException()
     {
         return array(
             array('customerMultiDeleteExcessiveSuffix', 'v2', 'Excessive suffix is ignored.'),
@@ -145,17 +145,17 @@ class Mage_Core_Service_Config_SoapTest extends PHPUnit_Framework_TestCase
      * @dataProvider dataProviderTestGetMethodNameByOperation
      * @param string $operation
      * @param string $resourceVersion
-     * @param string $expectedServiceName
+     * @param string $expectedResourceName
      * @param string $message
      */
     public function testGetMethodNameByOperation(
         $operation,
         $resourceVersion,
-        $expectedServiceName,
+        $expectedResourceName,
         $message = 'Resource name was identified incorrectly by given operation.'
     ) {
-        $actualServiceName = $this->_apiConfig->getMethodNameByOperation($operation, $resourceVersion);
-        $this->assertEquals($expectedServiceName, $actualServiceName, $message);
+        $actualResourceName = $this->_apiConfig->getMethodNameByOperation($operation, $resourceVersion);
+        $this->assertEquals($expectedResourceName, $actualResourceName, $message);
     }
 
     public function dataProviderTestGetMethodNameByOperation()
@@ -244,14 +244,14 @@ class Mage_Core_Service_Config_SoapTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider dataProviderForTestGetResourceMaxVersion
-     * @param string $serviceName
+     * @param string $resourceName
      * @param int $expectedMaxVersion
      */
-    public function testGetResourceMaxVersion($serviceName, $expectedMaxVersion)
+    public function testGetResourceMaxVersion($resourceName, $expectedMaxVersion)
     {
         $this->assertEquals(
             $expectedMaxVersion,
-            $this->_apiConfig->getResourceMaxVersion($serviceName),
+            $this->_apiConfig->getResourceMaxVersion($resourceName),
             "Resource maximum available version was identified incorrectly."
         );
     }
@@ -266,12 +266,12 @@ class Mage_Core_Service_Config_SoapTest extends PHPUnit_Framework_TestCase
 
     public function testGetResourceMaxVersionException()
     {
-        $serviceName = 'InvalidResource';
+        $resourceName = 'InvalidResource';
         $this->setExpectedException(
             'InvalidArgumentException',
-            sprintf('Resource "%s" does not exist.', $serviceName)
+            sprintf('Resource "%s" does not exist.', $resourceName)
         );
-        $this->_apiConfig->getResourceMaxVersion($serviceName);
+        $this->_apiConfig->getResourceMaxVersion($resourceName);
     }
 
     public function testGetResource()
@@ -288,7 +288,7 @@ class Mage_Core_Service_Config_SoapTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetResourceInvalidServiceName()
+    public function testGetResourceInvalidResourceName()
     {
         $this->setExpectedException('RuntimeException', 'Unknown resource "invalidResource".');
         $this->_apiConfig->getResourceDataMerged('invalidResource', 'v1');
@@ -525,8 +525,8 @@ class Mage_Core_Service_Config_SoapTest extends PHPUnit_Framework_TestCase
         /** @var Mage_Core_Model_CacheInterface $cache */
         $cache = $this->getMock('Mage_Core_Model_CacheInterface');
 
-        /** @var Mage_Core_Service_Config_Reader $reader */
-        $reader = $objectManager->create('Mage_Core_Service_Config_Reader', array(
+        /** @var Mage_Webapi_Model_Config_Reader_Soap $reader */
+        $reader = $objectManager->create('Mage_Webapi_Model_Config_Reader_Soap', array(
             'cache' => $cache
         ));
         $reader->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToResources));

@@ -197,6 +197,18 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test for getResourceType() method.
+     *
+     */
+    public function testGetResourceType()
+    {
+        $this->assertNull($this->_request->getResourceType());
+        $resource = 'test_resource';
+        $this->_request->setResourceType($resource);
+        $this->assertEquals($resource, $this->_request->getResourceType());
+    }
+
+    /**
      * Data provider for testGetAcceptTypes().
      *
      * @return array
@@ -264,10 +276,48 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
             // Each element is: array(Request method, CRUD operation name[, expected exception message])
             array('INVALID_METHOD', null, 'Request method is invalid.'),
             array('GET', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_GET),
-            array('POST', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_POST),
-            array('PUT', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_PUT),
+            array('POST', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_CREATE),
+            array('PUT', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_UPDATE),
             array('DELETE', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_DELETE)
         );
+    }
+
+    /**
+     * @dataProvider dataProviderTestGetActionTypeByMethod
+     * @param string $methodName
+     * @param string $expectedActionType
+     */
+    public function testGetActionTypeByMethod($methodName, $expectedActionType)
+    {
+        $this->assertEquals(
+            $expectedActionType,
+            Mage_Webapi_Controller_Request_Rest::getActionTypeByOperation($methodName),
+            "Action type was identified incorrectly by method name."
+        );
+    }
+
+    public static function dataProviderTestGetActionTypeByMethod()
+    {
+        return array(
+            array(
+                Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE,
+                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION
+            ),
+            array(
+                Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
+                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM
+            ),
+        );
+    }
+
+    public function testGetActionTypeException()
+    {
+        $methodName = 'invalidMethodV1';
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            sprintf('The "%s" method is not a valid resource method.', $methodName)
+        );
+        Mage_Webapi_Controller_Request_Rest::getActionTypeByOperation($methodName);
     }
 
     public function testGetResourceVersion()
@@ -286,10 +336,130 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
         $this->_request->getResourceVersion();
     }
 
-    public function testGetServiceName()
+    public function testGetResourceName()
     {
-        $serviceName = 'serviceName';
-        $this->_request->setServiceName($serviceName);
-        $this->assertEquals($serviceName, $this->_request->getServiceName());
+        $resourceName = 'resourceName';
+        $this->_request->setResourceName($resourceName);
+        $this->assertEquals($resourceName, $this->_request->getResourceName());
+    }
+
+    public function testGetOperationNameMethodNotExistException()
+    {
+        /** Prepare mocks for SUT constructor. */
+        $this->setExpectedException(
+            'Mage_Webapi_Exception',
+            'Requested method does not exist.',
+            Mage_Webapi_Exception::HTTP_NOT_FOUND
+        );
+        $this->_request->expects($this->once())->method('isPost')->will($this->returnValue(true));
+        $this->_request->expects($this->once())->method('getMethod')->will($this->returnValue('POST'));
+        $this->_request->setResourceType(Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM);
+        /** Initialize SUT. */
+        $this->_request->getOperationName();
+    }
+
+    /**
+     * @dataProvider getOperationNameProvider
+     */
+    public function testGetOperationName($resourceType, $httpMethod, $operationName)
+    {
+        /** Prepare mocks for SUT constructor. */
+        $this->_request->setResourceType($resourceType);
+        $this->_request->expects($this->once())->method('isPost')->will($this->returnValue(true));
+        $this->_request->expects($this->once())->method('getMethod')->will($this->returnValue($httpMethod));
+        $this->_request->setResourceName('resourceName');
+
+        /** Initialize SUT. */
+        $this->assertEquals(
+            $operationName,
+            $this->_request->getOperationName(),
+            'Method getOperationName() retrieved invalid resource name. Check $restMethodMap variable.'
+        );
+    }
+
+    /**
+     * Success getOperationName() method data provider.
+     *
+     * @return array
+     */
+    public function getOperationNameProvider()
+    {
+        return array(
+            'GET request with action type: item.' => array(
+                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM,
+                'GET',
+                'resourceNameGet',
+            ),
+            'PUT request with action type: item.' => array(
+                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM,
+                'PUT',
+                'resourceNameUpdate',
+            ),
+            'DELETE request with action type: item.' => array(
+                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM,
+                'DELETE',
+                'resourceNameDelete',
+            ),
+            'GET request with action type: collection.' => array(
+                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION,
+                'GET',
+                'resourceNameList',
+            ),
+            'PUT request with action type: collection.' => array(
+                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION,
+                'PUT',
+                'resourceNameMultiUpdate',
+            ),
+            'DELETE request with action type: collection.' => array(
+                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION,
+                'DELETE',
+                'resourceNameMultiDelete',
+            ),
+        );
+    }
+
+    public function testGetOperationNameWithCreateMethod()
+    {
+        /** Prepare mocks for SUT constructor. */
+        $this->_prepareSutForGetOperationNameWithCreateMethod();
+        $this->_prepareSutForGetBodyParamsTest(array('key_1' => 'value', 'key_2' => 'value'));
+
+        /** Initialize SUT. */
+        $this->assertEquals(
+            'resourceNameCreate',
+            $this->_request->getOperationName(),
+            'Resource name for create method is invalid.'
+        );
+    }
+
+    public function testGetOperationNameWithMultiCreateMethod()
+    {
+        /** Prepare mocks for SUT constructor. */
+        $this->_prepareSutForGetOperationNameWithCreateMethod();
+        $params = array(
+            array('key_1' => 'value 1'),
+            array('key_2' => 'value 2'),
+        );
+        $this->_prepareSutForGetBodyParamsTest($params);
+
+        /** Initialize SUT. */
+        $this->assertEquals(
+            'resourceNameMultiCreate',
+            $this->_request->getOperationName(),
+            'Resource name for multi create method is invalid.'
+        );
+    }
+
+    /**
+     * Prepare SUT for GetOperationName() with create action.
+     */
+    protected function _prepareSutForGetOperationNameWithCreateMethod()
+    {
+        $this->_request->setResourceType(Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION);
+        $this->_request->expects($this->once())->method('isPost')->will($this->returnValue(true));
+        $this->_request->expects($this->once())
+            ->method('getMethod')
+            ->will($this->returnValue('POST'));
+        $this->_request->setResourceName('resourceName');
     }
 }

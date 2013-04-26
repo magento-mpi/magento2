@@ -44,11 +44,11 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
     /**
      * Perform rendering of action results.
      *
-     * @param string $httpMethod
+     * @param string $method
      * @param array|null $outputData
      */
-    public function prepareResponse($httpMethod, $outputData = null)
+    public function prepareResponse($method, $outputData = null)
     {
-        $this->_responseProcessor->prepareResponse($httpMethod, $outputData);
+        $this->_responseProcessor->prepareResponse($method, $outputData);
     }
 }
