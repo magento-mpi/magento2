@@ -42,12 +42,20 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
     protected $_order;
 
     /**
-     * Initialize checkout session namespace
-     *
+     * @var Mage_Sales_Model_OrderFactory
+     */
+    protected $_orderFactory;
+
+    /**
+     * Class constructor. Initialize checkout session namespace
+     * @param Mage_Sales_Model_OrderFactory $orderFactory
      * @param string $sessionName
      */
-    public function __construct($sessionName = null)
-    {
+    public function __construct(
+        Mage_Sales_Model_OrderFactory $orderFactory,
+        $sessionName = null
+    ) {
+        $this->_orderFactory = $orderFactory;
         $this->init('checkout', $sessionName);
     }
 
@@ -396,20 +404,10 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
         if ($this->_order !== null && $orderId == $this->_order->getIncrementId()) {
             return $this->_order;
         }
-        $this->_order = $this->_getOrderModel();
+        $this->_order = $this->_orderFactory->create();
         if ($orderId) {
             $this->_order->loadByIncrementId($orderId);
         }
         return $this->_order;
-    }
-
-    /**
-     * Get order model
-     *
-     * @return Mage_Sales_Model_Order
-     */
-    protected function _getOrderModel()
-    {
-        return Mage::getModel('Mage_Sales_Model_Order');
     }
 }
