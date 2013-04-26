@@ -97,11 +97,12 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
         Mage_Core_Model_Layout_Argument_Processor $argumentProcessor,
         Mage_Core_Model_Layout_Translator $translator,
         Mage_Core_Model_Layout_ScheduledStructure $scheduledStructure,
+        Mage_Core_Model_Datasource_Factory $factory,
         Mage_DesignEditor_Helper_Data $helper,
         $area = Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA
     ) {
         $this->_helper       = $helper;
-        parent::__construct($blockFactory, $structure, $argumentProcessor, $translator, $scheduledStructure, $area);
+        parent::__construct($blockFactory, $structure, $argumentProcessor, $translator, $scheduledStructure, $factory, $area);
     }
 
     /**
