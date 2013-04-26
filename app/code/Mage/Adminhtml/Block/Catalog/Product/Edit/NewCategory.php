@@ -18,12 +18,23 @@
 class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend_Block_Widget_Form
 {
     /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(Mage_Core_Block_Template_Context $context, array $data = array())
+    {
+        parent::__construct($context, $data);
+        $this->setUseContainer(true);
+    }
+
+
+    /**
      * Form preparation
      */
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form(array('id' => 'new_category_form'));
-        $form->setUseContainer(true);
+        $form->setUseContainer($this->getUseContainer());
 
         $form->addField('new_category_messages', 'note', array());
 
@@ -80,8 +91,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
         ));
         return <<<HTML
 <script>
-    head.js($widgetUrl, function () {
-        jQuery(function($) { // waiting for page to load to have '#category_ids-template' available
+    jQuery(function($) { // waiting for page to load to have '#category_ids-template' available
+        head.js($widgetUrl, function () {
             $('#new-category').mage('newCategoryDialog', $widgetOptions);
         });
     });

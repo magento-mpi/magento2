@@ -105,8 +105,8 @@
                 '<ul data-mage-init="{&quot;menu&quot;:[]}">' +
                 '{{each items}}' +
                 '{{if !$data.itemSelected($value)}}<li {{html optionData($value)}}>' +
-                '<a href="#"><span class="category-label">${$value.label}<span>' +
-                '<span class="category-path">${$value.path}<span></a></li>{{/if}}' +
+                '<a href="#"><span class="category-label">${$value.label}</span>' +
+                '<span class="category-path">${$value.path}</span></a></li>{{/if}}' +
                 '{{/each}}</ul>' +
                 '{{/if}}{{else}}<span class="mage-suggest-no-records">${noRecordsText}</span>{{/if}}',
             controls: {

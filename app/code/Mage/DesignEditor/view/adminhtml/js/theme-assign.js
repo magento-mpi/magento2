@@ -6,9 +6,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+/*jshint jquery:true*/
 (function($) {
-
+    'use strict';
+    /**
+     * VDE assign theme widget
+     */
     $.widget('vde.themeAssign', {
         options: {
             assignEvent:        'assign',
@@ -63,6 +66,12 @@
             }, this));
         },
 
+        /**
+         * Close assign to a store pop-up
+         * @param event
+         * @param data
+         * @protected
+         */
         _closePopup: function(event, data) {
             $(this.options.storeView.windowSelector).hide();
             this.themeId = null;
@@ -114,8 +123,8 @@
          */
         _isStoreChanged: function(themeId, storesToAssign) {
             var assignedStores = this.options.storesByThemes[themeId] || [] ;
-            return !(storesToAssign.length === assignedStores.length &&
-                $(storesToAssign).not(assignedStores).length === 0);
+            return !(storesToAssign.length === assignedStores.length
+                && $(storesToAssign).not(assignedStores).length === 0);
         },
 
         /**
@@ -129,9 +138,10 @@
                 element = $(element);
 
                 var storeViewId = parseInt(element.attr('id').replace('storeview_', ''), 10);
-                element.attr('checked',
-                    !(!storesByThemes[themeId] || storesByThemes[themeId].indexOf(storeViewId) === -1));
-
+                element.attr(
+                    'checked',
+                    !(!storesByThemes[themeId] || storesByThemes[themeId].indexOf(storeViewId) === -1)
+                );
             });
             this.themeId = themeId;
             popUp.show();

@@ -89,6 +89,9 @@
             });
 
             this.mainTabs.on('click', function() {
+                if ($(this).hasClass('disabled')) {
+                    return;
+                }
                 var isPanelOpen = self.panel.hasClass(self.options.openedPanelClass);
                 var isReopen = isPanelOpen && !$(this).hasClass(self.options.activeTabClass);
 

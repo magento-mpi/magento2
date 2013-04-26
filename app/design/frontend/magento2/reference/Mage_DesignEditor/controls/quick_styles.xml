@@ -88,7 +88,6 @@
         <attribute>background-color</attribute>
         <var>Mage_DesignEditor::menu-background</var>
     </control>
-    <!--
     <control name="menu-stroke" title="Menu Stroke" tab="header" column="middle">
         <type>color-picker</type>
         <selector>
@@ -98,7 +97,6 @@
         <attribute>border-color</attribute>
         <var>Mage_DesignEditor::menu-stroke</var>
     </control>
-    -->
     <control name="menu-links" title="Menu Links" tab="header" column="middle">
         <type>color-picker</type>
         <selector><![CDATA[
@@ -166,7 +164,7 @@
         <attribute>background-color</attribute>
         <var>Mage_DesignEditor::header-scroll-bar-handle</var>
     </control>
-
+-->
     <control name="search-field" title="Search Field" tab="header" column="right">
         <type>color-picker</type>
         <selector>
@@ -196,7 +194,7 @@
         <attribute>border-color</attribute>
         <var>Mage_DesignEditor::search-field-stroke</var>
     </control>
-    -->
+
 
     <control name="page-background" title="Page Background" tab="backgrounds" column="left">
         <type>background</type>
@@ -277,7 +275,6 @@
         <attribute>border-color</attribute>
         <var>Mage_DesignEditor::form-field-stroke</var>
     </control>
-    <!--
     <control name="form-field-stroke-clicked" title="Form Field Stroke Clicked" tab="backgrounds" column="right">
         <type>color-picker</type>
         <selector>
@@ -325,18 +322,18 @@
         <var>Mage_DesignEditor::image-stroke-keylines</var>
     </control>
 
-    <control name="scroll-bar-background" title="Scroll Bar Background" tab="backgrounds" column="right">
-        <type>color-picker</type>
-        <selector>.menu a:hover</selector>
-        <attribute>color</attribute>
-        <var>Mage_DesignEditor::scroll-bar-background</var>
-    </control>
-    <control name="scroll-bar-handle" title="Scroll Bar Handle" tab="backgrounds" column="right">
-        <type>color-picker</type>
-        <selector>.menu a:hover</selector>
-        <attribute>color</attribute>
-        <var>Mage_DesignEditor::scroll-bar-handle</var>
-    </control>
+<!--     <control name="scroll-bar-background" title="Scroll Bar Background" tab="backgrounds" column="right">
+    <type>color-picker</type>
+    <selector>.menu a:hover</selector>
+    <attribute>color</attribute>
+    <var>Mage_DesignEditor::scroll-bar-background</var>
+</control>
+<control name="scroll-bar-handle" title="Scroll Bar Handle" tab="backgrounds" column="right">
+    <type>color-picker</type>
+    <selector>.menu a:hover</selector>
+    <attribute>color</attribute>
+    <var>Mage_DesignEditor::scroll-bar-handle</var>
+</control> -->
 
 
     <control name="radio-checkbox-icon" title="Radio Buttons/Checkboxes Icon" tab="buttons" column="left">
@@ -357,7 +354,6 @@
         <attribute>color</attribute>
         <var>Mage_DesignEditor::radio-checkbox-stroke</var>
     </control>
-    -->
 
     <control name="button-text" title="Buttons Text" tab="buttons" column="left">
         <type>color-picker</type>

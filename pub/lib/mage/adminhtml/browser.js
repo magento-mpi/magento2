@@ -7,6 +7,18 @@
  * @license     {license_link}
  */
 MediabrowserUtility = {
+    getMaxZIndex: function() {
+        var max = 0, i;
+        var cn = document.body.childNodes;
+        for (i = 0; i < cn.length; i++) {
+            var el = cn[i];
+            var zIndex = el.nodeType == 1 ? parseInt(el.style.zIndex, 10) || 0 : 0;
+            if (zIndex < 10000) {
+                max = Math.max(max, zIndex);
+            }
+        }
+        return max + 10;
+    },
     openDialog: function(url, width, height, title, options) {
         var windowId = 'modal_dialog_message';
         jQuery('body').append('<div class="popup-window magento_message" id="' + windowId + '"></div>');
@@ -16,6 +28,7 @@ MediabrowserUtility = {
             modal:      true,
             resizable:  false,
             width:      width || 950,
+            zIndex:     this.getMaxZIndex(),
             close:      function(event, ui) {
                 jQuery(this).dialog('destroy');
                 jQuery('#' + windowId).remove();

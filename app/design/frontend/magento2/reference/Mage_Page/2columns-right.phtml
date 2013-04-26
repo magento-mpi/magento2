@@ -31,9 +31,12 @@ $bodyCss = $this->getBodyClass() ? $this->getBodyClass() : '';
         <section class="page main">
             <?php echo $this->getChildHtml('columns_top') ?>
             <div class="columns">
-                <?php 
+                <?php
                     echo $this->getChildHtml('main');
+                    // Inside of <php> to avoid spaces between tags
+                    echo '<div class="column right sidebar">';
                     echo $this->getChildHtml('right');
+                    echo '</div>';
                 ?>
             </div>
         </section>

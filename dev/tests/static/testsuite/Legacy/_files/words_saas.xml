@@ -14,12 +14,6 @@
 <config>
     <words>
         <!-- Enterprise_Staging -->
-        <word>staging</word>
+        <word>Enterprise_Staging</word>
     </words>
-    <whitelist>
-        <item>
-            <path>app/code/Saas/Launcher/view/adminhtml/page/promotestore/googleanalytics/drawer.phtml</path>
-            <word>staging</word>
-        </item>
-    </whitelist>
 </config>

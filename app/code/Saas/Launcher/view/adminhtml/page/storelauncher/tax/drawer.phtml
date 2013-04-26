@@ -13,7 +13,7 @@
 <form action="" id="drawer-form" class="<?php if ($this->isUseTaxControlSwitchedOff()) : ?>ignore-validate<?php endif; ?>" method="post">
     <?php echo $this->getBlockHtml('formkey')?>
 
-    <div class="switcher drawer-switcher" onselectstart="return false;">
+    <div class="switcher drawer-switcher" onselectstart="return false;" data-form-validation="true">
     <?php if ($this->isUseTaxControlDisabled()) : ?>
         <input type="hidden" name="use_tax" value="tax-enabled" />
     <?php endif; ?>
@@ -62,19 +62,19 @@
 
 <script type="text/javascript">
     (function ($) {
-        $(document).ready(function() {
-            'use strict';
+        'use strict';
 
-            var toggleCheckbox = '.drawer-header-inner .drawer-switcher :checkbox',
-                drawerHeader = $('.drawer-header');
+        var toggleSection = '.drawer-header-inner .drawer-switcher',
+            toggleCheckbox = toggleSection + ' :checkbox',
+            drawerHeader = $('.drawer-header');
 
-            drawerHeader.unbind('change');
-            drawerHeader.on('change', toggleCheckbox, function() {
-                $(toggleCheckbox).toggleStatus({
-                    'disabledMessage': '.no-tax-info',
-                    'formsToDisable': ['.tax-rule-config']
-                });
+        drawerHeader.unbind('change');
+        drawerHeader.on('change', toggleCheckbox, function() {
+            $(toggleSection).toggleStatus('option', {
+                'disabledMessage': '.no-tax-info',
+                'formsToDisable': ['.tax-rule-config']
             });
+            $(toggleSection).toggleStatus();
         });
     })(window.jQuery);
 </script>

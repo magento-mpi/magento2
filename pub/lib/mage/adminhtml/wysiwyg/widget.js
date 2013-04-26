@@ -26,6 +26,19 @@ var widgetTools = {
 
     dialogOpened : false,
 
+    getMaxZIndex: function() {
+        var max = 0, i;
+        var cn = document.body.childNodes;
+        for (i = 0; i < cn.length; i++) {
+            var el = cn[i];
+            var zIndex = el.nodeType == 1 ? parseInt(el.style.zIndex, 10) || 0 : 0;
+            if (zIndex < 10000) {
+                max = Math.max(max, zIndex);
+            }
+        }
+        return max + 10;
+    },
+
     openDialog: function(widgetUrl) {
         if (this.dialogOpened) {
             return
@@ -37,6 +50,7 @@ var widgetTools = {
             modal:      true,
             resizable:  false,
             width:      950,
+            zIndex:     this.getMaxZIndex(),
             dialogClass: 'popup-window',
             open: function () {
                 var dialog = jQuery(this).addClass('loading magento_message')
@@ -346,6 +360,7 @@ WysiwygWidget.chooser.prototype = {
             title:      this.config.buttons.open,
             modal:      true,
             resizable:  false,
+            zIndex:     widgetTools.getMaxZIndex(),
             width:      900,
             dialogClass: 'popup-window',
             open: function () {
