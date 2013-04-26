@@ -197,33 +197,33 @@
         <var name="store-name:font-picker">"marvel"</var>
         <var name="store-name:color-picker">#ffff00</var>
         <var name="store-name:logo-uploader"></var>
-        <var name="header-background:color-picker">#6d838c</var>
+        <var name="header-background:color-picker">#cac3b4</var>
         <var name="header-background:image-uploader">header-bg.jpg</var>
         <var name="header-background:tile">repeat</var>
 
-        <var name="menu-background">#546972</var>
-        <var name="menu-stroke">#6d838c</var>
-        <var name="menu-links">#d5e6ec</var>
-        <var name="menu-links-hover">#d5e6ec</var>
+        <var name="menu-background">#f8f8f8</var>
+        <var name="menu-stroke">#cac3b4</var>
+        <var name="menu-links">#993333</var>
+        <var name="menu-links-hover">#837d75</var>
 
-        <var name="header-links">#d5e6ec</var>
-        <var name="header-links-hover">#74dc74</var>
+        <var name="header-links">#4d4a45</var>
+        <var name="header-links-hover">#993333</var>
         <var name="header-scroll-bar-background">#ffff00</var>
         <var name="header-scroll-bar-handle">#ffff00</var>
-        <var name="search-field">#4d5d64</var>
-        <var name="search-field-text">#d5e6ec</var>
-        <var name="search-field-stroke">#6d838c</var>
+        <var name="search-field">#ffffff</var>
+        <var name="search-field-text">#a9a9a9</var>
+        <var name="search-field-stroke">#ffffff</var>
 
-        <var name="page-background:color-picker">#4d5d64</var>
+        <var name="page-background:color-picker">#eeece0</var>
         <var name="page-background:image-uploader"></var>
         <var name="page-background:tile">no-repeat</var>
 
-        <var name="form-background">#546972</var>
-        <var name="form-stroke">#546972</var>
+        <var name="form-background">#f8f8f8</var>
+        <var name="form-stroke">#f8f8f8</var>
         <var name="form2-background">#ffff00</var>
         <var name="form2-stroke">#ffff00</var>
 
-        <var name="form-field-stroke">#6d838c</var>
+        <var name="form-field-stroke">#cac3b4</var>
         <var name="form-field-stroke-clicked">#999999</var>
         <var name="image-stroke-keylines">#e5e5e5</var>
         <var name="scroll-bar-background">#ffff00</var>
@@ -233,11 +233,11 @@
         <var name="radio-checkbox-background">#ffff00</var>
         <var name="radio-checkbox-stroke">#ffff00</var>
 
-        <var name="button-background">#74dc74</var>
-        <var name="button-text">#4d5d64</var>
-        <var name="button-hover">#74dc74</var>
-        <var name="icons">#d5e6ec</var>
-        <var name="icons-hover">#d5e6ec</var>
+        <var name="button-background">#993333</var>
+        <var name="button-text">#ffffff</var>
+        <var name="button-hover">#993333</var>
+        <var name="icons">#cac3b4</var>
+        <var name="icons-hover">#a59f93</var>
         <var name="icons2">#ffff00</var>
 
         <var name="accents">#ffff00</var>
@@ -264,22 +264,22 @@
         <var name="banner-text:font-picker">"marvel", Arial, sans-serif</var>
         <var name="banner-text:color-picker">#ffff00</var>
         <var name="page-headings:font-picker">"sourcesanspro", Arial, sans-serif</var>
-        <var name="page-headings:color-picker">#d5e6ec</var>
+        <var name="page-headings:color-picker">#4d4a45</var>
         <var name="menu:font-picker">"sourcesanspro", Arial, sans-serif</var>
-        <var name="menu:color-picker">#d5e6ec</var>
+        <var name="menu:color-picker">#837d75</var>
 
         <var name="body-text:font-picker">"sourcesanspro", Arial, sans-serif</var>
-        <var name="body-text:color-picker">#d5e6ec</var>
+        <var name="body-text:color-picker">#837d75</var>
 
         <var name="buttons:font-picker">"sourcesanspro", Arial, sans-serif</var>
-        <var name="buttons:color-picker">#546972</var>
+        <var name="buttons:color-picker">#ffffff</var>
 
-        <var name="text-links">#d5e6ec</var>
-        <var name="text-links-hover">#74dc74</var>
+        <var name="text-links">#332e29</var>
+        <var name="text-links-hover">#993333</var>
         <var name="text-links-active">#ffff00</var>
         <var name="text-links-product">#ffff00</var>
-        <var name="small-links">#d5e6ec</var>
-        <var name="small-links-hover">#74dc74</var>
+        <var name="small-links">#332e29</var>
+        <var name="small-links-hover">#993333</var>
     </vars>
 
 </view>
