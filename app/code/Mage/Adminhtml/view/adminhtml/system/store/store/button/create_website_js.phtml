@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /** @var $this Mage_Adminhtml_Block_System_Store_Store_Button_CreateWebsiteJs */?>
+<?php /** @var $this Mage_Adminhtml_Block_System_Store_Button_CreateWebsiteJs */?>
 <?php if ($this->isCreateRestricted()): ?>
     <script type="text/javascript">
     //<![CDATA[
@@ -23,7 +23,7 @@
                     }]
                 });
 
-        $("#add").click(function() {
+        $("#<?php echo $this->getHtmlId() ?>").click(function() {
             dialog.dialog("open");
             return false;
         });
@@ -34,7 +34,7 @@
     <script type="text/javascript">
     //<![CDATA[
     jQuery(function($) {
-        $('#add').click(function() {
+        $('#<?php echo $this->getHtmlId() ?>').click(function() {
             setLocation(<?php echo json_encode($this->getCreateUrl()); ?>);
             return false;
         });

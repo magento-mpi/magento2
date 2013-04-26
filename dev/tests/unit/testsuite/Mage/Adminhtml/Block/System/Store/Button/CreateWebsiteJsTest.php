@@ -6,8 +6,27 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_System_Store_Store_Button_CreateWebsiteJsTest extends PHPUnit_Framework_TestCase
+class Mage_Adminhtml_Block_System_Store_Button_CreateWebsiteJsTest extends PHPUnit_Framework_TestCase
 {
+    public function testSetGetHtmlId()
+    {
+        $context = $this->getMock('Mage_Core_Block_Template_Context', array(), array(), '', false);
+        $block = new Mage_Adminhtml_Block_System_Store_Button_CreateWebsiteJs($context);
+        $block->setHtmlId('button_id');
+        $this->assertEquals('button_id', $block->getHtmlId());
+    }
+
+    /**
+     * @expectedException Mage_Adminhtml_Exception
+     * @expectedExceptionMessage The button's html id is not set
+     */
+    public function testGetHtmlIdException()
+    {
+        $context = $this->getMock('Mage_Core_Block_Template_Context', array(), array(), '', false);
+        $block = new Mage_Adminhtml_Block_System_Store_Button_CreateWebsiteJs($context);
+        $block->getHtmlId();
+    }
+
     /**
      * @param bool $isRestricted
      * @dataProvider isCreateRestrictedDataProvider
@@ -52,7 +71,7 @@ class Mage_Adminhtml_Block_System_Store_Store_Button_CreateWebsiteJsTest extends
     {
         $limitation = $this->getMock('Mage_Core_Model_Website_Limitation', array(), array(), '', false);
 
-        $block = $this->getMock('Mage_Adminhtml_Block_System_Store_Store_Button_CreateWebsiteJs',
+        $block = $this->getMock('Mage_Adminhtml_Block_System_Store_Button_CreateWebsiteJs',
             array('_getLimitation'), array(), '', false);
         $block->expects($this->any())
             ->method('_getLimitation')
@@ -78,7 +97,7 @@ class Mage_Adminhtml_Block_System_Store_Store_Button_CreateWebsiteJsTest extends
             ->will($this->returnValue($urlBuilder));
 
         // Do and check
-        $block = new Mage_Adminhtml_Block_System_Store_Store_Button_CreateWebsiteJs($context);
+        $block = new Mage_Adminhtml_Block_System_Store_Button_CreateWebsiteJs($context);
         $result = $block->getCreateUrl();
         $this->assertEquals($expectedUrl, $result);
     }

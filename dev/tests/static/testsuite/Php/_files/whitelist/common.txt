@@ -14,7 +14,7 @@ app/code/Mage/Adminhtml/Block/Catalog/Product/Edit/NewCategory.php
 app/code/Mage/Adminhtml/Block/Catalog/Product/Helper/Form/Category.php
 app/code/Mage/Adminhtml/Block/System/Store/Edit
 app/code/Mage/Adminhtml/Block/System/Store/Edit.php
-app/code/Mage/Adminhtml/Block/System/Store/Store/Button/CreateWebsiteJs.php
+app/code/Mage/Adminhtml/Block/System/Store/Button/CreateWebsiteJs.php
 app/code/Mage/Adminhtml/controllers/Report/CustomerController.php
 app/code/Mage/Adminhtml/controllers/Report/ProductController.php
 app/code/Mage/Adminhtml/controllers/UrlrewriteController.php
