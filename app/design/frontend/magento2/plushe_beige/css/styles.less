@@ -1217,6 +1217,9 @@ a:visited {
 .successMsg() {
   background: #d3edd5;
   color: #1b6720;
+  a {
+    color: darken(#1b6720, 30%);
+  }
   >*:first-child:before {
     content: "\e013";
     background: #42b649;
@@ -1229,6 +1232,9 @@ a:visited {
 .noticeMsg() {
   background: #ffedb8;
   color: #926e00;
+  a {
+    color: darken(#926e00, 30%);
+  }
   >*:first-child:before {
     content: "\e00e";
     background: #ffc000;
@@ -1241,6 +1247,9 @@ a:visited {
 .errorMsg() {
   background: #ffd9d0;
   color: #911c00;
+  a {
+    color: darken(#911c00, 30%);
+  }
   >*:first-child:before {
     content: "\e00e";
     background: #ff3200;
@@ -2823,7 +2832,17 @@ div.mage-error {
     }
   }
   margin:0 0 20px;
+  .amount {
+    margin-left: 3px;
+    &:before {
+      content:'(';
+    }
+    &:after {
+      content:')';
+    }
+  }
 }
+
 .data.table.tags {
   .col.photo {
     width:1px;
@@ -2832,6 +2851,7 @@ div.mage-error {
     margin-top:15px;
   }
 }
+
 .tag.edit {
   line-height: 16px;
   strong {
@@ -3254,16 +3274,16 @@ div.mage-error {
       font-size: 16px;
     }
   /*        &:first-child:after {
-            content:'';
-            position: absolute;
-            width:10px;
-            display: block;
-            background: @pageMainBg;
-            z-index: 2;
-            top:0;
-            bottom:0;
-            left:225px;
-        }*/
+              content:'';
+              position: absolute;
+              width:10px;
+              display: block;
+              background: @pageMainBg;
+              z-index: 2;
+              top:0;
+              bottom:0;
+              left:225px;
+          }*/
     &.hover,
     &:hover {
       background: @primary1;
@@ -4587,7 +4607,8 @@ and (max-width : 768px) {
 .form.password.forget,
 .form.create.account,
 .form.wishlist.share,
-.form.password.reset {
+.form.password.reset,
+.form.add.tag {
   .fieldset {
     .borderBox();
     width: 690px;
@@ -4656,7 +4677,8 @@ and (max-width : 768px) {
     }
   }
   .action.save,
-  .action.submit {
+  .action.submit,
+  .action.add {
     .primaryAction();
   }
   .actions {
@@ -4728,7 +4750,9 @@ and (max-width : 768px) {
 }
 
 .form.address.edit .field.note.default,
-.form.address.edit .field.choice.set {
+.form.address.edit .field.choice.set,
+.form.wishlist.share .field.emails,
+.form.wishlist.share .field.text {
   width:100%;
 }
 
@@ -4786,6 +4810,18 @@ and (max-width : 768px) {
         }
       }
     }
+  }
+}
+
+.form.add.tag {
+  > .field {
+    .formField();
+    .fieldStyle();
+    > .label {
+      display: block;
+      padding: 0 0 5px;
+    }
+    margin-bottom: 20px;
   }
 }
 
