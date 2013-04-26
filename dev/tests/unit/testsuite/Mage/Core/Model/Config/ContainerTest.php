@@ -30,7 +30,6 @@ class Mage_Core_Model_Config_ContainerTest extends PHPUnit_Framework_TestCase
      */
     protected $_configCacheMock;
 
-
     protected function setUp()
     {
         $this->_configSectionsMock = $this->getMock('Mage_Core_Model_Config_Sections', array(), array(), '', false);
@@ -145,7 +144,6 @@ class Mage_Core_Model_Config_ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertNull($this->_model->getNode($path));
     }
 
-
     public function testSetNodeWithPath()
     {
         $path = 'global/cache';
@@ -173,7 +171,7 @@ class Mage_Core_Model_Config_ContainerTest extends PHPUnit_Framework_TestCase
          $this->_model->setNode($path, 'value');
     }
 
- public function testSetNodeWithoutSection()
+    public function testSetNodeWithoutSection()
     {
         $path = 'global/cache';
         $sectionKey = 'global';
