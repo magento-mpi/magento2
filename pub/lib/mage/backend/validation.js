@@ -80,7 +80,7 @@
                 if (!this.options.frontendOnly && this.options.validationUrl) {
                     this.options.submitHandler = $.proxy(this._ajaxValidate, this);
                 } else {
-                    this.options.submitHandler = $.proxy(this.element[0].submit, this.element[0]);
+                    this.options.submitHandler = $.proxy(this._submit, this);
                 }
             }
             this.element.on('resetElement', function(e) {$(e.target).rules('remove');});
@@ -125,10 +125,18 @@
                 }
             }
             if (!response.error) {
-                this.element[0].submit();
+                this._submit();
             } else {
                 $('.messages').html(response.message);
             }
+        },
+
+        /**
+         * Submitting a form
+         * @private
+         */
+        _submit: function() {
+            this.element[0].submit();
         },
 
         /*
