@@ -85,8 +85,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Config_Modules_SortedFactory $sortedFactory,
         array $allowedModules = array()
-    )
-    {
+    ) {
         $this->_dirs = $dirs;
         $this->_primaryConfig = $primaryConfig;
         $this->_allowedModules = $allowedModules;

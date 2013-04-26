@@ -54,12 +54,16 @@ class Mage_Core_Model_Config_Loader_ModulesTest extends PHPUnit_Framework_TestCa
     protected function setUp()
     {
         $this->_configMock = $this->getMock('Mage_Core_Model_Config_Base', array(), array(), '', false, false);
-        $this->_primaryConfigMock = $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false, false);
-        $this->_resourceConfigMock = $this->getMock('Mage_Core_Model_Config_Resource', array(), array(), '', false, false);
+        $this->_primaryConfigMock =
+            $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false, false);
+        $this->_resourceConfigMock =
+            $this->getMock('Mage_Core_Model_Config_Resource', array(), array(), '', false, false);
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
         $this->_dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
-        $this->_fileReaderMock = $this->getMock('Mage_Core_Model_Config_Loader_Modules_File', array(), array(), '', false);
-        $this->_sortedFactoryMock = $this->getMock('Mage_Core_Model_Config_Modules_SortedFactory', array('create'), array(), '', false);
+        $this->_fileReaderMock =
+            $this->getMock('Mage_Core_Model_Config_Loader_Modules_File', array(), array(), '', false);
+        $this->_sortedFactoryMock =
+            $this->getMock('Mage_Core_Model_Config_Modules_SortedFactory', array('create'), array(), '', false);
         $arguments = array(
             'primaryConfig' => $this->_primaryConfigMock,
             'resourceConfig' => $this->_resourceConfigMock,
@@ -70,7 +74,6 @@ class Mage_Core_Model_Config_Loader_ModulesTest extends PHPUnit_Framework_TestCa
         );
         $helper = new Magento_Test_Helper_ObjectManager($this);
         $this->_model = $helper->getObject('Mage_Core_Model_Config_Loader_Modules', $arguments);
-
     }
 
     public function testLoad()
@@ -112,4 +115,3 @@ class Mage_Core_Model_Config_Loader_ModulesTest extends PHPUnit_Framework_TestCa
         $this->_model->load($this->_configMock);
     }
 }
-
