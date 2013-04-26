@@ -16,4 +16,48 @@
             <active>false</active>
         </Saas_JobNotification>
     </modules>
+    <global>
+        <tasks>
+            <refresh_catalog>
+                <notification>
+                    <enabled>true</enabled>
+                    <title>Catalog refresh task</title>
+                </notification>
+            </refresh_catalog>
+            <catalogrule_apply_all>
+                <notification>
+                    <enabled>false</enabled>
+                </notification>
+            </catalogrule_apply_all>
+            <regenerate_config>
+                <notification>
+                    <enabled>true</enabled>
+                    <enabled>Regenerate config task</enabled>
+                </notification>
+            </regenerate_config>
+            <refresh_cache>
+                <notification>
+                    <enabled>true</enabled>
+                    <title>Refresh cache task</title>
+                </notification>
+            </refresh_cache>
+        </tasks>
+        <events>
+            <job_complete>
+                <observers>
+                    <saas_job_notification>
+                        <class>Saas_JobNotification_Model_Inbox</class>
+                        <method>addNotification</method>
+                    </saas_job_notification>
+                </observers>
+            </job_complete>
+        </events>
+        <di>
+            <Saas_JobNotification_Model_Config>
+                <arguments>
+                    <config>Mage_Core_Model_Config</config>
+                </arguments>
+            </Saas_JobNotification_Model_Config>
+        </di>
+    </global>
 </config>
