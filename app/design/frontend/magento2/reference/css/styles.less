@@ -2820,7 +2820,17 @@ div.mage-error {
         }
     }
     margin:0 0 20px;
+    .amount {
+        margin-left: 3px;
+        &:before {
+            content:'(';
+        }
+        &:after {
+            content:')';
+        }
+    }
 }
+
 .data.table.tags {
     .col.photo {
         width:1px;
@@ -2829,6 +2839,7 @@ div.mage-error {
         margin-top:15px;
     }
 }
+
 .tag.edit {
     line-height: 16px;
     strong {

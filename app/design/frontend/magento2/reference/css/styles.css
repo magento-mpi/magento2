@@ -3574,6 +3574,18 @@ div.mage-error {
 .tags.items.cloud .item:first-child {
   margin-left: 0;
 }
+.tags.product .amount,
+.tags.items.cloud .amount {
+  margin-left: 3px;
+}
+.tags.product .amount:before,
+.tags.items.cloud .amount:before {
+  content: '(';
+}
+.tags.product .amount:after,
+.tags.items.cloud .amount:after {
+  content: ')';
+}
 .data.table.tags .col.photo {
   width: 1px;
 }
