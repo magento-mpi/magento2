@@ -26,46 +26,46 @@ class Object extends Constraint
             return;
         }
 
-        $match = array();
+        $matches = array();
         if ($patternProperties) {
-            $match = $this->validatePatternProperties($element, $path, $patternProperties);
+            $matches = $this->validatePatternProperties($element, $path, $patternProperties);
         }
 
-        if (empty($match) && $definition) {
+        if ($definition) {
             // validate the definition properties
             $this->validateDefinition($element, $definition, $path);
         }
 
         // additional the element properties
-        $this->validateElement($element, $definition, $path, $additionalProp, $match);
+        $this->validateElement($element, $matches, $definition, $path, $additionalProp);
     }
 
     public function validatePatternProperties($element, $path, $patternProperties)
     {
-        $match = array();
-
+        $matches = array();
         foreach ($patternProperties as $pregex => $schema) {
+            if (@preg_match('/'. $pregex . '/', '') === false) {
+                $this->addError($path, 'The pattern "' . $pregex . '" is invalid');
+                continue;
+            }
             foreach ($element as $i => $value) {
                 if (preg_match('/' . $pregex . '/', $i)) {
+                    $matches[] = $i;
                     $this->checkUndefined($value, $schema ? : new \stdClass(), $path, $i);
-                    $match[] = $i;
                 }
             }
         }
-
-        return $match;
+        return $matches;
     }
 
     /**
-     * Validates the element properties
-     *
      * @param \stdClass $element          Element to validate
+     * @param array     $matches          Matches of patternProperties
      * @param \stdClass $objectDefinition Object definition
      * @param string    $path             Path to test?
      * @param mixed     $additionalProp   Additional properties
-     * @param mixed     $match            Matches of patternProperties
      */
-    public function validateElement($element, $objectDefinition = null, $path = null, $additionalProp = null, $match)
+    public function validateElement($element, $matches, $objectDefinition = null, $path = null, $additionalProp = null)
     {
         foreach ($element as $i => $value) {
 
@@ -78,19 +78,20 @@ class Object extends Constraint
             }
 
             //no additional properties allowed
-            if (empty($match) && $additionalProp === false && $this->inlineSchemaProperty !== $i && !$definition) {
+            if (!in_array($i, $matches) && $additionalProp === false && $this->inlineSchemaProperty !== $i && !$definition) {
                 $this->addError($path, "The property " . $i . " is not defined and the definition does not allow additional properties");
             }
 
             // additional properties defined
-            if (!in_array($i, $match) && $additionalProp && !$definition) {
+            if (!in_array($i, $matches) && $additionalProp && !$definition) {
                 $this->checkUndefined($value, $additionalProp, $path, $i);
             }
 
             // property requires presence of another
             $require = $this->getProperty($definition, 'requires');
             if ($require && !$this->getProperty($element, $require)) {
-                $this->addError($path, "the presence of the property " . $i . " requires that " . $require . " also be present");
+                $this->addError(
+                    $path, "the presence of the property " . $i . " requires that " . $require . " also be present");
             }
 
             //normal property verification
