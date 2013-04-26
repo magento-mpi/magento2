@@ -69,7 +69,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="role_name">
                         <arguments>
-                            <header translate="true" module="Mage_User">Role Name</header>
+                            <header translate="true" module="Mage_User">Role</header>
                             <type>text</type>
                             <index>role_name</index>
                         </arguments>
