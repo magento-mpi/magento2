@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * Command model for processing ResetAdminPassword request
  *
  * {license_notice}
  *
