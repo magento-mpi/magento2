@@ -47,7 +47,6 @@
         </block>
 
         <!-- <remove name="tags_popular" /> -->
-        <remove name="report.bugs" />
         <remove name="catalog.compare.sidebar"/>
         <!-- <remove name="product_tag_list" /> -->
 
