@@ -38,6 +38,9 @@
                     this.options.bundleConfig.selected[ele] = [this.options.bundleConfig.defaultValues[ele]];
                 }
             });
+
+            // Trigger Event to update Summary box
+            this.element.trigger('updateProductSummary', [{config: this.options.bundleConfig}]);
             this.reloadPrice();
         },
 
@@ -93,7 +96,7 @@
                                 config.selected[parts[2]] = [selected];
                             }
                         } else {
-                            config.selected[parts[2]].splice($.inArray(element.val(), config.selected[parts[2]]), 1);
+                            config.selected[parts[2]] = $.grep(config.selected[parts[2]], function(e) {return e[0] != element.val();});
                         }
                     }
                 }
@@ -105,6 +108,8 @@
                 }
                 this.populateQty(parts[2], element.val());
             }
+            // Trigger Event to update Summary box
+            this.element.trigger('updateProductSummary', [{config: this.options.bundleConfig}]);
             this.reloadPrice();
         },
 
