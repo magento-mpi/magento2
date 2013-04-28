@@ -20,12 +20,13 @@ interface Enterprise_Queue_Model_QueueInterface
      * @param array $params
      * @param string $priority
      */
-    public function addTask($taskName, $params, $priority);
+    public function addTask($taskName, array $params, $priority);
 
     /**
      * Stop task
      *
      * @param string $taskName
+     * @return bool
      */
     public function stopTask($taskName);
 
@@ -33,6 +34,7 @@ interface Enterprise_Queue_Model_QueueInterface
      * Retrieve task status
      *
      * @param string $taskName
+     * @return bool
      */
-    public function getStatus($taskName);
+    public function isRunning($taskName);
 }

@@ -43,18 +43,4 @@ class Enterprise_Queue_Model_Config_Gearman implements Magento_Queue_Client_Conf
     {
         return $this->_config->getNode(self::XML_PATH_QUEUE_ADAPTER_GEARMAN_SERVERS);
     }
-
-    /**
-     * Return additional params for every task
-     *
-     * @return array
-     */
-    public function getTaskParams()
-    {
-        $result = $this->_config->getNode(self::XML_PATH_QUEUE_ADAPTER_GEARMAN_TASK_PARAMS);
-        if ($result === false) {
-            return array();
-        }
-        return $result->asArray();
-    }
 }

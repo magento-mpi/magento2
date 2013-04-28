@@ -31,7 +31,6 @@ class Magento_Queue_Client_Gearman implements Magento_Queue_ClientInterface
     {
         $this->_adaptedClient = $adaptedClient ?: new GearmanClient();
         $this->_adaptedClient->addServers($config->getServers());
-        $this->_taskParams = $config->getTaskParams();
     }
 
     /**
@@ -40,14 +39,11 @@ class Magento_Queue_Client_Gearman implements Magento_Queue_ClientInterface
      * @param string $name
      * @param array $params
      * @param mixed $priority
+     * @param string $uniqueId
      * @return string
      */
-    public function addTask($name, $params, $priority = null)
+    public function addBackgroundTask($name, $params, $priority = null, $uniqueId = null)
     {
-        if ($this->_taskParams) {
-            $params = array_merge_recursive($this->_taskParams, $params);
-        }
-
         switch ($priority) {
             case self::TASK_PRIORITY_HIGH:
                 $priorityMethodName = 'doHighBackground';
@@ -60,6 +56,6 @@ class Magento_Queue_Client_Gearman implements Magento_Queue_ClientInterface
                 $priorityMethodName = 'doBackground';
                 break;
         }
-        $this->_adaptedClient->$priorityMethodName($name, json_encode($params));
+        $this->_adaptedClient->$priorityMethodName($name, json_encode($params), $uniqueId);
     }
 }
