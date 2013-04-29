@@ -97,7 +97,6 @@
                     </enterprise_customerbalance>
                 </observers>
             </sales_model_service_quote_submit_failure>
-
             <paypal_payment_cancel>
                 <observers>
                     <enterprise_customerbalance>
