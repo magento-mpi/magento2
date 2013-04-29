@@ -61,25 +61,19 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels extends Mage_Backen
     }
 
     /**
-     * Retrieve attribute option values if attribute input type select or multiselect
+     * Retrieve frontend labels of attribute for each store
      *
      * @return array
      */
-    public function getOptionValues()
+    public function getLabelValues()
     {
-        $values = $this->_getData('option_values');
-        if ($values === null) {
-            $values = array();
-
-            $attribute = $this->getAttributeObject();
-            $optionCollection = $this->_getOptionValuesCollection($attribute);
-            if ($optionCollection) {
-                $values = $this->_prepareOptionValues($attribute, $optionCollection);
+        $values = (array)$this->getAttributeObject()->getFrontend()->getLabel();
+        $storeLabels = $this->getAttributeObject()->getStoreLabels();
+        foreach ($this->getStores() as $store) {
+            if ($store->getId() != 0) {
+                $values[$store->getId()] = isset($storeLabels[$store->getId()]) ? $storeLabels[$store->getId()] : '';
             }
-
-            $this->setData('option_values', $values);
         }
-
         return $values;
     }
 
@@ -88,7 +82,7 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels extends Mage_Backen
      *
      * @return Mage_Eav_Model_Entity_Attribute_Abstract
      */
-    public function getAttributeObject()
+    private function getAttributeObject()
     {
         return $this->_registry->registry('entity_attribute');
     }

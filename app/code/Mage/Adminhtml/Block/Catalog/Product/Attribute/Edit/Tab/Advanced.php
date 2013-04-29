@@ -21,11 +21,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extends M
     /**
      * Adding product form elements for editing attribute
      *
-     * @return Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
+     * @return Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced
      */
     protected function _prepareForm()
     {
-        $attributeObject = Mage::registry('entity_attribute');
+        $attributeObject = $this->getAttributeObject();
 
         $form = new Varien_Data_Form(array(
             'id' => 'edit_form',
@@ -173,12 +173,23 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extends M
     }
 
     /**
-     * Retrieve additional element types for product attributes
+     * Initialize form fileds values
      *
-     * @return array
+     * @return Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced
      */
-    protected function _getAdditionalElementTypes()
+    protected function _initFormValues()
     {
-        return array('apply' => 'Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Apply');
+        $this->getForm()->addValues($this->getAttributeObject()->getData());
+        return parent::_initFormValues();
+    }
+
+    /**
+     * Retrieve attribute object from registry
+     *
+     * @return Mage_Eav_Model_Entity_Attribute_Abstract
+     */
+    private function getAttributeObject()
+    {
+        return Mage::registry('entity_attribute');
     }
 }

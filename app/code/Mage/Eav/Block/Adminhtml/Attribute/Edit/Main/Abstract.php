@@ -74,6 +74,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
                 'label' => $this->__('Attribute Label'),
                 'title' => $this->__('Attribute Label'),
                 'required' => true,
+                'value' => $attributeObject->getFrontendLabel()
             )
         );
 
@@ -101,7 +102,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
 
         $fieldset->addField(
             'is_required',
-            'checkbox',
+            'select',
             array(
                 'name' => 'is_required',
                 'label' => $this->__('Values Required'),

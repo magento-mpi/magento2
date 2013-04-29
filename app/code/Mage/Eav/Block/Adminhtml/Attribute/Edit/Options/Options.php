@@ -39,7 +39,8 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Mage_Backe
     public function __construct(
         Mage_Core_Block_Template_Context $context,
         Mage_Core_Model_StoreManager $storeManager,
-        Mage_Core_Model_Registry $registry, array $data = array()
+        Mage_Core_Model_Registry $registry,
+        array $data = array()
     ) {
         $this->_storeManager = $storeManager;
         $this->_registry = $registry;
@@ -64,7 +65,6 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Mage_Backe
      *
      * @return array
      */
-
     public function getStores()
     {
         if (!$this->hasStores()) {
@@ -143,7 +143,7 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Mage_Backe
         } else {
             return Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
                 ->setAttributeFilter($attribute->getId())
-                ->setPositionOrder('desc', true)
+                ->setPositionOrder('asc', true)
                 ->load();
         }
     }
@@ -214,29 +214,6 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Mage_Backe
     }
 
     /**
-     * Retrieve frontend labels of attribute for each store
-     *
-     * @return array
-     */
-    public function getLabelValues()
-    {
-        $values = array();
-        $values[0] = $this->getAttributeObject()->getFrontend()->getLabel();
-        // it can be array and cause bug
-        $frontendLabel = $this->getAttributeObject()->getFrontend()->getLabel();
-        if (is_array($frontendLabel)) {
-            $frontendLabel = array_shift($frontendLabel);
-        }
-        $storeLabels = $this->getAttributeObject()->getStoreLabels();
-        foreach ($this->getStores() as $store) {
-            if ($store->getId() != 0) {
-                $values[$store->getId()] = isset($storeLabels[$store->getId()]) ? $storeLabels[$store->getId()] : '';
-            }
-        }
-        return $values;
-    }
-
-    /**
      * Retrieve attribute option values for given store id
      *
      * @param integer $storeId
@@ -264,7 +241,7 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Mage_Backe
      *
      * @return Mage_Eav_Model_Entity_Attribute_Abstract
      */
-    public function getAttributeObject()
+    private function getAttributeObject()
     {
         return $this->_registry->registry('entity_attribute');
     }

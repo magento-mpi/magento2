@@ -24,6 +24,13 @@ function toggleApplyVisibility(select) {
         }
     }
 }
+function getFrontTab() {
+    if ($('product_attribute_tabs_front')) {
+        return $('product_attribute_tabs_front').up('li');
+    } else {
+        return $('front_fieldset-wrapper');
+    }
+}
 
 function checkOptionsPanelVisibility(){
     if($('manage-options-panel')){
@@ -173,7 +180,7 @@ function switchDefaultValueField()
 
     switch (currentValue) {
         case 'media_image':
-            $('front_fieldset').hide();
+            getFrontTab().hide();
 
             setRowVisibility('is_required', false);
             setRowVisibility('is_unique', false);
@@ -184,7 +191,7 @@ function switchDefaultValueField()
             case '<?php echo $type; ?>':
                 <?php foreach ($fields as $one): ?>
                     <?php if ($one == '_front_fieldset'): ?>
-                        $('front_fieldset').hide();
+                        getFrontTab().hide();
                     <?php elseif ($one == '_default_value'): ?>
                         defaultValueTextVisibility =
                         defaultValueTextareaVisibility =
@@ -200,7 +207,8 @@ function switchDefaultValueField()
         <?php endforeach; ?>
 
         default:
-            $('front_fieldset').show();
+            getFrontTab().show();
+
             setRowVisibility('is_required', true);
             setRowVisibility('is_unique', true);
             setRowVisibility('frontend_class', true);
@@ -302,5 +310,12 @@ if ($('is_required')) {
     Event.observe($('is_required'), 'change', updateRequriedOptions);
 }
 bindAttributeInputType();
+
+jQuery(function($) {
+    // @todo: refactor collapsable component
+    $('.attribute-popup .collapse')
+        .collapsable()
+        .collapse('hide');
+});
 //]]>
 </script>
