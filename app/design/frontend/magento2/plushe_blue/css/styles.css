@@ -2467,6 +2467,16 @@ div.mage-error {
   font-size: 12px;
   line-height: 12px;
 }
+.cart.summary .block .action.check span {
+  display: inline;
+  color: #d5e6ec;
+  text-decoration: none;
+}
+.cart.summary .block .action.check span:focus,
+.cart.summary .block .action.check span:active,
+.cart.summary .block .action.check span:hover {
+  color: #74dc74;
+}
 .cart.table.wrapper.detailed + .cart.summary {
   margin-top: 54px;
 }
