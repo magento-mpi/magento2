@@ -27,13 +27,10 @@
             validationUrl: '<?php echo $this->getValidationUrl() ?>',
             highlight: function(element) {
                 var detailsElement = jQuery(element).closest('details');
-                if (detailsElement) {
-                    var detailsClass = detailsElement.attr('class');
-                    if (detailsClass && detailsClass === 'details') {
-                        var summaryElement = detailsElement.find('summary');
-                        if (summaryElement) {
-                            summaryElement.trigger('click');
-                        }
+                if (detailsElement.length && detailsElement.is('.details')) {
+                    var summaryElement = detailsElement.find('summary');
+                    if (summaryElement.length && summaryElement.attr('aria-expanded') === "false") {
+                        summaryElement.trigger('click');
                     }
                 }
             }
