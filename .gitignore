@@ -10,6 +10,7 @@ atlassian*
 /sitemap
 /.htaccess.orig
 /.idea
+/.gitattributes
 /app/config_sandbox
 /app/etc/local.xml
 /app/etc/local.xml.*
