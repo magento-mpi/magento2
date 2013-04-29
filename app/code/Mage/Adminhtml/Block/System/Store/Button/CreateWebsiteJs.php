@@ -33,11 +33,11 @@ class Mage_Adminhtml_Block_System_Store_Button_CreateWebsiteJs extends Mage_Back
     /**
      * Html id of the button that is managed by this block's Javascript
      *
-     * @param string $id
+     * @param string $htmlId
      */
-    public function setHtmlId($id)
+    public function setHtmlId($htmlId)
     {
-        $this->_htmlId = $id;
+        $this->_htmlId = $htmlId;
     }
 
     /**
