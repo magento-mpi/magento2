@@ -963,9 +963,43 @@ button.primary.disabled:hover,
     padding: 0;
 }
 
-.actions-split.active .dropdown-menu > li > .item {
+.actions-split .dropdown-menu > li > .item {
     display: block;
     padding: 6px 10px 5px;
+    color: #333;
+    text-decoration: none;
+}
+
+.actions-select .dropdown-menu {
+    margin-top: 1px;
+    min-width: 33px;
+}
+
+.actions-select .dropdown-menu li {
+    padding: 5px;
+}
+
+.actions-select .action-toggle,
+.actions-select .action-toggle:hover,
+.actions-select .action-toggle:active,
+.actions-select .action-toggle:focus {
+    background: #fff;
+    padding: 4px 4px 4px 7px;
+    color: #888;
+    filter: none;
+}
+
+.actions-select .action-toggle > span {
+    display: inline-block;
+    float: left;
+    font-family: Arial, Verdana, sans-serif;
+    margin-right: 3px;
+}
+
+.actions-select .action-toggle:before {
+    display: inline-block;
+    float: right;
+    color: #888;
 }
 
 /*
@@ -3372,7 +3406,7 @@ table tbody tr:nth-child(odd):hover th {
 
 .store-switcher-alt .store-selected {
     font: 12px/1.333 "CallunaSans", Arial, sans-serif;
-    font-weight: 600;
+    font-weight: 400;
     color: #676056;
     cursor: pointer;
 }
@@ -4887,11 +4921,11 @@ table .col-draggable .draggable-handle {
     color: red;
 }
 
-.data-table .actions-split {
+.data-table .actions .actions-split {
     margin-top: 4px;
 }
 
-.data-table .actions-split [class^='action-'] {
+.data-table .actions .actions-split [class^='action-'] {
     background: none;
     border: 1px solid #c8c3b5;
     padding: 3px 5px;
@@ -4899,28 +4933,28 @@ table .col-draggable .draggable-handle {
     font-size: 12px;
 }
 
-.data-table .actions-split [class^='action-']:first-child {
+.data-table .actions .actions-split [class^='action-']:first-child {
     border-right: 0;
 }
 
-.data-table .actions-split .dropdown-menu {
+.data-table .actions .actions-split .dropdown-menu {
     margin-top: -1px;
 }
 
-.data-table .actions-split .dropdown-menu a {
+.data-table .actions .actions-split .dropdown-menu a {
     display: block;
     color: #333;
     text-decoration: none;
 }
 
-.data-table .actions-split.active .action-toggle {
+.data-table .actions .actions-split.active .action-toggle {
     position: relative;
     border-bottom-right-radius: 0;
     box-shadow: none;
     background: #fff;
 }
 
-.data-table .actions-split.active .action-toggle:after {
+.data-table .actions .actions-split.active .action-toggle:after {
     position: absolute;
     top: 100%;
     left: 0;
@@ -4932,7 +4966,7 @@ table .col-draggable .draggable-handle {
     z-index: 2;
 }
 
-.data-table .actions-split.active .dropdown-menu {
+.data-table .actions .actions-split.active .dropdown-menu {
     border-top-right-radius: 0;
 }
 

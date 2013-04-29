@@ -543,8 +543,17 @@
     white-space: nowrap;
 }
 
+#configurable-attributes-container .field-change-pricing {
+    width: 120px;
+    margin: 0 auto;
+}
+
 #configurable-attributes-container .field-change-pricing .field {
     float: left;
+}
+
+#configurable-attributes-container .field-change-pricing .field-pricing-value {
+    width: 75px;
 }
 
 @media screen and (max-width: 960px) {
