@@ -10,14 +10,25 @@
 class Mage_Core_Model_Store_Group_Limitation
 {
     /**
+     * Store group resource model
+     *
      * @var Mage_Core_Model_Resource_Store_Group
      */
     private $_resource;
 
     /**
+     * Allowed quantity
+     *
      * @var int
      */
-    private $_allowedQty = 0;
+    private $_allowedQty = null;
+
+    /**
+     * Is entity quantity limited
+     *
+     * @var bool
+     */
+    private $_isLimited = false;
 
     /**
      * Determine restriction
@@ -28,7 +39,13 @@ class Mage_Core_Model_Store_Group_Limitation
     public function __construct(Mage_Core_Model_Resource_Store_Group $resource, Mage_Core_Model_Config $config)
     {
         $this->_resource = $resource;
-        $this->_allowedQty = (int)$config->getNode('limitations/store_group');
+
+        $allowedQty = (string)$config->getNode('limitations/store_group');
+        if ('' === $allowedQty) {
+            return;
+        }
+        $this->_allowedQty = (int)$allowedQty;
+        $this->_isLimited = true;
     }
 
     /**
@@ -38,7 +55,7 @@ class Mage_Core_Model_Store_Group_Limitation
      */
     public function canCreate()
     {
-        if ($this->_allowedQty > 0) {
+        if ($this->_isLimited) {
             return $this->_resource->countAll() < $this->_allowedQty;
         }
         return true;
