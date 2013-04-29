@@ -29,16 +29,16 @@ class Mage_Core_Service_Helper_Filters extends Mage_Core_Service_Helper_Abstract
         parent::__construct($context);
         $moduleDir = Mage::getModuleDir('etc', 'Mage_Core');
         $retriever = new JsonSchema\Uri\UriRetriever();
-        $this->_schema = $retriever->retrieve('file://' . $moduleDir . DS . 'filters-schema.json');
+        $this->_schema = $retriever->retrieve('file://' . $moduleDir . DS . 'json' . DS . 'filters-schema.json');
         $refResolver = new JsonSchema\RefResolver($retriever);
-        $refResolver->resolve($this->_schema, 'file://' . $moduleDir);
+        $refResolver->resolve($this->_schema, 'file://' . $moduleDir . DS . 'json');
         $this->_validator = new JsonSchema\Validator();
     }
 
     /**
      * Validate the filter value against the JSON schema.
      *
-     * @param string $filter - The filter value (e.g. {"name":{"$eq":"iphone"}})
+     * @param string $filter - The filter value (e.g. {"name":{"$eq":"tablet"}})
      * @return bool - True if the filter value validates against the schema
      * @throws Mage_Core_Exception
      * @throws JsonSchema\Exception\JsonDecodingException
@@ -69,8 +69,7 @@ class Mage_Core_Service_Helper_Filters extends Mage_Core_Service_Helper_Abstract
     {
         $schemaErrors = '';
         foreach ($errors as $error) {
-            $schemaErrors .=
-                $this->__(sprintf("[%s] %s", $error['property'], $error['message'])) . PHP_EOL;
+            $schemaErrors .= '[' . $error['property'] . '] ' . $error['message'] . PHP_EOL;
         }
         return $schemaErrors;
     }

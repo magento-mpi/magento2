@@ -2,14 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Service
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 class Mage_Core_Service_Helper_FiltersTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Mage_Core_Service_Helper_Filters
+     */
     private static $_helper;
 
     public static function setUpBeforeClass()
@@ -70,7 +70,7 @@ class Mage_Core_Service_Helper_FiltersTest extends PHPUnit_Framework_TestCase
     public function operatorExpressionProvider()
     {
         return array(
-            array('{"name":{"$eq":"iphone"}}'),
+            array('{"name":{"$eq":"phone"}}'),
             array('{"price":{"$ne":25.00}}'),
             array('{"is_in_stock":{"$eq":true}}'),
             array('{"price":{"$lt":99.99}}'),
@@ -89,7 +89,7 @@ class Mage_Core_Service_Helper_FiltersTest extends PHPUnit_Framework_TestCase
     public function unaryOperatorExpressionProvider()
     {
         return array(
-            array('{"name":{"$not":{"$eq":"iphone"}}}'),
+            array('{"name":{"$not":{"$eq":"phone"}}}'),
             array('{"qty":{"$not":{"$ne":0}}}'),
             array('{"is.available":{"$not":{"$eq":false}}}'),
             array('{"price":{"$not":{"$gt":49.99}}}'),
@@ -105,7 +105,7 @@ class Mage_Core_Service_Helper_FiltersTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('{"$and":[{"price":{"$gt":29.99}},{"price":{"$lt":69.99}}]}'),
-            array('{"$or":[{"name":{"$eq":"ipod"}},{"name":{"$eq":"iphone"}}]}'),
+            array('{"$or":[{"name":{"$eq":"tablet"}},{"name":{"$eq":"phone"}}]}'),
             array('{"$or":[{"qty":{"$ne":0}},{"is_in_stock":{"$eq":true}},{"status":{"$eq":"active"}}]}'),
             array('{"$and":[{"qty":{"$ne":0}},{"is.available":{"$ne":false}},{"status":{"$eq":"active"}}]}'),
             array('{"$or":[{"qty":{"$not":{"$eq":0}}},{"is-in-stock":{"$not":{"$eq":false}}}]}')
@@ -118,9 +118,9 @@ class Mage_Core_Service_Helper_FiltersTest extends PHPUnit_Framework_TestCase
     public function invalidJsonProvider()
     {
         return array(
-            array('{name:{"$eq":iphone}}'),
+            array('{name:{"$eq":mobile}}'),
             array('{"qty":{"$gt"0}}'),
-            array('{"name"{"$eq":ipad}}'),
+            array('{"name"{"$eq":tablet}}'),
             array('{"is_in_stock":{"$eq":true}'),
             array('{qty:{"$gte":}}')
         );
@@ -132,11 +132,11 @@ class Mage_Core_Service_Helper_FiltersTest extends PHPUnit_Framework_TestCase
     public function invalidSchemaJsonProvider()
     {
         return array(
-            array('{"name":{"not":{"$eq":"iphone"}}}'),
+            array('{"name":{"not":{"$eq":"phone"}}}'),
             array('{"category":{"$not":{"eq":"books"}}}'),
             array('{"price":{"not":{"eq":29.99}}}'),
-            array('{"name":{"eq":"ipad"}}'),
-            array('{"name%#":{"$eq":"ipad"}}'),
+            array('{"name":{"eq":"tablet"}}'),
+            array('{"name%#":{"$eq":"tablet"}}'),
             array('{"qty":{"gt":0}}'),
             array('{"is_in_stock":{"foo":false}}'),
             array('{"$and":[{"qty":{"$gt":0}}]}'),
@@ -144,7 +144,7 @@ class Mage_Core_Service_Helper_FiltersTest extends PHPUnit_Framework_TestCase
             array('{"foo":[{"price":{"$gt":19.99}},{"price":{"$lt":49.99}}]}'),
             array('{"$and":[{"qty":{"$gt":0}},{"is.in.stock":{"eq":true}}]}'),
             array('{"$or":[{"qty":{"gt":0}},{"is_in_stock":{"$eq":true}}]}'),
-            array('{"$and":[{"name":{"ne":"ipad"}},{"category":{"eq":"tablets"}}]}'),
+            array('{"$and":[{"name":{"ne":"tablet"}},{"category":{"eq":"tablets"}}]}'),
             array('{"$or":[{"qty$#":{"ne":0}},{"is&in&stock":{"gt":0}}]}'),
             array('{"$and":[{"qty":{"$ne":0}},{"is_in_stock":true},{"status":{"$eq":"active"}}]}'),
         );
