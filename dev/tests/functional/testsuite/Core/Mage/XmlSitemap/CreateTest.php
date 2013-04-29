@@ -38,11 +38,6 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
         $this->systemConfigurationHelper()->configure('XmlSitemap/admin_disable_push_to_robots');
     }
 
-    protected function tearDownAfterTest()
-    {
-        $this->closeLastWindow();
-    }
-
     /**
      * <p>Verifying default value of option "Enable Submission to Robots.txt"</p>
      *
@@ -98,7 +93,7 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
         $actualRobotsFile = $this->getFile($robotsUrl);
 
         //Find sitemap link in the robots.txt
-        $this->assertContains($sitemapUri, $actualRobotsFile, 'Stored Robots.txt don\'t have current sitemap!');
+        $this->assertContains($sitemapUrl, $actualRobotsFile, 'Stored Robots.txt don\'t have current sitemap!');
     }
 
     /**
