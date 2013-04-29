@@ -164,8 +164,13 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
              */
             foreach ($files['name'] as $groupName => $group) {
                 $data = $this->_processNestedGroups($group);
-                if (false == empty($data)) {
-                    $groups[$groupName] = $data;
+                if (!empty($data)) {
+                    if (!empty($groups[$groupName])) {
+                        $groups[$groupName] = array_merge_recursive((array)$groups[$groupName], $data);
+                    }
+                    else {
+                        $groups[$groupName] = $data;
+                    }
                 }
             }
         }
@@ -184,7 +189,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
 
         if (isset($group['fields']) && is_array($group['fields'])) {
             foreach ($group['fields'] as $fieldName => $field) {
-                if (false == empty($field['value'])) {
+                if (!empty($field['value'])) {
                     $data['fields'][$fieldName] = array('value' => $field['value']);
                 }
             }
@@ -193,7 +198,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
         if (isset($group['groups']) && is_array($group['groups'])) {
             foreach ($group['groups'] as $groupName => $groupData) {
                 $nestedGroup = $this->_processNestedGroups($groupData);
-                if (false == empty($nestedGroup)) {
+                if (!empty($nestedGroup)) {
                     $data['groups'][$groupName] = $nestedGroup;
                 }
             }
