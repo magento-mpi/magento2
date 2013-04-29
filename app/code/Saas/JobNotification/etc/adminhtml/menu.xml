@@ -3,15 +3,12 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Saas_JobNotifications
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
     <menu>
-        <add id="Saas_JobNotification::menu_group" title="Task Queue" module="Saas_JobNotification" sortOrder="45" parent="Mage_Reports::report" resource="Saas_JobNotification::notification_grid"/>
-        <add id="Saas_JobNotification::grid" title="Notifications" module="Saas_JobNotification" sortOrder="10" parent="Saas_JobNotification::menu_group" action="adminhtml/jobNotification/index" resource="Saas_JobNotification::notification_grid"/>
+        <add id="Saas_JobNotification::grid" title="Task Notifications" module="Saas_JobNotification" sortOrder="50" parent="Mage_Adminhtml::system_other_settings" action="jobnotification/view/index" resource="Saas_JobNotification::notification_grid" />
     </menu>
 </config>
