@@ -48,16 +48,24 @@ class Saas_JobNotification_Model_InboxTest extends PHPUnit_Framework_TestCase
 
     public function testAddNotificationWithNotAllowedTask()
     {
-        $this->markTestIncomplete('Need to be implemented in scope of MAGETWO-9658');
-        //TODO: Implement logic here
+        $this->_configMock
+            ->expects($this->once())
+            ->method('isNotificationAllowed')
+            ->will($this->returnValue(true));
+        $notificationMock = $this->getMock('Varien_Object', array(), array(), '', false);
+        $this->_factoryMock
+            ->expects($this->once())
+            ->method('create')
+        ->will($this->returnValue($notificationMock));
         $this->_model->addNotification($this->_observerMock);
     }
 
     public function testAddNotificationWithAllowedTask()
     {
-        $this->markTestIncomplete('Need to be implemented in scope of MAGETWO-9658');
-        //TODO: Implement logic here
-
+        $this->_configMock
+            ->expects($this->once())
+            ->method('isNotificationAllowed')
+            ->will($this->returnValue(false));
         $this->_model->addNotification($this->_observerMock);
     }
 }
