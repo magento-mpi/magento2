@@ -63,6 +63,9 @@ class Saas_ImportExport_Model_Export extends Mage_ImportExport_Model_Export
                 ->setCurrentPage($page)
                 ->setWriter($writer)
                 ->export();
+            if ($this->getIsLast()) {
+                $writer->renameTemporaryFile();
+            }
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_getEntityAdapter()->setIsLast();
@@ -72,6 +75,49 @@ class Saas_ImportExport_Model_Export extends Mage_ImportExport_Model_Export
             }
         }
         unset($writer);
+        return $this;
+    }
+
+    /**
+     * Retrieve last export file information or false if not exists
+     *
+     * @return bool|Varien_Object
+     */
+    public function getLastExportInfo()
+    {
+        $exportFiles = glob('{' . $this->getDestinationDir() .'/*.csv' . '}', GLOB_BRACE);
+        if (!count($exportFiles)) {
+            return false;
+        }
+        foreach ($exportFiles as &$exportFile) {
+            $path = $exportFile;
+            $timestamp = filemtime($path);
+            $dateSuffix   = date('Ymd_His', $timestamp);
+            $downloadName = preg_replace('/^(.+)(\.[^.]+)$/', '\1_' . $dateSuffix . '\2', basename($path));
+            $exportFile = new Varien_Object(array(
+                'path' => $path,
+                'download_name' => $downloadName,
+                'size' => filesize($path),
+                'timestamp' => $timestamp,
+            ));
+        }
+        $lastFile = reset($exportFiles);
+        return $lastFile;
+    }
+
+    /**
+     * Remove last export file
+     *
+     * @return Saas_ImportExport_Model_Export
+     */
+    public function removeLastExportFile()
+    {
+        $exportFiles = glob('{' . $this->getDestinationDir() . '/*}', GLOB_BRACE);
+        foreach ($exportFiles as $exportFile) {
+            if (!unlink($exportFile)) {
+                Mage::throwException(Mage::helper('Saas_ImportExport_Helper_Data')->__('File has not been removed'));
+            }
+        }
         return $this;
     }
 
@@ -88,22 +134,13 @@ class Saas_ImportExport_Model_Export extends Mage_ImportExport_Model_Export
 
             if (isset($validWriters[$this->getFileFormat()])) {
                 try {
-                    $arguments = array(
-                        'path' => $this->getDestination()
-                    );
+                    $arguments = array('destination' => $this->getDestination());
                     $this->_writer = Mage::getModel($validWriters[$this->getFileFormat()]['model'], $arguments);
+
                 } catch (Exception $e) {
                     Mage::logException($e);
                     Mage::throwException(
-                        Mage::helper('Mage_ImportExport_Helper_Data')->__('Invalid entity model')
-                    );
-                }
-                if (! $this->_writer instanceof Saas_ImportExport_Model_Export_Adapter_Abstract) {
-                    Mage::throwException(
-                        Mage::helper('Saas_ImportExport_Helper_Data')
-                            ->__('Adapter object must be an instance of %s',
-                                'Saas_ImportExport_Model_Export_Adapter_Abstract'
-                            )
+                        Mage::helper('Saas_ImportExport_Helper_Data')->__('Invalid entity model')
                     );
                 }
             } else {

@@ -26,16 +26,16 @@ abstract class Saas_ImportExport_Model_Export_Adapter_Abstract
     /**
      * Adapter object constructor.
      *
-     * @param string|array|null $destination OPTIONAL Destination file path.
+     * @param string $destination OPTIONAL Destination file path.
+     * @param bool $createPath Create destination path
      * @throws Exception
      */
-    final public function __construct($destination = null)
+    final public function __construct($destination, $createPath = true)
     {
-        if (is_array($destination) && array_key_exists('path', $destination)) {
+        if ($destination && $createPath) {
             $lib = new Varien_Io_File();
             $lib->setAllowCreateFolders(true)
-                ->createDestinationDir(dirname($destination['path']));
-            $destination = $destination['path'];
+                ->createDestinationDir(dirname($destination));
         }
 
         /** @var $helper Mage_ImportExport_Helper_Data */
@@ -74,6 +74,13 @@ abstract class Saas_ImportExport_Model_Export_Adapter_Abstract
      */
     abstract public function truncate();
 
+    /**
+     * Set column names.
+     *
+     * @param array $headerColumns
+     * @param boolean $writeToFile
+     */
+    abstract protected function _setHeaderCols(array $headerColumns, $writeToFile = true);
 
     /**
      * MIME-type for 'Content-Type' header.
@@ -109,7 +116,6 @@ abstract class Saas_ImportExport_Model_Export_Adapter_Abstract
         return $this;
     }
 
-
     /**
      * Get contents of export file
      *
@@ -131,25 +137,18 @@ abstract class Saas_ImportExport_Model_Export_Adapter_Abstract
     }
 
     /**
-     * Set column names.
+     * Rename temporary file if it is last task
      *
-     * @param array $headerColumns
-     * @param boolean $writeToFile
      * @throws Exception
-     * @return Mage_ImportExport_Model_Export_Adapter_Abstract
+     * @return Saas_ImportExport_Model_Export_Adapter_Abstract
      */
-    protected function _setHeaderCols(array $headerColumns, $writeToFile = true)
+    public function renameTemporaryFile()
     {
-        if (null !== $this->_headerCols && $writeToFile) {
-            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Header column names already set'));
-        }
-        if ($headerColumns) {
-            foreach ($headerColumns as $columnName) {
-                $this->_headerCols[$columnName] = false;
-            }
-            if ($writeToFile) {
-                fputcsv($this->_fileHandler, array_keys($this->_headerCols), $this->_delimiter, $this->_enclosure);
-            }
+        $destination = $this->_destination . '.' . $this->getFileExtension();
+        if (!rename($this->_destination, $destination)) {
+            Mage::throwException(
+                Mage::helper('Saas_ImportExport_Helper_Data')->__('Temporary export file has not been renamed')
+            );
         }
         return $this;
     }

@@ -10,7 +10,10 @@
 <layout>
     <adminhtml_export_index>
         <reference name="content">
-            <block type="Mage_Adminhtml_Block_Template" template="Saas_ImportExport::export/status.phtml" name="export.status" alias="export_before" before="-"/>
+            <block type="Saas_ImportExport_Block_Adminhtml_Export_Result" template="Saas_ImportExport::export/result.phtml" name="export.result" alias="export_before" before="-">
+                <block type="Saas_ImportExport_Block_Adminhtml_Export_Result_Download" template="Saas_ImportExport::export/result/download.phtml" name="export.result.download" alias="export_download"/>
+            </block>
+            <block type="Saas_ImportExport_Block_Adminhtml_Export_Status" template="Saas_ImportExport::export/status.phtml" name="export.status" alias="export_after" after="-"/>
         </reference>
     </adminhtml_export_index>
 </layout>

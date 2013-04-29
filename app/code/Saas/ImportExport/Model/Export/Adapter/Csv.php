@@ -48,10 +48,6 @@ class Saas_ImportExport_Model_Export_Adapter_Csv extends Saas_ImportExport_Model
      */
     protected function _init()
     {
-        $this->_destination = $this->_destination . '.' . $this->getFileExtension();
-        if (is_file($this->_destination) && !is_writable($this->_destination)) {
-            Mage::throwException(Mage::helper('Saas_ImportExport_Helper_Data')->__('Destination file is not writable'));
-        }
         $this->_fileHandler = fopen($this->_destination, 'a+');
         return $this;
     }
@@ -99,8 +95,38 @@ class Saas_ImportExport_Model_Export_Adapter_Csv extends Saas_ImportExport_Model
     }
 
     /**
+     * Set column names.
      *
-     * Truncate destination dir
+     * @param array $headerColumns
+     * @param boolean $writeToFile
+     * @throws Exception
+     * @return Mage_ImportExport_Model_Export_Adapter_Abstract
+     */
+    protected function _setHeaderCols(array $headerColumns, $writeToFile = true)
+    {
+        if (null !== $this->_headerCols && $writeToFile) {
+            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Header column names already set'));
+        }
+        if ($headerColumns) {
+            foreach ($headerColumns as $columnName) {
+                $this->_headerCols[$columnName] = false;
+            }
+            if ($writeToFile) {
+                fputcsv(
+                    $this->_fileHandler,
+                    array_keys($this->_headerCols),
+                    $this->_delimiter,
+                    $this->_enclosure
+                );
+            }
+        }
+        return $this;
+    }
+    /**
+     *
+     * Truncate export-entity files
+     *
+     * Truncate export-entity files
      *
      * @return boolean
      */
@@ -112,7 +138,7 @@ class Saas_ImportExport_Model_Export_Adapter_Csv extends Saas_ImportExport_Model
             }
 
             //Remove previous exports
-            $exportFiles = glob('{' . dirname($this->_destination) . DS . '*.' . $this->getFileExtension() . '}', GLOB_BRACE);
+            $exportFiles = glob('{' . dirname($this->_destination) . DS . '*' . '}', GLOB_BRACE);
             foreach ($exportFiles as $exportFile) {
                 if (!unlink($exportFile)) {
                     return false;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Export entity product model
+ * Export entity product class
  *
  * {license_notice}
  *
@@ -8,7 +8,6 @@
  * @license     {license_link}
  * @method Saas_ImportExport_Model_Export_Adapter_Abstract getWriter getWriter()
  */
-
 class Saas_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Model_Export_Entity_Product
     implements Saas_ImportExport_Model_Export_Entity_Interface
 {
@@ -30,6 +29,19 @@ class Saas_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
      * @var int
      */
     protected $_page = 1;
+
+    /**
+     * Product entity export constructor
+     * @link https://jira.corp.x.com/browse/MAGETWO-9687
+     */
+    public function __construct()
+    {
+        $this->_indexValueAttributes = array_merge($this->_indexValueAttributes, array(
+            'unit_price_unit',
+            'unit_price_base_unit',
+        ));
+        parent::__construct();
+    }
 
     /**
      * Retrieve last export task flag

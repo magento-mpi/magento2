@@ -1,0 +1,51 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/** @var $this Saas_ImportExport_Block_Adminhtml_Export_Result */
+?>
+<div class="entry-edit form-inline">
+    <fieldset class="fieldset">
+        <legend class="legend">
+            <span><?php echo $this->__('Export Progress')?></span>
+        </legend>
+        <br>
+        <?php if ($this->isExportInProgress()): ?>
+            <div id="export-loader">
+                <p class="loader">
+                    <img src="<?php echo $this->getViewFileUrl('images/ajax-loader-tr.gif') ?>" alt="<?php echo $this->__('Loading...') ?>"/>
+                    <br/><?php echo $this->__('Please wait...') ?>
+                </p>
+            </div>
+        <?php elseif ($this->getFileName()):
+                echo $this->getChildBlock('export.result.download')
+                    ->setFileName($this->getFileName())
+                    ->toHtml();
+            else:
+                echo $this->__('There are no files for downloading.');
+            endif;
+        ?>
+    </fieldset>
+
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+    var saasExport = {
+        disableExport: function () {
+            jQuery('#edit_form select').prop("disabled", true);
+        }
+    };
+
+
+    (function ($) {
+
+    })(jQuery);
+
+    //]]>
+</script>
