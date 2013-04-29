@@ -223,7 +223,8 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $fieldsetConfig = array(
             'legend' => $group->getLabel(),
             'comment' => $group->getComment(),
-            'expanded' => $group->isExpanded()
+            'expanded' => $group->isExpanded(),
+            'group' => $group->getData()
         );
 
         $fieldset = $form->addFieldset($this->_generateElementId($group->getPath()), $fieldsetConfig);
@@ -412,10 +413,10 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     {
         foreach ($dependencies as $dependentField) {
             /** @var $dependentField Mage_Backend_Model_Config_Structure_Element_Dependency_Field */
-            $fieldNameFrom = $this->_generateElementName($dependentField->getDependentId(), null, '_');
+            $fieldNameFrom = $this->_generateElementName($dependentField->getId(), null, '_');
             $this->_getDependence()
                 ->addFieldMap($elementId, $elementName)
-                ->addFieldMap($this->_generateElementId($dependentField->getDependentId()), $fieldNameFrom)
+                ->addFieldMap($this->_generateElementId($dependentField->getId()), $fieldNameFrom)
                 ->addFieldDependence($elementName, $fieldNameFrom, $dependentField);
         }
     }

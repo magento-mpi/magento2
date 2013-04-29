@@ -34,7 +34,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
 
         foreach ($element->getSortedElements() as $field) {
             if ($field instanceof Varien_Data_Form_Element_Fieldset) {
-                $html .= '<tr><td colspan="4">' . $field->toHtml() . '</td></tr>';
+                $html .= '<tr id="row_' . $field->getHtmlId() . '"><td colspan="4">' . $field->toHtml() . '</td></tr>';
             } else {
                 $html .= $field->toHtml();
             }
@@ -58,14 +58,13 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
         } else {
             $html = '<div class="' . $this->_getFrontendClass($element) . '">';
         }
+
+        $html .= '<div class="entry-edit-head collapseable" id="' . $element->getHtmlId() . '-head">'
+            . '<span id="' . $element->getHtmlId() . '-link" class="entry-edit-head-link"></span>';
+
         $html .= $this->_getHeaderTitleHtml($element);
 
-        $html = '';
-        $html = '<div class="entry-edit-head collapseable" id="' . $element->getHtmlId() . '-head">'
-            . '<span id="' . $element->getHtmlId() . '-link" class="entry-edit-head-link"></span>'
-            . '<a id="' . $element->getHtmlId() . '-head" href="#' . $element->getHtmlId()
-            . '-link" onclick="Fieldset.toggleCollapse(\'' . $element->getHtmlId() . '\', \''
-            . $this->getUrl('*/*/state') . '\'); return false;">' . $element->getLegend() . '</a></div>';
+        $html .= '</div>';
         $html .= '<input id="'.$element->getHtmlId() . '-state" name="config_state[' . $element->getId()
             . ']" type="hidden" value="' . (int)$this->_isCollapseState($element) . '" />';
         $html .= '<fieldset class="' . $this->_getFieldsetCss() . '" id="' . $element->getHtmlId() . '">';
@@ -103,9 +102,9 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
      */
     protected function _getHeaderTitleHtml($element)
     {
-        return '<div class="entry-edit-head collapseable" ><a id="' . $element->getHtmlId()
-            . '-head" href="#" onclick="Fieldset.toggleCollapse(\'' . $element->getHtmlId() . '\', \''
-            . $this->getUrl('*/*/state') . '\'); return false;">' . $element->getLegend() . '</a></div>';
+        return '<a id="' . $element->getHtmlId() . '-head" href="#' . $element->getHtmlId()
+            . '-link" onclick="Fieldset.toggleCollapse(\'' . $element->getHtmlId() . '\', \''
+            . $this->getUrl('*/*/state') . '\'); return false;">' . $element->getLegend() . '</a>';
     }
 
     /**
@@ -156,6 +155,8 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
 
         if ($element->getIsNested()) {
             $html .= '</td></tr>';
+        } else {
+            $html .= '</div>';
         }
         return $html;
     }

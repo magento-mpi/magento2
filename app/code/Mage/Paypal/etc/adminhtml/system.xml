@@ -64,7 +64,7 @@
                 <group id="wpp_gb" translate="label comment" sortOrder="20" extends="*/paypal_payments/wpp">
                     <fieldset_css>pp-general-uk</fieldset_css>
                     <more_url>https://www.paypal-business.co.uk/process-online-payments-with-paypal/index.htm</more_url>
-                    <demo_link>http://www.youtube.com/watch?v=LBe-TW87eGI</demo_link>
+                    <attribute type="demo_url">http://www.youtube.com/watch?v=LBe-TW87eGI</attribute>
                     <comment>Accept payments with a completely customizable checkout page.</comment>
                     <depends>
                         <field id="*/account/merchant_country">GB</field>
@@ -96,7 +96,7 @@
                 <group id="wps_gb" translate="comment" sortOrder="10" extends="*/paypal_payments/wps">
                     <fieldset_css>pp-general-uk</fieldset_css>
                     <more_url>https://www.paypal-business.co.uk/accept-online-payments-with-paypal/index.htm</more_url>
-                    <demo_link>http://www.youtube.com/watch?v=mdPjvziH_rk</demo_link>
+                    <attribute type="demo_url">http://www.youtube.com/watch?v=mdPjvziH_rk</attribute>
                     <comment>Accept credit cards, debit cards and PayPal payments securely.</comment>
                     <depends>
                         <field id="*/account/merchant_country">GB</field>
@@ -146,7 +146,7 @@
                 </group>
                 <group translate="comment" id="express_checkout_gb" extends="*/paypal_payments/express_checkout">
                     <more_url>https://www.paypal-business.co.uk/add-paypal-to-online-shop/index.htm</more_url>
-                    <demo_link>http://www.youtube.com/watch?v=WgnfZ2Bj6hQ</demo_link>
+                    <attribute type="demo_url">http://www.youtube.com/watch?v=WgnfZ2Bj6hQ</attribute>
                     <comment>Add PayPal as an additional payment method to your checkout page to increase your sales.</comment>
                     <depends>
                         <field id="*/account/merchant_country">GB</field>

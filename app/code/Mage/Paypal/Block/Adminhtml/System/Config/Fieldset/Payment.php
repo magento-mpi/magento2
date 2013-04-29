@@ -34,7 +34,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
      */
     protected function _isPaymentEnabled($element)
     {
-        $groupConfig = $this->getGroup()->getData();
+        $groupConfig = $element->getGroup();
         $activityPath = isset($groupConfig['activity_path']) ? $groupConfig['activity_path'] : '';
 
         if (empty($activityPath)) {
@@ -56,13 +56,13 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
     {
         $html = '<div class="config-heading" ><div class="heading"><strong>' . $element->getLegend();
 
-        $groupConfig = $this->getGroup()->getData();
-        if (!empty($groupConfig['learn_more_link'])) {
-            $html .= '<a class="link-more" href="' . $groupConfig['learn_more_link'] . '" target="_blank">'
+        $groupConfig = $element->getGroup();
+        if (!empty($groupConfig['more_url'])) {
+            $html .= '<a class="link-more" href="' . $groupConfig['more_url'] . '" target="_blank">'
                 . $this->__('Learn More') . '</a>';
         }
-        if (!empty($groupConfig['demo_link'])) {
-            $html .= '<a class="link-demo" href="' . $groupConfig['demo_link'] . '" target="_blank">'
+        if (!empty($groupConfig['demo_url'])) {
+            $html .= '<a class="link-demo" href="' . $groupConfig['demo_url'] . '" target="_blank">'
                 . $this->__('View Demo') . '</a>';
         }
         $html .= '</strong>';

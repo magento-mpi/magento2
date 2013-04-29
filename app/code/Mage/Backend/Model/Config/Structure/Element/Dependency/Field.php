@@ -22,7 +22,7 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_Field
      *
      * @var string
      */
-    protected $_dependentId;
+    protected $_id;
 
     /**
      * Whether dependence is for negative comparison
@@ -44,7 +44,7 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_Field
         }
         $fieldId = $fieldPrefix . array_pop($fieldData['dependPath']);
         $fieldData['dependPath'][] = $fieldId;
-        $this->_dependentId = implode('_', $fieldData['dependPath']);
+        $this->_id = implode('_', $fieldData['dependPath']);
         $this->_isNegative = isset($fieldData['negative']) && $fieldData['negative'];
     }
 
@@ -56,7 +56,7 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_Field
      */
     public function isValueSatisfy($value)
     {
-        return !in_array($value, $this->_values) xor $this->_isNegative;
+        return in_array($value, $this->_values) xor $this->_isNegative;
     }
 
     /**
@@ -64,9 +64,9 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_Field
      *
      * @return string
      */
-    public function getDependentId()
+    public function getId()
     {
-        return $this->_dependentId;
+        return $this->_id;
     }
 
     /**
