@@ -130,4 +130,32 @@ return array(
     'payment/authorizenet/currency',
     'payment/cc/active',
     'payment/ccsave/active',
+
+    'payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/debug',
+    'payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/verify_peer',
+
+    'payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/debug',
+    'payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/verify_peer',
+
+    'payment/paypal_payments/wpp/wpp_settings_wpp_and_express_checkout_authentication_method_0/wpp_settings_advanced/debug',
+    'payment/paypal_payments/wpp/wpp_settings_wpp_and_express_checkout_authentication_method_0/wpp_settings_advanced/verify_peer',
+
+    'payment/paypal_payments/wpp/wpp_settings_wpp_and_express_checkout_authentication_method_1/wpp_settings_advanced/debug',
+
+    'payment/paypal_payments/wps/settings_payments_standart/settings_payments_standart_advanced/debug',
+    'payment/paypal_payments/wps/settings_payments_standart/settings_payments_standart_advanced/verify_peer',
+
+    'payment/paypal_payments/paypal_verisign/settings_paypal_payflow/settings_paypal_payflow_advanced/debug',
+    'payment/paypal_payments/paypal_verisign/settings_paypal_payflow/settings_paypal_payflow_advanced/verify_peer',
+
+    'payment/paypal_payments/paypal_verisign/paypal_payflow_express_checkout/paypal_payflow_express_checkout_advanced/debug',
+
+    'payment/paypal_payments/payflow_link/settings_payflow_link/settings_payflow_link_advanced/debug',
+    'payment/paypal_payments/payflow_link/settings_payflow_link/settings_payflow_link_advanced/verify_peer',
+
+    'payment/paypal_payments/payments_pro_payflow_edition/settings_pp_pe/settings_pp_pe_advanced/debug',
+    'payment/paypal_payments/payments_pro_payflow_edition/settings_pp_pe/settings_pp_pe_advanced/verify_peer',
+
+    'payment/paypal_payments/payments_pro_hosted_solution/pphs_settings/pphs_settings_advanced/debug',
+    'payment/paypal_payments/payments_pro_hosted_solution/pphs_settings/pphs_settings_advanced/verify_peer',
 );
