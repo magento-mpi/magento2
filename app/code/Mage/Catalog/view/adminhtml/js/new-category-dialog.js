@@ -66,6 +66,8 @@
                 multiselect: true,
                 resizable: false,
                 open: function() {
+                    // fix for suggest field - overlapping dialog z-index
+                    $('#new_category_parent-suggest').css('z-index', $.ui.dialog.maxZ + 1);
                     var enteredName = $('#category_ids-suggest').val();
                     $('#new_category_name').val(enteredName);
                     if (enteredName === '') {
