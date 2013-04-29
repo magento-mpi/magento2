@@ -271,7 +271,7 @@ body {
     background: @pageMainBg;
 }
 
-@link : magenta;
+@link : @color8;
 @linkHover : @secondary1;
 .actionLink() {
     display: inline;
@@ -1945,7 +1945,7 @@ div.mage-error {
         line-height: 12px;
       }
       &.check span {
-        color: @color8;
+        .actionLink;
       }
     }
   }
