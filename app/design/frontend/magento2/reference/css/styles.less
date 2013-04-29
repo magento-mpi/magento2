@@ -286,10 +286,10 @@ body {
 
 a,
 a:visited {
-    color: #332e29;
+    color: @link;
     text-decoration: none;
     &:hover {
-        color: @secondary1;
+        color: @linkHover;
     }
 }
 
@@ -1934,6 +1934,9 @@ div.mage-error {
             span {
                 font-size: 12px;
                 line-height: 12px;
+            }
+            &.check span {
+                .actionLink;
             }
         }
     }
