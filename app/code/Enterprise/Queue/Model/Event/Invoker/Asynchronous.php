@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Queue_Model_Core_Event_Invoker_Asynchronous implements Mage_Core_Model_Event_InvokerInterface
+class Enterprise_Queue_Model_Event_Invoker_Asynchronous implements Mage_Core_Model_Event_InvokerInterface
 {
     /**#@+
      * Configuration parameters

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Queue_Model_Core_Event_Invoker_AsynchronousTest extends PHPUnit_Framework_TestCase
+class Enterprise_Queue_Model_Event_Invoker_AsynchronousTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -28,7 +28,7 @@ class Enterprise_Queue_Model_Core_Event_Invoker_AsynchronousTest extends PHPUnit
     protected $_eventObserverMock;
 
     /**
-     * @var Enterprise_Queue_Model_Core_Event_Invoker_Asynchronous
+     * @var Enterprise_Queue_Model_Event_Invoker_Asynchronous
      */
     protected $_invokerAsynchronous;
 
@@ -42,7 +42,7 @@ class Enterprise_Queue_Model_Core_Event_Invoker_AsynchronousTest extends PHPUnit
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_invokerAsynchronous = $objectManagerHelper->getObject(
-            'Enterprise_Queue_Model_Core_Event_Invoker_Asynchronous', array(
+            'Enterprise_Queue_Model_Event_Invoker_Asynchronous', array(
             'queueHandler' => $this->_queueHandlerMock,
             'invokerDefault' => $this->_invokerDefaultMock,
         ));
@@ -54,8 +54,8 @@ class Enterprise_Queue_Model_Core_Event_Invoker_AsynchronousTest extends PHPUnit
             'model' => 'some_model',
             'method' => 'some_method',
             'config' => array(
-                Enterprise_Queue_Model_Core_Event_Invoker_Asynchronous::CONFIG_PARAMETER_ASYNCHRONOUS => 1,
-                Enterprise_Queue_Model_Core_Event_Invoker_Asynchronous::CONFIG_PARAMETER_PRIORITY => 7,
+                Enterprise_Queue_Model_Event_Invoker_Asynchronous::CONFIG_PARAMETER_ASYNCHRONOUS => 1,
+                Enterprise_Queue_Model_Event_Invoker_Asynchronous::CONFIG_PARAMETER_PRIORITY => 7,
             ),
         );
 
@@ -95,7 +95,7 @@ class Enterprise_Queue_Model_Core_Event_Invoker_AsynchronousTest extends PHPUnit
                     'model' => 'some_model',
                     'method' => 'some_method',
                     'config' => array(
-                        Enterprise_Queue_Model_Core_Event_Invoker_Asynchronous::CONFIG_PARAMETER_ASYNCHRONOUS => 0,
+                        Enterprise_Queue_Model_Event_Invoker_Asynchronous::CONFIG_PARAMETER_ASYNCHRONOUS => 0,
                     ),
                 ),
             ),
