@@ -80,25 +80,16 @@
             var assignConfirmEvent = this.options.assignConfirmEvent;
 
             var dialog = this._getDialog();
-            data.dialog = dialog;
-            dialog.find('.messages').html('');
-            var buttons = data.confirm_buttons || [
-                {
-                    text: $.mage.__('Assign'),
-                    click: function() {
-                        $('body').trigger(assignConfirmEvent);
-                    },
-                    'class': 'primary'
+            data.dialog = dialog.data('dialog');
+            dialog.data('dialog').messages.clear();
+            var buttons = data.confirm_buttons || {
+                text: 'Assign',
+                click: function() {
+                    $('body').trigger(assignConfirmEvent);
                 },
-                {
-                    text: $.mage.__('Close'),
-                    click: function() {
-                        $(this).dialog('close');
-                    },
-                    'class': 'action-close'
-                }
-            ];
-            dialog.dialog('option', 'buttons', buttons);
+                'class': 'primary'
+            };
+            dialog.data('dialog').setButtons(buttons);
             if (data.confirm_message) {
                 dialog.find('.confirm_message').html(data.confirm_message);
             }
@@ -202,16 +193,17 @@
          * @param themeId
          */
         assignThemeSuccess: function(response, stores, themeId) {
+            var message;
             var dialog = this._getDialog();
             if (response.error) {
-                var message = [
+                message = [
                     '<div class="message message-error">',
                     $.mage.__('Error'), ': "', response.message, '".',
                     '</div>'
                 ];
             } else {
                 this.storesByThemes[themeId] = stores;
-                var message = [
+                message = [
                     '<div class="message-success">',
                     response.success,
                     '</div>'
@@ -232,7 +224,7 @@
                     }
                 }
             }
-            dialog.find('.messages').html(dialog.find('.messages').html() + message.join(''));
+            dialog.data('dialog').messages.add(message.join(''));
         },
 
         /**

@@ -12,12 +12,12 @@
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */?>
 
 <div id="dialog-message-assign-ssm" title="<?php echo $this->__('Assign theme to your live store-view:') ?>">
-    <div class="messages"></div>
+    <div class="dialog-message-assign-ssm messages"></div>
     <p class="confirm_message"></p>
 </div>
 
 <div id="dialog-message-assign" title="<?php echo $this->__('Select Storeviews to make your changes live:') ?>">
-    <div class="messages"></div>
+    <div class="dialog-message-assign messages"></div>
     <p class="confirm_message"></p>
     <form method="post" action="">
         <ul class="websites">
@@ -48,16 +48,22 @@
     </form>
 </div>
 
+<!--
 <div id="dialog-message-save" title="<?php echo $this->__('Save changes:') ?>">
     <div class="messages"></div>
+    <p class="confirm_message"></p>
+</div>
+-->
+
+<div id="dialog-message-confirm">
+    <div class="dialog-message-confirm messages"></div>
     <p class="confirm_message"></p>
 </div>
 
 <script type="text/javascript">
     (function ($) {
-        $( document ).ready(function( ) {
+        $( document ).ready(function() {
             $('body').themeAssign(<?php echo $this->getOptionsJson(); ?>);
-
             var options = {
                 autoOpen:    false,
                 modal:       true,
@@ -66,7 +72,13 @@
             };
             $('#dialog-message-assign-ssm').dialog(options);
             $('#dialog-message-assign').dialog(options);
-            $('#dialog-message-save').dialog({
+            /*$('#dialog-message-save').dialog({
+                autoOpen:    false,
+                modal:       true,
+                width:       570,
+                dialogClass: 'vde-dialog'
+            });*/
+            $('#dialog-message-confirm').dialog({
                 autoOpen:    false,
                 modal:       true,
                 width:       570,

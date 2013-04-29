@@ -10,9 +10,10 @@
 (function ($) {
     $.widget('vde.vdeThemeInit', {
         options: {
-            isPhysicalTheme: 0,
-            createVirtualThemeUrl: null,
-            registerElementsEvent : 'registerElements'
+            isPhysicalTheme:        0,
+            createVirtualThemeUrl:  null,
+            registerElementsEvent : 'registerElements',
+            dialogSelector:         '#dialog-message-confirm'
         },
 
         /**
@@ -32,8 +33,7 @@
          * @protected
          */
         _bind: function() {
-            var body = $('body');
-            body.on(this.options.registerElementsEvent, $.proxy(this._onRegisterElements, this));
+            $('body').on(this.options.registerElementsEvent, $.proxy(this._onRegisterElements, this));
         },
 
         /**
@@ -52,7 +52,7 @@
          * Register elements
          *
          * @param content
-         * @param elements
+         * @param selectorsByEvent
          * @protected
          */
         _registerElements: function(content, selectorsByEvent) {
@@ -71,9 +71,22 @@
          * @protected
          */
         _onChangeTheme: function(event) {
-            if (confirm($.mage.__('You want to change theme. It is necessary to create customization. Do you want to create?'))) {
-                this._createVirtualTheme();
-            }
+            var button = {
+                text: 'Create',
+                click: $.proxy(function() {
+                    this._createVirtualTheme();
+                }, this),
+                'class': 'primary'
+            };
+
+            var dialog = $(this.options.dialogSelector).data('dialog');
+            dialog.set(
+                'Physical theme is read-only',
+                'You want to change theme. It is necessary to create customization. Do you want to create?',
+                button
+            );
+            dialog.open();
+
             event.stopPropagation();
             $(event.target).blur();
             return false;
