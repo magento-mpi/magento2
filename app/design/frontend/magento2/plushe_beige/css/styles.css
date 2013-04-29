@@ -7721,31 +7721,6 @@ img[align="right"] {
 .no-display {
   display: none;
 }
-.form.newsletter.manage .action.save {
-  padding: 5px 11px;
-}
-.table.data.wishlist .item-options dl {
-  margin: 0;
-}
-.table.data.wishlist .item-options dl dt {
-  display: inline;
-  float: left;
-  clear: left;
-  font-weight: 600;
-}
-.table.data.wishlist .item-options dl dt:after {
-  content: ':';
-  margin-right: 5px;
-}
-.table.data.wishlist .item-options dl dd {
-  margin: 0;
-}
-.table.data.wishlist .col.photo {
-  width: 100px;
-}
-.table.data.wishlist .col.actions {
-  width: 200px;
-}
 /*
  *    My Account -> My Product Reviews
  *
