@@ -1652,6 +1652,7 @@ ul.messages ul {
   overflow-x: auto;
 }
 .data.comparison {
+  table-layout: fixed;
   border-collapse: separate;
 }
 .data.comparison .cell {
@@ -1665,11 +1666,20 @@ ul.messages ul {
   text-align: left;
   border-right: 1px solid #f6f4f3;
 }
+.data.comparison .cell.label .attribute.label {
+  display: block;
+  width: 100%;
+  word-break: break-all;
+}
 .data.comparison .cell.label.product {
   width: 150px;
 }
 .data.comparison .cell p:first-child {
   margin-top: 0;
+}
+.data.comparison .cell .attibute.value {
+  width: 100%;
+  overflow: hidden;
 }
 .data.comparison .cell.product {
   font-size: 12px;
