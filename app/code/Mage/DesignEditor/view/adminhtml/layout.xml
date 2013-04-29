@@ -15,6 +15,7 @@
             <action method="addJs"><file>Mage_DesignEditor::js/infinitescroll.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-selector.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-assign.js</file></action>
+            <action method="addJs"><file>Mage_DesignEditor::js/dialog.js</file></action>
             <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
         </reference>
         <reference name="content">
@@ -44,7 +45,7 @@
             <action method="addJs"><file>Mage_DesignEditor::js/infinitescroll.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-selector.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-assign.js</file></action>
-            <!--action method="addJs"><file>Mage_DesignEditor::js/dialog.js</file></action-->
+            <action method="addJs"><file>Mage_DesignEditor::js/dialog.js</file></action>
             <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
         </reference>
         <reference name="content">
@@ -77,7 +78,7 @@
             <action method="addJs"><file>Mage_DesignEditor::js/custom-css.js</file></action>
             <action method="addJs"><file>Mage_Theme::js/custom-js-list.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-assign.js</file></action>
-            <!--action method="addJs"><file>Mage_DesignEditor::js/dialog.js</file></action-->
+            <action method="addJs"><file>Mage_DesignEditor::js/dialog.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/base.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/design_editor.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/image-sizing.js</file></action>
