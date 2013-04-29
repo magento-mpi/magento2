@@ -63,7 +63,8 @@
 
 .customer-account-login .page.title,
 .customer-account-forgotpassword .page.title,
-.customer-account-create .page.title {
+.customer-account-create .page.title,
+.customer-account-resetpassword .page.title {
     text-align: center;
 }
 
@@ -163,6 +164,78 @@
         width: 490px;
         .formFieldset();
         .formInline(27%);
+        border: 0;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+        .legend {
+            float: left;
+            line-height: 1.2;
+            .customFont(16px);
+            padding-bottom: 20px;
+            width: 100%;
+            margin: 15px 0 5px;
+            & + br {
+                display: block;
+                clear: both;
+            }
+        }
+        > .field {
+            margin: 0 0 20px;
+            .label {
+                margin-top: 6px;
+                font-size: 13px;
+            }
+        }
+        .field.choice.newsletter {
+            padding-left: 27%;
+            .label {
+                float: none;
+            }
+            .choice input {
+                margin-top: 3px;
+            }
+        }
+    }
+    .actions {
+        margin: 15px auto 0;
+        position: relative;
+        width: 490px;
+        .primary {
+            text-align: center;
+        }
+        .secondary {
+            font-size: 12px;
+            position: absolute;
+            left: 0;
+            top: 12px;
+            a {
+                .colorA(@primary3,@primary4);
+                span {
+                    .icon('\e020',12px,'icons');
+                    &:before {
+                        position: relative;
+                        top: -1px;
+                    }
+                }
+            }
+        }
+    }
+    .action.submit {
+        .primaryActionBig();
+        margin: 0 auto;
+        span {
+            font-size: 15px;
+        }
+    }
+}
+
+.form.password.reset {
+    .fieldset {
+        .borderBox();
+        width: 490px;
+        .formFieldset();
+        .formInline(34%);
         border: 0;
         margin: 0 auto;
         position: relative;

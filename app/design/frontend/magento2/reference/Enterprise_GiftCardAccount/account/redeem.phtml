@@ -19,12 +19,14 @@
     </span>
     <form class="form giftcard redeem" id="giftcard-form" action="<?php echo $this->getUrl('*/*/*') ?>" method="post"<?php if (!$this->canRedeem()): ?> onsubmit="giftCardAccountLookupBalance(); return false;"<?php endif; ?>>
         <div id="giftcard-balance-lookup" class="giftcard ballance"></div>
-        <div class="field giftcard required">
-            <label class="label" for="giftcard-code"><span><?php echo $this->__('Enter gift card code') ?></span></label>
-            <div class="control">
-                <input class="input-text" id="giftcard-code" type="text" name="giftcard_code" data-validate="{required:true}" value="<?php echo $this->getCurrentGiftcard(); ?>" />
+        <fieldset class="fieldset">
+            <div class="field giftcard required">
+                <label class="label" for="giftcard-code"><span><?php echo $this->__('Enter gift card code') ?></span></label>
+                <div class="control">
+                    <input class="input-text" id="giftcard-code" type="text" name="giftcard_code" data-validate="{required:true}" value="<?php echo $this->getCurrentGiftcard(); ?>" />
+                </div>
             </div>
-        </div>
+        </fieldset>
         <div class="actions">
             <?php if ($this->canRedeem()): ?>
             <div class="primary">
@@ -48,10 +50,10 @@
                     $('#giftcard-form').giftCard({
                         giftCardCodeSelector: '#giftcard-code',
                         checkStatus: 'button.action.check',
-                        giftCardStatusUrl: '<?php echo Mage::getUrl('enterprise_giftcardaccount/cart/quickCheck') ?>',
+                        giftCardStatusUrl: '<?php echo Mage::getUrl('enterprise_giftcardaccount/cart/quickCheck',  array('_secure' => true)) ?>',
                         giftCardStatusId: '#giftcard-balance-lookup',
                         giftCardSpinnerId: '#gc-please-wait',
-                        messages: '.col-main .messages'
+                        messages: '.page.messages .messages'
                     }).validation();
                 });
         })(jQuery);

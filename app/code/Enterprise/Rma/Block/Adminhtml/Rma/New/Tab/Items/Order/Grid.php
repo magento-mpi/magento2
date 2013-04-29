@@ -171,7 +171,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         ));
 
         $this->addColumn('product_name', array(
-            'header'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Product Name'),
+            'header'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Product'),
             'renderer' => 'Enterprise_Rma_Block_Adminhtml_Product_Bundle_Product',
             'index'    => 'name',
             'escape'   => true,
@@ -197,7 +197,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
         ));
 
         $this->addColumn('available_qty', array(
-            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Remaining Qty'),
+            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Remaining'),
             'type'  => 'text',
             'index' => 'available_qty',
             'renderer'  => 'Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity',

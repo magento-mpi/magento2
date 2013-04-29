@@ -259,8 +259,8 @@ html, body, button, input, select, textarea {
 }
 
 html {
-    min-width: 1025px;
     background: @footerBg;
+    min-width: 1025px;
 }
 
 body {
@@ -1146,7 +1146,6 @@ a:visited {
                 &:after {
                     content:': ';
                 }
-                margin-right:;
             }
         }
         .review.date  {
@@ -4584,7 +4583,9 @@ and (max-width : 768px) {
 .form.contact,
 .form.password.forget,
 .form.create.account,
-.form.wishlist.share {
+.form.wishlist.share,
+.form.password.reset,
+.form.add.tag {
     .fieldset {
         .borderBox();
         width: 690px;
@@ -4653,7 +4654,8 @@ and (max-width : 768px) {
         }
     }
     .action.save,
-    .action.submit {
+    .action.submit,
+    .action.add {
         .primaryAction();
     }
     .actions {
@@ -4785,6 +4787,18 @@ and (max-width : 768px) {
                 }
             }
         }
+    }
+}
+
+.form.add.tag {
+    > .field {
+        .formField();
+        .fieldStyle();
+        > .label {
+            display: block;
+            padding: 0 0 5px;
+        }
+        margin-bottom: 20px;
     }
 }
 
@@ -4989,7 +5003,6 @@ and (max-width : 768px) {
     }
 }
 .customer-address-index .column.main .actions { clear:left; }
-
 
 /*
  *    Homepage styles

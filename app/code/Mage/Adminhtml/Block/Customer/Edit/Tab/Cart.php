@@ -63,13 +63,13 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Product ID'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('ID'),
             'index'     => 'product_id',
             'width'     => '100px',
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Name'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Product'),
             'index'     => 'name',
             'renderer'  => 'Mage_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item'
         ));
@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Cart extends Mage_Adminhtml_Block_W
         ));
 
         $this->addColumn('qty', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Qty'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Quantity'),
             'index'     => 'qty',
             'type'      => 'number',
             'width'     => '60px',
