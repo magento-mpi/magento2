@@ -42,7 +42,8 @@ class Saas_JobNotification_Model_Inbox
                 'task_name'  => $taskName,
                 'title'      => $this->_config->getJobTitle($taskName),
             );
-            $notification = $this->_factory->create(array('data' => $data));
+            $notification = $this->_factory->create();
+            $notification->addData($data);
             $notification->save();
         }
     }

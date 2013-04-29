@@ -2804,6 +2804,7 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('rating_setup', '1.6.0.1', '1.6.0.1'),
 	('reports_setup', '1.6.0.0.2', '1.6.0.0.2'),
 	('review_setup', '1.6.0.0', '1.6.0.0'),
+	('saas_jobnotification_setup', '2.0.0.0', '2.0.0.0'),
 	('saas_printedtemplate_setup', '0.1.0', '0.1.0'),
 	('saas_sales_setup', '2.0.0.0', '2.0.0.0'),
 	('saas_unitprice_setup', '0.1.4', '0.1.4'),
@@ -8102,6 +8103,23 @@ CREATE TABLE IF NOT EXISTS `saas_printed_template` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='saas_printed_template';
 
 # Dumping data for table saas_printed_template: ~0 rows (approximately)
+
+
+
+
+# Dumping structure for table saas_jobnotification_inbox
+CREATE TABLE `saas_jobnotification_inbox` (
+	`notification_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Message id',
+    `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Create date',
+	`title` varchar(255) NOT NULL COMMENT 'Title',
+	`is_read` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Flag if notification read',
+    `is_remove` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Flag if notification might be removed',
+	PRIMARY KEY (`notification_id`),
+	KEY `IDX_SAAS_JOBNOTIFICATION_INBOX_IS_READ` (`is_read`),
+	KEY `IDX_SAAS_JOBNOTIFICATION_INBOX_IS_REMOVE` (`is_remove`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Job Notification Inbox';
+
+# Dumping data for table saas_jobnotification_inbox: ~0 rows (approximately)
 
 
 

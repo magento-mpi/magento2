@@ -3,8 +3,6 @@
 /**
  * {license_notice}
  *
- * @category    Saas
- * @package     Saas_JobNotification
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,9 +12,19 @@
         <Saas_JobNotification>
             <version>2.0.0.0</version>
             <active>false</active>
+            <depends>
+                <Mage_Core />
+            </depends>
         </Saas_JobNotification>
     </modules>
     <global>
+        <resources>
+            <saas_jobnotification_setup>
+                <setup>
+                    <module>Saas_JobNotification</module>
+                </setup>
+            </saas_jobnotification_setup>
+        </resources>
         <tasks>
             <refresh_catalog>
                 <notification>
@@ -54,10 +62,30 @@
         </events>
         <di>
             <Saas_JobNotification_Model_Config>
-                <arguments>
+                <parameters>
                     <config>Mage_Core_Model_Config</config>
-                </arguments>
+                </parameters>
             </Saas_JobNotification_Model_Config>
         </di>
     </global>
+    <admin>
+        <routers>
+            <jobnotification>
+                <use>admin</use>
+                <args>
+                    <module>Saas_JobNotification_Adminhtml</module>
+                    <frontName>jobnotification</frontName>
+                </args>
+            </jobnotification>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <jobnotification module="Saas_JobNotification">
+                    <file>layout.xml</file>
+                </jobnotification>
+            </updates>
+        </layout>
+    </adminhtml>
 </config>

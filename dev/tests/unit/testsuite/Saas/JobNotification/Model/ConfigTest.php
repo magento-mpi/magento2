@@ -22,7 +22,10 @@ class Saas_JobNotification_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ->with('global/tasks')
             ->will($this->returnValue($nodeMock));
 
-        $configData = array(/** TODO: Implement logic here */);
+        $configData = array(
+            'refresh_catalog' => array('notification' => array('enabled' => true, 'title' => 'Refresh catalog')),
+            'clear_css' => array('notification' => array('enabled' => false, 'title' => 'Clear CSS'))
+        );
         $nodeMock->expects($this->once())->method('asArray')->will($this->returnValue($configData));
 
         $this->_model = new Saas_JobNotification_Model_Config($configMock);
@@ -35,10 +38,6 @@ class Saas_JobNotification_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testIsNotificationAllowed($jobName, $expected)
     {
-        $this->markTestIncomplete('Need to be implemented in scope of MAGETWO-9658');
-
-        //TODO: Implement logic here
-
         $this->assertEquals($expected, $this->_model->isNotificationAllowed($jobName));
     }
 
@@ -48,9 +47,9 @@ class Saas_JobNotification_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function isNotificationAllowedDataProvider()
     {
         return array(
-            array(/** TODO: Implement logic here */),
-            array(/** TODO: Implement logic here */),
-            array(/** TODO: Implement logic here */),
+            array('refresh_catalog', true),
+            array('clear_css', false),
+            array('unknown', false),
         );
     }
 
@@ -61,9 +60,6 @@ class Saas_JobNotification_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetJobTitle($jobName, $expected)
     {
-        $this->markTestIncomplete('Need to be implemented in scope of MAGETWO-9658');
-
-        //TODO: Implement logic here
         $this->assertEquals($expected, $this->_model->getJobTitle($jobName));
     }
 
@@ -73,9 +69,9 @@ class Saas_JobNotification_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function getJobTitleDataProvider()
     {
         return array(
-            array(/** TODO: Implement logic here */),
-            array(/** TODO: Implement logic here */),
-            array(/** TODO: Implement logic here */),
+            array('refresh_catalog', 'Refresh catalog'),
+            array('clear_css', 'Clear CSS'),
+            array('unknown', ''),
         );
     }
 }
