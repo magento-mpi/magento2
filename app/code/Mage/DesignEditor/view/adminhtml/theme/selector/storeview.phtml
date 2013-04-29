@@ -48,25 +48,31 @@
     </form>
 </div>
 
-<div id="dialog-message-save" title="<?php echo $this->__('Assign theme to your live store-view:') ?>">
+<!--
+<div id="dialog-message-save" title="<?php echo $this->__('Save changes:') ?>">
     <div class="messages"></div>
+    <p class="confirm_message"></p>
+</div>
+-->
+
+<div id="dialog-message-confirm">
+    <div class="dialog-message-confirm messages"></div>
     <p class="confirm_message"></p>
 </div>
 
 <script type="text/javascript">
     (function ($) {
-        $( document ).ready(function( ) {
+        $( document ).ready(function() {
             $('body').themeAssign(<?php echo $this->getOptionsJson(); ?>);
-
             var options = {
-                autoOpen: false,
-                modal:true,
-                width: 570,
+                autoOpen:    false,
+                modal:       true,
+                width:       570,
                 dialogClass: 'vde-dialog'
             };
             $('#dialog-message-assign-ssm').dialog(options);
             $('#dialog-message-assign').dialog(options);
-            $('#dialog-message-save').dialog({
+            $('#dialog-message-confirm').dialog({
                 autoOpen:    false,
                 modal:       true,
                 width:       570,
