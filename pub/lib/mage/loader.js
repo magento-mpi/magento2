@@ -49,7 +49,7 @@
         _bind: function() {
             this.element.on('ajaxComplete ajaxError processStop', function(e) {
                 e.stopImmediatePropagation();
-                $($(e.target).is(document) ? 'body' : e.target).loader('hide');
+                $($(e.currentTarget).is(document) ? 'body' : e.currentTarget).loader('hide');
             });
             this._on({
                 'show.loader': 'show',
@@ -84,6 +84,7 @@
          * Hide loader
          */
         hide: function() {
+            console.log(arguments);
             if (this.loader) {
                 this.loader.hide();
             }
