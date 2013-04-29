@@ -22,10 +22,10 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-//        $this->systemConfigurationHelper()->configure('Tax/default_tax_config');
-//        $this->systemConfigurationHelper()->configure('ShippingSettings/shipping_settings_default');
-//        $this->systemConfigurationHelper()->configure('Currency/enable_usd');
-//        $this->systemConfigurationHelper()->configure('Tax/flat_rate_for_price_verification');
+        $this->systemConfigurationHelper()->configure('Tax/default_tax_config');
+        $this->systemConfigurationHelper()->configure('ShippingSettings/shipping_settings_default');
+        $this->systemConfigurationHelper()->configure('Currency/enable_usd');
+        $this->systemConfigurationHelper()->configure('Tax/flat_rate_for_price_verification');
         $this->navigate('manage_tax_rule');
         $this->taxHelper()->deleteRulesExceptSpecified(array('Retail Customer-Taxable Goods-Rate 1'));
     }
