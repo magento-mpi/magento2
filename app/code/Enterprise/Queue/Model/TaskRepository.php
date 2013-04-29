@@ -32,7 +32,9 @@ class Enterprise_Queue_Model_TaskRepository
         $task = $this->_taskFactory->create();
         $taskId = md5($taskName . json_encode($params));
         $task->load($taskId);
-        $task->setName($taskName);
+        if (!$task->getId()) {
+            $task->setId($taskId);
+        }
         return $task;
     }
 }

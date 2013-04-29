@@ -22,9 +22,9 @@ class Enterprise_Queue_Model_Config_Gearman implements Magento_JobQueue_Client_C
     protected $_config;
 
     /**
-     * @param Mage_Core_Model_ConfigInterface $config
+     * @param Mage_Core_Model_Config $config
      */
-    public function __construct(Mage_Core_Model_ConfigInterface $config)
+    public function __construct(Mage_Core_Model_Config $config)
     {
         $this->_config = $config;
     }

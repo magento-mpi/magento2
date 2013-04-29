@@ -52,7 +52,7 @@ class Enterprise_Queue_Model_Queue implements Enterprise_Queue_Model_QueueInterf
             if ($task->getHandle()) {
                 $task->setStatus($this->_client->getStatus($task->getHandle()));
             }
-            if ($task->isRunning()) {
+            if ($task->isEnqueued()) {
                 return $this;
             }
             $task->setHandle($this->_client->addBackgroundTask($taskName, $params, $priority, $task->getId()));

@@ -29,7 +29,7 @@ class Enterprise_Queue_Model_Task extends Mage_Core_Model_Abstract
      */
     public function __construct(
         Mage_Core_Model_Context $context,
-        Enterprise_Queue_Model_Resource_Task $resource = null,
+        Enterprise_Queue_Model_Resource_Task $resource,
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {

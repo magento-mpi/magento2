@@ -17,7 +17,6 @@ $installer->startSetup();
 $table = $installer->getConnection()
     ->newTable($installer->getTable('job_queue'))
     ->addColumn('unique_key', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
-        'identity'  => true,
         'nullable'  => false,
         'primary'   => true,
     ), 'Unique task key')

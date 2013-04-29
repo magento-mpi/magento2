@@ -49,7 +49,7 @@ class Magento_JobQueue_Client_Gearman implements Magento_JobQueue_ClientInterfac
                 $priorityMethodName = 'doBackground';
                 break;
         }
-        $this->_adaptedClient->$priorityMethodName($name, json_encode($params), $uniqueId);
+        return $this->_adaptedClient->$priorityMethodName($name, json_encode($params), $uniqueId);
     }
 
     /**
@@ -70,7 +70,7 @@ class Magento_JobQueue_Client_Gearman implements Magento_JobQueue_ClientInterfac
             'isRunning' => $status[1],
             'percentage' => 0
         );
-        if ($status[1]) {
+        if ($status[1] && $status[3]) {
             $result['percentage'] = $status[2]/$status[3];
         }
         return $result;
