@@ -27,7 +27,7 @@
         <update handle="SHORTCUT_popup" />
     </checkout_cart_index>
 
-    <paypal_express_review translate="label">
+    <paypal_express_review translate="label" type="page">
         <label>PayPal Express Order Review Form</label>
         <remove name="right"/>
         <remove name="left"/>
@@ -41,9 +41,9 @@
                 <block type="Mage_Paypal_Block_Express_Review_Shipping" name="express.review.shipping" as="shipping" template="paypal/express/review/address.phtml"/>
                 <block type="Mage_Paypal_Block_Express_Review" name="express.review.shipping.method" as="shipping_method" template="paypal/express/review/shipping/method.phtml"/>
                 <block type="Mage_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" as="details" template="paypal/express/review/details.phtml">
-                    <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>checkout/onepage/review/item.phtml</template></action>
-                    <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/onepage/review/item.phtml</template></action>
-                    <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/onepage/review/item.phtml</template></action>
+                    <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>checkout/onepage/review/item.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>checkout/onepage/review/item.phtml</template></action>
+                    <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Rendererr_Configurable</block><template>checkout/onepage/review/item.phtml</template></action>
                     <block type="Mage_Checkout_Block_Cart_Totals" name="paypal.express.review.details.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>
                 </block>
                 <block type="Mage_Checkout_Block_Agreements" name="paypal.express.review.details.agreements" as="agreements" template="checkout/onepage/agreements.phtml"/>
@@ -57,9 +57,9 @@
 
     <paypal_express_review_details>
         <block type="Mage_Paypal_Block_Express_Review_Details" name="root" output="toHtml" template="paypal/express/review/details.phtml">
-            <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>checkout/onepage/review/item.phtml</template></action>
-            <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/onepage/review/item.phtml</template></action>
-            <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/onepage/review/item.phtml</template></action>
+            <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>checkout/onepage/review/item.phtml</template></action>
+            <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>checkout/onepage/review/item.phtml</template></action>
+            <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>checkout/onepage/review/item.phtml</template></action>
             <block type="Mage_Checkout_Block_Cart_Totals" name="paypal.express.review.details.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>
         </block>
     </paypal_express_review_details>
@@ -163,7 +163,7 @@
             <block type="Mage_Paypal_Block_Iframe" name="paypal.iframe" />
         </reference>
         <reference name="checkout.onepage.review.button">
-            <action method="setTemplate"><template helper="paypal/hss/getReviewButtonTemplate"><name>paypal/hss/review/button.phtml</name><block>checkout.onepage.review.button</block></template></action>
+            <action method="setTemplate"><template helper="Mage_Paypal_Helper_Hss::getReviewButtonTemplate"><name>Mage_Paypal::hss/review/button.phtml</name><block>checkout.onepage.review.button</block></template></action>
         </reference>
     </checkout_onepage_review>
 
@@ -176,17 +176,17 @@
     </paypal_payflow_advanced_iframe>
 
     <paypal_hosted_pro_iframe>
-        <block type="Mage_Paypal_Block_Hosted_Pro_Iframe" name="hosted.pro.iframe" template="paypal/hss/form.phtml"/>
+        <block type="Mage_Paypal_Block_Hosted_Pro_Iframe" name="hosted.pro.iframe" template="hss/form.phtml"/>
     </paypal_hosted_pro_iframe>
 
     <SHORTCUT_popup>
         <reference name="product.tooltip">
-            <block type="Mage_Page_Block_Html_Wrapper" name="product.info.addtocart.paypal.wrapper" translate="label">
-                <block type="Mage_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="paypal/express/shortcut.phtml">
+            <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
+                <block type="Mage_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml">
                     <action method="setIsInCatalogProduct"><value>1</value></action>
                     <action method="setShowOrPosition"><value>after</value></action>
                 </block>
-            </block>
+            </container>
         </reference>
     </SHORTCUT_popup>
 </layout>

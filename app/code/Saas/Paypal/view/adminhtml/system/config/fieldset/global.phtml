@@ -8,7 +8,7 @@
     <thead>
         <tr>
             <th><?php echo $this->escapeHtml($this->getFieldsetLabel()) ?></th>
-            <th class="paypal-selection-info"><a href="<?php echo $this->escapeHtml($this->getFieldsetHelpUrl()) ?>"><?php echo Mage::helper('paypal')->__('Help')?></a></th>
+            <th class="paypal-selection-info"><a href="<?php echo $this->escapeHtml($this->getFieldsetHelpUrl()) ?>"><?php echo Mage::helper('Mage_Paypal_Helper_Data')->__('Help')?></a></th>
         </tr>
     </thead>
     <tbody>
@@ -29,8 +29,8 @@
                 <label for="<?php echo $htmlId?>"><?php echo $this->getElementHtml($element) ?><strong><?php echo $this->getElementLabelTextHtml($element)?></strong>&nbsp;&ndash; <?php echo $this->getElementComment($element)?></label>
             </td>
             <td class="paypal-selection-info">
-                <a id="<?php echo $htmlId?>_demo_link" href="#"><?php echo Mage::helper('paypal')->__('View Demo')?></a> <span>|</span>
-                <a id="<?php echo $htmlId?>_more_link" href="#"><?php echo Mage::helper('paypal')->__('Learn More')?></a>
+                <a id="<?php echo $htmlId?>_demo_link" href="#"><?php echo Mage::helper('Mage_Paypal_Helper_Data')->__('View Demo')?></a> <span>|</span>
+                <a id="<?php echo $htmlId?>_more_link" href="#"><?php echo Mage::helper('Mage_Paypal_Helper_Data')->__('Learn More')?></a>
             </td>
         <?php endif;?>
         </tr>

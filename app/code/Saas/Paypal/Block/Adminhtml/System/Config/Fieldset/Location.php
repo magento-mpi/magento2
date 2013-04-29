@@ -262,7 +262,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
 
                             if (conflict && !confirmationShowed && anotherEnabler.value == 1) {
                                 if (isEvent) {
-                                    confirmationApproved = confirm(\'' .  $this->helper('core')->jsQuoteEscape($this->__('There is already another PayPal solution enabled. Enable this solution instead?')) . '\');
+                                    confirmationApproved = confirm(\'' .  $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape($this->__('There is already another PayPal solution enabled. Enable this solution instead?')) . '\');
                                 } else {
                                     paypalConflictsObject.isConflict = true;
                                 }
