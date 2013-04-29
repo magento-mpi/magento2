@@ -265,8 +265,6 @@ jQuery(function ($) {
             },
             start: function(event, data) {
                 var uploaderContainer = $(event.target).closest('.action-upload');
-                $('body').loader();
-
                 uploaderContainer.addClass('loading');
             },
             stop: function(event, data) {
