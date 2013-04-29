@@ -160,7 +160,7 @@ body {
 }
 a,
 a:visited {
-  color: #332e29;
+  color: #c4c4c4;
   text-decoration: none;
 }
 a:hover,
@@ -2505,6 +2505,16 @@ div.mage-error {
 .cart.summary .block .action span {
   font-size: 12px;
   line-height: 12px;
+}
+.cart.summary .block .action.check span {
+  display: inline;
+  color: #c4c4c4;
+  text-decoration: none;
+}
+.cart.summary .block .action.check span:focus,
+.cart.summary .block .action.check span:active,
+.cart.summary .block .action.check span:hover {
+  color: #35c8f4;
 }
 .cart.table.wrapper.detailed + .cart.summary {
   margin-top: 54px;
@@ -5805,7 +5815,7 @@ div.mage-error {
     text-decoration: none;
     padding: 11px 11px 8px;
     border: 2px solid #e5e5e5;
-    background: #f8f8f8;
+    background: rgba(0, 0, 0, 0.03);
     border-bottom: none;
     text-transform: uppercase;
     border-radius: 4px 4px 0 0;
@@ -5826,7 +5836,6 @@ div.mage-error {
     *zoom: 1;
     margin-top: 36px;
     padding: 20px;
-    background: #fff;
   }
   .product.data > .item.content:before,
   .product.data > .item.content:after {
@@ -5859,16 +5868,13 @@ div.mage-error {
     margin: -20px 0 20px;
   }
   .product.data > .item.title > .switch {
-    background: #5e5e5e;
+    background: rgba(255, 255, 255, 0.1);
   }
   .product.data > .item.title:not(.disabled) > .switch:active,
   .product.data > .item.title:not(.disabled) > .switch:focus,
   .product.data > .item.title:not(.disabled) > .switch:hover,
   .product.data > .item.title.active > .switch {
     background: #464646;
-  }
-  .product.data > .item.content {
-    background: none;
   }
   .temp-upsell-placeholder {
     display: inline;
@@ -8318,12 +8324,6 @@ textarea {
   color: #c4c4c4;
 }
 .block.discount .fieldset.coupon .action.cancel:hover span {
-  color: #35c8f4;
-}
-.block.giftcard .action.check span {
-  color: #c4c4c4;
-}
-.block.giftcard .action.check:hover span {
   color: #35c8f4;
 }
 .my-account .box.information a,
