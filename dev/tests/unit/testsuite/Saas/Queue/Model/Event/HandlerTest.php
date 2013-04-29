@@ -5,22 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Queue_Model_Queue_DefaultHandlerTest extends PHPUnit_Framework_TestCase
+class Saas_Queue_Model_Event_HandlerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_adapterMock;
+    protected $_queueMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var Saas_Queue_Model_Event_Handler
      */
-    protected $_helperGearmanMock;
-
-    /**
-     * @var Saas_Queue_Model_Queue_DefaultHandler
-     */
-    protected $_defaultHandler;
+    protected $_model;
 
     /**
      * @var Varien_Event
@@ -30,13 +25,8 @@ class Saas_Queue_Model_Queue_DefaultHandlerTest extends PHPUnit_Framework_TestCa
     protected function setUp()
     {
         $this->_eventMock = $this->getMock('Varien_Event');
-        $this->_adapterMock = $this->getMock('Enterprise_Queue_Model_Queue_AdapterInterface');
-        $this->_helperGearmanMock = $this->getMock('Saas_Queue_Helper_Gearman', array(), array(), '', false);
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_defaultHandler = $objectManagerHelper->getObject('Saas_Queue_Model_Queue_DefaultHandler', array(
-            'adapter' => $this->_adapterMock,
-            'helper'  => $this->_helperGearmanMock
-        ));
+        $this->_queueMock = $this->getMock('Enterprise_Queue_Model_QueueInterface');
+        $this->_model = new Saas_Queue_Model_Event_Handler($this->_queueMock);
     }
 
     /**
@@ -54,13 +44,10 @@ class Saas_Queue_Model_Queue_DefaultHandlerTest extends PHPUnit_Framework_TestCa
         $this->_eventMock->expects($this->once())->method('getData')
             ->will($this->returnValue($eventData));
 
-        $this->_helperGearmanMock->expects($this->once())->method('getTaskParams')
-            ->will($this->returnValue(array()));
-
-        $this->_adapterMock->expects($this->once())->method('addTask')->with($adapterTaskName, $adapterData)
+        $this->_queueMock->expects($this->once())->method('addTask')->with($adapterTaskName, $adapterData)
             ->will($this->returnSelf());
 
-        $this->assertEquals($this->_defaultHandler, $this->_defaultHandler->addTask($eventName, $data));
+        $this->assertEquals($this->_model, $this->_model->addTask($eventName, $data));
     }
 
     public function eventDataProvider()

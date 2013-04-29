@@ -20,7 +20,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
     ), 'Unique task key')
-    ->addColumn('handle', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
+    ->addColumn('handle', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         'unsigned'  => true,
         'nullable'  => false,
     ), 'Job handle')
