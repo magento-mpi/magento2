@@ -62,9 +62,9 @@
         </events>
         <di>
             <Saas_JobNotification_Model_Config>
-                <arguments>
+                <parameters>
                     <config>Mage_Core_Model_Config</config>
-                </arguments>
+                </parameters>
             </Saas_JobNotification_Model_Config>
         </di>
     </global>
