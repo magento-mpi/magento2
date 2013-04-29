@@ -8,84 +8,31 @@
 class Enterprise_Queue_Model_TaskRepository
 {
     /**
-     * @var Enterprise_Queue_Model_Resource_Task_CollectionFactory
-     */
-    protected $_collectionFactory;
-
-    /**
      * @var Enterprise_Queue_Model_TaskFactory
      */
     protected $_taskFactory;
 
     /**
-     * @param Enterprise_Queue_Model_Resource_Task_CollectionFactory $collectionFactory
      * @param Enterprise_Queue_Model_TaskFactory $taskFactory
      */
-    public function __construct(
-        Enterprise_Queue_Model_Resource_Task_CollectionFactory $collectionFactory,
-        Enterprise_Queue_Model_TaskFactory $taskFactory
-    ) {
-        $this->_collectionFactory = $collectionFactory;
+    public function __construct(Enterprise_Queue_Model_TaskFactory $taskFactory)
+    {
         $this->_taskFactory = $taskFactory;
     }
 
     /**
-     * Find task by task id
+     * Find task by task name and params
      *
-     * @param string $taskId
+     * @param string $taskName
+     * @param array $params
      * @return Enterprise_Queue_Model_Task
      */
-    public function find($taskId)
+    public function get($taskName, array $params = array())
     {
         $task = $this->_taskFactory->create();
+        $taskId = md5($taskName . json_encode($params));
         $task->load($taskId);
-        return $task;
-    }
-
-    /**
-     * Find pending tasks by name
-     *
-     * @param string $taskName
-     * @return Enterprise_Queue_Model_Resource_Task_Collection
-     */
-    public function findPendingByName($taskName)
-    {
-        $collection = $this->_collectionFactory->create();
-        $collection->addFieldToFilter('task_name', array('eq' => $taskName))
-            ->addFieldToFilter('status', array('eq' => Enterprise_Queue_Model_Task::STATUS_PENDING));
-        return $collection;
-    }
-
-    /**
-     * Find running tasks by name
-     *
-     * @param string $taskName
-     * @return Enterprise_Queue_Model_Resource_Task_Collection
-     */
-    public function findRunningByName($taskName)
-    {
-        $collection = $this->_collectionFactory->create();
-        $collection->addFieldToFilter('task_name', array('eq' => $taskName))
-            ->addFieldToFilter('status', array('in' => array(
-                Enterprise_Queue_Model_Task::STATUS_PENDING,
-                Enterprise_Queue_Model_Task::STATUS_IN_PROGRESS,
-            )));
-        return $collection;
-    }
-
-    /**
-     * Create new task
-     *
-     * @param string $taskId
-     * @param string $handle
-     * @return Enterprise_Queue_Model_Task
-     */
-    public function create($taskId, $handle)
-    {
-        $task = $this->_taskFactory->create();
-        $task->setUniqueKey($taskId)
-            ->setHandle($handle)
-            ->save();
+        $task->setName($taskName);
         return $task;
     }
 }

@@ -7,17 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Queue_Model_Config_Gearman implements Magento_Queue_Client_ConfigInterface
+class Enterprise_Queue_Model_Config_Gearman implements Magento_JobQueue_Client_ConfigInterface
 {
     /**
      * Configuration XPath of Gearman servers
      */
     const XML_PATH_QUEUE_ADAPTER_GEARMAN_SERVERS = 'global/queue/adapter/gearman/servers';
-
-    /**
-     * Configuration XPath of Gearman task additional params
-     */
-    const XML_PATH_QUEUE_ADAPTER_GEARMAN_TASK_PARAMS = 'global/queue/adapter/gearman/task/params';
 
     /**
      * Application config

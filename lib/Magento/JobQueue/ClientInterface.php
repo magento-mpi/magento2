@@ -8,7 +8,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-interface Magento_Queue_ClientInterface
+interface Magento_JobQueue_ClientInterface
 {
     const TASK_PRIORITY_HIGH = 'high';
     const TASK_PRIORITY_LOW = 'low';
@@ -21,7 +21,19 @@ interface Magento_Queue_ClientInterface
      * @param array $params
      * @param mixed $priority
      * @param string $uniqueId
-     * @return string
+     * @return string handle
      */
     public function addBackgroundTask($name, $params, $priority = null, $uniqueId = null);
+
+    /**
+     * Retrieve task status
+     *
+     * @param $taskHandle
+     * @return array (
+     *     'isEnqueued' => bool
+     *     'isRunning' => bool
+     *     'percentage' => int
+     * )
+     */
+    public function getStatus($taskHandle);
 }

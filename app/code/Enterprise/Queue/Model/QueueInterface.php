@@ -23,18 +23,11 @@ interface Enterprise_Queue_Model_QueueInterface
     public function addTask($taskName, array $params, $priority);
 
     /**
-     * Stop task
+     * Retrieve task
      *
      * @param string $taskName
+     * @param array $params
      * @return bool
      */
-    public function stopTask($taskName);
-
-    /**
-     * Retrieve task status
-     *
-     * @param string $taskName
-     * @return bool
-     */
-    public function isRunning($taskName);
+    public function getTask($taskName, array $params = array());
 }

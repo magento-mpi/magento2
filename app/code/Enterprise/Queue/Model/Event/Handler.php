@@ -12,18 +12,18 @@
 class Enterprise_Queue_Model_Event_Handler implements Enterprise_Queue_Model_Event_HandlerInterface
 {
     /**
-     * Queue client
+     * Queue interface
      *
-     * @var Magento_Queue_ClientInterface
+     * @var Enterprise_Queue_Model_QueueInterface
      */
-    protected $_client;
+    protected $_queue;
 
     /**
-     * @param Magento_Queue_ClientInterface $client
+     * @param Enterprise_Queue_Model_QueueInterface $queue
      */
-    public function __construct(Magento_Queue_ClientInterface $client)
+    public function __construct(Enterprise_Queue_Model_QueueInterface $queue)
     {
-        $this->_client = $client;
+        $this->_queue = $queue;
     }
 
     /**
@@ -36,7 +36,7 @@ class Enterprise_Queue_Model_Event_Handler implements Enterprise_Queue_Model_Eve
      */
     public function addTask($eventName, $data, $priority = null)
     {
-        $this->_client->addTask($eventName, $data, $priority);
+        $this->_queue->addTask($eventName, $data, $priority);
         return $this;
     }
 }

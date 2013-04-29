@@ -18,19 +18,19 @@ class Enterprise_Queue_Model_Queue implements Enterprise_Queue_Model_QueueInterf
     protected $_queueConfig;
 
     /**
-     * @var Magento_Queue_ClientInterface
+     * @var Magento_JobQueue_ClientInterface
      */
     protected $_client;
 
     /**
      * @param Enterprise_Queue_Model_Config $queueConfig
      * @param Enterprise_Queue_Model_TaskRepository $taskRepository
-     * @param Magento_Queue_ClientInterface $client
+     * @param Magento_JobQueue_ClientInterface $client
      */
     public function __construct(
         Enterprise_Queue_Model_Config $queueConfig,
         Enterprise_Queue_Model_TaskRepository $taskRepository,
-        Magento_Queue_ClientInterface $client
+        Magento_JobQueue_ClientInterface $client
     ) {
         $this->_taskRepository = $taskRepository;
         $this->_queueConfig = $queueConfig;
@@ -46,23 +46,17 @@ class Enterprise_Queue_Model_Queue implements Enterprise_Queue_Model_QueueInterf
      */
     public function addTask($taskName, array $params, $priority)
     {
-        $taskWorkload = Zend_Json::encode($params);
-        $taskId       = md5($taskName . $taskWorkload);
-        $task = $this->_taskRepository->find($taskId);
-        if ($task) {
-            $taskStatus = $task->getStatus();
-            if ($taskStatus == Enterprise_Queue_Model_Task::STATUS_PENDING) {
-                return $this;
-            } elseif ($taskStatus == Enterprise_Queue_Model_Task::STATUS_SKIPPED
-                || $taskStatus == Enterprise_Queue_Model_Task::STATUS_COMPLETE
-            ) {
-                $taskId = md5($taskName . $taskWorkload . microtime());
-            }
-        }
-
         try {
-            $handle = $this->_client->addBackgroundTask($taskName, $params, $priority, $taskId);
-            $this->_taskRepository->create($taskId, $handle);
+            $params = array_merge_recursive($this->_queueConfig->getTaskParams(), $params);
+            $task = $this->_taskRepository->get($taskName, $params);
+            if ($task->getHandle()) {
+                $task->setStatus($this->_client->getStatus($task->getHandle()));
+            }
+            if ($task->isRunning()) {
+                return $this;
+            }
+            $task->setHandle($this->_client->addBackgroundTask($taskName, $params, $priority, $task->getId()));
+            $task->save();
         } catch (Exception $e) {
             throw new Enterprise_Queue_Model_AddException(
                 'Unable to add task [' . $taskName . "] to task pool.\n"
@@ -70,37 +64,22 @@ class Enterprise_Queue_Model_Queue implements Enterprise_Queue_Model_QueueInterf
                     . $e->getTraceAsString()
             );
         }
-
         return $this;
     }
 
     /**
-     * Stop task by name
+     * Retrieve
      *
      * @param string $taskName
-     * @return bool
+     * @param array $params
+     * @return Enterprise_Queue_Model_Task
      */
-    public function stopTask($taskName)
+    public function getTask($taskName, array $params = array())
     {
-        $tasks = $this->_taskRepository->findPendingByName($taskName);
-        if (count($tasks)) {
-            foreach($tasks as $task) {
-                $task->stop()
-                    ->save();
-            }
-            return true;
+        $task = $this->_taskRepository->get($taskName, $params);
+        if ($task->getHandle()) {
+            $task->setStatus($this->_client->getStatus($task->getHandle()));
         }
-        return false;
-    }
-
-    /**
-     * Is task running
-     *
-     * @param string $taskName
-     * @return bool
-     */
-    public function isRunning($taskName)
-    {
-        return !!count($this->_taskRepository->findRunningByName($taskName));
+        return $task;
     }
 }

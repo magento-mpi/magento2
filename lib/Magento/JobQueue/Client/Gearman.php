@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Queue_Client_Gearman implements Magento_Queue_ClientInterface
+class Magento_JobQueue_Client_Gearman implements Magento_JobQueue_ClientInterface
 {
     /**
      * Adapted gearman client
@@ -17,17 +17,10 @@ class Magento_Queue_Client_Gearman implements Magento_Queue_ClientInterface
     protected $_adaptedClient;
 
     /**
-     * Queue config
-     *
-     * @var Magento_Queue_Client_ConfigInterface
-     */
-    protected $_taskParams;
-
-    /**
-     * @param Magento_Queue_Client_ConfigInterface $config
+     * @param Magento_JobQueue_Client_ConfigInterface $config
      * @param GearmanClient $adaptedClient
      */
-    public function __construct(Magento_Queue_Client_ConfigInterface $config, GearmanClient $adaptedClient = null)
+    public function __construct(Magento_JobQueue_Client_ConfigInterface $config, GearmanClient $adaptedClient = null)
     {
         $this->_adaptedClient = $adaptedClient ?: new GearmanClient();
         $this->_adaptedClient->addServers($config->getServers());
@@ -57,5 +50,29 @@ class Magento_Queue_Client_Gearman implements Magento_Queue_ClientInterface
                 break;
         }
         $this->_adaptedClient->$priorityMethodName($name, json_encode($params), $uniqueId);
+    }
+
+    /**
+     * Retrieve task status
+     *
+     * @param $taskHandle
+     * @return array (
+     *     'isEnqueued' => bool
+     *     'isRunning' => bool
+     *     'percentage' => int
+     * )
+     */
+    public function getStatus($taskHandle)
+    {
+        $status = $this->_adaptedClient->jobStatus($taskHandle);
+        $result = array(
+            'isEnqueued' => $status[0],
+            'isRunning' => $status[1],
+            'percentage' => 0
+        );
+        if ($status[1]) {
+            $result['percentage'] = $status[2]/$status[3];
+        }
+        return $result;
     }
 }

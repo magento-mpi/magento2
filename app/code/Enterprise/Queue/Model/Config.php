@@ -9,6 +9,11 @@
 class Enterprise_Queue_Model_Config
 {
     /**
+     * Configuration XPath of Gearman task additional params
+     */
+    const XML_PATH_QUEUE_ADAPTER_GEARMAN_TASK_PARAMS = 'global/queue/adapter/gearman/task/params';
+
+    /**
      * @var Mage_Core_Model_Config
      */
     protected $_config;
