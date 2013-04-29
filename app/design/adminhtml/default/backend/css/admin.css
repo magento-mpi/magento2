@@ -861,13 +861,14 @@ button.primary.disabled:hover,
     background: #fff url(../mui/images/ajax-loader-small.gif) no-repeat 190px 50%;
 }
 
+.suggest-expandable .mage-suggest {
+    border-radius: 3px 3px 0 0;
+}
+
 .suggest-expandable .mage-suggest-dropdown {
-    position: relative;
-    border: none;
-    box-shadow: none;
-    background: none;
-    margin: 0;
-    top: auto;
+    margin-top: 0;
+    border-top: 0;
+    border-radius: 0 0 3px 3px;
     max-height: 300px;
     overflow: auto;
 }
