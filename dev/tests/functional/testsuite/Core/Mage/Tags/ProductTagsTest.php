@@ -41,7 +41,7 @@ class Core_Mage_Tags_ProductTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
      */
     public function addFromFrontendTags($tags, $status, $testData)
     {
-        $this->markTestSkipped('Due to bug MAGETWO-8429');
+        $this->markTestIncomplete('MAGETWO-8429');
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
@@ -86,7 +86,7 @@ class Core_Mage_Tags_ProductTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
      */
     public function addFromBackendTags($tags, $status, $testData)
     {
-        $this->markTestSkipped('Due to bug MAGETWO-8429');
+        $this->markTestIncomplete('MAGETWO-8429');
         $setData = $this->loadDataSet('Tag', 'backend_new_tag_with_product',
             array(
                 'tag_name' => $tags,
@@ -150,7 +150,7 @@ class Core_Mage_Tags_ProductTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
      */
     public function searchTags($tags, $testData)
     {
-        $this->markTestSkipped('Due to bug MAGETWO-8429');
+        $this->markTestIncomplete('MAGETWO-8429');
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
         //Steps

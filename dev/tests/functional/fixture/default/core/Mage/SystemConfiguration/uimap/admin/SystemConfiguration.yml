@@ -20,7 +20,7 @@ system_configuration:
             fieldsets:
                 -
                     current_configuration_scope:
-                        xpath: //div[@class="store-switcher"]
+                        xpath: "//div[label='Current Configuration Scope:']"
                         dropdowns:
                             current_configuration_scope: //select[@id='store_switcher']
                         links:

@@ -13,7 +13,6 @@
  *
  * @package     Mage_Product
  * @subpackage  functional_tests
- * @license     {license_link}
  */
 class Enterprise_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
 {
