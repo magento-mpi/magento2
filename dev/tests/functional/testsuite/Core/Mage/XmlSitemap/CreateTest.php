@@ -91,7 +91,6 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
         //Create sitemap link
         $sitemapUri = "sitemap.xml";
         $sitemapUrl = $this->xmlSitemapHelper()->getFileUrl($sitemapUri);
-        $this->getFile($sitemapUrl);
 
         //Create url in format [base url]/robots.txt an read the file
         $uri = "robots.txt";
