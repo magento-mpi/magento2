@@ -45,6 +45,14 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
         if (!$customer || !Mage::registry('current_customer')->isDeleteable()) {
             $this->_removeButton('delete');
         }
+
+        if ($customer->getId()) {
+            $this->_addButton('reset_password', array(
+                'label' => Mage::helper('Mage_Customer_Helper_Data')->__('Reset Password'),
+                'onclick' => 'setLocation(\'' . $this->_getResetPasswordUrl($customer->getId()) . '\')',
+                'class' => 'save',
+            ), 0);
+        }
     }
 
     public function getCreateOrderUrl()
@@ -107,6 +115,13 @@ class Mage_Adminhtml_Block_Customer_Edit extends Mage_Adminhtml_Block_Widget_For
             '_current'  => true,
             'back'      => 'edit',
             'tab'       => '{{tab_id}}'
+        ));
+    }
+
+    protected function _getResetPasswordUrl($customerId)
+    {
+        return $this->getUrl('*/*/resetPassword', array(
+            'customer_id' => $customerId
         ));
     }
 }

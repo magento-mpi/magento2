@@ -250,6 +250,45 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
     }
 
+    public function resetPasswordAction()
+    {
+        $customerId = (int)$this->getRequest()->getParam('customer_id', 0);
+        if (!$customerId) {
+            return $this->_redirect('*/customer');
+        }
+
+        /** @var Mage_Customer_Model_Customer $customer */
+        $customer = Mage::getModel('Mage_Customer_Model_Customer');
+        $customer->load($customerId);
+        if (!$customer->getId()) {
+            return $this->_redirect('*/customer');
+        }
+
+        try {
+            $newResetPasswordLinkToken = Mage::helper('Mage_Customer_Helper_Data')->generateResetPasswordLinkToken();
+            $customer->changeResetPasswordLinkToken($newResetPasswordLinkToken);
+            $resetUrl = Mage::getUrl('customer/account/resetPassword', array(
+                '_query' => array(
+                    'id' => $customer->getId(),
+                    'token' => $newResetPasswordLinkToken))
+            );
+            $customer->setResetPasswordUrl($resetUrl);
+            $customer->sendPasswordReminderEmail();
+            $this->_getSession()->addSuccess($this->_getHelper()->__('Customer will receive an email with a link to reset password.'));
+        } catch (Mage_Core_Exception $exception) {
+            $messages = $exception->getMessages(Mage_Core_Model_Message::ERROR);
+            if (!count($messages)) {
+                $messages = $exception->getMessage();
+            }
+            $this->_addSessionErrorMessages($messages);
+        } catch (Exception $exception) {
+            $this->_getSession()->addException($exception,
+                $this->_getHelper()->__('An error occurred while resetting customer password.'));
+        }
+
+        $this->_redirect('*/*/edit', array('id' => $customerId, '_current' => true));
+    }
+
     /**
      * Add errors messages to session.
      *
@@ -578,11 +617,15 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 ->ignoreInvisible(false);
             $data = $customerForm->extractData($this->getRequest(), 'account');
             $accountData = $this->getRequest()->getPost('account');
-            $this->_processCustomerPassword($accountData);
-            if (isset($accountData['autogenerate_password'])) {
+//            $this->_processCustomerPassword($accountData);
+//            if (isset($accountData['autogenerate_password'])) {
+//                $data['password'] = $customer->generatePassword();
+//            } else {
+//                $data['password'] = $accountData['password'];
+//            }
+            $data['password'] = $accountData['password'];
+            if (!$customer->getId()) {
                 $data['password'] = $customer->generatePassword();
-            } else {
-                $data['password'] = $accountData['password'];
             }
             $data['confirmation'] = $data['password'];
 

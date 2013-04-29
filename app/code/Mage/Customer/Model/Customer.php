@@ -31,6 +31,9 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     const XML_PATH_FORGOT_EMAIL_TEMPLATE = 'customer/password/forgot_email_template';
     const XML_PATH_FORGOT_EMAIL_IDENTITY = 'customer/password/forgot_email_identity';
 
+    const XML_PATH_RESET_PASSWORD_TEMPLATE_FRONTEND = 'customer/password/reset_template_frontend';
+    const XML_PATH_RESET_PASSWORD_TEMPLATE_BACKEND = 'customer/password/reset_template_backend';
+
     const XML_PATH_DEFAULT_EMAIL_DOMAIN         = 'customer/create_account/email_domain';
     const XML_PATH_IS_CONFIRM                   = 'customer/create_account/confirm';
     const XML_PATH_CONFIRM_EMAIL_TEMPLATE       = 'customer/create_account/email_confirmation_template';
@@ -537,9 +540,9 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     public function sendNewAccountEmail($type = 'registered', $backUrl = '', $storeId = '0')
     {
         $types = array(
-            'registered'   => self::XML_PATH_REGISTER_EMAIL_TEMPLATE,  // welcome email, when confirmation is disabled
-            'confirmed'    => self::XML_PATH_CONFIRMED_EMAIL_TEMPLATE, // welcome email, when confirmation is enabled
-            'confirmation' => self::XML_PATH_CONFIRM_EMAIL_TEMPLATE,   // email with confirmation link
+            'registered'     => self::XML_PATH_REGISTER_EMAIL_TEMPLATE,  // welcome email, when confirmation is disabled
+            'confirmed'      => self::XML_PATH_CONFIRMED_EMAIL_TEMPLATE, // welcome email, when confirmation is enabled
+            'confirmation'   => self::XML_PATH_CONFIRM_EMAIL_TEMPLATE,   // email with confirmation link
         );
         if (!isset($types[$type])) {
             Mage::throwException(
@@ -642,6 +645,35 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
 
         $this->_sendEmailTemplate(self::XML_PATH_FORGOT_EMAIL_TEMPLATE, self::XML_PATH_FORGOT_EMAIL_IDENTITY,
+            array('customer' => $this), $storeId);
+
+        return $this;
+    }
+
+    /**
+     * Send email to when password is resetting
+     *
+     * @param string $type
+     * @return Mage_Customer_Model_Customer
+     */
+    public function sendPasswordResetNotificationEmail($type)
+    {
+        $types = array(
+            'reset_frontend' => self::XML_PATH_RESET_PASSWORD_TEMPLATE_FRONTEND,
+            'reset_backend'  => self::XML_PATH_RESET_PASSWORD_TEMPLATE_BACKEND,
+        );
+        if (!isset($types[$type])) {
+            Mage::throwException(
+                Mage::helper('Mage_Customer_Helper_Data')->__('Wrong transactional account email type')
+            );
+        }
+
+        $storeId = $this->getStoreId();
+        if (!$storeId) {
+            $storeId = $this->_getWebsiteStoreId();
+        }
+
+        $this->_sendEmailTemplate($types[$type], self::XML_PATH_FORGOT_EMAIL_IDENTITY,
             array('customer' => $this), $storeId);
 
         return $this;
