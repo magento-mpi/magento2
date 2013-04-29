@@ -374,7 +374,7 @@ class Saas_Paypal_Model_Boarding_Config extends Mage_Paypal_Model_Config
      * @param mixed $store
      * @return bool
      */
-    public function getWasActivated($paymentMethod, $store = null)
+    public function isWasActivated($paymentMethod, $store = null)
     {
         return Mage::getStoreConfigFlag("payment/{$paymentMethod}/was_activated", $store);
     }

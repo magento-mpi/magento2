@@ -103,7 +103,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro
         $wppAuthPath  = 'payment/'. $methodDirect .'/authentication_method';
         $authPermOpt = Saas_Paypal_Model_System_Config_Source_AuthenticationMethod::TYPE_PERMISSIONS;
         $isBoardingActive = Mage::getStoreConfigFlag("payment/{$methodDirectBoarding}/active");
-        $isBoardingWasActivated = Mage::getModel('Saas_Paypal_Model_Boarding_Config')->getWasActivated(
+        $isBoardingWasActivated = Mage::getModel('Saas_Paypal_Model_Boarding_Config')->isWasActivated(
             $methodDirectBoarding
         );
         $isAuthMethodPerm = Mage::getStoreConfig($wppAuthPath) == $authPermOpt;
