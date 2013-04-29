@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Customer_Group_Grid extends Mage_Adminhtml_Block_Widg
         ));
 
         $this->addColumn('type', array(
-            'header' => Mage::helper('Mage_Customer_Helper_Data')->__('Group Name'),
+            'header' => Mage::helper('Mage_Customer_Helper_Data')->__('Group'),
             'index' => 'customer_group_code',
         ));
 

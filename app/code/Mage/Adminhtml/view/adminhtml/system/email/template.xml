@@ -11,16 +11,16 @@
  -->
 <layout>
     <adminhtml_system_email_template_index>
-        <update handle="adminhtml_system_email_template_grid_block" />
+        <update handle="adminhtml_system_email_template_grid_block"/>
         <reference name='content'>
-            <block type='Mage_Adminhtml_Block_System_Email_Template' name='adminhtml.system.email.template.container' />
+            <block type='Mage_Adminhtml_Block_System_Email_Template' name='adminhtml.system.email.template.container'/>
         </reference>
     </adminhtml_system_email_template_index>
 
     <adminhtml_system_email_template_grid>
         <update handle="formkey"/>
-        <update handle="adminhtml_system_email_template_grid_block" />
-        <container label='System Email Templates' name='adminhtml.system.email.template.container' output='1' />
+        <update handle="adminhtml_system_email_template_grid_block"/>
+        <container label='System Email Templates' name='adminhtml.system.email.template.container' output='1'/>
     </adminhtml_system_email_template_grid>
 
     <adminhtml_system_email_template_grid_block>
@@ -38,7 +38,8 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type='Mage_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.system.email.template.grid.columnSet' as='grid.columnSet'>
+                <block type='Mage_Backend_Block_Widget_Grid_ColumnSet'
+                       name='adminhtml.system.email.template.grid.columnSet' as='grid.columnSet'>
                     <arguments>
                         <rowUrl>
                             <path>*/*/edit</path>
@@ -56,13 +57,13 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='code'>
                         <arguments>
-                            <header translate='true' module='Mage_Adminhtml'>Template Name</header>
+                            <header translate='true' module='Mage_Adminhtml'>Template</header>
                             <index>template_code</index>
                         </arguments>
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='added_at'>
                         <arguments>
-                            <header translate='true' module='Mage_Adminhtml'>Date Added</header>
+                            <header translate='true' module='Mage_Adminhtml'>Added</header>
                             <index>added_at</index>
                             <gmtoffset>1</gmtoffset>
                             <type>datetime</type>
@@ -70,7 +71,7 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='modified_at'>
                         <arguments>
-                            <header translate='true' module='Mage_Adminhtml'>Date Updated</header>
+                            <header translate='true' module='Mage_Adminhtml'>Updated</header>
                             <index>modified_at</index>
                             <gmtoffset>1</gmtoffset>
                             <type>datetime</type>
