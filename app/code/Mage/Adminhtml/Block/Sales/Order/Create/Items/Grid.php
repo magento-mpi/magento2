@@ -201,21 +201,58 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
         }
     }
 
+    /**
+     * Get tier price html
+     *
+     * @param Mage_Sales_Model_Quote_Item $item
+     * @return string
+     */
     public function getTierHtml($item)
     {
         $html = '';
         $prices = $item->getProduct()->getTierPrice();
         if ($prices) {
-            foreach ($prices as $data) {
-                $qty    = $data['price_qty']*1;
-                $price  = $this->convertPrice($data['price']);
-                $info[] = $this->helper('Mage_Sales_Helper_Data')->__('%s for %s', $qty, $price);
-            }
+            $info = ($item->getProductType() == 'bundle')
+                ? $this->_getBundleTierPriceInfo($prices)
+                : $this->_getTierPriceInfo($prices);
             $html = implode('<br/>', $info);
         }
         return $html;
     }
 
+    /**
+     * Get tier price info to display in grid for Bundle product
+     *
+     * @param array $prices
+     * @return array
+     */
+    protected function _getBundleTierPriceInfo($prices)
+    {
+        $info = array();
+        foreach ($prices as $data) {
+            $qty    = $data['price_qty'] * 1;
+            $info[] = $this->_helperFactory->get('Mage_Sales_Helper_Data')
+                ->__('%1$s with %2$s discount each', $qty, ($data['price'] * 1) . '%');
+        }
+        return $info;
+    }
+
+    /**
+     * Get tier price info to display in grid
+     *
+     * @param array $prices
+     * @return array
+     */
+    protected function _getTierPriceInfo($prices)
+    {
+        $info = array();
+        foreach ($prices as $data) {
+            $qty    = $data['price_qty'] * 1;
+            $price  = $this->convertPrice($data['price']);
+            $info[] = $this->_helperFactory->get('Mage_Sales_Helper_Data')->__('%s for %s', $qty, $price);
+        }
+        return $info;
+    }
     /**
      * Get Custom Options of item
      *
