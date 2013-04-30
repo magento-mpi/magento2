@@ -68,15 +68,16 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
     public function convertToBytesDataProvider()
     {
         return array(
-            array('1B', '1'),
-            array('3K', '3072'),
-            array('2M', '2097152'),
-            array('1G', '1073741824'),
-            array('1 234 K', '1263616'),
-            array('1 234' . "\xA0" . 'K', '1263616'),
-            array('1,234K', '1263616'),
-            array('1' . "\xA0" .'234 K', '1263616'),
-            array('1.234 K', '1263616'), // this is also correct, accepting that "." is thousands separator
+            'B'               => array('1B', '1'),
+            'KB'              => array('3K', '3072'),
+            'MB'              => array('2M', '2097152'),
+            'GB'              => array('1G', '1073741824'),
+            'regular spaces'  => array('1 234 K', '1263616'),
+            'no-break spaces' => array("1\xA0234\xA0K", '1263616'),
+            'tab'             => array("1\x09234\x09K", '1263616'),
+            'coma'            => array('1,234K', '1263616'),
+            // following is also correct, accepting that "." is thousands separator
+            'dot'             => array('1.234 K', '1263616'),
         );
     }
 

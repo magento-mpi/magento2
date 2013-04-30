@@ -122,7 +122,7 @@ class Magento_Test_Helper_Memory
      */
     public static function convertToBytes($number)
     {
-        if (!preg_match('/^(.*\d)\s*(\D)$/', $number, $matches)) {
+        if (!preg_match('/^(.*\d)\h*(\D)$/', $number, $matches)) {
             throw new InvalidArgumentException("Number format '$number' is not recognized.");
         }
         $unitSymbol = strtoupper($matches[2]);
