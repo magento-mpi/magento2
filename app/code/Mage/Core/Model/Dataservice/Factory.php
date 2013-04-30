@@ -168,10 +168,18 @@ class Mage_Core_Model_Dataservice_Factory implements Mage_Core_Model_Dataservice
      */
     public function getArgumentValue($path)
     {
+
         /** @var $visitor Mage_Core_Model_Dataservice_Path_Visitor */
         $visitor = $this->_objectManager->create('Mage_Core_Model_Dataservice_Path_Visitor',
             array('path' => $path, 'separator' => '.'));
-        $result = $visitor->visit($this->_composite);
+        /** @var $pathRepository Mage_Core_Model_Dataservice_Path_Composite */
+        $pathRepository = $this->_objectManager->create('Mage_Core_Model_Dataservice_Path_Composite');
+        $result = $visitor->visit($pathRepository);
+
+        /** @var $visitor Mage_Core_Model_Dataservice_Path_Visitor */
+        //$visitor = $this->_objectManager->create('Mage_Core_Model_Dataservice_Path_Visitor',
+        //    array('path' => $path, 'separator' => '.'));
+        //$result = $visitor->visit($this->_composite);
         return $result;
     }
 
@@ -199,7 +207,7 @@ class Mage_Core_Model_Dataservice_Factory implements Mage_Core_Model_Dataservice
      */
     public function visit(Mage_Core_Model_Dataservice_Path_Visitor $visitor)
     {
-        return $this->getRepository()->visit($visitor);
-        // return $this->get($visitor->getCurrentPathElement());
+        // return $this->getRepository()->visit($visitor);
+        return $this->get($visitor->getCurrentPathElement());
     }
 }

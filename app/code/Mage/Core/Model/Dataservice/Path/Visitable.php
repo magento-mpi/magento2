@@ -1,6 +1,6 @@
 <?php
 /**
- * Data source visitable interface
+ * Data service visitable interface
  *
  * @copyright   {copyright}
  * @license     {license_link}
