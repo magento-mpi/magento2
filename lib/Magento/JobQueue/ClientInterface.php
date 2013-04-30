@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Queue server interface
