@@ -18,7 +18,7 @@
             assignConfirmEvent: 'assign-confirm',
             loadEvent:          'loaded',
             dialogSelector:     '#dialog-message-assign',
-            dialogSelectorSsm:  '#dialog-message-assign-ssm',
+            dialogSelectorSsm:  '#dialog-message-confirm',
             closePopupBtn:      '[class^="action-close"]',
             assignUrl:          null,
             afterAssignUrl:     null,
@@ -79,9 +79,12 @@
 
             var assignConfirmEvent = this.options.assignConfirmEvent;
 
-            var dialog = this._getDialog();
-            data.dialog = dialog.data('dialog');
-            dialog.data('dialog').messages.clear();
+            var dialog = data.dialog = this._getDialog().data('dialog');
+            dialog.messages.clear();
+            dialog.title.set('Assign theme to your live store-view:');
+            if (data.confirm_message) {
+                dialog.text.set(data.confirm_message);
+            }
             var buttons = data.confirm_buttons || {
                 text: 'Assign',
                 click: function() {
@@ -89,12 +92,8 @@
                 },
                 'class': 'primary'
             };
-            dialog.data('dialog').setButtons(buttons);
-            if (data.confirm_message) {
-                dialog.find('.confirm_message').html(data.confirm_message);
-            }
-
-            dialog.dialog('open');
+            dialog.setButtons(buttons);
+            dialog.open();
         },
 
         /**

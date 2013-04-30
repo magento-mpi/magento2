@@ -11,11 +11,6 @@
 
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */?>
 
-<div id="dialog-message-assign-ssm" title="<?php echo $this->__('Assign theme to your live store-view:') ?>">
-    <div class="messages"></div>
-    <p class="confirm_message"></p>
-</div>
-
 <div id="dialog-message-assign" title="<?php echo $this->__('Select Storeviews to make your changes live:') ?>">
     <div class="messages"></div>
     <p class="confirm_message"></p>
@@ -48,13 +43,6 @@
     </form>
 </div>
 
-<!--
-<div id="dialog-message-save" title="<?php echo $this->__('Save changes:') ?>">
-    <div class="messages"></div>
-    <p class="confirm_message"></p>
-</div>
--->
-
 <div id="dialog-message-confirm">
     <div class="dialog-message-confirm messages"></div>
     <p class="confirm_message"></p>
@@ -70,14 +58,8 @@
                 width:       570,
                 dialogClass: 'vde-dialog'
             };
-            $('#dialog-message-assign-ssm').dialog(options);
             $('#dialog-message-assign').dialog(options);
-            $('#dialog-message-confirm').dialog({
-                autoOpen:    false,
-                modal:       true,
-                width:       570,
-                dialogClass: 'vde-dialog'
-            });
+            $('#dialog-message-confirm').dialog(options);
         });
     })(jQuery);
 </script>
