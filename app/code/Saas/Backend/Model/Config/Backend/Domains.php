@@ -25,6 +25,21 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
     const XML_CUSTOM_SSL = 'default/web/tenant_domains/custom_domain/enabled_ssl';
 
     /**
+     * Unsecure http protocol
+     */
+    const HTTP = 'http';
+
+    /**
+     * Secure https protocol
+     */
+    const HTTPS = 'https';
+
+    /**
+     * Path to current active domain in configuration
+     */
+    const ACTIVE_DOMAIN_PATH = 'groups/active_domain/fields/active_domain/value';
+
+    /**
      * Main Magento config
      *
      * @var Mage_Core_Model_Config
@@ -77,12 +92,11 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
     /**
      * After save call
      *
-     * @return Saas_Saas_Model_Adminhtml_System_Config_Backend_Domains
+     * @return Saas_Backend_Model_Config_Backend_Domains
      */
     public function afterCommitCallback()
     {
-        $data = $this->getData();
-        $domain = $data['groups']['active_domain']['fields']['active_domain']['value'];
+        $domain = $this->sanitizeDomain($this->getDataByPath(self::ACTIVE_DOMAIN_PATH));
 
         $this->saveDefaultSecureDomain($this->getDefaultDomain());
         $this->saveDefaultUnsecureDomain($this->getDefaultDomain());
@@ -99,6 +113,8 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
             $this->saveWebsitesUnsecureDomain($this->getDefaultDomain());
         }
 
+        $this->_config->reinit();
+
         return $this;
     }
 
@@ -106,10 +122,11 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
      * Save domain for secure links (default scope)
      *
      * @param string $domain
+     * @return $this
      */
-    public function saveDefaultSecureDomain($domain)
+    protected function saveDefaultSecureDomain($domain)
     {
-        $secureUrl   =  'https://' . $domain . '/';
+        $secureUrl = $this->formatUrl(self::HTTPS, $domain);
         $this->_configWriter->save(
             Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL,
             $secureUrl,
@@ -120,16 +137,19 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
             $secureUrl,
             Mage_Core_Model_Config::SCOPE_DEFAULT
         );
+
+        return $this;
     }
 
     /**
      * Save domain for unsecure links (default scope)
      *
      * @param string $domain
+     * @return $this
      */
-    public function saveDefaultUnsecureDomain($domain)
+    protected function saveDefaultUnsecureDomain($domain)
     {
-        $unsecureUrl = 'http://' . $domain . '/';
+        $unsecureUrl = $this->formatUrl(self::HTTP, $domain);
         $this->_configWriter->save(
             Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL,
             $unsecureUrl,
@@ -140,6 +160,7 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
             $unsecureUrl,
             Mage_Core_Model_Config::SCOPE_DEFAULT
         );
+        return $this;
     }
 
     /**
@@ -147,9 +168,9 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
      *
      * @param string $domain
      */
-    public function saveWebsitesSecureDomain($domain)
+    protected function saveWebsitesSecureDomain($domain)
     {
-        $secureUrl   =  'https://' . $domain . '/';
+        $secureUrl = $this->formatUrl(self::HTTPS, $domain);
         $this->_configWriter->save(
             Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL,
             $secureUrl,
@@ -169,9 +190,10 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
      *
      * @param string $domain
      */
-    public function saveWebsitesUnsecureDomain($domain)
+    protected function saveWebsitesUnsecureDomain($domain)
     {
-        $unsecureUrl   =  'http://' . $domain . '/';
+        $unsecureUrl   =  $this->formatUrl(self::HTTP, $domain);
+
         $this->_configWriter->save(
             Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL,
             $unsecureUrl,
@@ -184,6 +206,19 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
             Mage_Core_Model_Config::SCOPE_WEBSITES,
             1
         );
+    }
+
+    /**
+     * Format protocol and domain into valid URL
+     *
+     * @param string $protocol
+     * @param string $domain
+     * @return string
+     */
+    public function formatUrl($protocol, $domain)
+    {
+        $domain = $this->sanitizeDomain($domain);
+        return sprintf('%s://%s', $protocol, $domain);
     }
 
     /**
@@ -200,6 +235,24 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
         $enabledSsl = (bool) $this->_config->getNode(self::XML_CUSTOM_SSL);
 
         return $enabledSsl;
+    }
+
+    /**
+     * Get domain part from url
+     *
+     * @param string $url
+     * @return string
+     */
+    protected function sanitizeDomain($url)
+    {
+        $url = str_replace(
+            array(self::HTTP . ':', self::HTTPS . ':', '//'),
+            array('', '', ''),
+            $url
+        );
+        $urlParts = explode('/', $url);
+        return !empty($urlParts[0]) ? $urlParts[0] : '';
+
     }
 
     /**
