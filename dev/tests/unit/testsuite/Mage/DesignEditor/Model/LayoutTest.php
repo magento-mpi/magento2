@@ -84,7 +84,7 @@ class Mage_DesignEditor_Model_LayoutTest extends PHPUnit_Framework_TestCase
             $this->getMock('Mage_Core_Model_Layout_Argument_Processor', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Layout_Translator', array(), array(), '', false),
             $this->getMock('Mage_Core_Model_Layout_ScheduledStructure', array(), array(), '', false),
-            $this->getMock('Mage_Core_Model_Datasource_Factory', array(), array(), '', false),
+            $this->getMock('Mage_Core_Model_Dataservice_Factory', array(), array(), '', false),
             $helper
         );
     }

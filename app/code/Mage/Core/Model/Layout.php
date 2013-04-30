@@ -162,9 +162,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     protected $_translator;
 
-    protected $_datasources = array();
+    protected $_dataservices = array();
 
-    protected $_dataSourceFactory;
+    protected $_dataServiceFactory;
 
     /**
      * Renderers registered for particular name
@@ -186,7 +186,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         Mage_Core_Model_Layout_Argument_Processor $argumentProcessor,
         Mage_Core_Model_Layout_Translator $translator,
         Mage_Core_Model_Layout_ScheduledStructure $scheduledStructure,
-        Mage_Core_Model_Datasource_Factory $dataSourceFactory,
+        Mage_Core_Model_Dataservice_Factory $dataServiceFactory,
         $area = Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA
     ) {
         $this->_blockFactory = $blockFactory;
@@ -198,7 +198,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
         $this->_renderingOutput = new Varien_Object;
         $this->_scheduledStructure = $scheduledStructure;
-        $this->_dataSourceFactory = $dataSourceFactory;
+        $this->_dataServiceFactory = $dataServiceFactory;
     }
 
     /**
@@ -288,8 +288,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
         $this->_readStructure($this->getNode());
 
-        $this->_dataSourceFactory
-            ->init($this->getDatasources());
+        $this->_dataServiceFactory
+            ->init($this->getDataservices());
 
         while (false === $this->_scheduledStructure->isStructureEmpty()) {
             $this->_scheduleElement(key($this->_scheduledStructure->getStructure()));
@@ -382,7 +382,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             switch ($node->getName()) {
                 case self::TYPE_CONTAINER:
                 case self::TYPE_BLOCK:
-                    $this->_initDataSources($node);
+                    $this->_initDataServices($node);
                     $this->_scheduleStructure($node, $parent);
                     $this->_readStructure($node);
                     break;
@@ -419,25 +419,25 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     }
 
     /**
-     * Grab information about data source from the node
+     * Grab information about data service from the node
      *
      * @param Mage_Core_Model_Layout_Element $node
      * @return Mage_Core_Model_Layout
      */
-    protected function _initDataSources($node)
+    protected function _initDataServices($node)
     {
-        if (!$dataSources = $node->xpath('data')) {
+        if (!$dataServices = $node->xpath('data')) {
             return $this;
         }
         $nodeName = $node->getAttribute('name');
-        foreach ($dataSources as $dataSourceNode) {
-            $dataSourceName = $dataSourceNode->getAttribute('service-call');
-            if (isset($this->_datasources[$dataSourceName])) {
-                $this->_datasources[$dataSourceName]['namespaces'][$nodeName] =
-                    $dataSourceNode->getAttribute('alias');
+        foreach ($dataServices as $dataServiceNode) {
+            $dataServiceName = $dataServiceNode->getAttribute('service-call');
+            if (isset($this->_dataservices[$dataServiceName])) {
+                $this->_dataservices[$dataServiceName]['namespaces'][$nodeName] =
+                    $dataServiceNode->getAttribute('alias');
             } else {
-                $this->_datasources[$dataSourceName] = array(
-                    'namespaces' => array($nodeName => $dataSourceNode->getAttribute('alias'))
+                $this->_dataservices[$dataServiceName] = array(
+                    'namespaces' => array($nodeName => $dataServiceNode->getAttribute('alias'))
                 );
             }
         }
@@ -781,7 +781,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         }
 
         $arguments = $this->_argumentProcessor->process($arguments);
-        $dictionary = $this->_dataSourceFactory->getByNamespace((string)$node['name']);
+        $dictionary = $this->_dataServiceFactory->getByNamespace((string)$node['name']);
 
         $block = $this->_createBlock($className, $elementName,
             array('data' => $arguments, 'dictionary' => $dictionary));
@@ -809,9 +809,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         return $block;
     }
 
-    public function getDatasources()
+    public function getDataservices()
     {
-        return $this->_datasources;
+        return $this->_dataservices;
     }
 
     /**
@@ -1139,7 +1139,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                     }
                 }
             } else if (preg_match('/\{\{([a-zA-Z\.]*)\}\}/', $arg, $matches)) {
-                $args[$key] = $this->_dataSourceFactory->getArgumentValue($matches[1]);
+                $args[$key] = $this->_dataServiceFactory->getArgumentValue($matches[1]);
             }
         }
 
@@ -1593,12 +1593,12 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * @param $dynamicType
      * @param $type
      * @param $template
-     * @param string $dataSourceName
+     * @param string $dataServiceName
      * @param array $data
      * @return $this
      */
     public function addAdjustableRenderer($namespace, $staticType, $dynamicType, $type, $template,
-        $dataSourceName = '', $data = array()
+        $dataServiceName = '', $data = array()
     ) {
         if (!isset($namespace)) {
             $this->_renderers[$namespace] = array();
@@ -1609,7 +1609,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $this->_renderers[$namespace][$staticType][$dynamicType] = array(
             'type' => $type,
             'template' => $template,
-            'dataSourceName' => $dataSourceName,
+            'dataServiceName' => $dataServiceName,
             'data' => $data
         );
         return $this;
@@ -1645,8 +1645,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         if ($options = $this->getRendererOptions($namespace, $staticType, $dynamicType)) {
             $dictionary = array();
-            if (!empty($options['dataSourceName'])) {
-                $dictionary = $this->_dataSourceFactory->get($options['dataSourceName']);
+            if (!empty($options['dataServiceName'])) {
+                $dictionary = $this->_dataServiceFactory->get($options['dataServiceName']);
             }
             /** @var $block Mage_Core_Block_Template */
             $block = $this->createBlock($options['type'], '')

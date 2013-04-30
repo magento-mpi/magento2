@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class  Mage_Core_Model_Datasource_Path_Visitor
+class  Mage_Core_Model_Dataservice_Path_Visitor
 {
     /**
      * @var null|string
@@ -57,11 +57,11 @@ class  Mage_Core_Model_Datasource_Path_Visitor
     }
 
     /**
-     * @param Mage_Core_Model_Datasource_Path_Visitable $object
+     * @param Mage_Core_Model_Dataservice_Path_Visitable $object
      * @return null
      * @throws InvalidArgumentException
      */
-    public function visitObject(Mage_Core_Model_Datasource_Path_Visitable $object)
+    public function visitObject(Mage_Core_Model_Dataservice_Path_Visitable $object)
     {
         $target = $object->visit($this);
         if ($target == null) {

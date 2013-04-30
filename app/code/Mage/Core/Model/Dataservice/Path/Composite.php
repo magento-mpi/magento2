@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Datasource_Path_Composite implements Mage_Core_Model_Datasource_Path_Visitable
+class Mage_Core_Model_Dataservice_Path_Composite implements Mage_Core_Model_Dataservice_Path_Visitable
 {
     /**
      * @var array
@@ -24,10 +24,10 @@ class Mage_Core_Model_Datasource_Path_Composite implements Mage_Core_Model_Datas
     }
 
     /**
-     * @param Mage_Core_Model_Datasource_Path_Visitor $visitor
+     * @param Mage_Core_Model_Dataservice_Path_Visitor $visitor
      * @return null
      */
-    public function visit(Mage_Core_Model_Datasource_Path_Visitor $visitor)
+    public function visit(Mage_Core_Model_Dataservice_Path_Visitor $visitor)
     {
         $result = $visitor->visitArray($this->_children);
         return $result;

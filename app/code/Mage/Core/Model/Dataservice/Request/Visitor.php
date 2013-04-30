@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Datasource_Request_Visitor implements Mage_Core_Model_Datasource_Path_Visitable
+class Mage_Core_Model_Dataservice_Request_Visitor implements Mage_Core_Model_Dataservice_Path_Visitable
 {
     protected $_request;
 
@@ -15,7 +15,7 @@ class Mage_Core_Model_Datasource_Request_Visitor implements Mage_Core_Model_Data
         $this->_request = $request;
     }
 
-    public function visit(Mage_Core_Model_Datasource_Path_Visitor $visitor)
+    public function visit(Mage_Core_Model_Dataservice_Path_Visitor $visitor)
     {
         $target = $visitor->getCurrentPathElement();
         switch ($target) {

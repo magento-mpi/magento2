@@ -1,14 +1,14 @@
 <?php
 /**
- * Datasource factory
+ * Dataservice factory
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Datasource_Factory implements Mage_Core_Model_Datasource_Path_Visitable
+class Mage_Core_Model_Dataservice_Factory implements Mage_Core_Model_Dataservice_Path_Visitable
 {
     /**
-     * @var Mage_Core_Model_Datasource_Config_Interface
+     * @var Mage_Core_Model_Dataservice_Config_Interface
      */
     protected $_config;
 
@@ -17,26 +17,31 @@ class Mage_Core_Model_Datasource_Factory implements Mage_Core_Model_Datasource_P
      */
     protected $_objectManager;
 
-    /** @var Mage_Core_Model_Datasource_Repository */
+    /** @var Mage_Core_Model_Dataservice_Repository */
     protected $_repository;
 
+    /** @var Mage_Core_Model_Dataservice_Path_Composite */
+    protected $_composite;
+
     /**
-     * @param Mage_Core_Model_Datasource_Config_Interface $config
+     * @param Mage_Core_Model_Dataservice_Config_Interface $config
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Datasource_Repository $repository
+     * @param Mage_Core_Model_Dataservice_Repository $repository
      */
     public function __construct(
-        Mage_Core_Model_Datasource_Config_Interface $config,
+        Mage_Core_Model_Dataservice_Config_Interface $config,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Datasource_Repository $repository
+        //Mage_Core_Model_Dataservice_Path_Composite $composite,
+        Mage_Core_Model_Dataservice_Repository $repository
     ) {
         $this->_config = $config;
         $this->_objectManager = $objectManager;
+        // $this->_composite = $composite;
         $this->_repository = $repository;
     }
 
     /**
-     * @return Mage_Core_Model_Datasource_Config_Interface
+     * @return Mage_Core_Model_Dataservice_Config_Interface
      */
     public function getConfig()
     {
@@ -47,36 +52,36 @@ class Mage_Core_Model_Datasource_Factory implements Mage_Core_Model_Datasource_P
      * takes array of the following structure
      * and initializes all of the data sources
      *
-     *  array(dataSourceName => array(
+     *  array(dataServiceName => array(
      *      blocks => array(
      *          'namespace' => aliasInNamespace
      *      ))
      *
-     * @param array $dataSourcesList
-     * @return Mage_Core_Model_Datasource_Factory
+     * @param array $dataServicesList
+     * @return Mage_Core_Model_Dataservice_Factory
      */
-    public function init(array $dataSourcesList)
+    public function init(array $dataServicesList)
     {
-        foreach ($dataSourcesList as $dataSourceName => $namespaceConfig) {
-            $this->initDataSource($dataSourceName);
-            $this->assignToNamespace($dataSourceName, $namespaceConfig);
+        foreach ($dataServicesList as $dataServiceName => $namespaceConfig) {
+            $this->initDataService($dataServiceName);
+            $this->assignToNamespace($dataServiceName, $namespaceConfig);
         }
         return $this;
     }
 
     /**
      * Assign service call name to the namespace
-     * @param $dataSourceName
+     * @param $dataServiceName
      * @param $namespaceConfig
      * @throws Exception
      */
-    public function assignToNamespace($dataSourceName, $namespaceConfig)
+    public function assignToNamespace($dataServiceName, $namespaceConfig)
     {
         if (!isset($namespaceConfig['namespaces'])) {
             throw new Exception("Data reference configuration doesn't have a block to link to");
         }
         foreach ($namespaceConfig['namespaces'] as $namespaceName => $aliasInNamespace) {
-            $this->getRepository()->addNameInNamespace($namespaceName, $dataSourceName, $aliasInNamespace);
+            $this->getRepository()->addNameInNamespace($namespaceName, $dataServiceName, $aliasInNamespace);
         }
     }
 
@@ -88,8 +93,8 @@ class Mage_Core_Model_Datasource_Factory implements Mage_Core_Model_Datasource_P
      */
     public function getByNamespace($namespace)
     {
-        $dataSources =  $this->getRepository()->getByNamespace($namespace);
-        return $dataSources;
+        $dataServices =  $this->getRepository()->getByNamespace($namespace);
+        return $dataServices;
     }
 
     /**
@@ -99,16 +104,16 @@ class Mage_Core_Model_Datasource_Factory implements Mage_Core_Model_Datasource_P
      */
     public function get($sourceName)
     {
-        $dataSource = $this->getRepository()->get($sourceName);
-        if ($dataSource == null) {
-            $dataSource = $this->initDataSource($sourceName);
+        $dataService = $this->getRepository()->get($sourceName);
+        if ($dataService == null) {
+            $dataService = $this->initDataService($sourceName);
         }
-        return $dataSource;
+        return $dataService;
     }
 
     /**
      * Retrieve repository for the data from service calls
-     * @return array|Mage_Core_Model_Datasource_Repository
+     * @return array|Mage_Core_Model_Dataservice_Repository
      */
     public function getRepository()
     {
@@ -121,19 +126,19 @@ class Mage_Core_Model_Datasource_Factory implements Mage_Core_Model_Datasource_P
      * @param $sourceName
      * @return bool|mixed
      */
-    public function initDataSource($sourceName)
+    public function initDataService($sourceName)
     {
-        if ($dataSource = $this->getRepository()->get($sourceName) !== null) {
-            return $dataSource;
+        if ($dataService = $this->getRepository()->get($sourceName) !== null) {
+            return $dataService;
         }
 
         $classInformation = $this->getConfig()->getClassByAlias($sourceName);
         $instance = $this->_objectManager->create($classInformation['class']);
-        $dataSource = $this->_applyMethod($instance, $classInformation['retrieveMethod'],
+        $dataService = $this->_applyMethod($instance, $classInformation['retrieveMethod'],
             $classInformation['methodArguments']);
 
-        $this->getRepository()->add($sourceName, $dataSource);
-        return $dataSource;
+        $this->getRepository()->add($sourceName, $dataService);
+        return $dataService;
     }
 
     /**
@@ -163,12 +168,10 @@ class Mage_Core_Model_Datasource_Factory implements Mage_Core_Model_Datasource_P
      */
     public function getArgumentValue($path)
     {
-        /** @var $visitor Mage_Core_Model_Datasource_Path_Visitor */
-        $visitor = $this->_objectManager->create('Mage_Core_Model_Datasource_Path_Visitor',
+        /** @var $visitor Mage_Core_Model_Dataservice_Path_Visitor */
+        $visitor = $this->_objectManager->create('Mage_Core_Model_Dataservice_Path_Visitor',
             array('path' => $path, 'separator' => '.'));
-        /** @var $pathRepository Mage_Core_Model_Datasource_Path_Composite */
-        $pathRepository = $this->_objectManager->create('Mage_Core_Model_Datasource_Path_Composite');
-        $result = $visitor->visit($pathRepository);
+        $result = $visitor->visit($this->_composite);
         return $result;
     }
 
@@ -189,13 +192,14 @@ class Mage_Core_Model_Datasource_Factory implements Mage_Core_Model_Datasource_P
 
 
     /**
-     * Make the Datasource Object visitable
+     * Make the Dataservice Object visitable
      *
-     * @param Mage_Core_Model_Datasource_Path_Visitor $visitor
+     * @param Mage_Core_Model_Dataservice_Path_Visitor $visitor
      * @return bool|mixed
      */
-    public function visit(Mage_Core_Model_Datasource_Path_Visitor $visitor)
+    public function visit(Mage_Core_Model_Dataservice_Path_Visitor $visitor)
     {
-        return $this->get($visitor->getCurrentPathElement());
+        return $this->getRepository()->visit($visitor);
+        // return $this->get($visitor->getCurrentPathElement());
     }
 }

@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Datasource_Repository
+class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataservice_Path_Visitable
 {
     /**
      * @var array
      */
-    protected $_dataSources = array();
+    protected $_dataServices = array();
 
     /**
      * @var array
@@ -42,22 +42,22 @@ class Mage_Core_Model_Datasource_Repository
         if (!isset($this->_namespaces[$namespace])) {
             return array();
         }
-        $dataSources = array();
-        $dataSourcesNames = $this->_namespaces[$namespace];
-        foreach ($dataSourcesNames as $name => $nameInNamespace) {
-            $dataSources[$nameInNamespace] = $this->get($name);
+        $dataServices = array();
+        $dataServicesNames = $this->_namespaces[$namespace];
+        foreach ($dataServicesNames as $name => $nameInNamespace) {
+            $dataServices[$nameInNamespace] = $this->get($name);
         }
-        return $dataSources;
+        return $dataServices;
     }
 
     /**
      * @param $name
-     * @param $dataSource
+     * @param $dataService
      * @return $this
      */
-    public function add($name, $dataSource)
+    public function add($name, $dataService)
     {
-        $this->_dataSources[$name] = $dataSource;
+        $this->_dataServices[$name] = $dataService;
         return $this;
     }
 
@@ -67,9 +67,25 @@ class Mage_Core_Model_Datasource_Repository
      */
     public function get($name)
     {
-        if (!isset($this->_dataSources[$name])) {
+        if (!isset($this->_dataServices[$name])) {
             return null;
         }
-        return $this->_dataSources[$name];
+        return $this->_dataServices[$name];
+    }
+
+    /**
+     * Make the Dataservice Object visitable
+     *
+     * @param Mage_Core_Model_Dataservice_Path_Visitor $visitor
+     * @return bool|mixed
+     */
+    public function visit(Mage_Core_Model_Dataservice_Path_Visitor $visitor)
+    {
+        $sourceName = $visitor->getCurrentPathElement();
+        $dataService = $this->get($sourceName);
+        if ($dataService == null) {
+            // TODO: What about null values?
+        }
+        return $dataService;
     }
 }
