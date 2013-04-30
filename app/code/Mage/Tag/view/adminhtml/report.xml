@@ -367,7 +367,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="added_in">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Submitted Locale</header>
+                            <header translate="true" module="Mage_Tag">Submit Locale</header>
                             <index>added_in</index>
                             <type>store</type>
                             <store_view>1</store_view>
@@ -446,7 +446,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="added_in">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Submitted In</header>
+                            <header translate="true" module="Mage_Tag">Submitted On</header>
                             <index>store_id</index>
                             <type>store</type>
                             <store_view>1</store_view>
@@ -454,7 +454,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="created_at">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Submitted Date</header>
+                            <header translate="true" module="Mage_Tag">Submit Date</header>
                             <index>created_at</index>
                             <width>140px</width>
                             <type>datetime</type>

@@ -420,9 +420,9 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
             case 'state':
                 return Mage::helper('Mage_Sales_Helper_Data')->__('Profile State');
             case 'created_at':
-                return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Created At');
+                return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Created');
             case 'updated_at':
-                return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Updated At');
+                return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Updated');
             default:
                 return parent::getFieldLabel($field);
         }
