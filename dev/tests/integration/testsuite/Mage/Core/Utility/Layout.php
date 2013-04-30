@@ -80,7 +80,7 @@ class Mage_Core_Utility_Layout
             'scheduledStructure' => Mage::getObjectManager()->create('Mage_Core_Model_Layout_ScheduledStructure',
                 array()
             ),
-            'dataSourceFactory' => Mage::getObjectManager()->create('Magento_Datasource_Factory',
+            'dataServiceFactory' => Mage::getObjectManager()->create('Mage_Core_Model_Dataservice_Factory',
                 array(), false
             )
         );

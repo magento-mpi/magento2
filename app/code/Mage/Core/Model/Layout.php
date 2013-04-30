@@ -162,7 +162,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     protected $_translator;
 
-    protected $_dataservices = array();
+    protected $_dataServices = array();
 
     protected $_dataServiceFactory;
 
@@ -289,7 +289,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $this->_readStructure($this->getNode());
 
         $this->_dataServiceFactory
-            ->init($this->getDataservices());
+            ->init($this->getDataServices());
 
         while (false === $this->_scheduledStructure->isStructureEmpty()) {
             $this->_scheduleElement(key($this->_scheduledStructure->getStructure()));
@@ -432,11 +432,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $nodeName = $node->getAttribute('name');
         foreach ($dataServices as $dataServiceNode) {
             $dataServiceName = $dataServiceNode->getAttribute('service-call');
-            if (isset($this->_dataservices[$dataServiceName])) {
-                $this->_dataservices[$dataServiceName]['namespaces'][$nodeName] =
+            if (isset($this->_dataServices[$dataServiceName])) {
+                $this->_dataServices[$dataServiceName]['namespaces'][$nodeName] =
                     $dataServiceNode->getAttribute('alias');
             } else {
-                $this->_dataservices[$dataServiceName] = array(
+                $this->_dataServices[$dataServiceName] = array(
                     'namespaces' => array($nodeName => $dataServiceNode->getAttribute('alias'))
                 );
             }
@@ -809,9 +809,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         return $block;
     }
 
-    public function getDataservices()
+    public function getDataServices()
     {
-        return $this->_dataservices;
+        return $this->_dataServices;
     }
 
     /**
