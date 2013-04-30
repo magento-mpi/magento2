@@ -1013,6 +1013,10 @@ button.primary.disabled:hover,
     height: 31px;
 }
 
+.eq-ie8 .actions-image-uploader .action-upload {
+    filter: none;
+}
+
 .actions-image-uploader .action-toggle,
 .actions-image-uploader .action-toggle:hover,
 .actions-image-uploader .action-toggle:active,
