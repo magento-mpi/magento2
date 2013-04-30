@@ -5948,7 +5948,6 @@ img[align="right"] {
   font-weight: 600;
   font-size: 12px;
   margin: 0;
-  padding: 5px 10px;
   position: absolute;
   top: 100%;
   margin-left: -11px;
@@ -5966,7 +5965,7 @@ img[align="right"] {
   transition: visibility 0s linear 0.2s, opacity 0.2s linear 0s;
 }
 .customer.welcome .menu > ul li {
-  margin: 10px 0;
+  margin: 15px;
   display: block;
   white-space: nowrap;
 }
