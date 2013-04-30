@@ -21,11 +21,12 @@ class Saas_JobNotification_Model_Resource_Notification_Collection
     /**
      * Initialize db query
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract|void
+     * @return Saas_JobNotification_Model_Resource_Notification_Collection
      */
     protected function _initSelect()
     {
         parent::_initSelect();
         $this->addFilter('is_remove', '0');
+        return $this;
     }
 }

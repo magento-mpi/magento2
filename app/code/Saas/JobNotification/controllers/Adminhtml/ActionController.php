@@ -52,7 +52,7 @@ class Saas_JobNotification_Adminhtml_ActionController extends Mage_Backend_Contr
             } catch (InvalidArgumentException $exception) {
                 $this->_session->addError($this->_helper->__('Unable to proceed. Please, try again'));
             } catch (Saas_JobNotification_Service_Exception $exception) {
-                $this->_session->addError($exception->getMessages());
+                $this->_session->addError($exception->getMessage());
             } catch (Exception $exception) {
                 $this->_session->addException(
                     $exception,
@@ -78,7 +78,7 @@ class Saas_JobNotification_Adminhtml_ActionController extends Mage_Backend_Contr
             } catch (InvalidArgumentException $exception) {
                 $this->_session->addError($this->_helper->__('Please select notifications'));
             } catch (Saas_JobNotification_Service_Exception $exception) {
-                $this->_session->addError($exception->getMessages());
+                $this->_session->addError($exception->getMessage());
             } catch (Exception $exception) {
                 $this->_session->addException(
                     $exception,
@@ -102,7 +102,7 @@ class Saas_JobNotification_Adminhtml_ActionController extends Mage_Backend_Contr
             } catch (InvalidArgumentException $exception) {
                 $this->_session->addError($this->_helper->__('Unable to proceed. Please, try again'));
             } catch (Saas_JobNotification_Service_Exception $exception) {
-                $this->_session->addError($exception->getMessages());
+                $this->_session->addError($exception->getMessage());
             } catch (Exception $exception) {
                 $this->_session->addException(
                     $exception,
@@ -128,7 +128,7 @@ class Saas_JobNotification_Adminhtml_ActionController extends Mage_Backend_Contr
             } catch (InvalidArgumentException $exception) {
                 $this->_session->addError($this->_helper->__('Please select notifications'));
             } catch (Saas_JobNotification_Service_Exception $exception) {
-                $this->_session->addError($exception->getMessages());
+                $this->_session->addError($exception->getMessage());
             } catch (Exception $exception) {
                 $this->_session->addException(
                     $exception,
