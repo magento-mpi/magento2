@@ -4192,7 +4192,7 @@ select:disabled {
 .category-view .toolbar {
   min-height: 70px;
 }
-.toolbar:before {
+.category-view .toolbar:before {
   position: absolute;
   top: 35px;
   left: 0;
@@ -6115,17 +6115,20 @@ img[align="right"] {
 .data.table.orders,
 .data.wishlist,
 .data.table.reviews,
-.data.table.tags {
+.data.table.tags,
+.data.table.order {
   width: 100%;
 }
 .data.table.orders td,
 .data.wishlist td,
 .data.table.reviews td,
 .data.table.tags td,
+.data.table.order td,
 .data.table.orders th,
 .data.wishlist th,
 .data.table.reviews th,
-.data.table.tags th {
+.data.table.tags th,
+.data.table.order th {
   padding: 10px 20px;
   text-align: left;
 }
@@ -6133,53 +6136,63 @@ img[align="right"] {
 .data.wishlist td.col.total,
 .data.table.reviews td.col.total,
 .data.table.tags td.col.total,
+.data.table.order td.col.total,
 .data.table.orders th.col.total,
 .data.wishlist th.col.total,
 .data.table.reviews th.col.total,
-.data.table.tags th.col.total {
+.data.table.tags th.col.total,
+.data.table.order th.col.total {
   text-align: right;
 }
 .data.table.orders td.col.actions,
 .data.wishlist td.col.actions,
 .data.table.reviews td.col.actions,
 .data.table.tags td.col.actions,
+.data.table.order td.col.actions,
 .data.table.orders th.col.actions,
 .data.wishlist th.col.actions,
 .data.table.reviews th.col.actions,
-.data.table.tags th.col.actions {
+.data.table.tags th.col.actions,
+.data.table.order th.col.actions {
   white-space: nowrap;
 }
 .data.table.orders td.col.actions .action:last-child,
 .data.wishlist td.col.actions .action:last-child,
 .data.table.reviews td.col.actions .action:last-child,
 .data.table.tags td.col.actions .action:last-child,
+.data.table.order td.col.actions .action:last-child,
 .data.table.orders th.col.actions .action:last-child,
 .data.wishlist th.col.actions .action:last-child,
 .data.table.reviews th.col.actions .action:last-child,
-.data.table.tags th.col.actions .action:last-child {
+.data.table.tags th.col.actions .action:last-child,
+.data.table.order th.col.actions .action:last-child {
   margin-left: 20px;
 }
 .data.table.orders td em,
 .data.wishlist td em,
 .data.table.reviews td em,
 .data.table.tags td em,
+.data.table.order td em,
 .data.table.orders th em,
 .data.wishlist th em,
 .data.table.reviews th em,
-.data.table.tags th em {
+.data.table.tags th em,
+.data.table.order th em {
   font-style: normal;
 }
 .data.table.orders th,
 .data.wishlist th,
 .data.table.reviews th,
-.data.table.tags th {
+.data.table.tags th,
+.data.table.order th {
   font-size: 16px;
   font-weight: 400;
 }
 .data.table.orders tr:nth-child(odd) td,
 .data.wishlist tr:nth-child(odd) td,
 .data.table.reviews tr:nth-child(odd) td,
-.data.table.tags tr:nth-child(odd) td {
+.data.table.tags tr:nth-child(odd) td,
+.data.table.order tr:nth-child(odd) td {
   background: #ffffff;
 }
 .customer.menu .customer {
@@ -7178,6 +7191,195 @@ img[align="right"] {
 }
 .comparison.headings th {
   background-color: #ffffff;
+}
+/*
+ *    My Account --> My orders
+ *
+----------------------------------------------------------------------------- */
+.order.details .status {
+  margin: 0.5em 0;
+  font-family: "benchnine";
+  line-height: 1.2;
+  font-weight: 400;
+  font-size: 30px;
+  color: #393939;
+  float: left;
+}
+.order.details .subtitle.caption strong,
+.order.details .title strong {
+  margin: 0.5em 0;
+  font-family: "benchnine";
+  line-height: 1.2;
+  font-weight: 400;
+  font-size: 24px;
+  color: #393939;
+}
+.order.details .subtitle.caption .action,
+.order.details .title .action {
+  margin-left: 10px;
+}
+.order.details .order.toolbar {
+  float: right;
+  margin-top: 29px;
+}
+.order.details .order.toolbar .action {
+  margin-left: 10px;
+}
+.order.details .block.order {
+  float: left;
+  width: 48%;
+  padding-right: 2%;
+}
+.order.details .block.order.billing.address {
+  clear: left;
+}
+.order.details .block.order .content {
+  background: #f2f2f2;
+  padding: 30px;
+}
+.order.details .order.info {
+  clear: both;
+}
+.order.details .order.info > dt {
+  margin: 0.5em 0;
+  font-family: "benchnine";
+  line-height: 1.2;
+  font-weight: 400;
+  font-size: 24px;
+  color: #393939;
+}
+.order.details .order.info > dd {
+  margin: 10px 0 0 0;
+  background: #f2f2f2;
+  padding: 30px;
+}
+.order.details .order.info > dd .items {
+  *zoom: 1;
+}
+.order.details .order.info > dd .items:before,
+.order.details .order.info > dd .items:after {
+  content: "";
+  display: table;
+}
+.order.details .order.info > dd .items:after {
+  clear: both;
+}
+.order.details .order.info > dd .items .item {
+  float: left;
+  margin-right: 15px;
+}
+.order.details .additional.details .order.comments {
+  background: #f2f2f2;
+  padding: 30px;
+}
+.data.table.order {
+  margin-bottom: 10px;
+}
+.order.details.items {
+  clear: both;
+}
+.order.details.items .order.toolbar {
+  margin: 9px 0 0 0;
+}
+.order.details.items .action.show {
+  text-decoration: none;
+}
+.order.details.items .action.show:after {
+  font-family: "icons";
+  font-size: 12px;
+  line-height: 12px;
+  height: 12px;
+  overflow: hidden;
+  content: "\e00f";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+}
+.order.details.items .action.show.expanded:after {
+  content: "\e010";
+}
+.gift.message.details {
+  position: relative;
+}
+.gift.message.details .action.close {
+  width: 12px;
+  display: block;
+  line-height: 0;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
+  text-indent: -999em;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.gift.message.details .action.close:after {
+  font-family: "icons";
+  font-size: 12px;
+  line-height: 12px;
+  height: 12px;
+  overflow: hidden;
+  content: "\e001";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+}
+.gift.message.details .action.close:active {
+  outline: 0;
+}
+.gift.message.details .action.close:after {
+  text-indent: 0;
+  display: block;
+}
+.gift.message.details .action.close:hover:after {
+  color: #14148f;
+}
+.data.table.tracking .label {
+  width: 40%;
+}
+.shipping-tracking-popup .action.close {
+  display: inline-block;
+  border: none;
+  border-radius: 0;
+  background: #596078;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  color: #fff;
+  text-decoration: none;
+  text-indent: 0;
+}
+.shipping-tracking-popup .action.close span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.shipping-tracking-popup .action.close:focus,
+.shipping-tracking-popup .action.close:active,
+.shipping-tracking-popup .action.close:hover {
+  background: #14148f;
+}
+.shipping-tracking-popup .action.close span {
+  width: auto;
+  text-indent: 0;
+}
+.shipping-tracking-popup .action.close span:after {
+  content: "";
+  display: none;
 }
 /*
  *    Homepage styles

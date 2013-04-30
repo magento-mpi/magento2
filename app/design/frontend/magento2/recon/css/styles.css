@@ -40,6 +40,11 @@
   src: url("../fonts/archivonarrow/archivonarrow-700-italic-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/archivonarrow/archivonarrow-700-italic-webfont.svg#archivonarrow-700-italic-webfont") format("svg"), url("../fonts/archivonarrow/archivonarrow-700-italic-webfont.woff") format("woff"), url("../fonts/archivonarrow/archivonarrow-700-italic-webfont.ttf") format("truetype");
   font-weight: 700;
   font-style: italic;
+  font-family: "archivonarrow";
+  src: url("../fonts/archivonarrow/archivonarrow-700-italic-webfont.eot");
+  src: url("../fonts/archivonarrow/archivonarrow-700-italic-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/archivonarrow/archivonarrow-700-italic-webfont.svg#archivonarrow-700-italic-webfont") format("svg"), url("../fonts/archivonarrow/archivonarrow-700-italic-webfont.woff") format("woff"), url("../fonts/archivonarrow/archivonarrow-700-italic-webfont.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
 }
 @font-face {
   font-family: "icons";
@@ -4194,7 +4199,7 @@ select:disabled {
 .category-view .toolbar {
   min-height: 70px;
 }
-.toolbar:before {
+.category-view .toolbar:before {
   position: absolute;
   top: 35px;
   left: 0;
@@ -7188,6 +7193,198 @@ img[align="right"] {
 }
 .comparison.headings th {
   background-color: #101010;
+}
+/*
+ *    My Account --> My orders
+ *
+----------------------------------------------------------------------------- */
+.order.details .status {
+  margin: 0.5em 0;
+  font-family: "archivonarrow", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.2;
+  font-size: 28px;
+  color: #ae1523;
+  float: left;
+}
+.order.details .subtitle.caption strong,
+.order.details .title strong {
+  margin: 0.5em 0;
+  font-family: "archivonarrow", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.2;
+  font-size: 20px;
+  color: #ae1523;
+}
+.order.details .subtitle.caption .action,
+.order.details .title .action {
+  margin-left: 10px;
+}
+.order.details .order.toolbar {
+  float: right;
+  margin-top: 29px;
+}
+.order.details .order.toolbar .action {
+  margin-left: 10px;
+}
+.order.details .block.order {
+  float: left;
+  width: 48%;
+  padding-right: 2%;
+}
+.order.details .block.order.billing.address {
+  clear: left;
+}
+.order.details .block.order .content {
+  background: #393939;
+  padding: 30px;
+}
+.order.details .order.info {
+  clear: both;
+}
+.order.details .order.info > dt {
+  margin: 0.5em 0;
+  font-family: "archivonarrow", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.2;
+  font-size: 20px;
+  color: #ae1523;
+}
+.order.details .order.info > dd {
+  margin: 10px 0 0 0;
+  background: #393939;
+  padding: 30px;
+}
+.order.details .order.info > dd .items {
+  *zoom: 1;
+}
+.order.details .order.info > dd .items:before,
+.order.details .order.info > dd .items:after {
+  content: "";
+  display: table;
+}
+.order.details .order.info > dd .items:after {
+  clear: both;
+}
+.order.details .order.info > dd .items .item {
+  float: left;
+  margin-right: 15px;
+}
+.order.details .additional.details .order.comments {
+  background: #393939;
+  padding: 30px;
+}
+.data.table.order {
+  margin-bottom: 10px;
+}
+.order.details.items {
+  clear: both;
+}
+.order.details.items .order.toolbar {
+  margin: 9px 0 0 0;
+}
+.order.details.items .action.show {
+  text-decoration: none;
+}
+.order.details.items .action.show:after {
+  font-family: "icons";
+  font-size: 12px;
+  line-height: 12px;
+  height: 12px;
+  overflow: hidden;
+  content: "\e00f";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+}
+.order.details.items .action.show.expanded:after {
+  content: "\e010";
+}
+.gift.message.details {
+  position: relative;
+}
+.gift.message.details .action.close {
+  width: 12px;
+  display: block;
+  line-height: 0;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
+  text-indent: -999em;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.gift.message.details .action.close:after {
+  font-family: "icons";
+  font-size: 12px;
+  line-height: 12px;
+  height: 12px;
+  overflow: hidden;
+  content: "\e001";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+}
+.gift.message.details .action.close:active {
+  outline: 0;
+}
+.gift.message.details .action.close:after {
+  text-indent: 0;
+  display: block;
+}
+.gift.message.details .action.close:hover:after {
+  color: #ae1523;
+}
+.data.table.tracking .label {
+  width: 40%;
+}
+.shipping-tracking-popup .action.close {
+  display: inline-block;
+  border: none;
+  border-radius: 0;
+  background: #d74957;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  color: #fff;
+  text-decoration: none;
+  text-indent: 0;
+}
+.shipping-tracking-popup .action.close span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.shipping-tracking-popup .action.close:focus,
+.shipping-tracking-popup .action.close:active,
+.shipping-tracking-popup .action.close:hover {
+  background: #ae1523;
+}
+.shipping-tracking-popup .action.close span {
+  width: auto;
+  text-indent: 0;
+}
+.shipping-tracking-popup .action.close span:after {
+  content: "";
+  display: none;
 }
 /*
  *    Homepage styles

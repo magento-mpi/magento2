@@ -19,6 +19,7 @@
 }
 @font-face {
   .font-face(archivonarrow, 700, italic);
+  .font-face(archivonarrow, 700, italic);
 }
 
 @font-face {
@@ -3275,8 +3276,8 @@ select {
     }
   }
   .count {
-    &:before {content:' (';}
-    &:after {content:')';}
+    &:before { content:' ('; }
+    &:after { content:')'; }
   }
 }
 
@@ -3293,7 +3294,7 @@ select {
   .category-view & {
     min-height: 70px;
   }
-  &:before {
+  .category-view &:before {
     position: absolute;
     top: 35px;
     left: 0;
@@ -5041,6 +5042,122 @@ and (max-width : 768px)  {
   background-color: @pageMainBg;
   th {
     background-color: @pageMainBg;
+  }
+}
+
+/*
+ *    My Account --> My orders
+ *
+----------------------------------------------------------------------------- */
+.order.details {
+  .status {
+    .titleH2();
+    float: left;
+  }
+  .subtitle.caption,
+  .title {
+    strong {
+      .titleH3();
+    }
+    .action {
+      margin-left: 10px;
+    }
+  }
+  .order.toolbar {
+    float: right;
+    margin-top: 29px;
+    .action {
+      margin-left: 10px;
+    }
+  }
+  .block.order {
+    float: left;
+    width: 48%;
+    padding-right: 2%;
+    &.billing.address {
+      clear: left;
+    }
+    .content {
+      background: @fieldBg;
+      padding: 30px;
+    }
+  }
+  .order.info {
+    clear: both;
+    > dt {
+      .titleH3();
+    }
+    > dd {
+      margin: 10px 0 0 0;
+      background: @fieldBg;
+      padding: 30px;
+      .items {
+        .clearfix();
+        .item {
+          float: left;
+          margin-right: 15px;
+        }
+      }
+    }
+  }
+  .additional.details {
+    .order.comments  {
+      background: @fieldBg;
+      padding: 30px;
+    }
+  }
+}
+
+.data.table.order {
+  margin-bottom: 10px;
+}
+
+.order.details.items {
+  clear: both;
+  .order.toolbar {
+    margin: 9px 0 0 0;
+  }
+  .action.show {
+    text-decoration: none;
+    .iconAfter("\e00f", 12px, 'icons');
+    &.expanded:after {
+      content: "\e010";
+    }
+  }
+}
+
+.gift.message.details {
+  position: relative;
+  .action.close {
+    .iconAfter("\e001", 12px, 'icons');
+    .hideText(12px);
+    position: absolute;
+    top: 0;
+    right: 0;
+    &:hover:after {
+      color: @navBg;
+    }
+  }
+}
+
+.data.table.tracking {
+  .label {
+    width: 40%;
+  }
+}
+
+.shipping-tracking-popup {
+  .action.close {
+    .secondaryAction();
+    text-indent: 0;
+    span {
+      width: auto;
+      text-indent: 0;
+      &:after {
+        content: "";
+        display: none;
+      }
+    }
   }
 }
 
