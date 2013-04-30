@@ -80,7 +80,7 @@
                     <block type="Mage_Page_Block_Switch" name="store_switcher" as="store_switcher" template="switch/stores.phtml"/>
                     <block type="Mage_Page_Block_Template_Links" name="footer_links" template="template/links.phtml"/>
                     <block type="Mage_Page_Block_Html_Footer" name="copyright" template="html/copyright.phtml" />
-                    <block type="Mage_Page_Block_Html_Footer" name="report.bugs" template="html/reportbugs.phtml" />
+                    <!-- <block type="Mage_Page_Block_Html_Footer" name="report.bugs" template="html/reportbugs.phtml" /> -->
                 </container>
             </container>
 

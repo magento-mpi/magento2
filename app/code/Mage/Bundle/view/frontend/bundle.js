@@ -38,6 +38,9 @@
                     this.options.bundleConfig.selected[ele] = [this.options.bundleConfig.defaultValues[ele]];
                 }
             });
+
+            // Trigger Event to update Summary box
+            this.element.trigger('updateProductSummary', [{config: this.options.bundleConfig}]);
             this.reloadPrice();
         },
 
@@ -84,15 +87,16 @@
                     selected.push(element.val());
                     config.selected[parts[2]] = selected;
                 } else if (element.is('input')) {
-                    if (element.is(":radio:checked")) {
-                            selected.push(element.val());
-                            config.selected[parts[2]] = selected;
-                    }
                     if (element.is(":checkbox")) {
                         if (element.is(":checked")) {
-                            config.selected[parts[2]].push(element.val());
+                            selected.push(element.val());
+                            if (parts[2] in config.selected) {
+                                config.selected[parts[2]].push(selected);
+                            } else {
+                                config.selected[parts[2]] = [selected];
+                            }
                         } else {
-                            config.selected[parts[2]].splice($.inArray(element.val(), config.selected[parts[2]]), 1);
+                            config.selected[parts[2]] = $.grep(config.selected[parts[2]], function(e) {return e[0] != element.val();});
                         }
                     }
                 }
@@ -104,6 +108,8 @@
                 }
                 this.populateQty(parts[2], element.val());
             }
+            // Trigger Event to update Summary box
+            this.element.trigger('updateProductSummary', [{config: this.options.bundleConfig}]);
             this.reloadPrice();
         },
 

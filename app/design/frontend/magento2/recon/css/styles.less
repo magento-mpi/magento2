@@ -26,7 +26,6 @@
 }
 
 @import url(grid.less);
-@import url(temp.less);
 @import url(vars.less);
 @import url(tabs.less);
 @import url(form.less);
@@ -336,6 +335,7 @@ input, select, textarea {
 }
 
 html {
+  min-width: 1025px;
   background: @pageMainBg url(../images/body-bg.jpg);
 }
 
@@ -1020,6 +1020,30 @@ h6 {
     speak: none;
     font-weight: normal;
     -webkit-font-smoothing: antialiased;
+  }
+}
+
+.review.view {
+  .clearfix();
+  .product.name {
+    .titleH2();
+  }
+  .product.details {
+    float: left;
+    width: 300px;
+  }
+  .review.details {
+    float: right;
+    width: 480px;
+    .review.title {
+      .titleH3();
+    }
+    .reviews.summary {
+      margin: 10px 0;
+    }
+    .review.content {
+      margin: 20px 0;
+    }
   }
 }
 
@@ -2759,168 +2783,6 @@ select {
 .widget ul {
   .resetList;
 }
-
-/*
- *    Mage_Catalog
- *
- *    Compare
------------------------------------------------------------------------------ */
-.block.compare {
-  > .title .qty {
-    font-size: 16px;
-    margin-right:-5px;
-    &:before {
-      content:'(';
-    }
-    &:after {
-      content:')';
-    }
-  }
-  .item {
-    padding-right:20px;
-    overflow: hidden;
-  }
-  .product.name {
-    float:left;
-  }
-  .action.delete {
-    margin-right:-20px;
-    float:right;
-  }
-  .action.compare {
-    .secondaryAction();
-    float:right;
-  }
-  .action.clear {
-    float:left;
-    margin-top:10px;
-  }
-  .actions {
-    margin-top:15px;
-    .clearfix();
-  }
-}
-
-
-
-.catalog-product-compare-index {
-  .action.print {
-    float:right;
-    margin-top:-50px;
-  }
-}
-.comparison.wrapper {
-  clear:both;
-  position: relative;
-  z-index: 1;
-  &:after {
-    content:'';
-    position: absolute;
-    z-index: 2;
-    right:0; top:0; height:100%;
-    width:15px;
-
-  }
-  margin-bottom:50px;
-}
-.comparison.container {
-  overflow-y: hidden;
-  overflow-x: auto;
-}
-.data.comparison {
-  table-layout: fixed;
-
-  .cell.label {
-    width:130px;
-    padding-left:10px;
-    font-weight: 600;
-    text-align: left;
-    border-right:1px solid @primary2;
-
-    .attribute.label {
-      display: block;
-      width: 100%;
-      word-break:break-all;
-    }
-    &.product {
-      border-bottom:1px solid @primary2;
-    }
-  }
-  .cell {
-    padding:15px;
-    vertical-align: top;
-    p:first-child {
-      margin-top:0;
-    }
-    .attibute.value {
-      width:100%;
-      overflow: hidden;
-    }
-  }
-  .cell.product {
-    width:140px;
-    &.info {
-      border-bottom:1px solid @primary2;
-    }
-  }
-  .cell.attribute {
-    font-size: 12px;
-  }
-  td:last-child {
-    border-right:1px solid @primary2;
-  }
-
-  .product.photo {
-    .img.photo.container {
-      display: inline-block!important;
-    }
-    text-align: center;
-    display: block;
-    margin:0 auto 15px;
-  }
-  .actions,
-  .price-box,
-  .product.rating,
-  .product.name {
-    margin:15px 0;
-  }
-  .addto.links {
-    margin-top:15px;
-    padding-top:15px;
-    font-size: 12px;
-  }
-  .cell.remove {
-    padding-top:0;
-    padding-bottom:0;
-    text-align: right;
-    .action.delete {
-      float:right;
-      .secondaryAction();
-      padding:4px;
-      span {
-        overflow: hidden;
-        line-height: 0;
-        &:after {
-          content:"\e012";
-          font-size: 12px;
-        }
-      }
-      margin-right:-15px;
-    }
-  }
-}
-.comparison.headings {
-  position: absolute;
-  z-index: 2;
-  top:0;
-  left:0;
-  width:auto;
-  background-color: @pageMainBg;
-  th {
-    background-color: @pageMainBg;
-  }
-}
-
 
 /*
  *    Mage_Catalog
@@ -4858,7 +4720,8 @@ and (max-width : 768px)  {
 
 /* Registration */
 .form.password.forget,
-.form.create.account {
+.form.create.account,
+.form.password.reset {
   .fieldset {
     .borderBox();
     width: 690px;
@@ -5017,6 +4880,171 @@ and (max-width : 768px)  {
   }
 }
 .customer-address-index .column.main .actions { clear:left; }
+
+/*
+ *    Mage_Catalog
+ *
+ *    Compare
+----------------------------------------------------------------------------- */
+.block.compare {
+  > .title .qty {
+    font-size: 16px;
+    margin-right:-5px;
+    &:before {
+      content:'(';
+    }
+    &:after {
+      content:')';
+    }
+  }
+  .item {
+    padding-right:20px;
+    overflow: hidden;
+  }
+  .product.name {
+    float:left;
+  }
+  .action.delete {
+    margin-right:-20px;
+    float:right;
+  }
+  .action.compare {
+    .secondaryAction();
+    float:right;
+  }
+  .action.clear {
+    float:left;
+    margin-top:10px;
+  }
+  .actions {
+    margin-top:15px;
+    .clearfix();
+  }
+}
+
+
+
+.catalog-product-compare-index {
+  .action.print {
+    float:right;
+    margin-top:-50px;
+  }
+}
+.comparison.wrapper {
+  clear:both;
+  position: relative;
+  z-index: 1;
+  &:after {
+    content:'';
+    position: absolute;
+    z-index: 2;
+    right:0; top:0; height:100%;
+    width:15px;
+
+  }
+  margin-bottom:50px;
+}
+.comparison.container {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.data.comparison {
+  table-layout: fixed;
+  thead {
+    border-bottom: 0;
+  }
+  .cell.label {
+    width:130px;
+    padding-left:10px;
+    font-weight: 600;
+    text-align: left;
+    border-right:1px solid @primary2;
+
+    .attribute.label {
+      display: block;
+      width: 100%;
+      word-break:break-all;
+    }
+    &.product {
+      border-bottom:1px solid @primary2;
+    }
+  }
+  .cell {
+    padding:15px;
+    vertical-align: top;
+    p:first-child {
+      margin-top:0;
+    }
+    .attibute.value {
+      width:100%;
+      overflow: hidden;
+    }
+  }
+  .cell.product {
+    width:140px;
+    &.info {
+      border-bottom:1px solid @primary2;
+    }
+  }
+  .cell.attribute {
+    font-size: 12px;
+  }
+  td:last-child {
+    border-right:1px solid @primary2;
+  }
+
+  .product.photo {
+    .img.photo.container {
+      display: inline-block!important;
+    }
+    text-align: center;
+    display: block;
+    margin:0 auto 15px;
+  }
+  .actions,
+  .price-box,
+  .product.rating,
+  .product.name {
+    margin:15px 0;
+  }
+  .addto.links {
+    margin-top:15px;
+    padding-top:15px;
+    font-size: 12px;
+  }
+  .cell.remove {
+    padding-top:0;
+    padding-bottom:0;
+    text-align: right;
+    .action.delete {
+      float:right;
+      .secondaryAction();
+      padding:4px;
+      span {
+        overflow: hidden;
+        line-height: 0;
+        &:after {
+          content:"\e012";
+          font-size: 12px;
+        }
+      }
+      margin-right:-15px;
+    }
+  }
+}
+.comparison.headings {
+  position: absolute;
+  z-index: 2;
+  top:0;
+  left:0;
+  width:auto;
+  background-color: @pageMainBg;
+  th {
+    background-color: @pageMainBg;
+  }
+}
+
+
 
 /*
  *    Homepage styles

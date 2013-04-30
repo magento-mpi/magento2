@@ -69,142 +69,6 @@
   font-weight: 400;
   font-style: normal;
 }
-body {
-  position: relative;
-  padding-bottom: 50px;
-}
-.temp {
-  opacity: 0;
-  -webkit-transition: opacity 0.2s linear 0.2s;
-  -moz-transition: opacity 0.2s linear 0.2s;
-  -ms-transition: opacity 0.2s linear 0.2s;
-  -o-transition: opacity 0.2s linear 0.2s;
-  transition: opacity 0.2s linear 0.2s;
-  width: 100%;
-  padding: 5px;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-  border-top: 1px solid #999999;
-  background: #cccccc;
-  position: fixed;
-  z-index: 999;
-  bottom: 0;
-  left: 0;
-}
-.temp:hover {
-  opacity: 1;
-}
-.temp dt {
-  padding: 5px;
-  font-weight: 700;
-}
-.temp dt:after {
-  content: ' {';
-}
-.temp dd {
-  padding: 0 5px;
-  font-size: 13px;
-  margin-left: 0;
-}
-.temp dd a {
-  white-space: nowrap;
-}
-.temp dd:after {
-  content: '}';
-  font-weight: 700;
-}
-.temp .options {
-  display: none;
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-  background: #cccccc;
-  border: 1px solid #999999;
-  border-bottom: 0;
-  padding: 10px;
-}
-.temp .options ul {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-  margin-left: 20px;
-}
-.temp .options ul > li {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-}
-.temp button span:before {
-  font-family: "MUI-Icons";
-  font-size: 16px;
-  line-height: 16px;
-  height: 16px;
-  overflow: hidden;
-  content: "\e07e";
-  font-style: normal;
-  speak: none;
-  font-weight: normal;
-  -webkit-font-smoothing: antialiased;
-  display: inline-block;
-  vertical-align: middle;
-  text-align: center;
-  text-decoration: none;
-}
-.temp button span:before {
-  vertical-align: top;
-  margin-top: 2px;
-  margin-right: 5px;
-}
-.temp.active .options {
-  display: block;
-}
-.product.name:first-letter,
-.product.description:first-letter {
-  text-transform: capitalize;
-}
-.col1-layout:before {
-  position: fixed;
-  top: 0;
-  right: 0;
-  font-size: 11px;
-  background: rgba(0, 0, 0, 0.4);
-  color: #fff;
-  content: '.col1-layout ';
-}
-.col2-left-layout:before {
-  position: fixed;
-  top: 0;
-  right: 0;
-  font-size: 11px;
-  background: rgba(0, 0, 0, 0.4);
-  color: #fff;
-  content: '.col2-left-layout ';
-}
-.col2-right-layout:before {
-  position: fixed;
-  top: 0;
-  right: 0;
-  font-size: 11px;
-  background: rgba(0, 0, 0, 0.4);
-  color: #fff;
-  content: '.col2-right-layout ';
-}
-.col3-layout:before {
-  position: fixed;
-  top: 0;
-  right: 0;
-  font-size: 11px;
-  background: rgba(0, 0, 0, 0.4);
-  color: #fff;
-  content: '.col3-layout ';
-}
 /*CSS3 transition*/
 /*all .25s ease|linear|ease-in|ease-out|ease-in-out|cubic-bezier*/
 /*.box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
@@ -331,6 +195,7 @@ textarea {
   color: #393939;
 }
 html {
+  min-width: 1025px;
   background: #ffffff;
 }
 .page.wrapper {
@@ -1332,6 +1197,47 @@ h6 {
   speak: none;
   font-weight: normal;
   -webkit-font-smoothing: antialiased;
+}
+.review.view {
+  *zoom: 1;
+}
+.review.view:before,
+.review.view:after {
+  content: "";
+  display: table;
+}
+.review.view:after {
+  clear: both;
+}
+.review.view .product.name {
+  margin: 0.5em 0;
+  font-family: "benchnine";
+  line-height: 1.2;
+  font-weight: 400;
+  font-size: 30px;
+  color: #393939;
+}
+.review.view .product.details {
+  float: left;
+  width: 300px;
+}
+.review.view .review.details {
+  float: right;
+  width: 480px;
+}
+.review.view .review.details .review.title {
+  margin: 0.5em 0;
+  font-family: "benchnine";
+  line-height: 1.2;
+  font-weight: 400;
+  font-size: 24px;
+  color: #393939;
+}
+.review.view .review.details .reviews.summary {
+  margin: 10px 0;
+}
+.review.view .review.details .review.content {
+  margin: 20px 0;
 }
 .reviews.summary {
   line-height: 16px;
@@ -3671,212 +3577,6 @@ select:disabled {
   padding: 0;
   margin: 0;
   list-style-type: none;
-}
-/*
- *    Mage_Catalog
- *
- *    Compare
------------------------------------------------------------------------------ */
-.block.compare > .title .qty {
-  font-size: 16px;
-  margin-right: -5px;
-}
-.block.compare > .title .qty:before {
-  content: '(';
-}
-.block.compare > .title .qty:after {
-  content: ')';
-}
-.block.compare .item {
-  padding-right: 20px;
-  overflow: hidden;
-}
-.block.compare .product.name {
-  float: left;
-}
-.block.compare .action.delete {
-  margin-right: -20px;
-  float: right;
-}
-.block.compare .action.compare {
-  display: inline-block;
-  border: none;
-  border-radius: 0;
-  background: #596078;
-  margin: 0;
-  padding: 9px 11px 9px;
-  box-shadow: none;
-  text-shadow: none;
-  outline: none;
-  color: #fff;
-  text-decoration: none;
-  float: right;
-}
-.block.compare .action.compare span {
-  font-size: 14px;
-  color: #fff;
-  text-transform: uppercase;
-  font-weight: 600;
-  line-height: 16px;
-}
-.block.compare .action.compare:focus,
-.block.compare .action.compare:active,
-.block.compare .action.compare:hover {
-  background: #14148f;
-}
-.block.compare .action.clear {
-  float: left;
-  margin-top: 10px;
-}
-.block.compare .actions {
-  margin-top: 15px;
-  *zoom: 1;
-}
-.block.compare .actions:before,
-.block.compare .actions:after {
-  content: "";
-  display: table;
-}
-.block.compare .actions:after {
-  clear: both;
-}
-.catalog-product-compare-index .action.print {
-  float: right;
-  margin-top: -50px;
-}
-.comparison.wrapper {
-  clear: both;
-  position: relative;
-  z-index: 1;
-  margin-bottom: 50px;
-}
-.comparison.wrapper:after {
-  content: '';
-  position: absolute;
-  z-index: 2;
-  right: 0;
-  top: 0;
-  height: 100%;
-  width: 15px;
-}
-.comparison.container {
-  overflow-y: hidden;
-  overflow-x: auto;
-}
-.data.comparison {
-  table-layout: fixed;
-}
-.data.comparison .cell.label {
-  width: 130px;
-  padding-left: 10px;
-  font-weight: 600;
-  text-align: left;
-  border-right: 1px solid #bdc0cb;
-}
-.data.comparison .cell.label .attribute.label {
-  display: block;
-  width: 100%;
-  word-break: break-all;
-}
-.data.comparison .cell.label.product {
-  border-bottom: 1px solid #bdc0cb;
-}
-.data.comparison .cell {
-  padding: 15px;
-  vertical-align: top;
-}
-.data.comparison .cell p:first-child {
-  margin-top: 0;
-}
-.data.comparison .cell .attibute.value {
-  width: 100%;
-  overflow: hidden;
-}
-.data.comparison .cell.product {
-  width: 140px;
-}
-.data.comparison .cell.product.info {
-  border-bottom: 1px solid #bdc0cb;
-}
-.data.comparison .cell.attribute {
-  font-size: 12px;
-}
-.data.comparison td:last-child {
-  border-right: 1px solid #bdc0cb;
-}
-.data.comparison tr:nth-child(odd) .cell.attribute {
-  background-color: #ffffff;
-}
-.data.comparison .product.photo {
-  text-align: center;
-  display: block;
-  margin: 0 auto 15px;
-}
-.data.comparison .product.photo .img.photo.container {
-  display: inline-block !important;
-}
-.data.comparison .actions,
-.data.comparison .price-box,
-.data.comparison .product.rating,
-.data.comparison .product.name {
-  margin: 15px 0;
-}
-.data.comparison .addto.links {
-  margin-top: 15px;
-  padding-top: 15px;
-  font-size: 12px;
-}
-.data.comparison .cell.remove {
-  padding-top: 0;
-  padding-bottom: 0;
-  text-align: right;
-}
-.data.comparison .cell.remove .action.delete {
-  float: right;
-  display: inline-block;
-  border: none;
-  border-radius: 0;
-  background: #596078;
-  margin: 0;
-  padding: 9px 11px 9px;
-  box-shadow: none;
-  text-shadow: none;
-  outline: none;
-  color: #fff;
-  text-decoration: none;
-  padding: 4px;
-  margin-right: -15px;
-}
-.data.comparison .cell.remove .action.delete span {
-  font-size: 14px;
-  color: #fff;
-  text-transform: uppercase;
-  font-weight: 600;
-  line-height: 16px;
-}
-.data.comparison .cell.remove .action.delete:focus,
-.data.comparison .cell.remove .action.delete:active,
-.data.comparison .cell.remove .action.delete:hover {
-  background: #14148f;
-}
-.data.comparison .cell.remove .action.delete span {
-  overflow: hidden;
-  line-height: 0;
-}
-.data.comparison .cell.remove .action.delete span:after {
-  content: "\e012";
-  font-size: 12px;
-}
-.comparison.headings {
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  left: 0;
-  width: auto;
-  background-color: #ffffff;
-}
-.comparison.headings th {
-  background-color: #ffffff;
 }
 /*
  *    Mage_Catalog
@@ -6841,7 +6541,8 @@ img[align="right"] {
 }
 /* Registration */
 .form.password.forget .fieldset,
-.form.create.account .fieldset {
+.form.create.account .fieldset,
+.form.password.reset .fieldset {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -6867,23 +6568,27 @@ img[align="right"] {
   z-index: 1;
 }
 .form.password.forget .fieldset > .field,
-.form.create.account .fieldset > .field {
+.form.create.account .fieldset > .field,
+.form.password.reset .fieldset > .field {
   width: 50%;
   display: inline-block;
   padding-right: 20px;
   vertical-align: top;
 }
 .form.password.forget .fieldset > *,
-.form.create.account .fieldset > * {
+.form.create.account .fieldset > *,
+.form.password.reset .fieldset > * {
   letter-spacing: normal;
   word-spacing: normal;
 }
 .form.password.forget .fieldset > .legend + br,
-.form.create.account .fieldset > .legend + br {
+.form.create.account .fieldset > .legend + br,
+.form.password.reset .fieldset > .legend + br {
   display: none;
 }
 .form.password.forget .fieldset .legend,
-.form.create.account .fieldset .legend {
+.form.create.account .fieldset .legend,
+.form.password.reset .fieldset .legend {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -6907,12 +6612,14 @@ img[align="right"] {
   margin: -30px 0 30px;
 }
 .form.password.forget .fieldset .legend + br,
-.form.create.account .fieldset .legend + br {
+.form.create.account .fieldset .legend + br,
+.form.password.reset .fieldset .legend + br {
   display: block;
   clear: both;
 }
 .form.password.forget .fieldset > .field,
-.form.create.account .fieldset > .field {
+.form.create.account .fieldset > .field,
+.form.password.reset .fieldset > .field {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -6922,34 +6629,42 @@ img[align="right"] {
   margin-bottom: 20px;
 }
 .form.password.forget .fieldset > .field > .label,
-.form.create.account .fieldset > .field > .label {
+.form.create.account .fieldset > .field > .label,
+.form.password.reset .fieldset > .field > .label {
   display: block;
 }
 .form.password.forget .fieldset > .field.choice > .control,
-.form.create.account .fieldset > .field.choice > .control {
+.form.create.account .fieldset > .field.choice > .control,
+.form.password.reset .fieldset > .field.choice > .control {
   width: auto;
 }
 .form.password.forget .fieldset > .field.choice > .label,
-.form.create.account .fieldset > .field.choice > .label {
+.form.create.account .fieldset > .field.choice > .label,
+.form.password.reset .fieldset > .field.choice > .label {
   display: inline;
 }
 .form.password.forget .fieldset > .field.required > .label span:first-child:after,
-.form.create.account .fieldset > .field.required > .label span:first-child:after {
+.form.create.account .fieldset > .field.required > .label span:first-child:after,
+.form.password.reset .fieldset > .field.required > .label span:first-child:after {
   content: '*';
   color: #cd2d2d;
 }
 .form.password.forget .fieldset > .field .addon,
-.form.create.account .fieldset > .field .addon {
+.form.create.account .fieldset > .field .addon,
+.form.password.reset .fieldset > .field .addon {
   padding: 0;
   display: table;
   width: 100%;
 }
 .form.password.forget .fieldset > .field .addon textarea,
 .form.create.account .fieldset > .field .addon textarea,
+.form.password.reset .fieldset > .field .addon textarea,
 .form.password.forget .fieldset > .field .addon select,
 .form.create.account .fieldset > .field .addon select,
+.form.password.reset .fieldset > .field .addon select,
 .form.password.forget .fieldset > .field .addon input,
-.form.create.account .fieldset > .field .addon input {
+.form.create.account .fieldset > .field .addon input,
+.form.password.reset .fieldset > .field .addon input {
   display: table-cell;
   width: 100%;
   border-radius: 0;
@@ -6958,8 +6673,10 @@ img[align="right"] {
 }
 .form.password.forget .fieldset > .field .addon .addbefore,
 .form.create.account .fieldset > .field .addon .addbefore,
+.form.password.reset .fieldset > .field .addon .addbefore,
 .form.password.forget .fieldset > .field .addon .addafter,
-.form.create.account .fieldset > .field .addon .addafter {
+.form.create.account .fieldset > .field .addon .addafter,
+.form.password.reset .fieldset > .field .addon .addafter {
   vertical-align: middle;
   width: 1px;
   height: 0;
@@ -6986,28 +6703,36 @@ img[align="right"] {
 }
 .no-borderradius .form.password.forget .fieldset > .field .addon .addbefore,
 .no-borderradius .form.create.account .fieldset > .field .addon .addbefore,
+.no-borderradius .form.password.reset .fieldset > .field .addon .addbefore,
 .no-borderradius .form.password.forget .fieldset > .field .addon .addafter,
-.no-borderradius .form.create.account .fieldset > .field .addon .addafter {
+.no-borderradius .form.create.account .fieldset > .field .addon .addafter,
+.no-borderradius .form.password.reset .fieldset > .field .addon .addafter {
   padding-top: 8px;
 }
 .control .form.password.forget .fieldset > .field .addon .addbefore,
 .control .form.create.account .fieldset > .field .addon .addbefore,
+.control .form.password.reset .fieldset > .field .addon .addbefore,
 .control .form.password.forget .fieldset > .field .addon .addafter,
-.control .form.create.account .fieldset > .field .addon .addafter {
+.control .form.create.account .fieldset > .field .addon .addafter,
+.control .form.password.reset .fieldset > .field .addon .addafter {
   width: 100%;
 }
 .form.password.forget .fieldset > .field .addon .addbefore:disabled,
 .form.create.account .fieldset > .field .addon .addbefore:disabled,
+.form.password.reset .fieldset > .field .addon .addbefore:disabled,
 .form.password.forget .fieldset > .field .addon .addafter:disabled,
-.form.create.account .fieldset > .field .addon .addafter:disabled {
+.form.create.account .fieldset > .field .addon .addafter:disabled,
+.form.password.reset .fieldset > .field .addon .addafter:disabled {
   opacity: 0.5;
 }
 .form.password.forget .fieldset > .field .note,
-.form.create.account .fieldset > .field .note {
+.form.create.account .fieldset > .field .note,
+.form.password.reset .fieldset > .field .note {
   padding-left: 15px;
 }
 .form.password.forget .fieldset > .field .note:before,
-.form.create.account .fieldset > .field .note:before {
+.form.create.account .fieldset > .field .note:before,
+.form.password.reset .fieldset > .field .note:before {
   position: absolute;
   margin: 4px 0 0 -14px;
   content: '';
@@ -7021,19 +6746,23 @@ img[align="right"] {
   border-right: 5px solid transparent;
 }
 .form.password.forget .fieldset > .field:last-child,
-.form.create.account .fieldset > .field:last-child {
+.form.create.account .fieldset > .field:last-child,
+.form.password.reset .fieldset > .field:last-child {
   margin-bottom: 0;
 }
 .form.password.forget .fieldset > .field .nested,
-.form.create.account .fieldset > .field .nested {
+.form.create.account .fieldset > .field .nested,
+.form.password.reset .fieldset > .field .nested {
   padding: 0 0 5px;
 }
 .form.password.forget .fieldset > .field .nested .field,
-.form.create.account .fieldset > .field .nested .field {
+.form.create.account .fieldset > .field .nested .field,
+.form.password.reset .fieldset > .field .nested .field {
   margin: 5px 0;
 }
 .form.password.forget .fieldset > .field > .label,
-.form.create.account .fieldset > .field > .label {
+.form.create.account .fieldset > .field > .label,
+.form.password.reset .fieldset > .field > .label {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -7049,54 +6778,65 @@ img[align="right"] {
   padding: 7px 10px 0 0;
 }
 .form.password.forget .fieldset > .field.choice > .label,
-.form.create.account .fieldset > .field.choice > .label {
+.form.create.account .fieldset > .field.choice > .label,
+.form.password.reset .fieldset > .field.choice > .label {
   padding-top: 0;
 }
 .form.password.forget .fieldset > .field > .control,
-.form.create.account .fieldset > .field > .control {
+.form.create.account .fieldset > .field > .control,
+.form.password.reset .fieldset > .field > .control {
   float: left;
   width: 60%;
 }
 .form.password.forget .fieldset > .field.note,
-.form.create.account .fieldset > .field.note {
+.form.create.account .fieldset > .field.note,
+.form.password.reset .fieldset > .field.note {
   width: 100%;
   margin-left: -30px;
 }
 .form.password.forget .fieldset .field.street,
-.form.create.account .fieldset .field.street {
+.form.create.account .fieldset .field.street,
+.form.password.reset .fieldset .field.street {
   width: 100%;
 }
 .form.password.forget .fieldset .field.fullname,
-.form.create.account .fieldset .field.fullname {
+.form.create.account .fieldset .field.fullname,
+.form.password.reset .fieldset .field.fullname {
   width: 100%;
 }
 .form.password.forget .fieldset .field.fullname .fields.group-5 .field,
-.form.create.account .fieldset .field.fullname .fields.group-5 .field {
+.form.create.account .fieldset .field.fullname .fields.group-5 .field,
+.form.password.reset .fieldset .field.fullname .fields.group-5 .field {
   width: 20%;
 }
 .form.password.forget .fieldset .field.choice.newsletter,
-.form.create.account .fieldset .field.choice.newsletter {
+.form.create.account .fieldset .field.choice.newsletter,
+.form.password.reset .fieldset .field.choice.newsletter {
   width: 100%;
 }
 .form.password.forget .fieldset .field.dob .fields.group .field,
-.form.create.account .fieldset .field.dob .fields.group .field {
+.form.create.account .fieldset .field.dob .fields.group .field,
+.form.password.reset .fieldset .field.dob .fields.group .field {
   width: 33%;
   position: relative;
   z-index: 1;
 }
 .form.password.forget .fieldset .field.dob .fields.group .field .label,
-.form.create.account .fieldset .field.dob .fields.group .field .label {
+.form.create.account .fieldset .field.dob .fields.group .field .label,
+.form.password.reset .fieldset .field.dob .fields.group .field .label {
   position: absolute;
   bottom: 0;
   font-size: 12px;
   line-height: 16px;
 }
 .form.password.forget .fieldset .field.dob .fields.group .field input,
-.form.create.account .fieldset .field.dob .fields.group .field input {
+.form.create.account .fieldset .field.dob .fields.group .field input,
+.form.password.reset .fieldset .field.dob .fields.group .field input {
   margin-bottom: 16px;
 }
 .form.password.forget .action.submit,
-.form.create.account .action.submit {
+.form.create.account .action.submit,
+.form.password.reset .action.submit {
   border: none;
   border-radius: 0;
   background: #14148f;
@@ -7108,12 +6848,15 @@ img[align="right"] {
 }
 .form.password.forget .action.submit:hover,
 .form.create.account .action.submit:hover,
+.form.password.reset .action.submit:hover,
 .form.password.forget .action.submit:active,
-.form.create.account .action.submit:active {
+.form.create.account .action.submit:active,
+.form.password.reset .action.submit:active {
   background: #596078;
 }
 .form.password.forget .action.submit span,
-.form.create.account .action.submit span {
+.form.create.account .action.submit span,
+.form.password.reset .action.submit span {
   font-family: "benchnine";
   font-size: 18px;
   color: #ffffff;
@@ -7122,33 +6865,40 @@ img[align="right"] {
   line-height: 1;
 }
 .form.password.forget .actions,
-.form.create.account .actions {
+.form.create.account .actions,
+.form.password.reset .actions {
   *zoom: 1;
   width: 690px;
 }
 .form.password.forget .actions:before,
 .form.create.account .actions:before,
+.form.password.reset .actions:before,
 .form.password.forget .actions:after,
-.form.create.account .actions:after {
+.form.create.account .actions:after,
+.form.password.reset .actions:after {
   content: "";
   display: table;
 }
 .form.password.forget .actions:after,
-.form.create.account .actions:after {
+.form.create.account .actions:after,
+.form.password.reset .actions:after {
   clear: both;
 }
 .form.password.forget .actions .primary,
-.form.create.account .actions .primary {
+.form.create.account .actions .primary,
+.form.password.reset .actions .primary {
   float: right;
 }
 .form.password.forget .actions .secondary,
-.form.create.account .actions .secondary {
+.form.create.account .actions .secondary,
+.form.password.reset .actions .secondary {
   float: left;
   margin-left: 40%;
   padding: 11px 0 0 20px;
 }
 .form.password.forget .fieldset.create.account:after,
-.form.create.account .fieldset.create.account:after {
+.form.create.account .fieldset.create.account:after,
+.form.password.reset .fieldset.create.account:after {
   content: attr(data-hasrequired);
   display: block;
   text-align: right;
@@ -7219,6 +6969,215 @@ img[align="right"] {
 }
 .customer-address-index .column.main .actions {
   clear: left;
+}
+/*
+ *    Mage_Catalog
+ *
+ *    Compare
+----------------------------------------------------------------------------- */
+.block.compare > .title .qty {
+  font-size: 16px;
+  margin-right: -5px;
+}
+.block.compare > .title .qty:before {
+  content: '(';
+}
+.block.compare > .title .qty:after {
+  content: ')';
+}
+.block.compare .item {
+  padding-right: 20px;
+  overflow: hidden;
+}
+.block.compare .product.name {
+  float: left;
+}
+.block.compare .action.delete {
+  margin-right: -20px;
+  float: right;
+}
+.block.compare .action.compare {
+  display: inline-block;
+  border: none;
+  border-radius: 0;
+  background: #596078;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  color: #fff;
+  text-decoration: none;
+  float: right;
+}
+.block.compare .action.compare span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.block.compare .action.compare:focus,
+.block.compare .action.compare:active,
+.block.compare .action.compare:hover {
+  background: #14148f;
+}
+.block.compare .action.clear {
+  float: left;
+  margin-top: 10px;
+}
+.block.compare .actions {
+  margin-top: 15px;
+  *zoom: 1;
+}
+.block.compare .actions:before,
+.block.compare .actions:after {
+  content: "";
+  display: table;
+}
+.block.compare .actions:after {
+  clear: both;
+}
+.catalog-product-compare-index .action.print {
+  float: right;
+  margin-top: -50px;
+}
+.comparison.wrapper {
+  clear: both;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 50px;
+}
+.comparison.wrapper:after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 15px;
+}
+.comparison.container {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.data.comparison {
+  table-layout: fixed;
+}
+.data.comparison thead {
+  border-bottom: 0;
+}
+.data.comparison .cell.label {
+  width: 130px;
+  padding-left: 10px;
+  font-weight: 600;
+  text-align: left;
+  border-right: 1px solid #bdc0cb;
+}
+.data.comparison .cell.label .attribute.label {
+  display: block;
+  width: 100%;
+  word-break: break-all;
+}
+.data.comparison .cell.label.product {
+  border-bottom: 1px solid #bdc0cb;
+}
+.data.comparison .cell {
+  padding: 15px;
+  vertical-align: top;
+}
+.data.comparison .cell p:first-child {
+  margin-top: 0;
+}
+.data.comparison .cell .attibute.value {
+  width: 100%;
+  overflow: hidden;
+}
+.data.comparison .cell.product {
+  width: 140px;
+}
+.data.comparison .cell.product.info {
+  border-bottom: 1px solid #bdc0cb;
+}
+.data.comparison .cell.attribute {
+  font-size: 12px;
+}
+.data.comparison td:last-child {
+  border-right: 1px solid #bdc0cb;
+}
+.data.comparison tr:nth-child(odd) .cell.attribute {
+  background-color: #ffffff;
+}
+.data.comparison .product.photo {
+  text-align: center;
+  display: block;
+  margin: 0 auto 15px;
+}
+.data.comparison .product.photo .img.photo.container {
+  display: inline-block !important;
+}
+.data.comparison .product.actions,
+.data.comparison .price-box,
+.data.comparison .product.rating,
+.data.comparison .product.name {
+  margin: 10px 0;
+}
+.data.comparison .addto.links {
+  margin-top: 15px;
+  padding-top: 15px;
+  font-size: 12px;
+}
+.data.comparison .cell.remove {
+  padding-top: 0;
+  padding-bottom: 0;
+  text-align: right;
+}
+.data.comparison .cell.remove .action.delete {
+  float: right;
+  display: inline-block;
+  border: none;
+  border-radius: 0;
+  background: #596078;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  color: #fff;
+  text-decoration: none;
+  padding: 4px;
+  margin-right: -15px;
+}
+.data.comparison .cell.remove .action.delete span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.data.comparison .cell.remove .action.delete:focus,
+.data.comparison .cell.remove .action.delete:active,
+.data.comparison .cell.remove .action.delete:hover {
+  background: #14148f;
+}
+.data.comparison .cell.remove .action.delete span {
+  overflow: hidden;
+  line-height: 0;
+}
+.data.comparison .cell.remove .action.delete span:after {
+  content: "\e012";
+  font-size: 12px;
+}
+.comparison.headings {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: auto;
+  background-color: #ffffff;
+}
+.comparison.headings th {
+  background-color: #ffffff;
 }
 /*
  *    Homepage styles

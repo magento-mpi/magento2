@@ -25,9 +25,9 @@
 a,
 a:visited,
 a > span {
-    color: @textColor;
+    color: @link;
     &:hover {
-        color: @secondary1;
+        color: @linkHover;
     }
 }
 
@@ -118,7 +118,8 @@ input, select, textarea {
 .form.address.edit,
 .form.edit.account,
 .form.password.forget,
-.form.create.account {
+.form.create.account,
+.form.wishlist.share {
     .fieldset {
         .legend {
             background: @primary3;
@@ -159,7 +160,7 @@ input, select, textarea {
 .data-tabs-styling() {
     > .item.title {
         > .switch {
-            background: @primary1;
+            background: rgba(255, 255, 255, 0.1);
         }
         &:not(.disabled) > .switch:active,
         &:not(.disabled) > .switch:focus,
@@ -167,9 +168,6 @@ input, select, textarea {
         &.active > .switch {
             background: @primary3;
         }
-    }
-    > .item.content {
-        background: none;
     }
 }
 
@@ -344,13 +342,44 @@ input, select, textarea {
     }
 }
 
-.block.giftcard {
-    .action.check {
-        span {
-            color: @textColor;
+.successMsg() {
+    a,
+    a:visited {
+        color: darken(#1b6720, 10%);
+        text-decoration: underline;
+        &:hover {
+            color: darken(#1b6720, 20%);
         }
-        &:hover span {
-            color: @secondary1;
+    }
+}
+
+.noticeMsg() {
+    a,
+    a:visited {
+        color: darken(#926e00, 10%);
+        text-decoration: underline;
+        &:hover {
+            color: darken(#926e00, 20%);
+        }
+    }
+}
+
+.errorMsg() {
+    a,
+    a:visited {
+        color: darken(#911c00, 10%);
+        text-decoration: underline;
+        &:hover {
+            color: darken(#911c00, 20%);
+        }
+    }
+}
+
+.my-account {
+    .box.information {
+        a,
+        a:visited {
+            text-decoration: underline;
         }
     }
 }

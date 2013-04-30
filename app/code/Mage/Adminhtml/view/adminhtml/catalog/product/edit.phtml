@@ -188,10 +188,6 @@ jQuery(function($) {
 
     $('.widget-button-save .item-default').parent().hide();
 
-    if ($.trim($('#name').val()) == '') {
-        $('#name').focus();
-    }
-
     $('#product-online-switcher')
         .prop('checked', $('#status').val() == '1')
         .trigger('change');

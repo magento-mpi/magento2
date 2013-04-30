@@ -9,7 +9,6 @@
 /*jshint jquery:true browser:true*/
 /*global BASE_URL:true*/
 (function($) {
-    var init = $.validator.prototype.init;
     $.extend(true, $.validator.prototype, {
         /**
          * Focus invalid fields
