@@ -147,39 +147,66 @@ class Mage_Core_Service_Config
         }
 
         $children = $root->childNodes;
+        if ($children) {
+            if ($children->length == 1) {
+                $child = $children->item(0);
+                if ($child->nodeType == XML_TEXT_NODE) {
+                    $result['value'] = $child->nodeValue;
+                    if (count($result) == 1) {
+                        return $result['value'];
+                    } else {
+                        return $result;
+                    }
+                }
+            }
 
-        if ($children->length == 1) {
-            $child = $children->item(0);
-            if ($child->nodeType == XML_TEXT_NODE) {
-                $result['value'] = $child->nodeValue;
-                if (count($result) == 1) {
-                    return $result['value'];
+            $group = array();
+
+            for ($i = 0; $i < $children->length; $i++) {
+                $child = $children->item($i);
+                $_children = & $this->_toArray($child);
+
+                $nodeId = isset($_children['class']) ? $_children['class'] :
+                    (isset($_children['method']) ? $_children['method'] : $child->nodeName);
+
+                if ('operation' === $child->nodeName) {
+                    if (!isset($result['operations'])) {
+                        $result['operations'] = array();
+                    }
+                    $nodeId = isset($_children['method']) ? $_children['method'] : $child->nodeName;
+                    if (!isset($result['operations'][$nodeId])) {
+                        $result['operations'][$nodeId] = $_children;
+                    } else {
+                        $result['operations'][$nodeId] = array_merge($result['operations'][$nodeId], $_children);
+                    }
+                } elseif ('version' === $child->nodeName) {
+                    if (!isset($result['versions'])) {
+                        $result['versions'] = array();
+                    }
+                    $nodeId = isset($_children['class']) ? $_children['class'] : $child->nodeName;
+                    if (!isset($result['versions'][$nodeId])) {
+                        $result['versions'][$nodeId] = $_children;
+                    } else {
+                        $result['versions'][$nodeId] = array_merge($result['versions'][$nodeId], $_children);
+                    }
                 } else {
-                    return $result;
+                    if (!isset($result[$nodeId])) {
+                        $result[$nodeId] = $_children;
+                    } else {
+                        if (!isset($group[$nodeId])) {
+                            $tmp = $result[$nodeId];
+                            $result[$nodeId] = array($tmp);
+                            $group[$nodeId] = 1;
+                        }
+
+                        $result[$nodeId][] = $_children;
+                    }
                 }
+
             }
         }
 
-        $group = array();
-
-        for ($i = 0; $i < $children->length; $i++) {
-            $child = $children->item($i);
-            $_children = & $this->_toArray($child);
-
-            $nodeId = isset($_children['class']) ? $_children['class'] : $child->nodeName;
-
-            if (!isset($result[$nodeId])) {
-                $result[$nodeId] = $_children;
-            } else {
-                if (!isset($group[$nodeId])) {
-                    $tmp = $result[$nodeId];
-                    $result[$nodeId] = array($tmp);
-                    $group[$nodeId] = 1;
-                }
-
-                $result[$nodeId][] = $_children;
-            }
-        }
+        unset($result['#text']);
 
         return $result;
     }
