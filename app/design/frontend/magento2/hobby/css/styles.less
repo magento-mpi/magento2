@@ -1687,7 +1687,6 @@ select {
           padding: 0;
           color: @primary1;
           &:after {
-            content: "\e02d";
             font-family: "MUI-icons";
             float: right;
             font-weight: 400;
@@ -1696,6 +1695,11 @@ select {
         }
         .number {
           display: none;
+        }
+      }
+      &.allow {
+        h2:after {
+          content: "\e02d";
         }
       }
       &.active {
@@ -2133,6 +2137,7 @@ select {
   }
   .block {
     border-bottom: 1px solid @primary2;
+    margin-bottom: 0;
     > .title {
       cursor: pointer;
       padding: 10px 5px;
@@ -3336,6 +3341,7 @@ select {
     a,
     span
     {
+      text-decoration: none;
       font-family: "benchnine", sans-serif;
       font-weight: 400;
       font-size: 16px;
@@ -4450,9 +4456,9 @@ and (max-width : 768px)  {
     a:link,
     a:visited {
       color: @secondary3;
+      text-decoration: none;
       &:hover,
       &:active {
-        text-decoration: underline;
         color: @secondary1;
       }
     }

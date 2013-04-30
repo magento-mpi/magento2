@@ -2184,7 +2184,6 @@ select:disabled {
   color: #ffffff;
 }
 .opc.wrapper > .opc .section > .step-title h2:after {
-  content: "\e02d";
   font-family: "MUI-icons";
   float: right;
   font-weight: 400;
@@ -2192,6 +2191,9 @@ select:disabled {
 }
 .opc.wrapper > .opc .section > .step-title .number {
   display: none;
+}
+.opc.wrapper > .opc .section.allow h2:after {
+  content: "\e02d";
 }
 .opc.wrapper > .opc .section.active > .step-title {
   background: #ffffff;
@@ -2753,6 +2755,7 @@ select:disabled {
 }
 .cart.summary .block {
   border-bottom: 1px solid #bdc0cb;
+  margin-bottom: 0;
   font-size: 12px;
 }
 .cart.summary .block > .title {
@@ -4203,6 +4206,7 @@ select:disabled {
 }
 .block.filter dd a,
 .block.filter dd span {
+  text-decoration: none;
   font-family: "benchnine", sans-serif;
   font-weight: 400;
   font-size: 16px;
@@ -6072,12 +6076,12 @@ img[align="right"] {
 .block.account.nav .item a:link,
 .block.account.nav .item a:visited {
   color: #596078;
+  text-decoration: none;
 }
 .block.account.nav .item a:link:hover,
 .block.account.nav .item a:visited:hover,
 .block.account.nav .item a:link:active,
 .block.account.nav .item a:visited:active {
-  text-decoration: underline;
   color: #4d4d8f;
 }
 .block.account.nav .item.current {

@@ -788,7 +788,7 @@ h6 {
 /* Footer */
 
 .footer {
-  border-top: 1px solid @borderColor;
+  border-top: 1px solid @fieldBg;
   padding: 20px 0;
   & > .content {
     .pageWidth;
@@ -1592,7 +1592,7 @@ select {
   }
   input,
   input:focus {
-    color: @reconSecondary1;
+    color: @primary1;
     display: block;
     background: transparent;
     border-color: transparent;
@@ -1606,16 +1606,16 @@ select {
   }
 
   input::-webkit-input-placeholder {
-    color: @secondary4;
+    color: @primary1;
   }
   input:-moz-placeholder {
-    color: @secondary4;
+    color: @primary1;
   }
   input::-moz-placeholder {
-    color: @secondary4;
+    color: @primary1;
   }
   input:-ms-input-placeholder {
-    color: @secondary4;
+    color: @primary1;
   }
 
   .action.advanced {
@@ -1671,7 +1671,7 @@ select {
         padding: 15px 20px;
         line-height: 1;
         background: @secondary1;
-        font-size: 22px;
+        font-size: 20px;
         h2 {
           font-weight: 400;
           font-size: 18px;
@@ -1679,15 +1679,19 @@ select {
           padding: 0;
           color: @primary1;
           &:after {
-            content: "\e02d";
             font-family: "MUI-icons";
             float: right;
             font-weight: 400;
-            font-size: 20px;
+            font-size: 22px;
           }
         }
         .number {
           display: none;
+        }
+      }
+      &.allow {
+        h2:after {
+          content: "\e02d";
         }
       }
       &.active {
@@ -2084,12 +2088,15 @@ select {
   tbody {
     &:nth-child(even) {
       background: @fieldBg;
+      & > .actions {
+        border-top: 1px solid @borderColor;
+      }
     }
     input.qty {
       border: 1px solid @borderColorFocus;
     }
     & > .actions {
-      border-top: 1px solid @borderColor;
+      border-top: 1px solid @fieldBg;
       .actions {
         padding: 20px 0;
         .delete {
@@ -2116,6 +2123,7 @@ select {
   }
   .block {
     border-bottom: 1px solid @primary2;
+    margin-bottom: 0;
     > .title {
       cursor: pointer;
       padding: 10px 5px;
@@ -3139,7 +3147,7 @@ select {
 .blocklist() {
   margin: 30px 0;
   padding-top: 25px;
-  border-top: 1px solid @primary2;
+  border-top: 1px solid @fieldBg;
   .products.list {
     margin: 0 -20px;
     .productItems();
@@ -3312,6 +3320,7 @@ select {
     a,
     span
     {
+      text-decoration: none;
       font-size: 16px;
       color: @secondary3;
     }
@@ -3340,7 +3349,7 @@ select {
     top: 35px;
     left: 0;
     right: 0;
-    border-bottom: 1px solid @borderColor;
+    border-bottom: 1px solid @fieldBg;
     content: "";
   }
   &:first-child { margin-top:0; }
@@ -3860,7 +3869,7 @@ select {
     font-weight: 200;
   }
   .page.title.product + .price-box {
-    border-bottom: 1px solid @primary2;
+    border-bottom: 1px solid @fieldBg;
   }
   p {
     margin: 5px 0;
@@ -3882,7 +3891,7 @@ select {
   .product.addto.links {
     margin: 15px 0 0;
     padding-top: 10px;
-    border-top: 1px solid @primary2;
+    border-top: 1px solid @fieldBg;
     span:hover {
       color: @secondary4;
     }
@@ -4229,7 +4238,7 @@ and (max-width : 768px)  {
   }
   > .title {
     font-weight: 400;
-    border-bottom: 2px solid @borderColor;
+    border-bottom: 2px solid @fieldBg;
     line-height: 1;
     padding: 20px 20px 10px;
     margin-bottom: 0;
@@ -4284,7 +4293,7 @@ and (max-width : 768px)  {
     margin: 20px -20px 0;
     font-weight: 200;
     font-size: 20px;
-    border-bottom: 2px solid @borderColor;
+    border-bottom: 2px solid @fieldBg;
     line-height: 1;
     padding: 20px 20px 10px;
     margin-bottom: 0;
@@ -4412,7 +4421,7 @@ and (max-width : 768px)  {
 
 .block.account.nav {
   padding: 20px;
-  border: 1px solid @borderColor;
+  border: 1px solid @fieldBg;
   margin-top: 16px;
   .title {
     font-size: 18px;
@@ -4428,10 +4437,10 @@ and (max-width : 768px)  {
     margin-bottom :10px;
     a:link,
     a:visited {
+      text-decoration: none;
       color: @secondary3;
       &:hover,
       &:active {
-        text-decoration: underline;
         color: @secondary1;
       }
     }
@@ -4487,7 +4496,7 @@ and (max-width : 768px)  {
 
 .data.table {
   thead {
-    border-bottom: 1px solid @borderColor;
+    border-bottom: 1px solid @fieldBg;
   }
   tr:nth-child(even) {
     background: @fieldBg;
@@ -4674,7 +4683,7 @@ and (max-width : 768px)  {
 .data.wishlist {
   margin-bottom: 20px;
   tr {
-    border-bottom: 2px solid @borderColor;
+    border-bottom: 1px solid @fieldBg;
     &:nth-child(even) {
       background: @reconSecondary1;
     }
