@@ -209,7 +209,6 @@ class Mage_Core_Service_ObjectManager extends Varien_Object
 }
 
 /**
- * @todo this is a prototype
  *
  * Service definitions may be area-specific with an ability to be extended and replaced for target area
  * or better to say for some unique global context

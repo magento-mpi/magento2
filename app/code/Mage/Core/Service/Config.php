@@ -98,7 +98,7 @@ class Mage_Core_Service_Config
             $services = $this->_loadFromCache();
             if ($services && is_string($services)) {
                 $data = unserialize($services);
-                $_array = isset($data['config']['services']) ? $data['config']['services'] : array();
+                $_array = isset($data['services']) ? $data['services'] : array();
                 $this->_services = new Varien_Object($_array);
             } else {
                 $services = $this->_getReader()->getServices();
@@ -106,7 +106,7 @@ class Mage_Core_Service_Config
                 $data = $this->_toArray($services);
 
                 $this->_saveToCache(serialize($data));
-                $_array = isset($data['config']['services']) ? $data['config']['services'] : array();
+                $_array = isset($data['services']) ? $data['services'] : array();
                 $this->_services = new Varien_Object($_array);
             }
         }
@@ -151,9 +151,9 @@ class Mage_Core_Service_Config
         if ($children->length == 1) {
             $child = $children->item(0);
             if ($child->nodeType == XML_TEXT_NODE) {
-                $result['_value'] = $child->nodeValue;
+                $result['value'] = $child->nodeValue;
                 if (count($result) == 1) {
-                    return $result['_value'];
+                    return $result['value'];
                 } else {
                     return $result;
                 }
@@ -165,16 +165,19 @@ class Mage_Core_Service_Config
         for ($i = 0; $i < $children->length; $i++) {
             $child = $children->item($i);
             $_children = & $this->_toArray($child);
-            if (!isset($result[$child->nodeName])) {
-                $result[$child->nodeName] = $_children;
+
+            $nodeId = isset($_children['class']) ? $_children['class'] : $child->nodeName;
+
+            if (!isset($result[$nodeId])) {
+                $result[$nodeId] = $_children;
             } else {
-                if (!isset($group[$child->nodeName])) {
-                    $tmp = $result[$child->nodeName];
-                    $result[$child->nodeName] = array($tmp);
-                    $group[$child->nodeName] = 1;
+                if (!isset($group[$nodeId])) {
+                    $tmp = $result[$nodeId];
+                    $result[$nodeId] = array($tmp);
+                    $group[$nodeId] = 1;
                 }
 
-                $result[$child->nodeName][] = $_children;
+                $result[$nodeId][] = $_children;
             }
         }
 
@@ -208,20 +211,22 @@ class Mage_Core_Service_Config
      */
     public function getServiceClassByServiceName($serviceReferenceId, $version)
     {
-        $result = null;
+        $className = $this->getServices()->getData($serviceReferenceId . '/class');
+
         if (!empty($version)) {
-            $result = $this->getServices()->getData($serviceReferenceId . '/versions/' . $version .  '/class');
+            $versionedClassName = $className . $version;
+            if (class_exists($versionedClassName)) {
+                return $versionedClassName;
+            }
         }
 
-        if (!$result) {
-            $result = $this->getServices()->getData($serviceReferenceId . '/' . 'class');
+        if (class_exists($className)) {
+            return $className;
         }
 
-        if (empty($result)) {
-            $result = $serviceReferenceId;
-        }
-
-        return $result;
+        throw new Mage_Core_Service_Exception(
+            Mage::helper('Mage_Core_Helper_Data')->__('Service %s does not exists!', $serviceReferenceId),
+            Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
     }
 
     /**
@@ -231,7 +236,7 @@ class Mage_Core_Service_Config
      */
     public function getServiceVersionBind($callerReferenceId, $serviceReferenceId)
     {
-        $resolvedModuleName = $this->getServices()->getData($serviceReferenceId.'/module');
+        $resolvedModuleName = $this->getServices()->getData($serviceReferenceId . '/module');
 
         $result = $this->_config->getNode('modules/' . $callerReferenceId . '/depends/' . $resolvedModuleName . '/services/' . $serviceReferenceId . '/version');
 
