@@ -92,9 +92,10 @@ class Saas_JobNotification_Adminhtml_ActionControllerTest extends PHPUnit_Framew
             ->with('Saas_JobNotification::notification_action_markread')
             ->will($this->returnValue(true));
 
-        $id = '10';
-        $this->_requestMock->expects($this->once())->method('getParam')->with('id')->will($this->returnValue($id));
-        $this->_serviceMock->expects($this->once())->method('update')->with($id, array('is_read' => 1));
+        $notificationId = '10';
+        $this->_requestMock->expects($this->once())
+            ->method('getParam')->with('id')->will($this->returnValue($notificationId));
+        $this->_serviceMock->expects($this->once())->method('update')->with($notificationId, array('is_read' => 1));
         $this->_sessionMock->expects($this->once())
             ->method('addSuccess')
             ->with('The notification has been marked as read');
@@ -109,10 +110,11 @@ class Saas_JobNotification_Adminhtml_ActionControllerTest extends PHPUnit_Framew
             ->with('Saas_JobNotification::notification_action_markread')
             ->will($this->returnValue(true));
 
-        $id = '10';
-        $this->_requestMock->expects($this->once())->method('getParam')->with('id')->will($this->returnValue($id));
+        $notificationId = '10';
+        $this->_requestMock->expects($this->once())
+            ->method('getParam')->with('id')->will($this->returnValue($notificationId));
         $this->_serviceMock->expects($this->once())->method('update')
-            ->with($id, array('is_read' => 1))
+            ->with($notificationId, array('is_read' => 1))
             ->will($this->returnCallback(function(){
                 throw new InvalidArgumentException();
             }));
@@ -128,10 +130,11 @@ class Saas_JobNotification_Adminhtml_ActionControllerTest extends PHPUnit_Framew
             ->with('Saas_JobNotification::notification_action_markread')
             ->will($this->returnValue(true));
 
-        $id = '10';
-        $this->_requestMock->expects($this->once())->method('getParam')->with('id')->will($this->returnValue($id));
+        $notificationId = '10';
+        $this->_requestMock->expects($this->once())
+            ->method('getParam')->with('id')->will($this->returnValue($notificationId));
         $this->_serviceMock->expects($this->once())->method('update')
-            ->with($id, array('is_read' => 1))
+            ->with($notificationId, array('is_read' => 1))
             ->will($this->returnCallback(function(){
                 throw new Saas_JobNotification_Service_Exception('service message');
             }));
@@ -147,10 +150,11 @@ class Saas_JobNotification_Adminhtml_ActionControllerTest extends PHPUnit_Framew
             ->with('Saas_JobNotification::notification_action_markread')
             ->will($this->returnValue(true));
 
-        $id = '10';
-        $this->_requestMock->expects($this->once())->method('getParam')->with('id')->will($this->returnValue($id));
+        $notificationId = '10';
+        $this->_requestMock->expects($this->once())
+            ->method('getParam')->with('id')->will($this->returnValue($notificationId));
         $this->_serviceMock->expects($this->once())->method('update')
-            ->with($id, array('is_read' => 1))
+            ->with($notificationId, array('is_read' => 1))
             ->will($this->returnCallback(function(){
                 throw new Exception();
             }));
@@ -158,5 +162,240 @@ class Saas_JobNotification_Adminhtml_ActionControllerTest extends PHPUnit_Framew
         $this->_sessionMock->expects($this->never())->method('addError');
         $this->_sessionMock->expects($this->once())->method('addException');
         $this->_controller->markAsReadAction();
+    }
+
+    public function testMassMarkAsReadActionWhenActionIsNotAllowed()
+    {
+        $this->_authorizationMock->expects($this->once())
+            ->method('isAllowed')
+            ->with('Saas_JobNotification::notification_action_markread')
+            ->will($this->returnValue(false));
+
+        $this->_serviceMock->expects($this->never())->method('massUpdate');
+
+        $this->_controller->massMarkAsReadAction();
+    }
+
+    public function testMassMarkAsReadActionSuccessUpdate()
+    {
+        $this->_authorizationMock->expects($this->once())
+            ->method('isAllowed')
+            ->with('Saas_JobNotification::notification_action_markread')
+            ->will($this->returnValue(true));
+
+        $notificationIds = array(10, 20, 30);
+        $this->_requestMock->expects($this->once())
+            ->method('getParam')->with('notification_ids')->will($this->returnValue($notificationIds));
+        $this->_serviceMock->expects($this->once())
+            ->method('massUpdate')->with($notificationIds, array('is_read' => 1));
+        $this->_sessionMock->expects($this->once())
+            ->method('addSuccess')
+            ->with('Total of %d record(s) have been marked as read');
+
+        $this->_controller->massMarkAsReadAction();
+    }
+
+    public function testMassMarkAsReadActionWithInvalidIds()
+    {
+        $this->_authorizationMock->expects($this->once())
+            ->method('isAllowed')
+            ->with('Saas_JobNotification::notification_action_markread')
+            ->will($this->returnValue(true));
+
+        $notificationIds = array(10, 20, 30);
+        $this->_requestMock->expects($this->once())
+            ->method('getParam')->with('notification_ids')->will($this->returnValue($notificationIds));
+        $this->_serviceMock->expects($this->once())->method('massUpdate')
+            ->with($notificationIds, array('is_read' => 1))
+            ->will($this->returnCallback(function(){
+            throw new InvalidArgumentException();
+        }));
+        $this->_sessionMock->expects($this->never())->method('addSuccess');
+        $this->_sessionMock->expects($this->once())->method('addError')->with('Please select notifications');
+        $this->_controller->massMarkAsReadAction();
+    }
+
+    public function testMassMarkAsReadActionWithGeneralException()
+    {
+        $this->_authorizationMock->expects($this->once())
+            ->method('isAllowed')
+            ->with('Saas_JobNotification::notification_action_markread')
+            ->will($this->returnValue(true));
+
+        $notificationIds = array(10, 20, 30);
+        $this->_requestMock->expects($this->once())
+            ->method('getParam')->with('notification_ids')->will($this->returnValue($notificationIds));
+        $this->_serviceMock->expects($this->once())->method('massUpdate')
+            ->with($notificationIds, array('is_read' => 1))
+            ->will($this->returnCallback(function(){
+            throw new Exception();
+        }));
+        $this->_sessionMock->expects($this->never())->method('addSuccess');
+        $this->_sessionMock->expects($this->never())->method('addError');
+        $this->_sessionMock->expects($this->once())->method('addException');
+        $this->_controller->massMarkAsReadAction();
+    }
+
+    public function testRemoveActionWhenActionIsNotAllowed()
+    {
+        $this->_authorizationMock->expects($this->once())
+            ->method('isAllowed')
+            ->with('Saas_JobNotification::notification_action_remove')
+            ->will($this->returnValue(false));
+
+        $this->_serviceMock->expects($this->never())->method('update');
+
+        $this->_controller->removeAction();
+    }
+
+    public function testRemoveActionSuccessUpdate()
+    {
+        $this->_authorizationMock->expects($this->once())
+            ->method('isAllowed')
+            ->with('Saas_JobNotification::notification_action_remove')
+            ->will($this->returnValue(true));
+
+        $notificationId = '10';
+        $this->_requestMock->expects($this->once())
+            ->method('getParam')->with('id')->will($this->returnValue($notificationId));
+        $this->_serviceMock->expects($this->once())->method('update')->with($notificationId, array('is_remove' => 1));
+        $this->_sessionMock->expects($this->once())
+            ->method('addSuccess')
+            ->with('The notification has been removed');
+
+        $this->_controller->removeAction();
+    }
+
+    public function testRemoveActionWithInvalidId()
+    {
+        $this->_authorizationMock->expects($this->once())
+            ->method('isAllowed')
+            ->with('Saas_JobNotification::notification_action_remove')
+            ->will($this->returnValue(true));
+
+        $notificationId = '10';
+        $this->_requestMock->expects($this->once())
+            ->method('getParam')->with('id')->will($this->returnValue($notificationId));
+        $this->_serviceMock->expects($this->once())->method('update')
+            ->with($notificationId, array('is_remove' => 1))
+            ->will($this->returnCallback(function(){
+            throw new InvalidArgumentException();
+        }));
+        $this->_sessionMock->expects($this->never())->method('addSuccess');
+        $this->_sessionMock->expects($this->once())->method('addError')->with('Unable to proceed. Please, try again');
+        $this->_controller->removeAction();
+    }
+
+    public function testRemoveActionWithServiceException()
+    {
+        $this->_authorizationMock->expects($this->once())
+            ->method('isAllowed')
+            ->with('Saas_JobNotification::notification_action_remove')
+            ->will($this->returnValue(true));
+
+        $notificationId = '10';
+        $this->_requestMock->expects($this->once())
+            ->method('getParam')->with('id')->will($this->returnValue($notificationId));
+        $this->_serviceMock->expects($this->once())->method('update')
+            ->with($notificationId, array('is_remove' => 1))
+            ->will($this->returnCallback(function(){
+            throw new Saas_JobNotification_Service_Exception('service message');
+        }));
+        $this->_sessionMock->expects($this->never())->method('addSuccess');
+        $this->_sessionMock->expects($this->once())->method('addError')->with('service message');
+        $this->_controller->removeAction();
+    }
+
+    public function testRemoveActionWithGeneralException()
+    {
+        $this->_authorizationMock->expects($this->once())
+            ->method('isAllowed')
+            ->with('Saas_JobNotification::notification_action_remove')
+            ->will($this->returnValue(true));
+
+        $notificationId = '10';
+        $this->_requestMock->expects($this->once())
+            ->method('getParam')->with('id')->will($this->returnValue($notificationId));
+        $this->_serviceMock->expects($this->once())->method('update')
+            ->with($notificationId, array('is_remove' => 1))
+            ->will($this->returnCallback(function(){
+            throw new Exception();
+        }));
+        $this->_sessionMock->expects($this->never())->method('addSuccess');
+        $this->_sessionMock->expects($this->never())->method('addError');
+        $this->_sessionMock->expects($this->once())->method('addException');
+        $this->_controller->removeAction();
+    }
+
+    public function testMassRemoveActionWhenActionIsNotAllowed()
+    {
+        $this->_authorizationMock->expects($this->once())
+            ->method('isAllowed')
+            ->with('Saas_JobNotification::notification_action_remove')
+            ->will($this->returnValue(false));
+
+        $this->_serviceMock->expects($this->never())->method('massUpdate');
+
+        $this->_controller->massRemoveAction();
+    }
+
+    public function testMassRemoveActionSuccessRemove()
+    {
+        $this->_authorizationMock->expects($this->once())
+            ->method('isAllowed')
+            ->with('Saas_JobNotification::notification_action_remove')
+            ->will($this->returnValue(true));
+
+        $notificationIds = array(10, 20, 30);
+        $this->_requestMock->expects($this->once())
+            ->method('getParam')->with('notification_ids')->will($this->returnValue($notificationIds));
+        $this->_serviceMock->expects($this->once())
+            ->method('massUpdate')->with($notificationIds, array('is_remove' => 1));
+        $this->_sessionMock->expects($this->once())
+            ->method('addSuccess')
+            ->with('Total of %d record(s) have been removed');
+
+        $this->_controller->massRemoveAction();
+    }
+
+    public function testMassRemoveActionWithInvalidId()
+    {
+        $this->_authorizationMock->expects($this->once())
+            ->method('isAllowed')
+            ->with('Saas_JobNotification::notification_action_remove')
+            ->will($this->returnValue(true));
+
+        $notificationIds = array(10, 20, 30);
+        $this->_requestMock->expects($this->once())
+            ->method('getParam')->with('notification_ids')->will($this->returnValue($notificationIds));
+        $this->_serviceMock->expects($this->once())->method('massUpdate')
+            ->with($notificationIds, array('is_remove' => 1))
+            ->will($this->returnCallback(function(){
+            throw new InvalidArgumentException();
+        }));
+        $this->_sessionMock->expects($this->never())->method('addSuccess');
+        $this->_sessionMock->expects($this->once())->method('addError')->with('Please select notifications');
+        $this->_controller->massRemoveAction();
+    }
+
+    public function testMassRemoveActionWithGeneralException()
+    {
+        $this->_authorizationMock->expects($this->once())
+            ->method('isAllowed')
+            ->with('Saas_JobNotification::notification_action_remove')
+            ->will($this->returnValue(true));
+
+        $notificationIds = array(10, 20, 30);
+        $this->_requestMock->expects($this->once())
+            ->method('getParam')->with('notification_ids')->will($this->returnValue($notificationIds));
+        $this->_serviceMock->expects($this->once())->method('massUpdate')
+            ->with($notificationIds, array('is_remove' => 1))
+            ->will($this->returnCallback(function(){
+            throw new Exception();
+        }));
+        $this->_sessionMock->expects($this->never())->method('addSuccess');
+        $this->_sessionMock->expects($this->never())->method('addError');
+        $this->_sessionMock->expects($this->once())->method('addException');
+        $this->_controller->massRemoveAction();
     }
 }
