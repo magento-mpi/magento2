@@ -3654,7 +3654,7 @@ select:disabled {
   display: inline-block;
   line-height: 1.2;
   vertical-align: top;
-  padding-right: 40px;
+  padding-right: 10px;
   margin-bottom: -1px;
 }
 .navigation > ul > .level-top:last-child {
@@ -3670,13 +3670,12 @@ select:disabled {
   border-color: #bdc0cb;
 }
 .navigation > ul > .level-top > a {
-  font-family: "benchnine", sans-serif;
-  font-weight: 700;
-  font-size: 18px;
+  font-family: "Arial Narrow", sans-serif;
+  font-weight: 200;
+  font-size: 14px;
   display: inline-block;
   vertical-align: top;
   padding: 10px 30px;
-  font-size: 16px;
   position: relative;
   z-index: 1;
   text-align: center;
@@ -3710,28 +3709,33 @@ select:disabled {
   color: #ffffff;
 }
 .navigation > ul > .level-top > .submenu {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  padding: 0 10px;
   position: absolute;
   top: 100%;
-  left: 0;
   background: #000000;
   border: 1px solid #bdc0cb;
-  width: 100%;
+  width: auto;
   z-index: 1;
+  margin-top: -1px;
 }
 .navigation > ul > .level-top > .submenu > ul {
   height: auto;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin: 0 auto;
-  min-width: 1005px;
-  max-width: 1005px;
   padding-top: 10px;
   padding-bottom: 10px;
+  position: relative;
   /* Submenu styles */
 
 }
-.navigation > ul > .level-top > .submenu > ul li.column {
-  direction: rtl;
+.navigation > ul > .level-top > .submenu > ul > li.column {
   min-width: 150px;
   max-width: 220px;
   -webkit-box-sizing: border-box;
@@ -3746,9 +3750,6 @@ select:disabled {
   display: inline-block;
   margin-right: 30px;
   vertical-align: top;
-}
-.navigation > ul > .level-top > .submenu > ul li.column > ul {
-  direction: ltr;
 }
 .navigation > ul > .level-top > .submenu > ul .level1 > a {
   display: block;
@@ -3806,41 +3807,74 @@ select:disabled {
   transition: opacity 0.2s linear 0;
   opacity: 1;
 }
-.level-top.more:after {
-  color: #bdc0cb;
-  content: '>>';
-  padding: 10px;
-  display: block;
+.navigation > ul > .level-top.more.parent > a:after {
+  font-family: "icons";
+  font-size: 11px;
+  line-height: 11px;
+  height: 11px;
+  overflow: hidden;
+  content: "\e00f";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
 }
-.level-top.more:hover:after {
-  color: #ffffff;
+.navigation > ul > .level-top.more.parent > a:after {
+  margin-left: 5px;
 }
-.level-top.more ul {
-  position: relative;
-}
-.level-top.more li.level-top {
-  width: 200px;
-  padding: 10px;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-}
-.level-top.more li.level-top > a {
-  font-family: "benchnine", sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-}
-.level-top.more li.level-top > .submenu {
-  position: absolute;
+.navigation > ul > .level-top.more.parent > .submenu {
+  left: auto;
   right: 0;
-  top: 10px;
-  left: 220px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul:before {
+  left: auto;
+  right: 30px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .column > a span {
+  border-bottom: 1px solid #14148f;
+  display: block;
+  text-transform: uppercase;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .column > a + .submenu {
+  margin-top: 11px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level1 {
+  padding-left: 15px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level1 > a span {
+  text-transform: capitalize;
+  border-bottom: none;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level1 > a + .submenu {
+  margin-top: 0;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level2 {
+  padding-left: 25px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level2 > a span {
+  border-bottom: none;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level3 {
+  padding-left: 35px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level3 > a span {
+  border-bottom: none;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level4 {
+  padding-left: 45px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level4 > a span {
+  border-bottom: none;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level4 li[class^="level"] {
+  padding-left: 55px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level4 li[class^="level"] > a span {
+  border-bottom: none;
 }
 /* Exceptions */
 .no-rgba .navigation .level-top > a:after {

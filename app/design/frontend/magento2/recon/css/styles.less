@@ -2799,9 +2799,9 @@ select {
   > ul > .level-top {
     display: inline;
     > .submenu {
-      position:static;
-      padding:0;
-      float:left;
+      position: static;
+      padding: 0;
+      float: left;
       &:before {
         content: '';
         background: @primary4;
@@ -2858,7 +2858,7 @@ select {
     display: inline-block;
     line-height: 1.2;
     vertical-align: top;
-    padding-right: 40px;
+    padding-right: 10px;
     margin-bottom: -1px;
     &:last-child {
       padding-right:0;
@@ -2873,7 +2873,7 @@ select {
       border-color: @reconSecondary1;
     }
     > a {
-      font-family: "archivonarrow", sans-serif;
+      font-family: "Arial Narrow", sans-serif;
       font-weight: 400;
       font-style: italic;
       font-size: 14px;
@@ -2911,24 +2911,22 @@ select {
       color: @primary1;
     }
     > .submenu {
+      .borderBox();
+      padding: 0 10px;
       position: absolute;
       top: 100%;
-      left: 0;
       background: @reconSecondary2;
       border: 1px solid @reconSecondary1;
-      width: 100%;
+      width: auto;
       z-index: 1;
+      margin-top: -1px;
       > ul {
         height: @subNavHeight;
-        .pageWidth;
         padding-top: @subNavPadding;
         padding-bottom: @subNavPadding;
+        position: relative;
         /* Submenu styles */
-        li.column {
-          direction: rtl;
-          > ul {
-            direction: ltr;
-          }
+        > li.column {
           min-width: 150px;
           max-width: 220px;
           .borderBox;
@@ -2994,34 +2992,77 @@ select {
         opacity: 1;
       }
     }
-  }
-  /*    li.level1 {
-          display: inline-block; width:20%; vertical-align: top;
-      }*/
-}
-.level-top.more {
-  &:after {
-    color: @primary1;
-    content: '>>';
-    padding: 10px;
-    display: block;
-  }
-  ul { position: relative; }
-  li.level-top {
-    width: 200px;
-    padding: 10px;
-    .borderBox;
-    > a {
-      font-weight: 400;
-      text-transform: uppercase;
-      font-size: 16px;
-      font-style: italic;
-    }
-    > .submenu {
-      position: absolute;
-      right: 0;
-      top: @subNavPadding;
-      left :220px;
+    &.more.parent {
+      > a {
+        .iconAfter("\e00f", 11px, 'icons');
+        &:after { margin-left: 5px; }
+      }
+      > .submenu {
+        left: auto;
+        right: 0;
+        > ul {
+          &:before {
+            left: auto;
+            right: 30px;
+          }
+          .column {
+            > a {
+              span {
+                border-bottom: 1px solid @headerBg;
+                display: block;
+                text-transform: uppercase;
+              }
+              & + .submenu {
+                margin-top: 11px;
+              }
+            }
+          }
+          .level1 {
+            padding-left: 15px;
+            > a {
+              span {
+                text-transform: capitalize;
+                border-bottom: none;
+              }
+              & + .submenu {
+                margin-top: 0;
+              }
+            }
+          }
+          .level2 {
+            padding-left: 25px;
+            > a {
+              span {
+                border-bottom: none;
+              }
+            }
+          }
+          .level3 {
+            padding-left: 35px;
+            > a {
+              span {
+                border-bottom: none;
+              }
+            }
+          }
+          .level4 {
+            padding-left: 45px;
+            > a {
+              span {
+                border-bottom: none;
+              }
+            }
+            li[class^="level"] {
+              padding-left: 55px;
+              > a {
+                span {
+                  border-bottom: none;
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
