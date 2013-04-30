@@ -62,6 +62,10 @@ class Saas_JobNotification_Model_InboxTest extends PHPUnit_Framework_TestCase
 
     public function testAddNotificationWithNotAllowedTask()
     {
+        $this->_configMock
+            ->expects($this->once())
+            ->method('isNotificationAllowed')
+            ->will($this->returnValue(false));
         $this->_factoryMock
             ->expects($this->never())
             ->method('create');
