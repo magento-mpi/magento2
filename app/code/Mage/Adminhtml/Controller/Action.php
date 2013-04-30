@@ -35,7 +35,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Backend_Controller_ActionAbs
         $args = func_get_args();
         $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->getUsedModuleName());
         array_unshift($args, $expr);
-        return $this->_getTranslator()->translate($args);
+        return $this->_translator->translate($args);
     }
 
     /**
