@@ -41,10 +41,10 @@ class Mage_Core_Model_Store_GroupTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->setData(
             array(
-                'website_id'        => 0,
-                'name'              => 'test store',
-                'rtoot_category_id' => 2,
-                'default_store_id'  => 0
+                'website_id'       => 0,
+                'name'             => 'test store',
+                'root_category_id' => 2,
+                'default_store_id' => 0
             )
         );
 
