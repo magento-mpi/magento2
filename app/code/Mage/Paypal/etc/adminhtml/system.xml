@@ -518,7 +518,7 @@
                                 <source_model>Mage_Paypal_Model_System_Config_Source_UrlMethod</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
-                            <group id="billing_agreement" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
+                            <group id="billing_agreement" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
                                 <label>PayPal Billing Agreement Settings</label>
                                 <field id="active" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1">
                                     <label>Enabled</label>
@@ -709,7 +709,7 @@
                             </group>
                         </group>
                     </group>
-                    <group id="settings_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
+                    <group id="settings_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
                         <label>Basic Settings - PayPal Express Checkout</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
                         <field id="title" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -1378,7 +1378,7 @@
                             </group>
                         </group>
                     </group>
-                    <group id="paypal_payflow_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
+                    <group id="paypal_payflow_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
                         <label>Basic Settings - PayPal Express Checkout</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
                         <field id="enable_express_pe" type="select" showInDefault="1" showInWebsite="1">
