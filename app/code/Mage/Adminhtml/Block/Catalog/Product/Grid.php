@@ -175,7 +175,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         $this->addColumn('set_name',
             array(
-                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Attrib. Set Name'),
+                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute Set'),
                 'width' => '100px',
                 'index' => 'attribute_set_id',
                 'type'  => 'options',
@@ -207,7 +207,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
         if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
             $this->addColumn('qty',
                 array(
-                    'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Qty'),
+                    'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Quantity'),
                     'width' => '100px',
                     'type'  => 'number',
                     'index' => 'qty',

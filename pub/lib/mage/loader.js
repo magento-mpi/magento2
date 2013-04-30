@@ -84,6 +84,7 @@
          * Hide loader
          */
         hide: function() {
+            console.log(arguments);
             if (this.loader) {
                 this.loader.hide();
             }

@@ -165,7 +165,7 @@
         <!-- Mage_Catalog -->
     </catalog_product_compare_index>
 
-    <customer_account>
+    <customer_account translate="label" type="page" parent="default">
         <move element="page.main.title" destination="main" before="-" />
     </customer_account>
 

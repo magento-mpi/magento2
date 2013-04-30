@@ -113,7 +113,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
                         <arguments>
-                            <header translate="true" module="Mage_Sales">Purchased From (Store)</header>
+                            <header translate="true" module="Mage_Sales">Purchase Point</header>
                             <type>store</type>
                             <store_view>1</store_view>
                             <display_deleted>1</display_deleted>
@@ -125,7 +125,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="created_at">
                         <arguments>
-                            <header translate="true" module="Mage_Sales">Purchased On</header>
+                            <header translate="true" module="Mage_Sales">Purchase Date</header>
                             <type>datetime</type>
                             <index>created_at</index>
                             <id>created_at</id>
@@ -136,7 +136,7 @@
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="billing_name">
                         <arguments>
                             <id>billing_name</id>
-                            <header translate="true" module="Mage_Sales">Bill to Name</header>
+                            <header translate="true" module="Mage_Sales">Bill-to Name</header>
                             <index>billing_name</index>
                             <header_css_class>col-bill-to-name</header_css_class>
                             <column_css_class>col-bill-to-name</column_css_class>
@@ -145,7 +145,7 @@
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="shipping_name">
                         <arguments>
                             <id>shipping_name</id>
-                            <header translate="true" module="Mage_Sales">Ship to Name</header>
+                            <header translate="true" module="Mage_Sales">Ship-to Name</header>
                             <index>shipping_name</index>
                             <header_css_class>col-ship-to-name</header_css_class>
                             <column_css_class>col-ship-to-name</column_css_class>
@@ -154,7 +154,7 @@
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="base_grand_total">
                         <arguments>
                             <id>base_grand_total</id>
-                            <header translate="true" module="Mage_Sales">G.T. (Base)</header>
+                            <header translate="true" module="Mage_Sales">Grand Total (Base)</header>
                             <type>currency</type>
                             <currency>base_currency_code</currency>
                             <index>base_grand_total</index>
@@ -165,7 +165,7 @@
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="grand_total">
                         <arguments>
                             <id>grand_total</id>
-                            <header translate="true" module="Mage_Sales">G.T. (Purchased)</header>
+                            <header translate="true" module="Mage_Sales">Grand Total (Purchased)</header>
                             <type>currency</type>
                             <currency>order_currency_code</currency>
                             <rate>1</rate>

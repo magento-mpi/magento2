@@ -116,13 +116,13 @@
         reloadPrice: function() {
             if (this.options.bundleConfig) {
                 var optionPrice = {
-                        excludeTax: 0,
-                        includeTax: 0,
+                        disposition: 0,
+                        priceInclTax: 0,
                         price: 0,
-                        update: function(price, excludeTax, includeTax) {
+                        update: function(price, disposition, priceInclTax) {
                             this.price += price;
-                            this.excludeTax += excludeTax;
-                            this.includeTax += includeTax;
+                            this.disposition += disposition;
+                            this.priceInclTax += priceInclTax;
                         }
                     };
                 $.each(this.options.bundleConfig.selected, $.proxy(function(index, value) {
@@ -156,7 +156,7 @@
                         if (value.indexOf('price-including-tax-') >= 0) {
                             price = optionPrice.priceInclTax;
                         } else if (value.indexOf('price-excluding-tax-') >= 0) {
-                            price = optionPrice.priceExclTax;
+                            price = optionPrice.price;
                         } else if (value.indexOf('product-price-') >= 0) {
                             price = optionPrice.price;
                         }

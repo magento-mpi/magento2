@@ -481,6 +481,12 @@
     padding: 20px;
 }
 
+.ui-dialog-sticky {
+    position: fixed !important;
+    left:0;
+    top:0;
+}
+
 .ui-resizable {
     position: relative;
 }

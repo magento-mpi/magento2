@@ -79,7 +79,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="design">
                             <arguments>
-                                <header translate="true" module="Enterprise_GiftWrapping">Gift Wrapping Design</header>
+                                <header translate="true" module="Enterprise_GiftWrapping">Gift Wrap Design</header>
                                 <index>design</index>
                                 <header_css_class>col-design</header_css_class>
                                 <column_css_class>col-design</column_css_class>

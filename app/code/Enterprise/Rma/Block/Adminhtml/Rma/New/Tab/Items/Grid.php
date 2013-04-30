@@ -84,7 +84,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     protected function _prepareColumns()
     {
         $this->addColumn('product_name', array(
-            'header'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Product Name'),
+            'header'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Product'),
             'type'     => 'text',
             'index'    => 'product_name',
             'sortable' => false,
@@ -105,7 +105,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
 
         //Renderer puts available quantity instead of order_item_id
         $this->addColumn('qty_ordered', array(
-            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Remaining Qty'),
+            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Remaining'),
             'getter'   => array($this, 'getQtyOrdered'),
             'type'  => 'text',
             'index' => 'qty_ordered',
@@ -117,7 +117,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
         ));
 
         $this->addColumn('qty_requested', array(
-            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Requested Qty'),
+            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Requested'),
             'index' => 'qty_requested',
             'type'  => 'input',
             'sortable' => false,
@@ -127,7 +127,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
 
         $eavHelper = Mage::helper('Enterprise_Rma_Helper_Eav');
         $this->addColumn('reason', array(
-            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Reason to Return'),
+            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Return Reason'),
             'getter'   => array($this, 'getReasonOptionStringValue'),
             'type'  => 'select',
             'options' => array(''=>'') + $eavHelper->getAttributeOptionValues('reason'),
