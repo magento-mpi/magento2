@@ -986,6 +986,9 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         }
 
         $postData['stock_data'] = $parentProduct->getStockData();
+        if ($postData['quantity_and_stock_status']['qty'] === '') {
+            $postData['stock_data']['manage_stock'] = 0;
+        }
         if (!empty($postData['image'])) {
             $postData['small_image'] = $postData['thumbnail'] = $postData['image'];
             $postData['media_gallery']['images'][] = array(
