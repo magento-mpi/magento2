@@ -91,7 +91,7 @@
                                 general: {
                                     name: $('#new_category_name').val(),
                                     is_active: 1,
-                                    include_in_menu: 0
+                                    include_in_menu: 1
                                 },
                                 parent: $('#new_category_parent').val(),
                                 use_config: ['available_sort_by', 'default_sort_by'],

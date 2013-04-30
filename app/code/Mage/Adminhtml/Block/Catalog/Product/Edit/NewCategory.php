@@ -51,12 +51,27 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
             'label'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Parent Category'),
             'title'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Parent Category'),
             'required' => true,
-            'options'  => array(),
+            'options'  => $this->_getParentCategoryOptions(),
             'class'    => 'validate-parent-category',
             'name'     => 'new_category_parent',
+            'note'     => Mage::helper('Mage_Catalog_Helper_Data')->__('If there are no custom parent categories, please use the default parent category. You can reassign the category at any time in <a href="%s" target="_blank">Products > Categories</a>.', $this->getUrl('*/catalog_category')),
         ));
 
         $this->setForm($form);
+    }
+
+    /**
+     * Get parent category options
+     *
+     * @return array
+     */
+    protected function _getParentCategoryOptions()
+    {
+        $categoryIds = Mage::getModel('Mage_Catalog_Model_Category')->getCollection()->getAllIds();
+
+        return count($categoryIds) == 2
+            ? array($categoryIds[1] => Mage::getModel('Mage_Catalog_Model_Category')->load($categoryIds[1])->getName())
+            : array();
     }
 
     /**
