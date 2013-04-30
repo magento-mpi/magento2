@@ -127,6 +127,15 @@
             margin-right: 15px;
         }
     }
+    .title .qty {
+        color: @primary8;
+        &:before {
+            content: '(';
+        }
+        &:after {
+            content: ')';
+        }
+    }
 }
 
 // *
@@ -636,6 +645,10 @@
             .price-label {
                 display: none;
             }
+            .price-from .price-label,
+            .price-to .price-label {
+                display: block;
+            }
             .old-price {
                 color: @primary8;
                 text-decoration: line-through;
@@ -728,7 +741,8 @@
                     visibility: hidden;
                     opacity: 1;
                     .action.tocart,
-                    .secondary {
+                    .secondary,
+                    .stock.unavailable {
                         visibility: visible;
                     }
                 }

@@ -71,7 +71,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Product Name</header>
+                            <header translate="true" module="Mage_Tag">Product</header>
                             <index>name</index>
                             <column_css_class>col-product</column_css_class>
                             <header_css_class>col-product</header_css_class>
@@ -79,7 +79,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="utaged">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Number of Unique Tags</header>
+                            <header translate="true" module="Mage_Tag">Unique Tags</header>
                             <index>utaged</index>
                             <column_css_class>col-unique-numbers</column_css_class>
                             <header_css_class>col-unique-numbers</header_css_class>
@@ -87,7 +87,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="taged">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Number of Total Tags</header>
+                            <header translate="true" module="Mage_Tag">Total Tags</header>
                             <index>taged</index>
                             <column_css_class>col-total-numbers</column_css_class>
                             <header_css_class>col-total-numbers</header_css_class>
@@ -167,7 +167,7 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="tag_name">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Tag Name</header>
+                            <header translate="true" module="Mage_Tag">Tag</header>
                             <index>tag_name</index>
                         </arguments>
                     </block>
@@ -180,7 +180,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="visible">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Visible In</header>
+                            <header translate="true" module="Mage_Tag">Visibility</header>
                             <sortable>0</sortable>
                             <index>stores</index>
                             <type>store</type>
@@ -361,13 +361,13 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="product">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Product Name</header>
+                            <header translate="true" module="Mage_Tag">Product</header>
                             <index>product_name</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="added_in">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Submitted In</header>
+                            <header translate="true" module="Mage_Tag">Submitted Locale</header>
                             <index>added_in</index>
                             <type>store</type>
                             <store_view>1</store_view>
@@ -425,19 +425,19 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Product Name</header>
+                            <header translate="true" module="Mage_Tag">Product</header>
                             <index>original_name</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="tag_name">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Tag Name</header>
+                            <header translate="true" module="Mage_Tag">Tag</header>
                             <index>tag_name</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="visible">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Visible In</header>
+                            <header translate="true" module="Mage_Tag">Visibility</header>
                             <sortable>0</sortable>
                             <index>stores</index>
                             <type>store</type>
@@ -454,7 +454,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="created_at">
                         <arguments>
-                            <header translate="true" module="Mage_Tag">Submitted On</header>
+                            <header translate="true" module="Mage_Tag">Submitted Date</header>
                             <index>created_at</index>
                             <width>140px</width>
                             <type>datetime</type>

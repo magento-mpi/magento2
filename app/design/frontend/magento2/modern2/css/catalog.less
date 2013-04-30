@@ -127,6 +127,15 @@
             margin-right: 15px;
         }
     }
+    .title .qty {
+        color: @primary1;
+        &:before {
+            content: '(';
+        }
+        &:after {
+            content: ')';
+        }
+    }
 }
 
 // *
@@ -729,7 +738,8 @@
                     visibility: hidden;
                     opacity: 1;
                     .action.tocart,
-                    .secondary {
+                    .secondary,
+                    .stock.unavailable {
                         visibility: visible;
                     }
                 }

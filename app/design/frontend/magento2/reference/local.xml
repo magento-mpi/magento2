@@ -141,22 +141,6 @@
         </reference>
     </review_product_list>
 
-    <customer_account>
-        <reference name="customer_account_navigation">
-            <!-- <action method="removeLink" translate="label"><name>tags</name></action> -->
-        </reference>
-
-        <reference name="customer_account_navigation">
-            <action method="removeLink" translate="label"><name>downloadable_products</name></action>
-        </reference>
-        <reference name="customer_account_navigation">
-            <action method="removeLink" translate="label"><name>recurring_profiles</name></action>
-        </reference>
-        <reference name="customer_account_navigation">
-            <action method="removeLink" translate="label"><name>OAuth Customer Tokens</name></action>
-        </reference>
-    </customer_account>
-
     <print>
         <reference name="head">
             <!-- <action method="addCss"><file>css/print.css</file></action> -->

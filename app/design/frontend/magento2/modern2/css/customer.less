@@ -308,11 +308,6 @@
 // *    Account
 // ----------------------------------------------------------------------------- */
 
-.my-account {
-    font-size: 13px;
-    margin: 45px 0 0;
-}
-
 .account {
     .column.main > .page.title {
         margin-top: 47px;
@@ -345,6 +340,8 @@
 }
 
 .my-account {
+    font-size: 13px;
+    margin: 45px 0 0;
     .fieldset {
         > .legend {
             float: left;
@@ -516,11 +513,18 @@
                 content: ' | '
             }
         }
+        &.dashboard .product.name > a {
+            &:hover {
+                color: @secondary3;
+                text-decoration: none;
+            }
+        }
     }
     .data.table.orders, // My Orders
     .data.wishlist, // My Whishlist
     .data.table.reviews, // My Product Reviews
-    .data.tags { // My Tags
+    .data.tags, // My Tags
+    .data.table.balance.history { // Store Credit
         width: 100%;
         td,
         th {
@@ -649,6 +653,12 @@
                     font-size: 12px;
                 }
             }
+        }
+    }
+//Share whishlist
+    .wishlist.share {
+        > .fieldset > .field > .label {
+            padding-right: 5px;
         }
     }
 // Giftcard Account
@@ -829,6 +839,39 @@
         .price-excluding-tax,
         .price-including-tax {
             display: block;
+        }
+    }
+    .dashboard.tags {
+        .products.list.items > .item {
+            .details {
+                padding: 0;
+            }
+            .product.tags li {
+                display: inline;
+            }
+        }
+        .title .action.view {
+            background: none;
+            letter-spacing: 0;
+            text-decoration: none;
+            > span {
+                font-family: Arial, Helvetica, sans-serif;
+                text-transform: lowercase;
+            }
+        }
+    }
+// Store credit
+    .storecredit {
+        .account.balance .price {
+            font-weight: bold;
+        }
+        .subtitle,
+        .sub-title {
+            .customFont(15px);
+            margin: 40px 0 10px;
+        }
+        .data.table.balance.history tbody:nth-child(odd) td {
+            background: @primary7;
         }
     }
 }

@@ -121,27 +121,27 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Adminhtml_Block
         ));
 
         $this->addColumn('popularity', array(
-            'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('Number of Uses'),
+            'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('Uses'),
             'index'     => 'popularity',
             'type'      => 'number'
         ));
 
         $this->addColumn('synonym_for', array(
-            'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('Synonym For'),
+            'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('Synonym'),
             'align'     => 'left',
             'index'     => 'synonym_for',
             'width'     => '160px'
         ));
 
         $this->addColumn('redirect', array(
-            'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('Redirect'),
+            'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('Redirect URL'),
             'align'     => 'left',
             'index'     => 'redirect',
             'width'     => '200px'
         ));
 
         $this->addColumn('display_in_terms', array(
-            'header'=>Mage::helper('Enterprise_Search_Helper_Data')->__('Display in Suggested Terms'),
+            'header'=>Mage::helper('Enterprise_Search_Helper_Data')->__('Suggested Terms'),
             'sortable'=>true,
             'index'=>'display_in_terms',
             'type' => 'options',

@@ -25,9 +25,9 @@
 a,
 a:visited,
 a > span {
-    color: @textColor;
+    color: @link;
     &:hover {
-        color: @secondary1;
+        color: @linkHover;
     }
 }
 
@@ -160,7 +160,7 @@ input, select, textarea {
 .data-tabs-styling() {
     > .item.title {
         > .switch {
-            background: @primary1;
+            background: rgba(255, 255, 255, 0.1);
         }
         &:not(.disabled) > .switch:active,
         &:not(.disabled) > .switch:focus,
@@ -168,9 +168,6 @@ input, select, textarea {
         &.active > .switch {
             background: @primary3;
         }
-    }
-    > .item.content {
-        background: none;
     }
 }
 
@@ -341,17 +338,6 @@ input, select, textarea {
             &:hover span {
                 color: @secondary1;
             }
-        }
-    }
-}
-
-.block.giftcard {
-    .action.check {
-        span {
-            color: @textColor;
-        }
-        &:hover span {
-            color: @secondary1;
         }
     }
 }

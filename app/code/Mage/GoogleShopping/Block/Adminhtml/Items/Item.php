@@ -48,7 +48,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Item extends Mage_Adminhtml_Bloc
     {
         $this->addColumn('name',
             array(
-                'header'    => $this->__('Product Name'),
+                'header'    => $this->__('Product'),
                 'width'     => '30%',
                 'index'     => 'name',
         ));
