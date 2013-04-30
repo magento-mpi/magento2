@@ -67,7 +67,7 @@ class Saas_Mage_TmtApi_Api
         $url = explode('.', $url[2]);
         $url[0] = $data['domain'];
         $domain = implode('.', $url);
-        $existResponse = $this->checkDomainExists($token, $domain, $client);
+        $existResponse = $this->checkDomainExists($domain);
         if (!empty($existResponse)) {
             throw new RuntimeException('Domain, you are trying to create, already exists');
         }
@@ -82,13 +82,13 @@ class Saas_Mage_TmtApi_Api
     /**
      * Check if domain already exist
      *
-     * @param string $token
      * @param string $domain
      * @return int|null
      */
-    public function checkDomainExists($token, $domain)
+    public function checkDomainExists($domain)
     {
         $client = $this->getClient();
+        $token = $this->getToken($client);
         $response = $client->checkDomain($token, array('domain' => $domain));
         return ($this->isSuccessful($response)) ? $response['response']['exists'] : null;
     }
