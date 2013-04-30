@@ -16,8 +16,10 @@ class Mage_Core_Model_Store_Group_LimitationTest extends PHPUnit_Framework_TestC
     public function testCanCreate($totalCount, $configuredCount, $expected)
     {
         $resource = $this->getMock('Mage_Core_Model_Resource_Store_Group', array('countAll'), array(), '', false);
-        if ($totalCount) {
+        if ($configuredCount !== '') {
             $resource->expects($this->once())->method('countAll')->will($this->returnValue($totalCount));
+        } else {
+            $resource->expects($this->never())->method('countAll');
         }
         $config = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
         $config->expects($this->any())->method('getNode')
