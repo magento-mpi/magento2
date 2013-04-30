@@ -8,37 +8,6 @@
 class Saas_JobNotification_Adminhtml_ViewController extends Mage_Backend_Controller_ActionAbstract
 {
     /**
-     * @var Mage_Core_Model_Authorization
-     */
-    protected $_authorization;
-
-    /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
-     * @param Mage_Core_Model_Authorization $authorization
-     * @param string $areaCode
-     * @param array $invokeArgs
-     */
-    public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
-        Mage_Core_Model_Authorization $authorization,
-        $areaCode = null,
-        array $invokeArgs = array()
-    ) {
-        parent::__construct($request, $response, $objectManager,
-            $frontController, $layoutFactory, $areaCode, $invokeArgs
-        );
-        $this->_authorization = $authorization;
-    }
-
-    /**
      * Check whether controller actions is allowed
      *
      * @return bool

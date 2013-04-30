@@ -18,16 +18,6 @@
 class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Session getter
-     *
-     * @return Mage_Adminhtml_Model_Session
-     */
-    protected function _getSession()
-    {
-        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
-    }
-
-    /**
      * Load layout, set active menu and breadcrumbs
      *
      * @return Mage_Widget_Adminhtml_Widget_InstanceController
@@ -285,6 +275,6 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Widget::widget_instance');
+        return $this->_authorization->isAllowed('Mage_Widget::widget_instance');
     }
 }

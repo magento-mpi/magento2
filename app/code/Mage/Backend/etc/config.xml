@@ -47,6 +47,11 @@
         <di>
             <preferences>
                 <Mage_Core_Model_Config_Storage_WriterInterface>Mage_Core_Model_Config_Storage_Writer_Db</Mage_Core_Model_Config_Storage_WriterInterface>
+                <Mage_Backend_Controller_Context>
+                    <parameters>
+                        <translator>Mage_Core_Model_TranslateProxy</translator>
+                    </parameters>
+                </Mage_Backend_Controller_Context>
             </preferences>
         </di>
     </global>

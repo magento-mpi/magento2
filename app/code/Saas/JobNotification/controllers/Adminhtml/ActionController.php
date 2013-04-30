@@ -8,57 +8,24 @@
 class Saas_JobNotification_Adminhtml_ActionController extends Mage_Backend_Controller_ActionAbstract
 {
     /**
-     * @var Mage_Core_Model_Authorization
-     */
-    protected $_authorization;
-
-    /**
      * @var Saas_JobNotification_Service_Notification
      */
     protected $_service;
 
     /**
-     * @var Saas_JobNotification_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * @var Mage_Backend_Model_Session
-     */
-    protected $_session;
-
-    /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
-     * @param Mage_Core_Model_Authorization $authorization
+     * @param Mage_Backend_Controller_Context $context
      * @param Saas_JobNotification_Service_Notification $service
      * @param Saas_JobNotification_Helper_Data $helper
-     * @param Mage_Backend_Model_Session $session
-     * @param string $areaCode
-     * @param array $invokeArgs
+     * @param null $areaCode
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
-        Mage_Core_Model_Authorization $authorization,
+        Mage_Backend_Controller_Context $context,
         Saas_JobNotification_Service_Notification $service,
         Saas_JobNotification_Helper_Data $helper,
-        Mage_Backend_Model_Session $session,
-        $areaCode = null,
-        array $invokeArgs = array()
+        $areaCode = null
     ) {
-        parent::__construct($request, $response, $objectManager,
-            $frontController, $layoutFactory, $areaCode, $invokeArgs
-        );
-        $this->_authorization = $authorization;
+        parent::__construct($context, $areaCode);
         $this->_helper = $helper;
-        $this->_session = $session;
         $this->_service = $service;
     }
 
