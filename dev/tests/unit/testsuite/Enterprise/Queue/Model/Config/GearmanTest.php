@@ -15,12 +15,12 @@ class Enterprise_Queue_Model_Config_GearmanTest extends PHPUnit_Framework_TestCa
     /**
      * @var Enterprise_Queue_Model_Config_Gearman
      */
-    protected $_helperGearman;
+    protected $_config;
 
     protected function setUp()
     {
         $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $this->_helperGearman = new Enterprise_Queue_Model_Config_Gearman($this->_configMock);
+        $this->_config = new Enterprise_Queue_Model_Config_Gearman($this->_configMock);
     }
 
     public function testGetServers()
@@ -29,6 +29,6 @@ class Enterprise_Queue_Model_Config_GearmanTest extends PHPUnit_Framework_TestCa
             ->with(Enterprise_Queue_Model_Config_Gearman::XML_PATH_QUEUE_ADAPTER_GEARMAN_SERVERS)
             ->will($this->returnValue('127.0.0.1:4730'));
 
-        $this->assertEquals('127.0.0.1:4730', $this->_helperGearman->getServers());
+        $this->assertEquals('127.0.0.1:4730', $this->_config->getServers());
     }
 }

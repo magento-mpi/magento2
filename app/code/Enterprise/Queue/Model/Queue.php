@@ -80,6 +80,7 @@ class Enterprise_Queue_Model_Queue implements Enterprise_Queue_Model_QueueInterf
      */
     public function getTask($taskName, array $params = array())
     {
+        $params = array_merge_recursive($this->_queueConfig->getTaskParams(), $params);
         $task = $this->_taskRepository->get($taskName, $params);
         if ($task->getHandle()) {
             $task->setStatus($this->_client->getStatus($task->getHandle()));
