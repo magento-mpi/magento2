@@ -59,10 +59,10 @@
                             <gmtoffset>1</gmtoffset>
                             <default> ---- </default>
                             <header_css_class>col-start</header_css_class>
-                            <column_csProduct Names_class>col-start</column_css_class>
+                            <column_css_class>col-start</column_css_class>
                         </arguments>
                     </block>
-                    <blQueue Finishock type='Mage_Backend_Block_Widget_Grid_Column' as='finish_at'>
+                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='finish_at'>
                         <arguments>
                             <header translate='true' module='Mage_Newsletter'>Queue End</header>
                             <type>datetime</type>
