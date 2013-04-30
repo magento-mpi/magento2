@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true expr:true*/
-(function ($) {
+(function ($, undefined) {
     "use strict";
 
     /**
@@ -41,42 +41,43 @@
          * @private
          */
         _renderSummaryBox: function(event, data) {
-            var _this = this.element,
-                config = data.config,
+            var config = data.config,
                 summaryContainer;
 
             // Clear Summary box
             this.element.html("");
 
             $.each(config.selected, $.proxy(function(key, row) {
-                if (row.length > 0 && row[0] !== null) {
-                    summaryContainer = this.element
-                        .closest(this.options.summaryContainer)
-                        .find(this.options.templates.summaryBlock)
-                        .tmpl([{_label_: config.options[key].title}])
-                        .appendTo(_this);
-
-                    $.each(row, $.proxy(function(rKey, option) {
-                        var options = [];
-                        if (!$.isArray(option)) {   // Regular options (single)
-                            options.push({
-                                _quantity_: config.options[key].selections[option].qty,
-                                _label_: config.options[key].selections[option].name
-                            });
-                        } else {    // Used for Multi-select
-                            $.each(option, function(index, value) {
-                                options.push({
-                                    _quantity_: config.options[key].selections[value].qty,
-                                    _label_: config.options[key].selections[value].name
-                                });
-                            });
-                        }
-                        this.element
+                if (row !== undefined) {
+                    if (row.length > 0 && row[0] !== null) {
+                        summaryContainer = this.element
                             .closest(this.options.summaryContainer)
-                            .find(this.options.templates.optionBlock)
-                            .tmpl(options)
-                            .appendTo(summaryContainer.find(this.options.optionSelector));
-                    }, this));
+                            .find(this.options.templates.summaryBlock)
+                            .tmpl([{_label_: config.options[key].title}])
+                            .appendTo(this.element);
+
+                        $.each(row, $.proxy(function(rKey, option) {
+                            var options = [];
+                            if (!$.isArray(option)) {   // Regular options (single)
+                                options.push({
+                                    _quantity_: config.options[key].selections[option].qty,
+                                    _label_: config.options[key].selections[option].name
+                                });
+                            } else {    // Used for Multi-select
+                                $.each(option, function(index, value) {
+                                    options.push({
+                                        _quantity_: config.options[key].selections[value].qty,
+                                        _label_: config.options[key].selections[value].name
+                                    });
+                                });
+                            }
+                            this.element
+                                .closest(this.options.summaryContainer)
+                                .find(this.options.templates.optionBlock)
+                                .tmpl(options)
+                                .appendTo(summaryContainer.find(this.options.optionSelector));
+                        }, this));
+                    }
                 }
             }, this));
         }

@@ -126,7 +126,7 @@
                         }
                     };
                 $.each(this.options.bundleConfig.selected, $.proxy(function(index, value) {
-                    if (this.options.bundleConfig.options[index]) {
+                    if (value !== undefined && this.options.bundleConfig.options[index]) {
                         $.each(value, $.proxy(function(key, element) {
                             if (element !== '' && element !== 'none' && element !== undefined && element !== null) {
                                 if ($.isArray(element)) {
