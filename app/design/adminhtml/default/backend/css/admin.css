@@ -983,7 +983,8 @@ button.primary.disabled:hover,
 .actions-select .action-toggle,
 .actions-select .action-toggle:hover,
 .actions-select .action-toggle:active,
-.actions-select .action-toggle:focus {
+.actions-select .action-toggle:focus,
+.actions-select .action-toggle[disabled] {
     background: #fff;
     padding: 4px 4px 4px 7px;
     color: #888;
@@ -1001,6 +1002,49 @@ button.primary.disabled:hover,
     display: inline-block;
     float: right;
     color: #888;
+}
+
+/* Variations Image Uploader */
+.actions-image-uploader > img {
+    float: left;
+    border: solid #b7b2a7;
+    border-width: 1px 0 1px 1px;
+    width: 32px;
+    height: 31px;
+}
+
+.actions-image-uploader .action-toggle,
+.actions-image-uploader .action-toggle:hover,
+.actions-image-uploader .action-toggle:active,
+.actions-image-uploader .action-toggle:focus,
+.actions-image-uploader .action-toggle[disabled] {
+    position: relative;
+    height: 33px;
+    padding-left: 2px;
+    padding-right: 2px;
+    background: #fff;
+    filter: none;
+    color: #888;
+}
+
+.actions-image-uploader.active .action-toggle {
+    border-radius: 0 5px 0 0;
+}
+
+.actions-image-uploader.active .action-toggle:after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: #fff;
+    z-index: 991;
+    content: '';
+}
+
+.actions-image-uploader .dropdown-menu {
+    margin-top: -1px;
+    border-radius: 3px 0 3px 3px;
 }
 
 /*
@@ -4922,11 +4966,11 @@ table .col-draggable .draggable-handle {
     color: red;
 }
 
-.data-table .actions .actions-split {
+.data-table .col-actions .actions-split {
     margin-top: 4px;
 }
 
-.data-table .actions .actions-split [class^='action-'] {
+.data-table .col-actions .actions-split [class^='action-'] {
     background: none;
     border: 1px solid #c8c3b5;
     padding: 3px 5px;
@@ -4934,28 +4978,28 @@ table .col-draggable .draggable-handle {
     font-size: 12px;
 }
 
-.data-table .actions .actions-split [class^='action-']:first-child {
+.data-table .col-actions .actions-split [class^='action-']:first-child {
     border-right: 0;
 }
 
-.data-table .actions .actions-split .dropdown-menu {
+.data-table .col-actions .actions-split .dropdown-menu {
     margin-top: -1px;
 }
 
-.data-table .actions .actions-split .dropdown-menu a {
+.data-table .col-actions .actions-split .dropdown-menu a {
     display: block;
     color: #333;
     text-decoration: none;
 }
 
-.data-table .actions .actions-split.active .action-toggle {
+.data-table .col-actions .actions-split.active .action-toggle {
     position: relative;
     border-bottom-right-radius: 0;
     box-shadow: none;
     background: #fff;
 }
 
-.data-table .actions .actions-split.active .action-toggle:after {
+.data-table .col-actions .actions-split.active .action-toggle:after {
     position: absolute;
     top: 100%;
     left: 0;
@@ -4967,7 +5011,7 @@ table .col-draggable .draggable-handle {
     z-index: 2;
 }
 
-.data-table .actions .actions-split.active .dropdown-menu {
+.data-table .col-actions .actions-split.active .dropdown-menu {
     border-top-right-radius: 0;
 }
 
