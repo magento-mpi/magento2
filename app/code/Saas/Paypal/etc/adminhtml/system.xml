@@ -101,7 +101,7 @@
                     </group>
                     <group id="settings_payments_advanced">
                         <group id="settings_payments_advanced_advanced">
-                            <group id="settlement_report" showInDefault="0" showInWebsite="0">
+                            <group id="settlement_report" showInDefault="1" showInWebsite="1">
                                 <field id="heading_sftp" showInDefault="1" showInWebsite="0"/>
                                 <field id="settlement_reports_ftp_login" showInDefault="1" showInWebsite="0"/>
                                 <field id="settlement_reports_ftp_password" showInDefault="1" showInWebsite="0"/>
