@@ -1382,7 +1382,7 @@
                             </group>
                         </group>
                     </group>
-                    <group id="paypal_payflow_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
+                    <group id="paypal_payflow_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
                         <label>Basic Settings - PayPal Express Checkout</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
                         <field id="enable_express_pe" type="select" showInDefault="1" showInWebsite="1">
