@@ -24,12 +24,21 @@
                 id: 'new_category_parent-suggest',
                 placeholder: $.mage.__('start typing to search category')
             }));
-            $('#new_category_parent-suggest').mage('treeSuggest', this.options.suggestOptions)
-                .on('suggestbeforeselect', function (event) {
-                    clearParentCategory();
-                    $(event.target).treeSuggest('close');
-                    $('#new_category_name').focus();
-                });
+
+            /*
+             * Temporary fix for IE
+             * Move treeSuggest initialization to the end of browsers event queue
+             * with the aid of setTimeout function and give time for browser to finally load resources
+             */
+            $.mage.load('treeSuggest');
+            setTimeout($.proxy(function() {
+                $('#new_category_parent-suggest').treeSuggest(this.options.suggestOptions)
+                    .on('suggestbeforeselect', function (event) {
+                        clearParentCategory();
+                        $(event.target).treeSuggest('close');
+                        $('#new_category_name').focus();
+                    });
+            }, this), 0);
 
             $.validator.addMethod('validate-parent-category', function() {
                 return $('#new_category_parent').val() || $('#new_category_parent-suggest').val() === '';
