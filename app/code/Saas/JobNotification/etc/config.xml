@@ -40,7 +40,7 @@
             <regenerate_config>
                 <notification>
                     <enabled>true</enabled>
-                    <enabled>Regenerate config task</enabled>
+                    <title>Regenerate config task</title>
                 </notification>
             </regenerate_config>
             <refresh_cache>

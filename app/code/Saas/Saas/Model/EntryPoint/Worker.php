@@ -78,8 +78,8 @@ class Saas_Saas_Model_EntryPoint_Worker extends Mage_Core_Model_EntryPointAbstra
                 }
                 $eventName = $option['params'][self::EVENT_NAME_KEY];
                 $eventData = $option['params'][self::EVENT_DATA_KEY];
-            // The logic below is kept for backward compatibility
             } else {
+                // The logic below is kept for backward compatibility
                 $dispatcher->addEventArea(self::WORKER_EVENT_AREA);
                 $eventName = $taskName;
                 $eventData = $option['params'];

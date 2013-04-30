@@ -25,7 +25,7 @@ class Saas_JobNotification_Model_Config
                 'enabled' => isset($notificationConfig['enabled']) && 'true' == $notificationConfig['enabled'],
                 'title'   => isset($notificationConfig['title']) ? $notificationConfig['title'] : '',
             );
-         }
+        }
     }
 
     /**
@@ -33,7 +33,7 @@ class Saas_JobNotification_Model_Config
      *
      * @param string $jobName
      * @param string $key
-     * @param null $default
+     * @param mixed $default
      * @return mixed
      */
     protected function _getValue($jobName, $key, $default = null)
