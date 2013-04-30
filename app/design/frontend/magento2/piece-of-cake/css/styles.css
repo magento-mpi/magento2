@@ -5039,6 +5039,7 @@ select:disabled {
   height: 36px;
   line-height: 36px;
   position: relative;
+  color: #666666;
 }
 .my-account .action.back span:before {
   content: '«';

@@ -6056,6 +6056,9 @@ img[align="right"] {
 .my-account .actions .secondary .action:hover {
   background: #14148f;
 }
+.my-account .actions .secondary .action.back span:before {
+  content: '\00AB\00A0';
+}
 .block.account.nav {
   padding: 20px;
   border: 1px solid #d9d9d9;
