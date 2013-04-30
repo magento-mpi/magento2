@@ -1,5 +1,7 @@
 <?php
 /**
+ * Task queue
+ *
  * {license_notice}
  * 
  * @copyright {copyright}
@@ -38,6 +40,8 @@ class Enterprise_Queue_Model_Queue implements Enterprise_Queue_Model_QueueInterf
     }
 
     /**
+     * Add task to queue
+     *
      * @param string $taskName
      * @param array $params
      * @param string $priority
@@ -68,7 +72,7 @@ class Enterprise_Queue_Model_Queue implements Enterprise_Queue_Model_QueueInterf
     }
 
     /**
-     * Retrieve
+     * Retrieve task from queue
      *
      * @param string $taskName
      * @param array $params

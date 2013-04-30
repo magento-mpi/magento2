@@ -1,6 +1,6 @@
 <?php
 /**
- * Gearman helper
+ * Gearman Client configuration
  *
  * {license_notice}
  *
@@ -36,6 +36,6 @@ class Enterprise_Queue_Model_Config_Gearman implements Magento_JobQueue_Client_C
      */
     public function getServers()
     {
-        return $this->_config->getNode(self::XML_PATH_QUEUE_ADAPTER_GEARMAN_SERVERS);
+        return (string) $this->_config->getNode(self::XML_PATH_QUEUE_ADAPTER_GEARMAN_SERVERS);
     }
 }
