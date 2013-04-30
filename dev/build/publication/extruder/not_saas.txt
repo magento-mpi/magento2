@@ -47,6 +47,7 @@ dev/tests/static/testsuite/Integrity/Enterprise/AdminGws
 dev/tests/static/testsuite/Integrity/Enterprise/EditionTest.php
 dev/tests/static/testsuite/Legacy/Enterprise/AdminGws
 dev/tests/unit/testsuite/Enterprise/AdminGws
+dev/tests/unit/testsuite/Enterprise/BannerCustomerSegment
 dev/tests/unit/testsuite/Enterprise/CatalogEvent
 dev/tests/unit/testsuite/Enterprise/Checkout
 dev/tests/unit/testsuite/Enterprise/ImportExport
