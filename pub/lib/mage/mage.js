@@ -84,7 +84,9 @@
         if (args.length) {
             head.js.apply(head, args);
         } else {
-            handler();
+            if(typeof handler === 'function') {
+                handler();
+            }
         }
     }
 
