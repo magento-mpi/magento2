@@ -96,21 +96,21 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
      */
     public function afterCommitCallback()
     {
-        $domain = $this->sanitizeDomain($this->getDataByPath(self::ACTIVE_DOMAIN_PATH));
+        $domain = $this->_sanitizeDomain($this->getDataByPath(self::ACTIVE_DOMAIN_PATH));
 
-        $this->saveDefaultSecureDomain($this->getDefaultDomain());
-        $this->saveDefaultUnsecureDomain($this->getDefaultDomain());
+        $this->_saveDefaultSecureDomain($this->getDefaultDomain());
+        $this->_saveDefaultUnsecureDomain($this->getDefaultDomain());
 
-        if (!$this->isDefaultDomain($domain)) {
-            if ($this->isSslEnabled($this->getCustomDomain())) {
-                $this->saveWebsitesSecureDomain($this->getCustomDomain());
+        if (!$this->_isDefaultDomain($domain)) {
+            if ($this->_isSslEnabled($this->getCustomDomain())) {
+                $this->_saveWebsitesSecureDomain($this->getCustomDomain());
             } else {
-                $this->saveWebsitesSecureDomain($this->getDefaultDomain());
+                $this->_saveWebsitesSecureDomain($this->getDefaultDomain());
             }
-            $this->saveWebsitesUnsecureDomain($this->getCustomDomain());
+            $this->_saveWebsitesUnsecureDomain($this->getCustomDomain());
         } else {
-            $this->saveWebsitesSecureDomain($this->getDefaultDomain());
-            $this->saveWebsitesUnsecureDomain($this->getDefaultDomain());
+            $this->_saveWebsitesSecureDomain($this->getDefaultDomain());
+            $this->_saveWebsitesUnsecureDomain($this->getDefaultDomain());
         }
 
         $this->_config->reinit();
@@ -124,7 +124,7 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
      * @param string $domain
      * @return $this
      */
-    protected function saveDefaultSecureDomain($domain)
+    protected function _saveDefaultSecureDomain($domain)
     {
         $secureUrl = $this->formatUrl(self::HTTPS, $domain);
         $this->_configWriter->save(
@@ -147,7 +147,7 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
      * @param string $domain
      * @return $this
      */
-    protected function saveDefaultUnsecureDomain($domain)
+    protected function _saveDefaultUnsecureDomain($domain)
     {
         $unsecureUrl = $this->formatUrl(self::HTTP, $domain);
         $this->_configWriter->save(
@@ -168,7 +168,7 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
      *
      * @param string $domain
      */
-    protected function saveWebsitesSecureDomain($domain)
+    protected function _saveWebsitesSecureDomain($domain)
     {
         $secureUrl = $this->formatUrl(self::HTTPS, $domain);
         $this->_configWriter->save(
@@ -190,7 +190,7 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
      *
      * @param string $domain
      */
-    protected function saveWebsitesUnsecureDomain($domain)
+    protected function _saveWebsitesUnsecureDomain($domain)
     {
         $unsecureUrl   =  $this->formatUrl(self::HTTP, $domain);
 
@@ -217,7 +217,7 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
      */
     public function formatUrl($protocol, $domain)
     {
-        $domain = $this->sanitizeDomain($domain);
+        $domain = $this->_sanitizeDomain($domain);
         return sprintf('%s://%s', $protocol, $domain);
     }
 
@@ -227,9 +227,9 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
      * @param string $domain
      * @return bool
      */
-    protected function isSslEnabled($domain)
+    protected function _isSslEnabled($domain)
     {
-        if ($this->isDefaultDomain($domain)) {
+        if ($this->_isDefaultDomain($domain)) {
             return true;
         }
         $enabledSsl = (bool) $this->_config->getNode(self::XML_CUSTOM_SSL);
@@ -243,7 +243,7 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
      * @param string $url
      * @return string
      */
-    protected function sanitizeDomain($url)
+    protected function _sanitizeDomain($url)
     {
         $url = str_replace(
             array(self::HTTP . ':', self::HTTPS . ':', '//'),
@@ -259,7 +259,7 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
      * @param $domain
      * @return bool
      */
-    protected function isDefaultDomain($domain)
+    protected function _isDefaultDomain($domain)
     {
         return ($this->getDefaultDomain() == $domain);
     }
