@@ -82,17 +82,16 @@ class Saas_Mage_TmtApi_Helper extends Mage_Selenium_AbstractHelper
      *
      * @param string $token
      * @param string $domain
-     * @param SoapClient $client
      * @return int|null
      */
-    public function checkDomainExists($token, $domain, SoapClient $client)
+    public function checkDomainExists($token, $domain)
     {
         if (empty($token) || empty($domain)) {
             $this->fail('Empty parameter');
         }
         $this->initBasicVars();
 
-        return $this->apiInstance->checkDomainExists($token, $domain, $client);
+        return $this->apiInstance->checkDomainExists($token, $domain);
     }
 
     /**

@@ -84,11 +84,11 @@ class Saas_Mage_TmtApi_Api
      *
      * @param string $token
      * @param string $domain
-     * @param SoapClient $client
      * @return int|null
      */
-    public function checkDomainExists($token, $domain, SoapClient $client)
+    public function checkDomainExists($token, $domain)
     {
+        $client = $this->getClient();
         $response = $client->checkDomain($token, array('domain' => $domain));
         return ($this->isSuccessful($response)) ? $response['response']['exists'] : null;
     }
