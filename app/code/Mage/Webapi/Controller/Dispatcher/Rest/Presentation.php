@@ -30,25 +30,22 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation
     }
 
     /**
-     * Fetch data from request and prepare it for passing to specified action.
+     * Fetch data from request.
      *
-     * @param object $controllerInstance
-     * @param string $action
      * @return array
      */
-    public function fetchRequestData($controllerInstance, $action)
+    public function fetchRequestData()
     {
-        return $this->_requestProcessor->fetchRequestData($controllerInstance, $action);
+        return $this->_requestProcessor->fetchRequestData();
     }
 
     /**
      * Perform rendering of action results.
      *
-     * @param string $method
      * @param array|null $outputData
      */
-    public function prepareResponse($method, $outputData = null)
+    public function prepareResponse($outputData = null)
     {
-        $this->_responseProcessor->prepareResponse($method, $outputData);
+        $this->_responseProcessor->prepareResponse($outputData);
     }
 }

@@ -44,68 +44,38 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Request
     /**
      * Fetch data from request and prepare it for passing to specified action.
      *
-     * @param object $controllerInstance
-     * @param string $action
      * @return array
      */
-    public function fetchRequestData($controllerInstance, $action)
+    public function fetchRequestData()
     {
-        $methodReflection = Mage_Webapi_Helper_Data::createMethodReflection($controllerInstance, $action);
-        $methodName = $this->_configHelper->getMethodNameWithoutVersionSuffix($methodReflection);
-        $bodyParamName = $this->_configHelper->getOperationBodyParamName($methodReflection);
         $requestParams = array_merge(
-            $this->_request->getParams(),
-            array($bodyParamName => $this->_getRequestBody($methodName))
+            $this->_getRequestBody(),
+            $this->_request->getParams()
         );
-        /** Convert names of ID and Parent ID params in request to those which are used in method interface. */
-        $idArgumentName = $this->_configHelper->getOperationIdParamName($methodReflection);
-        $parentIdParamName = Mage_Webapi_Controller_Router_Route_Rest::PARAM_PARENT_ID;
-        $idParamName = Mage_Webapi_Controller_Router_Route_Rest::PARAM_ID;
-        if (isset($requestParams[$parentIdParamName]) && ($idArgumentName != $parentIdParamName)) {
-            $requestParams[$idArgumentName] = $requestParams[$parentIdParamName];
-            unset($requestParams[$parentIdParamName]);
-        } elseif (isset($requestParams[$idParamName]) && ($idArgumentName != $idParamName)) {
-            $requestParams[$idArgumentName] = $requestParams[$idParamName];
-            unset($requestParams[$idParamName]);
-        }
-
-        return $this->_apiHelper->prepareMethodParams($controllerInstance, $action, $requestParams, $this->_apiConfig);
+        return $requestParams;
     }
 
     /**
-     * Retrieve request data. Ensure that data is not empty.
+     * Retrieve request data.
      *
-     * @param string $method
      * @return array
      */
-    protected function _getRequestBody($method)
+    protected function _getRequestBody()
     {
-        $processedInputData = null;
-        switch ($method) {
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE:
-                $processedInputData = $this->_request->getBodyParams();
-                // TODO: Implement data filtration of item
-                break;
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE:
-                $processedInputData = $this->_request->getBodyParams();
-                break;
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE:
-                $processedInputData = $this->_request->getBodyParams();
-                // TODO: Implement data filtration
-                break;
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE:
-                $processedInputData = $this->_request->getBodyParams();
-                // TODO: Implement fields filtration
-                break;
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE:
+        $requestBody = array();
+        switch ($this->_request->getHttpMethod()) {
+            // TODO: Introduce constants instead of literals
+            case 'POST':
                 // break is intentionally omitted
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_GET:
+            case 'PUT':
+                $requestBody = $this->_request->getBodyParams();
+                break;
+            case 'GET':
                 // break is intentionally omitted
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE:
+            case 'DELETE':
                 // break is intentionally omitted
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_LIST:
                 break;
         }
-        return $processedInputData;
+        return $requestBody;
     }
 }

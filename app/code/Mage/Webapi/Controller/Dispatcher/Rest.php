@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_DispatcherInterface
+class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_DispatcherInterface
 {
     /** @var Mage_Webapi_Model_Config_Rest */
     protected $_apiConfig;
@@ -37,6 +37,9 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_
     /** @var Mage_Webapi_Controller_Response_Rest */
     protected $_response;
 
+    /** @var Mage_Core_Service_ObjectManager */
+    protected $_serviceManager;
+
     /**
      * Initialize dependencies.
      *
@@ -46,8 +49,8 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_
      * @param Mage_Webapi_Controller_Action_Factory $controllerFactory
      * @param Mage_Webapi_Controller_Dispatcher_Rest_Presentation $restPresentation
      * @param Mage_Webapi_Controller_Router_Rest $router
-     * @param Mage_Webapi_Model_Authorization $authorization
      * @param Mage_Webapi_Controller_Dispatcher_Rest_Authentication $authentication
+     * @param Mage_Core_Service_ObjectManager $serviceManager
      */
     public function __construct(
         Mage_Webapi_Model_Config_Rest $apiConfig,
@@ -56,8 +59,9 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_
         Mage_Webapi_Controller_Action_Factory $controllerFactory,
         Mage_Webapi_Controller_Dispatcher_Rest_Presentation $restPresentation,
         Mage_Webapi_Controller_Router_Rest $router,
-        Mage_Webapi_Model_Authorization $authorization,
-        Mage_Webapi_Controller_Dispatcher_Rest_Authentication $authentication
+        // TODO: Mage_Webapi_Model_Authorization $authorization,
+        Mage_Webapi_Controller_Dispatcher_Rest_Authentication $authentication,
+        Mage_Core_Service_ObjectManager $serviceManager
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_restPresentation = $restPresentation;
@@ -65,8 +69,9 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_
         $this->_authentication = $authentication;
         $this->_request = $request;
         $this->_controllerFactory = $controllerFactory;
-        $this->_authorization = $authorization;
+        // TODO: $this->_authorization = $authorization;
         $this->_response = $response;
+        $this->_serviceManager = $serviceManager;
     }
 
     /**
@@ -77,37 +82,20 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements  Mage_Webapi_Controller_
     public function dispatch()
     {
         try {
-            $this->_authentication->authenticate();
+            // TODO: $this->_authentication->authenticate();
             $route = $this->_router->match($this->_request);
-
-            $operation = $this->_request->getOperationName();
-            $resourceVersion = $this->_request->getResourceVersion();
-            $this->_apiConfig->validateVersionNumber($resourceVersion, $this->_request->getResourceName());
-            $method = $this->_apiConfig->getMethodNameByOperation($operation, $resourceVersion);
-            $controllerClassName = $this->_apiConfig->getControllerClassByOperationName($operation);
-            $controllerInstance = $this->_controllerFactory->createActionController(
-                $controllerClassName,
-                $this->_request
+            $inputData = $this->_restPresentation->fetchRequestData();
+            // TODO: $this->_authorization->checkResourceAcl($route->getServiceId(), $route->getServiceMethod());
+            $outputData = $this->_serviceManager->call(
+                $route->getServiceId(),
+                $route->getServiceMethod(),
+                $inputData,
+                $route->getServiceVersion()
             );
-            $versionAfterFallback = $this->_apiConfig->identifyVersionSuffix(
-                $operation,
-                $resourceVersion,
-                $controllerInstance
-            );
-            /**
-             * Route check has two stages:
-             * The first is performed against full list of routes that is merged from all resources.
-             * The second stage of route check can be performed only when actual version to be executed is known.
-             */
-            $this->_router->checkRoute($this->_request, $method, $versionAfterFallback);
-            $this->_apiConfig->checkDeprecationPolicy($route->getResourceName(), $method, $versionAfterFallback);
-            $action = $method . $versionAfterFallback;
-
-            $this->_authorization->checkResourceAcl($route->getResourceName(), $method);
-
-            $inputData = $this->_restPresentation->fetchRequestData($controllerInstance, $action);
-            $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
-            $this->_restPresentation->prepareResponse($method, $outputData);
+            if ($outputData instanceof Varien_Object) {
+                $outputData = $outputData->getData();
+            }
+            $this->_restPresentation->prepareResponse($outputData);
         } catch (Exception $e) {
             $this->_response->setException($e);
         }

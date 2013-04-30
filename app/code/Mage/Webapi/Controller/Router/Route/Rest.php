@@ -18,42 +18,92 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
     /**#@-*/
 
     /** @var string */
-    protected $_resourceName;
+    protected $_serviceId;
 
     /** @var string */
-    protected $_resourceType;
+    protected $_serviceMethod;
+
+    /** @var string */
+    protected $_serviceVersion;
+
+    /** @var string */
+    protected $_httpMethod;
 
     /**
-     * Set route resource.
+     * Set service service ID.
      *
-     * @param string $resourceName
+     * @param string $serviceClass
      * @return Mage_Webapi_Controller_Router_Route_Rest
      */
-    public function setResourceName($resourceName)
+    public function setServiceId($serviceClass)
     {
-        $this->_resourceName = $resourceName;
+        $this->_serviceId = $serviceClass;
         return $this;
     }
 
     /**
-     * Get route resource.
+     * Get service ID.
      *
      * @return string
      */
-    public function getResourceName()
+    public function getServiceId()
     {
-        return $this->_resourceName;
+        return $this->_serviceId;
     }
 
     /**
-     * Set route resource type.
+     * Set service method name.
      *
-     * @param string $resourceType
+     * @param string $serviceMethod
      * @return Mage_Webapi_Controller_Router_Route_Rest
      */
-    public function setResourceType($resourceType)
+    public function setServiceMethod($serviceMethod)
     {
-        $this->_resourceType = $resourceType;
+        $this->_serviceMethod = $serviceMethod;
+        return $this;
+    }
+
+    /**
+     * Get service method name.
+     *
+     * @return string
+     */
+    public function getServiceMethod()
+    {
+        return $this->_serviceMethod;
+    }
+
+    /**
+     * Set service version.
+     *
+     * @param string $serviceVersion
+     * @return Mage_Webapi_Controller_Router_Route_Rest
+     */
+    public function setServiceVersion($serviceVersion)
+    {
+        $this->_serviceVersion = $serviceVersion;
+        return $this;
+    }
+
+    /**
+     * Get service version.
+     *
+     * @return string
+     */
+    public function getServiceVersion()
+    {
+        return $this->_serviceVersion;
+    }
+
+    /**
+     * Set route HTTP method.
+     *
+     * @param string $httpMethod
+     * @return Mage_Webapi_Controller_Router_Route_Rest
+     */
+    public function setHttpMethod($httpMethod)
+    {
+        $this->_httpMethod = $httpMethod;
         return $this;
     }
 
@@ -62,8 +112,8 @@ class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Ro
      *
      * @return string
      */
-    public function getResourceType()
+    public function getHttpMethod()
     {
-        return $this->_resourceType;
+        return $this->_httpMethod;
     }
 }

@@ -71,7 +71,7 @@ class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
 
     public function testGetRestRoutes()
     {
-        $actualRoutes = $this->_apiConfig->getAllRestRoutes();
+        $actualRoutes = $this->_apiConfig->getRestRoutes();
         $expectedRoutesCount = 16;
 
         /**

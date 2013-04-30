@@ -59,7 +59,7 @@ abstract class Mage_Webapi_Model_ConfigAbstract
         $this->_reader = $reader;
         $this->_helper = $helper;
         $this->_application = $application;
-        $this->_data = $this->_reader->getData();
+        $this->_data = /*$this->_reader->getData()*/ array();
     }
 
     /**

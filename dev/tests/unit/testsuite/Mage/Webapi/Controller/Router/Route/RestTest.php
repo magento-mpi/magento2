@@ -31,12 +31,12 @@ class Mage_Webapi_Controller_Router_Route_RestTest extends PHPUnit_Framework_Tes
     public function testResourceName()
     {
         /** Assert that new object has no Resource name set. */
-        $this->assertNull($this->_restRoute->getResourceName(), 'New object has a set Resource name.');
+        $this->assertNull($this->_restRoute->getServiceId(), 'New object has a set Resource name.');
         /** Set Resource name. */
         $resourceName = 'Resource name';
-        $this->_restRoute->setResourceName($resourceName);
+        $this->_restRoute->setServiceId($resourceName);
         /** Assert that Resource name was set. */
-        $this->assertEquals($resourceName, $this->_restRoute->getResourceName(), 'Resource name is wrong.');
+        $this->assertEquals($resourceName, $this->_restRoute->getServiceId(), 'Resource name is wrong.');
     }
 
     /**
@@ -45,11 +45,11 @@ class Mage_Webapi_Controller_Router_Route_RestTest extends PHPUnit_Framework_Tes
     public function testResourceType()
     {
         /** Assert that new object has no Resource type set. */
-        $this->assertNull($this->_restRoute->getResourceType(), 'New object has a set Resource type.');
+        $this->assertNull($this->_restRoute->getHttpMethod(), 'New object has a set Resource type.');
         /** Set Resource type. */
         $resourceType = 'Resource type';
-        $this->_restRoute->setResourceType($resourceType);
+        $this->_restRoute->setHttpMethod($resourceType);
         /** Assert that Resource type was set. */
-        $this->assertEquals($resourceType, $this->_restRoute->getResourceType(), 'Resource type is wrong.');
+        $this->assertEquals($resourceType, $this->_restRoute->getHttpMethod(), 'Resource type is wrong.');
     }
 }

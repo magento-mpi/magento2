@@ -148,6 +148,10 @@ class Mage_Core_Service_Config
 
         $children = $root->childNodes;
 
+        if (!$children) {
+            return $result;
+        }
+
         if ($children->length == 1) {
             $child = $children->item(0);
             if ($child->nodeType == XML_TEXT_NODE) {
@@ -164,7 +168,7 @@ class Mage_Core_Service_Config
 
         for ($i = 0; $i < $children->length; $i++) {
             $child = $children->item($i);
-            $_children = & $this->_toArray($child);
+            $_children = $this->_toArray($child);
 
             $nodeId = isset($_children['class']) ? $_children['class'] : $child->nodeName;
 

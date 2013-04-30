@@ -56,37 +56,22 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
     /**
      * Perform rendering of action results.
      *
-     * @param string $method
      * @param array|null $outputData
      */
-    public function prepareResponse($method, $outputData = null)
+    public function prepareResponse($outputData = null)
     {
-        switch ($method) {
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE:
+        switch (strtoupper($this->_request->getHttpMethod())) {
+            // TODO: Introduce constants instead of literals
+            case 'CREATE':
                 /** @var $createdItem Mage_Core_Model_Abstract */
-                $createdItem = $outputData;
-                $this->_response->setHeader('Location', $this->_getCreatedItemLocation($createdItem));
+                $this->_response->setHeader('Location', $this->_getCreatedItemLocation($outputData));
                 break;
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_GET:
-                // TODO: Implement fields filtration
-                $filteredData = $outputData;
-                $this->_render($filteredData);
+            case 'GET':
+                $this->_render($outputData);
                 break;
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_LIST:
-                // TODO: Implement fields filtration
-                $filteredData = $outputData;
-                $this->_render($filteredData);
-                break;
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE:
+            case 'PUT':
                 // break is intentionally omitted
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE:
-                // break is intentionally omitted
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE:
-                $this->_response->setHttpResponseCode(Mage_Webapi_Controller_Response_Rest::HTTP_MULTI_STATUS);
-                break;
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE:
-                // break is intentionally omitted
-            case Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE:
+            case 'DELETE':
                 break;
         }
         $this->_renderMessages();

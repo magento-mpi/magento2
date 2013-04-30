@@ -33,14 +33,42 @@ class Mage_Webapi_Model_Config_Rest extends Mage_Webapi_Model_ConfigAbstract
     /**
      * Get all modules routes defined in config.
      *
+     * @param string $httpMethod
      * @return Mage_Webapi_Controller_Router_Route_Rest[]
      * @throws LogicException When config data has invalid structure.
      */
-    public function getAllRestRoutes()
+    public function getRestRoutes($httpMethod)
     {
+        // TODO: Get information from webapi.xml
+        $restRoutesData = array(
+            'GET' => array(
+                array(
+                    'routePath' => '/products/:entity_id',
+                    'version' => 1,
+                    'serviceId' => 'Mage_Catalog_Service_ProductService',
+                    'serviceMethod' => 'item'
+                ),
+                array(
+                    'routePath' => '/categories/:entity_id',
+                    'version' => 1,
+                    'serviceId' => 'Mage_Catalog_Service_CategoryService',
+                    'serviceMethod' => 'item'
+                ),
+                array(
+                    'routePath' => '/categories',
+                    'version' => 1,
+                    'serviceId' => 'Mage_Catalog_Service_CategoryService',
+                    'serviceMethod' => 'items'
+                )
+            ),
+            'PUT' => array(),
+            'POST' => array(),
+            'DELETE' => array()
+        );
         $routes = array();
-        foreach ($this->_data['rest_routes'] as $routePath => $routeData) {
-            $routes[] = $this->_createRoute($routePath, $routeData['resourceName'], $routeData['actionType']);
+        foreach ($restRoutesData[strtoupper($httpMethod)] as $routeData) {
+            $routeData['httpMethod'] = $httpMethod;
+            $routes[] = $this->_createRoute($routeData);
         }
         return $routes;
     }
@@ -101,19 +129,29 @@ class Mage_Webapi_Model_Config_Rest extends Mage_Webapi_Model_ConfigAbstract
     /**
      * Create route object.
      *
-     * @param string $routePath
-     * @param string $resourceName
-     * @param string $actionType
+     * @param array $routeData Expected format:
+     *  <pre>array(
+     *      'routePath' => '/categories/:categoryId',
+     *      'httpMethod' => 'GET',
+     *      'version' => 1,
+     *      'serviceId' => 'Mage_Catalog_Service_CategoryService',
+     *      'serviceMethod' => 'item'
+     *  );</pre>
      * @return Mage_Webapi_Controller_Router_Route_Rest
      */
-    protected function _createRoute($routePath, $resourceName, $actionType)
+    protected function _createRoute($routeData)
     {
         $apiTypeRoutePath = $this->_application->getConfig()->getAreaFrontName()
             . '/:' . Mage_Webapi_Controller_Front::API_TYPE_REST;
-        $fullRoutePath = $apiTypeRoutePath . $routePath;
+        $fullRoutePath = $apiTypeRoutePath
+            . '/' . Mage_Core_Service_Config::VERSION_NUMBER_PREFIX . $routeData['version']
+            . $routeData['routePath'];
         /** @var $route Mage_Webapi_Controller_Router_Route_Rest */
         $route = $this->_routeFactory->createRoute('Mage_Webapi_Controller_Router_Route_Rest', $fullRoutePath);
-        $route->setResourceName($resourceName)->setResourceType($actionType);
+        $route->setServiceId($routeData['serviceId'])
+            ->setHttpMethod($routeData['httpMethod'])
+            ->setServiceMethod($routeData['serviceMethod'])
+            ->setServiceVersion(Mage_Core_Service_Config::VERSION_NUMBER_PREFIX . $routeData['version']);
         return $route;
     }
 }
