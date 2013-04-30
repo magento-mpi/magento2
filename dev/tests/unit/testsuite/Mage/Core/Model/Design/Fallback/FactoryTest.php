@@ -20,8 +20,7 @@ class Mage_Core_Model_Design_Fallback_FactoryTest extends PHPUnit_Framework_Test
 
     public function setUp()
     {
-        $filesystemHelper = new Magento_Test_Helper_FileSystem($this);
-        $dirs = $filesystemHelper->createDirInstance(__DIR__, array(), array(
+        $dirs = new Mage_Core_Model_Dir(__DIR__, array(), array(
             Mage_Core_Model_Dir::THEMES => 'themes',
             Mage_Core_Model_Dir::MODULES => 'modules',
             Mage_Core_Model_Dir::PUB_LIB => 'pub_lib',

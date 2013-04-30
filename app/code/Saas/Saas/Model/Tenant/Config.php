@@ -24,11 +24,18 @@ class Saas_Saas_Model_Tenant_Config
     private $_config;
 
     /**
-     * Configuration array, taken from external configuration storage (legacy format)
+     * Tenant configuration
      *
      * @var array
      */
     private $_configArray = array();
+
+    /**
+     * Tenant's group configuration
+     *
+     * @var array
+     */
+    private $_groupConfiguration = array();
 
     /**
      * Name of media directory relatively to root
@@ -58,7 +65,14 @@ class Saas_Saas_Model_Tenant_Config
             throw new InvalidArgumentException('Missing key "tenantConfiguration"');
         }
         $this->_configArray = $tenantData['tenantConfiguration'];
-        $this->_config = $this->_mergeConfig(array($this->_getLocalConfig(), $this->_getModulesConfig()));
+        if (array_key_exists('groupConfiguration', $tenantData)) {
+            $this->_groupConfiguration = $tenantData['groupConfiguration'];
+        }
+        $this->_config = $this->_mergeConfig(array(
+            $this->_getLocalConfig(),
+            $this->_getModulesConfig(),
+            $this->_getLimitationsConfig(),
+        ));
 
         $dirName = (string)$this->_config->getNode('global/web/dir/media');
         if (!$dirName) {
@@ -147,10 +161,7 @@ class Saas_Saas_Model_Tenant_Config
     }
 
     /**
-     * Get Config object, containing data from 'modules' configuration element
-     *
-     * Contains Legacy logic.
-     * Only if modules are enabled in tenantModules or groupModules node, they can be affected by modules node
+     * Get configuration with list of enabled/disabled modules
      *
      * @return Varien_Simplexml_Config
      */
@@ -179,21 +190,28 @@ class Saas_Saas_Model_Tenant_Config
     }
 
     /**
-     * Get all modules that can be turned on or off via config nodes
+     * Get list of modules that can be enabled/disabled via config nodes
+     *
+     * Tenant's modules configuration has priority over group's modules configuration
      *
      * @return array
      */
     private function _getAvailableModules()
     {
         $modulesArray = array();
-        foreach (array('groupModules', 'tenantModules') as $node) {
-            if (array_key_exists($node, $this->_configArray)) {
-                $modulesArray = array_merge($modulesArray, self::_loadModulesFromString($this->_configArray[$node]));
-            }
+
+        if (array_key_exists('modules', $this->_groupConfiguration)) {
+            $modulesArray = array_merge($modulesArray,
+                self::_loadModulesFromString($this->_groupConfiguration['modules']));
+        }
+
+        if (array_key_exists('tenantModules', $this->_configArray)) {
+            $modulesArray = array_merge($modulesArray,
+                self::_loadModulesFromString($this->_configArray['tenantModules']));
         }
 
         /**
-         * Contains all modules that might be turned on or off
+         * Contains all modules that might be enabled/disabled
          */
         $availableModules = array();
         if (!empty($modulesArray)) {
@@ -225,5 +243,21 @@ class Saas_Saas_Model_Tenant_Config
             }
         }
         return $nodeModules;
+    }
+
+    /**
+     * Get configuration of functional limitations
+     *
+     * If no limitation configuration exists, empty configuration object is returned
+     *
+     * @return Varien_Simplexml_Config
+     */
+    protected function _getLimitationsConfig()
+    {
+        $config = new Varien_Simplexml_Config();
+        if (array_key_exists('limitations', $this->_groupConfiguration)) {
+            $config->loadString($this->_groupConfiguration['limitations']);
+        }
+        return $config;
     }
 }

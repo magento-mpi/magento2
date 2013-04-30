@@ -32,20 +32,34 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
             $this->selectStoreScope('dropdown', 'current_configuration_scope', $parameters['configuration_scope']);
         }
         foreach ($parameters as $value) {
-            if (!is_array($value)) {
+            if (!is_array($value) || !isset($value['tab_name']) || !isset($value['configuration'])) {
                 continue;
             }
-            $settings = (isset($value['configuration'])) ? $value['configuration'] : array();
-            if (!empty($value['tab_name'])) {
-                $this->openConfigurationTab($value['tab_name']);
-                foreach ($settings as $fieldsetName => $fieldsetData) {
-                    $this->expandFieldSet($fieldsetName);
-                    $this->fillFieldset($fieldsetData, $fieldsetName);
-                }
-                $this->saveForm('save_config');
-                $this->assertMessagePresent('success', 'success_saved_config');
-                $this->verifyConfigurationOptions($settings, $value['tab_name']);
+            $this->openConfigurationTab($value['tab_name']);
+            $possibleLogOut = preg_match('/^advanced_/', $value['tab_name']);
+            foreach ($value['configuration'] as $fieldsetName => $fieldsetData) {
+                $this->expandFieldSet($fieldsetName);
+                $this->fillFieldset($fieldsetData, $fieldsetName);
             }
+            $waitConditions = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
+            if ($possibleLogOut) {
+                $waitConditions[] = $this->_getControlXpath('field', 'user_name',
+                    $this->getUimapPage('admin', 'log_in_to_admin'));
+            }
+            $this->clickButton('save_config', false);
+            $this->waitForElementVisible($waitConditions);
+            $this->validatePage();
+            if ($possibleLogOut && $this->getCurrentPage() == 'log_in_to_admin') {
+                if ($this->controlIsVisible('field', 'captcha')) {
+                    return;
+                }
+                $this->loginAdminUser();
+                $this->navigate('system_configuration');
+                $this->openConfigurationTab($value['tab_name']);
+            } else {
+                $this->assertMessagePresent('success', 'success_saved_config');
+            }
+            $this->verifyConfigurationOptions($value['configuration'], $value['tab_name']);
         }
     }
 
@@ -105,6 +119,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
         $this->defineParameters('tab', $tab, 'href');
         $url = $this->getControlElement('tab', $tab)->attribute('href');
         $this->url($url);
+        $this->validatePage();
     }
 
     /**
@@ -145,8 +160,10 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
         $this->openConfigurationTab('general_web');
         $this->expandFieldSet('secure');
         $secureBaseUrl = $this->getControlAttribute('field', 'secure_base_url', 'value');
-        $data = array('secure_base_url'             => preg_replace('/http(s)?/', 'https', $secureBaseUrl),
-                      'use_secure_urls_in_' . $path => ucwords(strtolower($useSecure)));
+        $data = array(
+            'secure_base_url' => preg_replace('/http(s)?/', 'https', $secureBaseUrl),
+            'use_secure_urls_in_' . $path => ucwords(strtolower($useSecure))
+        );
         $this->fillFieldset($data, 'secure');
         $this->clickButton('save_config');
         $this->assertTrue($this->verifyForm($data, 'general_web'), $this->getParsedMessages());
@@ -160,6 +177,9 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
         $this->configure($parameters);
     }
 
+    /**
+     * @param string $tabName
+     */
     public function verifyTabFieldsAvailability($tabName)
     {
         $needFieldTypes = array('multiselect', 'dropdown', 'field');
@@ -178,17 +198,12 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
                     $this->addVerificationMessage("Element $fieldName with locator $fieldLocator is not on the page");
                     continue;
                 }
-                if (!$this->elementIsPresent($fieldLocator . $globalView)) {
-                    $locator = $fieldLocator . $globalView;
-                    $this->addVerificationMessage("Element $fieldName with locator $locator is not on the page");
-                }
-                if (!$this->elementIsPresent($fieldLocator . $websiteView)) {
-                    $locator = $fieldLocator . $websiteView;
-                    $this->addVerificationMessage("Element $fieldName with locator $locator is not on the page");
-                }
-                if (!$this->elementIsPresent($fieldLocator . $storeView)) {
-                    $locator = $fieldLocator . $storeView;
-                    $this->addVerificationMessage("Element $fieldName with locator $locator is not on the page");
+                if (!$this->elementIsPresent($fieldLocator . $globalView)
+                    && !$this->elementIsPresent($fieldLocator . $websiteView)
+                    && !$this->elementIsPresent($fieldLocator . $storeView)
+                ) {
+                    $this->addVerificationMessage('Scope label for element "' . $fieldName . '" with locator "'
+                        . $fieldLocator . '" is not on the page');
                 }
             }
         }
