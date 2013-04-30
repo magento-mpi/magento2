@@ -133,14 +133,6 @@
                                 }
                             );
                     }
-                },
-                {
-                    text: $.mage.__('Cancel'),
-                    'class': 'action-cancel',
-                    'data-action': 'cancel',
-                    click: function() {
-                        $(this).dialog('close');
-                    }
                 }]
             });
         }
