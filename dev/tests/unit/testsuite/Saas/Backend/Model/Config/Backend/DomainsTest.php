@@ -76,14 +76,12 @@ class Saas_Backend_Model_Config_Backend_DomainsTest extends PHPUnit_Framework_Te
                     'active_domain' => array(
                         'fields' => array(
                             'active_domain' => array(
-                                'value' => self::DEF_DOMAIN,
+                                'value' => 'http://' . self::DEF_DOMAIN . '/',
                             ),
                         ),
                     ),
                 ),
-                self::DEF_DOMAIN,
-                self::DEF_DOMAIN,
-                self::DEF_DOMAIN,
+                $this->getValuesThatShouldBeSaved(self::DEF_DOMAIN, self::DEF_DOMAIN, self::DEF_DOMAIN),
             ),
             array(
                 array(
@@ -95,14 +93,12 @@ class Saas_Backend_Model_Config_Backend_DomainsTest extends PHPUnit_Framework_Te
                     'active_domain' => array(
                         'fields' => array(
                             'active_domain' => array(
-                                'value' => self::CUST_DOMAIN,
+                                'value' => 'http://' . self::CUST_DOMAIN . '/',
                             ),
                         ),
                     ),
                 ),
-                self::DEF_DOMAIN,
-                self::CUST_DOMAIN,
-                self::DEF_DOMAIN,
+                $this->getValuesThatShouldBeSaved(self::DEF_DOMAIN, self::CUST_DOMAIN, self::DEF_DOMAIN),
             ),
             array(
                 array(
@@ -114,14 +110,12 @@ class Saas_Backend_Model_Config_Backend_DomainsTest extends PHPUnit_Framework_Te
                     'active_domain' => array(
                         'fields' => array(
                             'active_domain' => array(
-                                'value' => self::CUST_DOMAIN,
+                                'value' => 'http://' . self::CUST_DOMAIN . '/',
                             ),
                         ),
                     ),
                 ),
-                self::DEF_DOMAIN,
-                self::CUST_DOMAIN,
-                self::CUST_DOMAIN,
+                $this->getValuesThatShouldBeSaved(self::DEF_DOMAIN, self::CUST_DOMAIN, self::CUST_DOMAIN),
             ),
             array(
                 array(
@@ -133,56 +127,107 @@ class Saas_Backend_Model_Config_Backend_DomainsTest extends PHPUnit_Framework_Te
                     'active_domain' => array(
                         'fields' => array(
                             'active_domain' => array(
-                                'value' => self::DEF_DOMAIN,
+                                'value' => 'http://' . self::DEF_DOMAIN . '/',
                             ),
                         ),
                     ),
                 ),
-                self::DEF_DOMAIN,
-                self::DEF_DOMAIN,
-                self::DEF_DOMAIN,
+                $this->getValuesThatShouldBeSaved(self::DEF_DOMAIN, self::DEF_DOMAIN, self::DEF_DOMAIN),
             ),
         );
     }
 
     /**
+     * @param $defaultDomain
+     * @param $customDomain
+     * @param $customSslDomain
+     *
+     * @return array
+     */
+    public function getValuesThatShouldBeSaved($defaultDomain, $customDomain, $customSslDomain)
+    {
+        $values = array();
+        $key = Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL
+            . Saas_Backend_Model_Config_Backend_Domains::HTTPS . '://' . $defaultDomain
+            . Mage_Core_Model_Config::SCOPE_DEFAULT;
+        $values[$key] = 1;
+
+        $key = Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL
+            . Saas_Backend_Model_Config_Backend_Domains::HTTPS . '://' . $defaultDomain
+            . Mage_Core_Model_Config::SCOPE_DEFAULT;
+        $values[$key] = 1;
+
+        $key = Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL
+            . Saas_Backend_Model_Config_Backend_Domains::HTTP . '://' . $defaultDomain
+            . Mage_Core_Model_Config::SCOPE_DEFAULT;
+        $values[$key] = 1;
+
+        $key = Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
+            . Saas_Backend_Model_Config_Backend_Domains::HTTP . '://' . $defaultDomain
+            . Mage_Core_Model_Config::SCOPE_DEFAULT;
+        $values[$key] = 1;
+
+        $key = Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL
+            . Saas_Backend_Model_Config_Backend_Domains::HTTPS . '://' . $customSslDomain
+            . Mage_Core_Model_Config::SCOPE_WEBSITES;
+        $values[$key] = 1;
+
+        $key = Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL
+            . Saas_Backend_Model_Config_Backend_Domains::HTTPS . '://' . $customSslDomain
+            . Mage_Core_Model_Config::SCOPE_WEBSITES;
+        $values[$key] = 1;
+
+        $key = Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL
+            . Saas_Backend_Model_Config_Backend_Domains::HTTP . '://' . $customDomain
+            . Mage_Core_Model_Config::SCOPE_WEBSITES;
+        $values[$key] = 1;
+
+        $key = Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
+            . Saas_Backend_Model_Config_Backend_Domains::HTTP . '://' . $customDomain
+            . Mage_Core_Model_Config::SCOPE_WEBSITES;
+        $values[$key] = 1;
+
+        return $values;
+    }
+
+    /**
      * Current active domain changes validation
+     *
+     * @param array $map
+     * @param array $data
+     * @param array $shouldBeSaved
      *
      * @test
      * @dataProvider afterCommitCallbackDataProvider
      */
-    public function afterCommitCallback($map, $data,  $defaultDomain, $customDomain, $customSslDomain)
+    public function afterCommitCallback(array $map, array $data, array $shouldBeSaved)
     {
+        $savedValues   = array();
         $this->_configMock->expects($this->any())->method('getNode')->will($this->returnValueMap($map));
-
-        /** @var  Saas_Backend_Model_Config_Backend_Domains $domainsModel */
-        $domainsModel = $this->_writerMock = $this->getMock(
-            'Saas_Backend_Model_Config_Backend_Domains',
-            array(
-                'saveDefaultSecureDomain',
-                'saveDefaultUnsecureDomain',
-                'saveWebsitesSecureDomain',
-                'saveWebsitesUnsecureDomain',
-            ),
-            array(
-                $this->_configMock,
-                $this->_writerMock,
-                $this->_contextMock,
-                $this->_resourceMock,
-                $this->_dbMock,
-            )
+        $this->_configMock->expects($this->once())->method('reinit');
+        $this->_writerMock->expects($this->any())->method('save')
+            ->will(
+                $this->returnCallback(
+                    function($path, $value, $scope) use (& $savedValues){
+                        $savedValues[($path . $value . $scope)] = 1;
+                        return $savedValues;
+                    }
+                )
+            );
+        $domainsModel = new Saas_Backend_Model_Config_Backend_Domains(
+            $this->_configMock,
+            $this->_writerMock,
+            $this->_contextMock,
+            $this->_resourceMock,
+            $this->_dbMock
         );
+
         $domainsModel->setData('groups', $data);
-
-        $domainsModel->expects($this->once())->method('saveDefaultSecureDomain')->with($this->equalTo($defaultDomain));
-        $domainsModel->expects($this->once())
-            ->method('saveDefaultUnsecureDomain')->with($this->equalTo($defaultDomain));
-        $domainsModel->expects($this->once())
-            ->method('saveWebsitesSecureDomain')->with($this->equalTo($customSslDomain));
-        $domainsModel->expects($this->once())
-            ->method('saveWebsitesUnsecureDomain')->with($this->equalTo($customDomain));
-
         $domainsModel->afterCommitCallback();
+        $this->assertEmpty(
+            array_diff_key($shouldBeSaved, $savedValues),
+            'Not all values were saved into `core_config_data`'
+        );
     }
 
     /**
