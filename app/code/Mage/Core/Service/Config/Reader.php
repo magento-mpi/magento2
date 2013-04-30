@@ -37,7 +37,7 @@ class Mage_Core_Service_Config_Reader extends Magento_Config_XmlAbstract
      */
     protected function _getInitialXml()
     {
-        return '<?xml version="1.0" encoding="utf-8"?><config><services></services></config>';
+        return '<?xml version="1.0" encoding="utf-8"?><services></services>';
     }
 
     /**
@@ -57,7 +57,7 @@ class Mage_Core_Service_Config_Reader extends Magento_Config_XmlAbstract
     protected function _getDomConfigModel()
     {
         if (is_null($this->_domConfig)) {
-            $this->_domConfig = new Magento_Config_Dom(
+            $this->_domConfig = new Mage_Core_Service_Config_Dom(
                 $this->_getInitialXml(),
                 $this->_getIdAttributes()
             );
