@@ -20,7 +20,7 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
      */
     public function testViewFilesFromThemes($area, $themeId, $file)
     {
-        if ($area === 'frontend' && ($themeId === '12' || $themeId === '13') && $file === 'css/styles.css') {
+        if ($area === 'frontend' && $file === 'css/styles.css') {
             $this->markTestIncomplete('MAGETWO-9806');
         }
         try {
