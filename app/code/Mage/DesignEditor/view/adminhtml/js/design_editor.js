@@ -102,10 +102,6 @@
         },
 
         _onSave: function(event, eventData) {
-<<<<<<< HEAD
-            if (eventData.confirm_message && !confirm(eventData.confirm_message)) {
-                return;
-=======
             var saveConfirmEvent = this.options.saveConfirmEvent;
             if (eventData.confirm_message) {
                 var dialog = this._getDialog();
@@ -131,7 +127,6 @@
                 dialog.dialog('open');
             } else {
                 $('body').trigger(saveConfirmEvent, eventData);
->>>>>>> cad4f9f... Fixed MAGETWO-9350: Incorrect Message Displayed After Saving Changes to a Customized Available Theme
             }
             if (!eventData.save_url) {
                 throw Error('Save url is not defined');
@@ -142,18 +137,13 @@
             };
 
             var onSaveSuccess = eventData.onSaveSuccess || function(response) {
-<<<<<<< HEAD
-=======
                 var dialog = eventData.dialog || this._getDialog();
                 var message;
->>>>>>> cad4f9f... Fixed MAGETWO-9350: Incorrect Message Displayed After Saving Changes to a Customized Available Theme
                 if (response.error) {
                     alert($.mage.__('Error') + ': "' + response.message + '".');
                 } else {
                     alert(response.message);
                 }
-<<<<<<< HEAD
-=======
                 var messagesElement = dialog.find('.messages');
                 if (dialog.dialog('isOpen')) {
                     messagesElement.append(message.join(''));
@@ -161,7 +151,6 @@
                     dialog.dialog('open');
                     messagesElement.html(message.join(''));
                 }
->>>>>>> cad4f9f... Fixed MAGETWO-9350: Incorrect Message Displayed After Saving Changes to a Customized Available Theme
             };
 
             if ($(this.options.editorFrameSelector).get(0)) {

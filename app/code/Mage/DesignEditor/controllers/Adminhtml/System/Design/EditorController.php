@@ -337,12 +337,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                 $editableTheme->getId()
             );
             $this->_themeContext->copyChanges();
-<<<<<<< HEAD
-            $response = array('message' =>  $this->_helper->__('All changes applied'));
-=======
             $message = $this->_helper->__('You saved changes to the "%s" theme.', $editableTheme->getThemeTitle());
             $response = array('message' =>  $message);
->>>>>>> cad4f9f... Fixed MAGETWO-9350: Incorrect Message Displayed After Saving Changes to a Customized Available Theme
         } catch (Exception $e) {
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
             $response = array('error' => true, 'message' => $this->_helper->__('Unknown error'));
