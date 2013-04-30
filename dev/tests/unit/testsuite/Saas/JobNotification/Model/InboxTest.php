@@ -46,7 +46,7 @@ class Saas_JobNotification_Model_InboxTest extends PHPUnit_Framework_TestCase
         $this->_model = new Saas_JobNotification_Model_Inbox($this->_factoryMock, $this->_configMock);
     }
 
-    public function testAddNotificationWithNotAllowedTask()
+    public function testAddNotificationWithAllowedTask()
     {
         $this->_configMock
             ->expects($this->once())
@@ -60,12 +60,11 @@ class Saas_JobNotification_Model_InboxTest extends PHPUnit_Framework_TestCase
         $this->_model->addNotification($this->_observerMock);
     }
 
-    public function testAddNotificationWithAllowedTask()
+    public function testAddNotificationWithNotAllowedTask()
     {
-        $this->_configMock
-            ->expects($this->once())
-            ->method('isNotificationAllowed')
-            ->will($this->returnValue(false));
+        $this->_factoryMock
+            ->expects($this->never())
+            ->method('create');
         $this->_model->addNotification($this->_observerMock);
     }
 }
