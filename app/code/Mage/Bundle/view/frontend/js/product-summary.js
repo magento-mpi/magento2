@@ -12,18 +12,19 @@
 
     /**
      * Widget product Summary:
-     * Handles rendering of Bundle options and displayes them in the Summary box
+     * Handles rendering of Bundle options and displays them in the Summary box
      */
     $.widget('mage.productSummary', {
         options: {
-            mainContainer:           '#product_addtocart_form',
+            mainContainer:          '#product_addtocart_form',
             templates: {
-                summaryBlock:   '[data-template="bundle-summary"]',
-                optionBlock:    '[data-template="bundle-option"]'
+                summaryBlock:       '[data-template="bundle-summary"]',
+                optionBlock:        '[data-template="bundle-option"]'
             },
             optionSelector:         '[data-container="options"]',
             summaryContainer:       '[data-container="product-summary"]'
         },
+        cache: {},
         /**
          * Method attaches event observer to the product form
          * @private
@@ -35,51 +36,61 @@
         },
         /**
          * Method extracts data from the event and renders Summary box
-         * using jQuery templating mechanism
+         * using jQuery template mechanism
          * @param event
          * @param data
          * @private
          */
         _renderSummaryBox: function(event, data) {
-            var config = data.config,
-                summaryContainer;
+            this.cache.currentElement = data.config;
 
             // Clear Summary box
             this.element.html("");
 
-            $.each(config.selected, $.proxy(function(key, row) {
-                if (row !== undefined) {
-                    if (row.length > 0 && row[0] !== null) {
-                        summaryContainer = this.element
-                            .closest(this.options.summaryContainer)
-                            .find(this.options.templates.summaryBlock)
-                            .tmpl([{_label_: config.options[key].title}])
-                            .appendTo(this.element);
+            $.each(this.cache.currentElement.selected, $.proxy(this._renderOption, this));
+        },
+        _renderOption: function(key, row) {
+            if (row !== undefined) {
+                if (row.length > 0 && row[0] !== null) {
+                    this.cache.currentKey = key;
+                    this.cache.summaryContainer = this.element
+                        .closest(this.options.summaryContainer)
+                        .find(this.options.templates.summaryBlock)
+                        .tmpl([{_label_: this.cache.currentElement.options[this.cache.currentKey].title}])
+                        .appendTo(this.element);
 
-                        $.each(row, $.proxy(function(rKey, option) {
-                            var options = [];
-                            if (!$.isArray(option)) {   // Regular options (single)
-                                options.push({
-                                    _quantity_: config.options[key].selections[option].qty,
-                                    _label_: config.options[key].selections[option].name
-                                });
-                            } else {    // Used for Multi-select
-                                $.each(option, function(index, value) {
-                                    options.push({
-                                        _quantity_: config.options[key].selections[value].qty,
-                                        _label_: config.options[key].selections[value].name
-                                    });
-                                });
-                            }
-                            this.element
-                                .closest(this.options.summaryContainer)
-                                .find(this.options.templates.optionBlock)
-                                .tmpl(options)
-                                .appendTo(summaryContainer.find(this.options.optionSelector));
-                        }, this));
-                    }
+                    $.each(row, $.proxy(this._renderOptionRow, this));
+
+                    //Reset Cache
+                    this.cache.currentKey = null;
+
                 }
-            }, this));
+            }
+        },
+        _renderOptionRow: function(key, option) {
+            this.cache.currentOptions = [];
+            if (!$.isArray(option)) {   // Regular options (single)
+                this.cache.currentOptions.push({
+                    _quantity_: this.cache.currentElement.options[this.cache.currentKey].selections[option].qty,
+                    _label_: this.cache.currentElement.options[this.cache.currentKey].selections[option].name
+                });
+            } else {    // Used for Multi-select
+                $.each(option, $.proxy(this._pushOptionRow, this));
+            }
+            this.element
+                .closest(this.options.summaryContainer)
+                .find(this.options.templates.optionBlock)
+                .tmpl(this.cache.currentOptions)
+                .appendTo(this.cache.summaryContainer.find(this.options.optionSelector));
+
+            // Reset cache
+            this.cache.currentOptions = [];
+        },
+        _pushOptionRow: function(index, value) {
+            this.cache.currentOptions.push({
+                _quantity_: this.cache.currentElement.options[this.cache.currentKey].selections[value].qty,
+                _label_: this.cache.currentElement.options[this.cache.currentKey].selections[value].name
+            });
         }
     });
 })(jQuery);
