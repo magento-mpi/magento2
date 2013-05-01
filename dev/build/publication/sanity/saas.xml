@@ -143,6 +143,10 @@
         </item>
         <item>
             <word>TargetRule</word>
+            <path>dev/tests/unit/testsuite/Enterprise/CustomerSegment/Model/ObserverTest.php</path>
+        </item>
+        <item>
+            <word>TargetRule</word>
             <path>app/design/frontend/magento2/reference/Mage_Catalog/product/list/item/item.phtml</path>
         </item>
         <item>
