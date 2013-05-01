@@ -15,7 +15,6 @@
         <Enterprise_Cms><active>true</active></Enterprise_Cms>
         <Enterprise_Customer><active>true</active></Enterprise_Customer>
         <Enterprise_CustomerBalance><active>true</active></Enterprise_CustomerBalance>
-        <Enterprise_CustomerSegment><active>true</active></Enterprise_CustomerSegment>
         <Enterprise_Eav><active>true</active></Enterprise_Eav>
         <Enterprise_Enterprise><active>true</active></Enterprise_Enterprise>
         <Enterprise_GiftCard><active>true</active></Enterprise_GiftCard>

@@ -39,6 +39,7 @@
         <word>GoogleOptimizer</word>
         <word>Mage_Ogone</word>
         <word>Mage_PageCache</word>
+        <word>CustomerSegment</word>
     </words>
     <whitelist>
         <item>
@@ -71,17 +72,8 @@
         <item>
             <!-- Must be refactored to be modular -->
             <word>GiftWrapping</word>
+            <word>CustomerSegment</word>
             <path>app/design/adminhtml/default/backend/css/pages.css</path>
-        </item>
-        <item>
-            <!-- Must be removed, when CustomerSegment is removed as well -->
-            <word>TargetRule</word>
-            <path>app/code/Enterprise/CustomerSegment/Model/Observer.php</path>
-        </item>
-        <item>
-            <!-- Must be removed, when CustomerSegment is removed as well -->
-            <word>TargetRule</word>
-            <path>app/code/Enterprise/CustomerSegment/etc/config.xml</path>
         </item>
 
         <item>
@@ -120,6 +112,7 @@
             <word>Enterprise_Reminder</word>
             <word>Mage_Ogone</word>
             <word>Enterprise_Checkout</word>
+            <word>CustomerSegment</word>
             <path>dev/tests/static/testsuite/Legacy/_files/</path>
         </item>
         <item>
@@ -129,6 +122,7 @@
             <word>GiftWrapping</word>
             <word>ImportExport</word>
             <word>TargetRule</word>
+            <word>CustomerSegment</word>
             <path>dev/tests/static/testsuite/Php/_files/phpcpd/blacklist</path>
         </item>
         <item>
@@ -160,7 +154,20 @@
         <item>
             <word>GiftWrapping</word>
             <word>TargetRule</word>
+            <word>CustomerSegment</word>
             <path>app/design/adminhtml/default/backend/css/debug.css</path>
+        </item>
+        <item>
+            <word>CustomerSegment</word>
+            <path>app/code/Enterprise/PageCache/Model/Observer.php</path>
+        </item>
+        <item>
+            <word>CustomerSegment</word>
+            <path>app/code/Enterprise/PageCache/etc/config.xml</path>
+        </item>
+        <item>
+            <word>CustomerSegment</word>
+            <path>app/code/Enterprise/Logging/Model/Handler/Controllers.php</path>
         </item>
     </whitelist>
 </config>

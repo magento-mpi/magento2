@@ -706,14 +706,6 @@
                 <action>export</action>
                 <post_dispatch>postDispatchSimpleSave</post_dispatch>
             </adminhtml_report_customer_exportOrdersExcel>
-            <adminhtml_report_customer_customersegment_exportCsv>
-                <action>export</action>
-                <post_dispatch>postDispatchSimpleSave</post_dispatch>
-            </adminhtml_report_customer_customersegment_exportCsv>
-            <adminhtml_report_customer_customersegment_exportExcel>
-                <action>export</action>
-                <post_dispatch>postDispatchSimpleSave</post_dispatch>
-            </adminhtml_report_customer_customersegment_exportExcel>
             <adminhtml_report_review_exportCustomerCsv>
                 <action>export</action>
                 <post_dispatch>postDispatchSimpleSave</post_dispatch>

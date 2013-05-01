@@ -9,14 +9,8 @@
 -->
 <config>
     <menu>
-        <!-- Customers -->
-        <remove id="Enterprise_CustomerSegment::customer_customersegment" />
-
         <!-- Marketing -->
         <remove id="Enterprise_Enterprise::private_sales" />
-
-        <!-- Reports -->
-        <remove id="Enterprise_CustomerSegment::report_customers_segment" />
 
         <!-- Stores -->
         <remove id="Enterprise_GiftRegistry::customer_enterprise_giftregistry" />
