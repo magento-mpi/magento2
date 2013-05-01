@@ -1,10 +1,10 @@
 /**
  * {license_notice}
  *
- * @category   design
- * @package    magento2_upstream
- * @copyright  {copyright}
- * @license    {license_link}
+ * @category    design
+ * @package     magento2_upstream
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 /* Fonts variables */
 /* Layout variables */
@@ -68,7 +68,12 @@ textarea {
   color: #393939;
   font: 400 14px/1.786 Arial, Verdana, sans-serif;
 }
+html {
+  min-width: 1035px;
+  background: #000000;
+}
 body {
+  position: relative;
   background-color: #9fb8d6;
   background-image: url(../images/main-bg.jpg);
   background-repeat: no-repeat;
@@ -1824,17 +1829,21 @@ a.action.showcart .qty.empty {
 .search.advanced {
   padding: 0 150px 0 50px;
 }
+.search.advanced .price .range .field {
+  float: left;
+}
 .search.advanced .price .range .field input {
   border-radius: 5px;
 }
 .search.advanced .price .range .field.with-addon {
   position: relative;
-  padding-left: 30px;
+  margin-left: 30px;
+  width: 30%;
 }
 .search.advanced .price .range .field.with-addon:before {
   content: '—';
   position: absolute;
-  left: 5px;
+  left: -22px;
   top: 3px;
 }
 .search.advanced .price .range .field.with-addon .addafter {
@@ -1928,6 +1937,10 @@ a.action.showcart .qty.empty {
 .navigation a:hover > span {
   color: #393939;
 }
+.wf-loading .navigation a {
+  letter-spacing: -0.19em;
+  word-spacing: -0.19em;
+}
 .navigation > ul > .level-top {
   position: relative;
   display: inline-block;
@@ -1951,6 +1964,7 @@ a.action.showcart .qty.empty {
   padding: 10px;
   border-radius: 0 0 5px 5px;
   box-shadow: 0 3px 2px rgba(0, 0, 0, 0.25);
+  z-index: 2;
 }
 .navigation > ul > .level-top > .submenu > ul {
   position: relative;
@@ -2020,6 +2034,57 @@ a.action.showcart .qty.empty {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+.navigation > ul > .level-top.more.parent > a:after {
+  font-family: "Icons";
+  font-size: 8px;
+  line-height: 8px;
+  height: 8px;
+  content: '\e012';
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.navigation > ul > .level-top.more.parent > a:after {
+  margin: -4px 0 0 8px;
+}
+.navigation > ul > .level-top.more.parent > .submenu {
+  left: auto;
+  right: 0;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul:before {
+  left: auto;
+  right: 30px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .column > a span {
+  text-transform: uppercase;
+  padding-left: 17px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .column > a + .submenu {
+  margin-top: 11px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level1 > a span {
+  text-transform: capitalize;
+  padding-left: 27px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level1 > a + .submenu {
+  margin-top: 0;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level2 > a span {
+  padding-left: 37px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level3 > a span {
+  padding-left: 47px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level4 > a span {
+  padding-left: 57px;
+}
+.navigation > ul > .level-top.more.parent > .submenu > ul .level4 li[class^="level"] > a span {
+  padding-left: 67px;
 }
 /*
     Breadcrumbs
@@ -2644,6 +2709,114 @@ a.action.showcart .qty.empty {
 }
 .toolbar .action.previous span:after {
   content: '\e02b';
+}
+/*
+    Ratings
+-------------------------------------- */
+.field.ratings input[type="radio"] {
+  position: absolute;
+  margin-left: -999em;
+}
+.field.ratings {
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+.field.ratings > .label {
+  margin-bottom: 20px;
+}
+.field.ratings .nested {
+  display: table;
+}
+.field.ratings .field.rating {
+  display: table-row;
+}
+.field.ratings .field.rating > .label {
+  display: table-cell;
+  vertical-align: top;
+  padding: 4px 0 6px;
+}
+.field.ratings .field.rating .control {
+  padding: 0 5px;
+  display: table-cell;
+  z-index: 1;
+}
+.field.ratings .field.rating .control:before {
+  letter-spacing: 0.2em;
+  position: absolute;
+  z-index: 1;
+  display: block;
+  float: left;
+  font-family: "MUI-Icons";
+  content: "\e01a\e01a\e01a\e01a\e01a";
+  font-style: normal;
+  font-size: 16px;
+  color: rgba(255, 176, 51, 0.3);
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+}
+.field.ratings .field.rating .control input:focus + label:before,
+.field.ratings .field.rating .control input:checked + label:before {
+  color: #ffb033;
+  opacity: 1;
+}
+.field.ratings .field.rating .control label {
+  position: absolute;
+  display: block;
+  cursor: pointer;
+}
+.field.ratings .field.rating .control label span {
+  display: none;
+}
+.field.ratings .field.rating .control label:before {
+  letter-spacing: 0.2em;
+  font-family: "MUI-Icons";
+  font-style: normal;
+  font-size: 16px;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  opacity: 0;
+}
+.field.ratings .field.rating .control label:hover:before {
+  color: #ffb033;
+  opacity: 1;
+}
+.field.ratings .field.rating .control label:hover ~ label:before {
+  opacity: 0 !important;
+}
+.field.ratings .field.rating .control .rating-1 {
+  z-index: 6;
+}
+.field.ratings .field.rating .control .rating-1:before {
+  content: "\e01a";
+}
+.field.ratings .field.rating .control .rating-2 {
+  z-index: 5;
+}
+.field.ratings .field.rating .control .rating-2:before {
+  content: "\e01a\e01a";
+}
+.field.ratings .field.rating .control .rating-3 {
+  z-index: 4;
+}
+.field.ratings .field.rating .control .rating-3:before {
+  content: "\e01a\e01a\e01a";
+}
+.field.ratings .field.rating .control .rating-4 {
+  z-index: 3;
+}
+.field.ratings .field.rating .control .rating-4:before {
+  content: "\e01a\e01a\e01a\e01a";
+}
+.field.ratings .field.rating .control .rating-5 {
+  z-index: 2;
+}
+.field.ratings .field.rating .control .rating-5:before {
+  content: "\e01a\e01a\e01a\e01a\e01a";
 }
 /*
     Reviews
@@ -3773,7 +3946,7 @@ body.type-bundle {
   width: 100%;
 }
 .fieldset.bundle.options .nested .field {
-  margin: 10px 0;
+  margin: 5px 0;
 }
 .fieldset.bundle.options .nested .field.qty {
   margin-top: 20px;
@@ -4027,13 +4200,13 @@ body.type-bundle {
   background: none;
 }
 /*
-    Widgets
+    Related, Crosssell, ...
 -------------------------------------- */
 .block.widget.viewed,
 .block.crosssell,
 .block.upsell,
 .block.related,
-.column.main .widget-new-products {
+.column.main .block.widget.new {
   clear: both;
   margin: 30px 0 65px;
   border-top: 3px solid #e0e0e0;
@@ -4042,7 +4215,7 @@ body.type-bundle {
 .block.crosssell > .title,
 .block.upsell > .title,
 .block.related > .title,
-.column.main .widget-new-products > .title {
+.column.main .block.widget.new > .title {
   font: 24px 'Oswald', Arial, sans-serif;
   text-align: center;
   margin-top: -23px;
@@ -4053,7 +4226,7 @@ body.type-bundle {
 .block.crosssell > .title > strong,
 .block.upsell > .title > strong,
 .block.related > .title > strong,
-.column.main .widget-new-products > .title > strong {
+.column.main .block.widget.new > .title > strong {
   padding: 0 22px;
   background: #ffffff;
 }
@@ -4061,12 +4234,7 @@ body.type-bundle {
 .block.crosssell .products.list,
 .block.upsell .products.list,
 .block.related .products.list,
-.column.main .widget-new-products .products.list,
-.block.widget.viewed .products-list,
-.block.crosssell .products-list,
-.block.upsell .products-list,
-.block.related .products-list,
-.column.main .widget-new-products .products-list {
+.column.main .block.widget.new .products.list {
   margin: 0 -20px;
   padding-top: 20px;
 }
@@ -4074,22 +4242,12 @@ body.type-bundle {
 .block.crosssell .products.list .item.product,
 .block.upsell .products.list .item.product,
 .block.related .products.list .item.product,
-.column.main .widget-new-products .products.list .item.product,
-.block.widget.viewed .products-list .item.product,
-.block.crosssell .products-list .item.product,
-.block.upsell .products-list .item.product,
-.block.related .products-list .item.product,
-.column.main .widget-new-products .products-list .item.product,
+.column.main .block.widget.new .products.list .item.product,
 .block.widget.viewed .products.list > .item,
 .block.crosssell .products.list > .item,
 .block.upsell .products.list > .item,
 .block.related .products.list > .item,
-.column.main .widget-new-products .products.list > .item,
-.block.widget.viewed .products-list > .item,
-.block.crosssell .products-list > .item,
-.block.upsell .products-list > .item,
-.block.related .products-list > .item,
-.column.main .widget-new-products .products-list > .item {
+.column.main .block.widget.new .products.list > .item {
   display: inline;
   float: left;
   width: 33.33333333333333%;
@@ -4107,22 +4265,12 @@ body.type-bundle {
 .block.crosssell .products.list .item.product .product.photo,
 .block.upsell .products.list .item.product .product.photo,
 .block.related .products.list .item.product .product.photo,
-.column.main .widget-new-products .products.list .item.product .product.photo,
-.block.widget.viewed .products-list .item.product .product.photo,
-.block.crosssell .products-list .item.product .product.photo,
-.block.upsell .products-list .item.product .product.photo,
-.block.related .products-list .item.product .product.photo,
-.column.main .widget-new-products .products-list .item.product .product.photo,
+.column.main .block.widget.new .products.list .item.product .product.photo,
 .block.widget.viewed .products.list > .item .product.photo,
 .block.crosssell .products.list > .item .product.photo,
 .block.upsell .products.list > .item .product.photo,
 .block.related .products.list > .item .product.photo,
-.column.main .widget-new-products .products.list > .item .product.photo,
-.block.widget.viewed .products-list > .item .product.photo,
-.block.crosssell .products-list > .item .product.photo,
-.block.upsell .products-list > .item .product.photo,
-.block.related .products-list > .item .product.photo,
-.column.main .widget-new-products .products-list > .item .product.photo {
+.column.main .block.widget.new .products.list > .item .product.photo {
   float: left;
   margin-right: 20px;
 }
@@ -4130,86 +4278,46 @@ body.type-bundle {
 .block.crosssell .products.list .item.product .product.details,
 .block.upsell .products.list .item.product .product.details,
 .block.related .products.list .item.product .product.details,
-.column.main .widget-new-products .products.list .item.product .product.details,
-.block.widget.viewed .products-list .item.product .product.details,
-.block.crosssell .products-list .item.product .product.details,
-.block.upsell .products-list .item.product .product.details,
-.block.related .products-list .item.product .product.details,
-.column.main .widget-new-products .products-list .item.product .product.details,
+.column.main .block.widget.new .products.list .item.product .product.details,
 .block.widget.viewed .products.list > .item .product.details,
 .block.crosssell .products.list > .item .product.details,
 .block.upsell .products.list > .item .product.details,
 .block.related .products.list > .item .product.details,
-.column.main .widget-new-products .products.list > .item .product.details,
-.block.widget.viewed .products-list > .item .product.details,
-.block.crosssell .products-list > .item .product.details,
-.block.upsell .products-list > .item .product.details,
-.block.related .products-list > .item .product.details,
-.column.main .widget-new-products .products-list > .item .product.details {
+.column.main .block.widget.new .products.list > .item .product.details {
   overflow: hidden;
 }
 .block.widget.viewed .products.list .item.product .product.name,
 .block.crosssell .products.list .item.product .product.name,
 .block.upsell .products.list .item.product .product.name,
 .block.related .products.list .item.product .product.name,
-.column.main .widget-new-products .products.list .item.product .product.name,
-.block.widget.viewed .products-list .item.product .product.name,
-.block.crosssell .products-list .item.product .product.name,
-.block.upsell .products-list .item.product .product.name,
-.block.related .products-list .item.product .product.name,
-.column.main .widget-new-products .products-list .item.product .product.name,
+.column.main .block.widget.new .products.list .item.product .product.name,
 .block.widget.viewed .products.list > .item .product.name,
 .block.crosssell .products.list > .item .product.name,
 .block.upsell .products.list > .item .product.name,
 .block.related .products.list > .item .product.name,
-.column.main .widget-new-products .products.list > .item .product.name,
-.block.widget.viewed .products-list > .item .product.name,
-.block.crosssell .products-list > .item .product.name,
-.block.upsell .products-list > .item .product.name,
-.block.related .products-list > .item .product.name,
-.column.main .widget-new-products .products-list > .item .product.name,
+.column.main .block.widget.new .products.list > .item .product.name,
 .block.widget.viewed .products.list .item.product .price-box,
 .block.crosssell .products.list .item.product .price-box,
 .block.upsell .products.list .item.product .price-box,
 .block.related .products.list .item.product .price-box,
-.column.main .widget-new-products .products.list .item.product .price-box,
-.block.widget.viewed .products-list .item.product .price-box,
-.block.crosssell .products-list .item.product .price-box,
-.block.upsell .products-list .item.product .price-box,
-.block.related .products-list .item.product .price-box,
-.column.main .widget-new-products .products-list .item.product .price-box,
+.column.main .block.widget.new .products.list .item.product .price-box,
 .block.widget.viewed .products.list > .item .price-box,
 .block.crosssell .products.list > .item .price-box,
 .block.upsell .products.list > .item .price-box,
 .block.related .products.list > .item .price-box,
-.column.main .widget-new-products .products.list > .item .price-box,
-.block.widget.viewed .products-list > .item .price-box,
-.block.crosssell .products-list > .item .price-box,
-.block.upsell .products-list > .item .price-box,
-.block.related .products-list > .item .price-box,
-.column.main .widget-new-products .products-list > .item .price-box {
+.column.main .block.widget.new .products.list > .item .price-box {
   margin: 0 0 10px;
 }
 .block.widget.viewed .products.list .item.product .addto.links,
 .block.crosssell .products.list .item.product .addto.links,
 .block.upsell .products.list .item.product .addto.links,
 .block.related .products.list .item.product .addto.links,
-.column.main .widget-new-products .products.list .item.product .addto.links,
-.block.widget.viewed .products-list .item.product .addto.links,
-.block.crosssell .products-list .item.product .addto.links,
-.block.upsell .products-list .item.product .addto.links,
-.block.related .products-list .item.product .addto.links,
-.column.main .widget-new-products .products-list .item.product .addto.links,
+.column.main .block.widget.new .products.list .item.product .addto.links,
 .block.widget.viewed .products.list > .item .addto.links,
 .block.crosssell .products.list > .item .addto.links,
 .block.upsell .products.list > .item .addto.links,
 .block.related .products.list > .item .addto.links,
-.column.main .widget-new-products .products.list > .item .addto.links,
-.block.widget.viewed .products-list > .item .addto.links,
-.block.crosssell .products-list > .item .addto.links,
-.block.upsell .products-list > .item .addto.links,
-.block.related .products-list > .item .addto.links,
-.column.main .widget-new-products .products-list > .item .addto.links {
+.column.main .block.widget.new .products.list > .item .addto.links {
   padding: 10px 0 0;
   border-top: 1px solid #e0e0e0;
 }
@@ -4217,22 +4325,12 @@ body.type-bundle {
 .block.crosssell .products.list .item.product .addto.links .action:after,
 .block.upsell .products.list .item.product .addto.links .action:after,
 .block.related .products.list .item.product .addto.links .action:after,
-.column.main .widget-new-products .products.list .item.product .addto.links .action:after,
-.block.widget.viewed .products-list .item.product .addto.links .action:after,
-.block.crosssell .products-list .item.product .addto.links .action:after,
-.block.upsell .products-list .item.product .addto.links .action:after,
-.block.related .products-list .item.product .addto.links .action:after,
-.column.main .widget-new-products .products-list .item.product .addto.links .action:after,
+.column.main .block.widget.new .products.list .item.product .addto.links .action:after,
 .block.widget.viewed .products.list > .item .addto.links .action:after,
 .block.crosssell .products.list > .item .addto.links .action:after,
 .block.upsell .products.list > .item .addto.links .action:after,
 .block.related .products.list > .item .addto.links .action:after,
-.column.main .widget-new-products .products.list > .item .addto.links .action:after,
-.block.widget.viewed .products-list > .item .addto.links .action:after,
-.block.crosssell .products-list > .item .addto.links .action:after,
-.block.upsell .products-list > .item .addto.links .action:after,
-.block.related .products-list > .item .addto.links .action:after,
-.column.main .widget-new-products .products-list > .item .addto.links .action:after {
+.column.main .block.widget.new .products.list > .item .addto.links .action:after {
   content: '';
   display: block;
 }
@@ -4240,108 +4338,58 @@ body.type-bundle {
 .block.crosssell .products.list .item.product .actions,
 .block.upsell .products.list .item.product .actions,
 .block.related .products.list .item.product .actions,
-.column.main .widget-new-products .products.list .item.product .actions,
-.block.widget.viewed .products-list .item.product .actions,
-.block.crosssell .products-list .item.product .actions,
-.block.upsell .products-list .item.product .actions,
-.block.related .products-list .item.product .actions,
-.column.main .widget-new-products .products-list .item.product .actions,
+.column.main .block.widget.new .products.list .item.product .actions,
 .block.widget.viewed .products.list > .item .actions,
 .block.crosssell .products.list > .item .actions,
 .block.upsell .products.list > .item .actions,
 .block.related .products.list > .item .actions,
-.column.main .widget-new-products .products.list > .item .actions,
-.block.widget.viewed .products-list > .item .actions,
-.block.crosssell .products-list > .item .actions,
-.block.upsell .products-list > .item .actions,
-.block.related .products-list > .item .actions,
-.column.main .widget-new-products .products-list > .item .actions {
+.column.main .block.widget.new .products.list > .item .actions {
   visibility: hidden;
 }
 .block.widget.viewed .products.list .item.product .actions .primary,
 .block.crosssell .products.list .item.product .actions .primary,
 .block.upsell .products.list .item.product .actions .primary,
 .block.related .products.list .item.product .actions .primary,
-.column.main .widget-new-products .products.list .item.product .actions .primary,
-.block.widget.viewed .products-list .item.product .actions .primary,
-.block.crosssell .products-list .item.product .actions .primary,
-.block.upsell .products-list .item.product .actions .primary,
-.block.related .products-list .item.product .actions .primary,
-.column.main .widget-new-products .products-list .item.product .actions .primary,
+.column.main .block.widget.new .products.list .item.product .actions .primary,
 .block.widget.viewed .products.list > .item .actions .primary,
 .block.crosssell .products.list > .item .actions .primary,
 .block.upsell .products.list > .item .actions .primary,
 .block.related .products.list > .item .actions .primary,
-.column.main .widget-new-products .products.list > .item .actions .primary,
-.block.widget.viewed .products-list > .item .actions .primary,
-.block.crosssell .products-list > .item .actions .primary,
-.block.upsell .products-list > .item .actions .primary,
-.block.related .products-list > .item .actions .primary,
-.column.main .widget-new-products .products-list > .item .actions .primary {
+.column.main .block.widget.new .products.list > .item .actions .primary {
   margin: 0 0 10px;
 }
 .block.widget.viewed .products.list .item.product:hover .actions,
 .block.crosssell .products.list .item.product:hover .actions,
 .block.upsell .products.list .item.product:hover .actions,
 .block.related .products.list .item.product:hover .actions,
-.column.main .widget-new-products .products.list .item.product:hover .actions,
-.block.widget.viewed .products-list .item.product:hover .actions,
-.block.crosssell .products-list .item.product:hover .actions,
-.block.upsell .products-list .item.product:hover .actions,
-.block.related .products-list .item.product:hover .actions,
-.column.main .widget-new-products .products-list .item.product:hover .actions,
+.column.main .block.widget.new .products.list .item.product:hover .actions,
 .block.widget.viewed .products.list > .item:hover .actions,
 .block.crosssell .products.list > .item:hover .actions,
 .block.upsell .products.list > .item:hover .actions,
 .block.related .products.list > .item:hover .actions,
-.column.main .widget-new-products .products.list > .item:hover .actions,
-.block.widget.viewed .products-list > .item:hover .actions,
-.block.crosssell .products-list > .item:hover .actions,
-.block.upsell .products-list > .item:hover .actions,
-.block.related .products-list > .item:hover .actions,
-.column.main .widget-new-products .products-list > .item:hover .actions {
+.column.main .block.widget.new .products.list > .item:hover .actions {
   visibility: visible;
 }
 .col2-left-layout .block.widget.viewed .products.list .item.product,
 .col2-left-layout .block.crosssell .products.list .item.product,
 .col2-left-layout .block.upsell .products.list .item.product,
 .col2-left-layout .block.related .products.list .item.product,
-.col2-left-layout .column.main .widget-new-products .products.list .item.product,
-.col2-left-layout .block.widget.viewed .products-list .item.product,
-.col2-left-layout .block.crosssell .products-list .item.product,
-.col2-left-layout .block.upsell .products-list .item.product,
-.col2-left-layout .block.related .products-list .item.product,
-.col2-left-layout .column.main .widget-new-products .products-list .item.product,
+.col2-left-layout .column.main .block.widget.new .products.list .item.product,
 .col2-left-layout .block.widget.viewed .products.list > .item,
 .col2-left-layout .block.crosssell .products.list > .item,
 .col2-left-layout .block.upsell .products.list > .item,
 .col2-left-layout .block.related .products.list > .item,
-.col2-left-layout .column.main .widget-new-products .products.list > .item,
-.col2-left-layout .block.widget.viewed .products-list > .item,
-.col2-left-layout .block.crosssell .products-list > .item,
-.col2-left-layout .block.upsell .products-list > .item,
-.col2-left-layout .block.related .products-list > .item,
-.col2-left-layout .column.main .widget-new-products .products-list > .item,
+.col2-left-layout .column.main .block.widget.new .products.list > .item,
 .col2-right-layout .block.widget.viewed .products.list .item.product,
 .col2-right-layout .block.crosssell .products.list .item.product,
 .col2-right-layout .block.upsell .products.list .item.product,
 .col2-right-layout .block.related .products.list .item.product,
-.col2-right-layout .column.main .widget-new-products .products.list .item.product,
-.col2-right-layout .block.widget.viewed .products-list .item.product,
-.col2-right-layout .block.crosssell .products-list .item.product,
-.col2-right-layout .block.upsell .products-list .item.product,
-.col2-right-layout .block.related .products-list .item.product,
-.col2-right-layout .column.main .widget-new-products .products-list .item.product,
+.col2-right-layout .column.main .block.widget.new .products.list .item.product,
 .col2-right-layout .block.widget.viewed .products.list > .item,
 .col2-right-layout .block.crosssell .products.list > .item,
 .col2-right-layout .block.upsell .products.list > .item,
 .col2-right-layout .block.related .products.list > .item,
-.col2-right-layout .column.main .widget-new-products .products.list > .item,
-.col2-right-layout .block.widget.viewed .products-list > .item,
-.col2-right-layout .block.crosssell .products-list > .item,
-.col2-right-layout .block.upsell .products-list > .item,
-.col2-right-layout .block.related .products-list > .item,
-.col2-right-layout .column.main .widget-new-products .products-list > .item {
+.col2-right-layout .column.main .block.widget.new .products.list > .item {
   display: inline;
   float: left;
   width: 33.33333333333333%;
@@ -4356,22 +4404,12 @@ body.type-bundle {
 .col3-layout .block.crosssell .products.list .item.product,
 .col3-layout .block.upsell .products.list .item.product,
 .col3-layout .block.related .products.list .item.product,
-.col3-layout .column.main .widget-new-products .products.list .item.product,
-.col3-layout .block.widget.viewed .products-list .item.product,
-.col3-layout .block.crosssell .products-list .item.product,
-.col3-layout .block.upsell .products-list .item.product,
-.col3-layout .block.related .products-list .item.product,
-.col3-layout .column.main .widget-new-products .products-list .item.product,
+.col3-layout .column.main .block.widget.new .products.list .item.product,
 .col3-layout .block.widget.viewed .products.list > .item,
 .col3-layout .block.crosssell .products.list > .item,
 .col3-layout .block.upsell .products.list > .item,
 .col3-layout .block.related .products.list > .item,
-.col3-layout .column.main .widget-new-products .products.list > .item,
-.col3-layout .block.widget.viewed .products-list > .item,
-.col3-layout .block.crosssell .products-list > .item,
-.col3-layout .block.upsell .products-list > .item,
-.col3-layout .block.related .products-list > .item,
-.col3-layout .column.main .widget-new-products .products-list > .item {
+.col3-layout .column.main .block.widget.new .products.list > .item {
   display: inline;
   float: left;
   width: 50%;
@@ -4468,87 +4506,29 @@ body.type-bundle {
   vertical-align: baseline;
 }
 /*
-    Compare
--------------------------------------- */
-.block-compare {
-  margin-bottom: 50px;
-}
-.block-compare .block-title strong {
-  text-transform: uppercase;
-  font: 16px/1.333 'Oswald', Arial, sans-serif;
-  font-weight: 700;
-}
-.block-compare ol {
-  padding: 0;
+ *    Mage_Catalog
+ *
+ *    Compare
+----------------------------------------------------------------------------- */
+.item.link.compare .action.compare {
+  border: none;
+  border-radius: 0;
+  background: none;
   margin: 0;
-  list-style-type: none;
-}
-.block-compare ol > li {
   padding: 0;
-  margin: 0;
-  list-style-type: none;
+  text-shadow: none;
+  outline: none;
+  box-shadow: none !important;
+  display: inline;
+  font-size: 11px;
+  font-family: Arial, Verdana, sans-serif;
 }
-.block-compare ol .item {
-  position: relative;
+.item.link.compare .action.compare .qty:before {
+  content: ' (';
 }
-.block-compare ol .item .btn-remove {
-  width: 16px;
-  display: block;
-  line-height: 0;
-  white-space: nowrap;
-  vertical-align: middle;
-  text-align: center;
-  text-indent: -999em;
-  position: absolute;
-  right: 0;
-  top: 0;
-  color: #b1b1b1;
+.item.link.compare .action.compare .qty:after {
+  content: ')';
 }
-.block-compare ol .item .btn-remove:after {
-  font-family: "Icons";
-  font-size: 16px;
-  line-height: 16px;
-  height: 16px;
-  content: '\e015';
-  font-style: normal;
-  speak: none;
-  font-weight: normal;
-  -webkit-font-smoothing: antialiased;
-  display: inline-block;
-  vertical-align: middle;
-  text-align: center;
-}
-.block-compare ol .item .btn-remove:active {
-  outline: 0;
-}
-.block-compare ol .item .btn-remove:after {
-  text-indent: 0;
-  display: block;
-}
-.block-compare ol .item .btn-remove > span {
-  color: #b1b1b1;
-}
-.block-compare ol .item .btn-remove:hover,
-.block-compare ol .item .btn-remove:hover > span {
-  color: #8b8b8b;
-}
-.block-compare ol .item .product-name {
-  line-height: 1.333;
-  padding-right: 20px;
-  margin: 0 0 10px 0;
-}
-.block-compare .actions {
-  text-align: right;
-}
-.block-compare .actions a {
-  font-size: 12px;
-}
-.block-compare .actions button {
-  margin-left: 10px;
-}
-/*
-    Compare Page
--------------------------------------- */
 .catalog-product-compare-index .link-print {
   float: right;
   margin-top: -69px;
@@ -4601,40 +4581,201 @@ body.type-bundle {
   box-shadow: none;
   text-shadow: none;
 }
-/*
-    Poll
--------------------------------------- */
-.block-poll {
+.block.compare {
   margin-bottom: 50px;
 }
-.block-poll .block-title strong {
+.block.compare > .title {
+  margin-bottom: 10px;
+}
+.block.compare > .title span {
   text-transform: uppercase;
   font: 16px/1.333 'Oswald', Arial, sans-serif;
   font-weight: 700;
 }
-.block-poll .block-subtitle {
-  font-family: 'Oswald', Arial, sans-serif;
-  margin: 0 0 5px;
+.block.compare > .title .qty {
+  font-size: 16px;
+  margin-right: -5px;
 }
-.block-poll ul {
-  padding: 0;
+.block.compare > .title .qty:before {
+  content: '(';
+}
+.block.compare > .title .qty:after {
+  content: ')';
+}
+.block.compare .item {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.block.compare .product.name {
+  line-height: 1.333;
+  padding-right: 20px;
+  margin: 0 0 10px 0;
+}
+.block.compare .action.delete {
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #b1b1b1;
+}
+.block.compare .action.delete > span {
+  color: #b1b1b1;
+}
+.block.compare .action.delete:hover,
+.block.compare .action.delete:hover > span {
+  color: #8b8b8b;
+}
+.block.compare .action.compare {
+  float: right;
+}
+.block.compare .action.clear {
+  border: none;
+  border-radius: 0;
+  background: none;
   margin: 0;
-  list-style-type: none;
-  margin-bottom: 5px;
-}
-.block-poll ul > li {
   padding: 0;
-  margin: 0;
-  list-style-type: none;
+  text-shadow: none;
+  outline: none;
+  box-shadow: none !important;
+  color: #514ba7;
+  text-transform: none;
+  font: 11px Arial, Verdana, sans-serif;
+  float: left;
+  margin-top: 10px;
 }
-.block-poll ul li {
-  padding: 0 3px;
+.block.compare .action.clear > span {
+  color: #514ba7;
 }
-.block-poll ul li.even {
-  background: #f2f2f2;
+.block.compare .action.clear:hover,
+.block.compare .action.clear:hover > span {
+  color: #000000;
 }
-.block-poll .actions {
+.block.compare .action.clear:hover,
+.block.compare .action.clear:focus,
+.block.compare .action.clear:active {
+  background: none;
+}
+.block.compare .actions {
+  margin-top: 15px;
+  *zoom: 1;
+}
+.block.compare .actions:before,
+.block.compare .actions:after {
+  content: "";
+  display: table;
+}
+.block.compare .actions:after {
+  clear: both;
+}
+.catalog-product-compare-index .action.print {
+  float: right;
+  margin-top: -50px;
+}
+.comparison.wrapper {
+  clear: both;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 50px;
+}
+.comparison.wrapper:after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 15px;
+}
+.comparison.container {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.data.comparison {
+  table-layout: fixed;
+}
+.data.comparison .cell.label {
+  width: 130px;
+  padding-left: 10px;
+  font-weight: 600;
+  text-align: left;
+  border-right: 1px solid #e0e0e0;
+}
+.data.comparison .cell.label .attribute.label {
+  display: block;
+  width: 100%;
+  word-break: break-all;
+}
+.data.comparison .cell.label.product {
+  border-bottom: 1px solid #e0e0e0;
+}
+.data.comparison .cell {
+  padding: 15px;
+  vertical-align: top;
+}
+.data.comparison .cell p:first-child {
+  margin-top: 0;
+}
+.data.comparison .cell .attibute.value {
+  width: 100%;
+  overflow: hidden;
+}
+.data.comparison .cell.product {
+  width: 140px;
+}
+.data.comparison .cell.product.info {
+  border-bottom: 1px solid #e0e0e0;
+}
+.data.comparison .cell.attribute {
+  font-size: 12px;
+}
+.data.comparison td:last-child {
+  border-right: 1px solid #e0e0e0;
+}
+.data.comparison .product.photo {
+  text-align: center;
+  display: block;
+  margin: 0 auto 15px;
+}
+.data.comparison .product.photo .img.photo.container {
+  display: inline-block !important;
+}
+.data.comparison .actions,
+.data.comparison .price-box,
+.data.comparison .product.rating,
+.data.comparison .product.name {
+  margin: 15px 0;
+}
+.data.comparison .addto.links {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
+  font-size: 12px;
+}
+.data.comparison .cell.remove {
+  padding-top: 0;
+  padding-bottom: 0;
   text-align: right;
+  border-bottom: 0;
+}
+.data.comparison .cell.remove .action.delete {
+  float: right;
+  padding: 4px;
+  margin-right: -15px;
+}
+.data.comparison .cell.remove .action.delete span {
+  overflow: hidden;
+  line-height: 0;
+}
+.comparison.headings {
+  position: absolute;
+  z-index: 2;
+  top: -24px;
+  left: 0;
+  width: auto;
+  background-color: #ffffff;
+}
+.comparison.headings th {
+  background-color: #ffffff;
 }
 /*
     PayPal
@@ -4673,6 +4814,31 @@ body.type-bundle {
   text-align: center;
 }
 /*
+    Tags
+-------------------------------------- */
+.tags.items {
+  margin: 15px 0;
+}
+.tags.items .tag.item {
+  display: inline-block;
+  margin-bottom: 5px;
+}
+.tags.items .tag.item .tag.text {
+  margin-right: 3px;
+}
+.tags.items .tag.item .amount {
+  margin-right: 6px;
+}
+.dashboard.tags .product.tags {
+  margin-left: 10px;
+}
+.data.table.tags .item.actions .links {
+  margin-top: 10px;
+}
+.data.table.tags .item.actions .links .action.towishlist {
+  margin-left: 0;
+}
+/*
     Basic Pages Layout
 -------------------------------------- */
 .page {
@@ -4692,7 +4858,7 @@ body.type-bundle {
   margin: 0 auto;
   min-width: 980px;
   max-width: 980px;
-  min-height: 750px;
+  min-height: 360px;
   position: relative;
   padding: 18px 27px 30px;
   background: #ffffff;
@@ -4799,25 +4965,31 @@ body.type-bundle {
 -------------------------------------- */
 /* Recently viewed block */
 .block.viewed,
-.block.reorder {
+.block.reorder,
+.block.poll {
   margin-bottom: 50px;
 }
 .block.viewed > .title,
 .block.reorder > .title,
+.block.poll > .title,
 .block.viewed > .block-title,
-.block.reorder > .block-title {
+.block.reorder > .block-title,
+.block.poll > .block-title {
   margin-bottom: 10px;
 }
 .block.viewed > .title strong,
 .block.reorder > .title strong,
+.block.poll > .title strong,
 .block.viewed > .block-title strong,
-.block.reorder > .block-title strong {
+.block.reorder > .block-title strong,
+.block.poll > .block-title strong {
   text-transform: uppercase;
   font: 16px/1.333 'Oswald', Arial, sans-serif;
   font-weight: 700;
 }
 .block.viewed .product.name,
-.block.reorder .product.name {
+.block.reorder .product.name,
+.block.poll .product.name {
   font-family: Arial, Verdana, sans-serif;
   font-weight: 400;
 }
@@ -4875,6 +5047,52 @@ body.type-bundle {
 .sidebar .paypal-logo {
   margin: 0 0 50px 0;
 }
+.sidebar .widget.new,
+.sidebar .block.wishlist {
+  margin-bottom: 50px;
+}
+.sidebar .widget.new > .title,
+.sidebar .block.wishlist > .title,
+.sidebar .widget.new > .block-title,
+.sidebar .block.wishlist > .block-title {
+  margin-bottom: 10px;
+}
+.sidebar .widget.new > .title strong,
+.sidebar .block.wishlist > .title strong,
+.sidebar .widget.new > .block-title strong,
+.sidebar .block.wishlist > .block-title strong {
+  text-transform: uppercase;
+  font: 16px/1.333 'Oswald', Arial, sans-serif;
+  font-weight: 700;
+}
+.sidebar .widget.new .products.minilist,
+.sidebar .block.wishlist .products.minilist {
+  float: none;
+  border-right: 0;
+  max-width: 100%;
+  padding: 0;
+}
+.sidebar .widget.new .products.minilist > .item,
+.sidebar .block.wishlist .products.minilist > .item {
+  margin-bottom: 30px;
+  padding: 0 0 10px;
+  width: auto;
+  visibility: visible;
+  border: solid #e0e0e0;
+  border-width: 0 0 1px;
+}
+.sidebar .widget.new .products.minilist > .item:before,
+.sidebar .block.wishlist .products.minilist > .item:before {
+  display: none;
+}
+.sidebar .widget.new .products.minilist > .item .actions,
+.sidebar .block.wishlist .products.minilist > .item .actions {
+  margin: 5px 0;
+}
+.sidebar .widget.new.photos .img.photo.container,
+.sidebar .block.wishlist.photos .img.photo.container {
+  margin: 0 auto 20px;
+}
 /*
     Recently Viewed
 -------------------------------------- */
@@ -4905,6 +5123,33 @@ body.type-bundle {
 }
 .widget-viewed .block-products .block-content .item .price-box {
   margin: 0 0 5px;
+}
+/*
+    Polls
+-------------------------------------- */
+.block.poll .fieldset .legend {
+  margin-bottom: -25px;
+}
+.block.poll .fieldset .legend span {
+  font-size: 12px;
+}
+.block.poll .choice {
+  padding: 0 3px;
+  margin-bottom: 0;
+}
+.block.poll .choice:nth-child(even) {
+  background: #f2f2f2;
+}
+.block.poll .choice .label {
+  float: none;
+  width: auto;
+}
+.block.poll .choice .label span {
+  display: inline;
+}
+.block.poll .actions {
+  margin: 10px 0;
+  text-align: right;
 }
 /*
     Messages and Notices
@@ -5004,15 +5249,15 @@ ul.messages ul {
   position: relative;
   margin-bottom: 31px;
   background-color: #ffffff;
-  background-color: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjE4JSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjNmM2YzYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-  background-color: -moz-linear-gradient(top, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
-  background-color: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(18%, #ffffff), color-stop(100%, #c6c6c6));
-  background-color: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
-  background-color: -o-linear-gradient(top, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
-  background-color: -ms-linear-gradient(top, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
-  background-color: linear-gradient(to bottom, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjE4JSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjNmM2YzYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(18%, #ffffff), color-stop(100%, #c6c6c6));
+  background: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
+  background: -o-linear-gradient(top, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
+  background: -ms-linear-gradient(top, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
+  background: linear-gradient(to bottom, #ffffff 0%, #ffffff 18%, #c6c6c6 100%);
   box-shadow: 0 2px 6px #000;
-  z-index: 2;
+  z-index: 100;
 }
 .header > .wrapper {
   background: #000000;
@@ -5448,6 +5693,15 @@ ul.messages ul {
   padding: 10px 230px 0;
   margin-bottom: 41px;
 }
+.password.reset {
+  display: inline;
+  float: left;
+  width: 50%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
 .forget {
   display: inline;
   float: left;
@@ -5577,7 +5831,7 @@ body.account .page.title > .action.disabled:active {
 .my-account .page-title {
   display: none;
 }
-.my-account > .toolbar {
+.my-account > .toolbar:first-child {
   margin-top: 0;
 }
 .my-account .form > .fieldset,
@@ -5621,6 +5875,45 @@ body.account .page.title > .action.disabled:active {
 .my-account .table.orders .col.actions .action {
   margin-right: 5px;
 }
+.my-account .table.reviews .product.name {
+  line-height: 1.666;
+  margin-bottom: 0;
+}
+.my-account .order-page .order.status {
+  font: 24px 'Oswald', Arial, sans-serif;
+}
+.my-account .order-page .order.date {
+  font-weight: 700;
+}
+.my-account .order-page .block.order {
+  margin-bottom: 50px;
+}
+.my-account .order-page .block.order > .title,
+.my-account .order-page .block.order > .block-title {
+  margin-bottom: 10px;
+}
+.my-account .order-page .block.order > .title strong,
+.my-account .order-page .block.order > .block-title strong {
+  text-transform: uppercase;
+  font: 16px/1.333 'Oswald', Arial, sans-serif;
+  font-weight: 700;
+}
+.my-account .order-details dl {
+  margin: 0;
+}
+.my-account .order-details dl dt {
+  display: inline;
+  float: left;
+  clear: left;
+  font-weight: 600;
+}
+.my-account .order-details dl dt:after {
+  content: ':';
+  margin-right: 5px;
+}
+.my-account .order-details dl dd {
+  margin: 0;
+}
 .customer-address-index .column.main .actions {
   clear: left;
 }
@@ -5634,6 +5927,23 @@ body.account .page.title > .action.disabled:active {
 .table.wishlist th,
 .table.wishlist td {
   padding: 5px 10px;
+}
+.table.wishlist .item-options {
+  background: #000000;
+  color: #ffffff;
+  display: none;
+  position: absolute;
+  border-radius: 5px;
+  padding: 10px;
+  right: 100%;
+  top: 50%;
+  margin-top: -20px;
+  margin-right: 15px;
+  max-width: 200px;
+  min-width: 100px;
+}
+.table.wishlist .item-options > p {
+  margin-top: 0;
 }
 .table.wishlist .item-options dl {
   margin: 0;
@@ -5651,6 +5961,32 @@ body.account .page.title > .action.disabled:active {
 .table.wishlist .item-options dl dd {
   margin: 0;
 }
+.table.wishlist .truncated .truncated_full_value {
+  position: relative;
+}
+.table.wishlist .truncated .truncated_full_value.show:before {
+  content: '';
+  border-left: 10px solid #000000;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+  display: block;
+  position: absolute;
+  top: 3px;
+  margin-top: 0;
+  left: -15px;
+  z-index: 2;
+}
+.table.wishlist .truncated .truncated_full_value.show .item-options {
+  display: block;
+}
+.table.wishlist .truncated .details {
+  font-size: 12px;
+  border-bottom: 1px dotted #514ba7;
+  cursor: help;
+}
 .table.wishlist .col.photo {
   width: 100px;
 }
@@ -5659,6 +5995,44 @@ body.account .page.title > .action.disabled:active {
 }
 .table.wishlist .col.actions input.qty {
   width: 50px;
+}
+/*
+    Review details
+-------------------------------------- */
+.review.view {
+  *zoom: 1;
+}
+.review.view:before,
+.review.view:after {
+  content: "";
+  display: table;
+}
+.review.view:after {
+  clear: both;
+}
+.review.view .product.details {
+  float: left;
+  width: 300px;
+}
+.review.view .review.details {
+  float: right;
+  width: 480px;
+}
+.review.view .review.details .reviews.summary {
+  margin: 10px 0;
+}
+.review.view .review.details .review.content {
+  margin: 20px 0;
+}
+/*
+    Newsletter Subscription
+-------------------------------------- */
+.form.newsletter.manage .actions {
+  position: relative;
+}
+.form.newsletter.manage .actions .primary {
+  position: absolute;
+  left: 26%;
 }
 /*
     Checkout

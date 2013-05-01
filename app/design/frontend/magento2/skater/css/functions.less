@@ -20,6 +20,8 @@
     -o-transform:scale(@x,@y);
     transform:scale(@x,@y);
 }
+// CSS3 transition
+// all .25s ease|linear|ease-in|ease-out|ease-in-out|cubic-bezier
 .transition(@property,@duration,@effect,@delay:0) {
     -webkit-transition: @property @duration @effect @delay;
     -moz-transition: @property @duration @effect @delay;
@@ -76,9 +78,10 @@
     width: 970px;
 }
 
+// assign comfortaa uppercased font
 .customFont(@size: 14px, @transform: uppercase, @spacing: 0.05em, @fontweight:700) {
     font-size: @size;
-    font-family: Amaranth, Arial, Helvetica, sans-serif;
+    font-family: @headingsFont, Arial, Helvetica, sans-serif;
     font-weight: @fontweight;
     text-transform: @transform;
     letter-spacing: @spacing;
@@ -94,6 +97,7 @@
     outline: none;
 }
 
+// primary button
 .primaryAction() {
     border: none;
     background: @secondary1;
@@ -111,6 +115,7 @@
     }
 }
 
+// big primary button
 .primaryActionBig() {
     .primaryAction();
     padding: 10px 50px 9px;
@@ -118,7 +123,6 @@
     span {
         font-size: 15px;
     }
-
 }
 
 .secondaryAction() {
@@ -245,6 +249,7 @@
     }
 }
 
+// sidebar list hilighted items 
 .sidebarItem() {
     background: @secondary3;
     color: @primary9;
@@ -260,6 +265,18 @@
         &:hover {
             color: @primary9;
             opacity: 1;
+        }
+    }
+}
+
+.sidebarProduct() {
+    .product.name {
+        margin: 0;
+        font-size: 12px;
+        font-weight: normal;
+        a {
+            text-decoration: underline;
+            color: @primary5;
         }
     }
 }

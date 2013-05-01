@@ -7,7 +7,7 @@
 //  * @license     {license_link}
 //  */
 
-//*
+// *
 // *    Mage_Checkout
 // *
 // *    Shopping Cart
@@ -39,7 +39,6 @@
             }
         }
     }
-
     .action.update {
         .customFont(10px);
         color: @primary1;
@@ -233,7 +232,6 @@
             &:hover {
                 color: @primary4;
             }
-
         }
         > .content {
             display: none;
@@ -366,13 +364,17 @@
     dt,
     .item.title {
         font-weight: bold;
+        margin-top: 5px;
+    }
+    dt > label img + a {
+        font-weight: normal;
     }
     dd,
     .item.options {
         margin: 0;
         .field.choice {
             padding: 0;
-            margin-bottom: 2px;
+            margin-bottom: 5px;
             display: block;
         }
     }
@@ -432,7 +434,7 @@
     tbody th {
     }
     td {
-        border-right: 1px solid @primary2;
+        border-right: 1px solid @primary1;
         padding: 5px;
         vertical-align: top;
     }
@@ -484,13 +486,16 @@
     }
     .amount {
         .customFont(17px);
+        strong {
+            font-weight: 400;
+        }
     }
     .mark strong {
         font-weight: normal;
     }
     td, th {
         text-align: right;
-        padding: 12px 0 12px 5px;
+        padding: 5px 0 5px 5px;
     }
     td:not(:first-child) {
         strong {
@@ -710,7 +715,6 @@
         min-width: 100px;
         .title {
             font-weight: bold;
-
         }
         color: @optionsColor;
     }
@@ -780,7 +784,6 @@
         }
         .pricing {
             margin-top: 10px;
-
             .label:after {
                 content: ': ';
             }

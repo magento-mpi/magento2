@@ -20,8 +20,8 @@
     -o-transform:scale(@x,@y);
     transform:scale(@x,@y);
 }
-// CSS3 transition*/
-// all .25s ease|linear|ease-in|ease-out|ease-in-out|cubic-bezier*/
+// CSS3 transition
+// all .25s ease|linear|ease-in|ease-out|ease-in-out|cubic-bezier
 .transition(@property,@duration,@effect,@delay:0) {
     -webkit-transition: @property @duration @effect @delay;
     -moz-transition: @property @duration @effect @delay;
@@ -45,9 +45,9 @@
 }
 
 .borderBox() {
-    -webkit-box-sizing: border-box; //* Safari/Chrome, other WebKit */
-    -moz-box-sizing: border-box;    //* Firefox, other Gecko */
-    box-sizing: border-box;         //* Opera/IE 8+ */
+    -webkit-box-sizing: border-box; // Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    // Firefox, other Gecko */
+    box-sizing: border-box;         // Opera/IE 8+ */
 }
 
 .resetList() {
@@ -78,11 +78,11 @@
     width: 970px;
 }
 
-// * assign comfortaa uppercased font */
-.customFont(@size: 12px, @transform: uppercase, @spacing: 0.1em) {
+// * assign comfortaa uppercased font 
+.customFont(@size: 12px, @transform: uppercase, @spacing: 0.1em, @fontWeight: 400) {
     font-size: @size;
-    font-family: "comfortaa", Arial, Helvetica, sans-serif;
-    font-weight: 400;
+    font-family: @headingsFont, Arial, Helvetica, sans-serif;
+    font-weight: @fontWeight;
     text-transform: @transform;
     letter-spacing: @spacing;
 }
@@ -97,7 +97,7 @@
     outline: none;
 }
 
-// * primary button*/
+// primary button
 .primaryAction() {
     border: none;
     background: @secondary2;
@@ -115,7 +115,7 @@
     }
 }
 
-// * big primary button*/
+// big primary button
 .primaryActionBig() {
     .primaryAction();
     padding: 10px 50px 9px;
@@ -251,7 +251,7 @@
     }
 }
 
-// * sidebar list hilighted items */
+// sidebar list hilighted items 
 .sidebarItem() {
     background: @primary7;
     color: @primary3;
@@ -264,6 +264,18 @@
         color: @primary3;
         &:hover {
             color: @primary4;
+        }
+    }
+}
+
+.sidebarProduct() {
+    .product.name {
+        margin: 0;
+        font-size: 12px;
+        font-weight: normal;
+        a {
+            text-decoration: underline;
+            .colorA(@primary3,@primary4);
         }
     }
 }

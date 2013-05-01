@@ -16,9 +16,13 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
      * @param string $themeId
      * @param string $file
      * @dataProvider viewFilesFromThemesDataProvider
+     * @throws PHPUnit_Framework_AssertionFailedError|Exception
      */
     public function testViewFilesFromThemes($area, $themeId, $file)
     {
+        if ($area === 'frontend' && $file === 'css/styles.css') {
+            $this->markTestIncomplete('MAGETWO-9806');
+        }
         try {
             $params = array('area' => $area, 'themeId' => $themeId);
             $viewFile = Mage::getDesign()->getViewFile($file, $params);
@@ -40,7 +44,7 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
                     }
                 }
                 if (!empty($errors)) {
-                    $this->fail('Can not find file(s): ' . implode(', ', $errors));
+                    $this->fail('Cannot find file(s): ' . implode(', ', $errors));
                 }
             }
         } catch (PHPUnit_Framework_AssertionFailedError $e) {

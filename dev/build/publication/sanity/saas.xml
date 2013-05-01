@@ -42,46 +42,10 @@
     </words>
     <whitelist>
         <item>
-            <!-- License placeholder is ok, something buggy  -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <path>app/design/frontend/magento2/electron/css/styles.css</path>
-        </item>
-        <item>
-            <!-- License placeholder is ok, something buggy  -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <path>app/design/frontend/magento2/hobby/css/styles.css</path>
-        </item>
-        <item>
-            <!-- License placeholder is ok, something buggy  -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <path>app/design/frontend/magento2/piece-of-cake/css/styles.css</path>
-        </item>
-        <item>
-            <!-- License placeholder is ok, something buggy  -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <path>app/design/frontend/magento2/plushe-dark/css/styles.css</path>
-        </item>
-        <item>
-            <!-- License placeholder is ok, something buggy  -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <path>app/design/frontend/magento2/plushe_blue/css/styles.css</path>
-        </item>
-        <item>
-            <!-- License placeholder is ok, something buggy  -->
-            <word>{copyright}</word>
-            <word>{license_link}</word>
-            <word>{license_notice}</word>
-            <path>app/design/frontend/magento2/recon/css/styles.css</path>
+            <!-- MUST be refactored -->
+            <word>TargetRule</word>
+            <word>GiftWrapping</word>
+            <path>app/design/adminhtml/default/backend/css/debug.css</path>
         </item>
         <item>
             <!-- MUST be refactored -->

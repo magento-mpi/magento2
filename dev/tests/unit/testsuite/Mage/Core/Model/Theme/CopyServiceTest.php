@@ -47,6 +47,21 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
     protected $_linkCollection;
 
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_update;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_updateCollection;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_updateFactory;
+
+    /**
      * @var PHPUnit_Framework_MockObject_MockObject[]
      */
     protected $_targetFiles = array();
@@ -86,20 +101,32 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
         );
         $this->_targetTheme->setId(123);
 
-        $this->_fileFactory = $this->getMock('Mage_Core_Model_Theme_File_Factory', array('create'), array(), '', false);
+        $this->_fileFactory = $this->getMock('Mage_Core_Model_Theme_FileFactory', array('create'), array(), '', false);
         $this->_filesystem = $this->getMock(
             'Magento_Filesystem', array('isDirectory', 'searchKeys', 'copy'),
             array($this->getMockForAbstractClass('Magento_Filesystem_AdapterInterface'))
         );
 
+        /* Init Mage_Core_Model_Resource_Layout_Collection model  */
+        $this->_updateFactory = $this->getMock('Varien_Object', array('create'), array(),
+            'Mage_Core_Model_Layout_UpdateFactory', false);
+        $this->_update = $this->getMock('Mage_Core_Model_Layout_Update', array('getCollection'), array(), '', false);
+        $this->_updateFactory->expects($this->at(0))->method('create')->will($this->returnValue($this->_update));
+        $this->_updateCollection = $this->getMock('Mage_Core_Model_Resource_Layout_Collection',
+            array('addThemeFilter', 'delete', 'getIterator'), array(), '', false);
+        $this->_update->expects($this->any())->method('getCollection')
+            ->will($this->returnValue($this->_updateCollection));
+
+        /* Init Link an Link_Collection model */
         $this->_link = $this->getMock('Mage_Core_Model_Layout_Link', array('getCollection'), array(), '', false);
         $this->_linkCollection = $this->getMock('Mage_Core_Model_Resource_Layout_Link_Collection',
-            array('addFieldToFilter', 'getIterator'), array(), '', false);
+            array('addThemeFilter', 'getIterator'), array(), '', false);
         $this->_link->expects($this->any())->method('getCollection')->will($this->returnValue($this->_linkCollection));
-        $eventManager = $this->getMock('Mage_Core_Model_Event_Manager', array('getCollection'), array(), '', false);
+
+        $eventManager = $this->getMock('Mage_Core_Model_Event_Manager', array('dispatch'), array(), '', false);
 
         $this->_object = new Mage_Core_Model_Theme_CopyService(
-            $this->_filesystem, $this->_fileFactory, $this->_link, $eventManager
+            $this->_filesystem, $this->_fileFactory, $this->_link, $this->_updateFactory, $eventManager
         );
     }
 
@@ -111,6 +138,9 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
         $this->_sourceTheme = null;
         $this->_targetTheme = null;
         $this->_link = null;
+        $this->_linkCollection = null;
+        $this->_updateCollection = null;
+        $this->_updateFactory = null;
         $this->_sourceFiles = array();
         $this->_targetFiles = array();
     }
@@ -123,33 +153,37 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
         $this->_sourceTheme->expects($this->once())->method('getFiles')->will($this->returnValue(array()));
         $this->_targetTheme->expects($this->once())->method('getFiles')->will($this->returnValue(array()));
 
-        $sourceLink = $this->getMock('Mage_Core_Model_Layout_Link', array('delete'),
+        $this->_updateCollection->expects($this->once())->method('delete');
+        $this->_linkCollection->expects($this->once())->method('addThemeFilter');
+
+        $targetLinkOne = $this->getMock('Mage_Core_Model_Layout_Link',
+            array('setId', 'setThemeId', 'save', 'setLayoutUpdateId'), array(), '', false);
+        $targetLinkOne->setData(array('id' => 1, 'layout_update_id' => 1));
+        $targetLinkTwo = $this->getMock('Mage_Core_Model_Layout_Link',
+            array('setId', 'setThemeId', 'save', 'setLayoutUpdateId'), array(), '', false);
+        $targetLinkTwo->setData(array('id' => 2, 'layout_update_id' => 2));
+
+        $targetLinkOne->expects($this->at(0))->method('setThemeId')->with(123);
+        $targetLinkOne->expects($this->at(1))->method('setLayoutUpdateId')->with(1);
+        $targetLinkOne->expects($this->at(2))->method('setId')->with(null);
+        $targetLinkOne->expects($this->at(3))->method('save');
+
+        $targetLinkTwo->expects($this->at(0))->method('setThemeId')->with(123);
+        $targetLinkTwo->expects($this->at(1))->method('setLayoutUpdateId')->with(2);
+        $targetLinkTwo->expects($this->at(2))->method('setId')->with(null);
+        $targetLinkTwo->expects($this->at(3))->method('save');
+
+        $linkReturnValues = $this->onConsecutiveCalls(new ArrayIterator(array($targetLinkOne, $targetLinkTwo)));
+        $this->_linkCollection->expects($this->any())->method('getIterator')->will($linkReturnValues);
+
+        $targetUpdateOne = $this->getMock('Mage_Core_Model_Layout_Update', array('setId', 'load', 'save'),
             array(), '', false);
-        $targetLinkOne = $this->getMock('Mage_Core_Model_Layout_Link', array('setId', 'setThemeId', 'save'),
+        $targetUpdateOne->setData(array('id' => 1));
+        $targetUpdateTwo = $this->getMock('Mage_Core_Model_Layout_Update', array('setId', 'load', 'save'),
             array(), '', false);
-        $targetLinkTwo = $this->getMock('Mage_Core_Model_Layout_Link', array('setId', 'setThemeId', 'save'),
-            array(), '', false);
-
-
-        $this->_linkCollection->expects($this->any())->method('addFieldToFilter')
-            ->will($this->returnValue($this->_linkCollection));
-
-        $sourceLink->expects($this->exactly(2))->method('delete');
-
-        $targetLinkOne->expects($this->at(0))->method('setId')->with(null);
-        $targetLinkOne->expects($this->at(1))->method('setThemeId')->with(123);
-        $targetLinkOne->expects($this->at(2))->method('save');
-
-        $targetLinkTwo->expects($this->at(0))->method('setId')->with(null);
-        $targetLinkTwo->expects($this->at(1))->method('setThemeId')->with(123);
-        $targetLinkTwo->expects($this->at(2))->method('save');
-
-        $returnValue = $this->onConsecutiveCalls(
-            new ArrayIterator(array($sourceLink, $sourceLink)),
-            new ArrayIterator(array($targetLinkOne, $targetLinkTwo))
-        );
-        $this->_linkCollection->expects($this->any())->method('getIterator')
-            ->will($returnValue);
+        $targetUpdateTwo->setData(array('id' => 2));
+        $updateReturnValues = $this->onConsecutiveCalls($this->_update, $targetUpdateOne, $targetUpdateTwo);
+        $this->_updateFactory->expects($this->any())->method('create')->will($updateReturnValues);
 
         $this->_object->copy($this->_sourceTheme, $this->_targetTheme);
     }

@@ -70,8 +70,8 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned
     {
         parent::_addThemeButtons($themeBlock);
 
-        $this->_addPreviewButtonHtml($themeBlock)->_addAssignButtonHtml($themeBlock)->_addEditButtonHtml($themeBlock)
-            ->_addRemoveButtonHtml($themeBlock);
+        $this->_addDuplicateButtonHtml($themeBlock)->_addPreviewButtonHtml($themeBlock)
+            ->_addAssignButtonHtml($themeBlock)->_addEditButtonHtml($themeBlock)->_addRemoveButtonHtml($themeBlock);
         return $this;
     }
 }

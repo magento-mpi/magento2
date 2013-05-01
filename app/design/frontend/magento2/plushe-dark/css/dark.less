@@ -20,21 +20,24 @@
 @searchFieldBg : #ababab;
 @textColor: #c4c4c4;
 
+@link : #c4c4c4;
+
 a,
 a:visited,
 a > span {
-    color: @textColor;
+    color: @link;
     &:hover {
-        color: @secondary1;
+        color: @linkHover;
     }
 }
 
 .header {
-    border-bottom: 1px solid #1b1b1b;
+    border-bottom: none;
 }
 
 .navigation {
     border-top: 1px solid @primary3;
+    box-shadow: 0 -1px 0 0 rgba(27, 27, 27, 1);
 }
 
 .action.showcart {
@@ -82,6 +85,15 @@ input, select, textarea {
             }
         }
     }
+    .action.next,
+    .action.previous {
+        span {
+            color: @textColor;
+        }
+        &:hover span {
+            color: @secondary1;
+        }
+    }
 }
 
 .products.wrapper .products.list {
@@ -106,7 +118,8 @@ input, select, textarea {
 .form.address.edit,
 .form.edit.account,
 .form.password.forget,
-.form.create.account {
+.form.create.account,
+.form.wishlist.share {
     .fieldset {
         .legend {
             background: @primary3;
@@ -147,7 +160,7 @@ input, select, textarea {
 .data-tabs-styling() {
     > .item.title {
         > .switch {
-            background: @primary1;
+            background: rgba(255, 255, 255, 0.1);
         }
         &:not(.disabled) > .switch:active,
         &:not(.disabled) > .switch:focus,
@@ -155,9 +168,6 @@ input, select, textarea {
         &.active > .switch {
             background: @primary3;
         }
-    }
-    > .item.content {
-        background: @primary3;
     }
 }
 
@@ -177,6 +187,16 @@ input, select, textarea {
 .footer {
     border-top: 1px solid @primary1;
     box-shadow: 0 -1px 0 0 rgba(49, 49, 49, 1);
+    .links {
+        li {
+            &:after {
+                color: @primary5;
+            }
+        }
+        + .links li:first-child:before {
+            color: @primary5;
+        }
+    }
 }
 
 .page.main > .page.title {
@@ -258,6 +278,108 @@ input, select, textarea {
             a:hover span {
                 color: @secondary1;
             }
+        }
+    }
+}
+
+.switcher {
+    .options {
+        > ul {
+            li {
+                a {
+                    color: @textColor;
+                    &:hover{
+                        color: @secondary1;
+                    }
+                    
+                }
+            }
+        }
+        &.active strong,
+        &:hover strong,
+        &.active strong + button,
+        &:hover strong + button {
+            color: @secondary1;
+        }
+    }
+}
+
+.form.send.friend,
+.form.address.edit,
+.form.edit.account,
+.form.search.advanced,
+.form.orders.search,
+.form.contact,
+.form.password.forget,
+.form.create.account {
+    .fieldset.create.account {
+        &:after {
+            color: @textColor;
+        }
+    }
+}
+
+.fieldset.bundle.options {
+    > .field {
+        background: @primary3;
+    }
+}
+
+.block.bundle.summary {
+    background: @primary3;
+}
+
+.block.discount {
+    .fieldset.coupon {
+        .action.cancel {
+            span {
+                color: @textColor;
+            }
+            &:hover span {
+                color: @secondary1;
+            }
+        }
+    }
+}
+
+.successMsg() {
+    a,
+    a:visited {
+        color: darken(#1b6720, 10%);
+        text-decoration: underline;
+        &:hover {
+            color: darken(#1b6720, 20%);
+        }
+    }
+}
+
+.noticeMsg() {
+    a,
+    a:visited {
+        color: darken(#926e00, 10%);
+        text-decoration: underline;
+        &:hover {
+            color: darken(#926e00, 20%);
+        }
+    }
+}
+
+.errorMsg() {
+    a,
+    a:visited {
+        color: darken(#911c00, 10%);
+        text-decoration: underline;
+        &:hover {
+            color: darken(#911c00, 20%);
+        }
+    }
+}
+
+.my-account {
+    .box.information {
+        a,
+        a:visited {
+            text-decoration: underline;
         }
     }
 }
