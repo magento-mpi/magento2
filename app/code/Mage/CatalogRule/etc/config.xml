@@ -52,6 +52,11 @@
                 <block_html/>
             </related_cache_types>
         </catalogrule>
+        <di>
+            <Mage_CatalogRule_Model_Resource_Rule_Collection>
+                <shared>0</shared>
+            </Mage_CatalogRule_Model_Resource_Rule_Collection>
+        </di>
     </global>
     <frontend>
         <events>

@@ -139,7 +139,7 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Retrieve JavaScript that actualized customer segment field's note message upon changes in run-time
+     * Retrieve JavaScript that actualizes customer segment field's note message upon changes in run-time
      *
      * @param string $selectBoxId
      * @param string $noteMessageBlockId
