@@ -6,12 +6,14 @@
  * @license     {license_link}
  */
 
-//this fixture adds existing catalog rule to banner from banner.php
+//this fixture adds existing catalog rule to banner
 
 require __DIR__ . '/banner.php';
+require __DIR__ . '/../../../Mage/CatalogRule/_files/catalog_rule_10_off_not_logged.php';
 
 $catalogRule = Mage::getModel('Mage_CatalogRule_Model_Rule');
 $ruleId = $catalogRule->getCollection()->getFirstItem()->getId();
 
-$banner->setBannerCatalogRules(array($ruleId))->save();
+$banner = Mage::getModel('Enterprise_Banner_Model_Banner');
+$banner->load('Test Banner', 'name')->setBannerCatalogRules(array($ruleId))->save();
 
