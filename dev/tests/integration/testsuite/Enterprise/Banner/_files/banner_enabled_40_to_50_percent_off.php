@@ -21,7 +21,7 @@ $ruleTo->load('50% Off on Large Orders', 'name');
 $banner = Mage::getModel('Enterprise_Banner_Model_Banner');
 $banner->setData(array(
     'name' => 'Get from 40% to 50% Off on Large Orders',
-    'is_enabled' => 1,
+    'is_enabled' => Enterprise_Banner_Model_Banner::STATUS_ENABLED,
     'types' => array()/*Any Banner Type*/,
     'store_contents' => array('<img src="http://example.com/banner_40_to_50_percent_off.png" />'),
     'banner_sales_rules' => array($ruleFrom->getId(), $ruleTo->getId()),
