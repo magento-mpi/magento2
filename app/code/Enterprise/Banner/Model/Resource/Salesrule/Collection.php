@@ -57,6 +57,10 @@ class Enterprise_Banner_Model_Resource_Salesrule_Collection extends Mage_Core_Mo
      */
     public function addRuleIdsFilter(array $ruleIds)
     {
+        if (!$ruleIds) {
+            // force to match no rules
+            $ruleIds = array(0);
+        }
         $this->addFieldToFilter('main_table.rule_id', array('in' => $ruleIds));
         return $this;
     }
