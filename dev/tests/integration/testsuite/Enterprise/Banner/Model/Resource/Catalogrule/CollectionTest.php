@@ -8,7 +8,6 @@
 
 /**
  * @magentoDataFixture Mage/Catalog/_files/product_simple.php
- * @magentoDataFixture Mage/CatalogRule/_files/catalog_rule_10_off_not_logged.php
  * @magentoDataFixture Enterprise/Banner/_files/banner_catalog_rule.php
  */
 class Enterprise_Banner_Model_Resource_Catalogrule_CollectionTest extends PHPUnit_Framework_TestCase
@@ -38,7 +37,7 @@ class Enterprise_Banner_Model_Resource_Catalogrule_CollectionTest extends PHPUni
 
     public function testConstructor()
     {
-        $this->assertSame('enterprise_banner_catalogrule', $this->_collection->getMainTable());
+        $this->assertStringEndsWith('enterprise_banner_catalogrule', $this->_collection->getMainTable());
     }
 
     public function testBannerCatalogrule()
