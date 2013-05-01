@@ -8,7 +8,6 @@
 
 /* @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
-$installer->startSetup();
 
 $tableName = 'enterprise_banner_customersegment';
 
@@ -44,5 +43,3 @@ $table = $installer->getConnection()
 if (!$installer->getConnection()->isTableExists($table->getName())) {
     $installer->getConnection()->createTable($table);
 }
-
-$installer->endSetup();

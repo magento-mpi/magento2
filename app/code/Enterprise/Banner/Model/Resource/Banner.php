@@ -415,14 +415,14 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
      */
     public function getBannersContent(array $bannerIds, $storeId)
     {
-        $content = array();
-        foreach ($bannerIds as $_id) {
-            $_content = $this->getStoreContent($_id, $storeId);
-            if (!empty($_content)) {
-                $content[$_id] = $_content;
+        $result = array();
+        foreach ($bannerIds as $bannerId) {
+            $bannerContent = $this->getStoreContent($bannerId, $storeId);
+            if (!empty($bannerContent)) {
+                $result[$bannerId] = $bannerContent;
             }
         }
-        return $content;
+        return $result;
     }
 
     /**
@@ -433,14 +433,10 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
      */
     public function getSalesRuleRelatedBannerIds(array $appliedRules)
     {
-        $result = array();
         /** @var Enterprise_Banner_Model_Resource_Salesrule_Collection $collection */
         $collection = Mage::getResourceModel('Enterprise_Banner_Model_Resource_Salesrule_Collection');
         $collection->addRuleIdsFilter($appliedRules);
-        foreach ($collection->getData() as $row) {
-            $result[] = $row['banner_id'];
-        }
-        return $result;
+        return $collection->getColumnValues('banner_id');
     }
 
     /**
@@ -452,14 +448,10 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
      */
     public function getCatalogRuleRelatedBannerIds($websiteId, $customerGroupId)
     {
-        $result = array();
         /** @var Enterprise_Banner_Model_Resource_Catalogrule_Collection $collection */
         $collection = Mage::getResourceModel('Enterprise_Banner_Model_Resource_Catalogrule_Collection');
         $collection->addWebsiteCustomerGroupFilter($websiteId, $customerGroupId);
-        foreach ($collection->getData() as $row) {
-            $result[] = $row['banner_id'];
-        }
-        return $result;
+        return $collection->getColumnValues('banner_id');
     }
 
     /**
