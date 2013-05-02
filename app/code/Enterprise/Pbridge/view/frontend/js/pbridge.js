@@ -58,7 +58,6 @@
                 success: function(response) {
                     this.element.find(this.options.iframeContainerSelector).html(response);
                     this.element.trigger('gotoSection', 'payment').trigger('contentUpdate');
-                    this._toggleContinueButton(this.element.parents('ol'));
                     this.element.find(this.options.reloadSelector).find('a').show();
                 }
             });
