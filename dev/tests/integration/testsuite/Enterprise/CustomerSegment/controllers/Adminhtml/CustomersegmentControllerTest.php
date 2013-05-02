@@ -40,11 +40,15 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentControllerTest extends
      */
     public function testMatchActionLogging()
     {
+        /** @var Enterprise_Logging_Model_Event $loggingModel */
+        $loggingModel = Mage::getModel('Enterprise_Logging_Model_Event');
+        $result = $loggingModel->load('enterprise_customersegment', 'event_code');
+        $this->assertEmpty($result->getId());
+
         $segment = Mage::getModel('Enterprise_CustomerSegment_Model_Segment');
         $segment->load('Customer Segment 1', 'name');
         $this->dispatch('backend/admin/customersegment/match/id/' . $segment->getId());
-        /** @var Enterprise_Logging_Model_Event $loggingModel */
-        $loggingModel = Mage::getModel('Enterprise_Logging_Model_Event');
+
         $result = $loggingModel->load('enterprise_customersegment', 'event_code');
         $this->assertNotEmpty($result->getId());
         $expected = serialize(array('general' => 'Matched 1 Customers of Segment '. $segment->getId()));
