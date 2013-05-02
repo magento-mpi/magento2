@@ -29,6 +29,7 @@ app/design/frontend/magento2/reference/!Enterprise_Wishlist
 app/design/frontend/magento2/reference/Enterprise_TargetRule
 app/etc/modules/XEnterprise_Edition.xml.dist
 dev/tests/integration/testsuite/Enterprise/AdminGws
+dev/tests/integration/testsuite/Enterprise/BannerCustomerSegment
 dev/tests/integration/testsuite/Enterprise/CatalogEvent
 dev/tests/integration/testsuite/Enterprise/CatalogPermissions
 dev/tests/integration/testsuite/Enterprise/CustomerSegment
