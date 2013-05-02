@@ -16,7 +16,7 @@ class Enterprise_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framew
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    private $_resource;
+    private $_bannerSegmentLink;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -33,13 +33,18 @@ class Enterprise_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framew
      */
     private $_segmentCollection;
 
+    /**
+     * @var Zend_Db_Select
+     */
+    private $_select;
+
     protected function setUp()
     {
-        $this->_resource = $this->getMock(
-            'Mage_Core_Model_Resource', array('getConnection', 'getTableName'), array(), '', false
+        $this->_bannerSegmentLink = $this->getMock(
+            'Enterprise_BannerCustomerSegment_Model_Resource_BannerSegmentLink',
+            array('loadBannerSegments', 'saveBannerSegments', 'addBannerSegmentFilter'),
+            array(), '', false
         );
-        $this->_resource->expects($this->any())->method('getTableName')->will($this->returnArgument(0));
-
         $this->_segmentCustomer = $this->getMock(
             'Enterprise_CustomerSegment_Model_Customer', array('getCurrentCustomerSegmentIds'), array(), '', false
         );
@@ -49,58 +54,52 @@ class Enterprise_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framew
         $this->_segmentCollection = $this->getMock(
             'Enterprise_CustomerSegment_Model_Resource_Segment_Collection', array(), array(), '', false
         );
-
         $this->_model = new Enterprise_BannerCustomerSegment_Model_Observer(
-            $this->_resource, $this->_segmentCustomer, $this->_segmentHelper, $this->_segmentCollection
+            $this->_segmentCustomer, $this->_segmentHelper, $this->_segmentCollection, $this->_bannerSegmentLink
+        );
+        $this->_select = new Zend_Db_Select(
+            $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false)
         );
     }
 
     protected function tearDown()
     {
         $this->_model = null;
-        $this->_resource = null;
+        $this->_bannerSegmentLink = null;
         $this->_segmentCustomer = null;
         $this->_segmentHelper = null;
         $this->_segmentCollection = null;
+        $this->_select = null;
     }
 
     public function testLoadCustomerSegmentRelations()
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
 
-        $adapter = $this->getMockForAbstractClass(
-            'Zend_Db_Adapter_Abstract', array(), '', false, true, true, array('fetchAll')
-        );
-        $adapter
-            ->expects($this->once())
-            ->method('fetchAll')
-            ->with($this->logicalAnd(
-                $this->isInstanceOf('Zend_Db_Select'),
-                $this->equalTo(
-                    'SELECT "enterprise_banner_customersegment".*'
-                        . ' FROM "enterprise_banner_customersegment"'
-                        . ' WHERE (banner_id = 42)'
-                )
-            ))
-            ->will($this->returnValue(array(array('segment_id' => 123), array('segment_id' => 456))))
-        ;
-        $this->_resource
-            ->expects($this->any())->method('getConnection')->with('read')->will($this->returnValue($adapter));
-
         $banner = new Varien_Object(array('id' => 42));
+        $segmentIds = array(123, 456);
+
+        $this->_bannerSegmentLink
+            ->expects($this->once())
+            ->method('loadBannerSegments')
+            ->with($banner->getId())
+            ->will($this->returnValue($segmentIds))
+        ;
+
         $this->_model->loadCustomerSegmentRelations(new Varien_Event_Observer(array(
             'event' => new Varien_Object(array('banner' => $banner)),
         )));
-        $this->assertEquals(array(123, 456), $banner->getData('customer_segment_ids'));
+        $this->assertEquals($segmentIds, $banner->getData('customer_segment_ids'));
     }
 
     public function testLoadCustomerSegmentRelationsDisabled()
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(false));
 
-        $this->_resource->expects($this->never())->method('getConnection');
-
         $banner = new Varien_Object(array('id' => 42));
+
+        $this->_bannerSegmentLink->expects($this->never())->method('loadBannerSegments');
+
         $this->_model->loadCustomerSegmentRelations(new Varien_Event_Observer(array(
             'event' => new Varien_Object(array('banner' => $banner)),
         )));
@@ -110,28 +109,32 @@ class Enterprise_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framew
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
 
-        $expectedInsertRows = array(
-            array('banner_id' => 42, 'segment_id' => 123),
-            array('banner_id' => 42, 'segment_id' => 456),
-        );
+        $segmentIds = array(123, 456);
+        $banner = new Varien_Object(array('id' => 42, 'customer_segment_ids' => $segmentIds));
 
-        $adapter = $this->getMockForAbstractClass(
-            'Varien_Db_Adapter_Interface', array(), '', false, true, true, array('delete', 'insertMultiple')
-        );
-        $adapter
-            ->expects($this->at(0))
-            ->method('delete')
-            ->with('enterprise_banner_customersegment', array('banner_id = ?' => 42))
+        $this->_bannerSegmentLink
+            ->expects($this->once())
+            ->method('saveBannerSegments')
+            ->with($banner->getId(), $segmentIds)
         ;
-        $adapter
-            ->expects($this->at(1))
-            ->method('insertMultiple')
-            ->with('enterprise_banner_customersegment', $expectedInsertRows)
-        ;
-        $this->_resource
-            ->expects($this->any())->method('getConnection')->with('write')->will($this->returnValue($adapter));
 
-        $banner = new Varien_Object(array('id' => 42, 'customer_segment_ids' => array(123, 456)));
+        $this->_model->saveCustomerSegmentRelations(new Varien_Event_Observer(array(
+            'event' => new Varien_Object(array('banner' => $banner)),
+        )));
+    }
+
+    /**
+     * @expectedException UnexpectedValueException
+     * @expectedExceptionMessage Customer segments associated with a banner are expected to be defined as an array
+     */
+    public function testSaveCustomerSegmentRelationsException()
+    {
+        $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
+
+        $banner = new Varien_Object(array('id' => 42, 'customer_segment_ids' => 'invalid'));
+
+        $this->_bannerSegmentLink->expects($this->never())->method('saveBannerSegments');
+
         $this->_model->saveCustomerSegmentRelations(new Varien_Event_Observer(array(
             'event' => new Varien_Object(array('banner' => $banner)),
         )));
@@ -141,9 +144,10 @@ class Enterprise_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framew
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(false));
 
-        $this->_resource->expects($this->never())->method('getConnection');
-
         $banner = new Varien_Object(array('id' => 42, 'customer_segment_ids' => array(123, 456)));
+
+        $this->_bannerSegmentLink->expects($this->never())->method('saveBannerSegments');
+
         $this->_model->saveCustomerSegmentRelations(new Varien_Event_Observer(array(
             'event' => new Varien_Object(array('banner' => $banner)),
         )));
@@ -187,43 +191,27 @@ class Enterprise_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framew
             ->expects($this->once())->method('getCurrentCustomerSegmentIds')->will($this->returnValue($segmentIds));
     }
 
-    public function testAddCustomerSegmentFilterToCollection()
+    /**
+     * @dataProvider addCustomerSegmentFilterDataProvider
+     * @param array $segmentIds
+     */
+    public function testAddCustomerSegmentFilterToCollection(array $segmentIds)
     {
-        $this->_setFixtureSegmentIds(array(123, 456));
+        $this->_setFixtureSegmentIds($segmentIds);
 
-        $select = new Zend_Db_Select($this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false));
-        $select->from('enterprise_banner');
+        $this->_bannerSegmentLink
+            ->expects($this->once())->method('addBannerSegmentFilter')->with($this->_select, $segmentIds);
 
         $this->_model->addCustomerSegmentFilterToCollection(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('collection' => new Varien_Object(array('select' => $select)))),
+            'event' => new Varien_Object(array('collection' => new Varien_Object(array('select' => $this->_select)))),
         )));
-
-        $this->assertEquals(
-            'SELECT "enterprise_banner".* FROM "enterprise_banner"' . "\n"
-                . ' LEFT JOIN "enterprise_banner_customersegment" AS "banner_segment"'
-                . ' ON banner_segment.banner_id = main_table.banner_id'
-                . ' WHERE (banner_segment.segment_id IS NULL OR banner_segment.segment_id IN (123, 456))',
-            (string)$select
-        );
     }
 
-    public function testAddCustomerSegmentFilterToCollectionNoSegments()
+    public function addCustomerSegmentFilterDataProvider()
     {
-        $this->_setFixtureSegmentIds(array());
-
-        $select = new Zend_Db_Select($this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false));
-        $select->from('enterprise_banner');
-
-        $this->_model->addCustomerSegmentFilterToCollection(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('collection' => new Varien_Object(array('select' => $select)))),
-        )));
-
-        $this->assertEquals(
-            'SELECT "enterprise_banner".* FROM "enterprise_banner"' . "\n"
-                . ' LEFT JOIN "enterprise_banner_customersegment" AS "banner_segment"'
-                . ' ON banner_segment.banner_id = main_table.banner_id'
-                . ' WHERE (banner_segment.segment_id IS NULL)',
-            (string)$select
+        return array(
+            'segments'      => array(array(123, 456)),
+            'no segments'   => array(array()),
         );
     }
 
@@ -231,69 +219,39 @@ class Enterprise_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framew
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(false));
 
-        $select = new Zend_Db_Select($this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false));
-
         $this->_segmentCustomer->expects($this->never())->method('getCurrentCustomerSegmentIds');
+        $this->_bannerSegmentLink->expects($this->never())->method('addBannerSegmentFilter');
 
         $this->_model->addCustomerSegmentFilterToCollection(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('collection' => new Varien_Object(array('select' => $select)))),
+            'event' => new Varien_Object(array('collection' => new Varien_Object(array('select' => $this->_select)))),
         )));
-
-        $this->assertEmpty((string)$select);
     }
 
-    public function testAddCustomerSegmentFilterToSelect()
+    /**
+     * @dataProvider addCustomerSegmentFilterDataProvider
+     * @param array $segmentIds
+     */
+    public function testAddCustomerSegmentFilterToSelect(array $segmentIds)
     {
-        $this->_setFixtureSegmentIds(array(123, 456));
+        $this->_setFixtureSegmentIds($segmentIds);
 
-        $select = new Zend_Db_Select($this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false));
-        $select->from('enterprise_banner');
+        $this->_bannerSegmentLink
+            ->expects($this->once())->method('addBannerSegmentFilter')->with($this->_select, $segmentIds);
 
         $this->_model->addCustomerSegmentFilterToSelect(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('select' => $select)),
+            'event' => new Varien_Object(array('select' => $this->_select)),
         )));
-
-        $this->assertEquals(
-            'SELECT "enterprise_banner".* FROM "enterprise_banner"' . "\n"
-                . ' LEFT JOIN "enterprise_banner_customersegment" AS "banner_segment"'
-                . ' ON banner_segment.banner_id = main_table.banner_id'
-                . ' WHERE (banner_segment.segment_id IS NULL OR banner_segment.segment_id IN (123, 456))',
-            (string)$select
-        );
-    }
-
-    public function testAddCustomerSegmentFilterToSelectNoSegments()
-    {
-        $this->_setFixtureSegmentIds(array());
-
-        $select = new Zend_Db_Select($this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false));
-        $select->from('enterprise_banner');
-
-        $this->_model->addCustomerSegmentFilterToSelect(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('select' => $select)),
-        )));
-
-        $this->assertEquals(
-            'SELECT "enterprise_banner".* FROM "enterprise_banner"' . "\n"
-                . ' LEFT JOIN "enterprise_banner_customersegment" AS "banner_segment"'
-                . ' ON banner_segment.banner_id = main_table.banner_id'
-                . ' WHERE (banner_segment.segment_id IS NULL)',
-            (string)$select
-        );
     }
 
     public function testAddCustomerSegmentFilterToSelectDisabled()
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(false));
 
-        $select = new Zend_Db_Select($this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false));
-
         $this->_segmentCustomer->expects($this->never())->method('getCurrentCustomerSegmentIds');
+        $this->_bannerSegmentLink->expects($this->never())->method('addBannerSegmentFilter');
 
-        $this->_model->addCustomerSegmentFilterToSelect(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('select' => $select)),
+        $this->_model->addCustomerSegmentFilterToCollection(new Varien_Event_Observer(array(
+            'event' => new Varien_Object(array('select' => $this->_select)),
         )));
-
-        $this->assertEmpty((string)$select);
     }
 }
