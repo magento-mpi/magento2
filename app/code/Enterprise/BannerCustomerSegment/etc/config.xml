@@ -43,29 +43,6 @@
                     </enterprise_bannercustomersegment>
                 </observers>
             </enterprise_banner_save_after>
-        </events>
-        <di>
-            <Enterprise_BannerCustomerSegment_Model_Observer>
-                <parameters>
-                    <segmentCustomer>Enterprise_CustomerSegment_Model_Customer_Proxy</segmentCustomer>
-                </parameters>
-            </Enterprise_BannerCustomerSegment_Model_Observer>
-        </di>
-    </global>
-    <adminhtml>
-        <events>
-            <banner_edit_tab_properties_after_prepare_form>
-                <observers>
-                    <enterprise_bannercustomersegment>
-                        <class>Enterprise_BannerCustomerSegment_Model_Observer</class>
-                        <method>addFieldsToBannerForm</method>
-                    </enterprise_bannercustomersegment>
-                </observers>
-            </banner_edit_tab_properties_after_prepare_form>
-        </events>
-    </adminhtml>
-    <frontend>
-        <events>
             <enterprise_banner_catalogrule_collection_load_before>
                 <observers>
                     <enterprise_bannercustomersegment>
@@ -91,5 +68,24 @@
                 </observers>
             </enterprise_banner_resource_banner_content_select_init>
         </events>
-    </frontend>
+        <di>
+            <Enterprise_BannerCustomerSegment_Model_Observer>
+                <parameters>
+                    <segmentCustomer>Enterprise_CustomerSegment_Model_Customer_Proxy</segmentCustomer>
+                </parameters>
+            </Enterprise_BannerCustomerSegment_Model_Observer>
+        </di>
+    </global>
+    <adminhtml>
+        <events>
+            <banner_edit_tab_properties_after_prepare_form>
+                <observers>
+                    <enterprise_bannercustomersegment>
+                        <class>Enterprise_BannerCustomerSegment_Model_Observer</class>
+                        <method>addFieldsToBannerForm</method>
+                    </enterprise_bannercustomersegment>
+                </observers>
+            </banner_edit_tab_properties_after_prepare_form>
+        </events>
+    </adminhtml>
 </config>
