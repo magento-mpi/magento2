@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_Factory implements Mage_Core_Model_Dataservice_Path_Visitable
+class Mage_Core_Model_Dataservice_Factory // implements Mage_Core_Model_Dataservice_Path_Visitable
 {
     /**
      * @var Mage_Core_Model_Dataservice_Config_Interface
@@ -23,20 +23,27 @@ class Mage_Core_Model_Dataservice_Factory implements Mage_Core_Model_Dataservice
     /** @var Mage_Core_Model_Dataservice_Path_Composite */
     protected $_composite;
 
+    /** @var Mage_Core_Model_Dataservice_Request_Visitor_Factory */
+    protected $_visitorFactory;
+
     /**
      * @param Mage_Core_Model_Dataservice_Config_Interface $config
      * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_Dataservice_Path_Composite
      * @param Mage_Core_Model_Dataservice_Repository $repository
      */
     public function __construct(
         Mage_Core_Model_Dataservice_Config_Interface $config,
         Magento_ObjectManager $objectManager,
-        //Mage_Core_Model_Dataservice_Path_Composite $composite,
+        Mage_Core_Model_Dataservice_Path_Composite $composite,
+        Mage_Core_Model_Dataservice_Request_Visitor_Factory $visitorFactory,
         Mage_Core_Model_Dataservice_Repository $repository
-    ) {
+    )
+    {
         $this->_config = $config;
         $this->_objectManager = $objectManager;
-        // $this->_composite = $composite;
+        $this->_composite = $composite;
+        $this->_visitorFactory = $visitorFactory;
         $this->_repository = $repository;
     }
 
@@ -93,7 +100,7 @@ class Mage_Core_Model_Dataservice_Factory implements Mage_Core_Model_Dataservice
      */
     public function getByNamespace($namespace)
     {
-        $dataServices =  $this->getRepository()->getByNamespace($namespace);
+        $dataServices = $this->getRepository()->getByNamespace($namespace);
         return $dataServices;
     }
 
@@ -142,7 +149,7 @@ class Mage_Core_Model_Dataservice_Factory implements Mage_Core_Model_Dataservice
     }
 
     /**
-     * Invoke method configuraed for service call
+     * Invoke method configured for service call
      *
      * @param $object
      * @param $methodName
@@ -168,18 +175,9 @@ class Mage_Core_Model_Dataservice_Factory implements Mage_Core_Model_Dataservice
      */
     public function getArgumentValue($path)
     {
-
         /** @var $visitor Mage_Core_Model_Dataservice_Path_Visitor */
-        $visitor = $this->_objectManager->create('Mage_Core_Model_Dataservice_Path_Visitor',
-            array('path' => $path, 'separator' => '.'));
-        /** @var $pathRepository Mage_Core_Model_Dataservice_Path_Composite */
-        $pathRepository = $this->_objectManager->create('Mage_Core_Model_Dataservice_Path_Composite');
-        $result = $visitor->visit($pathRepository);
-
-        /** @var $visitor Mage_Core_Model_Dataservice_Path_Visitor */
-        //$visitor = $this->_objectManager->create('Mage_Core_Model_Dataservice_Path_Visitor',
-        //    array('path' => $path, 'separator' => '.'));
-        //$result = $visitor->visit($this->_composite);
+        $visitor = $this->_visitorFactory->get($path);
+        $result = $visitor->visit($this->_composite);
         return $result;
     }
 
@@ -205,9 +203,9 @@ class Mage_Core_Model_Dataservice_Factory implements Mage_Core_Model_Dataservice
      * @param Mage_Core_Model_Dataservice_Path_Visitor $visitor
      * @return bool|mixed
      */
-    public function visit(Mage_Core_Model_Dataservice_Path_Visitor $visitor)
-    {
-        // return $this->getRepository()->visit($visitor);
-        return $this->get($visitor->getCurrentPathElement());
-    }
+    /* public function visit(Mage_Core_Model_Dataservice_Path_Visitor $visitor)
+     {
+         // return $this->getRepository()->visit($visitor);
+         return $this->get($visitor->getCurrentPathElement());
+     }*/
 }
