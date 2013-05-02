@@ -6,8 +6,10 @@
  * @license     {license_link}
  */
 
-//this fixture creates simple Catalog Rule
-// Active, applied to all products, without time limits, with 10% off for Not Logged In Customers
+/**
+ * Creates simple Catalog Rule with the following data:
+ * active, applied to all products, without time limits, with 10% off for Not Logged In Customers
+ */
 
 /** @var $banner Mage_CatalogRule_Model_Rule */
 $catalogRule = Mage::getModel('Mage_CatalogRule_Model_Rule');
