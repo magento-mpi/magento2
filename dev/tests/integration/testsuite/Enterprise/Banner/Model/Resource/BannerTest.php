@@ -49,7 +49,8 @@ class Enterprise_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_Test
      * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      * @magentoDataFixture Enterprise/Banner/_files/banner_catalog_rule.php
      */
-    public function testGetCatalogRuleRelatedBannerIds() {
+    public function testGetCatalogRuleRelatedBannerIds()
+    {
         $banner = Mage::getModel('Enterprise_Banner_Model_Banner');
         $banner->load('Test Banner', 'name');
 
@@ -74,7 +75,8 @@ class Enterprise_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_Test
     /**
      * @return array
      */
-    public function getCatalogRuleRelatedBannerIdsWrongDataDataProvider() {
+    public function getCatalogRuleRelatedBannerIdsWrongDataDataProvider()
+    {
         return array(
             'wrong website' => array($this->_websiteId + 1, $this->_customerGroupId),
             'wrong customer group' => array($this->_websiteId, $this->_customerGroupId + 1)
