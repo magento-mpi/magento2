@@ -49,6 +49,7 @@ dev/tests/integration/testsuite/Phoenix
 dev/tests/static/testsuite/Integrity/Enterprise/AdminGws
 dev/tests/static/testsuite/Integrity/Enterprise/EditionTest.php
 dev/tests/static/testsuite/Legacy/Enterprise/AdminGws
+dev/tests/static/testsuite/Php/_files/whitelist/ee_additional.txt
 dev/tests/unit/testsuite/Enterprise/AdminGws
 dev/tests/unit/testsuite/Enterprise/BannerCustomerSegment
 dev/tests/unit/testsuite/Enterprise/CatalogEvent
