@@ -203,7 +203,9 @@ class Enterprise_Banner_Block_Widget_Banner
                 $appliedRules = array();
                 if ($this->_checkoutSession->getQuoteId()) {
                     $quote = $this->_checkoutSession->getQuote();
-                    $appliedRules = preg_split('/,/', $quote->getAppliedRuleIds(), -1, PREG_SPLIT_NO_EMPTY);
+                    if ($quote && $quote->getAppliedRuleIds()) {
+                        $appliedRules = explode(',', $quote->getAppliedRuleIds());
+                    }
                 }
                 $bannerIds = $this->_bannerResource->getSalesRuleRelatedBannerIds($appliedRules);
                 $bannersContent = $this->_getBannersContent($bannerIds);
