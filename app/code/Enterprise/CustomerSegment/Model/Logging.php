@@ -35,8 +35,10 @@ class Enterprise_CustomerSegment_Model_Logging
      * @param Mage_Core_Controller_Request_Http $request
      * @param Enterprise_CustomerSegment_Helper_Data $helper
      */
-    public function __construct(Enterprise_CustomerSegment_Model_Resource_Segment $resourceModel,
-        Mage_Core_Controller_Request_Http $request, Enterprise_CustomerSegment_Helper_Data $helper
+    public function __construct(
+        Enterprise_CustomerSegment_Model_Resource_Segment $resourceModel,
+        Mage_Core_Controller_Request_Http $request,
+        Enterprise_CustomerSegment_Helper_Data $helper
     ) {
         $this->_resourceModel = $resourceModel;
         $this->_request = $request;
@@ -54,9 +56,10 @@ class Enterprise_CustomerSegment_Model_Logging
     public function postDispatchCustomerSegmentMatch(Varien_Simplexml_Element $config,
         Enterprise_Logging_Model_Event $eventModel
     ) {
-        $customersQty = $this->_resourceModel->getSegmentCustomersQty($this->_request->getParam('id'));
-        return $eventModel->setInfo($this->_request->getParam('id') ?
-            $this->_helper->__('Matched %d Customers of Segment %s', $customersQty, $this->_request->getParam('id'))
+        $segmentId = $this->_request->getParam('id');
+        $customersQty = $this->_resourceModel->getSegmentCustomersQty($segmentId);
+        return $eventModel->setInfo($segmentId ?
+            $this->_helper->__('Matched %d Customers of Segment %s', $customersQty, $segmentId)
             : '-'
         );
     }
