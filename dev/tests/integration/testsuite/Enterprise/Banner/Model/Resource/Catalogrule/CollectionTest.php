@@ -22,6 +22,16 @@ class Enterprise_Banner_Model_Resource_Catalogrule_CollectionTest extends PHPUni
      */
     protected $_banner;
 
+    /**
+     * @var int
+     */
+    protected $_websiteId = 1;
+
+    /**
+     * @var int
+     */
+    protected $_customerGroupId = Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
+
     protected function setUp()
     {
         $this->_collection = Mage::getResourceModel('Enterprise_Banner_Model_Resource_Catalogrule_Collection');
@@ -42,17 +52,37 @@ class Enterprise_Banner_Model_Resource_Catalogrule_CollectionTest extends PHPUni
 
     public function testBannerCatalogrule()
     {
-        $firstItem = $this->_collection->getFirstItem();
-        $this->assertEquals($this->_banner->getId(), $firstItem->getBannerId());
+        $this->assertCount(1, $this->_collection->getItems());
+        $this->assertEquals(
+            $this->_banner->getId(),
+            $this->_collection->getFirstItem()->getBannerId()
+        );
     }
 
     public function testAddWebsiteCustomerGroupFilter()
     {
-        $websiteId = 1;
-        $customerGroupId = Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
+        $this->_collection->addWebsiteCustomerGroupFilter($this->_websiteId, $this->_customerGroupId);
+        $this->testBannerCatalogrule();
+    }
 
-        $firstItem = $this->_collection->addWebsiteCustomerGroupFilter($websiteId, $customerGroupId)->getFirstItem();
+    /**
+     * @dataProvider addWebsiteCustomerGroupFilterWrongDataDataProvider
+     */
+    public function testAddWebsiteCustomerGroupFilterWrongData($websiteId, $customerGroupId)
+    {
+        $this->assertCount(1, $this->_collection->getItems());
+        $this->assertEmpty(
+            $this->_collection->addWebsiteCustomerGroupFilter($websiteId, $customerGroupId)->getAllIds()
+        );
+    }
 
-        $this->assertEquals($this->_banner->getId(), $firstItem->getBannerId());
+    /**
+     * @return array
+     */
+    public function addWebsiteCustomerGroupFilterWrongDataDataProvider() {
+        return array(
+            'wrong website' => array($this->_websiteId + 1, $this->_customerGroupId),
+            'wrong customer group' => array($this->_websiteId, $this->_customerGroupId + 1)
+        );
     }
 }

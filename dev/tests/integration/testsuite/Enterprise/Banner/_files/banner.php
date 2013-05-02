@@ -6,8 +6,9 @@
  * @license     {license_link}
  */
 
-//this fixture creates banner
-// Enabled, with text content
+/**
+ * Creates banner with enabled status and text content
+ */
 
 /** @var $banner Enterprise_Banner_Model_Banner */
 $banner = Mage::getModel('Enterprise_Banner_Model_Banner');

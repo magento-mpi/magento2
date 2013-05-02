@@ -6,7 +6,9 @@
  * @license     {license_link}
  */
 
-//this fixture adds existing catalog rule to banner
+/**
+ * Adds existing catalog rule to banner
+ */
 
 require __DIR__ . '/banner.php';
 require __DIR__ . '/../../../Mage/CatalogRule/_files/catalog_rule_10_off_not_logged.php';
