@@ -84,7 +84,8 @@ $table = $installer->getConnection()
         array('banner_id'))
     ->addIndex($installer->getIdxName('enterprise_banner_catalogrule', array('rule_id')),
         array('rule_id'))
-    ->addForeignKey($installer->getFkName('enterprise_banner_catalogrule', 'banner_id', 'enterprise_banner', 'banner_id'),
+    ->addForeignKey(
+        $installer->getFkName('enterprise_banner_catalogrule', 'banner_id', 'enterprise_banner', 'banner_id'),
         'banner_id', $installer->getTable('enterprise_banner'), 'banner_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('enterprise_banner_catalogrule', 'rule_id', 'catalogrule', 'rule_id'),

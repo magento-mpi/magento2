@@ -44,14 +44,14 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
      *
      * @var bool
      */
-    protected $_isSalesRuleRelatedToBanner       = false;
+    protected $_isSalesRuleJoined       = false;
 
     /**
      * Define if joining related catalog rule to banner is already preformed
      *
      * @var bool
      */
-    protected $_isCatalogRuleRelatedToBanner     = false;
+    protected $_isCatalogRuleJoined     = false;
 
     /**
      * Whether to filter banners by specified types
@@ -119,7 +119,7 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
      */
     public function saveStoreContents($bannerId, $contents, $notuse = array())
     {
-        $deleteContentsByStores = array();
+        $deleteByStores = array();
         if (!is_array($notuse)) {
             $notuse = array();
         }
@@ -133,13 +133,13 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
                     array('banner_content')
                 );
             } else {
-                $deleteContentsByStores[] = $storeId;
+                $deleteByStores[] = $storeId;
             }
         }
-        if (!empty($deleteContentsByStores) || !empty($notuse)) {
+        if (!empty($deleteByStores) || !empty($notuse)) {
             $condition = array(
                 'banner_id = ?'   => $bannerId,
-                'store_id IN (?)' => array_merge($deleteContentsByStores, array_keys($notuse)),
+                'store_id IN (?)' => array_merge($deleteByStores, array_keys($notuse)),
             );
             $adapter->delete($this->_contentsTable, $condition);
         }
@@ -264,14 +264,14 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
         $select = $adapter->select()
             ->from($this->_salesRuleTable, array())
             ->where('banner_id = ?', $bannerId);
-            if (!$this->_isSalesRuleRelatedToBanner) {
-                $select->join(
-                    array('rules' => $this->getTable('salesrule')),
-                    $this->_salesRuleTable . '.rule_id = rules.rule_id',
-                    array('rule_id')
-                );
-                $this->_isSalesRuleRelatedToBanner = true;
-            }
+        if (!$this->_isSalesRuleJoined) {
+            $select->join(
+                array('rules' => $this->getTable('salesrule')),
+                $this->_salesRuleTable . '.rule_id = rules.rule_id',
+                array('rule_id')
+            );
+            $this->_isSalesRuleJoined = true;
+        }
         $rules = $adapter->fetchCol($select);
         return $rules;
     }
@@ -288,14 +288,14 @@ class Enterprise_Banner_Model_Resource_Banner extends Mage_Core_Model_Resource_D
         $select = $adapter->select()
             ->from($this->_catalogRuleTable, array())
             ->where('banner_id = ?', $bannerId);
-            if (!$this->_isCatalogRuleRelatedToBanner) {
-                $select->join(
-                    array('rules' => $this->getTable('catalogrule')),
-                    $this->_catalogRuleTable . '.rule_id = rules.rule_id',
-                    array('rule_id')
-                );
-                $this->_isCatalogRuleRelatedToBanner = true;
-            }
+        if (!$this->_isCatalogRuleJoined) {
+            $select->join(
+                array('rules' => $this->getTable('catalogrule')),
+                $this->_catalogRuleTable . '.rule_id = rules.rule_id',
+                array('rule_id')
+            );
+            $this->_isCatalogRuleJoined = true;
+        }
 
         $rules = $adapter->fetchCol($select);
         return $rules;
