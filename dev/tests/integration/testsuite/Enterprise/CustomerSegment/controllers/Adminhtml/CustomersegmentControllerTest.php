@@ -33,4 +33,21 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentControllerTest extends
         $content = $this->getResponse()->getBody();
         $this->assertNotContains('Unable to save the segment.', $content);
     }
+
+    /**
+     * @magentoDataFixture Enterprise/CustomerSegment/_files/segment.php
+     * @magentoDataFixture Mage/Customer/_files/customer.php
+     */
+    public function testMatchActionLogging()
+    {
+        $segment = Mage::getModel('Enterprise_CustomerSegment_Model_Segment');
+        $segment->load('Customer Segment 1', 'name');
+        $this->dispatch('backend/admin/customersegment/match/id/' . $segment->getId());
+        /** @var Enterprise_Logging_Model_Event $loggingModel */
+        $loggingModel = Mage::getModel('Enterprise_Logging_Model_Event');
+        $result = $loggingModel->load('enterprise_customersegment', 'event_code');
+        $this->assertNotEmpty($result->getId());
+        $expected = serialize(array('general' => 'Matched 1 Customers of Segment '. $segment->getId()));
+        $this->assertSame($expected, $result->getInfo());
+    }
 }

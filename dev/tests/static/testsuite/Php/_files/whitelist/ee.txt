@@ -10,3 +10,4 @@ app/code/Enterprise/Invitation/controllers/Adminhtml/Report
 app/code/Enterprise/PageCache/Model/Cache/Type.php
 app/code/Enterprise/Pbridge/Model/Authorizenet/Source/PaymentAction.php
 app/code/Enterprise/SalesArchive/Model/Order
+app/code/Enterprise/CustomerSegment/Model/Logging.php
