@@ -157,7 +157,8 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
     protected function _afterSave()
     {
         if ($this->hasStoreContents()) {
-            $this->_getResource()->saveStoreContents($this->getId(), $this->getStoreContents(), $this->getStoreContentsNotUse());
+            $this->_getResource()
+                ->saveStoreContents($this->getId(), $this->getStoreContents(), $this->getStoreContentsNotUse());
         }
         if ($this->hasBannerCatalogRules()) {
             $this->_getResource()->saveCatalogRules(
@@ -185,14 +186,15 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
         }
         $bannerContents = $this->getStoreContents();
         $flag = false;
-        foreach ($bannerContents as $storeId => $content) {
+        foreach ($bannerContents as $content) {
             if ('' != trim($content)) {
                 $flag = true;
                 break;
             }
         }
         if (!$flag) {
-            Mage::throwException(Mage::helper('Enterprise_Banner_Helper_Data')->__('Please specify default content for at least one store view.'));
+            $helper = Mage::helper('Enterprise_Banner_Helper_Data');
+            Mage::throwException($helper->__('Please specify default content for at least one store view.'));
         }
         return parent::_beforeSave();
     }

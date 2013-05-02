@@ -54,8 +54,10 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
             'required'  => true,
             'disabled'  => (bool)$model->getIsReadonly(),
             'options'   => array(
-                Enterprise_Banner_Model_Banner::STATUS_ENABLED  => Mage::helper('Enterprise_Banner_Helper_Data')->__('Yes'),
-                Enterprise_Banner_Model_Banner::STATUS_DISABLED => Mage::helper('Enterprise_Banner_Helper_Data')->__('No'),
+                Enterprise_Banner_Model_Banner::STATUS_ENABLED  =>
+                    Mage::helper('Enterprise_Banner_Helper_Data')->__('Yes'),
+                Enterprise_Banner_Model_Banner::STATUS_DISABLED =>
+                    Mage::helper('Enterprise_Banner_Helper_Data')->__('No'),
             ),
         ));
         if (!$model->getId()) {
