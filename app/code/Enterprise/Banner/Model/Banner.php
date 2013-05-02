@@ -193,8 +193,9 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
             }
         }
         if (!$flag) {
-            $helper = Mage::helper('Enterprise_Banner_Helper_Data');
-            Mage::throwException($helper->__('Please specify default content for at least one store view.'));
+            // @codingStandardsIgnoreStart
+            Mage::throwException(Mage::helper('Enterprise_Banner_Helper_Data')->__('Please specify default content for at least one store view.'));
+            // @codingStandardsIgnoreEnd
         }
         return parent::_beforeSave();
     }
