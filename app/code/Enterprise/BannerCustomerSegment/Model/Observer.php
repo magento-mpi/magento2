@@ -8,11 +8,6 @@
 class Enterprise_BannerCustomerSegment_Model_Observer
 {
     /**
-     * @var Mage_Core_Model_Resource
-     */
-    private $_resource;
-
-    /**
      * @var Enterprise_CustomerSegment_Model_Customer
      */
     private $_segmentCustomer;
@@ -28,21 +23,26 @@ class Enterprise_BannerCustomerSegment_Model_Observer
     private $_segmentCollection;
 
     /**
-     * @param Mage_Core_Model_Resource $resource
+     * @var Enterprise_BannerCustomerSegment_Model_Resource_BannerSegmentLink
+     */
+    private $_bannerSegmentLink;
+
+    /**
      * @param Enterprise_CustomerSegment_Model_Customer $segmentCustomer
      * @param Enterprise_CustomerSegment_Helper_Data $segmentHelper
      * @param Enterprise_CustomerSegment_Model_Resource_Segment_Collection $segmentCollection
+     * @param Enterprise_BannerCustomerSegment_Model_Resource_BannerSegmentLink $bannerSegmentLink
      */
     public function __construct(
-        Mage_Core_Model_Resource $resource,
         Enterprise_CustomerSegment_Model_Customer $segmentCustomer,
         Enterprise_CustomerSegment_Helper_Data $segmentHelper,
-        Enterprise_CustomerSegment_Model_Resource_Segment_Collection $segmentCollection
+        Enterprise_CustomerSegment_Model_Resource_Segment_Collection $segmentCollection,
+        Enterprise_BannerCustomerSegment_Model_Resource_BannerSegmentLink $bannerSegmentLink
     ) {
-        $this->_resource = $resource;
         $this->_segmentCustomer = $segmentCustomer;
         $this->_segmentHelper = $segmentHelper;
         $this->_segmentCollection = $segmentCollection;
+        $this->_bannerSegmentLink = $bannerSegmentLink;
     }
 
     /**
@@ -57,26 +57,15 @@ class Enterprise_BannerCustomerSegment_Model_Observer
         }
         /** @var Enterprise_Banner_Model_Banner $banner */
         $banner = $observer->getEvent()->getBanner();
-
-        $adapter = $this->_resource->getConnection('read');
-        $select = $adapter->select()
-            ->from($this->_resource->getTableName('enterprise_banner_customersegment'))
-            ->where('banner_id = ?', $banner->getId())
-        ;
-        $data = $adapter->fetchAll($select);
-        if ($data) {
-            $segmentIds = array();
-            foreach ($data as $row) {
-                $segmentIds[] = $row['segment_id'];
-            }
-            $banner->setData('customer_segment_ids', $segmentIds);
-        }
+        $segmentIds = $this->_bannerSegmentLink->loadBannerSegments($banner->getId());
+        $banner->setData('customer_segment_ids', $segmentIds);
     }
 
     /**
      * Store customer segment ids associated with a banner entity, passed as an event argument
      *
      * @param Varien_Event_Observer $observer
+     * @throws UnexpectedValueException
      */
     public function saveCustomerSegmentRelations(Varien_Event_Observer $observer)
     {
@@ -85,24 +74,14 @@ class Enterprise_BannerCustomerSegment_Model_Observer
         }
         /** @var Enterprise_Banner_Model_Banner $banner */
         $banner = $observer->getEvent()->getBanner();
-
-        $bannerId = $banner->getId();
-        $segmentIds = $banner->getData('customer_segment_ids');
-
-        $adapter = $this->_resource->getConnection('write');
-
-        $adapter->delete(
-            $this->_resource->getTableName('enterprise_banner_customersegment'),
-            array('banner_id = ?' => $bannerId)
-        );
-
-        if ($segmentIds) {
-            $insertRows = array();
-            foreach ($segmentIds as $segmentId) {
-                $insertRows[] = array('banner_id' => $bannerId, 'segment_id' => $segmentId);
-            }
-            $adapter->insertMultiple($this->_resource->getTableName('enterprise_banner_customersegment'), $insertRows);
+        $segmentIds = $banner->getData('customer_segment_ids') ?: array();
+        if (!is_array($segmentIds)) {
+            throw new \UnexpectedValueException(
+                'Customer segments associated with a banner are expected to be defined as an array of identifiers.'
+            );
         }
+        $segmentIds = array_map('intval', $segmentIds);
+        $this->_bannerSegmentLink->saveBannerSegments($banner->getId(), $segmentIds);
     }
 
     /**
@@ -121,7 +100,6 @@ class Enterprise_BannerCustomerSegment_Model_Observer
         $model = $observer->getEvent()->getModel();
         /** @var Mage_Backend_Block_Widget_Form_Element_Dependence $afterFormBlock */
         $afterFormBlock = $observer->getEvent()->getAfterFormBlock();
-
         $this->_segmentHelper->addSegmentFieldsToForm($form, $model, $afterFormBlock);
     }
 
@@ -138,7 +116,7 @@ class Enterprise_BannerCustomerSegment_Model_Observer
         /** @var Mage_Core_Model_Resource_Db_Collection_Abstract $collection */
         $collection = $observer->getEvent()->getCollection();
         $segmentIds = $this->_segmentCustomer->getCurrentCustomerSegmentIds();
-        $this->_addCustomerSegmentFilter($collection->getSelect(), $segmentIds);
+        $this->_bannerSegmentLink->addBannerSegmentFilter($collection->getSelect(), $segmentIds);
     }
 
     /**
@@ -154,28 +132,6 @@ class Enterprise_BannerCustomerSegment_Model_Observer
         /** @var Zend_Db_Select $select */
         $select = $observer->getEvent()->getSelect();
         $segmentIds = $this->_segmentCustomer->getCurrentCustomerSegmentIds();
-        $this->_addCustomerSegmentFilter($select, $segmentIds);
-    }
-
-    /**
-     * Limit the scope of a select object to certain customer segments
-     *
-     * @param Zend_Db_Select $select
-     * @param array $segmentIds
-     */
-    protected function _addCustomerSegmentFilter(Zend_Db_Select $select, array $segmentIds)
-    {
-        $select
-            ->joinLeft(
-                array('banner_segment' => $this->_resource->getTableName('enterprise_banner_customersegment')),
-                'banner_segment.banner_id = main_table.banner_id',
-                array()
-            )
-        ;
-        if ($segmentIds) {
-            $select->where('banner_segment.segment_id IS NULL OR banner_segment.segment_id IN (?)', $segmentIds);
-        } else {
-            $select->where('banner_segment.segment_id IS NULL');
-        }
+        $this->_bannerSegmentLink->addBannerSegmentFilter($select, $segmentIds);
     }
 }
