@@ -279,7 +279,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $customerData = array();
         if ($this->getRequest()->getPost('account')) {
             $serviceAttributes = array(
-                'new_password', 'default_billing', 'default_shipping', 'confirmation');
+                'new_password', 'default_billing', 'default_shipping', 'confirmation', 'sendemail');
 
             /** @var Mage_Customer_Model_Customer $customerEntity */
             $customerEntity = $this->_objectManager
