@@ -81,7 +81,7 @@
 
             var dialog = data.dialog = this._getDialog().data('dialog');
             dialog.messages.clear();
-            dialog.title.set('Assign theme to your live store-view:');
+            dialog.title.set($.mage.__('Assign theme to your live store-view:'));
             if (data.confirm_message) {
                 dialog.text.set(data.confirm_message);
             }
