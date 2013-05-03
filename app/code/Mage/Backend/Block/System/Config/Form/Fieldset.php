@@ -87,6 +87,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
      *
      * @param Varien_Data_Form_Element_Abstract $element
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _getFrontendClass($element)
     {
@@ -122,10 +123,9 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
     /**
      * Return full css class name for form fieldset
      *
-     * @param null|Varien_Data_Form_Element_Abstract $element
      * @return string
      */
-    protected function _getFieldsetCss($element = null)
+    protected function _getFieldsetCss()
     {
         /** @var Mage_Backend_Model_Config_Structure_Element_Group $group */
         $group = $this->getGroup();
@@ -142,17 +142,15 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
      */
     protected function _getFooterHtml($element)
     {
-        $tooltipsExist = false;
         $html = '</tbody></table>';
         foreach ($element->getSortedElements() as $field) {
             if ($field->getTooltip()) {
-                $tooltipsExist = true;
                 $html .= sprintf('<div id="row_%s_comment" class="system-tooltip-box" style="display:none;">%s</div>',
                     $field->getId(), $field->getTooltip()
                 );
             }
         }
-        $html .= '</fieldset>' . $this->_getExtraJs($element, $tooltipsExist);
+        $html .= '</fieldset>' . $this->_getExtraJs($element);
 
         if ($element->getIsNested()) {
             $html .= '</td></tr>';
@@ -168,10 +166,9 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
      * - apply collapse;
      *
      * @param Varien_Data_Form_Element_Abstract $element
-     * @param bool $tooltipsExist Init tooltips observer or not
      * @return string
      */
-    protected function _getExtraJs($element, $tooltipsExist = false)
+    protected function _getExtraJs($element)
     {
         $htmlId = $element->getHtmlId();
         $output = "Fieldset.applyCollapse('{$htmlId}');";

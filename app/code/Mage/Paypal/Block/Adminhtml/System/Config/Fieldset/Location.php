@@ -20,10 +20,9 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
      * Add conflicts resolution js code to the fieldset
      *
      * @param Varien_Data_Form_Element_Abstract $element
-     * @param bool $tooltipsExist Init tooltips observer or not
      * @return string
      */
-    protected function _getExtraJs($element, $tooltipsExist = false)
+    protected function _getExtraJs($element)
     {
         $js = '
             document.observe("dom:loaded", function() {
@@ -330,7 +329,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                 });
             });
         ';
-        return parent::_getExtraJs($element, $tooltipsExist)
+        return parent::_getExtraJs($element)
             . $this->helper('Mage_Adminhtml_Helper_Js')->getScript($js);
     }
 }

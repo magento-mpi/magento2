@@ -26,10 +26,10 @@ class Mage_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter
         $relativePathParts = explode('/', $relativePath);
         $pathParts = explode('/', $nodePath);
 
-        $relativePathPartsCount = count($relativePathParts);
+        $relativePartsCount = count($relativePathParts);
         $pathPartsCount = count($pathParts);
 
-        if ($relativePathPartsCount === 1 && $pathPartsCount > 1) {
+        if ($relativePartsCount === 1 && $pathPartsCount > 1) {
             $relativePathParts = array_pad($relativePathParts, -$pathPartsCount, '*');
         }
 

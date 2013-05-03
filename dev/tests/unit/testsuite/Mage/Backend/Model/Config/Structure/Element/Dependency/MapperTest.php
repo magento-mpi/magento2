@@ -60,7 +60,7 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_MapperTest extends 
      *
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_dependencyFieldFactoryMock;
+    protected $_fieldFactoryMock;
 
     public function setUp()
     {
@@ -81,13 +81,13 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_MapperTest extends 
             ->setMethods(array('getElement'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_dependencyFieldFactoryMock = $this
+        $this->_fieldFactoryMock = $this
             ->getMockBuilder('Mage_Backend_Model_Config_Structure_Element_Dependency_FieldFactory')
             ->setMethods(array('create'))
             ->disableOriginalConstructor()
             ->getMock();
         $this->_model = new Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper(
-            $this->_applicationMock, $this->_configStructureMock, $this->_dependencyFieldFactoryMock);
+            $this->_applicationMock, $this->_configStructureMock, $this->_fieldFactoryMock);
     }
 
     protected function tearDown()
@@ -95,7 +95,7 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_MapperTest extends 
         unset($this->_model);
         unset($this->_configStructureMock);
         unset($this->_applicationMock);
-        unset($this->_dependencyFieldFactoryMock);
+        unset($this->_fieldFactoryMock);
         unset($this->_testData);
     }
 
@@ -126,7 +126,7 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_MapperTest extends 
                 ->will($this->returnValue($field));
             $dependencyField = $this->_getDependencyField($isValueSatisfy, false, $data['id'],
                 'Mage_Backend_Model_Config_Structure_Element_Dependency_Field_' . (string)$isValueSatisfy . $i);
-            $this->_dependencyFieldFactoryMock->expects($this->at($i))
+            $this->_fieldFactoryMock->expects($this->at($i))
                 ->method('create')
                 ->with(array('fieldData' => $data, 'fieldPrefix' => self::FIELD_PREFIX))
                 ->will($this->returnValue($dependencyField));
@@ -167,7 +167,7 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_MapperTest extends 
                 ->will($this->returnValue($field));
             $dependencyField = $this->_getDependencyField((bool)$i, true, $data['id'],
                 'Mage_Backend_Model_Config_Structure_Element_Dependency_Field_visible_' . $i);
-            $this->_dependencyFieldFactoryMock->expects($this->at($i))
+            $this->_fieldFactoryMock->expects($this->at($i))
                 ->method('create')
                 ->with(array('fieldData' => $data, 'fieldPrefix' => self::FIELD_PREFIX))
                 ->will($this->returnValue($dependencyField));
@@ -182,11 +182,11 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_MapperTest extends 
      *
      * @param bool $isValueSatisfy
      * @param bool $isFieldVisible
-     * @param string $id
+     * @param string $fieldId
      * @param string $mockClassName
      * @return PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _getDependencyField($isValueSatisfy, $isFieldVisible, $id, $mockClassName)
+    protected function _getDependencyField($isValueSatisfy, $isFieldVisible, $fieldId, $mockClassName)
     {
         $field = $this->getMockBuilder('Mage_Backend_Model_Config_Structure_Element_Dependency_Field')
             ->setMethods(array('isValueSatisfy', 'getId'))
@@ -204,7 +204,7 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_MapperTest extends 
         }
         $field->expects(($isFieldVisible || !$isValueSatisfy) ? $this->once() : $this->never())
             ->method('getId')
-            ->will($this->returnValue($id));
+            ->will($this->returnValue($fieldId));
         return $field;
     }
 

@@ -188,14 +188,14 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
     /**
      * Retrieve config path for given id
      *
-     * @param string $id
+     * @param string $fieldId
      * @param string $fieldPrefix
      * @return string
      */
-    protected function _getPath($id, $fieldPrefix = '')
+    protected function _getPath($fieldId, $fieldPrefix = '')
     {
         $path = isset($this->_data['path']) ? $this->_data['path'] : '';
-        return $path . '/' . $fieldPrefix . $id;
+        return $path . '/' . $fieldPrefix . $fieldId;
     }
 
     /**
