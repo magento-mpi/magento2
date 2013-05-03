@@ -21,9 +21,6 @@
             <article class="theme-data">
                 <h4 class="theme-title" title="<?php echo $themeTitle ?>"><?php echo $themeTitle ?></h4>
                 <div class="actions">
-                    <button type="button" class="action-duplicate">
-                        <span><?php echo $this->__('Duplicate'); ?></span>
-                    </button>
                     <?php echo $this->getButtonsHtml() ?>
                 </div>
             </article>
@@ -42,9 +39,6 @@
                 <span><?php echo implode(', ', $this->getStoresTitles()) ?></span>
             </p>
             <div class="actions">
-                <button type="button" class="action-duplicate">
-                    <span><?php echo $this->__('Duplicate'); ?></span>
-                </button>
                 <?php echo $this->getButtonsHtml() ?>
             </div>
         </div>

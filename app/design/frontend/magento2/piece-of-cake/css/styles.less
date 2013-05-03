@@ -1521,7 +1521,7 @@ select {
         border-color: #b5b5b5;
         border-right: 0;
         float: left;
-        line-height: 29px;
+        line-height: 1;
         height: 29px;
         width: 100%;
     }
@@ -2016,7 +2016,7 @@ select {
         }
     }
     th.col.qty { text-transform: uppercase; }
-    input.qty {width:40px; text-align: center}
+    input.qty { line-height: 1; text-align: center; width:40px; }
     td.col.price,
     td.col.subtotal {
         color: @primary7;
@@ -3863,6 +3863,7 @@ select {
         height: 36px;
         line-height: 36px;
         position: relative;
+        color: @primary6;
         span {
             &:before {
                 content: '«';
@@ -3942,6 +3943,142 @@ select {
         border: none;
         padding: 0;
     }
+}
+
+/*
+ *    My Account --> My orders
+ *
+----------------------------------------------------------------------------- */
+.order.details {
+  .status {
+    float: left;
+    color: @primary2;
+    font-family: 'Tenor Sans', sans-serif;
+    line-height: 1;
+    font-size: 20px;
+  }
+  .subtitle.caption,
+  .title {
+    strong {
+        color: @primary2;
+        font-family: 'Tenor Sans', sans-serif;
+        line-height: 1;
+        font-size: 20px;
+    }
+    .action {
+      margin-left: 10px;
+    }
+  }
+  .order.toolbar {
+    float: right;
+    margin-top: 0;
+    .action {
+      margin-left: 10px;
+    }
+  }
+  .block.order {
+    float: left;
+    width: 48%;
+    padding-right: 2%;
+    &.billing.address {
+      clear: left;
+    }
+    .content {
+      padding: 0 0 40px;
+    }
+  }
+  .order.date {
+    margin: 0 0 50px;
+  }
+  .order.info {
+    clear: both;
+    padding: 20px 0 0;
+    > dt {
+        color: @primary2;
+        font-family: 'Tenor Sans', sans-serif;
+        line-height: 1;
+        font-size: 20px;
+        margin: 0 0 20px;
+    }
+    > dd {
+      margin: 10px 0 0 0;
+      padding: 0;
+      .items {
+        .clearfix();
+        .item {
+          float: left;
+          margin-right: 15px;
+        }
+      }
+    }
+  }
+  .additional.details {
+    .order.comments  {
+      padding: 30px;
+    }
+  }
+}
+
+.data.table.order {
+  margin-bottom: 10px;
+  tbody {
+    tr {
+        &:last-child {
+            td {
+                border-bottom: 1px solid #e0e0e0;
+            }
+        }
+    }
+  }
+}
+
+.order.details.items {
+  clear: both;
+  .order.toolbar {
+    margin: 9px 0 0 0;
+  }
+  .action.show {
+    text-decoration: none;
+    .iconAfter("\e014", 12px);
+    &.expanded:after {
+      content: "\e010";
+    }
+  }
+}
+
+.gift.message.details {
+  position: relative;
+  .action.close {
+    .iconAfter("\e016", 11px, "cake-icons");
+    .hideText(11px);
+    position: absolute;
+    top: 0;
+    right: 0;
+    &:hover:after {
+      color: @navBg;
+    }
+  }
+}
+
+.data.table.tracking {
+  .label {
+    width: 40%;
+  }
+}
+
+.shipping-tracking-popup {
+  .action.close {
+    .secondaryAction();
+    text-indent: 0;
+    span {
+      width: auto;
+      text-indent: 0;
+      &:after {
+        content: "";
+        display: none;
+      }
+    }
+  }
 }
 
 /*

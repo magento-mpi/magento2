@@ -1526,6 +1526,13 @@ ul.messages ul {
   padding: 0;
   margin: 0;
   list-style-type: none;
+  overflow: hidden;
+}
+ul.messages ul li {
+  margin-top: 5px;
+}
+ul.messages ul li:first-child {
+  margin-top: 0px;
 }
 .success-msg {
   background: #d3edd5;
@@ -2456,6 +2463,16 @@ div.mage-error {
 .cart.summary .block .action span {
   font-size: 12px;
   line-height: 12px;
+}
+.cart.summary .block .action.check span {
+  display: inline;
+  color: #332e29;
+  text-decoration: none;
+}
+.cart.summary .block .action.check span:focus,
+.cart.summary .block .action.check span:active,
+.cart.summary .block .action.check span:hover {
+  color: #da370a;
 }
 .cart.table.wrapper.detailed + .cart.summary {
   margin-top: 54px;
@@ -3574,6 +3591,18 @@ div.mage-error {
 .tags.items.cloud .item:first-child {
   margin-left: 0;
 }
+.tags.product .amount,
+.tags.items.cloud .amount {
+  margin-left: 3px;
+}
+.tags.product .amount:before,
+.tags.items.cloud .amount:before {
+  content: '(';
+}
+.tags.product .amount:after,
+.tags.items.cloud .amount:after {
+  content: ')';
+}
 .data.table.tags .col.photo {
   width: 1px;
 }
@@ -4609,9 +4638,7 @@ div.mage-error {
   margin: 2px 15px 0 0;
 }
 .toolbar .pager .text {
-  margin: 0 5px;
-  line-height: 25px;
-  display: inline-block;
+  display: none;
 }
 .toolbar .pages {
   margin-left: 15px;
@@ -5521,7 +5548,7 @@ div.mage-error {
     text-decoration: none;
     padding: 11px 11px 8px;
     border: 2px solid #e5e5e5;
-    background: #f8f8f8;
+    background: rgba(0, 0, 0, 0.03);
     border-bottom: none;
     text-transform: uppercase;
     border-radius: 4px 4px 0 0;
@@ -5542,7 +5569,6 @@ div.mage-error {
     *zoom: 1;
     margin-top: 36px;
     padding: 20px;
-    background: #fff;
   }
   .product.data > .item.content:before,
   .product.data > .item.content:after {
@@ -5922,7 +5948,6 @@ img[align="right"] {
   font-weight: 600;
   font-size: 12px;
   margin: 0;
-  padding: 5px 10px;
   position: absolute;
   top: 100%;
   margin-left: -11px;
@@ -5940,7 +5965,7 @@ img[align="right"] {
   transition: visibility 0s linear 0.2s, opacity 0.2s linear 0s;
 }
 .customer.welcome .menu > ul li {
-  margin: 10px 0;
+  margin: 15px;
   display: block;
   white-space: nowrap;
 }
@@ -6036,7 +6061,7 @@ img[align="right"] {
 
   text-align: right;
   position: absolute;
-  bottom: 90px;
+  bottom: 140px;
   width: 50%;
   padding: 0 40px;
 }
@@ -7781,4 +7806,76 @@ img[align="right"] {
   text-transform: uppercase;
   font-weight: 600;
   line-height: 16px;
+}
+.data.table.wishlist .col.photo {
+  width: 100px;
+}
+.data.table.wishlist .col.actions {
+  width: 200px;
+}
+.data.table.wishlist .item-options {
+  background: rgba(0, 0, 0, 0.8);
+  color: #ffffff;
+  display: none;
+  position: absolute;
+  border-radius: 5px;
+  padding: 10px;
+  right: 100%;
+  top: 50%;
+  margin-top: -20px;
+  margin-right: 15px;
+  max-width: 200px;
+  min-width: 100px;
+}
+.data.table.wishlist .item-options > p {
+  margin-top: 0;
+}
+.data.table.wishlist .item-options dl {
+  margin: 0;
+}
+.data.table.wishlist .item-options dl dt {
+  display: inline;
+  float: left;
+  clear: left;
+  font-weight: 600;
+}
+.data.table.wishlist .item-options dl dt:after {
+  content: ':';
+  margin-right: 5px;
+}
+.data.table.wishlist .item-options dl dd {
+  margin: 0;
+}
+.data.table.wishlist .truncated .truncated_full_value {
+  position: relative;
+}
+.data.table.wishlist .truncated .truncated_full_value.show:before {
+  content: '';
+  border-left: 10px solid rgba(0, 0, 0, 0.8);
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+  display: block;
+  position: absolute;
+  top: 3px;
+  margin-top: 0;
+  left: -15px;
+  z-index: 2;
+}
+.data.table.wishlist .truncated .truncated_full_value.show .item-options {
+  display: block;
+}
+.data.table.wishlist .truncated .details {
+  font-size: 12px;
+  border-bottom: 1px dotted #332e29;
+  cursor: help;
+}
+/*
+ *    Page -> Advanced Search
+ *
+----------------------------------------------------------------------------- */
+.form.search.advanced .field.price .range.price.fields.group .field:first-child input {
+  width: 96%;
 }

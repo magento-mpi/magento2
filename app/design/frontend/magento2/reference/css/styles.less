@@ -286,10 +286,10 @@ body {
 
 a,
 a:visited {
-    color: #332e29;
+    color: @link;
     text-decoration: none;
     &:hover {
-        color: @secondary1;
+        color: @linkHover;
     }
 }
 
@@ -1262,6 +1262,15 @@ ul.messages ul {
     padding: 0;
     margin: 0;
     list-style-type: none;
+    overflow: hidden;
+}
+
+ul.messages ul li {
+    margin-top: 5px;
+
+    &:first-child {
+        margin-top: 0px;
+    }
 }
 
 .success-msg {
@@ -1934,6 +1943,9 @@ div.mage-error {
             span {
                 font-size: 12px;
                 line-height: 12px;
+            }
+            &.check span {
+                .actionLink;
             }
         }
     }
@@ -2820,7 +2832,17 @@ div.mage-error {
         }
     }
     margin:0 0 20px;
+    .amount {
+        margin-left: 3px;
+        &:before {
+            content:'(';
+        }
+        &:after {
+            content:')';
+        }
+    }
 }
+
 .data.table.tags {
     .col.photo {
         width:1px;
@@ -2829,6 +2851,7 @@ div.mage-error {
         margin-top:15px;
     }
 }
+
 .tag.edit {
     line-height: 16px;
     strong {
@@ -3678,9 +3701,9 @@ div.mage-error {
             margin: 2px 15px 0 0; //display: none;
         }
         .text {
-            margin: 0 5px;
-            line-height: @optionsHeigth + 2px;
-            display: inline-block;
+            // margin: 0 5px;
+            // line-height: @optionsHeigth + 2px;
+            display: none;
         }
     }
     .pages {
@@ -4431,7 +4454,6 @@ and (max-width : 768px) {
         font-weight: 600;
         font-size: 12px;
         margin: 0;
-        padding: 5px 10px;
         position: absolute;
         top: 100%;
         margin-left: -11px; //min-width: 100%;
@@ -4445,7 +4467,7 @@ and (max-width : 768px) {
         @tparams: visibility 0s linear .2s, opacity .2s linear 0s;
         .transitions(@tparams);
         li {
-            margin: 10px 0;
+            margin: 15px;
             display: block;
             white-space: nowrap;
         }
@@ -4502,7 +4524,7 @@ and (max-width : 768px) {
             .borderBox();
             text-align: right;
             position: absolute;
-            bottom: 90px;
+            bottom: 140px;
             width: 50%;
             padding: 0 40px;
             .secondary {
@@ -5163,6 +5185,9 @@ and (max-width : 768px) {
 ----------------------------------------------------------------------------- */
 
 .data.table.wishlist {
+    @optionsBg: rgba(0, 0, 0, .8);
+    @optionsColor: #fff;
+
     width: 100%;
     margin-bottom: 15px;
 
@@ -5210,6 +5235,93 @@ and (max-width : 768px) {
             .action.update {
                 .primaryAction;
                 padding: 5px 11px;
+            }
+        }
+    }
+
+    .col.photo {
+        width: 100px;
+    }
+    .col.actions {
+        width: 200px;
+    }
+
+    .item-options {
+        background: @optionsBg;
+        color: @optionsColor;
+        display: none;
+        position: absolute;
+        border-radius: 5px;
+        padding: 10px;
+        right: 100%;
+        top: 50%;
+        margin-top: -20px;
+        margin-right: 15px;
+        max-width: 200px;
+        min-width: 100px;
+        > p {
+            margin-top: 0;
+        }
+        dl {
+            margin: 0;
+            dt {
+                display: inline;
+                float: left;
+                clear: left;
+                font-weight: 600;
+                &:after {
+                    content: ':';
+                    margin-right: 5px;
+                }
+            }
+            dd {
+                margin: 0;
+            }
+        }
+    }
+
+    .truncated {
+        .truncated_full_value {
+              position: relative;
+              &.show {
+                  &:before {
+                    content: '';
+                    border-left: 10px solid @optionsBg;
+                    border-top: 10px solid transparent;
+                    border-bottom: 10px solid transparent;
+                    height: 0;
+                    width: 0;
+                    overflow: hidden;
+                    display: block;
+                    position: absolute;
+                    top: 3px;
+                    margin-top: 0;
+                    left: -15px;
+                    z-index: 2;
+                  }
+                  .item-options {
+                    display: block;
+                  }
+            }
+        }
+        .details {
+            font-size: 12px;
+            border-bottom: 1px dotted @link;
+            cursor: help;
+        }
+    }
+}
+
+/*
+ *    Page -> Advanced Search
+ *
+----------------------------------------------------------------------------- */
+
+.form.search.advanced {
+    .field.price {
+        .range.price.fields.group {
+            .field:first-child input {
+                width: 96%;
             }
         }
     }

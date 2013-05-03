@@ -47,7 +47,7 @@
             <action method="setShowPart"><value>customer</value></action>
         </block>
 
-        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare" template="Mage_Catalog::product/compare/block.phtml">
+        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare" template="Mage_Catalog::product/compare/sidebar.phtml">
             <action method="setIsLink"><link>1</link></action>
         </block>
 
@@ -63,8 +63,8 @@
         </reference>
         <reference name="header">
         <block type="Mage_Page_Block_Template_Links" name="header.links" after="minicart" as="header-links">
-        <action method="addLinkBlock"><blockName>catalog.compare</blockName></action>
-        <block type="Mage_Customer_Block_Account_Link" name="customer.links">
+            <action method="addLinkBlock"><blockName>catalog.compare</blockName></action>
+            <block type="Mage_Customer_Block_Account_Link" name="customer.links">
         </block>
         <!-- <action method="addLinkBlock"><blockName>customer</blockName></action> -->
         </block>

@@ -96,7 +96,7 @@ new_product:
                             attribute_set_toggle: //*[@class='action-toggle']
                             attribute_set_toggle_disabled: //*[@class='action-toggle disabled']
                         fields:
-                            attribute_set_name: //*[@id='product-template-suggest' and not(contains(@calss, 'mage-suggest-state-loading'))]
+                            attribute_set_name: //*[@id='product-template-suggest' and not(contains(@class, 'mage-suggest-state-loading'))]
                         links:
                             attribute_set: //a[@role='menuitem' and text()='%attributeSet%']
                             show_all_attribute_sets: //a[@role='menuitem' and text()='Show all...']

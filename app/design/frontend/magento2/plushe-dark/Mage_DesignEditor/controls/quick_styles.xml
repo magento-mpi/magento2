@@ -231,7 +231,13 @@
         <components>
             <control name="page-background:color-picker">
                 <type>color-picker</type>
-                <selector><![CDATA[.page.wrapper]]></selector>
+                <selector><![CDATA[
+                    .page.wrapper,
+                    .product.data > .item.title:not(.disabled) > .switch:active,
+                    .product.data > .item.title:not(.disabled) > .switch:focus,
+                    .product.data > .item.title:not(.disabled) > .switch:hover,
+                    .product.data > .item.title.active > .switch
+                    ]]></selector>
                 <attribute>background-color</attribute>
                 <var>Mage_DesignEditor::page-background:color-picker</var>
             </control>
@@ -370,7 +376,9 @@
             .block.bundle.summary,
             .data.table.reviews tbody tr:nth-child(even) td,
             .data.table.wishlist tbody tr:nth-child(even),
-            .data.comparison tr:nth-child(odd) .cell.attribute
+            .data.table.tags tbody tr:nth-child(even) td,
+            .data.comparison tr:nth-child(odd) .cell.attribute,
+            .product.data > .item.title > .switch
         ]]></selector>
         <attribute>background-color</attribute>
         <var>Mage_DesignEditor::form-background</var>
@@ -404,12 +412,14 @@
             .cart.summary .summary.title,
             .cart.summary .block,
             .data-table td,
+
             .data.comparison .cell.product.info,
             .data.comparison .addto.links,
             .data.comparison .cell.label,
             .data.comparison .cell.label.product,
             .data.comparison .cell.label,
             .data.comparison td:last-child,
+
             .block.widget.viewed,
             .block.crosssell,
             .block.upsell,
@@ -431,9 +441,11 @@
             .block.bundle.summary .box.tocart,
             .block.bundle.summary .subtitle,
             .product.photo.thumbs .item.thumb .active img,
+
             .login.container .block.new:before,
             .block.filter .filtered .item,
             .block.add.review .fieldset > .legend,
+            .data.table.tags tbody td,
             .data.table.reviews tbody td
         ]]></selector>
         <attribute>border-color</attribute>
@@ -444,7 +456,7 @@
         <type>color-picker</type>
         <selector><![CDATA[
             .block.add.review .action.submit span,
-            .step.login.wrapper button.action span,
+            .step.login.wrapper button.action:not(.reload) span,
             .cart.summary .block .action span,
             .action.checkout span,
             .action.subscribe span,
@@ -462,19 +474,39 @@
             .form.contact .action.save span,
             .form.password.forget .action.save span,
             .form.create.account .action.save span,
+            .form.wishlist.share .action.save span,
+            .form.password.reset .action.save span,
+            .form.add.tag .action.save span,
+
             .form.send.friend .action.submit span,
             .form.address.edit .action.submit span,
             .form.edit.account .action.submit span,
             .form.search.advanced .action.submit span,
             .form.orders.search .action.submit span,
-            .form.contact .action.submit span, 
+            .form.contact .action.submit span,
             .form.password.forget .action.submit span,
             .form.create.account .action.submit span,
+            .form.wishlist.share .action.submit span,
+            .form.password.reset .action.submit span,
+            .form.add.tag .action.submit span,
+
+            .form.send.friend .action.add span,
+            .form.address.edit .action.add span,
+            .form.edit.account .action.add span,
+            .form.search.advanced .action.add span,
+            .form.orders.search .action.add span,
+            .form.contact .action.add span,
+            .form.password.forget .action.add span,
+            .form.create.account .action.add span,
+            .form.wishlist.share .action.add span,
+            .form.password.reset .action.add span,
+            .form.add.tag .action.add span,
+
+            .form.newsletter.manage .action.save span,
+
             .form.search.advanced .action span,
             .form.orders.search .action span,
             .form.contact .action span,
-            .form.wishlist.share .action.submit span,
-            .form.add.tag .action.add span,
 
             .banner.main .banner.action span,
             .opc.wrapper .form:not(.login) .actions button.action span,
@@ -490,7 +522,7 @@
         <type>color-picker</type>
         <selector><![CDATA[
             .block.add.review .action.submit,
-            .step.login.wrapper button.action,
+            .step.login.wrapper button.action:not(.reload),
             .cart.summary .block .action,
             .action.checkout,
             .action.subscribe,
@@ -508,6 +540,10 @@
             .form.contact .action.save,
             .form.password.forget .action.save,
             .form.create.account .action.save,
+            .form.wishlist.share .action.save,
+            .form.password.reset .action.save,
+            .form.add.tag .action.save,
+
             .form.send.friend .action.submit,
             .form.address.edit .action.submit,
             .form.edit.account .action.submit,
@@ -516,11 +552,27 @@
             .form.contact .action.submit,
             .form.password.forget .action.submit,
             .form.create.account .action.submit,
+            .form.wishlist.share .action.submit,
+            .form.password.reset .action.submit,
+            .form.add.tag .action.submit,
+
+            .form.send.friend .action.add,
+            .form.address.edit .action.add,
+            .form.edit.account .action.add,
+            .form.search.advanced .action.add,
+            .form.orders.search .action.add,
+            .form.contact .action.add,
+            .form.password.forget .action.add,
+            .form.create.account .action.add,
+            .form.wishlist.share .action.add,
+            .form.password.reset .action.add,
+            .form.add.tag .action.add,
+
+            .form.newsletter.manage .action.save,
+
             .form.search.advanced .action,
             .form.orders.search .action,
             .form.contact .action,
-            .form.wishlist.share .action.submit,
-            .form.add.tag .action.add,
 
             .banner.main .banner.action,
             .opc.wrapper .form:not(.login) .actions button.action,
@@ -536,7 +588,7 @@
         <type>color-picker</type>
         <selector><![CDATA[
             .block.add.review .action.submit:hover,
-            .step.login.wrapper button.action:hover,
+            .step.login.wrapper button.action:not(.reload):hover,
             .cart.summary .block .action:hover,
             .action.checkout:hover,
             .action.subscribe:hover,
@@ -554,6 +606,10 @@
             .form.contact .action.save:hover,
             .form.password.forget .action.save:hover,
             .form.create.account .action.save:hover,
+            .form.wishlist.share .action.save:hover,
+            .form.password.reset .action.save:hover,
+            .form.add.tag .action.save:hover,
+
             .form.send.friend .action.submit:hover,
             .form.address.edit .action.submit:hover,
             .form.edit.account .action.submit:hover,
@@ -562,11 +618,27 @@
             .form.contact .action.submit:hover,
             .form.password.forget .action.submit:hover,
             .form.create.account .action.submit:hover,
+            .form.wishlist.share .action.submit:hover,
+            .form.password.reset .action.submit:hover,
+            .form.add.tag .action.submit:hover,
+
+            .form.send.friend .action.add:hover,
+            .form.address.edit .action.add:hover,
+            .form.edit.account .action.add:hover,
+            .form.search.advanced .action.add:hover,
+            .form.orders.search .action.add:hover,
+            .form.contact .action.add:hover,
+            .form.password.forget .action.add:hover,
+            .form.create.account .action.add:hover,
+            .form.wishlist.share .action.add:hover,
+            .form.password.reset .action.add:hover,
+            .form.add.tag .action.add:hover,
+
+            .form.newsletter.manage .action.save:hover,
+
             .form.search.advanced .action:hover,
             .form.orders.search .action:hover,
             .form.contact .action:hover,
-            .form.wishlist.share .action.submit:hover,
-            .form.add.tag .action.add:hover,
 
             .banner.main .banner.action:hover,
             .opc.wrapper .form:not(.login) .actions button.action:hover,
@@ -828,7 +900,7 @@
                 <type>font-picker</type>
                 <selector><![CDATA[
                     .block.add.review .action.submit span,
-                    .step.login.wrapper button.action span,
+                    .step.login.wrapper button.action:not(.reload) span,
                     .cart.summary .block .action span,
                     .action.checkout span,
                     .action.subscribe span,
@@ -846,21 +918,45 @@
                     .form.contact .action.save span,
                     .form.password.forget .action.save span,
                     .form.create.account .action.save span,
+                    .form.wishlist.share .action.save span,
+                    .form.password.reset .action.save span,
+                    .form.add.tag .action.save span,
+
                     .form.send.friend .action.submit span,
                     .form.address.edit .action.submit span,
                     .form.edit.account .action.submit span,
                     .form.search.advanced .action.submit span,
                     .form.orders.search .action.submit span,
-                    .form.contact .action.submit span, 
+                    .form.contact .action.submit span,
                     .form.password.forget .action.submit span,
                     .form.create.account .action.submit span,
-                    .form.search.advanced .action span,
+                    .form.wishlist.share .action.submit span,
+                    .form.password.reset .action.submit span,
+                    .form.add.tag .action.submit span,
 
+                    .form.send.friend .action.add span,
+                    .form.address.edit .action.add span,
+                    .form.edit.account .action.add span,
+                    .form.search.advanced .action.add span,
+                    .form.orders.search .action.add span,
+                    .form.contact .action.add span,
+                    .form.password.forget .action.add span,
+                    .form.create.account .action.add span,
+                    .form.wishlist.share .action.add span,
+                    .form.password.reset .action.add span,
+                    .form.add.tag .action.add span,
+
+                    .form.newsletter.manage .action.save span,
+
+                    .form.search.advanced .action span,
                     .form.orders.search .action span,
                     .form.contact .action span,
 
                     .banner.main .banner.action span,
-                    .opc.wrapper .form:not(.login) .actions button.action span
+                    .opc.wrapper .form:not(.login) .actions button.action span,
+
+                    .data.table.wishlist + .actions .primary .action.share span,
+                    .data.table.wishlist + .actions .primary .action.update span
                 ]]></selector>
                 <attribute>font-family</attribute>
                 <options>

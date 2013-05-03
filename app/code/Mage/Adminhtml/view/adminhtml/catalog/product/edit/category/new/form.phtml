@@ -10,6 +10,16 @@
 /* @var $this Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory */
 ?>
 <div id="<?php echo $this->getNameInLayout() ?>" style="display:none">
-    <?php echo $this->getFormHtml();?>
-    <?php echo $this->getAfterElementHtml();?>
+    <?php if (!$this->isCreateRestricted()): ?>
+        <?php echo $this->getFormHtml();?>
+        <?php echo $this->getAfterElementHtml();?>
+    <?php else: ?>
+        <?php echo $this->getRestrictedMessage() ?>
+        <script type="text/javascript">
+            jQuery('#<?php echo $this->getNameInLayout() ?>').dialog({
+                autoOpen: false,
+                title: '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('New Category') ?>'
+            });
+        </script>
+    <?php endif; ?>
 </div>

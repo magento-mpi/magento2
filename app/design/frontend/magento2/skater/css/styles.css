@@ -474,7 +474,6 @@ strong {
 .header > .panel > .links {
   float: right;
   text-align: right;
-  width: 49%;
 }
 .header > .panel > .links.customer {
   float: none;
@@ -1633,6 +1632,15 @@ ul.messages ul {
 .block.compare .content .actions .action.compare:hover {
   background: #6ab92d;
 }
+.block.compare .title .qty {
+  color: #999999;
+}
+.block.compare .title .qty:before {
+  content: '(';
+}
+.block.compare .title .qty:after {
+  content: ')';
+}
 .comparison.wrapper {
   position: relative;
   z-index: 1;
@@ -1643,6 +1651,7 @@ ul.messages ul {
   overflow-x: auto;
 }
 .data.comparison {
+  table-layout: fixed;
   border-collapse: separate;
 }
 .data.comparison .cell {
@@ -1656,11 +1665,20 @@ ul.messages ul {
   text-align: left;
   border-right: 1px solid #f6f4f3;
 }
+.data.comparison .cell.label .attribute.label {
+  display: block;
+  width: 100%;
+  word-break: break-all;
+}
 .data.comparison .cell.label.product {
   width: 150px;
 }
 .data.comparison .cell p:first-child {
   margin-top: 0;
+}
+.data.comparison .cell .attibute.value {
+  width: 100%;
+  overflow: hidden;
 }
 .data.comparison .cell.product {
   font-size: 12px;
@@ -2318,6 +2336,10 @@ ul.messages ul {
 .products.list.items > .item .price-box .price-label {
   display: none;
 }
+.products.list.items > .item .price-box .price-from .price-label,
+.products.list.items > .item .price-box .price-to .price-label {
+  display: block;
+}
 .products.list.items > .item .price-box .old-price {
   color: #999999;
   text-decoration: line-through;
@@ -2427,7 +2449,8 @@ ul.messages ul {
   opacity: 1;
 }
 .grid .products.list.items > .item > .product:hover .product.actions .action.tocart,
-.grid .products.list.items > .item > .product:hover .product.actions .secondary {
+.grid .products.list.items > .item > .product:hover .product.actions .secondary,
+.grid .products.list.items > .item > .product:hover .product.actions .stock.unavailable {
   visibility: visible;
 }
 .grid .products.list.items > .item .details {
@@ -3151,7 +3174,8 @@ ul.messages ul {
   opacity: 1;
 }
 .block.crosssell .content > .items > .item > .product:hover .product.actions .action.tocart,
-.block.crosssell .content > .items > .item > .product:hover .product.actions .secondary {
+.block.crosssell .content > .items > .item > .product:hover .product.actions .secondary,
+.block.crosssell .content > .items > .item > .product:hover .product.actions .stock.unavailable {
   visibility: visible;
 }
 .block.crosssell .content > .items > .item .details {
@@ -3752,6 +3776,10 @@ ul.messages ul {
 }
 .product.add.form .product.options.wrapper {
   margin-bottom: 15px;
+}
+.product.add.form .giftcard.form + .product.options.wrapper {
+  margin: 0;
+  padding: 0;
 }
 .product-pricing {
   background: #ffffff;
@@ -7067,10 +7095,6 @@ body.type-bundle {
 .form.password.reset .action.submit span {
   font-size: 15px;
 }
-.my-account {
-  font-size: 13px;
-  margin: 45px 0 0;
-}
 .account .column.main > .page.title {
   margin-top: 43px;
 }
@@ -7123,6 +7147,10 @@ body.type-bundle {
 }
 .block.account.nav .current {
   color: #ee2375;
+}
+.my-account {
+  font-size: 13px;
+  margin: 45px 0 0;
 }
 .my-account .fieldset {
   margin: 0;
@@ -7509,6 +7537,10 @@ body.type-bundle {
 .my-account .block.addresses.list .action.edit:after {
   content: ' | ';
 }
+.my-account .block.dashboard .product.name > a:hover {
+  color: #6ab92d;
+  text-decoration: none;
+}
 .my-account .page.title .action.add {
   border: none;
   background: #ee2375;
@@ -7534,7 +7566,8 @@ body.type-bundle {
 .my-account .data.table.orders,
 .my-account .data.wishlist,
 .my-account .data.table.reviews,
-.my-account .data.tags {
+.my-account .data.tags,
+.my-account .data.table.balance.history {
   background: #ffffff;
   border: 1px solid #cccccc;
   border-collapse: separate;
@@ -7544,10 +7577,12 @@ body.type-bundle {
 .my-account .data.wishlist td,
 .my-account .data.table.reviews td,
 .my-account .data.tags td,
+.my-account .data.table.balance.history td,
 .my-account .data.table.orders th,
 .my-account .data.wishlist th,
 .my-account .data.table.reviews th,
-.my-account .data.tags th {
+.my-account .data.tags th,
+.my-account .data.table.balance.history th {
   padding: 10px 5px;
   text-align: left;
 }
@@ -7555,20 +7590,24 @@ body.type-bundle {
 .my-account .data.wishlist td.col.total,
 .my-account .data.table.reviews td.col.total,
 .my-account .data.tags td.col.total,
+.my-account .data.table.balance.history td.col.total,
 .my-account .data.table.orders th.col.total,
 .my-account .data.wishlist th.col.total,
 .my-account .data.table.reviews th.col.total,
-.my-account .data.tags th.col.total {
+.my-account .data.tags th.col.total,
+.my-account .data.table.balance.history th.col.total {
   text-align: right;
 }
 .my-account .data.table.orders td.col.actions,
 .my-account .data.wishlist td.col.actions,
 .my-account .data.table.reviews td.col.actions,
 .my-account .data.tags td.col.actions,
+.my-account .data.table.balance.history td.col.actions,
 .my-account .data.table.orders th.col.actions,
 .my-account .data.wishlist th.col.actions,
 .my-account .data.table.reviews th.col.actions,
-.my-account .data.tags th.col.actions {
+.my-account .data.tags th.col.actions,
+.my-account .data.table.balance.history th.col.actions {
   white-space: nowrap;
   width: 10%;
 }
@@ -7576,35 +7615,41 @@ body.type-bundle {
 .my-account .data.wishlist td em,
 .my-account .data.table.reviews td em,
 .my-account .data.tags td em,
+.my-account .data.table.balance.history td em,
 .my-account .data.table.orders th em,
 .my-account .data.wishlist th em,
 .my-account .data.table.reviews th em,
-.my-account .data.tags th em {
+.my-account .data.tags th em,
+.my-account .data.table.balance.history th em {
   font-style: normal;
 }
 .my-account .data.table.orders th,
 .my-account .data.wishlist th,
 .my-account .data.table.reviews th,
-.my-account .data.tags th {
+.my-account .data.tags th,
+.my-account .data.table.balance.history th {
   font-size: 13px;
   border-bottom: 1px solid #cccccc;
 }
 .my-account .data.table.orders tr:nth-child(even) td,
 .my-account .data.wishlist tr:nth-child(even) td,
 .my-account .data.table.reviews tr:nth-child(even) td,
-.my-account .data.tags tr:nth-child(even) td {
+.my-account .data.tags tr:nth-child(even) td,
+.my-account .data.table.balance.history tr:nth-child(even) td {
   background: #fafafa;
 }
 .my-account .data.table.orders a,
 .my-account .data.wishlist a,
 .my-account .data.table.reviews a,
-.my-account .data.tags a {
+.my-account .data.tags a,
+.my-account .data.table.balance.history a {
   color: #666666;
 }
 .my-account .data.table.orders a > span,
 .my-account .data.wishlist a > span,
 .my-account .data.table.reviews a > span,
-.my-account .data.tags a > span {
+.my-account .data.tags a > span,
+.my-account .data.table.balance.history a > span {
   color: #666666;
   text-decoration: underline;
 }
@@ -7612,23 +7657,27 @@ body.type-bundle {
 .my-account .data.wishlist a:hover,
 .my-account .data.table.reviews a:hover,
 .my-account .data.tags a:hover,
+.my-account .data.table.balance.history a:hover,
 .my-account .data.table.orders a:hover > span,
 .my-account .data.wishlist a:hover > span,
 .my-account .data.table.reviews a:hover > span,
-.my-account .data.tags a:hover > span {
+.my-account .data.tags a:hover > span,
+.my-account .data.table.balance.history a:hover > span {
   color: #111111;
   text-decoration: underline;
 }
 .my-account .data.table.orders .product.name a,
 .my-account .data.wishlist .product.name a,
 .my-account .data.table.reviews .product.name a,
-.my-account .data.tags .product.name a {
+.my-account .data.tags .product.name a,
+.my-account .data.table.balance.history .product.name a {
   color: #ee2375;
 }
 .my-account .data.table.orders .product.name a > span,
 .my-account .data.wishlist .product.name a > span,
 .my-account .data.table.reviews .product.name a > span,
-.my-account .data.tags .product.name a > span {
+.my-account .data.tags .product.name a > span,
+.my-account .data.table.balance.history .product.name a > span {
   color: #ee2375;
   text-decoration: underline;
 }
@@ -7636,17 +7685,20 @@ body.type-bundle {
 .my-account .data.wishlist .product.name a:hover,
 .my-account .data.table.reviews .product.name a:hover,
 .my-account .data.tags .product.name a:hover,
+.my-account .data.table.balance.history .product.name a:hover,
 .my-account .data.table.orders .product.name a:hover > span,
 .my-account .data.wishlist .product.name a:hover > span,
 .my-account .data.table.reviews .product.name a:hover > span,
-.my-account .data.tags .product.name a:hover > span {
+.my-account .data.tags .product.name a:hover > span,
+.my-account .data.table.balance.history .product.name a:hover > span {
   color: #6ab92d;
   text-decoration: underline;
 }
 .my-account .data.table.orders .action.view:after,
 .my-account .data.wishlist .action.view:after,
 .my-account .data.table.reviews .action.view:after,
-.my-account .data.tags .action.view:after {
+.my-account .data.tags .action.view:after,
+.my-account .data.table.balance.history .action.view:after {
   content: ' |';
 }
 .my-account .data.wishlist td {
@@ -7725,6 +7777,9 @@ body.type-bundle {
 }
 .my-account .data.wishlist .price-box .old-price .price {
   font-size: 12px;
+}
+.my-account .wishlist.share > .fieldset > .field > .label {
+  padding-right: 5px;
 }
 .my-account .giftcardaccount {
   position: relative;
@@ -7923,6 +7978,36 @@ body.type-bundle {
 .my-account .data.tags .price-including-tax {
   display: block;
 }
+.my-account .dashboard.tags .products.list.items > .item .details {
+  padding: 0;
+}
+.my-account .dashboard.tags .products.list.items > .item .product.tags li {
+  display: inline;
+}
+.my-account .dashboard.tags .title .action.view {
+  background: none;
+  letter-spacing: 0;
+  text-decoration: none;
+}
+.my-account .dashboard.tags .title .action.view > span {
+  font-family: Arial, Helvetica, sans-serif;
+  text-transform: lowercase;
+}
+.my-account .storecredit .account.balance .price {
+  font-weight: bold;
+}
+.my-account .storecredit .subtitle,
+.my-account .storecredit .sub-title {
+  font-size: 15px;
+  font-family: amaranth, Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 40px 0 10px;
+}
+.my-account .storecredit .data.table.balance.history tbody:nth-child(odd) td {
+  background: #fafafa;
+}
 .wishlist-index-index .actions .primary {
   text-align: right;
 }
@@ -7938,6 +8023,10 @@ body.type-bundle {
 }
 .widget-static-block img {
   max-width: 100%;
+}
+.column.main .page.title + .block.widget,
+.column.main .block.widget + .block.widget {
+  margin-bottom: 50px;
 }
 .block.widget .pager .amount {
   color: #999999;
