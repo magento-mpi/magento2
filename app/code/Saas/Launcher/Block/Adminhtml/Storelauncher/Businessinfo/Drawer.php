@@ -245,7 +245,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
             'value' => $addressData['postcode']
         ));
 
-        $countries = $this->_countryModel->toOptionArray();
+        $countries = $this->_countryModel->toOptionArray(false, 'US');
         $businessAddress->addField('country_id', 'select', array(
             'name' => 'groups[general][store_information][fields][country_id][value]',
             'label' => $helper->__('Country'),
