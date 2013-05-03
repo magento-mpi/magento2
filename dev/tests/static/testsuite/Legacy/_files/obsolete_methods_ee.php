@@ -15,6 +15,7 @@ return array(
     array('addBannersFilter', 'Enterprise_Banner_Model_Resource_Salesrule_Collection'),
     array('addCategoryFilter', 'Enterprise_Search_Model_Catalog_Layer_Filter_Category'),
     array('addCustomerSegmentFilter', 'Enterprise_Banner_Model_Resource_Catalogrule_Collection'),
+    array('addCustomerSegmentFilter', 'Enterprise_Banner_Model_Resource_Salesrule_Collection'),
     array('addFieldsToBannerForm', 'Enterprise_CustomerSegment_Model_Observer'),
     array('setModelName', 'Enterprise_Logging_Model_Event_Changes'),
     array('getModelName', 'Enterprise_Logging_Model_Event_Changes'),
