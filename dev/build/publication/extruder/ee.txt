@@ -13,6 +13,7 @@ app/etc/modules/XEnterprise_Edition.xml.dist
 dev/tests/integration/testsuite/Enterprise
 dev/tests/integration/testsuite/integrity/modular/ViewFilesTest.php
 dev/tests/integration/testsuite/integrity/theme/RenderersTest.php
+dev/tests/integration/testsuite/Design/Frontend/Enterprise
 dev/tests/integration/testsuite/Mage/ImportExport/Model/Import/Entity/_files/customer_composite_update_reward_enterprise.csv
 dev/tests/integration/testsuite/Theme
 dev/tests/static/testsuite/Integrity/Enterprise
