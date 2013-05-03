@@ -34,7 +34,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                     "isConflict": false,
                     "ecMissed": false,
                     sharePayflowEnabling: function(enabler, isEvent) {
-                        var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[0];
+                        var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler.fd-enabled")[0];
                         if (typeof ecPayflowEnabler == "undefined") {
                             return;
                         }
@@ -58,7 +58,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                             $(ecPayflowScopeElement).click();
                         }
 
-                        var ecEnabler = $$(".paypal-ec-enabler")[0];
+                        var ecEnabler = $$(".paypal-ec-enabler.fd-enabled")[0];
                         if (ecPayflowEnabler.value != enabler.value && (isEvent || enabler.value == 1)) {
                             ecPayflowEnabler.value = enabler.value;
                             fireEvent(ecPayflowEnabler, "change");
@@ -127,31 +127,35 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                         });
                     },
                     ecCheckAvailability: function() {
-                        var ecButton = $$(".pp-method-express button.button")[0];
-                        if (typeof ecButton == "undefined") {
-                            return;
-                        }
-                        var couldBeConfigured = true;
-                        $$(".paypal-enabler.fd-enabled").each(function(enabler) {
-                            if (enabler.enablerObject.ecEnabler || enabler.enablerObject.ecConflicts
-                                || enabler.enablerObject.ecSeparate
-                            ) {
+                        $$(".pp-method-express button.button").each(function(ecButton){
+                            if (typeof ecButton == "undefined") {
                                 return;
                             }
-                            if (enabler.value == 1) {
-                                couldBeConfigured = false;
+                            var couldBeConfigured = true;
+                            $$(".paypal-enabler.fd-enabled").each(function(enabler) {
+                                if (enabler.enablerObject.ecEnabler || enabler.enablerObject.ecConflicts
+                                    || enabler.enablerObject.ecSeparate
+                                ) {
+                                    return;
+                                }
+                                if (enabler.value == 1) {
+                                    couldBeConfigured = false;
+                                }
+                            });
+                            if (couldBeConfigured) {
+                                togglePaypalSolutionConfigureButton(ecButton, true);
+                            } else {
+                                togglePaypalSolutionConfigureButton(ecButton, false);
                             }
                         });
-                        if (couldBeConfigured) {
-                            togglePaypalSolutionConfigureButton(ecButton, true);
-                        } else {
-                            togglePaypalSolutionConfigureButton(ecButton, false);
-                        }
                     },
                     // type could be "initial", "change", "click"
                     checkPaymentConflicts: function(enabler, type) {
+                        if (!enabler.enablerObject) {
+                            return;
+                        }
                         var isEvent = (type != "initial");
-                        var ecEnabler = $$(".paypal-ec-enabler")[0];
+                        var ecEnabler = $$(".paypal-ec-enabler.fd-enabled")[0];
 
                         if (enabler.value == 0) {
                             if (!enabler.enablerObject.ecIndependent && type == "change") {
@@ -266,7 +270,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                 });
 
                 // initially uncheck payflow
-                var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[0];
+                var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler.fd-enabled")[0];
                 if (typeof ecPayflowEnabler != "undefined") {
                     if (ecPayflowEnabler.value == 1) {
                         ecPayflowEnabler.value = 0;
@@ -311,7 +315,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                 });
 
                 configForm.on(\'afterValidate\', function() {
-                    var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[0];
+                    var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler.fd-enabled")[0];
                     if (typeof ecPayflowEnabler == "undefined") {
                         return;
                     }
