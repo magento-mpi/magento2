@@ -26,7 +26,8 @@
             isMultipleStoreViewMode: null,
             redirectOnAssign:   false,
             openNewOnAssign:    true,
-            refreshOnAssign:    true
+            refreshOnAssign:    true,
+            afterAssignMode:    'navigation'
         },
 
         /**
@@ -213,7 +214,9 @@
                         this.options.afterAssignUrl + 'store_id',
                         stores ? stores[0] : defaultStore,
                         'theme_id',
-                        response.themeId
+                        response.themeId,
+                        'mode',
+                        this.options.afterAssignMode
                     ].join('/');
 
                     if (this.options.openNewOnAssign) {
