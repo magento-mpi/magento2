@@ -90,8 +90,9 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
      */
     protected function _getFrontendClass($element)
     {
-        $cssClass = $this->getGroup()->getFieldsetCss();
-        return 'section-config' .  empty($cssClass) ? '' : (' ' . $cssClass);
+        $group = $element->getGroup();
+        $cssClass = isset($group['fieldset_css']) ? $group['fieldset_css'] : '';
+        return 'section-config' . (empty($cssClass) ? '' : ' ' . $cssClass);
     }
 
     /**

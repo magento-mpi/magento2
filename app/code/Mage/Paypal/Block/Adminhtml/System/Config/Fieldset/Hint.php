@@ -66,18 +66,19 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
 
             // check store-view disabling Express Checkout
             document.observe("dom:loaded", function() {
-                var ecButton = $$(".pp-method-express button.button")[0];
-                var ecEnabler = $$(".paypal-ec-enabler")[0];
-                if (typeof ecButton == "undefined" || typeof ecEnabler != "undefined") {
-                    return;
-                }
-                var $ecButton = $(ecButton);
-                $$(".with-button button.button").each(function(configureButton) {
-                    if (configureButton != ecButton && !configureButton.disabled
-                        && !$(configureButton).hasClassName("paypal-ec-separate")
-                    ) {
-                        togglePaypalSolutionConfigureButton(ecButton, false);
+                $$(".pp-method-express button.button").each(function(ecButton){
+                    var ecEnabler = $$(".paypal-ec-enabler.fd-enabled")[0];
+                    if (typeof ecButton == "undefined" || typeof ecEnabler != "undefined") {
+                        return;
                     }
+                    var $ecButton = $(ecButton);
+                    $$(".with-button button.button").each(function(configureButton) {
+                        if (configureButton != ecButton && !configureButton.disabled
+                            && !$(configureButton).hasClassName("paypal-ec-separate")
+                        ) {
+                            togglePaypalSolutionConfigureButton(ecButton, false);
+                        }
+                    });
                 });
             });
         ';
