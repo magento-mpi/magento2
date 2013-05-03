@@ -110,7 +110,7 @@ class Mage_Core_Service_Config
                 $this->_services = new Varien_Object($_array);
             }
         }
-//var_dump($data['services']);dd();
+
         return $this->_services;
     }
 
@@ -127,7 +127,7 @@ class Mage_Core_Service_Config
     /**
      * Save services into the cache
      *
-     * @param $data
+     * @param string $data
      * @return Mage_Core_Service_Config
      */
     private function _saveToCache($data)
@@ -143,7 +143,12 @@ class Mage_Core_Service_Config
 
         if ($root->hasAttributes()) {
             foreach ($root->attributes as $attr) {
-                $attributes[$attr->name] = $attr->value;
+                if ('bind' === $attr->name) {
+                    $value = explode(',', $attr->value);
+                } else {
+                    $value = $attr->value;
+                }
+                $attributes[$attr->name] = $value;
             }
             $result['_attributes_'] = $attributes;
         }
@@ -265,5 +270,24 @@ class Mage_Core_Service_Config
         }
 
         return $result;
+    }
+
+    /**
+     * @param string $context (INT, SOAP, REST)
+     * @param string $serviceReferenceId
+     * @param string $serviceMethod [optional]
+     * @return string
+     */
+    public function isServiceAvailableFor($context, $serviceReferenceId, $serviceMethod = null)
+    {
+        $allowedContexts = array();
+        if (isset($serviceMethod)) {
+            $allowedContexts = $this->getServices()->getData($serviceReferenceId . '/_operations_/' . $serviceMethod . '/_attributes_/bind');
+        }
+        if (!isset($allowedContexts)) {
+            $allowedContexts = $this->getServices()->getData($serviceReferenceId . '/_attributes_/bind');
+        }
+
+        return in_array($context, $allowedContexts);
     }
 }

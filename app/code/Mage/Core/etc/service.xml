@@ -10,7 +10,7 @@
  */
 -->
 <services>
-    <service uri="layout" class="Mage_Core_Service_LayoutService" name="Layout Service" module="Mage_Core">
+    <service uri="layout" class="Mage_Core_Service_LayoutService" name="Layout Service" bind="INT">
         <operation method="getLayout" title="Retrieve an empty Layout instance" />
         <operation method="loadLayout" title="Load Layout" />
         <operation method="addLayoutHandle" title="Add Layout Handle" />

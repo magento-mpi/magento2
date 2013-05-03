@@ -43,9 +43,15 @@ class Mage_Core_Service_ObjectManager extends Varien_Object
         $this->_config = $config;
     }
 
-    public function getCallerId()
+    /**
+     * @param string $context (INT, SOAP, REST)
+     * @param string $serviceReferenceId
+     * @param string $serviceMethod [optional]
+     * @return string
+     */
+    public function isServiceAvailableFor($context, $serviceReferenceId, $serviceMethod = null)
     {
-        return 'Mage_Core';
+        return $this->_config->isServiceAvailableFor($context, $serviceReferenceId, $serviceMethod);
     }
 
     /**
@@ -57,9 +63,13 @@ class Mage_Core_Service_ObjectManager extends Varien_Object
      * @param mixed $version [optional]
      * @return mixed (service execution response)
      */
-    public function call($serviceReferenceId, $serviceMethod, $request = null, $version = null)
+    public function call($serviceReferenceId, $serviceMethod, $request = null, $version = null, $context = 'INT')
     {
         $service  = $this->getService($serviceReferenceId, $version);
+
+        if (!$this->isServiceAvailableFor($context, $serviceReferenceId, $serviceMethod)) {
+            throw new Mage_Core_Service_Exception('Access to the service is not permitted.', Mage_Core_Service_Exception::HTTP_FORBIDDEN);
+        }
 
         $response = $service->call($serviceMethod, $request, $version);
 

@@ -32,8 +32,7 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
 
         /** @var $serviceManager Mage_Core_Service_ObjectManager */
         $serviceManager = Mage::getSingleton('Mage_Core_Service_ObjectManager');
-        $category = $serviceManager->getService('categories')
-            ->call('init', array(
+        $category = $serviceManager->call('categories', 'init', array(
                 'entity_id' => $categoryId,
                 'store_id'  => Mage::app()->getStore()->getId(),
                 'fields'    => 'entity_id,name,path,is_active,store_id'

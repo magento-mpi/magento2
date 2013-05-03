@@ -10,12 +10,15 @@
  */
 -->
 <services>
-    <service uri="categories" class="Mage_Catalog_Service_CategoryService" title="Catalog Category Service" module="Mage_Catalog" bind="INT,REST,SOAP">
+    <service uri="categories" class="Mage_Catalog_Service_CategoryService" title="Catalog Category Service" bind="INT,REST,SOAP">
         <operation method="create" title="Create new category" />
         <operation method="item" title="Retrieve a category" />
         <operation method="items" title="Retrieve category collection by filters" />
         <operation method="update" title="Update category" />
-        <operation method="delete" title="Delete category" />
+        <operation method="delete" title="Delete category" bind="INT" />
+
+        <operation method="init" title="Retrieve a category" />
+        <operation method="status" title="Provides the status of category tree" bind="REST,SOAP" />
 
         <service uri="products" class="Mage_Catalog_Service_CategoryService">
             <operation method="create" title="Create" />
@@ -32,7 +35,7 @@
         </version>
     </service>
 
-    <service uri="products" class="Mage_Catalog_Service_ProductService" title="Catalog Product Service" module="Mage_Catalog" bind="INT,REST,SOAP">
+    <service uri="products" class="Mage_Catalog_Service_ProductService" title="Catalog Product Service" bind="INT,REST,SOAP">
         <operation method="create" title="Create new product" />
         <operation method="item" title="Retrieve product" />
         <operation method="items" title="Retrieve products collection by filters" />
