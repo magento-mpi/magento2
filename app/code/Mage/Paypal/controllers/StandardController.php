@@ -58,7 +58,6 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
 
     /**
      * When a customer chooses Paypal on Checkout/Payment page
-     *
      */
     public function redirectAction()
     {
@@ -74,6 +73,7 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
      */
     public function cancelAction()
     {
+
         $session = Mage::getSingleton('Mage_Checkout_Model_Session');
         $session->setQuoteId($session->getPaypalStandardQuoteId(true));
         if ($session->getLastRealOrderId()) {
