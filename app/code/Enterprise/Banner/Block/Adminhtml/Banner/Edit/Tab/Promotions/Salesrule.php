@@ -11,6 +11,20 @@
 class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_SalesRule_Model_Resource_Rule_Collection $ruleCollection
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_SalesRule_Model_Resource_Rule_Collection $ruleCollection,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->setCollection($ruleCollection);
+    }
+
+    /**
      * Initialize grid, set defaults
      *
      */
@@ -26,19 +40,6 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
         if ($this->_getBanner() && $this->_getBanner()->getId()) {
             $this->setDefaultFilter(array('in_banner_salesrule'=>1));
         }
-    }
-
-    /**
-     * Set sales rule collection to grid data
-     *
-     * @return Mage_Adminhtml_Block_Widget_Grid
-     */
-    protected function _prepareCollection()
-    {
-        $bannerId = Mage::registry('current_banner')->getId();
-        $collection = Mage::getResourceModel('Enterprise_Banner_Model_Resource_Salesrule_Collection');
-        $this->setCollection($collection);
-        return parent::_prepareCollection();
     }
 
     /**
