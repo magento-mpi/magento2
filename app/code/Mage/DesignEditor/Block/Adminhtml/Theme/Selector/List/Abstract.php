@@ -83,10 +83,43 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     }
 
     /**
+     * Add duplicate button
+     *
+     * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
+     * @return $this
+     */
+    protected function _addDuplicateButtonHtml($themeBlock)
+    {
+        $themeId = $themeBlock->getTheme()->getId();
+
+        /** @var $assignButton Mage_Backend_Block_Widget_Button */
+        $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
+        $assignButton->setData(array(
+            'label'          => $this->__('Duplicate'),
+            'data_attribute' => array(
+                'mage-init' => array(
+                    'button' => array(
+                        'event'     => 'duplicate-theme',
+                        'target'    => 'body',
+                        'eventData' => array(
+                            'theme_id' => $themeId,
+                            'url'      => $this->getUrl('*/*/duplicate', array('theme_id' => $themeId))
+                        )
+                    ),
+                ),
+            ),
+            'class'   => 'action-duplicate'
+        ));
+
+        $themeBlock->addButton($assignButton);
+        return $this;
+    }
+
+    /**
      * Get assign to storeview button
      *
      * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
-     * @return Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
+     * @return $this
      */
     protected function _addAssignButtonHtml($themeBlock)
     {
@@ -121,7 +154,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      * Get preview button
      *
      * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
-     * @return Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
+     * @return $this
      */
     protected function _addPreviewButtonHtml($themeBlock)
     {
@@ -152,7 +185,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      * Get edit button
      *
      * @param Mage_DesignEditor_Block_Adminhtml_Theme $themeBlock
-     * @return Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
+     * @return $this
      */
     protected function _addEditButtonHtml($themeBlock)
     {

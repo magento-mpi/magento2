@@ -10,7 +10,7 @@
 ?>
 <?php $_orders = $this->getOrders(); ?>
 <?php echo $this->getChildHtml('info');?>
-<div class="toolbar"><?php echo $this->getPagerHtml(); ?></div>
+<div class="order toolbar"><?php echo $this->getPagerHtml(); ?></div>
 <?php if($_orders->getSize()): ?>
 <table class="data table orders history" id="my-orders-table">
     <thead>
@@ -32,16 +32,20 @@
                 <td class="col total"><?php echo $_order->formatPrice($_order->getGrandTotal()) ?></td>
                 <td class="col status"><em><?php echo $_order->getStatusLabel() ?></em></td>
                 <td class="col actions">
-                    <a href="<?php echo $this->getViewUrl($_order) ?>" class="action view"><span><?php echo $this->__('View Order') ?></span></a>
+                    <a href="<?php echo $this->getViewUrl($_order) ?>" class="action view">
+                        <span><?php echo $this->__('View Order') ?></span>
+                    </a>
                     <?php if ($this->helper('Mage_Sales_Helper_Reorder')->canReorder($_order)) : ?>
-                        <a href="<?php echo $this->getReorderUrl($_order) ?>" class="action order"><span><?php echo $this->__('Reorder') ?></span></a>
+                        <a href="<?php echo $this->getReorderUrl($_order) ?>" class="action order">
+                            <span><?php echo $this->__('Reorder') ?></span>
+                        </a>
                     <?php endif ?>
                 </td>
             </tr>
         <?php endforeach; ?>
     </tbody>
 </table>
-<div class="toolbar bottom"><?php echo $this->getPagerHtml(); ?></div>
+<div class="order toolbar bottom"><?php echo $this->getPagerHtml(); ?></div>
 <?php else: ?>
     <p><?php echo $this->__('You have placed no orders.'); ?></p>
 <?php endif ?>

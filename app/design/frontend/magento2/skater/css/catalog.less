@@ -156,6 +156,7 @@
 }
 
 .data.comparison {
+    table-layout: fixed;
     border-collapse: separate;
     .cell {
         padding: 15px;
@@ -166,12 +167,21 @@
             font-weight: 600;
             text-align: left;
             border-right: 1px solid @primary9;
+            .attribute.label {
+              display: block;
+              width: 100%;
+              word-break:break-all;
+            }
             &.product {
                 width: 150px;
             }
         }
         p:first-child {
             margin-top: 0;
+        }
+        .attibute.value {
+          width:100%;
+          overflow: hidden;
         }
         &.product {
             font-size: 12px;
