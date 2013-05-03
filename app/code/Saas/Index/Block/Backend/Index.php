@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Block class for search index refresh
  *
