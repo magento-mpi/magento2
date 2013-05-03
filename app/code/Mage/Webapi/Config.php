@@ -45,23 +45,28 @@ class Mage_Webapi_Config
     /** @var Magento_Controller_Router_Route_Factory */
     protected $_routeFactory;
 
+    /** @var Mage_Core_Model_App */
+    protected $_application;
 
     /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Controller_Router_Route_Factory $routeFactory
+     * @param Mage_Core_Model_App $application
      */
     public function __construct(
         Mage_Core_Model_Config $config,
         Mage_Core_Model_Cache_Type_Config $configCacheType,
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
-        Magento_Controller_Router_Route_Factory $routeFactory
+        Magento_Controller_Router_Route_Factory $routeFactory,
+        Mage_Core_Model_App $application
     ) {
         $this->_config = $config;
         $this->_configCacheType = $configCacheType;
         $this->_moduleReader = $moduleReader;
         $this->_routeFactory = $routeFactory;
+        $this->_application = $application;
     }
 
     /**
@@ -103,18 +108,17 @@ class Mage_Webapi_Config
             $services = $this->_loadFromCache();
             if ($services && is_string($services)) {
                 $data = unserialize($services);
-                $_array = isset($data['services']) ? $data['services'] : array();
-                $this->_services = new Varien_Object($_array);
+                $_array = isset($data['config']) ? $data['config'] : array();
+                $this->_services = $_array; //new Varien_Object($_array);
             } else {
                 $services = $this->_getReader()->getServices();
                 $data = $this->_toArray($services);
 
                 $this->_saveToCache(serialize($data));
                 $_array = isset($data['config']) ? $data['config'] : array();
-                $this->_services = $_array; //new Varien_Object($_array);
+                $this->_services = $_array; //new Varien_Object($_array);\
             }
         }
-
         return $this->_services;
     }
 
@@ -129,12 +133,16 @@ class Mage_Webapi_Config
     /**
      * Save services into the cache
      */
-    private function _saveToCache ($data)
+    protected function _saveToCache ($data)
     {
         $this->_configCacheType->save($data, self::CACHE_ID);
         return $this;
     }
 
+    /**
+     * @param DOMDocument|DOMElement $root
+     * @return array
+     */
     protected function _toArray($root)
     {
         $result = array();
@@ -304,11 +312,11 @@ class Mage_Webapi_Config
         // TODO: Get information from webapi.xml
         $routes = array();
 
-        foreach ($this->getServices() as $serviceName => $service) {
-            foreach ($service[self::KEY_OPERATIONS] as $operationName => $operation) {
-                if (strtoupper($operation['httpMethod']) == strtoupper($httpMethod)) {
+        foreach ($this->getServices() as $serviceName => $serviceData) {
+            foreach ($serviceData[self::KEY_OPERATIONS] as $operationName => $operationData) {
+                if (strtoupper($operationData['httpMethod']) == strtoupper($httpMethod)) {
                     $routes[] = $this->_createRoute(array(
-                        'routePath' => $service['baseUrl'] . $operation['route'],
+                        'routePath' => $serviceData['baseUrl'] . $operationData['route'],
                         'version' => 1, // hardcoded for now
                         'serviceId' => $serviceName,
                         'serviceMethod' => $operationName,
@@ -336,15 +344,11 @@ class Mage_Webapi_Config
      */
     protected function _createRoute ($routeData)
     {
-        /*
         $apiTypeRoutePath = $this->_application->getConfig()->getAreaFrontName()
             . '/:' . Mage_Webapi_Controller_Front::API_TYPE_REST;
         $fullRoutePath = $apiTypeRoutePath
             . '/' . Mage_Core_Service_Config::VERSION_NUMBER_PREFIX . $routeData['version']
             . $routeData['routePath'];
-        */
-        // hardcoding for now
-        $fullRoutePath = 'api/rest/V1';
 
         /** @var $route Mage_Webapi_Controller_Router_Route_Rest */
         $route = $this->_routeFactory->createRoute('Mage_Webapi_Controller_Router_Route_Rest', $fullRoutePath);
