@@ -84,7 +84,7 @@ abstract class Mage_Core_Service_Type_Abstract
         }
 
         if (!$request->getIsPrepared()) {
-            $requestSchema = $request->getRequestSchema();
+            $requestSchema = $request->getRequestSchema() ? $request->getRequestSchema() : array();
             if (!$requestSchema instanceof Magento_Data_Schema) {
                 $requestSchema = $this->_serviceObjectManager->getRequestSchema($serviceClass, $serviceMethod, $request->getVersion());
             }

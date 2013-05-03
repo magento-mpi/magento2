@@ -11,58 +11,26 @@
 -->
 <services>
     <service class="Mage_Catalog_Service_CategoryService" name="Catalog Category Service" module="Mage_Catalog">
-        <operation>
-            <create>
-                <title>Create new category</title>
-                <rest_route>PUT /category</rest_route>
-            </create>
-            <item>
-                <title>Retrieve a category</title>
-                <rest_route>GET /category</rest_route>
-            </item>
-            <items>
-                <title>Retrieve category collection by filters</title>
-                <rest_route>GET /category/list</rest_route>
-            </items>
-            <update>
-                <title>Update category</title>
-                <rest_route>POST /category</rest_route>
-            </update>
-            <move>
-                <title>Move category in tree</title>
-                <rest_route>POST /category/move</rest_route>
-            </move>
-            <delete>
-                <title>Delete category</title>
-                <rest_route>DELETE /category</rest_route>
-            </delete>
-        </operation>
-        <version class="Mage_Catalog_Service_V1_CategoryService" id="1">
+        <operation method="create" name="Create new category" />
+        <operation method="create" name="Create" />
+        <operation method="item" name="Retrieve a category" />
+        <operation method="items" name="Retrieve category collection by filters" />
+        <operation method="update" name="Update category" />
+        <operation method="delete" name="Delete category" />
 
-        </version>
-        <version class="Mage_Catalog_Service_V2_CategoryService" id="2">
+        <version class="Mage_Catalog_Service_CategoryServiceV1" id="1" />
 
+        <version class="Mage_Catalog_Service_CategoryServiceV2" id="2">
+            <operation method="move" name="Move category in tree" />
         </version>
     </service>
 
     <service class="Mage_Catalog_Service_ProductService" name="Catalog Product Service" module="Mage_Catalog">
-        <operation>
-            <create>
-                <title>Create new product</title>
-            </create>
-            <item>
-                <title>Retrieve product</title>
-            </item>
-            <items>
-                <title>Retrieve products collection by filters</title>
-            </items>
-            <update>
-                <title>Update product</title>
-            </update>
-            <delete>
-                <title>Delete product</title>
-            </delete>
-        </operation>
+        <operation method="create" name="Create new product" />
+        <operation method="item" name="Retrieve product" />
+        <operation method="items" name="Retrieve products collection by filters" />
+        <operation method="update" name="Update product" />
+        <operation method="delete" name="Delete product" />
     </service>
 </services>
 
