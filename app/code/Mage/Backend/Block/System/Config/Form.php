@@ -323,15 +323,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $fieldPrefix = '',
         $labelPrefix = ''
     ) {
-        $inherit = true;
-        if (array_key_exists($path, $this->_configData)) {
-            $data = $this->_configData[$path];
-            $inherit = false;
-        } elseif ($field->getConfigPath() !== null) {
-            $data = $this->_configRoot->descend($field->getConfigPath());
-        } else {
-            $data = $this->_configRoot->descend($path);
-        }
+        $data = $this->_getFieldValue($field, $path, $inherit);
         $fieldRendererClass = $field->getFrontendModel();
         if ($fieldRendererClass) {
             $fieldRenderer = Mage::getBlockSingleton($fieldRendererClass);
@@ -358,19 +350,8 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $dependencies = $field->getDependencies($fieldPrefix, $this->getStoreCode());
         $this->_populateDependenciesBlock($dependencies, $elementId, $elementName);
 
-        $sharedClass = '';
-        if ($field->getAttribute('shared') && $field->getConfigPath()) {
-            $sharedClass = ' shared shared-' . str_replace('/', '-', $field->getConfigPath());
-        }
-
-        $requiresClass = '';
-        $requiredPaths = array_merge($field->getRequiredFields($fieldPrefix), $field->getRequiredGroups($fieldPrefix));
-        if (!empty($requiredPaths)) {
-            $requiresClass = ' requires';
-            foreach ($requiredPaths as $requiredPath) {
-                $requiresClass .= ' requires-' . $this->_generateElementId($requiredPath);
-            }
-        }
+        $sharedClass = $this->_getSharedCssClass($field);
+        $requiresClass = $this->_getRequiresCssClass($field, $fieldPrefix);
 
         $formField = $fieldset->addField($elementId, $field->getType(), array(
             'name' => $elementName,
@@ -655,5 +636,64 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     public function getStoreCode()
     {
         return $this->getRequest()->getParam('store', '');
+    }
+
+    /**
+     * Get css class for "requires" functionality
+     *
+     * @param Mage_Backend_Model_Config_Structure_Element_Field $field
+     * @param $fieldPrefix
+     * @return string
+     */
+    protected function _getRequiresCssClass(Mage_Backend_Model_Config_Structure_Element_Field $field, $fieldPrefix)
+    {
+        $requiresClass = '';
+        $requiredPaths = array_merge($field->getRequiredFields($fieldPrefix), $field->getRequiredGroups($fieldPrefix));
+        if (!empty($requiredPaths)) {
+            $requiresClass = ' requires';
+            foreach ($requiredPaths as $requiredPath) {
+                $requiresClass .= ' requires-' . $this->_generateElementId($requiredPath);
+            }
+            return $requiresClass;
+        }
+        return $requiresClass;
+    }
+
+    /**
+     * Get css class for "shared" functionality
+     *
+     * @param Mage_Backend_Model_Config_Structure_Element_Field $field
+     * @return string
+     */
+    protected function _getSharedCssClass(Mage_Backend_Model_Config_Structure_Element_Field $field)
+    {
+        $sharedClass = '';
+        if ($field->getAttribute('shared') && $field->getConfigPath()) {
+            $sharedClass = ' shared shared-' . str_replace('/', '-', $field->getConfigPath());
+            return $sharedClass;
+        }
+        return $sharedClass;
+    }
+
+    /**
+     * Get field value
+     *
+     * @param Mage_Backend_Model_Config_Structure_Element_Field $field
+     * @param string $path
+     * @param bool $inherit
+     * @return string
+     */
+    protected function _getFieldValue(Mage_Backend_Model_Config_Structure_Element_Field $field, $path, &$inherit)
+    {
+        $inherit = true;
+        if (array_key_exists($path, $this->_configData)) {
+            $data = $this->_configData[$path];
+            $inherit = false;
+        } elseif ($field->getConfigPath() !== null) {
+            $data = $this->_configRoot->descend($field->getConfigPath());
+        } else {
+            $data = $this->_configRoot->descend($path);
+        }
+        return $data;
     }
 }

@@ -56,7 +56,7 @@ class Mage_Backend_Model_Config_Structure_Mapper_Extends extends Mage_Backend_Mo
 
         $this->_systemConfiguration = &$data['config']['system']['sections'];
 
-        foreach ($this->_systemConfiguration as $nodeName => $nodeValue) {
+        foreach (array_keys($this->_systemConfiguration) as $nodeName) {
             $this->_traverseAndExtend($nodeName);
         }
 
@@ -81,7 +81,7 @@ class Mage_Backend_Model_Config_Structure_Mapper_Extends extends Mage_Backend_Mo
         }
 
         if (!empty($node['children'])) {
-            foreach ($node['children'] as $childName => $childValue) {
+            foreach (array_keys($node['children']) as $childName) {
                 $this->_traverseAndExtend($path . '/' . $childName);
             }
         }
@@ -124,8 +124,8 @@ class Mage_Backend_Model_Config_Structure_Mapper_Extends extends Mage_Backend_Mo
             return $currentNodeData;
         }
 
-        $extendSourceNodeRealPath = $this->_pathConverter->convert($path, $extendSourceNode);
-        $data = $this->_getDataByPath($extendSourceNodeRealPath);
+        $extendSourcePath = $this->_pathConverter->convert($path, $extendSourceNode);
+        $data = $this->_getDataByPath($extendSourcePath);
 
         if (!$data) {
             throw new InvalidArgumentException(
@@ -133,7 +133,7 @@ class Mage_Backend_Model_Config_Structure_Mapper_Extends extends Mage_Backend_Mo
         }
 
         if (isset($data['extends'])) {
-            $data = $this->_extendNode($extendSourceNodeRealPath, $data['extends']);
+            $data = $this->_extendNode($extendSourcePath, $data['extends']);
         }
 
         $resultingData = $this->_mergeData($data, $currentNodeData);

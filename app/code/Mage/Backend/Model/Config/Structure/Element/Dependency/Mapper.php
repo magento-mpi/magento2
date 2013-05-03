@@ -34,17 +34,17 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper
     /**
      * @param Mage_Core_Model_App $application
      * @param Mage_Backend_Model_Config_Structure_SearchInterface $fieldLocator
-     * @param Mage_Backend_Model_Config_Structure_Element_Dependency_FieldFactory $dependencyFieldFactory
+     * @param Mage_Backend_Model_Config_Structure_Element_Dependency_FieldFactory $fieldFactory
      */
     public function __construct(
         Mage_Core_Model_App $application,
         Mage_Backend_Model_Config_Structure_SearchInterface $fieldLocator,
-        Mage_Backend_Model_Config_Structure_Element_Dependency_FieldFactory $dependencyFieldFactory
+        Mage_Backend_Model_Config_Structure_Element_Dependency_FieldFactory $fieldFactory
     ) {
 
         $this->_fieldLocator = $fieldLocator;
         $this->_application = $application;
-        $this->_fieldFactory = $dependencyFieldFactory;
+        $this->_fieldFactory = $fieldFactory;
     }
 
     /**
