@@ -42,7 +42,6 @@ abstract class Mage_Backend_Controller_System_ConfigAbstract extends Mage_Backen
         $areaCode = null
     ) {
         parent::__construct($context, $areaCode);
-
         $this->_configStructure = $configStructure;
         $this->_authSession = $authSession;
     }

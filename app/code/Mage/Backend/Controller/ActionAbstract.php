@@ -70,9 +70,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         Mage_Backend_Controller_Context $context,
         $areaCode = null
     ) {
-        parent::__construct($context->getRequest(), $context->getResponse(), $context->getObjectManager(),
-            $context->getFrontController(), $context->getLayoutFactory(), $areaCode
-        );
+        parent::__construct($context, $areaCode);
         $this->_helper = $context->getHelper();
         $this->_session = $context->getSession();
         $this->_eventManager = $context->getEventManager();

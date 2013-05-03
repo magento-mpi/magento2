@@ -227,7 +227,9 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
         $session->clear();
         $this->loadLayout();
         $this->_initLayoutMessages('Mage_Checkout_Model_Session');
-        Mage::dispatchEvent('checkout_onepage_controller_success_action', array('order_ids' => array($lastOrderId)));
+        $this->_eventManager->dispatch(
+            'checkout_onepage_controller_success_action', array('order_ids' => array($lastOrderId))
+        );
         $this->renderLayout();
     }
 
@@ -367,7 +369,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             $result = $this->getOnepage()->saveShippingMethod($data);
             // $result will contain error data if shipping method is empty
             if(!$result) {
-                Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method',
+                $this->_eventManager->dispatch('checkout_controller_onepage_save_shipping_method',
                         array('request'=>$this->getRequest(),
                             'quote'=>$this->getOnepage()->getQuote()));
                 $this->getOnepage()->getQuote()->collectTotals();
