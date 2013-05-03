@@ -25,7 +25,7 @@ class Saas_JobNotification_Adminhtml_ViewController extends Mage_Backend_Control
         $this->loadLayout();
 
         $this->_setActiveMenu('Saas_JobNotification::grid');
-        $this->_title('Tasks Notifications');
+        $this->_title('Task Notifications');
 
         $this->renderLayout();
     }
