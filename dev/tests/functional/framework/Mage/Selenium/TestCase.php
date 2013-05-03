@@ -74,6 +74,7 @@
  * @method Core_Mage_Grid_Helper                                                                       gridHelper()
  * @method Core_Mage_Theme_Helper                                                                      themeHelper()
  * @method Core_Mage_DesignEditor_Helper                                                               designEditorHelper()
+ * @method Saas_Mage_TmtApi_Helper                                                                     tmtApiHelper()
  */
 //@codingStandardsIgnoreEnd
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
@@ -4423,5 +4424,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 }
             }, $timeout * 1000
         );
+    }
+
+    /**
+     * Gets default browser timeout
+     *
+     * @return int
+     */
+    public function getBrowserTimeout()
+    {
+        return $this->_browserTimeout;
     }
 }

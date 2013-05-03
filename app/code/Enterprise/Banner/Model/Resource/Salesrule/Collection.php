@@ -2,104 +2,66 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterprise_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
- * Banner Salesrule Resource Collection
- *
- * @category    Enterprise
- * @package     Enterprise_Banner
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Collection of banner <-> sales rule associations
  */
-class Enterprise_Banner_Model_Resource_Salesrule_Collection extends Mage_SalesRule_Model_Resource_Rule_Collection
+class Enterprise_Banner_Model_Resource_Salesrule_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Define if banner filter is already called
-     *
-     * @var bool
+     * @var string
      */
-    protected $_isBannerFilterAdded              = false;
+    protected $_eventPrefix = 'enterprise_banner_salesrule_collection';
 
     /**
-     * Define if customer segment filter is already called
-     *
-     * @var bool
+     * @var string
      */
-    protected $_isCustomerSegmentFilterAdded     = false;
+    protected $_eventObject = 'collection';
 
     /**
-     * Reset collection select
-     *
-     * @return Enterprise_Banner_Model_Resource_Salesrule_Collection
+     * Define collection item type and corresponding table
      */
-    public function resetColumns()
+    protected function _construct()
     {
-        $this->getSelect()->reset();
-        return $this;
+        $this->_init('Varien_Object', 'Mage_SalesRule_Model_Resource_Rule');
+        $this->setMainTable('enterprise_banner_salesrule');
     }
 
     /**
-     * Set related banners to sales rule
+     * Filter out disabled banners
      *
-     * @param array $appliedRules
-     * @param bool $enabledOnly if true then only enabled banners will be joined
-     * @return Enterprise_Banner_Model_Resource_Salesrule_Collection
+     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
      */
-    public function addBannersFilter($appliedRules, $enabledOnly = false)
+    protected function _initSelect()
     {
-        if (!$this->_isBannerFilterAdded) {
-            $select = $this->getSelect();
-            $select->from(
-                array('rule_related_banners' => $this->getTable('enterprise_banner_salesrule')),
-                array('banner_id')
-            );
-            if (empty($appliedRules)) {
-                $aplliedRules = array(0);
-            }
-            $select->where('rule_related_banners.rule_id IN (?)', $appliedRules);
-            if ($enabledOnly) {
-                $select->join(
-                    array('banners' => $this->getTable('enterprise_banner')),
-                    'banners.banner_id = rule_related_banners.banner_id AND banners.is_enabled=1',
-                    array()
-                );
-            }
-            $select->group('rule_related_banners.banner_id');
-
-            $this->_isBannerFilterAdded = true;
-        }
-        return $this;
-    }
-
-    /**
-     * Filter banners by customer segments
-     *
-     * @param array $matchedCustomerSegments
-     * @return Enterprise_Banner_Model_Resource_Salesrule_Collection
-     */
-    public function addCustomerSegmentFilter($matchedCustomerSegments)
-    {
-        if (!$this->_isCustomerSegmentFilterAdded && !empty($matchedCustomerSegments)) {
-            $select = $this->getSelect();
-            $select->joinLeft(
-                array('banner_segments' => $this->getTable('enterprise_banner_customersegment')),
-                'banners.banner_id = banner_segments.banner_id',
+        parent::_initSelect();
+        $this->getSelect()
+            ->join(
+                array('banner' => $this->getTable('enterprise_banner')),
+                'banner.banner_id = main_table.banner_id AND banner.is_enabled = 1',
                 array()
-            );
-            
-            if (empty($matchedCustomerSegments)) {
-                $select->where('banner_segments.segment_id IS NULL');
-            } else {
-                $select->where('banner_segments.segment_id IS NULL OR banner_segments.segment_id IN (?)',
-                    $matchedCustomerSegments);
-            }
-            $this->_isCustomerSegmentFilterAdded = true;
+            )
+            ->group('main_table.banner_id')
+        ;
+        return $this;
+    }
+
+    /**
+     * Add sales rule ids filter to the collection
+     *
+     * @param array $ruleIds
+     * @return Enterprise_Banner_Model_Resource_Salesrule_Collection
+     */
+    public function addRuleIdsFilter(array $ruleIds)
+    {
+        if (!$ruleIds) {
+            // force to match no rules
+            $ruleIds = array(0);
         }
+        $this->addFieldToFilter('main_table.rule_id', array('in' => $ruleIds));
         return $this;
     }
 }

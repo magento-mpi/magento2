@@ -62,7 +62,6 @@ return array(
     'customer/online_customers',
 
     'customer/account_share',
-    'customer/enterprise_customersegment',
     'customer/captcha',
 
     'sales/minimum_order/multi_address',
