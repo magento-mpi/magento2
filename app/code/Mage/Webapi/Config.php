@@ -108,7 +108,6 @@ class Mage_Webapi_Config
             } else {
                 $services = $this->_getReader()->getServices();
                 $data = $this->_toArray($services);
-print_r($data);
 
                 $this->_saveToCache(serialize($data));
                 $_array = isset($data['config']) ? $data['config'] : array();
@@ -306,12 +305,7 @@ print_r($data);
         $routes = array();
 
         foreach ($this->getServices() as $serviceName => $service) {
-echo "loop services \n";
-print_r($service);
             foreach ($service[self::KEY_OPERATIONS] as $operationName => $operation) {
-echo "loop operations \n";
-print_r($operation);
-
                 if (strtoupper($operation['httpMethod']) == strtoupper($httpMethod)) {
                     $routes[] = $this->_createRoute(array(
                         'routePath' => $service['baseUrl'] . $operation['route'],
