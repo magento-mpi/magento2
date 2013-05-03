@@ -2,13 +2,10 @@
 /**
  * Testcase for Mage_Adminhtml_Block_Sales_Order_Create_Items_Stub_Grid class.
  *
- * {license_notice}
+ * {license_link}
  *
- * @category    Magento
- * @package     Mage_Adminhtml
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license   {license_link}
  */
 class Mage_Adminhtml_Block_Sales_Order_Create_Items_Stub_GridTest extends PHPUnit_Framework_TestCase
 {

@@ -4,11 +4,8 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Adminhtml
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license   {license_link}
  */
 class Mage_Adminhtml_Block_Sales_Order_Create_Items_Stub_Grid extends Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid
 {

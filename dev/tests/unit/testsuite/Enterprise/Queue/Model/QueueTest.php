@@ -89,12 +89,20 @@ class Enterprise_Queue_Model_QueueTest extends PHPUnit_Framework_TestCase
 
     public function testAddTaskWithRunningTaskDoesNothing()
     {
-        $this->markTestIncomplete();
+        $this->_taskMock->expects($this->once())->method('isEnqueued')->will($this->returnValue(true));
+        $this->_clientMock->expects($this->never())->method("addBackgroundTask");
+        $this->_model->addTask($this->_taskName, $this->_params, 'high');
     }
 
+    /**
+     * @expectedException Enterprise_Queue_Model_AddException
+     */
     public function testAddTaskRethrowsProperException()
     {
-        $this->markTestIncomplete();
+        $this->_taskMock->expects($this->once())->method('isEnqueued')->will(
+            $this->throwException(new Enterprise_Queue_Model_AddException())
+        );
+        $this->_model->addTask($this->_taskName, $this->_params, 'high');
     }
 
     public function testGetTaskInitializesTaskStatus()
