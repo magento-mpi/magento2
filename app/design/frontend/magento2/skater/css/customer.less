@@ -63,7 +63,8 @@
 
 .customer-account-login .page.title,
 .customer-account-forgotpassword .page.title,
-.customer-account-create .page.title {
+.customer-account-create .page.title,
+.customer-account-resetpassword .page.title {
     text-align: center;
 }
 
@@ -232,16 +233,83 @@
     }
 }
 
+.form.password.reset {
+    .fieldset {
+        .borderBox();
+        width: 490px;
+        .formFieldset();
+        .formInline(34%);
+        border: 0;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+        .legend {
+            float: left;
+            line-height: 1.2;
+            .customFont(16px);
+            padding-bottom: 20px;
+            width: 100%;
+            margin: 15px 0 5px;
+            & + br {
+                display: block;
+                clear: both;
+            }
+        }
+        > .field {
+            margin: 0 0 20px;
+            .label {
+                margin-top: 6px;
+                font-size: 13px;
+            }
+        }
+        .field.choice.newsletter {
+            padding-left: 27%;
+            .label {
+                float: none;
+            }
+            .choice input {
+                margin-top: 3px;
+            }
+        }
+    }
+    .actions {
+        margin: 15px auto 0;
+        position: relative;
+        width: 490px;
+        .primary {
+            text-align: center;
+        }
+        .secondary {
+            font-size: 12px;
+            position: absolute;
+            left: 0;
+            top: 12px;
+            a {
+                .colorA(@primary3,@primary4);
+                span {
+                    .icon('\e020',12px,'icons');
+                    &:before {
+                        position: relative;
+                        top: -1px;
+                    }
+                }
+            }
+        }
+    }
+    .action.submit {
+        .primaryActionBig();
+        margin: 0 auto;
+        span {
+            font-size: 15px;
+        }
+    }
+}
+
 // *
 // *    Mage_Customer
 // *
 // *    Account
 // ----------------------------------------------------------------------------- */
-
-.my-account {
-    font-size: 13px;
-    margin: 45px 0 0;
-}
 
 .account {
     .column.main > .page.title {
@@ -275,6 +343,8 @@
 }
 
 .my-account {
+    font-size: 13px;
+    margin: 45px 0 0;
     .fieldset {
         > .legend {
             float: left;
@@ -366,7 +436,6 @@
             }
         }
     }
-
     .block {
         margin-top: 50px;
         &.welcome {
@@ -447,6 +516,12 @@
                 content: ' | '
             }
         }
+        &.dashboard .product.name > a {
+            &:hover {
+                color: @secondary3;
+                text-decoration: none;
+            }
+        }
     }
     .page.title .action.add {
         .primaryAction();
@@ -456,7 +531,8 @@
     .data.table.orders, // My Orders
     .data.wishlist, // My Whishlist
     .data.table.reviews, // My Product Reviews
-    .data.tags { // My Tags
+    .data.tags, // My Tags
+    .data.table.balance.history { // Store Credit
         background: @commonBg;
         border: 1px solid @primary7;
         border-collapse: separate;
@@ -573,6 +649,12 @@
                     font-size: 12px;
                 }
             }
+        }
+    }
+//Share whishlist
+    .wishlist.share {
+        > .fieldset > .field > .label {
+            padding-right: 5px;
         }
     }
 // Giftcard Account
@@ -753,6 +835,39 @@
         .price-excluding-tax,
         .price-including-tax {
             display: block;
+        }
+    }
+    .dashboard.tags {
+        .products.list.items > .item {
+            .details {
+                padding: 0;
+            }
+            .product.tags li {
+                display: inline;
+            }
+        }
+        .title .action.view {
+            background: none;
+            letter-spacing: 0;
+            text-decoration: none;
+            > span {
+                font-family: Arial, Helvetica, sans-serif;
+                text-transform: lowercase;
+            }
+        }
+    }
+// Store credit
+    .storecredit {
+        .account.balance .price {
+            font-weight: bold;
+        }
+        .subtitle,
+        .sub-title {
+            .customFont(15px);
+            margin: 40px 0 10px;
+        }
+        .data.table.balance.history tbody:nth-child(odd) td {
+            background: @secondBg;
         }
     }
 }

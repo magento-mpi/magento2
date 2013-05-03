@@ -41,7 +41,7 @@ manage_customer_address_attributes:
         messages: &addressAttributeMessages
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' or text()='Failed' and not(contains(@style,'display: none;'))]"
             success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The customer address attribute has been deleted.')]
-            exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute with the same code already exists')]
+            exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute with the same code already exists.')]
             success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The customer address attribute has been saved.')]
             wrong_length_attribute_code: //label[@class="mage-error" and contains(.,'Maximum length of this field must be equal or less than')]
             invalid_attribute_code: //label[@class="mage-error" and contains(.,'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.')]

@@ -62,7 +62,7 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='date_start'>
                         <arguments>
-                            <header translate='true' module='Enterprise_CatalogEvent'>Starts On</header>
+                            <header translate='true' module='Enterprise_CatalogEvent'>Start On</header>
                             <type>datetime</type>
                             <index>date_start</index>
                             <filter_time>1</filter_time>
@@ -71,7 +71,7 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='date_end'>
                         <arguments>
-                            <header translate='true' module='Enterprise_CatalogEvent'>Ends On</header>
+                            <header translate='true' module='Enterprise_CatalogEvent'>End On</header>
                             <type>datetime</type>
                             <index>date_end</index>
                             <filter_time>1</filter_time>
@@ -89,7 +89,7 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='display_state'>
                         <arguments>
-                            <header translate='true' module='Enterprise_CatalogEvent'>Display Countdown Ticker On</header>
+                            <header translate='true' module='Enterprise_CatalogEvent'>Countdown Ticker</header>
                             <type>options</type>
                             <index>display_state</index>
                             <renderer>Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid_Column_Renderer_Bitmask</renderer>

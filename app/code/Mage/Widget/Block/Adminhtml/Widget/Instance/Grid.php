@@ -56,7 +56,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Grid extends Mage_Adminhtml_Bl
         ));
 
         $this->addColumn('title', array(
-            'header'    => Mage::helper('Mage_Widget_Helper_Data')->__('Widget Instance Title'),
+            'header'    => Mage::helper('Mage_Widget_Helper_Data')->__('Widget Instance'),
             'align'     => 'left',
             'index'     => 'title',
         ));

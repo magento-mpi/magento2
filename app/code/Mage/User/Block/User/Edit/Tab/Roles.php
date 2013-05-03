@@ -70,7 +70,7 @@ class Mage_User_Block_User_Edit_Tab_Roles extends Mage_Backend_Block_Widget_Grid
         ));*/
 
         $this->addColumn('role_name', array(
-            'header'    =>Mage::helper('Mage_User_Helper_Data')->__('Role Name'),
+            'header'    =>Mage::helper('Mage_User_Helper_Data')->__('Role'),
             'index'     =>'role_name'
         ));
 

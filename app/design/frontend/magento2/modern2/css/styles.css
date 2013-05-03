@@ -263,7 +263,7 @@ a > span:hover {
 }
 .column.main .block > .title strong {
   font-size: 15px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -281,7 +281,7 @@ a > span:hover {
 .sidebar .block > .title strong,
 .sidebar .block > .block-title strong {
   font-size: 13px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -311,7 +311,7 @@ a > span:hover {
 .page.title .title {
   margin: 0;
   font-size: 25px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -508,7 +508,7 @@ strong {
   background: #dc0000;
   color: #ffffff;
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1090,7 +1090,7 @@ strong {
 }
 .block.newsletter .actions {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1158,7 +1158,7 @@ strong {
 }
 .navigation {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -1481,7 +1481,7 @@ ul.messages ul {
 .block.filter .action.reset {
   color: #666666;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1588,7 +1588,7 @@ ul.messages ul {
 }
 .block.compare .content .actions .action.clear {
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1605,7 +1605,7 @@ ul.messages ul {
   background: #f6f4f3;
   color: #333333;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1616,6 +1616,15 @@ ul.messages ul {
 .block.compare .content .actions .action.compare:hover {
   background: #e2e2e2;
   color: #111111;
+}
+.block.compare .title .qty {
+  color: #999999;
+}
+.block.compare .title .qty:before {
+  content: '(';
+}
+.block.compare .title .qty:after {
+  content: ')';
 }
 .comparison.wrapper {
   position: relative;
@@ -1808,7 +1817,7 @@ ul.messages ul {
   background: #f6f4f3;
   color: #333333;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1863,7 +1872,7 @@ ul.messages ul {
   color: #666666;
   text-decoration: none;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1887,7 +1896,7 @@ ul.messages ul {
   background: #f6f4f3;
   color: #333333;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -2412,7 +2421,8 @@ ul.messages ul {
   opacity: 1;
 }
 .grid .products.list.items > .item > .product:hover .product.actions .action.tocart,
-.grid .products.list.items > .item > .product:hover .product.actions .secondary {
+.grid .products.list.items > .item > .product:hover .product.actions .secondary,
+.grid .products.list.items > .item > .product:hover .product.actions .stock.unavailable {
   visibility: visible;
 }
 .grid .products.list.items > .item .details {
@@ -2551,7 +2561,7 @@ ul.messages ul {
 }
 .action.tocart span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -2564,7 +2574,7 @@ ul.messages ul {
 .action.tocompare,
 .action.towishlist {
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -2691,7 +2701,7 @@ ul.messages ul {
 }
 .block.add.review .fieldset > .legend {
   font-size: 16px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -2797,7 +2807,7 @@ ul.messages ul {
   font-size: 0;
   line-height: 0;
   width: 0;
-  border-bottom: 5px solid #666;
+  border-bottom: 5px solid #666666;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 }
@@ -2823,7 +2833,7 @@ ul.messages ul {
 }
 .block.add.review .action.submit span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3136,7 +3146,8 @@ ul.messages ul {
   opacity: 1;
 }
 .block.crosssell .content > .items > .item > .product:hover .product.actions .action.tocart,
-.block.crosssell .content > .items > .item > .product:hover .product.actions .secondary {
+.block.crosssell .content > .items > .item > .product:hover .product.actions .secondary,
+.block.crosssell .content > .items > .item > .product:hover .product.actions .stock.unavailable {
   visibility: visible;
 }
 .block.crosssell .content > .items > .item .details {
@@ -3231,7 +3242,7 @@ ul.messages ul {
 }
 .checkout.paypal.before:before {
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3248,7 +3259,7 @@ ul.messages ul {
 }
 .checkout.paypal.after:after {
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3324,7 +3335,7 @@ ul.messages ul {
 }
 .action.checkout span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3478,7 +3489,7 @@ ul.messages ul {
   font-size: 0;
   line-height: 0;
   width: 0;
-  border-bottom: 5px solid #666;
+  border-bottom: 5px solid #666666;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 }
@@ -3575,7 +3586,7 @@ ul.messages ul {
 }
 .product.info.main .product.addto.links .action {
   font-size: 11px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3673,7 +3684,7 @@ ul.messages ul {
   font-size: 0;
   line-height: 0;
   width: 0;
-  border-bottom: 5px solid #666;
+  border-bottom: 5px solid #666666;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 }
@@ -3734,6 +3745,10 @@ ul.messages ul {
 .product.add.form .product.options.wrapper {
   margin-bottom: 15px;
 }
+.product.add.form .giftcard.form + .product.options.wrapper {
+  margin: 0;
+  padding: 0;
+}
 .product-pricing {
   background: #ffffff;
   border: 1px solid #e2e2e2;
@@ -3757,7 +3772,7 @@ ul.messages ul {
 .action.primary.customize span,
 .action.primary.tocart span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3804,7 +3819,7 @@ ul.messages ul {
   color: #666666;
   float: left;
   font-size: 14px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3822,7 +3837,7 @@ ul.messages ul {
 .box.tocart .control input {
   border: 0;
   font-size: 18px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3850,7 +3865,7 @@ ul.messages ul {
   margin: 15px 0;
   background: #f6f4f3;
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -3876,7 +3891,7 @@ ul.messages ul {
 }
 .action.mailto {
   font-size: 11px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4067,7 +4082,7 @@ ul.messages ul {
   background: #f6f4f3;
   color: #333333;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4159,7 +4174,7 @@ ul.messages ul {
   outline: none;
   color: #666666;
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4178,7 +4193,7 @@ ul.messages ul {
 .block.product.tags .items + .add.tag .label {
   display: block;
   font-size: 15px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4281,7 +4296,7 @@ body.type-bundle {
 }
 .fieldset.bundle.options .legend {
   font-size: 20px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4421,7 +4436,7 @@ body.type-bundle {
   display: block;
   margin: 40px 0 0;
   font-size: 15px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4474,7 +4489,7 @@ body.type-bundle {
   color: #666666;
   text-decoration: underline;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4584,7 +4599,7 @@ body.type-bundle {
   float: left;
   line-height: 1.2;
   font-size: 16px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4659,7 +4674,7 @@ body.type-bundle {
 }
 .send.friend .actions .action.submit span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4680,7 +4695,7 @@ body.type-bundle {
   background: #f6f4f3;
   color: #333333;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4844,7 +4859,7 @@ body.type-bundle {
 .opc.wrapper > .opc .section > .step-title h2 {
   display: inline-block;
   font-size: 16px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4853,7 +4868,7 @@ body.type-bundle {
 }
 .opc.wrapper > .opc .section > .step-title .number {
   font-size: 16px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4942,7 +4957,7 @@ body.type-bundle {
 }
 .opc.wrapper .form:not(.login) .actions button.action span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5032,7 +5047,7 @@ body.type-bundle {
 }
 .opc.wrapper .form:not(.login) .inner-box h4 {
   font-size: 14px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5209,7 +5224,7 @@ body.type-bundle {
 }
 .step.login.wrapper button.action span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5284,7 +5299,7 @@ body.type-bundle {
 }
 .order.data.items tr.total .amount {
   font-size: 17px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5326,7 +5341,7 @@ body.type-bundle {
 }
 .cart.main.actions a {
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5343,7 +5358,7 @@ body.type-bundle {
 }
 .cart.main.actions .action.continue {
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5376,7 +5391,7 @@ body.type-bundle {
 }
 .cart.main.actions .action.update {
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5427,7 +5442,7 @@ body.type-bundle {
   text-shadow: none;
   outline: none;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5526,7 +5541,7 @@ body.type-bundle {
 .items.data .item.actions .action.edit span,
 .items.data .item.actions .action.towishlist span {
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5578,7 +5593,7 @@ body.type-bundle {
 }
 .cart.summary .summary.title {
   font-size: 16px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5656,7 +5671,7 @@ body.type-bundle {
   background: #f6f4f3;
   color: #333333;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5934,7 +5949,7 @@ body.type-bundle {
 }
 .cart.totals .amount {
   font-size: 17px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -6459,7 +6474,8 @@ body.type-bundle {
 }
 .customer-account-login .page.title,
 .customer-account-forgotpassword .page.title,
-.customer-account-create .page.title {
+.customer-account-create .page.title,
+.customer-account-resetpassword .page.title {
   text-align: center;
 }
 .login.container {
@@ -6532,7 +6548,7 @@ body.type-bundle {
 .login.container .action.login span,
 .login.container .action.create span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -6731,7 +6747,7 @@ body.type-bundle {
   float: left;
   line-height: 1.2;
   font-size: 16px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -6834,7 +6850,7 @@ body.type-bundle {
 .form.password.forget .action.submit span,
 .form.create.account .action.submit span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -6853,9 +6869,157 @@ body.type-bundle {
 .form.create.account .action.submit span {
   font-size: 15px;
 }
-.my-account {
+.form.password.reset .fieldset {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 490px;
+  margin: 0;
+  letter-spacing: -0.31em;
+  word-spacing: -0.43em;
+  border: 0;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.form.password.reset .fieldset > * {
+  letter-spacing: normal;
+  word-spacing: normal;
+}
+.form.password.reset .fieldset > .legend + br {
+  display: none;
+}
+.form.password.reset .fieldset > .field {
+  *zoom: 1;
+}
+.form.password.reset .fieldset > .field:before,
+.form.password.reset .fieldset > .field:after {
+  content: "";
+  display: table;
+}
+.form.password.reset .fieldset > .field:after {
+  clear: both;
+}
+.form.password.reset .fieldset > .field > .control,
+.form.password.reset .fieldset > .field > .label {
+  margin: 0;
+  float: left;
+  width: 34%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.form.password.reset .fieldset > .field > .control {
+  width: 66%;
+}
+.form.password.reset .fieldset > .field.no-label .control {
+  margin-left: 34%;
+}
+.form.password.reset .fieldset .legend {
+  float: left;
+  line-height: 1.2;
+  font-size: 16px;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding-bottom: 20px;
+  width: 100%;
+  margin: 15px 0 5px;
+}
+.form.password.reset .fieldset .legend + br {
+  display: block;
+  clear: both;
+}
+.form.password.reset .fieldset > .field {
+  margin: 0 0 20px;
+}
+.form.password.reset .fieldset > .field .label {
+  margin-top: 6px;
   font-size: 13px;
-  margin: 45px 0 0;
+}
+.form.password.reset .fieldset .field.choice.newsletter {
+  padding-left: 27%;
+}
+.form.password.reset .fieldset .field.choice.newsletter .label {
+  float: none;
+}
+.form.password.reset .fieldset .field.choice.newsletter .choice input {
+  margin-top: 3px;
+}
+.form.password.reset .actions {
+  margin: 15px auto 0;
+  position: relative;
+  width: 490px;
+}
+.form.password.reset .actions .primary {
+  text-align: center;
+}
+.form.password.reset .actions .secondary {
+  font-size: 12px;
+  position: absolute;
+  left: 0;
+  top: 12px;
+}
+.form.password.reset .actions .secondary a {
+  color: #666666;
+}
+.form.password.reset .actions .secondary a > span {
+  color: #666666;
+  text-decoration: underline;
+}
+.form.password.reset .actions .secondary a:hover,
+.form.password.reset .actions .secondary a:hover > span {
+  color: #111111;
+  text-decoration: underline;
+}
+.form.password.reset .actions .secondary a span:before {
+  font-family: "icons";
+  font-size: 12px;
+  line-height: 12px;
+  height: 12px;
+  overflow: hidden;
+  content: '\e020';
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.form.password.reset .actions .secondary a span:before {
+  position: relative;
+  top: -1px;
+}
+.form.password.reset .action.submit {
+  border: none;
+  background: #dc0000;
+  display: inline-block;
+  margin: 0;
+  padding: 4px 12px;
+  outline: none;
+  padding: 10px 50px 9px;
+  text-decoration: none;
+  margin: 0 auto;
+}
+.form.password.reset .action.submit span {
+  font-size: 12px;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  line-height: 16px;
+}
+.form.password.reset .action.submit:hover {
+  background: #b10000;
+}
+.form.password.reset .action.submit span {
+  font-size: 15px;
+}
+.form.password.reset .action.submit span {
+  font-size: 15px;
 }
 .account .column.main > .page.title {
   margin-top: 47px;
@@ -6872,7 +7036,7 @@ body.type-bundle {
 }
 .account .column.main > .page.title .action.add span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -6910,6 +7074,10 @@ body.type-bundle {
 .block.account.nav .current {
   color: #dc0000;
 }
+.my-account {
+  font-size: 13px;
+  margin: 45px 0 0;
+}
 .my-account .fieldset {
   margin: 0;
   letter-spacing: -0.31em;
@@ -6925,7 +7093,7 @@ body.type-bundle {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 15px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -7024,7 +7192,7 @@ body.type-bundle {
   font-size: 0;
   line-height: 0;
   width: 0;
-  border-bottom: 5px solid #666;
+  border-bottom: 5px solid #666666;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 }
@@ -7107,7 +7275,7 @@ body.type-bundle {
 }
 .my-account .actions .primary .action span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -7295,20 +7463,27 @@ body.type-bundle {
 .my-account .block.addresses.list .action.edit:after {
   content: ' | ';
 }
+.my-account .block.dashboard .product.name > a:hover {
+  color: #b10000;
+  text-decoration: none;
+}
 .my-account .data.table.orders,
 .my-account .data.wishlist,
 .my-account .data.table.reviews,
-.my-account .data.tags {
+.my-account .data.tags,
+.my-account .data.table.balance.history {
   width: 100%;
 }
 .my-account .data.table.orders td,
 .my-account .data.wishlist td,
 .my-account .data.table.reviews td,
 .my-account .data.tags td,
+.my-account .data.table.balance.history td,
 .my-account .data.table.orders th,
 .my-account .data.wishlist th,
 .my-account .data.table.reviews th,
-.my-account .data.tags th {
+.my-account .data.tags th,
+.my-account .data.table.balance.history th {
   padding: 10px 5px;
   text-align: left;
 }
@@ -7316,20 +7491,24 @@ body.type-bundle {
 .my-account .data.wishlist td.col.total,
 .my-account .data.table.reviews td.col.total,
 .my-account .data.tags td.col.total,
+.my-account .data.table.balance.history td.col.total,
 .my-account .data.table.orders th.col.total,
 .my-account .data.wishlist th.col.total,
 .my-account .data.table.reviews th.col.total,
-.my-account .data.tags th.col.total {
+.my-account .data.tags th.col.total,
+.my-account .data.table.balance.history th.col.total {
   text-align: right;
 }
 .my-account .data.table.orders td.col.actions,
 .my-account .data.wishlist td.col.actions,
 .my-account .data.table.reviews td.col.actions,
 .my-account .data.tags td.col.actions,
+.my-account .data.table.balance.history td.col.actions,
 .my-account .data.table.orders th.col.actions,
 .my-account .data.wishlist th.col.actions,
 .my-account .data.table.reviews th.col.actions,
-.my-account .data.tags th.col.actions {
+.my-account .data.tags th.col.actions,
+.my-account .data.table.balance.history th.col.actions {
   white-space: nowrap;
   width: 10%;
 }
@@ -7337,16 +7516,19 @@ body.type-bundle {
 .my-account .data.wishlist td em,
 .my-account .data.table.reviews td em,
 .my-account .data.tags td em,
+.my-account .data.table.balance.history td em,
 .my-account .data.table.orders th em,
 .my-account .data.wishlist th em,
 .my-account .data.table.reviews th em,
-.my-account .data.tags th em {
+.my-account .data.tags th em,
+.my-account .data.table.balance.history th em {
   font-style: normal;
 }
 .my-account .data.table.orders th,
 .my-account .data.wishlist th,
 .my-account .data.table.reviews th,
-.my-account .data.tags th {
+.my-account .data.tags th,
+.my-account .data.table.balance.history th {
   font-size: 13px;
   font-weight: bold;
   border-bottom: 1px solid #e2e2e2;
@@ -7354,20 +7536,23 @@ body.type-bundle {
 .my-account .data.table.orders tr:nth-child(even) td,
 .my-account .data.wishlist tr:nth-child(even) td,
 .my-account .data.table.reviews tr:nth-child(even) td,
-.my-account .data.tags tr:nth-child(even) td {
+.my-account .data.tags tr:nth-child(even) td,
+.my-account .data.table.balance.history tr:nth-child(even) td {
   background: #f6f4f3;
 }
 .my-account .data.table.orders a,
 .my-account .data.wishlist a,
 .my-account .data.table.reviews a,
-.my-account .data.tags a {
+.my-account .data.tags a,
+.my-account .data.table.balance.history a {
   color: #666666;
   text-decoration: none;
 }
 .my-account .data.table.orders a > span,
 .my-account .data.wishlist a > span,
 .my-account .data.table.reviews a > span,
-.my-account .data.tags a > span {
+.my-account .data.tags a > span,
+.my-account .data.table.balance.history a > span {
   color: #666666;
   text-decoration: underline;
 }
@@ -7375,29 +7560,34 @@ body.type-bundle {
 .my-account .data.wishlist a:hover,
 .my-account .data.table.reviews a:hover,
 .my-account .data.tags a:hover,
+.my-account .data.table.balance.history a:hover,
 .my-account .data.table.orders a:hover > span,
 .my-account .data.wishlist a:hover > span,
 .my-account .data.table.reviews a:hover > span,
-.my-account .data.tags a:hover > span {
+.my-account .data.tags a:hover > span,
+.my-account .data.table.balance.history a:hover > span {
   color: #111111;
   text-decoration: underline;
 }
 .my-account .data.table.orders a:hover,
 .my-account .data.wishlist a:hover,
 .my-account .data.table.reviews a:hover,
-.my-account .data.tags a:hover {
+.my-account .data.tags a:hover,
+.my-account .data.table.balance.history a:hover {
   text-decoration: none;
 }
 .my-account .data.table.orders .product.name a,
 .my-account .data.wishlist .product.name a,
 .my-account .data.table.reviews .product.name a,
-.my-account .data.tags .product.name a {
+.my-account .data.tags .product.name a,
+.my-account .data.table.balance.history .product.name a {
   color: #111111;
 }
 .my-account .data.table.orders .product.name a > span,
 .my-account .data.wishlist .product.name a > span,
 .my-account .data.table.reviews .product.name a > span,
-.my-account .data.tags .product.name a > span {
+.my-account .data.tags .product.name a > span,
+.my-account .data.table.balance.history .product.name a > span {
   color: #111111;
   text-decoration: underline;
 }
@@ -7405,23 +7595,27 @@ body.type-bundle {
 .my-account .data.wishlist .product.name a:hover,
 .my-account .data.table.reviews .product.name a:hover,
 .my-account .data.tags .product.name a:hover,
+.my-account .data.table.balance.history .product.name a:hover,
 .my-account .data.table.orders .product.name a:hover > span,
 .my-account .data.wishlist .product.name a:hover > span,
 .my-account .data.table.reviews .product.name a:hover > span,
-.my-account .data.tags .product.name a:hover > span {
+.my-account .data.tags .product.name a:hover > span,
+.my-account .data.table.balance.history .product.name a:hover > span {
   color: #b10000;
   text-decoration: underline;
 }
 .my-account .data.table.orders .product.name a:hover,
 .my-account .data.wishlist .product.name a:hover,
 .my-account .data.table.reviews .product.name a:hover,
-.my-account .data.tags .product.name a:hover {
+.my-account .data.tags .product.name a:hover,
+.my-account .data.table.balance.history .product.name a:hover {
   text-decoration: none;
 }
 .my-account .data.table.orders .action.view:after,
 .my-account .data.wishlist .action.view:after,
 .my-account .data.table.reviews .action.view:after,
-.my-account .data.tags .action.view:after {
+.my-account .data.tags .action.view:after,
+.my-account .data.table.balance.history .action.view:after {
   content: ' |';
 }
 .my-account .data.wishlist td {
@@ -7446,7 +7640,7 @@ body.type-bundle {
 }
 .my-account .data.wishlist .col.actions .link-edit {
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -7506,6 +7700,9 @@ body.type-bundle {
 .my-account .data.wishlist .price-box .old-price .price {
   font-size: 12px;
 }
+.my-account .wishlist.share > .fieldset > .field > .label {
+  padding-right: 5px;
+}
 .my-account .giftcardaccount {
   position: relative;
 }
@@ -7563,7 +7760,7 @@ body.type-bundle {
   background: #f6f4f3;
   color: #333333;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -7704,6 +7901,36 @@ body.type-bundle {
 .my-account .data.tags .price-including-tax {
   display: block;
 }
+.my-account .dashboard.tags .products.list.items > .item .details {
+  padding: 0;
+}
+.my-account .dashboard.tags .products.list.items > .item .product.tags li {
+  display: inline;
+}
+.my-account .dashboard.tags .title .action.view {
+  background: none;
+  letter-spacing: 0;
+  text-decoration: none;
+}
+.my-account .dashboard.tags .title .action.view > span {
+  font-family: Arial, Helvetica, sans-serif;
+  text-transform: lowercase;
+}
+.my-account .storecredit .account.balance .price {
+  font-weight: bold;
+}
+.my-account .storecredit .subtitle,
+.my-account .storecredit .sub-title {
+  font-size: 15px;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 40px 0 10px;
+}
+.my-account .storecredit .data.table.balance.history tbody:nth-child(odd) td {
+  background: #f6f4f3;
+}
 .wishlist-index-index .actions .primary {
   text-align: right;
 }
@@ -7719,6 +7946,10 @@ body.type-bundle {
 }
 .widget-static-block img {
   max-width: 100%;
+}
+.column.main .page.title + .block.widget,
+.column.main .block.widget + .block.widget {
+  margin-bottom: 50px;
 }
 .block.widget .pager .amount {
   color: #999999;
@@ -7850,7 +8081,7 @@ body.type-bundle {
   background: #f6f4f3;
   color: #333333;
   font-size: 10px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -7970,7 +8201,7 @@ img[align="right"] {
   z-index: 1;
   color: #111111;
   font-size: 14px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -8010,7 +8241,7 @@ img[align="right"] {
 }
 .banner.main .banner.action span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -8060,7 +8291,7 @@ img[align="right"] {
 }
 .std .page-title h1 {
   font-size: 25px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -8068,7 +8299,7 @@ img[align="right"] {
 }
 .std h2 {
   font-size: 18px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -8076,7 +8307,7 @@ img[align="right"] {
 }
 .std h3 {
   font-size: 16px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -8109,7 +8340,7 @@ img[align="right"] {
 .form.search.advanced .legend,
 .form.contact .legend {
   font-size: 15px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -8182,6 +8413,13 @@ img[align="right"] {
 .form.contact .fieldset > .field:first-child {
   margin: 0;
 }
+.form.search.advanced .fieldset > .field .addon .addbefore,
+.form.contact .fieldset > .field .addon .addbefore,
+.form.search.advanced .fieldset > .field .addon .addafter,
+.form.contact .fieldset > .field .addon .addafter {
+  background: none;
+  border: 0;
+}
 .form.search.advanced .actions,
 .form.contact .actions {
   position: relative;
@@ -8202,7 +8440,7 @@ img[align="right"] {
 .form.search.advanced .actions button.action span,
 .form.contact .actions button.action span {
   font-size: 12px;
-  font-family: "comfortaa", Arial, Helvetica, sans-serif;
+  font-family: comfortaa, Arial, Helvetica, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.1em;

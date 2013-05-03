@@ -985,9 +985,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
             );
         }
 
-        if (!isset($postData['stock_data']['use_config_manage_stock'])) {
-            $postData['stock_data']['use_config_manage_stock'] = 0;
-        }
+        $postData['stock_data'] = $parentProduct->getStockData();
         if (!empty($postData['image'])) {
             $postData['small_image'] = $postData['thumbnail'] = $postData['image'];
             $postData['media_gallery']['images'][] = array(

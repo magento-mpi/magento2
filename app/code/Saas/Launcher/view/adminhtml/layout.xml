@@ -34,6 +34,7 @@
             <action method="addCss"><file>jquery/editableMultiselect/css/jquery.multiselect.css</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/category-selector.css</file></action>
             <action method="addCss"><file>jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
         </reference>
         <reference name="js">
             <block type="Mage_Backend_Block_Template" template="system/config/js.phtml"/>
