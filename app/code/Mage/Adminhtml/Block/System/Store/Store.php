@@ -33,15 +33,20 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widget_
     protected function _prepareLayout()
     {
         /* Update default add button to add website button */
-        $this->_updateButton('add', 'label', Mage::helper('Mage_Core_Helper_Data')->__('Create Website'));
+        $this->_updateButton('add', 'label', Mage::helper('Mage_Adminhtml_Helper_Data')->__('Create Website'));
         $this->_updateButton('add', 'onclick', "setLocation('".$this->getUrl('*/*/newWebsite')."')");
 
         /* Add Store Group button */
-        $this->_addButton('add_group', array(
-            'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Create Store'),
-            'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/newGroup') .'\')',
-            'class'     => 'add',
-        ));
+
+        /** @var $storeLimitation Mage_Core_Model_Store_Group_Limitation */
+        $storeLimitation = Mage::getObjectManager()->get('Mage_Core_Model_Store_Group_Limitation');
+        if ($storeLimitation->canCreate()) {
+            $this->_addButton('add_group', array(
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Create Store'),
+                'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/newGroup') .'\')',
+                'class'     => 'add',
+            ));
+        }
 
         /* Add Store button */
 
@@ -49,7 +54,7 @@ class Mage_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widget_
         $limitation = Mage::getObjectManager()->get('Mage_Core_Model_Store_Limitation');
         if ($limitation->canCreate()) {
             $this->_addButton('add_store', array(
-                'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Create Store View'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Create Store View'),
                 'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/newStore') .'\')',
                 'class'     => 'add',
             ));

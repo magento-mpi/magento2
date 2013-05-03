@@ -18,6 +18,8 @@ return array(
     'web/cookie/cookie_httponly',
     'web/session',
     'web/browser_capabilities',
+    'web/unsecure',
+    'web/secure',
 
     'currency/webservicex',
     'currency/import',

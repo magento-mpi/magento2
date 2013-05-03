@@ -20,9 +20,7 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
      */
     public function testViewFilesFromThemes($area, $themeId, $file)
     {
-        if ($area === 'frontend' && $file === 'css/styles.css') {
-            $this->markTestIncomplete('MAGETWO-9806');
-        }
+        $this->_markTestIncompleteDueToBug($area, $file);
         try {
             $params = array('area' => $area, 'themeId' => $themeId);
             $viewFile = Mage::getDesign()->getViewFile($file, $params);
@@ -51,6 +49,19 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
             throw $e;
         } catch (Exception $e) {
             $this->fail($e->getMessage());
+        }
+    }
+
+    /**
+     * This dummy method was introduced to circumvent cyclomatic complexity check
+     *
+     * @param string $area
+     * @param string $file
+     */
+    protected function _markTestIncompleteDueToBug($area, $file)
+    {
+        if ($area === 'frontend' && $file === 'css/styles.css') {
+            $this->markTestIncomplete('MAGETWO-9806');
         }
     }
 
