@@ -277,16 +277,19 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
      * @param string $expectedArea
      * @param string $expectedStore
      * @param string $expectedDesign
+     * @param string $context
      */
-    public function testPreDispatch($controllerClass, $expectedArea, $expectedStore, $expectedDesign)
+    public function testPreDispatch($controllerClass, $expectedArea, $expectedStore, $expectedDesign, $context)
     {
         Mage::getConfig()->setCurrentAreaCode($expectedArea);
+        Mage::app()->loadArea($expectedArea);
 
         /** @var $controller Mage_Core_Controller_Varien_Action */
+        $context = Mage::getObjectManager()->create($context, array('response' => new Magento_Test_Response()));
         $controller = Mage::getObjectManager()->create($controllerClass,
             array(
                 'areaCode' => $expectedArea,
-                'response' => new Magento_Test_Response(),
+                'context' => $context,
             )
         );
         $controller->preDispatch();
@@ -304,9 +307,27 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
     public function controllerAreaDesignDataProvider()
     {
         return array(
-            'install'  => array('Mage_Install_Controller_Action',    'install',   'default', 'default/basic'),
-            'frontend' => array('Mage_Core_Controller_Front_Action', 'frontend',  'default', 'default/demo'),
-            'backend'  => array('Mage_Adminhtml_Controller_Action',  'adminhtml', 'admin',   'default/basic'),
+            'install' => array(
+                'Mage_Install_Controller_Action',
+                'install',
+                'default',
+                'default/basic',
+                'Mage_Core_Controller_Varien_Action_Context'
+            ),
+            'frontend' => array(
+                'Mage_Core_Controller_Front_Action',
+                'frontend',
+                'default',
+                'default/demo',
+                'Mage_Core_Controller_Varien_Action_Context'
+            ),
+            'backend' => array(
+                'Mage_Adminhtml_Controller_Action',
+                'adminhtml',
+                'admin',
+                'default/basic',
+                'Mage_Backend_Controller_Context'
+            ),
         );
     }
 
