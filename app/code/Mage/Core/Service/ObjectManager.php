@@ -59,10 +59,6 @@ class Mage_Core_Service_ObjectManager extends Varien_Object
      */
     public function call($serviceReferenceId, $serviceMethod, $request = null, $version = null)
     {
-        if (null === $version) {
-            $version = (string) $this->getServiceVersionBind($this->getCallerId(), $serviceReferenceId, $serviceMethod);
-        }
-
         $service  = $this->getService($serviceReferenceId, $version);
 
         $response = $service->call($serviceMethod, $request, $version);
@@ -80,10 +76,6 @@ class Mage_Core_Service_ObjectManager extends Varien_Object
      */
     public function getService($serviceReferenceId, $serviceMethod = null, $version = null)
     {
-        if (null === $version) {
-            $version = (string) $this->getServiceVersionBind($this->getCallerId(), $serviceReferenceId, $serviceMethod);
-        }
-
         $service = $this->_serviceFactory->createServiceInstance($serviceReferenceId, $serviceMethod, $version);
         return $service;
     }
@@ -196,17 +188,6 @@ class Mage_Core_Service_ObjectManager extends Varien_Object
         }
 
         return $this->_contentSchemas[$schemaFile];
-    }
-
-    /**
-     * @param string $callerReferenceId
-     * @param string $serviceReferenceId
-     * @paeam string $serviceMethod [optional]
-     * @return string
-     */
-    public function getServiceVersionBind($callerReferenceId, $serviceReferenceId, $serviceMethod = null)
-    {
-        return $this->_config->getServiceVersionBind($callerReferenceId, $serviceReferenceId, $serviceMethod);
     }
 }
 

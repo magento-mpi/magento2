@@ -110,7 +110,7 @@ class Mage_Core_Service_Config
                 $this->_services = new Varien_Object($_array);
             }
         }
-var_dump($data['services']['categories']);dd();
+//var_dump($data['services']);dd();
         return $this->_services;
     }
 
@@ -222,16 +222,26 @@ var_dump($data['services']['categories']);dd();
      */
     public function getServiceClassByServiceName($serviceReferenceId, $serviceMethod = null, $version = null)
     {
-        if (!empty($version)) {
-            $versionedClassName = $this->getServices()->getData($serviceReferenceId . '/_versions_/' . $version . '/_attributes_/class');
-            if (!empty($versionedClassName) && class_exists($versionedClassName)) {
-                return $versionedClassName;
-            }
-        } else {
-            $className = $this->getServices()->getData($serviceReferenceId . '/_attributes_/class');
-            if (!empty($className) && class_exists($className)) {
-                return $className;
-            }
+        if (null === $version) {
+            $version = (string) $this->getServiceVersionBind($serviceReferenceId, $serviceMethod);
+        }
+
+        $versionedClassName = $this->getServices()->getData($serviceReferenceId . '/_versions_/' . $version . '/_operations_/' . $serviceMethod . '/_attributes_/class');
+        if (!empty($versionedClassName) && class_exists($versionedClassName)) {
+            return $versionedClassName;
+        }
+        $versionedClassName = $this->getServices()->getData($serviceReferenceId . '/_versions_/' . $version . '/_attributes_/class');
+        if (!empty($versionedClassName) && class_exists($versionedClassName)) {
+            return $versionedClassName;
+        }
+
+        $className = $this->getServices()->getData($serviceReferenceId . '/_operations_/' . $serviceMethod . '/_attributes_/class');
+        if (!empty($className) && class_exists($className)) {
+            return $className;
+        }
+        $className = $this->getServices()->getData($serviceReferenceId . '/_attributes_/class');
+        if (!empty($className) && class_exists($className)) {
+            return $className;
         }
 
         if (class_exists($serviceReferenceId)) {
@@ -244,19 +254,12 @@ var_dump($data['services']['categories']);dd();
     }
 
     /**
-     * @param string $callerReferenceId
      * @param string $serviceReferenceId
-     * @param string $serviceMethod [optional]
      * @return string
      */
-    public function getServiceVersionBind($callerReferenceId, $serviceReferenceId, $serviceMethod = null)
+    public function getServiceVersionBind($serviceReferenceId)
     {
-        $resolvedModuleName = $this->getServices()->getData($serviceReferenceId . '/_attributes_/module');
-
-        $result = $this->_config->getNode("modules/{$callerReferenceId}/depends/{$resolvedModuleName}/services/{$serviceReferenceId}/{$serviceMethod}/version");
-        if (!$result) {
-            $result = $this->_config->getNode("modules/{$callerReferenceId}/depends/{$resolvedModuleName}/services/{$serviceReferenceId}/version");
-        }
+        $result = $this->_config->getNode("modules/{$serviceReferenceId}/current_api_version");
         if (!$result) {
             $result = $this->_config->getNode('global/current_api_version');
         }

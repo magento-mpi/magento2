@@ -23,9 +23,9 @@
             <operation method="link" title="Link a category to a product" />
         </service>
 
-        <version name="V1" />
+        <version name="V1" class="Mage_Catalog_Service_CategoryServiceV1" />
 
-        <version name="V2">
+        <version name="V2" class="Mage_Catalog_Service_CategoryServiceV2">
             <operation method="move" title="Move category in tree" />
             <operation method="items" title="Retrieve a category" deprecated="1" />
             <service uri="products" deprecated="1" />
