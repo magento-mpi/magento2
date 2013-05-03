@@ -108,8 +108,8 @@ class Mage_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
         );
 
         /* Init Mage_Core_Model_Resource_Layout_Collection model  */
-        $this->_updateFactory = $this->getMock('Varien_Object', array('create'), array(),
-            'Mage_Core_Model_Layout_UpdateFactory', false);
+        $this->_updateFactory = $this->getMock('Mage_Core_Model_Layout_UpdateFactory', array('create'),
+            array(), '', false);
         $this->_update = $this->getMock('Mage_Core_Model_Layout_Update', array('getCollection'), array(), '', false);
         $this->_updateFactory->expects($this->at(0))->method('create')->will($this->returnValue($this->_update));
         $this->_updateCollection = $this->getMock('Mage_Core_Model_Resource_Layout_Collection',
