@@ -20,7 +20,7 @@ class Mage_Webapi_Config_Dom extends Magento_Config_Dom
      */
     protected function _getMatchedNode($nodePath)
     {
-        if (!preg_match('/^\/service?$/i', $nodePath)) {
+        if (!preg_match('/^\/config?$/i', $nodePath)) {
             return null;
         }
         return parent::_getMatchedNode($nodePath);

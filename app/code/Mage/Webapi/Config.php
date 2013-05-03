@@ -42,19 +42,26 @@ class Mage_Webapi_Config
      */
     protected $_services = null;
 
+    /** @var Magento_Controller_Router_Route_Factory */
+    protected $_routeFactory;
+
+
     /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Magento_Controller_Router_Route_Factory $routeFactory
      */
     public function __construct(
         Mage_Core_Model_Config $config,
         Mage_Core_Model_Cache_Type_Config $configCacheType,
-        Mage_Core_Model_Config_Modules_Reader $moduleReader
+        Mage_Core_Model_Config_Modules_Reader $moduleReader,
+        Magento_Controller_Router_Route_Factory $routeFactory
     ) {
         $this->_config = $config;
         $this->_configCacheType = $configCacheType;
         $this->_moduleReader = $moduleReader;
+        $this->_routeFactory = $routeFactory;
     }
 
     /**
@@ -100,12 +107,11 @@ class Mage_Webapi_Config
                 $this->_services = new Varien_Object($_array);
             } else {
                 $services = $this->_getReader()->getServices();
-
                 $data = $this->_toArray($services);
 
                 $this->_saveToCache(serialize($data));
-                $_array = isset($data['services']) ? $data['services'] : array();
-                $this->_services = new Varien_Object($_array);
+                $_array = isset($data['config']) ? $data['config'] : array();
+                $this->_services = $_array; //new Varien_Object($_array);
             }
         }
 
@@ -123,7 +129,7 @@ class Mage_Webapi_Config
     /**
      * Save services into the cache
      */
-    private function _saveToCache ()
+    private function _saveToCache ($data)
     {
         $this->_configCacheType->save($data, self::CACHE_ID);
         return $this;
@@ -163,25 +169,18 @@ class Mage_Webapi_Config
                     (isset($_children['method']) ? $_children['method'] : $child->nodeName);
 
                 if ('rest-route' === $child->nodeName) {
-                    if (!isset($result['operations'])) {
-                        $result['operations'] = array();
+                    if (!isset($result[self::KEY_OPERATIONS])) {
+                        $result[self::KEY_OPERATIONS] = array();
                     }
                     $nodeId = isset($_children['method']) ? $_children['method'] : $child->nodeName;
-                    if (!isset($result['operations'][$nodeId])) {
-                        $result['operations'][$nodeId] = $_children;
+                    if (!isset($result[self::KEY_OPERATIONS][$nodeId])) {
+                        $result[self::KEY_OPERATIONS][$nodeId] = $_children;
                     } else {
-                        $result['operations'][$nodeId] = array_merge($result['operations'][$nodeId], $_children);
+                        $result[self::KEY_OPERATIONS][$nodeId] = array_merge($result['operations'][$nodeId], $_children);
                     }
-                } elseif ('version' === $child->nodeName) {
-                    if (!isset($result['versions'])) {
-                        $result['versions'] = array();
-                    }
-                    $nodeId = isset($_children['class']) ? $_children['class'] : $child->nodeName;
-                    if (!isset($result['versions'][$nodeId])) {
-                        $result['versions'][$nodeId] = $_children;
-                    } else {
-                        $result['versions'][$nodeId] = array_merge($result['versions'][$nodeId], $_children);
-                    }
+
+                    $result[self::KEY_OPERATIONS][$nodeId]['route'] = $result[self::KEY_OPERATIONS][$nodeId]['value'];
+                    unset($result[self::KEY_OPERATIONS][$nodeId]['value']);
                 } else {
                     if (!isset($result[$nodeId])) {
                         $result[$nodeId] = $_children;
@@ -305,14 +304,14 @@ class Mage_Webapi_Config
         // TODO: Get information from webapi.xml
         $routes = array();
 
-        foreach ($this->getServices() as $s) {
-            foreach ($s[self::KEY_OPERATIONS] as $o) {
-                if (strtoupper($o['httpMethod']) == strtoupper($httpMethod)) {
+        foreach ($this->getServices() as $serviceName => $service) {
+            foreach ($service[self::KEY_OPERATIONS] as $operationName => $operation) {
+                if (strtoupper($operation['httpMethod']) == strtoupper($httpMethod)) {
                     $routes[] = $this->_createRoute(array(
-                        'routePath' => $s['baseUrl'] . '/' . $o['route'],
+                        'routePath' => $service['baseUrl'] . $operation['route'],
                         'version' => 1, // hardcoded for now
-                        'serviceId' => $s['name'],
-                        'serviceMethod' => $o['name'],
+                        'serviceId' => $serviceName,
+                        'serviceMethod' => $operationName,
                         'httpMethod' => $httpMethod
                     ));
                 }
@@ -335,7 +334,7 @@ class Mage_Webapi_Config
      *  );</pre>
      * @return Mage_Webapi_Controller_Router_Route_Rest
      */
-    protected function _createRoute($routeData)
+    protected function _createRoute ($routeData)
     {
         /*
         $apiTypeRoutePath = $this->_application->getConfig()->getAreaFrontName()
