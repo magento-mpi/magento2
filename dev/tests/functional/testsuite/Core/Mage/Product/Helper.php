@@ -179,8 +179,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $index = 0;
         /** @var PHPUnit_Extensions_Selenium2TestCase_Element $tierPrice */
         foreach ($tierPrices as $tierPrice) {
-            $price = $this->getChildElement($tierPrice, 'span[@class="price"]')->text();
-            $price = preg_replace('/^[\D]+/', '', preg_replace('/\.0*$/', '', $price));
+            $price = trim($this->getChildElement($tierPrice, 'span[@class="price"]')->text());
+            $price = floatval(preg_replace('/^[\D]+/', '', $price));
             $text = $tierPrice->text();
             list($qty) = explode($price, $text);
             $qty = preg_replace('/[^0-9]+/', '', $qty);
@@ -200,7 +200,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
     {
         $priceData = $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'product_prices', 'text');
         if (!preg_match('/' . preg_quote("\n") . '/', $priceData)) {
-            return array('general_price' => trim($priceData));
+            return array('general_price' => floatval(preg_replace('/^[\D]+/', '', $priceData)));
         }
         $priceData = explode("\n", $priceData);
         $additionalName = array();
@@ -228,7 +228,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $prices[$name] = trim(preg_replace('/[^0-9\.]+/', '', $price));
         }
         foreach ($prices as $key => $value) {
-            $prices[$key == 'price' ? 'general_' . $key : 'prices_' . $key] = preg_replace('/\.0*$/', '', $value);
+            $prices[$key == 'price' ? 'general_' . $key : 'prices_' . $key] = floatval($value);
             unset($prices[$key]);
         }
 
@@ -419,7 +419,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             $price = preg_replace('/^\D+/', '', $price);
         }
 
-        return array($title, preg_replace('/\.0*$/', '', $price));
+        return array($title, floatval($price));
     }
 
     #**************************************************************************************
@@ -568,6 +568,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $waitConditions = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
         $waitConditions[] = $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, 'choose_affected_attribute_set');
         $this->waitForControlVisible('button', 'save_split_select');
+        $this->execute(array('script' => "window.scrollTo(0, 0);", 'args' => array()));
+        $this->waitForControlStopsMoving('button', 'save_split_select');
         $this->clickButton('save_split_select', false);
         $this->addParameter('additionalAction', $additionalAction);
         $this->waitForControlVisible('button', 'save_product_by_action');
@@ -866,7 +868,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->openProductTab('general');
         $this->fillUserAttributesOnTab($generalTab, 'general');
         if (isset($generalTab['general_categories'])) {
-            $this->selectProductCategories($generalTab['general_categories']);
+            $categories = $generalTab['general_categories'];
             unset($generalTab['general_categories']);
         }
         if (isset($generalTab['general_configurable_attributes'])) {
@@ -890,6 +892,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             unset($generalTab['general_grouped_data']);
         }
         $this->fillTab($generalTab, 'general');
+        if (isset($categories)) {
+            $this->selectProductCategories($categories);
+        }
         if (isset($attributeTitle)) {
             $this->fillConfigurableSettings($attributeTitle);
         }
@@ -959,7 +964,14 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $selectedQty = $this->getControlCount(self::UIMAP_TYPE_FIELDSET, 'chosen_category');
         $this->clickControl(self::FIELD_TYPE_INPUT, 'general_categories', false);
-        $this->waitForControlEditable(self::FIELD_TYPE_INPUT, 'general_categories');
+        $this->waitUntil(function ($testCase) {
+                /** @var Mage_Selenium_TestCase $testCase */
+                $class = $testCase->getControlAttribute('field', 'general_categories', 'class');
+                if (strpos($class, 'mage-suggest-state-loading') === false) {
+                    return true;
+                }
+            }, 40000
+        );
         $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'categories_list');
         $toSelect = '';
         foreach ($categoryData as $categoryPath) {
@@ -1592,8 +1604,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $locationBeforeMove = $attributeBlock2->location();
                 $attempts = 2;
                 while ($attempts > 0) {
+                    $this->focusOnElement($attributeBlock2);
                     $this->moveto($attributeBlock1);
                     $this->buttondown();
+                    $this->focusOnElement($attributeBlock2);
                     $this->moveto($attributeBlock2);
                     $this->buttonup();
                     $locationAfterMove = $attributeBlock2->location();
@@ -1601,7 +1615,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                     if ($locationBeforeMove['y'] != $locationAfterMove['y']) {
                         break;
                     } elseif ($attempts <= 0) {
-                        $this->fail('Block position was not changed.');
+                        $this->skipTestWithScreenshot('Block position was not changed.');
                     }
                 }
                 $actualOrder = $this->_getActualItemOrder($fieldType, $fieldName);
@@ -1899,6 +1913,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->openProductTab($type);
         $this->addParameter('tableXpath', $this->_getControlXpath(self::UIMAP_TYPE_FIELDSET, $type));
         if (!$this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'specific_table_no_records_found')) {
+            $this->execute(array('script' => "window.scrollTo(0, 0);", 'args' => array()));
             $this->fillCheckbox($type . '_select_all', 'No');
             if ($saveChanges) {
                 $this->saveProduct('continueEdit');
@@ -2419,13 +2434,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         }
         $this->clickButton('add_selected_products', false);
         $this->waitForControlNotVisible(self::UIMAP_TYPE_FIELDSET, 'select_associated_product_option');
-        try {
-            $actualQty = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'grouped_assigned_products');
-            $this->assertEquals($countBefore + count($formedData['items']), $actualQty,
-                'Products are not assigned to Grouped product');
-        } catch (Exception $e) {
-            $this->markTestIncomplete('MAGETWO-7278,MAGETWO-7277,MAGETWO-8852');
-        }
+        $actualQty = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'grouped_assigned_products');
+        $this->assertEquals($countBefore + count($formedData['items']), $actualQty,
+            'Products are not assigned to Grouped product');
         if (!empty($formedData['qty'])) {
             foreach ($formedData['qty'] as $productName => $qty) {
                 $this->addParameter('productSku', $productName);

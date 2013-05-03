@@ -188,7 +188,6 @@ new_admin_role:
                                     checkboxes:
                                         dashboard: //*[@data-ui-id='Mage_Adminhtml::dashboard']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
                                         external_page_cache: //*[@data-ui-id='Mage_PageCache::page_cache']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
-                                        hub: //*[@data-ui-id='Mage_Launcher::hub']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
                                         global_search: //*[@data-ui-id='Mage_Adminhtml::global_search']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
                                         sales_order: //*[@data-ui-id='Mage_Sales::sales_order']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]
                                         sales: //*[@data-ui-id='Mage_Sales::sales']/div[contains(@class,'x-tree-node-el')]//input[@type="checkbox"]

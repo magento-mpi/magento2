@@ -48,12 +48,16 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
         $searchData = $this->_prepareDataForSearch($searchData);
         $xpathTR = $this->search($searchData, 'attributes_grid');
         $this->assertNotNull($xpathTR, 'Attribute is not found');
-        $this->addParameter('tableLineXpath', $xpathTR);
-        $this->addParameter('cellIndex', $this->getColumnIdByName('Attribute Code'));
-        $text = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('elementTitle', $text);
-        $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->clickControl('pageelement', 'table_line_cell_index');
+        $attributeRowElement = $this->getElement($xpathTR);
+        $attributeUrl = $attributeRowElement->attribute('title');
+        //Define and add parameters for new page
+        $cellId = $this->getColumnIdByName('Attribute Code');
+        $cellElement = $this->getChildElement($attributeRowElement, 'td[' . $cellId . ']');
+        $this->addParameter('elementTitle', trim($cellElement->text()));
+        $this->addParameter('id', $this->defineParameterFromUrl('attribute_id', $attributeUrl));
+        //Open attribute
+        $this->url($attributeUrl);
+        $this->validatePage('edit_product_attribute');
     }
 
     /**
@@ -247,7 +251,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
             $this->addParameter('rowNumber', $key + 1);
             if ($isCheck) {
                 if (!isset($options[$key]) || !isset($options[$key]['admin_option_name'])) {
-                    $this->addVerificationMessage('Admin Option Name for option with index ' . $key
+                    $this->addVerificationMessage('Admin Option Name for option with index ' . ($key + 1)
                                                   . ' is not set. Exist more options than specified.');
                     continue;
                 }
