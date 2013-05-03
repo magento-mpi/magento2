@@ -96,7 +96,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
     protected function _prepareColumns()
     {
         $this->addColumn('description', array(
-            'header'   => $this->__('Product Name'),
+            'header'   => $this->__('Product'),
             'index'    => 'description',
             'class'    => 'no-link',
             'sortable' => false,
@@ -113,7 +113,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('qty', array(
-            'header'   => $this->__('Qty'),
+            'header'   => $this->__('Quantity'),
             'class'    => 'no-link sku-error-qty',
             'width'    => 40,
             'sortable' => false,

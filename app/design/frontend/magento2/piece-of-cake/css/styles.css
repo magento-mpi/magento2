@@ -1959,7 +1959,7 @@ select:disabled {
   border-color: #b5b5b5;
   border-right: 0;
   float: left;
-  line-height: 29px;
+  line-height: 1;
   height: 29px;
   width: 100%;
 }
@@ -2711,8 +2711,9 @@ select:disabled {
   text-transform: uppercase;
 }
 .items.data input.qty {
-  width: 40px;
+  line-height: 1;
   text-align: center;
+  width: 40px;
 }
 .items.data td.col.price,
 .items.data td.col.subtotal {

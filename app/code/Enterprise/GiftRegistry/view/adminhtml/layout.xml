@@ -65,7 +65,7 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='is_listed'>
                         <arguments>
-                            <header translate='true' module='Enterprise_GiftRegistry'>Is Listed</header>
+                            <header translate='true' module='Enterprise_GiftRegistry'>Listed</header>
                             <index>is_listed</index>
                             <type>options</type>
                             <options type='options'>Enterprise_GiftRegistry_Model_GiftRegistry_Options_Listed</options>

@@ -160,6 +160,7 @@ Additional block for bundle product type
         <label>Catalog Product View (Bundle)</label>
         <reference name="head">
             <action method="addJs"><file>Mage_Bundle::bundle.js</file></action>
+            <action method="addJs"><file>Mage_Bundle::js/product-summary.js</file></action>
         </reference>
         <reference name="product.info">
             <action method="setTemplate"><template>Mage_Bundle::catalog/product/view.phtml</template></action>
