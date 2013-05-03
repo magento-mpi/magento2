@@ -98,6 +98,7 @@
         <selector><![CDATA[
             .navigation > ul > .level-top > .submenu,
             .navigation > ul > .level-top.more > .submenu > ul,
+            .level-top.more.hover:after,
             .switcher .options > ul
         ]]></selector>
         <attribute>background-color</attribute>
@@ -107,7 +108,6 @@
         <type>color-picker</type>
         <selector>
             .navigation > ul > .level-top > .submenu,
-            .navigation > ul > .level-top.more > .submenu > ul,
             .switcher .options > ul
         </selector>
         <attribute>border-color</attribute>
@@ -117,7 +117,6 @@
         <type>color-picker</type>
         <selector><![CDATA[
             .navigation > ul > .level-top > .submenu a,
-            .navigation > ul > .level-top.more > .submenu > ul a,
             .navigation > ul > .level-top > .submenu a span
         ]]></selector>
         <attribute>color</attribute>
@@ -127,9 +126,7 @@
         <type>color-picker</type>
         <selector><![CDATA[
             .navigation > ul > .level-top > .submenu a:hover,
-            .navigation > ul > .level-top > .submenu a:hover span,
-            .navigation > ul > .level-top.more > .submenu > ul a:hover,
-            .navigation > ul > .level-top.more > .submenu > ul a:hover span
+            .navigation > ul > .level-top > .submenu a:hover span
         ]]></selector>
         <attribute>color</attribute>
         <var>Mage_DesignEditor::menu-links-hover</var>
