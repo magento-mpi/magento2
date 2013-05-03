@@ -46,9 +46,13 @@
             <action method="setShowPart"><value>customer</value></action>
         </block>
 
-        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare" template="Mage_Catalog::product/compare/block.phtml">
+        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.header" template="Mage_Catalog::product/compare/sidebar.phtml">
             <action method="setIsLink"><link>1</link></action>
         </block>
+
+        <reference name="top.links">
+            <action method="addLinkBlock"><blockName>catalog.compare.header</blockName></action>
+        </reference>
 
         <!--<remove name="catalog.compare.sidebar"/>-->
         <remove name="checkout_cart_link" />

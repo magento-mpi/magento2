@@ -44,7 +44,9 @@
 
         <remove name="top.links" />
         <move element="minicart" destination="panel.menu" after="-" />
-
+        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.header" template="Mage_Catalog::product/compare/sidebar.phtml">
+            <action method="setIsLink"><link>1</link></action>
+        </block>
         <reference name="header.panel">
             <block type="Mage_Page_Block_Template_Links" name="panel.menu" before="-">
                 <!-- My account -->
@@ -55,7 +57,7 @@
                 <!-- My whishlist -->
                 <block type="Mage_Wishlist_Block_Links" name="wishlist.link" />
                 <action method="addLinkBlock"><blockName>wishlist.link</blockName><position>0</position></action>
-
+                <action method="addLinkBlock"><blockName>catalog.compare.header</blockName></action>
                 <!-- My cart -->
                 <action method="addLinkBlock"><blockName>minicart</blockName><position>0</position></action>
                 <reference name="minicart">
@@ -165,7 +167,7 @@
         <!-- Mage_Catalog -->
     </catalog_product_compare_index>
 
-    <customer_account translate="label" type="page" parent="default">
+    <customer_account>
         <move element="page.main.title" destination="main" before="-" />
     </customer_account>
 

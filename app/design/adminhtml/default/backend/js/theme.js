@@ -427,6 +427,7 @@
                     .siblings('input').end()
                     .find('.farbtastic').show();
             });
+        switcherForIe8();
     });
 
     $(document).on('ajaxComplete', function() {

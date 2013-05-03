@@ -38,12 +38,21 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
     {
         $this->_title($this->__('Stores'));
 
-        /** @var $limitation Mage_Core_Model_Store_Limitation */
-        $limitation = $this->_objectManager->get('Mage_Core_Model_Store_Limitation');
-        if (!$limitation->canCreate()) {
+        /** @var $limitationStoreView Mage_Core_Model_Store_Limitation */
+        $limitationStoreView = $this->_objectManager->get('Mage_Core_Model_Store_Limitation');
+        /** @var $limitationStore Mage_Core_Model_Store_Limitation */
+        $limitationStore = $this->_objectManager->get('Mage_Core_Model_Store_Group_Limitation');
+
+        if (!$limitationStore->canCreate()) {
             /** @var $session Mage_Adminhtml_Model_Session */
             $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
-            $session->addNotice($limitation->getCreateRestrictionMessage());
+            $session->addNotice($limitationStore->getCreateRestrictionMessage());
+        }
+
+        if (!$limitationStoreView->canCreate()) {
+            /** @var $session Mage_Adminhtml_Model_Session */
+            $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
+            $session->addNotice($limitationStoreView->getCreateRestrictionMessage());
         }
 
         $this->_initAction()

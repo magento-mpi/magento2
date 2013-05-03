@@ -11,21 +11,27 @@
     $.widget('mage.compareList', {
         _create: function() {
 
-            var products = $('thead td', this.element);
+            var elem = this.element,
+                products = $('thead td', elem);
 
             if (products.length > this.options.productsInRow) {
-                var headings = $('<table></table>').addClass('comparison headings data table').insertBefore(this.element.closest('.container'));
-                this.element.addClass('scroll');
-                $('th',this.element).each(function(){
-                    var some = $(this).clone();
-                    var height = $(this).height();
-                    some.css('height', function() {
-                        return height;
-                    });
+                var headings = $('<table/>')
+                    .addClass('comparison headings data table')
+                    .insertBefore(elem.closest('.container'));
+                elem.addClass('scroll');
 
-                    $(some).appendTo(headings);
-                    $(some).wrap('<tr />');
-                    //this.hide();
+                $('th', elem).each(function(){
+                    var th = $(this),
+                        thCopy = th.clone();
+
+                    th.animate({
+                        top: '+=0'
+                    }, 50, function(){
+                        var height = th.css('height');
+                        thCopy.css('height', height)
+                            .appendTo(headings)
+                            .wrap('<tr />');
+                    });
                 });
             }
 
