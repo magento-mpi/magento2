@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <service class="Mage_Catalog_Service_ProductV1" baseUrl="/products">
+        <rest-route httpMethod="GET" method="getOne">/:sku</rest-route>
+    </service>
+</config>
