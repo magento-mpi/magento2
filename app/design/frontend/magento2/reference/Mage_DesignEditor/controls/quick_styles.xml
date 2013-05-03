@@ -96,7 +96,9 @@
     <control name="menu-background" title="Menu Background" tab="header" column="middle">
         <type>color-picker</type>
         <selector><![CDATA[
-            .navigation > ul > .level-top > .submenu, .switcher .options > ul
+            .navigation > ul > .level-top > .submenu,
+            .navigation > ul > .level-top.more > .submenu > ul,
+            .switcher .options > ul
         ]]></selector>
         <attribute>background-color</attribute>
         <var>Mage_DesignEditor::menu-background</var>
@@ -105,6 +107,7 @@
         <type>color-picker</type>
         <selector>
             .navigation > ul > .level-top > .submenu,
+            .navigation > ul > .level-top.more > .submenu > ul,
             .switcher .options > ul
         </selector>
         <attribute>border-color</attribute>
@@ -113,7 +116,9 @@
     <control name="menu-links" title="Menu Links" tab="header" column="middle">
         <type>color-picker</type>
         <selector><![CDATA[
-            .navigation > ul > .level-top > .submenu a, .navigation > ul > .level-top > .submenu a span
+            .navigation > ul > .level-top > .submenu a,
+            .navigation > ul > .level-top.more > .submenu > ul a,
+            .navigation > ul > .level-top > .submenu a span
         ]]></selector>
         <attribute>color</attribute>
         <var>Mage_DesignEditor::menu-links</var>
@@ -122,7 +127,9 @@
         <type>color-picker</type>
         <selector><![CDATA[
             .navigation > ul > .level-top > .submenu a:hover,
-            .navigation > ul > .level-top > .submenu a:hover span
+            .navigation > ul > .level-top > .submenu a:hover span,
+            .navigation > ul > .level-top.more > .submenu > ul a:hover,
+            .navigation > ul > .level-top.more > .submenu > ul a:hover span
         ]]></selector>
         <attribute>color</attribute>
         <var>Mage_DesignEditor::menu-links-hover</var>
