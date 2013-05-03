@@ -53,19 +53,19 @@ class Mage_Core_Service_ObjectManager extends Varien_Object
      *
      * @param string $serviceReferenceId
      * @param string $serviceMethod
-     * @param mixed $context [optional]
+     * @param mixed $request [optional]
      * @param mixed $version [optional]
      * @return mixed (service execution response)
      */
-    public function call($serviceReferenceId, $serviceMethod, $context = null, $version = null)
+    public function call($serviceReferenceId, $serviceMethod, $request = null, $version = null)
     {
         if (null === $version) {
-            $version = (string) $this->getServiceVersionBind($this->getCallerId(), $serviceReferenceId);
+            $version = (string) $this->getServiceVersionBind($this->getCallerId(), $serviceReferenceId, $serviceMethod);
         }
 
         $service  = $this->getService($serviceReferenceId, $version);
 
-        $response = $service->call($serviceMethod, $context, $version);
+        $response = $service->call($serviceMethod, $request, $version);
 
         return $response;
     }
@@ -74,16 +74,17 @@ class Mage_Core_Service_ObjectManager extends Varien_Object
      * Retrieve a service instance
      *
      * @param string $serviceReferenceId
+     * @param mixed $serviceMethod [optional]
      * @param mixed $version [optional]
      * @return Mage_Core_Service_Type_Abstract $service
      */
-    public function getService($serviceReferenceId, $version = null)
+    public function getService($serviceReferenceId, $serviceMethod = null, $version = null)
     {
         if (null === $version) {
-            $version = (string) $this->getServiceVersionBind($this->getCallerId(), $serviceReferenceId);
+            $version = (string) $this->getServiceVersionBind($this->getCallerId(), $serviceReferenceId, $serviceMethod);
         }
 
-        $service = $this->_serviceFactory->createServiceInstance($serviceReferenceId, $version);
+        $service = $this->_serviceFactory->createServiceInstance($serviceReferenceId, $serviceMethod, $version);
         return $service;
     }
 
@@ -200,11 +201,12 @@ class Mage_Core_Service_ObjectManager extends Varien_Object
     /**
      * @param string $callerReferenceId
      * @param string $serviceReferenceId
+     * @paeam string $serviceMethod [optional]
      * @return string
      */
-    public function getServiceVersionBind($callerReferenceId, $serviceReferenceId)
+    public function getServiceVersionBind($callerReferenceId, $serviceReferenceId, $serviceMethod = null)
     {
-        return $this->_config->getServiceVersionBind($callerReferenceId, $serviceReferenceId);
+        return $this->_config->getServiceVersionBind($callerReferenceId, $serviceReferenceId, $serviceMethod);
     }
 }
 

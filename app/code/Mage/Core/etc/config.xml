@@ -125,7 +125,7 @@
                 </acl>
             </services>
         </areas>
-        <api_version>V1</api_version>
+        <current_api_version>V1</current_api_version>
     </global>
     <frontend>
         <di>

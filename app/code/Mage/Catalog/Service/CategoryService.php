@@ -143,7 +143,7 @@ class Mage_Catalog_Service_CategoryService extends Mage_Core_Service_Type_Abstra
      * @param mixed $version [optional]
      * @return $category | false
      */
-    public function initCategoryToView($request)
+    public function init($request)
     {
         try {
             $category = $this->call('item', $request);

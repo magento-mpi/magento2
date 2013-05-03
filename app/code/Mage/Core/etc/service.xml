@@ -10,14 +10,14 @@
  */
 -->
 <services>
-    <service class="Mage_Core_Service_LayoutService" name="Layout Service" module="Mage_Core">
-        <operation method="getLayout" name="Retrieve an empty Layout instance" />
-        <operation method="loadLayout" name="Load Layout" />
-        <operation method="addLayoutHandle" name="Add Layout Handle" />
-        <operation method="loadLayoutUpdates" name="Load Layout Updates" />
-        <operation method="generateLayout" name="Generate Layout" />
-        <operation method="generateLayoutXml" name="Generate Layout XML" />
-        <operation method="generateLayoutBlocks" name="Generate Layout Blocks" />
-        <operation method="renderLayout" name="Render Layout" />
+    <service uri="layout" class="Mage_Core_Service_LayoutService" name="Layout Service" module="Mage_Core">
+        <operation method="getLayout" title="Retrieve an empty Layout instance" />
+        <operation method="loadLayout" title="Load Layout" />
+        <operation method="addLayoutHandle" title="Add Layout Handle" />
+        <operation method="loadLayoutUpdates" title="Load Layout Updates" />
+        <operation method="generateLayout" title="Generate Layout" />
+        <operation method="generateLayoutXml" title="Generate Layout XML" />
+        <operation method="generateLayoutBlocks" title="Generate Layout Blocks" />
+        <operation method="renderLayout" title="Render Layout" />
     </service>
 </services>

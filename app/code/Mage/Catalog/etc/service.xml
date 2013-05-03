@@ -10,27 +10,40 @@
  */
 -->
 <services>
-    <service class="Mage_Catalog_Service_CategoryService" name="Catalog Category Service" module="Mage_Catalog">
-        <operation method="create" name="Create new category" />
-        <operation method="create" name="Create" />
-        <operation method="item" name="Retrieve a category" />
-        <operation method="items" name="Retrieve category collection by filters" />
-        <operation method="update" name="Update category" />
-        <operation method="delete" name="Delete category" />
+    <service uri="categories" class="Mage_Catalog_Service_CategoryService" title="Catalog Category Service" module="Mage_Catalog" bind="INT,REST,SOAP">
+        <operation method="create" title="Create new category" />
+        <operation method="item" title="Retrieve a category" />
+        <operation method="items" title="Retrieve category collection by filters" />
+        <operation method="update" title="Update category" />
+        <operation method="delete" title="Delete category" />
 
-        <version class="Mage_Catalog_Service_CategoryServiceV1" id="1" />
+        <service uri="products" class="Mage_Catalog_Service_CategoryService">
+            <operation method="create" title="Create" />
+            <operation method="item" title="Retrieve a link" />
+            <operation method="link" title="Link a category to a product" />
+        </service>
 
-        <version class="Mage_Catalog_Service_CategoryServiceV2" id="2">
-            <operation method="move" name="Move category in tree" />
+        <version name="V1" />
+
+        <version name="V2">
+            <operation method="move" title="Move category in tree" />
+            <operation method="items" title="Retrieve a category" deprecated="1" />
+            <service uri="products" deprecated="1" />
         </version>
     </service>
 
-    <service class="Mage_Catalog_Service_ProductService" name="Catalog Product Service" module="Mage_Catalog">
-        <operation method="create" name="Create new product" />
-        <operation method="item" name="Retrieve product" />
-        <operation method="items" name="Retrieve products collection by filters" />
-        <operation method="update" name="Update product" />
-        <operation method="delete" name="Delete product" />
+    <service uri="products" class="Mage_Catalog_Service_ProductService" title="Catalog Product Service" module="Mage_Catalog" bind="INT,REST,SOAP">
+        <operation method="create" title="Create new product" />
+        <operation method="item" title="Retrieve product" />
+        <operation method="items" title="Retrieve products collection by filters" />
+        <operation method="update" title="Update product" />
+        <operation method="delete" title="Delete product" />
+
+        <service uri="categories" class="Mage_Catalog_Service_CategoryService">
+            <operation method="create" title="Create" />
+            <operation method="item" title="Retrieve a link" />
+            <operation method="link" title="Link a category to a product" />
+        </service>
     </service>
 </services>
 

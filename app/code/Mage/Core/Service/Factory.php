@@ -31,12 +31,13 @@ class Mage_Core_Service_Factory
      * Create service instance.
      *
      * @param string $serviceReferenceId
-     * @param string $version
+     * @param string $serviceMethod [optional]
+     * @param string $version [optional]
      * @return object
      */
-    public function createServiceInstance($serviceReferenceId, $version = null)
+    public function createServiceInstance($serviceReferenceId, $serviceMethod = null, $version = null)
     {
-        $className = $this->_config->getServiceClassByServiceName($serviceReferenceId, $version);
+        $className = $this->_config->getServiceClassByServiceName($serviceReferenceId, $serviceMethod, $version);
         return $this->_objectManager->create($className);
     }
 
