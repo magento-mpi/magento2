@@ -165,6 +165,7 @@
  * @method bool                     waitForPageToLoad()
  * @method void                     waitForTextNotPresent(int $pageText, int $timeout = null)
  * @method void                     waitForTextPresent(int $pageText, int $timeout = null)
+ * @method int                      getBrowserTimeout()
  *
  * @method Core_Mage_AdminUser_Helper|Enterprise_Mage_AdminUser_Helper                                 adminUserHelper()
  * @method Core_Mage_AdvancedSearch_Helper                                                             advancedSearchHelper()

@@ -236,6 +236,7 @@ return array(
     array('getAclResourceList', 'Mage_Admin_Model_Config'),
     array('getAclResourceTree', 'Mage_Admin_Model_Config'),
     array('getAddNewButtonHtml', 'Mage_Adminhtml_Block_Catalog_Product'),
+    array('getAddNewButtonHtml', 'Mage_Adminhtml_Block_System_Store_Store'),
     array('getAddToCartItemUrl', 'Mage_Wishlist_Block_Customer_Sidebar'),
     array('getAddToCartUrlBase64', '', '_getAddToCartUrl'),
     array('getAllEntityIds', 'Mage_Rss_Model_Resource_Order'),

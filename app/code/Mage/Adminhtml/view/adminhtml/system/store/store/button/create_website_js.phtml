@@ -1,0 +1,44 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Mage_Adminhtml_Block_System_Store_Button_CreateWebsiteJs */?>
+<?php if ($this->isCreateRestricted()): ?>
+    <script type="text/javascript">
+    //<![CDATA[
+    jQuery(function($) {
+        var dialog = $("<div></div>")
+                .text(<?php echo json_encode($this->__($this->getCreateRestrictedMessage())) ?>)
+                .dialog({
+                    autoOpen: false,
+                    title: <?php echo json_encode($this->__('Limitation Reached')) ?>,
+                    modal: true,
+                    buttons: [{
+                        text: <?php echo json_encode($this->__('Ok')) ?>,
+                        click: function() {$(this).dialog('close');}
+                    }]
+                });
+
+        $("#<?php echo $this->getHtmlId() ?>").click(function() {
+            dialog.dialog("open");
+            return false;
+        });
+    });
+    //]]>
+    </script>
+<?php else: ?>
+    <script type="text/javascript">
+    //<![CDATA[
+    jQuery(function($) {
+        $('#<?php echo $this->getHtmlId() ?>').click(function() {
+            setLocation(<?php echo json_encode($this->getCreateUrl()); ?>);
+            return false;
+        });
+    });
+    //]]>
+    </script>
+<?php endif; ?>
