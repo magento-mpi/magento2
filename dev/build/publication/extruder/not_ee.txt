@@ -1,5 +1,4 @@
 # Files or directories that are not part of Enterprise Edition.
 #
-dev/tests/integration/testsuite/Mage/ImportExport/Model/Import/Entity/_files/customer_composite_update_reward_enterprise_ce.csv
 dev/tests/integration/testsuite/Mage/ImportExport/Model/Import/Entity/Eav/_files/customers_for_validation_test_ce.csv
 dev/tests/integration/testsuite/Mage/ImportExport/Model/Import/Entity/Eav/_files/customers_to_import_ce.csv
