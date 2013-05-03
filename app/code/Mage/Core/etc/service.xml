@@ -9,37 +9,15 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <services>
-        <Mage_Core_Service_LayoutService translate="title" module="Mage_Core">
-            <title>Layout Service</title>
-            <class>Mage_Core_Service_LayoutService</class>
-            <methods>
-                <getLayout>
-                    <title>Retrieve an empty Layout instance</title>
-                </getLayout>
-                <loadLayout>
-                    <title>Load Layout</title>
-                </loadLayout>
-                <addLayoutHandle>
-                    <title>Add Layout Handle to render</title>
-                </addLayoutHandle>
-                <loadLayoutUpdates>
-                    <title>Load Layout Updates</title>
-                </loadLayoutUpdates>
-                <generateLayout>
-                    <title>Generate Layout</title>
-                </generateLayout>
-                <generateLayoutXml>
-                    <title>Generate Layout XML Schema</title>
-                </generateLayoutXml>
-                <generateLayoutBlocks>
-                    <title>Generate Layout Blocks</title>
-                </generateLayoutBlocks>
-                <renderLayout>
-                    <title>Render Layout Schema</title>
-                </renderLayout>
-            </methods>
-        </Mage_Core_Service_LayoutService>
-    </services>
-</config>
+<services>
+    <service class="Mage_Core_Service_LayoutService" name="Layout Service" module="Mage_Core">
+        <operation method="getLayout" name="Retrieve an empty Layout instance" />
+        <operation method="loadLayout" name="Load Layout" />
+        <operation method="addLayoutHandle" name="Add Layout Handle" />
+        <operation method="loadLayoutUpdates" name="Load Layout Updates" />
+        <operation method="generateLayout" name="Generate Layout" />
+        <operation method="generateLayoutXml" name="Generate Layout XML" />
+        <operation method="generateLayoutBlocks" name="Generate Layout Blocks" />
+        <operation method="renderLayout" name="Render Layout" />
+    </service>
+</services>
