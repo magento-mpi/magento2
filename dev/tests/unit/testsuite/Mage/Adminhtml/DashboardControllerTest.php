@@ -12,7 +12,7 @@ class Mage_Adminhtml_DashboardControllerTest extends PHPUnit_Framework_TestCase
         $fixture = uniqid();
         /** @var $request Mage_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject */
         $request = $this->getMockForAbstractClass('Mage_Core_Controller_Request_Http');
-        $request->setParam('ga', urlencode(base64_encode(serialize(array(1)))));
+        $request->setParam('ga', urlencode(base64_encode(json_encode(array(1)))));
         $request->setParam('h', $fixture);
 
         $tunnelResponse = new Zend_Http_Response(200, array('Content-Type' => 'test_header'), 'success_msg');
@@ -51,7 +51,7 @@ class Mage_Adminhtml_DashboardControllerTest extends PHPUnit_Framework_TestCase
         $fixture = uniqid();
         /** @var $request Mage_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject */
         $request = $this->getMockForAbstractClass('Mage_Core_Controller_Request_Http');
-        $request->setParam('ga', urlencode(base64_encode(serialize(array(1)))));
+        $request->setParam('ga', urlencode(base64_encode(json_encode(array(1)))));
         $request->setParam('h', $fixture);
 
         /** @var $helper Mage_Adminhtml_Helper_Dashboard_Data|PHPUnit_Framework_MockObject_MockObject */

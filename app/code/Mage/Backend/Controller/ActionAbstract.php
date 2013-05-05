@@ -93,7 +93,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         return $this->_session;
     }
 
-     /**
+    /**
      * Retrieve base adminhtml helper
      *
      * @return Mage_Backend_Helper_Data

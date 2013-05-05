@@ -34,6 +34,7 @@
         <Mage_Webapi><active>false</active></Mage_Webapi>
         <Saas_Backend><active>true</active></Saas_Backend>
         <Saas_Backup><active>true</active></Saas_Backup>
+        <Saas_Catalog><active>true</active></Saas_Catalog>
         <Saas_CatalogRule><active>true</active></Saas_CatalogRule>
         <Saas_Core><active>true</active></Saas_Core>
         <Saas_Customer><active>true</active></Saas_Customer>

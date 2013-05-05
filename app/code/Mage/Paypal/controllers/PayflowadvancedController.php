@@ -125,11 +125,28 @@ class Mage_Paypal_PayflowadvancedController extends Mage_Paypal_Controller_Expre
     protected function _cancelPayment($errorMsg = '')
     {
         $gotoSection = false;
-        /* @var $helper Mage_Paypal_Helper_Checkout */
-        $helper = Mage::helper('paypal/checkout');
-        $helper->cancelCurrentOrder($errorMsg);
-        if ($helper->restoreQuote()) {
-            $gotoSection = 'payment';
+        $session = $this->_getCheckout();
+        if ($session->getLastRealOrderId()) {
+            $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
+            if ($order->getId()) {
+                //Cancel order
+                if ($order->getState() != Mage_Sales_Model_Order::STATE_CANCELED) {
+                    $order->registerCancellation($errorMsg)->save();
+                }
+                $quote = Mage::getModel('Mage_Sales_Model_Quote')
+                    ->load($order->getQuoteId());
+                //Return quote
+                if ($quote->getId()) {
+                    $quote->setIsActive(1)
+                        ->setReservedOrderId(NULL)
+                        ->save();
+                    $session->replaceQuote($quote);
+                }
+                //Unset data
+                $session->unsLastRealOrderId();
+                //Redirect to payment step
+                $gotoSection = 'payment';
+            }
         }
 
         return $gotoSection;
