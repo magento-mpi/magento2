@@ -81,7 +81,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $redirect = false;
 
         /** @var $limitation Mage_Catalog_Model_Category_Limitation */
-        $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Category_Limitation');
+        $limitation = $this->_objectManager->get('Mage_Catalog_Model_Category_Limitation');
         if ($limitation->isCreateRestricted()) {
             $this->_getSession()->addNotice($limitation->getCreateRestrictedMessage());
         }

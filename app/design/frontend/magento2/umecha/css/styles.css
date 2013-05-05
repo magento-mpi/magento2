@@ -1337,6 +1337,13 @@ div.mage-error {
   font-family: 'Droid Serif', Arial, sans-serif;
   font-weight: 400;
 }
+.minicart.wrapper .block.minicart.empty > .title {
+  display: none;
+}
+.minicart.wrapper .block.minicart.empty > .content .subtitle {
+  display: block;
+  margin-right: -330px;
+}
 .minicart.wrapper.active {
   z-index: 11;
 }
@@ -3331,9 +3338,7 @@ a.action.showcart .qty.empty {
   font-family: "MUI-icons";
   font-weight: 400;
   font-size: 10px;
-  height: 10px;
   overflow: hidden;
-  display: inline-block;
 }
 /*
     Product Page
@@ -4111,6 +4116,17 @@ body.type-bundle {
   line-height: 1;
   padding: 20px 20px 10px;
   margin-bottom: 0;
+}
+.block.bundle.summary .bundle.summary div > ul {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+.block.bundle.summary .bundle.summary div > ul > li {
+  margin: 0 0 10px;
+}
+.block.bundle.summary .bundle.summary div > ul > li > div > div {
+  margin: 0 0 5px;
 }
 .action.back.customization {
   position: absolute;

@@ -68,6 +68,16 @@
                     <loader>Mage_Core_Model_Config_Loader_Locales_Proxy</loader>
                 </parameters>
             </Saas_Core_Model_Config_Storage_Locales>
+            <Magento_Http_Handler_Composite>
+                <parameters>
+                    <handlers>
+                        <saas>
+                            <sortOrder>10</sortOrder>
+                            <class>Saas_Saas_Model_Http_Handler</class>
+                        </saas>
+                    </handlers>
+                </parameters>
+            </Magento_Http_Handler_Composite>
         </di>
     </global>
 </config>
