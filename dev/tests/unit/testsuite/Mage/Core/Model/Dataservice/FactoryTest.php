@@ -1,10 +1,11 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: rbates
- * Date: 5/3/13
- * Time: 11:05 AM
- * To change this template use File | Settings | File Templates.
+ * Test class for Mage_Core_Model_Dataservice_Factory
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
 {
