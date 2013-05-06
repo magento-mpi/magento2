@@ -3032,6 +3032,7 @@ select:disabled {
 }
 .minicart.wrapper .block.minicart > .content .product.photo + .product.details {
   margin-left: 69px;
+  position: relative;
 }
 .minicart.wrapper .block.minicart > .content .subtotal {
   clear: both;
@@ -3258,6 +3259,10 @@ select:disabled {
   position: relative;
   z-index: 1;
 }
+.products.minilist .items {
+  overflow: auto;
+  max-height: 360px;
+}
 .products.minilist .item {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
@@ -3320,7 +3325,7 @@ select:disabled {
 }
 .products.minilist .item .action.delete {
   position: absolute;
-  margin-left: -5px;
+  margin-left: -10px;
   margin-top: -1.35em;
 }
 .action.delete {

@@ -6313,6 +6313,8 @@ body.type-bundle {
 .minicart .products.minilist .minilist.items {
   margin: 0;
   position: relative;
+  overflow: auto;
+  max-height: 540px;
 }
 .minicart .products.minilist .item {
   *zoom: 1;
