@@ -23,6 +23,13 @@ class Mage_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter
      */
     public function convert($nodePath, $relativePath)
     {
+        $nodePath = trim($nodePath);
+        $relativePath = trim($relativePath);
+
+        if (empty($nodePath) || empty($relativePath)) {
+            throw new InvalidArgumentException('Invalid arguments');
+        }
+
         $relativePathParts = explode('/', $relativePath);
         $pathParts = explode('/', $nodePath);
 
@@ -38,7 +45,7 @@ class Mage_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter
             if ($path === '*') {
                 if (false == array_key_exists($index, $pathParts)) {
                     throw new InvalidArgumentException(
-                        sprintf('Invalid relative path %s in %s node', $realPath, $nodePath));
+                        sprintf('Invalid relative path %s in %s node', $relativePath, $nodePath));
                 }
                 $path = $pathParts[$index];
             }
