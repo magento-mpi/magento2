@@ -71,6 +71,7 @@ textarea {
 }
 html {
   min-width: 1035px;
+  background: #422937;
 }
 body {
   position: relative;
@@ -4544,6 +4545,25 @@ body.type-bundle {
  *
  *    Compare
 ----------------------------------------------------------------------------- */
+.item.link.compare .action.compare {
+  border: none;
+  border-radius: 0;
+  background: none;
+  margin: 0;
+  padding: 0;
+  text-shadow: none;
+  outline: none;
+  box-shadow: none !important;
+  display: inline;
+  font-size: 11px;
+  font-family: Arial, Verdana, sans-serif;
+}
+.item.link.compare .action.compare .qty:before {
+  content: ' (';
+}
+.item.link.compare .action.compare .qty:after {
+  content: ')';
+}
 .catalog-product-compare-index .link-print {
   float: right;
   margin-top: -69px;
@@ -4874,7 +4894,7 @@ body.type-bundle {
   margin: 0 auto;
   min-width: 980px;
   max-width: 980px;
-  min-height: 750px;
+  min-height: 360px;
   position: relative;
   padding: 18px 27px 30px;
   background: #ffffff;

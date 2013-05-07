@@ -100,7 +100,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
             'data_attribute' => array(
                 'mage-init' => array(
                     'button' => array(
-                        'event' => 'assign-next',
+                        'event' => 'assign-confirm',
                         'target' => 'body',
                         'eventData' => array()
                     ),
