@@ -56,38 +56,36 @@ class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
         );
         $this->_repositoryMock = $this->getMock('Mage_Core_Model_Dataservice_Repository', array(), array(), "", false);
         $this->_factory
-            = new Mage_Core_Model_Dataservice_Factory($this->_configMock, $this->_objectManagerMock, $this->_compositeMock, $this->_visitorFactoryMock,
-            $this->_repositoryMock);
+            = new Mage_Core_Model_Dataservice_Factory($this->_configMock, $this->_objectManagerMock, $this->_compositeMock, $this->_visitorFactoryMock, $this->_repositoryMock);
         $this->_dataserviceMock = (object)array();
     }
 
     public function testInit()
     {
         $this->_repositoryMock->expects($this->once())->method('addNameInNamespace')->with(
-            Mage_Core_Model_Dataservice_FactoryTest::TEST_NAMESPACE,
-            Mage_Core_Model_Dataservice_FactoryTest::TEST_DATA_SERVICE_NAME,
-            Mage_Core_Model_Dataservice_FactoryTest::TEST_NAMESPACE_ALIAS
+            self::TEST_NAMESPACE,
+            self::TEST_DATA_SERVICE_NAME,
+            self::TEST_NAMESPACE_ALIAS
         );
         $namespaceConfig
-            = array('namespaces' => array(Mage_Core_Model_Dataservice_FactoryTest::TEST_NAMESPACE => Mage_Core_Model_Dataservice_FactoryTest::TEST_NAMESPACE_ALIAS));
+            = array('namespaces' => array(self::TEST_NAMESPACE => Mage_Core_Model_Dataservice_FactoryTest::TEST_NAMESPACE_ALIAS));
         $this->_repositoryMock->expects($this->once())->method("get")->with(
-            $this->equalTo(Mage_Core_Model_Dataservice_FactoryTest::TEST_DATA_SERVICE_NAME)
+            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue(null));
-        $classInformation = array('class'          => Mage_Core_Model_Dataservice_FactoryTest::TEST_CLASS_NAME,
-                                  'retrieveMethod' => 'retrieveMethod', 'methodArguments' => array()
-        );
+        $classInformation = array('class' => self::TEST_CLASS_NAME,
+                                  'retrieveMethod' => 'retrieveMethod', 'methodArguments' => array());
         $this->_configMock->expects($this->once())->method("getClassByAlias")->with(
-            $this->equalTo(Mage_Core_Model_Dataservice_FactoryTest::TEST_DATA_SERVICE_NAME)
+            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue($classInformation));
         $this->_objectManagerMock->expects($this->once())->method("create")->with(
-            $this->equalTo(Mage_Core_Model_Dataservice_FactoryTest::TEST_CLASS_NAME)
+            $this->equalTo(self::TEST_CLASS_NAME)
         )->will($this->returnValue($this));
         $this->_repositoryMock->expects($this->once())->method("add")->with(
-            $this->equalTo(Mage_Core_Model_Dataservice_FactoryTest::TEST_DATA_SERVICE_NAME),
+            $this->equalTo(self::TEST_DATA_SERVICE_NAME),
             $this->equalTo($this->_dataserviceMock)
         );
         $this->_factory->init(
-            array(Mage_Core_Model_Dataservice_FactoryTest::TEST_DATA_SERVICE_NAME => $namespaceConfig)
+            array(self::TEST_DATA_SERVICE_NAME => $namespaceConfig)
         );
     }
 
@@ -95,27 +93,25 @@ class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
     {
         $this->_dataserviceMock = (object)array();
         $this->_repositoryMock->expects($this->at(0))->method("get")->with(
-            $this->equalTo(Mage_Core_Model_Dataservice_FactoryTest::TEST_DATA_SERVICE_NAME)
+            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue(null));
         $this->_repositoryMock->expects($this->at(1))->method("get")->with(
-            $this->equalTo(Mage_Core_Model_Dataservice_FactoryTest::TEST_DATA_SERVICE_NAME)
+            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue($this->_dataserviceMock));
         $this->assertEquals(
             $this->_dataserviceMock,
-            $this->_factory->get(Mage_Core_Model_Dataservice_FactoryTest::TEST_DATA_SERVICE_NAME)
+            $this->_factory->get(self::TEST_DATA_SERVICE_NAME)
         );
     }
 
     public function testGetByNamespace()
     {
         $this->_repositoryMock->expects($this->once())->method('getByNamespace')->with(
-            Mage_Core_Model_Dataservice_FactoryTest::TEST_NAMESPACE
-        )->will($this->returnValue(Mage_Core_Model_Dataservice_FactoryTest::TEST_DATA_SERVICE_NAME));
+            self::TEST_NAMESPACE
+        )->will($this->returnValue(self::TEST_DATA_SERVICE_NAME));
         $this->assertEquals(
-            Mage_Core_Model_Dataservice_FactoryTest::TEST_DATA_SERVICE_NAME,
-            $this->_factory->getByNamespace(
-                Mage_Core_Model_Dataservice_FactoryTest::TEST_NAMESPACE
-            )
+            self::TEST_DATA_SERVICE_NAME,
+            $this->_factory->getByNamespace(self::TEST_NAMESPACE)
         );
     }
 
