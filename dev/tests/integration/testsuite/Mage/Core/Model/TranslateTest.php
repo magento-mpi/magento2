@@ -32,6 +32,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $this->_designModel = $this->getMock('Mage_Core_Model_Design_Package',
             array('getLocaleFileName'),
             array(
+                Mage::getSingleton('Mage_Core_Model_Dir'),
                 Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader'),
                 Mage::getSingleton('Magento_Filesystem'),
                 Mage::getSingleton('Mage_Core_Model_Design_FileResolution_StrategyPool'),
@@ -73,7 +74,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             $modulesConfig->$checkedNode->asXML()
         );
 
-        $this->_model->init('non_existing_area', null);
+        $this->_model->init('non_existing_area');
         $this->assertEquals(array(), $this->_model->getModulesConfig());
     }
 
@@ -133,6 +134,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $this->_designModel = $this->getMock('Mage_Core_Model_Design_Package',
             array('getLocaleFileName', 'getDesignTheme'),
             array(
+                Mage::getSingleton('Mage_Core_Model_Dir'),
                 Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader'),
                 $filesystem,
                 Mage::getSingleton('Mage_Core_Model_Design_FileResolution_StrategyPool'),

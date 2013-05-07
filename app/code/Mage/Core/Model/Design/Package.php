@@ -26,6 +26,11 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     private static $_customThemeTypeCache = array();
 
     /**
+     * @var Mage_Core_Model_Dir
+     */
+    private $_dirs;
+
+    /**
      * Package area
      *
      * @var string
@@ -100,6 +105,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     protected $_storeManager;
 
     /**
+     * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool
@@ -107,12 +113,14 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
+        Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool,
         Mage_Core_Model_App_State $appState,
         Mage_Core_Model_StoreManagerInterface $storeManager
     ) {
+        $this->_dirs = $dirs;
         $this->_moduleReader = $moduleReader;
         $this->_filesystem = $filesystem;
         $this->_resolutionPool = $resolutionPool;
@@ -478,7 +486,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             throw new Magento_Exception('Cleaning of merged view files is not allowed');
         }
 
-        $dir = $this->_buildPublicViewFilename(self::PUBLIC_MERGE_DIR);
+        $dir = $this->_getMergeDir();
         try {
             $this->_filesystem->delete($dir);
             $deleted = true;
@@ -540,9 +548,10 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     public function getPublicFileUrl($file, $isSecure = null)
     {
         foreach (array(
-                Mage_Core_Model_Store::URL_TYPE_LIB => Mage_Core_Model_Dir::PUB_LIB,
-                Mage_Core_Model_Store::URL_TYPE_MEDIA => Mage_Core_Model_Dir::MEDIA,
-                Mage_Core_Model_Store::URL_TYPE_STATIC => Mage_Core_Model_Dir::STATIC_VIEW
+                Mage_Core_Model_Store::URL_TYPE_LIB     => Mage_Core_Model_Dir::PUB_LIB,
+                Mage_Core_Model_Store::URL_TYPE_MEDIA   => Mage_Core_Model_Dir::MEDIA,
+                Mage_Core_Model_Store::URL_TYPE_STATIC  => Mage_Core_Model_Dir::STATIC_VIEW,
+                Mage_Core_Model_Store::URL_TYPE_CACHE   => Mage_Core_Model_Dir::PUB_VIEW_CACHE,
             ) as $urlType => $dirType
         ) {
             $dir = Mage::getBaseDir($dirType);
@@ -687,6 +696,16 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     protected function _buildPublicViewFilename($file)
     {
         return $this->getPublicDir() . DS . $file;
+    }
+
+    /**
+     * Retrieve directory path for merged view files
+     *
+     * @return string
+     */
+    protected function _getMergeDir()
+    {
+        return $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_VIEW_CACHE) . DIRECTORY_SEPARATOR . self::PUBLIC_MERGE_DIR;
     }
 
     /**
@@ -903,8 +922,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             $filesToMerge[$file] = $this->_publishViewFile($file, $params);
             $mergedFile[] = str_replace('\\', '/', str_replace(array($jsDir, $publicDir), '', $filesToMerge[$file]));
         }
-        $mergedFile = self::PUBLIC_MERGE_DIR . DS . md5(implode('|', $mergedFile)) . ".{$contentType}";
-        $mergedFile = $this->_buildPublicViewFilename($mergedFile);
+        $mergedFile = $this->_getMergeDir() . DS . md5(implode('|', $mergedFile)) . '.' . $contentType;
         $mergedMTimeFile  = $mergedFile . '.dat';
         $filesMTimeData = '';
         foreach ($filesToMerge as $file) {

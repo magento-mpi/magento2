@@ -36,7 +36,11 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
     public static function setUpBeforeClass()
     {
         self::$_themePublicDir = Mage::getDesign()->getPublicDir();
-        self::$_viewPublicMergedDir = self::$_themePublicDir . '/_merged';
+
+        /** @var Mage_Core_Model_Dir $dirs */
+        $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
+        self::$_viewPublicMergedDir = $dirs->getDir(Mage_Core_Model_Dir::PUB_VIEW_CACHE)
+            . DIRECTORY_SEPARATOR . Mage_Core_Model_Design_PackageInterface::PUBLIC_MERGE_DIR;
     }
 
     protected function setUp()
