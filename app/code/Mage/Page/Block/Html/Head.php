@@ -176,7 +176,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      * Add Meta element to HEAD entity
      *
      * @param string|array $metaData
-     * @param strign $content
+     * @param string $content
      * @return Mage_Page_Block_Html_Head
      */
     public function addMetaTag($metaData, $content = null)
@@ -227,6 +227,24 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     {
         $this->_initMetaTags();
         return array_merge($this->getDefaultMetaTags(), $this->_data['meta_tag']);
+    }
+
+    /**
+     * Get meta tags as html
+     *
+     * @return string
+     */
+    public function getMetaTagHtml()
+    {
+        $metaTags = array();
+        foreach ($this->getMetaTags() as $metaTag) {
+            $metaTags[] = sprintf(
+                '<meta name="%s" content="%s" />',
+                $metaTag['name'],
+                htmlspecialchars($metaTag['content'])
+            );
+        }
+        return implode("\n", $metaTags);
     }
 
     /**

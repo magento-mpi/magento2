@@ -23,7 +23,7 @@ Default layout, loads most of the pages
                 <action method="addJs"><file>js/iphone.js</file></action>
                 <action method="addJs"><file>js/dnd.js</file></action>
                 <action method="addJs"><file>js/modernizr.js</file></action>
-                <action method="addMetaTag"><name>viewport</name><contant>width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no</contant></action>
+                <action method="addMetaTag"><name>viewport</name><content>width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no</content></action>
                 <block type="Mage_Page_Block_Js_Cookie" name="js_cookies" template="js/cookie.phtml"/>
             </block>
 

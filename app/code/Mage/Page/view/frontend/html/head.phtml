@@ -10,9 +10,7 @@
 ?>
 <meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>"/>
 <title><?php echo $this->getTitle() ?></title>
-<?php foreach ($this->getMetaTags() as $metaTag): ?>
-    <meta name="<?php echo $metaTag['name'] ?>" content="<?php echo htmlspecialchars($metaTag['content']) ?>" />
-<?php endforeach; ?>
+<?php echo $this->getMetaTagHtml() ?>
 <link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon"/>
 <link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon"/>
 <link rel="stylesheet" href="<?php echo $this->getViewFileUrl('Mage_Page::css/validate.css') ?>" type="text/css" media="all"/>
