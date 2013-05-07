@@ -27,16 +27,11 @@ class Mage_Webapi_ConfigTest extends PHPUnit_Framework_TestCase
         parent::setUp();
     }
 
-    public function testGetServices ()
-    {
-        $this->_helper->getServices();
-    }
-
-    public function testGetRestRoutes ()
+    public function testGetRestRoutes()
     {
         $routes = $this->_helper->getRestRoutes('GET');
-        echo "testGetRestRoutes\n";
-        print_r($routes);
+        $this->assertTrue(count($routes) > 0);
+        $this->assertTrue($routes[0]->getHttpMethod() == 'GET');
     }
 
 }

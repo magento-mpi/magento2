@@ -132,6 +132,7 @@ class Mage_Webapi_Config
 
     /**
      * Save services into the cache
+     * @param string $data serialized version of the webapi registry
      */
     protected function _saveToCache ($data)
     {
@@ -210,8 +211,7 @@ class Mage_Webapi_Config
 
     /**
      * Retrieve info about the given service
-     * @param $serviceName the name
-     * @param $serviceVersion the version
+     * @param string $serviceName the name
      * @throw InvalidArgumentException if the service does not exist
      */
     public function getService ($serviceName)
@@ -220,7 +220,7 @@ class Mage_Webapi_Config
             return $this->_services[$serviceName];
         }
 
-        throw new InvalidArgumentException("Service $serviceName already exists");
+        throw new InvalidArgumentException("Service $serviceName does not exists");
     }
 
     /**
@@ -244,8 +244,8 @@ class Mage_Webapi_Config
 
     /**
      * Retrieve info about the given operation
-     * @param $serviceName
-     * @param $operation
+     * @param string $serviceName
+     * @param string $operation
      * @throw InvalidArgumentException if the service or operation do not exist
      */
     public function getOperation ($serviceName, $operation)
@@ -256,7 +256,7 @@ class Mage_Webapi_Config
             return $service[self::KEY_OPERATIONS][$operation];
         }
 
-        throw new InvalidArgumentException("Operation $serviceName does not exist");
+        throw new InvalidArgumentException("Operation $operation does not exist");
     }
 
     /**
