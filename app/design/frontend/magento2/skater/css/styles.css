@@ -4488,6 +4488,18 @@ body.type-bundle {
 .block.bundle.summary .tocart > .qty {
   margin-bottom: 10px;
 }
+.block.bundle.summary .bundle.summary div > ul {
+  font-size: 12px;
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+.block.bundle.summary .bundle.summary div > ul > li {
+  margin: 0 0 10px;
+}
+.block.bundle.summary .bundle.summary div > ul > li > div > div {
+  margin: 0 0 5px;
+}
 .col3-layout .block.bundle.summary {
   width: 200px;
 }
