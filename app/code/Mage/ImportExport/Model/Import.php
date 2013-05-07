@@ -422,6 +422,18 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
      */
     public function uploadSource()
     {
+        /** @var $adapter Zend_File_Transfer_Adapter_Http */
+        $adapter  = Mage::getModel('Zend_File_Transfer_Adapter_Http');
+        if (!$adapter->isValid(self::FIELD_NAME_SOURCE_FILE)) {
+            $errors = $adapter->getErrors();
+            if ($errors[0] == Zend_Validate_File_Upload::INI_SIZE) {
+                $errorMessage = Mage::helper('Mage_ImportExport_Helper_Data')->getMaxUploadSizeMessage();
+            } else {
+                $errorMessage = Mage::helper('Mage_ImportExport_Helper_Data')->__('File was not uploaded.');
+            }
+            Mage::throwException($errorMessage);
+        }
+
         $entity    = $this->getEntity();
         /** @var $uploader Mage_Core_Model_File_Uploader */
         $uploader  = Mage::getModel('Mage_Core_Model_File_Uploader', array('fileId' => self::FIELD_NAME_SOURCE_FILE));
