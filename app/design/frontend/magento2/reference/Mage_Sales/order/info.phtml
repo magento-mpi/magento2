@@ -10,7 +10,7 @@
 ?>
 <?php /** @var $this Mage_Sales_Block_Order_Info */ ?>
 <?php $_order = $this->getOrder() ?>
-<div class="order-page">
+<div class="order details view">
     <strong class="order status"><?php echo $_order->getStatusLabel() ?></strong>
     <div class="order toolbar">
         <?php echo $this->getChildHtml('buttons') ?>
@@ -31,7 +31,7 @@
             </ul>
         </dd>
     </dl>
-    <p class="order date"><?php echo $this->__('Order Date: %s', '<date>' . $this->formatDate($_order->getCreatedAtStoreDate(), 'long') . '</date>' ) ?></p>
+    <p class="order date"><?php echo $this->__('<span class="label">Order Date:</span> %s', '<date>' . $this->formatDate($_order->getCreatedAtStoreDate(), 'long') . '</date>' ) ?></p>
 <?php if (!$_order->getIsVirtual()): ?>
     <div class="block order shipping address">
         <div class="title"><strong><?php echo $this->__('Shipping Address') ?></strong></div>

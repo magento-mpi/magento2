@@ -58,14 +58,13 @@
                 success: function(response) {
                     this.element.find(this.options.iframeContainerSelector).html(response);
                     this.element.trigger('gotoSection', 'payment').trigger('contentUpdate');
-                    this._toggleContinueButton(this.element.parents('ol'));
                     this.element.find(this.options.reloadSelector).find('a').show();
                 }
             });
         },
 
         /**
-         *
+         * Keep this code, refer to https://jira.corp.x.com/browse/MAGETWO-7539 for details
          * @param target
          * @return {*}
          * @private
@@ -88,10 +87,7 @@
             }
         }
 
-        /**
-         *
-         */
-        /*
+        /*// leave commented code unchanged, refer to https://jira.corp.x.com/browse/MAGETWO-7539 for details
          preLoadReviewIframe: function() {
          if (review.agreementsForm) {
          checkout.setLoadWaiting('review');

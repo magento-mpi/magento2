@@ -80,6 +80,12 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $params['_current'] = true;
         $redirect = false;
 
+        /** @var $limitation Mage_Catalog_Model_Category_Limitation */
+        $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Category_Limitation');
+        if ($limitation->isCreateRestricted()) {
+            $this->_getSession()->addNotice($limitation->getCreateRestrictedMessage());
+        }
+
         $storeId = (int)$this->getRequest()->getParam('store');
         $parentId = (int)$this->getRequest()->getParam('parent');
         $prevStoreId = $this->_objectManager->get('Mage_Backend_Model_Auth_Session')
@@ -160,7 +166,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                         ->getBreadcrumbsJavascript($breadcrumbsPath, 'editingCategoryBreadcrumbs'),
                 'messages' => $this->getLayout()->getMessagesBlock()->getGroupedHtml(),
             ));
-            $this->_objectManager->get('Mage_Core_Model_Event_Manager')->dispatch(
+            $this->_eventManager->dispatch(
                 'category_prepare_ajax_response',
                 array(
                     'response' => $eventResponse,
@@ -290,7 +296,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 parse_str($data['category_products'], $products);
                 $category->setPostedProducts($products);
             }
-            $this->_objectManager->get('Mage_Core_Model_Event_Manager')->dispatch(
+            $this->_eventManager->dispatch(
                 'catalog_category_prepare_save',
                 array(
                     'category' => $category,
@@ -419,7 +425,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         if ($categoryId) {
             try {
                 $category = $this->_objectManager->create('Mage_Catalog_Model_Category')->load($categoryId);
-                $this->_objectManager->get('Mage_Core_Model_Event_Manager')->dispatch(
+                $this->_eventManager->dispatch(
                     'catalog_controller_category_delete', array('category' => $category)
                 );
 

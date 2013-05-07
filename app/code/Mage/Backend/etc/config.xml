@@ -48,6 +48,16 @@
             <preferences>
                 <Mage_Core_Model_Config_Storage_WriterInterface>Mage_Core_Model_Config_Storage_Writer_Db</Mage_Core_Model_Config_Storage_WriterInterface>
             </preferences>
+            <Mage_Backend_Controller_Context>
+                <parameters>
+                    <translator>Mage_Core_Model_Translate_Proxy</translator>
+                </parameters>
+            </Mage_Backend_Controller_Context>
+            <Mage_Backend_Controller_Router_Default>
+                <parameters>
+                    <controllerFactory>Mage_Backend_Controller_Factory</controllerFactory>
+                </parameters>
+            </Mage_Backend_Controller_Router_Default>
         </di>
     </global>
     <admin>

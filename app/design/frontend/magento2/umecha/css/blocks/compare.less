@@ -12,6 +12,22 @@
  *
  *    Compare
 ----------------------------------------------------------------------------- */
+.item.link.compare {
+  .action.compare { 
+    .resetAction(); 
+    display: inline; 
+    font-size: 11px; 
+    font-family: Arial,Verdana,sans-serif; 
+    .qty {
+      &:before {
+        content:' (';
+      }
+      &:after {
+        content:')';
+      }
+    }
+  }
+}
 
 .catalog-product-compare-index {
   .link-print {

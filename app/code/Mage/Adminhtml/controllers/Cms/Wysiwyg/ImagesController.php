@@ -214,6 +214,6 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Cms::media_gallery');
+        return $this->_authorization->isAllowed('Mage_Cms::media_gallery');
     }
 }

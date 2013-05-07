@@ -37,16 +37,6 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
     const XML_PAGE_TYPE_RENDER_INHERITED = 'global/dev/page_type/render_inherited';
 
     /**
-     * @var Mage_Core_Controller_Request_Http
-     */
-    protected $_request;
-
-    /**
-     * @var Mage_Core_Controller_Response_Http
-     */
-    protected $_response;
-
-    /**
      * @var Magento_ObjectManager
      */
     protected $_objectManager;
@@ -73,13 +63,6 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
      * @var array
      */
     protected $_cookieCheckActions = array();
-
-    /**
-     * Currently used area
-     *
-     * @var string
-     */
-    protected $_currentArea;
 
     /**
      * Namespace for session.
@@ -124,28 +107,24 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
     protected $_layoutFactory;
 
     /**
-     * Constructor
-     *
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @var Mage_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
+
+    /**
+     * @param Mage_Core_Controller_Varien_Action_Context $context
      * @param string $areaCode
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,        
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Mage_Core_Controller_Varien_Action_Context $context,
         $areaCode = null
     ) {
-        parent::__construct($request, $response, $areaCode);
+        parent::__construct($context->getRequest(), $context->getResponse(), $areaCode);
 
-        $this->_objectManager   = $objectManager;
-        $this->_frontController = $frontController;
-        $this->_layoutFactory   = $layoutFactory;
+        $this->_objectManager   = $context->getObjectManager();
+        $this->_frontController = $context->getFrontController();
+        $this->_layoutFactory   = $context->getLayoutFactory();
+        $this->_eventManager    = $context->getEventManager();
         $this->_frontController->setAction($this);
 
         $this->_construct();
@@ -299,7 +278,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
         Magento_Profiler::start('LAYOUT');
 
         // dispatch event for adding handles to layout update
-        Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'controller_action_layout_load_before',
             array('action' => $this, 'layout' => $this->getLayout())
         );
@@ -319,7 +298,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
 
         // dispatch event for adding text layouts
         if (!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
-            Mage::dispatchEvent(
+            $this->_eventManager->dispatch(
                 'controller_action_layout_generate_xml_before',
                 array('action' => $this, 'layout' => $this->getLayout())
             );
@@ -340,7 +319,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
 
         // dispatch event for adding xml layout elements
         if(!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
-            Mage::dispatchEvent(
+            $this->_eventManager->dispatch(
                 'controller_action_layout_generate_blocks_before',
                 array('action' => $this, 'layout' => $this->getLayout())
             );
@@ -352,7 +331,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
         Magento_Profiler::stop('layout_generate_blocks');
 
         if (!$this->getFlag('', self::FLAG_NO_DISPATCH_BLOCK_EVENT)) {
-            Mage::dispatchEvent(
+            $this->_eventManager->dispatch(
                 'controller_action_layout_generate_blocks_after',
                 array('action' => $this, 'layout' => $this->getLayout())
             );
@@ -388,8 +367,8 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
             $this->getLayout()->addOutputElement($output);
         }
 
-        Mage::dispatchEvent('controller_action_layout_render_before');
-        Mage::dispatchEvent('controller_action_layout_render_before_' . $this->getFullActionName());
+        $this->_eventManager->dispatch('controller_action_layout_render_before');
+        $this->_eventManager->dispatch('controller_action_layout_render_before_' . $this->getFullActionName());
 
         $this->getLayout()->setDirectOutput(false);
 
@@ -568,10 +547,10 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
      */
     protected function _firePreDispatchEvents()
     {
-        Mage::dispatchEvent('controller_action_predispatch', array('controller_action' => $this));
-        Mage::dispatchEvent('controller_action_predispatch_' . $this->getRequest()->getRouteName(),
+        $this->_eventManager->dispatch('controller_action_predispatch', array('controller_action' => $this));
+        $this->_eventManager->dispatch('controller_action_predispatch_' . $this->getRequest()->getRouteName(),
             array('controller_action' => $this));
-        Mage::dispatchEvent('controller_action_predispatch_' . $this->getFullActionName(),
+        $this->_eventManager->dispatch('controller_action_predispatch_' . $this->getFullActionName(),
             array('controller_action' => $this));
     }
 
@@ -584,15 +563,15 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
             return;
         }
 
-        Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'controller_action_postdispatch_' . $this->getFullActionName(),
             array('controller_action' => $this)
         );
-        Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'controller_action_postdispatch_' . $this->getRequest()->getRouteName(),
             array('controller_action' => $this)
         );
-        Mage::dispatchEvent('controller_action_postdispatch', array('controller_action' => $this));
+        $this->_eventManager->dispatch('controller_action_postdispatch', array('controller_action' => $this));
     }
 
     public function norouteAction($coreRoute = null)
@@ -602,7 +581,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
             $status = new Varien_Object();
         }
 
-        Mage::dispatchEvent('controller_action_noroute', array('action' => $this, 'status' => $status));
+        $this->_eventManager->dispatch('controller_action_noroute', array('action' => $this, 'status' => $status));
 
         if ($status->getLoaded() !== true
             || $status->getForwarded() === true
@@ -623,7 +602,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
     public function noCookiesAction()
     {
         $redirect = new Varien_Object();
-        Mage::dispatchEvent('controller_action_nocookies', array(
+        $this->_eventManager->dispatch('controller_action_nocookies', array(
             'action'    => $this,
             'redirect'  => $redirect
         ));

@@ -125,7 +125,7 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_Acc
             if ($customerId = $customer->getId()) {
                 $invitation->accept(Mage::app()->getWebsite()->getId(), $customerId);
 
-                Mage::dispatchEvent('enterprise_invitation_customer_accepted', array(
+                $this->_eventManager->dispatch('enterprise_invitation_customer_accepted', array(
                    'customer' => $customer,
                    'invitation' => $invitation
                 ));

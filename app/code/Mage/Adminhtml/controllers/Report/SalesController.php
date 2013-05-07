@@ -359,31 +359,31 @@ class Mage_Adminhtml_Report_SalesController extends Mage_Adminhtml_Controller_Re
     {
         switch ($this->getRequest()->getActionName()) {
             case 'sales':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::salesroot_sales');
+                return $this->_authorization->isAllowed('Mage_Reports::salesroot_sales');
                 break;
             case 'tax':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::tax');
+                return $this->_authorization->isAllowed('Mage_Reports::tax');
                 break;
             case 'shipping':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::shipping');
+                return $this->_authorization->isAllowed('Mage_Reports::shipping');
                 break;
             case 'invoiced':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::invoiced');
+                return $this->_authorization->isAllowed('Mage_Reports::invoiced');
                 break;
             case 'refunded':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::refunded');
+                return $this->_authorization->isAllowed('Mage_Reports::refunded');
                 break;
             case 'coupons':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::coupons');
+                return $this->_authorization->isAllowed('Mage_Reports::coupons');
                 break;
             case 'shipping':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::shipping');
+                return $this->_authorization->isAllowed('Mage_Reports::shipping');
                 break;
             case 'bestsellers':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::bestsellers');
+                return $this->_authorization->isAllowed('Mage_Reports::bestsellers');
                 break;
             default:
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::salesroot');
+                return $this->_authorization->isAllowed('Mage_Reports::salesroot');
                 break;
         }
     }

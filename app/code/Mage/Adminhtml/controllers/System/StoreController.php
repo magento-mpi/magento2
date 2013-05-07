@@ -38,12 +38,21 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
     {
         $this->_title($this->__('Stores'));
 
-        /** @var $limitation Mage_Core_Model_Store_Limitation */
-        $limitation = $this->_objectManager->get('Mage_Core_Model_Store_Limitation');
-        if (!$limitation->canCreate()) {
+        /** @var $limitationStoreView Mage_Core_Model_Store_Limitation */
+        $limitationStoreView = $this->_objectManager->get('Mage_Core_Model_Store_Limitation');
+        /** @var $limitationStore Mage_Core_Model_Store_Limitation */
+        $limitationStore = $this->_objectManager->get('Mage_Core_Model_Store_Group_Limitation');
+
+        if (!$limitationStore->canCreate()) {
             /** @var $session Mage_Adminhtml_Model_Session */
             $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
-            $session->addNotice($limitation->getCreateRestrictionMessage());
+            $session->addNotice($limitationStore->getCreateRestrictionMessage());
+        }
+
+        if (!$limitationStoreView->canCreate()) {
+            /** @var $session Mage_Adminhtml_Model_Session */
+            $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
+            $session->addNotice($limitationStoreView->getCreateRestrictionMessage());
         }
 
         $this->_initAction()
@@ -188,7 +197,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
                         $groupModel->save();
 
-                        Mage::dispatchEvent('store_group_save', array('group' => $groupModel));
+                        $this->_eventManager->dispatch('store_group_save', array('group' => $groupModel));
 
                         $session->addSuccess(Mage::helper('Mage_Core_Helper_Data')->__('The store has been saved.'));
                         break;
@@ -211,7 +220,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
                         Mage::app()->reinitStores();
 
-                        Mage::dispatchEvent($eventName, array('store'=>$storeModel));
+                        $this->_eventManager->dispatch($eventName, array('store'=>$storeModel));
 
                         $session->addSuccess(Mage::helper('Mage_Core_Helper_Data')->__('The store view has been saved'));
                         break;
@@ -414,7 +423,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
         try {
             $model->delete();
 
-            Mage::dispatchEvent('store_delete', array('store' => $model));
+            $this->_eventManager->dispatch('store_delete', array('store' => $model));
 
             $this->_getSession()->addSuccess(Mage::helper('Mage_Core_Helper_Data')->__('The store view has been deleted.'));
             $this->_redirect('*/*/');
@@ -431,7 +440,7 @@ class Mage_Adminhtml_System_StoreController extends Mage_Adminhtml_Controller_Ac
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::store');
+        return $this->_authorization->isAllowed('Mage_Adminhtml::store');
     }
 
     /**

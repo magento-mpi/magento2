@@ -263,8 +263,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')
-            ->isAllowed('Enterprise_GiftWrapping::enterprise_giftwrapping');
+        return $this->_authorization->isAllowed('Enterprise_GiftWrapping::enterprise_giftwrapping');
     }
 
     /**

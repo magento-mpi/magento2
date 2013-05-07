@@ -188,8 +188,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 $addressesData = $this->_extractCustomerAddressData();
 
                 $request = $this->getRequest();
-                /** @var Mage_Core_Model_Event_Manager $eventManager */
-                $eventManager = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
+
+                $eventManager = $this->_eventManager;
                 $beforeSaveCallback = function ($customer) use ($request, $eventManager) {
                     $eventManager->dispatch('adminhtml_customer_prepare_save', array(
                         'customer'  => $customer,
@@ -827,7 +827,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Customer::manage');
+        return $this->_authorization->isAllowed('Mage_Customer::manage');
     }
 
     /**

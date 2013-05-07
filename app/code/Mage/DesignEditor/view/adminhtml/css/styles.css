@@ -25,6 +25,28 @@
     border-bottom: 1px solid #000;
 }
 
+.vde-dialog .action-close {
+    background: none;
+    border: none;
+    color: #6d665e;
+    font-weight: normal;
+    font-size: 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #b5b3af;
+
+    border-radius: 0;
+    padding: 4px 0 0 0;
+}
+
+.vde-dialog .action-close:hover {
+    color: #000;
+    border-bottom: 1px solid #000;
+}
+
+.vde-dialog .ui-dialog-buttonset {
+    text-align: left;
+}
+
 /*
     Themes Inputs
 -------------------------------------- */
@@ -990,6 +1012,10 @@
 }
 
 .custom-file > .action-download {
+    top: 2px;
+}
+
+.custom-file > .action-delete {
     top: 2px;
 }
 

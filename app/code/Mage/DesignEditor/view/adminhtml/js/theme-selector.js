@@ -170,6 +170,23 @@
         body.on('loaded', function() {
             body.trigger('contentUpdated');
         });
+
+        body.on('duplicate-theme', function(event, data) {
+            $.ajax({
+                url: data.url,
+                type: 'GET',
+                dataType: 'json',
+                showLoader: true,
+                success: $.proxy(function(response) {
+                    if (response.success) {
+                        document.location.reload();
+                    }
+                }, this),
+                error: $.proxy(function() {
+                    alert($.mage.__('Error: unknown error.'));
+                }, this)
+            });
+        });
     });
 
 })(jQuery);

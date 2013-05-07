@@ -43,7 +43,7 @@
             <action method="setShowPart"><value>customer</value></action>
         </block>
 
-        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare" template="Mage_Catalog::product/compare/block.phtml">
+        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.header" template="Mage_Catalog::product/compare/sidebar.phtml">
             <action method="setIsLink"><link>1</link></action>
         </block>
 
@@ -66,6 +66,7 @@
                 <block type="Mage_Customer_Block_Account_Link">
                     <action method="addAccountLink"><target>panel.menu</target><position>10</position></action>
                 </block>
+                <action method="addLinkBlock"><blockName>catalog.compare.header</blockName></action>
                 <block type="Mage_Wishlist_Block_Links" name="wishlist.link" />
                 <action method="addLinkBlock"><blockName>wishlist.link</blockName><position>0</position></action>
             </block>

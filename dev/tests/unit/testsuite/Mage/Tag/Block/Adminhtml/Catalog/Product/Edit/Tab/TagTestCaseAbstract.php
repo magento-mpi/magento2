@@ -115,6 +115,6 @@ class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_TagTestCaseAbstract exte
 
     protected function _testGetAfter()
     {
-        $this->assertEquals('reviews', $this->_model->getAfter());
+        $this->assertEquals('product-reviews', $this->_model->getAfter());
     }
 }

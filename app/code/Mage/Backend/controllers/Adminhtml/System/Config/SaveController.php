@@ -34,13 +34,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
     protected $_configModel;
 
     /**
-     * Event manager model
-     *
-     * @var Mage_Core_Model_Event_Manager
-     */
-    protected $_eventManager;
-
-    /**
      * Application model
      *
      * @var Mage_Core_Model_App
@@ -48,47 +41,25 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
     protected $_app;
 
     /**
-     * Constructor
-     *
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Authorization $authorization
+     * @param Mage_Backend_Controller_Context $context
      * @param Mage_Backend_Model_Config_Structure $configStructure
      * @param Mage_Core_Model_Config $configModel
      * @param Mage_Backend_Model_Config_Factory $configFactory
-     * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Core_Model_App $app
      * @param Mage_Backend_Model_Auth_StorageInterface $authSession
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param string $areaCode
-     * @param array $invokeArgs
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Authorization $authorization,
+        Mage_Backend_Controller_Context $context,
         Mage_Backend_Model_Config_Structure $configStructure,
         Mage_Core_Model_Config $configModel,
         Mage_Backend_Model_Config_Factory $configFactory,
-        Mage_Core_Model_Event_Manager $eventManager,
         Mage_Core_Model_App $app,
         Mage_Backend_Model_Auth_StorageInterface $authSession,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
-        $areaCode = null,
-        array $invokeArgs = array()
+        $areaCode = null
     ) {
-        parent::__construct($request, $response, $objectManager, $frontController,
-            $authorization, $configStructure, $authSession, $layoutFactory, $areaCode, $invokeArgs
-        );
-
+        parent::__construct($context, $configStructure, $authSession, $areaCode);
         $this->_configFactory = $configFactory;
-        $this->_eventManager = $eventManager;
         $this->_app = $app;
         $this->_configModel = $configModel;
     }

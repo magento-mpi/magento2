@@ -480,7 +480,6 @@ strong {
 .header > .panel > .links {
   float: right;
   text-align: right;
-  width: 49%;
 }
 .header > .panel > .links.customer {
   float: none;

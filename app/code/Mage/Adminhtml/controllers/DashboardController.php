@@ -115,6 +115,6 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::dashboard');
+        return $this->_authorization->isAllowed('Mage_Adminhtml::dashboard');
     }
 }

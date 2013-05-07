@@ -106,6 +106,6 @@ class Mage_Adminhtml_System_CurrencyController extends Mage_Adminhtml_Controller
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_CurrencySymbol::currency_rates');
+        return $this->_authorization->isAllowed('Mage_CurrencySymbol::currency_rates');
     }
 }

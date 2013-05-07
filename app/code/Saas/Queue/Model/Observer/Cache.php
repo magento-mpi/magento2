@@ -21,9 +21,8 @@ class Saas_Queue_Model_Observer_Cache extends Saas_Queue_Model_ObserverAbstract
     /**
      * @param Mage_Core_Model_CacheInterface $cache
      */
-    public function __construct(
-        Mage_Core_Model_CacheInterface $cache
-    ) {
+    public function __construct(Mage_Core_Model_CacheInterface $cache)
+    {
         $this->_cache = $cache;
     }
 
