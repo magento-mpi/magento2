@@ -456,7 +456,7 @@
                     <xsd:element name="is_active" type="xsd:string" minOccurs="0" />
                     <xsd:element name="carrier_code" type="xsd:string" minOccurs="0" />
                     <xsd:element name="title" type="xsd:string" minOccurs="0" />
-                    <xsd:element name="number" type="xsd:string" minOccurs="0" />
+                    <xsd:element name="track_number" type="xsd:string" minOccurs="0" />
                     <xsd:element name="order_id" type="xsd:string" minOccurs="0" />
                     <xsd:element name="track_id" type="xsd:string" minOccurs="0" />
                 </xsd:sequence>
