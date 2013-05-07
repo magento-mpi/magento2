@@ -21,30 +21,17 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     protected $_themeContext;
 
     /**
-     * Initialize dependencies
-     *
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Mage_Backend_Controller_Context $context
      * @param Mage_DesignEditor_Model_Theme_Context $themeContext
-     * @param null $areaCode
-     * @param array $invokeArgs
+     * @param string $areaCode
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Mage_Backend_Controller_Context $context,
         Mage_DesignEditor_Model_Theme_Context $themeContext,
-        $areaCode = null,
-        array $invokeArgs = array()
+        $areaCode = null
     ) {
+        parent::__construct($context, $areaCode);
         $this->_themeContext = $themeContext;
-        parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $areaCode,
-            $invokeArgs);
     }
 
     /**
@@ -96,9 +83,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             // We can run design editor with physical theme, but we cannot edit it through fronted
             $editableTheme = $lunchedTheme->isPhysical() ? $lunchedTheme : $this->_themeContext->getStagingTheme();
 
-            /** @var $eventDispatcher Mage_Core_Model_Event_Manager */
-            $eventDispatcher = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
-            $eventDispatcher->dispatch('design_editor_activate');
+            $this->_eventManager->dispatch('design_editor_activate');
 
             $this->_setTitle();
             $this->loadLayout();
@@ -164,9 +149,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         $state = $this->_objectManager->get('Mage_DesignEditor_Model_State');
         $state->reset();
 
-        /** @var $eventDispatcher Mage_Core_Model_Event_Manager */
-        $eventDispatcher = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
-        $eventDispatcher->dispatch('design_editor_deactivate');
+        $this->_eventManager->dispatch('design_editor_deactivate');
 
         $this->_redirect('*/*/');
     }

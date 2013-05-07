@@ -26,28 +26,6 @@ class Mage_Wishlist_IndexController
     protected $_wishlistConfig;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
-     * @param Mage_Wishlist_Model_Config $wishlistConfig
-     * @param string $areaCode
-     */
-    public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
-        Mage_Wishlist_Model_Config $wishlistConfig,
-        $areaCode = null
-    ) {
-        $this->_wishlistConfig = $wishlistConfig;
-        parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $areaCode);
-    }
-
-    /**
      * Action list where need check enabled cookie
      *
      * @var array
@@ -60,6 +38,20 @@ class Mage_Wishlist_IndexController
      * @var bool
      */
     protected $_skipAuthentication = false;
+
+    /**
+     * @param Mage_Core_Controller_Varien_Action_Context $context
+     * @param Mage_Wishlist_Model_Config $wishlistConfig
+     * @param string $areaCode
+     */
+    public function __construct(
+        Mage_Core_Controller_Varien_Action_Context $context,
+        Mage_Wishlist_Model_Config $wishlistConfig,
+        $areaCode = null
+    ) {
+        parent::__construct($context, $areaCode);
+        $this->_wishlistConfig = $wishlistConfig;
+    }
 
     public function preDispatch()
     {
@@ -203,7 +195,7 @@ class Mage_Wishlist_IndexController
             }
             $wishlist->save();
 
-            Mage::dispatchEvent(
+            $this->_eventManager->dispatch(
                 'wishlist_add_product',
                 array(
                     'wishlist'  => $wishlist,
@@ -321,7 +313,7 @@ class Mage_Wishlist_IndexController
                 ->save();
 
             Mage::helper('Mage_Wishlist_Helper_Data')->calculate();
-            Mage::dispatchEvent('wishlist_update_item', array(
+            $this->_eventManager->dispatch('wishlist_update_item', array(
                 'wishlist' => $wishlist, 'product' => $product, 'item' => $wishlist->getItem($id))
             );
 
@@ -699,7 +691,7 @@ class Mage_Wishlist_IndexController
 
             $translate->setTranslateInline(true);
 
-            Mage::dispatchEvent('wishlist_share', array('wishlist'=>$wishlist));
+            $this->_eventManager->dispatch('wishlist_share', array('wishlist'=>$wishlist));
             Mage::getSingleton('Mage_Customer_Model_Session')->addSuccess(
                 $this->__('Your Wishlist has been shared.')
             );

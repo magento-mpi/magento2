@@ -109,7 +109,7 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Poll::poll');
+        return $this->_authorization->isAllowed('Mage_Poll::poll');
     }
 
 }

@@ -47,7 +47,12 @@ class Saas_Saas_Model_EntryPoint_WorkerTest extends PHPUnit_Framework_TestCase
             $eventName = $taskName;
             $eventData = $taskParams;
         }
-        $dispatcher->expects($this->once())->method('dispatch')->with($eventName, $eventData);
+        $dispatcher->expects($this->exactly(2))
+            ->method('dispatch')
+            ->with(
+                $this->logicalOr($eventName, 'job_complete'),
+                $this->logicalOr($eventData, array('task_name' => $taskName))
+            );
 
         $app = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
         $app->expects($this->once())->method('setUseSessionInUrl')->with(false);
@@ -68,7 +73,7 @@ class Saas_Saas_Model_EntryPoint_WorkerTest extends PHPUnit_Framework_TestCase
         $this->_objectManagerMock
             ->expects($this->once())
             ->method('create')
-            ->with('Mage_Core_Model_Event_Manager', array('invoker' => 'Mage_Core_Model_Event_InvokerDefault'))
+            ->with('Mage_Core_Model_Event_Manager', array('invoker' => 'Mage_Core_Model_Event_Invoker_InvokerDefault'))
             ->will($this->returnValue($dispatcher));
         $worker->processRequest();
     }

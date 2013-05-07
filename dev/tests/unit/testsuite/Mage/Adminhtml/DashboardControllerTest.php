@@ -100,17 +100,21 @@ class Mage_Adminhtml_DashboardControllerTest extends PHPUnit_Framework_TestCase
         if (!$objectManager) {
             $objectManager = new Magento_ObjectManager_ObjectManager();
         }
-
-        $routerFactory  = $this->getMock('Mage_Core_Controller_Varien_Router_Factory', array(), array(), '', false);
         $rewriteFactory = $this->getMock('Mage_Core_Model_Url_RewriteFactory', array('create'), array(), '', false);
-        $varienFront = new Mage_Core_Controller_Varien_Front($routerFactory, $rewriteFactory);
-        $layoutFactory = $this->getMock('Mage_Core_Model_Layout_Factory', array(), array(), '', false);
+        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $varienFront = $helper->getObject('Mage_Core_Controller_Varien_Front',
+            array('rewriteFactory' => $rewriteFactory)
+        );
 
-        return $this->getMock('Mage_Adminhtml_DashboardController', array('__'), array(
-            $request, $response, $objectManager,
-            $varienFront, $layoutFactory, null,
-            array('helper' => 1, 'session' => 1, 'translator' => 1)
-        ));
+        $arguments = array(
+            'request' => $request,
+            'response' => $response,
+            'objectManager' => $objectManager,
+            'frontController' => $varienFront,
+
+        );
+        $context = $helper->getObject('Mage_Backend_Controller_Context', $arguments);
+        return $this->getMock('Mage_Adminhtml_DashboardController', array('__'), array($context));
     }
 }
 

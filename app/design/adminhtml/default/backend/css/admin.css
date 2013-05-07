@@ -2500,11 +2500,13 @@ table tbody tr:nth-child(odd):hover th {
 
 /*.navigation .level-0:hover > a,
 .eq-ie8 .navigation .level-0:hover > a,*/
-.navigation .level-0.hover.recent > a,
-.navigation .level-0 > a:focus {
+.navigation .level-0.hover.recent > a {
     background: #fff;
     color: #676056;
     text-shadow: 0 1px 3px #c1bfbb;
+}
+.navigation .level-0 > a:focus {
+    outline: none;
 }
 
 .navigation .level-0 > .submenu {
@@ -2767,6 +2769,16 @@ table tbody tr:nth-child(odd):hover th {
     color: #f2ebde;
     height: 1.333em;
 }
+
+.navigation .level-0.item-system:hover > a span,
+.navigation .level-0.item-stores:hover > a span {
+    background: #31302B;
+}
+.navigation .level-0.item-system:hover > a span:after,
+.navigation .level-0.item-stores:hover > a span:after {
+    color: #58534a;
+}
+
 
 .no-js .navigation .level-0.item-system:hover > a span,
 .navigation .level-0.item-system.hover > a span,
