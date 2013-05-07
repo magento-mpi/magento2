@@ -918,6 +918,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         $publicDir = $this->_buildPublicViewFilename('');
         foreach ($files as $file) {
             $params = array();
+            $file = $this->_extractScope($file, $params);
             $this->_updateParamDefaults($params);
             $filesToMerge[$file] = $this->_publishViewFile($file, $params);
             $mergedFile[] = str_replace('\\', '/', str_replace(array($jsDir, $publicDir), '', $filesToMerge[$file]));

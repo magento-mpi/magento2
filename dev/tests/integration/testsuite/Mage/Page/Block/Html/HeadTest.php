@@ -39,6 +39,7 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store dev/js/merge_files 0
      */
     public function testGetCssJsHtml()
     {
@@ -89,6 +90,7 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
     /**
      * Both existing and non-existent JS and CSS links are specified
      * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store dev/js/merge_files 0
      */
     public function testGetCssJsHtmlMixedLinks()
     {
