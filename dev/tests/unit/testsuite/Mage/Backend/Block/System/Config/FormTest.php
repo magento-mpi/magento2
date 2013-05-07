@@ -176,6 +176,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         $groupMock->expects($this->once())->method('populateFieldset');
         $groupMock->expects($this->once())->method('shouldCloneFields')->will($this->returnValue(true));
         $groupMock->expects($this->once())->method('getCloneModel')->will($this->returnValue($cloneModelMock));
+        $groupMock->expects($this->once())->method('getData')->will($this->returnValue('some group data'));
         $groupMock->expects($this->once())
             ->method('getDependencies')->with('store_code')->will($this->returnValue(array()));
 
@@ -197,6 +198,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
             'legend' => 'label',
             'comment' => 'comment',
             'expanded' => false,
+            'group' => 'some group data'
         );
         $this->_formMock->expects($this->once())->method('addFieldset')->with('section_id_group_id', $params)
             ->will($this->returnValue($formFieldsetMock));
@@ -206,7 +208,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
     /**
      * @dataProvider initFieldsDataProvider
      */
-    public function testInitFields($backendConfigValue, $xmlConfig, $configPath, $inherit, $expectedValue)
+    public function testInitFields($extendConfigData, $xmlConfig, $configPath, $inherit, $expectedValue)
     {
         // Parameters initialization
         $fieldsetMock = $this->getMock('Varien_Data_Form_Element_Fieldset', array(), array(), '', false, false);
@@ -226,9 +228,14 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         $this->_fieldFactoryMock->expects($this->once())->method('create')
             ->will($this->returnValue($fieldRendererMock));
 
-        $this->_backendConfigMock->expects($this->any())->method('extendConfig')
-            ->with(current(explode('/', $configPath)), false, $backendConfigValue)
-            ->will($this->returnValue($backendConfigValue));
+
+        if (!$extendConfigData) {
+            $this->_backendConfigMock->expects($this->never())->method('extendConfig');
+        } else {
+            $this->_backendConfigMock->expects($this->once())->method('extendConfig')
+                ->with('some', false, array('section1/group1/field1' => 'some_value'))
+                ->will($this->returnValue(array()));
+        }
 
         $this->_coreConfigMock->expects($this->any())->method('getNode')
             ->with($this->equalTo(null), $this->equalTo('stores'), $this->equalTo('store_code'))
@@ -238,12 +245,19 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         $fieldMock = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Field',
             array(), array(), '', false, false
         );
+        $fieldMock->expects($this->once())
+            ->method('getRequiredFields')
+            ->with($this->equalTo($fieldPrefix))
+            ->will($this->returnValue(array()));
+        $fieldMock->expects($this->once())
+            ->method('getRequiredGroups')
+            ->with($this->equalTo($fieldPrefix))
+            ->will($this->returnValue(array()));
         $fieldMock->expects($this->any())->method('getPath')
-            ->will($this->returnValue(key($backendConfigValue)));
+            ->will($this->returnValue('section1/group1/field1'));
         $fieldMock->expects($this->any())->method('getConfigPath')
             ->will($this->returnValue($configPath));
-        $fieldMock->expects($this->any())->method('getGroupPath')->will($this->returnValue($configPath));
-        $fieldMock->expects($this->any())->method('getSectionId')->will($this->returnValue('some_section'));
+        $fieldMock->expects($this->any())->method('getGroupPath')->will($this->returnValue('some/config/path'));
 
         $fieldMock->expects($this->once())->method('hasBackendModel')->will($this->returnValue(false));
         $fieldMock->expects($this->once())->method('getDependencies')
@@ -314,8 +328,8 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         ');
 
         return array(
-            array(array('section1/group1/field1' => 'some_value'), $xmlConfig, null, true, false),
-            array(array('section1/group1/field1' => 'some_value'), $xmlConfig, 'some/config/path', true, $xmlConfig->descend('some/config/path')),
+            array(false, false, 'section1/group1/field1', false, 'some_value'),
+            array(true, $xmlConfig, 'some/config/path', true, $xmlConfig->descend('some/config/path')),
         );
     }
 }
