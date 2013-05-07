@@ -135,7 +135,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,        
+        Mage_Core_Controller_Response_Http $response,
         Magento_ObjectManager $objectManager,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Layout_Factory $layoutFactory,
@@ -388,13 +388,15 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
             $this->getLayout()->addOutputElement($output);
         }
 
-        Mage::dispatchEvent('controller_action_layout_render_before');
-        Mage::dispatchEvent('controller_action_layout_render_before_' . $this->getFullActionName());
+        /** @var $eventManager Mage_Core_Model_Event_Manager */
+        $eventManager = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
+        $eventManager->dispatch('controller_action_layout_render_before');
+        $eventManager->dispatch('controller_action_layout_render_before_' . $this->getFullActionName());
 
         $this->getLayout()->setDirectOutput(false);
 
         $output = $this->getLayout()->getOutput();
-        Mage::getSingleton('Mage_Core_Model_Translate_Inline')->processResponseBody($output);
+        $this->_objectManager->get('Mage_Core_Model_Translate')->processResponseBody($output);
         $this->getResponse()->appendBody($output);
         Magento_Profiler::stop('layout_render');
 
@@ -691,7 +693,8 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
                 $block->addStorageType($storageName);
             } else {
                 Mage::throwException(
-                     Mage::helper('Mage_Core_Helper_Data')->__('Invalid messages storage "%s" for layout messages initialization', (string)$storageName)
+                     Mage::helper('Mage_Core_Helper_Data')
+                         ->__('Invalid messages storage "%s" for layout messages initialization', (string)$storageName)
                 );
             }
         }
@@ -1087,7 +1090,8 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
         $fileName,
         $content,
         $contentType = 'application/octet-stream',
-        $contentLength = null)
+        $contentLength = null
+    )
     {
         /** @var Magento_Filesystem $filesystem */
         $filesystem = $this->_objectManager->create('Magento_Filesystem');

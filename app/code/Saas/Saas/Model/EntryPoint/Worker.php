@@ -37,7 +37,7 @@ class Saas_Saas_Model_EntryPoint_Worker extends Mage_Core_Model_EntryPointAbstra
     /**
      * Execute worker task(s)
      */
-    public function processRequest()
+    protected function _processRequest()
     {
         /** @var $app Mage_Core_Model_App */
         $app = $this->_objectManager->get('Mage_Core_Model_App');

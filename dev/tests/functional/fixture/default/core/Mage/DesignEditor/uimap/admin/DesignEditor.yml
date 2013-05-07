@@ -12,7 +12,7 @@
 design_editor_selector:
     mca: system_design_editor/
     click_xpath: //*[@class='navigation']//a[contains(@href, '/system_design_editor/')]
-    title: Editor / Design / Content / Magento Admin
+    title: Store Designer / Design / Content / Magento Admin
     uimap: &designEditorSelector
         pageelements:
             header_available_themes: //h3[contains(.,'Choose a theme to start with')]
@@ -49,7 +49,7 @@ design_editor_selector:
 
 preview_theme_in_navigation:
     mca: system_design_editor/launch/theme_id/%id%/mode/navigation/
-    title: Editor / Magento Admin
+    title: Store Designer / Magento Admin
     uimap:
         buttons:
             select: //div[@id='vde_toolbar_buttons']//button[@data-toggle='dropdown']
@@ -66,7 +66,7 @@ preview_theme_in_navigation:
 
 preview_theme_in_design:
     mca: system_design_editor/launch/theme_id/%id%/mode/design/
-    title: Editor / Magento Admin
+    title: Store Designer / Magento Admin
     uimap: &themeInDesign
         form:
             fieldsets:
@@ -312,15 +312,15 @@ preview_theme_in_design:
 
 assigned_theme_default_in_design:
     mca: system_design_editor/launch/store_id/0/theme_id/%id%/
-    title: Editor / Magento Admin
+    title: Store Designer / Magento Admin
     uimap: *themeInDesign
 
 assigned_theme_in_design:
     mca: system_design_editor/launch/store_id/%storeId%/theme_id/%storeId%/
-    title: Editor / Design / Content / Magento Admin
+    title: Store Designer / Magento Admin
     uimap: *themeInDesign
 
 save_and_assign_theme_default_in_design:
     mca: system_design_editor/launch/theme_id/%id%/store_id/0/theme_id/%id%/
-    title: Editor / Design / Content / Magento Admin
+    title: Store Designer / Magento Admin
     uimap: *themeInDesign

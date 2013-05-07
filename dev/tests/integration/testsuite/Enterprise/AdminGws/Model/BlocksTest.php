@@ -69,12 +69,7 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
         );
 
         $body = $this->getResponse()->getBody();
-        $this->assertContains(
-            '<span>Role Scopes</span>',
-            $body,
-            'Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws block is not rendered'
-        );
-        $this->assertSelectCount('div.entry-edit.form-inline fieldset.fieldset legend.legend span', true, $body);
+        $this->assertSelectEquals('div.entry-edit.form-inline fieldset.fieldset legend.legend span', 'Role Scopes', 1, $body);
     }
 
     /**

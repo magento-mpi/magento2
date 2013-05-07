@@ -107,6 +107,10 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
         $files = array();
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($themes as $theme) {
+            if ($theme->getFullPath() == 'frontend/magento2/reference') {
+                /** Skip the theme because of MAGETWO-9063 */
+                continue;
+            }
             $this->_collectGetViewUrlInvokes($theme, $files);
         }
 

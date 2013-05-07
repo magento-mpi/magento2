@@ -95,7 +95,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * Store list manager
      *
-     * @var Mage_Core_Model_StoreManager
+     * @var Mage_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -254,6 +254,16 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     private function _isThemePerStoveView($area)
     {
         return $area == self::DEFAULT_AREA;
+    }
+
+    /**
+     * Get default theme form config file
+     *
+     * @return string
+     */
+    protected function _getDefaultTheme()
+    {
+
     }
 
     /**

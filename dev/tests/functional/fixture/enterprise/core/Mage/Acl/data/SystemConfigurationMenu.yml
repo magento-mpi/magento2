@@ -83,7 +83,7 @@ configuration_menu_default:
     catalog_inventory:
         stock_options: ~
         product_stock_options: ~
-    catalog_google_sitemap:
+    catalog_xml_sitemap:
         categories_options: ~
         product_options: ~
         cms_pages_options: ~
@@ -322,7 +322,7 @@ configuration_menu_website:
         catalog_catalog_event: ~
     catalog_inventory:
         stock_options: ~
-    catalog_google_sitemap:
+    catalog_xml_sitemap:
         categories_options: ~
         product_options: ~
         cms_pages_options: ~

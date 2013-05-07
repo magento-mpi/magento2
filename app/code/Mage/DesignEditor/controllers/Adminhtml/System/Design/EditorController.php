@@ -703,14 +703,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     protected function _getCurrentHandleUrl()
     {
-        /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_Handle */
-        $vdeUrlModel = $this->_objectManager->get('Mage_DesignEditor_Model_Url_Handle');
-        $handle = $this->_getSession()->getData(Mage_DesignEditor_Model_State::CURRENT_HANDLE_SESSION_KEY);
-        if (empty($handle)) {
-            $handle = 'default';
-        }
-
-        return $vdeUrlModel->getUrl('design/page/type', array('handle' => $handle));
+        return $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->getCurrentHandleUrl();
     }
 
     /**

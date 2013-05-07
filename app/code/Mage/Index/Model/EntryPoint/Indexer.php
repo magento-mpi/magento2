@@ -21,13 +21,13 @@ class Mage_Index_Model_EntryPoint_Indexer extends Mage_Core_Model_EntryPointAbst
     {
         $this->_params = $params;
         unset($params['reportDir']);
-        parent::__construct($baseDir, $params);
+        parent::__construct(new Mage_Core_Model_Config_Primary($baseDir, $params));
     }
 
     /**
      * Process request to application
      */
-    public function processRequest()
+    protected function _processRequest()
     {
         /* Clean reports */
         Varien_Io_File::rmdirRecursive($this->_params['reportDir']);

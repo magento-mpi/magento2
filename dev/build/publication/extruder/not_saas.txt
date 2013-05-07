@@ -3,9 +3,11 @@
 CHANGELOG.markdown
 app/code/Phoenix
 app/code/Enterprise/AdminGws
+app/code/Enterprise/BannerCustomerSegment
 app/code/Enterprise/CatalogEvent
 app/code/Enterprise/CatalogPermissions
 app/code/Enterprise/Checkout
+app/code/Enterprise/CustomerSegment
 app/code/Enterprise/GiftWrapping
 app/code/Enterprise/ImportExport
 app/code/Enterprise/License
@@ -31,8 +33,10 @@ app/design/frontend/magento2/reference/Enterprise_TargetRule
 app/design/frontend/magento2/reference/Mage_Downloadable
 app/etc/modules/XEnterprise_Edition.xml.dist
 dev/tests/integration/testsuite/Enterprise/AdminGws
+dev/tests/integration/testsuite/Enterprise/BannerCustomerSegment
 dev/tests/integration/testsuite/Enterprise/CatalogEvent
 dev/tests/integration/testsuite/Enterprise/CatalogPermissions
+dev/tests/integration/testsuite/Enterprise/CustomerSegment
 dev/tests/integration/testsuite/Enterprise/Checkout
 dev/tests/integration/testsuite/Enterprise/ImportExport
 dev/tests/integration/testsuite/Enterprise/PricePermissions
@@ -51,9 +55,12 @@ dev/tests/static/testsuite/Integrity/Enterprise/AdminGws
 dev/tests/static/testsuite/Integrity/Enterprise/EditionTest.php
 dev/tests/static/testsuite/Legacy/Enterprise/AdminGws
 dev/tests/static/testsuite/Legacy/Mage/Downloadable
+dev/tests/static/testsuite/Php/_files/whitelist/ee_additional.txt
 dev/tests/unit/testsuite/Enterprise/AdminGws
+dev/tests/unit/testsuite/Enterprise/BannerCustomerSegment
 dev/tests/unit/testsuite/Enterprise/CatalogEvent
 dev/tests/unit/testsuite/Enterprise/Checkout
+dev/tests/unit/testsuite/Enterprise/CustomerSegment
 dev/tests/unit/testsuite/Enterprise/ImportExport
 dev/tests/unit/testsuite/Enterprise/PricePermissions
 dev/tests/unit/testsuite/Enterprise/Rma
@@ -61,3 +68,7 @@ dev/tests/unit/testsuite/Enterprise/Tag
 dev/tests/unit/testsuite/Mage/Downloadable
 dev/tests/unit/testsuite/Mage/Webapi
 pub/lib/mage/directpost.js
+# Following core functionality is overlapped in Go Edition
+dev/tests/integration/testsuite/Mage/Adminhtml/controllers/NewsletterQueueControllerTest.php
+dev/tests/integration/testsuite/Mage/Adminhtml/controllers/NewsletterTemplateControllerTest.php
+dev/tests/integration/testsuite/Mage/Adminhtml/controllers/System/DesignControllerTest.php

@@ -9,11 +9,7 @@
  */
 
 /**
- * Admihtml Manage Widgets Instance Controller
- *
- * @category   Mage
- * @package    Mage_Widget
- * @author     Magento Core Team <core@magentocommerce.com>
+ * Adminhtml Manage Widgets Instance Controller
  */
 class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Controller_Action
 {
@@ -117,10 +113,12 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
      * Set body to response
      *
      * @param string $body
+     * @return null
      */
     private function setBody($body)
     {
-        Mage::getSingleton('Mage_Core_Model_Translate_Inline')->processResponseBody($body);
+        $this->_translator->processResponseBody($body);
+
         $this->getResponse()->setBody($body);
     }
 
@@ -145,7 +143,6 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
 
     /**
      * Save action
-     *
      */
     public function saveAction()
     {
@@ -238,7 +235,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
         /* @var $serializer Mage_Adminhtml_Block_Widget_Grid_Serializer */
         $serializer = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Grid_Serializer');
         $serializer->initSerializerBlock($chooser, 'getSelectedProducts', 'selected_products', 'selected_products');
-        $this->setBody($chooser->toHtml().$serializer->toHtml());
+        $this->setBody($chooser->toHtml() . $serializer->toHtml());
     }
 
     /**

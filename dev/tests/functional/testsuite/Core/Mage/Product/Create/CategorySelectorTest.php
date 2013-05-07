@@ -132,7 +132,14 @@ class Core_Mage_Product_Create_CategorySelectorTest extends Mage_Selenium_TestCa
         $this->productHelper()->createProduct($product, 'simple', false);
         $this->productHelper()->openProductTab('general');
         $this->getControlElement(self::FIELD_TYPE_INPUT, 'general_categories')->value($categoryName);
-        $this->waitForControlEditable(self::FIELD_TYPE_INPUT, 'general_categories');
+        $this->waitUntil(function ($testCase) {
+                /** @var Mage_Selenium_TestCase $testCase */
+                $class = $testCase->getControlAttribute('field', 'general_categories', 'class');
+                if (strpos($class, 'mage-suggest-state-loading') === false) {
+                    return true;
+                }
+            }, 40000
+        );
         $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'categories_list');
         //Verifying
         $this->assertTrue($this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'no_category_found'));

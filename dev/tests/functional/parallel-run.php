@@ -27,6 +27,7 @@ foreach ($argv as $optionNameOrValue) {
 if (!isset($argv[1])) {
     echo 'Usage: php -f ./', basename(__FILE__), ' path/to/tests -- [options]', PHP_EOL;
     echo <<<USAGE
+    --whitelist <URL|file>          path to source with list of glob patterns with tests to be executed, one per line
     --reinstall-after <regexp>      reinstall Magento instance after path to test case doesn't match regexp
                                         (but matched previously)
     --exclude <regexp>              do not run test cases path to which matches regexp
@@ -34,6 +35,8 @@ if (!isset($argv[1])) {
     --log-junit <file>              log test execution in JUnit XML format to file
     --max-instances <number>        largest number of PHPUnit instances running simultaneously, 1 by default
     --max-execution-time <seconds>  execution time limit for each PHPUnit instance
+    --no-install                    whether Magento instances installation and cleanup must be performed,
+                                        by default each worker does it once before tests running
 
 USAGE;
     exit(1);
@@ -66,34 +69,54 @@ for ($i = 0; $i < $maxInstances; ++$i) {
     $workers[$i] = array(
         'dir' => preg_replace('/instance-\d+/', "instance-$i", __DIR__),
         'idle' => true,
-        'cleanup_complete' => false,
+        'cleanup_complete' => !empty($cliOptions['no-install']),
     );
 }
 
+$whitelist = array();
+if (isset($cliOptions['whitelist'])) {
+    foreach (file($cliOptions['whitelist'], FILE_IGNORE_NEW_LINES) as $pattern) {
+        if (0 === strpos($pattern, '#')) {
+            continue;
+        }
+        $files = glob(__DIR__ . DIRECTORY_SEPARATOR . $pattern, GLOB_BRACE | GLOB_ERR);
+        if (empty($files)) {
+            throw new Exception("The glob() pattern '{$pattern}' didn't return any result.");
+        }
+        foreach ($files as $file) {
+            $whitelist[str_replace(__DIR__ . DIRECTORY_SEPARATOR, '', $file)] = true;
+        }
+    }
+}
+
+$pathToTests = $argv[1];
 $testCases = array();
-foreach (glob($argv[1], GLOB_BRACE | GLOB_ERR) ?: array() as $globItem) {
+foreach (glob($pathToTests, GLOB_BRACE | GLOB_ERR) ?: array() as $globItem) {
     if (is_dir($globItem)) {
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($globItem)) as $fileInfo) {
             $pathToTestCase = (string)$fileInfo;
             if (preg_match('/Test\.php$/', $pathToTestCase)
                 && (!isset($cliOptions['include-only']) || preg_match($cliOptions['include-only'], $pathToTestCase))
                 && (!isset($cliOptions['exclude']) || !preg_match($cliOptions['exclude'], $pathToTestCase))
+                && (empty($whitelist) || !empty($whitelist[$pathToTestCase]))
             ) {
-                $testCases[] = $pathToTestCase;
+                $testCases[$pathToTestCase] = true;
             }
         }
     } elseif (preg_match('/Test\.php$/', $globItem)
         && (!isset($cliOptions['include-only']) || preg_match($cliOptions['include-only'], $globItem))
         && (!isset($cliOptions['exclude']) || !preg_match($cliOptions['exclude'], $globItem))
+        && (empty($whitelist) || !empty($whitelist[$pathToTestCase]))
     ) {
-        $testCases[] = $globItem;
+        $testCases[$globItem] = true;
     }
 }
 
 if (empty($testCases)) {
-    echo "No tests cases found in the path {$argv[1]}.", PHP_EOL;
+    echo "No tests cases found in the path {$pathToTests}.", PHP_EOL;
     exit(1);
 }
+$testCases = array_keys($testCases); // automatically avoid file duplications
 
 $outputDir = str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/var/split-by-test/');
 if (!file_exists($outputDir)) {
