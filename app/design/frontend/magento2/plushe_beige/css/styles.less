@@ -1273,6 +1273,14 @@ ul.messages ul {
   list-style-type: none;
 }
 
+ul.messages ul li {
+  margin-top: 5px;
+
+  &:first-child {
+    margin-top: 0px;
+  }
+}
+
 .success-msg {
   .successMsg();
 }
@@ -3241,7 +3249,7 @@ div.mage-error {
     border-width:0;
     > ul {
       position: relative;
-      background: @pageMainBg;
+      background: @primary1;
       @params:0 10px 8px rgba(0,0,0,0.3);
       .boxShadow(@params);
     }
@@ -3261,7 +3269,7 @@ div.mage-error {
     z-index: 1;
   }
   &.hover:after {
-    background: @pageMainBg;
+    background: @primary1;
     @params:0 10px 8px rgba(0,0,0,0.3);
     .boxShadow(@params);
   }
@@ -3701,9 +3709,7 @@ div.mage-error {
       margin: 2px 15px 0 0; //display: none;
     }
     .text {
-      margin: 0 5px;
-      line-height: @optionsHeigth + 2px;
-      display: inline-block;
+      display: none;
     }
   }
   .pages {
@@ -4454,7 +4460,6 @@ and (max-width : 768px) {
     font-weight: 600;
     font-size: 12px;
     margin: 0;
-    padding: 5px 10px;
     position: absolute;
     top: 100%;
     margin-left: -11px; //min-width: 100%;
@@ -4468,7 +4473,7 @@ and (max-width : 768px) {
     @tparams: visibility 0s linear .2s, opacity .2s linear 0s;
     .transitions(@tparams);
     li {
-      margin: 10px 0;
+      margin: 15px;
       display: block;
       white-space: nowrap;
     }
@@ -4525,7 +4530,7 @@ and (max-width : 768px) {
       .borderBox();
       text-align: right;
       position: absolute;
-      bottom: 90px;
+      bottom: 140px;
       width: 50%;
       padding: 0 40px;
       .secondary {
