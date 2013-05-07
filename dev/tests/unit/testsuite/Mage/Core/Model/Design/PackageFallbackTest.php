@@ -26,6 +26,7 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
+        $dirs = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', array());
         $modulesReader = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', array());
         $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', array());
         $this->_strategyPool = $this->getMock('Mage_Core_Model_Design_FileResolution_StrategyPool', array(),
@@ -35,7 +36,7 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
         $configWriter = $this->getMock('Mage_Core_Model_Config_Storage_WriterInterface');
 
         $this->_model = $this->getMock('Mage_Core_Model_Design_Package', array('_updateParamDefaults'),
-            array($modulesReader, $filesystem, $this->_strategyPool, $appState, $storeManager, $configWriter)
+            array($dirs, $modulesReader, $filesystem, $this->_strategyPool, $appState, $storeManager, $configWriter)
         );
     }
 
