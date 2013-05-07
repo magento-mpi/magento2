@@ -7,6 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/**
+ * Controller context
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Mage_Backend_Controller_Context extends Mage_Core_Controller_Varien_Action_Context
 {
     /**
@@ -40,6 +45,8 @@ class Mage_Backend_Controller_Context extends Mage_Core_Controller_Varien_Action
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Core_Model_Authorization $authorization
      * @param Mage_Core_Model_Translate $translator
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Mage_Core_Controller_Request_Http $request,
