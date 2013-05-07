@@ -279,7 +279,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $customerData = array();
         if ($this->getRequest()->getPost('account')) {
             $serviceAttributes = array(
-                'password', 'new_password', 'default_billing', 'default_shipping', 'confirmation');
+                'new_password', 'default_billing', 'default_shipping', 'confirmation');
 
             /** @var Mage_Customer_Model_Customer $customerEntity */
             $customerEntity = $this->_objectManager
@@ -360,14 +360,14 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     protected function _processCustomerPassword(&$customerData)
     {
-        if (isset($customerData['new_password']) && $customerData['new_password'] !== false) {
-            $customerData['password'] = $customerData['new_password'];
-            unset($customerData['new_password']);
+        if (isset($customerData['new_password']) && !empty($customerData['new_password'])) {
+            if ($customerData['new_password'] == 'auto') {
+                $customerData['autogenerate_password'] = true;
+            } else {
+                $customerData['password'] = $customerData['new_password'];
+            }
         }
-        if (isset($customerData['password']) && ($customerData['password'] == 'auto')) {
-            unset($customerData['password']);
-            $customerData['autogenerate_password'] = true;
-        }
+        unset($customerData['new_password']);
     }
 
     /**
