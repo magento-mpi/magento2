@@ -412,6 +412,7 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
     /**
      * @param array $productsData
      * @dataProvider generateSimpleProductsWithoutQtyDataProvider
+     * @magentoDbIsolation enabled
      */
     public function testGenerateSimpleProductsWithoutQty($productsData)
     {
@@ -430,21 +431,21 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
     public static function generateSimpleProductsDataProvider()
     {
         return array(array(array(
-            25 => array(
+            array(
                 'name' => '1-aaa',
                 'configurable_attribute' => '{"configurable_attribute":"25"}',
                 'price' => '3',
                 'sku' => '1-aaa',
                 'quantity_and_stock_status' => array('qty' => '5'),
                 'weight' => '6'),
-            24 => array(
+            array(
                 'name' => '1-bbb',
                 'configurable_attribute' => '{"configurable_attribute":"24"}',
                 'price' => '3',
                 'sku' => '1-bbb',
                 'quantity_and_stock_status' => array('qty' => '5'),
                 'weight' => '6'),
-            23 => array(
+            array(
                 'name' => '1-ccc',
                 'configurable_attribute' => '{"configurable_attribute":"23"}',
                 'price' => '3',
@@ -461,9 +462,9 @@ class Mage_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framework
     public static function generateSimpleProductsWithoutQtyDataProvider()
     {
         return array(array(array(
-            26 => array(
+            array(
                 'name' => '1-aaa',
-                'configurable_attribute' => '{"configurable_attribute":"26"}',
+                'configurable_attribute' => '{"configurable_attribute":"23"}',
                 'price' => '3',
                 'sku' => '1-aaa-1',
                 'quantity_and_stock_status' => array('qty' => ''),
