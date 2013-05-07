@@ -1527,6 +1527,12 @@ ul.messages ul {
   margin: 0;
   list-style-type: none;
 }
+ul.messages ul li {
+  margin-top: 5px;
+}
+ul.messages ul li:first-child {
+  margin-top: 0px;
+}
 .success-msg {
   background: #d3edd5;
   color: #1b6720;
@@ -4641,9 +4647,7 @@ div.mage-error {
   margin: 2px 15px 0 0;
 }
 .toolbar .pager .text {
-  margin: 0 5px;
-  line-height: 25px;
-  display: inline-block;
+  display: none;
 }
 .toolbar .pages {
   margin-left: 15px;
@@ -5954,7 +5958,6 @@ img[align="right"] {
   font-weight: 600;
   font-size: 12px;
   margin: 0;
-  padding: 5px 10px;
   position: absolute;
   top: 100%;
   margin-left: -11px;
@@ -5972,7 +5975,7 @@ img[align="right"] {
   transition: visibility 0s linear 0.2s, opacity 0.2s linear 0s;
 }
 .customer.welcome .menu > ul li {
-  margin: 10px 0;
+  margin: 15px;
   display: block;
   white-space: nowrap;
 }
@@ -6068,7 +6071,7 @@ img[align="right"] {
 
   text-align: right;
   position: absolute;
-  bottom: 90px;
+  bottom: 140px;
   width: 50%;
   padding: 0 40px;
 }
