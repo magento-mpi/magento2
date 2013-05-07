@@ -871,4 +871,18 @@ class Mage_Catalog_Model_Resource_Category extends Mage_Catalog_Model_Resource_A
 
         return $position;
     }
+
+    /**
+     * Get total visible categories (without root category)
+     *
+     * @return int
+     */
+    public function countVisible()
+    {
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select();
+        $select->from($this->getEntityTable(), 'COUNT(*)')
+            ->where('parent_id != ?', 0);
+        return (int)$adapter->fetchOne($select);
+    }
 }

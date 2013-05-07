@@ -134,14 +134,10 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     public function createVirtualThemeAction()
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id', false);
-        /** @var $theme Mage_Core_Model_Theme */
-        $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
         try {
-            $theme->load($themeId);
-            if (!$theme->getId() || !$theme->isPhysical()) {
-                throw new Mage_Core_Exception(
-                    $this->__('Theme "%s" was not found or cannot be editable.', $theme->getId())
-                );
+            $theme = $this->_loadThemeById($themeId);
+            if (!$theme->isPhysical()) {
+                throw new Mage_Core_Exception($this->__('Theme "%s" cannot be editable.', $theme->getThemeTitle()));
             }
             $virtualTheme = $this->_getThemeCustomization($theme);
             $response = array(
@@ -180,16 +176,14 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     public function assignThemeToStoreAction()
     {
-        $themeId = $this->getRequest()->getParam('theme_id');
+        $themeId = (int)$this->getRequest()->getParam('theme_id');
         $stores = $this->getRequest()->getParam('stores');
 
         /** @var $coreHelper Mage_Core_Helper_Data */
         $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
 
         try {
-            if (!is_numeric($themeId)) {
-                throw new InvalidArgumentException('Theme id is not valid');
-            }
+            $theme = $this->_loadThemeById($themeId);
 
             //TODO used until we find a way to convert array to JSON on JS side
             $defaultStore = -1;
@@ -208,7 +202,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             /** @var $themeService Mage_Core_Model_Theme_Service */
             $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
             /** @var $themeCustomization Mage_Core_Model_Theme */
-            $themeCustomization = $themeService->reassignThemeToStores($themeId, $stores);
+            $themeCustomization = $themeService->reassignThemeToStores($theme->getId(), $stores);
 
             /** @var $storeManager Mage_Core_Model_StoreManager */
             $storeManager = $this->_objectManager->get('Mage_Core_Model_StoreManager');
@@ -245,14 +239,10 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
         /** @var $coreHelper Mage_Core_Helper_Data */
         $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
-        /** @var $theme Mage_Core_Model_Theme */
-        $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
         try {
-            $theme->load($themeId);
-            if (!$theme->getId() || !$theme->isEditable()) {
-                throw new Mage_Core_Exception(
-                    $this->__('Theme "%s" was not found or cannot be editable.', $theme->getId())
-                );
+            $theme = $this->_loadThemeById($themeId);
+            if (!$theme->isEditable()) {
+                throw new Mage_Core_Exception($this->__('Theme "%s" cannot be editable.', $theme->getThemeTitle()));
             }
             $theme->setThemeTitle($themeTitle);
             $theme->save();
@@ -299,17 +289,13 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         $themeId = (int)$this->_getSession()->getData('theme_id');
         /** @var $coreHelper Mage_Core_Helper_Data */
         $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
-
         try {
-            if (!is_numeric($themeId)) {
-                throw new InvalidArgumentException('Theme id is not valid');
-            }
-
+            $theme = $this->_loadThemeById($themeId);
             if ($this->getRequest()->has('layoutUpdate')) {
                 $this->_saveLayoutUpdate(
                     $this->getRequest()->getParam('layoutUpdate'),
                     $this->getRequest()->getParam('handle'),
-                    $themeId,
+                    $theme->getId(),
                     true
                 );
             }
@@ -361,11 +347,60 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     }
 
     /**
+     * Duplicate theme action
+     */
+    public function duplicateAction()
+    {
+        $themeId = (int)$this->getRequest()->getParam('theme_id');
+        /** @var $coreHelper Mage_Core_Helper_Data */
+        $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
+        /** @var $themeCopy Mage_Core_Model_Theme */
+        $themeCopy = $this->_objectManager->create('Mage_Core_Model_Theme');
+        /** @var $copyService Mage_Core_Model_Theme_CopyService */
+        $copyService = $this->_objectManager->get('Mage_Core_Model_Theme_CopyService');
+        try {
+            $theme = $this->_loadThemeById($themeId);
+            if (!$theme->isVirtual()) {
+                throw new Mage_Core_Exception($this->__('Theme "%s" cannot be editable.', $theme->getThemeTitle()));
+            }
+            $themeCopy->setData($theme->getData());
+            $themeCopy->setId(null)->setThemeTitle($coreHelper->__('Copy of [%s]', $theme->getThemeTitle()));
+            $themeCopy->getThemeImage()->createPreviewImageCopy();
+            $themeCopy->save();
+            $copyService->copy($theme, $themeCopy);
+            $response = array('success' => true, 'theme_id' => $themeCopy->getId());
+        } catch (Mage_Core_Exception $e) {
+            $response = array('error' => true, 'message' => $e->getMessage());
+        } catch (Exception $e) {
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $response = array('error' => true, 'message' => $this->__('Theme cannot be duplicated'));
+        }
+        $this->getResponse()->setBody($coreHelper->jsonEncode($response));
+    }
+
+    /**
      * Set page title
      */
     protected function _setTitle()
     {
         $this->_title($this->__('Store Designer'));
+    }
+
+    /**
+     * Load theme by id
+     *
+     * @param int $themeId
+     * @return Mage_Core_Model_Theme
+     * @throws Mage_Core_Exception
+     */
+    protected function _loadThemeById($themeId)
+    {
+        /** @var $theme Mage_Core_Model_Theme */
+        $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
+        if (!$themeId || !$theme->load($themeId)->getId()) {
+            throw new Mage_Core_Exception($this->__('Theme was not found'));
+        }
+        return $theme;
     }
 
     /**

@@ -39,8 +39,8 @@
     <message name="giftcardCustomerRedeemRequest">
         <part name="sessionId" type="xsd:string" />
         <part name="code" type="xsd:string" />
-        <part name="customer_id" type="xsd:string" />
-        <part name="store" type="xsd:string" />
+        <part name="customerId" type="xsd:string" />
+        <part name="storeId" type="xsd:string" />
     </message>
     <message name="giftcardCustomerRedeemResponse">
         <part name="result" type="xsd:boolean" />

@@ -17,8 +17,7 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
     <p><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Shipping for your store is now turned off. Use the switch above to turn on shipping.') ?></p>
 </div>
 <form action="" class="shipping-config-form ignore-validate <?php if (!$this->isShippingEnabled()): ?>disabled<?php endif; ?>" id="drawer-form" method="post">
-
-    <div class="switcher drawer-switcher">
+    <div class="switcher drawer-switcher" data-form-validation="false">
         <input type="checkbox" id="shipping_enabled" name="shipping_enabled" <?php if ($this->isShippingEnabled()): ?> checked="checked" <?php endif; ?> value="1" />
         <label class="switcher-label"
                for="shipping_enabled"
@@ -283,22 +282,21 @@ $saveActionUrl = $this->getUrl('*/storelauncher_shipping_drawer/saveShipping');
 </div>
 <script type="text/javascript">
     (function ($) {
-        $(document).ready(function() {
-            'use strict';
+        'use strict';
 
-            var toggleCheckbox = '.drawer-header-inner .drawer-switcher :checkbox',
-                drawerHeader = $('.drawer-header');
+        var toggleSection = '.drawer-header-inner .drawer-switcher',
+            toggleCheckbox = toggleSection + ' :checkbox',
+            drawerHeader = $('.drawer-header');
 
-            $('.action-save-method').partiallyValidateDrawer({'currentSection': '.shipping-tabs-nav'});
+        $('.action-save-method').partiallyValidateDrawer({'currentSection': '.shipping-tabs-nav'});
 
-            drawerHeader.unbind('change');
-            drawerHeader.on('change', toggleCheckbox, function() {
-                $(toggleCheckbox).toggleStatus({
-                    'disabledMessage': '.shipping-disabled',
-                    'formsToDisable': ['.shipping-config-form', '.shipping-origin-address-wrapper'],
-                    'needValidate': false
-                });
+        drawerHeader.unbind('change');
+        drawerHeader.on('change', toggleCheckbox, function() {
+            $(toggleSection).toggleStatus('option', {
+                'disabledMessage': '.shipping-disabled',
+                'formsToDisable': ['.shipping-config-form', '.shipping-origin-address-wrapper']
             });
+            $(toggleSection).toggleStatus();
         });
-    })(jQuery);
+    })(window.jQuery);
 </script>

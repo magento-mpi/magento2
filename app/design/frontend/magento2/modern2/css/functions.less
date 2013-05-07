@@ -1,12 +1,11 @@
-// **
-// * {license_notice}
-// *
-// * @category    design
-// * @package     magento2_modern2
-// * @copyright  {copyright}
-// * @license    {license_link}
-// */
-
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @package     magento2_modern2
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
 .rotate(@angle) {
     -webkit-transform:r@params;
     -moz-transform:rotate(@angle);
@@ -80,10 +79,10 @@
 }
 
 // * assign comfortaa uppercased font 
-.customFont(@size: 12px, @transform: uppercase, @spacing: 0.1em) {
+.customFont(@size: 12px, @transform: uppercase, @spacing: 0.1em, @fontWeight: 400) {
     font-size: @size;
-    font-family: "comfortaa", Arial, Helvetica, sans-serif;
-    font-weight: 400;
+    font-family: @headingsFont, Arial, Helvetica, sans-serif;
+    font-weight: @fontWeight;
     text-transform: @transform;
     letter-spacing: @spacing;
 }

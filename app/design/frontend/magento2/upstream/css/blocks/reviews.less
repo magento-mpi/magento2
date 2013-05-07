@@ -8,6 +8,119 @@
 //  */
 
 /*
+    Ratings
+-------------------------------------- */
+.field.ratings input[type="radio"] {
+    position: absolute;
+    margin-left: -999em;
+}
+
+.field.ratings {
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    > .label {
+        margin-bottom: 20px;
+    }
+    .nested {
+        display: table;
+    }
+    @starSize : 16px;
+    .field.rating {
+        display: table-row;
+        > .label {
+            display: table-cell;
+            vertical-align: top;
+            padding: 4px 0 6px;
+        }
+        .control {
+            padding: 0 5px;
+            display: table-cell;
+            z-index: 1;
+            &:before {
+                letter-spacing: 0.2em;
+                position: absolute;
+                z-index: 1;
+                display: block;
+                float: left;
+                font-family: "MUI-Icons";
+                content: "\e01a\e01a\e01a\e01a\e01a";
+                font-style: normal;
+                font-size: @starSize;
+                color: fade(@color4, 30%);
+                speak: none;
+                font-weight: normal;
+                -webkit-font-smoothing: antialiased;
+            }
+            input:focus + label:before,
+            input:checked + label:before {
+                color: @color4;
+                opacity: 1;
+            }
+            label {
+                position: absolute;
+                display: block;
+                span {
+                    display: none;
+                }
+                &:before {
+                    letter-spacing: 0.2em;
+                    font-family: "MUI-Icons";
+                    font-style: normal;
+                    font-size: @starSize;
+                    speak: none;
+                    font-weight: normal;
+                    -webkit-font-smoothing: antialiased;
+                    opacity: 0;
+                }
+                &:hover {
+                    &:before {
+                        color: @color4;
+                        opacity: 1;
+                    }
+                    & ~ label:before {
+                        opacity: 0 !important;
+                    }
+                }
+                cursor: pointer;
+            }
+            .rating-1 {
+                z-index: 6;
+                &:before {
+                    content: "\e01a";
+                }
+            }
+            .rating-2 {
+                z-index: 5;
+                &:before {
+                    content: "\e01a\e01a";
+                }
+            }
+            .rating-3 {
+                z-index: 4;
+                &:before {
+                    content: "\e01a\e01a\e01a";
+                }
+            }
+            .rating-4 {
+                z-index: 3;
+                &:before {
+                    content: "\e01a\e01a\e01a\e01a";
+                }
+            }
+            .rating-5 {
+                z-index: 2;
+                &:before {
+                    content: "\e01a\e01a\e01a\e01a\e01a";
+                }
+            }
+        }
+    }
+}
+
+/*
     Reviews
 -------------------------------------- */
 @starSize : 16px;

@@ -8,27 +8,9 @@
  * @license     {license_link}
  */
 ?>
-<?php
-$whishlistConfigure =  $this->getLayout()->createBlock('Mage_Wishlist_Block_Item_Configure');
-?>
-<?php $_wishlistItem = $whishlistConfigure->getWishlistItem(); ?>
-<?php $_wishlistSubmitUrl = $whishlistConfigure->helper('Mage_Wishlist_Helper_Data')->getUpdateUrl($_wishlistItem); ?>
-<div class="product addto links">
-<?php if ($whishlistConfigure->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
-    <a href="<?php echo $_wishlistSubmitUrl ?>" class="action towishlist updated"><span><?php echo $whishlistConfigure->__('Update Wishlist') ?></span></a>
-<?php endif; ?>
-<?php $_product = $whishlistConfigure->getProduct(); ?>
-<?php $_compareUrl = $whishlistConfigure->helper('Mage_Catalog_Helper_Product_Compare')->getAddUrl($_product); ?>
-<?php if ($_compareUrl) : ?>
-    <a href="<?php echo $_compareUrl ?>" class="action tocompare"><span><?php echo $whishlistConfigure->__('Add to Compare') ?></span></a>
-<?php endif; ?>
-</div>
-
-
-<?php /*
 <?php $_wishlistItem = $this->getWishlistItem(); ?>
 <?php $_wishlistSubmitUrl = $this->helper('Mage_Wishlist_Helper_Data')->getUpdateUrl($_wishlistItem); ?>
-<div class="addto links">
+<div class="product addto links">
 <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
     <a href="<?php echo $_wishlistSubmitUrl ?>" class="action towishlist updated"><span><?php echo $this->__('Update Wishlist') ?></span></a>
 <?php endif; ?>
@@ -38,4 +20,3 @@ $whishlistConfigure =  $this->getLayout()->createBlock('Mage_Wishlist_Block_Item
     <a href="<?php echo $_compareUrl ?>" class="action tocompare"><span><?php echo $this->__('Add to Compare') ?></span></a>
 <?php endif; ?>
 </div>
-*/ ?>
