@@ -17,10 +17,14 @@
     <div class="custom-file">
         <span class="filename"><?php echo $this->getCustomFileName() ?></span>
 
-        <button onclick="document.location='<?php echo $this->getDownloadCustomCssUrl($this->getTheme()) ?>'" class="action-download" title="<?php echo $this->__('Download file'); ?>">
+        <button data-action="delete" class="action-delete" title="<?php echo $this->__('Delete file'); ?>">
+            <span><?php echo $this->__('Delete file'); ?></span>
+        </button>
+
+        <button data-action="download" class="action-download" title="<?php echo $this->__('Download file'); ?>">
             <span><?php echo $this->__('Download file'); ?></span>
         </button>
-        <span class="action-add" title="<?php echo $this->__('Upload File'); ?>">
+        <span data-action="add" class="action-add" title="<?php echo $this->__('Upload File'); ?>">
             <span><?php echo $this->__('Upload File'); ?></span>
             <?php echo $this->getFormHtml() ?>
         </span>
@@ -30,7 +34,7 @@
     <div class="textarea-container">
         <textarea name="custom_code" id="custom_code" cols="30" rows="10"><?php echo $this->getCustomCssContent($this->getTheme()) ?></textarea>
     </div>
-    <button class="action-update" title="<?php echo $this->__('Update'); ?>">
+    <button data-action="update" class="action-update" title="<?php echo $this->__('Update'); ?>">
         <span><?php echo $this->__('Update'); ?></span>
     </button>
 </div>
@@ -38,8 +42,10 @@
 
 <script type="text/javascript">
     (function ($) {
+
         $('#vde-tab-custom').customCssPanel({
-            saveCustomCssUrl: '<?php echo $this->getSaveCustomCssUrl($this->getTheme()) ?>'
+            saveCustomCssUrl: '<?php echo $this->getSaveCustomCssUrl($this->getTheme()) ?>',
+            downloadCustomCssUrl: '<?php echo $this->getDownloadCustomCssUrl($this->getTheme()) ?>'
         });
 
         $(document).ready(function() {
@@ -78,7 +84,7 @@
             done: function (e, data) {
                 var contentArea = $('#custom_code');
                 contentArea.val('');
-                $('#css_uploader_button').attr('disabled', 'disabled');
+                $('#css_uploader_button').attr('disabled', 'true');
                 if (!data.result.error) {
                     contentArea.val(data.result.content);
                     $('#vde-tab-custom').customCssPanel('updateButtons');

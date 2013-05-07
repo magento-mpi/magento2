@@ -1015,6 +1015,10 @@
     top: 2px;
 }
 
+.custom-file > .action-delete {
+    top: 2px;
+}
+
 .custom-file .action-add:before {
     font-size: 16px !important;
 }
