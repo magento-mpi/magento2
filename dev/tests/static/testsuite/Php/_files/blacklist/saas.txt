@@ -6,4 +6,4 @@ app/code/Saas/Index/view
 app/code/Saas/Launcher/view
 app/code/Saas/PrintedTemplate/view
 app/code/Saas/UnitPrice/view
-
+app/code/Saas/Sitemap/view
