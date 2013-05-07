@@ -223,7 +223,8 @@
                     .product.data > .item.title:not(.disabled) > .switch:active,
                     .product.data > .item.title:not(.disabled) > .switch:focus,
                     .product.data > .item.title:not(.disabled) > .switch:hover,
-                    .product.data > .item.title.active > .switch
+                    .product.data > .item.title.active > .switch,
+                    .footer
                 ]]></selector>
                 <attribute>background-color</attribute>
                 <var>Mage_DesignEditor::page-background:color-picker</var>
@@ -233,13 +234,19 @@
                 <components>
                     <control name="page-background:image-uploader">
                         <type>image-uploader</type>
-                        <selector><![CDATA[.page.wrapper]]></selector>
+                        <selector><![CDATA[
+                            .page.wrapper,
+                            .footer
+                        ]]></selector>
                         <attribute>background-image</attribute>
                         <var>Mage_DesignEditor::page-background:image-uploader</var>
                     </control>
                     <control name="page-background:tile">
                         <type>checkbox</type>
-                        <selector><![CDATA[.page.wrapper]]></selector>
+                        <selector><![CDATA[
+                            .page.wrapper,
+                            .footer
+                        ]]></selector>
                         <attribute>background-repeat</attribute>
                         <options>
                             <option>no-repeat</option>
@@ -386,7 +393,6 @@
     <attribute>color</attribute>
     <var>Mage_DesignEditor::scroll-bar-handle</var>
 </control> -->
-
 
     <control name="radio-checkbox-icon" title="Radio Buttons/Checkboxes Icon" tab="buttons" column="left">
         <type>color-picker</type>
@@ -749,7 +755,6 @@
         <var>Mage_DesignEditor::notice-box</var>
     </control>
 
-
     <control name="banner-text" title="Banner Text" tab="fonts" column="left">
         <type>font</type>
         <components>
@@ -785,6 +790,7 @@
             </control>
         </components>
     </control>
+
     <control name="menu" title="Menu &amp; Header Links" tab="fonts" column="left">
         <type>font</type>
         <components>
@@ -932,6 +938,7 @@
             </control>
         </components>
     </control>
+
     <control name="buttons" title="Button Text" tab="fonts" column="middle">
         <type>font</type>
         <components>
