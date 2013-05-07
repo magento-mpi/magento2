@@ -53,4 +53,13 @@
             </core_config_data_save_before>
         </events>
     </adminhtml>
+    <default>
+        <!-- Start of overridden values -->
+        <dev>
+            <js>
+                <merge_files>1</merge_files>
+            </js>
+        </dev>
+        <!-- End of overridden values -->
+    </default>
 </config>
