@@ -48,6 +48,7 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FedexSaveHandlerTe
         $preparedData0['carriers']['fedex']['fields']['key']['value'] = 'fedex key';
         $preparedData0['carriers']['fedex']['fields']['password']['value'] = 'fedex password';
         $preparedData0['carriers']['fedex']['fields']['active']['value'] = 1;
+        $preparedData0['carriers']['fedex']['fields']['sandbox_mode']['value'] = 0;
 
         return array(
             array($data0, $preparedData0, array('carriers')),
