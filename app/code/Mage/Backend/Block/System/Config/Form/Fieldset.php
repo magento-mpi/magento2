@@ -59,7 +59,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
             $html = '<div class="' . $this->_getFrontendClass($element) . '">';
         }
 
-        $html .= '<div class="entry-edit-head collapseable" id="' . $element->getHtmlId() . '-head">'
+        $html .= '<div class="entry-edit-head collapseable">'
             . '<span id="' . $element->getHtmlId() . '-link" class="entry-edit-head-link"></span>';
 
         $html .= $this->_getHeaderTitleHtml($element);
