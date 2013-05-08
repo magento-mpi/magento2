@@ -28,6 +28,10 @@
              * @param data
              */
             add: function (e, data) {
+                // add the please wait indicator while the images loads
+                $('body').loadingPopup({
+                    timeout: false
+                });
                 data.submit();
             },
 
@@ -51,6 +55,11 @@
              */
             fail: function(e, data) {
                 alert($.mage.__('File extension not known or unsupported type.'));
+            },
+
+            always: function (e, data) {
+                // remove the please wait indicator since the image is complete
+                $(this).trigger('hideLoadingPopup');
             }
         },
 
