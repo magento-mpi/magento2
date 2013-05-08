@@ -2305,8 +2305,6 @@ ul.messages ul {
 }
 .products.list.items > .item .product.photo > .photo {
   display: block;
-  margin: 0 auto;
-  max-width: 100%;
   margin: 0 9px 0 0;
 }
 .products.list.items > .item .product.photo > .photo img {
@@ -2398,11 +2396,6 @@ ul.messages ul {
 .products.list.items > .item .product.actions .secondary .action {
   padding: 6px 10px;
   display: inline-block;
-  vertical-align: top;
-}
-.products.list.items > .item .product.actions .secondary .action span:before {
-  margin-top: -2px;
-  height: 15px;
 }
 .grid .products.list.items > .item {
   border: 0;
@@ -2617,13 +2610,8 @@ ul.messages ul {
 .action.tocompare span:before,
 .action.towishlist span:before {
   content: "\e00a ";
-  font-family: "icons";
-  font-weight: 400;
-  font-size: 13px;
+  font: 400 13px "icons";
   height: 13px;
-  overflow: hidden;
-  vertical-align: top;
-  display: inline-block;
   color: #999999;
 }
 .block.reviews.dashboard,

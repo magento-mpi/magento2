@@ -1691,6 +1691,7 @@ ul.messages ul {
   overflow-x: auto;
 }
 .data.comparison {
+  table-layout: fixed;
   border-collapse: separate;
 }
 .data.comparison .cell {
@@ -1704,11 +1705,20 @@ ul.messages ul {
   text-align: left;
   border-right: 1px solid #acaba8;
 }
+.data.comparison .cell.label .attribute.label {
+  display: block;
+  width: 100%;
+  word-break: break-all;
+}
 .data.comparison .cell.label.product {
   width: 150px;
 }
 .data.comparison .cell p:first-child {
   margin-top: 0;
+}
+.data.comparison .cell .attibute.value {
+  width: 100%;
+  overflow: hidden;
 }
 .data.comparison .cell.product {
   font-size: 12px;
@@ -2379,8 +2389,6 @@ ul.messages ul {
 }
 .products.list.items > .item .product.photo > .photo {
   display: block;
-  margin: 0 auto;
-  max-width: 100%;
   margin: 0 9px 0 0;
 }
 .products.list.items > .item .product.photo > .photo img {
@@ -2408,10 +2416,6 @@ ul.messages ul {
 }
 .products.list.items > .item .price-box .price-label {
   display: none;
-}
-.products.list.items > .item .price-box .price-from .price-label,
-.products.list.items > .item .price-box .price-to .price-label {
-  display: inline;
 }
 .products.list.items > .item .price-box .old-price {
   color: #acaba8;
@@ -2476,11 +2480,6 @@ ul.messages ul {
 .products.list.items > .item .product.actions .secondary .action {
   padding: 6px 10px;
   display: inline-block;
-  vertical-align: top;
-}
-.products.list.items > .item .product.actions .secondary .action span:before {
-  margin-top: -2px;
-  height: 15px;
 }
 .grid .products.list.items > .item {
   border: 0;
@@ -2501,7 +2500,7 @@ ul.messages ul {
   float: none;
 }
 .grid .products.list.items > .item .product.photo > .photo {
-  margin: 0 auto;
+  margin: 0;
 }
 .grid .products.list.items > .item > .product {
   background: transparent;
@@ -2699,13 +2698,8 @@ ul.messages ul {
 .action.tocompare span:before,
 .action.towishlist span:before {
   content: "\e00a ";
-  font-family: "icons";
-  font-weight: 400;
-  font-size: 13px;
+  font: 400 13px "icons";
   height: 13px;
-  overflow: hidden;
-  vertical-align: top;
-  display: inline-block;
   color: #acaba8;
 }
 .block.reviews.dashboard,
@@ -3234,7 +3228,7 @@ ul.messages ul {
   float: none;
 }
 .block.crosssell .content > .items > .item .product.photo > .photo {
-  margin: 0 auto;
+  margin: 0;
 }
 .block.crosssell .content > .items > .item > .product {
   background: transparent;

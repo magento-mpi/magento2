@@ -3311,9 +3311,7 @@ a.action.showcart .qty.empty {
   font-family: "MUI-icons";
   font-weight: 400;
   font-size: 10px;
-  height: 10px;
   overflow: hidden;
-  display: inline-block;
 }
 /*
     Product Page
