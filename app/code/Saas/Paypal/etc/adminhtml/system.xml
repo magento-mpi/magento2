@@ -269,7 +269,7 @@
                             <field id="centinel_api_url"/>
                         </group>
                         <depends>
-                            <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method" negative="1">1</field>
+                            <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
                         </depends>
                     </group>
                     <group id="wpp_settings_wpp_and_express_checkout_authentication_method_1" extends="*/paypal_payments/wpp/wpp_settings" showInDefault="0" showInWebsite="0" showInStore="0">
@@ -331,7 +331,7 @@
                     <group id="wpp_settings_wpp_and_express_checkout_authentication_method_1_direct_boarding_allowspecific_0" extends="*/paypal_payments/wpp/wpp_settings_wpp_and_express_checkout_authentication_method_1" showInDefault="1" showInWebsite="1" showInStore="1">
                         <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <depends>
-                            <field id="*/*/*/*/wpp_settings_advanced/direct_boarding_allowspecific" negative="1">1</field>
+                            <field id="*/*/*/*/wpp_settings_advanced/direct_boarding_allowspecific">0</field>
                         </depends>
                     </group>
                     <group id="wpp_settings_wpp_and_express_checkout_authentication_method_1_direct_boarding_allowspecific_1" extends="*/paypal_payments/wpp/wpp_settings_wpp_and_express_checkout_authentication_method_1" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -374,33 +374,14 @@
                     <group id="wpp_settings_express_checkout" showInDefault="0" showInWebsite="0" showInStore="0">
                         <hide_in_single_store_mode>1</hide_in_single_store_mode>
                     </group>
-                    <group id="wpp_settings_express_checkout_0" extends="*/paypal_payments/wpp/wpp_settings_express_checkout" showInDefault="0" showInWebsite="0" showInStore="0">
-                        <hide_in_single_store_mode>1</hide_in_single_store_mode>
-                        <field id="title"/>
-                        <field id="sort_order"/>
-                        <field id="payment_action"/>
-                        <field id="visible_on_cart"/>
-                        <field id="visible_on_product"/>
-                        <field id="authorization_honor_period"/>
-                        <field id="order_valid_period"/>
-                        <field id="child_authorization_number"/>
-                        <group id="wpp_settings_express_checkout_advanced">
-                            <field id="allowspecific"/>
-                            <field id="specificcountry"/>
-                            <field id="verify_peer"/>
-                            <field id="line_items_enabled"/>
-                            <field id="transfer_shipping_options"/>
-                            <field id="button_flavor"/>
-                            <field id="solution_type"/>
-                            <field id="require_billing_address"/>
-                            <field id="allow_ba_signup"/>
-                        </group>
+                    <group id="wpp_settings_express_checkout_0" extends="*/paypal_payments/wpp/wpp_settings_express_checkout" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <depends>
                             <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
                         </depends>
                     </group>
-                    <group id="wpp_settings_express_checkout_1" extends="*/paypal_payments/wpp/wpp_settings_express_checkout" showInDefault="0" showInWebsite="0" showInStore="0">
-                        <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                    <group id="wpp_settings_express_checkout_1" extends="*/paypal_payments/wpp/wpp_settings_express_checkout" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <field id="boarding_title" extends="payment/paypal_payments/express_checkout/settings_ec_ec_am_1/boarding_title"/>
                         <field id="boarding_sort_order" extends="payment/paypal_payments/express_checkout/settings_ec_ec_am_1/boarding_sort_order"/>
                         <field id="boarding_payment_action" extends="payment/paypal_payments/express_checkout/settings_ec_ec_am_1/boarding_payment_action"/>
@@ -408,7 +389,17 @@
                         <field id="boarding_visible_on_product" extends="payment/paypal_payments/express_checkout/settings_ec_ec_am_1/boarding_visible_on_product"/>
                         <group id="wpp_settings_express_checkout_advanced">
                             <field id="boarding_allowspecific" extends="payment/paypal_payments/express_checkout/settings_ec_ec_am_1/settings_ec_advanced/boarding_allowspecific"/>
+                            <field id="boarding_specificcountry" extends="payment/paypal_payments/express_checkout/settings_ec_ec_am_1/settings_ec_advanced/boarding_specificcountry">
+                                <depends>
+                                    <field id="boarding_allowspecific">1</field>
+                                </depends>
+                            </field>
                             <field id="boarding_line_items_enabled" extends="payment/paypal_payments/express_checkout/settings_ec_ec_am_1/settings_ec_advanced/boarding_line_items_enabled"/>
+                            <field id="boarding_transfer_shipping_options" extends="payment/paypal_payments/express_checkout/settings_ec_ec_am_1/settings_ec_advanced/boarding_transfer_shipping_options">
+                                <depends>
+                                    <field id="boarding_line_items_enabled">1</field>
+                                </depends>
+                            </field>
                             <field id="boarding_button_flavor" extends="payment/paypal_payments/express_checkout/settings_ec_ec_am_1/settings_ec_advanced/boarding_button_flavor"/>
                             <field id="boarding_solution_type" extends="payment/paypal_payments/express_checkout/settings_ec_ec_am_1/settings_ec_advanced/boarding_solution_type"/>
                             <field id="boarind_allow_ba_signup" extends="payment/paypal_payments/express_checkout/settings_ec_am_1/settings_ec_advanced/boarind_allow_ba_signup">
@@ -417,36 +408,6 @@
                         </group>
                         <depends>
                             <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
-                        </depends>
-                    </group>
-                    <group id="wpp_settings_express_checkout_1_boarding_allowspecific_0" extends="*/paypal_payments/wpp/wpp_settings_express_checkout_1" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                        <depends>
-                            <field id="*/*/*/*/wpp_settings_express_checkout_advanced/boarding_allowspecific" negative="1">1</field>
-                        </depends>
-                    </group>
-                    <group id="wpp_settings_express_checkout_1_boarding_allowspecific_1" extends="*/paypal_payments/wpp/wpp_settings_express_checkout_1" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                        <group id="wpp_settings_express_checkout_advanced">
-                            <field id="boarding_specificcountry" extends="payment/paypal_payments/express_checkout/settings_ec_ec_am_1/settings_ec_advanced/boarding_specificcountry"/>
-                        </group>
-                        <depends>
-                            <field id="*/*/*/*/wpp_settings_express_checkout_advanced/boarding_allowspecific">1</field>
-                        </depends>
-                    </group>
-                    <group id="wpp_settings_express_checkout_1_boarding_line_items_enabled_0" extends="*/paypal_payments/wpp/wpp_settings_express_checkout_1" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                        <group id="wpp_settings_express_checkout_advanced">
-                            <field id="boarding_transfer_shipping_options" extends="payment/paypal_payments/express_checkout/settings_ec_boarding_line_items_enabled_1/settings_ec_advanced/boarding_transfer_shipping_options"/>
-                        </group>
-                        <depends>
-                            <field id="*/*/*/*/wpp_settings_express_checkout_advanced/boarding_line_items_enabled">1</field>
-                        </depends>
-                    </group>
-                    <group id="wpp_settings_express_checkout_1_boarding_line_items_enabled_0" extends="*/paypal_payments/wpp/wpp_settings_express_checkout_1" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                        <depends>
-                            <field id="*/*/*/*/wpp_settings_express_checkout_advanced/boarding_line_items_enabled" negative="1">1</field>
                         </depends>
                     </group>
                 </group>
@@ -623,7 +584,6 @@
                 </group>
                 <group id="express_checkout" showInWebsite="0" showInDefault="0" showInStore="0">
                     <hide_in_single_store_mode>1</hide_in_single_store_mode>
-                    <!--// TODO: attribute doesn't work for group-->
                     <attribute type="activity_path">
                         <path_3>payment/paypal_express_boarding/active</path_3>
                     </attribute>
@@ -788,6 +748,14 @@
                                 <label>Transfer Cart Line Items</label>
                                 <config_path>payment/paypal_express_boarding/line_items_enabled</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="shared">1</attribute>
+                            </field>
+                            <field id="boarding_transfer_shipping_options" translate="label tooltip comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
+                                <label>Transfer Shipping Options</label>
+                                <config_path>payment/paypal_express_boarding/transfer_shipping_options</config_path>
+                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <attribute type="tooltip">If this option is enabled, customer can change shipping address and shipping method on PayPal website. In live mode works via HTTPS protocol only.</attribute>
+                                <comment>Does not work if there are more than 10 shipping options available.</comment>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="boarding_button_flavor" translate="label" type="select" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="1">
