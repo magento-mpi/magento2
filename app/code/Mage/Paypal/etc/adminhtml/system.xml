@@ -512,7 +512,7 @@
                                 <source_model>Mage_Paypal_Model_System_Config_Source_UrlMethod</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
-                            <group id="billing_agreement" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
+                            <group id="billing_agreement" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
                                 <label>PayPal Billing Agreement Settings</label>
                                 <field id="active" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1">
                                     <label>Enabled</label>
@@ -593,54 +593,58 @@
                                     <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
                                     <attribute type="shared">1</attribute>
                                 </field>
-                                <field id="settlement_reports_ftp_sandbox" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
-                                    <label>Sandbox Mode</label>
-                                    <config_path>paypal/fetch_reports/ftp_sandbox</config_path>
-                                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                                    <attribute type="shared">1</attribute>
-                                </field>
-                                <field id="settlement_reports_ftp_ip" translate="label comment tooltip" type="text" sortOrder="50" showInDefault="1" showInWebsite="1">
-                                    <label>Custom Endpoint Hostname or IP-Address</label>
-                                    <comment>By default it is "reports.paypal.com".</comment>
-                                    <tooltip>Use colon to specify port. For example: "test.example.com:5224".</tooltip>
-                                    <config_path>paypal/fetch_reports/ftp_ip</config_path>
-                                    <attribute type="shared">1</attribute>
-                                    <depends>
-                                        <field id="settlement_reports_ftp_sandbox">0</field>
-                                    </depends>
-                                </field>
-                                <field id="settlement_reports_ftp_path" translate="label comeent" type="text" sortOrder="60" showInDefault="1" showInWebsite="1">
-                                    <label>Custom Path</label>
-                                    <comment>By default it is "/ppreports/outgoing".</comment>
-                                    <config_path>paypal/fetch_reports/ftp_path</config_path>
-                                    <attribute type="shared">1</attribute>
-                                    <depends>
-                                        <field id="settlement_reports_ftp_sandbox">0</field>
-                                    </depends>
-                                </field>
-                                <field id="heading_schedule" translate="label" sortOrder="70" showInDefault="1" showInWebsite="1">
-                                    <label>Scheduled Fetching</label>
-                                    <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
-                                    <attribute type="shared">1</attribute>
-                                </field>
-                                <field id="settlement_reports_active" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1">
-                                    <label>Enable Automatic Fetching</label>
-                                    <config_path>paypal/fetch_reports/active</config_path>
-                                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                                    <attribute type="shared">1</attribute>
-                                </field>
-                                <field id="settlement_reports_schedule" translate="label comment" type="select" sortOrder="90" showInDefault="1">
-                                    <label>Schedule</label>
-                                    <comment>PayPal retains reports for 45 days.</comment>
-                                    <config_path>paypal/fetch_reports/schedule</config_path>
-                                    <source_model>Mage_Paypal_Model_System_Config_Source_FetchingSchedule</source_model>
-                                    <attribute type="shared">1</attribute>
-                                </field>
-                                <field id="settlement_reports_time" translate="label" type="time" sortOrder="100" showInDefault="1">
-                                    <label>Time of Day</label>
-                                    <config_path>paypal/fetch_reports/time</config_path>
-                                    <attribute type="shared">1</attribute>
-                                </field>
+                                <group id="settlement_reports_ftp_advanced" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40">
+                                    <label>Advanced Settings</label>
+                                    <fieldset_css>config-advanced</fieldset_css>
+                                    <field id="settlement_reports_ftp_sandbox" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1">
+                                        <label>Sandbox Mode</label>
+                                        <config_path>paypal/fetch_reports/ftp_sandbox</config_path>
+                                        <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                        <attribute type="shared">1</attribute>
+                                    </field>
+                                    <field id="settlement_reports_ftp_ip" translate="label comment tooltip" type="text" sortOrder="20" showInDefault="1" showInWebsite="1">
+                                        <label>Custom Endpoint Hostname or IP-Address</label>
+                                        <comment>By default it is "reports.paypal.com".</comment>
+                                        <tooltip>Use colon to specify port. For example: "test.example.com:5224".</tooltip>
+                                        <config_path>paypal/fetch_reports/ftp_ip</config_path>
+                                        <attribute type="shared">1</attribute>
+                                        <depends>
+                                            <field id="settlement_reports_ftp_sandbox">0</field>
+                                        </depends>
+                                    </field>
+                                    <field id="settlement_reports_ftp_path" translate="label comeent" type="text" sortOrder="30" showInDefault="1" showInWebsite="1">
+                                        <label>Custom Path</label>
+                                        <comment>By default it is "/ppreports/outgoing".</comment>
+                                        <config_path>paypal/fetch_reports/ftp_path</config_path>
+                                        <attribute type="shared">1</attribute>
+                                        <depends>
+                                            <field id="settlement_reports_ftp_sandbox">0</field>
+                                        </depends>
+                                    </field>
+                                    <field id="heading_schedule" translate="label" sortOrder="40" showInDefault="1" showInWebsite="1">
+                                        <label>Scheduled Fetching</label>
+                                        <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
+                                        <attribute type="shared">1</attribute>
+                                    </field>
+                                    <field id="settlement_reports_active" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1">
+                                        <label>Enable Automatic Fetching</label>
+                                        <config_path>paypal/fetch_reports/active</config_path>
+                                        <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                        <attribute type="shared">1</attribute>
+                                    </field>
+                                    <field id="settlement_reports_schedule" translate="label comment" type="select" sortOrder="60" showInDefault="1">
+                                        <label>Schedule</label>
+                                        <comment>PayPal retains reports for 45 days.</comment>
+                                        <config_path>paypal/fetch_reports/schedule</config_path>
+                                        <source_model>Mage_Paypal_Model_System_Config_Source_FetchingSchedule</source_model>
+                                        <attribute type="shared">1</attribute>
+                                    </field>
+                                    <field id="settlement_reports_time" translate="label" type="time" sortOrder="70" showInDefault="1">
+                                        <label>Time of Day</label>
+                                        <config_path>paypal/fetch_reports/time</config_path>
+                                        <attribute type="shared">1</attribute>
+                                    </field>
+                                </group>
                             </group>
                             <group id="frontend" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="100">
                                 <label>Frontend Experience Settings</label>
@@ -697,7 +701,7 @@
                             </group>
                         </group>
                     </group>
-                    <group id="settings_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
+                    <group id="settings_express_checkout" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
                         <label>Basic Settings - PayPal Express Checkout</label>
                         <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded</frontend_model>
                         <field id="title" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -987,13 +991,13 @@
                                 <field id="heading_sftp" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_sftp"/>
                                 <field id="settlement_reports_ftp_login" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_login"/>
                                 <field id="settlement_reports_ftp_password" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_password"/>
-                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_sandbox"/>
-                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_ip"/>
-                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_path"/>
-                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_schedule"/>
-                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_active"/>
-                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_schedule"/>
-                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_time"/>
+                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_ftp_sandbox"/>
+                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_ftp_ip"/>
+                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_ftp_path"/>
+                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/heading_schedule"/>
+                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_active"/>
+                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_schedule"/>
+                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_time"/>
                             </group>
                             <group id="wpp_frontend" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="100">
                                 <label>Frontend Experience Settings</label>
@@ -1301,13 +1305,13 @@
                                 <field id="heading_sftp" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_sftp"/>
                                 <field id="settlement_reports_ftp_login" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_login"/>
                                 <field id="settlement_reports_ftp_password" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_password"/>
-                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_sandbox"/>
-                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_ip"/>
-                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_path"/>
-                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_schedule"/>
-                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_active"/>
-                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_schedule"/>
-                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_time"/>
+                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_ftp_sandbox"/>
+                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_ftp_ip"/>
+                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_ftp_path"/>
+                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/heading_schedule"/>
+                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_active"/>
+                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_schedule"/>
+                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_time"/>
                             </group>
                         </group>
                     </group>
@@ -1595,13 +1599,13 @@
                                 <field id="heading_sftp" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_sftp"/>
                                 <field id="settlement_reports_ftp_login" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_login"/>
                                 <field id="settlement_reports_ftp_password" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_password"/>
-                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_sandbox"/>
-                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_ip"/>
-                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_path"/>
-                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_schedule"/>
-                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_active"/>
-                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_schedule"/>
-                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_time"/>
+                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_ftp_sandbox"/>
+                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_ftp_ip"/>
+                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_ftp_path"/>
+                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/heading_schedule"/>
+                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_active"/>
+                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_schedule"/>
+                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_time"/>
                             </group>
                             <group id="payflow_link_frontend" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="90">
                                 <label>Frontend Experience Settings</label>
@@ -1832,13 +1836,13 @@
                                 <field id="heading_sftp" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_sftp"/>
                                 <field id="settlement_reports_ftp_login" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_login"/>
                                 <field id="settlement_reports_ftp_password" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_password"/>
-                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_sandbox"/>
-                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_ip"/>
-                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_path"/>
-                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_schedule"/>
-                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_active"/>
-                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_schedule"/>
-                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_time"/>
+                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_ftp_sandbox"/>
+                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_ftp_ip"/>
+                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_ftp_path"/>
+                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/heading_schedule"/>
+                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_active"/>
+                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_schedule"/>
+                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_time"/>
                             </group>
                             <group id="pp_pe_frontend" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="100">
                                 <label>Frontend Experience Settings</label>
@@ -1955,13 +1959,13 @@
                                 <field id="heading_sftp" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_sftp"/>
                                 <field id="settlement_reports_ftp_login" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_login"/>
                                 <field id="settlement_reports_ftp_password" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_password"/>
-                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_sandbox"/>
-                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_ip"/>
-                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_path"/>
-                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_schedule"/>
-                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_active"/>
-                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_schedule"/>
-                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_time"/>
+                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_ftp_sandbox"/>
+                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_ftp_ip"/>
+                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_ftp_path"/>
+                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/heading_schedule"/>
+                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_active"/>
+                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_schedule"/>
+                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_time"/>
                             </group>
                         </group>
                     </group>
@@ -2105,13 +2109,13 @@
                                 <field id="heading_sftp" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_sftp"/>
                                 <field id="settlement_reports_ftp_login" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_login"/>
                                 <field id="settlement_reports_ftp_password" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_password"/>
-                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_sandbox"/>
-                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_ip"/>
-                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_path"/>
-                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/heading_schedule"/>
-                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_active"/>
-                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_schedule"/>
-                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_time"/>
+                                <field id="settlement_reports_ftp_sandbox" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_ftp_sandbox"/>
+                                <field id="settlement_reports_ftp_ip" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_ftp_ip"/>
+                                <field id="settlement_reports_ftp_path" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_ftp_path"/>
+                                <field id="heading_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/heading_schedule"/>
+                                <field id="settlement_reports_active" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_active"/>
+                                <field id="settlement_reports_schedule" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_schedule"/>
+                                <field id="settlement_reports_time" extends="payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/settlement_report/settlement_reports_ftp_advanced/settlement_reports_time"/>
                             </group>
                             <group id="express_checkout_frontend" type="text" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="120">
                                 <label>Frontend Experience Settings</label>

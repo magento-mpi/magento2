@@ -79,11 +79,11 @@
                             </field>
                         </group>
                     </group>
-                    <group id="wpp_required_settings">
-                        <group id="wpp_and_express_checkout">
-                            <field id="using_pbridge" showInDefault="0" showInWebsite="0" showInStore="0"/>
-                        </group>
-                    </group>
+                    <!--<group id="wpp_required_settings">-->
+                        <!--<group id="wpp_and_express_checkout">-->
+                            <!--<field id="using_pbridge" showInDefault="0" showInWebsite="0" showInStore="0"/>-->
+                        <!--</group>-->
+                    <!--</group>-->
                 </group>
                 <group id="payments_pro_payflow_edition">
                     <group id="pp_pe_required_settings">

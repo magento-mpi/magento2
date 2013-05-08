@@ -39,7 +39,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro
     {
         parent::_prepareLayout();
         if (!$this->getTemplate()) {
-            $this->setTemplate('saas/paypal/system/config/authenticationmethod/paymentspro.phtml');
+            $this->setTemplate('Saas_Paypal::system/config/authenticationmethod/paymentspro.phtml');
         }
         return $this;
     }
@@ -66,6 +66,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro
             $element->setValue(self::AUTHENTICATION_METHOD_OPTION_DIRECT_BOARDING);
         }
         $element->setScopeLabel(Mage::helper('Mage_Backend_Helper_Data')->__('[GLOBAL]'));
+        $this->_setPath($element);
         $render = parent::render($element);
         $this->addData(array(
             'render'   => $render,
@@ -100,12 +101,13 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro
     {
         $methodDirect = Mage_Paypal_Model_Config::METHOD_WPP_DIRECT;
         $methodDirectBoarding = Saas_Paypal_Model_Boarding_Config::METHOD_DIRECT_BOARDING;
+
         $wppAuthPath  = 'payment/'. $methodDirect .'/authentication_method';
         $authPermOpt = Saas_Paypal_Model_System_Config_Source_AuthenticationMethod::TYPE_PERMISSIONS;
+
         $isBoardingActive = Mage::getStoreConfigFlag("payment/{$methodDirectBoarding}/active");
-        $isBoardingWasActivated = Mage::getModel('Saas_Paypal_Model_Boarding_Config')->isWasActivated(
-            $methodDirectBoarding
-        );
+        $isBoardingWasActivated = Mage::getModel('Saas_Paypal_Model_Boarding_Config')
+            ->isWasActivated($methodDirectBoarding);
         $isAuthMethodPerm = Mage::getStoreConfig($wppAuthPath) == $authPermOpt;
 
         return $isBoardingActive || $isBoardingWasActivated || $isAuthMethodPerm;
@@ -121,7 +123,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro
      */
     public function getAuthMethOpt($opt = 'api_credentials')
     {
-        switch($opt) {
+        switch ($opt) {
             case 'api_credentials':
                 return self::AUTHENTICATION_METHOD_OPTION_DIRECT;
                 break;
@@ -139,8 +141,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro
      */
     public function isWppApiCredActive()
     {
-        $wppActivePath = 'payment/'.  Mage_Paypal_Model_Config::METHOD_WPP_DIRECT .'/active';
-        return Mage::getStoreConfigFlag($wppActivePath);
+        return Mage::getStoreConfigFlag('payment/'.  Mage_Paypal_Model_Config::METHOD_WPP_DIRECT .'/active');
     }
 
     /**
@@ -150,7 +151,23 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro
      */
     public function getBusinessAccount()
     {
-        $businessAccountPath = 'paypal/general/business_account';
-        return Mage::getStoreConfig($businessAccountPath);
+        return Mage::getStoreConfig('paypal/general/business_account');
+    }
+
+    /**
+     * Set path of element
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return $this
+     */
+    protected function _setPath(Varien_Data_Form_Element_Abstract $element)
+    {
+        $originalData = $element->getOriginalData();
+        if (!empty($originalData['path'])) {
+            $path = explode('/', $originalData['path']);
+            array_pop($path);
+            $this->setPath(implode('_', $path));
+        }
+        return $this;
     }
 }

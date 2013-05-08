@@ -31,17 +31,18 @@
 /** @var $this Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro */
 ?>
 <?php echo $this->getRender(); ?>
-
+<?php echo $this->getPath(); ?>
 <script type="text/javascript">
     Event.observe(window, "load", function() {
         var paymentsProAuthMethodId                 = '<?php echo $this->getHtmlId() ?>';
         var paymentsProApiCredOpt                   = '<?php echo $this->getAuthMethOpt('api_credentials') ?>';
         var paymentsProPermissionsOpt               = '<?php echo $this->getAuthMethOpt('permissions') ?>';
-        var paymentsProBillAgrFieldSet              = 'payment_wpp_billing_agreement';
-        var paymentsProBillAgrEnable                = 'payment_wpp_billing_agreement_active';
-        var paymentsProApiCredEnable                = 'payment_wpp_required_settings_enable_wpp';
-        var paymentsProApiCredEnableRow             = 'row_' + paymentsProApiCredEnable;;
-        var paymentsProPermissionsEnable            = 'payment_wpp_required_settings_enable_wpp_boarding';
+//        TODO:
+//        var paymentsProBillAgrFieldSet              = 'payment_wpp_billing_agreement';
+//        var paymentsProBillAgrEnable                = 'payment_wpp_billing_agreement_active';
+        var paymentsProApiCredEnable                = '<?php echo $this->getPath() ?>' + '_enable_wpp';
+        var paymentsProApiCredEnableRow             = 'row_' + paymentsProApiCredEnable;
+        var paymentsProPermissionsEnable            = '<?php echo $this->getPath() ?>' + '_enable_wpp_boarding';
         var paymentsProPermissionsEnableRow         = 'row_' + paymentsProPermissionsEnable;
         var paymentsProApiCredEnableInitVal         = $(paymentsProApiCredEnable).value;
         var paymentsProPermissionsEnableInitVal     = $(paymentsProPermissionsEnable).value;
@@ -61,7 +62,8 @@
             if ($(paymentsProAuthMethodId).value == paymentsProPermissionsOpt) {
                 $(paymentsProApiCredEnableRow).hide();
                 $(paymentsProPermissionsEnableRow).show();
-                $(paymentsProBillAgrEnable).value = 0;
+//                TODO:
+//                $(paymentsProBillAgrEnable).value = 0;
                 if (paymentsProApiCredEnableInitVal == 1) {
                     $(paymentsProApiCredEnable).value = 0;
                     $(paymentsProPermissionsEnable).value = 1;
@@ -85,7 +87,8 @@
         }
         var paymentsProApiCredEnableChanged = function() {
             if ($(paymentsProApiCredEnable).value == 0) {
-                $(paymentsProBillAgrEnable).value = 0;
+//                TODO:
+//                $(paymentsProBillAgrEnable).value = 0;
             }
         }
         Event.observe($(paymentsProAuthMethodId), 'change', paymentsProAuthMethodChanged);
