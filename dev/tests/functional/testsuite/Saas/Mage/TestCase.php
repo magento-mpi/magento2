@@ -4,6 +4,7 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ * @method Saas_Mage_SaasStore_Helper saasStoreHelper() saasStoreHelper()
  */
 class Saas_Mage_TestCase extends Mage_Selenium_TestCase
 {
