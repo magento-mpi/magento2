@@ -4420,7 +4420,6 @@ body.type-bundle {
 .block.bundle.summary .price-box .price {
   font-weight: bold;
 }
-.block.bundle.summary .price-box .full-product-price,
 .block.bundle.summary .price-box .price-excluding-tax,
 .block.bundle.summary .price-box .price-including-tax {
   display: block;
