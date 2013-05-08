@@ -410,6 +410,8 @@ return array(
     array('getTrackingPopUpUrlByOrderId', '', 'getTrackingPopupUrlBySalesModel'),
     array('getTrackingPopUpUrlByShipId', '', 'getTrackingPopupUrlBySalesModel'),
     array('getTrackingPopUpUrlByTrackId', '', 'getTrackingPopupUrlBySalesModel'),
+    array('getUnprocessedEvents', 'Mage_Index_Model_Resource_Event', 'Mage_Index_Model_EventRepository::getUnprocessed()'),
+    array('getUnprocessedEventsCollection', 'Mage_Index_Model_Process', 'Mage_Index_Model_EventRepository::getUnprocessed()'),
     array('getUploadMaxSize', 'Mage_Adminhtml_Block_Media_Uploader', 'Magento_File_Size::getUploadMaxSize()'),
     array('getUrlForReferer', 'Mage_Adminhtml_Block_Page_Footer'),
     array('getUseCacheFilename', 'Mage_Core_Model_App'),
