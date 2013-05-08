@@ -42,7 +42,12 @@
 <script type="text/javascript">
     (function ($) {
         $('[data-manage="fonts"]').on('click', function() {
-            MediabrowserUtility.openDialog('<?php echo $this->getMediaBrowserUrl('custom_code', $this->getTheme(), Mage_Theme_Model_Wysiwyg_Storage::TYPE_FONT) ?>', null, null,'<?php echo $this->quoteEscape($this->__('Upload fonts...'), true); ?>');
+            MediabrowserUtility.openDialog(
+                '<?php echo $this->getMediaBrowserUrl('custom_code', $this->getTheme(), Mage_Theme_Model_Wysiwyg_Storage::TYPE_FONT) ?>',
+                null,
+                null,
+                '<?php echo $this->quoteEscape($this->__('Upload fonts...'), true); ?>'
+            );
         });
         $('#vde-tab-custom').customCssPanel({
             saveCustomCssUrl: '<?php echo $this->getSaveCustomCssUrl($this->getTheme()) ?>'
