@@ -8036,6 +8036,226 @@ img[align="right"] {
 .form.search.advanced .field.price .range.price.fields.group .field:first-child input {
   width: 96%;
 }
+/*
+ *    My Account -> My orders
+ *
+----------------------------------------------------------------------------- */
+.order.details {
+  *zoom: 1;
+}
+.order.details:before,
+.order.details:after {
+  content: "";
+  display: table;
+}
+.order.details:after {
+  clear: both;
+}
+.order.details .status {
+  margin: 0.5em 0;
+  line-height: 1.2;
+  font-weight: 400;
+  font-size: 30px;
+  float: left;
+}
+.order.details .subtitle.caption strong,
+.order.details .title strong {
+  line-height: 1.2;
+  font-weight: 200;
+  font-size: 20px;
+}
+.order.details .subtitle.caption .action,
+.order.details .title .action {
+  margin-left: 10px;
+}
+.order.details .subtitle.caption {
+  margin-bottom: 45px;
+}
+.order.details .order.toolbar {
+  clear: none;
+  float: right;
+  margin-top: 29px;
+}
+.order.details .order.toolbar .action {
+  margin-left: 10px;
+}
+.order.details .block.order {
+  float: left;
+  width: 48%;
+  padding-right: 2%;
+}
+.order.details .block.order.billing.address {
+  clear: left;
+}
+.order.details .block.order .content {
+  background: #5e5e5e;
+  padding: 30px;
+}
+.order.details .order.info {
+  clear: both;
+}
+.order.details .order.info > dt {
+  line-height: 1.2;
+  font-weight: 200;
+  font-size: 20px;
+}
+.order.details .order.info > dd {
+  margin: 10px 0 0 0;
+  background: #5e5e5e;
+  padding: 30px;
+}
+.order.details .order.info > dd .items {
+  *zoom: 1;
+}
+.order.details .order.info > dd .items:before,
+.order.details .order.info > dd .items:after {
+  content: "";
+  display: table;
+}
+.order.details .order.info > dd .items:after {
+  clear: both;
+}
+.order.details .order.info > dd .items .item {
+  float: left;
+  margin-right: 15px;
+}
+.order.details .additional.details .order.comments {
+  background: #5e5e5e;
+  padding: 30px;
+}
+.order.details.items .order.toolbar {
+  margin: 5px 0 0 0;
+}
+.order.details.items .order.title {
+  margin-bottom: 10px;
+}
+.order.details.items .action.show {
+  text-decoration: none;
+}
+.order.details.items .action.show:after {
+  font-family: "icons";
+  font-size: 12px;
+  line-height: 12px;
+  height: 12px;
+  overflow: hidden;
+  content: "\e00f";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.order.details.items .action.show.expanded:after {
+  content: "\e010";
+}
+.shipping-tracking-popup .action.close {
+  border: none;
+  border-radius: 0;
+  background: #464646;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  text-indent: 0;
+}
+.shipping-tracking-popup .action.close span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.shipping-tracking-popup .action.close:focus,
+.shipping-tracking-popup .action.close:active,
+.shipping-tracking-popup .action.close:hover {
+  background: #999999;
+}
+.shipping-tracking-popup .action.close span {
+  width: auto;
+  text-indent: 0;
+}
+.shipping-tracking-popup .action.close span:after {
+  content: "";
+  display: none;
+}
+.data.table.order {
+  margin-bottom: 45px;
+  width: 100%;
+}
+.data.table.order thead th {
+  padding: 0 10px;
+}
+.data.table.order thead tr:last-child th {
+  padding-bottom: 10px;
+}
+.data.table.order td.col.qty {
+  width: 90px;
+  text-align: left;
+}
+.data.table.order td.col.price,
+.data.table.order td.col.subtotal {
+  text-align: left;
+}
+.data.table.order td {
+  padding: 16px 10px 10px;
+  vertical-align: top;
+}
+.data.table.order td h4 {
+  margin: 0;
+}
+.data.table.order td:first-child,
+.data.table.order th:first-child {
+  padding-left: 20px;
+}
+.data.table.order td:last-child,
+.data.table.order th:last-child {
+  padding-right: 20px;
+}
+.data.table.order tbody:nth-child(even) tr {
+  background: #5e5e5e;
+}
+.data.table.order th {
+  text-align: left;
+  font-weight: 400;
+  font-size: 14px;
+  vertical-align: top;
+}
+.data.table.order tr:first-child th {
+  font-weight: 400;
+  font-size: 16px;
+}
+.data.table.order .item-options {
+  margin: 5px 0;
+}
+.data.table.order .item-options dt {
+  font-weight: 400;
+  display: inline;
+  margin-right: 10px;
+  float: left;
+  clear: left;
+}
+.data.table.order .item-options dt:after {
+  content: ': ';
+}
+.data.table.order .item-options dd {
+  font-weight: 200;
+  margin: 0 0 5px 10px;
+  padding: 0;
+}
+.data.table.order tfoot tr:first-child td {
+  border-top: 3px solid #6d6d6d;
+  padding-top: 15px;
+}
+.data.table.order.tracking th,
+.data.table.order.tracking td {
+  padding: 0;
+}
+.data.table.order.tracking .label {
+  width: 40%;
+}
 a,
 a:visited,
 a > span {
