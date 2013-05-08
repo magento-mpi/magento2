@@ -79,7 +79,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
      */
     public function getMediaBrowserUrl($targetElementId, $theme, $contentType)
     {
-        return $this->getUrl('*/system_design_wysiwyg_files/index', array(
+        return $this->getUrl('*/system_design_editor_files/index', array(
             'target_element_id'                           => $targetElementId,
             Mage_Theme_Helper_Storage::PARAM_THEME_ID     => $theme->getThemeId(),
             Mage_Theme_Helper_Storage::PARAM_CONTENT_TYPE => $contentType
