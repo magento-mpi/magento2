@@ -72,6 +72,23 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
     /**
      * Get theme custom css content
      *
+     * @param string $targetElementId
+     * @param Mage_Core_Model_Theme $theme
+     * @param string $contentType
+     * @return string
+     */
+    public function getMediaBrowserUrl($targetElementId, $theme, $contentType)
+    {
+        return $this->getUrl('*/system_design_wysiwyg_files/index', array(
+            'target_element_id'                           => $targetElementId,
+            Mage_Theme_Helper_Storage::PARAM_THEME_ID     => $theme->getThemeId(),
+            Mage_Theme_Helper_Storage::PARAM_CONTENT_TYPE => $contentType
+        ));
+    }
+
+    /**
+     * Get theme custom css content
+     *
      * @param Mage_Core_Model_Theme $theme
      * @return string
      */

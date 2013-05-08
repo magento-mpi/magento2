@@ -17,6 +17,9 @@
     <div class="custom-file">
         <span class="filename"><?php echo $this->getCustomFileName() ?></span>
 
+        <button data-manage="fonts" class="action-manage-fonts" title="<?php echo $this->__('Manage Fonts'); ?>">
+            <span><?php echo $this->__('Manage Fonts'); ?></span>
+        </button>
         <button onclick="document.location='<?php echo $this->getDownloadCustomCssUrl($this->getTheme()) ?>'" class="action-download" title="<?php echo $this->__('Download file'); ?>">
             <span><?php echo $this->__('Download file'); ?></span>
         </button>
@@ -38,6 +41,9 @@
 
 <script type="text/javascript">
     (function ($) {
+        $('[data-manage="fonts"]').on('click', function() {
+            MediabrowserUtility.openDialog('<?php echo $this->getMediaBrowserUrl('custom_code', $this->getTheme(), Mage_Theme_Model_Wysiwyg_Storage::TYPE_FONT) ?>', null, null,'"Upload Fonts"');
+        });
         $('#vde-tab-custom').customCssPanel({
             saveCustomCssUrl: '<?php echo $this->getSaveCustomCssUrl($this->getTheme()) ?>'
         });
