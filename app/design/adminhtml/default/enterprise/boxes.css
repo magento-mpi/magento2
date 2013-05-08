@@ -382,8 +382,7 @@ select.multiselect option       { padding:3px 4px; border-bottom:1px solid #ddd;
 .form-list td.use-default       { border:0 !important; padding-top:5px !important; padding-bottom:5px !important; padding-left:5px !important; background:0 !important; }
 .form-list td.hidden            { border:0 !important; padding:0 !important; background:0 !important; }
 .form-list td.label             { width:200px; }
-.form-list td.use-default label { display:inline-block; vertical-align:middle; padding:0 3px; }
-.form-list td.label label       { display:block; width:185px; padding-right:15px; padding-top:1px; }
+.form-list td.label label       { display:block; width:185px; padding-right:15px; }
 .form-list td.value input.input-text,
 .form-list td.value textarea    { width:274px; }
 .form-list td.value textarea    { height:15em; }
@@ -392,15 +391,11 @@ select.multiselect option       { padding:3px 4px; border-bottom:1px solid #ddd;
 .form-list td.note              { background:url(images/note_cell_bg.gif) 6px 10px no-repeat !important; padding-left:18px; }
 .form-list td.scope-label       { padding-left:5px; color:#6f8992; font-size:.9em; }
 .form-list p.note               { margin:0; padding:0 0 0 13px; background:url(images/note_bg.gif) 1px 6px no-repeat; font-size:11px; }
-.form-list td.value p.note      { width:268px; }
 
 .columns .form-list             { width:auto; }
-.columns .form-list td.value    { width:300px; padding-right:5px !important; }
+.columns .form-list td.value    { width:280px; padding-right:5px !important; }
 .columns .form-list td.value .next-toinput { width:75px; display:inline; margin-right:5px; }
 .columns .form-list td.value .next-toselect input.input-text { width:195px!important; display:inline; }
-
-.columns .form-list td.value input[type="checkbox"][id*="use_"] { margin:4px 10px 0 0; vertical-align:top; }
-.columns .form-list td.value input[type="checkbox"][id*="use_"] + label { display:inline-block; vertical-align:top; margin:2px 0 0 -7px; }
 
 .fieldset-wide .form-list { width:100% !important; }
 .fieldset-wide .form-list td.value { width:auto !important; }
@@ -433,10 +428,8 @@ span.delete-file                { padding:0; }
 .content-header td.form-buttons   { float:none; }
 .content-header .form-buttons button { margin-bottom:3px; }
 .sub-btn-set { border:1px solid #ddd; border-width:0 1px; background:url(images/sub_button_bg.gif) repeat; padding:3px 10px; text-align:right; }
-button::-moz-focus-inner { padding:0; border:0; } /* FF Fix */
-button { -webkit-border-fit:lines; } /* <- Safari & Google Chrome Fix */
 button,
-.form-button { border-width:1px; border-style:solid; border-color:#ed6502 #a04300 #a04300 #ed6502; padding:1px 7px 2px 7px; background:#ffac47 url(images/btn_bg.gif) repeat-x 0 100%; color:#fff; font:bold 12px arial, helvetica, sans-serif; cursor:pointer; text-align:center !important; white-space:nowrap; }
+.form-button { vertical-align:middle; border-width:1px; border-style:solid; border-color:#ed6502 #a04300 #a04300 #ed6502; padding:0 7px 1px 7px; background:#ffac47 url(Mage_Adminhtml::images/btn_bg.gif) repeat-x 0 100%; color:#fff; font:bold 12px arial, helvetica, sans-serif; cursor:pointer; text-align:center !important; white-space:nowrap; }
 button:hover                    { background:#f77c16 url(Mage_Adminhtml::images/btn_over_bg.gif) repeat-x 0 0; }
 button:active                   { background:#f77c16 url(Mage_Adminhtml::images/btn_on_bg.gif) repeat-x 0 0; }
 button span                     { line-height:1.35em; background-repeat:no-repeat; background-position:0 50%; }
@@ -1357,6 +1350,7 @@ ul.tabs a.paypal-section,
 ul.tabs a.paypal-section:hover { background:url(images/tabs_span_bg.gif) repeat-x 0 100%; border-bottom:none; padding:0.5em 0.5em 0.28em 1.5em; }
 
 /* Packaging for Shipping Popup */
+#popup-window-mask,
 .popup-window-mask { background:url(images/bg_window_mask.png) repeat 0 0; background:rgba(239, 239, 239, 0.5); position:absolute; top:0; right:0; bottom:0; left:0; width:100%; height:100%; z-index:399; }
 .packaging-window,
 .packed-window { background:#fafafa; border:1px solid #d6d6d6; left:50%; margin:-200px 0 0 -471px; position:fixed; top:50%; width:1100px; z-index:400; -webkit-box-shadow: 0px 3px 5px #ccc; -moz-box-shadow:0px 3px 5px #ccc; box-shadow:0px 3px 5px #ccc; z-index:400; }
@@ -1663,83 +1657,13 @@ ul.config-tabs a.last span  { background-image:none; }
 .inline-table td { border:0 !important; padding:0 5px 5px !important; }
 
 .system-fieldset-sub-head td { padding:20px 5px 5px 5px; }
-.system-fieldset-sub-head:first-child td { padding:5px 5px 5px 5px; }
 .system-fieldset-sub-head h4 { border-bottom:1px solid #ccc; margin:0; }
 
+.system-tooltip-wrap { float:left; }
+.system-tooltip-box { border-left:1px solid #ccc; float:left; line-height:16px; margin-left:5px; padding-left:5px; width:180px; }
+.system-tooltip-small { clear:both; border:none; margin:0; padding:5px; width:100%; }
+
 .comment { padding:5px; }
-.comment a { color:#888; margin-left:3px; }
-
-.paypal-payment-notice { font-weight: bold; margin: -10px 0 10px 0; }
-
-.payment-group-title { border:0; padding:10px 5px 10px; }
-.payment-group-title strong { display:inline; font-size:14px; border:0; }
-
-/* Config with nested accordion */
-.complex > .config { padding:13px 12px 12px; }
-.section-config.complex table.form-list { width:100%!important; }
-.complex table td:first-child { padding-left:0px!important; }
-.complex table td.use-default { width:1px; white-space:nowrap; }
-
-/* Nested accordion */
-.section-config .section-config > .config { border:1px solid #d6d6d6; border-top:0; margin:0; padding:15px 12px 20px; background:#fff; }
-.section-config .section-config > .entry-edit-head { background:#e6e6e6; border:1px solid #d6d6d6; margin:-1px 0 0; padding:4px 12px; }
-.section-config .section-config > .entry-edit-head > a { color:#2f2f2f; background:url(images/bkg_config-nested.png) 100% 5px no-repeat; }
-.section-config .section-config > .entry-edit-head > a.open { background-position:100% -195px; }
-.section-config .section-config > .entry-edit-head > a:hover {}
-.section-config .section-config.active > .entry-edit-head > a.open {}
-
-/* Accordion with configure button */
-.with-button { background:#fff; }
-.with-button.active > .config { border-bottom-color:#b0b0b0; z-index:1; position:relative; }
-.with-button.active:after { background:transparent url(images/bkg_config-shaddow.png) repeat-x 0 0; height:5px; overflow:hidden; position:relative; left:0; margin:0 1px -5px; z-index:2; display:block; content:''; }
-
-tr:last-child .with-button.active > .config { border-bottom-color:#d6d6d6; }
-tr:last-child .with-button.active:after { display:none; }
-.config-heading { padding:10px 10px 10px 26px; background:#efefef url(images/icon-enabled.png) no-repeat -999em -999em; border:1px solid #d8d8d8; margin:-1px 0 0; }
-.enabled .config-heading { background-position:5px 10px; }
-.config-heading .button-container { float:right; text-align:right; }
-.config-heading .button span { font-size:14px; font-weight:bold; display:block; text-shadow:0 1px 1px #666; text-transform:capitalize; }
-.config-heading .button .state-closed { height:auto; }
-.config-heading .button .state-opened { height:0; overflow:hidden; }
-.config-heading .button.open .state-closed { height:0; overflow:hidden; }
-.config-heading .button.open .state-opened { height:auto; }
-.config-heading .button:active,
-.config-heading .button:active span { outline:0!important; }
-.config-heading .heading { float:left; }
-.config-heading .heading strong { font-size:12px; display:inline-block; }
-.config-heading .heading a { margin-left:8px; font-size:11px; color:#888; font-weight:normal; }
-.config-heading .heading a.link-demo:before { content:'|'; display:inline-block; margin-right:8px; color:#888; font-size:12px; }
-.config-heading .heading .heading-intro { display:block; font-size:11px; }
-
-td.label label.enabled { background:url(images/icon-enabled.png) no-repeat 100% 1px; min-height:16px; }
-
-/* Advanced nested config */
-.section-config .config-advanced > .entry-edit-head { background:none; padding:0 0 0; border:0; }
-.section-config .config-advanced > .entry-edit-head a { background:none; padding:0; display:inline-block; border-bottom:1px dotted #f67610; color:#f67610!important; line-height:1.1; white-space:nowrap; }
-.section-config .config-advanced > .entry-edit-head a.open,
-.section-config .config-advanced > .entry-edit-head a { background:none; }
-.section-config .config-advanced > .entry-edit-head a:after { content:''; width:7px; height:5px; background:url(images/bkg_config-advanced.png) no-repeat 0 0; overflow:hidden; display:inline-block; vertical-align:middle; margin-right:-13px; margin-left:5px; }
-.section-config .config-advanced > .entry-edit-head a.open:after { background-position:0 -5px; }
-.section-config .config-advanced > .config { border:0; padding:15px 0 0;; }
-
-/* Adjusting spacing between form field and nested accordion */
-.complex tr.nested + tr[id] > td { padding-top:15px !important; padding-bottom:30px!important; }
-.complex tr[id] + tr.nested > td { padding-top:15px !important; }
-.pp-buttons-container { white-space:nowrap; float:left; position:relative; z-index:1; margin-right:-200px; }
-.pp-buttons-container button { display:inline-block; }
-.pp-buttons-container button:first-child { margin:0; }
-
-/* Tooltip for config */
-.with-tooltip {}
-.field-tooltip { display:inline-block; width:15px; height:15px; position:relative; z-index:1; background:url(images/icon-tooltip.png) no-repeat 0 0; cursor:help; vertical-align:middle; }
-.field-tooltip:hover { z-index:100; }
-.field-tooltip > span { display:none; }
-.field-tooltip:hover > div:hover,
-.field-tooltip > div { width:301px; /* width:0; */ background:#f6f6f6 url(images/bkg_tooltip.png) repeat-y 100%; opacity:0; position:absolute; z-index:999; left:-296px; bottom:28px; padding:0 12px; color:#464d50; visibility:hidden; }
-.field-tooltip > div:before { position:absolute; top:-5px; left:0; content:''; width:325px; height:5px; overflow:hidden; background:url(images/bkg_tooltip.png) no-repeat 0 0; }
-.field-tooltip > div:after { position:absolute; bottom:-14px; left:-1px; content:''; width:325px; height:14px; overflow:hidden; background:url(images/bkg_tooltip.png) no-repeat -325px 0; }
-.field-tooltip:hover > div { opacity:1; width:301px; visibility:visible; bottom:30px; }
-.field-tooltip:hover > div { opacity:1; width:301px; visibility:visible; bottom:30px; }
 
 /* Import/export */
 
@@ -2018,7 +1942,6 @@ ul.super-product-attributes { padding-left:15px; }
 .normal             { font-weight:normal !important; }
 
 /* Clear */ /* This keeps our HTML free of buncha clearing elements */
-.config-heading:after,
 .side-col .switcher:after,
 .add-by-sku .grid:after,
 .message-popup .message-popup-head:after,

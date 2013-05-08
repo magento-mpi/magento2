@@ -134,6 +134,9 @@ class Mage_Backend_Model_Config_Structure_Reader extends Magento_Config_XmlAbstr
             '/config/system/section/group/group/group/group' => 'id',
             '/config/system/section/group/group/group/group/field' => 'id',
             '/config/system/section/group/group/group/group/field/depends/field' => 'id',
+            '/config/system/section/group/group/group/group/group' => 'id',
+            '/config/system/section/group/group/group/group/group/field' => 'id',
+            '/config/system/section/group/group/group/group/group/field/depends/field' => 'id',
         );
     }
 
