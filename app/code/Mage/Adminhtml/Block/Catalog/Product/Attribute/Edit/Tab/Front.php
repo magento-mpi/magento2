@@ -60,22 +60,19 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Mage
         $fieldset->addField('is_filterable', 'select', array(
             'name' => 'is_filterable',
             'label' => Mage::helper('Mage_Catalog_Helper_Data')->__("Use In Layered Navigation"),
-            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Can be used only with catalog input type Dropdown, Multiple Select
-        and Price'),
-            'note' => Mage::helper('Mage_Catalog_Helper_Data')->__('Can be used only with catalog input type Dropdown, Multiple Select
-        and Price'),
+            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
+            'note' => Mage::helper('Mage_Catalog_Helper_Data')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
             'values' => array(
                 array('value' => '0', 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('No')),
-                array('value' => '1', 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Filterable(with results)')),
-                array('value' => '2', 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Filterable(no results)')),
+                array('value' => '1', 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Filterable (with results)')),
+                array('value' => '2', 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Filterable (no results)')),
             ),
         ));
 
         $fieldset->addField('is_filterable_in_search', 'select', array(
             'name' => 'is_filterable_in_search',
             'label' => Mage::helper('Mage_Catalog_Helper_Data')->__("Use In Search Results Layered Navigation"),
-            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Can be used only with catalog input type Dropdown, Multiple Select
-        and Price'),
+            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
             'note' => Mage::helper('Mage_Catalog_Helper_Data')->__('Can be used only with catalog input type Dropdown, Multiple Select
         and Price'),
             'values' => $yesnoSource,

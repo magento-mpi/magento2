@@ -139,7 +139,7 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Mage_Backe
             $options = Mage::getModel($attribute->getSourceModel())
                 ->setAttribute($attribute)
                 ->getAllOptions();
-            return array_reverse($options);
+            return $options;
         } else {
             return Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
                 ->setAttributeFilter($attribute->getId())

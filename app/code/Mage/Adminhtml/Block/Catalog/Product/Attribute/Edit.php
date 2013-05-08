@@ -28,16 +28,18 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
 
         if($this->getRequest()->getParam('popup')) {
             $this->_removeButton('back');
-            $this->_addButton(
-                'save_in_new_set',
-                array(
-                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save in New Attribute Set'),
-                    'class'     => 'save',
-                    'onclick'   => 'saveAttributeInNewSet(\''
-                        . Mage::helper('Mage_Catalog_Helper_Data')->__('Enter Name for New Attribute Set')
-                        . '\')',
-                )
-            );
+            if ($this->getRequest()->getParam('product_tab') != 'variations') {
+                $this->_addButton(
+                    'save_in_new_set',
+                    array(
+                        'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save in New Attribute Set'),
+                        'class'     => 'save',
+                        'onclick'   => 'saveAttributeInNewSet(\''
+                            . Mage::helper('Mage_Catalog_Helper_Data')->__('Enter Name for New Attribute Set')
+                            . '\')',
+                    )
+                );
+            }
         } else {
             $this->_addButton(
                 'save_and_edit_button',

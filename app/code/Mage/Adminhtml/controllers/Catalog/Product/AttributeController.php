@@ -125,9 +125,19 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             ->loadByCode($this->_entityTypeId, $attributeCode);
 
         if ($attribute->getId() && !$attributeId) {
-            $response->setAttributes(array(
-                'attribute_code' =>  Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute with the same code already exists.')
-            ));
+            if (strlen($this->getRequest()->getParam('attribute_code'))) {
+                $response->setAttributes(
+                    array(
+                        'attribute_code' => Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute with the same code already exists.')
+                    )
+                );
+            } else {
+                $response->setAttributes(
+                    array(
+                        'attribute_label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute with the same code (%s) already exists.', $attributeCode)
+                    )
+                );
+            }
             $response->setError(true);
         }
 
@@ -163,11 +173,16 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
      */
     private function generateCode($label)
     {
-        return substr(str_replace(
-            '-',
+        $code = substr(preg_replace(
+            '/[^a-z_0-9]/',
             '_',
             $this->_objectManager->create('Mage_Catalog_Model_Product_Url')->formatUrlKey($label)
         ), 0, 30);
+        $validatorAttrCode = new Zend_Validate_Regex(array('pattern' => '/^[a-z][a-z_0-9]{0,29}[a-z0-9]$/'));
+        if (!$validatorAttrCode->isValid($code)) {
+            $code = 'attr_' . ($code ?: substr(md5(time()), 0, 8));
+        }
+        return $code;
     }
 
     public function saveAction()
@@ -219,12 +234,12 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
             $attributeCode = $this->getRequest()->getParam('attribute_code');
             $frontendLabel = $this->getRequest()->getParam('frontend_label');
-            $attributeCode = $attributeCode ? : $this->generateCode($frontendLabel[0]);
-            if (!empty($attributeCode)) {
-                $validatorAttrCode = new Zend_Validate_Regex(array('pattern' => '/^[a-z][a-z_0-9]{1,30}$/'));
+            $attributeCode = $attributeCode ?: $this->generateCode($frontendLabel[0]);
+            if (strlen($this->getRequest()->getParam('attribute_code')) > 0) {
+                $validatorAttrCode = new Zend_Validate_Regex(array('pattern' => '/^[a-z][a-z_0-9]{0,30}$/'));
                 if (!$validatorAttrCode->isValid($attributeCode)) {
                     $session->addError(
-                        Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.')
+                        Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute code "%s" is invalid. Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.', $attributeCode)
                     );
                     $this->_redirect('*/*/edit', array('attribute_id' => $id, '_current' => true));
                     return;
