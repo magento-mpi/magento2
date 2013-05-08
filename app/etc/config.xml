@@ -164,7 +164,7 @@
             <Mage_Core_Model_Dataservice_Path_Composite>
                 <parameters>
                     <items>
-                        <data>Mage_Core_Model_Dataservice_Factory</data>
+                        <data>Mage_Core_Model_Dataservice_Repository</data>
                         <request>Mage_Core_Model_Dataservice_Request_Visitor</request>
                     </items>
                 </parameters>

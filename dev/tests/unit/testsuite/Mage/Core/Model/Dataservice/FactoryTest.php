@@ -29,7 +29,7 @@ class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
     /** @var  Mage_Core_Model_Dataservice_Path_Composite */
     protected $_compositeMock;
 
-    /** @var  Mage_Core_Model_Dataservice_Request_Visitor_Factory */
+    /** @var  Mage_Core_Model_Dataservice_Path_Visitor_Factory */
     protected $_visitorFactoryMock;
 
     /** @var  Mage_Core_Model_Dataservice_Repository */
@@ -52,7 +52,7 @@ class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
             'Mage_Core_Model_Dataservice_Path_Composite', array(), array(), "", false
         );
         $this->_visitorFactoryMock = $this->getMock(
-            'Mage_Core_Model_Dataservice_Request_Visitor_Factory', array(), array(), "", false
+            'Mage_Core_Model_Dataservice_Path_Visitor_Factory', array(), array(), "", false
         );
         $this->_repositoryMock = $this->getMock('Mage_Core_Model_Dataservice_Repository', array(), array(), "", false);
         $this->_factory

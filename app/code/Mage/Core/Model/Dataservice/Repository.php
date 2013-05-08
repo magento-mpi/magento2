@@ -83,9 +83,6 @@ class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataserv
     {
         $sourceName = $visitor->getCurrentPathElement();
         $dataService = $this->get($sourceName);
-        if ($dataService == null) {
-            // TODO: What about null values?
-        }
         return $dataService;
     }
 }

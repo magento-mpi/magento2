@@ -1,10 +1,11 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: rbates
- * Date: 5/7/13
- * Time: 2:37 PM
- * To change this template use File | Settings | File Templates.
+ * Test class for Mage_Core_Model_Dataservice_Path_Composite
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 class Mage_Core_Model_Dataservice_Path_CompositeTest extends PHPUnit_Framework_TestCase
 {

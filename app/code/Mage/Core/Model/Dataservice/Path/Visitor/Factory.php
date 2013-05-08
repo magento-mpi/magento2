@@ -7,7 +7,7 @@
  */
 
 
-class Mage_Core_Model_Dataservice_Request_Visitor_Factory
+class Mage_Core_Model_Dataservice_Path_Visitor_Factory
 {
     /**
      * @var Magento_ObjectManager

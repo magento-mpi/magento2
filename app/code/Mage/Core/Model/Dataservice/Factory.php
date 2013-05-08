@@ -23,21 +23,21 @@ class Mage_Core_Model_Dataservice_Factory
     /** @var Mage_Core_Model_Dataservice_Path_Composite */
     protected $_composite;
 
-    /** @var Mage_Core_Model_Dataservice_Request_Visitor_Factory */
+    /** @var Mage_Core_Model_Dataservice_Path_Visitor_Factory */
     protected $_visitorFactory;
 
     /**
      * @param Mage_Core_Model_Dataservice_Config_Interface $config
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Dataservice_Path_Composite
-     * @param Mage_Core_Model_Dataservice_Request_Visitor_Factory
+     * @param Mage_Core_Model_Dataservice_Path_Visitor_Factory
      * @param Mage_Core_Model_Dataservice_Repository $repository
      */
     public function __construct(
         Mage_Core_Model_Dataservice_Config_Interface $config,
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Dataservice_Path_Composite $composite,
-        Mage_Core_Model_Dataservice_Request_Visitor_Factory $visitorFactory,
+        Mage_Core_Model_Dataservice_Path_Visitor_Factory $visitorFactory,
         Mage_Core_Model_Dataservice_Repository $repository
     )
     {
