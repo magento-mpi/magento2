@@ -140,7 +140,7 @@
         <remove name="head" />
         <reference name="left">
             <block name="editor_files.js" type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content" template="Mage_DesignEditor::editor/tools/files/js.phtml" />
-            <block name="editor_files.tree" type="Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Tree" template="Mage_DesignEditor::editor/tools/files/tree.phtml" />
+            <block name="editor_files.tree" type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Tree" template="Mage_DesignEditor::editor/tools/files/tree.phtml" />
         </reference>
         <reference name="content">
             <block name="editor_files.content" type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content" template="Mage_DesignEditor::editor/tools/files/content.phtml">
