@@ -134,6 +134,24 @@
         </reference>
     </adminhtml_system_design_editor_launch>
 
+    <adminhtml_system_design_wysiwyg_files_index>
+        <remove name="footer" />
+        <remove name="head" />
+        <reference name="left">
+            <block name="wysiwyg_files.js" type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content" template="Mage_DesignEditor::editor/tools/files/js.phtml" />
+            <block name="wysiwyg_files.tree" type="Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Tree" template="Mage_DesignEditor::editor/tools/files/tree.phtml" />
+        </reference>
+        <reference name="content">
+            <block name="wysiwyg_files.content" type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content" template="Mage_DesignEditor::editor/tools/files/content.phtml">
+                <block name="wysiwyg_files.uploader" type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content_Uploader" template="Mage_DesignEditor::editor/tools/files/content/uploader.phtml" />
+            </block>
+        </reference>
+    </adminhtml_system_design_wysiwyg_files_index>
+
+    <adminhtml_system_design_wysiwyg_files_contents>
+        <block name="wysiwyg_files.files" type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content_Files" template="Mage_DesignEditor::editor/tools/files/content/files.phtml" output="1" />
+    </adminhtml_system_design_wysiwyg_files_contents>
+
     <adminhtml_system_design_editor_preview>
         <update handle="adminhtml_system_design_editor_launch"/>
         <reference name="design_editor_toolbar">
