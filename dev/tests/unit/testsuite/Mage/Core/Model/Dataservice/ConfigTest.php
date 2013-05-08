@@ -29,7 +29,7 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
         );
         $this->_config->expects($this->once())->method('getModuleDir')->with(
             $this->equalTo('etc'), $this->equalTo(self::NAMEPART)
-        )->will($this->returnValue('./testsuite/Mage/Core/Model/Dataservice/_files'));
+        )->will($this->returnValue(__DIR__ . '/_files/'));
         $appMock = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
         $appMock->expects($this->once())->method('getConfig')->will($this->returnValue($this->_config));
         $objectManagerMock = $this->getMock('Magento_ObjectManager');
@@ -43,7 +43,6 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
     {
         // result should match the config.xml file
         $result = $this->_dataServiceConfig->getClassByAlias('alias');
-
         $this->assertNotNull($result);
         $this->assertEquals('some_class_name', $result['class']);
         $this->assertEquals('some_method_name', $result['retrieveMethod']);
