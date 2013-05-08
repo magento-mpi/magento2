@@ -13,7 +13,7 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content extends Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content extends Mage_Backend_Block_Widget_Container
 {
     /**
      * Block construction
@@ -56,6 +56,17 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content extends Mage_
     }
 
     /**
+     * Files action source URL
+     *
+     * @return string
+     */
+    public function getContentsUrl()
+    {
+        return $this->getUrl('*/*/contents', array('type' => $this->getRequest()->getParam('type'))
+            + $this->helper('Mage_Theme_Helper_Storage')->getRequestParams());
+    }
+
+    /**
      * Javascript setup object for filebrowser instance
      *
      * @return string
@@ -80,4 +91,53 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content extends Mage_
         return $this->helper('Mage_Core_Helper_Data')->jsonEncode($setupObject);
     }
 
+    /**
+     * New directory action target URL
+     *
+     * @return string
+     */
+    public function getNewfolderUrl()
+    {
+        return $this->getUrl('*/*/newFolder', $this->helper('Mage_Theme_Helper_Storage')->getRequestParams());
+    }
+
+    /**
+     * Delete directory action target URL
+     *
+     * @return string
+     */
+    protected function getDeletefolderUrl()
+    {
+        return $this->getUrl('*/*/deleteFolder', $this->helper('Mage_Theme_Helper_Storage')->getRequestParams());
+    }
+
+    /**
+     * Delete files action target URL
+     *
+     * @return string
+     */
+    public function getDeleteFilesUrl()
+    {
+        return $this->getUrl('*/*/deleteFiles', $this->helper('Mage_Theme_Helper_Storage')->getRequestParams());
+    }
+
+    /**
+     * Insert file action target URL
+     *
+     * @return string
+     */
+    public function getOnInsertUrl()
+    {
+        return $this->getUrl('*/*/onInsert', $this->helper('Mage_Theme_Helper_Storage')->getRequestParams());
+    }
+
+    /**
+     * Target element ID getter
+     *
+     * @return string
+     */
+    public function getTargetElementId()
+    {
+        return $this->getRequest()->getParam('target_element_id');
+    }
 }
