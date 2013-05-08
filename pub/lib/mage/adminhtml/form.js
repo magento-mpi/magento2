@@ -437,7 +437,9 @@ FormElementDependenceController.prototype = {
                 }
             } else {
                 $(idTo).show();
-                $(idTo).disabled = false;
+                if ($(idTo).tagName.toLowerCase() in ['input', 'select']) {
+                    $(idTo).disabled = false;
+                }
             }
         } else {
             if ($(idTo).select('input', 'select', 'td')) {
@@ -453,7 +455,11 @@ FormElementDependenceController.prototype = {
                 headElement.hide();
             }
             $(idTo).hide();
-            $(idTo).disabled = true;
+
+            if ($(idTo).tagName.toLowerCase() in ['input', 'select']) {
+                $(idTo).disabled = true;
+            }
+
         }
         var rowElement = $('row_' + idTo);
         if (rowElement) {
