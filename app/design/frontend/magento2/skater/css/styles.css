@@ -1389,8 +1389,12 @@ ul.messages ul {
   content: "\e01c";
   color: #6cba2f;
 }
-.success-msg a {
+.success-msg a,
+.success-msg a:visited {
   color: #6cba2f;
+}
+.success-msg a:hover {
+  color: #497d20;
 }
 .notice-msg,
 .note-msg {
@@ -1404,8 +1408,14 @@ ul.messages ul {
   color: #ffae00;
 }
 .notice-msg a,
-.note-msg a {
+.note-msg a,
+.notice-msg a:visited,
+.note-msg a:visited {
   color: #6f4400;
+}
+.notice-msg a:hover,
+.note-msg a:hover {
+  color: #231500;
 }
 .error-msg {
   background: #ffe5e5;
@@ -1416,8 +1426,12 @@ ul.messages ul {
   content: "\e014";
   color: #dc0000;
 }
-.error-msg a {
+.error-msg a,
+.error-msg a:visited {
   color: #dc0000;
+}
+.error-msg a:hover {
+  color: #900000;
 }
 .block.filter {
   color: #333333;
