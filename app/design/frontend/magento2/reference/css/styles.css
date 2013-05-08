@@ -2956,6 +2956,9 @@ div.mage-error {
 .block.minicart.empty > .title {
   display: none;
 }
+.eq-ie8 .minicart.wrapper.active:before {
+  display: none;
+}
 /* Product options */
 .minicart .product.options.wrapper {
   position: relative;

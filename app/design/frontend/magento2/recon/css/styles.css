@@ -3145,6 +3145,9 @@ select:disabled {
 .minicart.wrapper p {
   clear: both;
 }
+.eq-ie8 .minicart.wrapper.active:before {
+  display: none;
+}
 /* Product options */
 .minicart .product.options.wrapper {
   position: relative;
