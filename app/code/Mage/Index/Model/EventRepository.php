@@ -30,7 +30,7 @@ class Mage_Index_Model_EventRepository
      */
     public function hasUnprocessed($process)
     {
-        return !!$this->getUnprocessed($process)->getSize();
+        return (bool) $this->getUnprocessed($process)->getSize();
     }
 
     /**
