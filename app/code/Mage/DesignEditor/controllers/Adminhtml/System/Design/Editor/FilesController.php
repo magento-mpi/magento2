@@ -80,7 +80,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_FilesController extends M
     {
         try {
             $this->loadLayout('empty');
-            $this->getLayout()->getBlock('wysiwyg_files.files')->setStorage($this->_getStorage());
+            $this->getLayout()->getBlock('editor_files.files')->setStorage($this->_getStorage());
             $this->renderLayout();
 
             $this->_getSession()->setStoragePath(
