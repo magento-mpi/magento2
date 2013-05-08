@@ -36,7 +36,7 @@ class Varien_Io_Sftp extends Varien_Io_Abstract implements Varien_Io_Interface
      *        string $args[username] Remote username
      *        string $args[password] Connection password
      *        int $args[timeout] Connection timeout [=10]
-     * @return bool|void
+     * @return void
      * @throws Exception
      */
     public function open(array $args = array())
@@ -68,7 +68,7 @@ class Varien_Io_Sftp extends Varien_Io_Abstract implements Varien_Io_Interface
     /**
      * Create a directory
      *
-     * @param $dir
+     * @param string $dir
      * @param int $mode ignored here; uses logged-in user's umask
      * @param bool $recursive analogous to mkdir -p
      *
@@ -165,11 +165,12 @@ class Varien_Io_Sftp extends Varien_Io_Abstract implements Varien_Io_Interface
      *
      * @param string $filename
      * @param string $source string data or local file name
-     * @param int $mode (NET_SFTP_STRING or NET_SFTP_LOCAL_FILE)
+     * @param int $mode ignored parameter
      * @return bool
      */
-    public function write($filename, $source, $mode = NET_SFTP_STRING)
+    public function write($filename, $source, $mode = null)
     {
+        $mode = is_readable($source) ? NET_SFTP_LOCAL_FILE : NET_SFTP_STRING;
         return $this->_connection->put($filename, $source, $mode);
     }
 
