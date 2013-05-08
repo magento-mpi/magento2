@@ -48,6 +48,9 @@ class Mage_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
      */
     protected $_resourceMock;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_eventRepositoryMock;
 
     protected function setUp()
@@ -140,11 +143,11 @@ class Mage_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      */
     public function testReindexAllDoesntTriggerUnprocessedEventFetchingInManualMode()
     {
-        $collection = $this->_objectManager->get('Mage_Index_Model_Resource_Event_Collection');
+        $collection = $this->_objectManager->create('Mage_Index_Model_Resource_Event_Collection');
         $this->_model->setMode(Mage_Index_Model_Process::MODE_REAL_TIME);
         $this->_model->setStatus(Mage_Index_Model_Process::STATUS_PENDING);
         $this->_eventRepositoryMock->expects($this->once())->method('getUnprocessed')

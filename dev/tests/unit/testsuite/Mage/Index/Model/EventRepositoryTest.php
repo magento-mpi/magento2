@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 class Mage_Index_Model_EventRepositoryTest extends PHPUnit_Framework_TestCase
 {
     /**
