@@ -1527,6 +1527,12 @@ ul.messages ul {
   margin: 0;
   list-style-type: none;
 }
+ul.messages ul li {
+  margin-top: 5px;
+}
+ul.messages ul li:first-child {
+  margin-top: 0px;
+}
 .success-msg {
   background: #d3edd5;
   color: #1b6720;
@@ -4059,7 +4065,7 @@ div.mage-error {
 }
 .navigation > ul > .level-top.more > .submenu > ul {
   position: relative;
-  background: #eeece0;
+  background: #f8f8f8;
   -moz-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
   box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
@@ -4077,7 +4083,7 @@ div.mage-error {
   z-index: 1;
 }
 .level-top.more.hover:after {
-  background: #eeece0;
+  background: #f8f8f8;
   -moz-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
   box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
@@ -4641,9 +4647,7 @@ div.mage-error {
   margin: 2px 15px 0 0;
 }
 .toolbar .pager .text {
-  margin: 0 5px;
-  line-height: 25px;
-  display: inline-block;
+  display: none;
 }
 .toolbar .pages {
   margin-left: 15px;
@@ -5954,7 +5958,6 @@ img[align="right"] {
   font-weight: 600;
   font-size: 12px;
   margin: 0;
-  padding: 5px 10px;
   position: absolute;
   top: 100%;
   margin-left: -11px;
@@ -5972,7 +5975,7 @@ img[align="right"] {
   transition: visibility 0s linear 0.2s, opacity 0.2s linear 0s;
 }
 .customer.welcome .menu > ul li {
-  margin: 10px 0;
+  margin: 15px;
   display: block;
   white-space: nowrap;
 }
@@ -6068,7 +6071,7 @@ img[align="right"] {
 
   text-align: right;
   position: absolute;
-  bottom: 90px;
+  bottom: 140px;
   width: 50%;
   padding: 0 40px;
 }
@@ -7885,4 +7888,149 @@ img[align="right"] {
 ----------------------------------------------------------------------------- */
 .form.search.advanced .field.price .range.price.fields.group .field:first-child input {
   width: 96%;
+}
+/*
+ *    My Account -> My orders
+ *
+----------------------------------------------------------------------------- */
+.order.details {
+  *zoom: 1;
+}
+.order.details:before,
+.order.details:after {
+  content: "";
+  display: table;
+}
+.order.details:after {
+  clear: both;
+}
+.order.details .status {
+  margin: 0.5em 0;
+  line-height: 1.2;
+  font-weight: 400;
+  font-size: 30px;
+  float: left;
+}
+.order.details .subtitle.caption strong,
+.order.details .title strong {
+  line-height: 1.2;
+  font-weight: 200;
+  font-size: 20px;
+}
+.order.details .subtitle.caption .action,
+.order.details .title .action {
+  margin-left: 10px;
+}
+.order.details .subtitle.caption {
+  margin-bottom: 45px;
+}
+.order.details .order.toolbar {
+  clear: none;
+  float: right;
+  margin-top: 29px;
+}
+.order.details .order.toolbar .action {
+  margin-left: 10px;
+}
+.order.details .block.order {
+  float: left;
+  width: 48%;
+  padding-right: 2%;
+}
+.order.details .block.order.billing.address {
+  clear: left;
+}
+.order.details .block.order .content {
+  background: #f8f8f8;
+  padding: 30px;
+}
+.order.details .order.info {
+  clear: both;
+}
+.order.details .order.info > dt {
+  line-height: 1.2;
+  font-weight: 200;
+  font-size: 20px;
+}
+.order.details .order.info > dd {
+  margin: 10px 0 0 0;
+  background: #f8f8f8;
+  padding: 30px;
+}
+.order.details .order.info > dd .items {
+  *zoom: 1;
+}
+.order.details .order.info > dd .items:before,
+.order.details .order.info > dd .items:after {
+  content: "";
+  display: table;
+}
+.order.details .order.info > dd .items:after {
+  clear: both;
+}
+.order.details .order.info > dd .items .item {
+  float: left;
+  margin-right: 15px;
+}
+.order.details .additional.details .order.comments {
+  background: #f8f8f8;
+  padding: 30px;
+}
+.data.table.order {
+  margin-bottom: 45px;
+}
+.order.details.items .order.toolbar {
+  margin: 9px 0 0 0;
+}
+.order.details.items .action.show {
+  text-decoration: none;
+}
+.order.details.items .action.show:after {
+  font-family: "icons";
+  font-size: 12px;
+  line-height: 12px;
+  height: 12px;
+  overflow: hidden;
+  content: "\e00f";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.order.details.items .action.show.expanded:after {
+  content: "\e010";
+}
+.shipping-tracking-popup .action.close {
+  border: none;
+  border-radius: 0;
+  background: #cac3b4;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  text-indent: 0;
+}
+.shipping-tracking-popup .action.close span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.shipping-tracking-popup .action.close:focus,
+.shipping-tracking-popup .action.close:active,
+.shipping-tracking-popup .action.close:hover {
+  background: #a59f93;
+}
+.shipping-tracking-popup .action.close span {
+  width: auto;
+  text-indent: 0;
+}
+.shipping-tracking-popup .action.close span:after {
+  content: "";
+  display: none;
 }

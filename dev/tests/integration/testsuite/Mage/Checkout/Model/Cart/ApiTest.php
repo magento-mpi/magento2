@@ -38,6 +38,37 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Negative test for adding a non-existing product to shopping cart.
+     *
+     * @magentoDataFixture Mage/Checkout/_files/quote.php
+     */
+    public function testProductAddToCartWithNonExistingProduct()
+    {
+        /** @var Mage_Sales_Model_Resource_Quote_Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection');
+        $quote = $quoteCollection->getFirstItem();
+        $productId = "0";
+
+        $errorCode = 1033;
+        $errorMessage = 'Product does not exist.';
+        try {
+            Magento_Test_Helper_Api::call(
+                $this,
+                'shoppingCartProductAdd',
+                array(
+                    'quoteId' => $quote->getId(),
+                    'productsData' => array(
+                        (object)array('product_id' => $productId, 'qty' => 1)
+                    )
+                )
+            );
+            $this->fail('Expected error exception was not raised.');
+        } catch(SoapFault $e) {
+            $this->_assertError($errorCode, $errorMessage, $e->faultcode, $e->faultstring);
+        }
+    }
+
+    /**
      * Test for product with custom options add to shopping cart.
      *
      * @magentoDataFixture Mage/Catalog/_files/product_with_options.php

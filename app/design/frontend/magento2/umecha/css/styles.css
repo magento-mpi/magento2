@@ -1333,6 +1333,13 @@ div.mage-error {
   font-family: 'Droid Serif', Arial, sans-serif;
   font-weight: 400;
 }
+.minicart.wrapper .block.minicart.empty > .title {
+  display: none;
+}
+.minicart.wrapper .block.minicart.empty > .content .subtitle {
+  display: block;
+  margin-right: -330px;
+}
 .minicart.wrapper.active {
   z-index: 11;
 }
