@@ -2741,9 +2741,10 @@ select:disabled {
 .cart.summary {
   margin-top: 33px;
   background: #ffffff;
-  float: right;
+  display: inline-block;
   width: 290px;
   padding: 20px;
+  margin-left:10px;
 }
 .cart.summary .summary.title {
   font-family: "benchnine";
@@ -2753,6 +2754,21 @@ select:disabled {
   border-bottom: 2px solid #d9d9d9;
   padding-bottom: 15px;
 }
+
+.cart > .summary.fixed, .cart.container > .summary > .container.fixed {
+    position: fixed;
+    top: 0;
+}
+.cart.container > .summary.bottom {
+    vertical-align: bottom;
+    bottom:0;
+}
+
+.cart.container > .summary.sticky{
+    position:fixed;
+    display:inline-block !important
+}
+
 .cart.summary .block {
   border-bottom: 1px solid #bdc0cb;
   margin-bottom: 0;

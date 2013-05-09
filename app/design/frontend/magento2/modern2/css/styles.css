@@ -5596,10 +5596,26 @@ body.type-bundle {
 .cart.summary {
   background: #f6f4f3;
   margin-top: 27px;
-  float: right;
+  display: inline-block;
   width: 260px;
   padding: 20px;
+  margin-left:10px;
 }
+
+.cart > .summary.fixed, .cart.container > .summary > .container.fixed {
+    position: fixed;
+    top: 0;
+}
+.cart.container > .summary.bottom {
+    vertical-align: bottom;
+    bottom:0;
+}
+
+.cart.container > .summary.sticky{
+    position:fixed;
+    display:inline-block !important
+}
+
 .cart.summary .summary.title {
   font-size: 16px;
   font-family: comfortaa, Arial, Helvetica, sans-serif;

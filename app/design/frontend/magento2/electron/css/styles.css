@@ -2730,6 +2730,7 @@ select:disabled {
   float: right;
   width: 290px;
   padding: 0 20px 20px;
+  display:inline-block;
 }
 .cart.summary .summary.title {
   color: #bec1c4;
@@ -2741,6 +2742,21 @@ select:disabled {
   padding-bottom: 4px;
   text-align: center;
 }
+
+.cart > .summary.fixed, .cart.container > .summary > .container.fixed {
+    position: fixed;
+    top: 0;
+}
+.cart.container > .summary.bottom {
+    vertical-align: bottom;
+    bottom:0;
+}
+
+.cart.container > .summary.sticky{
+    position:fixed;
+    display:inline-block !important
+}
+
 .cart.summary .block {
   background: #4a4a52;
   font-size: 12px;
