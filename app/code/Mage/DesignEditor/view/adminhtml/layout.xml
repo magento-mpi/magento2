@@ -72,6 +72,7 @@
         </reference>
         <reference name="head">
             <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="addCss"><file>jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
             <action method="addJs"><file>jquery/jquery.tabs.js</file></action>
             <action method="addJs"><file>jquery/jstree/jquery.jstree.js</file></action>
             <action method="addJs"><file>jquery/slimScroll/slimScroll.min.js</file></action>
