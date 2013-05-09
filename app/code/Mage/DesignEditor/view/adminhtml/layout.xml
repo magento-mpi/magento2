@@ -87,6 +87,7 @@
             <action method="addJs"><file>Mage_DesignEditor::js/quick-style-element.js</file></action>
             <action method="addJs"><file>jquery/fileUploader/jquery.iframe-transport.js</file></action>
             <action method="addJs"><file>jquery/fileUploader/jquery.fileupload.js</file></action>
+            <action method="addJs"><file>jquery/fileUploader/jquery.fileupload-fp.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/quick-style-uploader.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/theme-init.js</file></action>
             <action method="addCss"><file>Mage_DesignEditor::css/styles.css</file></action>
