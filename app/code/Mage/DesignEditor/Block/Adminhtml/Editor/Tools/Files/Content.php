@@ -21,22 +21,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content extends Mage_
     protected function _construct()
     {
         parent::_construct();
-        $this->_headerText = $this->__('Media Storage');
+        $this->_headerText = $this->__('CSS Editor ') . $this->__($this->helper('Mage_Theme_Helper_Storage')->getStorageTypeName());
         $this->_removeButton('back')->_removeButton('edit');
-        $this->_addButton('newfolder', array(
-            'class'   => 'save',
-            'label'   => $this->__('Create Folder...'),
-            'type'    => 'button',
-            'onclick' => 'MediabrowserInstance.newFolder();'
-        ));
-
-        $this->_addButton('delete_folder', array(
-            'class'   => 'delete no-display',
-            'label'   => $this->__('Delete Folder'),
-            'type'    => 'button',
-            'onclick' => 'MediabrowserInstance.deleteFolder();',
-            'id'      => 'button_delete_folder'
-        ));
 
         $this->_addButton('delete_files', array(
             'class'   => 'delete no-display',
