@@ -1,3 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
 <config>
     <service-call name='alias' service='some_class_name' method='some_method_name'>
         <arg name="some_arg_name">foo</arg>
