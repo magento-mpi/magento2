@@ -37,6 +37,7 @@ app/code/Mage/Core/Controller/Varien/Action/Forward.php
 app/code/Mage/Core/Controller/Varien/DispatchableInterface.php
 app/code/Mage/Core/Controller/Varien/Router/Abstract.php
 app/code/Mage/Core/data
+app/code/Mage/Core/Helper/Css/Processing.php
 app/code/Mage/Core/Model/Abstract.php
 app/code/Mage/Core/Model/Config
 app/code/Mage/Core/Model/Cache

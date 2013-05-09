@@ -31,21 +31,31 @@ class Mage_Core_Model_Page_Asset_MergeService
     private $_storeConfig;
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
+     * @var Magento_Filesystem
      */
-    private $_designPackage;
+    private $_filesystem;
+
+    /**
+     * @var Mage_Core_Model_Dir
+     */
+    private $_dirs;
 
     /**
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Store_Config $storeConfig
-     * @param Mage_Core_Model_Design_PackageInterface $designPackage
+     * @param Magento_Filesystem $filesystem,
+     * @param Mage_Core_Model_Dir $dirs
      */
-    public function __construct(Magento_ObjectManager $objectManager, Mage_Core_Model_Store_Config $storeConfig,
-        Mage_Core_Model_Design_PackageInterface $designPackage
+    public function __construct(
+        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Magento_Filesystem $filesystem,
+        Mage_Core_Model_Dir $dirs
     ) {
         $this->_objectManager = $objectManager;
         $this->_storeConfig = $storeConfig;
-        $this->_designPackage = $designPackage;
+        $this->_filesystem = $filesystem;
+        $this->_dirs = $dirs;
     }
 
     /**
@@ -64,16 +74,27 @@ class Mage_Core_Model_Page_Asset_MergeService
             throw new InvalidArgumentException("Merge for content type '$contentType' is not supported.");
         }
 
-        if ($this->_designPackage->isMergingViewFilesAllowed()) {
-            $isCssMergeEnabled = $this->_storeConfig->getConfigFlag(self::XML_PATH_MERGE_CSS_FILES);
-            $isJsMergeEnabled = $this->_storeConfig->getConfigFlag(self::XML_PATH_MERGE_JS_FILES);
-            if (($isCss && $isCssMergeEnabled) || ($isJs && $isJsMergeEnabled)) {
-                $assets = $this->_objectManager->create(
-                    'Mage_Core_Model_Page_Asset_Merged', array('assets' => $assets)
-                );
-            }
+        $isCssMergeEnabled = $this->_storeConfig->getConfigFlag(self::XML_PATH_MERGE_CSS_FILES);
+        $isJsMergeEnabled = $this->_storeConfig->getConfigFlag(self::XML_PATH_MERGE_JS_FILES);
+        if (($isCss && $isCssMergeEnabled) || ($isJs && $isJsMergeEnabled)) {
+            $assets = $this->_objectManager->create(
+                'Mage_Core_Model_Page_Asset_Merged', array('assets' => $assets)
+            );
         }
 
         return $assets;
+    }
+
+    /**
+     * Remove all merged js/css files
+     */
+    public function cleanMergedJsCss()
+    {
+        $mergedDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_VIEW_CACHE) . '/'
+            . Mage_Core_Model_Page_Asset_Merged::PUBLIC_MERGE_DIR;
+        $this->_filesystem->delete($mergedDir);
+
+        $this->_objectManager->get('Mage_Core_Helper_File_Storage_Database')
+            ->deleteFolder($mergedDir);
     }
 }

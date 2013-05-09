@@ -105,12 +105,20 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     protected $_storeManager;
 
     /**
+     * Helper to process css content
+     *
+     * @var Mage_Core_Helper_Css_Processing
+     */
+    protected $_cssHelper;
+
+    /**
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool
      * @param Mage_Core_Model_App_State $appState
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Mage_Core_Helper_Css_Processing $cssHelper
      */
     public function __construct(
         Mage_Core_Model_Dir $dirs,
@@ -118,7 +126,8 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool,
         Mage_Core_Model_App_State $appState,
-        Mage_Core_Model_StoreManagerInterface $storeManager
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Mage_Core_Helper_Css_Processing $cssHelper
     ) {
         $this->_dirs = $dirs;
         $this->_moduleReader = $moduleReader;
@@ -126,6 +135,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         $this->_resolutionPool = $resolutionPool;
         $this->_appState = $appState;
         $this->_storeManager = $storeManager;
+        $this->_cssHelper = $cssHelper;
     }
 
     /**
@@ -475,25 +485,32 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     }
 
     /**
-     * Remove all merged js/css files
+     * Publish file (if needed) and return its public path
      *
-     * @return bool
-     * @throws Magento_Exception
+     * @param string $file
+     * @param array $params
+     * @return string
      */
-    public function cleanMergedJsCss()
+    public function getViewFilePublicPath($file, array $params = array())
     {
-        if (!$this->isMergingViewFilesAllowed()) {
-            throw new Magento_Exception('Cleaning of merged view files is not allowed');
-        }
+        $this->_updateParamDefaults($params);
+        $file = $this->_extractScope($file, $params);
 
-        $dir = $this->_getMergeDir();
-        try {
-            $this->_filesystem->delete($dir);
-            $deleted = true;
-        } catch (Magento_Filesystem_Exception $e) {
-            $deleted = false;
+        if ($this->_isViewFileOperationAllowed()) {
+            $result = $this->_publishViewFile($file, $params);
+        } else {
+            /** @var $themeModel Mage_Core_Model_Theme */
+            $themeModel = $params['themeModel'];
+            $themePath = $themeModel->getThemePath();
+            if (!$themePath) {
+                // For virtual themes we get path from the parent
+                $themePath = $themeModel->getParentTheme()->getThemePath();
+            }
+            $subPath = self::getPublishedViewFileRelPath($params['area'], $themePath, $params['locale'], $file,
+                $params['module']);
+            $result = $this->getPublicDir() . DIRECTORY_SEPARATOR . $subPath;
         }
-        return $deleted && Mage::helper('Mage_Core_Helper_File_Storage_Database')->deleteFolder($dir);
+        return $result;
     }
 
     /**
@@ -508,30 +525,15 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     {
         $isSecure = isset($params['_secure']) ? (bool) $params['_secure'] : null;
         unset($params['_secure']);
-        $this->_updateParamDefaults($params);
-        $file = $this->_extractScope($file, $params);
 
-        // Build public url to it
+        $publicFile = $this->getViewFilePublicPath($file, $params);
+        $url = $this->getPublicFileUrl($publicFile, $isSecure);
+
         if ($this->_isViewFileOperationAllowed()) {
-            /* Identify public file */
-            $publicFile = $this->_publishViewFile($file, $params);
-            /* Build url to public file */
-            $url = $this->getPublicFileUrl($publicFile, $isSecure);
             if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned()) {
                 $fileMTime = $this->_filesystem->getMTime($publicFile);
                 $url .= '?' . $fileMTime;
             }
-        } else {
-            /** @var $themeModel Mage_Core_Model_Theme */
-            $themeModel = $params['themeModel'];
-            $themePath = $themeModel->getThemePath();
-            if (!$themePath) {
-                // For virtual themes we get path from the parent
-                $themePath = $themeModel->getParentTheme()->getThemePath();
-            }
-            $subPath = self::getPublishedViewFileRelPath($params['area'], $themePath, $params['locale'], $file,
-                $params['module']);
-            $url = $this->getPublicFileUrl($this->getPublicDir() . DIRECTORY_SEPARATOR . $subPath, $isSecure);
         }
 
         return $url;
@@ -556,7 +558,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         ) {
             $dir = Mage::getBaseDir($dirType);
             if (strpos($file, $dir) === 0) {
-                $relativePath = ltrim(substr($file, strlen($dir)), DIRECTORY_SEPARATOR);
+                $relativePath = ltrim(substr($file, strlen($dir)), '\\/');
                 $relativePath = str_replace(DIRECTORY_SEPARATOR, '/', $relativePath);
                 $url = Mage::getBaseUrl($urlType, $isSecure) . $relativePath;
                 if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned()) {
@@ -612,7 +614,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
 
         /* Validate whether file needs to be published */
         if ($this->_getExtension($themeFile) == self::CONTENT_TYPE_CSS) {
-            $cssContent = $this->_getPublicCssContent($sourcePath, dirname($targetPath), $themeFile, $params);
+            $cssContent = $this->_getPublicCssContent($sourcePath, $targetPath, $themeFile, $params);
         }
 
         $fileMTime = $this->_filesystem->getMTime($sourcePath);
@@ -704,16 +706,6 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     }
 
     /**
-     * Retrieve directory path for merged view files
-     *
-     * @return string
-     */
-    protected function _getMergeDir()
-    {
-        return $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_VIEW_CACHE) . DIRECTORY_SEPARATOR . self::PUBLIC_MERGE_DIR;
-    }
-
-    /**
      * Return directory for theme files publication
      *
      * @return string
@@ -770,46 +762,27 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     }
 
     /**
-     * Extract non-absolute URLs from a CSS content
-     *
-     * @param string $cssContent
-     * @return array
-     */
-    protected function _extractCssRelativeUrls($cssContent)
-    {
-        preg_match_all(self::REGEX_CSS_RELATIVE_URLS, $cssContent, $matches);
-        if (!empty($matches[0]) && !empty($matches[1])) {
-            return array_combine($matches[0], $matches[1]);
-        }
-        return array();
-    }
-
-    /**
      * Retrieve processed CSS file content that contains URLs relative to the specified public directory
      *
-     * @param string $filePath Absolute path to the CSS file
-     * @param string $publicDir Absolute path to the public directory to which URLs should be relative
+     * @param string $sourcePath Absolute path to the current location of CSS file
+     * @param string $publicPath Absolute path to location of the CSS file, where it will be published
      * @param string $fileName File name used for reference
      * @param array $params Design parameters
      * @return string
      */
-    protected function _getPublicCssContent($filePath, $publicDir, $fileName, $params)
+    protected function _getPublicCssContent($sourcePath, $publicPath, $fileName, $params)
     {
-        $content = $this->_filesystem->read($filePath);
-        $relativeUrls = $this->_extractCssRelativeUrls($content);
-        foreach ($relativeUrls as $urlNotation => $fileUrl) {
-            try {
-                $relatedFilePathPublic = $this->_publishRelatedViewFile($fileUrl, $filePath, $fileName, $params);
-                $fileUrlNew = basename($relatedFilePathPublic);
-                $offset = $this->_getFilesOffset($relatedFilePathPublic, $publicDir);
-                if ($offset) {
-                    $fileUrlNew = $this->_canonize($offset . '/' . $fileUrlNew, true);
-                }
-                $urlNotationNew = str_replace($fileUrl, $fileUrlNew, $urlNotation);
-                $content = str_replace($urlNotation, $urlNotationNew, $content);
-            } catch (Magento_Exception $e) {
-                Mage::logException($e);
-            }
+        $content = $this->_filesystem->read($sourcePath);
+
+        $package = $this;
+        $callback = function ($relativeUrl) use ($package, $sourcePath, $fileName, $params) {
+            $relatedFilePathPublic = $package->publishRelatedViewFile($relativeUrl, $sourcePath, $fileName, $params);
+            return $relatedFilePathPublic;
+        };
+        try {
+            $content = $this->_cssHelper->replaceCssRelativeUrls($content, $publicPath, $callback);
+        } catch (Magento_Exception $e) {
+            Mage::logException($e);
         }
         return $content;
     }
@@ -823,65 +796,27 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      * @param array $params theme/module parameters array
      * @return string
      */
-    protected function _publishRelatedViewFile($fileUrl, $parentFilePath, $parentFileName, $params)
+    public function publishRelatedViewFile($fileUrl, $parentFilePath, $parentFileName, $params)
     {
         if (strpos($fileUrl, self::SCOPE_SEPARATOR)) {
             $relativeThemeFile = $this->_extractScope($fileUrl, $params);
         } else {
             /* Check if module file overridden on theme level based on _module property and file path */
             if ($params['module'] && strpos($parentFilePath, Mage::getBaseDir(Mage_Core_Model_Dir::THEMES)) === 0) {
-                /* Add module directory to relative URL for canonization */
-                $relativeThemeFile = dirname($params['module'] . DS . $parentFileName)
-                    . DS . $fileUrl;
-                $relativeThemeFile   = $this->_canonize($relativeThemeFile);
+                /* Add module directory to relative URL */
+                $relativeThemeFile = dirname($params['module'] . '/' . $parentFileName)
+                    . '/' . $fileUrl;
+                $relativeThemeFile = $this->_filesystem->normalizePath($relativeThemeFile, true);
                 if (strpos($relativeThemeFile, $params['module']) === 0) {
-                    $relativeThemeFile = str_replace($params['module'], '', $relativeThemeFile);
+                    $relativeThemeFile = ltrim(str_replace($params['module'], '', $relativeThemeFile), '/');
                 } else {
                     $params['module'] = false;
                 }
             } else {
-                $relativeThemeFile = $this->_canonize(dirname($parentFileName) . DS . $fileUrl);
+                $relativeThemeFile = $this->_filesystem->normalizePath(dirname($parentFileName) . DS . $fileUrl, true);
             }
         }
         return $this->_publishViewFile($relativeThemeFile, $params);
-    }
-
-    /**
-     * Canonize the specified filename
-     *
-     * Removes excessive "./" and "../" from the path.
-     * Returns false, if cannot get rid of all "../"
-     *
-     * @param string $filename
-     * @param bool $isRelative flag that identify that filename is relative
-     * @return string
-     * @throws Magento_Exception if file can't be canonized
-     */
-    protected function _canonize($filename, $isRelative = false)
-    {
-        $result = array();
-        $parts = explode('/', str_replace('\\', '/', $filename));
-        $prefix = '';
-        if ($isRelative) {
-            foreach ($parts as $part) {
-                if ($part != '..') {
-                    break;
-                }
-                $prefix .= '../';
-                array_shift($parts);
-            }
-        }
-
-        foreach ($parts as $part) {
-            if ('..' === $part) {
-                if (null === array_pop($result)) {
-                    throw new Magento_Exception("Invalid file '{$filename}'.");
-                }
-            } elseif ('.' !== $part) {
-                $result[] = $part;
-            }
-        }
-        return $prefix . implode('/', $result);
     }
 
     /**
@@ -901,159 +836,6 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     {
         return $area . DIRECTORY_SEPARATOR . $themePath . DIRECTORY_SEPARATOR
             . ($module ? $module . DIRECTORY_SEPARATOR : '') . $file;
-    }
-
-    /**
-     * Merge files, located under the same folder, into one and return file name of merged file
-     *
-     * @param array $files list of names relative to the same folder
-     * @param string $contentType
-     * @return string
-     * @throws Magento_Exception if not existing file requested for merge
-     */
-    public function mergeFiles($files, $contentType)
-    {
-        if (!$this->isMergingViewFilesAllowed()) {
-            throw new Magento_Exception('Merging of view files is not allowed');
-        }
-
-        $filesToMerge = array();
-        $mergedFile = array();
-        $jsDir = Mage::getBaseDir(Mage_Core_Model_Dir::PUB_LIB);
-        $publicDir = $this->_buildPublicViewFilename('');
-        foreach ($files as $file) {
-            $params = array();
-            $file = $this->_extractScope($file, $params);
-            $this->_updateParamDefaults($params);
-            $filesToMerge[$file] = $this->_publishViewFile($file, $params);
-            $mergedFile[] = str_replace('\\', '/', str_replace(array($jsDir, $publicDir), '', $filesToMerge[$file]));
-        }
-        $mergedFile = $this->_getMergeDir() . DS . md5(implode('|', $mergedFile)) . '.' . $contentType;
-        $mergedMTimeFile  = $mergedFile . '.dat';
-        $filesMTimeData = '';
-        foreach ($filesToMerge as $file) {
-            $filesMTimeData .= $this->_filesystem->getMTime($file);
-        }
-        if ($this->_filesystem->has($mergedFile) && $this->_filesystem->has($mergedMTimeFile)
-            && ($filesMTimeData == $this->_filesystem->read($mergedMTimeFile))
-        ) {
-            return $mergedFile;
-        }
-
-        $result = array();
-        foreach ($filesToMerge as $file) {
-            if (!$this->_filesystem->has($file)) {
-                throw new Magento_Exception("Unable to locate file '{$file}' for merging.");
-            }
-            $content = $this->_filesystem->read($file);
-            if ($contentType == self::CONTENT_TYPE_CSS) {
-                $offset = $this->_getFilesOffset($file, dirname($mergedFile));
-                $content = $this->_applyCssUrlOffset($content, $offset);
-            }
-            $result[] = $content;
-        }
-        $result = ltrim(implode($result));
-        if ($contentType == self::CONTENT_TYPE_CSS) {
-            $result = $this->_popCssImportsUp($result);
-        }
-
-        $this->_filesystem->setIsAllowCreateDirectories(true);
-        $this->_filesystem->write($mergedFile, $result);
-        $this->_filesystem->write($mergedMTimeFile, $filesMTimeData);
-        return $mergedFile;
-    }
-
-    /**
-     * Return whether view files merging is allowed or not
-     *
-     * @return bool
-     */
-    public function isMergingViewFilesAllowed()
-    {
-        return $this->_isViewFileOperationAllowed();
-    }
-
-    /**
-     * Replace relative URLs in the CSS content with ones shifted by the directories offset
-     *
-     * @throws Magento_Exception
-     * @param string $cssContent
-     * @param string $relativeOffset
-     * @return string
-     */
-    protected function _applyCssUrlOffset($cssContent, $relativeOffset)
-    {
-        $relativeUrls = $this->_extractCssRelativeUrls($cssContent);
-        foreach ($relativeUrls as $urlNotation => $fileUrl) {
-            if (strpos($fileUrl, self::SCOPE_SEPARATOR)) {
-                throw new Magento_Exception(
-                    'URL offset cannot be applied to CSS content that contains scope separator.'
-                );
-            }
-            $fileUrlNew = $this->_canonize($relativeOffset . '/' . $fileUrl, true);
-            $urlNotationNew = str_replace($fileUrl, $fileUrlNew, $urlNotation);
-            $cssContent = str_replace($urlNotation, $urlNotationNew, $cssContent);
-        }
-        return $cssContent;
-    }
-
-    /**
-     * Calculate offset between public file and public directory
-     *
-     * Case 1: private file to public folder - Exception;
-     *  app/design/frontend/default/default/default/style.css
-     *  pub/theme/frontend/default/default/default/style.css
-     *
-     * Case 2: public file to public folder - $fileOffset = '../frontend/default/default/default';
-     *  pub/theme/frontend/default/default/default/style.css -> img/empty.gif
-     *  pub/theme/_merged/hash.css -> ../frontend/default/default/default/img/empty.gif
-     *
-     * @param string $originalFile path to original file
-     * @param string $relocationDir path to directory where content will be relocated
-     * @return string
-     * @throws Magento_Exception
-     */
-    protected function _getFilesOffset($originalFile, $relocationDir)
-    {
-        $publicDir = Mage::getBaseDir();
-        if (strpos($originalFile, $publicDir) !== 0 || strpos($relocationDir, $publicDir) !== 0) {
-            throw new Magento_Exception('Offset can be calculated for public resources only.');
-        }
-        $offset = '';
-        while ($relocationDir != $publicDir && strpos($originalFile, $relocationDir) !== 0) {
-            $relocationDir = dirname($relocationDir);
-            $offset .= '../';
-        }
-        $suffix = str_replace($relocationDir, '', dirname($originalFile));
-        $offset = rtrim($offset . ltrim($suffix, '\/'), '\/');
-        $offset = str_replace(DS, '/', $offset);
-        return $offset;
-    }
-
-    /**
-     * Put CSS import directives to the start of CSS content
-     *
-     * @param string $contents
-     * @return string
-     */
-    protected function _popCssImportsUp($contents)
-    {
-        $parts = preg_split('/(@import\s.+?;\s*)/', $contents, -1, PREG_SPLIT_DELIM_CAPTURE);
-        $imports = array();
-        $css = array();
-        foreach ($parts as $part) {
-            if (0 === strpos($part, '@import', 0)) {
-                $imports[] = trim($part);
-            } else {
-                $css[] = $part;
-            }
-        }
-
-        $result = implode($css);
-        if ($imports) {
-            $result = implode("\n", $imports) . "\n" . "/* Import directives above popped up. */\n" . $result;
-        }
-        return $result;
     }
 
     /**

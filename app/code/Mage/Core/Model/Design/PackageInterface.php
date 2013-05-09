@@ -22,7 +22,6 @@ interface Mage_Core_Model_Design_PackageInterface
     /**#@+
      * Public directories prefix group
      */
-    const PUBLIC_MERGE_DIR  = '_merged';
     const PUBLIC_MODULE_DIR = '_module';
     const PUBLIC_VIEW_DIR   = '_view';
     const PUBLIC_THEME_DIR  = '_theme';
@@ -66,12 +65,6 @@ interface Mage_Core_Model_Design_PackageInterface
     const XML_PATH_ALLOW_DUPLICATION = 'global/design/theme/allow_view_files_duplication';
 
     /**
-     * PCRE that matches non-absolute URLs in CSS content
-     */
-    const REGEX_CSS_RELATIVE_URLS
-        = '#url\s*\(\s*(?(?=\'|").)(?!http\://|https\://|/|data\:)(.+?)(?:[\#\?].*?|[\'"])?\s*\)#';
-
-    /**
      * Set package area
      *
      * @param string $area
@@ -86,7 +79,6 @@ interface Mage_Core_Model_Design_PackageInterface
      */
     public function getArea();
 
-
     /**
      * Set theme path
      *
@@ -95,7 +87,6 @@ interface Mage_Core_Model_Design_PackageInterface
      * @return Mage_Core_Model_Design_PackageInterface
      */
     public function setDesignTheme($theme, $area = null);
-
 
     /**
      * Get default theme which declared in configuration
@@ -148,11 +139,14 @@ interface Mage_Core_Model_Design_PackageInterface
     public function getViewFile($file, array $params = array());
 
     /**
-     * Remove all merged js/css files
+     * Publish file (if needed) and return its public path
      *
-     * @return bool
+     * @param string $file
+     * @param array $params
+     * @return string
      */
-    public function cleanMergedJsCss();
+    public function getViewFilePublicPath($file, array $params = array());
+
 
     /**
      * Get url to file base on theme file identifier.
@@ -180,23 +174,6 @@ interface Mage_Core_Model_Design_PackageInterface
      * @return string
      */
     public function getPublicDir();
-
-    /**
-     * Return whether view files merging is allowed or not
-     *
-     * @return bool
-     */
-    public function isMergingViewFilesAllowed();
-
-    /**
-     * Merge files, located under the same folder, into one and return file name of merged file
-     *
-     * @param array $files list of names relative to the same folder
-     * @param string $contentType
-     * @return string
-     * @throws Magento_Exception if not existing file requested for merge
-     */
-    public function mergeFiles($files, $contentType);
 
     /**
      * Render view config object for current package and theme
