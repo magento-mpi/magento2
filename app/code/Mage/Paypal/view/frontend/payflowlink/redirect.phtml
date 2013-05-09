@@ -32,7 +32,7 @@
             if (step === '<?php echo $this->getGotoSection() ?>') {
                 return;
             }
-            step.addClass('allow');
+            parent.jQuery(this).addClass('allow');
         });
         parent.jQuery('#checkoutSteps').trigger('gotoSection', '<?php echo $this->getGotoSection() ?>');
         parent.jQuery('#checkout-review-submit').show();
