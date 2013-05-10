@@ -9,19 +9,32 @@
 class Mage_Index_Model_EntryPoint_Indexer extends Mage_Core_Model_EntryPointAbstract
 {
     /**
-     * @var array
+     * Report directory
+     *
+     * @var string
      */
-    protected $_params;
+    protected $_reportDir;
 
     /**
-     * @param string $baseDir
-     * @param array $params
+     * @var Magento_Filesystem
      */
-    public function __construct($baseDir, array $params = array())
-    {
-        $this->_params = $params;
-        unset($params['reportDir']);
-        parent::__construct(new Mage_Core_Model_Config_Primary($baseDir, $params));
+    protected $_filesystem;
+
+    /**
+     * @param string $reportDir absolute path to report directory to be cleaned
+     * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_Config_Primary $config
+     * @param Magento_ObjectManager $objectManager
+     */
+    public function __construct(
+        $reportDir,
+        Magento_Filesystem $filesystem,
+        Mage_Core_Model_Config_Primary $config,
+        Magento_ObjectManager $objectManager = null
+    ) {
+        parent::__construct($config, $objectManager);
+        $this->_reportDir = $reportDir;
+        $this->_filesystem = $filesystem;
     }
 
     /**
@@ -30,7 +43,7 @@ class Mage_Index_Model_EntryPoint_Indexer extends Mage_Core_Model_EntryPointAbst
     protected function _processRequest()
     {
         /* Clean reports */
-        Varien_Io_File::rmdirRecursive($this->_params['reportDir']);
+        $this->_filesystem->delete($this->_reportDir, dirname($this->_reportDir));
 
         /* Run all indexer processes */
         /** @var $indexer Mage_Index_Model_Indexer */
