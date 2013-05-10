@@ -218,7 +218,7 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
     public function formatUrl($protocol, $domain)
     {
         $domain = $this->_sanitizeDomain($domain);
-        return sprintf('%s://%s', $protocol, $domain);
+        return sprintf('%s://%s/', $protocol, $domain);
     }
 
     /**
