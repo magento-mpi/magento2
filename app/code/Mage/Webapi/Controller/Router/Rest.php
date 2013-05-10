@@ -42,8 +42,21 @@ class Mage_Webapi_Controller_Router_Rest
      */
     public function match(Mage_Webapi_Controller_Request_Rest $request)
     {
+        // get path info and fetch service and version
+        $pathInfo = $request->getPathInfo();
+        $urlDelimiter = '/';
+        $path = explode($urlDelimiter, $pathInfo);
+
+        // uri's will be of pattern webapi/rest/<version>/<service-name>/...
+        $version = $path[3];
+        $serviceBaseUrl = $path[4];
+
         /** @var Mage_Webapi_Controller_Router_Route_Rest[] $routes */
-        $routes = $this->_apiConfig->getRestRoutes($request->getHttpMethod());
+        $routes = $this->_apiConfig->getRestRoutes(
+            $request->getHttpMethod(),
+            $urlDelimiter . $serviceBaseUrl,
+            $version
+        );
         foreach ($routes as $route) {
             $params = $route->match($request);
             if ($params !== false) {
