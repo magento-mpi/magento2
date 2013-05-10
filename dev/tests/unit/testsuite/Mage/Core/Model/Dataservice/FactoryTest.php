@@ -55,8 +55,12 @@ class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
             'Mage_Core_Model_Dataservice_Path_Visitor_Factory', array(), array(), "", false
         );
         $this->_repositoryMock = $this->getMock('Mage_Core_Model_Dataservice_Repository', array(), array(), "", false);
-        $this->_factory
-            = new Mage_Core_Model_Dataservice_Factory($this->_configMock, $this->_objectManagerMock, $this->_compositeMock, $this->_visitorFactoryMock, $this->_repositoryMock);
+        $this->_factory = new Mage_Core_Model_Dataservice_Factory(
+            $this->_configMock,
+            $this->_objectManagerMock,
+            $this->_compositeMock,
+            $this->_visitorFactoryMock,
+            $this->_repositoryMock);
         $this->_dataserviceMock = (object)array();
     }
 
@@ -68,11 +72,12 @@ class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
             self::TEST_NAMESPACE_ALIAS
         );
         $namespaceConfig
-            = array('namespaces' => array(self::TEST_NAMESPACE => Mage_Core_Model_Dataservice_FactoryTest::TEST_NAMESPACE_ALIAS));
+            = array('namespaces' => array(self::TEST_NAMESPACE =>
+                                          Mage_Core_Model_Dataservice_FactoryTest::TEST_NAMESPACE_ALIAS));
         $this->_repositoryMock->expects($this->once())->method("get")->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue(null));
-        $classInformation = array('class' => self::TEST_CLASS_NAME,
+        $classInformation = array('class'          => self::TEST_CLASS_NAME,
                                   'retrieveMethod' => 'retrieveMethod', 'methodArguments' => array());
         $this->_configMock->expects($this->once())->method("getClassByAlias")->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
