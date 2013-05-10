@@ -30,8 +30,8 @@
             <div class="filecnt file-font" id="<?php echo $file['id'] ?>">
                 <p class="nm">
                     <img src="<?php echo $this->getUrl('*/*/previewImage', $file['thumbnailParams']) ?>">
+                    <?php echo $file['width'] ?>x<?php echo $file['height'] ?> px.
                     <?php echo $file['text'] ?>
-                    <?php echo $file['width'] ?> . x . <?php echo $file['height'] ?> . px
                 </p>
             </div>
         <?php endforeach; ?>
