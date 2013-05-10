@@ -10,7 +10,7 @@ class Mage_Log_Model_Shell_Command_Status implements Mage_Log_Model_Shell_Comman
     /**
      * @var Mage_Log_Model_Resource_ShellFactory
      */
-    protected $_shellResourceFactory;
+    protected $_resourceFactory;
 
     /**
      * Output data
@@ -20,11 +20,11 @@ class Mage_Log_Model_Shell_Command_Status implements Mage_Log_Model_Shell_Comman
     protected $_output = array();
 
     /**
-     * @param Mage_Log_Model_Resource_ShellFactory $shellResourceFactory
+     * @param Mage_Log_Model_Resource_ShellFactory $resourceFactory
      */
-    public function __construct(Mage_Log_Model_Resource_ShellFactory $shellResourceFactory)
+    public function __construct(Mage_Log_Model_Resource_ShellFactory $resourceFactory)
     {
-        $this->_shellResourceFactory = $shellResourceFactory;
+        $this->_resourceFactory = $resourceFactory;
     }
 
     /**
@@ -101,7 +101,7 @@ class Mage_Log_Model_Shell_Command_Status implements Mage_Log_Model_Shell_Comman
     public function execute()
     {
         /** @var $resource Mage_Log_Model_Resource_Shell */
-        $resource = $this->_shellResourceFactory->create();
+        $resource = $this->_resourceFactory->create();
         $tables = $resource->getTablesInfo();
 
 
