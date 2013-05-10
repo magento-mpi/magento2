@@ -29,9 +29,9 @@
                     <backend_model>Mage_Paypal_Model_System_Config_Backend_MerchantCountry</backend_model>
                 </field>
             </group>
-            <group id="paypal_group_all_in_one" translate="label comment paypal_title" module="Mage_Paypal" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="paypal_group_all_in_one_us" translate="label comment paypal_title" module="Mage_Paypal" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <depends>
-                    <field id="*/account/merchant_country" separator=",">US,GB</field>
+                    <field id="*/account/merchant_country">US</field>
                 </depends>
                 <label>
                     <![CDATA[PayPal All-in-One Payment Solutions&nbsp;&nbsp;<i>Accept and process credit cards and PayPal payments.</i>]]>
@@ -44,30 +44,6 @@
                 <group id="payflow_advanced_us" extends="*/paypal_payments/payflow_advanced">
                     <depends>
                         <field id="*/account/merchant_country">US</field>
-                    </depends>
-                </group>
-                <group id="payments_pro_hosted_solution_with_express_checkout_gb" extends="*/paypal_payments/payments_pro_hosted_solution_with_express_checkout">
-                    <group id="pphs_required_settings">
-                        <field id="pphs_enable">
-                            <frontend_class>paypal-enabler</frontend_class>
-                        </field>
-                    </group>
-                    <depends>
-                        <field id="*/account/merchant_country">GB</field>
-                    </depends>
-                </group>
-                <group id="payments_pro_payflow_edition_gb" extends="*/paypal_payments/payments_pro_payflow_edition">
-                    <depends>
-                        <field id="*/account/merchant_country">GB</field>
-                    </depends>
-                </group>
-                <group id="wpp_gb" translate="label comment" sortOrder="20" extends="*/paypal_payments/wpp">
-                    <fieldset_css>pp-general-uk</fieldset_css>
-                    <more_url>https://www.paypal-business.co.uk/process-online-payments-with-paypal/index.htm</more_url>
-                    <attribute type="demo_url">http://www.youtube.com/watch?v=LBe-TW87eGI</attribute>
-                    <comment>Accept payments with a completely customizable checkout page.</comment>
-                    <depends>
-                        <field id="*/account/merchant_country">GB</field>
                     </depends>
                 </group>
                 <group id="wpp_us" translate="label" extends="*/paypal_payments/wpp">
@@ -91,6 +67,44 @@
                     </group>
                     <depends>
                         <field id="*/account/merchant_country">US</field>
+                    </depends>
+                </group>
+            </group>
+
+            <group id="paypal_group_all_in_one_gb" translate="label comment paypal_title" module="Mage_Paypal" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <depends>
+                    <field id="*/account/merchant_country">GB</field>
+                </depends>
+                <label>
+                    <![CDATA[PayPal All-in-One Payment Solutions&nbsp;&nbsp;<i>Accept and process credit cards and PayPal payments.</i>]]>
+                </label>
+                <expanded>1</expanded>
+                <fieldset_css>complex</fieldset_css>
+                <frontend_model>Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Group</frontend_model>
+                <comment>Choose a secure bundled payment solution for your business.</comment>
+                <help_url>https://www.paypal-marketing.com/emarketing/partner/na/merchantlineup/home.page#mainTab=checkoutlineup</help_url>
+                <group id="payments_pro_hosted_solution_with_express_checkout_gb" extends="*/paypal_payments/payments_pro_hosted_solution_with_express_checkout">
+                    <group id="pphs_required_settings">
+                        <field id="pphs_enable">
+                            <frontend_class>paypal-enabler</frontend_class>
+                        </field>
+                    </group>
+                    <depends>
+                        <field id="*/account/merchant_country">GB</field>
+                    </depends>
+                </group>
+                <group id="payments_pro_payflow_edition_gb" extends="*/paypal_payments/payments_pro_payflow_edition">
+                    <depends>
+                        <field id="*/account/merchant_country">GB</field>
+                    </depends>
+                </group>
+                <group id="wpp_gb" translate="label comment" sortOrder="20" extends="*/paypal_payments/wpp">
+                    <fieldset_css>pp-general-uk</fieldset_css>
+                    <more_url>https://www.paypal-business.co.uk/process-online-payments-with-paypal/index.htm</more_url>
+                    <attribute type="demo_url">http://www.youtube.com/watch?v=LBe-TW87eGI</attribute>
+                    <comment>Accept payments with a completely customizable checkout page.</comment>
+                    <depends>
+                        <field id="*/account/merchant_country">GB</field>
                     </depends>
                 </group>
                 <group id="wps_gb" translate="comment" sortOrder="10" extends="*/paypal_payments/wps">
@@ -255,14 +269,15 @@
                         <field id="*/account/merchant_country">CA</field>
                     </depends>
                 </group>
-                <group id="wps_caau" sortOrder="20" extends="*/paypal_payments/wps">
+                <group id="wps_au" extends="*/paypal_payments/wps">
+                    <fieldset_css>pp-method-general-au</fieldset_css>
                     <depends>
-                        <field id="*/account/merchant_country" separator=",">CA,AU</field>
+                        <field id="*/account/merchant_country">AU</field>
                     </depends>
                 </group>
-                <group id="wps_caauusgb_exclude" extends="*/paypal_payments/wps">
+                <group id="wps_all" extends="*/paypal_payments/wps">
                     <depends>
-                        <field id="*/account/merchant_country" negative="1" separator=",">AU,CA,US,GB</field>
+                        <field id="*/account/merchant_country" negative="1" separator=",">AU,US,GB</field>
                     </depends>
                 </group>
             </group>

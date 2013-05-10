@@ -37,38 +37,28 @@
                 </depends>
             </group>
 
-            <group id="paypal_group_all_in_one" showInDefault="0" showInWebsite="0" showInStore="0">
-                <hide_in_single_store_mode>1</hide_in_single_store_mode>
-            </group>
-            <group id="paypal_group_all_in_one_saas_us" extends="*/paypal_group_all_in_one" showInDefault="1" showInWebsite="1" showInStore="1">
-                <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                <depends>
-                    <field id="*/account/merchant_country">US</field>
-                </depends>
-            </group>
-            <group id="paypal_group_all_in_one_saas_gb" extends="*/paypal_group_all_in_one" showInDefault="1" showInWebsite="1" showInStore="1">
-                <hide_in_single_store_mode>0</hide_in_single_store_mode>
+            <group id="paypal_group_all_in_one_gb">
                 <help_url>https://www.paypal-business.co.uk/how-to-take-online-payments-with-paypal/index.htm</help_url>
-                <depends>
-                    <field id="*/account/merchant_country">GB</field>
-                </depends>
             </group>
 
             <group id="paypal_payment_solutions" showInDefault="0" showInWebsite="0" showInStore="0">
                 <hide_in_single_store_mode>1</hide_in_single_store_mode>
-                <group id="paypal_verisign_ca" showInDefault="1" showInWebsite="1" showInStore="1"/>
-                <group id="paypal_verisign_aunz" showInDefault="1" showInWebsite="1" showInStore="1"/>
-                <group id="express_checkout_usgb_exclude" showInDefault="1" showInWebsite="1" showInStore="1"/>
             </group>
-            <group id="paypal_payment_solutions_saas" extends="*/paypal_payment_solutions" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="paypal_payment_solutions_saas_all" extends="*/paypal_payment_solutions" showInDefault="1" showInWebsite="1" showInStore="1">
                 <hide_in_single_store_mode>0</hide_in_single_store_mode>
                 <depends>
-                    <field id="*/account/merchant_country" separator="," negative="1">AU,US,GB</field>
+                    <field id="*/account/merchant_country" separator="," negative="1">US,GB,AU</field>
                 </depends>
             </group>
             <group id="paypal_payment_solutions_saas_au" extends="*/paypal_payment_solutions" showInDefault="1" showInWebsite="1" showInStore="1">
                 <hide_in_single_store_mode>0</hide_in_single_store_mode>
                 <help_url>https://www.paypal-australia.com.au/business/accept-payments</help_url>
+                <group id="wps_au">
+                    <more_url>https://www.paypal-australia.com.au/business/accept-payments/accept-payments-on-your-website/website-payments-standard</more_url>
+                </group>
+                <group id="wps_all" showInDefault="0" showInWebsite="0" showInStore="0">
+                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                </group>
                 <depends>
                     <field id="*/account/merchant_country" negative="0">AU</field>
                 </depends>
@@ -153,6 +143,7 @@
                         </group>
                     </group>
                 </group>
+
                 <group id="wpp">
                     <attribute type="activity_path">
                         <path_1>payment/paypal_direct/active</path_1>
@@ -426,6 +417,7 @@
                         </depends>
                     </group>
                 </group>
+
                 <group id="wps">
                     <group id="settings_payments_standart">
                         <field id="payment_action" showInWebsite="0"/>
@@ -443,22 +435,7 @@
                         </group>
                     </group>
                 </group>
-                <group id="wps_caau" showInDefault="0" showInWebsite="0" showInStore="0">
-                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
-                </group>
-                <group id="wps_au" extends="*/paypal_payment_solutions/wps_caau" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                    <more_url>https://www.paypal-australia.com.au/business/accept-payments/accept-payments-on-your-website/website-payments-standard</more_url>
-                    <depends>
-                        <field id="*/account/merchant_country">AU</field>
-                    </depends>
-                </group>
-                <group id="wps_ca" extends="*/paypal_payment_solutions/wps_caau" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                    <depends>
-                        <field id="*/account/merchant_country">CA</field>
-                    </depends>
-                </group>
+
                 <group id="paypal_verisign" showInDefault="0" showInWebsite="0" showInStore="0">
                     <hide_in_single_store_mode>1</hide_in_single_store_mode>
                     <group id="settings_paypal_payflow">
@@ -574,6 +551,7 @@
                         </group>
                     </group>
                 </group>
+
                 <group id="payments_pro_payflow_edition">
                     <group id="pp_pe_required_settings">
                         <group id="pp_pe_api_settings">
@@ -627,6 +605,7 @@
                         <field id="*/account/merchant_country">AU</field>
                     </depends>
                 </group>
+
                 <group id="express_checkout" showInWebsite="0" showInDefault="0" showInStore="0">
                     <hide_in_single_store_mode>1</hide_in_single_store_mode>
                     <attribute type="activity_path">
