@@ -63,4 +63,3 @@ class Mage_Directory_Model_Config_Source_CountryTest extends PHPUnit_Framework_T
         );
     }
 }
-
