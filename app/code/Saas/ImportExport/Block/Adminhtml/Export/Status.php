@@ -27,16 +27,5 @@ class Saas_ImportExport_Block_Adminhtml_Export_Status extends Mage_Backend_Block
         $this->_exportHelper = $exportHelper;
     }
 
-    /**
-     * Prepare html output
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        if ($this->_exportHelper->isTaskAdded()) {
-            return parent::_toHtml();
-        }
-        return '';
-    }
+
 }

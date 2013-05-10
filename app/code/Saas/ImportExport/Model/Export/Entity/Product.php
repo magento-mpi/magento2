@@ -87,8 +87,31 @@ class Saas_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
     }
 
     /**
-     * @return Saas_ImportExport_Model_Export_Entity_Product
+     * Count tasks for workers
+     * //TODO: is must be in Abstract class, but in this case we should copy-past from Mage_ImportExport_Model_Export_Entity_Product...
+     *
+     * @var int
      */
+    protected $_countPages;
+
+    /**
+     * Retrieve count tasks for workers
+     *
+     * @return int
+     */
+    public function getCountPages()
+    {
+        if (!$this->_countPages) {
+            $totalRecords = $this->_prepareEntityCollection(Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection'))
+                ->getSize();
+            $this->_countPages = ceil($totalRecords / $this->_countPerPage);
+        }
+        return $this->_countPages;
+    }
+
+    /**
+     * @return Saas_ImportExport_Model_Export_Entity_Product
+    */
     public function export()
     {
         $page = $this->getCurrentPage();
@@ -98,6 +121,7 @@ class Saas_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         );
         $totalRecords = $collection->getSize();
         $countPages = ceil($totalRecords / $this->_getCountPerPage());
+        $this->_countPages = $countPages;
 
         if (!$totalRecords) {
             $this->setIsLast();

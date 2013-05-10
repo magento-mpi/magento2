@@ -20,6 +20,16 @@ class Saas_ImportExport_Model_Export extends Mage_ImportExport_Model_Export
     }
 
     /**
+     * Retrieve count tasks for worker
+     *
+     * @return int
+     */
+    public function getCountPages()
+    {
+        return $this->_getEntityAdapter()->getCountPages();
+    }
+
+    /**
      * Retrieve export files destination dir
      *
      * @return string

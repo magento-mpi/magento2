@@ -10,10 +10,31 @@
 class Saas_ImportExport_Block_Adminhtml_Export_Result_Download extends Mage_Backend_Block_Widget_Container
 {
     /**
+     * @var Saas_ImportExport_Helper_Export
+     */
+    protected $_exportHelper;
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Saas_ImportExport_Helper_Export $exportHelper
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Saas_ImportExport_Helper_Export $exportHelper,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_exportHelper = $exportHelper;
+    }
+
+    /**
      * Initialize "controller"
      */
     protected function _construct()
     {
+        $this->setTemplate('Saas_ImportExport::export/result/download.phtml');
+
         $this->_addButton('download_export', array(
             'label'    => $this->__('Download'),
             'class'    => 'download',
@@ -50,10 +71,23 @@ class Saas_ImportExport_Block_Adminhtml_Export_Result_Download extends Mage_Back
     }
 
     /**
+     * Get export file name
+     *
      * @return string
      */
     public function getFileName()
     {
-        return $this->_getData('file_name');
+        return $this->isFileReady() ? $this->_exportHelper->getFileDownloadName() : '';
+    }
+
+    /**
+     * Is export file ready
+     *
+     * @return bool
+     */
+    public function isFileReady()
+    {
+        return (bool)$this->_exportHelper->isFileExist();
+
     }
 }

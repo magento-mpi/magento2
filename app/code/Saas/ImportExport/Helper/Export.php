@@ -51,19 +51,14 @@ class Saas_ImportExport_Helper_Export extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Get task status message
+     *
      * @return string
      */
-    public function getFileName()
+    public function getTaskStatusMessage()
     {
-        return $this->_getFile() ? $this->_getFile()->getDownloadName() : '';
-    }
-
-    /**
-     * @return string
-     */
-    public function getFilePath()
-    {
-        return $this->_getFile() ? $this->_getFile()->getPath() : '';
+        $flagData = $this->_flag->getFlagData();
+        return $flagData && isset($flagData['message']) ? $flagData['message'] : '';
     }
 
     /**
@@ -94,6 +89,68 @@ class Saas_ImportExport_Helper_Export extends Mage_Core_Helper_Abstract
     public function isTaskNotified()
     {
         return $this->_flag->isTaskNotified();
+    }
+
+    /**
+     * Mark export task as queued
+     *
+     * @return Saas_ImportExport_Helper_Export
+     */
+    public function setTaskAsQueued()
+    {
+        $this->_flag->saveAsQueued();
+        return $this;
+    }
+
+    /**
+     * Remove task info
+     *
+     * @return Saas_ImportExport_Helper_Export
+     */
+    public function removeTask()
+    {
+        $this->_flag->delete();
+        return $this;
+    }
+
+    /**
+     * Checks whether export process max lifetime time reached or not
+     *
+     * @return bool
+     */
+    public function isProcessMaxLifetimeReached()
+    {
+        return $this->_flag->isMaxLifetimeReached();
+    }
+
+    /**
+     * Get export file name for download
+     *
+     * @return string
+     */
+    public function getFileDownloadName()
+    {
+        return $this->isFileExist() ? $this->_getFile()->getDownloadName() : '';
+    }
+
+    /**
+     * Get absolute path for export file
+     *
+     * @return string
+     */
+    public function getFilePath()
+    {
+        return $this->isFileExist() ? $this->_getFile()->getPath() : '';
+    }
+
+    /**
+     * Is export file exist
+     *
+     * @return bool
+     */
+    public function isFileExist()
+    {
+        return (bool)$this->_getFile();
     }
 
     /**

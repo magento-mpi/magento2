@@ -72,6 +72,11 @@ class Saas_Queue_Model_Observer_Export extends Saas_Queue_Model_ObserverAbstract
         if ($this->_exportModel->getIsLast()) {
             $this->_flag->saveAsFinished();
         } else {
+            $flagData = array(
+                'message' => ceil($exportParams['page'] * 100 / $this->_exportModel->getCountPages()) . '%'
+            );
+            $this->_flag->setFlagData($flagData);
+            $this->_flag->save();
             $exportParams['page']++;
             $this->_eventManager->dispatch($observer->getEvent()->getName(), array('export_params' => $exportParams));
         }

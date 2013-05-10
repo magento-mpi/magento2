@@ -13,6 +13,10 @@ class Saas_ImportExport_Model_Flag extends Mage_Core_Model_Flag
     const STATE_PROCESSING = 2;
     const STATE_FINISHED   = 3;
     const STATE_NOTIFIED   = 4;
+    /**
+     * Flag max lifetime after last update
+     */
+    const FLAG_MAX_LIFETIME = 120;
 
     /**
      * Flag code
@@ -94,5 +98,19 @@ class Saas_ImportExport_Model_Flag extends Mage_Core_Model_Flag
     public function saveAsNotified()
     {
         $this->setState(self::STATE_NOTIFIED)->save();
+    }
+
+    /**
+     * Check whether max lifetime reached or not
+     *
+     * @return bool
+     */
+    public function isMaxLifetimeReached()
+    {
+        $dateDiff = strtotime(now()) - strtotime($this->getLastUpdate());
+        if ($dateDiff > self::FLAG_MAX_LIFETIME) {
+            return true;
+        }
+        return false;
     }
 }

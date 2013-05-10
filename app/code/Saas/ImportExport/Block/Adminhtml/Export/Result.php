@@ -10,6 +10,11 @@
 class Saas_ImportExport_Block_Adminhtml_Export_Result extends Mage_Backend_Block_Template
 {
     /**
+     * How often should be status of export checked
+     */
+    const TIMEOUT_CHECK_EXPORT_PROGRESS = 3;
+
+    /**
      * @var Saas_ImportExport_Helper_Export
      */
     protected $_exportHelper;
@@ -36,13 +41,23 @@ class Saas_ImportExport_Block_Adminhtml_Export_Result extends Mage_Backend_Block
     }
 
     /**
-     * Get last exported file name
+     * Get url for download export file
      *
      * @return string
      */
-    public function getFileName()
+    public function getCheckExportUrl()
     {
-        return $this->_exportHelper->getFileName();
+        return $this->getUrl('*/*/check');
+    }
+
+    /**
+     * Returns how often should be status of export checked in ms
+     *
+     * @return int
+     */
+    public function getCheckExportTimeout()
+    {
+        return self::TIMEOUT_CHECK_EXPORT_PROGRESS * 1000;
     }
 
     /**
@@ -50,7 +65,7 @@ class Saas_ImportExport_Block_Adminhtml_Export_Result extends Mage_Backend_Block
      */
     protected function _toHtml()
     {
-        if ($this->isExportInProgress() || $this->getFileName()) {
+        if ($this->isExportInProgress() || $this->_exportHelper->isFileExist()) {
             return parent::_toHtml();
         }
         return '';
