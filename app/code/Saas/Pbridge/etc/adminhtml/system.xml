@@ -118,7 +118,7 @@
                                 <config_path>payment/verisign/centinel_backend</config_path>
                                 <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                                 <depends>
-                                    <field id="*/settings_paypal_payflow_advanced/centinel">1</field>
+                                    <field id="centinel">1</field>
                                 </depends>
                             </field>
                         </group>
