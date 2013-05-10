@@ -42,16 +42,20 @@ class Mage_Core_Model_Dataservice_Path_VisitorTest extends PHPUnit_Framework_Tes
 
     public function testVisit()
     {
-        $visitableMock = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_Visitable')
-            ->disableOriginalConstructor()->getMock();
-        // branch
-        $visitableMock->expects($this->at(0))->method('visit')->with($this->_visitor)->will($this->returnSelf());
         // leaf
-        $visitableMock->expects($this->at(1))->method('visit')->with($this->_visitor)->will(
+        $visitableMockLeaf = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_Visitable')
+            ->disableOriginalConstructor()->getMock();
+        $visitableMockLeaf->expects($this->once())->method('visit')->with($this->_visitor)->will(
             $this->returnValue(self::SOMETHING_MORE_INTERESTING_THAN_NULL)
         );
+        // branch
+        $visitableMockBranch = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_Visitable')
+            ->disableOriginalConstructor()->getMock();
+        $visitableMockBranch->expects($this->once())->method('visit')->with($this->_visitor)->will(
+            $this->returnValue($visitableMockLeaf)
+        );
         // root
-        $target = array('root' => $visitableMock);
+        $target = array('root' => $visitableMockBranch);
         $this->assertEquals(self::SOMETHING_MORE_INTERESTING_THAN_NULL, $this->_visitor->visit($target));
     }
 }
