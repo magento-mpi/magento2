@@ -1233,6 +1233,7 @@ strong {
 .navigation > ul > .level-top > .submenu {
   background: #333333;
   background: rgba(51, 51, 51, 0.98);
+  display: none;
   position: absolute;
   letter-spacing: 0.1em;
   left: 0;
@@ -9335,7 +9336,7 @@ img[align="right"] {
   font-weight: 600;
 }
 .block.bundle.summary .price-box .price {
-  font-weight: 400;
+  font: 400 18px oldstandard, Arial, Helvetica, sans-serif;
   letter-spacing: 0.1em;
   font-size: 18px;
   font-family: oldstandard, Arial, Helvetica, sans-serif;

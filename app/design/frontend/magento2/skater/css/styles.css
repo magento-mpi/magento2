@@ -1220,6 +1220,7 @@ strong {
 .navigation > ul > .level-top > .submenu {
   background: #0093b3;
   background: rgba(0, 147, 179, 0.96);
+  display: none;
   position: absolute;
   letter-spacing: 0.1em;
   left: 0;
