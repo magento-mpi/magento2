@@ -86,8 +86,6 @@ class Mage_Install_Model_EntryPoint_Console extends Mage_Core_Model_EntryPointAb
      * Install/Uninstall application
      *
      * @param Mage_Install_Model_Installer_Console $installer
-     *
-     * @SuppressWarnings(PHPMD.ExitExpression)
      */
     protected function _handleInstall(Mage_Install_Model_Installer_Console $installer)
     {

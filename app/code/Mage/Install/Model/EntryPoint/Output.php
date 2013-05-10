@@ -32,6 +32,7 @@ class Mage_Install_Model_EntryPoint_Output
      * Display error
      *
      * @param string $message
+     * @SuppressWarnings(PHPMD.ExitExpression)
      */
     public function error($message)
     {
