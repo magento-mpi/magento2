@@ -20,6 +20,9 @@
         </Mage_Contacts>
     </modules>
     <frontend>
+        <secure_url>
+            <customer>/contacts/</customer>
+        </secure_url>
         <routers>
             <contacts>
                 <use>standard</use>
