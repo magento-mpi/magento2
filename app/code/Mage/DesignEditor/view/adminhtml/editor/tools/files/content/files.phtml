@@ -3,28 +3,40 @@
  * {license_notice}
  *
  * @category    design
- * @package     Mage_Theme
+ * @package     Mage_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
 ?>
 
 <?php
-/** @var $this Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Files */
-/** TODO:  sdw Clean up display of list and include insert file and trashcan here. */
+/** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content_Files */
 ?>
 
 <?php if ($this->getFilesCount() > 0): ?>
-    <?php foreach ($this->getFiles() as $file): ?>
-        <div class="filecnt file-font" id="<?php echo $file['id'] ?>">
-            <p class="nm">
-                <?php echo $file['text'] ?>
-                <?php if (isset($file['thumbnailParams'])): ?>
+
+    <?php if ($this->getStorageType() == 'font'): ?>
+        <table cellspacing="0">
+            <?php foreach ($this->getFiles() as $file): ?>
+                <tr>
+                    <td class="nm filecnt file-font" id="<?php echo $file['id'] ?>">
+                        <?php echo $file['text'] ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php else: ?>
+        <?php foreach ($this->getFiles() as $file): ?>
+            <div class="filecnt file-font" id="<?php echo $file['id'] ?>">
+                <p class="nm">
                     <img src="<?php echo $this->getUrl('*/*/previewImage', $file['thumbnailParams']) ?>">
-                <?php endif; ?>
-            </p>
-        </div>
-    <?php endforeach; ?>
+                    <?php echo $file['text'] ?>
+                    <?php echo $file['width'] ?> . x . <?php echo $file['height'] ?> . px
+                </p>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
 <?php else: ?>
     <?php echo $this->__('No files found') ?>
 <?php endif; ?>

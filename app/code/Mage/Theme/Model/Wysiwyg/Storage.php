@@ -253,6 +253,10 @@ class Mage_Theme_Model_Wysiwyg_Storage
             if (self::TYPE_IMAGE == $storageType) {
                 $requestParams['file'] = $fileName;
                 $file['thumbnailParams'] = $requestParams;
+
+                $get = getimagesize($path);
+                $file['width'] = $get[0];
+                $file['height'] = $get[1];
             }
             $files[] = $file;
         }
