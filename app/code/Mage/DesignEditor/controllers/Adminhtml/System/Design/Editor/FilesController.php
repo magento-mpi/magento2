@@ -30,7 +30,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_FilesController extends M
     {
         try {
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Tree')
+                $this->getLayout()->createBlock('Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Tree')
                     ->getTreeJson($this->_getStorage()->getTreeArray())
             );
         } catch (Exception $e) {
