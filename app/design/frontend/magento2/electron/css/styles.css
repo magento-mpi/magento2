@@ -817,6 +817,7 @@ a:visited:hover {
 .header .panel .login {
   display: inline-block;
   margin-left: 20px;
+  vertical-align: bottom;
 }
 .header .panel .login li {
   margin: 0;
