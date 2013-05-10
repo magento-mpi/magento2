@@ -6383,6 +6383,7 @@ body.type-bundle {
   color: #111111;
   text-decoration: none;
 }
+/**/
 .action.showcart {
   color: #666666;
   position: relative;
@@ -6440,6 +6441,28 @@ body.type-bundle {
 }
 .action.showcart .qty.empty {
   display: none;
+}
+.eq-ie8 .header > .panel .links a.action.showcart:hover {
+  text-decoration: none;
+}
+.eq-ie8 .action.showcart {
+  text-decoration: none;
+  white-space: nowrap;
+  letter-spacing: -0.31em;
+  word-spacing: -0.43em;
+}
+.eq-ie8 .action.showcart:after {
+  margin-left: 3px;
+}
+.eq-ie8 .action.showcart:after,
+.eq-ie8 .action.showcart span,
+.eq-ie8 .action.showcart .qty:after,
+.eq-ie8 .action.showcart .qty:before {
+  letter-spacing: normal;
+  word-spacing: normal;
+}
+.eq-ie8 .action.showcart .qty:before {
+  content: "\00a0(";
 }
 .customer.menu .customer {
   display: inline-block;

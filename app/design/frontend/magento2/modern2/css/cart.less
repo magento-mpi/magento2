@@ -826,6 +826,8 @@
     }
 }
 
+/**/
+
 .action.showcart {
     color: @primary3;
     position: relative;
@@ -854,5 +856,29 @@
     }
     .qty.empty {
         display: none;
+    }
+}
+.eq-ie8 {
+    .header > .panel .links a.action.showcart:hover {
+        text-decoration: none;
+    }
+    .action.showcart {
+        text-decoration: none;
+        white-space: nowrap;
+        letter-spacing: -.31em;
+        word-spacing: -.43em;
+        &:after {
+            margin-left: 3px;
+        }
+        &:after,
+        span,
+        .qty:after,
+        .qty:before {
+            letter-spacing: normal;
+            word-spacing: normal;
+        }
+        .qty:before {
+            content: "\00a0(";
+        }
     }
 }
