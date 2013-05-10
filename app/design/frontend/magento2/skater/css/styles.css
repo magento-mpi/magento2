@@ -267,9 +267,7 @@ a > span:hover {
   margin-bottom: 15px;
 }
 .column.main .block > .title strong {
-  font-size: 16px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 16px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -285,9 +283,7 @@ a > span:hover {
 }
 .sidebar .block > .title strong,
 .sidebar .block > .block-title strong {
-  font-size: 16px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 16px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -315,9 +311,7 @@ a > span:hover {
 }
 .page.title .title {
   margin: 0;
-  font-size: 40px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 40px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   line-height: 1;
@@ -513,9 +507,7 @@ strong {
 .header > .panel .links a.top-link-checkout {
   background: #0093b3;
   color: #ffffff;
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   display: inline-block;
@@ -1089,9 +1081,7 @@ strong {
   width: 60%;
 }
 .block.newsletter .actions {
-  font-size: 12px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 12px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   float: right;
@@ -1174,9 +1164,7 @@ strong {
   z-index: 2;
 }
 .navigation {
-  font-size: 15px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 15px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   text-align: left;
@@ -1516,9 +1504,7 @@ ul.messages ul {
 }
 .block.filter .action.reset {
   color: #6ab92d;
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   text-decoration: none;
@@ -1617,9 +1603,7 @@ ul.messages ul {
   clear: both;
 }
 .block.compare .content .actions .action.clear {
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   text-decoration: none;
@@ -1634,9 +1618,7 @@ ul.messages ul {
   outline: none;
   background: #ee2375;
   color: #ffffff;
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 4px 9px;
@@ -1709,9 +1691,7 @@ ul.messages ul {
   margin: 10px 0;
 }
 .data.comparison .cell.product .price {
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 400;
+  font: 400 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0;
 }
@@ -1853,9 +1833,7 @@ ul.messages ul {
   outline: none;
   background: #ee2375;
   color: #ffffff;
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 4px 9px;
@@ -1907,9 +1885,7 @@ ul.messages ul {
 .block.reorder .action.view {
   color: #6ab92d;
   text-decoration: none;
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -1931,9 +1907,7 @@ ul.messages ul {
   outline: none;
   background: #ee2375;
   color: #ffffff;
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 4px 9px;
@@ -2336,9 +2310,7 @@ ul.messages ul {
   margin: 0;
 }
 .products.list.items > .item .price-box .price {
-  font-size: 16px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 400;
+  font: 400 16px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0;
 }
@@ -2595,9 +2567,7 @@ ul.messages ul {
   display: inline-block;
 }
 .action.tocart span {
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #ffffff;
@@ -2608,9 +2578,7 @@ ul.messages ul {
 }
 .action.tocompare,
 .action.towishlist {
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   text-decoration: none;
@@ -2729,9 +2697,7 @@ ul.messages ul {
   margin: 0;
 }
 .block.add.review .fieldset > .legend {
-  font-size: 16px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 16px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   float: left;
@@ -2861,9 +2827,7 @@ ul.messages ul {
   outline: none;
 }
 .block.add.review .action.submit span {
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #ffffff;
@@ -3267,9 +3231,7 @@ ul.messages ul {
   padding: 27px 0 0;
 }
 .checkout.paypal.before:before {
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #333333;
@@ -3284,9 +3246,7 @@ ul.messages ul {
   padding: 27px 0 0;
 }
 .checkout.paypal.after:after {
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #333333;
@@ -3360,9 +3320,7 @@ ul.messages ul {
   outline: none;
 }
 .action.checkout span {
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #ffffff;
@@ -3569,9 +3527,7 @@ ul.messages ul {
   display: block;
 }
 .product.info.main .price-box .price {
-  font-size: 20px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 400;
+  font: 400 20px amaranth, Arial, Helvetica, sans-serif;
   text-transform: none;
   letter-spacing: 0;
 }
@@ -3617,9 +3573,7 @@ ul.messages ul {
 }
 .product.info.main .product.addto.links .action {
   background: #ffffff;
-  font-size: 11px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 11px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   border: 1px solid #cccccc;
@@ -3804,9 +3758,7 @@ ul.messages ul {
 }
 .action.primary.customize span,
 .action.primary.tocart span {
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #ffffff;
@@ -3851,9 +3803,7 @@ ul.messages ul {
 .box.tocart .label {
   color: #666666;
   float: left;
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   line-height: 15px;
@@ -3869,9 +3819,7 @@ ul.messages ul {
 }
 .box.tocart .control input {
   border: 0;
-  font-size: 18px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 400;
+  font: 400 18px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0;
 }
@@ -3898,9 +3846,7 @@ ul.messages ul {
   margin: 15px 0;
   background: #6ab92d;
   color: #ffffff;
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 400;
+  font: 400 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0;
   line-height: 26px;
@@ -3925,9 +3871,7 @@ ul.messages ul {
   clear: both;
 }
 .action.mailto {
-  font-size: 11px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 11px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   text-decoration: none;
@@ -4117,9 +4061,7 @@ ul.messages ul {
 .block.tags .action.view {
   background: #ee2375;
   color: #ffffff;
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 4px 9px;
@@ -4211,9 +4153,7 @@ ul.messages ul {
   text-shadow: none;
   outline: none;
   color: #666666;
-  font-size: 12px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 12px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   text-align: right;
@@ -4230,9 +4170,7 @@ ul.messages ul {
 }
 .block.product.tags .items + .add.tag .label {
   display: block;
-  font-size: 15px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 15px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin: 0 0 14px;
@@ -4337,9 +4275,7 @@ body.type-bundle {
   margin: 0;
 }
 .fieldset.bundle.options .legend {
-  font-size: 20px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 20px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   float: left;
@@ -4449,9 +4385,7 @@ body.type-bundle {
   font-size: 12px;
 }
 .block.bundle.summary .price-box .price {
-  font-size: 16px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 400;
+  font: 400 16px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0;
 }
@@ -4478,9 +4412,7 @@ body.type-bundle {
 .block.bundle.summary .subtitle {
   display: block;
   margin: 40px 0 0;
-  font-size: 15px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 15px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   line-height: 1;
@@ -4544,9 +4476,7 @@ body.type-bundle {
   display: inline;
   color: #666666;
   text-decoration: underline;
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   text-decoration: none;
@@ -4655,9 +4585,7 @@ body.type-bundle {
 .send.friend .legend {
   float: left;
   line-height: 1.2;
-  font-size: 16px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 16px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   width: 100%;
@@ -4730,9 +4658,7 @@ body.type-bundle {
   margin-left: 10px;
 }
 .send.friend .actions .action.submit span {
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #ffffff;
@@ -4751,9 +4677,7 @@ body.type-bundle {
   outline: none;
   background: #ee2375;
   color: #ffffff;
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 4px 9px;
@@ -4915,18 +4839,14 @@ body.type-bundle {
 }
 .opc.wrapper > .opc .section > .step-title h2 {
   display: inline-block;
-  font-size: 16px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 16px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin: 0;
   padding: 0;
 }
 .opc.wrapper > .opc .section > .step-title .number {
-  font-size: 16px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 16px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-right: 10px;
@@ -5013,9 +4933,7 @@ body.type-bundle {
   text-decoration: none;
 }
 .opc.wrapper .form:not(.login) .actions button.action span {
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #ffffff;
@@ -5103,9 +5021,7 @@ body.type-bundle {
   padding: 15px 10px;
 }
 .opc.wrapper .form:not(.login) .inner-box h4 {
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin: 0 0 10px;
@@ -5283,9 +5199,7 @@ body.type-bundle {
   outline: none;
 }
 .step.login.wrapper button.action span {
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #ffffff;
@@ -5358,9 +5272,7 @@ body.type-bundle {
   padding-bottom: 20px;
 }
 .order.data.items tr.total .amount {
-  font-size: 17px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 400;
+  font: 400 17px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0;
 }
@@ -5403,9 +5315,7 @@ body.type-bundle {
   padding: 20px 0;
 }
 .cart.main.actions a {
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #666666;
@@ -5420,9 +5330,7 @@ body.type-bundle {
   text-decoration: none;
 }
 .cart.main.actions .action.continue {
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-right: 35px;
@@ -5461,9 +5369,7 @@ body.type-bundle {
   box-shadow: none;
   text-shadow: none;
   outline: none;
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #666666;
@@ -5592,9 +5498,7 @@ body.type-bundle {
 .items.data .item.actions .action.delete span,
 .items.data .item.actions .action.edit span,
 .items.data .item.actions .action.towishlist span {
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -5643,9 +5547,7 @@ body.type-bundle {
   padding: 20px;
 }
 .cart.summary .summary.title {
-  font-size: 16px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 16px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   display: block;
@@ -5721,9 +5623,7 @@ body.type-bundle {
   border: 0;
   background: #ee2375;
   color: #ffffff;
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 4px 9px;
@@ -5995,9 +5895,7 @@ body.type-bundle {
   width: 100%;
 }
 .cart.totals .amount {
-  font-size: 17px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 400;
+  font: 400 17px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0;
 }
@@ -6360,9 +6258,7 @@ body.type-bundle {
   margin: 0 auto;
 }
 .minicart .products.minilist .item .product.name {
-  font-size: 15px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 15px amaranth, Arial, Helvetica, sans-serif;
   text-transform: none;
   letter-spacing: 0.05em;
   display: block;
@@ -6639,9 +6535,7 @@ body.type-bundle {
 }
 .login.container .action.login span,
 .login.container .action.create span {
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #ffffff;
@@ -6838,9 +6732,7 @@ body.type-bundle {
 .form.create.account .fieldset .legend {
   float: left;
   line-height: 1.2;
-  font-size: 16px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 16px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding-bottom: 20px;
@@ -6941,9 +6833,7 @@ body.type-bundle {
 }
 .form.password.forget .action.submit span,
 .form.create.account .action.submit span {
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #ffffff;
@@ -7026,9 +6916,7 @@ body.type-bundle {
 .form.password.reset .fieldset .legend {
   float: left;
   line-height: 1.2;
-  font-size: 16px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 16px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding-bottom: 20px;
@@ -7112,9 +7000,7 @@ body.type-bundle {
   margin: 0 auto;
 }
 .form.password.reset .action.submit span {
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #ffffff;
@@ -7143,9 +7029,7 @@ body.type-bundle {
   margin: -32px 0 0;
 }
 .account .column.main > .page.title .action.add span {
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #ffffff;
@@ -7200,9 +7084,7 @@ body.type-bundle {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  font-size: 15px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 15px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 20px;
@@ -7382,9 +7264,7 @@ body.type-bundle {
   outline: none;
 }
 .my-account .actions .primary .action span {
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #ffffff;
@@ -7586,9 +7466,7 @@ body.type-bundle {
   margin: -32px 0 0;
 }
 .my-account .page.title .action.add span {
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #ffffff;
@@ -7754,9 +7632,7 @@ body.type-bundle {
 }
 .my-account .data.wishlist .col.actions .link-edit {
   float: right;
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #666666;
@@ -7871,9 +7747,7 @@ body.type-bundle {
   outline: none;
   background: #ee2375;
   color: #ffffff;
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 4px 9px;
@@ -8032,9 +7906,7 @@ body.type-bundle {
 }
 .my-account .storecredit .subtitle,
 .my-account .storecredit .sub-title {
-  font-size: 15px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 15px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin: 40px 0 10px;
@@ -8044,6 +7916,265 @@ body.type-bundle {
 }
 .wishlist-index-index .actions .primary {
   text-align: right;
+}
+.order.details.view {
+  *zoom: 1;
+}
+.order.details.view:before,
+.order.details.view:after {
+  content: "";
+  display: table;
+}
+.order.details.view:after {
+  clear: both;
+}
+.order.details.additional {
+  margin-top: 50px;
+}
+.order.details .status {
+  float: left;
+  font: 700 18px amaranth, Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.order.details .subtitle.caption,
+.order.details .title {
+  margin-bottom: 20px;
+}
+.order.details .subtitle.caption strong,
+.order.details .title strong {
+  font: 700 15px amaranth, Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.order.details .subtitle.caption .action,
+.order.details .title .action {
+  margin-left: 10px;
+}
+.order.details .order.toolbar {
+  float: right;
+  margin: 4px 0 0;
+  line-height: 1.43;
+}
+.order.details .order.toolbar .actions {
+  margin: 0;
+}
+.order.details .order.toolbar .action {
+  font-size: 12px;
+  margin-left: 10px;
+}
+.order.details .block.order {
+  float: left;
+  width: 48%;
+  margin-top: 50px;
+  padding-right: 2%;
+}
+.order.details .block.order.billing.address {
+  clear: left;
+}
+.order.details .block.order .content address {
+  font-style: normal;
+}
+.order.details .order.info {
+  clear: both;
+  padding: 20px 0;
+  margin: 0;
+}
+.order.details .order.info > dt {
+  font: 700 15px amaranth, Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.order.details .order.info > dd {
+  margin: 10px 0 0;
+}
+.order.details .order.info > dd .items {
+  *zoom: 1;
+}
+.order.details .order.info > dd .items:before,
+.order.details .order.info > dd .items:after {
+  content: "";
+  display: table;
+}
+.order.details .order.info > dd .items:after {
+  clear: both;
+}
+.order.details .order.info > dd .items .item {
+  float: left;
+  margin-right: 15px;
+}
+.order.details .order.info > dd .items .item a {
+  background: #ee2375;
+  color: #ffffff;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 9px;
+  text-decoration: none;
+}
+.order.details .order.info > dd .items .item a:hover {
+  background: #6ab92d;
+}
+.order.details .additional.details .order.comments {
+  margin: 0 0 20px;
+}
+.order.details .additional.details .order.comments dt {
+  font-weight: bold;
+  margin: 10px 0 5px;
+}
+.order.details .additional.details .order.comments dd {
+  margin-left: 30px;
+}
+.order.details .additional.details .gift.message dt {
+  margin: 0 0 5px;
+}
+.order.details .additional.details .gift.message dd {
+  margin: 0 0 20px 30px;
+}
+.order.details.items {
+  clear: both;
+  margin: 50px 0;
+}
+.order.details.items .action.show {
+  text-decoration: none;
+}
+.order.details.items .action.show:after {
+  font-family: "icons";
+  font-size: 12px;
+  line-height: 12px;
+  height: 12px;
+  overflow: hidden;
+  content: "\e00f";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.order.details.items .action.show.expanded:after {
+  content: "\e010";
+}
+.order.details.items .order.data.items td.col.qty {
+  white-space: nowrap;
+}
+.order.details.items .order.data.items .col.discount,
+.order.details.items .order.data.items .col.rowtotal {
+  text-align: right;
+}
+.order.details.items .order.data.items .col.name {
+  width: 190px;
+}
+.order.details.items .order.data.items tbody tr:nth-child(odd) td {
+  background: #ffffff;
+}
+.order.details.items .order.data.items tbody:nth-child(odd) tr td {
+  background: #cccccc;
+}
+.order.details.items .order.data.items .option.value {
+  padding-left: 10px;
+}
+.gift.message.details {
+  position: relative;
+}
+.gift.message.details .action.close {
+  width: 12px;
+  display: block;
+  line-height: 0;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
+  text-indent: -999em;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.gift.message.details .action.close:after {
+  font-family: "icons";
+  font-size: 12px;
+  line-height: 12px;
+  height: 12px;
+  overflow: hidden;
+  content: "\e001";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.gift.message.details .action.close:active {
+  outline: 0;
+}
+.gift.message.details .action.close:after {
+  text-indent: 0;
+  display: block;
+}
+.gift.message.details .action.close:hover:after {
+  color: #111111;
+}
+.data.table.tracking {
+  margin: 0 0 20px;
+}
+.data.table.tracking .label {
+  padding: 0 10px 0 0;
+}
+.shipping-tracking-popup .action.close {
+  background: #ee2375;
+  color: #ffffff;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 9px;
+  text-indent: 0;
+}
+.shipping-tracking-popup .action.close:hover {
+  background: #6ab92d;
+}
+.shipping-tracking-popup .action.close span {
+  width: auto;
+  text-indent: 0;
+}
+.shipping-tracking-popup .action.close span:after {
+  content: "";
+  display: none;
+}
+.truncated {
+  position: relative;
+}
+.truncated .truncated_full_value {
+  display: none;
+  background: rgba(0, 0, 0, 0.8);
+  margin-top: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  max-width: 400px;
+  min-width: 100px;
+  color: #ffffff;
+}
+.truncated .truncated_full_value.show {
+  display: block;
+}
+.truncated .truncated_full_value.show:before {
+  content: '';
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid rgba(0, 0, 0, 0.8);
+  height: 0;
+  width: 0;
+  overflow: hidden;
+  display: block;
+  position: absolute;
+  top: -10px;
+  margin-left: -5px;
+  left: 50%;
+  zoom: 1;
+  z-index: 2;
 }
 .widget ul {
   padding: 0;
@@ -8195,9 +8326,7 @@ body.type-bundle {
 .block.widget.minilist .item.product .actions .action.tocart {
   background: #ee2375;
   color: #ffffff;
-  font-size: 10px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 10px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 4px 9px;
@@ -8305,9 +8434,7 @@ img[align="right"] {
   position: relative;
   z-index: 1;
   color: #111111;
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   text-align: right;
@@ -8345,9 +8472,7 @@ img[align="right"] {
   padding: 12px 30px;
 }
 .banner.main .banner.action span {
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #ffffff;
@@ -8400,9 +8525,7 @@ img[align="right"] {
 }
 .form.search.advanced .legend,
 .form.contact .legend {
-  font-size: 15px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 15px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -8500,9 +8623,7 @@ img[align="right"] {
 }
 .form.search.advanced .actions button.action span,
 .form.contact .actions button.action span {
-  font-size: 14px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #ffffff;
@@ -8517,25 +8638,19 @@ img[align="right"] {
   font-size: 15px;
 }
 .std .page-title h1 {
-  font-size: 25px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 25px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #111111;
 }
 .std h2 {
-  font-size: 22px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 22px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #111111;
 }
 .std h3 {
-  font-size: 18px;
-  font-family: amaranth, Arial, Helvetica, sans-serif;
-  font-weight: 700;
+  font: 700 18px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #111111;

@@ -46,7 +46,7 @@
         <tbody>
             <tr>
                 <th class="label"><?php echo $this->__('Tracking Number(s):') ?></th>
-                <td>&nbsp;
+                <td>
                 <?php
                 $i = 1;
                 $_size = $tracks->count();
@@ -68,8 +68,8 @@
         </tbody>
     </table>
 <?php  endif; ?>
-<h3 class="order subtitle caption"><?php echo $this->__('Items Shipped') ?></h3>
-<table class="data table order shipment" id="my-shipment-table-<?php echo $_shipment->getId(); ?>">
+<div class="order subtitle caption"><strong><?php echo $this->__('Items Shipped') ?></strong></div>
+<table class="data table order items shipment" id="my-shipment-table-<?php echo $_shipment->getId(); ?>">
     <thead>
         <tr>
             <th class="col name"><?php echo $this->__('Product Name') ?></th>
