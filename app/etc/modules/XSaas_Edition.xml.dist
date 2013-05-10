@@ -19,7 +19,6 @@
         <Enterprise_Enterprise><active>true</active></Enterprise_Enterprise>
         <Enterprise_GiftCard><active>true</active></Enterprise_GiftCard>
         <Enterprise_GiftCardAccount><active>true</active></Enterprise_GiftCardAccount>
-        <Enterprise_GiftRegistry><active>true</active></Enterprise_GiftRegistry>
         <Enterprise_Logging><active>true</active></Enterprise_Logging>
         <Enterprise_PageCache><active>true</active></Enterprise_PageCache>
         <Enterprise_Pbridge><active>true</active></Enterprise_Pbridge>

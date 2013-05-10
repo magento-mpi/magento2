@@ -18,7 +18,8 @@ class Varien_Data_Collection_DbTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_collection = new Varien_Data_Collection_Db;
+        $fetchStrategy = $this->getMockForAbstractClass('Varien_Data_Collection_Db_FetchStrategyInterface');
+        $this->_collection = new Varien_Data_Collection_Db($fetchStrategy);
     }
 
     protected function tearDown()

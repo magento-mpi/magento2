@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    one page checkout first step
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,9 +19,7 @@
 
         _create: function() {
             this._super();
-            if (this.options.giftRegistry.enable) {
-                this._injectElement();
-            }
+            this._injectElement();
         },
         /**
          * injecting template for shipping and billing form

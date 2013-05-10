@@ -151,7 +151,8 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
     {
         $collection = $this->getMock(
             'Mage_Tax_Model_Resource_Class_Collection',
-            array('setClassTypeFilter', 'toOptionArray')
+            array('setClassTypeFilter', 'toOptionArray'),
+            array(), '', false
         );
         $collection->expects($this->any())
             ->method('setClassTypeFilter')
