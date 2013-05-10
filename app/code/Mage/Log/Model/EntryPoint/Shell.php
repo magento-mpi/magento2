@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Mage_Log_Model_EntryPoint_Shell extends Mage_Core_Model_EntryPointAbstract
 {
     /**
@@ -13,34 +12,20 @@ class Mage_Log_Model_EntryPoint_Shell extends Mage_Core_Model_EntryPointAbstract
      *
      * @var string
      */
-    private $_entryPoint;
+    private $_entryFileName;
 
     /**
-     * @param string $baseDir
-     * @param array $params
+     * @param Mage_Core_Model_Config_Primary $config
+     * @param string $entryFileName  filename of the entry point script
+     * @param Magento_ObjectManager $objectManager
      */
-    public function __construct($baseDir, array $params = array())
-    {
-        $this->_entryPoint = $params['entryPoint'];
-        unset($params['entryPoint']);
-
-        parent::__construct(new Mage_Core_Model_Config_Primary($baseDir, $params));
-    }
-
-    /**
-     * Init object manager, configuring it with additional parameters
-     */
-    protected function _initObjectManager()
-    {
-        parent::_initObjectManager();
-
-        $this->_objectManager->configure(array(
-            'Mage_Log_Model_Shell' => array(
-                'parameters' => array(
-                    'entryPoint' => $this->_entryPoint,
-                )
-            )
-        ));
+    public function __construct(
+        Mage_Core_Model_Config_Primary $config,
+        $entryFileName,
+        Magento_ObjectManager $objectManager = null
+    ) {
+        parent::__construct($config, $objectManager);
+        $this->_entryFileName = $entryFileName;
     }
 
     /**
@@ -49,8 +34,7 @@ class Mage_Log_Model_EntryPoint_Shell extends Mage_Core_Model_EntryPointAbstract
     protected function _processRequest()
     {
         /** @var $shell Mage_Log_Model_Shell */
-        $shell = $this->_objectManager->create('Mage_Log_Model_Shell');
+        $shell = $this->_objectManager->create('Mage_Log_Model_Shell', array('entryPoint' => $this->_entryFileName));
         $shell->run();
     }
-
 }
