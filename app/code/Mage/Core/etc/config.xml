@@ -142,11 +142,6 @@
                     <fetchStrategy>Mage_Core_Model_Resource_Store_Collection_FetchStrategy</fetchStrategy>
                 </parameters>
             </Mage_Core_Model_Resource_Store_Collection>
-            <Mage_Core_Model_Store_StorageFactory>
-                <parameters>
-                    <config>Mage_Core_Model_Config_Proxy</config>
-                </parameters>
-            </Mage_Core_Model_Store_StorageFactory>
             <Mage_Core_Model_Theme_Image>
                 <shared>0</shared>
             </Mage_Core_Model_Theme_Image>
