@@ -88,14 +88,26 @@
                 <group id="payflow_advanced">
                     <group id="required_settings">
                         <group id="express">
-                            <field id="use_proxy" showInDefault="0" showInWebsite="0"/>
-                            <field id="proxy_host" showInDefault="0" showInWebsite="0"/>
-                            <field id="proxy_port" showInDefault="0" showInWebsite="0"/>
+                            <field id="use_proxy" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_host" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_port" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
                         </group>
                         <group id="payments_advanced">
-                            <field id="use_proxy" showInDefault="0" showInWebsite="0"/>
-                            <field id="proxy_host" showInDefault="0" showInWebsite="0"/>
-                            <field id="proxy_port" showInDefault="0" showInWebsite="0"/>
+                            <field id="use_proxy" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_host" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_port" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
                         </group>
                     </group>
                     <group id="settings_payments_advanced">
@@ -121,6 +133,9 @@
                                 <hide_in_single_store_mode>1</hide_in_single_store_mode>
                             </field>
                             <group id="billing_agreement">
+                                <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
+                                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                                </field>
                                 <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
                                     <hide_in_single_store_mode>1</hide_in_single_store_mode>
                                 </field>
@@ -482,9 +497,15 @@
                     </group>
                     <group id="paypal_payflow_required">
                         <group id="paypal_payflow_api_settings">
-                            <field id="use_proxy" showInDefault="0" showInWebsite="0"/>
-                            <field id="proxy_host" showInDefault="0" showInWebsite="0"/>
-                            <field id="proxy_port" showInDefault="0" showInWebsite="0"/>
+                            <field id="use_proxy" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_host" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_port" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
                         </group>
                     </group>
                 </group>
@@ -529,18 +550,30 @@
                     </group>
                     <group id="payflow_link_required">
                         <group id="payflow_link_payflow_link">
-                            <field id="use_proxy" showInDefault="0" showInWebsite="0"/>
-                            <field id="proxy_host" showInDefault="0" showInWebsite="0"/>
-                            <field id="proxy_port" showInDefault="0" showInWebsite="0"/>
+                            <field id="use_proxy" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_host" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_port" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
                         </group>
                     </group>
                 </group>
                 <group id="payments_pro_payflow_edition">
                     <group id="pp_pe_required_settings">
                         <group id="pp_pe_api_settings">
-                            <field id="use_proxy" showInDefault="0" showInWebsite="0"/>
-                            <field id="proxy_host" showInDefault="0" showInWebsite="0"/>
-                            <field id="proxy_port" showInDefault="0" showInWebsite="0"/>
+                            <field id="use_proxy" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_host" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
+                            <field id="proxy_port" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            </field>
                         </group>
                     </group>
                     <group id="settings_pp_pe">
