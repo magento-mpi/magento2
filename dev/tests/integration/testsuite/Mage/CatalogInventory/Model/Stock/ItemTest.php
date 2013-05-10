@@ -41,10 +41,10 @@ class Mage_CatalogInventory_Model_Stock_ItemTest extends PHPUnit_Framework_TestC
 
     /**
      * @magentoDataFixture simpleProductFixture
+     * @magentoDbIsolation enabled
      */
     public function testSaveWithNullQty()
     {
-        $this->markTestIncomplete('MAGETWO-8308');
         $this->_model
             ->setProductId(1)
             ->setTypeId(Mage_Catalog_Model_Product_Type::DEFAULT_TYPE)
