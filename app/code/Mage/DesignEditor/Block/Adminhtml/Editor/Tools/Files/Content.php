@@ -71,7 +71,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content extends Mage_
             'newFolderUrl'    => $this->getNewfolderUrl(),
             'deleteFolderUrl' => $this->getDeletefolderUrl(),
             'deleteFilesUrl'  => $this->getDeleteFilesUrl(),
-            'headerText'      => $this->getHeaderText()
+            'headerText'      => $this->getHeaderText(),
+            'showBreadcrumbs' => false
         ));
 
         return $this->helper('Mage_Core_Helper_Data')->jsonEncode($setupObject);

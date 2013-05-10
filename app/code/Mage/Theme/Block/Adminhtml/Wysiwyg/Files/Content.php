@@ -85,7 +85,8 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Bloc
             'newFolderUrl'    => $this->getNewfolderUrl(),
             'deleteFolderUrl' => $this->getDeletefolderUrl(),
             'deleteFilesUrl'  => $this->getDeleteFilesUrl(),
-            'headerText'      => $this->getHeaderText()
+            'headerText'      => $this->getHeaderText(),
+            'showBreadcrumbs' => true
         ));
 
         return $this->helper('Mage_Core_Helper_Data')->jsonEncode($setupObject);
