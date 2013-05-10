@@ -20,18 +20,18 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
 {
     /**
      * String helper
-     * 
+     *
      * @var Mage_Core_Helper_String
      */
     protected $_stringHelper;
-    
+
     /**
      * Locale model
-     * 
+     *
      * @var Mage_Core_Model_LocaleInterface
      */
     protected $_locale;
-    
+
     /**
      * @param Mage_Core_Helper_String $stringHelper
      * @param Mage_Core_Model_LocaleInterface $locale
@@ -48,11 +48,11 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
     }
     /**
      * Foreground countries
-     * 
-     * @var array 
+     *
+     * @var array
      */
     protected $_foregroundCountries = array();
-    
+
     /**
      * Define main table
      *
@@ -152,7 +152,7 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
     /**
      * Convert collection items to select options array
      *
-     * @param string $emptyLabel
+     * @param string|boolean $emptyLabel
      * @return array
      */
     public function toOptionArray($emptyLabel = ' ')
@@ -167,7 +167,7 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
             }
         }
         $this->_stringHelper->ksortMultibyte($sort);
-        foreach ($this->_foregroundCountries as $foregroundCountry) {
+        foreach (array_reverse($this->_foregroundCountries) as $foregroundCountry) {
             $name = array_search($foregroundCountry, $sort);
             unset($sort[$name]);
             $sort = array($name => $foregroundCountry) + $sort;
@@ -186,10 +186,10 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
 
         return $options;
     }
-    
+
     /**
      * Set foreground countries array
-     * 
+     *
      * @param string|array $foregroundCountries
      * @return Mage_Directory_Model_Resource_Country_Collection
      */
@@ -198,7 +198,7 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
         if (empty($foregroundCountries)) {
             return $this;
         }
-        $this->_foregroundCountries = array_reverse((array)$foregroundCountries);
+        $this->_foregroundCountries = (array)$foregroundCountries;
         return $this;
     }
 }

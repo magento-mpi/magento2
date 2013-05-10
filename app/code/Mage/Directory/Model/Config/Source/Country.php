@@ -16,38 +16,37 @@ class Mage_Directory_Model_Config_Source_Country implements Mage_Core_Model_Opti
      *
      * @var Mage_Directory_Model_Resource_Country_Collection
      */
-    protected $_countryModel;
-    
+    protected $_countryCollection;
+
     /**
      * Directory Helper
      *
      * @var Mage_Directory_Helper_Data
      */
     protected $_directoryHelper;
-    
+
     /**
      * @param Mage_Directory_Model_Resource_Country_Collection $countryCollection
      * @param Mage_Directory_Helper_Data $directoryHelper
-     * @return null
      */
     public function __construct(
-        Mage_Directory_Model_Resource_Country_Collection $countryCollection, 
+        Mage_Directory_Model_Resource_Country_Collection $countryCollection,
         Mage_Directory_Helper_Data $directoryHelper
     ) {
         $this->_countryCollection = $countryCollection;
         $this->_directoryHelper = $directoryHelper;
     }
-    
+
     /**
      * Options array
-     * 
-     * @var type 
+     *
+     * @var type
      */
     protected $_options;
 
     /**
      * Return options array
-     * 
+     *
      * @param boolean $isMultiselect
      * @param string|array $foregroundCountries
      * @return array

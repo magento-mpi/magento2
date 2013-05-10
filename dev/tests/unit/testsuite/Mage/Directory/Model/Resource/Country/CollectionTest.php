@@ -12,28 +12,17 @@
 class Mage_Directory_Model_Resource_Country_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Stub_UnitTest_Mage_Directory_Model_Resource_Country_Collection
+     * @var Mage_Directory_Model_Resource_Country_Collection
      */
     protected $_model;
-    
-    /**
-     * @var string
-     */
-    public static $fixturePath;
 
     protected function setUp()
     {
-        self::$fixturePath = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
-        $connection = $this->getMock('Varien_Db_Adapter_Pdo_Mysql',
-            array(), array(), '', false
-        );
+        $connection = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false);
         $select = $this->getMock('Zend_Db_Select', array(), array(), '', false);
         $connection->expects($this->once())
             ->method('select')
             ->will($this->returnValue($select));
-        $connection->expects($this->any())
-            ->method('quoteIdentifier')
-            ->will($this->returnArgument(0));
 
         $resource = $this->getMockForAbstractClass('Mage_Core_Model_Resource_Db_Abstract', array(), '', false, true,
             true, array('getReadConnection', 'getMainTable', 'getTable'));
@@ -43,67 +32,53 @@ class Mage_Directory_Model_Resource_Country_CollectionTest extends PHPUnit_Frame
         $resource->expects($this->any())
             ->method('getTable')
             ->will($this->returnArgument(0));
-        
+
         $helperMock = $this->getMock('Mage_Core_Helper_String', array(), array(), '', false);
         $localeMock = $this->getMock('Mage_Core_Model_LocaleInterface');
-        $localeMock->expects($this->any())->method('getCountryTranslation')
-            ->will($this->returnArgument(0));
-        
-        $this->_model = new Stub_UnitTest_Mage_Directory_Model_Resource_Country_Collection($helperMock, $localeMock, $resource);
-    }
-    
-    public function testToOptionArray()
-    {
-        $optionsArray = include(Mage_Directory_Model_Resource_Country_CollectionTest::$fixturePath . 'options_array.php');
-        
-        $result = $this->_model->toOptionArray();
-        $this->assertEquals(count($optionsArray) + 1, count($result));
-        $this->assertEquals($optionsArray[0]['title'], $result[1]['value']);
-        
-        $result = $this->_model->toOptionArray(false);
-        $this->assertEquals(count($optionsArray), count($result));
-        $this->assertEquals($optionsArray[0]['title'], $result[0]['value']);
-        
-        $this->_model->setForegroundCountries('US');
-        $result = $this->_model->toOptionArray(false);
-        $this->assertEquals(count($optionsArray), count($result));
-        $this->assertEquals($result[0]['value'], 'US');        
-        
-        $this->_model->setForegroundCountries(array('US', 'BZ'));
-        $result = $this->_model->toOptionArray(false);
-        $this->assertEquals(count($optionsArray), count($result));
-        $this->assertEquals($result[0]['value'], 'US');
-        $this->assertEquals($result[1]['value'], 'BZ');
-    }
-}
+        $localeMock->expects($this->any())->method('getCountryTranslation')->will($this->returnArgument(0));
 
-class Stub_UnitTest_Mage_Directory_Model_Resource_Country_Collection
-    extends Mage_Directory_Model_Resource_Country_Collection
-{
-    /**
-     * Stub parent constructor
-     * 
-     * @param Mage_Core_Helper_String $stringHelper
-     * @param Mage_Core_Model_LocaleInterface $locale
-     * @param Mage_Core_Model_Resource_Db_Abstract $resource
-     */
-    public function __construct(Mage_Core_Helper_String $stringHelper, Mage_Core_Model_LocaleInterface $locale, $resource = null)
-    {
-        parent::__construct($stringHelper, $locale, $resource);
+        $this->_model = $this->getMock('Mage_Directory_Model_Resource_Country_Collection',
+            array('_toOptionArray'), array($helperMock, $localeMock, $resource), '', true
+        );
     }
-    
+
     /**
-     * Return items array
-     * array(
-     *      $index => array(
-     *          'value' => mixed
-     *          'label' => mixed
-     *      )
-     * )
-     * @return  array
+     * @dataProvider toOptionArrayDataProvider
+     * @param array $optionsArray
+     * @param string|boolean $emptyLabel
+     * @param string|array $foregroundCountries
+     * @param array $expectedResults
      */
-    protected function _toOptionArray()
+    public function testToOptionArray($optionsArray, $emptyLabel, $foregroundCountries, $expectedResults)
     {
-        return include(Mage_Directory_Model_Resource_Country_CollectionTest::$fixturePath . 'options_array.php');
+        $this->_model->expects($this->any())
+            ->method('_toOptionArray')
+            ->will($this->returnValue($optionsArray));
+
+        $this->_model->setForegroundCountries($foregroundCountries);
+        $result = $this->_model->toOptionArray($emptyLabel);
+        $this->assertEquals(count($optionsArray) + (int)!empty($emptyLabel), count($result));
+        foreach($expectedResults as $index => $expectedResult) {
+            $this->assertEquals($expectedResult, $result[$index]['label']);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function toOptionArrayDataProvider()
+    {
+        $optionsArray = array(
+            array('title' => 'AD', 'value' => 'AD', 'label' => ''),
+            array('title' => 'US', 'value' => 'US', 'label' => ''),
+            array('title' => 'ES', 'value' => 'ES', 'label' => ''),
+            array('title' => 'BZ', 'value' => 'BZ', 'label' => ''),
+        );
+        return array(
+            array($optionsArray, false, array(), array('AD', 'US', 'ES', 'BZ')),
+            array($optionsArray, false, 'US', array('US', 'AD', 'ES', 'BZ')),
+            array($optionsArray, false, array('US', 'BZ'), array('US', 'BZ', 'AD', 'ES')),
+            array($optionsArray, ' ', 'US', array(' ', 'US', 'AD', 'ES', 'BZ')),
+        );
     }
 }
