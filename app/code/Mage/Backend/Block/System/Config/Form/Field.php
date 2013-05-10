@@ -93,7 +93,8 @@ class Mage_Backend_Block_System_Config_Form_Field
         if ($element->getTooltip()) {
             $html = '<td class="value with-tooltip">';
             $html .= $this->_getElementHtml($element);
-            $html .= '<div class="field-tooltip"><div>' . $element->getTooltip() . '</div></div>';
+            $html .= '<div class="tooltip"><span class="help"><span></span></span>';
+            $html .= '<div class="tooltip-content">' . $element->getTooltip() . '</div></div>';
         } else {
             $html = '<td class="value">';
             $html .= $this->_getElementHtml($element);
