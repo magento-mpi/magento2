@@ -10,14 +10,32 @@
 class Mage_Install_Model_EntryPoint_Console extends Mage_Core_Model_EntryPointAbstract
 {
     /**
-     * @param string $baseDir
-     * @param array $params
+     * Application params
+     *
+     * @var array
      */
-    public function __construct($baseDir, array $params = array())
-    {
+    protected $_params = array();
+
+    /**
+     * @param Mage_Core_Model_Config_Primary $baseDir
+     * @param array $params
+     * @param Mage_Core_Model_Config_Primary $config
+     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Install_Model_EntryPoint_Output $output
+     */
+    public function __construct(
+        $baseDir,
+        array $params = array(),
+        Mage_Core_Model_Config_Primary $config = null,
+        Magento_ObjectManager $objectManager = null,
+        Mage_Install_Model_EntryPoint_Output $output = null
+    ) {
         $this->_params = $this->_buildInitParams($params);
-        $config = new Mage_Core_Model_Config_Primary($baseDir, $this->_params);
-        parent::__construct($config);
+        if (!$config) {
+            $config = new Mage_Core_Model_Config_Primary($baseDir, $this->_params);
+        }
+        $this->_output = $output ?: new Mage_Install_Model_EntryPoint_Output();
+        parent::__construct($config, $objectManager);
     }
 
     /**
@@ -52,13 +70,13 @@ class Mage_Install_Model_EntryPoint_Console extends Mage_Core_Model_EntryPointAb
             array('installArgs' => $this->_params)
         );
         if (isset($this->_params['show_locales'])) {
-            var_export($installer->getAvailableLocales());
+            $this->_output->export($installer->getAvailableLocales());
         } else if (isset($this->_params['show_currencies'])) {
-            var_export($installer->getAvailableCurrencies());
+            $this->_output->export($installer->getAvailableCurrencies());
         } else if (isset($this->_params['show_timezones'])) {
-            var_export($installer->getAvailableTimezones());
+            $this->_output->export($installer->getAvailableTimezones());
         } else if (isset($this->_params['show_install_options'])) {
-            var_export($installer->getAvailableInstallOptions());
+            $this->_output->export($installer->getAvailableInstallOptions());
         } else {
             $this->_handleInstall($installer);
         }
@@ -91,10 +109,9 @@ class Mage_Install_Model_EntryPoint_Console extends Mage_Core_Model_EntryPointAb
             } else {
                 $msg = 'Installed successfully' . ($result ? ' (encryption key "' . $result . '")' : '');
             }
-            echo $msg . PHP_EOL;
+            $this->_output->success($msg . PHP_EOL);
         } else {
-            echo implode(PHP_EOL, $installer->getErrors()) . PHP_EOL;
-            exit(1);
+            $this->_output->error(implode(PHP_EOL, $installer->getErrors()) . PHP_EOL);
         }
     }
 }
