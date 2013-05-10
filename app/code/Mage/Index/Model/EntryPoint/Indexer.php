@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Mage_Index_Model_EntryPoint_Indexer extends Mage_Core_Model_EntryPointAbstract
 {
     /**

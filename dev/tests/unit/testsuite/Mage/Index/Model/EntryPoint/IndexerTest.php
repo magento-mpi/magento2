@@ -8,42 +8,38 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Test class for Mage_Index_Model_EntryPoint_IndexerMage_Index_Model_EntryPoint_Indexer
- */
 class Mage_Index_Model_EntryPoint_IndexerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_Index_Model_EntryPoint_Indexer
      */
-    private $_entryPoint;
+    protected $_entryPoint;
 
     /**
-     * @var Magento_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    private $_objectManager;
+    protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Config_Primary|PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    private $_primaryConfig;
+    protected $_primaryConfig;
 
     /**
-     * @var Magento_Filesystem|PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    private $_filesystem;
+    protected $_filesystem;
 
     /**
      * @var string
      */
-    private $_reportDir;
+    protected $_reportDir;
 
     protected function setUp()
     {
         $this->_reportDir = 'tmp' . DIRECTORY_SEPARATOR . 'reports';
         $this->_primaryConfig = $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false);
-        $this->_objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento_ObjectManager');
         $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
         $this->_entryPoint = $this->getMock(
             'Mage_Index_Model_EntryPoint_Indexer',
@@ -55,7 +51,7 @@ class Mage_Index_Model_EntryPoint_IndexerTest extends PHPUnit_Framework_TestCase
     public function testProcessRequest()
     {
         $dirVerification = $this->getMock('Mage_Core_Model_Dir_Verification', array(), array(), '', false);
-        $dirVerification->expects($this->once())->method('createAndVerifyDirectories')->will($this->returnValue(null));
+        $dirVerification->expects($this->once())->method('createAndVerifyDirectories');
 
         $process = $this->getMock('Mage_Index_Model_Process', array(), array(), '', false);
         $processIndexer = $this->getMockForAbstractClass(
