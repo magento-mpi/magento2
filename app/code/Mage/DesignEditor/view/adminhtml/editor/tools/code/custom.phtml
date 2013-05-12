@@ -28,6 +28,9 @@
         <button data-manage="fonts" class="action-font-assets" title="<?php echo $this->__('Font Assets'); ?>">
             <span><?php echo $this->__('Font Assets'); ?></span>
         </button>
+        <button data-manage="images" class="action-image-assets" title="<?php echo $this->__('Image Assets'); ?>">
+            <span><?php echo $this->__('Image Assets'); ?></span>
+        </button>
     </div>
 </div>
 <div class="custom-code">
@@ -48,6 +51,14 @@
                 null,
                 null,
                 '<?php echo $this->quoteEscape($this->__('Font Assets'), true); ?>'
+            );
+        });
+        $('[data-manage="images"]').on('click', function() {
+            MediabrowserUtility.openDialog(
+                '<?php echo $this->getMediaBrowserUrl('custom_code', $this->getTheme(), Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE) ?>',
+                null,
+                null,
+                '<?php echo $this->quoteEscape($this->__('Image Assets'), true); ?>'
             );
         });
         $('#vde-tab-custom').customCssPanel({
