@@ -1171,12 +1171,16 @@
 
 .custom-code-description [class^="action-"] {
     position: relative;
-    float: right;
-    margin: 0 0 0 10px;
 }
 
 .custom-code-description [class^="action-"]:before {
     font-size: 18px;
+}
+
+.custom-code-description .custom-file .action-add,
+.files-list-header > .action-add {
+    top: 0;
+    margin: 0 5px 0 0;
 }
 
 .custom-code {
