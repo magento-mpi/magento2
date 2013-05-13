@@ -14,11 +14,11 @@
     <p><?php echo $this->__('Update the custom.css file to right in order to overwrite the default styles.'); ?></p>
     <h4>Custom CSS</h4>
     <div class="custom-file">
-        <span data-action="add" class="action-add" title="<?php echo $this->__('Upload File'); ?>" id="custom-css-upload-file-button">
+        <span data-action="add" class="action-add" title="<?php echo $this->__('Upload File'); ?>">
             <span><?php echo $this->__('Upload File'); ?></span>
             <?php echo $this->getFormHtml() ?>
         </span>
-        <label for="custom-css-upload-file-button">Upload Custom CSS</label>
+        <label for="<?php echo $this->getFileElementName() ?>">Upload Custom CSS</label>
         <div class="uploaded-file-wrapper" data-file="uploaded-css">
             <div class="uploaded-css">
                 <div class="file-row">
