@@ -77,6 +77,7 @@
                 <Mage_Core_Model_Design_PackageInterface>Mage_Core_Model_Design_Package</Mage_Core_Model_Design_PackageInterface>
                 <Mage_Core_Model_LocaleInterface>Mage_Core_Model_Locale</Mage_Core_Model_LocaleInterface>
                 <Mage_Core_Model_UrlInterface>Mage_Core_Model_Url</Mage_Core_Model_UrlInterface>
+                <Mage_Core_Model_Event_InvokerInterface>Mage_Core_Model_Event_Invoker_InvokerDefault</Mage_Core_Model_Event_InvokerInterface>
             </preferences>
             <Mage_Core_Model_Cache>
                 <parameters>
