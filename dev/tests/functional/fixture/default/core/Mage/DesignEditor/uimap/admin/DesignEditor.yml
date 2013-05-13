@@ -12,7 +12,7 @@
 design_editor_selector:
     mca: system_design_editor/
     click_xpath: //*[@class='navigation']//a[contains(@href, '/system_design_editor/')]
-    title: Editor / Design / Content / Magento Admin
+    title: Store Designer / Design / Content / Magento Admin
     uimap: &designEditorSelector
         pageelements:
             header_available_themes: //h3[contains(.,'Choose a theme to start with')]
@@ -49,7 +49,7 @@ design_editor_selector:
 
 preview_theme_in_navigation:
     mca: system_design_editor/launch/theme_id/%id%/mode/navigation/
-    title: Editor / Magento Admin
+    title: Store Designer / Magento Admin
     uimap:
         buttons:
             select: //div[@id='vde_toolbar_buttons']//button[@data-toggle='dropdown']
@@ -66,7 +66,7 @@ preview_theme_in_navigation:
 
 preview_theme_in_design:
     mca: system_design_editor/launch/theme_id/%id%/mode/design/
-    title: Editor / Magento Admin
+    title: Store Designer / Magento Admin
     uimap: &themeInDesign
         form:
             fieldsets:
@@ -270,7 +270,7 @@ preview_theme_in_design:
                                         css_print: //span[contains(text(), 'css/print.css')]
                                         css_styles_ie: //span[contains(text(), 'css/styles-ie.css')]
                                         css_styles: //span[contains(text(), 'css/styles.css')]
-                                        jquery_jqzoom: //span[contains(text(), 'js/jqzoom/css/jquery.jqzoom.css')]
+                                        jquery_jqzoom: //span[contains(text(), 'pub/lib/jquery/jqzoom/css/jquery.jqzoom.css')]
                                         mage_cms: //span[contains(text(), 'Mage_Cms::widgets.css')]
                                         mage_page: //span[contains(text(), 'Mage_Page::css/tabs.css')]
                                         mage_reports: //span[contains(text(), 'Mage_Reports::widgets.css')]
@@ -279,7 +279,7 @@ preview_theme_in_design:
                                         css_print_download: //li[@class='item' and contains (., 'css/print.css')]/a[@class='action-download']
                                         css_styles_ie_download: //li[@class='item' and contains (., 'css/styles-ie.css')]/a[@class='action-download']
                                         css_styles_download: //li[@class='item' and contains (., 'css/styles.css')]/a[@class='action-download']
-                                        jquery_jqzoom_download: //li[@class='item' and contains (., 'js/jqzoom/css/jquery.jqzoom.css')]/a[@class='action-download']
+                                        jquery_jqzoom_download: //li[@class='item' and contains (., 'pub/lib/jquery/jqzoom/css/jquery.jqzoom.css')]/a[@class='action-download']
                                         mage_cms_download: //li[@class='item' and contains (., 'Mage_Cms::widgets.css')]/a[@class='action-download']
                                         mage_page_download: //li[@class='item' and contains (., 'Mage_Page::css/tabs.css')]/a[@class='action-download']
                                         mage_reports_download: //li[@class='item' and contains (., 'Mage_Reports::widgets.css')]/a[@class='action-download']
@@ -312,15 +312,15 @@ preview_theme_in_design:
 
 assigned_theme_default_in_design:
     mca: system_design_editor/launch/store_id/0/theme_id/%id%/
-    title: Editor / Magento Admin
+    title: Store Designer / Magento Admin
     uimap: *themeInDesign
 
 assigned_theme_in_design:
     mca: system_design_editor/launch/store_id/%storeId%/theme_id/%storeId%/
-    title: Editor / Design / Content / Magento Admin
+    title: Store Designer / Magento Admin
     uimap: *themeInDesign
 
 save_and_assign_theme_default_in_design:
     mca: system_design_editor/launch/theme_id/%id%/store_id/0/theme_id/%id%/
-    title: Editor / Design / Content / Magento Admin
+    title: Store Designer / Magento Admin
     uimap: *themeInDesign

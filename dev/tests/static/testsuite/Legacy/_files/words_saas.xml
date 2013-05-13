@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    tests
+ * @package     static
+ * @subpackage  Legacy
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<!-- These are the settings for legacy testing of Magento 2 Go Edition (in addition to Magento 2 Community and Enterprise Edition) -->
+<config>
+    <words>
+        <word>Enterprise_Staging</word>
+    </words>
+</config>

@@ -31,11 +31,15 @@
             <action method="addJs"><file>mage/cookies.js</file></action>
             <action method="addJs"><file>jquery/jquery-ui.js</file></action>
             <action method="addJs"><file>jquery/jquery.tmpl.min.js</file></action>
-            <action method="addJs"><file>Mage_Page::js/global.js</file></action>
-            <!-- <action method="addJs"><file>mage/common.js</file></action>
-            <action method="addJs"><file>mage/toggle.js</file></action>-->
-            <action method="addCss"><file>Mage_Page::css/tabs.css</file><params/></action>
+            <action method="addJs"><file>mage/bootstrap.js</file></action>
+            <action method="addJs"><file>Mage_Page::js/truncate.js</file></action>
+            <action method="addJs"><file>mage/common.js</file></action>
+            <action method="addJs"><file>mage/toggle.js</file></action>
+            <action method="addJs"><file>mage/popup-window.js</file></action>
+            <!-- <action method="addCss"><file>Mage_Page::css/tabs.css</file><params/></action> -->
             <action method="addJs"><file>mage/loader.js</file></action>
+            <!-- Preload resources for widgets -->
+            <block type="Mage_Core_Block_Template" name="head.components" as="components" template="Mage_Page::js/components.phtml"/>
         </reference>
     </default>
 
@@ -59,3 +63,4 @@
         </reference>
     </page_calendar>
 </layout>
+

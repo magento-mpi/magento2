@@ -16,9 +16,8 @@ class Saas_PrintedTemplate_Model_Variable_Item_ShipmentTest extends PHPUnit_Fram
      *
      * @param int orderItemId
      * @param array $itemsData
-     * @param array $expectedItems
+     * @param array $expectedOrderItemIds
      * @dataProvider getChildrenDataProvider
-     * @test
      */
     public function testGetChildren($orderItemId, $itemsData, $expectedOrderItemIds)
     {

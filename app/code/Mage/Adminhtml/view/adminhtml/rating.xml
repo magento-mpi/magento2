@@ -47,7 +47,7 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='rating_code'>
                         <arguments>
-                            <header translate='true' module='Mage_Rating'>Rating Name</header>
+                            <header translate='true' module='Mage_Rating'>Rating</header>
                             <index>rating_code</index>
                         </arguments>
                     </block>

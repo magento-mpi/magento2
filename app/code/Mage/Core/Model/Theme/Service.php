@@ -26,7 +26,7 @@ class Mage_Core_Model_Theme_Service
     protected $_themeCopyService;
 
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     protected $_design;
 
@@ -90,7 +90,7 @@ class Mage_Core_Model_Theme_Service
     /**
      * @param Mage_Core_Model_Theme_Factory $themeFactory
      * @param Mage_Core_Model_Theme_CopyService $themeCopyService
-     * @param Mage_Core_Model_Design_Package $design
+     * @param Mage_Core_Model_Design_PackageInterface $design
      * @param Mage_Core_Model_App $app
      * @param Mage_Core_Helper_Data $helper
      * @param Mage_DesignEditor_Model_Resource_Layout_Update $layoutUpdate
@@ -101,7 +101,7 @@ class Mage_Core_Model_Theme_Service
     public function __construct(
         Mage_Core_Model_Theme_Factory $themeFactory,
         Mage_Core_Model_Theme_CopyService $themeCopyService,
-        Mage_Core_Model_Design_Package $design,
+        Mage_Core_Model_Design_PackageInterface $design,
         Mage_Core_Model_App $app,
         Mage_Core_Helper_Data $helper,
         Mage_DesignEditor_Model_Resource_Layout_Update $layoutUpdate,
@@ -129,7 +129,7 @@ class Mage_Core_Model_Theme_Service
      * @return Mage_Core_Model_Theme
      * @throws UnexpectedValueException
      */
-    public function assignThemeToStores(
+    public function reassignThemeToStores(
         $themeId,
         array $stores = array(),
         $scope = Mage_Core_Model_Config::SCOPE_STORES
@@ -140,18 +140,13 @@ class Mage_Core_Model_Theme_Service
             throw new UnexpectedValueException('Theme is not recognized. Requested id: ' . $themeId);
         }
 
-        $stagingVersion = $theme->getStagingVersion();
-        if ($stagingVersion) {
-            $this->_themeCopyService->copy($stagingVersion, $theme);
-        }
-
         $themeCustomization = $theme->isVirtual() ? $theme : $this->createThemeCustomization($theme);
 
-        $isUnassigned = false;
-        $this->_unassignThemeFormStores($themeId, $stores, $scope, $isUnassigned);
-        $this->_assignThemeToStores($themeCustomization->getId(), $stores, $scope, $isUnassigned);
+        $isReassigned = false;
+        $this->_unassignThemeFromStores($themeId, $stores, $scope, $isReassigned);
+        $this->_assignThemeToStores($themeCustomization->getId(), $stores, $scope, $isReassigned);
 
-        if ($isUnassigned) {
+        if ($isReassigned) {
             $this->_configCacheType->clean();
         }
 
@@ -178,17 +173,17 @@ class Mage_Core_Model_Theme_Service
      * @param int $themeId
      * @param array $stores
      * @param string $scope
-     * @param bool $isUnassigned
+     * @param bool $isReassigned
      * @return Mage_Core_Model_Theme_Service
      */
-    protected function _unassignThemeFormStores($themeId, $stores, $scope, &$isUnassigned)
+    protected function _unassignThemeFromStores($themeId, $stores, $scope, &$isReassigned)
     {
-        $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
+        $configPath = Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID;
         /** @var $config Mage_Core_Model_Config_Data */
         foreach ($this->_getAssignedScopesCollection($scope, $configPath) as $config) {
             if ($config->getValue() == $themeId && !in_array($config->getScopeId(), $stores)) {
                 $this->_configWriter->delete($configPath, $scope, $config->getScopeId());
-                $isUnassigned = true;
+                $isReassigned = true;
             }
         }
         return $this;
@@ -200,18 +195,34 @@ class Mage_Core_Model_Theme_Service
      * @param int $themeId
      * @param array $stores
      * @param string $scope
-     * @param bool $isUnassigned
+     * @param bool $isReassigned
      * @return Mage_Core_Model_Theme_Service
      */
-    protected function _assignThemeToStores($themeId, $stores, $scope, &$isUnassigned)
+    protected function _assignThemeToStores($themeId, $stores, $scope, &$isReassigned)
     {
-        $configPath = Mage_Core_Model_Design_Package::XML_PATH_THEME_ID;
+        $configPath = Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID;
         if (count($stores) > 0) {
             foreach ($stores as $storeId) {
                 $this->_configWriter->save($configPath, $themeId, $scope, $storeId);
-                $isUnassigned = true;
+                $isReassigned = true;
             }
         }
+        return $this;
+    }
+
+    /**
+     * Assign given theme in default scope
+     *
+     * @param int $themeId
+     * @return $this
+     */
+    public function assignThemeToDefaultScope($themeId)
+    {
+        $scope = Mage_Core_Model_Config::SCOPE_DEFAULT;
+
+        $configPath = Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID;
+        $this->_configWriter->save($configPath, $themeId, $scope);
+
         return $this;
     }
 

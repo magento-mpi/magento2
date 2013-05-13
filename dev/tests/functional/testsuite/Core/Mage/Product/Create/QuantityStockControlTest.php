@@ -341,6 +341,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $productData['inventory_manage_stock'] = 'Yes';
         $productData['inventory_qty'] = $productData['general_qty'];
         $productData['inventory_stock_availability'] = $productData['general_stock_availability'];
+        $productData['product_attribute_set'] = $setData['set_name'];
         $this->productHelper()->verifyProductInfo($productData);
     }
 
@@ -363,11 +364,8 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->assertMessagePresent('success', 'success_duplicated_product');
         $productData['general_sku'] = $this->productHelper()->getGeneratedSku($productData['general_sku']);
-        $productData['inventory_manage_stock_default'] = 'No';
-        $productData['inventory_manage_stock'] = 'Yes';
-        $productData['inventory_qty'] = $productData['general_qty'];
-        $productData['inventory_stock_availability'] = $productData['general_stock_availability'];
+        $productData['general_qty'] = '';
         $this->productHelper()->verifyProductInfo($productData,
-            array('product_attribute_set', 'product_online_status'));
+            array('product_attribute_set', 'product_online_status', 'general_stock_availability'));
     }
 }

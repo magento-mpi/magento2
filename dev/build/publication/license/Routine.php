@@ -58,6 +58,7 @@ class Routine
         'html'  => array('*.html', '*.htm'),
         'css'   => array('*.css'),
         'js'    => array('*.js'),
+        'less'  => array('*.less'),
         'flex'  => array('*.as'),
         'sql'   => array('*.sql'),
     );
@@ -317,7 +318,7 @@ class Routine
      * @param string $workingDir
      * @param array $config
      * @param array $blackList
-     * @return null
+     * @throws Exception
      */
     public static function run($workingDir, $config, $blackList)
     {

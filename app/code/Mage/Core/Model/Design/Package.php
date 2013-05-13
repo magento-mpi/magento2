@@ -95,7 +95,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * Store list manager
      *
-     * @var Mage_Core_Model_StoreManager
+     * @var Mage_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -104,13 +104,14 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool
      * @param Mage_Core_Model_App_State $appState
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool,
         Mage_Core_Model_App_State $appState,
-        Mage_Core_Model_StoreManager $storeManager
+        Mage_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_moduleReader = $moduleReader;
         $this->_filesystem = $filesystem;
@@ -197,6 +198,8 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * Get default theme which declared in configuration
      *
+     * Write default theme to core_config_data
+     *
      * @param string $area
      * @param array $params
      * @return string|int
@@ -206,18 +209,17 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         if (!$area) {
             $area = $this->getArea();
         }
+
+        $theme = null;
         $store = isset($params['store']) ? $params['store'] : null;
 
         if ($this->_isThemePerStoveView($area)) {
-            if ($this->_storeManager->isSingleStoreMode()) {
-                return (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME_ID)
-                    ?: (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
-            } else {
-                return Mage::getStoreConfig(self::XML_PATH_THEME_ID, $store)
-                    ?: (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
-            }
+            $theme = $this->_storeManager->isSingleStoreMode()
+                ? (string)Mage::getConfig()->getNode('default/' . self::XML_PATH_THEME_ID)
+                : (string)Mage::getStoreConfig(self::XML_PATH_THEME_ID, $store);
         }
-        return (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
+
+        return $theme ?: (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
     }
 
     /**
@@ -229,6 +231,16 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     private function _isThemePerStoveView($area)
     {
         return $area == self::DEFAULT_AREA;
+    }
+
+    /**
+     * Get default theme form config file
+     *
+     * @return string
+     */
+    protected function _getDefaultTheme()
+    {
+
     }
 
     /**
@@ -301,9 +313,8 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     {
         $file = $this->_extractScope($file, $params);
         $this->_updateParamDefaults($params);
-        $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
-        return  $this->_resolutionPool->getFileStrategy($skipProxy)->getFile($params['area'], $params['themeModel'],
-            $file, $params['module']);
+        return $this->_resolutionPool->getFileStrategy(!empty($params['skipProxy']))
+            ->getFile($params['area'], $params['themeModel'], $file, $params['module']);
     }
 
     /**
@@ -364,7 +375,9 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * Notify that view file resolved path was changed (i.e. it was published to a public directory)
      *
-     * @param array $params
+     * @param $targetPath
+     * @param $themeFile
+     * @param $params
      * @return Mage_Core_Model_Design_Package
      */
     protected function _notifyViewFileLocationChanged($targetPath, $themeFile, $params)
@@ -480,9 +493,9 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             /** @var $themeModel Mage_Core_Model_Theme */
             $themeModel = $params['themeModel'];
             $themePath = $themeModel->getThemePath();
-            if (!$themePath) {
-                // For virtual themes we get path from the parent
-                $themePath = $themeModel->getParentTheme()->getThemePath();
+            while (empty($themePath) && $themeModel) {
+                $themePath = $themeModel->getThemePath();
+                $themeModel = $themeModel->getParentTheme();
             }
             $subPath = self::getPublishedViewFileRelPath($params['area'], $themePath, $params['locale'], $file,
                 $params['module']);

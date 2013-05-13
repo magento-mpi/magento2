@@ -215,7 +215,7 @@ class Mage_ImportExport_Block_Adminhtml_Export_Filter extends Mage_Adminhtml_Blo
         parent::_prepareColumns();
 
         $this->addColumn('skip', array(
-            'header'     => Mage::helper('Mage_ImportExport_Helper_Data')->__('Skip'),
+            'header'     => Mage::helper('Mage_ImportExport_Helper_Data')->__('Exclude'),
             'type'       => 'checkbox',
             'name'       => 'skip',
             'field_name' => Mage_ImportExport_Model_Export::FILTER_ELEMENT_SKIP . '[]',

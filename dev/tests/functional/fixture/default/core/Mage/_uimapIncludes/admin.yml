@@ -18,9 +18,9 @@ admin_header:
                              choose_store_view: //select[@id='store_switcher']
                 -
                     incoming_message:
-                        xpath: //div[header/h2='Incoming Message']
+                        xpath: //div[@class='popup popup-critical']
                         buttons:
-                            close: //span[text()='Close']
+                            close_notification: //span[text()='Close']
                 -
                     global_header:
                         xpath: //div[contains(a/@class,'logo')]
@@ -36,12 +36,18 @@ admin_header:
                             account_settings: //a[@data-ui-id='header-user-account-settings']
                             log_out: //a[@class='account-signout']
                 -
-                    notification_global:
-                        xpath: //div[@class='message message-system']
+                    system_messages_list:
+                        xpath: "//div[div/@id='system_messages_list' or div/@id='message-system-all'][not(contains(@style,'display: none;'))]"
                         links:
                             invalided_cache: //a[text()='Cache Management']
                             invalided_index: //a[text()='Index Management']
-                            go_to_notifications: //a[text()='Go to messages inbox' or text()='Go to notifications']
+                        buttons:
+                            close_messages_list: //a[span='close']
+                -
+                    system_messages:
+                        xpath: //div[@id='system_messages']
+                        links:
+                            show_system_messages: //a[@title='Critical System Messages']
                 -
                     general_elements:
                         xpath:
@@ -94,9 +100,5 @@ admin_header:
             general_success: "//*[normalize-space(@class)='success-msg'][string-length(.)>1]"
             general_error: "//*[normalize-space(@class)='error-msg'][string-length(.)>1]"
             general_validation: "//*[normalize-space(@class)='validation-advice' or normalize-space(@class)='mage-error'][string-length(.)>1]"
-            #general_notice: "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
-            #general_success: "//*/descendant::*[normalize-space(@class)='success-msg'][string-length(.)>1]"
-            #general_error: "//*/descendant::*[normalize-space(@class)='error-msg'][string-length(.)>1]"
-            #general_validation: "//*/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))][string-length(.)>1]"
-            no_records_found: //td[text()='No records found.']
-            specific_table_no_records_found: %tableXpath%//td[text()='No records found.']
+            no_records_found: //td[normalize-space(text())='No records found.' or contains(@class,'empty-text')]
+            specific_table_no_records_found: %tableXpath%//td[normalize-space(text())='No records found.' or contains(@class,'empty-text')]

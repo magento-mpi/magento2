@@ -158,17 +158,28 @@
 
     $( document ).ready(function( ) {
         var body = $('body');
-        body.on('preview', function(event, data) {
-            window.open(data.preview_url);
-        });
-        body.on('edit', function(event, data) {
-            window.open(data.edit_url);
-        });
         body.on('delete', function(event, data) {
             deleteConfirm($.mage.__('Are you sure you want to do this?'), data.url);
         });
         body.on('loaded', function() {
             body.trigger('contentUpdated');
+        });
+
+        body.on('duplicate-theme', function(event, data) {
+            $.ajax({
+                url: data.url,
+                type: 'GET',
+                dataType: 'json',
+                showLoader: true,
+                success: $.proxy(function(response) {
+                    if (response.success) {
+                        document.location.reload();
+                    }
+                }, this),
+                error: $.proxy(function() {
+                    alert($.mage.__('Error: unknown error.'));
+                }, this)
+            });
         });
     });
 

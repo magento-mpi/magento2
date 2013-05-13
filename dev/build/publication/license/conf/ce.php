@@ -16,6 +16,7 @@ $magentoOslAfl = array(
     'php'   => 'OSL',
     'css'   => 'AFL',
     'js'    => 'AFL',
+    'less'  => 'AFL',
 );
 $magentoAfl = $magentoOslAfl;
 unset($magentoAfl['php']);
@@ -25,7 +26,8 @@ $phoenixOsl = array(
     'phtml' => 'Phoenix',
     'php'   => 'Phoenix',
     'css'   => 'Phoenix',
-    'js'    => 'Phoenix'
+    'js'    => 'Phoenix',
+    'less'  => 'Phoenix',
 );
 
 $config = array(
@@ -42,6 +44,7 @@ $config = array(
     'app/etc'               => array('xml' => 'AFL'),
     'dev'                   => array_merge($magentoOslAfl, array('sql' => 'OSL', 'html' => 'AFL')),
     'downloader'            => $magentoOslAfl,
+    'errors'                => $magentoOslAfl,
     'lib/flex'              => array('xml' => 'AFL', 'flex' => 'AFL'),
     'lib/Mage'              => $magentoOslAfl,
     'lib/Magento'           => $magentoOslAfl,

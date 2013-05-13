@@ -26,45 +26,23 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
     private $_cacheFrontendPool;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Mage_Backend_Controller_Context $context
      * @param Mage_Core_Model_Cache $cache
      * @param Mage_Core_Model_Cache_Types $cacheTypes
      * @param Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
-     * @param null $areaCode
-     * @param array $invokeArgs
+     * @param string $areaCode
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Mage_Backend_Controller_Context $context,
         Mage_Core_Model_Cache $cache,
         Mage_Core_Model_Cache_Types $cacheTypes,
         Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,
-        $areaCode = null,
-        array $invokeArgs = array()
+        $areaCode = null
     ) {
-        parent::__construct(
-            $request, $response, $objectManager, $frontController, $layoutFactory, $areaCode, $invokeArgs
-        );
+        parent::__construct($context, $areaCode);
         $this->_cache = $cache;
         $this->_cacheTypes = $cacheTypes;
         $this->_cacheFrontendPool = $cacheFrontendPool;
-    }
-
-    /**
-     * Retrieve session model
-     *
-     * @return Mage_Adminhtml_Model_Session
-     */
-    protected function _getSession()
-    {
-        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
     }
 
     /**
@@ -84,7 +62,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
      */
     public function flushAllAction()
     {
-        Mage::dispatchEvent('adminhtml_cache_flush_all');
+        $this->_eventManager->dispatch('adminhtml_cache_flush_all');
         /** @var $cacheFrontend Magento_Cache_FrontendInterface */
         foreach ($this->_cacheFrontendPool as $cacheFrontend) {
             $cacheFrontend->getBackend()->clean();
@@ -104,7 +82,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
         foreach ($this->_cacheFrontendPool as $cacheFrontend) {
             $cacheFrontend->clean();
         }
-        Mage::dispatchEvent('adminhtml_cache_flush_system');
+        $this->_eventManager->dispatch('adminhtml_cache_flush_system');
         $this->_getSession()->addSuccess(
             Mage::helper('Mage_Adminhtml_Helper_Data')->__("The Magento cache storage has been flushed.")
         );
@@ -189,7 +167,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
             $this->_validateTypes($types);
             foreach ($types as $type) {
                 $this->_cache->cleanType($type);
-                Mage::dispatchEvent('adminhtml_cache_refresh_type', array('type' => $type));
+                $this->_eventManager->dispatch('adminhtml_cache_refresh_type', array('type' => $type));
                 $updatedTypes++;
             }
             if ($updatedTypes > 0) {
@@ -233,8 +211,8 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
     public function cleanMediaAction()
     {
         try {
-            Mage::getModel('Mage_Core_Model_Design_Package')->cleanMergedJsCss();
-            Mage::dispatchEvent('clean_media_cache_after');
+            Mage::getModel('Mage_Core_Model_Design_PackageInterface')->cleanMergedJsCss();
+            $this->_eventManager->dispatch('clean_media_cache_after');
             $this->_getSession()->addSuccess(
                 Mage::helper('Mage_Adminhtml_Helper_Data')->__('The JavaScript/CSS cache has been cleaned.')
             );
@@ -258,7 +236,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
     {
         try {
             Mage::getModel('Mage_Catalog_Model_Product_Image')->clearCache();
-            Mage::dispatchEvent('clean_catalog_images_cache_after');
+            $this->_eventManager->dispatch('clean_catalog_images_cache_after');
             $this->_getSession()->addSuccess(
                 Mage::helper('Mage_Adminhtml_Helper_Data')->__('The image cache was cleaned.')
             );
@@ -282,6 +260,6 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::cache');
+        return $this->_authorization->isAllowed('Mage_Adminhtml::cache');
     }
 }

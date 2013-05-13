@@ -182,7 +182,7 @@ class Mage_Core_Model_Theme_File extends Mage_Core_Model_Abstract
         $path = null;
         if ($this->getId()) {
             $path = $this->getTheme()->getCustomizationPath() . DIRECTORY_SEPARATOR . $this->getFilePath();
-            $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
+            $path = Magento_Filesystem::fixSeparator($path);
         }
         return $path;
     }
@@ -201,5 +201,19 @@ class Mage_Core_Model_Theme_File extends Mage_Core_Model_Abstract
             );
         }
         return null;
+    }
+
+    /**
+     * Get file id and file name
+     *
+     * @return array
+     */
+    public function getFileInfo()
+    {
+        return array(
+            'id' => $this->getId(),
+            'name' => $this->getFileName(),
+            'temporary' => ($this->getIsTemporary() ? $this->getId() : '0')
+        );
     }
 }

@@ -109,7 +109,6 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         $this->clickControlAndConfirm('link', 'assign_theme', 'confirmation_for_assign_to_default');
         $this->_windowId = $this->selectLastWindow();
         $this->validatePage('assigned_theme_default_in_design');
-//        $this->clickControl('link', 'quit');
         $this->closeWindow($this->_windowId);
         $this->_windowId = null;
         $this->selectLastWindow();
@@ -219,6 +218,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
      */
     public function themeDemo()
     {
+        $this->markTestIncomplete('MAGETWO-9010');
         //Data
         $themeId = $this->themeHelper()->getThemeIdByTitle('Magento Demo');
         $this->addParameter('id', $themeId);
@@ -245,6 +245,7 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
      */
     public function editFromAvailableTab()
     {
+        $this->markTestIncomplete('MAGETWO-9010');
         //Data
         $this->themeHelper()->createTheme();
         $themeId = $this->themeHelper()->getThemeIdByTitle('Magento Demo');

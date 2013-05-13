@@ -15,7 +15,7 @@ $shippingAddress = $this->getShippingAddress();
 <div class="page-title">
     <h1><?php echo $this->__('Review Order') ?></h1>
 </div>
-<?php echo $this->getMessagesBlock()->toHtml() ?>
+<?php echo $this->getLayout()->renderElement('messages') ?>
 <h2 class="sub-title">
     Please confirm your addresses
 </h2>

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,14 +24,13 @@
         $_imgHtml = $_helper->categoryAttribute($_category, $_imgHtml, 'image');
     }
 ?>
-<?php echo $this->getMessagesBlock()->toHtml() ?>
 <div class="category-view">
     <?php if($_imgUrl): ?>
         <?php echo $_imgHtml ?>
     <?php endif; ?>
 
     <?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
-        <div class="category-description std">
+        <div class="category description std">
             <?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?>
         </div>
     <?php endif; ?>

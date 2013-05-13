@@ -514,6 +514,11 @@
     box-shadow: none;
 }
 
+.eq-ie8 .action-close-drawer,
+.eq-ie8 .action-close-drawer:hover {
+    filter: none;
+}
+
 .action-close-drawer:after {
     vertical-align: baseline;
     color: #fff;
@@ -2301,6 +2306,12 @@
     background: none;
     box-shadow: none;
     border-radius: 0;
+    border: 0;
+}
+
+.eq-ie8 .action-close-store-launcher-popup,
+.eq-ie8 .action-close-store-launcher-popup:hover {
+    filter: none;
 }
 
 .action-close-store-launcher-popup span {
@@ -2432,6 +2443,12 @@
     font-family: 'CallunaSans', Arial, sans-serif;
     font-weight: 500;
     box-shadow: none;
+    border: 0;
+}
+
+.eq-ie8 .store-launcher-popup-footer .action-store-launcher-popup-secondary,
+.eq-ie8 .store-launcher-popup-footer .action-store-launcher-popup-secondary:hover {
+    filter: none;
 }
 
 .store-launcher-popup-footer .action-store-launcher-popup-secondary:after {
@@ -2804,6 +2821,12 @@
     background: none;
     box-shadow: none;
     border-radius: 0;
+    border: 0;
+}
+
+.eq-ie8 .action-close-store-tour-description,
+.eq-ie8 .action-close-store-tour-description:hover {
+    filter: none
 }
 
 .action-close-store-tour-description span,
@@ -2862,6 +2885,7 @@
     -o-transition: 300ms linear right;
     -ms-transition: 300ms linear right;
     transition: 300ms linear right;
+    border: 0;
 }
 
 .store-tour-actions .action-toggle-store-tour-mode:before,

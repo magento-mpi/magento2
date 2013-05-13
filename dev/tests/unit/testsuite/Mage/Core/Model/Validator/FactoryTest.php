@@ -67,10 +67,11 @@ class Mage_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(array('/tmp/moduleOne/etc/validation.xml')));
 
         // Translate adapter mock
-        $designMock = $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false);
         $this->_translateAdapter = $this->getMockBuilder('Mage_Core_Model_Translate')
-            ->setConstructorArgs(array($designMock,
-                $this->getMock('Mage_Core_Model_Locale_Hierarchy_Loader', array(), array(), '', false, false))
+            ->setConstructorArgs(array(
+                $this->getMock('Mage_Core_Model_Design_PackageInterface'),
+                $this->getMock('Mage_Core_Model_Locale_Hierarchy_Loader', array(), array(), '', false, false),
+                $this->getMock('Mage_Core_Model_Translate_Factory', array(), array(), '', false, false))
             )
             ->setMethods(array('_getTranslatedString'))
             ->getMock();

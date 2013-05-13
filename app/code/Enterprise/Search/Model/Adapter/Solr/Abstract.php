@@ -48,9 +48,76 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
      */
     protected $_advancedIndexFieldsPrefix = '';
 
+    /**
+     * Return client factory
+     *
+     * @var Enterprise_Search_Model_Client_FactoryInterface
+     */
+    protected $_clientFactory;
 
+    /**
+     * Logger
+     *
+     * @var Mage_Core_Model_Logger
+     */
+    protected $_log;
 
+    /**
+     * Search client helper
+     *
+     * @var Enterprise_Search_Helper_ClientInterface
+     */
+    protected $_clientHelper;
 
+    /**
+     * Initialize connect to Solr Client
+     *
+     * @param Enterprise_Search_Model_Client_FactoryInterface $clientFactory
+     * @param Mage_Core_Model_Logger $logger
+     * @param Enterprise_Search_Helper_ClientInterface $clientHelper
+     * @param array $options
+     * @throws Exception
+     */
+    public function __construct(
+        Enterprise_Search_Model_Client_FactoryInterface $clientFactory,
+        Mage_Core_Model_Logger $logger,
+        Enterprise_Search_Helper_ClientInterface $clientHelper,
+        $options = array()
+    ) {
+        $this->_clientHelper = $clientHelper;
+        $this->_log = $logger;
+        $this->_clientFactory = $clientFactory;
+        try {
+            $this->_connect($options);
+        } catch (Exception $e) {
+            $this->_log->logException($e);
+            Mage::throwException(
+                $this->_clientHelper->__('Unable to perform search because of search engine missed configuration.')
+            );
+        }
+    }
+
+    /**
+     * Connect to Solr Client by specified options that will be merged with default
+     *
+     * @param  array $options
+     * @throws RuntimeException
+     * @return SolrClient|Enterprise_Search_Model_Client_Solr
+     */
+    protected function _connect($options = array())
+    {
+        try {
+            $this->_client = $this->_clientFactory->createClient($this->_clientHelper->prepareClientOptions($options));
+        } catch (Exception $e) {
+            $this->_log->logException($e);
+        }
+
+        if (!is_object($this->_client)) {
+            throw new RuntimeException('Solr client is not set.');
+        }
+
+        return $this->_client;
+    }
 
     /**
      * Set advanced index fields prefix
@@ -70,7 +137,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
      */
     protected function _getLanguageCodeByLocaleCode($localeCode)
     {
-        return Mage::helper('Enterprise_Search_Helper_Data')->getLanguageCodeByLocaleCode($localeCode);
+        return $this->_clientHelper->getLanguageCodeByLocaleCode($localeCode);
     }
 
     /**
@@ -82,7 +149,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
      */
     protected function _getLanguageSuffix($localeCode)
     {
-        return Mage::helper('Enterprise_Search_Helper_Data')->getLanguageSuffix($localeCode);
+        return $this->_clientHelper->getLanguageSuffix($localeCode);
     }
 
     /**
@@ -325,7 +392,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
     public function getAdvancedTextFieldName($filed, $suffix = '', $storeId = null)
     {
         $localeCode     = Mage::app()->getStore($storeId)->getConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
-        $languageSuffix = Mage::helper('Enterprise_Search_Helper_Data')->getLanguageSuffix($localeCode);
+        $languageSuffix = $this->_clientHelper->getLanguageSuffix($localeCode);
 
         if ($suffix) {
             $suffix = '_' . $suffix;
@@ -356,8 +423,8 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
 
         // Field type defining
         $attributeCode = $attribute->getAttributeCode();
-        if (in_array($attributeCode, array('sku'))) {
-            return $attributeCode;
+        if ($attributeCode == 'sku') {
+            return $target == 'sort' ? 'attr_sort_sku' : 'sku';
         }
 
         if ($attributeCode == 'price') {
@@ -390,7 +457,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
         if ($fieldType == 'text') {
             $localeCode     = Mage::app()->getStore($attribute->getStoreId())
                 ->getConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE);
-            $languageSuffix = Mage::helper('Enterprise_Search_Helper_Data')->getLanguageSuffix($localeCode);
+            $languageSuffix = $this->_clientHelper->getLanguageSuffix($localeCode);
             $fieldName      = $fieldPrefix . $attributeCode . $languageSuffix;
         } else {
             $fieldName      = $fieldPrefix . $fieldType . '_' . $attributeCode;

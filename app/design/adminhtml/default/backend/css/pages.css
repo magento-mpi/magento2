@@ -19,7 +19,17 @@
     overflow: hidden;
     padding: 5px 6px 3px;
     margin-left: 12px;
-    color: #7a7976;;
+    color: #7a7976;
+}
+
+.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back,
+.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
+.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
+.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back,
+.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
+.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back:active {
+    filter: none;
+    border: 0;
 }
 
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
@@ -57,525 +67,9 @@
     margin: 6px 17px 6px 6px;
 }
 
-/* Image Management */
-.images {
-    position: relative;
-    border: 2px dotted #CCC;
-    border-radius: 5px;
-    padding: 5px;
-}
-
-.image,
-.gallery .ui-state-highlight {
-    position: relative;
-    width: 17.874%;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    float: left;
-    margin: 5px 1%;
-    overflow: hidden;
-    background: #fff;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-.image .spacer {
-    width: 100%;
-}
-
-.image .product-image {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    width: 100%;
-}
-
-.image.base-image:before {
-    position: absolute;
-    top: 5px;
-    left: 0;
-    right: 0;
-    padding: 5px 0;
-    background: #d56d27;
-    text-align: center;
-    text-transform: uppercase;
-    text-shadow: 0 1px 2px #000;
-    font-size: 9px;
-    font-weight: bold;
-    color: #fff;
-    content: attr(data-image-label);
-    letter-spacing: 1px;
-    -moz-transform: rotate(-45deg) translate3d(0, 0, 0);
-    -webkit-transform: rotate(-45deg) translate3d(0, 0, 0);
-    transform: rotate(-45deg) translate3d(0, 0, 0);
-    margin-left: -60%;
-    z-index: 1;
-}
-
-.no-csstransforms3d .image.base-image:before {
-    margin-left: 0;
-}
-
-.image.hidden-for-front:after {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background: rgba(247, 242, 236, .8);
-    content: attr(data-image-hidden-label);
-    text-align: center;
-    text-transform: uppercase;
-    color: #a69a8f;
-    font: 18px/120px 'CallunaSans', Arial, sans-serif;
-    font-weight: 500;
-    z-index: 1;
-}
-
-.image.active {
-    box-shadow: 0 0 10px #a1d3ec;
-}
-
-.image .actions {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    text-align: center;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-.image .actions [class^="action-"],
-.image[data-image-hidden]:hover .actions [class^="action-"],
-.image.hidden-for-front:hover .actions [class^="action-"] {
-    visibility: hidden;
-}
-
-.image:hover .actions [class^="action-"],
-.image[data-image-hidden]:hover .actions .action-delete,
-.hidden-for-front:hover .actions .action-delete {
-    visibility: visible;
-}
-
-.image .action-delete {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    z-index: 2;
-}
-
-.image .action-make-main {
-    position: absolute;
-    bottom: 20px;
-    left: 10%;
-    right: 10%;
-}
-
-.image .action-make-main {
-    position: absolute;
-    bottom: 20px;
-    left: 10%;
-    right: 10%;
-    padding: 5px;
-    margin: auto;
-}
-
-.image .draggable-handle {
-    position: absolute;
-    width: 14px;
-    height: 8px;
-    cursor: move;
-    left: 0;
-    right: 0;
-    bottom: 5px;
-    top: auto;
-    margin: auto;
-    background: url(Mage_Backend::images/draggable-handle-bg.gif) no-repeat;
-    z-index: 2;
-}
-
-.image .draggable-handle:before {
-    content: '';
-}
-
-.gallery .image .action-delete {
-    top: 5px;
-    right: 5px;
-}
-
-.gallery .ui-state-highlight {
-    background: #d7ebf5;
-    border: 2px dotted #93dbff;
-}
-
-.image-placeholder {
-    position: relative;
-    background: #fff url(Mage_Adminhtml::images/image-placeholder.png) no-repeat 50% 0;
-}
-
-.image-placeholder .fileinput-button {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-}
-
-.image-placeholder .fileinput-button > span {
-    display: none;
-}
-
-.image-placeholder input[type="file"] {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    border: 500px solid transparent;
-    font-size: 10em;
-    z-index: 2;
-    cursor: pointer;
-}
-
-.image-placeholder .file-row {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    height: auto;
-    overflow: hidden;
-    background: #fff url(../mui/images/ajax-loader-big.gif) no-repeat 50% 50%;
-    z-index: 5;
-    text-indent: -999em;
-}
-
-.image-placeholder-text {
-    padding: 0 10px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    font-size: 11px;
-    font-weight: bold;
-    line-height: 1.333;
-    text-align: center;
-    color: #cac8c4;
-}
-
-.gallery .image.base-image::before {
-    margin-left: -75%;
-}
-
-.gallery .image-placeholder {
-    background-position: 50% 30%;
-}
-
-.gallery .image-placeholder-text {
-    margin-bottom: 15%;
-}
-
-@media screen and (max-width: 1200px) {
-    .gallery .image-placeholder-text {
-        margin-bottom: 5px;
-    }
-}
-
-/* Gallery image panel */
-.image-panel {
-    display: none;
-    position: relative;
-    top: 5px;
-    clear: both;
-    background: #fff;
-    margin: 0 -18px 15px;
-    padding: 20px 15px;
-    box-shadow: 0 1px 3px #aaa inset;
-    border-bottom: 1px solid #cfd0cb;
-}
-
-.eq-ie8 .image-panel {
-    border: solid #d6d3d0;
-    border-width: 2px 1px 1px;
-}
-
-.image-pointer {
-    position: absolute;
-    left: 50%;
-    top: -11px;
-    margin-left: -14px;
-    width: 28px;
-    height: 15px;
-    background: url(Mage_Backend::images/gallery-image-panel-corner.png) no-repeat;
-}
-
-.eq-ie8 .image-pointer {
-    top: -13px;
-}
-
-.image-panel-controls,
-.image-panel-preview {
-    float: left;
-    width: 65.95744680199999%;
-    margin-left: 2.127659574%;
-}
-
-.image-panel-preview {
-    margin-left: 0;
-}
-
-.image-panel-controls {
-    width: 29.914893614%;
-    padding: 28px 1% 0 1%;
-}
-
-.image-panel-controls {
-
-}
-
-.image-panel-controls .image-name {
-    display: block;
-    margin: 0 0 3px;
-    color: #666;
-}
-
-.image-file-params {
-    margin: 0 0 10px 0;
-    font-size: 11px;
-    color: #666;
-}
-
-.image-file-params .dimensions {
-
-}
-
-.image-file-params .size {
-
-}
-
-.image-panel-controls .action-remove,
-.image-panel-controls .action-remove:hover,
-.image-panel-controls .action-remove:active,
-.image-panel-controls .action-remove:focus,
-.image-panel-controls .action-remove[disabled] {
-    color: #a29c94;
-    font: 12px/1.333 Arial, Verdana, sans-serif;
-    text-decoration: underline;
-    margin: 0 0 42px 0;
-}
-
-.image-panel-controls .fieldset-alt {
-    padding: 0 5px 0 0;
-}
-.image-panel-controls .fieldset-alt .field {
-    margin-bottom: 25px;
-}
-.image-panel-controls .fieldset-alt .field > .control,
-.image-panel-controls textarea {
-    width: 100%;
-    resize: vertical;
-}
-
-.image-panel-preview img {
-    width: 100%;
-}
-
-.image-panel .action-close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-}
-
-.image-panel .action-close:before {
-    font-family: 'MUI-Icons';
-    font-style: normal;
-    speak: none;
-    font-weight: normal;
-    -webkit-font-smoothing: antialiased;
-    content: '\e07d'; /* close icon */
-    font-size: 16px;
-    color: #bbb;
-}
-
-.image-panel .action-close span {
-    display: none;
-}
-
-/* action in fieldset wrapper */
-.fieldset-wrapper-title .action-add,
-.fieldset-wrapper-title .action-add:hover,
-.fieldset-wrapper-title .action-add:focus,
-.fieldset-wrapper-title .action-add:active,
-.fieldset-wrapper-title .action-add:hover {
-    font-size: 12px;
-    color: #a29c94;
-    text-decoration: underline;
-    margin: 8px 20px 0 0;
-}
-
-.fieldset-wrapper-title .action-add:hover {
-    color: #000;
-}
-
-.fieldset-wrapper-title .action-add span {
-}
-
-/* Quantity filed on product */
-.field-quantity_and_stock_status {
-}
-
-.field-quantity_and_stock_status input[type="text"] {
-    width: 36%;
-    margin-right: 15px;
-}
-
-.field-quantity_and_stock_status select {
-    vertical-align: middle;
-}
-
-/* Weight field */
-
-.field-weight .control {
-    display: table;
-    width: 100%;
-}
-
 .field-weight .control .field:first-child {
     width: 36%;
     margin-right: 15px;
-}
-
-.field-weight .control .field:first-child .control {
-    width: 100%;
-}
-
-.field-weight .choice {
-    padding-top: 3px;
-}
-
-.field-weight .choice input {
-    margin-right: 5px;
-    vertical-align: bottom;
-}
-
-/* Variations Search Field */
-#variations-search-field {
-    margin-bottom: 16px;
-}
-
-#variations-search-field > .control {
-    position: relative;
-    width: 42%;
-}
-
-#variations-search-field > .control > input {
-    padding-right: 25px;
-}
-
-#configurable-attributes-container .field-variation > .label {
-    margin-left: -7px;
-}
-
-#configurable-attributes-container .field-variation > .control {
-    width: 43%;
-}
-
-#configurable-attributes-container {
-    margin-bottom: 23px;
-}
-
-#configurable-attributes-container .col-name {
-    width: 45%;
-}
-
-#configurable-attributes-container .pricing-value {
-    text-align: right;
-}
-
-#generate-variations-button {
-    margin-bottom: 18px;
-}
-
-#product-variations-matrix > .title {
-    margin-bottom: 10px;
-}
-
-#product-variations-matrix .action-upload {
-    background: #fff;
-    border-radius: 0;
-    border: 1px solid #b7b2a7;
-    padding: 0;
-    width: 31px;
-    height: 31px;
-    line-height: 30px;
-    text-align: center;
-    color: #9f9a91;
-    overflow: hidden;
-}
-
-#product-variations-matrix .action-upload:hover {
-    color: #7e7e7e;
-}
-
-#product-variations-matrix .action-upload:before {
-    font-family: 'MUI-Icons';
-    font-style: normal;
-    speak: none;
-    font-weight: normal;
-    -webkit-font-smoothing: antialiased;
-    content: '\e02d'; /* plus icon */
-    font-size: 22px;
-}
-
-#product-variations-matrix .action-upload span,
-#product-variations-matrix .action-choose span {
-    display: none;
-}
-
-#product-variations-matrix .action-choose {
-    color: #b8b3a7;
-    float: right;
-    margin: 5px 0 0 5px;
-}
-
-#product-variations-matrix .action-choose:hover {
-    color: #7e7e7e;
-}
-
-#product-variations-matrix .action-choose:before {
-    font-family: 'MUI-Icons';
-    font-style: normal;
-    speak: none;
-    font-weight: normal;
-    -webkit-font-smoothing: antialiased;
-    content: '\e040'; /* user icon */
-}
-
-#product-variations-matrix .col-name > a + .action-choose:before {
-    content: '\e03f'; /* user icon */
-    color: #a09a8c;
-}
-
-#product-variations-matrix .col-name > input {
-    width: 75%;
-}
-
-#product-variations-matrix .col-actions {
-    width: 60px;
 }
 
 #allow_open_amount {
@@ -585,6 +79,10 @@
 /*
     Customer
 ---------------------------------------*/
+#customer_info_tabs_account_content #_accountsendemail {
+    margin-top: 8px;
+}
+
 .customer-information:before,
 .customer-information:after {
     content: "";
@@ -800,6 +298,22 @@
     min-width: 20%;
 }
 
+/* Content */
+
+.field-store_default_content .buttons-set {
+    margin-bottom: 9px;
+}
+
+.field-store_default_content .buttons-set button {
+    margin-right: 4px;
+}
+
+.field-store_0_content_use input[type="checkbox"] {
+    margin-right: 3px;
+    position: relative;
+    top: 2px;
+}
+
 /*
     CMS -> Manage Hierarchy
 -------------------------------------- */
@@ -812,16 +326,13 @@
 }
 
 .cms-hierarchy #tree-container {
-    margin: 5px 0 10px 0;
+    margin-top: 25px;
+    overflow: auto;
+    padding-bottom: 10px;
 }
 
 .cms-hierarchy .buttons-set {
     margin-bottom: 10px;
-}
-
-.cms-hierarchy #cms_page_grid_container .actions {
-    position: relative;
-    top: 4px;
 }
 
 .cms-hierarchy .cms-hierarchy-tree {
@@ -849,24 +360,17 @@
     margin-right: 8px;
 }
 
+.cms-hierarchy-node #node_properties_fieldset #node_preview {
+    position: relative;
+    top: 6px;
+}
+
 /*
-    CMS -> Banners
+    CMS -> Widgets
 -------------------------------------- */
 
-/* Content */
-
-.field-store_default_content .buttons-set {
-    margin-bottom: 9px;
-}
-
-.field-store_default_content .buttons-set button {
-    margin-right: 4px;
-}
-
-.field-store_0_content_use input[type="checkbox"] {
-    margin-right: 3px;
-    position: relative;
-    top: 2px;
+#widget_instace_tabs_properties_section_content .widget-option-label {
+    margin-top: 6px;
 }
 
 /*
@@ -897,6 +401,56 @@
 
 .cms-manage-content-actions textarea {
     width: 100%;
+}
+
+/*
+    System -> Export
+-------------------------------------- */
+
+#export_filter_grid .grid td .input-text-range-date {
+    vertical-align: middle;
+}
+
+#export_filter_grid .grid td .ui-datepicker-trigger {
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+#export_filter_grid .grid select {
+    margin-bottom: 0;
+}
+
+#export_filter_grid .grid table td:first-child,
+#export_filter_grid .grid tr th:first-child {
+    border-left: 0;
+}
+
+#export_filter_grid .data thead {
+    border-left: 1px solid #837F79;
+}
+
+#export_filter_grid .data tbody {
+    border-left: 1px solid #c0bbaf;
+}
+
+/*
+    System -> Roles
+-------------------------------------- */
+
+#gws_container ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+#gws_container ul ul {
+    margin: .8em 0 .8em 1.4em;
+}
+
+#gws_container input[type="checkbox"] {
+    margin-right: 3px;
+    position: relative;
+    top: -1px;
 }
 
 /*
@@ -1614,12 +1168,12 @@
 /*
     Tags
 -------------------------------------- */
-.tag-title .page-actions {
-    float: right;
+.tag-title {
+    overflow: hidden;
 }
 
-.tag-title .store-switcher {
-    padding: 14px 0 18px;
+.tag-title .page-actions {
+    float: right;
 }
 
 /*
@@ -1752,12 +1306,13 @@
     width: auto;
 }
 
+[class^=" adminhtml-sales-"] .order-information .fieldset-wrapper > .fieldset-wrapper-title .title {
+    width: 100%;
+}
+
 #order-data .actions .action-add,
-#order-data .actions .action-add:active,
-#order-data .actions .action-add:hover,
 #order-data .actions .action-delete,
-#order-data .actions .action-delete:active,
-#order-data .actions .action-delete:hover {
+#order-customer-selector .actions .action-add {
     margin: 0 0 0 20px;
 }
 
@@ -1982,6 +1537,10 @@
     float: right;
 }
 
+[class^=" adminhtml-sales-order-"] .fieldset-wrapper address {
+    overflow: auto;
+}
+
 /*
     Orders comments
 -------------------------------------- */
@@ -2088,14 +1647,17 @@
     width: 10%;
 }
 
-[class^=" adminhtml-sales-"] .col-select,
 [class^=" adminhtml-sales-"] .col-actions,
-[class^=" adminhtml-rma-"] .col-select,
 [class^=" adminhtml-rma-"] .col-actions,
 [class^=" adminhtml-rma-"] .col-default,
-.adminhtml-giftwrapping-index .col-select,
 .adminhtml-giftwrapping-index .col-actions {
     width: 50px;
+}
+
+[class^=" adminhtml-sales-"] .col-select,
+[class^=" adminhtml-rma-"] .col-select,
+.adminhtml-giftwrapping-index .col-select {
+    width: 60px;
 }
 
 [class^=" adminhtml-sales-"] .col-qty,
@@ -2105,6 +1667,7 @@
 [class^=" adminhtml-rma-"] .col-condition {
     width: 70px;
 }
+
 [class^=" adminhtml-sales-"] .col-refund,
 [class^=" adminhtml-sales-transactions-"] .col-closed,
 .adminhtml-sales-order-view .col-closed {
@@ -2127,6 +1690,13 @@
     width: 75px;
 }
 
+[class^=" adminhtml-sales-"] .col-gtbase,
+[class^=" adminhtml-sales-"] .col-gtpurchased {
+    text-align: right;
+    white-space: normal;
+    width: 75px;
+}
+
 [class^=" adminhtml-sales-"] .col-order-number,
 [class^=" adminhtml-sales-"] .col-rma-number,
 [class^=" adminhtml-rma-"] .col-order-number,
@@ -2134,28 +1704,26 @@
     text-align: left;
 }
 
-[class^=" adminhtml-sales-"] .col-gtbase,
-[class^=" adminhtml-sales-"] .col-gtpurchased {
-    text-align: right;
-    width: 80px;
-}
-
 [class^=" adminhtml-rma-"] .col-status,
 [class^=" adminhtml-rma-"] .col-reason,
 [class^=" adminhtml-rma-"] .col-resolution,
-.adminhtml-sales-order-view .col-memo,
-[class^=" adminhtml-sales-transactions-"] .col-transaction-type {
+[class^=" adminhtml-sales-transactions-"] .col-transaction-type,
+.adminhtml-sales-order-view .col-memo {
     width: 100px;
 }
 
-[class^=" adminhtml-sales-"] .col-parent-transaction-id,
-[class^=" adminhtml-sales-"] .col-transaction-id {
-    width: 140px;
+[class^=" adminhtml-sales-"] tr.headings .col-parent-transaction-id > span,
+[class^=" adminhtml-sales-"] tr.headings .col-method > span,
+[class^=" adminhtml-sales-"] tr.headings .col-transaction-id > span,
+[class^=" adminhtml-sales-"] tr.headings .col-transaction-type > span,
+[class^=" adminhtml-sales-"] tr.headings .col-gtbase > span,
+[class^=" adminhtml-sales-"] tr.headings .col-gtpurchased > span,
+[class^=" adminhtml-sales-order-"] tr.headings .col-discont > span {
+    white-space: normal;
 }
 
 [class^=" adminhtml-sales-"] .col-period,
 [class^=" adminhtml-rma-"] .col-period {
-    white-space: nowrap;
     width: 150px;
 }
 
@@ -2172,6 +1740,22 @@
 [class^=" adminhtml-sales-transactions-"] .log-details .data-table tbody tr th,
 [class^=" adminhtml-sales-transactions-"] .col-key {
     width: 22%;
+}
+
+.adminhtml-sales-order-index .col-1-layout table.data {
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
+[class^=" adminhtml-sales-"] .col-from-store {
+    width: 15%;
+}
+
+[class^=" adminhtml-sales-"] .col-2-left-layout .hor-scroll {
+    margin-bottom: -4px;
+    overflow: auto;
+    padding-bottom: 4px;
+    width: 100%;
 }
 
 [class^=" adminhtml-sales-order-"] .order-totals .actions,
@@ -2848,6 +2432,35 @@ table.items-to-invoice tbody tr:hover td {
     float: left;
     position: relative;
     bottom: -14px;
+}
+
+/*
+    URL rewrite
+-------------------------------------- */
+.adminhtml-urlrewrite-edit .field-url-rewrite-option-select .label {
+    width: auto;
+}
+
+/*
+    Shopping Cart Price Rule
+-------------------------------------- */
+.fieldset .field-coupon_code,
+.fieldset .field-rule_use_auto_generation {
+    margin-bottom: 0;
+}
+.field-rule_use_auto_generation .label {
+    margin-left: 5px;
+}
+.field-rule_use_auto_generation .nested {
+    margin-bottom: 29px;
+}
+
+/*
+    Product Image Placeholders
+-------------------------------------- */
+#catalog_placeholder .input-file,
+#catalog_placeholder .delete-image > input {
+    margin-right: 5px;
 }
 
 /*

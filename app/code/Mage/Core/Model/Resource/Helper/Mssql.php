@@ -67,7 +67,7 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
      * Returns select query with analytic functions
      *
      * @param Varien_Db_Select $select
-     * @return string
+     * @return Varien_Db_Select
      */
     public function getQueryUsingAnalyticFunction(Varien_Db_Select $select)
     {
@@ -91,6 +91,7 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
             $clonedSelect->columns(array(
                 $wrapperTableColumnName => $this->prepareColumn('RANK()', $groupByCondition, 'NEWID()')
             ));
+
             /**
              * Prepare where condition for wrapper select
              */
@@ -106,7 +107,6 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
         $clonedSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $clonedSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
 
-
         $columns = array();
         foreach ($columnList as $columnEntry) {
             $columns[] = $columnEntry[2] ? $columnEntry[2] : $columnEntry[1];
@@ -118,10 +118,10 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
             $whereConditionExpr = '';
         }
 
-        $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), $columns);
         /**
          * Assemble sql query
          */
+        $quotedColumns = array_map(array($adapter, 'quoteIdentifier'), $columns);
         $query = sprintf('SELECT %s FROM (%s) %s %s',
             implode(', ', $quotedColumns),
             $clonedSelect->assemble(),
@@ -129,14 +129,13 @@ class Mage_Core_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Hel
             $whereConditionExpr
         );
 
-
         if (!empty($orderCondition)) {
             $query .= ' ORDER BY ' . $orderCondition;
         }
 
         $query = $this->_assembleLimit($query, $limitCount, $limitOffset, $columnList);
 
-        return $query;
+        return $adapter->select()->from(new Zend_Db_Expr('(' . $query . ')'));
     }
 
     /**

@@ -17,7 +17,7 @@ class Mage_Backend_Model_Config_Backend_Secure extends Mage_Core_Model_Config_Da
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
-            Mage::getModel('Mage_Core_Model_Design_Package')->cleanMergedJsCss();
+            Mage::getModel('Mage_Core_Model_Design_PackageInterface')->cleanMergedJsCss();
         }
     }
 }

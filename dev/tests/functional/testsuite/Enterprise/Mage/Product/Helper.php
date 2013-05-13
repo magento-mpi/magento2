@@ -62,31 +62,28 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
     {
         $this->openProductTab('general');
         parent::fillGeneralTab($generalTab);
-        if (isset($generalTab['general_giftcard_data'])) {
-            foreach ($generalTab['general_giftcard_data']['general_amounts'] as $value) {
+        if (isset($generalTab['general_amounts'])) {
+            foreach ($generalTab['general_amounts'] as $value) {
                 $this->addGiftCardAmount($value);
-                unset($generalTab['general_giftcard_data']['general_amounts']);
+                unset($generalTab['general_amounts']);
             }
-            $this->fillFieldset($generalTab['general_giftcard_data'], 'general_giftcard_data');
-            unset($generalTab['general_giftcard_data']);
         }
     }
 
-//    /**
-//     * Verify data on General Tab
-//     *
-//     * @param array $generalTab
-//     */
-//    public function verifyGeneralTab($generalTab)
-//    {
-//        $this->openTab('general');
-//        if (isset($generalTab['general_giftcard_data'])) {
-//            $this->verifyGiftCardAmounts($generalTab['general_giftcard_data']['general_amounts']);
-//            $this->verifyForm($generalTab['general_giftcard_data'], 'general');
-//            unset($generalTab['general_giftcard_data']);
-//        }
-//        parent::verifyGeneralTab($generalTab);
-//    }
+    /**
+     * Verify data on General Tab
+     *
+     * @param array $generalTab
+     */
+    public function verifyGeneralTab(array $generalTab)
+    {
+        parent::verifyGeneralTab($generalTab);
+        $this->openTab('general');
+        if (isset($generalTab['general_amounts'])) {
+            $this->verifyGiftCardAmounts($generalTab['general_amounts']);
+            unset($generalTab['general_amounts']);
+        }
+    }
 
     /**
      * Add Gift Card Amount
@@ -121,13 +118,16 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
                 'Product must contain ' . $needCount . ' gift card amount(s), but contains ' . $rowQty);
             return false;
         }
-        $index = $rowQty - 1;
+        $index = 0;
         foreach ($giftCardData as $value) {
+            if ($index < $rowQty){
             $this->addParameter('giftCardId', $index);
-            $this->verifyForm($value, 'giftcard_amount');
-            $this->verifyForm($value, 'general_amounts');
-            $this->verifyForm($value, 'general_giftcard_information');
-            --$index;
+            if (!$this->controlIsVisible('dropdown', 'general_giftcard_website')) {
+                unset($value['general_giftcard_website']);
+            }
+            $this->verifyForm($value, 'general');
+            $index++;
+            }
         }
         $this->assertEmptyVerificationErrors();
         return true;

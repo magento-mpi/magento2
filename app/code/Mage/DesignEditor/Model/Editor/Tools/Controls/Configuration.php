@@ -31,7 +31,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     protected $_configuration;
 
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     protected $_design;
 
@@ -44,6 +44,11 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
      * @var Mage_Core_Model_Theme
      */
     protected $_theme;
+
+    /**
+     * @var Mage_Core_Model_Theme
+     */
+    protected $_parentTheme;
 
     /**
      * @var Magento_Config_View
@@ -72,21 +77,24 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     /**
      * Initialize dependencies
      *
-     * @param Mage_Core_Model_Design_Package $design
+     * @param Mage_Core_Model_Design_PackageInterface $design
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Event_Manager $eventDispatcher
      * @param Mage_DesignEditor_Model_Config_Control_Abstract|null $configuration
      * @param Mage_Core_Model_Theme|null $theme
+     * @param Mage_Core_Model_Theme $parentTheme
      */
     public function __construct(
-        Mage_Core_Model_Design_Package $design,
+        Mage_Core_Model_Design_PackageInterface $design,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Event_Manager $eventDispatcher,
         Mage_DesignEditor_Model_Config_Control_Abstract $configuration = null,
-        Mage_Core_Model_Theme $theme = null
+        Mage_Core_Model_Theme $theme = null,
+        Mage_Core_Model_Theme $parentTheme = null
     ) {
         $this->_configuration = $configuration;
         $this->_theme = $theme;
+        $this->_parentTheme = $parentTheme ?: $theme->getParentTheme();
         $this->_design = $design;
         $this->_filesystem = $filesystem;
         $this->_eventDispatcher = $eventDispatcher;
@@ -101,12 +109,12 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     protected function _initViewConfigs()
     {
         $this->_viewConfig = $this->_design->getViewConfig(array(
-            'area'       => Mage_Core_Model_Design_Package::DEFAULT_AREA,
+            'area'       => Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA,
             'themeModel' => $this->_theme
         ));
         $this->_viewConfigParent = $this->_design->getViewConfig(array(
-            'area'       => Mage_Core_Model_Design_Package::DEFAULT_AREA,
-            'themeModel' => $this->_theme->getParentTheme()
+            'area'       => Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA,
+            'themeModel' => $this->_parentTheme
         ));
         return $this;
     }
@@ -245,7 +253,9 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
             }
         }
         $this->_saveViewConfiguration($configDom);
-        $this->_eventDispatcher->dispatch('save_xml_configuration', array('configuration' => $this));
+        $this->_eventDispatcher->dispatch('save_xml_configuration', array(
+            'configuration' => $this, 'theme' => $this->_theme
+        ));
         return $this;
     }
 
@@ -257,16 +267,6 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     public function getControlConfig()
     {
         return $this->_configuration;
-    }
-
-    /**
-     * Get theme
-     *
-     * @return Mage_Core_Model_Theme
-     */
-    public function getTheme()
-    {
-        return $this->_theme;
     }
 
     /**

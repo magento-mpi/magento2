@@ -199,7 +199,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     {
         //TODO Shouldn't we get "area" from theme model which we can load using "theme_id"?
         if (!$this->_getData('area')) {
-            return Mage_Core_Model_Design_Package::DEFAULT_AREA;
+            return Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA;
         }
         return $this->_getData('area');
     }
@@ -371,11 +371,12 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
      */
     public function generateLayoutUpdateXml($container, $templatePath = '')
     {
-        $templateFilename = Mage::getSingleton('Mage_Core_Model_Design_Package')->getFilename($templatePath, array(
-            'area'    => $this->getArea(),
-            'themeId' => $this->getThemeId(),
-            'module'  => Mage_Core_Block_Abstract::extractModuleName($this->getType()),
-        ));
+        $templateFilename = Mage::getSingleton('Mage_Core_Model_Design_PackageInterface')
+            ->getFilename($templatePath, array(
+                'area'    => $this->getArea(),
+                'themeId' => $this->getThemeId(),
+                'module'  => Mage_Core_Block_Abstract::extractModuleName($this->getType()),
+            ));
         if (!$this->getId() && !$this->isCompleteToCreate() || ($templatePath && !is_readable($templateFilename))) {
             return '';
         }

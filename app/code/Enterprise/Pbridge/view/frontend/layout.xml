@@ -10,14 +10,10 @@
  */
 -->
 <layout version="0.1.0">
-
     <checkout_onepage_index>
-        <reference name="content">
-            <block type="Mage_Core_Block_Template" name="pbridge.js" template="Enterprise_Pbridge::checkout/payment/js.phtml" />
+        <reference name="head">
+            <action method="addJs"><file>Enterprise_Pbridge::js/pbridge.js</file></action>
         </reference>
-        <reference name="head">
-            <action method="addJs"><file>Enterprise_Pbridge::js/pbridge.js</file></action>
-        </reference>
     </checkout_onepage_index>
 
     <checkout_onepage_paymentmethod>
@@ -27,12 +23,9 @@
     </checkout_onepage_paymentmethod>
 
     <checkout_multishipping_billing>
-        <reference name="content">
-            <block type="Mage_Core_Block_Template" name="pbridge.js" template="Enterprise_Pbridge::checkout/payment/js.phtml" />
+        <reference name="head">
+            <action method="addJs"><file>Enterprise_Pbridge::js/pbridge.js</file></action>
         </reference>
-        <reference name="head">
-            <action method="addJs"><file>Enterprise_Pbridge::js/pbridge.js</file></action>
-        </reference>
     </checkout_multishipping_billing>
 
     <enterprise_pbridge_pbridge_result translate="label" type="fragment" owner="checkout_onepage_index">

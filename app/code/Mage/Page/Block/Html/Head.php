@@ -78,7 +78,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     public function addCss($file, $attributes = '', $ieCondition = null, $flagName = null)
     {
-        $contentType = Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS;
+        $contentType = Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS;
         $asset = $this->_objectManager->create(
             'Mage_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
         );
@@ -101,7 +101,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     public function addJs($file, $attributes = '', $ieCondition = null, $flagName = null)
     {
-        $contentType = Mage_Core_Model_Design_Package::CONTENT_TYPE_JS;
+        $contentType = Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS;
         $asset = $this->_objectManager->create(
             'Mage_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
         );
@@ -173,6 +173,81 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     }
 
     /**
+     * Add Meta element to HEAD entity
+     *
+     * @param string|array $metaData
+     * @param string $content
+     * @return Mage_Page_Block_Html_Head
+     */
+    public function addMetaTag($metaData, $content = null)
+    {
+        $this->_initMetaTags();
+        if (!is_array($metaData)) {
+            $metaData = array('name' => $metaData, 'content' => $content);
+        }
+        if (!empty($metaData['name']) && !empty($metaData['content'])) {
+             $this->_data['meta_tag'][] = $metaData;
+        }
+        return $this;
+    }
+
+    /**
+     * Create empy array form meta tags
+     *
+     * @return $this
+     */
+    protected function _initMetaTags()
+    {
+        if (!isset($this->_data['meta_tag'])) {
+            $this->_data['meta_tag'] = array();
+        }
+        return $this;
+    }
+
+    /**
+     * Get default Meta elements
+     *
+     * @return array
+     */
+    public function getDefaultMetaTags()
+    {
+        return array(
+            array('name' => 'description', 'content' => $this->getDescription()),
+            array('name' => 'keywords', 'content' => $this->getKeywords()),
+            array('name' => 'robots', 'content' => $this->getRobots()),
+        );
+    }
+
+    /**
+     * Get Meta elements
+     *
+     * @return array
+     */
+    public function getMetaTags()
+    {
+        $this->_initMetaTags();
+        return array_merge($this->getDefaultMetaTags(), $this->_data['meta_tag']);
+    }
+
+    /**
+     * Get meta tags as html
+     *
+     * @return string
+     */
+    public function getMetaTagHtml()
+    {
+        $metaTags = array();
+        foreach ($this->getMetaTags() as $metaTag) {
+            $metaTags[] = sprintf(
+                '<meta name="%s" content="%s"/>',
+                $metaTag['name'],
+                htmlspecialchars($metaTag['content'])
+            );
+        }
+        return implode("\n", $metaTags);
+    }
+
+    /**
      * Remove Item from HEAD entity
      *
      * @param string $type
@@ -213,10 +288,10 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
             if (!empty($attributes)) {
                 $attributes = ' ' . $attributes;
             }
-            if ($contentType == Mage_Core_Model_Design_Package::CONTENT_TYPE_JS ) {
+            if ($contentType == Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS ) {
                 $groupTemplate = '<script' . $attributes . ' type="text/javascript" src="%s"></script>' . "\n";
             } else {
-                if ($contentType == Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS) {
+                if ($contentType == Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS) {
                     $attributes = ' rel="stylesheet" type="text/css"' . ($attributes ?: ' media="all"');
                 }
                 $groupTemplate = '<link' . $attributes . ' href="%s" />' . "\n";

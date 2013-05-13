@@ -214,7 +214,7 @@ class Generator_ThemeDeployment
      */
     protected function _extractModuleUrls($cssContent)
     {
-        preg_match_all(Mage_Core_Model_Design_Package::REGEX_CSS_RELATIVE_URLS, $cssContent, $matches);
+        preg_match_all(Mage_Core_Model_Design_PackageInterface::REGEX_CSS_RELATIVE_URLS, $cssContent, $matches);
         if (empty($matches[0]) || empty($matches[1])) {
             return array();
         }
@@ -222,7 +222,7 @@ class Generator_ThemeDeployment
 
         // Leave only modular urls
         foreach ($relativeUrls as $key => $relativeUrl) {
-            if (!strpos($relativeUrl, Mage_Core_Model_Design_Package::SCOPE_SEPARATOR)) {
+            if (!strpos($relativeUrl, Mage_Core_Model_Design_PackageInterface::SCOPE_SEPARATOR)) {
                 unset($relativeUrls[$key]);
             }
         }
@@ -260,7 +260,7 @@ class Generator_ThemeDeployment
      */
     protected function _extractModuleAndFile($moduleUrl)
     {
-        $parts = explode(Mage_Core_Model_Design_Package::SCOPE_SEPARATOR, $moduleUrl);
+        $parts = explode(Mage_Core_Model_Design_PackageInterface::SCOPE_SEPARATOR, $moduleUrl);
         if ((count($parts) != 2) || !strlen($parts[0]) || !strlen($parts[1])) {
             throw new Magento_Exception("Wrong module url: {$moduleUrl}");
         }

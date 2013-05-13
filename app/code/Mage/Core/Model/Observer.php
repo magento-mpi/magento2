@@ -34,18 +34,28 @@ class Mage_Core_Model_Observer
     private $_pageAssets;
 
     /**
+     * Instance of config model
+     *
+     * @var Mage_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
      * @param Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
-     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Design_PackageInterface $designPackage
      * @param Mage_Core_Model_Page $page
+     * @param Mage_Core_Model_ConfigInterface $config
      */
     public function __construct(
         Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,
-        Mage_Core_Model_Design_Package $designPackage,
-        Mage_Core_Model_Page $page
+        Mage_Core_Model_Design_PackageInterface $designPackage,
+        Mage_Core_Model_Page $page,
+        Mage_Core_Model_ConfigInterface $config
     ) {
         $this->_cacheFrontendPool = $cacheFrontendPool;
         $this->_currentTheme = $designPackage->getDesignTheme();
         $this->_pageAssets = $page->getAssets();
+        $this->_config = $config;
     }
 
     /**
@@ -81,6 +91,8 @@ class Mage_Core_Model_Observer
     }
 
     /**
+     * Apply customized static files to frontend
+     *
      * @param Varien_Event_Observer $observer
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -93,5 +105,17 @@ class Mage_Core_Model_Observer
                 $this->_pageAssets->add($themeFile->getFilePath(), $asset);
             }
         }
+    }
+
+    /**
+     * Rebuild whole config and save to fast storage
+     *
+     * @param  Varien_Event_Observer $observer
+     * @return Mage_Core_Model_Observer
+     */
+    public function processReinitConfig(Varien_Event_Observer $observer)
+    {
+        $this->_config->reinit();
+        return $this;
     }
 }

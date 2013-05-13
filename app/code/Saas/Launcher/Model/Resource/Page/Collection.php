@@ -28,14 +28,16 @@ class Saas_Launcher_Model_Resource_Page_Collection extends Mage_Core_Model_Resou
     /**
      * Class constructor
      *
+     * @param Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Saas_Launcher_Model_PageFactory $pageFactory
      * @param Mage_Core_Model_Resource_Db_Abstract|null $resource
      */
     public function __construct(
+        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Saas_Launcher_Model_PageFactory $pageFactory,
         Mage_Core_Model_Resource_Db_Abstract $resource = null
     ) {
-        parent::__construct($resource);
+        parent::__construct($fetchStrategy, $resource);
         $this->_pageFactory = $pageFactory;
     }
 

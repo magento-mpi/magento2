@@ -14,45 +14,53 @@
  */
 ?>
 <?php /* @var $this Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws */ ?>
-<div class="entry-edit">
-    <div class="entry-edit-head">
-        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Role Scopes') ?></h4>
-    </div>
-    <fieldset>
+<div class="entry-edit form-inline">
+    <fieldset class="fieldset">
+        <legend class="legend">
+            <span><?php echo $this->__('Role Scopes') ?></span>
+        </legend><br />
 
-        <span class="field-row">
-            <label for="gws_is_all"><?php echo $this->__('Role Scopes') ?></label>
-            <select id="gws_is_all" name="gws_is_all" onchange="$('gws_container').toggle()" class="select">
-                <option value="0"><?php echo $this->__('Custom') ?></option>
-                <?php if ($this->canAssignGwsAll()): ?>
+        <div class="field">
+            <label class="label" for="gws_is_all"><span><?php echo $this->__('Role Scopes') ?></span></label>
+
+            <div class="control">
+                <select id="gws_is_all" name="gws_is_all" onchange="$('gws_container').toggle()" class="select">
+                    <option value="0"><?php echo $this->__('Custom') ?></option>
+                    <?php if ($this->canAssignGwsAll()): ?>
                     <option value="1" <?php echo ($this->getGwsIsAll() ? 'selected="selected"' : '') ?>><?php echo $this->__('All') ?></option>
-                <?php endif; ?>
-            </select>
-        </span>
-
-        <div id="gws_container">
-            <ul>
-            <?php foreach (Mage::app()->getWebsites() as $websiteId => $website): ?>
-                <li>
-                <input class="gws_website" type="checkbox" name="gws_websites[]" value="<?php echo $websiteId ?>" id="gws_website_<?php echo $websiteId ?>" <?php echo (in_array($websiteId, $this->getRole()->getGwsWebsites()) ? 'checked="checked" ' : '') ?>/><label for="gws_website_<?php echo $websiteId ?>">
-                    <?php echo $this->escapeHtml($website->getName()) ?>
-                </label>
-                <?php if (count($website->getGroups())): ?>
-                    <ul id="gws_website_<?php echo $websiteId ?>_groups" style="margin-left:1.5em">
-                    <?php foreach ($website->getGroups() as $group): ?>
-                        <li>
-                        <input class="gws_store_group validate-one-gws-store" type="checkbox" name="gws_store_groups[]" value="<?php echo $group->getId() ?>" id="gws_store_group_<?php echo $group->getId() ?>" <?php echo (in_array($group->getId(), $this->getRole()->getGwsStoreGroups()) ? 'checked="checked" ' : '') ?>/><label for="gws_store_group_<?php echo $group->getId() ?>">
-                            <?php echo $this->escapeHtml($group->getName()) ?>
-                        </label>
-                        </li>
-                    <?php endforeach;?>
-                    </ul>
-                <?php endif; ?>
-                </li>
-            <?php endforeach;?>
-            </ul>
-            <span id="gws_validation_container"></span>
+                    <?php endif; ?>
+                </select>
+            </div>
         </div>
+
+        <div class="field no-label">
+            <div class="control">
+                <div id="gws_container">
+                    <ul>
+                        <?php foreach (Mage::app()->getWebsites() as $websiteId => $website): ?>
+                        <li>
+                            <input class="gws_website" type="checkbox" name="gws_websites[]" value="<?php echo $websiteId ?>" id="gws_website_<?php echo $websiteId ?>" <?php echo (in_array($websiteId, $this->getRole()->getGwsWebsites()) ? 'checked="checked" ' : '') ?>/><label for="gws_website_<?php echo $websiteId ?>">
+                            <?php echo $this->escapeHtml($website->getName()) ?>
+                        </label>
+                            <?php if (count($website->getGroups())): ?>
+                            <ul id="gws_website_<?php echo $websiteId ?>_groups">
+                                <?php foreach ($website->getGroups() as $group): ?>
+                                <li>
+                                    <input class="gws_store_group validate-one-gws-store" type="checkbox" name="gws_store_groups[]" value="<?php echo $group->getId() ?>" id="gws_store_group_<?php echo $group->getId() ?>" <?php echo (in_array($group->getId(), $this->getRole()->getGwsStoreGroups()) ? 'checked="checked" ' : '') ?>/><label for="gws_store_group_<?php echo $group->getId() ?>">
+                                    <?php echo $this->escapeHtml($group->getName()) ?>
+                                </label>
+                                </li>
+                                <?php endforeach;?>
+                            </ul>
+                            <?php endif; ?>
+                        </li>
+                        <?php endforeach;?>
+                    </ul>
+                    <span id="gws_validation_container"></span>
+                </div>
+            </div>
+        </div>
+
         <script type="text/javascript">
         //<![CDATA[
         // checkboxes validation

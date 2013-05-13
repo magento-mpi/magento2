@@ -26,7 +26,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     implements Mage_Core_Block
 {
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     protected $_designPackage;
 
@@ -103,6 +103,11 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      * @var Mage_Core_Controller_Varien_Front
      */
     protected $_frontController;
+
+    /**
+     * @var Mage_Core_Model_Factory_Helper
+     */
+    protected $_helperFactory;
 
     /**
      * @param Mage_Core_Block_Context $context

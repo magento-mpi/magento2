@@ -198,7 +198,7 @@
                             .attr('checked', true)
                             .addClass(options.mselectCheckedClass)
                             .end();
-                        var itemsWrapper = select.next().find('.' + options.mselectItemsWrapperClass + '');
+                        var itemsWrapper = select.nextAll('section.block:first').find('.' + options.mselectItemsWrapperClass + '');
                         itemsWrapper.children('.' + options.mselectListItemClass + '').length
                             ? itemsWrapper.children('.' + options.mselectListItemClass + ':last').after(mselectItemHtml)
                             : itemsWrapper.prepend(mselectItemHtml);

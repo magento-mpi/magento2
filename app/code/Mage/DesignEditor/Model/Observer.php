@@ -66,6 +66,21 @@ class Mage_DesignEditor_Model_Observer
     }
 
     /**
+     * Determine if the vde specific translation class should be used.
+     *
+     * @param  Varien_Event_Observer $observer
+     * @return Mage_DesignEditor_Model_Observer
+     */
+    public function initializeTranslation(Varien_Event_Observer $observer)
+    {
+        if ($this->_helper->isVdeRequest()) {
+            // Request is for vde.  Override the translation class.
+            $observer->getResult()->setInlineType('Mage_DesignEditor_Model_Translate_InlineVde');
+        }
+        return $this;
+    }
+
+    /**
      * Remove non-VDE JavaScript assets in design mode
      * Applicable in combination with enabled 'vde_design_mode' flag for 'head' block
      *
@@ -97,7 +112,7 @@ class Mage_DesignEditor_Model_Observer
         $nonVdeAssets = array_diff_key($pageAssets->getAll(), $vdeAssets);
 
         foreach ($nonVdeAssets as $assetId => $asset) {
-            if ($asset->getContentType() == Mage_Core_Model_Design_Package::CONTENT_TYPE_JS) {
+            if ($asset->getContentType() == Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS) {
                 $pageAssets->remove($assetId);
             }
         }
@@ -112,6 +127,8 @@ class Mage_DesignEditor_Model_Observer
     {
         /** @var $configuration Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration */
         $configuration = $event->getData('configuration');
+        /** @var $theme Mage_Core_Model_Theme */
+        $theme = $event->getData('theme');
         if ($configuration->getControlConfig() instanceof Mage_DesignEditor_Model_Config_Control_QuickStyles) {
             /** @var $renderer Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer */
             $renderer = $this->_objectManager->create('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer');
@@ -122,7 +139,7 @@ class Mage_DesignEditor_Model_Observer
             $themeCss->setDataForSave(array(
                 Mage_Core_Model_Theme_Customization_Files_Css::QUICK_STYLE_CSS => $content
             ));
-            $configuration->getTheme()->setCustomization($themeCss)->save();
+            $theme->setCustomization($themeCss)->save();
         }
     }
 }

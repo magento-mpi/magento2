@@ -9,7 +9,7 @@
  */
 
 /**
- * Geeneric backend controller
+ * Generic backend controller
  */
 abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controller_Varien_Action
 {
@@ -48,32 +48,34 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     protected $_session;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
-     * @param string $areaCode
-     * @param array $invokeArgs
+     * @var Mage_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
+
+    /**
+     * @var Mage_Core_Model_Authorization
+     */
+    protected $_authorization;
+
+    /**
+     * @var Mage_Core_Model_Translate
+     */
+    protected $_translator;
+
+    /**
+     * @param Mage_Backend_Controller_Context $context
+     * @param null $areaCode
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
-        $areaCode = null,
-        array $invokeArgs = array()
+        Mage_Backend_Controller_Context $context,
+        $areaCode = null
     ) {
-        parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $areaCode);
-
-        $this->_helper = isset($invokeArgs['helper']) ?
-            $invokeArgs['helper'] :
-            Mage::helper('Mage_Backend_Helper_Data');
-
-        $this->_session = isset($invokeArgs['session']) ?
-            $invokeArgs['session'] :
-            Mage::getSingleton('Mage_Backend_Model_Session');
+        parent::__construct($context, $areaCode);
+        $this->_helper = $context->getHelper();
+        $this->_session = $context->getSession();
+        $this->_eventManager = $context->getEventManager();
+        $this->_authorization = $context->getAuthorization();
+        $this->_translator = $context->getTranslator();
     }
 
     protected function _isAllowed()
@@ -181,9 +183,11 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
      */
     public function preDispatch()
     {
-        Mage::app()->setCurrentStore('admin');
+        /** @var $storeManager Mage_Core_Model_StoreManager */
+        $storeManager = $this->_objectManager->get('Mage_Core_Model_StoreManager');
+        $storeManager->setCurrentStore('admin');
 
-        Mage::dispatchEvent('adminhtml_controller_action_predispatch_start', array());
+        $this->_eventManager->dispatch('adminhtml_controller_action_predispatch_start', array());
         parent::preDispatch();
         if (!$this->_processUrlKeys()) {
             return $this;
@@ -335,11 +339,13 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         if (!$isRedirectNeeded && !$request->getParam('forwarded')) {
             if ($request->getParam('isIframe')) {
                 $request->setParam('forwarded', true)
+                    ->setRouteName('adminhtml')
                     ->setControllerName('auth')
                     ->setActionName('deniedIframe')
                     ->setDispatched(false);
-            } else if ($request->getParam('isAjax')) {
+            } elseif ($request->getParam('isAjax')) {
                 $request->setParam('forwarded', true)
+                    ->setRouteName('adminhtml')
                     ->setControllerName('auth')
                     ->setActionName('deniedJson')
                     ->setDispatched(false);
@@ -370,7 +376,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
             Mage::getSingleton('Mage_Backend_Model_Auth')->login($username, $password);
         } catch (Mage_Backend_Model_Auth_Exception $e) {
             if (!$this->getRequest()->getParam('messageSent')) {
-                Mage::getSingleton('Mage_Backend_Model_Session')->addError($e->getMessage());
+                $this->_session->addError($e->getMessage());
                 $this->getRequest()->setParam('messageSent', true);
                 $outputValue = false;
             }
@@ -459,7 +465,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
      * @param   string $defaultUrl
      * @return Mage_Backend_Controller_ActionAbstract
      */
-    protected function _redirectReferer($defaultUrl=null)
+    protected function _redirectReferer($defaultUrl = null)
     {
         $defaultUrl = empty($defaultUrl) ? $this->getUrl('*') : $defaultUrl;
         parent::_redirectReferer($defaultUrl);
@@ -493,7 +499,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
      * @param   array $params
      * @return  string
      */
-    public function getUrl($route='', $params=array())
+    public function getUrl($route = '', $params=array())
     {
         return $this->_getHelper()->getUrl($route, $params);
     }
@@ -509,8 +515,8 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
             return true;
         }
 
-        if (!($secretKey = $this->getRequest()->getParam(Mage_Backend_Model_Url::SECRET_KEY_PARAM_NAME, null))
-            || $secretKey != Mage::getSingleton('Mage_Backend_Model_Url')->getSecretKey()) {
+        $secretKey = $this->getRequest()->getParam(Mage_Backend_Model_Url::SECRET_KEY_PARAM_NAME, null);
+        if (!$secretKey || $secretKey != Mage::getSingleton('Mage_Backend_Model_Url')->getSecretKey()) {
             return false;
         }
         return true;
@@ -527,7 +533,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         $args = func_get_args();
         $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->_getRealModuleName());
         array_unshift($args, $expr);
-        return $this->_objectManager->get('Mage_Core_Model_Translate')->translate($args);
+        return $this->_translator->translate($args);
     }
 
     /**
@@ -539,12 +545,12 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     protected function _outTemplate($tplName, $data = array())
     {
         $this->_initLayoutMessages('Mage_Backend_Model_Session');
-        $block = $this->getLayout()->createBlock('Mage_Backend_Block_Template')->setTemplate("$tplName.phtml");
+        $block = $this->getLayout()->createBlock('Mage_Backend_Block_Template')->setTemplate("{$tplName}.phtml");
         foreach ($data as $index => $value) {
             $block->assign($index, $value);
         }
         $html = $block->toHtml();
-        Mage::getSingleton('Mage_Core_Model_Translate_Inline')->processResponseBody($html);
+        $this->_objectManager->get('Mage_Core_Model_Translate')->processResponseBody($html);
         $this->getResponse()->setBody($html);
     }
 
@@ -553,7 +559,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
      *
      * @param string $fileName
      * @param string|array $content set to null to avoid starting output, $contentLength should be set explicitly in
-     *                              that case
+     * that case
      * @param string $contentType
      * @param int $contentLength    explicit content length, if strlen($content) isn't applicable
      * @return Mage_Backend_Controller_ActionAbstract

@@ -24,7 +24,7 @@ class Mage_AdminNotification_Model_System_Message_Baseurl
     protected $_config;
 
     /**
-     * @var Mage_Core_Model_StoreManager
+     * @var Mage_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -35,14 +35,14 @@ class Mage_AdminNotification_Model_System_Message_Baseurl
 
     /**
      * @param Mage_Core_Model_Config $config
-     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Core_Model_UrlInterface $urlBuilder
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_Config_DataFactory $configDataFactory
      */
     public function __construct(
         Mage_Core_Model_Config $config,
-        Mage_Core_Model_StoreManager $storeManager,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Core_Model_UrlInterface $urlBuilder,
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config_DataFactory $configDataFactory

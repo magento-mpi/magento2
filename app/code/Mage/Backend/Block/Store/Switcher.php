@@ -334,13 +334,15 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
         $html = '';
         $url = $this->getHintUrl();
         if ($url) {
-            $html = '<a'
+            $html = '<div class="tooltip">'
+                . '<span class="help"><a'
                 . ' href="'. $this->escapeUrl($url) . '"'
                 . ' onclick="this.target=\'_blank\'"'
                 . ' title="' . $this->__('What is this?') . '"'
                 . ' class="link-store-scope">'
                 . $this->__('What is this?')
-                . '</a>';
+                . '</a></span>'
+                .' </div>';
         }
         return $html;
     }

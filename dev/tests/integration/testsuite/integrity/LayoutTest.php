@@ -80,6 +80,9 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
         if ($refName) {
             $refNode = $xml->xpath("/layouts/{$refName}");
             if (!$refNode) {
+                if ($refName == 'checkout_cart_configure' || $refName == 'checkout_cart_configurefailed') {
+                    $this->markTestIncomplete('MAGETWO-9182');
+                }
                 $errors[$name][] = "Node '{$refName}', referenced in hierarchy, does not exist";
             } elseif ($refNode[0]->getAttribute('type') == Mage_Core_Model_Layout_Merge::TYPE_FRAGMENT) {
                 $errors[$name][] = "Page fragment type '{$refName}', cannot be an ancestor in a hierarchy";
@@ -110,6 +113,10 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
         $themeCollection = Mage::getModel('Mage_Core_Model_Theme')->getCollection();
         /** @var $themeCollection Mage_Core_Model_Theme */
         foreach ($themeCollection as $theme) {
+            if ($theme->getFullPath() == 'frontend/magento2/reference') {
+                /** Skip the theme because of MAGETWO-9063 */
+                continue;
+            }
             $result[] = array($theme->getArea(), $theme->getId());
         }
         return $result;

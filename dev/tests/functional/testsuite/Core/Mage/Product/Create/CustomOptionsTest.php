@@ -122,32 +122,27 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create product with invalid "Sort Order" into custom options</p>
+     * <p>Reorder Custom Option Blocks</p>
      *
-     * @param $invalidData
-     *
-     * @dataProvider invalidNumericValueDataProvider
-     *
-     * @TestlinkId TL-MAGE-3379
+     * @TestlinkId TL-MAGE-6933
      * @test
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    public function invalidSortOrderInCustomOption($invalidData)
+    public function sortOrderCustomOptionBlocks()
     {
         //Data
-        $invalidSortOrder = array('custom_options_general_sort_order' => $invalidData,
-                                  'custom_options_sort_order'         => $invalidData);
         $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['custom_options_data'][] =
-            $this->loadDataSet('Product', 'custom_options_multipleselect', $invalidSortOrder);
+        $productData['custom_options_data'][0] = $this->loadDataSet('Product', 'custom_options_field',
+            array('custom_options_general_sort_order' => 2));
+        $productData['custom_options_data'][1] = $this->loadDataSet('Product', 'custom_options_area',
+            array('custom_options_general_sort_order' => 1));
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
-        foreach ($invalidSortOrder as $key => $value) {
-            $this->addFieldIdToMessage('field', $key);
-            $this->assertMessagePresent('validation', 'enter_zero_or_greater');
-        }
-        $this->assertTrue($this->verifyMessagesCount(2), $this->getParsedMessages());
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->openProduct($productSearch);
+        $this->productHelper()->verifyProductInfo($productData);
     }
 
     /**

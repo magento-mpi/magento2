@@ -14,7 +14,7 @@
 class Mage_Core_Model_Page_Asset_PublicFile implements Mage_Core_Model_Page_Asset_AssetInterface
 {
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     private $_designPackage;
 
@@ -29,11 +29,11 @@ class Mage_Core_Model_Page_Asset_PublicFile implements Mage_Core_Model_Page_Asse
     private $_contentType;
 
     /**
-     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Design_PackageInterface $designPackage
      * @param string $file
      * @param string $contentType
      */
-    public function __construct(Mage_Core_Model_Design_Package $designPackage, $file, $contentType)
+    public function __construct(Mage_Core_Model_Design_PackageInterface $designPackage, $file, $contentType)
     {
         $this->_designPackage = $designPackage;
         $this->_file = $file;

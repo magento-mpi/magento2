@@ -47,7 +47,7 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         $this->_pageAssets->expects($this->once())
             ->method('add')
             ->with(
-                Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS . '/test.css',
+                Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS . '/test.css',
                 $this->isInstanceOf('Mage_Core_Model_Page_Asset_ViewFile')
             );
         $assetViewFile = $this->getMock('Mage_Core_Model_Page_Asset_ViewFile', array(), array(), '', false);
@@ -63,7 +63,7 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         $this->_pageAssets->expects($this->once())
             ->method('add')
             ->with(
-                Mage_Core_Model_Design_Package::CONTENT_TYPE_JS . '/test.js',
+                Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS . '/test.js',
                 $this->isInstanceOf('Mage_Core_Model_Page_Asset_ViewFile')
             );
         $assetViewFile = $this->getMock('Mage_Core_Model_Page_Asset_ViewFile', array(), array(), '', false);
@@ -115,5 +115,76 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
             ->method('remove')
             ->with('css/test.css');
         $this->_block->removeItem('css', 'test.css');
+    }
+
+    /**
+     * @dataProvider addMetaTagProvider
+     */
+    public function testAddMetaTag($metaTag, $content, $expected)
+    {
+        $this->_block->setDescription('description');
+        $this->_block->setKeywords('keywords');
+        $this->_block->setRobots('robots');
+        $this->_block->addMetaTag($metaTag, $content);
+        $this->assertEquals($expected, $this->_block->getMetaTags());
+    }
+
+    public function addMetaTagProvider()
+    {
+        return array(
+            array(
+                'metaTag' => 'test_name',
+                'content' => 'test_content',
+                'expected' => array(
+                    array('name' => 'description', 'content' => 'description'),
+                    array('name' => 'keywords', 'content' => 'keywords'),
+                    array('name' => 'robots', 'content' => 'robots'),
+                    array('name' => 'test_name', 'content' => 'test_content')
+                )
+            ),
+            array(
+                'metaTag' => array('name' => 'test_name', 'content' => 'test_content'),
+                'content' => null,
+                'expected' => array(
+                    array('name' => 'description', 'content' => 'description'),
+                    array('name' => 'keywords', 'content' => 'keywords'),
+                    array('name' => 'robots', 'content' => 'robots'),
+                    array('name' => 'test_name', 'content' => 'test_content')
+                )
+            ),
+            array(
+                'metaTag' => 'test_name',
+                'content' => null,
+                'expected' => array(
+                    array('name' => 'description', 'content' => 'description'),
+                    array('name' => 'keywords', 'content' => 'keywords'),
+                    array('name' => 'robots', 'content' => 'robots')
+                )
+            ),
+            array(
+                'metaTag' => array('name' => 'test_name', 'content' => null),
+                'content' => null,
+                'expected' => array(
+                    array('name' => 'description', 'content' => 'description'),
+                    array('name' => 'keywords', 'content' => 'keywords'),
+                    array('name' => 'robots', 'content' => 'robots')
+                )
+            ),
+        );
+    }
+
+    public function testGetMetaTagHtml()
+    {
+        $this->_block->setDescription('description');
+        $this->_block->setKeywords('keywords');
+        $this->_block->setRobots('robots');
+        $this->_block->addMetaTag('test_name', 'test_content');
+        $expectedHtml = array(
+            '<meta name="description" content="description"/>',
+            '<meta name="keywords" content="keywords"/>',
+            '<meta name="robots" content="robots"/>',
+            '<meta name="test_name" content="test_content"/>'
+        );
+        $this->assertEquals(implode("\n", $expectedHtml), $this->_block->getMetaTagHtml());
     }
 }

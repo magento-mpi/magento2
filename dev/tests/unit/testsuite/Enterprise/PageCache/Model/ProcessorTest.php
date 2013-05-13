@@ -99,7 +99,7 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
         $this->_storeIdentifier = $this->getMock('Enterprise_PageCache_Model_Store_Identifier', array(),
             array(), '', false
         );
-        $this->_storeManager = $this->getMock('Mage_Core_Model_StoreManager', array(), array(), '', false);
+        $this->_storeManager = $this->getMock('Mage_Core_Model_StoreManagerInterface');
 
         $this->_model = new  Enterprise_PageCache_Model_Processor(
             $this->_restrictionMock,

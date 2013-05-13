@@ -112,8 +112,8 @@ $address = $this->getAddress();
                                 street_line2: $('#street_line2').val(),
                                 city: $('#city').val(),
                                 postcode: $('#postcode').val(),
-                                country: $('#country_id option:selected').text(),
-                                region: $('#region_id option:selected').text()
+                                country: $('#country_id option:selected:not([value=0])').text(),
+                                region: $('#region_id option:selected:not([value=0])').text()
                             }];
                             originAddressView
                                 .find('.shipping-origin-address-data')

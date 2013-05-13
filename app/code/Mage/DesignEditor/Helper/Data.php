@@ -26,9 +26,24 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     /**#@-*/
 
     /**
+     * Parameter to indicate the translation mode (null, text, script, or alt).
+     */
+    const TRANSLATION_MODE = "translation_mode";
+
+    /**
      * @var Mage_Core_Model_Config
      */
     protected $_configuration;
+
+    /**
+     * @var bool
+     */
+    protected $_isVdeRequest;
+
+    /**
+     * @var mixed
+     */
+    protected $_translationMode;
 
     /**
      * @var Mage_Backend_Model_Session
@@ -38,6 +53,7 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_Config $configuration
+     * @internal param \Mage_Core_Model_Translate $translator
      * @param Mage_Backend_Model_Session $backendSession
      */
     public function __construct(
@@ -79,6 +95,16 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $cacheTypes = $this->_configuration->getNode(self::XML_PATH_DISABLED_CACHE_TYPES)->asArray();
         return array_keys($cacheTypes);
+    }
+
+    /**
+     * Returns the translate object for this helper.
+     *
+     * @return Mage_Core_Model_Translate
+     */
+    public function getTranslator()
+    {
+        return $this->_translator;
     }
 
     /**
@@ -141,6 +167,73 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * This method returns an indicator of whether or not the current request is for vde.
+     *
+     * @param $request Mage_Core_Controller_Request_Http
+     * @return _isVdeRequest bool
+     */
+    public function isVdeRequest(Mage_Core_Controller_Request_Http $request = null)
+    {
+        if (null !== $request) {
+            $url = trim($request->getOriginalPathInfo(), '/');
+            $vdeFrontName = $this->getFrontName();
+            $this->_isVdeRequest = ($url == $vdeFrontName || strpos($url, $vdeFrontName . '/') === 0);
+        }
+        return $this->_isVdeRequest;
+    }
+
+    /**
+     * Returns the translation mode the current request is in (null, text, script, or alt).
+     *
+     * @return mixed
+     */
+    public function getTranslationMode()
+    {
+        return $this->_translationMode;
+    }
+
+    /**
+     * Sets the translation mode for the current request (null, text, script, or alt);
+     *
+     * @param Mage_Core_Controller_Request_Http $request
+     * @return Mage_DesignEditor_Helper_Data
+     */
+    public function setTranslationMode(Mage_Core_Controller_Request_Http $request)
+    {
+        $this->_translationMode = $request->getParam(self::TRANSLATION_MODE, null);
+        return $this;
+    }
+
+    /**
+     * Returns an indicator of whether or not inline translation is allowed in VDE.
+     *
+     * @return bool
+     */
+    public function isAllowed()
+    {
+        return $this->_translationMode !== null;
+    }
+
+    /**
+     * Get current handle url
+     *
+     * @return string
+     */
+    public function getCurrentHandleUrl()
+    {
+        /** @var $objectManager Magento_ObjectManager */
+        $objectManager = Mage::getObjectManager();
+        /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_Handle */
+        $vdeUrlModel = $objectManager->get('Mage_DesignEditor_Model_Url_Handle');
+        $handle = $objectManager->get('Mage_Backend_Model_Session')->
+            getData(Mage_DesignEditor_Model_State::CURRENT_HANDLE_SESSION_KEY);
+        if (empty($handle)) {
+            $handle = 'default';
+        }
+        return $vdeUrlModel->getUrl('design/page/type', array('handle' => $handle));
+    }
+
+    /**
      * Get staging theme id which was launched in editor
      *
      * @return int|null
@@ -148,15 +241,5 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     public function getEditableThemeId()
     {
         return $this->_backendSession->getData(Mage_DesignEditor_Model_State::CURRENT_THEME_SESSION_KEY);
-    }
-
-    /**
-     * Get theme id which was launched in editor
-     *
-     * @return int|null
-     */
-    public function getVirtualThemeId()
-    {
-        return $this->_backendSession->getData(Mage_DesignEditor_Model_State::VIRTUAL_THEME_SESSION_KEY);
     }
 }

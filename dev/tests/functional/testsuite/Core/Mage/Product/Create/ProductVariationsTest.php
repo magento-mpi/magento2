@@ -38,8 +38,8 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     {
         $variations = array();
         $variation = 1;
-        $optionNumber1 = count(preg_grep("/option_\N/", array_keys($attribute1)));
-        $optionNumber2 = count(preg_grep("/option_\N/", array_keys($attribute2)));
+        $optionNumber1 = count(preg_grep('/^option_\d+$/', array_keys($attribute1)));
+        $optionNumber2 = count(preg_grep('/^option_\d+$/', array_keys($attribute2)));
         for ($i = 1; $i <= $optionNumber1; $i++) {
             for ($j = 1; $j <= $optionNumber2; $j++) {
                 $variations['configurable_' . $variation] = array('associated_attributes' => array(
@@ -462,9 +462,6 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
     public function selectAttributeWithSpecialData($attributeTitle, $attributeData)
     {
         //Data
-        if ($attributeTitle == 'attribute_xss') {
-            $this->markTestIncomplete('MAGETWO-8679');
-        }
         $configurable = $this->loadDataSet('Product', 'configurable_product_visible', null,
             array(
                 'general_attribute_1' => $attributeData[$attributeTitle]['admin_title'],
@@ -868,13 +865,18 @@ class Core_Mage_Product_Create_ProductVariationsTest extends Mage_Selenium_TestC
         $this->productHelper()->changeAttributeValueSelection($attributeData['attribute1']['admin_title'],
             $newOptionTitle);
         $this->clickButton('generate_product_variations', false);
-        $this->addParameter('attributeSearch', "contains(.,'$newOptionTitle')");
-        $this->waitForControlVisible('pageelement', 'variation_line');
-        $this->assertContains($associated['general_sku'],
-            $this->getControlAttribute('pageelement', 'variation_line', 'text'));
-        $this->addParameter('attributeSearch', "contains(.,'$assignOptionTitle')");
+        $this->pleaseWait();
+        $this->waitUntil(
+            function ($testCase) {
+                /** @var Mage_Selenium_TestCase $testCase */
+                if ($testCase->getControlCount('pageelement', 'variation_line') == 2) {
+                    return true;
+                }
+            }, $this->_browserTimeout
+        );
         $this->addParameter('productSku', $associated['general_sku']);
-        $this->assertTrue($this->getControlElement('checkbox', 'assigned_product')->selected(),
+        $this->addParameter('attributeSearch', "td='$assignOptionTitle'");
+        $this->assertTrue($this->controlIsVisible('checkbox', 'assigned_product'),
             'Product is not assigned to configurable');
     }
 }

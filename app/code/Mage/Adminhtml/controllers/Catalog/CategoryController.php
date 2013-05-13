@@ -32,7 +32,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         if ($categoryId) {
             $category->load($categoryId);
             if ($storeId) {
-                $rootId = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore($storeId)
+                $rootId = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')->getStore($storeId)
                     ->getRootCategoryId();
                 if (!in_array($rootId, $category->getPathIds())) {
                     // load root category instead wrong one
@@ -80,6 +80,12 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $params['_current'] = true;
         $redirect = false;
 
+        /** @var $limitation Mage_Catalog_Model_Category_Limitation */
+        $limitation = $this->_objectManager->get('Mage_Catalog_Model_Category_Limitation');
+        if ($limitation->isCreateRestricted()) {
+            $this->_getSession()->addNotice($limitation->getCreateRestrictedMessage());
+        }
+
         $storeId = (int)$this->getRequest()->getParam('store');
         $parentId = (int)$this->getRequest()->getParam('parent');
         $prevStoreId = $this->_objectManager->get('Mage_Backend_Model_Auth_Session')
@@ -107,7 +113,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         }
 
         if ($storeId && !$categoryId && !$parentId) {
-            $store = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore($storeId);
+            $store = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')->getStore($storeId);
             $_prevCategoryId = (int) $store->getRootCategoryId();
             $this->getRequest()->setParam('id', $_prevCategoryId);
         }
@@ -160,7 +166,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                         ->getBreadcrumbsJavascript($breadcrumbsPath, 'editingCategoryBreadcrumbs'),
                 'messages' => $this->getLayout()->getMessagesBlock()->getGroupedHtml(),
             ));
-            $this->_objectManager->get('Mage_Core_Model_Event_Manager')->dispatch(
+            $this->_eventManager->dispatch(
                 'category_prepare_ajax_response',
                 array(
                     'response' => $eventResponse,
@@ -195,7 +201,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
     {
         $elementId = $this->getRequest()->getParam('element_id', md5(microtime()));
         $storeId = $this->getRequest()->getParam('store_id', 0);
-        $storeMediaUrl = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore($storeId)
+        $storeMediaUrl = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')->getStore($storeId)
             ->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
 
         $content = $this->getLayout()->createBlock(
@@ -250,12 +256,12 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         $refreshTree = 'false';
         $data = $this->getRequest()->getPost();
         if ($data) {
-            $category->addData($data['general']);
+            $category->addData($this->_filterCategoryPostData($data['general']));
             if (!$category->getId()) {
                 $parentId = $this->getRequest()->getParam('parent');
                 if (!$parentId) {
                     if ($storeId) {
-                        $parentId = $this->_objectManager->get('Mage_Core_Model_StoreManager')
+                        $parentId = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')
                             ->getStore($storeId)->getRootCategoryId();
                     } else {
                         $parentId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
@@ -290,7 +296,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 parse_str($data['category_products'], $products);
                 $category->setPostedProducts($products);
             }
-            $this->_objectManager->get('Mage_Core_Model_Event_Manager')->dispatch(
+            $this->_eventManager->dispatch(
                 'catalog_category_prepare_save',
                 array(
                     'category' => $category,
@@ -363,6 +369,23 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
     }
 
     /**
+     * Filter category data
+     *
+     * @param array $rawData
+     * @return array
+     */
+    protected function _filterCategoryPostData(array $rawData)
+    {
+        $data = $rawData;
+        // @todo It is a workaround to prevent saving this data in category model and it has to be refactored in future
+        if (isset($data['image']) && is_array($data['image'])) {
+            $data['image_additional_data'] = $data['image'];
+            unset($data['image']);
+        }
+        return $data;
+    }
+
+    /**
      * Move category action
      */
     public function moveAction()
@@ -402,7 +425,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         if ($categoryId) {
             try {
                 $category = $this->_objectManager->create('Mage_Catalog_Model_Category')->load($categoryId);
-                $this->_objectManager->get('Mage_Core_Model_Event_Manager')->dispatch(
+                $this->_eventManager->dispatch(
                     'catalog_controller_category_delete', array('category' => $category)
                 );
 
@@ -449,7 +472,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 
         if ($storeId) {
             if (!$categoryId) {
-                $store = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore($storeId);
+                $store = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')->getStore($storeId);
                 $rootId = $store->getRootCategoryId();
                 $this->getRequest()->setParam('id', $rootId);
             }

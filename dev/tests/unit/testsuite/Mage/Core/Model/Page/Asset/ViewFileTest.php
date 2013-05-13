@@ -23,9 +23,7 @@ class Mage_Core_Model_Page_Asset_ViewFileTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_designPackage = $this->getMock(
-            'Mage_Core_Model_Design_Package', array('getViewFileUrl'), array(), '', false
-        );
+        $this->_designPackage = $this->getMock('Mage_Core_Model_Design_PackageInterface');
         $this->_object = new Mage_Core_Model_Page_Asset_ViewFile($this->_designPackage, 'test/script.js', 'js');
     }
 

@@ -18,7 +18,7 @@
  */
 class Core_Mage_Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
 {
-    private static $_productTypes = array('configurable', 'bundle', 'grouped', 'simple', 'virtual', 'downloadable');
+    protected $_productTypes = array('configurable', 'bundle', 'grouped', 'simple', 'virtual', 'downloadable');
 
     protected function assertPreconditions()
     {
@@ -35,7 +35,7 @@ class Core_Mage_Product_Linking_SimpleLinkingTest extends Mage_Selenium_TestCase
     {
         $forLinking = array();
         $linking = $this->productHelper()->createSimpleProduct();
-        foreach (self::$_productTypes as $product) {
+        foreach ($this->_productTypes as $product) {
             $method = 'create' . ucfirst($product) . 'Product';
             $forLinking[$product] = $this->productHelper()->$method();
         }

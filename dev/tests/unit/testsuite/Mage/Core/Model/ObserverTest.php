@@ -28,6 +28,11 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
     protected $_assetsMock;
 
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_configMock;
+
+    /**
      * @var Mage_Core_Model_Observer
      */
     protected $_model;
@@ -50,9 +55,7 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_themeMock = $this->getMock('Mage_Core_Model_Theme', array('getFiles'), array(), '', false);
 
-        $designPackageMock = $this->getMock(
-            'Mage_Core_Model_Design_Package', array('getDesignTheme'), array(), '', false
-        );
+        $designPackageMock = $this->getMock('Mage_Core_Model_Design_PackageInterface');
         $designPackageMock
             ->expects($this->any())
             ->method('getDesignTheme')
@@ -61,8 +64,12 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_assetsMock = $this->getMock('Mage_Core_Model_Page_Asset_Collection');
 
+        $this->_configMock = $this->getMock('Mage_Core_Model_ConfigInterface',
+            array(), array(), '', false, false);
+
         $this->_model = new Mage_Core_Model_Observer(
-            $this->_frontendPoolMock, $designPackageMock, new Mage_Core_Model_Page($this->_assetsMock)
+            $this->_frontendPoolMock, $designPackageMock,
+            new Mage_Core_Model_Page($this->_assetsMock), $this->_configMock
         );
     }
 
@@ -72,6 +79,7 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_frontendPoolMock = null;
         $this->_themeMock = null;
         $this->_assetsMock = null;
+        $this->_configMock = null;
         $this->_model = null;
     }
     
@@ -113,5 +121,12 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $observer = new Varien_Event_Observer;
         $this->_model->applyThemeCustomization($observer);
+    }
+
+    public function testProcessReinitConfig()
+    {
+        $observer = new Varien_Event_Observer;
+        $this->_configMock->expects($this->once())->method('reinit');
+        $this->_model->processReinitConfig($observer);
     }
 }

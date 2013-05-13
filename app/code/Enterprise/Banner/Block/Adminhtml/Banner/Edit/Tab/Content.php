@@ -146,7 +146,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
         $this->_createStoreDefaultContentField($fieldset, $model, $form);
 
         if ($this->_app->isSingleStoreMode() == false) {
-            $this->_createStoresContentFieldset($form, $fieldsetHtmlClass, $model);
+            $this->_createStoresContentFieldset($form, $model);
 
         }
         $this->setForm($form);
@@ -253,17 +253,15 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
      * Create fieldset that provides ability to change content per store view
      *
      * @param Varien_Data_Form $form
-     * @param string $fieldsetHtmlClass
      * @param Enterprise_Banner_Model_Banner $model
      * @return Varien_Data_Form_Element_Fieldset
      */
-    protected function _createStoresContentFieldset($form, $fieldsetHtmlClass, $model)
+    protected function _createStoresContentFieldset($form, $model)
     {
         $storeContents = $this->_registryManager->registry('current_banner')->getStoreContents();
         $fieldset = $form->addFieldset('scopes_fieldset', array(
             'legend' => $this->getHelper()->__('Store View Specific Content'),
-            'class' => $fieldsetHtmlClass,
-            'table_class' => 'form-list stores-tree',
+            'class' => 'store-scope',
         ));
         $renderer = $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');
         $fieldset->setRenderer($renderer);

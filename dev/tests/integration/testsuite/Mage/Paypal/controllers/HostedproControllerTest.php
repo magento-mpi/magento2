@@ -27,15 +27,15 @@ class Mage_Paypal_HostedproControllerTest extends Magento_Test_TestCase_Controll
 
         $this->dispatch('paypal/hostedpro/cancel');
         $this->assertContains(
-            'window.top.checkout.gotoSection("payment");',
+            "parent.jQuery('#checkoutSteps').trigger('gotoSection', 'payment');",
             $this->getResponse()->getBody()
         );
         $this->assertContains(
-            'window.top.document.getElementById(\'checkout-review-submit\').show();',
+            "parent.jQuery('#checkout-review-submit').show();",
             $this->getResponse()->getBody()
         );
         $this->assertContains(
-            'window.top.document.getElementById(\'iframe-warning\').hide();',
+            "parent.jQuery('#iframe-warning').hide();",
             $this->getResponse()->getBody()
         );
     }

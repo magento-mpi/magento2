@@ -32,10 +32,9 @@ gift_card_required:
     general_name: Gift Card Required(%randomize%)
     general_sku: giftcard_sku_req_%randomize%
     general_weight: %noValue%
-    general_giftcard_data:
-        general_card_type: %noValue%
-        general_amounts: *giftCardAmounts
-        general_allow_open_amount: No
+    general_card_type: %noValue%
+    general_amounts: *giftCardAmounts
+    general_allow_open_amount: No
     general_qty: 111
     general_description: %noValue%
     autosettings_visibility: Catalog, Search
@@ -51,8 +50,9 @@ frontend_gift_card_validation:
     general_stock_availability: In Stock
     general_weight: 2.56
     general_categories: Default Category
-    general_gift_card_amounts: *giftCardAmounts
-    general_gift_card_allow_open_amount: Yes
+    general_card_type: Physical
+    general_amounts: *giftCardAmounts
+    general_allow_open_amount: No
     inventory_manage_stock_default: No
     inventory_manage_stock: Yes
     inventory_min_allowed_qty_default: No
@@ -168,15 +168,14 @@ gift_card:
     product_online_status: Enabled
     general_name: Gift Card(%randomize%)
     general_sku: giftcard_sku_%randomize%
-    general_giftcard_data:
-        general_card_type: %noValue%
-        general_amounts: *giftCardAmounts
-        general_allow_open_amount: Yes
-        general_open_amount_min: 0.1
-        general_open_amount_max: 99999
+    general_card_type: Combined
+    general_amounts: *giftCardAmounts
+    general_allow_open_amount: Yes
+    general_open_amount_min: 0.1
+    general_open_amount_max: 99999
     general_qty: 120
     general_stock_availability: In Stock
-    general_weight: %noValue%
+    general_weight: 1.15
     general_categories: Default Category
     general_description: %noValue%
     general_is_redeemable_default: No

@@ -109,7 +109,7 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
     /**
      * Store manager model
      *
-     * @var Mage_Core_Model_StoreManager
+     * @var Mage_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -124,7 +124,7 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
      * @param Enterprise_PageCache_Model_DesignPackage_Info $designInfo
      * @param Enterprise_PageCache_Model_Metadata $metadata
      * @param Enterprise_PageCache_Model_Store_Identifier $storeIdentifier
-     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
         Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction,
@@ -137,7 +137,7 @@ class Enterprise_PageCache_Model_Processor implements Enterprise_PageCache_Model
         Enterprise_PageCache_Model_DesignPackage_Info $designInfo,
         Enterprise_PageCache_Model_Metadata $metadata,
         Enterprise_PageCache_Model_Store_Identifier $storeIdentifier,
-        Mage_Core_Model_StoreManager $storeManager
+        Mage_Core_Model_StoreManagerInterface $storeManager
     ) {
         $this->_containerFactory = $containerFactory;
         $this->_placeholderFactory = $placeholderFactory;

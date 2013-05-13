@@ -41,7 +41,7 @@ class Mage_Core_Block_Context implements Magento_ObjectManager_ContextInterface
     protected $_cache;
 
     /**
-     * @var Mage_Core_Model_Design_Package
+     * @var Mage_Core_Model_Design_PackageInterface
      */
     protected $_designPackage;
 
@@ -72,7 +72,7 @@ class Mage_Core_Block_Context implements Magento_ObjectManager_ContextInterface
      * @param Mage_Core_Model_UrlInterface $urlBuilder
      * @param Mage_Core_Model_Translate $translator
      * @param Mage_Core_Model_CacheInterface $cache
-     * @param Mage_Core_Model_Design_Package $designPackage
+     * @param Mage_Core_Model_Design_PackageInterface $designPackage
      * @param Mage_Core_Model_Session_Abstract $session
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Controller_Varien_Front $frontController
@@ -86,7 +86,7 @@ class Mage_Core_Block_Context implements Magento_ObjectManager_ContextInterface
         Mage_Core_Model_UrlInterface $urlBuilder,
         Mage_Core_Model_Translate $translator,
         Mage_Core_Model_CacheInterface $cache,
-        Mage_Core_Model_Design_Package $designPackage,
+        Mage_Core_Model_Design_PackageInterface $designPackage,
         Mage_Core_Model_Session_Abstract $session,
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Controller_Varien_Front $frontController,
@@ -115,7 +115,7 @@ class Mage_Core_Block_Context implements Magento_ObjectManager_ContextInterface
     }
 
     /**
-     * @return Mage_Core_Model_Design_Package
+     * @return Mage_Core_Model_Design_PackageInterface
      */
     public function getDesignPackage()
     {

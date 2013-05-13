@@ -3,15 +3,14 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* @var $this Enterprise_TargetRule_Block_Catalog_Product_List_Related */
+/* @var $this Mage_Catalog_Block_Product_Abstract */
 ?>
 
-
-<?php 
+<?php
 switch($type=$this->getType()) {
 
     case 'related-rule':
@@ -93,7 +92,7 @@ switch($type=$this->getType()) {
 
         $imageBlock =  $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image');
         $image ='cart_cross_sell_products';
-        $title = $this->__('Based on your selection, you may be interested in the following items:');
+        $title = $this->__('More Choices:');
         $items = $this->getItemCollection();
 
         $showWishlist = true;
@@ -111,7 +110,7 @@ switch($type=$this->getType()) {
 
         $imageBlock =  $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image');
         $image ='cart_cross_sell_products';
-        $title = $this->__('Based on your selection, you may be interested in the following items:');
+        $title = $this->__('More Choices:');
         $items = $this->getItems();
 
         $showWishlist = true;
