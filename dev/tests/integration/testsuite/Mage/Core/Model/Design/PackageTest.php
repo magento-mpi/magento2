@@ -285,4 +285,21 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             ),
         );
     }
+
+    public function testGetPublicFileUrl()
+    {
+        $pubLibFile = Mage::getBaseDir(Mage_Core_Model_Dir::PUB_LIB) . '/jquery/jquery.js';
+        $actualResult = $this->_model->getPublicFileUrl($pubLibFile);
+        $this->assertStringEndsWith('/jquery/jquery.js', $actualResult);
+    }
+
+    /**
+     * @magentoConfigFixture current_store dev/static/sign 1
+     */
+    public function testGetPublicFileUrlSigned()
+    {
+        $pubLibFile = Mage::getBaseDir(Mage_Core_Model_Dir::PUB_LIB) . '/jquery/jquery.js';
+        $actualResult = $this->_model->getPublicFileUrl($pubLibFile);
+        $this->assertStringMatchesFormat('%a/jquery/jquery.js?%d', $actualResult);
+    }
 }
