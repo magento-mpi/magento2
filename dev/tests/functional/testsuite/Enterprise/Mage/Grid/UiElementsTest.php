@@ -18,6 +18,13 @@
  */
 class Enterprise_Mage_Grid_UiElementsTest extends Core_Mage_Grid_UiElementsTest
 {
+    public function setUpBeforeTests()
+    {
+        parent::setUpBeforeTests();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('CustomerSegment/enable_customer_segment');
+    }
+
     public function uiElementsTestDataProvider()
     {
         return array(

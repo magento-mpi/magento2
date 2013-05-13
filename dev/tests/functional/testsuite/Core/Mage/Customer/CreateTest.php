@@ -100,9 +100,8 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->customerHelper()->createCustomer($userData);
         //Verifying
-        $tab = $this->getCurrentUimapPage()->findTab('account_information');
         $this->addFieldIdToMessage('field', $emptyField);
-        $this->assertMessagePresent('error', 'empty_required_field');
+        $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
