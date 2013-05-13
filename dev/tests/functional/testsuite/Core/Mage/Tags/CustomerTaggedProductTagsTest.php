@@ -44,7 +44,6 @@ class Core_Mage_Tags_CustomerTaggedProductTagsTest extends Core_Mage_Tags_TagsFi
      */
     public function addFromFrontendTags($tags, $status, $customer, $testData)
     {
-        $this->markTestIncomplete('MAGETWO-8434');
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user'][$customer]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
@@ -96,7 +95,6 @@ class Core_Mage_Tags_CustomerTaggedProductTagsTest extends Core_Mage_Tags_TagsFi
      */
     public function addFromBackendTags($tags, $status, $testData)
     {
-        $this->markTestIncomplete('MAGETWO-8434');
         $setData = $this->loadDataSet('Tag', 'backend_new_tag_with_product',
             array('tag_name'        => $tags, 'tag_status' => 'Pending', 'prod_tag_admin_name' => $testData['simple'],
                   'base_popularity' => '0', 'switch_store' => '%noValue%'));
@@ -137,7 +135,6 @@ class Core_Mage_Tags_CustomerTaggedProductTagsTest extends Core_Mage_Tags_TagsFi
      */
     public function searchTags($tags, $testData)
     {
-        $this->markTestIncomplete('MAGETWO-8434');
         $searchTagProduct =
             array('tag_search_name' => $tags['tag_name'], 'tag_search_email' => $testData['user'][1]['email']);
         $searchTagCustomer = array('tag_customer_search_name'  => $tags['tag_name'],

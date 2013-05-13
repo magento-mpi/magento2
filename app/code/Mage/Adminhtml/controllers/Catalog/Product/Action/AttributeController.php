@@ -142,7 +142,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
                     $actionModel->updateWebsites($productIds, $websiteAddData, 'add');
                 }
 
-                Mage::dispatchEvent('catalog_product_to_website_change', array(
+                $this->_eventManager->dispatch('catalog_product_to_website_change', array(
                     'products' => $productIds
                 ));
 
@@ -200,7 +200,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Catalog::update_attributes');
+        return $this->_authorization->isAllowed('Mage_Catalog::update_attributes');
     }
 
     /**

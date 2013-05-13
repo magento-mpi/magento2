@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +16,7 @@
     <div class="content">
         <div class="box address billing">
             <strong class="subtitle">
-                <?php echo $this->__('Default Billing Address') ?>
+                <span><?php echo $this->__('Default Billing Address') ?></span>
                 <a class="action edit" href="<?php echo $this->getPrimaryBillingAddressEditUrl() ?>"><span><?php echo $this->__('Edit Address') ?></span></a>
             </strong>
             <address>
@@ -25,7 +25,7 @@
         </div>
         <div class="box address shipping">
             <strong class="subtitle">
-                <?php echo $this->__('Default Shipping Address') ?> 
+                <span><?php echo $this->__('Default Shipping Address') ?></span>
                 <a class="action edit" href="<?php echo $this->getPrimaryShippingAddressEditUrl() ?>"><span><?php echo $this->__('Edit Address') ?></span></a>
             </strong>
             <address>

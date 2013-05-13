@@ -22,6 +22,7 @@ var Product = {};
         _showPopup: function (event) {
             var wrapper = $('<div id="create_new_attribute"/>').appendTo('body').dialog({
                 title: 'New Attribute',
+                dialogClass:'ui-dialog-sticky',
                 minWidth: 1000,
                 minHeight: 700,
                 modal: true,
@@ -44,8 +45,16 @@ var Product = {};
                 });
             });
             wrapper.append(iframe);
+
             wrapper.on('dialogclose', function () {
-                this.remove();
+                var dialog = this;
+                var doc = iframe.get(0).document;
+                if (doc && $.isFunction(doc.execCommand)) {
+                    //IE9 break script loading but not execution on iframe removing
+                    doc.execCommand('stop');
+                    iframe.remove();
+                }
+                $(dialog).remove();
             });
         }
     });

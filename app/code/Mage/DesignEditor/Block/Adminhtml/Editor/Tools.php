@@ -22,6 +22,27 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Core_Block_Tem
     const TAB_HANDLE_BLOCK_ALIAS = 'tab_handle';
 
     /**
+     * @var Mage_DesignEditor_Model_Theme_Context
+     */
+    protected $_themeContext;
+
+    /**
+     * Initialize dependencies
+     *
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_DesignEditor_Model_Theme_Context $themeContext
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_DesignEditor_Model_Theme_Context $themeContext,
+        array $data = array()
+    ) {
+        $this->_themeContext = $themeContext;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Get tabs data
      *
      * @return array
@@ -104,18 +125,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Core_Block_Tem
     }
 
     /**
-     * Return theme identification number
-     *
-     * @return int|null
-     */
-    protected function getThemeId()
-    {
-        /** @var $helper Mage_DesignEditor_Helper_Data */
-        $helper = $this->_helperFactory->get('Mage_DesignEditor_Helper_Data');
-        return $helper->getEditableThemeId();
-    }
-
-    /**
      * Get save url
      *
      * @return string
@@ -123,7 +132,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Core_Block_Tem
     public function getSaveUrl()
     {
         return $this->getUrl('*/system_design_editor_tools/saveQuickStyles',
-            array('theme_id' => $this->getThemeId())
+            array('theme_id' => $this->_themeContext->getEditableTheme()->getId())
         );
     }
 }

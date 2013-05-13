@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Cache_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('tags', array(
-            'header'    => $this->__('Associated Tags'),
+            'header'    => $this->__('Tags'),
             'align'     => 'left',
             'index'     => 'tags',
             'width'     => '180',

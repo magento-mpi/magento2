@@ -261,7 +261,7 @@ class Enterprise_Wishlist_IndexController extends Mage_Wishlist_IndexController
             $buyRequest->setQty($qty);
         }
         $wishlist->addNewItem($item->getProduct(), $buyRequest);
-        Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'wishlist_add_product',
             array(
                 'wishlist'  => $wishlist,

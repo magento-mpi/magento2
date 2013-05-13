@@ -11,11 +11,6 @@
 
 class Saas_PrintedTemplate_Model_Variable_Item_AbstractTest extends PHPUnit_Framework_TestCase
 {
-
-    /**
-     * Test Get order Item method
-     * @test
-     */
     public function testGetOrderItem()
     {
         $orderItem = new Varien_Object();
@@ -38,9 +33,8 @@ class Saas_PrintedTemplate_Model_Variable_Item_AbstractTest extends PHPUnit_Fram
      *
      * @param int orderItemId
      * @param array $itemsData
-     * @param array $expectedItems
+     * @param array $expectedOrderItemIds
      * @dataProvider getChildrenProvider
-     * @test
      */
     public function testGetChildren($orderItemId, $itemsData, $expectedOrderItemIds)
     {
@@ -138,7 +132,6 @@ class Saas_PrintedTemplate_Model_Variable_Item_AbstractTest extends PHPUnit_Fram
      * Format currency test
      *
      * @dataProvider formatCurrencyProvider
-     * @test
      */
     public function testFormatCurrency($value, $expectedResult)
     {
@@ -206,7 +199,6 @@ class Saas_PrintedTemplate_Model_Variable_Item_AbstractTest extends PHPUnit_Fram
      * @param string $expectedResult
      *
      * @dataProvider formatTaxRatesProvider
-     * @test
      */
     public function testFormatTaxRates($taxPercents, $expectedResult)
     {

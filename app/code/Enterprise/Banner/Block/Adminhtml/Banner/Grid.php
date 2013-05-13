@@ -51,7 +51,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
         ));
 
         $this->addColumn('banner_name', array(
-            'header' => Mage::helper('Enterprise_Banner_Helper_Data')->__('Banner Name'),
+            'header' => Mage::helper('Enterprise_Banner_Helper_Data')->__('Banner'),
             'type'   => 'text',
             'index'  => 'name',
             'escape' => true
@@ -71,7 +71,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
          */
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
-                'header'                => Mage::helper('Enterprise_Banner_Helper_Data')->__('Visible In'),
+                'header'                => Mage::helper('Enterprise_Banner_Helper_Data')->__('Visibility'),
                 'type'                  => 'store',
                 'index'                 => 'stores',
                 'sortable'              => false,

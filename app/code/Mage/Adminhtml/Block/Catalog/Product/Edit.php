@@ -23,6 +23,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     {
         parent::_construct();
         $this->setId('product_edit');
+        $this->setUseContainer(true);
     }
 
     /**

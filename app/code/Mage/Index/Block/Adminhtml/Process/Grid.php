@@ -147,7 +147,7 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('ended_at', array(
-            'header'    => Mage::helper('Mage_Index_Helper_Data')->__('Updated At'),
+            'header'    => Mage::helper('Mage_Index_Helper_Data')->__('Updated'),
             'type'      => 'datetime',
             'width'     => '180',
             'align'     => 'left',

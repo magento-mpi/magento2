@@ -151,7 +151,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
         $this->addColumn('created_at', array(
             'type'     => 'datetime',
             'index'    => 'created_at',
-            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Created At'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Created'),
             'sortable' => false,
             'align'    => 'left',
             'html_decorators' => 'nobr',
@@ -160,7 +160,7 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
         $this->addColumn('expiration_date', array(
             'type'     => 'datetime',
             'getter'   => 'getExpiresAt',
-            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Expires At'),
+            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Expires'),
             'sortable' => false,
             'filter'   => false, // needs custom filter
             'align'    => 'left',

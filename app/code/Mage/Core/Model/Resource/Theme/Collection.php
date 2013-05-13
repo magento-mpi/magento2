@@ -16,7 +16,7 @@ class Mage_Core_Model_Resource_Theme_Collection extends Mage_Core_Model_Resource
     /**
      * Default page size
      */
-    const DEFAULT_PAGE_SIZE = 4;
+    const DEFAULT_PAGE_SIZE = 6;
 
     /**
      * Collection initialization

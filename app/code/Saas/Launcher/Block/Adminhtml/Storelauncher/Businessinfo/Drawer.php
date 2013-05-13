@@ -34,18 +34,10 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
     protected $_regionModel;
 
     /**
-     * Validate VAT Number
-     *
-     * @var Mage_Adminhtml_Block_Customer_System_Config_ValidatevatFactory
-     */
-    protected $_validateVatFactory;
-
-    /**
      * @param Mage_Core_Block_Template_Context $context
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
      * @param Mage_Directory_Model_Config_Source_Country $countryModel
      * @param Mage_Directory_Model_Region $regionModel
-     * @param Mage_Adminhtml_Block_Customer_System_Config_ValidatevatFactory $validateVat
      * @param array $data
      */
     public function __construct(
@@ -53,14 +45,11 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
         Saas_Launcher_Model_LinkTracker $linkTracker,
         Mage_Directory_Model_Config_Source_Country $countryModel,
         Mage_Directory_Model_Region $regionModel,
-        Mage_Adminhtml_Block_Customer_System_Config_ValidatevatFactory $validateVat,
         array $data = array()
     ) {
         parent::__construct($context, $linkTracker, $data);
         $this->_countryModel = $countryModel;
         $this->_regionModel = $regionModel;
-        /** As it's optional dependency, we instantiate VAT validator just in case we need it */
-        $this->_validateVatFactory = $validateVat;
     }
 
     /**
@@ -227,17 +216,21 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
             'value' => $addressData['city']
         ));
 
-        $countryId = isset($addressData['country_id']) ? $addressData['country_id'] : 'US';
-        $regionCollection = $this->_regionModel->getCollection()->addCountryFilter($countryId);
-        $regions = $regionCollection->toOptionArray();
-        if (!empty($regions)) {
-            $businessAddress->addField('region_id', 'select', array(
-                'name' => 'region_id',
-                'label' => $helper->__('State/Region'),
-                'values' => $regions,
-                'value' => $addressData['region_id'],
-            ));
-        } else {
+        $isRegionFieldText = true;
+        if ($addressData['country_id']) {
+            $regionCollection = $this->_regionModel->getCollection()->addCountryFilter($addressData['country_id']);
+            $regions = $regionCollection->toOptionArray();
+            if (!empty($regions)) {
+                $businessAddress->addField('region_id', 'select', array(
+                    'name' => 'region_id',
+                    'label' => $helper->__('State/Region'),
+                    'values' => $regions,
+                    'value' => $addressData['region_id'],
+                ));
+                $isRegionFieldText = false;
+            }
+        }
+        if ($isRegionFieldText) {
             $businessAddress->addField('region_id', 'text', array(
                 'name' => 'region_id',
                 'label' => $helper->__('State/Region'),
@@ -265,29 +258,6 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
                 . '</script>',
         ));
 
-        if ($this->_storeConfig->getConfig('general/locale/code') != 'en_US') {
-            $vatValidator = $this->_validateVatFactory->createVatValidator();
-            $businessAddress->addField('vat_number', 'text', array(
-                'name' => 'groups[general][store_information][fields][merchant_vat_number][value]',
-                'label' => $helper->__('VAT Number'),
-                'note' => 'Required for countries in European Union.',
-                'required' => false,
-                'value' => $addressData['merchant_vat_number']
-            ));
-
-            $businessAddress->addField('validate_vat_number', 'button', array(
-                'name' => 'validate_vat_number',
-                'required' => false,
-                'value' => $helper->__('Validate VAT Number')
-            ));
-
-            // Set custom renderer for VAT field
-            $vatIdElement = $form->getElement('validate_vat_number');
-            $vatValidator->setMerchantCountryField('country_id');
-            $vatValidator->setMerchantVatNumberField('vat_number');
-            $vatIdElement->setRenderer($vatValidator);
-        }
-
         $businessAddress->addField('use_for_shipping', 'checkbox', array(
             'name' => 'use_for_shipping',
             'label' => $helper->__('Use this as my store shipping address'),
@@ -299,46 +269,6 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
         $form->setUseContainer(true);
         $this->setForm($form);
         return parent::_prepareForm();
-    }
-
-    /**
-     * Processing block html after rendering.
-     * Add filling emails logic
-     *
-     * @param   string $html
-     * @return  string
-     */
-    protected function _afterToHtml($html)
-    {
-        $html = parent::_afterToHtml($html);
-
-        $html .= '<script type="text/javascript">
-            (function($) {
-                var allEmailAddresses = $("input[id^=sender_email]"),
-                    storeEmail = $("#store_email"),
-                    sameEmailAddresses = $.grep(allEmailAddresses, function(elem, index) {
-                        return elem.value == storeEmail.val();
-                    });
-
-                var emailUpdateHandler = function() {
-                    var elementId = this.id;
-                    sameEmailAddresses = $.grep(sameEmailAddresses, function(elem, index) {
-                        return !(elem.id == elementId);
-                    });
-                };
-
-                var storeEmailHandler = function() {
-                    var element = this;
-                    $.each(sameEmailAddresses, function() {
-                        this.value = element.value;
-                    });
-                };
-
-                allEmailAddresses.on("keyup change", emailUpdateHandler);
-                storeEmail.on("keyup blur change", storeEmailHandler);
-            })(jQuery);
-            </script>';
-        return $html;
     }
 
     /**
@@ -364,8 +294,6 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
         $addressData['name'] = $this->_storeConfig->getConfig('general/store_information/name');
         $addressData['phone'] = $this->_storeConfig->getConfig('general/store_information/phone');
         $addressData['email'] = $this->_storeConfig->getConfig('trans_email/ident_general/email');
-        $addressData['merchant_vat_number'] =
-            $this->_storeConfig->getConfig('general/store_information/merchant_vat_number');
         return $addressData;
     }
 

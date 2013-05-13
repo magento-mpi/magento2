@@ -282,7 +282,10 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $this->_getResource()->updateProcessStartDate($this);
+        // Commented  due to deadlock
+        // @todo: Verify: It is required for partial update
+        //$this->_getResource()->updateProcessStartDate($this);
+
         $this->_setEventNamespace($event);
         $isError = false;
 
@@ -293,7 +296,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         }
         $event->resetData();
         $this->_resetEventNamespace($event);
-        $this->_getResource()->updateProcessEndDate($this);
+        //$this->_getResource()->updateProcessEndDate($this);
         $event->addProcessId($this->getId(), $isError ? self::EVENT_STATUS_ERROR : self::EVENT_STATUS_DONE);
 
         return $this;

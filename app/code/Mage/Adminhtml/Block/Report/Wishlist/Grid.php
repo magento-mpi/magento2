@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Report_Wishlist_Grid extends Mage_Adminhtml_Block_Wid
         ));
 
         $this->addColumn('bought_from_wishlists', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Bought from wishlists'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Wishlist Purchase'),
             'width'     =>'50px',
             'align'     =>'right',
             'sortable'  =>false,
@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Report_Wishlist_Grid extends Mage_Adminhtml_Block_Wid
         ));
 
         $this->addColumn('num_deleted', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Number of Times Deleted'),
+            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Times Deleted'),
             'width'     =>'50px',
             'align'     =>'right',
             'sortable'  =>false,

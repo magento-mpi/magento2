@@ -18,6 +18,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_AttributeTest extends PHPUnit
      */
     public function testApplyFilterToCollectionSelectString($givenValue, $expectedValue)
     {
+        $this->markTestIncomplete('MAGETWO-7903');
         $options = array();
         foreach ($this->getAttributeValues() as $testValues) {
             $options[] = array(

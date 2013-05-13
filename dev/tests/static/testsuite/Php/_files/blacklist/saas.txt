@@ -2,6 +2,8 @@
 # These items are mentioned in "extruder" configuration of publication build: dev/build/publication/extruder/saas.txt
 # This file will not be published, too
 #
-app/code/Saas/UnitPrice/view
-app/code/Saas/PrintedTemplate
+app/code/Saas/Index/view
 app/code/Saas/Launcher/view
+app/code/Saas/PrintedTemplate/view
+app/code/Saas/UnitPrice/view
+app/code/Saas/Sitemap/view

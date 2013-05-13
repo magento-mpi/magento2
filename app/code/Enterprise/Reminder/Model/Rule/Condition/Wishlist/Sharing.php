@@ -81,7 +81,11 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Sharing
 
         $select = $this->getResource()->createSelect();
         $select->from(array('list' => $table), array(new Zend_Db_Expr(1)));
-        $select->where("list.shared = ?", $this->getValue());
+        if ($this->getValue()) {
+            $select->where("list.shared > 0");
+        } else {
+            $select->where("list.shared = 0");
+        }
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
         Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
 

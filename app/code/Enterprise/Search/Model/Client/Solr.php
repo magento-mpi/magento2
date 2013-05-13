@@ -83,7 +83,7 @@ class Enterprise_Search_Model_Client_Solr extends Apache_Solr_Service
     /**
      * Send an rollback command.
      *
-     * @param float $timeout Maximum expected duration of the commit operation on the server (otherwise, will throw a communication exception)
+     * @param float|int $timeout Maximum expected duration of the commit operation on the server (otherwise, will throw a communication exception)
      * @return Apache_Solr_Response
      *
      * @throws Exception If an error occurs during the service call
@@ -100,7 +100,7 @@ class Enterprise_Search_Model_Client_Solr extends Apache_Solr_Service
      * @param array $rawQueries Expected to be utf-8 encoded
      * @param boolean $fromPending
      * @param boolean $fromCommitted
-     * @param float $timeout Maximum expected duration of the delete operation on the server (otherwise, will throw a communication exception)
+     * @param float|int $timeout Maximum expected duration of the delete operation on the server (otherwise, will throw a communication exception)
      * @return Apache_Solr_Response
      *
      * @throws Exception If an error occurs during the service call
@@ -131,7 +131,7 @@ class Enterprise_Search_Model_Client_Solr extends Apache_Solr_Service
      * @param array $ids Expected to be utf-8 encoded strings
      * @param boolean $fromPending
      * @param boolean $fromCommitted
-     * @param float $timeout Maximum expected duration of the delete operation on the server (otherwise, will throw a communication exception)
+     * @param float|int $timeout Maximum expected duration of the delete operation on the server (otherwise, will throw a communication exception)
      * @return Apache_Solr_Response
      *
      * @throws Exception If an error occurs during the service call

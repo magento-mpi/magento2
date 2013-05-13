@@ -64,6 +64,15 @@
     </footer>
 </section>
 
+<div class="vde-message no-display" id="vde-message-template">
+    <div class="message-inner">
+        <div class="message-content">${message}</div>
+        <button class="action-close" title="<?php echo $this->__('Close Message'); ?>">
+            <span><?php echo $this->__('Close Message'); ?></span>
+        </button>
+    </div>
+</div>
+
 <script type="text/javascript">
 (function($) {
     'use strict';
@@ -104,6 +113,10 @@
 
     $('.action-edit[href="#vde-tab-custom"]').on('click.focusOnCustomCodeTextarea', function() {
         $('#custom_code').focus();
+    });
+
+    $('.vde-tools').vdeMessage({
+        messageTemplateId: '#vde-message-template'
     });
 })(window.jQuery);
 </script>

@@ -104,7 +104,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
         ));
 
         $this->addColumn('grid_telephone', array(
-            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Telephone'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Phone'),
             'index'     => 'billing_telephone',
             'header_css_class'  => 'col-phone',
             'column_css_class'  => 'col-phone'

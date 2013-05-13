@@ -114,10 +114,10 @@ class Mage_Adminhtml_Sales_TransactionsController extends Mage_Adminhtml_Control
     {
         switch ($this->getRequest()->getActionName()) {
             case 'fetch':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Sales::transactions_fetch');
+                return $this->_authorization->isAllowed('Mage_Sales::transactions_fetch');
                 break;
             default:
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Sales::transactions');
+                return $this->_authorization->isAllowed('Mage_Sales::transactions');
                 break;
         }
     }
