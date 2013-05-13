@@ -15,18 +15,18 @@ class Mage_Webapi_Controller_Router_Rest
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
-    /** @var Mage_Webapi_Model_Config_Rest */
+    /** @var Mage_Webapi_Config */
     protected $_apiConfig;
 
     /**
      * Initialize dependencies.
      *
      * @param Mage_Webapi_Helper_Data $helper
-     * @param Mage_Webapi_Model_Config_Rest $apiConfig
+     * @param Mage_Webapi_Config $apiConfig
      */
     public function __construct(
         Mage_Webapi_Helper_Data $helper,
-        Mage_Webapi_Model_Config_Rest $apiConfig
+        Mage_Webapi_Config $apiConfig
     ) {
         $this->_helper = $helper;
         $this->_apiConfig = $apiConfig;
@@ -43,16 +43,15 @@ class Mage_Webapi_Controller_Router_Rest
     public function match(Mage_Webapi_Controller_Request_Rest $request)
     {
         /** @var Mage_Webapi_Controller_Router_Route_Rest[] $routes */
-        $routes = $this->_apiConfig->getAllRestRoutes();
+        $routes = $this->_apiConfig->getRestRoutes($request->getHttpMethod());
         foreach ($routes as $route) {
             $params = $route->match($request);
-            if ($params !== false
-                && $route->getHttpMethod() == $request->getHttpMethod()
-            ) {
+            if ($params !== false) {
                 $request->setParams($params);
                 /** Initialize additional request parameters using data from route */
-                $request->setServiceName($route->getServiceName());
-                $request->setMethodName($route->getMethodName());
+                // TODO: $request->setServiceId($route->getServiceId());
+                // $request->setHttpMethod($route->getHttpMethod());
+                // $request->setServiceVersion($route->getServiceVersion());
                 return $route;
             }
         }
