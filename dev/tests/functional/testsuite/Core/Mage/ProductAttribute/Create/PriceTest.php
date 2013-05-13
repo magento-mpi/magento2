@@ -86,32 +86,25 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     /**
      * Checking validation for required fields are EMPTY
      *
-     * @param $emptyField
+     * @param string $emptyField
+     * @param string $fieldType
+     * @param string $fieldValue
      *
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-3552
      */
-    public function withRequiredFieldsEmpty($emptyField)
+    public function withRequiredFieldsEmpty($emptyField, $fieldType, $fieldValue)
     {
         //Data
-        if ($emptyField == 'apply_to') {
-            $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_price',
-                array($emptyField => 'Selected Product Types'));
-        } else {
-            $attrData =
-                $this->loadDataSet('ProductAttribute', 'product_attribute_price', array($emptyField => '%noValue%'));
-        }
+        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_price',
+            array($emptyField => $fieldValue));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        if ($emptyField != 'apply_to') {
-            $fieldXpath = $this->_getControlXpath('field', $emptyField);
-        } else {
-            $fieldXpath = $this->_getControlXpath('multiselect', 'apply_product_types');
-        }
-        $this->addParameter('fieldXpath', $fieldXpath);
+        $emptyField = ($emptyField != 'apply_to') ? $emptyField : 'apply_product_types';
+        $this->addFieldIdToMessage($fieldType, $emptyField);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
@@ -119,9 +112,9 @@ class Core_Mage_ProductAttribute_Create_PriceTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
-            array('attribute_code'),
-            array('admin_title'),
-            array('apply_to')
+            array('attribute_code', 'field', '%noValue%'),
+            array('admin_title', 'field', '%noValue%'),
+            array('apply_to', 'multiselect', 'Selected Product Types')
         );
     }
 

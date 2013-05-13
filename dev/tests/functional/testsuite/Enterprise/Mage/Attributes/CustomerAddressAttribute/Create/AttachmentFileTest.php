@@ -18,10 +18,6 @@
  */
 class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_AttachmentFileTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Customer -> Attributes -> Manage Customer Address Attributes</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -52,7 +48,6 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_AttachmentFileT
      * @depends navigation
      * @TestlinkId TL-MAGE-5529
      */
-
     public function withRequiredFieldsOnly()
     {
         //Data
@@ -73,7 +68,6 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_AttachmentFileT
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-5530
      */
-
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
         //Steps
@@ -92,7 +86,6 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_AttachmentFileT
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @TestlinkId TL-MAGE-5531
      */
-
     public function withRequiredFieldsEmpty($emptyField, $messageCount)
     {
         //Data
@@ -101,8 +94,7 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_AttachmentFileT
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
-        $xpath = $this->_getControlXpath('field', $emptyField);
-        $this->addParameter('fieldXpath', $xpath);
+        $this->addFieldIdToMessage('field', $emptyField);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
     }
@@ -127,7 +119,6 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_AttachmentFileT
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-5532
      */
-
     public function withInvalidAttributeCode($wrongAttributeCode, $validationMessage)
     {
         //Data
@@ -161,7 +152,6 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_AttachmentFileT
      * @dataProvider withInvalidFileSizeDataProvider
      * @TestlinkId TL-MAGE-5534
      */
-
     public function withInvalidFileSize($wrongAttributeCode, $validationMessage)
     {
         //Data
@@ -191,7 +181,6 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_AttachmentFileT
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-5535
      */
-
     public function withSpecialCharactersInTitle()
     {
         //Data
@@ -219,16 +208,17 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_Create_AttachmentFileT
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-5536
      */
-
     public function withLongValues()
     {
         //Data
-        $attrData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_attach_file',
-            array('attribute_code' => $this->generate('string', 21, ':lower:'),
-            'admin_title'    => $this->generate('string', 255, ':alnum:')));
-        $searchData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_search_data',
-            array('attribute_code'  => $attrData['properties']['attribute_code'],
-                  'attribute_label' => $attrData['manage_labels_options']['admin_title']));
+        $attrData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_attach_file', array(
+            'attribute_code' => $this->generate('string', 21, ':lower:'),
+            'admin_title' => $this->generate('string', 255, ':alnum:')
+        ));
+        $searchData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_search_data', array(
+            'attribute_code' => $attrData['properties']['attribute_code'],
+            'attribute_label' => $attrData['manage_labels_options']['admin_title']
+        ));
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
