@@ -73,13 +73,6 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
     protected $_groups = array();
 
     /**
-     * Application cache model
-     *
-     * @var Mage_Core_Model_CacheInterface
-     */
-    protected $_cache;
-
-    /**
      * Config model
      *
      * @var Mage_Core_Model_Config
@@ -132,7 +125,6 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
      * @param Mage_Core_Model_StoreFactory $storeFactory
      * @param Mage_Core_Model_Website_Factory $websiteFactory
      * @param Mage_Core_Model_Store_Group_Factory $groupFactory
-     * @param Mage_Core_Model_CacheInterface $cache
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Cookie $cookie
      * @param Mage_Core_Model_App_State $appState
@@ -145,7 +137,6 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
         Mage_Core_Model_StoreFactory $storeFactory,
         Mage_Core_Model_Website_Factory $websiteFactory,
         Mage_Core_Model_Store_Group_Factory $groupFactory,
-        Mage_Core_Model_CacheInterface $cache,
         Mage_Core_Model_Config $config,
         Mage_Core_Model_Cookie $cookie,
         Mage_Core_Model_App_State $appState,
@@ -157,7 +148,6 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
         $this->_storeFactory = $storeFactory;
         $this->_websiteFactory = $websiteFactory;
         $this->_groupFactory = $groupFactory;
-        $this->_cache = $cache;
         $this->_scopeCode = $scopeCode;
         $this->_scopeType = $scopeType ?: Mage_Core_Model_StoreManagerInterface::SCOPE_TYPE_STORE;
         $this->_config = $config;
@@ -348,17 +338,14 @@ class Mage_Core_Model_Store_Storage_Db implements Mage_Core_Model_Store_StorageI
 
         /** @var $websiteCollection Mage_Core_Model_Resource_Website_Collection */
         $websiteCollection = $this->_websiteFactory->create()->getCollection();
-        $websiteCollection->initCache($this->_cache, 'app', array(Mage_Core_Model_Website::CACHE_TAG));
         $websiteCollection->setLoadDefault(true);
 
         /** @var $groupCollection Mage_Core_Model_Resource_Store_Group_Collection */
         $groupCollection = $this->_groupFactory->create()->getCollection();
-        $groupCollection->initCache($this->_cache, 'app', array(Mage_Core_Model_Store_Group::CACHE_TAG));
         $groupCollection->setLoadDefault(true);
 
         /** @var $storeCollection Mage_Core_Model_Resource_Store_Collection */
         $storeCollection = $this->_storeFactory->create()->getCollection();
-        $storeCollection->initCache($this->_cache, 'app', array(Mage_Core_Model_Store::CACHE_TAG));
         $storeCollection->setLoadDefault(true);
 
         $this->_hasSingleStore = false;

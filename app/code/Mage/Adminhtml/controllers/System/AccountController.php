@@ -77,6 +77,6 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Adminhtml::myaccount');
+        return $this->_authorization->isAllowed('Mage_Adminhtml::myaccount');
     }
 }

@@ -88,8 +88,10 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
                 'index'     => 'is_enabled',
                 'type'      => 'options',
                 'options'   => array(
-                    Enterprise_Banner_Model_Banner::STATUS_ENABLED  => Mage::helper('Enterprise_Banner_Helper_Data')->__('Yes'),
-                    Enterprise_Banner_Model_Banner::STATUS_DISABLED => Mage::helper('Enterprise_Banner_Helper_Data')->__('No'),
+                    Enterprise_Banner_Model_Banner::STATUS_ENABLED  =>
+                        Mage::helper('Enterprise_Banner_Helper_Data')->__('Yes'),
+                    Enterprise_Banner_Model_Banner::STATUS_DISABLED =>
+                        Mage::helper('Enterprise_Banner_Helper_Data')->__('No'),
                 ),
         ));
 
@@ -107,7 +109,8 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
         $this->getMassactionBlock()->addItem('delete', array(
             'label'    => Mage::helper('Enterprise_Banner_Helper_Data')->__('Delete'),
             'url'      => $this->getUrl('*/*/massDelete'),
-            'confirm'  => Mage::helper('Enterprise_Banner_Helper_Data')->__('Are you sure you want to delete these banners?')
+            'confirm'  =>
+                Mage::helper('Enterprise_Banner_Helper_Data')->__('Are you sure you want to delete these banners?')
         ));
 
         return $this;

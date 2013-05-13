@@ -60,7 +60,10 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
      */
     protected function _markTestIncompleteDueToBug($area, $file)
     {
-        if ($area === 'frontend' && $file === 'css/styles.css') {
+        if ($area === 'frontend' && in_array($file, array(
+            'css/styles.css', 'js/head.js', 'mui/reset.css', 'js/jquery.dropdowns.js', 'js/tabs.js',
+            'js/selectivizr-min.js',
+        ))) {
             $this->markTestIncomplete('MAGETWO-9806');
         }
     }
@@ -107,6 +110,10 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
         $files = array();
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($themes as $theme) {
+            if ($theme->getFullPath() == 'frontend/magento2/reference') {
+                /** Skip the theme because of MAGETWO-9063 */
+                continue;
+            }
             $this->_collectGetViewUrlInvokes($theme, $files);
         }
 

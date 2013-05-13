@@ -141,7 +141,7 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Adminhtml_Block
         ));
 
         $this->addColumn('display_in_terms', array(
-            'header'=>Mage::helper('Enterprise_Search_Helper_Data')->__('Suggested Terms'),
+            'header'=>Mage::helper('Enterprise_Search_Helper_Data')->__('Suggested Term'),
             'sortable'=>true,
             'index'=>'display_in_terms',
             'type' => 'options',

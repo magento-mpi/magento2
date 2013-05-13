@@ -194,7 +194,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Poll::poll');
+        return $this->_authorization->isAllowed('Mage_Poll::poll');
     }
 
 }

@@ -106,29 +106,6 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get banner content for specific store
-     *
-     * @param   store $store
-     * @return  string | false
-     */
-    public function getStoreContent($store = null)
-    {
-        $storeId = Mage::app()->getStore($store)->getId();
-        if ($this->hasStoreContents()) {
-            $contents = $this->_getData('store_contents');
-            if (isset($contents[$storeId])) {
-                return $contents[$storeId];
-            } elseif ($contents[0]) {
-                return $contents[0];
-            }
-            return false;
-        } elseif (!isset($this->_contents[$storeId])) {
-            $this->_contents[$storeId] = $this->_getResource()->getStoreContent($this->getId(), $storeId);
-        }
-        return $this->_contents[$storeId];
-    }
-
-    /**
      * Get all existing banner contents
      *
      * @return array
@@ -180,7 +157,8 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
     protected function _afterSave()
     {
         if ($this->hasStoreContents()) {
-            $this->_getResource()->saveStoreContents($this->getId(), $this->getStoreContents(), $this->getStoreContentsNotUse());
+            $this->_getResource()
+                ->saveStoreContents($this->getId(), $this->getStoreContents(), $this->getStoreContentsNotUse());
         }
         if ($this->hasBannerCatalogRules()) {
             $this->_getResource()->saveCatalogRules(
@@ -192,12 +170,6 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
             $this->_getResource()->saveSalesRules(
                 $this->getId(),
                 $this->getBannerSalesRules()
-            );
-        }
-        if ($this->hasCustomerSegmentIds()) {
-            $this->_getResource()->saveCustomerSegments(
-                $this->getId(),
-                $this->getCustomerSegmentIds()
             );
         }
         return parent::_afterSave();
@@ -214,14 +186,16 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
         }
         $bannerContents = $this->getStoreContents();
         $flag = false;
-        foreach ($bannerContents as $storeId => $content) {
+        foreach ($bannerContents as $content) {
             if ('' != trim($content)) {
                 $flag = true;
                 break;
             }
         }
         if (!$flag) {
+            // @codingStandardsIgnoreStart
             Mage::throwException(Mage::helper('Enterprise_Banner_Helper_Data')->__('Please specify default content for at least one store view.'));
+            // @codingStandardsIgnoreEnd
         }
         return parent::_beforeSave();
     }

@@ -86,8 +86,24 @@
          * @protected
          */
         _onSwitchMode: function(event, data) {
+            data.next_action = this.options.continueSwitchModeEvent;
+            data.alert_message = "To switch to the Navigation mode, please save or revert your current text edits."
+            $('[data-frame="editor"]').trigger('modeChange', data);
+
+            if (data.is_being_edited) {
+                // Stop the toggle of the switcher.
+                $('[data-switcher="vde"]').prop('checked', false);
+            }
+        },
+
+        /**
+         * Switch mode event handler.
+         * Passed inline translation validation.  Continue on with switching modes.
+         * @protected
+         */
+        _continueSwitchMode: function(event, data) {
             if ('save_changes_url' in data) {
-                this.saveTemporaryLayoutChanges(data.theme_id, data.save_changes_url, data.mode_url)
+                this.saveTemporaryLayoutChanges(data.theme_id, data.save_changes_url, data.mode_url);
             } else {
                 document.location = data.mode_url;
             }

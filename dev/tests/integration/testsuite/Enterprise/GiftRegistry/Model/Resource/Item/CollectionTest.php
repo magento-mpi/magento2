@@ -14,7 +14,7 @@ class Enterprise_GiftRegistry_Model_Resource_Item_CollectionTest extends PHPUnit
 
     protected function setUp()
     {
-        $this->_collection = new Enterprise_GiftRegistry_Model_Resource_Item_Collection;
+        $this->_collection = Mage::getModel('Enterprise_GiftRegistry_Model_Resource_Item_Collection');
     }
 
     public function testAddProductFilter()

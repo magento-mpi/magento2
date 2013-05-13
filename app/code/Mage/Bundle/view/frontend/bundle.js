@@ -7,6 +7,7 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
+/*jshint loopfunc: true */
 (function($, undefined) {
     "use strict";
     $.widget('mage.bundleOption', {
@@ -30,8 +31,8 @@
                         } else {
                             var value = this.options.bundleConfig.defaultValues[key],
                                 qty = $('#bundle-option-' + key + '-qty-input').val();
-                            this.options.bundleConfig.options[key].selections[value].qty = parseInt(qty);
-                            this.options.optionConfig.options[key].selections[value].qty = parseInt(qty);
+                            this.options.bundleConfig.options[key].selections[value].qty = parseInt(qty, 10);
+                            this.options.optionConfig.options[key].selections[value].qty = parseInt(qty, 10);
                             this.options.bundleConfig.selected[key] = [value];
                         }
                     }
@@ -59,8 +60,8 @@
                                 _qty.on('blur', $.proxy(function() {
                                     var parts = _elem.attr('id').split('-'),
                                         value = _elem.val();
-                                    _this.options.bundleConfig.options[parts[2]].selections[value].qty = parseInt(_qty.val());
-                                    _this.options.optionConfig.options[parts[2]].selections[_elem.val()].qty = parseInt(_qty.val());
+                                    _this.options.bundleConfig.options[parts[2]].selections[value].qty = parseInt(_qty.val(), 10);
+                                    _this.options.optionConfig.options[parts[2]].selections[_elem.val()].qty = parseInt(_qty.val(), 10);
                                     _this.reloadPrice();
                                     _this.element.trigger('updateProductSummary', [{config: _this.options.bundleConfig}]);
                                 }, this));

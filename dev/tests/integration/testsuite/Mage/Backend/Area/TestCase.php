@@ -16,7 +16,8 @@ class Mage_Backend_Area_TestCase extends PHPUnit_Framework_TestCase
 {
     public static function setUpBeforeClass()
     {
-        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_CONFIG);
+        Mage::app()->loadArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
+        Mage::getConfig()->setCurrentAreaCode(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         parent::setUpBeforeClass();
     }
 }

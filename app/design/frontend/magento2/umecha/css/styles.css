@@ -470,6 +470,7 @@ input[type=range],
 input[type=email],
 input[type=url],
 input[type=search],
+input.search,
 input[type=tel],
 input[type=color],
 textarea,
@@ -502,6 +503,7 @@ input[type=range]:focus,
 input[type=email]:focus,
 input[type=url]:focus,
 input[type=search]:focus,
+input.search:focus,
 input[type=tel]:focus,
 input[type=color]:focus,
 textarea:focus,
@@ -562,6 +564,7 @@ select:-ms-input-placeholder,
 .eq-ie8 input[type=email],
 .eq-ie8 input[type=url],
 .eq-ie8 input[type=search],
+.eq-ie8 input.search,
 .eq-ie8 input[type=tel],
 .eq-ie8 input[type=color],
 .eq-ie8 textarea,
@@ -706,6 +709,7 @@ form > .actions .secondary {
 .field > .control input[type=email],
 .field > .control input[type=url],
 .field > .control input[type=search],
+.field > .control input.search,
 .field > .control input[type=tel],
 .field > .control input[type=color],
 .field > .control textarea,
@@ -1332,6 +1336,13 @@ div.mage-error {
 .minicart.wrapper .block.minicart > .title strong {
     font-family: 'Droid Serif', Arial, sans-serif;
     font-weight: 400;
+}
+.minicart.wrapper .block.minicart.empty > .title {
+  display: none;
+}
+.minicart.wrapper .block.minicart.empty > .content .subtitle {
+  display: block;
+  margin-right: -330px;
 }
 .minicart.wrapper.active {
     z-index: 11;
@@ -3323,13 +3334,11 @@ a.action.showcart .qty.empty {
 }
 .action.tocompare span:before,
 .action.towishlist span:before {
-    content: "\e02d ";
-    font-family: "MUI-icons";
-    font-weight: 400;
-    font-size: 10px;
-    height: 10px;
-    overflow: hidden;
-    display: inline-block;
+  content: "\e02d ";
+  font-family: "MUI-icons";
+  font-weight: 400;
+  font-size: 10px;
+  overflow: hidden;
 }
 /*
     Product Page
@@ -4099,14 +4108,25 @@ body.type-bundle {
     margin-right: 0;
 }
 .block.bundle.summary .subtitle {
-    display: block;
-    margin: 20px -20px 0;
-    font-weight: 200;
-    font-size: 20px;
-    border-bottom: 3px solid #e0e0e0;
-    line-height: 1;
-    padding: 20px 20px 10px;
-    margin-bottom: 0;
+  display: block;
+  margin: 20px -20px 0;
+  font-weight: 200;
+  font-size: 20px;
+  border-bottom: 3px solid #e0e0e0;
+  line-height: 1;
+  padding: 20px 20px 10px;
+  margin-bottom: 0;
+}
+.block.bundle.summary .bundle.summary div > ul {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+.block.bundle.summary .bundle.summary div > ul > li {
+  margin: 0 0 10px;
+}
+.block.bundle.summary .bundle.summary div > ul > li > div > div {
+  margin: 0 0 5px;
 }
 .action.back.customization {
     position: absolute;

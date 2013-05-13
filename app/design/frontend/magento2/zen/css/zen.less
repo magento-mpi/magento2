@@ -153,7 +153,7 @@
                 background: @secondary2Opacity;
                 font-size: 15px;
                 text-transform: none;
-                > ul li.column {
+                > ul > li {
                     a:hover {
                         background: @commonBg;
                         color: @secondary2;
@@ -375,3 +375,6 @@
     }
 }
 
+.block.bundle.summary .price-box .price {
+    .customFont(18px);
+}

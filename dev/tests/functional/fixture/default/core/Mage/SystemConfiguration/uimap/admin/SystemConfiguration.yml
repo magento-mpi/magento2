@@ -20,7 +20,7 @@ system_configuration:
             fieldsets:
                 -
                     current_configuration_scope:
-                        xpath: //div[@class="store-switcher"]
+                        xpath: "//div[label='Current Configuration Scope:']"
                         dropdowns:
                             current_configuration_scope: //select[@id='store_switcher']
                         links:
@@ -812,7 +812,7 @@ system_configuration:
                                         add_minimum_qty: //button[span='Add Minimum Qty']
                                         delete: //tr[@id='%rowId%']//button[span='Delete']
                 -
-                    catalog_google_sitemap:
+                    catalog_xml_sitemap:
                         xpath: //a[contains(@href, 'edit/section/sitemap/')]
                         fieldsets:
                             -

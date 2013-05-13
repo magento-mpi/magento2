@@ -72,8 +72,11 @@ class Core_Mage_CheckoutOnePage_WithRegistration_WithProductsTest extends Mage_S
      */
     public function withSimpleProduct($data)
     {
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_usa',
-                                           array('general_name' => $data['simple']));
+        $checkoutData = $this->loadDataSet(
+            'OnePageCheckout',
+            'with_register_flatrate_checkmoney_usa',
+            array('general_name' => $data['simple'])
+        );
         //Steps
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
@@ -109,8 +112,11 @@ class Core_Mage_CheckoutOnePage_WithRegistration_WithProductsTest extends Mage_S
     public function withVirtualProduct($data)
     {
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_virtual',
-                                           array('general_name' => $data['virtual']));
+        $checkoutData = $this->loadDataSet(
+            'OnePageCheckout',
+            'with_register_flatrate_checkmoney_virtual',
+            array('general_name' => $data['virtual'])
+        );
         //Steps
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();

@@ -419,7 +419,7 @@ class Core_Mage_Store_SingleStoreMode_DisableSingleStoreModeTest extends Mage_Se
      */
     public function verificationDashboardPage()
     {
-        $this->navigate('dashboard');
+        $this->navigate($this->pageAfterAdminLogin);
         $this->assertTrue($this->controlIsPresent('dropdown', 'store_switcher'),
             'There is no "Choose Store View" scope selector on the page');
     }

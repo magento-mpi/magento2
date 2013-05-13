@@ -13,11 +13,6 @@
  */
 class Enterprise_Wishlist_Model_Item_Collection extends Enterprise_Wishlist_Model_Resource_Item_Collection
 {
-    public function __construct()
-    {
-        parent::__construct(Mage::getResourceSingleton('Enterprise_Wishlist_Model_Resource_Item'));
-    }
-
     /**
      * Initialize db select
      *

@@ -66,7 +66,7 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
      * Returns select query with analytic functions
      *
      * @param Varien_Db_Select $select
-     * @return string
+     * @return Varien_Db_Select
      */
     public function getQueryUsingAnalyticFunction(Varien_Db_Select $select)
     {
@@ -134,7 +134,7 @@ class Mage_Core_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_He
 
         $query = $this->_assembleLimit($query, $limitCount, $limitOffset, $columnList);
 
-        return $query;
+        return $adapter->select()->from(new Zend_Db_Expr('(' . $query . ')'));
     }
 
     /**

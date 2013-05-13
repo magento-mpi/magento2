@@ -48,6 +48,13 @@
                 </observers>
             </checkout_submit_all_after>
         </events>
+        <di>
+            <Mage_Authorizenet_Model_Directpost_Session>
+                <parameters>
+                    <sessionName>adminhtml</sessionName>
+                </parameters>
+            </Mage_Authorizenet_Model_Directpost_Session>
+        </di>
     </adminhtml>
     <frontend>
         <translate>
@@ -93,6 +100,13 @@
                 </observers>
             </controller_action_postdispatch_checkout_onepage_saveOrder>
         </events>
+        <di>
+            <Mage_Authorizenet_Model_Directpost_Session>
+                <parameters>
+                    <sessionName>frontend</sessionName>
+                </parameters>
+            </Mage_Authorizenet_Model_Directpost_Session>
+        </di>
     </frontend>
     <admin>
         <routers>

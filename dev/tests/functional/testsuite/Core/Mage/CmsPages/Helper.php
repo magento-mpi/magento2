@@ -104,13 +104,13 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
      *
      * @return bool
      */
-    public function insertWidget(array $widgetData)
+    public function insertWidget(array $widgetData, $button)
     {
         $chooseOption = (isset($widgetData['chosen_option'])) ? $widgetData['chosen_option'] : array();
         if ($this->controlIsPresent('fieldset', 'wysiwyg_editor_buttons')) {
             $this->clickControl('link', 'wysiwyg_insert_widget', false);
         } else {
-            $this->clickButton('insert_widget', false);
+            $this->clickButton($button, false);
         }
         $this->waitForControlVisible('dropdown', 'widget_type');
         $this->fillFieldset($widgetData, 'widget_insertion');
@@ -142,7 +142,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
 
         $rowNames = array('Title', 'Product Name');
         $title = 'Not Selected';
-        $xpath = $this->_getControlXpath('pageelement', 'every_popup');
+        $xpath = $this->_getControlXpath('fieldset', $name);
         if (array_key_exists('category_path', $optionData)) {
             $this->addParameter('widgetParam', $xpath);
             $nodes = explode('/', $optionData['category_path']);
@@ -191,12 +191,12 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
      *
      * @param string $variable
      */
-    public function insertVariable($variable)
+    public function insertVariable($variable, $button = 'insert_variable')
     {
         if ($this->controlIsPresent('link', 'wysiwyg_insert_variable')) {
             $this->clickControl('link', 'wysiwyg_insert_variable', false);
         } else {
-            $this->clickButton('insert_variable', false);
+            $this->clickButton($button, false);
         }
         $this->waitForElement($this->_getControlXpath('fieldset', 'variable_insertion'));
         $this->addParameter('variableName', $variable);

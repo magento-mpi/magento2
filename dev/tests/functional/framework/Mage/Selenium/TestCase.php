@@ -74,6 +74,7 @@
  * @method Core_Mage_Grid_Helper                                                                       gridHelper()
  * @method Core_Mage_Theme_Helper                                                                      themeHelper()
  * @method Core_Mage_DesignEditor_Helper                                                               designEditorHelper()
+ * @method Saas_Mage_TmtApi_Helper                                                                     tmtApiHelper()
  */
 //@codingStandardsIgnoreEnd
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
@@ -149,7 +150,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Name of the first page after logging into the back-end
      * @var string
      */
-    protected $_pageAfterAdminLogin = 'dashboard';
+    public $pageAfterAdminLogin;
 
     /**
      * Array of messages on page
@@ -243,6 +244,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $this->_browserTimeout = (isset($this->frameworkConfig['browserTimeoutPeriod']))
             ? $this->frameworkConfig['browserTimeoutPeriod']
             : $this->_browserTimeout;
+        $this->pageAfterAdminLogin = $this->_configHelper->getAfterLoginPage();
     }
 
     /**
@@ -262,7 +264,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 return $helper;
             }
         }
-        return parent::__call($command, $arguments);
+        $result = null;
+        try {
+            $result = parent::__call($command, $arguments);
+        } catch (PHPUnit_Extensions_Selenium2TestCase_NoSeleniumException $e) {
+            $this->markTestSkipped($e->getMessage());
+        }
+        return $result;
     }
 
     /**
@@ -1156,8 +1164,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             } else {
                 $error = '"' . $message . '" message(s) is on the page.';
             }
-            if ($result['found']) {
-                $error .= "\n" . $result['found'];
+            $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
+            if ($messagesOnPage) {
+                $error .= "\n" . $messagesOnPage;
             }
             $this->fail($error);
         }
@@ -1302,6 +1311,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->validatePage($page);
         } else {
             $this->setCurrentPage($this->_findCurrentPageFromUrl());
+            $this->closeSystemMessagesDialog();
         }
 
         return $this;
@@ -1311,14 +1321,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Navigate to the specified admin page.<br>
      * Page identifier must be described in the UIMap. Opens "Dashboard" page by default.
      *
-     * @param string $page Page identifier (by default = 'dashboard')
+     * @param string $page Page identifier (by default = null)
      * @param bool $validatePage
      *
      * @return Mage_Selenium_TestCase
      */
     public function admin($page = null, $validatePage = true)
     {
-        $page = (is_null($page)) ? $this->_pageAfterAdminLogin : $page;
+        $page = (is_null($page)) ? $this->pageAfterAdminLogin : $page;
         $this->goToArea('admin', $page, $validatePage);
         return $this;
     }
@@ -1598,6 +1608,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->fail($errorMessage);
         }
         $this->setCurrentPage($page);
+        $this->closeSystemMessagesDialog();
     }
 
     public function assertEmptyPageErrors()
@@ -1860,10 +1871,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 break;
         }
 
-        if (is_null($elementValue)) {
-            $this->fail("$controlType with name '$controlName' and locator '$locator'"
-                . " is not contains attribute '$attribute'");
-        }
         if (is_array($elementValue)) {
             $elementValue = array_map('trim', $elementValue);
         } elseif (!is_bool($elementValue)) {
@@ -1948,7 +1955,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $containerElements = $containerUimap->$getMethod($this->_paramsHelper);
         $fillData = array();
         foreach ($dataToFill as $fieldName => $fieldValue) {
-            if ($fieldValue == '%noValue%' || is_array($fieldValue)) {
+            if ($fieldValue === '%noValue%' || is_array($fieldValue)) {
                 $fillData['skipped'][$fieldName] = $fieldValue;
                 continue;
             }
@@ -2199,12 +2206,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 . 'Control is not present(visible) on the page');
         }
         $this->focusOnElement($availableElement);
-        //@TODO Temporary fix for ChromeDriver bug
-        try {
-            $availableElement->click();
-        } catch (PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e) {
-            $this->getElement($locator)->click();
-        }
+        $this->getElement($locator)->click();
         if ($willChangePage) {
             $this->waitForPageToLoad();
             $this->addParameter('id', $this->defineIdFromUrl());
@@ -2375,12 +2377,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $waitAjax = strpos($tabElement->attribute('class'), 'ajax');
         $this->focusOnElement($tabElement);
-        //@TODO Temporary fix for ChromeDriver bug
-        try {
-            $tabElement->click();
-        } catch (PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e) {
-            $this->getControlElement('tab', $tabName)->click();
-        }
+        $this->getControlElement('tab', $tabName)->click();
         if ($waitAjax !== false) {
             $this->pleaseWait();
             $this->assertEmptyPageErrors();
@@ -2616,13 +2613,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-            if ($this->alertIsPresent()) {
-                return true;
+            try {
+                if ($this->alertIsPresent()) {
+                    return true;
+                }
+                if ($this->elementIsPresent($locator)) {
+                    return true;
+                }
+                usleep(500000);
+            } catch (RuntimeException $e) {
             }
-            if ($this->elementIsPresent($locator)) {
-                return true;
-            }
-            usleep(500000);
         }
         $this->assertEmptyPageErrors();
         throw new RuntimeException($this->locationToString() . 'Timeout after ' . $timeout . ' seconds' . $output);
@@ -3733,7 +3733,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             'user_name' => $this->_configHelper->getDefaultLogin(),
             'password' => $this->_configHelper->getDefaultPassword()
         );
-        if ($this->_findCurrentPageFromUrl() != $this->_pageAfterAdminLogin) {
+        if ($this->_findCurrentPageFromUrl() != $this->pageAfterAdminLogin) {
             $this->validatePage('log_in_to_admin');
             $this->fillFieldset($loginData, 'log_in');
             $this->clickButton('login', false);
@@ -3743,14 +3743,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 $this->_getMessageXpath('general_validation')
             ));
         }
-        $this->validatePage($this->_pageAfterAdminLogin);
-        if ($this->_pageAfterAdminLogin == 'store_launcher' &&
+        $this->checkCurrentPage($this->pageAfterAdminLogin);
+        $this->setCurrentPage($this->pageAfterAdminLogin);
+        $this->assertEmptyVerificationErrors();
+        if ($this->pageAfterAdminLogin == 'store_launcher' &&
             $this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup')
         ) {
             $this->waitForControlStopsMoving(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup');
             $this->clickButton('back_to_storelauncher', false);
             $this->waitForControlNotVisible(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup');
         }
+        $this->closeSystemMessagesDialog();
         if ($this->controlIsVisible('button', 'close_notification')) {
             $this->clickControl('button', 'close_notification', false);
         }
@@ -3778,6 +3781,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Close System Messages Dialog
+     */
+    public function closeSystemMessagesDialog()
+    {
+        if ($this->getArea() == 'admin' &&
+            $this->controlIsEditable(self::UIMAP_TYPE_FIELDSET, 'system_messages_list')
+        ) {
+            $this->clickControl('button', 'close_messages_list', false);
+        }
+    }
+
+    /**
      * Flush Cache Storage
      */
     public function flushCache()
@@ -3794,27 +3809,32 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function clearInvalidedCache()
     {
-        if ($this->elementIsPresent($this->_getControlXpath('link', 'invalided_cache'))) {
-            $this->navigate('cache_storage_management');
-
-            $invalided = array('cache_disabled', 'cache_invalided');
-            foreach ($invalided as $value) {
-                $elements = $this->getControlElements(self::FIELD_TYPE_PAGEELEMENT, $value, null, false);
-                /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
-                foreach ($elements as $element) {
-                    $this->getChildElement($element, '//input')->click();
+        //Skip for Saas
+        $fallbackOrder = $this->_configHelper->getFixturesFallbackOrder();
+        if (end($fallbackOrder) == 'saas') {
+            return;
+        }
+        $this->navigate('cache_storage_management');
+        $invalided = array('cache_disabled', 'cache_invalided');
+        foreach ($invalided as $value) {
+            $elements = $this->getControlElements(self::FIELD_TYPE_PAGEELEMENT, $value, null, false);
+            /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
+            foreach ($elements as $element) {
+                $toSelect = $this->getChildElement($element, '//input');
+                if (!$toSelect->selected()) {
+                    $toSelect->click();
                 }
             }
-            $this->fillDropdown('cache_action', 'Refresh');
-            $selectedItems = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'selected_items', 'text');
-            if ($selectedItems == 0) {
-                $this->fail('Please select cache items for refresh.');
-            }
-            $this->addParameter('qtySelected', $selectedItems);
-            $this->clickButton('submit', false);
-            $this->waitForNewPage();
-            $this->validatePage('cache_storage_management');
         }
+        $selectedItems = $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'selected_items', 'text');
+        if ($selectedItems == 0) {
+            return;
+        }
+        $this->fillDropdown('cache_action', 'Refresh');
+        $this->addParameter('qtySelected', $selectedItems);
+        $this->clickButton('submit', false);
+        $this->waitForNewPage();
+        $this->validatePage('cache_storage_management');
     }
 
     /**
@@ -3822,17 +3842,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function reindexInvalidedData()
     {
-        if ($this->elementIsPresent($this->_getControlXpath('link', 'invalided_index'))) {
-            $this->navigate('index_management');
-
-            $invalided = array('reindex_required', 'update_required');
-            foreach ($invalided as $value) {
-                $locator = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, $value);
-                while ($this->elementIsPresent($locator)) {
-                    $this->getElement($locator . "//a[text()='Reindex Data']")->click();
-                    $this->waitForNewPage();
-                    $this->validatePage('index_management');
-                }
+        //Skip for Saas
+        $fallbackOrder = $this->_configHelper->getFixturesFallbackOrder();
+        if (end($fallbackOrder) == 'saas') {
+            return;
+        }
+        $this->navigate('index_management');
+        $invalided = array('reindex_required', 'update_required');
+        foreach ($invalided as $value) {
+            $locator = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, $value);
+            while ($this->elementIsPresent($locator)) {
+                $this->getElement($locator . "//a[text()='Reindex Data']")->click();
+                $this->waitForNewPage();
+                $this->validatePage('index_management');
             }
         }
     }
@@ -3846,11 +3868,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $cellId = $this->getColumnIdByName('Index');
         $locator = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'index_line');
         $count = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'index_line');
-        for ($i = 0; $i < $count; $i++) {
-            $elements = $this->getElements($locator);
-            /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
-            $element = $elements[$i];
-            $name = trim($element->element($this->using('xpath')->value("td[$cellId]"))->text());
+        for ($i = 1; $i <= $count; $i++) {
+            $element = $this->getElement($locator . "[$i]");
+            $name = trim($this->getChildElement($element, "td[$cellId]")->text());
             $this->addParameter('indexName', $name);
             $this->clickControl('link', 'reindex_index', false);
             $this->waitForNewPage();
@@ -4382,5 +4402,37 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             },
             $timeout * 1000
         );
+    }
+
+    /**
+    * Wait till window will close
+    *
+    * @param int $countBeforeClose
+    * @param int $timeout
+    * @return bool
+    */
+    public function waitForWindowToClose($countBeforeClose = 2, $timeout = null)
+    {
+        if (is_null($timeout)) {
+            $timeout = $this->_browserTimeout;
+        }
+        $this->waitUntil(function ($testCase) use ($countBeforeClose) {
+                /** @var Mage_Selenium_TestCase $testCase */
+                if (count($testCase->windowHandles()) != $countBeforeClose) {
+                    $testCase->window('');
+                    return true;
+                }
+            }, $timeout * 1000
+        );
+    }
+
+    /**
+     * Gets default browser timeout
+     *
+     * @return int
+     */
+    public function getBrowserTimeout()
+    {
+        return $this->_browserTimeout;
     }
 }
