@@ -275,9 +275,14 @@
                         <field id="*/account/merchant_country">AU</field>
                     </depends>
                 </group>
+                <group id="wps_ca" extends="*/paypal_payments/wps">
+                    <depends>
+                        <field id="*/account/merchant_country">CA</field>
+                    </depends>
+                </group>
                 <group id="wps_all" extends="*/paypal_payments/wps">
                     <depends>
-                        <field id="*/account/merchant_country" negative="1" separator=",">AU,US,GB</field>
+                        <field id="*/account/merchant_country" negative="1" separator=",">AU,CA,GB,US</field>
                     </depends>
                 </group>
             </group>
