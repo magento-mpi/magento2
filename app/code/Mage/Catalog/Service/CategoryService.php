@@ -36,7 +36,7 @@ class Mage_Catalog_Service_CategoryService extends Mage_Core_Service_Type_Abstra
             $category->load($id);
         }
 
-        $this->prepareResponse(get_class($this), 'item', $category, $request);
+        $this->prepareModel(get_class($this), 'item', $category, $request);
 
         return $category;
     }
@@ -60,14 +60,6 @@ class Mage_Catalog_Service_CategoryService extends Mage_Core_Service_Type_Abstra
         $helper->applyPaginationToCollection($collection, $request);
 
         $filters = $request->getFilters();
-        $filters = array(
-            '$and'  => array(
-                'entity_id' => array(
-                    'in' => array(1,2)
-                ),
-                'is_active' => 'prod'
-            )
-        );
         if ($filters) {
             $helper->applyFiltersToCollection($collection, $filters);
         }
@@ -75,7 +67,7 @@ class Mage_Catalog_Service_CategoryService extends Mage_Core_Service_Type_Abstra
         // @todo or not TODO
         $collection->load();
 
-        $this->prepareResponse(get_class($this), 'items', $collection, $request);
+        $this->prepareCollection(get_class($this), 'items', $collection, $request);
 
         return $collection;
     }

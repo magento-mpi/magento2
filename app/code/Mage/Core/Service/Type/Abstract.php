@@ -96,11 +96,15 @@ abstract class Mage_Core_Service_Type_Abstract
                 }
             }
 
-            $this->parse($request, $requestSchema);
+            $data = $request->getData();
 
-            $this->filter($request, $requestSchema);
+            $this->parse($data, $requestSchema);
 
-            $this->validate($request, $requestSchema);
+            $this->filter($data, $requestSchema);
+
+            $this->validate($data, $requestSchema);
+
+            $request->setData($data);
 
             $request->setIsPrepared(true);
         }
@@ -109,13 +113,13 @@ abstract class Mage_Core_Service_Type_Abstract
     }
 
     /**
-     * @param Varien_Object $data
+     * @param array & $data
      * @param Magento_Data_Schema $schema
      */
     public function parse(& $data, $schema)
     {
         $fields = $schema->getData('fields');
-        foreach ($data->getData() as $key => $value) {
+        foreach ($data as $key => & $value) {
             if (array_key_exists($key, $fields)) {
                 if (isset($fields[$key]['content_type'])) {
                     switch ($fields[$key]['content_type']) {
@@ -129,15 +133,13 @@ abstract class Mage_Core_Service_Type_Abstract
                             $value = explode(',', $value);
                             break;
                     }
-
-                    $data->setDataUsingMethod($key, $value);
                 }
             }
         }
     }
 
     /**
-     * @param Varien_Object $data
+     * @param array & $data
      * @param Magento_Data_Schema $schema
      *
      * @return void
@@ -150,48 +152,60 @@ abstract class Mage_Core_Service_Type_Abstract
             $requestedFields = array_flip($requestedFields);
             $fields = array_intersect_key($fields, $requestedFields);
         }
-        foreach ($data->getData() as $key => $value) {
+        foreach ($data as $key => & $value) {
             if (array_key_exists($key, $fields)) {
                 $config = $fields[$key];
                 if (isset($config['schema'])) {
                     $schema = $this->_serviceObjectManager->getContentSchema($config['schema']);
                     $this->filter($value, $schema);
-
-                    $data->setDataUsingMethod($key, $value);
+                    $data[$key] = $value;
                 }
             } else {
-                $data->unsetData($key, $value);
+                unset($data[$key]);
             }
         }
     }
 
     /**
-     * @param Varien_Object $data
+     * @param array & $data
      * @param Magento_Data_Schema $schema
-     *
      * @return void
      */
     public function validate(& $data, $schema)
     {
         $fields = $schema->getData('fields');
-        foreach ($data->getData() as $key => $value) {
+        foreach ($data as $key => $value) {
             if (array_key_exists($key, $fields)) {
                 $config = $schema->getData($key);
                 if (isset($config['schema'])) {
                     $schema = $this->_serviceObjectManager->getContentSchema($config['schema']);
                     $this->validate($value, $schema);
                 } else {
-                    $this->_validate($value, $schema->getData($key));
+                    $this->_validate($value, $config);
                 }
-
-                $data->setDataUsingMethod($key, $value);
             }
         }
     }
 
-    protected function _validate(& $value, $schema)
+    protected function _validate($value, $config)
     {
         return true;
+    }
+
+    /**
+     * Prepare collection for response
+     *
+     * @param string $serviceClass
+     * @param string $serviceMethod
+     * @param mixed $collection
+     * @param mixed $request
+     * @return bool
+     */
+    public function prepareCollection($serviceClass, $serviceMethod, $collection, $request)
+    {
+        foreach ($collection->getItems() as $item) {
+            $this->prepareModel($serviceClass, $serviceMethod, $item, $request);
+        }
     }
 
     /**
@@ -199,11 +213,11 @@ abstract class Mage_Core_Service_Type_Abstract
      *
      * @param string $serviceClass
      * @param string $serviceMethod
-     * @param mixed & $response
+     * @param mixed $model
      * @param mixed $request
      * @return bool
      */
-    public function prepareResponse($serviceClass, $serviceMethod, & $response, $request)
+    public function prepareModel($serviceClass, $serviceMethod, $model, $request)
     {
         $responseSchema = $request->getResponseSchema();
 
@@ -217,74 +231,27 @@ abstract class Mage_Core_Service_Type_Abstract
 
         $responseSchema->setRequestedFields($request->getFields());
 
-        if (is_array($response)) {
-            $data = new Varien_Object($response);
-        } else {
-            $data = & $response;
-        }
-
-
-
-        $this->filter($data, $responseSchema);
-        $this->validate($data, $responseSchema);
-
-        $container = $this->prepare($data, $responseSchema);
-
-        if (is_array($response)) {
-            $response = $container->getData();
-        } else {
-            $response->setData($container->getData());
-        }
-    }
-
-    /**
-     * @param Varien_Object $data
-     * @param Magento_Data_Schema $schema
-     * @return Varien_Object
-     */
-    public function prepare(& $data, $schema)
-    {
-        $fields = $schema->getData('fields');
-        foreach ($data->getData() as $key => $value) {
-            $config = $fields[$key];
-            if (isset($config['content_type'])) {
-                switch ($config['accept_type']) {
-                    case 'json':
-                        $value = json_encode($value);
-                        break;
-                    case 'xml':
-                        $value = '<value />'; // convert to xml string
-                        break;
-                }
-            }
-            $data->setDataUsingMethod($key, $value);
-        }
-
-        return $this->applySchema($data, $schema);
-    }
-
-    /**
-     * @param Varien_Object $data
-     * @param Magento_Data_Schema $schema
-     * @return Varien_Object $container
-     */
-    public function applySchema(& $data, $schema)
-    {
         $container = new Varien_Object();
-        foreach ($schema->getData('fields') as $key => $config) {
-            $result = $this->_fetchValue($data, $key, $config, $schema);
+        foreach ($responseSchema->getData('fields') as $key => $config) {
+            $result = $this->_fetchValue($model, $key, $config);
             $container->setData($key, $result);
         }
 
         return $container;
     }
 
-    protected function _fetchValue($data, $key, $config, $schema)
+    /**
+     * @param Varien_Object $model
+     * @param string $key
+     * @param array $config
+     * @return array|null
+     */
+    protected function _fetchValue($model, $key, $config)
     {
         if (isset($config['_elements'])) {
             $result = array();
             foreach ($config['_elements'] as $_key => $_config) {
-                $result[$_key] = $this->_fetchValue($data, $_key, $_config, $schema);
+                $result[$_key] = $this->_fetchValue($model, $_key, $_config);
             }
             return $result;
         }
@@ -293,18 +260,18 @@ abstract class Mage_Core_Service_Type_Abstract
             if (is_string($config['get_callback'])) {
                 if (strpos($config['get_callback'], '/') !== false) {
                     list ($method, $key) = explode('/', $config['get_callback']);
-                    $result = $data->$method();
+                    $result = $model->$method();
                     $result = array_key_exists($key, $result) ? $result[$key] : null;
                 } else {
-                    $result = $data->$config['get_callback']();
+                    $result = $model->$config['get_callback']();
                 }
             } else {
                 $callbackObject = $this->_serviceObjectManager->getObject($config['get_callback'][0]);
-                $result = $callbackObject->$config['get_callback'][1]($data);
+                $result = $callbackObject->$config['get_callback'][1]($model);
             }
         } else {
             $field = !empty($config['field']) ? $config['field'] : $key;
-            $result = $data->getDataUsingMethod($field);
+            $result = $model->getDataUsingMethod($field);
         }
 
         return $result;

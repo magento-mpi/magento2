@@ -54,7 +54,7 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
             }
         }
 
-        $this->prepareResponse(get_class($this), 'item', $product, $request);
+        $this->prepareModel(get_class($this), 'item', $product, $request);
 
         return $product;
     }
@@ -89,7 +89,7 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
             throw new Mage_Core_Service_Exception($message, Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
         }
 
-        $this->prepareResponse(get_class($this), 'items', $collection, $request);
+        $this->prepareCollection(get_class($this), 'items', $collection, $request);
 
         return $collection;
     }

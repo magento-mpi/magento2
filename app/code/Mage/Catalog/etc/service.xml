@@ -11,14 +11,17 @@
 -->
 <services>
     <service uri="categories" class="Mage_Catalog_Service_CategoryService" title="Catalog Category Service" bind="INT,REST,SOAP">
-        <operation method="create" title="Create new category" />
+        <operation method="create" title="Create new category">
+            <rest-route method=""></rest-route>
+            <annotation>CDATA</annotation>
+        </operation>
         <operation method="item" title="Retrieve a category" />
         <operation method="items" title="Retrieve category collection by filters" />
         <operation method="update" title="Update category" />
         <operation method="delete" title="Delete category" bind="INT" />
 
         <operation method="init" title="Retrieve a category" />
-        <operation method="status" title="Provides the status of category tree" bind="REST,SOAP" />
+        <operation method="status" title="Provides the status of category tree" group="" />
 
         <service uri="products" class="Mage_Catalog_Service_CategoryService">
             <operation method="create" title="Create" />

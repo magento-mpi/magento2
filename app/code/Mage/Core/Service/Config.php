@@ -95,7 +95,7 @@ class Mage_Core_Service_Config
     public function getServices()
     {
         if (null === $this->_services) {
-            $services = '';//$this->_loadFromCache();
+            $services = $this->_loadFromCache();
             if ($services && is_string($services)) {
                 $data = unserialize($services);
                 $_array = isset($data['services']) ? $data['services'] : array();
@@ -254,7 +254,7 @@ class Mage_Core_Service_Config
         }
 
         throw new Mage_Core_Service_Exception(
-            Mage::helper('Mage_Core_Helper_Data')->__('Service %s does not exists!', $serviceReferenceId),
+            Mage::helper('Mage_Core_Helper_Data')->__('Service %s does not exist!', $serviceReferenceId),
             Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
     }
 
@@ -270,24 +270,5 @@ class Mage_Core_Service_Config
         }
 
         return $result;
-    }
-
-    /**
-     * @param string $context (INT, SOAP, REST)
-     * @param string $serviceReferenceId
-     * @param string $serviceMethod [optional]
-     * @return string
-     */
-    public function isServiceAvailableFor($context, $serviceReferenceId, $serviceMethod = null)
-    {
-        $allowedContexts = array();
-        if (isset($serviceMethod)) {
-            $allowedContexts = $this->getServices()->getData($serviceReferenceId . '/_operations_/' . $serviceMethod . '/_attributes_/bind');
-        }
-        if (!isset($allowedContexts)) {
-            $allowedContexts = $this->getServices()->getData($serviceReferenceId . '/_attributes_/bind');
-        }
-
-        return in_array($context, $allowedContexts);
     }
 }
