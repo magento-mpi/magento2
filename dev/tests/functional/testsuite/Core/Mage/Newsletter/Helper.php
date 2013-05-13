@@ -27,6 +27,9 @@ class Core_Mage_Newsletter_Helper extends Mage_Selenium_AbstractHelper
     {
         $this->fillField('sign_up_newsletter', $email);
         $this->saveForm('subscribe');
+        if ($this->getCurrentPage() == 'home_page') {
+            $this->markTestIncomplete('BUG: Redirect to home page after add subscription');
+        }
     }
 
     /**
