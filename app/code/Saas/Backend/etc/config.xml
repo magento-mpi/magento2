@@ -34,6 +34,27 @@
             <preferences>
                 <Mage_AdminNotification_Model_System_Message_CacheOutdated>Saas_Backend_Model_System_Message_CacheOutdated</Mage_AdminNotification_Model_System_Message_CacheOutdated>
             </preferences>
+            <Saas_Backend_Model_Config_Source_Locale>
+                <parameters>
+                    <allowedLocaleCodes>
+                        <en_US>en_US</en_US>
+                    </allowedLocaleCodes>
+                </parameters>
+            </Saas_Backend_Model_Config_Source_Locale>
+            <Saas_Backend_Model_Config_Source_Locale_Translated>
+                <parameters>
+                    <allowedLocaleCodes>
+                        <en_US>en_US</en_US>
+                    </allowedLocaleCodes>
+                </parameters>
+            </Saas_Backend_Model_Config_Source_Locale_Translated>
         </di>
+        <layout>
+            <updates>
+                <saas_system_account module="Saas_Backend">
+                    <file>system/account.xml</file>
+                </saas_system_account>
+            </updates>
+        </layout>
     </adminhtml>
 </config>
