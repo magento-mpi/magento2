@@ -18,6 +18,8 @@ return array(
     'web/cookie/cookie_httponly',
     'web/session',
     'web/browser_capabilities',
+    'web/unsecure',
+    'web/secure',
 
     'currency/webservicex',
     'currency/import',
@@ -58,7 +60,6 @@ return array(
     'customer/online_customers',
 
     'customer/account_share',
-    'customer/enterprise_customersegment',
     'customer/captcha',
 
     'sales/minimum_order/multi_address',

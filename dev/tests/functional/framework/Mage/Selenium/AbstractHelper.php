@@ -30,7 +30,7 @@
  * @method void                     addMessage(string $type, $message)
  * @method Mage_Selenium_TestCase   addParameter(string $name, string $value)
  * @method void                     addVerificationMessage($message)
- * @method Mage_Selenium_TestCase   admin(string $page = 'dashboard', bool $validatePage = true)
+ * @method Mage_Selenium_TestCase   admin(string $page = null, bool $validatePage = true)
  * @method bool                     alertIsPresent()
  * @method Mage_Selenium_TestCase   appendParamsDecorator(Mage_Selenium_Helper_Params $paramsHelperObject)
  * @method void                     assertEmptyVerificationErrors()
@@ -165,6 +165,7 @@
  * @method bool                     waitForPageToLoad()
  * @method void                     waitForTextNotPresent(int $pageText, int $timeout = null)
  * @method void                     waitForTextPresent(int $pageText, int $timeout = null)
+ * @method int                      getBrowserTimeout()
  *
  * @method Core_Mage_AdminUser_Helper|Enterprise_Mage_AdminUser_Helper                                 adminUserHelper()
  * @method Core_Mage_AdvancedSearch_Helper                                                             advancedSearchHelper()

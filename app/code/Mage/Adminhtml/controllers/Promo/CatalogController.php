@@ -101,7 +101,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
         if ($this->getRequest()->getPost()) {
             try {
                 $model = Mage::getModel('Mage_CatalogRule_Model_Rule');
-                Mage::dispatchEvent(
+                $this->_eventManager->dispatch(
                     'adminhtml_controller_catalogrule_prepare_save',
                     array('request' => $this->getRequest())
                 );
@@ -286,7 +286,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_CatalogRule::promo_catalog');
+        return $this->_authorization->isAllowed('Mage_CatalogRule::promo_catalog');
     }
 
     /**

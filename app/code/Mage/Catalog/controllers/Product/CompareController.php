@@ -71,7 +71,7 @@ class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_
                 Mage::getSingleton('Mage_Catalog_Model_Session')->addSuccess(
                     $this->__('The product %s has been added to comparison list.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName()))
                 );
-                Mage::dispatchEvent('catalog_product_compare_add_product', array('product'=>$product));
+                $this->_eventManager->dispatch('catalog_product_compare_add_product', array('product'=>$product));
             }
 
             Mage::helper('Mage_Catalog_Helper_Product_Compare')->calculate();
@@ -111,7 +111,7 @@ class Mage_Catalog_Product_CompareController extends Mage_Core_Controller_Front_
                     Mage::getSingleton('Mage_Catalog_Model_Session')->addSuccess(
                         $this->__('The product %s has been removed from comparison list.', $helper->escapeHtml($product->getName()))
                     );
-                    Mage::dispatchEvent('catalog_product_compare_remove_product', array('product' => $item));
+                    $this->_eventManager->dispatch('catalog_product_compare_remove_product', array('product' => $item));
                     $helper->calculate();
                 }
             }

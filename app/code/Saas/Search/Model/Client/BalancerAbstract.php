@@ -77,7 +77,8 @@ abstract class Saas_Search_Model_Client_BalancerAbstract extends Apache_Solr_Ser
     /**
      * Send an rollback command.
      *
-     * @param  int|float $timeout Maximum expected duration of the commit operation on the server (otherwise, will throw a communication exception)
+     * @param  int|float $timeout Maximum expected duration of the commit operation on the server
+     *  (otherwise, will throw a communication exception)
      * @return Apache_Solr_Response|bool
      *
      * @throws Exception If an error occurs during the service call
@@ -104,7 +105,8 @@ abstract class Saas_Search_Model_Client_BalancerAbstract extends Apache_Solr_Ser
      * @param  array $rawQueries Expected to be utf-8 encoded
      * @param  boolean $fromPending
      * @param  boolean $fromCommitted
-     * @param  int|float $timeout Maximum expected duration of the delete operation on the server (otherwise, will throw a communication exception)
+     * @param  int|float $timeout Maximum expected duration of the delete operation on the server
+     *  (otherwise, will throw a communication exception)
      * @return Apache_Solr_Response
      *
      * @throws Exception If an error occurs during the service call
@@ -131,7 +133,8 @@ abstract class Saas_Search_Model_Client_BalancerAbstract extends Apache_Solr_Ser
      * @param  array $ids Expected to be utf-8 encoded strings
      * @param  boolean $fromPending
      * @param  boolean $fromCommitted
-     * @param  int|float $timeout Maximum expected duration of the delete operation on the server (otherwise, will throw a communication exception)
+     * @param  int|float $timeout Maximum expected duration of the delete operation on the server
+     *  (otherwise, will throw a communication exception)
      * @return Apache_Solr_Response
      *
      * @throws Exception If an error occurs during the service call
@@ -220,6 +223,8 @@ abstract class Saas_Search_Model_Client_BalancerAbstract extends Apache_Solr_Ser
      * Iterate through available read services and select the first with a ping
      * that satisfies configured timeout restrictions (or the default)
      *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     *
      * @param  bool $forceSelect
      * @return Saas_Search_Model_Client_Solr
      *
@@ -249,16 +254,16 @@ abstract class Saas_Search_Model_Client_BalancerAbstract extends Apache_Solr_Ser
             if (count($this->_readableServices)) {
                 // select one of the read services at random
                 $ids = array_keys($this->_readableServices);
-                $id = $ids[rand(0, count($ids) - 1)];
-                $service = $this->_readableServices[$id];
+                $serviceId = $ids[rand(0, count($ids) - 1)];
+                $service = $this->_readableServices[$serviceId];
                 if (is_array($service)) {
                     //convert the array definition to a client object
                     $service['hostname'] = $service['host'];
                     unset($service['host']);
                     $service = $this->_getService($service);
-                    $this->_readableServices[$id] = $service;
+                    $this->_readableServices[$serviceId] = $service;
                 }
-                $this->_currentReadService = $id;
+                $this->_currentReadService = $serviceId;
             } else {
                 throw new Exception('No read services were available');
             }
@@ -269,6 +274,8 @@ abstract class Saas_Search_Model_Client_BalancerAbstract extends Apache_Solr_Ser
     /**
      * Iterate through available write services and select the first with a ping
      * that satisfies configured timeout restrictions (or the default)
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      *
      * @param  bool $forceSelect
      * @return Saas_Search_Model_Client_Solr
@@ -301,16 +308,16 @@ abstract class Saas_Search_Model_Client_BalancerAbstract extends Apache_Solr_Ser
             if (count($this->_writeableServices)) {
                 // select one of the read services at random
                 $ids = array_keys($this->_writeableServices);
-                $id = $ids[rand(0, count($ids) - 1)];
-                $service = $this->_writeableServices[$id];
+                $serviceId = $ids[rand(0, count($ids) - 1)];
+                $service = $this->_writeableServices[$serviceId];
                 if (is_array($service)) {
                     //convert the array definition to a client object
                     $service['hostname'] = $service['host'];
                     unset($service['host']);
                     $service = $this->_getService($service);
-                    $this->_writeableServices[$id] = $service;
+                    $this->_writeableServices[$serviceId] = $service;
                 }
-                $this->_currentWriteService = $id;
+                $this->_currentWriteService = $serviceId;
             } else {
                 throw new Exception('No write services were available');
             }
@@ -345,10 +352,15 @@ abstract class Saas_Search_Model_Client_BalancerAbstract extends Apache_Solr_Ser
      * @param  array $params
      * @param string $method
      * @return Apache_Solr_Response|false
+     * @throws Exception
      */
-    public function search($query, $offset = 0, $limit = 10, $params = array(),
-                           $method = Apache_Solr_Service::METHOD_GET)
-    {
+    public function search(
+        $query,
+        $offset = 0,
+        $limit = 10,
+        $params = array(),
+        $method = Apache_Solr_Service::METHOD_GET
+    ) {
         $this->_rememberIndexVersion();
         $service = $this->_selectReadService();
         do {

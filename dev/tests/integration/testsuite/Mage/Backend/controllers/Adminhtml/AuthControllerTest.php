@@ -68,6 +68,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     {
         $this->dispatch('backend/admin/auth/login');
         $this->assertFalse($this->getResponse()->isRedirect());
+
         $body = $this->getResponse()->getBody();
         $this->assertSelectCount('form#login-form input#username[type=text]', true, $body);
         $this->assertSelectCount('form#login-form input#login[type=password]', true, $body);

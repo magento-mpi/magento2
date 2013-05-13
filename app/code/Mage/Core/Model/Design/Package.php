@@ -95,7 +95,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * Store list manager
      *
-     * @var Mage_Core_Model_StoreManager
+     * @var Mage_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -209,40 +209,17 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         if (!$area) {
             $area = $this->getArea();
         }
+
+        $theme = null;
         $store = isset($params['store']) ? $params['store'] : null;
 
         if ($this->_isThemePerStoveView($area)) {
-            if ($this->_storeManager->isSingleStoreMode()) {
-                /** @var $config Mage_Core_Model_Config */
-                $config = Mage::getSingleton('Mage_Core_Model_Config');
-                $value = $config->getNode('default/' . self::XML_PATH_THEME_ID);
-                $hasNoTheme = $value instanceof Mage_Core_Model_Config_Element && (string)$value === '';
-                $hasNoValue = !(string)$value;
-
-                if ($hasNoTheme) {
-                    $theme = null;
-                } elseif ($hasNoValue) {
-                    $theme = (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
-                } else {
-                    $theme = (string)$value;
-                }
-            } else {
-                $value = Mage::getStoreConfig(self::XML_PATH_THEME_ID, $store);
-                $hasNoTheme = $value === '';
-                $hasNoValue = $value === NULL;
-                if ($hasNoTheme) {
-                    $theme = null;
-                } elseif ($hasNoValue) {
-                    $theme = (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
-                } else {
-                    $theme = $value;
-                }
-            }
-        } else {
-            $theme = (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
+            $theme = $this->_storeManager->isSingleStoreMode()
+                ? (string)Mage::getConfig()->getNode('default/' . self::XML_PATH_THEME_ID)
+                : (string)Mage::getStoreConfig(self::XML_PATH_THEME_ID, $store);
         }
 
-        return $theme;
+        return $theme ?: (string)Mage::getConfig()->getNode($area . '/' . self::XML_PATH_THEME);
     }
 
     /**
@@ -254,6 +231,16 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     private function _isThemePerStoveView($area)
     {
         return $area == self::DEFAULT_AREA;
+    }
+
+    /**
+     * Get default theme form config file
+     *
+     * @return string
+     */
+    protected function _getDefaultTheme()
+    {
+
     }
 
     /**
@@ -326,9 +313,8 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     {
         $file = $this->_extractScope($file, $params);
         $this->_updateParamDefaults($params);
-        $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
-        return  $this->_resolutionPool->getFileStrategy($skipProxy)->getFile($params['area'], $params['themeModel'],
-            $file, $params['module']);
+        return $this->_resolutionPool->getFileStrategy(!empty($params['skipProxy']))
+            ->getFile($params['area'], $params['themeModel'], $file, $params['module']);
     }
 
     /**

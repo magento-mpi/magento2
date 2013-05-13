@@ -56,23 +56,28 @@ class Saas_Launcher_Adminhtml_Storelauncher_IndexControllerTest
     ) {
         $this->_responseMock = $response;
         $this->_configModelMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $this->_configWriterMock = $this->getMock('Mage_Core_Model_Config_Storage_WriterInterface',
-            array(), array(), '', false);
+        $this->_configWriterMock = $this->getMock('Mage_Core_Model_Config_Storage_WriterInterface');
         $this->_launcherHelperMock = $this->getMock('Saas_Launcher_Helper_Data', array(), array(), '', false);
+        $helper = new Magento_Test_Helper_ObjectManager($this);
+
+        $arguments = array(
+            'request' => $request,
+            'response' => $this->_responseMock,
+            'objectManager' => $objectManager,
+            'frontController' => $frontController,
+            'layoutFactory' => $layoutFactory,
+        );
+        $context = $helper->getObject('Mage_Backend_Controller_Context', $arguments);
+
         return $this->getMock(
             'Saas_Launcher_Adminhtml_Storelauncher_IndexController',
             array('loadLayout', 'getLayout', 'renderLayout', '_setActiveMenu'),
             array(
-                $request,
-                $this->_responseMock,
-                $objectManager,
-                $frontController,
-                $layoutFactory,
+                $context,
                 $this->_configModelMock,
                 $this->_configWriterMock,
                 $this->_launcherHelperMock,
                 $areaCode,
-                $invokeArgs,
             )
         );
     }

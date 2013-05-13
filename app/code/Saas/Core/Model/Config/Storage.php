@@ -31,7 +31,7 @@ class Saas_Core_Model_Config_Storage implements Mage_Core_Model_Config_StorageIn
     protected $_resourcesConfig;
 
     /**
-     * @var Enterprise_Queue_Model_Queue_HandlerInterface
+     * @var Enterprise_Queue_Model_Event_HandlerInterface
      */
     protected $_queueHandler;
 
@@ -45,13 +45,13 @@ class Saas_Core_Model_Config_Storage implements Mage_Core_Model_Config_StorageIn
     /**
      * @param Mage_Core_Model_Config_Cache $cache
      * @param Mage_Core_Model_Config_Resource $resourcesConfig
-     * @param Enterprise_Queue_Model_Queue_HandlerInterface $queueHandler
+     * @param Enterprise_Queue_Model_Event_HandlerInterface $queueHandler
      * @param Varien_EventFactory $eventFactory
      */
     public function __construct(
         Mage_Core_Model_Config_Cache $cache,
         Mage_Core_Model_Config_Resource $resourcesConfig,
-        Enterprise_Queue_Model_Queue_HandlerInterface $queueHandler,
+        Enterprise_Queue_Model_Event_HandlerInterface $queueHandler,
         Varien_EventFactory $eventFactory
     ) {
         $this->_cache = $cache;

@@ -16,8 +16,9 @@
         </configurators>
         <di>
             <preferences>
-                <Enterprise_Queue_Model_Queue_HandlerInterface>Saas_Queue_Model_Queue_DefaultHandler</Enterprise_Queue_Model_Queue_HandlerInterface>
-                <Enterprise_Queue_Model_Queue_AdapterInterface>Enterprise_Queue_Model_Queue_Adapter_Gearman</Enterprise_Queue_Model_Queue_AdapterInterface>
+                <Enterprise_Queue_Model_Event_HandlerInterface>Saas_Queue_Model_Event_Handler</Enterprise_Queue_Model_Event_HandlerInterface>
+                <Magento_JobQueue_ClientInterface>Magento_JobQueue_Client_Gearman</Magento_JobQueue_ClientInterface>
+                <Magento_JobQueue_Client_ConfigInterface>Enterprise_Queue_Model_Config_Gearman</Magento_JobQueue_Client_ConfigInterface>
             </preferences>
             <!--<Mage_Core_Model_Config>-->
                 <!--<parameters>-->
@@ -67,6 +68,16 @@
                     <loader>Mage_Core_Model_Config_Loader_Locales_Proxy</loader>
                 </parameters>
             </Saas_Core_Model_Config_Storage_Locales>
+            <Magento_Http_Handler_Composite>
+                <parameters>
+                    <handlers>
+                        <saas>
+                            <sortOrder>10</sortOrder>
+                            <class>Saas_Saas_Model_Http_Handler</class>
+                        </saas>
+                    </handlers>
+                </parameters>
+            </Magento_Http_Handler_Composite>
         </di>
     </global>
 </config>

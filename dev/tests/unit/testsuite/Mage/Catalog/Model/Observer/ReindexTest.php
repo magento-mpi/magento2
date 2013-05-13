@@ -20,8 +20,6 @@ class Mage_Catalog_Model_Observer_ReindexTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Positive test for fulltext reindex
-     *
-     * @test
      */
     public function testFulltextReindex()
     {

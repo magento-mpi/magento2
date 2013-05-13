@@ -75,8 +75,16 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     protected $_processFile;
 
     /**
+     * Event repostiory
+     *
+     * @var Mage_Index_Model_EventRepository
+     */
+    protected $_eventRepository;
+
+    /**
      * @param Mage_Core_Model_Context $context
      * @param Mage_Index_Model_Lock_Storage $lockStorage
+     * @param Mage_Index_Model_EventRepository $eventRepository
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -84,12 +92,14 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     public function __construct(
         Mage_Core_Model_Context $context,
         Mage_Index_Model_Lock_Storage $lockStorage,
+        Mage_Index_Model_EventRepository $eventRepository,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
         $this->_lockStorage = $lockStorage;
+        $this->_eventRepository = $eventRepository;
     }
 
     /**
@@ -189,12 +199,12 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         $this->_getResource()->startProcess($this);
         $this->lock();
         try {
-            $eventsCollection = $this->getUnprocessedEventsCollection();
+            $eventsCollection = $this->_eventRepository->getUnprocessed($this);
 
             /** @var $eventResource Mage_Index_Model_Resource_Event */
             $eventResource = Mage::getResourceSingleton('Mage_Index_Model_Resource_Event');
 
-            if ($eventsCollection->count() > 0 && $processStatus == self::STATUS_PENDING
+            if ($processStatus == self::STATUS_PENDING && $eventsCollection->getSize() > 0
                 || $this->getForcePartialReindex()
             ) {
                 $this->_getResource()->beginTransaction();
@@ -212,8 +222,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
             }
             $this->unlock();
 
-            $unprocessedEvents = $eventResource->getUnprocessedEvents($this);
-            if ($this->getMode() == self::MODE_MANUAL && (count($unprocessedEvents) > 0)) {
+            if ($this->getMode() == self::MODE_MANUAL && $this->_eventRepository->hasUnprocessed($this)) {
                 $this->_getResource()->updateStatus($this, self::STATUS_REQUIRE_REINDEX);
             } else {
                 $this->_getResource()->endProcess($this);
@@ -238,10 +247,9 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        /** @var $eventResource Mage_Index_Model_Resource_Event */
-        $eventResource = Mage::getResourceSingleton('Mage_Index_Model_Resource_Event');
-        $unprocessedEvents = $eventResource->getUnprocessedEvents($this);
-        $this->setForcePartialReindex(count($unprocessedEvents) > 0 && $this->getStatus() == self::STATUS_PENDING);
+        $this->setForcePartialReindex(
+            $this->getStatus() == self::STATUS_PENDING && $this->_eventRepository->hasUnprocessed($this)
+        );
 
         if ($this->getDepends()) {
             /** @var $indexer Mage_Index_Model_Indexer */
@@ -352,7 +360,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
             /**
              * Prepare events collection
              */
-            $eventsCollection = $this->getUnprocessedEventsCollection();
+            $eventsCollection = $this->_eventRepository->getUnprocessed($this);
             if ($entity !== null) {
                 $eventsCollection->addEntityFilter($entity);
             }
@@ -577,18 +585,5 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
             throw $e;
         }
         return $this;
-    }
-
-    /**
-     * Get unprocessed events collection
-     *
-     * @return Mage_Index_Model_Resource_Event_Collection
-     */
-    public function getUnprocessedEventsCollection()
-    {
-        /** @var $eventsCollection Mage_Index_Model_Resource_Event_Collection */
-        $eventsCollection = Mage::getResourceModel('Mage_Index_Model_Resource_Event_Collection');
-        $eventsCollection->addProcessFilter($this, self::EVENT_STATUS_NEW);
-        return $eventsCollection;
     }
 }

@@ -37,7 +37,7 @@ class Saas_Saas_Model_EntryPoint_Worker extends Mage_Core_Model_EntryPointAbstra
     /**
      * Execute worker task(s)
      */
-    public function processRequest()
+    protected function _processRequest()
     {
         /** @var $app Mage_Core_Model_App */
         $app = $this->_objectManager->get('Mage_Core_Model_App');
@@ -51,7 +51,7 @@ class Saas_Saas_Model_EntryPoint_Worker extends Mage_Core_Model_EntryPointAbstra
          */
         $dispatcher = $this->_objectManager->create(
             'Mage_Core_Model_Event_Manager',
-            array('invoker' => 'Mage_Core_Model_Event_InvokerDefault')
+            array('invoker' => 'Mage_Core_Model_Event_Invoker_InvokerDefault')
         );
 
         $primaryConfig = $this->_objectManager->get('Mage_Core_Model_Config_Primary');
@@ -65,19 +65,28 @@ class Saas_Saas_Model_EntryPoint_Worker extends Mage_Core_Model_EntryPointAbstra
                 );
                 continue;
             }
+            /** @var $taskName string */
+            $taskName = $option['task_name'];
+
             if (array_key_exists(self::EVENT_NAME_KEY, $option['params'])) {
-                //Using worker task as event transport in case of event name set
+                // Use worker task as event transport if event name is provided
                 if (!array_key_exists(self::EVENT_DATA_KEY, $option['params'])) {
                     $option['params'][self::EVENT_DATA_KEY] = array();
                 }
                 if (array_key_exists(self::EVENT_AREA_KEY, $option['params'])) {
                     $dispatcher->addEventArea($option['params'][self::EVENT_AREA_KEY]);
                 }
-                $dispatcher->dispatch($option['params'][self::EVENT_NAME_KEY], $option['params'][self::EVENT_DATA_KEY]);
+                $eventName = $option['params'][self::EVENT_NAME_KEY];
+                $eventData = $option['params'][self::EVENT_DATA_KEY];
             } else {
+                // The logic below is kept for backward compatibility
                 $dispatcher->addEventArea(self::WORKER_EVENT_AREA);
-                $dispatcher->dispatch($option['task_name'], $option['params']);
+                $eventName = $taskName;
+                $eventData = $option['params'];
             }
+            // Dispatch synchronous event
+            $dispatcher->dispatch($eventName, $eventData);
+            $dispatcher->dispatch('job_complete', array('task_name' => $taskName));
         }
     }
 }

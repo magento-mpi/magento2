@@ -142,7 +142,7 @@ create_shopping_cart_price_rule:
                         fieldsets:
                             -
                                 update_prices_using_the_following_information:
-                                    xpath: //div[@id='rule_action_fieldset']
+                                    xpath: //fieldset[@id='rule_action_fieldset']
                                     fields:
                                         discount_amount: //input[@name='discount_amount']
                                         maximum_qty_discount_is_applied_to: //input[@name='discount_qty']

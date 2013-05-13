@@ -361,6 +361,7 @@ button.primary.disabled:hover,
     padding: 0;
     box-shadow: none;
     text-shadow: none;
+    filter: none;
 }
 
 .eq-ie8 .customer-current-activity .action-refresh,
@@ -399,11 +400,7 @@ button.primary.disabled:hover,
 .eq-ie8 .fieldset-wrapper-title .action-add,
 .eq-ie8 .fieldset-wrapper-title .action-add:hover,
 .eq-ie8 .fieldset-wrapper-title .action-add:active,
-.eq-ie8 .fieldset-wrapper-title .action-add.active,
-.eq-ie8 .custom-file > .action-add,
-.eq-ie8 .custom-file > .action-add:hover,
-.eq-ie8 .custom-file > .action-add:active,
-.eq-ie8 .custom-file > .action-add.active,
+.eq-ie8 .fieldset-wrapper-title .action-add.active
 .eq-ie8 .vde-tools-header .action-close,
 .eq-ie8 .vde-tools-header .action-close:hover,
 .eq-ie8 .vde-tools-header .action-close:active,
@@ -442,13 +439,13 @@ button.primary.disabled:hover,
     filter: none;
 }
 
-.data-table .action-.delete:disabled,
-.data-table .action-delete:disabled,
-#product-variations-matrix .action-choose:disabled,
-.image-panel .action-close:disabled,
-.image-panel-controls .action-remove:disabled,
-.suggest-expandable .action-show-all:disabled,
-.fieldset-wrapper-title .action-add:disabled,
+.data-table .action-.delete[disabled],
+.data-table .action-delete[disabled],
+#product-variations-matrix .action-choose[disabled],
+.image-panel .action-close[disabled],
+.image-panel-controls .action-remove[disabled],
+.suggest-expandable .action-show-all[disabled],
+.fieldset-wrapper-title .action-add[disabled],
 #store-view-window [class^='action-close'],
 #store-view-window [class^='action-close']:hover,
 #store-view-window [class^='action-close']:active,
@@ -478,6 +475,7 @@ button.primary.disabled:hover,
     padding: 0;
     box-shadow: none;
     text-shadow: none;
+    filter: none;
 }
 
 .fade.critical-notification {
@@ -537,13 +535,29 @@ button.primary.disabled:hover,
     padding: 0;
     box-shadow: none;
     text-shadow: none;
+    filter: none;
 }
 
 .vde-image-sizing .action-connect,
 .vde-image-sizing .action-connect:hover,
 .vde-image-sizing .action-connect:active,
 .vde-image-sizing .action-connect.active,
-.vde-image-sizing .action-connect:disabled {
+.vde-image-sizing .action-connect[disabled],
+.vde-tab-data .action-download,
+.vde-tab-data .action-download:hover,
+.vde-tab-data .action-download:active,
+.vde-tab-data .action-download.active,
+.vde-tab-data .action-download[disabled],
+.vde-tab-data .action-delete,
+.vde-tab-data .action-delete:hover,
+.vde-tab-data .action-delete:active,
+.vde-tab-data .action-delete.active,
+.vde-tab-data .action-delete[disabled],
+.vde-tab-data .action-edit,
+.vde-tab-data .action-edit:hover,
+.vde-tab-data .action-edit:active,
+.vde-tab-data .action-edit.active,
+.vde-tab-data .action-edit[disabled] {
     border: none;
     border-radius: 0;
     background: none;
@@ -551,6 +565,7 @@ button.primary.disabled:hover,
     padding: 0;
     box-shadow: none;
     text-shadow: none;
+    filter: none;
 }
 
 /*
@@ -2583,11 +2598,13 @@ table tbody tr:nth-child(odd):hover th {
 
 /*.navigation .level-0:hover > a,
 .eq-ie8 .navigation .level-0:hover > a,*/
-.navigation .level-0.hover.recent > a,
-.navigation .level-0 > a:focus {
+.navigation .level-0.hover.recent > a {
     background: #fff;
     color: #676056;
     text-shadow: 0 1px 3px #c1bfbb;
+}
+.navigation .level-0 > a:focus {
+    outline: none;
 }
 
 .navigation .level-0 > .submenu {
@@ -2850,6 +2867,16 @@ table tbody tr:nth-child(odd):hover th {
     color: #f2ebde;
     height: 1.333em;
 }
+
+.navigation .level-0.item-system:hover > a span,
+.navigation .level-0.item-stores:hover > a span {
+    background: #31302B;
+}
+.navigation .level-0.item-system:hover > a span:after,
+.navigation .level-0.item-stores:hover > a span:after {
+    color: #58534a;
+}
+
 
 .no-js .navigation .level-0.item-system:hover > a span,
 .navigation .level-0.item-system.hover > a span,

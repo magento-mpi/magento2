@@ -194,7 +194,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
      */
     public function testLoad()
     {
-        $collection = new Mage_Core_Model_Resource_Theme_Collection;
+        $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
         $layoutHandle = 'layout_test_handle';
         $expectedText = 'Text declared in the frontend/test/test_theme';
         /** @var $model Mage_Core_Model_Layout_Merge */
@@ -221,7 +221,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $expectedTextThemeOne = 'Text declared in the frontend/test/test_theme';
         $expectedTextThemeTwo = 'Text declared in the frontend/test/cache_test_theme';
 
-        $collection = new Mage_Core_Model_Resource_Theme_Collection;
+        $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
         $model = Mage::getModel('Mage_Core_Model_Layout_Merge', array('arguments' => array(
             'area'    => 'frontend',
             'theme' => $collection->getThemeByFullPath('frontend/test/test_theme')->getId()
@@ -230,7 +230,7 @@ class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
         $this->assertContains($expectedTextThemeOne, $model->asString());
         $this->assertNotContains($expectedTextThemeTwo, $model->asString());
 
-        $collection = new Mage_Core_Model_Resource_Theme_Collection;
+        $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
         $model = Mage::getModel('Mage_Core_Model_Layout_Merge', array('arguments' => array(
             'area'    => 'frontend',
             'theme' => $collection->getThemeByFullPath('frontend/test/cache_test_theme')->getId()

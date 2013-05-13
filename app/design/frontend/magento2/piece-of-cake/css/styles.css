@@ -5039,6 +5039,7 @@ select:disabled {
   height: 36px;
   line-height: 36px;
   position: relative;
+  color: #666666;
 }
 .my-account .action.back span:before {
   content: '«';
@@ -5095,6 +5096,210 @@ select:disabled {
 .my-wishlist fieldset {
   border: none;
   padding: 0;
+}
+/*
+ *    My Account --> My orders
+ *
+----------------------------------------------------------------------------- */
+.order.details .status {
+  float: left;
+  color: #202020;
+  font-family: 'Tenor Sans', sans-serif;
+  line-height: 1;
+  font-size: 20px;
+}
+.order.details .subtitle.caption strong,
+.order.details .title strong {
+  color: #202020;
+  font-family: 'Tenor Sans', sans-serif;
+  line-height: 1;
+  font-size: 20px;
+}
+.order.details .subtitle.caption .action,
+.order.details .title .action {
+  margin-left: 10px;
+}
+.order.details .order.toolbar {
+  float: right;
+  margin-top: 0;
+}
+.order.details .order.toolbar .action {
+  margin-left: 10px;
+}
+.order.details .block.order {
+  float: left;
+  width: 48%;
+  padding-right: 2%;
+}
+.order.details .block.order.billing.address {
+  clear: left;
+}
+.order.details .block.order .content {
+  padding: 0 0 40px;
+}
+.order.details .order.date {
+  margin: 0 0 50px;
+}
+.order.details .order.info {
+  clear: both;
+  padding: 20px 0 0;
+}
+.order.details .order.info > dt {
+  color: #202020;
+  font-family: 'Tenor Sans', sans-serif;
+  line-height: 1;
+  font-size: 20px;
+  margin: 0 0 20px;
+}
+.order.details .order.info > dd {
+  margin: 10px 0 0 0;
+  padding: 0;
+}
+.order.details .order.info > dd .items {
+  *zoom: 1;
+}
+.order.details .order.info > dd .items:before,
+.order.details .order.info > dd .items:after {
+  content: "";
+  display: table;
+}
+.order.details .order.info > dd .items:after {
+  clear: both;
+}
+.order.details .order.info > dd .items .item {
+  float: left;
+  margin-right: 15px;
+}
+.order.details .additional.details .order.comments {
+  padding: 30px;
+}
+.data.table.order {
+  margin-bottom: 10px;
+}
+.data.table.order tbody tr:last-child td {
+  border-bottom: 1px solid #e0e0e0;
+}
+.order.details.items {
+  clear: both;
+}
+.order.details.items .order.toolbar {
+  margin: 9px 0 0 0;
+}
+.order.details.items .action.show {
+  text-decoration: none;
+}
+.order.details.items .action.show:after {
+  font-family: "cake-icons";
+  font-size: 12px;
+  line-height: 12px;
+  height: 12px;
+  overflow: hidden;
+  content: "\e014";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.order.details.items .action.show.expanded:after {
+  content: "\e010";
+}
+.gift.message.details {
+  position: relative;
+}
+.gift.message.details .action.close {
+  width: 11px;
+  display: block;
+  line-height: 0px;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
+  text-indent: -999em;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.gift.message.details .action.close:after {
+  font-family: "cake-icons";
+  font-size: 11px;
+  line-height: 11px;
+  height: 11px;
+  overflow: hidden;
+  content: "\e016";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.gift.message.details .action.close:active {
+  outline: 0;
+}
+.gift.message.details .action.close:after {
+  text-indent: 0;
+  display: block;
+}
+.gift.message.details .action.close:hover:after {
+  color: #ffffff;
+}
+.data.table.tracking .label {
+  width: 40%;
+}
+.shipping-tracking-popup .action.close {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  display: inline-block;
+  line-height: normal !important;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  position: relative;
+  text-shadow: none;
+  text-align: center;
+  outline: none;
+  -webkit-appearance: none;
+  z-index: 1;
+  text-indent: 0;
+}
+.shipping-tracking-popup .action.close > span {
+  border: 1px solid #333333;
+  background: #ffffff;
+  color: #333;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  display: block;
+  margin: 0;
+  padding: 5px 14px 6px;
+  position: relative;
+}
+.shipping-tracking-popup .action.close:after {
+  background: #fff;
+  border: 1px solid #5c5c5c;
+  content: '';
+  display: block;
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  top: 3px;
+  left: 2px;
+  z-index: -1;
+}
+.shipping-tracking-popup .action.close:hover > span {
+  background: #e4e4e4;
+}
+.shipping-tracking-popup .action.close span {
+  width: auto;
+  text-indent: 0;
+}
+.shipping-tracking-popup .action.close span:after {
+  content: "";
+  display: none;
 }
 /*
  *    Mage_Catalog
@@ -6937,6 +7142,17 @@ body.type-bundle {
   font-size: 11px;
   margin-right: 15px;
   text-decoration: underline;
+}
+.block.bundle.summary .bundle.summary div > ul {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+.block.bundle.summary .bundle.summary div > ul > li {
+  margin: 0 0 10px;
+}
+.block.bundle.summary .bundle.summary div > ul > li > div > div {
+  margin: 0 0 5px;
 }
 .action.back.customization {
   position: absolute;
