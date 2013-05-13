@@ -100,7 +100,7 @@ class Core_Mage_Rating_Helper extends Mage_Selenium_AbstractHelper
     public function deleteRating(array $searchData)
     {
         $this->openRating($searchData);
-        $this->clickButtonAndConfirm('delete_rating', 'confirmation_for_delete');
+        $this->clickButtonAndConfirm('delete_rating', 'confirmation_for_single_delete');
     }
 
     /**
