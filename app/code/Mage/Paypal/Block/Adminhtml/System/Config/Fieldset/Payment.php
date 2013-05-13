@@ -14,6 +14,26 @@
 class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
     extends Mage_Backend_Block_System_Config_Form_Fieldset
 {
+
+    /**
+     * @var Mage_Core_Model_Config_Data
+     */
+    protected $_config;
+
+    /**
+     * @param Mage_Core_Model_Config_Data $config
+     * @param Mage_Core_Block_Template_Context $context
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Backend_Model_Config $config,
+        Mage_Core_Block_Template_Context $context,
+        array $data = array()
+    ) {
+        $this->_config = $config;
+        parent::__construct($context, $data);
+    }
+
     /**
      * Add custom css class
      *
@@ -35,13 +55,18 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
     protected function _isPaymentEnabled($element)
     {
         $groupConfig = $element->getGroup();
-        $activityPath = isset($groupConfig['activity_path']) ? $groupConfig['activity_path'] : '';
+        $activityPath = isset($groupConfig['activity_path']) ? (array)$groupConfig['activity_path'] : '';
 
         if (empty($activityPath)) {
             return false;
         }
 
-        $isPaymentEnabled = (string)Mage::getSingleton('Mage_Backend_Model_Config')->getConfigDataValue($activityPath);
+        $isPaymentEnabled = false;
+        while ($activityPath && !$isPaymentEnabled) {
+            $isPaymentEnabled = (bool)(string)$this->_config->getConfigDataValue(
+                array_shift($activityPath)
+            );
+        }
 
         return (bool)$isPaymentEnabled;
     }
