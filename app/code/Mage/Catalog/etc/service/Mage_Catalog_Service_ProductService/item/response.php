@@ -23,7 +23,8 @@ $schema = array(
             'required' => true
         ),
         'manufacturer'                   => array(
-            'required' => false
+            'required' => false,
+            'field'    => 'brand'
         ),
         'meta_title'                     => array(
             'required' => false
@@ -217,20 +218,11 @@ $schema = array(
                 'thumbnail'   => array()
             )
         ),
+
         'media_gallery'                  => array(
             'get_callback' => 'getMediaGalleryImages' // @todo used to be different format
         ),
-        'related_entities'               => array(
-            '_elements' => array(
-                'crosssells' => array(
-                    'get_callback' => 'getCrossSellProductCollection'
-                ),
-                'upsells'    => array(
-                    'get_callback' => 'getUpSellProductCollection'
-                )
-            )
-        ),
-        'stock_item'                     => array(
+        'stock_item'                     => array( // @todo need this to have system working
             'required' => true
         ),
 

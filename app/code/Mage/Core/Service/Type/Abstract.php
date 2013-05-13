@@ -217,24 +217,30 @@ abstract class Mage_Core_Service_Type_Abstract
 
         $responseSchema->setRequestedFields($request->getFields());
 
-        if (!$response instanceof Varien_Object) {
+        if (is_array($response)) {
             $data = new Varien_Object($response);
         } else {
             $data = & $response;
         }
 
+
+
         $this->filter($data, $responseSchema);
         $this->validate($data, $responseSchema);
-        $this->prepare($data, $responseSchema);
 
-        if (!$response instanceof Varien_Object) {
-            $response = $data->getData();
+        $container = $this->prepare($data, $responseSchema);
+
+        if (is_array($response)) {
+            $response = $container->getData();
+        } else {
+            $response->setData($container->getData());
         }
     }
 
     /**
      * @param Varien_Object $data
      * @param Magento_Data_Schema $schema
+     * @return Varien_Object
      */
     public function prepare(& $data, $schema)
     {
@@ -254,20 +260,23 @@ abstract class Mage_Core_Service_Type_Abstract
             $data->setDataUsingMethod($key, $value);
         }
 
-        $this->applySchema($data, $schema);
+        return $this->applySchema($data, $schema);
     }
 
     /**
      * @param Varien_Object $data
      * @param Magento_Data_Schema $schema
-     * @return Varien_Object $data
+     * @return Varien_Object $container
      */
     public function applySchema(& $data, $schema)
     {
+        $container = new Varien_Object();
         foreach ($schema->getData('fields') as $key => $config) {
             $result = $this->_fetchValue($data, $key, $config, $schema);
-            $data->setData($key, $result);
+            $container->setData($key, $result);
         }
+
+        return $container;
     }
 
     protected function _fetchValue($data, $key, $config, $schema)
@@ -277,8 +286,7 @@ abstract class Mage_Core_Service_Type_Abstract
             foreach ($config['_elements'] as $_key => $_config) {
                 $result[$_key] = $this->_fetchValue($data, $_key, $_config, $schema);
             }
-            $data->setDataUsingMethod($key, $result);
-            return;
+            return $result;
         }
 
         if (isset($config['get_callback'])) {
@@ -295,7 +303,8 @@ abstract class Mage_Core_Service_Type_Abstract
                 $result = $callbackObject->$config['get_callback'][1]($data);
             }
         } else {
-            $result = $data->getDataUsingMethod($key);
+            $field = !empty($config['field']) ? $config['field'] : $key;
+            $result = $data->getDataUsingMethod($field);
         }
 
         return $result;

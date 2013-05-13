@@ -41,15 +41,6 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
         }
 
         if ($id) {
-            if ($version) {
-                if ('V1' === $version) {
-                    $product->setSkipReindex(false);
-                } elseif ('V2' === $version) {
-                    // should be implemented to skip re-indexing as the default case
-                    //$product->setSkipReindex(true);
-                }
-            }
-
             // TODO: we need this trick as because of improper handling when target record doesn't exist
             $product->setId(null);
 
