@@ -161,32 +161,72 @@ class Core_Mage_Store_Helper extends Mage_Selenium_AbstractHelper
      * Delete all Store Views except specified in $excludeList
      *
      * @param array $excludeList
+     * @return bool
      */
     public function deleteStoreViewsExceptSpecified(array $excludeList = array('Default Store View'))
     {
-        $excludeList[] = '';
-        $fieldsetLocator = $this->_getControlXpath('fieldset', 'manage_stores');
-        list(, , $totalCount) = explode('|', $this->getElement($fieldsetLocator . "//div[@class='pager']")->text());
-        $totalCount = trim(preg_replace('/[A-Za-z]+/', '', $totalCount));
-        if ($totalCount > 20) {
-            $this->addParameter('limit', 200);
-            $this->fillDropdown('items_per_page', 200);
-            $this->waitForPageToLoad();
-            $this->validatePage('manage_stores_items_per_page');
-        }
-        $columnId = $this->getColumnIdByName('Store View Name');
-        $storeViews = array();
-        $this->addParameter('tableHeadXpath', $this->_getControlXpath('pageelement', 'stores_table'));
-        $elements = $this->getControlElements('pageelement', 'table_line');
-        /**
-         * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
-         */
-        foreach ($elements as $key => $element) {
-            $storeViews[$key] = trim($this->getChildElement($element, "td[$columnId]")->text());
-        }
-        $storeViews = array_diff($storeViews, $excludeList);
-        foreach ($storeViews as $storeView) {
-            $this->deleteStore(array('store_view_name' => $storeView));
-        }
+        return $this->deleteStoresByType('store_view', $excludeList);
     }
+
+    /**
+     * Delete all Store Views|Store|Website except specified in $excludeList
+     *
+     * @param string $type store|store_view|website
+     * @param array $exclude
+     * @return bool
+     */
+    public function deleteStoresByType($type, array $exclude = array())
+    {
+        $id = $this->getColumnIdByName(ucwords(str_replace('_', ' ', $type)) . ' Name');
+        $this->addParameter('tableHeadXpath', $this->_getControlXpath('pageelement', 'stores_table'));
+        $toDelete = array();
+        do {
+            $isNextPage = $this->controlIsVisible('link', 'next_page');
+            /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
+            foreach ($this->getControlElements('pageelement', 'table_line') as $element) {
+                $name = trim($this->getChildElement($element, 'td[' . $id . ']')->text());
+                if ($name !== '' && !in_array($name, $exclude)) {
+                    $url = $this->getChildElement($element, 'td[' . $id . ']/a')->attribute('href');
+                    $toDelete[$url] = $name;
+                }
+            }
+            if ($isNextPage) {
+                $this->clickControl('link', 'next_page', false);
+                $this->waitForPageToLoad();
+            }
+        } while ($isNextPage);
+        foreach ($toDelete as $url => $name) {
+            $this->url($url);
+            $this->addParameter('elementTitle', $name);
+            $this->addParameter('id', $this->defineIdFromUrl($url));
+            $this->validatePage();
+            if ($this->controlIsVisible('button', 'delete_' . $type)) {
+                $this->clickButton('delete_' . $type);
+                $this->fillDropdown('create_backup', 'No');
+                $this->clickButton('delete_' . $type);
+                $this->assertMessagePresent('success', 'success_deleted_' . $type);
+                unset($toDelete[$url]);
+            } else {
+                $this->navigate('manage_stores');
+            }
+        }
+        return $toDelete;
+    }
+
+    /**
+     * @param array $excludeWebsite
+     * @param array $excludeStore
+     * @param array $excludeStoreView
+     */
+    public function deleteAllStoresExceptSpecified(
+        $excludeWebsite = array('Main Website'),
+        $excludeStore = array('Main Website Store'),
+        $excludeStoreView = array('Default Store View')
+    )
+    {
+        $this->deleteStoresByType('website', $excludeWebsite);
+        $this->deleteStoresByType('store_view', $excludeStoreView);
+        $this->deleteStoresByType('store', $excludeStore);
+    }
+
 }
