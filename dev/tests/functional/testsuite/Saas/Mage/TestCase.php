@@ -57,10 +57,10 @@ class Saas_Mage_TestCase extends Mage_Selenium_TestCase
      * Get select element by control name
      *
      * @param $controlName
-     * @param string $controlType
+     * @param string $controlType multiselect or dropdown type of control
      * @return PHPUnit_Extensions_Selenium2TestCase_Element_Select
      */
-    public function getSelectByControlName($controlName, $controlType = 'dropdown')
+    public function getControlSelect($controlName, $controlType = 'dropdown')
     {
         return $this->select($this->getControlElement($controlType, $controlName));
     }

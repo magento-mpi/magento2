@@ -24,7 +24,7 @@ class Saas_Backend_Model_Config_Source_AbstractLocaleTest extends PHPUnit_Framew
         ), $modelSourceLocalMock->toOptionArray());
     }
 
-    public function testTestSingleOptionsFiltering()
+    public function testSingleOptionsFiltering()
     {
         $modelSourceLocalMock = $this->getMockForAbstractClass('Saas_Backend_Model_Config_Source_AbstractLocale',
             array(), '', false, true, true, array('_filterLocales'));

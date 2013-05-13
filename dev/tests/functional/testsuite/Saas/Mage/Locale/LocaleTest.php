@@ -21,7 +21,7 @@ class Saas_MageLocale_LocaleTest extends Saas_Mage_TestCase
         $this->navigate('my_account');
 
         $this->waitForControl('dropdown', 'interface_locale');
-        $select = $this->getSelectByControlName('interface_locale');
+        $select = $this->getControlSelect('interface_locale');
 
         $this->assertEquals(array('en_US'), $select->selectOptionValues());
         $this->assertEquals(array('English (United States) / English (United States)'), $select->selectOptionLabels());
@@ -38,7 +38,7 @@ class Saas_MageLocale_LocaleTest extends Saas_Mage_TestCase
         $this->systemConfigurationHelper()->expandFieldSet('locale_options');
 
         $this->waitForControl('dropdown', 'locale');
-        $select = $this->getSelectByControlName('locale');
+        $select = $this->getControlSelect('locale');
 
         $this->assertEquals(array('en_US'), $select->selectOptionValues());
         $this->assertEquals(array('English (United States)'), $select->selectOptionLabels());
