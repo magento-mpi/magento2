@@ -277,6 +277,14 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
         $this->orderWorkflow($orderData, $productType);
     }
 
+    public function productDataProvider()
+    {
+        return array(
+            array('simple', 'order_physical'),
+            array('virtual', 'order_virtual')
+        );
+    }
+
     public function withoutOptionsDataProvider()
     {
         return array(
