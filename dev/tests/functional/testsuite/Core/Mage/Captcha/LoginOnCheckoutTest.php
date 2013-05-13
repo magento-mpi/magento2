@@ -28,7 +28,6 @@ class Core_Mage_Captcha_LoginOnCheckoutTest extends Mage_Selenium_TestCase
     public function assertPreConditions()
     {
         $this->logoutCustomer();
-        $this->loginAdminUser();
     }
 
     public function tearDownAfterTestClass()
@@ -49,6 +48,7 @@ class Core_Mage_Captcha_LoginOnCheckoutTest extends Mage_Selenium_TestCase
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         //Steps
+        $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -56,8 +56,10 @@ class Core_Mage_Captcha_LoginOnCheckoutTest extends Mage_Selenium_TestCase
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        return array('user'   => array('email_address' => $userData['email'], 'password' => $userData['password']),
-                     'product'=> $simple['general_name']);
+        return array(
+            'user' => array('email_address' => $userData['email'], 'password' => $userData['password']),
+            'product' => $simple['general_name']
+        );
     }
 
     /**
@@ -72,6 +74,7 @@ class Core_Mage_Captcha_LoginOnCheckoutTest extends Mage_Selenium_TestCase
     public function enableCaptcha($testData)
     {
         //Steps
+        $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Captcha/enable_front_login_captcha');
         $this->frontend();
@@ -82,7 +85,6 @@ class Core_Mage_Captcha_LoginOnCheckoutTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->controlIsVisible('field', 'captcha_user_login'));
         $this->assertTrue($this->controlIsVisible('pageelement', 'captcha_user_login'));
         $this->assertTrue($this->controlIsVisible('button', 'captcha_reload_user_login'));
-
         $this->assertFalse($this->controlIsVisible('field', 'captcha_guest_checkout'));
         $this->assertFalse($this->controlIsVisible('pageelement', 'captcha_guest_checkout'));
         $this->assertFalse($this->controlIsVisible('button', 'captcha_reload_guest_checkout'));
@@ -90,6 +92,7 @@ class Core_Mage_Captcha_LoginOnCheckoutTest extends Mage_Selenium_TestCase
         $this->assertFalse($this->controlIsVisible('pageelement', 'captcha_register_during_checkout'));
         $this->assertFalse($this->controlIsVisible('button', 'captcha_reload_register_during_checkout'));
     }
+
     /**
      * <p>Reload Captcha for Login on Checkout</p>
      *
@@ -136,8 +139,10 @@ class Core_Mage_Captcha_LoginOnCheckoutTest extends Mage_Selenium_TestCase
         $this->fillFieldset($testData['user'], 'checkout_method');
         $this->clickButton('login', false);
         //Verification
-        $this->assertMessagePresent('validation', 'empty_captcha_user_login');
+        $this->addFieldIdToMessage('field', 'captcha_user_login');
+        $this->assertMessagePresent('validation', 'empty_required_field');
     }
+
     /**
      * <p>Wrong Captcha for Login on Checkout</p>
      *
