@@ -22,6 +22,7 @@ class Enterprise_Mage_Rma_FrontendCreateRmaTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('RMA/enable_rma_on_frontend');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
     }
 
     /**
@@ -46,11 +47,14 @@ class Enterprise_Mage_Rma_FrontendCreateRmaTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($simple2);
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array( 'user'     => array ('email' => $userData['email'], 'password' => $userData['password']),
-                      'products' => array ('simple1' => array ('name' => $simple1['general_name'],
-                                                               'sku'  => $simple1['general_sku']),
-                                           'simple2' => array ('name' => $simple2['general_name']),
-                                                               'sku'  => $simple2['general_sku']));
+        return array(
+            'user' => array('email' => $userData['email'], 'password' => $userData['password']),
+            'products' => array(
+                'simple1' => array('name' => $simple1['general_name'], 'sku' => $simple1['general_sku']),
+                'simple2' => array('name' => $simple2['general_name']),
+                'sku' => $simple2['general_sku']
+            )
+        );
     }
 
     /**
@@ -67,7 +71,6 @@ class Enterprise_Mage_Rma_FrontendCreateRmaTest extends Mage_Selenium_TestCase
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_usa',
             array('general_name' => $testData['products']['simple1']['name']));
-        $this->addParameter('param', '0');
         //Preconditions
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $orderNumber = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
@@ -86,6 +89,7 @@ class Enterprise_Mage_Rma_FrontendCreateRmaTest extends Mage_Selenium_TestCase
         $this->clickControl('link', 'return');
         //Verification
         $this->validatePage('create_new_return');
+        $this->addParameter('param', 0);
         $this->assertTrue($this->controlIsPresent('field', 'email'), '"Email" field must be present');
         $this->assertTrue($this->controlIsPresent('dropdown', 'item'), '"Item" dropdown must be present');
         $this->assertTrue($this->controlIsPresent('field', 'quantity'), '"Quantity To Return" field must be present');

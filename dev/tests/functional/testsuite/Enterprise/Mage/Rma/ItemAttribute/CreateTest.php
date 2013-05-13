@@ -90,9 +90,9 @@ class Enterprise_Mage_Rma_ItemAttribute_CreateTest extends Mage_Selenium_TestCas
             array($emptyField => '%noValue%'));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
-        $message = 'empty_' . $emptyField;
         //Verifying
-        $this->assertMessagePresent('validation', $message);
+        $this->addFieldIdToMessage('field', $emptyField);
+        $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
     public function withRequiredFieldsEmptyDataProvider()
