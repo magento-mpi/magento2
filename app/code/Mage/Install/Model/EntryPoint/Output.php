@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 class Mage_Install_Model_EntryPoint_Output
 {
     /**

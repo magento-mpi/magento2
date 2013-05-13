@@ -12,7 +12,7 @@ class Mage_Log_Model_EntryPoint_Shell extends Mage_Core_Model_EntryPointAbstract
      *
      * @var string
      */
-    private $_entryFileName;
+    protected $_entryFileName;
 
     /**
      * @param Mage_Core_Model_Config_Primary $config
