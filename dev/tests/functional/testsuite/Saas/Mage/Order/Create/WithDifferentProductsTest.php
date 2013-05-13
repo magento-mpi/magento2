@@ -31,7 +31,7 @@ class Saas_Mage_Order_Create_WithDifferentProductsTest extends Core_Mage_Order_C
         $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
     }
 
-        /**
+     /**
      * <p>Preconditions:</p>
      *
      * <p>Log in to Backend.</p>
@@ -58,9 +58,6 @@ class Saas_Mage_Order_Create_WithDifferentProductsTest extends Core_Mage_Order_C
         $simple['general_user_attr']['dropdown'][$attrCode] = $attrData['option_1']['admin_option_name'];
         $virtual = $this->loadDataSet('Product', 'virtual_product_visible');
         $virtual['general_user_attr']['dropdown'][$attrCode] = $attrData['option_2']['admin_option_name'];
-//        $download = $this->loadDataSet('SalesOrder', 'downloadable_product_for_order',
-//            array('downloadable_links_purchased_separately' => 'No'));
-//        $download['general_user_attr']['dropdown'][$attrCode] = $attrData['option_3']['admin_option_name'];
         $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order', null,
             array(
                 'add_product_1' => $simple['general_sku'],
@@ -69,7 +66,6 @@ class Saas_Mage_Order_Create_WithDifferentProductsTest extends Core_Mage_Order_C
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order', null,
             array(
                 'general_attribute_1' => $attrData['admin_title'],
-//                'associated_3' => $download['general_sku'],
                 'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
                 'var1_attr_value2' => $attrData['option_2']['admin_option_name'],
                 'var1_attr_value3' => $attrData['option_3']['admin_option_name']
@@ -78,7 +74,6 @@ class Saas_Mage_Order_Create_WithDifferentProductsTest extends Core_Mage_Order_C
             array(
                 'associated_1' => $simple['general_sku'],
                 'associated_2' => $virtual['general_sku'],
-//                'associated_3' => $download['general_sku']
             ));
         //Steps and Verification
         $this->navigate('manage_attributes');
@@ -96,7 +91,6 @@ class Saas_Mage_Order_Create_WithDifferentProductsTest extends Core_Mage_Order_C
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($virtual, 'virtual');
         $this->assertMessagePresent('success', 'success_saved_product');
-//        $this->productHelper()->createProduct($download, 'downloadable');
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($bundle, 'bundle');
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -106,9 +100,6 @@ class Saas_Mage_Order_Create_WithDifferentProductsTest extends Core_Mage_Order_C
         return array('simple_name'         => $simple['general_name'],
                      'simple_sku'          => $simple['general_sku'],
                      'simple_option'       => $attrData['option_1']['admin_option_name'],
-//                     'downloadable_name'   => $download['general_name'],
-//                     'downloadable_sku'    => $download['general_sku'],
-//                     'downloadable_option' => $attrData['option_3']['admin_option_name'],
                      'virtual_name'        => $virtual['general_name'],
                      'virtual_sku'         => $virtual['general_sku'],
                      'virtual_option'      => $attrData['option_2']['admin_option_name'],
@@ -132,7 +123,6 @@ class Saas_Mage_Order_Create_WithDifferentProductsTest extends Core_Mage_Order_C
         $this->markTestIncomplete('Functionality is absent in Magento Go.');
     }
 
-
        public function productDataProvider()
     {
         return array(
@@ -146,9 +136,6 @@ class Saas_Mage_Order_Create_WithDifferentProductsTest extends Core_Mage_Order_C
         return array(
             array('simple', 'order_physical'),
             array('virtual', 'order_virtual'),
-//            array('downloadable', 'order_virtual')
         );
     }
-
-
 }
