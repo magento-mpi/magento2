@@ -59,8 +59,9 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
         $this->assertContains('Add to Cart', $responseBody);
         /* Meta info */
         $this->assertContains('<title>Simple Product 1 Meta Title</title>', $responseBody);
-        $this->assertContains('<meta name="keywords" content="Simple Product 1 Meta Keyword"/>', $responseBody);
-        $this->assertContains('<meta name="description" content="Simple Product 1 Meta Description"/>', $responseBody);
+
+        $this->assertContains('<meta name="keywords" content="Simple Product 1 Meta Keyword"', $responseBody);
+        $this->assertContains('<meta name="description" content="Simple Product 1 Meta Description"', $responseBody);
     }
 
     /**

@@ -595,22 +595,4 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
             $this->getOriginalHeight()
         );
     }
-
-    /**
-     * Check - is this file an image
-     *
-     * @param string $filePath
-     * @return bool
-     * @throws Mage_Core_Exception
-     */
-    public function validateUploadFile($filePath) {
-        if (!getimagesize($filePath)) {
-            Mage::throwException($this->__('Disallowed file type.'));
-        }
-
-        $adapter = Mage::helper('Mage_Core_Helper_Data')->getImageAdapterType();
-        $_processor = new Varien_Image($filePath, $adapter);
-        return $_processor->getMimeType() !== null;
-    }
-
 }

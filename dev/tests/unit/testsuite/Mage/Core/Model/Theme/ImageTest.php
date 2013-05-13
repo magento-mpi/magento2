@@ -29,18 +29,16 @@ class Mage_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
      */
     protected $_filesystem;
 
-    /**
-     * @var Mage_Core_Helper_Data
-     */
-    protected $_helper;
-
     protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento_ObjectManager', get_class_methods('Magento_ObjectManager'),
             array(), '', false);
-        $this->_helper = $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false);
         $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-        $this->_model = new Mage_Core_Model_Theme_Image($this->_objectManager, $this->_helper, $this->_filesystem);
+        $helper = $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false);
+        $imageFactory = $this->getMock('Mage_Core_Model_Image_Factory', array(), array(), '', false);
+        $this->_model = new Mage_Core_Model_Theme_Image(
+            $this->_objectManager, $helper, $this->_filesystem, $imageFactory
+        );
         $this->_model->setTheme($this->getMock('Mage_Core_Model_Theme', array(), array(), '', false));
     }
 

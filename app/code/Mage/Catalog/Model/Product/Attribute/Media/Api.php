@@ -19,7 +19,6 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
 {
     /**
      * Attribute code for media gallery
-     *
      */
     const ATTRIBUTE_CODE = 'media_gallery';
 
@@ -34,13 +33,27 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
         'image/png'  => 'png'
     );
 
-    /** @var Mage_Catalog_Model_Product_Media_Config */
+    /**
+     * @var Mage_Catalog_Model_Product_Media_Config
+     */
     protected $_mediaConfig;
 
-    public function __construct(Mage_Catalog_Model_Product_Media_Config $mediaConfig)
-    {
+    /**
+     * @var Mage_Core_Model_Image_Factory
+     */
+    protected $_imageFactory;
+
+    /**
+     * @param Mage_Catalog_Model_Product_Media_Config $mediaConfig
+     * @param Mage_Core_Model_Image_Factory $imageFactory
+     */
+    public function __construct(
+        Mage_Catalog_Model_Product_Media_Config $mediaConfig,
+        Mage_Core_Model_Image_Factory $imageFactory
+    ) {
         $this->_mediaConfig = $mediaConfig;
         $this->_storeIdSessionField = 'product_store_id';
+        $this->_imageFactory = $imageFactory;
     }
 
     /**
@@ -144,8 +157,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
 
             // try to create Image object - it fails with Exception if image is not supported
             try {
-                $adapter = Mage::helper('Mage_Core_Helper_Data')->getImageAdapterType();
-                new Varien_Image($tmpDirectory . DS . $fileName, $adapter);
+                $this->_imageFactory->create($tmpDirectory . DS . $fileName);
             } catch (Exception $e) {
                 // Remove temporary directory
                 $ioAdapter->rmdir($tmpDirectory, true);
