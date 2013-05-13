@@ -32,15 +32,18 @@
     </div>
     <div class="block-content summary">
         <h4><?php echo $this->__('Summary'); ?></h4>
-        <ul class="no-display" id="bundle-summary-template">
-           <li><strong class="label">{{label}}:</strong>{{options}}</li>
-        </ul>
-        <div class="no-display" id="bundle-summary-option-template"> <?php echo $this->__('%s x %s', '{{qty}}', '{{name}}') ?></div>
-        <div class="no-display" id="bundle-summary-option-multi-template"><div><?php echo $this->__('%s x %s', '{{qty}}', '{{name}}') ?></div></div>
-        <ul id="bundle-summary">
-            <li class="no-display">&nbsp;</li>
-        </ul>
-
+        <div id="bundle-summary" data-container="product-summary">
+            <ul data-mage-init='{productSummary: []}'></ul>
+            <script data-template="bundle-summary" type="text/x-jQuery-tmpl">
+                <li>
+                    <strong class="label">${_label_}:</strong>
+                    <div data-container="options"></div>
+                </li>
+            </script>
+            <script data-template="bundle-option" type="text/x-jQuery-tmpl">
+                <div><?php echo $this->__('%s x %s', '${_quantity_}', '${_label_}') ?></div>
+            </script>
+        </div>
     </div>
 </div>
 <script>

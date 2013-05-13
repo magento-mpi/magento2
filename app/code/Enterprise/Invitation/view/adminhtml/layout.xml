@@ -109,7 +109,7 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='website_id'>
                         <arguments>
-                            <header translate='true' module='Enterprise_Invitation'>Valid on Website</header>
+                            <header translate='true' module='Enterprise_Invitation'>Valid Website</header>
                             <type>options</type>
                             <width>150</width>
                             <index>website_id</index>
@@ -374,7 +374,7 @@
             </block>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="accepted_rate">
                 <arguments>
-                    <header translate="true" module="Enterprise_Invitation">Acceptance Rate</header>
+                    <header translate="true" module="Enterprise_Invitation">Accept Rate</header>
                     <type>string</type>
                     <index>accepted_rate</index>
                     <id>accepted_rated</id>

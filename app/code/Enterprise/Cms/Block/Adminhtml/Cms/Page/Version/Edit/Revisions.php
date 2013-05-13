@@ -99,7 +99,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
         ));
 */
         $this->addColumn('revision_number', array(
-            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Revision #'),
+            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Revision'),
             'width' => 200,
             'type' => 'number',
             'index' => 'revision_number'

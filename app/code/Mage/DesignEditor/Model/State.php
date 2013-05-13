@@ -50,11 +50,6 @@ class Mage_DesignEditor_Model_State
     /**#@-*/
 
     /**
-     * Session key of editable theme
-     */
-    const CURRENT_THEME_SESSION_KEY = 'vde_theme_id';
-
-    /**
      * @var Mage_Backend_Model_Session
      */
     protected $_backendSession;
@@ -103,8 +98,8 @@ class Mage_DesignEditor_Model_State
      * @param Mage_Core_Model_Cache $cacheManager
      * @param Mage_DesignEditor_Helper_Data $dataHelper
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Design_PackageInterface $design
      * @param Mage_Core_Model_App $application
+     * @param Mage_DesignEditor_Model_Theme_Context $themeContext
      */
     public function __construct(
         Mage_Backend_Model_Session $backendSession,
@@ -113,8 +108,8 @@ class Mage_DesignEditor_Model_State
         Mage_Core_Model_Cache $cacheManager,
         Mage_DesignEditor_Helper_Data $dataHelper,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Design_PackageInterface $design,
-        Mage_Core_Model_App $application
+        Mage_Core_Model_App $application,
+        Mage_DesignEditor_Model_Theme_Context $themeContext
     ) {
         $this->_backendSession  = $backendSession;
         $this->_layoutFactory   = $layoutFactory;
@@ -122,8 +117,8 @@ class Mage_DesignEditor_Model_State
         $this->_cacheManager    = $cacheManager;
         $this->_dataHelper      = $dataHelper;
         $this->_objectManager   = $objectManager;
-        $this->_design          = $design;
         $this->_application     = $application;
+        $this->_themeContext    = $themeContext;
     }
 
     /**
@@ -167,9 +162,8 @@ class Mage_DesignEditor_Model_State
     {
         $this->_backendSession->unsetData(self::CURRENT_HANDLE_SESSION_KEY)
             ->unsetData(self::CURRENT_URL_SESSION_KEY)
-            ->unsetData(self::CURRENT_MODE_SESSION_KEY)
-            ->unsetData(self::CURRENT_THEME_SESSION_KEY);
-
+            ->unsetData(self::CURRENT_MODE_SESSION_KEY);
+        $this->_themeContext->reset();
         return $this;
     }
 
@@ -225,10 +219,16 @@ class Mage_DesignEditor_Model_State
      */
     protected function _setTheme()
     {
-        $themeId = $this->_backendSession->getData(self::CURRENT_THEME_SESSION_KEY);
-        if ($themeId !== null) {
-            $this->_application->getStore()
-                ->setConfig(Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID, $themeId);
+        if ($this->_themeContext->getEditableThemeId()) {
+            $themeId = $this->_themeContext->getVisibleTheme()->getId();
+            $this->_application->getStore()->setConfig(
+                Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID,
+                $themeId
+            );
+            $this->_application->getConfig()->setNode(
+                'default/' . Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID,
+                $themeId
+            );
         }
     }
 

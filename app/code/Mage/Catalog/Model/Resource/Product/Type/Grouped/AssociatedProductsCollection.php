@@ -30,7 +30,7 @@ class Mage_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollect
     }
 
     /**
-     * Prepare select for load
+     * @inheritdoc
      */
     public function _initSelect()
     {
@@ -44,7 +44,9 @@ class Mage_Catalog_Model_Resource_Product_Type_Grouped_AssociatedProductsCollect
         }
 
         $this->setProduct($this->_getProduct())
-            ->addAttributeToSelect('*')
+            ->addAttributeToSelect('name')
+            ->addAttributeToSelect('price')
+            ->addAttributeToSelect('sku')
             ->addFilterByRequiredOptions()
             ->addAttributeToFilter('type_id', $allowProductTypes);
 

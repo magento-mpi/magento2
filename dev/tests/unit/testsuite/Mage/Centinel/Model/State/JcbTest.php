@@ -105,6 +105,7 @@ class Mage_Centinel_Model_State_JcbTest extends PHPUnit_Framework_TestCase
      */
     public function testIsAuthenticateSuccessful($result, $strictMode, $params)
     {
+        $strictMode = $strictMode; // PHPMD bug: unused local variable warning
         $this->_model->setIsModeStrict($strictMode);
         $lookupResult = array(
             'enrolled' => 'Y',

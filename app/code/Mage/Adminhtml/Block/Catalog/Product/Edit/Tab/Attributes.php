@@ -101,6 +101,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
                     ->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create');
 
                 $headerBar->getConfig()
+                    ->setAttributeGroupCode($group->getAttributeGroupCode())
                     ->setTabId('group_' . $group->getId())
                     ->setGroupId($group->getId())
                     ->setStoreId($form->getDataObject()->getStoreId())

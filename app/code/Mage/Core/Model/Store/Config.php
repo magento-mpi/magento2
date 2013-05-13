@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Store_Config
+class Mage_Core_Model_Store_Config implements Mage_Core_Model_Store_ConfigInterface
 {
     /**
      * Retrieve store config value

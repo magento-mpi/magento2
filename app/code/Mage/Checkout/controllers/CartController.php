@@ -188,7 +188,7 @@ class Mage_Checkout_CartController
             /**
              * @todo remove wishlist observer processAddToCart
              */
-            Mage::dispatchEvent('checkout_cart_add_product_complete',
+            $this->_eventManager->dispatch('checkout_cart_add_product_complete',
                 array('product' => $product, 'request' => $this->getRequest(), 'response' => $this->getResponse())
             );
 
@@ -331,7 +331,7 @@ class Mage_Checkout_CartController
 
             $this->_getSession()->setCartWasUpdated(true);
 
-            Mage::dispatchEvent('checkout_cart_update_item_complete',
+            $this->_eventManager->dispatch('checkout_cart_update_item_complete',
                 array('item' => $item, 'request' => $this->getRequest(), 'response' => $this->getResponse())
             );
             if (!$this->_getSession()->getNoCartRedirect(true)) {

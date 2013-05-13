@@ -26,6 +26,7 @@ app/code/Mage/Catalog/Block/Product/Grouped
 app/code/Mage/Catalog/Block/Product/TemplateSelector.php
 app/code/Mage/Catalog/Model/Resource/Product/Collection
 app/code/Mage/Catalog/Model/Product/Type.php
+app/code/Mage/Catalog/Model/Observer/Reindex.php
 app/code/Mage/CatalogInventory/Block/Adminhtml/Form/Field/Stock.php
 app/code/Mage/Centinel/Model/State/Jcb.php
 app/code/Mage/Cms/Controller/Router.php

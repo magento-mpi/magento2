@@ -32,24 +32,16 @@ class Enterprise_WebsiteRestriction_IndexController extends Mage_Core_Controller
     protected $_cacheKeyPrefix = 'RESTRICTION_LANGING_PAGE_';
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Mage_Core_Controller_Varien_Action_Context $context
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
-     * @param null $areaCode
+     * @param string $areaCode
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Mage_Core_Controller_Varien_Action_Context $context,
         Mage_Core_Model_Cache_Type_Config $configCacheType,
         $areaCode = null
     ) {
-        parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $areaCode);
+        parent::__construct($context, $areaCode);
         $this->_configCacheType = $configCacheType;
     }
 

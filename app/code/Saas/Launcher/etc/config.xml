@@ -13,7 +13,7 @@
     <modules>
         <Saas_Launcher>
             <version>2.0.0.0</version>
-            <active>true</active>
+            <active>false</active>
             <depends>
                 <Mage_Core/>
             </depends>

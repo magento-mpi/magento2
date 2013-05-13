@@ -29,7 +29,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         $this->_title($this->__('Search Terms'));
 
-        Mage::dispatchEvent('on_view_report', array('report' => 'search'));
+        $this->_eventManager->dispatch('on_view_report', array('report' => 'search'));
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Reports::report_search')
@@ -62,10 +62,10 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     {
         switch ($this->getRequest()->getActionName()) {
             case 'search':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::report_search');
+                return $this->_authorization->isAllowed('Mage_Reports::report_search');
                 break;
             default:
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Reports::report');
+                return $this->_authorization->isAllowed('Mage_Reports::report');
                 break;
         }
     }

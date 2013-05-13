@@ -70,19 +70,19 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Grid extends Mage_Adminht
         ));
 
         $this->addColumn('qty_fulfilled', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Items Fulfilled'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Fulfilled'),
             'index'  => 'qty_fulfilled',
             'type'   => 'number',
         ));
 
         $this->addColumn('qty_remaining', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Items Remaining'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Remaining'),
             'index'  => 'qty_remaining',
             'type'   => 'number'
         ));
 
         $this->addColumn('is_public', array(
-            'header'  => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Is Public'),
+            'header'  => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Public'),
             'index'   => 'is_public',
             'type'    => 'options',
             'options' => array(

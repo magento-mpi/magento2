@@ -46,6 +46,14 @@
                     </catalogrule>
                 </observers>
             </catalog_product_type_configurable_price>
+            <catalogrule_apply_all>
+                <observers>
+                    <catalogrule>
+                        <class>Mage_CatalogRule_Model_Observer</class>
+                        <method>processApplyAll</method>
+                    </catalogrule>
+                </observers>
+            </catalogrule_apply_all>
         </events>
         <catalogrule>
             <related_cache_types>
@@ -53,6 +61,11 @@
             </related_cache_types>
         </catalogrule>
         <di>
+            <Mage_CatalogRule_Model_Rule_Job>
+                <parameters>
+                    <helper>Mage_CatalogRule_Helper_Data</helper>
+                </parameters>
+            </Mage_CatalogRule_Model_Rule_Job>
             <Mage_CatalogRule_Model_Resource_Rule_Collection>
                 <shared>0</shared>
             </Mage_CatalogRule_Model_Resource_Rule_Collection>

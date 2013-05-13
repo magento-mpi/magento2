@@ -158,17 +158,18 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->method('getControlConfig')
             ->will($this->returnValue($quickStyle));
 
-        $configuration->expects($this->once())
-            ->method('getTheme')
-            ->will($this->returnValue($theme));
-
         /** Prepare event */
         $event = $this->getMock('Varien_Event_Observer', array('getData'), array(), '', false);
 
-        $event->expects($this->once())
+        $event->expects($this->at(0))
             ->method('getData')
             ->with('configuration')
             ->will($this->returnValue($configuration));
+
+        $event->expects($this->at(1))
+            ->method('getData')
+            ->with('theme')
+            ->will($this->returnValue($theme));
 
         /** Prepare observer */
         $objectManager->expects($this->at(0))

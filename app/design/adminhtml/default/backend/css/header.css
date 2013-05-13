@@ -323,6 +323,12 @@
     display: none;
 }
 
+.header-panel .notifications > .dropdown-menu .notification-entry:first-child {display: block;}
+.header-panel .notifications > .dropdown-menu .notification-entry:first-child + .notification-entry {display: block;}
+.header-panel .notifications > .dropdown-menu .notification-entry:first-child + .notification-entry + .notification-entry {display: block;}
+.header-panel .notifications > .dropdown-menu .notification-entry:first-child + .notification-entry + .notification-entry + .notification-entry {display: block;}
+.header-panel .notifications > .dropdown-menu .notification-entry:first-child + .notification-entry + .notification-entry + .notification-entry + .notification-entry {display: block;}
+
 .header-panel .notifications > .dropdown-menu .notification-entry:nth-child(-n+5) {
     display: block;
 }

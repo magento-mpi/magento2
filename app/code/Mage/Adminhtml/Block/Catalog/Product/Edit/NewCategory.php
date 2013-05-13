@@ -18,20 +18,46 @@
 class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend_Block_Widget_Form
 {
     /**
+     * Limitations model
+     *
+     * @var Mage_Catalog_Model_Category_Limitation $_limitation
+     */
+
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param array $data
+     * @param Mage_Catalog_Model_Category_Limitation $limitation
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        array $data = array(),
+        Mage_Catalog_Model_Category_Limitation $limitation = null
+    ) {
+        parent::__construct($context, $data);
+        $this->setUseContainer(true);
+        $this->_limitation = !is_null($limitation)
+            ? $limitation
+            : Mage::getObjectManager()->get('Mage_Catalog_Model_Category_Limitation');
+    }
+
+
+    /**
      * Form preparation
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form();
+        $form = new Varien_Data_Form(array('id' => 'new_category_form'));
+        $form->setUseContainer($this->getUseContainer());
 
         $form->addField('new_category_messages', 'note', array());
 
-        $fieldset = $form->addFieldset('new_category_form', array());
+        $fieldset = $form->addFieldset('new_category_form_fieldset', array());
 
         $fieldset->addField('new_category_name', 'text', array(
             'label'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Category Name'),
             'title'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Category Name'),
             'required' => true,
+            'name'     => 'new_category_name',
         ));
 
         $fieldset->addField('new_category_parent', 'select', array(
@@ -40,6 +66,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
             'required' => true,
             'options'  => array(),
             'class'    => 'validate-parent-category',
+            'name'     => 'new_category_parent',
         ));
 
         $this->setForm($form);
@@ -77,12 +104,32 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Backend
         ));
         return <<<HTML
 <script>
-    head.js($widgetUrl, function () {
-        jQuery(function($) { // waiting for page to load to have '#category_ids-template' available
+    jQuery(function($) { // waiting for page to load to have '#category_ids-template' available
+        head.js($widgetUrl, function () {
             $('#new-category').mage('newCategoryDialog', $widgetOptions);
         });
     });
 </script>
 HTML;
+    }
+
+    /**
+     * Is create new category restricted
+     *
+     * @return bool
+     */
+    public function isCreateRestricted()
+    {
+        return $this->_limitation->isCreateRestricted();
+    }
+
+    /**
+     * Get restricted message for categories
+     *
+     * @return string
+     */
+    public function getRestrictedMessage()
+    {
+        return $this->_limitation->getCreateRestrictedMessage();
     }
 }

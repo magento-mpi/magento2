@@ -10,6 +10,8 @@
 
 /**
  * Theme Image model class
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Core_Model_Theme_Image extends Varien_Object
 {
@@ -234,11 +236,15 @@ class Mage_Core_Model_Theme_Image extends Varien_Object
     {
         $filePath = $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $this->getPreviewImage();
         $destinationFileName = Varien_File_Uploader::getNewFileName($filePath);
-        $this->_filesystem->copy(
-            $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $this->getPreviewImage(),
-            $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $destinationFileName
-        );
-        $this->setPreviewImage($destinationFileName);
+        try {
+            $this->_filesystem->copy(
+                $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $this->getPreviewImage(),
+                $this->_getImagePathPreview() . DIRECTORY_SEPARATOR . $destinationFileName
+            );
+            $this->setPreviewImage($destinationFileName);
+        } catch (Exception $e) {
+            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+        }
         return $this;
     }
 

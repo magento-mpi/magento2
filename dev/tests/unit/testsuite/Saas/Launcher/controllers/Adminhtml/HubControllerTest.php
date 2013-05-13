@@ -29,31 +29,23 @@ class Saas_Launcher_Adminhtml_HubControllerTest extends PHPUnit_Framework_TestCa
 
     public function setUp()
     {
-        $requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false, false);
         $this->_responseMock = $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false, false);
-        $objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false, false);
-        $frontControllerMock = $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false, false);
-        $layoutMock = $this->getMock('Mage_Core_Model_Layout_Factory', array(), array(), '', false, false);
         $this->_helperLauncherMock = $this->getMock('Saas_Launcher_Helper_Data', array(), array(), '', false, false);
         $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false, false);
-        $sessionMock = $this->getMock('Mage_Backend_Model_Session', array(), array(), '', false, false);
-
         $helperMock->expects($this->any())->method('getUrl')->will($this->returnArgument(0));
+
+        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $arguments = array(
+            'response' => $this->_responseMock,
+            'helper' => $helperMock,
+        );
+        $context = $helper->getObject('Mage_Backend_Controller_Context', $arguments);
 
         $this->_controller = $this->getMock(
             'Saas_Launcher_Adminhtml_HubController', array('getLayout'),
             array(
-                $requestMock,
-                $this->_responseMock,
-                $objectManagerMock,
-                $frontControllerMock,
-                $layoutMock,
+                $context,
                 $this->_helperLauncherMock,
-                null,
-                array(
-                    'helper' => $helperMock,
-                    'session' => $sessionMock,
-                )
             )
         );
     }

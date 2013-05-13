@@ -146,6 +146,8 @@
             <email>
                 <email_identity>general</email_identity>
                 <email_template>wishlist_email_email_template</email_template>
+                <number_limit>10</number_limit>
+                <text_limit>255</text_limit>
             </email>
         </wishlist>
     </default>
