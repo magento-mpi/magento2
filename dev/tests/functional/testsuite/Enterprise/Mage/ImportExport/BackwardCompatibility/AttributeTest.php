@@ -102,9 +102,8 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
             )
         );
         //Step 3
-        $attrData['manage_labels_options']
-        ['admin_title'] = 'Text_Field_Admin_' .
-            $this->generate('string', 5, ':lower:');
+        $attrData['manage_labels_options']['attribute_label'] = 'Text_Field_Admin_'
+            . $this->generate('string', 5, ':lower:');
         $this->attributesHelper()->fillTabs(
             array(
                 'manage_labels_options' => $attrData['manage_labels_options']
@@ -123,8 +122,7 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         //Verifying
         $this->ImportExportHelper()->customerFilterAttributes(
             array(
-                'attribute_label' => $attrData['manage_labels_options']
-                ['admin_title']
+                'attribute_label' => $attrData['manage_labels_options']['attribute_label']
             )
         );
         $isFound = $this->ImportExportHelper()->customerSearchAttributes(
@@ -230,8 +228,7 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
             )
         );
         //Step 9
-        $attrData['manage_labels_options']['admin_title'] = 'Text_Field_Admin_'
-            . $this->generate('string', 5, ':lower:');
+        $attrData['properties']['attribute_label'] = 'Text_Field_Admin_' . $this->generate('string', 5, ':lower:');
         $this->attributesHelper()->fillTabs(
             array(
                 'manage_labels_options' => $attrData['manage_labels_options']
@@ -247,14 +244,12 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         //Verifying
         $this->ImportExportHelper()->customerFilterAttributes(
             array(
-                'attribute_label' => $attrData['manage_labels_options']
-                    ['admin_title'],
+                'attribute_label' => $attrData['manage_labels_options']['attribute_label'],
             )
         );
         $isFound = $this->ImportExportHelper()->customerSearchAttributes(
             array(
-                'attribute_label' => $attrData['manage_labels_options']
-                    ['admin_title'],
+                'attribute_label' => $attrData['manage_labels_options']['attribute_label'],
             ),
             'grid_and_filter'
         );
@@ -277,8 +272,7 @@ class Enterprise_Mage_ImportExport_BackwardCompatibility_AttributeTest extends M
         //Verifying
         $this->ImportExportHelper()->customerFilterAttributes(
             array(
-                'attribute_label' => $attrData['manage_labels_options']
-                    ['admin_title'],
+                'attribute_label' => $attrData['manage_labels_options']['attribute_label'],
             )
         );
         $isFound = $this->ImportExportHelper()->customerSearchAttributes(

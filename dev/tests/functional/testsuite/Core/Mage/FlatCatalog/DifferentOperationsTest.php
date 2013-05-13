@@ -78,7 +78,7 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
             array('general_categories' => $catPath),
             array(
-                'general_attribute_1' => $attrData['admin_title'],
+                'general_attribute_1' => $attrData['attribute_label'],
                 'associated_3' => $download['general_sku'],
                 'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
                 'var1_attr_value2' => $attrData['option_2']['admin_option_name'],
@@ -147,7 +147,7 @@ class Core_Mage_FlatCatalog_DifferentOperationsTest extends Mage_Selenium_TestCa
             'configurable' => $configurable['general_name'],
             'grouped'      => $grouped['general_name']),
             'configurableOption' => array(
-                'title'                  => $attrData['admin_title'],
+                'title'                  => $attrData['attribute_label'],
                 'custom_option_dropdown' => $configurOptionName
             ),
             'groupedOption' => array(

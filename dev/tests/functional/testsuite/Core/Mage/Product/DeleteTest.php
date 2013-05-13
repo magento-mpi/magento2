@@ -79,7 +79,7 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
             array('Product Details' => $attrData['attribute_code']));
         $configurable = $this->loadDataSet('Product', 'configurable_product_required', array('associated_weight' => 15),
             array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
-                  'general_attribute_1' => $attrData['admin_title']));
+                  'general_attribute_1' => $attrData['attribute_label']));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
         //Steps
         $this->navigate('manage_attributes');
@@ -127,7 +127,7 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
             array('associated_name' => $associated['general_name'],
                   'associated_sku' => $associated['general_sku']),
             array('var1_attr_value1' => $attrData['option_1']['admin_option_name'],
-                  'general_attribute_1' => $attrData['admin_title']));
+                  'general_attribute_1' => $attrData['attribute_label']));
         $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $associated['general_sku']));
         //Steps
         $this->productHelper()->createProduct($associated, $type);

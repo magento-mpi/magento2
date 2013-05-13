@@ -58,7 +58,7 @@ class Core_Mage_DifferentPricesForCustomerGroups_GroupPriceForDifferentProductsT
         $this->saveForm('save_attribute_set');
         //Verifying
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
-        $processedGroupNames['general_configurable_attribute_title'] = $attrData['admin_title'];
+        $processedGroupNames['general_configurable_attribute_title'] = $attrData['attribute_label'];
 
         return $processedGroupNames;
     }

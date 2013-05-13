@@ -27,7 +27,7 @@ class Saas_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute_Helpe
             $searchData = $this->loadDataSet('ProductAttributes', 'attribute_search_data',
                 array(
                     'attribute_code'  => $attrData['attribute_code'],
-                    'attribute_label' => $attrData['admin_title'],
+                    'attribute_label' => $attrData['attribute_label'],
                 )
             );
             $this->openAttribute($searchData);

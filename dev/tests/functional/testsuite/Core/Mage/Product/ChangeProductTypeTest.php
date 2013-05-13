@@ -270,7 +270,7 @@ class Core_Mage_Product_ChangeProductTypeTest extends Mage_Selenium_TestCase
         $this->productAttributeHelper()->createAttribute($attributeData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
 
-        return array('attributeName'  => $attributeData['admin_title'],
+        return array('attributeName'  => $attributeData['attribute_label'],
                      'attributeValue' => $attributeData['option_1']['admin_option_name']);
     }
 

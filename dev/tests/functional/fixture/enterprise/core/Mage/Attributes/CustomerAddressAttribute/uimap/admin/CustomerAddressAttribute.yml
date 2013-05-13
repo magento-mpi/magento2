@@ -87,6 +87,7 @@ new_customer_address_attribute:
                                         maximum_image_file_size: "//input[@id='max_file_size']"
                                         maximum_image_width: "//input[@id='max_image_width']"
                                         maximum_image_height:  "//input[@id='max_image_heght']"
+                                        attribute_label: //input[@name='frontend_label[0]']
                                     required: [attribute_code, lines_count]
                             -
                                 frontend_properties:
@@ -106,9 +107,8 @@ new_customer_address_attribute:
                                 manage_titles:
                                     xpath: //div[@id="enterprise_customer_address_attribute_edit_tabs_options_content"]//table[@id ="attribute-labels-table"]
                                     fields:
-                                        admin_title: //input[@name='frontend_label[0]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input
-                                    required: [admin_title]
+                                    required: [attribute_label]
                             -
                                 manage_options:
                                     xpath: "//div[@id='manage-options-panel' and not(@style='display: none;')]"
@@ -120,10 +120,10 @@ new_customer_address_attribute:
                                     fields:
                                         admin_option_name: //input[@name='option[value][option_%fieldOptionNumber%][0]']
                                         store_view_titles: //input[@name='option[value][option_%fieldOptionNumber%][1]']
-                                        option_position: //input[@name='option[order][option_%fieldOptionNumber%]']
                                         options_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                        option_orders: //td[@class='col-draggable']/input
                                     pageelements:
-                                        manage_options_option: //tr[contains(@class,'option-row')]
+                                        manage_options_option: //*[@data-role='options-container']/tr
                                         is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
                                     required: [admin_option]
         buttons:
@@ -150,9 +150,8 @@ edit_customer_address_attribute:
                                 manage_titles:
                                     xpath: //div[@id="enterprise_customer_address_attribute_edit_tabs_options_content"]//table[@id ="attribute-labels-table"]
                                     fields:
-                                        admin_title: //input[@name='frontend_label[%storeViewNumber%]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input
-                                    required: [admin_title]
+                                    required: [attribute_label]
                             -
                                 manage_options:
                                     xpath: "//div[@id='manage-options-panel' and not(@style='display: none;')]"
@@ -163,10 +162,10 @@ edit_customer_address_attribute:
                                         is_default: //input[@name='default[]' and @value='%fieldOptionNumber%']
                                     fields:
                                         admin_option_name: //input[@name='option[value][%fieldOptionNumber%][0]']
-                                        option_position: //input[@name='option[order][%fieldOptionNumber%]']
                                         options_by_store_name: //td[contains(input/@name,'option[value][%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                        option_orders: //tr/td[3]/input
                                     pageelements:
-                                        manage_options_option: //tr[contains(@class,'option-row')]
+                                        manage_options_option: //*[@data-role='options-container']/tr
                                         is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
                                     required: [admin_option]
         buttons:

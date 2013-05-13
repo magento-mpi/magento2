@@ -113,7 +113,7 @@ class Enterprise_Mage_Attributes_CustomerAttribute_Create_AttachmentFileTest ext
         return array(
             array('attribute_code', 1),
             array('sort_order', 1),
-            array('admin_title', 1)
+            array('attribute_label', 1)
         );
     }
 
@@ -197,9 +197,9 @@ class Enterprise_Mage_Attributes_CustomerAttribute_Create_AttachmentFileTest ext
     {
         //Data
         $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_attach_file',
-            array('admin_title' => $this->generate('string', 32, ':punct:')));
-        $attrData['manage_labels_options']['admin_title'] = preg_replace('/<|>/', '',
-        $attrData['manage_labels_options']['admin_title']);
+            array('attribute_label' => $this->generate('string', 32, ':punct:')));
+        $attrData['properties']['attribute_label'] = preg_replace('/<|>/', '',
+        $attrData['properties']['attribute_label']);
         $searchData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_search_data',
             array('attribute_code' => $attrData['properties']['attribute_code']));
         //Steps
@@ -209,7 +209,7 @@ class Enterprise_Mage_Attributes_CustomerAttribute_Create_AttachmentFileTest ext
         //Steps
         $this->attributesHelper()->openAttribute($searchData);
         //Verifying
-        $this->productAttributeHelper()->verifyAttribute($attrData);
+        $this->attributesHelper()->verifyAttribute($attrData);
     }
 
     /**
@@ -224,11 +224,11 @@ class Enterprise_Mage_Attributes_CustomerAttribute_Create_AttachmentFileTest ext
     {
         //Data
         $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_attach_file',
-            array('attribute_code' => $this->generate('string', 21, ':lower:'),
-                  'admin_title'    => $this->generate('string', 255, ':alnum:')));
+            array('attribute_code'  => $this->generate('string', 21, ':lower:'),
+                  'attribute_label' => $this->generate('string', 255, ':alnum:')));
         $searchData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_search_data',
             array('attribute_code'  => $attrData['properties']['attribute_code'],
-                  'attribute_label' => $attrData['manage_labels_options']['admin_title']));
+                  'attribute_label' => $attrData['properties']['attribute_label']));
         //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
@@ -236,6 +236,6 @@ class Enterprise_Mage_Attributes_CustomerAttribute_Create_AttachmentFileTest ext
         //Steps
         $this->attributesHelper()->openAttribute($searchData);
         //Verifying
-        $this->productAttributeHelper()->verifyAttribute($attrData);
+        $this->attributesHelper()->verifyAttribute($attrData);
     }
 }

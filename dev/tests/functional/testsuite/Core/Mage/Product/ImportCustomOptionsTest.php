@@ -96,7 +96,7 @@ class Core_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_TestCase
         //Data
         $override = ($type === 'configurable')
             ? array('var1_attr_value1' => $attrData['option_1']['admin_option_name'],
-                'general_attribute_1' => $attrData['admin_title'])
+                'general_attribute_1' => $attrData['attribute_label'])
             : null;
         $productWithOptions = $this->loadDataSet('Product', $type . '_product_required',
             array('custom_options_data' => $this->loadDataSet('Product', 'custom_options_data')), $override);

@@ -82,7 +82,7 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
         $this->addParameter('param', '0');
         $this->addParameter('attributeCode', $attrData['attribute_code']);
         //Steps
-        $this->productAttributeHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->frontend('my_orders_history');
@@ -160,7 +160,7 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
     public function systemAttributeNotShowOnFrontend($attributeLabel, $attributeName, $testData)
     {
         //Data
-        $this->addParameter('attribute_admin_title', $attributeLabel);
+        $this->addParameter('attribute_attribute_label', $attributeLabel);
         $this->addParameter('orderId', $testData['order_id']);
         $this->addParameter('param', '0');
         //Steps

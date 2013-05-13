@@ -281,7 +281,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
         $configurable = $this->loadDataSet('Product', 'configurable_product_required', null,
             array(
                 'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
-                'general_attribute_1' => $attrData['admin_title']
+                'general_attribute_1' => $attrData['attribute_label']
             )
         );
         $this->productHelper()->createProduct($configurable, 'configurable');
@@ -332,7 +332,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
             'Options' => array(
                 'option_1' => array(
                     'parameters' => array(
-                        'title' => $attrData['admin_title']),
+                        'title' => $attrData['attribute_label']),
                     'options_to_choose' => array(
                         'custom_option_dropdown' => $attrData['option_1']['store_view_titles']['Default Store View']
                     )
@@ -340,7 +340,7 @@ class Enterprise_Mage_AddBySku_ProductTest extends Mage_Selenium_TestCase
             ),
             'Options_backend' => array(
                 'option_1' => array(
-                    'title' => $attrData['admin_title'],
+                    'title' => $attrData['attribute_label'],
                     'field_dropdown' => array(
                         'fieldType' => 'dropdown',
                         'fieldsValue' => $attrData['option_1']['admin_option_name']

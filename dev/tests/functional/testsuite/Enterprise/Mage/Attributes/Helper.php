@@ -19,9 +19,7 @@
 class Enterprise_Mage_Attributes_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
-     * Action_helper method for Create Customer Attribute
-     *
-     * Preconditions: 'Manage Customer Attributes' page is opened.
+     * Action_helper method for Create Customer/Rma Attribute
      *
      * @param array $attrData Array which contains DataSet for filling of the current form
      */
@@ -33,20 +31,22 @@ class Enterprise_Mage_Attributes_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Filling tabs
+     * Filling tabs for customer/rma attribute
      *
      * @param string|array $attrData
      */
     public function fillTabs($attrData)
     {
         $attrData = $this->fixtureDataToArray($attrData);
-        $propertiesTab = (isset($attrData['properties'])) ? $attrData['properties'] : array();
+        $propertiesTab = (isset($attrData['properties'])) ? $attrData['properties'] : $attrData;
         $optionsTab = (isset($attrData['manage_labels_options'])) ? $attrData['manage_labels_options'] : array();
 
         $this->fillTab($propertiesTab, 'properties');
-        $this->openTab('manage_labels_options');
-        $this->productAttributeHelper()->storeViewTitles($optionsTab);
-        $this->productAttributeHelper()->attributeOptions($optionsTab);
+        if ($optionsTab) {
+            $this->openTab('manage_labels_options');
+            $this->productAttributeHelper()->storeViewTitles($optionsTab);
+            $this->productAttributeHelper()->fillManageOptions($optionsTab);
+        }
     }
 
     /**
@@ -66,5 +66,21 @@ class Enterprise_Mage_Attributes_Helper extends Mage_Selenium_AbstractHelper
         $this->getElement($xpathTR . '//td[' . $cellId . ']')->click();
         $this->waitForPageToLoad();
         $this->validatePage();
+    }
+
+    /**
+     * Verify data for customer/rma attribute
+     *
+     * @param array $attributeData
+     */
+    public function verifyAttribute(array $attributeData)
+    {
+        $this->assertTrue($this->verifyForm($attributeData, 'properties'), $this->getParsedMessages());
+        $this->verifyForm($attributeData, 'properties');
+        if (isset($attributeData['manage_labels_options'])) {
+            $this->openTab('manage_labels_options');
+            $this->productAttributeHelper()->storeViewTitles($attributeData, 'manage_titles', 'verify');
+            $this->productAttributeHelper()->verifyManageOptions($attributeData);
+        }
     }
 }

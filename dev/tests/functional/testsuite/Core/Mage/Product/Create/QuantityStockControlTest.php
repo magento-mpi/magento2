@@ -66,7 +66,7 @@ class Core_Mage_Product_Create_QuantityStockControlTest extends Mage_Selenium_Te
         //Verifying
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
 
-        return array('attribute' => $attributeData['admin_title'],
+        return array('attribute' => $attributeData['attribute_label'],
                      'option'    => $attributeData['option_1']['admin_option_name']);
     }
 

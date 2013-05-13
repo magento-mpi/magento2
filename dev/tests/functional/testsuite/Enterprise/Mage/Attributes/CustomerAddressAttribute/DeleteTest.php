@@ -48,7 +48,7 @@ class Enterprise_Mage_Attributes_CustomerAddressAttribute_DeleteTest extends Mag
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
-        $this->addParameter('elementTitle', $attrData['manage_labels_options']['admin_title']);
+        $this->addParameter('elementTitle', $attrData['properties']['attribute_label']);
         $this->attributesHelper()->openAttribute($searchData);
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         //Verifying

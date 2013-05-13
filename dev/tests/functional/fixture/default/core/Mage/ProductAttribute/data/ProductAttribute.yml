@@ -24,143 +24,131 @@ attribute_search_data:
 
 # Test Datasets for Add New TextField type Product Attribute
 product_attribute_textfield: &productAttributeTextfield
-# properties:
+# Attribute Properties:
+    attribute_label: Text_Field_Admin_%randomize%
     catalog_input_type_for_store_owner: Text Field
+    values_required: %noValue%
+# Advanced Attribute Properties:
     attribute_code: attr_textfield_%randomize%
     scope: %noValue%
     default_text_field_value: %noValue%
     unique_value: %noValue%
-    values_required: %noValue%
     input_validation_for_store_owner: %noValue%
-    apply_to: %noValue%
-    apply_product_types: %noValue%
-    use_in_quick_search: %noValue%
-    use_in_advanced_search: %noValue%
-    comparable_on_frontend: %noValue%
-    use_for_promo_rule_conditions: %noValue%
-    allow_html_tags_on_frontend: %noValue%
-    visible_on_product_view_page_on_frontend: %noValue%
-    used_in_product_listing: %noValue%
-    used_for_sorting_in_product_listing: %noValue%
-# manage_labels_options:
-    admin_title: Text_Field_Admin_%randomize%
+# Manage Labels:
     store_view_titles:
         Default Store View: Text_Field_StoreView
+# Frontend Properties:
+    frontend_properties:
+        use_in_quick_search: %noValue%
+        use_in_advanced_search: %noValue%
+        comparable_on_frontend: %noValue%
+        use_for_promo_rule_conditions: %noValue%
+        allow_html_tags_on_frontend: %noValue%
+        visible_on_product_view_page_on_frontend: %noValue%
+        used_in_product_listing: %noValue%
+        used_for_sorting_in_product_listing: %noValue%
 
 # Test Datasets for Add New TextArea type Product Attribute
 product_attribute_textarea: &productAttributeTextarea
-# properties:
+# Attribute Properties:
+    attribute_label: Text_Area_Admin_%randomize%
     catalog_input_type_for_store_owner: Text Area
+    values_required: %noValue%
+# Advanced Attribute Properties:
     attribute_code: attr_textarea_%randomize%
     scope: %noValue%
     default_text_area_value: %noValue%
     unique_value: %noValue%
-    values_required: %noValue%
-    apply_to: %noValue%
-    apply_product_types: %noValue%
-    use_in_quick_search: %noValue%
-    use_in_advanced_search: %noValue%
-    comparable_on_frontend: %noValue%
-    use_for_promo_rule_conditions: %noValue%
-    enable_wysiwyg: %noValue%
-    allow_html_tags_on_frontend: %noValue%
-    visible_on_product_view_page_on_frontend: %noValue%
-    used_in_product_listing: %noValue%
-# manage_labels_options:
-    admin_title: Text_Area_Admin_%randomize%
+# Manage Labels:
     store_view_titles:
         Default Store View: Text_Area_StoreView
+# Frontend Properties:
+    frontend_properties:
+        use_in_quick_search: %noValue%
+        use_in_advanced_search: %noValue%
+        comparable_on_frontend: %noValue%
+        use_for_promo_rule_conditions: %noValue%
+        enable_wysiwyg: %noValue%
+        allow_html_tags_on_frontend: %noValue%
+        visible_on_product_view_page_on_frontend: %noValue%
+        used_in_product_listing: %noValue%
 
 # Test Datasets for Add New Date type Product Attribute
 product_attribute_date: &productAttributeDate
-# properties:
+# Attribute Properties:
+    attribute_label: Date_Admin_%randomize%
     catalog_input_type_for_store_owner: Date
+    values_required: %noValue%
+# Advanced Attribute Properties:
     attribute_code: attr_date_%randomize%
     scope: %noValue%
     default_date_value: %noValue%
     unique_value: %noValue%
-    values_required: %noValue%
-    apply_to: %noValue%
-    apply_product_types: %noValue%
-    use_in_quick_search: %noValue%
-    use_in_advanced_search: %noValue%
-    comparable_on_frontend: %noValue%
-    use_for_promo_rule_conditions: %noValue%
-    visible_on_product_view_page_on_frontend: %noValue%
-    used_in_product_listing: %noValue%
-    used_for_sorting_in_product_listing: %noValue%
-# manage_labels_options:
-    admin_title: Date_Admin_%randomize%
+# Manage Labels:
     store_view_titles:
         Default Store View: Date_Store_View
+# Frontend Properties:
+    frontend_properties:
+        use_in_quick_search: %noValue%
+        use_in_advanced_search: %noValue%
+        comparable_on_frontend: %noValue%
+        use_for_promo_rule_conditions: %noValue%
+        visible_on_product_view_page_on_frontend: %noValue%
+        used_in_product_listing: %noValue%
+        used_for_sorting_in_product_listing: %noValue%
 
 # Test Datasets for Add New Yes/No type Product Attribute
 product_attribute_yesno: &productAttributeYesno
-# properties:
+# Attribute Properties:
+    attribute_label: Yes/No_Admin_%randomize%
     catalog_input_type_for_store_owner: Yes/No
+    values_required: %noValue%
+# Advanced Attribute Properties:
     attribute_code: attr_yesno_%randomize%
     scope: %noValue%
     default_yesno_value: %noValue%
     unique_value: %noValue%
-    values_required: %noValue%
-    apply_to: %noValue%
-    apply_product_types: %noValue%
-    use_in_quick_search: %noValue%
-    use_in_advanced_search: %noValue%
-    comparable_on_frontend: %noValue%
-    use_for_promo_rule_conditions: %noValue%
-    visible_on_product_view_page_on_frontend: %noValue%
-    used_in_product_listing: %noValue%
-    used_for_sorting_in_product_listing: %noValue%
-# manage_labels_options:
-    admin_title: Yes/No_Admin_%randomize%
+# Manage Labels:
     store_view_titles:
         Default Store View: Yes/No_StoreView
+# Frontend Properties:
+    frontend_properties:
+        use_in_quick_search: %noValue%
+        use_in_advanced_search: %noValue%
+        comparable_on_frontend: %noValue%
+        use_for_promo_rule_conditions: %noValue%
+        visible_on_product_view_page_on_frontend: %noValue%
+        used_in_product_listing: %noValue%
+        used_for_sorting_in_product_listing: %noValue%
 
 # Test Datasets for Add New MultipleSelect type Product Attribute
 product_attribute_multiselect: &productAttributeMultiselect
-    # properties:
+# Attribute Properties:
+    attribute_label: Multiple_Select_Admin_%randomize%
     catalog_input_type_for_store_owner: Multiple Select
+    values_required: %noValue%
+# Advanced Attribute Properties:
     attribute_code: attr_multiselect_%randomize%
     scope: %noValue%
     unique_value: %noValue%
-    values_required: %noValue%
-    apply_to: %noValue%
-    apply_product_types: %noValue%
-    use_in_quick_search: Yes
-    use_in_advanced_search: Yes
-    comparable_on_frontend: No
-    use_in_layered_navigation: Filterable (with results)
-    use_in_search_results_layered_navigation: Yes
-    use_for_promo_rule_conditions: Yes
-    visible_on_product_view_page_on_frontend: Yes
-    used_in_product_listing: %noValue%
-    position: %noValue%
-    # manage_labels_options:
-    admin_title: Multiple_Select_Admin_%randomize%
+# Frontend Properties:
+    frontend_properties:
+        use_in_quick_search: Yes
+        use_in_advanced_search: Yes
+        comparable_on_frontend: No
+        use_in_layered_navigation: Filterable (with results)
+        use_in_search_results_layered_navigation: Yes
+        use_for_promo_rule_conditions: Yes
+        visible_on_product_view_page_on_frontend: Yes
+        used_in_product_listing: %noValue%
+        position: %noValue%
 
 product_attribute_multiselect_with_options: &productAttributeMultiselectWithOptions
-    # properties:
+# Attribute Properties:
+    attribute_label: Multiple_Select_%randomize%
     catalog_input_type_for_store_owner: Multiple Select
-    attribute_code: attr_multiselect_%randomize%
-    scope: %noValue%
-    unique_value: %noValue%
     values_required: %noValue%
-    apply_to: %noValue%
-    apply_product_types: %noValue%
-    use_in_quick_search: %noValue%
-    use_in_advanced_search: %noValue%
-    comparable_on_frontend: %noValue%
-    use_in_layered_navigation: Filterable (with results)
-    use_in_search_results_layered_navigation: %noValue%
-    use_for_promo_rule_conditions: %noValue%
-    visible_on_product_view_page_on_frontend: %noValue%
-    used_in_product_listing: %noValue%
-    position: %noValue%
-    # manage_labels_options:
-    admin_title: Multiple_Select_%randomize%
-    store_view_titles:
-        Default Store View: Multiple_Select_Storeview
+# Manage Options
     option_1:
         is_default: No
         admin_option_name: MultipleSelect_1_Admin
@@ -182,53 +170,55 @@ product_attribute_multiselect_with_options: &productAttributeMultiselectWithOpti
         store_view_titles:
             Default Store View: MultipleSelect_3_StoreView
         delete_option: %noValue%
+# Advanced Attribute Properties:
+    attribute_code: attr_multiselect_%randomize%
+    scope: %noValue%
+    unique_value: %noValue%
+# Manage Labels:
+    store_view_titles:
+        Default Store View: Multiple_Select_Storeview
+# Frontend Properties:
+    frontend_properties:
+        use_in_quick_search: %noValue%
+        use_in_advanced_search: %noValue%
+        comparable_on_frontend: %noValue%
+        use_in_layered_navigation: Filterable (with results)
+        use_in_search_results_layered_navigation: %noValue%
+        use_for_promo_rule_conditions: %noValue%
+        visible_on_product_view_page_on_frontend: %noValue%
+        used_in_product_listing: %noValue%
+        position: %noValue%
 
 # Test Datasets for Add New Dropdown type Product Attribute
 product_attribute_dropdown: &productAttributeDropdown
+# Attribute Properties:
+    attribute_label: Dropdown_Admin_%randomize%
     catalog_input_type_for_store_owner: Dropdown
+    values_required: %noValue%
+# Advanced Attribute Properties:
     attribute_code: attr_dropdown_%randomize%
     scope: Store View
     unique_value: %noValue%
-    values_required: %noValue%
-    apply_to: %noValue%
-    apply_product_types: %noValue%
     use_to_create_configurable_product: %noValue%
-    use_in_quick_search: Yes
-    use_in_advanced_search: Yes
-    comparable_on_frontend: No
-    use_in_layered_navigation: Filterable (with results)
-    use_in_search_results_layered_navigation: Yes
-    use_for_promo_rule_conditions: Yes
-    visible_on_product_view_page_on_frontend: Yes
-    used_in_product_listing: Yes
-    used_for_sorting_in_product_listing: %noValue%
-    position: %noValue%
-    admin_title: Dropdown_Admin_%randomize%
+# Frontend Properties:
+    frontend_properties:
+        use_in_quick_search: Yes
+        use_in_advanced_search: Yes
+        comparable_on_frontend: No
+        use_in_layered_navigation: Filterable (with results)
+        use_in_search_results_layered_navigation: Yes
+        use_for_promo_rule_conditions: Yes
+        visible_on_product_view_page_on_frontend: Yes
+        used_in_product_listing: Yes
+        used_for_sorting_in_product_listing: %noValue%
+        position: %noValue%
 
 product_attribute_dropdown_with_options: &productAttributeDropdownWithOptions
-    # Properties Tab:
+# Attribute Properties:
+    attribute_label: Dropdown_Admin_%randomize%
     catalog_input_type_for_store_owner: Dropdown
-    attribute_code: attr_dropdown_%randomize%
-    scope: Global
-    unique_value: %noValue%
     values_required: %noValue%
-    apply_to: %noValue%
-    apply_product_types: %noValue%
-    use_to_create_configurable_product: Yes
-    use_in_quick_search: %noValue%
-    use_in_advanced_search: %noValue%
-    comparable_on_frontend: %noValue%
-    use_in_layered_navigation: Filterable (with results)
-    use_in_search_results_layered_navigation: %noValue%
-    use_for_promo_rule_conditions: %noValue%
-    visible_on_product_view_page_on_frontend: %noValue%
-    used_in_product_listing: %noValue%
-    used_for_sorting_in_product_listing: %noValue%
-    position: %noValue%
-    # Manage Label / Options Tab:
-    admin_title: Dropdown_Admin_%randomize%
-    store_view_titles:
-        Default Store View: Dropdown_StoreView
+# Manage Options
     option_1:
         is_default: No
         admin_option_name: Option_Admin_%randomize%
@@ -250,54 +240,61 @@ product_attribute_dropdown_with_options: &productAttributeDropdownWithOptions
         store_view_titles:
             Default Store View: Option_StoreView_%randomize%
         delete_option: %noValue%
+# Advanced Attribute Properties:
+    attribute_code: attr_dropdown_%randomize%
+    scope: Global
+    unique_value: %noValue%
+    use_to_create_configurable_product: Yes
+# Manage Label
+    store_view_titles:
+        Default Store View: Dropdown_StoreView
+# Frontend Properties:
+    frontend_properties:
+        use_in_quick_search: %noValue%
+        use_in_advanced_search: %noValue%
+        comparable_on_frontend: %noValue%
+        use_in_layered_navigation: Filterable (with results)
+        use_in_search_results_layered_navigation: %noValue%
+        use_for_promo_rule_conditions: %noValue%
+        visible_on_product_view_page_on_frontend: %noValue%
+        used_in_product_listing: %noValue%
+        used_for_sorting_in_product_listing: %noValue%
+        position: %noValue%
 
 # Test Datasets for Add New Price type Product Attribute
 product_attribute_price: &productAttributePrice
-# properties:
+# Attribute Properties:
+    attribute_label: Price_Admin_%randomize%
     catalog_input_type_for_store_owner: Price
+    values_required: %noValue%
+# Advanced Attribute Properties:
     attribute_code: attr_price_%randomize%
     default_price_value: %noValue%
     unique_value: %noValue%
-    values_required: %noValue%
-    apply_to: %noValue%
-    apply_product_types: %noValue%
-    use_in_quick_search: Yes
-    use_in_advanced_search: Yes
-    comparable_on_frontend: No
-    use_in_layered_navigation: Filterable (with results)
-    use_in_search_results_layered_navigation: Yes
-    use_for_promo_rule_conditions: Yes
-    visible_on_product_view_page_on_frontend: Yes
-    used_in_product_listing: Yes
-    used_for_sorting_in_product_listing: %noValue%
-    position: %noValue%
-# manage_labels_options:
-    admin_title: Price_Admin_%randomize%
+# Manage Labels:
     store_view_titles:
         Default Store View: Price_StoreView
-
-# Test Datasets for Add New MediaImage type Product Attribute
-product_attribute_mediaimage: &productAttributeMediaimage
-# properties:
-    catalog_input_type_for_store_owner: Media Image
-    attribute_code: attr_mediaimage_%randomize%
-    scope: %noValue%
-    apply_to: %noValue%
-    apply_product_types: %noValue%
-# manage_labels_options:
-    admin_title: Media_Image_Admin_%randomize%
-    store_view_titles:
-        Default Store View: Media_Image_Storeview
+# Frontend Properties:
+    frontend_properties:
+        use_in_quick_search: Yes
+        use_in_advanced_search: Yes
+        comparable_on_frontend: No
+        use_in_layered_navigation: Filterable (with results)
+        use_in_search_results_layered_navigation: Yes
+        use_for_promo_rule_conditions: Yes
+        visible_on_product_view_page_on_frontend: Yes
+        used_in_product_listing: Yes
+        used_for_sorting_in_product_listing: %noValue%
+        position: %noValue%
 
 # Test Datasets for Add New FixedProductTax type Product Attribute
 product_attribute_fpt: &productAttributeFpt
-# properties:
+# Attribute Properties:
+    attribute_label: Fixed_Product_Tax_Admin_%randomize%
     catalog_input_type_for_store_owner: Fixed Product Tax
+# Advanced Attribute Properties:
     attribute_code: attr_fpt_code_%randomize%
-    apply_to: %noValue%
-    apply_product_types: %noValue%
-# manage_labels_options:
-    admin_title: Fixed_Product_Tax_Admin_%randomize%
+# Manage Labels:
     store_view_titles:
         Default Store View: Fixed_Product_Tax_Storeview
 
@@ -312,7 +309,6 @@ product_attributes:
     product_attribute_dropdown: *productAttributeDropdown
     product_attribute_dropdown_with_options: *productAttributeDropdownWithOptions
     product_attribute_price: *productAttributePrice
-    product_attribute_mediaimage: *productAttributeMediaimage
 
 # Test Dataset for verifying attributes on tab after changing attribute set
 product_attributes_for_changing_template:

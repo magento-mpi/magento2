@@ -99,8 +99,9 @@ class Enterprise_Mage_ImportExport_Customer_Address_AttributeTest extends Mage_S
         $this->attributesHelper()->openAttribute(
             array(
                 'attribute_code'=> $attrData['properties']['attribute_code'],
-                'attribute_label'=> $attrData['manage_labels_options']['admin_title']
-            ));
+                'attribute_label'=> $attrData['properties']['attribute_label']
+            )
+        );
         //Delete attribute
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         //Verifying

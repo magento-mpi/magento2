@@ -92,7 +92,7 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Opening
-        $this->addParameter('elementTitle', $attrData['manage_labels_options']['admin_title']);
+        $this->addParameter('elementTitle', $attrData['properties']['attribute_label']);
         $this->attributesHelper()->openAttribute(array('attribute_code' => $attrData['properties']['attribute_code']));
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($attrData);
@@ -118,7 +118,7 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Opening
-        $this->addParameter('elementTitle', $attrData['manage_labels_options']['admin_title']);
+        $this->addParameter('elementTitle', $attrData['properties']['attribute_label']);
         $this->attributesHelper()->openAttribute(array('attribute_code' => $attrData['properties']['attribute_code']));
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($attrData);

@@ -1540,107 +1540,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->fillCheckbox('include_variation_attribute', ($select ? 'Yes' : 'No'));
     }
 
-    /**
-     * Get actual item order position
-     *
-     * @param $fieldType
-     * @param $fieldName
-     *
-     * @return array
-     */
-    protected function _getActualItemOrder($fieldType, $fieldName)
-    {
-        $actualOrder = array();
-        $blocks = $this->getControlElements($fieldType, $fieldName, null, false);
-        $position = 1;
-        /** @var $item PHPUnit_Extensions_Selenium2TestCase_Element */
-        foreach ($blocks as $item) {
-            $key = $fieldType == self::FIELD_TYPE_INPUT ? $item->value() : $item->text();
-            $actualOrder[$key] = $position++;
-        }
-
-        return $actualOrder;
-    }
-
-    /**
-     * Reorder bundle/configurable blocks according to position_order
-     *
-     * @param array $orderedBlocks
-     * @param string $blockId
-     * @param string $draggableElement
-     * @param string $fieldName
-     *
-     * @return bool
-     */
-    public function orderBlocks(array $orderedBlocks, $blockId, $draggableElement, $fieldName)
-    {
-        $fieldType = $blockId == 'productSku' ? self::FIELD_TYPE_PAGEELEMENT : self::FIELD_TYPE_INPUT;
-        $actualOrder = $this->_getActualItemOrder($fieldType, $fieldName);
-        if (count($orderedBlocks) < 2) {
-            return false;
-        }
-        foreach ($orderedBlocks as $key => $value) {
-            if (isset($actualOrder[$key]) && $value != $actualOrder[$key] && $value != 'noValue') {
-                $this->addParameter($blockId, $key);
-                $attributeBlock1 = $this->getControlElement(self::FIELD_TYPE_LINK, $draggableElement);
-                $exchangeBlockName = array_search($value, $actualOrder);
-                if (!$exchangeBlockName) {
-                    $this->fail('Block ' . $key . ' can not be moved to ' . $value . ' position');
-                }
-                $this->addParameter($blockId, array_search($value, $actualOrder));
-                $attributeBlock2 = $this->getControlElement(self::FIELD_TYPE_LINK, $draggableElement);
-                $locationBeforeMove = $attributeBlock2->location();
-                $attempts = 2;
-                while ($attempts > 0) {
-                    $this->moveto($attributeBlock1);
-                    $this->buttondown();
-                    $this->moveto($attributeBlock2);
-                    $this->buttonup();
-                    $locationAfterMove = $attributeBlock2->location();
-                    $attempts--;
-                    if ($locationBeforeMove['y'] != $locationAfterMove['y']) {
-                        break;
-                    } elseif ($attempts <= 0) {
-                        $this->fail('Block position was not changed.');
-                    }
-                }
-                $actualOrder = $this->_getActualItemOrder($fieldType, $fieldName);
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Verify sort order for bundle/configurable blocks
-     *
-     * @param array $blockOrder
-     * @param string $fieldName
-     */
-    public function verifyBlocksOrder(array $blockOrder, $fieldName)
-    {
-        $fieldType = preg_match('/assigned_products$/', $fieldName)
-            ? self::FIELD_TYPE_PAGEELEMENT
-            : self::FIELD_TYPE_INPUT;
-        $actualOrder = $this->_getActualItemOrder($fieldType, $fieldName);
-        //Reorder item order considering duplication and empty position values
-        $expectedOrder = array_keys($blockOrder);
-        foreach ($blockOrder as $key => $value) {
-            if ($value != 'noValue') {
-                $keyToRemove = array_search($key, $expectedOrder);
-                unset($expectedOrder[$keyToRemove]);
-                if (isset($expectedOrder[$value - 1])) {
-                    array_splice($expectedOrder, $value - 1, 0, $key);
-                } else {
-                    $expectedOrder[$value - 1] = $key;
-                }
-            }
-        }
-        if (array_diff(array_keys($actualOrder), $expectedOrder)) {
-            $this->addVerificationMessage('Invalid block order');
-        }
-    }
-
     #*********************************************************************************
     #*                                               Prices Tab Helper Methods       *
     #*********************************************************************************
@@ -2337,7 +2236,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             }
         }
         $this->verifyBlocksOrder($bundleItemOrder, 'bundle_items_names');
-        $itemDataOrder = $this->_getActualItemOrder(self::FIELD_TYPE_INPUT, 'bundle_items_names');
+        $itemDataOrder = $this->getActualItemOrder(self::FIELD_TYPE_INPUT, 'bundle_items_names');
         foreach ($bundleItemsData as $option) {
             $optionData = $this->formBundleItemData($option);
             if (isset($option['bundle_items_default_title'])
@@ -2500,7 +2399,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
             array('general_categories' => $returnCategory['path']),
             array(
-                 'general_attribute_1' => $attrData['admin_title'],
+                 'general_attribute_1' => $attrData['attribute_label'],
                  'associated_3'        => $download['general_sku'],
                  'var1_attr_value1'    => $adminOptionsNames[0],
                  'var1_attr_value2'    => $adminOptionsNames[1],
@@ -2551,11 +2450,11 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 'option_front' => $storeViewOptionsNames[2]
             ),
             'configurableOption' => array(
-                'title'                  => $attrData['admin_title'],
+                'title'                  => $attrData['attribute_label'],
                 'custom_option_dropdown' => $storeViewOptionsNames[0]
             ),
             'attribute'          => array(
-                'title'       => $attrData['admin_title'],
+                'title'       => $attrData['attribute_label'],
                 'title_front' => $attrData['store_view_titles']['Default Store View'],
                 'code'        => $attrCode
             ),

@@ -84,45 +84,23 @@ class Core_Mage_ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestC
     }
 
     /**
-     * Checking validation for required fields are EMPTY
-     *
-     * @param $emptyField
+     * Checking validation for required field 'Attribute Label'
      *
      * @test
-     * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-3531
      */
-    public function withRequiredFieldsEmpty($emptyField)
+    public function withRequiredAttributeLabelEmpty()
     {
         //Data
-        if ($emptyField == 'apply_to') {
-            $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown',
-                array($emptyField => 'Selected Product Types'));
-        } else {
-            $attrData =
-                $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown', array($emptyField => '%noValue%'));
-        }
+        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown', array('attribute_label' => ''));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        if ($emptyField != 'apply_to') {
-            $fieldXpath = $this->_getControlXpath('field', $emptyField);
-        } else {
-            $fieldXpath = $this->_getControlXpath('multiselect', 'apply_product_types');
-        }
+        $fieldXpath = $this->_getControlXpath('field', 'attribute_label');
         $this->addParameter('fieldXpath', $fieldXpath);
         $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
-    }
-
-    public function withRequiredFieldsEmptyDataProvider()
-    {
-        return array(
-            array('attribute_code'),
-            array('admin_title'),
-            array('apply_to')
-        );
     }
 
     /**
@@ -205,8 +183,8 @@ class Core_Mage_ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestC
     {
         //Data
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown',
-            array('admin_title' => $this->generate('string', 32, ':punct:')));
-        $attrData['admin_title'] = preg_replace('/<|>/', '', $attrData['admin_title']);
+            array('attribute_label' => $this->generate('string', 32, ':punct:')));
+        $attrData['attribute_label'] = preg_replace('/<|>/', '', $attrData['attribute_label']);
         $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
             array('attribute_code' => $attrData['attribute_code']));
         //Steps
@@ -230,11 +208,11 @@ class Core_Mage_ProductAttribute_Create_DropdownTest extends Mage_Selenium_TestC
     {
         //Data
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options',
-            array('attribute_code' => $this->generate('string', 30, ':lower:'),
-                  'admin_title'    => $this->generate('string', 255, ':alnum:'),
-                  'position'       => 2147483647));
+            array('attribute_code'  => $this->generate('string', 30, ':lower:'),
+                  'attribute_label' => $this->generate('string', 255, ':alnum:'),
+                  'position'        => 2147483647));
         $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
-            array('attribute_label' => $attrData['admin_title'],
+            array('attribute_label' => $attrData['attribute_label'],
                   'attribute_code'  => $attrData['attribute_code']));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);

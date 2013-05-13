@@ -23,6 +23,7 @@ customer_attribute_search_data:
 # Test Datasets for Add New TextField type Customer Attribute
 customer_attribute_textfield: &customerAttributeTextfield
     properties:
+        attribute_label: Textfield_attribute_label_%randomize%
         input_type: Text Field
         default_value: %noValue%
         attribute_code: textfield_%randomize%
@@ -36,13 +37,13 @@ customer_attribute_textfield: &customerAttributeTextfield
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-        admin_title: Textfield_Admin_Title_%randomize%
         store_view_titles:
             Default Store View: Textfield_Title_%randomize%
 
 # Test Datasets for Add New TextArea type Customer  Attribute
 customer_attribute_textarea: &customerAttributeTextarea
     properties:
+        attribute_label: Text_Area_Admin
         input_type: Text Area
         attribute_code: textarea_%randomize%
         default_text_field_value: %noValue%
@@ -55,13 +56,13 @@ customer_attribute_textarea: &customerAttributeTextarea
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-        admin_title: Text_Area_Admin
         store_view_titles:
             Default Store View: Textarea_Title_%randomize%
 
 # Test Datasets for Add New Multiple Line type Customer Attribute
 customer_attribute_multipleline: &customerAttributeMultipLine
     properties:
+        attribute_label: MultipLine_Area_Admin
         input_type: Multiple Line
         attribute_code: multiline_%randomize%
         lines_count: 2
@@ -76,13 +77,13 @@ customer_attribute_multipleline: &customerAttributeMultipLine
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-        admin_title: MultipLine_Area_Admin
         store_view_titles:
             Default Store View: MultipLine_Title_%randomize%
 
 # Test Datasets for Add New Date type Customer Attribute
 customer_attribute_date: &customerAttributeDate
     properties:
+        attribute_label: Date_Admina
         input_type: Date
         attribute_code: date_%randomize%
         default_data_value: %noValue%
@@ -96,13 +97,13 @@ customer_attribute_date: &customerAttributeDate
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-        admin_title: Date_Admina
         store_view_titles:
             Default Store View: Date_Title_%randomize%
 
 # Test Datasets for Add New Dropdown type Customer Attribute
 customer_attribute_dropdown: &customerAttributeDropdown
     properties:
+        attribute_label: Dropdown_Admin_%randomize%
         input_type: Dropdown
         attribute_code: dropdown_%randomize%
         values_required: %noValue%
@@ -111,7 +112,6 @@ customer_attribute_dropdown: &customerAttributeDropdown
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-        admin_title: Dropdown_Admin_%randomize%
         store_view_titles:
             Default Store View: Dropdown_StoreView
         option_1:
@@ -139,6 +139,7 @@ customer_attribute_dropdown: &customerAttributeDropdown
 # Test Datasets for Add New MultipleSelect type Customer  Attribute
 customer_attribute_multiselect: &customerAttributeMultiselect
     properties:
+        attribute_label: Dropdown_Admin_%randomize%
         input_type: Multiple Select
         attribute_code: mselect_%randomize%
         values_required: %noValue%
@@ -147,7 +148,6 @@ customer_attribute_multiselect: &customerAttributeMultiselect
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-        admin_title: Dropdown_Admin_%randomize%
         store_view_titles:
             Default Store View: Dropdown_StoreView
         option_1:
@@ -175,6 +175,7 @@ customer_attribute_multiselect: &customerAttributeMultiselect
 # Test Datasets for Add New Yes/No type Customer Attribute
 customer_attribute_yesno: &customerAttributeYesno
     properties:
+        attribute_label: Yes/No_Admin
         input_type: Yes/No
         attribute_code: yesno_%randomize%
         default_value: %noValue%
@@ -184,13 +185,13 @@ customer_attribute_yesno: &customerAttributeYesno
         sort_order: 1
         forms_to_use: %noValue%
     manage_labels_options:
-        admin_title: Yes/No_Admin
         store_view_titles:
             Default Store View: Yesno_Title_%randomize%
 
 # Test Datasets for Attach File type Customer Attribute
 customer_attribute_attach_file: &customerAttributeAttachFile
     properties:
+        attribute_label: File Attachment_Admin
         input_type: File (attachment)
         attribute_code: file__%randomize%
         maximum_file_size: %noValue%
@@ -201,13 +202,13 @@ customer_attribute_attach_file: &customerAttributeAttachFile
         sort_order: 1
         forms_to_use: %noValue%
     manage_labels_options:
-        admin_title: File Attachment_Admin
         store_view_titles:
             Default Store View: AttachFile_Title_%randomize%
 
 # Test Datasets for Image File type Customer Attribute
 customer_attribute_image_file: &customerAttributeImageFile
     properties:
+        attribute_label: Image file_Admin
         input_type: Image File
         attribute_code: image_file_%randomize%
         maximum_image_file_size:
@@ -219,7 +220,6 @@ customer_attribute_image_file: &customerAttributeImageFile
         sort_order: 1
         forms_to_use: %noValue%
     manage_labels_options:
-        admin_title: Image file_Admin
         store_view_titles:
             Default Store View: ImageFile_Title_%randomize%
 
@@ -237,6 +237,7 @@ customer_attributes:
 
 generic_customer_attribute:
     properties:
+        attribute_label: 'Text_Field_Admin_%randomize%'
         input_type: Text Field
         attribute_code: 'attr_%randomize%'
         default_text_field_value: 'attr_default_%randomize%'
@@ -250,6 +251,5 @@ generic_customer_attribute:
         sort_order: 1
         used_in_forms: Customer Account Edit, Customer Checkout Register
     manage_labels_options:
-        admin_title: 'Text_Field_Admin_%randomize%'
         store_view_titles:
                     Default Store View: Textfield_Title_%randomize%

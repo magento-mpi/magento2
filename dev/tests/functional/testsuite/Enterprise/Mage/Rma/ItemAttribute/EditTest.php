@@ -38,25 +38,24 @@ class Enterprise_Mage_Rma_ItemAttribute_EditTest extends Mage_Selenium_TestCase
     {
         //Data
         $attrData = $this->loadDataSet('RMAItemsAttribute', $attributeType);
-        $this->addParameter('elementTitle', $attrData['admin_title']);
+        $this->addParameter('elementTitle', $attrData['attribute_label']);
         //Steps
-        $this->productAttributeHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->searchAndOpen(array('filter_attribute_code' => $attrData['attribute_code']), 'rma_item_atribute_grid');
         $this->fillField('sort_order', 5);
         $attrData['sort_order'] = 5;
-        $this->openTab('manage_labels_options');
-        $this->fillField('admin_title', 'Title after edit');
-        $attrData['admin_title'] = 'Title after edit';
+        $this->fillField('attribute_label', 'Title after edit');
+        $attrData['attribute_label'] = 'Title after edit';
         $this->clickButton('save_attribute', false);
         $this->waitForAjax();
         $this->waitForPageToLoad();
         $this->validatePage();
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->addParameter('elementTitle', $attrData['admin_title']);
+        $this->addParameter('elementTitle', $attrData['attribute_label']);
         $this->searchAndOpen(array('filter_attribute_code' => $attrData['attribute_code']), 'rma_item_atribute_grid');
-        $this->productAttributeHelper()->verifyAttribute($attrData);
+        $this->attributesHelper()->verifyAttribute($attrData);
     }
 
     public function customAttributeDataProvider()

@@ -55,7 +55,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
             ));
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order', null,
             array(
-                'general_attribute_1' => $attrData['admin_title'],
+                'general_attribute_1' => $attrData['attribute_label'],
                 'associated_3' => $download['general_sku'],
                 'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
                 'var1_attr_value2' => $attrData['option_2']['admin_option_name'],
@@ -105,7 +105,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
                      'configurable_sku'    => $configurable['general_sku'],
                      'grouped_name'        => $grouped['general_name'],
                      'grouped_sku'         => $grouped['general_sku'],
-                     'title'               => $attrData['admin_title']);
+                     'title'               => $attrData['attribute_label']);
     }
 
     /**

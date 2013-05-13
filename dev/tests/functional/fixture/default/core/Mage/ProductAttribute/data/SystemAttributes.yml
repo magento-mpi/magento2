@@ -11,7 +11,7 @@
 # System attribute options
 custom_design:
     attribute_code: custom_design
-    admin_title: Custom Design
+    attribute_label: Custom Design
     option_1:
         admin_option_name: -- Please Select --
     option_2:
@@ -35,7 +35,7 @@ custom_design:
 
 enable_googlecheckout:
     attribute_code: enable_googlecheckout
-    admin_title: Is Product Available for Purchase with Google Checkout
+    attribute_label: Is Product Available for Purchase with Google Checkout
     option_1:
         admin_option_name: Yes
     option_2:
@@ -44,7 +44,7 @@ enable_googlecheckout:
 
 gift_message_available:
     attribute_code: gift_message_available
-    admin_title: Allow Gift Message
+    attribute_label: Allow Gift Message
     option_1:
         admin_option_name: Yes
     option_2:
@@ -53,7 +53,7 @@ gift_message_available:
 
 is_recurring:
     attribute_code: is_recurring
-    admin_title: Enable Recurring Profile
+    attribute_label: Enable Recurring Profile
     option_1:
         admin_option_name: Yes
     option_2:
@@ -62,7 +62,7 @@ is_recurring:
 
 msrp_enabled:
     attribute_code: msrp_enabled
-    admin_title: Apply MAP
+    attribute_label: Apply MAP
     option_1:
         admin_option_name: Yes
     option_2:
@@ -73,7 +73,7 @@ msrp_enabled:
 
 msrp_display_actual_price_type:
     attribute_code: msrp_display_actual_price_type
-    admin_title: Display Actual Price
+    attribute_label: Display Actual Price
     option_1:
         admin_option_name: In Cart
     option_2:
@@ -86,7 +86,7 @@ msrp_display_actual_price_type:
 
 options_container:
     attribute_code: options_container
-    admin_title: Display Product Options In
+    attribute_label: Display Product Options In
     option_1:
         admin_option_name: Product Info Column
     option_2:
@@ -95,7 +95,7 @@ options_container:
 
 page_layout:
     attribute_code: page_layout
-    admin_title: Page Layout
+    attribute_label: Page Layout
     option_1:
         admin_option_name: No layout updates
     option_2:
@@ -112,7 +112,7 @@ page_layout:
 
 price_view:
     attribute_code: price_view
-    admin_title: Price View
+    attribute_label: Price View
     option_1:
         admin_option_name: As Low as
     option_2:
@@ -121,7 +121,7 @@ price_view:
 
 status:
     attribute_code: status
-    admin_title: Status
+    attribute_label: Status
     option_1:
         admin_option_name: Enabled
     option_2:
@@ -130,7 +130,7 @@ status:
 
 tax_class_id:
     attribute_code: tax_class_id
-    admin_title: Tax Class
+    attribute_label: Tax Class
     option_1:
         admin_option_name: None
     option_2:
@@ -141,7 +141,7 @@ tax_class_id:
 
 visibility:
     attribute_code: visibility
-    admin_title: Visibility
+    attribute_label: Visibility
     option_1:
         admin_option_name: Not Visible Individually
     option_2:
@@ -154,7 +154,7 @@ visibility:
 
 country_of_manufacture:
     attribute_code: country_of_manufacture
-    admin_title: Country of Manufacture
+    attribute_label: Country of Manufacture
     option_1:
         admin_option_name: ''
     option_2:
@@ -653,243 +653,9 @@ country_of_manufacture:
 
 quantity_and_stock_status:
     attribute_code: quantity_and_stock_status
-    admin_title: Quantity
+    attribute_label: Quantity
     option_1:
         admin_option_name: In Stock
     option_2:
         admin_option_name: Out of Stock
     default_value: In Stock
-
-system_attributes:
-    attribute_0:
-        attribute_code: category_ids
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_1:
-        attribute_code: country_of_manufacture
-        apply_to: Selected Product Types
-        apply_product_types:
-            0: simple
-            1: grouped
-            2: configurable
-            3: bundle
-    attribute_2:
-        attribute_code: custom_design
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_3:
-        attribute_code: custom_design_from
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_4:
-        attribute_code: custom_design_to
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_5:
-        attribute_code: custom_layout_update
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_6:
-        attribute_code: description
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_7:
-        attribute_code: enable_googlecheckout
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_8:
-        attribute_code: gallery
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_9:
-        attribute_code: gift_message_available
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_10:
-        attribute_code: group_price
-        apply_to: Selected Product Types
-        apply_product_types:
-            0: simple
-            1: configurable
-            2: virtual
-            3: bundle
-            4: downloadable
-    attribute_11:
-        attribute_code: image
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_12:
-        attribute_code: is_recurring
-        apply_to: Selected Product Types
-        apply_product_types:
-            0: simple
-            1: virtual
-    attribute_13:
-        attribute_code: media_gallery
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_14:
-        attribute_code: meta_description
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_15:
-        attribute_code: meta_keyword
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_16:
-        attribute_code: meta_title
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_17:
-        attribute_code: msrp
-        apply_to: Selected Product Types
-        apply_product_types:
-            0: simple
-            1: configurable
-            2: virtual
-            3: bundle
-            4: downloadable
-    attribute_18:
-        attribute_code: msrp_display_actual_price_type
-        apply_to: Selected Product Types
-        apply_product_types:
-            0: simple
-            1: configurable
-            2: virtual
-            3: bundle
-            4: downloadable
-    attribute_19:
-        attribute_code: msrp_enabled
-        apply_to: Selected Product Types
-        apply_product_types:
-            0: simple
-            1: configurable
-            2: virtual
-            3: bundle
-            4: downloadable
-    attribute_20:
-        attribute_code: name
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_21:
-        attribute_code: news_from_date
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_22:
-        attribute_code: news_to_date
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_23:
-        attribute_code: options_container
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_24:
-        attribute_code: page_layout
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_25:
-        attribute_code: price
-        apply_to: Selected Product Types
-        apply_product_types:
-            0: simple
-            1: configurable
-            2: virtual
-            3: bundle
-            4: downloadable
-    attribute_26:
-        attribute_code: price_view
-        apply_to: Selected Product Types
-        apply_product_types:
-            0: bundle
-    attribute_27:
-        attribute_code: quantity_and_stock_status
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_28:
-        attribute_code: recurring_profile
-        apply_to: Selected Product Types
-        apply_product_types:
-            0: simple
-            1: virtual
-    attribute_29:
-        attribute_code: short_description
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_30:
-        attribute_code: sku
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_31:
-        attribute_code: small_image
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_32:
-        attribute_code: special_from_date
-        apply_to: Selected Product Types
-        apply_product_types:
-            0: simple
-            1: configurable
-            2: virtual
-            3: bundle
-            4: downloadable
-    attribute_33:
-        attribute_code: special_price
-        apply_to: Selected Product Types
-        apply_product_types:
-            0: simple
-            1: configurable
-            2: virtual
-            3: bundle
-            4: downloadable
-    attribute_34:
-        attribute_code: special_to_date
-        apply_to: Selected Product Types
-        apply_product_types:
-            0: simple
-            1: configurable
-            2: virtual
-            3: bundle
-            4: downloadable
-    attribute_35:
-        attribute_code: status
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_36:
-        attribute_code: tax_class_id
-        apply_to: Selected Product Types
-        apply_product_types:
-            0: simple
-            1: configurable
-            2: virtual
-            3: bundle
-            4: downloadable
-    attribute_37:
-        attribute_code: thumbnail
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_38:
-        attribute_code: tier_price
-        apply_to: Selected Product Types
-        apply_product_types:
-            0: simple
-            1: configurable
-            2: virtual
-            3: bundle
-            4: downloadable
-    attribute_39:
-        attribute_code: url_key
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_40:
-        attribute_code: visibility
-        apply_to: All Product Types
-        apply_product_types: null
-    attribute_41:
-        attribute_code: weight
-        apply_to: Selected Product Types
-        apply_product_types:
-            0: simple
-            1: configurable
-            2: virtual
-            3: bundle
-            4: downloadable

@@ -40,7 +40,7 @@ class Enterprise_Mage_Rma_ItemAttribute_CreateTest extends Mage_Selenium_TestCas
         //Data
         $attrData = $this->loadDataSet('RMAItemsAttribute', $attributeType);
         //Steps
-        $this->productAttributeHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_attribute');
     }
@@ -66,9 +66,9 @@ class Enterprise_Mage_Rma_ItemAttribute_CreateTest extends Mage_Selenium_TestCas
         //Data
         $attrData = $this->loadDataSet('RMAItemsAttribute', 'rma_item_attribute_textfield');
         //Steps
-        $this->productAttributeHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->productAttributeHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->validatePage('new_rma_item_attribute');
         $this->assertMessagePresent('error', 'exists_attribute_code');
@@ -89,10 +89,12 @@ class Enterprise_Mage_Rma_ItemAttribute_CreateTest extends Mage_Selenium_TestCas
         $attrData = $this->loadDataSet('RMAItemsAttribute', 'rma_item_attribute_textfield',
             array($emptyField => '%noValue%'));
         //Steps
-        $this->productAttributeHelper()->createAttribute($attrData);
-        $message = 'empty_' . $emptyField;
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
-        $this->assertMessagePresent('validation', $message);
+        $fieldXpath = $this->_getControlXpath('field', $emptyField);
+        $this->addParameter('fieldXpath', $fieldXpath);
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function withRequiredFieldsEmptyDataProvider()
@@ -100,7 +102,7 @@ class Enterprise_Mage_Rma_ItemAttribute_CreateTest extends Mage_Selenium_TestCas
         return array(
             array('attribute_code'),
             array('sort_order'),
-            array('admin_title')
+            array('attribute_label')
         );
     }
 
@@ -120,9 +122,10 @@ class Enterprise_Mage_Rma_ItemAttribute_CreateTest extends Mage_Selenium_TestCas
         $attrData = $this->loadDataSet('RMAItemsAttribute', 'rma_item_attribute_textfield',
             array('attribute_code' => $wrongAttributeCode));
         //Steps
-        $this->productAttributeHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('validation', $validationMessage);
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function withInvalidAttributeCodeDataProvider()
