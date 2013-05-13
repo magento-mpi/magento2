@@ -613,33 +613,107 @@
                     <attribute type="activity_path">
                         <path_3>payment/paypal_express_boarding/active</path_3>
                     </attribute>
-                    <group id="express_checkout_required" showInDefault="0" showInWebsite="0" showInStore="0">
-                        <hide_in_single_store_mode>1</hide_in_single_store_mode>
-                    </group>
-                    <group id="express_checkout_required_am_0" extends="*/paypal_payments/express_checkout/express_checkout_required_saas" showInWebsite="1" showInDefault="1" showInStore="1">
-                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                        <field id="enable_express_checkout"/>
-                        <group id="express_checkout_required_express_checkout">
-                            <field id="business_account"/>
-                            <field id="api_username"/>
-                            <field id="api_password"/>
-                            <field id="api_signature"/>
-                            <field id="api_cert"/>
-                            <field id="api_wizard"/>
-                            <field id="sandbox_flag"/>
+                    <group id="express_checkout_required">
+                        <group id="express_checkout_required_express_checkout" showInStore="1">
+                            <field id="authentication_method" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                                <label>Authentication Method</label>
+                                <frontend_class>ec-auth-method</frontend_class>
+                                <source_model>Saas_Paypal_Model_System_Config_Source_AuthenticationMethod</source_model>
+                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_AuthenticationMethod</frontend_model>
+                                <config_path>payment/paypal_express_boarding/authentification_method</config_path>
+                                <attribute type="create_account_link">http://www.paypal.com/webapps/mpp/referral/paypal-express-checkout?partner_id=NB9WWHYEMVUMS</attribute>
+                                <attribute type="shared">1</attribute>
+                            </field>
+                            <field id="business_account">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
                             <field id="api_authentication">
-                                <label>API Authentication Method</label>
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_username">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_password">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_signature">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_cert">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_wizard">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="sandbox_flag">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="use_proxy">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="proxy_host">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="proxy_port">
+                                <depends>
+                                    <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="boarding_business_account" sortOrder="10" showInDefault="1" showInWebsite="1">
+                                <label>Email to Send PayPal Payments</label>
+                                <config_path>paypal/onboarding/boarding_account</config_path>
+                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingAccount</frontend_model>
+                                <attribute type="tooltip">Don't have a PayPal account? Simply enter your email address and start accepting payments immediately.</attribute>
+                                <attribute type="validate">validate-email</attribute>
+                                <depends>
+                                    <field id="authentication_method">1</field>
+                                </depends>
+                            </field>
+                            <field id="boarding_sandbox_flag" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1">
+                                <label>Sandbox Mode</label>
+                                <config_path>paypal/onboarding/sandbox_flag</config_path>
+                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingSandbox</frontend_model>
+                                <depends>
+                                    <field id="authentication_method">1</field>
+                                </depends>
+                            </field>
+                            <field id="status" translate="label button_label status_label account_label" sortOrder="17" showInDefault="1" showInWebsite="1">
+                                <label>Boarding Status</label>
+                                <button_label>Setup or change your site permissions with Paypal</button_label>
+                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus</frontend_model>
+                                <attribute type="status_label">Account Status</attribute>
+                                <attribute type="account_label">Paypal Account</attribute>
+                                <attribute type="account_id_label">Paypal Account ID</attribute>
+                                <attribute type="payment_method">paypal_express_boarding</attribute>
+                                <attribute type="status_config_path">payment/paypal_express_boarding/status</attribute>
+                                <attribute type="account_config_path">paypal/onboarding/boarding_account</attribute>
+                                <attribute type="account_id_config_path">paypal/onboarding/receiver_id</attribute>
+                                <depends>
+                                    <field id="authentication_method">1</field>
+                                </depends>
                             </field>
                         </group>
-                        <depends>
-                            <field id="*/express_checkout_required_express_checkout/authentication_method">0</field>
-                        </depends>
-                    </group>
-                    <group id="express_checkout_required_am_1" extends="*/paypal_payments/express_checkout/express_checkout_required_saas" showInWebsite="1" showInDefault="1" showInStore="1">
-                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                        <field id="enable_express_checkout" showInWebsite="0" showInDefault="0" showInStore="0">
-                            <hide_in_single_store_mode>1</hide_in_single_store_mode>
-                        </field>
                         <field id="boarding_enable_express_checkout" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
                             <label>Enable this Solution</label>
                             <config_path>payment/paypal_express_boarding/active</config_path>
@@ -650,74 +724,12 @@
                                 <group id="express_checkout_required_express_checkout"/>
                             </requires>
                         </field>
-                        <group id="express_checkout_required_express_checkout">
-                            <field id="boarding_business_account" sortOrder="10" showInDefault="1" showInWebsite="1">
-                                <label>Email to Send PayPal Payments</label>
-                                <config_path>paypal/onboarding/boarding_account</config_path>
-                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingAccount</frontend_model>
-                                <attribute type="tooltip">Don't have a PayPal account? Simply enter your email address and start accepting payments immediately.</attribute>
-                                <attribute type="validate">validate-email</attribute>
-                            </field>
-                            <field id="boarding_sandbox_flag" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1">
-                                <label>Sandbox Mode</label>
-                                <config_path>paypal/onboarding/sandbox_flag</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingSandbox</frontend_model>
-                            </field>
-                            <field id="status" translate="label button_label status_label account_label" sortOrder="17" showInDefault="1" showInWebsite="1">
-                                <label>Boarding Status</label>
-                                <button_label>Setup or change your site permissions with Paypal</button_label>
-                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingSandbox</frontend_model>
-                                <attribute type="status_label">Account Status</attribute>
-                                <attribute type="account_label">Paypal Account</attribute>
-                                <attribute type="account_id_label">Paypal Account ID</attribute>
-                                <attribute type="payment_method">paypal_express_boarding</attribute>
-                                <attribute type="status_config_path">payment/paypal_express_boarding/status</attribute>
-                                <attribute type="account_config_path">paypal/onboarding/boarding_account</attribute>
-                                <attribute type="account_id_config_path">paypal/onboarding/receiver_id</attribute>
-                            </field>
-                        </group>
-                        <depends>
-                            <field id="*/express_checkout_required_express_checkout/authentication_method">1</field>
-                        </depends>
-                    </group>
-                    <group id="express_checkout_required_saas" extends="*/paypal_payments/express_checkout/express_checkout_required" showInWebsite="0" showInDefault="0" showInStore="0">
-                        <hide_in_single_store_mode>1</hide_in_single_store_mode>
-                        <group id="express_checkout_required_express_checkout" showInStore="1">
-                            <field id="authentication_method" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
-                                <label>Authentication Method</label>
-                                <frontend_class>ec-auth-method</frontend_class>
-                                <source_model>Saas_Paypal_Model_System_Config_Source_AuthenticationMethod</source_model>
-                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_AuthenticationMethod</frontend_model>
-                                <config_path>payment/paypal_express_boarding/authentification_method</config_path>
-                                <attribute type="create_account_link">http://www.paypal.com/webapps/mpp/referral/paypal-express-checkout?partner_id=NB9WWHYEMVUMS</attribute>
-                            </field>
-                        </group>
                     </group>
                     <group id="settings_ec" showInDefault="0" showInWebsite="0" showInStore="0">
                         <hide_in_single_store_mode>1</hide_in_single_store_mode>
                     </group>
                     <group id="settings_ec_ec_am_0" extends="*/paypal_payments/express_checkout/settings_ec" showInDefault="1" showInWebsite="1" showInStore="1">
                         <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                        <field id="title"/>
-                        <field id="sort_order"/>
-                        <field id="payment_action"/>
-                        <field id="visible_on_cart"/>
-                        <field id="visible_on_product"/>
-                        <field id="authorization_honor_period"/>
-                        <field id="order_valid_period"/>
-                        <field id="child_authorization_number"/>
-                        <group id="settings_ec_advanced">
-                            <field id="allowspecific"/>
-                            <field id="specificcountry"/>
-                            <field id="verify_peer"/>
-                            <field id="line_items_enabled"/>
-                            <field id="transfer_shipping_options"/>
-                            <field id="button_flavor"/>
-                            <field id="solution_type"/>
-                            <field id="require_billing_address"/>
-                            <field id="allow_ba_signup"/>
-                        </group>
                         <depends>
                             <field id="*/express_checkout_required_express_checkout/authentication_method">0</field>
                         </depends>

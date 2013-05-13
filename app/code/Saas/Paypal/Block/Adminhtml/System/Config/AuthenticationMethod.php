@@ -39,7 +39,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_AuthenticationMethod
     {
         parent::_prepareLayout();
         if (!$this->getTemplate()) {
-            $this->setTemplate('saas/paypal/system/config/authentication_method.phtml');
+            $this->setTemplate('Saas_Paypal::system/config/authentication_method.phtml');
         }
         return $this;
     }
