@@ -4251,31 +4251,11 @@ select:disabled {
 .block.upsell,
 .block.related,
 .block.product.tags {
-  *zoom: 1;
+  clear: both;
   margin: 30px 0;
   padding-top: 25px;
   padding-left: 140px;
   padding-right: 140px;
-}
-.block.widget.viewed:before,
-.block.crosssell:before,
-.block.upsell:before,
-.block.related:before,
-.block.product.tags:before,
-.block.widget.viewed:after,
-.block.crosssell:after,
-.block.upsell:after,
-.block.related:after,
-.block.product.tags:after {
-  content: "";
-  display: table;
-}
-.block.widget.viewed:after,
-.block.crosssell:after,
-.block.upsell:after,
-.block.related:after,
-.block.product.tags:after {
-  clear: both;
 }
 .block.widget.viewed .title,
 .block.crosssell .title,
