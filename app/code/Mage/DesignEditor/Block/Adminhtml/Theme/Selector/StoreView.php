@@ -156,7 +156,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
      *
      * @return bool
      */
-    protected function _isMultipleStoreViewMode()
+    protected function _hasMultipleStores()
     {
         $isMultipleMode = false;
         $tmpStore = null;
@@ -183,13 +183,13 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
     public function getOptionsJson()
     {
         $options = array();
-        $options['storesByThemes']          = $this->_getStoresByThemes();
-        $options['assignUrl']               = $this->getUrl('*/*/assignThemeToStore', array(
+        $options['storesByThemes']    = $this->_getStoresByThemes();
+        $options['assignUrl']         = $this->getUrl('*/*/assignThemeToStore', array(
             'theme_id' => $this->getThemeId()
         ));
-        $options['afterAssignUrl']          = $this->getUrl('*/*/launch');
-        $options['isMultipleStoreViewMode'] = $this->_isMultipleStoreViewMode();
-        $options['redirectOnAssign']        = $this->getData('redirectOnAssign');
+        $options['afterAssignUrl']    = $this->getUrl('*/*/launch');
+        $options['hasMultipleStores'] = $this->_hasMultipleStores();
+        $options['redirectOnAssign']  = $this->getData('redirectOnAssign');
         if ($this->hasData('openNewOnAssign')) {
             $options['openNewOnAssign'] = $this->getData('openNewOnAssign');
         }
