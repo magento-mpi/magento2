@@ -19,6 +19,7 @@ class Core_Mage_CheckoutOnePage_WithTermsAndConditionsTest extends Mage_Selenium
 {
     public function setUpBeforeTests()
     {
+        $this->markTestIncomplete('MAGETWO-9011');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('TermsAndConditions/terms_and_conditions_frontend_allow');
@@ -43,9 +44,8 @@ class Core_Mage_CheckoutOnePage_WithTermsAndConditionsTest extends Mage_Selenium
         $this->systemConfigurationHelper()->configure('TermsAndConditions/terms_and_conditions_frontend_disable');
         $this->navigate('manage_sales_checkout_terms_conditions');
         $this->termsAndConditionsHelper()->deleteAllTerms();
-        /*@TODO remove comments after fix MAGETWO-8455
         $this->paypalHelper()->paypalDeveloperLogin();
-        $this->paypalHelper()->deleteAllAccounts();*/
+        $this->paypalHelper()->deleteAllAccounts();
     }
 
     /**
@@ -74,29 +74,26 @@ class Core_Mage_CheckoutOnePage_WithTermsAndConditionsTest extends Mage_Selenium
         $this->navigate('manage_sales_checkout_terms_conditions');
         $this->termsAndConditionsHelper()->createTermsAndConditions($termsData);
         $this->assertMessagePresent('success', 'condition_saved');
-        $agreementId =
-            $this->termsAndConditionsHelper()->getAgreementId(array('condition_name' => $termsData['condition_name']));
+        $agreementId = $this->termsAndConditionsHelper()->getAgreementId(array(
+            'condition_name' => $termsData['condition_name']
+        ));
 
-        /*@TODO remove comments and the second return after fix MAGETWO-8455
         $this->paypalHelper()->paypalDeveloperLogin();
         $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');
         $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
 
-        return array('sku' => $simple['general_name'], 'api' => $api, 'email' => $userData['email'],
+        return array(
+            'sku' => $simple['general_name'],
+            'api' => $api,
+            'email' => $userData['email'],
             'visa' => $accounts['visa']['credit_card'],
             'agreement' => array(
                 'agreement_id' => $agreementId,
                 'agreement_content' => $termsData['content'],
                 'agreement_checkbox_text' => $termsData['checkbox_text']
-            ));*/
-
-        return array('sku' => $simple['general_name'], 'email' => $userData['email'],
-            'agreement' => array(
-                'agreement_id' => $agreementId,
-                'agreement_content' => $termsData['content'],
-                'agreement_checkbox_text' => $termsData['checkbox_text']
-            ));
+            )
+        );
     }
 
     /**
@@ -112,31 +109,25 @@ class Core_Mage_CheckoutOnePage_WithTermsAndConditionsTest extends Mage_Selenium
      */
     public function withDifferentPaymentMethods($payment, $testData)
     {
-        if ($payment === 'authorizenet') {
-            $this->markTestIncomplete('MAGETWO-8893');
-        }
         //Data
-        $checkoutData = $this->loadDataSet(
-            'OnePageCheckout',
-            'exist_flatrate_checkmoney_usa',
-            array('general_name' => $testData['sku'], 'email_address' => $testData['email'],
-                'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment))
-        );
-        $checkoutData['agreement'] =
-            $this->loadDataSet('TermsAndConditions', 'checkout_agreement', $testData['agreement']);
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_usa', array(
+            'general_name' => $testData['sku'],
+            'email_address' => $testData['email'],
+            'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)
+        ));
+        $checkoutData['agreement'] = $this->loadDataSet('TermsAndConditions', 'checkout_agreement',
+            $testData['agreement']);
         $configName = ($payment !== 'checkmoney') ? $payment . '_without_3Dsecure' : $payment;
         $paymentConfig = $this->loadDataSet('PaymentMethod', $configName);
-        if ($payment != 'payflowpro' && isset($paymentData['payment_info'])) {
+        if ($payment != 'payflowpro' && $payment != 'checkmoney') {
             $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
         }
         if ($payment == 'paypaldirect') {
-            $this->markTestIncomplete('MAGETWO-8455');
             $paymentConfig = $this->overrideArrayData($testData['api'], $paymentConfig, 'byFieldKey');
         }
         //Steps
         $this->navigate('system_configuration');
         if (preg_match('/^pay(pal)|(flow)/', $payment)) {
-            $this->markTestIncomplete('MAGETWO-8455');
             $this->systemConfigurationHelper()->configurePaypal($paymentConfig);
         } else {
             $this->systemConfigurationHelper()->configure($paymentConfig);

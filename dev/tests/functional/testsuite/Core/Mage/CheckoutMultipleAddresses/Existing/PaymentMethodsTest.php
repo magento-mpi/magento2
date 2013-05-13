@@ -47,6 +47,8 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Ma
         //Data
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         //Steps and Verification
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $simple1 = $this->productHelper()->createSimpleProduct();
         $simple2 = $this->productHelper()->createSimpleProduct();
         $this->navigate('manage_customers');
@@ -58,10 +60,15 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Ma
         $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
 
-        return array('products' => array('product_1' => $simple1['simple']['product_name'],
-                                         'product_2' => $simple2['simple']['product_name']),
-                     'email'    => $userData['email'], 'api'      => $api,
-                     'visa'     => $accounts['visa']['credit_card']);
+        return array(
+            'products' => array(
+                'product_1' => $simple1['simple']['product_name'],
+                'product_2' => $simple2['simple']['product_name']
+            ),
+            'email' => $userData['email'],
+            'api' => $api,
+            'visa' => $accounts['visa']['credit_card']
+        );
     }
 
     /**
