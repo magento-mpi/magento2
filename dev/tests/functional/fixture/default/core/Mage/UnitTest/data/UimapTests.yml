@@ -9,7 +9,7 @@
 #
 ---
 fieldset:
-    xpath:  //div[@class='the-fieldset']
+    xpath: //div[@class='the-fieldset']
     buttons:
         xpath_button: //input[@id='xpathId']
         css_button: .buttonClass

@@ -1,16 +1,16 @@
 #
 # {license_notice}
 #
-# @category    tests
-# @package     selenium
-# @subpackage  test-data
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
 #
 ---
 #Test data for API Users
-
 new_api_users_create:
     api_user_api_key: user(%randomize%)
     api_user_api_secret: 123123qa
     api_user_contact_email: user_%randomize%@email.com
+    role_name: %noValue%

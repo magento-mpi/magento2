@@ -11,15 +11,15 @@
 #dataset for ui elements in Manage Admin Users grid
 manage_roles:
     button:
-        reset_filter:
-        search:
-        add_new_role:
+        reset_filter: ~
+        search: ~
+        add_new_role: ~
     dropdown:
-        view_per_page:
+        view_per_page: ~
     field:
-        page:
-        id:
-        role_name:
+        page: ~
+        id: ~
+        role_name: ~
     fieldset:
         role_list: tablename
     headers:
@@ -30,23 +30,23 @@ manage_roles:
 #dataset for ui elements in Manage Product Rules grid
 manage_product_rules:
     fieldset:
-          cms_banners_grid: tablename
+        cms_banners_grid: tablename
     button:
-        reset_filter:
-        search:
+        reset_filter: ~
+        search: ~
     dropdown:
-        filter_applies_to:
-        filter_status:
-        view_on_page:
+        filter_applies_to: ~
+        filter_status: ~
+        view_on_page: ~
     field:
-         page:
-         filter_id:
-         filter_rule_name:
-         filter_date_start_from:
-         filter_date_start_to:
-         filter_date_expire_from:
-         filter_date_expire_to:
-         filter_priority:
+         page: ~
+         filter_id: ~
+         filter_rule_name: ~
+         filter_date_start_from: ~
+         filter_date_start_to: ~
+         filter_date_expire_from: ~
+         filter_date_expire_to: ~
+         filter_priority: ~
     headers:
         0: ID
         1: Rule Name
@@ -59,18 +59,18 @@ manage_product_rules:
 #dataset for ui elements in Manage Reward Exchange Rates grid
 manage_reward_rates:
     fieldset:
-          reward_point_grid: tablename
+        reward_point_grid: tablename
     button:
-        reset_filter:
-        search:
-        add_new_rate:
+        reset_filter: ~
+        search: ~
+        add_new_rate: ~
     dropdown:
-        website:
-        customer_group:
-        view_on_page:
+        website: ~
+        customer_group: ~
+        view_on_page: ~
     field:
-         page:
-         reward_id:
+         page: ~
+         reward_id: ~
     headers:
         0: ID
         1: Website
@@ -82,21 +82,21 @@ manage_automated_email_reminder_rules:
     fieldset:
         rule_search_grid: tablename
     button:
-        reset_filter:
-        search:
-        add_new_rule:
+        reset_filter: ~
+        search: ~
+        add_new_rule: ~
     field:
-        filter_id:
-        filter_rule_name:
-        filter_date_start_from:
-        filter_date_start_to:
-        filter_date_expire_from:
-        filter_date_expire_to:
-        page:
+        filter_id: ~
+        filter_rule_name: ~
+        filter_date_start_from: ~
+        filter_date_start_to: ~
+        filter_date_expire_from: ~
+        filter_date_expire_to: ~
+        page: ~
     dropdown:
-        filter_status:
-        filter_website:
-        view_per_page:
+        filter_status: ~
+        filter_website: ~
+        view_per_page: ~
     headers:
         0: ID
         1: Rule Name
@@ -110,19 +110,19 @@ manage_customer_segments:
     fieldset:
         customer_segment_grid: tablename
     button:
-        reset_filter:
-        search:
-        add_new_segment:
+        reset_filter: ~
+        search: ~
+        add_new_segment: ~
     field:
-        filter_segment_id:
-        filter_segment_name:
-        page:
+        filter_segment_id: ~
+        filter_segment_name: ~
+        page: ~
     dropdown:
-        filter_status:
-        filter_website:
-        view_per_page:
+        filter_status: ~
+        filter_website: ~
+        view_per_page: ~
     pageelement:
-        customer_segment_grid_head:
+        customer_segment_grid_head: ~
     headers:
         0: ID
         1: Segment Name
@@ -134,18 +134,18 @@ manage_gift_registry:
     fieldset:
         giftRegistryGrid: tablename
     button:
-        reset_filter:
-        search:
-        add_new_gift_registry_type:
+        reset_filter: ~
+        search: ~
+        add_new_gift_registry_type: ~
     dropdown:
-        status:
-        view_per_page:
+        status: ~
+        view_per_page: ~
     field:
-        page:
-        id:
-        code:
-        label:
-        sort_order:
+        page: ~
+        id: ~
+        code: ~
+        filter_label: ~
+        sort_order: ~
     headers:
         0: ID
         1: Code
@@ -158,23 +158,23 @@ manage_catalog_events:
     fieldset:
         manage_catalog_events_grid: tablename
     button:
-        reset_filter:
-        search:
-        add_catalog_event:
+        reset_filter: ~
+        search: ~
+        add_catalog_event: ~
     dropdown:
-        display_countdown_ticker_on:
-        view_on_page:
-        status:
+        display_countdown_ticker_on: ~
+        view_on_page: ~
+        status: ~
     field:
-        page:
-        id:
-        category_id:
-        category:
-        starts_on_from:
-        starts_on_to:
-        ends_on_from:
-        ends_on_to:
-        sort_order:
+        page: ~
+        id: ~
+        category_id: ~
+        category: ~
+        starts_on_from: ~
+        starts_on_to: ~
+        ends_on_from: ~
+        ends_on_to: ~
+        sort_order: ~
     headers:
         0: ID
         1: Category ID
@@ -191,21 +191,21 @@ manage_customer_address_attributes:
     fieldset:
         attributes_grid: tablename
     button:
-        reset_filter:
-        search:
-        add_new_attribute:
+        reset_filter: ~
+        search: ~
+        add_new_attribute: ~
     dropdown:
-        required:
-        system:
-        visible:
-        view_on_page:
+        required: ~
+        system: ~
+        visible: ~
+        view_on_page: ~
     field:
         page:
-        attribute_code:
-        attribute_label:
-        sort:
+        attribute_code: ~
+        attribute_label: ~
+        sort: ~
     pageelement:
-        attributes_grid_head:
+        attributes_grid_head: ~
     headers:
         0: Attribute Code
         1: Attribute Label
@@ -219,15 +219,15 @@ admin_action_log_archive:
     fieldset:
         action_logs_archive_grid: tablename
     button:
-        reset_filter:
-        search:
+        reset_filter: ~
+        search: ~
     dropdown:
-        view_on_page:
+        view_on_page: ~
     field:
-        archive_file:
-        date_from:
-        date_to:
-        page:
+        archive_file: ~
+        date_from: ~
+        date_to: ~
+        page: ~
     headers:
         0: Archive File
         1: Date
@@ -237,31 +237,31 @@ manage_invitations:
     fieldset:
         invitations_grid: tablename
     button:
-        reset_filter:
-        search:
-        submit:
-        add_invitations:
+        reset_filter: ~
+        search: ~
+        submit: ~
+        add_invitations: ~
     dropdown:
-        grid_massaction_select:
-        massaction:
-        status:
-        valid_on_website:
-        invitee_group:
-        view_per_page:
+        grid_massaction_select: ~
+        massaction: ~
+        status: ~
+        valid_on_website: ~
+        invitee_group: ~
+        view_per_page: ~
     field:
-        id:
-        email:
-        sent_from:
-        sent_to:
-        registered_from:
-        registered_to:
-        page:
-        invitee:
+        id: ~
+        email: ~
+        sent_from: ~
+        sent_to: ~
+        registered_from: ~
+        registered_to: ~
+        page: ~
+        invitee: ~
     link:
-        select_all:
-        unselect_all:
-        select_visible:
-        unselect_visible:
+        select_all: ~
+        unselect_all: ~
+        select_visible: ~
+        unselect_visible: ~
     headers:
         0: ' '
         1: ID
@@ -278,25 +278,25 @@ customer_segment_report:
     fieldset:
         customer_segment_report_grid: tablename
     button:
-        reset_filter:
-        search:
-        submit:
+        reset_filter: ~
+        search: ~
+        submit: ~
     field:
-        filter_segment_report_id:
-        filter_segment_report_name:
-        filter_segment_report_number_customers:
-        page:
+        filter_segment_report_id: ~
+        filter_segment_report_name: ~
+        filter_segment_report_number_customers: ~
+        page: ~
     dropdown:
-        view_per_page:
-        filter_massaction_actions:
-        filter_massaction:
-        filter_status:
-        filter_website:
+        view_per_page: ~
+        filter_massaction_actions: ~
+        filter_massaction: ~
+        filter_status: ~
+        filter_website: ~
     link:
-        select_all:
-        unselect_all:
-        select_visible:
-        unselect_visible:
+        select_all: ~
+        unselect_all: ~
+        select_visible: ~
+        unselect_visible: ~
     headers:
         0: ' '
         1: ID

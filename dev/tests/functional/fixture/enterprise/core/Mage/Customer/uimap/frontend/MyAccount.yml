@@ -84,7 +84,6 @@ order_by_sku:
             qty_sku_invalid_number: //div[@class='validation-advice' and contains(.,'Please enter a valid number in this field.')]
             qty_sku_negative_number: //div[@class='validation-advice' and contains(.,'Please enter a number greater than 0 in this field.')]
             qty_sku_outofrange_number: //div[@class='validation-advice' and contains(.,'The value is not within the specified range.')]
-            qty_sku_required_field: //div[@class='validation-advice' and contains(.,'This is a required field.')]
 
 create_new_return:
    mca: rma/return/create/order_id/%id%/
@@ -94,7 +93,7 @@ create_new_return:
            fieldsets:
                -
                    create_rma:
-                       xpath: //*[@id='rma_create_form']
+                       xpath: //div[div/form/@id='rma_create_form']
                        links:
                            back: //p[@class='back-link a-left']/a
                            add_item_to_return: //a[text()='Add Item To Return']
@@ -130,8 +129,9 @@ my_credit_cards:
             fieldsets:
                 -
                     general_elements:
+                        xpath: //div[div/h1='My Credit Card profiles']
                         pageelements:
-                            account_title: //div[@class='page-title' and contains(., 'My Credit Card profiles')]
+                            account_title: //*[text()='My Credit Card profiles']
 
 my_invitations:
     mca: invitation/

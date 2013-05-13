@@ -53,8 +53,8 @@ custom_options_area: &area
 custom_options_file: &file
     custom_options_general_title: Custom Option File
     custom_options_general_input_type: File
-    custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 3
+    custom_options_general_is_required: No
+    custom_options_general_sort_order: 10
     custom_options_price: 10
     custom_options_price_type: Percent
     custom_options_sku: sku_file
@@ -66,7 +66,7 @@ custom_options_date: &date
     custom_options_general_title: Custom Option Date
     custom_options_general_input_type: Date
     custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 4
+    custom_options_general_sort_order: 3
     custom_options_price: 5
     custom_options_price_type: Percent
     custom_options_sku: sku_date
@@ -75,7 +75,7 @@ custom_options_date_time: &dateTime
     custom_options_general_title: Custom Options Date & Time
     custom_options_general_input_type: Date & Time
     custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 5
+    custom_options_general_sort_order: 4
     custom_options_price: 99.99
     custom_options_price_type: Fixed
     custom_options_sku: sku_data_time
@@ -84,7 +84,7 @@ custom_options_time: &time
     custom_options_general_title: Custom Option Time
     custom_options_general_input_type: Time
     custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 6
+    custom_options_general_sort_order: 5
     custom_options_price: 8.99
     custom_options_price_type: Fixed
     custom_options_sku: sku_time
@@ -93,7 +93,7 @@ custom_options_dropdown: &dropdown
     custom_options_general_title: Custom Option Drop-down
     custom_options_general_input_type: Drop-down
     custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 7
+    custom_options_general_sort_order: 6
     custom_option_row_1:
         custom_options_title: Title 1
         custom_options_price: 2.56
@@ -101,11 +101,11 @@ custom_options_dropdown: &dropdown
         custom_options_sku: sku_drop_down_row_1
         custom_options_sort_order: 1
 
-custom_options_radiobutton:  &radiobutton
+custom_options_radiobutton: &radiobutton
     custom_options_general_title: Custom Option Radio Buttons
     custom_options_general_input_type: Radio Buttons
     custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 8
+    custom_options_general_sort_order: 7
     custom_option_row_1:
         custom_options_title: Title 1
         custom_options_price: 2
@@ -117,7 +117,7 @@ custom_options_checkbox: &checkbox
     custom_options_general_title: Custom Option Checkbox
     custom_options_general_input_type: Checkbox
     custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 9
+    custom_options_general_sort_order: 8
     custom_option_row_1:
         custom_options_title: Title 1
         custom_options_price: 1.56
@@ -129,7 +129,7 @@ custom_options_multipleselect: &multipleselect
     custom_options_general_title: Custom Option Multiple Select
     custom_options_general_input_type: Multiple Select
     custom_options_general_is_required: Yes
-    custom_options_general_sort_order: 10
+    custom_options_general_sort_order: 9
     custom_option_row_1:
         custom_options_title: Title 1
         custom_options_price: 1
@@ -140,18 +140,34 @@ custom_options_multipleselect: &multipleselect
 custom_options_data: &customOptionsData
     option_1: *field
     option_2: *area
-    option_3: *file
-    option_4: *date
-    option_5: *dateTime
-    option_6: *time
-    option_7: *dropdown
-    option_8:  *radiobutton
-    option_9: *checkbox
-    option_10: *multipleselect
+    option_3: *date
+    option_4: *dateTime
+    option_5: *time
+    option_6: *dropdown
+    option_7: *radiobutton
+    option_8: *checkbox
+    option_9: *multipleselect
+    option_10: *file
 
 custom_options_empty:
     custom_options_general_title: Custom Option Title
     custom_options_general_input_type: Area
+#*********************************************
+#*         Group Price Data                  *
+#*********************************************
+prices_group_price_data:
+    prices_group_price_1:
+        prices_group_price_website: "All Websites [USD]"
+        prices_group_price_customer_group: %group_1%
+        prices_group_price: 1.99
+    prices_group_price_2:
+        prices_group_price_website: "All Websites [USD]"
+        prices_group_price_customer_group: %group_2%
+        prices_group_price: 2.99
+    prices_group_price_3:
+        prices_group_price_website: "All Websites [USD]"
+        prices_group_price_customer_group: %group_3%
+        prices_group_price: 3.99
 
 #*********************************************
 #*         Tier Price Data                   *
@@ -1698,14 +1714,14 @@ custom_options_to_add_to_shopping_cart:
         options_to_choose:
             custom_option_day: 15
             custom_option_month: 10
-            custom_option_year: 2012
+            custom_option_year: 2013
     option_8:
         parameters:
             title: Custom Options Date & Time
         options_to_choose:
             custom_option_day: 15
             custom_option_month: 10
-            custom_option_year: 2012
+            custom_option_year: 2013
             custom_option_hour: 10
             custom_option_minute: 10
             custom_option_day_part: PM
@@ -2369,6 +2385,8 @@ advanced_search_product:
     autosettings_news_from: %currentDate%
     autosettings_news_to: %currentDate%
     autosettings_visibility: Catalog, Search
+    inventory_manage_stock_default: No
+    inventory_manage_stock: Yes
     inventory_notify_for_qty_below_default: No
     inventory_notify_for_qty_below: 12
     websites: Main Website

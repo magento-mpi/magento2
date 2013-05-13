@@ -15,47 +15,48 @@
 #                                                                              #
 ################################################################################
 order_gift_wrapping:
-    entire_order: &orderGiftWrapping
-        order_gift_wrapping_design: %gift_wrapping_design%
-        send_gift_receipt: %yes%
-        add_printed_card: %yes%
+    entire_order:
+        order_gift_wrapping_design: %order_wrapping%
+        send_gift_receipt: %noValue%
+        add_printed_card: %noValue%
 
-items_gift_wrapping:
+item_gift_wrapping:
     individual_items:
         item_1:
-            product_name: %product_1%
-            item_gift_wrapping_design: %gift_wrapping_design%
+            product_name: %gift_item_product_1%
+            item_gift_wrapping_design: %item_wrapping%
 
-gift_message_with_gift_wrapping_one_page: &giftOptionsOnePage
+order_gift_message_with_gift_wrapping:
     entire_order:
-        order_gift_wrapping_design: %gift_wrapping_design%
+        order_gift_wrapping_design: %order_wrapping%
         gift_message:
             order_gift_message_from: From_%randomize%
             order_gift_message_to: To_%randomize%'
             order_gift_message: %randomize%_message
     individual_items: %noValue%
 
+item_gift_message_with_gift_wrapping:
+    individual_items:
+        item_1:
+            product_name: %gift_item_product_1%
+            item_gift_wrapping_design: %item_wrapping%
+            gift_message:
+                item_gift_message_from: From_%randomize%
+                item_gift_message_to: To_%randomize%'
+                item_gift_message: %randomize%_message
+
 gift_message_gift_receipt:
-        send_gift_receipt: Yes
+    send_gift_receipt: Yes
 
 gift_message_gift_printed_card:
-        add_printed_card: Yes
+    add_printed_card: Yes
 
-gift_message_for_individual_items_one_page: &giftMsgForItemsOnePage
-    item_1:
-        product_name: %product_1%
-        item_gift_wrapping_design: %gift_wrapping_design%
-        gift_message:
-            item_gift_message_from: From_%randomize%
-            item_gift_message_to: To_%randomize%'
-            item_gift_message: %randomize%_message
-
-gift_data_general: &giftDataGeneral
+gift_data_general:
     products_to_add: &product_add
         product_1:
-            general_name: %product_1%
+            general_name: %add_product_1%
         product_2:
-            general_name: %product_2%
+            general_name: %add_product_2%
     billing_address_data: &billing_new_signedin_with_shipping_usa
         billing_address_choice: New Address
         billing_first_name: Steven(billing.req)
@@ -85,39 +86,51 @@ gift_data_general: &giftDataGeneral
 
 verify_gift_data:
     entire_order:
-        from_order_level: %noValue%
-        to_order_level: %noValue%
-        message_order_level: %noValue%
+        order_gift_message_from: %noValue%
+        order_gift_message_to: %noValue%
+        order_gift_message: %noValue%
     individual:
         product_1:
             sku_product: %noValue%
-            from: %noValue%
-            to: %noValue%
-            message: %noValue%
+            item_gift_message_from: %noValue%
+            item_gift_message_to: %noValue%
+            item_gift_message: %noValue%
 
 verify_wrapping_data:
     entire_order:
-        gift_wrapping: %gift_wrapping_design%
+        order_gift_wrapping: %order_wrapping%
         order_gift_wrapping_price: %price_order%
         printed_card_price: %noValue%
     individual:
         product_1:
-            sku_product: %sku_product_1%
+            sku_product: %gift_item_product_1%
             item_gift_wrapping_price: %price_product_1%
-            gift_wrapping: %gift_wrapping_design%
+            item_gift_wrapping: %item_wrapping%
         product_2:
-            sku_product: %sku_product_2%
+            sku_product: %gift_item_product_2%
             item_gift_wrapping_price: %price_product_2%
-            gift_wrapping: %gift_wrapping_design%
+            item_gift_wrapping: %item_wrapping2%
 
-recount_gift_wrapping_no_img_one_page:
+recount_gift_wrapping_no_image:
     products_to_add: *product_add
     billing_address_data: *billing_new_signedin_with_shipping_usa
-    shipping_data:
+    shipping_data: &shipping_data_no_image
         <<: *shipping_flat_rate
         add_gift_options:
-            individual_items: *giftMsgForItemsOnePage
-            entire_order: *orderGiftWrapping
+            individual_items:
+                item_1:
+                    product_name: %gift_item_product_1%
+                    item_gift_wrapping_design: %item_wrapping%
+                    gift_message:
+                        item_gift_message_from: From_%randomize%
+                        item_gift_message_to: To_%randomize%'
+                        item_gift_message: %randomize%_message
+            entire_order:
+                order_gift_wrapping_design: %order_wrapping%
+                gift_message:
+                    order_gift_message_from: From_%randomize%
+                    order_gift_message_to: To_%randomize%'
+                    order_gift_message: %randomize%_message
     payment_data: *payment_check_money
     validate_prod_data:
         product_1:
@@ -132,12 +145,10 @@ recount_gift_wrapping_no_img_one_page:
         shipping_handling_flat_rate_fixed: $5.00
         subtotal: $12.99
 
-recount_gift_wrapping_with_img_one_page:
+recount_gift_wrapping_with_image:
     products_to_add: *product_add
     billing_address_data: *billing_new_signedin_with_shipping_usa
-    shipping_data:
-        <<: *shipping_flat_rate
-        add_gift_options: %noValue%
+    shipping_data: *shipping_data_no_image
     payment_data: *payment_check_money
     validate_prod_data:
         product_1:
@@ -152,7 +163,7 @@ recount_gift_wrapping_with_img_one_page:
         shipping_handling_flat_rate_fixed: $5.00
         subtotal: $12.99
 
-recount_no_gift_wrapping_one_page:
+recount_no_gift_wrapping:
     products_to_add: *product_add
     billing_address_data: *billing_new_signedin_with_shipping_usa
     shipping_data:
@@ -170,7 +181,7 @@ recount_no_gift_wrapping_one_page:
         shipping_handling_flat_rate_fixed: $5.00
         subtotal: $12.99
 
-recount_gift_wrapping_printed_card_yes_one_page:
+recount_gift_wrapping_printed_card_yes:
     products_to_add: *product_add
     billing_address_data: *billing_new_signedin_with_shipping_usa
     shipping_data:
@@ -180,7 +191,7 @@ recount_gift_wrapping_printed_card_yes_one_page:
     payment_data: *payment_check_money
     validate_prod_data:
         product_1:
-            product_name: %product_1%
+            product_name: %validate_product_1%
             price: $12.99
             qty: 1
             subtotal: $12.99
@@ -190,7 +201,7 @@ recount_gift_wrapping_printed_card_yes_one_page:
         printed_card: $18.53
         subtotal: $12.99
 
-recount_gift_wrapping_printed_card_no_one_page:
+recount_gift_wrapping_printed_card_no:
     products_to_add: *product_add
     billing_address_data: *billing_new_signedin_with_shipping_usa
     shipping_data:
@@ -200,7 +211,7 @@ recount_gift_wrapping_printed_card_no_one_page:
     payment_data: *payment_check_money
     validate_prod_data:
         product_1:
-            product_name: %product_1%
+            product_name: %validate_product_1%
             price: $12.99
             qty: 1
             subtotal: $12.99
@@ -216,14 +227,14 @@ gift_wrapping_custom_price:
         <<: *shipping_flat_rate
         add_gift_options:
             entire_order:
-                order_gift_wrapping_design: %gift_wrapping_design%
+                order_gift_wrapping_design: %order_wrapping%
             individual_items:
                 item_1:
-                    product_name: %product_1%
-                    item_gift_wrapping_design: %gift_wrapping_design%
+                    product_name: %gift_item_product_1%
+                    item_gift_wrapping_design: %item_wrapping%
                 item_2:
-                    product_name: %product_2%
-                    item_gift_wrapping_design: %gift_wrapping_design%
+                    product_name: %gift_item_product_2%
+                    item_gift_wrapping_design: %item_wrapping%
     payment_data: *payment_check_money
     validate_prod_data:
         product_1:
@@ -250,14 +261,14 @@ gift_wrapping_custom_price_on_site:
         <<: *shipping_flat_rate
         add_gift_options:
             entire_order:
-                order_gift_wrapping_design: %gift_wrapping_design%
+                order_gift_wrapping_design: %order_wrapping%
             individual_items:
                 item_1:
-                    product_name: %product_1%
-                    item_gift_wrapping_design: %gift_wrapping_design%
+                    product_name: %gift_item_product_1%
+                    item_gift_wrapping_design: %item_wrapping%
                 item_2:
-                    product_name: %product_2%
-                    item_gift_wrapping_design: %gift_wrapping_design%
+                    product_name: %gift_item_product_2%
+                    item_gift_wrapping_design: %item_wrapping%
     payment_data: *payment_check_money
     validate_prod_data:
         product_1:

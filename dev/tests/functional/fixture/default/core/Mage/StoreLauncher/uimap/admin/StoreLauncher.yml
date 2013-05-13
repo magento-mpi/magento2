@@ -63,10 +63,10 @@ store_launcher:
                             store_name: //input[@id='store_name']
                             store_contact_email: //input[@id='store_email']
                             store_contact_telephone: //input[@id='store_phone']
-                            store_street_address:  //input[@id='street_line1']
-                            store_street_address2:  //input[@id='street_line2']
-                            store_city:  //input[@id='city']
-                            store_zip:  //input[@id='postcode']
+                            store_street_address: //input[@id='street_line1']
+                            store_street_address2: //input[@id='street_line2']
+                            store_city: //input[@id='city']
+                            store_zip: //input[@id='postcode']
                             billing_vat_number: //input[@id='vat_number']
                             store_state_region_field: //input[@id='region_id']
                             sales_sender_email: //input[@id='sender_email_representative']
@@ -154,9 +154,9 @@ store_launcher:
                             paypal_express_email: //input[@id='store-paypal-express-email']
                             paypal_standard_email: //input[@id='store-paypal-standard-email']
                             advanced_partner: //input[@id='advanced-partner']
-                            advanced_vendor:  //input[@id='advanced-vendor']
-                            advanced_user:  //input[@id='advanced-user']
-                            advanced_password:  //input[@id='advanced-password']
+                            advanced_vendor: //input[@id='advanced-vendor']
+                            advanced_user: //input[@id='advanced-user']
+                            advanced_password: //input[@id='advanced-password']
                             payments_pro_email: //input[@id='payments-pro-email']
                             payflow_link_partner: //input[@id='payflow-link-partner']
                             payflow_link_vendor: //input[@id='payflow-link-vendor']
@@ -194,7 +194,7 @@ store_launcher:
                             usps_password: //input[@id='usps-password']
                             dhl_id: //input[@id='dhl-id']
                             dhl_password: //input[@id='dhl-password']
-                            dhl_number:  //input[@id='dhl-account-number']
+                            dhl_number: //input[@id='dhl-account-number']
                             ups_password: //input[@id='ups-password']
                             ups_number: //input[@id='ups-license-number']
                             ups_user_id: //input[@id='ups-user-id']
@@ -273,9 +273,8 @@ store_launcher:
             active_hub_menu: //*[@id='nav']/li[contains(@class, 'active')]//a[contains(@href, 'launcher/hub/')]
         messages: &newTaxRuleMessages
             success_saved_shipping: //div[normalize-space(@class)='message-validation success' and contains(.,'Configuration has been successfully saved.')]
-            enter_not_negative_number: "//label[(@for)='%fieldId%' and contains(.,'Please enter a number 0 or greater in this field.')]"
+            enter_zero_or_greater: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a number 0 or greater in this field.']
             generic_validation_error: "//div[contains(@id, 'advice-') and contains(@id, '-%fieldId%') and not(contains(@style,'display: none;'))]"
-            empty_required_field:  //label[@class='mage-error' and contains(.,'This is a required field.')]
             confirmation_for_delete_class: Do you really want to delete this tax class?
             confirmation_for_delete_rate: Do you really want to delete this tax rate?
 

@@ -302,9 +302,9 @@ authorizenet_without_3Dsecure:
             authorize_net:
                 an_enabled: Yes
                 an_title: Credit Card (Authorize.net)
-                an_api_login_id: 36sCtGS8w
+                an_api_login_id: 268SAjtxZQ
                 an_payment_action: Authorize Only
-                an_transaction_key: 67RY59y59p25JQsZ
+                an_transaction_key: 5786QhH3D8q2vz6J
                 an_new_order_status: %noValue%
                 an_test_mode: No
                 an_gateway_url: https://test.authorize.net/gateway/transact.dll
@@ -331,9 +331,9 @@ authorizenet_with_3Dsecure:
             authorize_net:
                 an_enabled: Yes
                 an_title: Credit Card (Authorize.net)
-                an_api_login_id: 36sCtGS8w
+                an_api_login_id: 268SAjtxZQ
                 an_payment_action: Authorize Only
-                an_transaction_key: 67RY59y59p25JQsZ
+                an_transaction_key: 5786QhH3D8q2vz6J
                 an_new_order_status: %noValue%
                 an_test_mode: No
                 an_gateway_url: https://test.authorize.net/gateway/transact.dll
@@ -458,8 +458,8 @@ authorizenetdp_enable:
                 andp_enabled: Yes
                 andp_payment_action: Authorize Only
                 andp_title: Credit Card Direct Post (Authorize.net)
-                andp_api_login_id: 36sCtGS8w
-                andp_transaction_key: 67RY59y59p25JQsZ
+                andp_api_login_id: 268SAjtxZQ
+                andp_transaction_key: 5786QhH3D8q2vz6J
                 andp_merchant_md5: varienmd5
                 andp_new_order_status: %noValue%
                 andp_test_mode: No

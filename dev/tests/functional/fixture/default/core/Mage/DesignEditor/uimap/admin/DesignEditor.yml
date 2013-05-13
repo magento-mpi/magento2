@@ -49,7 +49,7 @@ design_editor_selector:
 
 preview_theme_in_navigation:
     mca: system_design_editor/launch/theme_id/%id%/mode/navigation/
-    title: Store Designer / Magento Admin
+    title: Editor / Magento Admin
     uimap:
         buttons:
             select: //div[@id='vde_toolbar_buttons']//button[@data-toggle='dropdown']
@@ -66,7 +66,7 @@ preview_theme_in_navigation:
 
 preview_theme_in_design:
     mca: system_design_editor/launch/theme_id/%id%/mode/design/
-    title: Store Designer / Magento Admin
+    title: Editor / Magento Admin
     uimap: &themeInDesign
         form:
             fieldsets:
@@ -312,12 +312,12 @@ preview_theme_in_design:
 
 assigned_theme_default_in_design:
     mca: system_design_editor/launch/store_id/0/theme_id/%id%/
-    title: Store Designer / Magento Admin
+    title: Editor / Magento Admin
     uimap: *themeInDesign
 
 assigned_theme_in_design:
     mca: system_design_editor/launch/store_id/%storeId%/theme_id/%storeId%/
-    title: Store Designer / Magento Admin
+    title: Editor / Magento Admin
     uimap: *themeInDesign
 
 save_and_assign_theme_default_in_design:

@@ -18,19 +18,15 @@ edit_customer:
                     customer_view:
                         fieldsets:
                             -
-                                sales_statistics:
-                                    pageelements:
-                                        sales_statistics_head: //div[@class='grid']//table//thead
-                            -
                                 reward_points:
-                                    xpath: //*[@id='customer_info_tabs_customer_edit_tab_view_content']
+                                    xpath: //div[div/span='Reward Points Balance']
                                     pageelements:
-                                        reward_points_head: //div[@id='rewardPointsBalanceGrid']//div[@class='grid']//thead
+                                        reward_points_head: //*[@id='rewardPointsBalanceGrid_table']/thead
                             -
                                 store_credit_balance:
-                                    xpath: //*[@id='customer_info_tabs_customer_edit_tab_view_content']
+                                    xpath: //div[div/span='Store Credit Balance']
                                     pageelements:
-                                        store_credit_head: //div[@id='balanceGrid']//table[@id='balanceGrid_table']//thead
+                                        store_credit_head: //*[@id='balanceGrid_table']/thead
                 -
                     store_credit:
                         xpath: //a[@id='customer_info_tabs_customerbalance']
@@ -48,9 +44,9 @@ edit_customer:
                                         notify_by_email: //input[@id='_customerbalancenotify_by_email']
                             -
                                 current_store_balance:
-                                    xpath: //div[@id='customer_info_tabs_customerbalance_content']//div[@id='balanceGrid']
+                                    xpath: //div[@id='Store_Credit']//table[@id='balanceGrid_table']
                                     fields:
-                                        current_balance: //table[@id='balanceGrid_table']/tbody/tr[td[contains(text(),'%webSiteName%')]]/td[1]
+                                        store_credit_balance: //tr[contains(td/text(),'%webSiteName%')]/td[%index%]
                             -
                                 balance_history:
                                     xpath: //div[@id='historyGrid']
@@ -81,10 +77,9 @@ edit_customer:
                                         store: //select[@id='reward_store']
                             -
                                 current_reward_balance:
-                                    xpath: //div[@id='customer_info_tabs_customer_edit_tab_reward_content']//div[@id='rewardPointsBalanceGrid']
+                                    xpath: //div[@id='customer_info_tabs_customer_edit_tab_reward_content']//table[@id='rewardPointsBalanceGrid_table']
                                     fields:
-                                        current_balance: //table[@id='rewardPointsBalanceGrid_table']/tbody/tr[td[contains(text(),'%webSiteName%')]]/td[2]
-                                        balance_is_present: //table[@id='rewardPointsBalanceGrid_table']/tbody/tr[td[contains(text(),'%webSiteName%')]]/td[1]
+                                        reward_points_balance: //tr[contains(td/text(),'%webSiteName%')]/td[%index%]
                             -
                                 reward_points_history:
                                     xpath: //dl[dt/a='Reward Points History']
@@ -140,7 +135,7 @@ manage_invitations:
         buttons:
             add_invitations: //button[span='Add Invitations']
         messages: &invitationsMessages
-            failed_send_several_items:  //li[normalize-space(@class)='error-msg' and contains(text()='Failed to send %numberMessagesFailed% of %numberMessagesOf% invitation(s).')]
+            failed_send_several_items: //li[normalize-space(@class)='error-msg' and contains(text()='Failed to send %numberMessagesFailed% of %numberMessagesOf% invitation(s).')]
             failed_send: //li[normalize-space(@class)='error-msg' and contains(text()='Failed to send %numberMessagesFailed% invitation(s).')]
             success_send: //li[normalize-space(@class)='success-msg' and contains(.,'1 invitation(s) were sent.')]
 
@@ -199,7 +194,7 @@ manage_gift_card_account:
             fieldsets:
                 -
                     customer_segment_grid:
-                        xpath:  //div[@id='giftcardaccountGrid']
+                        xpath: //div[@id='giftcardaccountGrid']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -240,7 +235,7 @@ new_gift_card_account:
                         fieldsets:
                             -
                                 gift_card_information:
-                                    xpath:  //fieldset[@id='_infobase_fieldset']
+                                    xpath: //fieldset[@id='_infobase_fieldset']
                                     dropdowns:
                                         active: //select[@id='_infostatus']
                                         redeemable: //select[@id='_infois_redeemable']

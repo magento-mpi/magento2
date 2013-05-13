@@ -100,8 +100,7 @@ new_gift_registry:
             save_and_continue_edit: //button[@id='save_and_continue_edit']
         messages: &newGiftRegistryMessages
             confirmation_for_delete: Deleting this gift registry type will also remove all customers' gift registries created based on it. Are you sure you want to proceed?
-            empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
-            incorrect_attributes_code: "//div[@id='advice-attribute-code-%fieldId%' and not(contains(@style,'display: none;'))]"
+            incorrect_attributes_code: //*[@class='mage-error' and @for='%fieldId%' and text()='Please use different input type for this code.']
             empty_option: //div[@id='advice-required-option-select-rows-validation_1_result']
             invalid_code: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.')]
             exist_code: //li[normalize-space(@class)='error-msg' and contains(.,'Code already exists.')]

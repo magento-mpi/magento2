@@ -61,13 +61,12 @@ my_wishlist:
             specify_product_options: //li[normalize-space(@class)='error-msg' and contains(.,' option(s) for "%productName%".')]
             confirmation_for_delete: Are you sure you want to remove this product from your wishlist?
             invalid_emails: //li[@class='error-msg' and contains(.,'Please input a valid email address.')]
-            invalid_emails_js: //div[@class='validation-advice' and @id='advice-validate-emails-email_address' and contains(.,'Please enter a valid email addresses, separated by commas. For example johndoe@domain.com, johnsmith@domain.com.')]
-            required_emails: //div[@class='validation-advice' and @id='advice-required-entry-email_address' and text()='This is a required field.']
+            invalid_emails_js: //div[@class='mage-error' and @for='email_address' and contains(.,'Please enter a valid email addresses, separated by commas. For example johndoe@domain.com, johnsmith@domain.com.')]
             specify_product_config_option: //li[normalize-space(@class)='notice-msg' and contains(.,"Please specify the product's option(s).")]
             specify_product_link: //li[normalize-space(@class)='notice-msg' and contains(.,"Please specify product link(s).")]
-            specify_product_option: //li[normalize-space(@class)='notice-msg' and contains(.,"Please select options for product.")]
+            specify_product_option: //li[normalize-space(@class)='notice-msg' and contains(.,"Please specify product option(s).")]
             specify_product_quantity: //li[normalize-space(@class)='notice-msg' and contains(.,"Please specify the quantity of product(s).")]
-            specify_product_required_option: //li[normalize-space(@class)='notice-msg' and contains(.,"Please specify the product's required option(s).")]
+            specify_product_required_option: //li[normalize-space(@class)='notice-msg' and contains(.,"Please specify the product required option(s).")]
         links:
             back: //p[@class='back-link']/a[contains(.,'Back')]
 
@@ -80,7 +79,7 @@ wishlist_configure_product:
     mca: wishlist/index/configure/id/%id%/
     title: %elementTitle%
     uimap:
-        form:   &productPage
+        form: &productPage
             fieldsets:
                 -
                     product_info: &productInfo
@@ -116,14 +115,14 @@ wishlist_configure_product:
                             custom_option_check_attribute: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//input
                             custom_option_checkbox: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//li[.//label[contains(text(),'%optionTitle%')]]//input[@type='checkbox']
                         dropdowns:
-                            custom_option_select_attribute:  //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select
-                            custom_option_day:  //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[contains(@name,'[day]')]
-                            custom_option_month:  //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[contains(@id,'month')]
-                            custom_option_year:  //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[contains(@id,'year')]
-                            custom_option_hour:  //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[contains(@id,'hour')]
-                            custom_option_minute:  //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[contains(@id,'minute')]
-                            custom_option_day_part:  //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[contains(@id,'day_part')]
-                            custom_option_dropdown:  //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select
+                            custom_option_select_attribute: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select
+                            custom_option_day: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[contains(@name,'[day]')]
+                            custom_option_month: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[contains(@id,'month')]
+                            custom_option_year: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[contains(@id,'year')]
+                            custom_option_hour: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[contains(@id,'hour')]
+                            custom_option_minute: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[contains(@id,'minute')]
+                            custom_option_day_part: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[contains(@id,'day_part')]
+                            custom_option_dropdown: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select
                         fields:
                             custom_option_field: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//input[@type='text']
                             custom_option_area: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//textarea
@@ -131,7 +130,7 @@ wishlist_configure_product:
                         links:
                             downloadable_link: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//li[.//label[contains(text(),'%optionTitle%')]]//a[text()='%linkTitle%']
                         multiselects:
-                            custom_option_multiselect:  //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[@multiple='multiple']
+                            custom_option_multiselect: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//select[@multiple='multiple']
                         radiobuttons:
                             custom_option_radiobutton: //dt[./label[contains(text(),'%title%')]]/following-sibling::dd[1]//li[.//label[contains(text(),'%optionTitle%')]]//input[@type='radio']
                         pageelements:

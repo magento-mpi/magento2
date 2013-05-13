@@ -24,7 +24,7 @@ manage_customer_groups:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
                         dropdowns:
-                            view_per_page:  //select[@name='limit']
+                            view_per_page: //select[@name='limit']
                         fields:
                             filter_id: //input[@id='customerGroupGrid_filter_time']
                             filter_group_name: //input[@id='customerGroupGrid_filter_type']
@@ -36,7 +36,6 @@ manage_customer_groups:
         messages: &customerGroupsMessages
             success_deleted_customer_group: //li[normalize-space(@class)='success-msg' and contains(.,'The customer group has been deleted.')]
             success_saved_customer_group: //li[normalize-space(@class)='success-msg' and contains(.,'The customer group has been saved.')]
-            empty_group_name: //div[@id='advice-required-entry-customer_group_code' and contains(text(),'This is a required field.') and not(contains(@style,'display: none'))]
             confirmation_for_delete: Are you sure you want to do this?
 
 # 'New Customer Group' Page

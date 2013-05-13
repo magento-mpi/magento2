@@ -47,8 +47,8 @@ scheduled_import_export:
             add_scheduled_import: //button[span='Add Scheduled Import']
             add_scheduled_export: //button[span='Add Scheduled Export']
         messages: &messages
-            success_saved_export:  //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled export has been saved.')]
-            success_saved_import:  //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled import has been saved.')]
+            success_saved_export: //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled export has been saved.')]
+            success_saved_import: //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled import has been saved.')]
             success_delete_export: //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled export has been deleted.')]
             success_delete_import: //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled import has been deleted.')]
             success_run: //li[normalize-space(@class)='success-msg' and contains(.,'Operation has been successfully run')]
@@ -67,13 +67,13 @@ scheduled_importexport_add:
             fieldsets:
                 -
                     settings:
-                        xpath: //fieldset[@id="operation_settings"]
+                        xpath: //fieldset[@id='operation_settings']
                         fields:
                             name: //input[@id='name']
                             description: //textarea[@id='details']
                         dropdowns:
                             entity_type: //select[@id='entity']
-                            behavior: //select[@name='behavior' and not(ancestor::tr[contains(@style,'display: none')])]
+                            behavior: //select[@name='behavior'][not(@disabled)]
                             file_format: //select[@id='file_format']
                             start_time_hours: //input[@id='start_time']/following-sibling::select[1]
                             start_time_minutes: //input[@id='start_time']/following-sibling::select[2]
@@ -87,12 +87,12 @@ scheduled_importexport_add:
                         fields:
                             file_path: //input[@id='file_path']
                             file_name: //input[@id='file_name']
-                            host:  //input[@id='host' and not(ancestor::tr[contains(@style,'display: none')])]
+                            host: //input[@id='host' and not(ancestor::tr[contains(@style,'display: none')])]
                             user_name: //input[@id='user' and not(ancestor::tr[contains(@style,'display: none')])]
-                            password:  //input[@id='password' and not(ancestor::tr[contains(@style,'display: none')])]
+                            password: //input[@id='password' and not(ancestor::tr[contains(@style,'display: none')])]
                         dropdowns:
-                            server_type:  //select[@id='server_type']
-                            file_mode:    //select[@id='file_mode' and not(ancestor::tr[contains(@style,'display: none')])]
+                            server_type: //select[@id='server_type']
+                            file_mode: //select[@id='file_mode' and not(ancestor::tr[contains(@style,'display: none')])]
                             passive_mode: //select[@id='passive' and not(ancestor::tr[contains(@style,'display: none')])]
                 -
                     email_settings:
@@ -100,9 +100,9 @@ scheduled_importexport_add:
                         fields:
                             email_copy: //input[@id='email_copy']
                         dropdowns:
-                            email_receiver:    //select[@id='email_receiver']
-                            email_sender:      //select[@id='email_sender']
-                            email_template:    //select[@id='email_template']
+                            email_receiver: //select[@id='email_receiver']
+                            email_sender: //select[@id='email_sender']
+                            email_template: //select[@id='email_template']
                             email_copy_method: //select[@id='email_copy_method']
                 -
                     grid_and_filter:
@@ -121,9 +121,9 @@ scheduled_importexport_add:
                         dropdowns:
                             select_filter: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//select[contains(@class, 'select-export-filter')]
         buttons:
-            back:   //button[@id='back']
-            reset:  //button[@id='reset']
-            save:   //button[@id='save']
+            back: //button[@id='back']
+            reset: //button[@id='reset']
+            save: //button[@id='save']
             delete: //button[@id='delete']
         messages: *messages
 

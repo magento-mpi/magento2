@@ -486,7 +486,7 @@ theme_list:
     field:
         page: ~
         theme_title: ~
-        parent_theme_title: ~
+        theme_parent_id: ~
         theme_path: ~
         theme_version: ~
         magento_version_from: ~
@@ -522,7 +522,7 @@ google_content_manage_attributes:
 #dataset for ui elements for Products Tags grid
 report_tag_product:
     fieldset:
-        report_tag_product_grid: tablename
+        report_tag_grid: tablename
     button:
          export: ~
     field:
@@ -540,7 +540,7 @@ report_tag_product:
 #dataset for ui elements for Customer Tags grid
 report_tag_customer:
     fieldset:
-        report_tag_customer_grid: tablename
+        report_tag_grid: tablename
     button:
          export: ~
     field:
