@@ -14,6 +14,16 @@
 class Saas_Saas_Model_Tenant_Config
 {
     /**
+     * Tenant enabled
+     */
+    const STATUS_ENABLED = 0;
+
+    /**
+     * Only tenant's backend is available
+     */
+    const STATUS_DISABLED_FRONTEND = 1;
+
+    /**
      * @var string
      */
     private $_rootDir;
@@ -45,6 +55,20 @@ class Saas_Saas_Model_Tenant_Config
     private $_staticDir;
 
     /**
+     * Tenant's status: Enabled or Disabled Frontend
+     *
+     * @var int
+     */
+    private $_status;
+
+    /**
+     * Maintenance mode data
+     *
+     * @var array
+     */
+    private $_maintenanceMode;
+
+    /**
      * Constructor
      *
      * @param string $rootDir
@@ -70,6 +94,18 @@ class Saas_Saas_Model_Tenant_Config
             throw new InvalidArgumentException('Version hash is not specified');
         }
         $this->_staticDir = 'skin/' . $tenantData['version_hash'];
+
+        if (!isset($tenantData['status'])) {
+            throw new InvalidArgumentException('Status is not specified');
+        }
+        $this->_status = $tenantData['status'];
+
+        if (empty($tenantData['maintenance_mode'])) {
+            $tenantData['maintenance_mode'] = array('url' => 'http://golinks.magento.com/noStore');
+            //TODO remove previous line and uncomment the following once TMT changes in MAGETWO-9307 are deployed
+//            throw new InvalidArgumentException('Maintenance url is not specified');
+        }
+        $this->_maintenanceMode = $tenantData['maintenance_mode'];
     }
 
     /**
@@ -106,6 +142,8 @@ class Saas_Saas_Model_Tenant_Config
                 Mage_Core_Model_Dir::STATIC_VIEW => $this->_staticDir,
             ),
             Mage::PARAM_CUSTOM_LOCAL_CONFIG => $this->_config->getXmlString(),
+            'status' => $this->_status,
+            'maintenance_mode' => $this->_maintenanceMode,
         );
     }
 
