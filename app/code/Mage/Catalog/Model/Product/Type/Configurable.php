@@ -520,7 +520,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
             foreach ($data as $attributeId => $attributeValue) {
                 if (isset($usedAttributes[$attributeId])) {
                     $attribute = $usedAttributes[$attributeId];
-                    $label = $attribute->getLabel();
+                    $label = $attribute->getProductAttribute()->getStoreLabel();
                     $value = $attribute->getProductAttribute();
                     if ($value->getSourceModel()) {
                         $value = $value->getSource()->getOptionText($attributeValue);
