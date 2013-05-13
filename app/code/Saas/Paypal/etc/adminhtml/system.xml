@@ -61,6 +61,9 @@
                 <group id="wps_all" showInDefault="0" showInWebsite="0" showInStore="0">
                     <hide_in_single_store_mode>1</hide_in_single_store_mode>
                 </group>
+                <group id="wpp_ca" showInDefault="0" showInWebsite="0" showInStore="0">
+                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                </group>
                 <depends>
                     <field id="*/account/merchant_country" negative="0">AU</field>
                 </depends>
@@ -254,34 +257,90 @@
                     </group>
                     <group id="wpp_settings" showInDefault="0" showInWebsite="0" showInStore="0">
                         <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                        <field id="title">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="payment_action">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="cctypes">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <field id="sort_order">
+                            <depends>
+                                <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
+                        <group id="wpp_settings_advanced">
+                            <field id="allowspecific">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="specificcountry">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="line_items_enabled">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="useccv">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="heading_3dsecure">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="centinel">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="centinel_backend">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="centinel_is_mode_strict">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="centinel_api_url">
+                                <depends>
+                                    <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
+                                </depends>
+                            </field>
+                        </group>
                     </group>
                     <group id="wpp_settings_wpp_and_express_checkout_authentication_method_0" extends="*/paypal_payments/wpp/wpp_settings" showInDefault="1" showInWebsite="1" showInStore="1">
                         <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                        <field id="title"/>
-                        <field id="payment_action"/>
-                        <field id="cctypes"/>
-                        <group id="wpp_settings_advanced">
-                            <field id="allowspecific"/>
-                            <field id="specificcountry"/>
+                        <group id="wpp_settings_advanced"  extends="*/paypal_payments/wpp/wpp_settings/wpp_settings_advanced">
                             <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
                                 <hide_in_single_store_mode>1</hide_in_single_store_mode>
                             </field>
                             <field id="verify_peer" showInDefault="0" showInWebsite="0" showInStore="0">
                                 <hide_in_single_store_mode>1</hide_in_single_store_mode>
                             </field>
-                            <field id="line_items_enabled"/>
-                            <field id="useccv"/>
-                            <field id="heading_3dsecure"/>
-                            <field id="centinel"/>
-                            <field id="centinel_is_mode_strict"/>
-                            <field id="centinel_api_url"/>
                         </group>
                         <depends>
                             <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">0</field>
                         </depends>
                     </group>
-                    <group id="wpp_settings_wpp_and_express_checkout_authentication_method_1" extends="*/paypal_payments/wpp/wpp_settings" showInDefault="0" showInWebsite="0" showInStore="0">
-                        <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                    <group id="wpp_settings_wpp_and_express_checkout_authentication_method_1" extends="*/paypal_payments/wpp/wpp_settings" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <field id="direct_boarding_title" translate="label comment" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Title</label>
                             <comment>It is recommended to set this value to "Debit or Credit Card" per store views.</comment>
@@ -302,7 +361,7 @@
                             <config_path>payment/paypal_direct_boarding/cctypes</config_path>
                             <source_model>Mage_Paypal_Model_Config::getWppCcTypesAsOptionArray</source_model>
                         </field>
-                        <group id="wpp_settings_advanced">
+                        <group id="wpp_settings_advanced" extends="*/paypal_payments/wpp/wpp_settings/wpp_settings_advanced">
                             <field id="debug" showInDefault="0" showInWebsite="0" showInStore="0">
                                 <hide_in_single_store_mode>1</hide_in_single_store_mode>
                             </field>
@@ -315,6 +374,9 @@
                                 <label>Countries Payment Applicable From</label>
                                 <config_path>payment/paypal_direct_boarding/specificcountry</config_path>
                                 <source_model>Mage_Paypal_Model_System_Config_Source_BuyerCountry</source_model>
+                                <depends>
+                                    <field id="*/*/*/*/wpp_settings_advanced/direct_boarding_allowspecific">1</field>
+                                </depends>
                             </field>
                             <field id="direct_boarding_line_items_enabled" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1">
                                 <label>Transfer Cart Line Items</label>
@@ -334,49 +396,6 @@
                         </group>
                         <depends>
                             <field id="*/*/*/wpp_required_settings/wpp_and_express_checkout/authentication_method">1</field>
-                        </depends>
-                    </group>
-                    <group id="wpp_settings_wpp_and_express_checkout_authentication_method_1_direct_boarding_allowspecific_0" extends="*/paypal_payments/wpp/wpp_settings_wpp_and_express_checkout_authentication_method_1" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                        <depends>
-                            <field id="*/*/*/*/wpp_settings_advanced/direct_boarding_allowspecific">0</field>
-                        </depends>
-                    </group>
-                    <group id="wpp_settings_wpp_and_express_checkout_authentication_method_1_direct_boarding_allowspecific_1" extends="*/paypal_payments/wpp/wpp_settings_wpp_and_express_checkout_authentication_method_1" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                        <group id="wpp_settings_advanced">
-                            <field id="direct_boarding_specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="0">
-                                <label>Countries Payment Applicable From</label>
-                                <config_path>payment/paypal_direct_boarding/specificcountry</config_path>
-                                <source_model>Mage_Paypal_Model_System_Config_Source_BuyerCountry</source_model>
-                            </field>
-                        </group>
-                        <depends>
-                            <field id="*/*/*/*/wpp_settings_advanced/direct_boarding_allowspecific">1</field>
-                        </depends>
-                    </group>
-                    <group id="wpp_settings_wpp_direct_boarding_allowspecific_1" extends="*/paypal_payments/wpp/wpp_settings" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <group id="wpp_settings_advanced">
-                            <field id="direct_boarding_specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="0">
-                                <label>Countries Payment Applicable From</label>
-                                <config_path>payment/paypal_direct_boarding/specificcountry</config_path>
-                                <source_model>Mage_Paypal_Model_System_Config_Source_BuyerCountry</source_model>
-                            </field>
-                            <field id="direct_boarding_centinel_is_mode_strict" translate="label comment" type="select" sortOrder="65" showInDefault="1" showInWebsite="0">
-                                <label>Severe 3D Secure Card Validation</label>
-                                <config_path>payment/paypal_direct_boarding/centinel_is_mode_strict</config_path>
-                                <comment>Severe Validation Removes Chargeback Liability on Merchant</comment>
-                                <source_model>Mage_Paypal_Model_System_Config_Source_BuyerCountry</source_model>
-                            </field>
-                            <field id="direct_boarding_centinel_api_url" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="0">
-                                <label>Centinel Custom Api URL</label>
-                                <config_path>payment/paypal_direct_boarding/centinel_api_url</config_path>
-                                <comment>If empty, a default value will be used. Custom URL may be provided by CardinalCommerce agreement.</comment>
-                                <source_model>Mage_Paypal_Model_System_Config_Source_BuyerCountry</source_model>
-                            </field>
-                        </group>
-                        <depends>
-                            <field id="direct_boarding_allowspecific">1</field>
                         </depends>
                     </group>
                     <group id="wpp_settings_express_checkout" showInDefault="0" showInWebsite="0" showInStore="0">
