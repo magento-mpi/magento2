@@ -3728,8 +3728,10 @@ select:disabled {
   transition: opacity 0.2s linear 0;
   opacity: 1;
 }
-.navigation > ul > .level-top.active > a span {
+.navigation > ul > .level-top.active > a {
+  background: #242424;
   color: #ffffff;
+  border-color: #000000;
 }
 .navigation > ul > .level-top > .submenu {
   -webkit-box-sizing: border-box;
