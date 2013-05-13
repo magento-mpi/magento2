@@ -11,9 +11,9 @@
  -->
 <layout>
     <adminhtml_sitemap_index>
-        <update handle='adminhtml_sitemap_index_grid_block' />
-        <reference name ='content'>
-            <block type='Mage_Adminhtml_Block_Sitemap' name='adminhtml.sitemap.container' />
+        <update handle='adminhtml_sitemap_index_grid_block'/>
+        <reference name='content'>
+            <block type='Mage_Adminhtml_Block_Sitemap' name='adminhtml.sitemap.container'/>
         </reference>
     </adminhtml_sitemap_index>
 
@@ -25,7 +25,8 @@
                     <dataSource type='object'>Mage_Sitemap_Model_Resource_Sitemap_Collection</dataSource>
                     <default_sort>sitemap_id</default_sort>
                 </arguments>
-                <block type='Mage_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.sitemap.container.grid.columnSet' as='grid.columnSet'>
+                <block type='Mage_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.sitemap.container.grid.columnSet'
+                       as='grid.columnSet'>
                     <arguments>
                         <id>sitemapGrid</id>
                         <rowUrl>
@@ -62,7 +63,7 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='sitemap_time'>
                         <arguments>
-                            <header translate='true' module='Mage_Sitemap'>Last Time Generated</header>
+                            <header translate='true' module='Mage_Sitemap'>Last Generated</header>
                             <width>150px</width>
                             <index>sitemap_time</index>
                             <type>datetime</type>

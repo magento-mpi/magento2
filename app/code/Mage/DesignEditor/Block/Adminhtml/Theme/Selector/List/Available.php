@@ -13,8 +13,6 @@
  *
  * @method int getNextPage()
  * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available setNextPage(int $page)
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
     extends Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
@@ -37,9 +35,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
         array $data = array()
     ) {
         $this->_serviceModel = $serviceModel;
-
-        parent::__construct($context, $app, $data
-        );
+        parent::__construct($context, $app, $data);
     }
 
     /**
@@ -83,21 +79,12 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
     protected function _addDemoButtonHtml($themeBlock)
     {
         /** @var $demoButton Mage_Backend_Block_Widget_Button */
-        $demoButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
+        $demoButton = $this->getLayout()->createBlock('Mage_DesignEditor_Block_Adminhtml_Theme_Button');
         $demoButton->setData(array(
-            'label'     => $this->__('Theme Demo'),
-            'class'     => 'action-theme-preview',
-            'data_attribute' => array(
-                'mage-init' => array(
-                    'button' => array(
-                        'event' => 'preview',
-                        'target' => 'body',
-                        'eventData' => array(
-                            'preview_url' => $this->_getPreviewUrl($themeBlock->getTheme()->getId())
-                        )
-                    ),
-                ),
-            )
+            'label'  => $this->__('Theme Demo'),
+            'class'  => 'action-theme-preview',
+            'href'   => $this->_getPreviewUrl($themeBlock->getTheme()->getId()),
+            'target' => '_blank'
         ));
 
         $themeBlock->addButton($demoButton);

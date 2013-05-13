@@ -155,7 +155,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     public function saveAction()
     {
         $data = $this->getRequest()->getPost();
-        $groupId = $this->getRequest()->getParam('group');
+        $groupCode = $this->getRequest()->getParam('group');
 
         if ($data) {
             /** @var $session Mage_Backend_Model_Auth_Session */
@@ -180,28 +180,9 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 }
 
                 try {
-                    $attributeSet->setAttributeSetName($name)
-                        ->validate();
+                    $attributeSet->setAttributeSetName($name)->validate();
                     $attributeSet->save();
-                    $attributeSet->initFromSkeleton($this->getRequest()->getParam('set'))
-                        ->save();
-
-                    /** @var $requestedGroup Mage_Catalog_Model_Product_Attribute_Group */
-                    $requestedGroup = Mage::getModel('Mage_Catalog_Model_Product_Attribute_Group')->load($groupId);
-
-                    if (!$requestedGroup->getId()) {
-                        throw Mage::exception('Mage_Adminhtml',
-                            $this->_helper('Mage_Catalog_Helper_Data')->__('Specified Attribute group id is invalid.')
-                        );
-                    }
-
-                    foreach ($attributeSet->getGroups() as $group) {
-                        if ($group->getAttributeGroupName() == $requestedGroup->getAttributeGroupName()) {
-                            $targetGroupId = $group->getAttributeGroupId();
-                            break;
-                        }
-                    }
-
+                    $attributeSet->initFromSkeleton($this->getRequest()->getParam('set'))->save();
                     $isNewAttributeSet = true;
                 } catch (Mage_Core_Exception $e) {
                     $session->addError($e->getMessage());
@@ -310,12 +291,20 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 $model->setIsUserDefined(1);
             }
 
-            if ($this->getRequest()->getParam('set') && $groupId) {
+            if ($this->getRequest()->getParam('set') && $groupCode) {
                 // For creating product attribute on product page we need specify attribute set and group
-
                 $attributeSetId = $isNewAttributeSet ? $attributeSet->getId() : $this->getRequest()->getParam('set');
-                $attributeGroupId = $isNewAttributeSet ? $targetGroupId : $groupId;
-
+                $groupCollection = $isNewAttributeSet
+                    ? $attributeSet->getGroups()
+                    : Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection')
+                        ->setAttributeSetFilter($attributeSetId)
+                        ->load();
+                foreach ($groupCollection as $group) {
+                    if ($group->getAttributeGroupCode() == $groupCode) {
+                        $attributeGroupId = $group->getAttributeGroupId();
+                        break;
+                    }
+                }
                 $model->setAttributeSetId($attributeSetId);
                 $model->setAttributeGroupId($attributeGroupId);
             }
@@ -407,6 +396,6 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Catalog::attributes_attributes');
+        return $this->_authorization->isAllowed('Mage_Catalog::attributes_attributes');
     }
 }

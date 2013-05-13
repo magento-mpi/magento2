@@ -18,7 +18,7 @@ class Enterprise_Search_Model_Adapter_Solr_AbstractTest extends PHPUnit_Framewor
     {
         $sku = new Varien_Object(array('attribute_code' => 'sku'));
         /** @var $model Enterprise_Search_Model_Adapter_Solr_Abstract */
-        $model = $this->getMockForAbstractClass('Enterprise_Search_Model_Adapter_Solr_Abstract');
+        $model = $this->getMockForAbstractClass('Enterprise_Search_Model_Adapter_Solr_Abstract', array(), '', false);
         $this->assertEquals('sku', $model->getSearchEngineFieldName($sku, 'sku'));
         $this->assertEquals('attr_sort_sku', $model->getSearchEngineFieldName($sku, 'sort'));
     }

@@ -79,30 +79,31 @@
                 bSelection.gridSelectedProductSkus = productSkus;
                 $selectionGrid.dialog({
                     title: $optionBox.find('input[name$="[title]"]').val() === '' ?
-                        'Add Products to New Option' :
-                        'Add Products to Option "' +
-                            $('<div>').text($optionBox.find('input[name$="[title]"]').val()).html() + '"',
+                        $.mage.__('Add Products to New Option') :
+                        $.mage.__('Add Products to Option "%s"')
+                            .replace('%s',($('<div>').text($optionBox.find('input[name$="[title]"]').val()).html())),
                     autoOpen: false,
                     minWidth: 980,
+                    'class': 'bundle',
                     modal: true,
                     resizable: true,
                     buttons: [{
-                        text: 'Cancel',
+                        text: $.mage.__('Cancel'),
                         click: function() {
                             $selectionGrid.dialog('close');
                         }
                     }, {
-                        text: 'Add Products',
-                        'class': 'add',
+                        text: $.mage.__('Add Selected Products'),
+                        'class': 'add primary',
                         click: function() {
-                            bSelection.gridSelection.get(optionIndex).each(
-                                function(pair) {
-                                    bSelection.addRow(optionIndex, {
-                                        name: pair.value.get('name'),
+                            $selectionGrid.find('tbody .col-id input:checked').closest('tr').each(
+                                function() {
+                                    window.bSelection.addRow(optionIndex, {
+                                        name: $.trim($(this).find('.col-name').html()),
                                         selection_price_value: 0,
                                         selection_qty: 1,
-                                        sku: pair.value.get('sku'),
-                                        product_id: pair.key,
+                                        sku: $.trim($(this).find('.col-sku').html()),
+                                        product_id: $(this).find('.col-id  input').val(),
                                         option_id: $('bundle_selection_id_' + optionIndex).val()
                                     });
                                 }

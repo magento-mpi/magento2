@@ -346,6 +346,6 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Customer::customer_address_attributes');
+        return $this->_authorization->isAllowed('Enterprise_Customer::customer_address_attributes');
     }
 }

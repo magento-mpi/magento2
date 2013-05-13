@@ -51,7 +51,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Ad
     protected function _prepareColumns()
     {
         $this->addColumn('code', array(
-            'header'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('Form Type Code'),
+            'header'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('Type Code'),
             'index'     => 'code',
         ));
 
@@ -72,7 +72,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Ad
             'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('All Themes')
         ));
         $this->addColumn('theme', array(
-            'header'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('For Theme'),
+            'header'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Theme'),
             'type'       => 'theme',
             'index'      => 'theme',
             'options'    => $design,

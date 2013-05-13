@@ -62,12 +62,18 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
     protected $_objectManager;
 
     /**
+     * @var Mage_Core_Model_Config_Modules_SortedFactory
+     */
+    protected $_sortedFactory;
+
+    /**
      * @param Mage_Core_Model_Config_Primary $primaryConfig
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Config_BaseFactory $prototypeFactory
      * @param Mage_Core_Model_Config_Resource $resourceConfig
      * @param Mage_Core_Model_Config_Loader_Modules_File $fileReader
-     * @param Magento_ObjectManager
+     * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_Config_Modules_SortedFactory $sortedFactory
      * @param array $allowedModules
      */
     public function __construct(
@@ -77,6 +83,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         Mage_Core_Model_Config_Resource $resourceConfig,
         Mage_Core_Model_Config_Loader_Modules_File $fileReader,
         Magento_ObjectManager $objectManager,
+        Mage_Core_Model_Config_Modules_SortedFactory $sortedFactory,
         array $allowedModules = array()
     ) {
         $this->_dirs = $dirs;
@@ -86,6 +93,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         $this->_resourceConfig = $resourceConfig;
         $this->_fileReader = $fileReader;
         $this->_objectManager = $objectManager;
+        $this->_sortedFactory = $sortedFactory;
     }
 
     /**
@@ -172,11 +180,16 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         }
         foreach ($declaredModules as $moduleName => $module) {
             if ($module['active'] == 'true') {
+                $this->_assertSystemRequirements($module['module']->modules->{$moduleName}, $moduleName);
                 $module['module']->modules->{$moduleName}->active = 'true';
                 $unsortedConfig->extend(new Mage_Core_Model_Config_Base($module['module']));
             }
         }
-        $sortedConfig = new Mage_Core_Model_Config_Modules_Sorted($unsortedConfig, $this->_allowedModules);
+        $params = array(
+            'modulesConfig' => $unsortedConfig,
+            'allowedModules' => $this->_allowedModules
+        );
+        $sortedConfig = $this->_sortedFactory->create($params);
 
         $mergeToConfig->extend($sortedConfig);
         Magento_Profiler::stop('load_modules_declaration');
@@ -197,8 +210,8 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         }
 
         $collectModuleFiles = array(
-            'base'   => array(),
-            'mage'   => array(),
+            'base' => array(),
+            'mage' => array(),
             'custom' => array()
         );
 
@@ -225,5 +238,28 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
             $collectModuleFiles['custom'],
             $collectModuleFiles['base']
         );
+    }
+
+    /**
+     * Halt if a required extension is not available
+     *
+     * @param SimpleXMLElement $xml
+     * @param string $moduleName
+     * @throws Magento_Exception
+     */
+    protected function _assertSystemRequirements(SimpleXMLElement $xml, $moduleName)
+    {
+        $sys = 'system_requirements';
+        if (!isset($xml->{$sys}) || !isset($xml->{$sys}->php) || !isset($xml->{$sys}->php->extensions)) {
+            return;
+        }
+        foreach ($xml->{$sys}->php->extensions->children() as $node) {
+            $extension = $node->getName();
+            if (!extension_loaded($extension)) {
+                throw new Magento_Exception(
+                    "The module '{$moduleName}' cannot be enabled without PHP extension '{$extension}'"
+                );
+            }
+        }
     }
 }

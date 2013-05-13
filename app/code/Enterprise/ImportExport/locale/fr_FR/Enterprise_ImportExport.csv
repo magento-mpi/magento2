@@ -59,7 +59,7 @@
 "Invalid server comunication class ""%s""","Classe de communication invalide au serveur ""%s"""
 "Invalid server type","Type de serveur invalide"
 "Last Outcome","Dernier résultat"
-"Last Run Date","Date de la dernière exécution"
+"Last Run","Date de la dernière exécution"
 "Local Server","Serveur local"
 "Monthly","Chaque mois"
 "Name","Nom"

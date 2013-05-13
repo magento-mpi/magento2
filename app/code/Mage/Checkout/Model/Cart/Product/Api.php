@@ -140,7 +140,7 @@ class Mage_Checkout_Model_Cart_Product_Api extends Mage_Checkout_Model_Api_Resou
         }
 
         try {
-            $quote->save();
+            $quote->collectTotals()->save();
         } catch (Exception $e) {
             $this->_fault("update_product_quote_save_fault", $e->getMessage());
         }
@@ -201,7 +201,7 @@ class Mage_Checkout_Model_Cart_Product_Api extends Mage_Checkout_Model_Api_Resou
         }
 
         try {
-            $quote->save();
+            $quote->collectTotals()->save();
         } catch (Exception $e) {
             $this->_fault("remove_product_quote_save_fault", $e->getMessage());
         }
@@ -319,13 +319,8 @@ class Mage_Checkout_Model_Cart_Product_Api extends Mage_Checkout_Model_Api_Resou
         }
 
         try {
-            $customerQuote
-                ->collectTotals()
-                ->save();
-
-            $quote
-                ->collectTotals()
-                ->save();
+            $customerQuote->collectTotals()->save();
+            $quote->collectTotals()->save();
         } catch (Exception $e) {
             $this->_fault("product_move_quote_save_fault", $e->getMessage());
         }

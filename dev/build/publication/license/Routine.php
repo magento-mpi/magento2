@@ -318,7 +318,7 @@ class Routine
      * @param string $workingDir
      * @param array $config
      * @param array $blackList
-     * @return null
+     * @throws Exception
      */
     public static function run($workingDir, $config, $blackList)
     {

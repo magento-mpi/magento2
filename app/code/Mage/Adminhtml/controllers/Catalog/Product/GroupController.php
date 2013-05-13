@@ -30,6 +30,6 @@ class Mage_Adminhtml_Catalog_Product_GroupController extends Mage_Adminhtml_Cont
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Catalog::products');
+        return $this->_authorization->isAllowed('Mage_Catalog::products');
     }
 }

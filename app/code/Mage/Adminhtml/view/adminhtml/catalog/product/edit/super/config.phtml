@@ -22,7 +22,9 @@
                 <div class="field" id="variations-search-field">
                     <label class="label" for="configurable-attribute-selector"><span>Search</span></label>
                     <div class="control">
-                        <input id="configurable-attribute-selector" class="input-text" placeholder="start typing to search attribute" title="Select Attribute" type="search" autocomplete="off"/>
+                        <input type="text" id="configurable-attribute-selector" class="input-text search"
+                               placeholder="start typing to search attribute" title="Select Attribute"
+                               autocomplete="off"/>
                     </div>
                     <?php echo $this->getChildHtml('add_attribute'); ?>
                 </div>
@@ -63,7 +65,6 @@ jQuery(function($) {
     var variationsContainer = $("#<?php echo $this->getId()?>"),
         collapsableWrapper = $("#<?php echo $this->getId()?>-wrapper"),
         collapsableArea = $('> .collapse', collapsableWrapper),
-        collapsableControl = $('> .fieldset-wrapper-title > [data-toggle="collapse"]', collapsableWrapper),
         stockAvailabilityField = $('#quantity_and_stock_status'),
         qtyField = $('#qty'),
         currentProductTemplateControl = $('#product-template-suggest-container .actions-split > .action-toggle'),

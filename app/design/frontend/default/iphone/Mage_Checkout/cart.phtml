@@ -53,10 +53,6 @@
         <div class="deals">
             <?php /* Extensions placeholder */ ?>
             <?php echo $this->getChildHtml('checkout.cart.extra') ?>
-            <?php echo $this->getChildHtml('checkout_cart_widget') ?>
-            <?php echo $this->getChildHtml('coupon') ?>
-            <?php echo $this->getChildHtml('giftcards') ?>
-            <?php echo $this->getChildHtml('giftregistry.cart.link') ?>
         </div>
         <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
     </div>

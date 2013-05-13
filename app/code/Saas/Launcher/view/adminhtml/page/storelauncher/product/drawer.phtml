@@ -14,8 +14,7 @@
     <div class="add-product">
         <h2 class="title"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Add a Product') ?></h2>
         <?php  echo $this->getGeneralTabContent();?>
-        <?php echo $this->getChildBlock('new-category')->setUseContainer(false)->toHtml();?>
-        <?php echo $this->getChildBlock('wysiwyg-editor')->setUseContainer(false)->toHtml();?>
+        <?php echo $this->getChildBlock('wysiwyg-editor')->toHtml();?>
         <!-- Field below used by TypeSwitcher to hide unneeded attributes for Simple product -->
         <input type="hidden" value="simple" name="type_id" id="type_id" />
         <?php echo $this->getChildBlock('product_edit')->setUseContainer(false)->toHtml();?>
@@ -39,11 +38,32 @@
         </ul>
     </div>
 </form>
+<?php echo $this->getChildBlock('new-category')->toHtml(); ?>
 <script type="text/javascript">
 jQuery(function ($) {
     'use strict';
+    var drawer = $('#drawer');
 
     $('#image-container').baseImage();
     $('#media_gallery_content').productGallery({'template': '#media_gallery_content-template'});
+
+    drawer.bind('drawerClose.drawer', function() {
+        drawer.find('.wysiwyg-editor').each(function(index, element) {
+            tinyMCE.execCommand('mceRemoveControl', false, $(element).attr('id'));
+        });
+    });
+
+    drawer.on({
+        'drawerBeforeSave.drawer': function() {
+            var description = $('#drawer').find('[name="product[description]"]');
+            description.val(tinyMCE.get(description.attr('id')).getContent()).trigger('change');
+        }
+    });
+
+    drawer.on({
+        'drawerRefresh.drawer': function() {
+            drawer.off('drawerBeforeSave.drawer');
+        }
+    });
 });
 </script>

@@ -48,6 +48,29 @@ class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
     protected $_cacheTag         = self::CACHE_TAG;
 
     /**
+     * @var Mage_Core_Model_LocaleInterface
+     */
+    protected $_locale;
+
+    /**
+     * @param Mage_Core_Model_Context $context
+     * @param Mage_Core_Model_LocaleInterface $locale
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Model_Context $context,
+        Mage_Core_Model_LocaleInterface $locale,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Varien_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $resource, $resourceCollection, $data);
+        $this->_locale = $locale;
+    }
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -65,7 +88,7 @@ class Mage_Core_Model_Design extends Mage_Core_Model_Abstract
     public function loadChange($storeId, $date = null)
     {
         if (is_null($date)) {
-            $date = Varien_Date::formatDate(Mage::app()->getLocale()->storeTimeStamp($storeId), false);
+            $date = Varien_Date::formatDate($this->_locale->storeTimeStamp($storeId), false);
         }
 
         $changeCacheId = 'design_change_' . md5($storeId . $date);

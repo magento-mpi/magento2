@@ -111,7 +111,7 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
     public function testConvertToBytes64($number, $expected)
     {
         if (PHP_INT_SIZE <= 4) {
-            $this->markTestSkipped("A 64-bit system is required to perform this test.");
+            $this->markTestSkipped('A 64-bit system is required to perform this test.');
         }
         $this->assertEquals($expected, Magento_Test_Helper_Memory::convertToBytes($number));
     }
@@ -142,7 +142,7 @@ class Magento_Test_Helper_MemoryTest extends PHPUnit_Framework_TestCase
     public function testConvertToBytesOutOfBounds()
     {
         if (PHP_INT_SIZE > 4) {
-            $this->markTestSkipped("A 32-bit system is required to perform this test.");
+            $this->markTestSkipped('A 32-bit system is required to perform this test.');
         }
         Magento_Test_Helper_Memory::convertToBytes('2P');
     }

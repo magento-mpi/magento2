@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     base_default
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -43,7 +43,7 @@
                         <?php echo $_limit ?>
                     </option>
                     <?php endforeach; ?>
-                </select> 
+                </select>
                 <span class="text"><?php echo $this->__('per page') ?></span>
             </div>
         <?php endif ?>
@@ -88,7 +88,7 @@
             <?php if (!$this->isLastPage()): ?>
                 <li class="item">
                     <?php $text = $this->getAnchorTextForNext() ? $this->getAnchorTextForNext() : '';?>
-                    <a class="<?php echo $text ? 'link ' : 'action '?> next" href="<?php echo $this->getPreviousPageUrl() ?>" title="<?php echo $text ? $text : $this->__('Next') ?>">
+                    <a class="<?php echo $text ? 'link ' : 'action '?> next" href="<?php echo $this->getNextPageUrl() ?>" title="<?php echo $text ? $text : $this->__('Next') ?>">
                         <span><?php echo $text ? $text : $this->__('Next') ?></span>
                     </a>
                 </li>

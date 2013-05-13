@@ -18,8 +18,8 @@ return array(
     'web/cookie/cookie_httponly',
     'web/session',
     'web/browser_capabilities',
-
-    'design/theme',
+    'web/unsecure',
+    'web/secure',
 
     'currency/webservicex',
     'currency/import',
@@ -41,8 +41,6 @@ return array(
     'catalog/search/use_layered_navigation_count',
     'catalog/search/search_recommendations_count_results_enabled',
     'catalog/search/search_recommendations_count',
-
-    'catalog/downloadable',
 
     'sendfriend/email/max_recipients',
     'sendfriend/email/max_per_hour',

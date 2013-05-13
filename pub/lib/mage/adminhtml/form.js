@@ -425,6 +425,7 @@ FormElementDependenceController.prototype = {
                         && !(currentConfig.can_edit_price != undefined && !currentConfig.can_edit_price)) {
                         $(item).addClassName('fd-enabled');
                         item.disabled = false;
+                        jQuery(item).removeClass('ignore-validate');
                     }
                 });
             }
@@ -448,6 +449,7 @@ FormElementDependenceController.prototype = {
                     if ((!item.type || item.type != 'hidden') && !($(item.id+'_inherit') && $(item.id+'_inherit').checked)) {
                         $(item).removeClassName('fd-enabled');
                         item.disabled = true;
+                        jQuery(item).addClass('ignore-validate');
                     }
                 });
             }

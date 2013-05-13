@@ -56,6 +56,8 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
         $configData = array(
             'tenantConfiguration' => array('local' => self::_wrapXml(self::XML_MEDIA_DIR)),
             'version_hash'          => '1234567',
+            'status'              => Saas_Saas_Model_Tenant_Config::STATUS_ENABLED,
+            'maintenance_mode'    => array('url' => 'http://golinks.magento.com/noStore'),
         );
         $config = new Saas_Saas_Model_Tenant_Config(__DIR__, $configData);
         $result = $config->getMediaDirFile($fileName);
@@ -69,6 +71,8 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
         $configData = array(
             'tenantConfiguration' => array('local' => self::_wrapXml(self::XML_MEDIA_DIR . self::XML_SAAS_ON)),
             'version_hash'        => '1234567',
+            'status'              => Saas_Saas_Model_Tenant_Config::STATUS_ENABLED,
+            'maintenance_mode'    => array('url' => 'http://golinks.magento.com/noStore'),
         );
         $config = new Saas_Saas_Model_Tenant_Config(__DIR__, $configData);
         $result = $config->getApplicationParams();
@@ -101,6 +105,8 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
                     ? self::_wrapXml(self::XML_MEDIA_DIR . $fixture['groupModules']) : null,
             ),
             'version_hash'        => '1234567',
+            'status'              => Saas_Saas_Model_Tenant_Config::STATUS_ENABLED,
+            'maintenance_mode'    => array('url' => 'http://golinks.magento.com/noStore'),
         );
         $config = new Saas_Saas_Model_Tenant_Config(__DIR__, $configData);
         $result = $config->getApplicationParams();
@@ -217,7 +223,7 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function loadLimitationsDataProvider()
+    public static function loadLimitationsDataProvider()
     {
         $limitationOne = '<limitations><limit1>1</limit1></limitations>';
         $limitationTwo = '<limitations><limit1>2</limit1><limit2>3</limit2></limitations>';
@@ -226,17 +232,18 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
             'no limitations' => array(
                 array(
                     'tenantConfiguration' => array('local' => self::_wrapXml(self::XML_MEDIA_DIR)),
-                    'groupConfiguration' => array('some_other_config' => self::_wrapXml('<some_config/>')),
+                    'groupConfiguration'  => array('some_other_config' => self::_wrapXml('<some_config/>')),
                     'version_hash'        => '1234567',
+                    'status'              => Saas_Saas_Model_Tenant_Config::STATUS_ENABLED,
                 ),
                 ''
             ),
             'only limitations' => array(
                 array(
                     'tenantConfiguration' => array('local' => self::_wrapXml(self::XML_MEDIA_DIR)),
-                    'groupConfiguration' => array(
-                        'limitations' => $this->_wrapXml($limitationOne)),
+                    'groupConfiguration'  => array('limitations' => self::_wrapXml($limitationOne)),
                     'version_hash'        => '1234567',
+                    'status'              => Saas_Saas_Model_Tenant_Config::STATUS_ENABLED,
                 ),
                 $limitationOne
             ),
@@ -247,12 +254,12 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
                  */
                 array(
                     'tenantConfiguration' => array(
-                        'local' => self::_wrapXml(self::XML_MEDIA_DIR . $limitationTwo),
+                        'local'   => self::_wrapXml(self::XML_MEDIA_DIR . $limitationTwo),
                         'modules' => self::_wrapXml($limitationThree),
                     ),
-                    'groupConfiguration' => array(
-                        'limitations' => $this->_wrapXml($limitationOne)),
+                    'groupConfiguration'  => array('limitations' => self::_wrapXml($limitationOne)),
                     'version_hash'        => '1234567',
+                    'status'              => Saas_Saas_Model_Tenant_Config::STATUS_ENABLED,
                 ),
                 '<limitations><limit2>5</limit2><limit1>1</limit1></limitations>'
             ),

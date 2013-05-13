@@ -93,10 +93,13 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_
             '"Save & New" button isn\'t present on Edit Product page');
         $this->assertSelectCount('#save-split-button-duplicate-button', 1, $body,
             '"Save & Duplicate" button isn\'t present on Edit Product page');
+        $this->assertNotContains('Maximum allowed number of categories is reached.', $body,
+            'New category creation should not be restricted on Edit Product page');
     }
 
     /**
      * @magentoConfigFixture limitations/catalog_product 1
+     * @magentoConfigFixture limitations/catalog_category 1
      * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testEditActionLimited()
@@ -110,6 +113,8 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_
             '"Save & New" button should not be present on Edit Product page, if the limit is reached');
         $this->assertSelectCount('#save-split-button-duplicate-button', 0, $body,
             '"Save & Duplicate" should not be present on Edit Product page, if the limit is reached');
+        $this->assertContains('Maximum allowed number of categories is reached.', $body,
+            'New category creation should be restricted on Edit Product page, if the limit is reached');
     }
 
     /**
@@ -126,6 +131,18 @@ class Mage_Adminhtml_Catalog_ProductControllerTest extends Mage_Backend_Utility_
             '"Save & New" button isn\'t present on Edit Product page');
         $this->assertSelectCount('#save-split-button-duplicate-button', 1, $body,
             '"Save & Duplicate" isn\'t present on Edit Product page');
+    }
+
+    /**
+     * @magentoConfigFixture limitations/catalog_category 2
+     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     */
+    public function testEditActionAllowedNewCategory()
+    {
+        $this->dispatch('backend/admin/catalog_product/edit/id/1');
+        $body = $this->getResponse()->getBody();
+        $this->assertNotContains('Maximum allowed number of categories is reached.', $body,
+            'New category creation should not be restricted on Edit Product page');
     }
 
     /**

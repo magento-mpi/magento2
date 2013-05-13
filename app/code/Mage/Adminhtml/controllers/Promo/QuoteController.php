@@ -101,7 +101,7 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
             try {
                 /** @var $model Mage_SalesRule_Model_Rule */
                 $model = Mage::getModel('Mage_SalesRule_Model_Rule');
-                Mage::dispatchEvent(
+                $this->_eventManager->dispatch(
                     'adminhtml_controller_salesrule_prepare_save',
                     array('request' => $this->getRequest()));
                 $data = $this->getRequest()->getPost();
@@ -395,6 +395,6 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_SalesRule::quote');
+        return $this->_authorization->isAllowed('Mage_SalesRule::quote');
     }
 }
