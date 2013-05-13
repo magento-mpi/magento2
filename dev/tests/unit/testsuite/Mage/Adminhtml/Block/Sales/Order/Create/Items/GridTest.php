@@ -2,7 +2,7 @@
 /**
  * Testcase for Mage_Adminhtml_Block_Sales_Order_Create_Items_Stub_Grid class.
  *
- * {license_link}
+ * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
@@ -10,7 +10,6 @@
 class Mage_Adminhtml_Block_Sales_Order_Create_Items_Stub_GridTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @test
      * @dataProvider getTierHtmlDataProvider
      *
      * @param array $tierPrices
@@ -90,7 +89,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Stub_GridTest extends PHPUni
     /**
      * Test for _getBundleTierPriceInfo method
      *
-     * @test
      * @dataProvider getBundleTierPriceInfoDataProvider
      *
      * @param array $prices
@@ -100,7 +98,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Stub_GridTest extends PHPUni
     {
         $returnCallback = function() {
             $arguments = func_get_args();
-            return @vsprintf(array_shift($arguments), $arguments);
+            return vsprintf(array_shift($arguments), $arguments);
         };
         $helper = $this->getMockBuilder('Mage_Sales_Helper_Data')
             ->disableOriginalConstructor()
@@ -117,12 +115,19 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Stub_GridTest extends PHPUni
             ->method('get')
             ->with('Mage_Sales_Helper_Data')
             ->will($this->returnValue($helper));
-        $testObjectStub = $this->getMockBuilder('Mage_Adminhtml_Block_Sales_Order_Create_Items_Stub_Grid')
+        $testObjectStub = $this->getMockBuilder('Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid')
             ->disableOriginalConstructor()
             ->setMethods(array('convertPrice'))
             ->getMock();
-        $testObjectStub->_helperFactory = $helperFactory;
-        $this->assertEquals($expectedResult, $testObjectStub->getBundleTierPriceInfo($prices));
+
+        $reflectionObject = new ReflectionObject($testObjectStub);
+        $reflectionProperty = $reflectionObject->getProperty('_helperFactory');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($testObjectStub, $helperFactory);
+        $reflectionMethod = $reflectionObject->getMethod('_getBundleTierPriceInfo');
+        $reflectionMethod->setAccessible(true);
+
+        $this->assertEquals($expectedResult, $reflectionMethod->invoke($testObjectStub, $prices));
     }
 
     /**
@@ -152,7 +157,6 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Stub_GridTest extends PHPUni
     /**
      * Test for _getTierPriceInfo method
      *
-     * @test
      * @dataProvider getTierPriceInfoDataProvider
      *
      * @param array $prices
@@ -162,7 +166,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Stub_GridTest extends PHPUni
     {
         $returnCallback = function() {
             $arguments = func_get_args();
-            return @vsprintf(array_shift($arguments), $arguments);
+            return vsprintf(array_shift($arguments), $arguments);
         };
         $helper = $this->getMockBuilder('Mage_Sales_Helper_Data')
             ->disableOriginalConstructor()
@@ -179,15 +183,22 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Stub_GridTest extends PHPUni
             ->method('get')
             ->with('Mage_Sales_Helper_Data')
             ->will($this->returnValue($helper));
-        $testObjectStub = $this->getMockBuilder('Mage_Adminhtml_Block_Sales_Order_Create_Items_Stub_Grid')
+        $testObjectStub = $this->getMockBuilder('Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid')
             ->disableOriginalConstructor()
             ->setMethods(array('convertPrice'))
             ->getMock();
-        $testObjectStub->_helperFactory = $helperFactory;
         $testObjectStub->expects($this->exactly(count($prices)))
             ->method('convertPrice')
             ->will($this->returnArgument(0));
-        $this->assertEquals($expectedResult, $testObjectStub->getTierPriceInfo($prices));
+
+        $reflectionObject = new ReflectionObject($testObjectStub);
+        $reflectionProperty = $reflectionObject->getProperty('_helperFactory');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($testObjectStub, $helperFactory);
+        $reflectionMethod = $reflectionObject->getMethod('_getTierPriceInfo');
+        $reflectionMethod->setAccessible(true);
+
+        $this->assertEquals($expectedResult, $reflectionMethod->invoke($testObjectStub, $prices));
     }
 
     /**

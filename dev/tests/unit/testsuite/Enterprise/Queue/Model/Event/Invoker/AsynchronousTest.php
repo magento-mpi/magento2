@@ -35,8 +35,13 @@ class Enterprise_Queue_Model_Event_Invoker_AsynchronousTest extends PHPUnit_Fram
     protected function setUp()
     {
         $this->_queueHandlerMock = $this->getMock('Enterprise_Queue_Model_Event_HandlerInterface');
-        $this->_invokerDefaultMock = $this->getMock('Mage_Core_Model_Event_Invoker_InvokerDefault', array(), array(), '',
-            false);
+        $this->_invokerDefaultMock = $this->getMock(
+            'Mage_Core_Model_Event_Invoker_InvokerDefault',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_eventMock = $this->getMock('Varien_Event', array(), array(), '', false);
         $this->_eventObserverMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
 

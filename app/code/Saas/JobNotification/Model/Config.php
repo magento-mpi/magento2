@@ -19,7 +19,7 @@ class Saas_JobNotification_Model_Config
      */
     public function __construct(Mage_Core_Model_ConfigInterface $config)
     {
-        foreach($config->getNode('global/tasks')->asArray() as $taskCode => $taskConfig) {
+        foreach ($config->getNode('global/tasks')->asArray() as $taskCode => $taskConfig) {
             $notificationConfig = isset($taskConfig['notification']) ? $taskConfig['notification'] : array();
             $this->_configuration[$taskCode] = array(
                 'enabled' => isset($notificationConfig['enabled']) && 'true' == $notificationConfig['enabled'],

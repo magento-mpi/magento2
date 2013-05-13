@@ -180,10 +180,10 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         $this->_block->setRobots('robots');
         $this->_block->addMetaTag('test_name', 'test_content');
         $expectedHtml = array(
-            '<meta name="description" content="description" />',
-            '<meta name="keywords" content="keywords" />',
-            '<meta name="robots" content="robots" />',
-            '<meta name="test_name" content="test_content" />'
+            '<meta name="description" content="description"/>',
+            '<meta name="keywords" content="keywords"/>',
+            '<meta name="robots" content="robots"/>',
+            '<meta name="test_name" content="test_content"/>'
         );
         $this->assertEquals(implode("\n", $expectedHtml), $this->_block->getMetaTagHtml());
     }

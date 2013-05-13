@@ -45,9 +45,9 @@ class Saas_JobNotification_Adminhtml_ActionController extends Mage_Backend_Contr
     public function markAsReadAction()
     {
         if ($this->_authorization->isAllowed('Saas_JobNotification::notification_action_markread')) {
-            $id = $this->getRequest()->getParam('id');
+            $notificationId = $this->getRequest()->getParam('id');
             try {
-                $this->_service->update($id, array('is_read' => 1));
+                $this->_service->update($notificationId, array('is_read' => 1));
                 $this->_session->addSuccess($this->_helper->__('The notification has been marked as read'));
             } catch (InvalidArgumentException $exception) {
                 $this->_session->addError($this->_helper->__('Unable to proceed. Please, try again'));
@@ -95,9 +95,9 @@ class Saas_JobNotification_Adminhtml_ActionController extends Mage_Backend_Contr
     public function removeAction()
     {
         if ($this->_authorization->isAllowed('Saas_JobNotification::notification_action_remove')) {
-            $id = $this->getRequest()->getParam('id');
+            $notificationId = $this->getRequest()->getParam('id');
             try {
-                $this->_service->update($id, array('is_remove' => 1));
+                $this->_service->update($notificationId, array('is_remove' => 1));
                 $this->_session->addSuccess($this->_helper->__('The notification has been removed'));
             } catch (InvalidArgumentException $exception) {
                 $this->_session->addError($this->_helper->__('Unable to proceed. Please, try again'));

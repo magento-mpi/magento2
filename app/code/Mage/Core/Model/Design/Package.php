@@ -313,9 +313,8 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     {
         $file = $this->_extractScope($file, $params);
         $this->_updateParamDefaults($params);
-        $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
-        return  $this->_resolutionPool->getFileStrategy($skipProxy)->getFile($params['area'], $params['themeModel'],
-            $file, $params['module']);
+        return $this->_resolutionPool->getFileStrategy(!empty($params['skipProxy']))
+            ->getFile($params['area'], $params['themeModel'], $file, $params['module']);
     }
 
     /**

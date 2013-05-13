@@ -58,6 +58,8 @@ class Saas_Queue_Model_Observer_Cache extends Saas_Queue_Model_ObserverAbstract
     /**
      * Refresh all cache
      *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     *
      * @return Saas_Queue_Model_Worker_Cache
      */
     public function processRefreshAllCache()

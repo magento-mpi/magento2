@@ -69,7 +69,12 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
         );
 
         $body = $this->getResponse()->getBody();
-        $this->assertSelectEquals('div.entry-edit.form-inline fieldset.fieldset legend.legend span', 'Role Scopes', 1, $body);
+        $this->assertSelectEquals(
+            'div.entry-edit.form-inline fieldset.fieldset legend.legend span',
+            'Role Scopes',
+            1,
+            $body
+        );
     }
 
     /**

@@ -24,7 +24,7 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
         Saas_Index_Model_FlagFactory $flagFactory,
         $areaCode = null
     ) {
-        parent::__construct($context,$areaCode);
+        parent::__construct($context, $areaCode);
         $this->_flag = $flagFactory->create();
         $this->_flag->loadSelf();
     }

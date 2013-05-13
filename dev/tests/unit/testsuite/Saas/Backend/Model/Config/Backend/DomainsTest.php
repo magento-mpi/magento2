@@ -197,10 +197,9 @@ class Saas_Backend_Model_Config_Backend_DomainsTest extends PHPUnit_Framework_Te
      * @param array $data
      * @param array $shouldBeSaved
      *
-     * @test
      * @dataProvider afterCommitCallbackDataProvider
      */
-    public function afterCommitCallback(array $map, array $data, array $shouldBeSaved)
+    public function testAfterCommitCallback(array $map, array $data, array $shouldBeSaved)
     {
         $savedValues   = array();
         $this->_configMock->expects($this->any())->method('getNode')->will($this->returnValueMap($map));
@@ -263,12 +262,9 @@ class Saas_Backend_Model_Config_Backend_DomainsTest extends PHPUnit_Framework_Te
     }
 
     /**
-     * Test getting of available domains list
-     *
-     * @test
      * @dataProvider getAvailableDomainsDataProvider
      */
-    public function getAvailableDomains($map, $expectedArray)
+    public function testGetAvailableDomains($map, $expectedArray)
     {
         $this->_configMock->expects($this->any())->method('getNode')->will($this->returnValueMap($map));
 
@@ -286,10 +282,8 @@ class Saas_Backend_Model_Config_Backend_DomainsTest extends PHPUnit_Framework_Te
 
     /**
      * Check is we extract valid default domain from config
-     *
-     * @test
      */
-    public function getDefaultDomain()
+    public function testGetDefaultDomain()
     {
         $map = array(
             array(Saas_Backend_Model_Config_Backend_Domains::XML_DEFAULT_DOMAIN, '', null, self::DEF_DOMAIN),
@@ -315,10 +309,8 @@ class Saas_Backend_Model_Config_Backend_DomainsTest extends PHPUnit_Framework_Te
 
     /**
      * Check is we extract valid default domain from config
-     *
-     * @test
      */
-    public function getCustomDomain()
+    public function testGetCustomDomain()
     {
         $map = array(
             array(Saas_Backend_Model_Config_Backend_Domains::XML_DEFAULT_DOMAIN, '', null, self::DEF_DOMAIN),
@@ -362,10 +354,9 @@ class Saas_Backend_Model_Config_Backend_DomainsTest extends PHPUnit_Framework_Te
     /**
      * Check is url well formed
      *
-     * @test
      * @dataProvider formatUrlDataProvider
      */
-    public function formatUrl($rawUrl, $expectedUrl,  $protocol)
+    public function testFormatUrl($rawUrl, $expectedUrl,  $protocol)
     {
         /** @var  Saas_Backend_Model_Config_Backend_Domains $domainsModel */
         $domainsModel = new Saas_Backend_Model_Config_Backend_Domains(

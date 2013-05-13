@@ -212,7 +212,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
         $html = '';
         $prices = $item->getProduct()->getTierPrice();
         if ($prices) {
-            $info = ($item->getProductType() == 'bundle')
+            $info = $item->getProductType() == 'bundle'
                 ? $this->_getBundleTierPriceInfo($prices)
                 : $this->_getTierPriceInfo($prices);
             $html = implode('<br/>', $info);

@@ -239,7 +239,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
         $metaTags = array();
         foreach ($this->getMetaTags() as $metaTag) {
             $metaTags[] = sprintf(
-                '<meta name="%s" content="%s" />',
+                '<meta name="%s" content="%s"/>',
                 $metaTag['name'],
                 htmlspecialchars($metaTag['content'])
             );

@@ -26,12 +26,11 @@ app/code/Mage/Ogone
 app/code/Mage/PageCache
 app/design/frontend/default/iphone/Mage_Downloadable
 app/design/frontend/enterprise/fixed/Enterprise_GiftRegistry
+app/design/frontend/enterprise/fixed/Mage_Downloadable
 app/design/frontend/enterprise/iphone_html5/Mage_Downloadable
 app/design/frontend/enterprise/iphone_html5/Enterprise_GiftRegistry
 app/design/frontend/enterprise/iphone_html5/Enterprise_TargetRule
 app/design/frontend/enterprise/iphone_html5/Enterprise_Wishlist
-app/design/frontend/enterprise/fixed/Mage_Downloadable
-app/design/frontend/magento2/reference/Mage_Downloadable
 app/design/frontend/magento2/reference/Enterprise_Checkout
 app/design/frontend/magento2/reference/Enterprise_TargetRule
 app/design/frontend/magento2/reference/Mage_Downloadable
