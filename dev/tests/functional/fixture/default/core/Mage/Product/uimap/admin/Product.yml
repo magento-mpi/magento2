@@ -600,25 +600,22 @@ new_product:
                                     buttons:
                                         add_option: //button[@id='add_new_defined_option']
                                         import_options: //button[@id='import_new_defined_option']
-                                        delete_option: //button[@id='product_option_%optionId%_delete']
                                         delete_custom_option: //button[@class='action-delete']
-                                    fields:
-                                        custom_options_titles: //input[@class='required-entry input-text']
-                                    links:
-                                        expand_option: //*[@id='product_options_container_top']//div[@id='option_%optionId%']//strong[@data-toggle='collapse']
-                                        move_option: //div[strong/*[text()='%optionName%']]/*[@class='draggable-handle']
                             -
                                 custom_option_set:
-                                    xpath: //*[@id='product_options_container_top']//fieldset[@class='fieldset']
+                                    xpath: //*[@id='product_options_container_top']/div
                                     buttons:
+                                        delete_option: //button[@id='product_option_%optionId%_delete']
                                         add_row: //button[@id='product_option_%optionId%_add_select_row']
                                         delete_row: //button[@id='product_option_%optionId%_select_%rowId%_delete']
                                     dropdowns:
                                         custom_options_general_input_type: //select[@id='product_option_%optionId%_type']
                                         custom_options_price_type: //select[@id='product_option_%optionId%_price_type' or @id='product_option_%optionId%_select_%rowId%_price_type']
                                     fields:
+                                        custom_options_general_titles: //input[@class='required-entry input-text']
                                         custom_options_general_title: //input[@id='product_option_%optionId%_title']
                                         custom_options_title: //input[@id='product_option_%optionId%_select_%rowId%_title']
+                                        custom_options_titles: //*[@class='required-entry input-text select-type-title']
                                         custom_options_price: //input[@name='product[options][%optionId%][price]' or @id='product_option_%optionId%_select_%rowId%_price']
                                         custom_options_sku: //input[@name='product[options][%optionId%][sku]' or @name='product[options][%optionId%][values][%rowId%][sku]']
                                         custom_options_max_characters: //input[@name='product[options][%optionId%][max_characters]']
@@ -631,6 +628,9 @@ new_product:
                                         custom_options_general_is_required: //input[@class='is-required' and @type='checkbox']
                                     links:
                                         move_custom_option_row: //tr[contains(@id,'product_option_%optionId%_select_%rowId%')]//div[@class='draggable-handle']
+                                        move: //*[@class='draggable-handle' and @value='%productSku%']
+                                        expand_option: //*[@id='product_options_container_top']//div[@id='option_%optionId%']//strong[@data-toggle='collapse']
+                                        move_option: //div[strong/*[text()='%optionName%']]/*[@class='draggable-handle']
                                     pageelements:
                                         custom_option_row: //tr[contains(@id,'product_option_%optionId%')][not(@style)]
                                         custom_option_verify_row: //fieldset[@class='fieldset-alt']
@@ -640,6 +640,9 @@ new_product:
                                     buttons:
                                         close: //*[@id='import-custom-options-close-button']
                                         import: //*[@id='import-custom-options-apply-button']
+                            -
+                                select_product_custom_option_disabled:
+                                    xpath: //*[@class='ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable ui-dialog-buttons' and contains(@class, 'disabled']
                             -
                                 select_product_custom_option_grid:
                                     xpath: //*[@id='import-container']

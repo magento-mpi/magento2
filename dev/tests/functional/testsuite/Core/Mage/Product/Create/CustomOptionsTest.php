@@ -146,6 +146,28 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Reorder rows in Custom Option Block</p>
+     *
+     * @TestlinkId TL-MAGE-6942
+     * @test
+     */
+    public function sortOrderRowsInCustomOptionBlock()
+    {
+        //Data
+        $productData = $this->loadDataSet('Product', 'simple_product_required');
+        $productData['custom_options_data'][] =
+            $this->loadDataSet('Product', 'custom_options_dropdown');
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
+        //Steps
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->openProduct($productSearch);
+        $this->productHelper()->verifyProductInfo($productData);
+    }
+
+    /**
      * <p>Create product custom option: use invalid value for field 'Max Characters'</p>
      *
      * @param $invalidData

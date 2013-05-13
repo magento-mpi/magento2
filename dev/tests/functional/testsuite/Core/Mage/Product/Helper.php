@@ -1945,7 +1945,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
             }
             $this->addCustomOption($value);
         }
-        $this->orderBlocks($orderedBlocks, 'optionName', 'move_option', 'custom_options_titles');
+        $this->orderBlocks($orderedBlocks, 'optionName', 'move_option', 'custom_options_general_titles');
     }
 
     /**
@@ -1959,14 +1959,20 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('optionId', $optionId);
         $this->clickButton('add_option', false);
         $this->fillForm($customOptionData, 'custom_options');
+        $orderedRows = array();
         foreach ($customOptionData as $rowKey => $rowValue) {
             if (preg_match('/^custom_option_row/', $rowKey) && is_array($rowValue)) {
                 $rowId = $this->getControlCount(self::FIELD_TYPE_PAGEELEMENT, 'custom_option_row') + 1;
                 $this->addParameter('rowId', $rowId);
                 $this->clickButton('add_row', false);
                 $this->fillForm($rowValue, 'custom_options');
+                if ((isset($rowValue['custom_options_sort_order'])) && (isset($rowValue['custom_options_title']))) {
+                    $orderedRows[$rowValue['custom_options_title']]= $rowValue['custom_options_sort_order'];
+                unset($rowValue['custom_options_sort_order']);
+                }
             }
         }
+        $this->orderBlocks($orderedRows, 'rowId', 'move_custom_option_row', 'custom_options_titles');
     }
 
     /**
@@ -1991,20 +1997,27 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         foreach ($customOptionData as $item) {
             if (isset($item['custom_options_general_sort_order']) && isset($item['custom_options_general_title'])) {
                 $orderedBlocks[$item['custom_options_general_title']] = $item['custom_options_general_sort_order'];
-            } else { //in order to form proper order if bundle item doesn't have position
+            } else { //in order to form proper order if custom option doesn't have position
                 $orderedBlocks[$item['custom_options_general_sort_order']] = 'noValue';
                 unset($item['custom_options_general_sort_order']);
             }
         }
-        if (isset($orderedBlocks)) {
-            $this->verifyBlocksOrder($orderedBlocks, 'custom_options_titles');
+        if (!empty($orderedBlocks)) {
+            $this->verifyBlocksOrder($orderedBlocks, 'custom_options_general_titles');
         }
-        foreach ($customOptionData as $value) {
-            if (is_array($value)) {
-                $optionId = $this->getCustomOptionIdByName($value['custom_options_general_title']);
-                $this->addParameter('optionId', $optionId);
-                $this->verifyForm($value, 'custom_options');
+        $orderedRows = array();
+        foreach($customOptionData as $customOption) {
+            $optionId = $this->getCustomOptionIdByName($customOption['custom_options_general_title']);
+            $this->addParameter('optionId', $optionId);
+            foreach ($customOption as $keyRow=>$valueRow) {
+                if (preg_match('/^custom_option_row/', $keyRow) && is_array($valueRow)) {
+                    $orderedRows[$valueRow['custom_options_title']] = $valueRow['custom_options_sort_order'];
+                }
             }
+            $this->verifyForm($customOption, 'custom_options');
+        }
+        if (!empty($orderedRows)) {
+            $this->verifyBlocksOrder($orderedRows, 'custom_options_titles');
         }
         return true;
     }
@@ -2040,7 +2053,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function getCustomOptionIdByName($optionName)
     {
-        $optionElements = $this->getControlElements(self::FIELD_TYPE_INPUT, 'custom_options_titles');
+        $optionElements = $this->getControlElements(self::FIELD_TYPE_INPUT, 'custom_options_general_titles');
 
         foreach ($optionElements as $element) {
             if ($element->value() == $optionName) {

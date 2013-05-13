@@ -94,8 +94,14 @@ custom_options_dropdown: &dropdown
     custom_options_general_input_type: Drop-down
     custom_options_general_is_required: Yes
     custom_options_general_sort_order: 7
+    custom_option_row_2:
+        custom_options_title: 2
+        custom_options_price: 2.56
+        custom_options_price_type: Fixed
+        custom_options_sku: sku_drop_down_row_2
+        custom_options_sort_order: 2
     custom_option_row_1:
-        custom_options_title: Title 1
+        custom_options_title: 1
         custom_options_price: 2.56
         custom_options_price_type: Fixed
         custom_options_sku: sku_drop_down_row_1

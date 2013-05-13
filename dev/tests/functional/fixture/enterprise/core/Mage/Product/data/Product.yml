@@ -86,7 +86,7 @@ frontend_gift_card_validation:
         option_3: &file
             custom_options_general_title: Custom Option File
             custom_options_general_input_type: File
-            custom_options_general_is_required: No
+            custom_options_general_is_required: Yes
             custom_options_general_sort_order: 3
             custom_options_price: 180
             custom_options_price_type: Fixed
