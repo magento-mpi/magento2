@@ -12,13 +12,13 @@
 <div id="vde-tab-custom-messages-placeholder"></div>
 <div class="custom-code-description">
     <p><?php echo $this->__('Update the custom.css file to right in order to overwrite the default styles.'); ?></p>
-    <h4>Custom CSS</h4>
+    <h4><?php echo $this->__('Custom CSS'); ?></h4>
     <div class="custom-file">
         <span data-action="add" class="action-add" title="<?php echo $this->__('Upload File'); ?>">
             <span><?php echo $this->__('Upload File'); ?></span>
             <?php echo $this->getFormHtml() ?>
         </span>
-        <label for="<?php echo $this->getFileElementName() ?>">Upload Custom CSS</label>
+        <label for="<?php echo $this->getFileElementName() ?>"><?php echo $this->__('Upload Custom CSS'); ?></label>
         <div class="uploaded-file-wrapper" data-file="uploaded-css">
             <div class="uploaded-css">
                 <div class="file-row">
@@ -113,7 +113,7 @@
             done: function (e, data) {
                 var contentArea = $('#custom_code');
                 contentArea.val('');
-                $('#css_uploader_button').attr('disabled', 'true');
+                $('#css_uploader_button').attr('disabled', true);
                 if (!data.result.error) {
                     contentArea.val(data.result.content);
                     $('#vde-tab-custom').customCssPanel('updateButtons');

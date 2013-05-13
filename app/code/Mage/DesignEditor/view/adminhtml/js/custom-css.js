@@ -31,7 +31,7 @@
             this.btnUpdateDownload = this.element.find(this.options.btnUpdateDownload);
             this.fileRowInfo = this.element.find(this.options.fileRowInfo);
             this._prepareUpdateButton();
-            this.btnCssUpdate.prop('disabled', 'true');
+            this.btnCssUpdate.prop('disabled', true);
             this._events();
         },
 
@@ -53,7 +53,7 @@
 
         _postUpdatedCustomCssContent: function()
         {
-            this.btnCssUpdate.prop('disabled', 'true');
+            this.btnCssUpdate.prop('disabled', true);
             $.ajax({
                 type: 'POST',
                 url:  this.options.saveCustomCssUrl,

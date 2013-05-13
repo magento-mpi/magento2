@@ -1181,7 +1181,7 @@
     font-size: 18px;
 }
 
-.custom-code-description .custom-file .action-add,
+.custom-code-description .action-add,
 .files-list-header > .action-add {
     top: 0;
     margin: 0 5px 0 0;
@@ -1203,7 +1203,7 @@
 }
 
 .custom-code {
-    width: 65.95744680199999%;
+    width: 66%;
 }
 
 .custom-code .textarea-container {
