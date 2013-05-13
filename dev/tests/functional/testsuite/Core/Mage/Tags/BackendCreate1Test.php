@@ -25,6 +25,10 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
      */
     public function preconditionsForTests()
     {
+        $fallbackOrderHelper = $this->getConfigHelper()->getFixturesFallbackOrder();
+        if (end($fallbackOrderHelper) == 'enterprise') {
+            $this->markTestIncomplete('MAGETWO-1299');
+        }
         return parent::_preconditionsForAllTagsTests();
     }
 
@@ -43,7 +47,6 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
     public function addFromFrontendTags($tags, $status, $testData)
     {
         //Setup
-        $this->markTestIncomplete('MAGETWO-1299');
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
         //Steps
@@ -54,7 +57,7 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
         $tags = $this->tagsHelper()->_convertTagsStringToArray($tags);
         $this->loginAdminUser();
         if ($status != 'Pending') {
-            $this->navigate('pending_tags');
+            $this->navigate('all_tags');
             foreach ($tags as $tag) {
                 $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tag)), $status);
             }
@@ -84,7 +87,6 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
      */
     public function editTags($tags, $status, $testData)
     {
-        $this->markTestIncomplete('MAGETWO-1299');
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
@@ -94,12 +96,12 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
         $this->assertMessagePresent('success', 'tag_accepted_success');
         $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
         $this->loginAdminUser();
-        $this->navigate('pending_tags');
+        $this->navigate('all_tags');
         $this->tagsHelper()->openTag(array('tag_name' => $tags));
         $this->fillDropdown('tag_status', $status);
         $this->saveForm('save_tag');
         $this->assertMessagePresent('success', 'success_saved_tag');
-        $this->assertNull($this->search(array('tag_name' => $tags), 'tags_grid'),
+        $this->assertNotNull($this->search(array('tag_name' => $tags, 'tags_status' => 'Approved'), 'tags_grid'),
             "Edit tags and change status {$tags} work incorrect");
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
@@ -126,7 +128,6 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
      */
     public function searchSelectedTags($tags, $status, $testData)
     {
-        $this->markTestIncomplete('MAGETWO-1299');
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
@@ -136,19 +137,16 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
         $this->assertMessagePresent('success', 'tag_accepted_success');
         $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
         $this->loginAdminUser();
-        $areas = array('pending_tags', 'all_tags');
-        foreach ($areas as $area) {
-            $this->navigate($area);
-            $this->searchAndChoose(array('tag_name' => $tags), 'tags_grid');
-            $this->fillDropdown('filter_massaction', $status);
-            $this->clickButton('search', false);
-            $this->pleaseWait();
-            $trLocator = $this->formSearchXpath(array('tag_name' => $tags));
-            if ($status == 'No') {
-                $this->assertFalse($this->elementIsPresent($trLocator), "Filter {$status} works incorrect");
-            } else {
-                $this->assertTrue((bool)$this->elementIsPresent($trLocator), "Filter {$status} works incorrect");
-            }
+        $this->navigate('all_tags');
+        $this->searchAndChoose(array('tag_name' => $tags), 'tags_grid');
+        $this->fillDropdown('filter_massaction', $status);
+        $this->clickButton('search', false);
+        $this->pleaseWait();
+        $trLocator = $this->formSearchXpath(array('tag_name' => $tags));
+        if ($status == 'No') {
+            $this->assertFalse($this->elementIsPresent($trLocator), "Filter {$status} works incorrect");
+        } else {
+            $this->assertTrue((bool)$this->elementIsPresent($trLocator), "Filter {$status} works incorrect");
         }
     }
 
@@ -175,7 +173,6 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
      */
     public function searchNameTags($tags, $status, $testData)
     {
-        $this->markTestIncomplete('MAGETWO-1299');
         if ($status) {
             //Setup
             $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
@@ -187,17 +184,14 @@ class Core_Mage_Tags_BackendCreate1Test extends Core_Mage_Tags_TagsFixtureAbstra
             $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
         }
         $this->loginAdminUser();
-        $areas = array('pending_tags', 'all_tags');
-        foreach ($areas as $area) {
-            $this->navigate($area);
-            $this->clickButton('reset_filter', false);
-            $this->pleaseWait();
-            $this->fillField('tag_name', $tags);
-            $this->clickButton('search', false);
-            $this->pleaseWait();
-            $trLocator = $this->formSearchXpath(array('tag_name' => $tags));
-            $this->assertTrue($status == (bool)$this->elementIsPresent($trLocator), "Filter by Name {$tags} works incorrect");
-        }
+        $this->navigate('all_tags');
+        $this->clickButton('reset_filter', false);
+        $this->pleaseWait();
+        $this->fillField('tag_name', $tags);
+        $this->clickButton('search', false);
+        $this->pleaseWait();
+        $trLocator = $this->formSearchXpath(array('tag_name' => $tags));
+        $this->assertTrue($status == (bool)$this->elementIsPresent($trLocator), "Filter by Name {$tags} works incorrect");
     }
 
     public function tagSearchNameDataProvider()

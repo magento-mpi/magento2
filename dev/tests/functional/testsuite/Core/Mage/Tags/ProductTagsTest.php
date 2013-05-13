@@ -91,11 +91,11 @@ class Core_Mage_Tags_ProductTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
                 'tag_status' => 'Pending',
                 'prod_tag_admin_name' => $testData['simple'],
                 'base_popularity' => '0',
-                'switch_store' => '%noValue%'));
+                'choose_store_view' => '%noValue%'));
         //Setup
         $this->navigate('all_tags');
         $this->tagsHelper()->addTag($setData);
-        $this->navigate('pending_tags');
+        $this->navigate('all_tags');
         $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tags)), $status);
         //Steps
         $tags = $this->tagsHelper()->_convertTagsStringToArray($tags);
@@ -155,7 +155,7 @@ class Core_Mage_Tags_ProductTagsTest extends Core_Mage_Tags_TagsFixtureAbstract
         //Verification
         $this->assertMessagePresent('success', 'tag_accepted_success');
         $this->loginAdminUser();
-        $this->navigate('pending_tags');
+        $this->navigate('all_tags');
         //Change statuses product tags
         $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tags['tag_name'])), $tags['tag_status']);
         $this->navigate('manage_products');

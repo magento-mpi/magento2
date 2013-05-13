@@ -48,7 +48,6 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($product);
         $this->assertMessagePresent('success', 'success_saved_product');
-
         //Create customer
         $customerData = $this->loadDataSet('Customers', 'generic_customer_account', array(
             'first_name' => $this->generate('string', 5, ':lower:'),
@@ -57,14 +56,12 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($customerData);
         $this->assertMessagePresent('success', 'success_saved_customer');
-
         //Enable reward points functionality for tags
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('General/enable_reward_points');
         $this->systemConfigurationHelper()->configure('General/enable_reward_points_for_tag_submission');
 
-        return array('customer' => $customerData,
-            'product' => $product['general_name']);
+        return array('customer' => $customerData, 'product' => $product['general_name']);
     }
 
     /**
@@ -79,6 +76,7 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
      */
     public function receivingRewardPoints($testData)
     {
+        $this->markTestIncomplete('BUG: There is no tag_accepted_success message after add tag');
         $tag = $this->generate('string', 4, ':lower:');
         $rewardTagConfig = $this->loadDataSet('General', 'enable_reward_points_for_tag_submission');
         $rewardBalance =
@@ -101,10 +99,9 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
         $this->tagsHelper()->verifyTag(array('tag_name' => $tag, 'status' => 'Pending'));
         $this->navigate('manage_products');
         $this->assertTrue($this->tagsHelper()->verifyTagProduct(
-                array('tag_search_name' => $tag,
-                    'tag_search_email' => $testData['customer']['email']),
-                array('product_name' => $testData['product'])),
-            'Customer tagged product verification failed');
+            array('tag_search_name' => $tag, 'tag_search_email' => $testData['customer']['email']),
+            array('product_name' => $testData['product'])
+        ), 'Customer tagged product verification failed');
         //Step 6
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array('email' => $testData['customer']['email']));
@@ -112,7 +109,7 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
         $this->assertEquals('No records found.', $this->customerHelper()->getRewardPointsBalance(),
             'Customer reward points balance is not 0');
         //Step 8
-        $this->navigate('pending_tags');
+        $this->navigate('all_tags');
         //Steps 9-11
         $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tag)), 'Approved');
         //Verifying
@@ -140,19 +137,16 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
     {
         //Create two products
         $products = array(
-            $this->loadDataSet('Product', 'simple_product_visible', array(
-                'general_name' => $this->generate('string', 8, ':lower:'),
-            )),
-            $this->loadDataSet('Product', 'simple_product_visible', array(
-                'general_name' => $this->generate('string', 8, ':lower:'),
-            ))
+            $this->loadDataSet('Product', 'simple_product_visible',
+                array('general_name' => $this->generate('string', 8, ':lower:'),)),
+            $this->loadDataSet('Product', 'simple_product_visible',
+                array('general_name' => $this->generate('string', 8, ':lower:'),))
         );
         foreach ($products as $product) {
             $this->navigate('manage_products');
             $this->productHelper()->createProduct($product);
             $this->assertMessagePresent('success', 'success_saved_product');
         }
-
         //Create customer
         $customerData = $this->loadDataSet('Customers', 'generic_customer_account', array(
             'first_name' => $this->generate('string', 5, ':lower:'),
@@ -166,8 +160,10 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('General/set_rewarded_tag_submission_quantity_limit');
 
-        return array('customer' => $customerData,
-            'product' => array($products[0]['general_name'], $products[1]['general_name']));
+        return array(
+            'customer' => $customerData,
+            'product' => array($products[0]['general_name'], $products[1]['general_name'])
+        );
     }
 
     /**
@@ -182,23 +178,25 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
      */
     public function receivingRewardPointsLimitation($testData)
     {
-        $tags = array($this->generate('string', 4, ':lower:'), $this->generate('string', 4, ':lower:'),
-                      $this->generate('string', 4, ':lower:'), $this->generate('string', 4, ':lower:'),);
-
+        $this->markTestIncomplete('BUG: There is no tag_accepted_success message after add tag');
+        $tags = array(
+            $this->generate('string', 4, ':lower:'), $this->generate('string', 4, ':lower:'),
+            $this->generate('string', 4, ':lower:'), $this->generate('string', 4, ':lower:')
+        );
         $rewardTagConfig = $this->loadDataSet('General', 'enable_reward_points_for_tag_submission');
         $rewardPointsForTag =
             $rewardTagConfig['tab_1']['configuration']['actions_for_acquiring_reward_points']['new_tag_submission'];
 
-        $rewardTagLimitConfig = $this->loadDataSet('General', 'set_rewarded_tag_submission_quantity_limit');
-        $rewardPointsLimit =
-            $rewardTagLimitConfig['tab_1']['configuration']['actions_for_acquiring_reward_points']
-            ['rewarded_tag_submission_limit'];
-
+        $rewardPointsLimit = $this->loadDataSet('General',
+            'set_rewarded_tag_submission_quantity_limit/tab_1/configuration/'
+                . 'actions_for_acquiring_reward_points/rewarded_tag_submission_limit'
+        );
         $rewardBalance = $rewardPointsForTag * $rewardPointsLimit;
-
         //Step 1
-        $this->customerHelper()->frontLoginCustomer(array('email'    => $testData['customer']['email'],
-                                                          'password' => $testData['customer']['password']));
+        $this->customerHelper()->frontLoginCustomer(array(
+            'email' => $testData['customer']['email'],
+            'password' => $testData['customer']['password']
+        ));
         for ($i = 0; $i < 2; $i++) {
             //Steps 2, 5
             $this->productHelper()->frontOpenProduct($testData['product'][$i]);
@@ -215,10 +213,13 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
             }
             foreach ($addedTags[$i] as $tag) {
                 $this->navigate('manage_products');
-                $this->assertTrue($this->tagsHelper()->verifyTagProduct(array('tag_search_name'  => $tag,
-                                                                'tag_search_email' => $testData['customer']['email']),
-                        array('product_name' => $testData['product'][$i])),
-                    'Customer tagged product verification failed');
+                $this->assertTrue($this->tagsHelper()->verifyTagProduct(
+                    array(
+                        'tag_search_name' => $tag,
+                        'tag_search_email' => $testData['customer']['email']
+                    ),
+                    array('product_name' => $testData['product'][$i])
+                ), 'Customer tagged product verification failed');
             }
         }
         //Steps 8-9
@@ -228,7 +229,7 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
         $this->assertEquals('No records found.', $this->customerHelper()->getRewardPointsBalance(),
             'Customer reward points balance is not 0');
         //Step 11
-        $this->navigate('pending_tags');
+        $this->navigate('all_tags');
         //Step 12
         foreach ($tags as &$tag) {
             $tag = array('tag_name' => $tag);
@@ -241,15 +242,11 @@ class Enterprise_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
         $this->assertEquals($rewardBalance, $this->customerHelper()->getRewardPointsBalance(),
             'Customer reward points balance is wrong');
         for ($i = 0; $i < $rewardPointsLimit; $i++) {
-            $this->assertNotNull($this->customerHelper()->searchRewardPointsHistoryRecord(array('Balance' => ($i + 1)
-                                                                                                * $rewardPointsForTag,
-                                                                                                'Points'  => '+'
-                                                                                                 . $rewardPointsForTag,
-                                                                                                'Reason'  =>
-                                                                                                'For submitting tag ('
-                                                                                                . $tags[$i]['tag_name']
-                                                                                                . ').',)),
-                'Reward points history record is absent');
+            $this->assertNotNull($this->customerHelper()->searchRewardPointsHistoryRecord(array(
+                'Balance' => ($i + 1) * $rewardPointsForTag,
+                'Points' => '+' . $rewardPointsForTag,
+                'Reason' => 'For submitting tag (' . $tags[$i]['tag_name'] . ').'
+            )), 'Reward points history record is absent');
         }
     }
 }

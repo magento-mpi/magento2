@@ -97,7 +97,7 @@ class Core_Mage_Tags_CustomerTaggedProductTagsTest extends Core_Mage_Tags_TagsFi
     {
         $setData = $this->loadDataSet('Tag', 'backend_new_tag_with_product',
             array('tag_name'        => $tags, 'tag_status' => 'Pending', 'prod_tag_admin_name' => $testData['simple'],
-                  'base_popularity' => '0', 'switch_store' => '%noValue%'));
+                  'base_popularity' => '0', 'choose_store_view' => '%noValue%'));
         //Setup
         $this->navigate('all_tags');
         $this->tagsHelper()->addTag($setData);
@@ -106,7 +106,7 @@ class Core_Mage_Tags_CustomerTaggedProductTagsTest extends Core_Mage_Tags_TagsFi
         foreach ($tags as $tag) {
             $searchTag = array('tag_search_name' => $tag);
             $searchProduct = array('product_name' => $testData['simple']);
-            $this->navigate('pending_tags');
+            $this->navigate('all_tags');
             $this->tagsHelper()->changeTagsStatus(array($searchTag), $status);
             $this->navigate('manage_products');
             $this->assertFalse($this->tagsHelper()->verifyCustomerTaggedProduct($searchTag, $searchProduct),
@@ -147,7 +147,7 @@ class Core_Mage_Tags_CustomerTaggedProductTagsTest extends Core_Mage_Tags_TagsFi
         $this->assertMessagePresent('success', 'tag_accepted_success');
         //Steps
         $this->loginAdminUser();
-        $this->navigate('pending_tags');
+        $this->navigate('all_tags');
         //Change statuses product tags
         $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tags['tag_name'])), $tags['tag_status']);
         $this->assertMessagePresent('success');

@@ -67,7 +67,8 @@ class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->tagsHelper()->addTag($setData);
         //Verify
-        $this->assertMessagePresent('validation', 'required_name');
+        $this->addFieldIdToMessage('field', 'tag_name');
+        $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
