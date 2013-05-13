@@ -84,7 +84,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
             $layoutIndex = $this->getControlCount('pageelement', 'layout_updates_option_boxes');
             $this->addParameter('layoutIndex', $layoutIndex);
             $this->clickButton('add_layout_update', false);
-            $this->waitForElement($this->_getControlXpath('pageelement', 'layout_updates_option_box'));
+            $this->waitForControlVisible('pageelement', 'layout_updates_option_box');
             $this->fillDropdown('select_display_on', $displayOn);
             $layoutName = $this->getControlAttribute('dropdown', 'select_display_on', 'selectedValue');
             $this->addParameter('layout', $layoutName);
@@ -164,6 +164,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
      */
     public function deleteWidget(array $searchWidget)
     {
+        $this->markTestIncomplete('MAGETWO-9232');
         $this->openWidget($searchWidget);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
     }
