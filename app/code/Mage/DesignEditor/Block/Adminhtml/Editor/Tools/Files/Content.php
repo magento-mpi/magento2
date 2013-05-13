@@ -23,22 +23,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content extends Mage_
         parent::_construct();
         $this->_headerText = $this->__('CSS Editor ') . $this->__($this->helper('Mage_Theme_Helper_Storage')->getStorageTypeName());
         $this->_removeButton('back')->_removeButton('edit');
-
-        $this->_addButton('delete_files', array(
-            'class'   => 'delete no-display',
-            'label'   => $this->__('Delete File'),
-            'type'    => 'button',
-            'onclick' => 'MediabrowserInstance.deleteFiles();',
-            'id'      => 'button_delete_files'
-        ));
-
-        $this->_addButton('insert_files', array(
-            'class'   => 'save no-display',
-            'label'   => $this->__('Insert File'),
-            'type'    => 'button',
-            'onclick' => 'MediabrowserInstance.insert();',
-            'id'      => 'button_insert_files'
-        ));
     }
 
     /**
