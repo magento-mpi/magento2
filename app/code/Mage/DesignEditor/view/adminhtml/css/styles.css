@@ -2042,7 +2042,7 @@
     font-weight: normal;
     -webkit-font-smoothing: antialiased;
     content: '\e07f'; /* trash icon */
-    color: #fff;
+    color: #828282;
 }
 
 .wrapper-popup .actions .action-delete {
