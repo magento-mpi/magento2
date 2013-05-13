@@ -2012,3 +2012,10 @@
 .clearfix:after {
     clear: both;
 }
+
+/*
+    Manage Assets
+-------------------------------------- */
+.css-editor-image:hover {
+    border: 2px solid #19A3D2;
+}
