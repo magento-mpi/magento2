@@ -32,13 +32,13 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
      */
     public function saveAction()
     {
-        $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
+        $userId = $this->_objectManager->create('Mage_Backend_Model_Auth_Session')->getUser()->getId();
         $password = (string)$this->getRequest()->getParam('password');
         $passwordConfirmation = (string)$this->getRequest()->getParam('password_confirmation');
         $interfaceLocale = (string)$this->getRequest()->getParam('interface_locale', false);
 
         /** @var $user Mage_User_Model_User */
-        $user = Mage::getModel('Mage_User_Model_User')->load($userId);
+        $user = $this->_objectManager->get('Mage_User_Model_User')->load($userId);
 
         $user->setId($userId)
             ->setUsername($this->getRequest()->getParam('username', false))
@@ -62,14 +62,15 @@ class Mage_Adminhtml_System_AccountController extends Mage_Adminhtml_Controller_
 
         try {
             $user->save();
+            $user->sendPasswordResetNotificationEmail($this->_objectManager->get('Mage_Core_Model_Email_Info'));
             $this->_getSession()->addSuccess(
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__('The account has been saved.')
+                $this->_objectManager->get('Mage_Adminhtml_Helper_Data')->__('The account has been saved.')
             );
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addMessages($e->getMessages());
         } catch (Exception $e) {
             $this->_getSession()->addError(
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while saving account.')
+                $this->_objectManager->get('Mage_Adminhtml_Helper_Data')->__('An error occurred while saving account.')
             );
         }
         $this->getResponse()->setRedirect($this->getUrl("*/*/"));

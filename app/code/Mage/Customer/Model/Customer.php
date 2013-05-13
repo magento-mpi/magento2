@@ -31,8 +31,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     const XML_PATH_FORGOT_EMAIL_TEMPLATE = 'customer/password/forgot_email_template';
     const XML_PATH_FORGOT_EMAIL_IDENTITY = 'customer/password/forgot_email_identity';
 
-    const XML_PATH_RESET_PASSWORD_TEMPLATE_FRONTEND = 'customer/password/reset_template_frontend';
-    const XML_PATH_RESET_PASSWORD_TEMPLATE_BACKEND = 'customer/password/reset_template_backend';
+    const XML_PATH_RESET_PASSWORD_TEMPLATE = 'customer/password/reset_template';
 
     const XML_PATH_DEFAULT_EMAIL_DOMAIN         = 'customer/create_account/email_domain';
     const XML_PATH_IS_CONFIRM                   = 'customer/create_account/confirm';
@@ -653,27 +652,16 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Send email to when password is resetting
      *
-     * @param string $type
      * @return Mage_Customer_Model_Customer
      */
-    public function sendPasswordResetNotificationEmail($type)
+    public function sendPasswordResetNotificationEmail()
     {
-        $types = array(
-            'reset_frontend' => self::XML_PATH_RESET_PASSWORD_TEMPLATE_FRONTEND,
-            'reset_backend'  => self::XML_PATH_RESET_PASSWORD_TEMPLATE_BACKEND,
-        );
-        if (!isset($types[$type])) {
-            Mage::throwException(
-                Mage::helper('Mage_Customer_Helper_Data')->__('Wrong transactional account email type')
-            );
-        }
-
         $storeId = $this->getStoreId();
         if (!$storeId) {
             $storeId = $this->_getWebsiteStoreId();
         }
 
-        $this->_sendEmailTemplate($types[$type], self::XML_PATH_FORGOT_EMAIL_IDENTITY,
+        $this->_sendEmailTemplate(self::XML_PATH_RESET_PASSWORD_TEMPLATE, self::XML_PATH_FORGOT_EMAIL_IDENTITY,
             array('customer' => $this), $storeId);
 
         return $this;
@@ -813,18 +801,6 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
 
         if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
             $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('Invalid email address "%s".', $this->getEmail());
-        }
-
-        $password = $this->getPassword();
-        if (!$this->getId() && !Zend_Validate::is($password, 'NotEmpty')) {
-            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('The password cannot be empty.');
-        }
-        if (strlen($password) && !Zend_Validate::is($password, 'StringLength', array(6))) {
-            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('The minimum password length is %s', 6);
-        }
-        $confirmation = $this->getConfirmation();
-        if ($password != $confirmation) {
-            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('Please make sure your passwords match.');
         }
 
         $entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer');

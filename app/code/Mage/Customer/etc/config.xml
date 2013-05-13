@@ -78,16 +78,11 @@
                     <file>email/password_new.html</file>
                     <type>html</type>
                 </customer_password_remind_email_template>
-                <customer_password_reset_template_frontend translate="label" module="Mage_Customer">
+                <customer_password_reset_template translate="label" module="Mage_Customer">
                     <label>Reset Password</label>
                     <file>email/password_reset.html</file>
                     <type>html</type>
-                </customer_password_reset_template_frontend>
-                <customer_password_reset_template_backend translate="label" module="Mage_Customer">
-                    <label>Reset Password</label>
-                    <file>email/password_reset.html</file>
-                    <type>html</type>
-                </customer_password_reset_template_backend>
+                </customer_password_reset_template>
             </email>
         </template>
         <events>
@@ -184,8 +179,7 @@
                 <forgot_email_template>customer_password_forgot_email_template</forgot_email_template>
                 <remind_email_template>customer_password_remind_email_template</remind_email_template>
                 <reset_link_expiration_period>1</reset_link_expiration_period>
-                <reset_template_frontend>customer_password_reset_template_frontend</reset_template_frontend>
-                <reset_template_backend>customer_password_reset_template_backend</reset_template_backend>
+                <reset_template>customer_password_reset_template</reset_template>
             </password>
             <address>
                 <street_lines>2</street_lines>

@@ -250,6 +250,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
     }
 
+    /**
+     * Reset password handler
+     *
+     * @return Mage_Backend_Controller_ActionAbstract
+     */
     public function resetPasswordAction()
     {
         $customerId = (int)$this->getRequest()->getParam('customer_id', 0);
@@ -258,19 +263,20 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
 
         /** @var Mage_Customer_Model_Customer $customer */
-        $customer = Mage::getModel('Mage_Customer_Model_Customer');
+        $customer = $this->_objectManager->get('Mage_Customer_Model_Customer');
         $customer->load($customerId);
         if (!$customer->getId()) {
             return $this->_redirect('*/customer');
         }
 
         try {
-            $newResetPasswordLinkToken = Mage::helper('Mage_Customer_Helper_Data')->generateResetPasswordLinkToken();
+            $newResetPasswordLinkToken = $this->_objectManager->get('Mage_Customer_Helper_Data')->generateResetPasswordLinkToken();
             $customer->changeResetPasswordLinkToken($newResetPasswordLinkToken);
-            $resetUrl = Mage::getUrl('customer/account/resetPassword', array(
-                '_query' => array(
-                    'id' => $customer->getId(),
-                    'token' => $newResetPasswordLinkToken))
+            $resetUrl = $this->_objectManager->create('Mage_Core_Model_Url')
+                ->getUrl('customer/account/createPassword', array(
+                    '_query' => array(
+                        'id' => $customer->getId(),
+                        'token' => $newResetPasswordLinkToken))
             );
             $customer->setResetPasswordUrl($resetUrl);
             $customer->sendPasswordReminderEmail();
@@ -330,6 +336,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 $this->getRequest(), 'adminhtml_customer', $customerEntity, $serviceAttributes, 'account');
         }
 
+        if (!$this->getRequest()->getPost('customer_id', false)) {
+            $customerData['new_password'] = 'auto';
+        }
         $this->_processCustomerPassword($customerData);
         /** @var Mage_Core_Model_Authorization $acl */
         $acl = $this->_objectManager->get('Mage_Core_Model_Authorization');
@@ -617,12 +626,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 ->ignoreInvisible(false);
             $data = $customerForm->extractData($this->getRequest(), 'account');
             $accountData = $this->getRequest()->getPost('account');
-//            $this->_processCustomerPassword($accountData);
-//            if (isset($accountData['autogenerate_password'])) {
-//                $data['password'] = $customer->generatePassword();
-//            } else {
-//                $data['password'] = $accountData['password'];
-//            }
             $data['password'] = $accountData['password'];
             if (!$customer->getId()) {
                 $data['password'] = $customer->generatePassword();

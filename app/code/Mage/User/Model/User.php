@@ -56,6 +56,8 @@ class Mage_User_Model_User
     const XML_PATH_FORGOT_EMAIL_TEMPLATE    = 'admin/emails/forgot_email_template';
     const XML_PATH_FORGOT_EMAIL_IDENTITY    = 'admin/emails/forgot_email_identity';
 
+    const XML_PATH_RESET_PASSWORD_TEMPLATE = 'admin/emails/reset_template';
+
     /**
      * Minimum length of admin password
      */
@@ -356,6 +358,29 @@ class Mage_User_Model_User
         ));
         $mailer->send();
 
+        return $this;
+    }
+
+    /**
+     * Send email to when password is resetting
+     *
+     * @param Mage_Core_Model_Email_Info $emailInfo
+     * @return Mage_Customer_Model_Customer
+     */
+    public function sendPasswordResetNotificationEmail(Mage_Core_Model_Email_Info $emailInfo)
+    {
+        $mailer = $this->_getMailer();
+        $emailInfo->addTo($this->getEmail(), $this->getName());
+        $mailer->addEmailInfo($emailInfo);
+
+        // Set all required params and send emails
+        $mailer->setSender(Mage::getStoreConfig(self::XML_PATH_FORGOT_EMAIL_IDENTITY));
+        $mailer->setStoreId(0);
+        $mailer->setTemplateId(Mage::getStoreConfig(self::XML_PATH_RESET_PASSWORD_TEMPLATE));
+        $mailer->setTemplateParams(array(
+            'user' => $this
+        ));
+        $mailer->send();
         return $this;
     }
 
