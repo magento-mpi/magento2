@@ -31,6 +31,7 @@
             this.btnUpdateDownload = this.element.find(this.options.btnUpdateDownload);
             this.fileRowInfo = this.element.find(this.options.fileRowInfo);
             this._prepareUpdateButton();
+            this.btnCssUpdate.prop('disabled', 'true');
             this._events();
         },
 
@@ -43,9 +44,7 @@
 
         _editCustomCss: function()
         {
-            if ($.trim($(this.customCssCode).val())) {
-                this.btnCssUpdate.removeProp('disabled');
-            }
+            this.btnCssUpdate.removeProp('disabled');
         },
 
         _downloadCustomCss: function() {
@@ -54,6 +53,7 @@
 
         _postUpdatedCustomCssContent: function()
         {
+            this.btnCssUpdate.prop('disabled', 'true');
             $.ajax({
                 type: 'POST',
                 url:  this.options.saveCustomCssUrl,
@@ -87,10 +87,8 @@
         _prepareUpdateButton: function()
         {
             if (!$.trim($(this.customCssCode).val())) {
-                this.btnCssUpdate.prop('disabled', 'disabled');
                 this.fileRowInfo.addClass('no-display');
             } else {
-                this.btnCssUpdate.removeProp('disabled');
                 this.fileRowInfo.removeClass('no-display');
             }
         }
