@@ -1,0 +1,56 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_ProductAttributes
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# System attribute options
+custom_design:
+    attribute_code: custom_design
+    admin_title: Custom Design
+    option_1:
+        admin_option_name: -- Please Select --
+    option_2:
+        admin_option_name: Electron
+    option_3:
+        admin_option_name: Hobby
+    option_4:
+        admin_option_name: Magento Blank
+    option_5:
+        admin_option_name: Magento Demo
+    option_6:
+        admin_option_name: Magento Demo Blue
+    option_7:
+        admin_option_name: Magento Fixed Design
+    option_8:
+        admin_option_name: Magento Fluid Design (incompatible version)
+    option_9:
+        admin_option_name: Magento Iphone
+    option_10:
+        admin_option_name: Magento Iphone (HTML5)
+    option_11:
+        admin_option_name: Magento Modern
+    option_12:
+        admin_option_name: Modern 2
+    option_13:
+        admin_option_name: Piece of Cake
+    option_14:
+        admin_option_name: Plushe
+    option_15:
+        admin_option_name: Plushe Blue
+    option_16:
+        admin_option_name: Plushe Dark
+    option_17:
+        admin_option_name: Recon
+    option_18:
+        admin_option_name: Skater
+    option_19:
+        admin_option_name: Umecha
+    option_20:
+        admin_option_name: Upstream
+    default_value: Magento Blank
+    default_control_value: Magento Blank

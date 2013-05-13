@@ -309,6 +309,9 @@ One page checkout main layout
         <reference name="root">
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
+        <reference name="head">
+            <action method="addJs"><file>Mage_Checkout::js/opcheckout.js</file></action>
+        </reference>
         <reference name="content">
             <container name="checkout.progress.wrapper" label="Checkout Progress Wrapper" htmlTag="div" htmlId="checkout-progress-wrapper">
                 <block type="Mage_Checkout_Block_Onepage_Progress" name="checkout.progress" before="-" template="onepage/progress.phtml"/>

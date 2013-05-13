@@ -72,6 +72,7 @@
             <action method="addJs"><file>jquery/jquery.tabs.js</file></action>
             <action method="addJs"><file>jquery/jstree/jquery.jstree.js</file></action>
             <action method="addJs"><file>jquery/slimScroll/slimScroll.min.js</file></action>
+            <action method="addJs"><file>Mage_DesignEditor::js/tools.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/tools-panel.js</file></action>
             <action method="addJs"><file>Mage_DesignEditor::js/custom-css.js</file></action>
             <action method="addJs"><file>Mage_Theme::js/custom-js-list.js</file></action>

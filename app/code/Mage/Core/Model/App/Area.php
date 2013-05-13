@@ -26,6 +26,11 @@ class Mage_Core_Model_App_Area
     const PART_DESIGN   = 'design';
 
     /**
+     * Area parameter.
+     */
+    const PARAM_AREA = 'area';
+
+    /**
      * Array of area loaded parts
      *
      * @var array
@@ -215,15 +220,34 @@ class Mage_Core_Model_App_Area
 
     }
 
+    /**
+     * Initialize events.
+     *
+     * @return Mage_Core_Model_App_Area
+     */
     protected function _initEvents()
     {
         $this->_eventManager->addEventArea($this->_code);
         return $this;
     }
 
+    /**
+     * Initialize translate object.
+     *
+     * @return Mage_Core_Model_App_Area
+     */
     protected function _initTranslate()
     {
-        $this->_translator->init($this->_code);
+        $dispatchResult = new Varien_Object(array(
+            'inline_type' => null,
+            'params' => array('area' => $this->_code)
+        ));
+        $eventManager = $this->_objectManager->get('Mage_Core_Model_Event_Manager');
+        $eventManager->dispatch('translate_initialization_before', array(
+            'translate_object' => $this->_translator,
+            'result' => $dispatchResult
+        ));
+        $this->_translator->init($this->_code, $dispatchResult, false);
         return $this;
     }
 

@@ -2985,12 +2985,14 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .page-login .field-username label,
-.page-login .field-password label {
+.page-login .field-password label,
+.page-login .field-confirmation label {
     display: none;
 }
 
 .eq-ie8 .page-login .field-username label,
-.eq-ie8 .page-login .field-password label {
+.eq-ie8 .page-login .field-password label,
+.eq-ie8 .page-login .field-confirmation label {
     display: block;
 }
 
@@ -3008,7 +3010,7 @@ table tbody tr:nth-child(odd):hover th {
     width: 262px;
     height: 64px;
     text-indent: -999em;
-    background: url(Mage_Backend::images/logo-magento-go.png) no-repeat;
+    background: url(Mage_Backend::images/logo-magento.png) no-repeat;
 }
 
 /* 
@@ -3101,7 +3103,8 @@ table tbody tr:nth-child(odd):hover th {
     padding: 14px 22px 16px;
 }
 
-.page-login .action-retrieve {
+.page-login .action-retrieve,
+.page-login .action-reset {
     font-size: 18px;
     padding: 10px 17px 10px;
 }

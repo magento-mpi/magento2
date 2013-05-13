@@ -6,12 +6,14 @@ LICENSE_EE.txt
 app/code/Enterprise
 app/design/adminhtml/default/enterprise
 app/design/frontend/enterprise
+app/design/frontend/magento2/reference
 app/design/install/default/enterprise
 app/etc/enterprise.xml
 app/etc/modules/XEnterprise_Edition.xml.dist
 dev/tests/integration/testsuite/Enterprise
 dev/tests/integration/testsuite/integrity/modular/ViewFilesTest.php
 dev/tests/integration/testsuite/integrity/theme/RenderersTest.php
+dev/tests/integration/testsuite/Design/Frontend/Enterprise
 dev/tests/integration/testsuite/Mage/ImportExport/Model/Import/Entity/_files/customer_composite_update_reward_enterprise.csv
 dev/tests/integration/testsuite/Theme
 dev/tests/static/testsuite/Integrity/Enterprise
@@ -25,6 +27,7 @@ dev/tests/static/testsuite/Legacy/_files/obsolete_properties_ee.php
 dev/tests/static/testsuite/Legacy/_files/words_ee.xml
 dev/tests/static/testsuite/Legacy/Enterprise
 dev/tests/static/testsuite/Php/_files/{whitelist,blacklist}/ee.txt
+dev/tests/static/testsuite/Php/_files/whitelist/ee_additional.txt
 dev/tests/static/testsuite/Php/_files/phpcpd/blacklist/ee.txt
 dev/tests/unit/testsuite/Enterprise
 dev/tools/migration/factory_table_names/replace_ee.php

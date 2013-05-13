@@ -15,12 +15,10 @@
         <Enterprise_Cms><active>true</active></Enterprise_Cms>
         <Enterprise_Customer><active>true</active></Enterprise_Customer>
         <Enterprise_CustomerBalance><active>true</active></Enterprise_CustomerBalance>
-        <Enterprise_CustomerSegment><active>true</active></Enterprise_CustomerSegment>
         <Enterprise_Eav><active>true</active></Enterprise_Eav>
         <Enterprise_Enterprise><active>true</active></Enterprise_Enterprise>
         <Enterprise_GiftCard><active>true</active></Enterprise_GiftCard>
         <Enterprise_GiftCardAccount><active>true</active></Enterprise_GiftCardAccount>
-        <Enterprise_GiftRegistry><active>true</active></Enterprise_GiftRegistry>
         <Enterprise_Logging><active>true</active></Enterprise_Logging>
         <Enterprise_PageCache><active>true</active></Enterprise_PageCache>
         <Enterprise_Pbridge><active>true</active></Enterprise_Pbridge>
@@ -39,7 +37,6 @@
         <Saas_Backup><active>true</active></Saas_Backup>
         <Saas_Customer><active>true</active></Saas_Customer>
         <Saas_Newsletter><active>true</active></Saas_Newsletter>
-        <Enterprise_ImportExport><active>false</active></Enterprise_ImportExport>
         <Mage_Connect><active>false</active></Mage_Connect>
         <Saas_Design><active>true</active></Saas_Design>
         <Saas_Pci><active>true</active></Saas_Pci>

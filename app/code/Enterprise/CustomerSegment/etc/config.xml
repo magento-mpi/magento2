@@ -129,14 +129,6 @@
                     </enterprise_customersegment>
                 </observers>
             </targetrule_edit_tab_main_after_prepare_form>
-            <banner_edit_tab_properties_after_prepare_form>
-                <observers>
-                    <enterprise_customersegment>
-                        <class>Enterprise_CustomerSegment_Model_Observer</class>
-                        <method>addFieldsToBannerForm</method>
-                    </enterprise_customersegment>
-                </observers>
-            </banner_edit_tab_properties_after_prepare_form>
         </events>
         <translate>
             <modules>

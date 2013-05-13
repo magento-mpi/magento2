@@ -9,8 +9,6 @@
  */
 ?>
 <?php
-$_giftRegistryHelper = $this->helper('Enterprise_GiftRegistry_Helper_Data');
-$_giftRegistryBlock = $this->getLayout()->getBlock('giftregistry.customer.checkout');
 $_paymentBlock = $this->getLayout()->getBlock('checkout.onepage.payment');
 $_customerBalanceBlock = $this->getLayout()->getBlock('customerbalance');
 $_rewardBlock = $this->getLayout()->getBlock('reward.points');
@@ -39,8 +37,6 @@ $_registerParam = $this->getRequest()->getParam('register');
                 "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-                "<?php echo $this->getViewFileUrl('Mage_Checkout::js/opcheckout.js') ?>",
-                "<?php echo $this->getViewFileUrl('js/ee-opcheckout.js') ?>",
                 "<?php echo $this->getViewFileUrl('Mage_Checkout::js/accordion.js') ?>",
                 function() {
                     $('#checkoutSteps')
@@ -79,9 +75,6 @@ $_registerParam = $this->getRequest()->getParam('register');
                             review: {
                                 saveUrl: '<?php echo $this->getUrl('checkout/onepage/saveOrder') ?>',
                                 successUrl: '<?php echo $this->getUrl('checkout/onepage/success') ?>'
-                            },
-                            giftRegistry: {
-                                enable: <?php echo ($_giftRegistryHelper->isEnabled() && $_giftRegistryBlock->getItem()) ? "true" : "false" ?>
                             }
                         });
                 });

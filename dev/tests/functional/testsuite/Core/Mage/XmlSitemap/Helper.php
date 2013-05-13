@@ -27,7 +27,8 @@ class Core_Mage_XmlSitemap_Helper extends Mage_Selenium_AbstractHelper
      */
     public function getFileUrl($url)
     {
-        $currentAreaBaseUrl = $this->getConfigHelper()->getAreaBaseUrl('frontend');
-        return $currentAreaBaseUrl . $url;
+        $urlRaw = $this->getConfigHelper()->getAreaBaseUrl('frontend');
+        $currentAreaBaseUrl = preg_replace('/(\/index\.php\/?|\/)$/', '', $urlRaw);
+        return $currentAreaBaseUrl . '/' . $url;
     }
 }

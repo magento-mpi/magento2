@@ -175,7 +175,13 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             /** @var $themeService Mage_Core_Model_Theme_Service */
             $themeService = $this->_objectManager->get('Mage_Core_Model_Theme_Service');
             /** @var $themeCustomization Mage_Core_Model_Theme */
-            $themeCustomization = $themeService->assignThemeToStores($themeId, $stores);
+            $themeCustomization = $themeService->reassignThemeToStores($themeId, $stores);
+
+            /** @var $storeManager Mage_Core_Model_StoreManager */
+            $storeManager = $this->_objectManager->get('Mage_Core_Model_StoreManager');
+            if ($storeManager->isSingleStoreMode()) {
+                $themeService->assignThemeToDefaultScope($themeCustomization->getId());
+            }
 
             $message = $coreHelper->__('Theme successfully assigned');
             $response = array(
@@ -630,14 +636,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      */
     protected function _getCurrentHandleUrl()
     {
-        /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_Handle */
-        $vdeUrlModel = $this->_objectManager->get('Mage_DesignEditor_Model_Url_Handle');
-        $handle = $this->_getSession()->getData(Mage_DesignEditor_Model_State::CURRENT_HANDLE_SESSION_KEY);
-        if (empty($handle)) {
-            $handle = 'default';
-        }
-
-        return $vdeUrlModel->getUrl('design/page/type', array('handle' => $handle));
+        return $this->_objectManager->get('Mage_DesignEditor_Helper_Data')->getCurrentHandleUrl();
     }
 
     /**

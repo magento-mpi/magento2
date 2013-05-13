@@ -24,7 +24,6 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $this->currentWindow()->maximize();
         $this->loginAdminUser();
         $this->navigate('manage_tax_zones_and_rates');
     }
@@ -236,6 +235,7 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      */
     public function withStoreViewTitle()
     {
+        $this->markTestSkipped('Due to bug MAGETWO-9043');
         //Preconditions
         $this->navigate('manage_stores');
         $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view');

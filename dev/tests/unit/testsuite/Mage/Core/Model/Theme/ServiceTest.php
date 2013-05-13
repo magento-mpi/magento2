@@ -107,7 +107,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
      * @expectedException UnexpectedValueException
      * @expectedExceptionMessage Theme is not recognized. Requested id: -1
      */
-    public function testAssignThemeToStoresWrongThemeId()
+    public function testReassignThemeToStoresWrongThemeId()
     {
         $this->_themeMock->expects($this->once())
             ->method('load')
@@ -117,7 +117,7 @@ class Mage_Core_Model_Theme_ServiceTest extends PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue(false));
 
-        $this->_model->assignThemeToStores(-1);
+        $this->_model->reassignThemeToStores(-1);
     }
 
     /**

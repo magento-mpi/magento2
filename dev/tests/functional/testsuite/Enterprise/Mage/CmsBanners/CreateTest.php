@@ -18,6 +18,7 @@
  */
 class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
 {
+
     protected function assertPreconditions()
     {
         $this->loginAdminUser();
@@ -59,6 +60,8 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
         $this->priceRulesHelper()->createRule($ruleData);
         //Verification Shopping Cart Price Rule
         $this->assertMessagePresent('success', 'success_saved_rule');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
 
         return array('category_path'      => $product['general_categories'], 'filter_sku' => $product['general_sku'],
                      'catalog_rule_name'  => $priceRuleData['info']['rule_name'],
@@ -193,10 +196,12 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
      * @depends withRequiredFields
      * @TestlinkId TL-MAGE-6029
      */
-    public function withAllWidgetsType()
+    public function withAllWidgetsType($preconditions)
     {
         //Data
-        $pageData = $this->loadDataSet('CmsBanners', 'new_cms_banner_all_fields');
+        $pageData = $this->loadDataSet('CmsBanners', 'new_cms_banner_all_fields',
+            array('category_path' => $preconditions['category_path'],
+                  'filter_sku' =>$preconditions['filter_sku']));
         //Steps
         $this->navigate('manage_cms_banners');
         $this->cmsBannersHelper()->createCmsBanner($pageData);
@@ -214,12 +219,15 @@ class Enterprise_Mage_CmsBanners_CreateTest extends Mage_Selenium_TestCase
      * @depends withRequiredFields
      * @TestlinkId TL-MAGE-6030
      */
-    public function withAllWidgetsTypeSpecificContent()
+    public function withAllWidgetsTypeSpecificContent($preconditions)
     {
         //Data
         $pageData = $this->loadDataSet('CmsBanners', 'new_cms_banner_all_fields',
             array('no_default_content'           => 'Yes', 'content_area' => '%noValue%',
-                  'specific_content_use_default' => 'No'));
+                  'specific_content_use_default' => 'No', 'filter_sku' => $preconditions['filter_sku'],
+                  'category_path' => $preconditions['category_path'],
+                 )
+            );
         //Steps
         $this->navigate('manage_cms_banners');
         $this->cmsBannersHelper()->createCmsBanner($pageData);
