@@ -558,7 +558,12 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             if (strpos($file, $dir) === 0) {
                 $relativePath = ltrim(substr($file, strlen($dir)), DIRECTORY_SEPARATOR);
                 $relativePath = str_replace(DIRECTORY_SEPARATOR, '/', $relativePath);
-                return Mage::getBaseUrl($urlType, $isSecure) . $relativePath;
+                $url = Mage::getBaseUrl($urlType, $isSecure) . $relativePath;
+                if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned()) {
+                    $fileMTime = $this->_filesystem->getMTime($file);
+                    $url .= '?' . $fileMTime;
+                }
+                return $url;
             }
         }
         throw new Magento_Exception(
@@ -934,9 +939,6 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         ) {
             return $mergedFile;
         }
-        if (!$this->_filesystem->isDirectory(dirname($mergedFile))) {
-            $this->_filesystem->createDirectory(dirname($mergedFile), 0777);
-        }
 
         $result = array();
         foreach ($filesToMerge as $file) {
@@ -955,6 +957,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
             $result = $this->_popCssImportsUp($result);
         }
 
+        $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->write($mergedFile, $result);
         $this->_filesystem->write($mergedMTimeFile, $filesMTimeData);
         return $mergedFile;

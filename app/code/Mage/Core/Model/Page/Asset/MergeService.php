@@ -53,7 +53,7 @@ class Mage_Core_Model_Page_Asset_MergeService
      *
      * @param array $assets
      * @param string $contentType
-     * @return array
+     * @return array|Iterator
      * @throws InvalidArgumentException
      */
     public function getMergedAssets(array $assets, $contentType)
@@ -68,8 +68,8 @@ class Mage_Core_Model_Page_Asset_MergeService
             $isCssMergeEnabled = $this->_storeConfig->getConfigFlag(self::XML_PATH_MERGE_CSS_FILES);
             $isJsMergeEnabled = $this->_storeConfig->getConfigFlag(self::XML_PATH_MERGE_JS_FILES);
             if (($isCss && $isCssMergeEnabled) || ($isJs && $isJsMergeEnabled)) {
-                $assets = array(
-                    $this->_objectManager->create('Mage_Core_Model_Page_Asset_Merged', array('assets' => $assets))
+                $assets = $this->_objectManager->create(
+                    'Mage_Core_Model_Page_Asset_Merged', array('assets' => $assets)
                 );
             }
         }

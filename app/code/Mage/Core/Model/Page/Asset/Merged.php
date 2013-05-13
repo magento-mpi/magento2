@@ -9,24 +9,14 @@
  */
 
 /**
- * Composite asset that aggregates one or more assets and provides a single public file with equivalent behavior
+ * Iterator that aggregates one or more assets and provides a single public file with equivalent behavior
  */
-class Mage_Core_Model_Page_Asset_Merged implements Mage_Core_Model_Page_Asset_AssetInterface
+class Mage_Core_Model_Page_Asset_Merged implements Iterator
 {
     /**
-     * @var array
+     * @var Magento_ObjectManager
      */
-    private $_files = array();
-
-    /**
-     * @var string
-     */
-    private $_contentType;
-
-    /**
-     * @var string
-     */
-    private $_url;
+    private $_objectManager;
 
     /**
      * @var Mage_Core_Model_Design_PackageInterface
@@ -34,31 +24,43 @@ class Mage_Core_Model_Page_Asset_Merged implements Mage_Core_Model_Page_Asset_As
     private $_designPackage;
 
     /**
-     * @var Mage_Core_Helper_Data
+     * @var Mage_Core_Model_Logger
      */
-    private $_coreHelper;
+    private $_logger;
 
     /**
-     * @var Magento_Filesystem
+     * @var Mage_Core_Model_Page_Asset_MergeableInterface[]
      */
-    private $_filesystem;
+    private $_assets;
 
     /**
+     * @var string
+     */
+    private $_contentType;
+
+    /**
+     * Whether initialization has been performed or not
+     *
+     * @var bool
+     */
+    private $_isInitialized = false;
+
+    /**
+     * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Design_PackageInterface $designPackage
-     * @param Mage_Core_Helper_Data $coreHelper
-     * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_Logger $logger
      * @param array $assets
      * @throws InvalidArgumentException
      */
     public function __construct(
+        Magento_ObjectManager $objectManager,
         Mage_Core_Model_Design_PackageInterface $designPackage,
-        Mage_Core_Helper_Data $coreHelper,
-        Magento_Filesystem $filesystem,
+        Mage_Core_Model_Logger $logger,
         array $assets
     ) {
+        $this->_objectManager = $objectManager;
         $this->_designPackage = $designPackage;
-        $this->_coreHelper = $coreHelper;
-        $this->_filesystem = $filesystem;
+        $this->_logger = $logger;
         if (!$assets) {
             throw new InvalidArgumentException('At least one asset has to be passed for merging.');
         }
@@ -76,31 +78,87 @@ class Mage_Core_Model_Page_Asset_Merged implements Mage_Core_Model_Page_Asset_As
                     "Content type '{$asset->getContentType()}' cannot be merged with '{$this->_contentType}'."
                 );
             }
-            $this->_files[] = $asset->getSourceFile();
         }
+        $this->_assets = $assets;
     }
 
     /**
-     * {@inheritdoc}
+     * Attempt to merge assets, falling back to original non-merged ones, if merging fails
      */
-    public function getUrl()
+    protected function _initialize()
     {
-        if (!$this->_url) {
-            $file = $this->_designPackage->mergeFiles($this->_files, $this->_contentType);
-            $this->_url = $this->_designPackage->getPublicFileUrl($file);
-            if ($this->_coreHelper->isStaticFilesSigned()) {
-                $fileMTime = $this->_filesystem->getMTime($file());
-                $this->_url .= '?' . $fileMTime;
+        if (!$this->_isInitialized) {
+            $this->_isInitialized = true;
+            try {
+                $this->_assets = array($this->_getMergedAsset($this->_assets));
+            } catch (Exception $e) {
+                $this->_logger->logException($e);
             }
         }
-        return $this->_url;
+    }
+
+    /**
+     * Retrieve asset instance representing a merged file
+     *
+     * @param Mage_Core_Model_Page_Asset_MergeableInterface[] $assets
+     * @return Mage_Core_Model_Page_Asset_AssetInterface
+     */
+    protected function _getMergedAsset(array $assets)
+    {
+        $files = array();
+        foreach ($assets as $asset) {
+            $files[] = $asset->getSourceFile();
+        }
+        return $this->_objectManager->create('Mage_Core_Model_Page_Asset_PublicFile', array(
+            'file' => $this->_designPackage->mergeFiles($files, $this->_contentType),
+            'contentType' => $this->_contentType,
+        ));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return Mage_Core_Model_Page_Asset_AssetInterface
+     */
+    public function current()
+    {
+        $this->_initialize();
+        return current($this->_assets);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getContentType()
+    public function key()
     {
-        return $this->_contentType;
+        $this->_initialize();
+        return key($this->_assets);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function next()
+    {
+        $this->_initialize();
+        next($this->_assets);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rewind()
+    {
+        $this->_initialize();
+        reset($this->_assets);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function valid()
+    {
+        $this->_initialize();
+        return (bool)current($this->_assets);
     }
 }

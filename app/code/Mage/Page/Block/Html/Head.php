@@ -237,10 +237,10 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      * Render HTML tags referencing corresponding URLs
      *
      * @param string $template
-     * @param array $assets
+     * @param array|Iterator $assets
      * @return string
      */
-    protected function _renderHtml($template, array $assets)
+    protected function _renderHtml($template, $assets)
     {
         $result = '';
         try {
