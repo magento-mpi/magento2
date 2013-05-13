@@ -410,7 +410,7 @@
                             </field>
                             <field id="boarding_button_flavor" extends="payment/paypal_payments/express_checkout/settings_ec_ec_am_1/settings_ec_advanced/boarding_button_flavor"/>
                             <field id="boarding_solution_type" extends="payment/paypal_payments/express_checkout/settings_ec_ec_am_1/settings_ec_advanced/boarding_solution_type"/>
-                            <field id="boarind_allow_ba_signup" extends="payment/paypal_payments/express_checkout/settings_ec_am_1/settings_ec_advanced/boarind_allow_ba_signup">
+                            <field id="boarind_allow_ba_signup" extends="payment/paypal_payments/express_checkout/settings_ec_ec_am_1/settings_ec_advanced/boarind_allow_ba_signup">
                                 <config_path>payment/paypal_express_boarding/allow_ba_signup</config_path>
                             </field>
                         </group>
@@ -616,42 +616,10 @@
                     <group id="express_checkout_required" showInDefault="0" showInWebsite="0" showInStore="0">
                         <hide_in_single_store_mode>1</hide_in_single_store_mode>
                     </group>
-                    <group id="express_checkout_required_am_0" extends="*/paypal_payments/express_checkout/express_checkout_required" showInWebsite="1" showInDefault="1" showInStore="1">
+                    <group id="express_checkout_required_am_0" extends="*/paypal_payments/express_checkout/express_checkout_required_saas" showInWebsite="1" showInDefault="1" showInStore="1">
                         <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <field id="enable_express_checkout"/>
-                        <depends>
-                            <field id="*/express_checkout_required_express_checkout/authentication_method">0</field>
-                        </depends>
-                    </group>
-                    <group id="express_checkout_required_am_1" extends="*/paypal_payments/express_checkout/express_checkout_required" showInWebsite="1" showInDefault="1" showInStore="1">
-                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                        <field id="boarding_enable_express_checkout" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
-                            <label>Enable this Solution</label>
-                            <config_path>payment/paypal_express_boarding/active</config_path>
-                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                            <frontend_class>paypal-enabler paypal-ec-boarding-enabler</frontend_class>
-                            <attribute type="shared">1</attribute>
-                            <requires>
-                                <group id="express_checkout_required_express_checkout"/>
-                            </requires>
-                        </field>
-                        <depends>
-                            <field id="*/express_checkout_required_express_checkout/authentication_method">1</field>
-                        </depends>
-                    </group>
-                    <group id="express_checkout_required_saas" extends="*/paypal_payments/express_checkout/express_checkout_required" showInWebsite="1" showInDefault="1" showInStore="1">
-                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                        <group id="express_checkout_required_express_checkout" showInStore="1">
-                            <field id="authentication_method" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
-                                <label>Authentication Method</label>
-                                <frontend_class>ec-auth-method</frontend_class>
-                                <source_model>Saas_Paypal_Model_System_Config_Source_AuthenticationMethod</source_model>
-                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_AuthenticationMethod</frontend_model>
-                                <config_path>payment/paypal_express_boarding/authentification_method</config_path>
-                                <attribute type="create_account_link">http://www.paypal.com/webapps/mpp/referral/paypal-express-checkout?partner_id=NB9WWHYEMVUMS</attribute>
-                            </field>
-                        </group>
-                        <group id="express_checkout_required_express_checkout_authentication_method_0" extends="*/paypal_payments/express_checkout/express_checkout_required/express_checkout_required_express_checkout">
+                        <group id="express_checkout_required_express_checkout">
                             <field id="business_account"/>
                             <field id="api_username"/>
                             <field id="api_password"/>
@@ -662,11 +630,27 @@
                             <field id="api_authentication">
                                 <label>API Authentication Method</label>
                             </field>
-                            <depends>
-                                <field id="authentication_method">0</field>
-                            </depends>
                         </group>
-                        <group id="express_checkout_required_express_checkout_authentication_method_1" extends="*/paypal_payments/express_checkout/express_checkout_required/express_checkout_required_express_checkout">
+                        <depends>
+                            <field id="*/express_checkout_required_express_checkout/authentication_method">0</field>
+                        </depends>
+                    </group>
+                    <group id="express_checkout_required_am_1" extends="*/paypal_payments/express_checkout/express_checkout_required_saas" showInWebsite="1" showInDefault="1" showInStore="1">
+                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
+                        <field id="enable_express_checkout" showInWebsite="0" showInDefault="0" showInStore="0">
+                            <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                        </field>
+                        <field id="boarding_enable_express_checkout" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
+                            <label>Enable this Solution</label>
+                            <config_path>payment/paypal_express_boarding/active</config_path>
+                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <frontend_class>paypal-enabler paypal-ec-boarding-enabler</frontend_class>
+                            <attribute type="shared">1</attribute>
+                            <requires>
+                                <group id="express_checkout_required_express_checkout"/>
+                            </requires>
+                        </field>
+                        <group id="express_checkout_required_express_checkout">
                             <field id="boarding_business_account" sortOrder="10" showInDefault="1" showInWebsite="1">
                                 <label>Email to Send PayPal Payments</label>
                                 <config_path>paypal/onboarding/boarding_account</config_path>
@@ -692,9 +676,22 @@
                                 <attribute type="account_config_path">paypal/onboarding/boarding_account</attribute>
                                 <attribute type="account_id_config_path">paypal/onboarding/receiver_id</attribute>
                             </field>
-                            <depends>
-                                <field id="authentication_method">1</field>
-                            </depends>
+                        </group>
+                        <depends>
+                            <field id="*/express_checkout_required_express_checkout/authentication_method">1</field>
+                        </depends>
+                    </group>
+                    <group id="express_checkout_required_saas" extends="*/paypal_payments/express_checkout/express_checkout_required" showInWebsite="0" showInDefault="0" showInStore="0">
+                        <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                        <group id="express_checkout_required_express_checkout" showInStore="1">
+                            <field id="authentication_method" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                                <label>Authentication Method</label>
+                                <frontend_class>ec-auth-method</frontend_class>
+                                <source_model>Saas_Paypal_Model_System_Config_Source_AuthenticationMethod</source_model>
+                                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_AuthenticationMethod</frontend_model>
+                                <config_path>payment/paypal_express_boarding/authentification_method</config_path>
+                                <attribute type="create_account_link">http://www.paypal.com/webapps/mpp/referral/paypal-express-checkout?partner_id=NB9WWHYEMVUMS</attribute>
+                            </field>
                         </group>
                     </group>
                     <group id="settings_ec" showInDefault="0" showInWebsite="0" showInStore="0">
@@ -725,8 +722,8 @@
                             <field id="*/express_checkout_required_express_checkout/authentication_method">0</field>
                         </depends>
                     </group>
-                    <group id="settings_ec_ec_am_1" extends="*/paypal_payments/express_checkout/settings_ec" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <hide_in_single_store_mode>0</hide_in_single_store_mode>
+                    <group id="settings_ec_ec_am_1" extends="*/paypal_payments/express_checkout/settings_ec" showInDefault="0" showInWebsite="0" showInStore="0">
+                        <hide_in_single_store_mode>1</hide_in_single_store_mode>
                         <field id="boarding_title" translate="label comment" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Title</label>
                             <comment>It is recommended to set this value to "PayPal" per store views.</comment>
@@ -797,12 +794,15 @@
                                 <source_model>Mage_Paypal_Model_Config::getExpressCheckoutSolutionTypes</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
+                            <field id="boarind_allow_ba_signup" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/allow_ba_signup">
+                                <config_path>payment/paypal_express_boarding/allow_ba_signup</config_path>
+                            </field>
                         </group>
                         <depends>
                             <field id="*/express_checkout_required_express_checkout/authentication_method">1</field>
                         </depends>
                     </group>
-                    <group id="settings_ec_boarding_line_items_enabled_1" extends="*/paypal_payments/express_checkout/settings_ec" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <group id="settings_ec_boarding_line_items_enabled_1" extends="*/paypal_payments/express_checkout/settings_ec_ec_am_1" showInDefault="1" showInWebsite="1" showInStore="1">
                         <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <group id="settings_ec_advanced">
                             <field id="boarding_transfer_shipping_options" translate="label tooltip comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
@@ -816,19 +816,13 @@
                         </group>
                         <depends>
                             <field id="boarding_line_items_enabled">1</field>
-                            <field id="*/express_checkout_required_express_checkout/authentication_method">1</field>
                         </depends>
                     </group>
-                    <group id="settings_ec_am_1" extends="*/paypal_payments/express_checkout/settings_ec" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <group id="settings_ec_boarding_line_items_enabled_0" extends="*/paypal_payments/express_checkout/settings_ec_ec_am_1" showInDefault="1" showInWebsite="1" showInStore="1">
                         <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                        <group id="settings_ec_advanced">
-                            <field id="boarind_allow_ba_signup" extends="payment/paypal_payments/express_checkout/settings_ec/settings_ec_advanced/allow_ba_signup">
-                                <config_path>payment/paypal_express_boarding/allow_ba_signup</config_path>
-                            </field>
-                            <depends>
-                                <field id="authentication_method">1</field>
-                            </depends>
-                        </group>
+                        <depends>
+                            <field id="boarding_line_items_enabled">0</field>
+                        </depends>
                     </group>
                 </group>
                 <group id="express_checkout_au" extends="*/paypal_payments/express_checkout" showInWebsite="1" showInDefault="1" showInStore="1">
