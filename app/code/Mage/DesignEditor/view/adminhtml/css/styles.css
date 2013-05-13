@@ -2019,3 +2019,36 @@
 .css-editor-image:hover {
     border: 2px solid #19A3D2;
 }
+
+.wrapper-popup .action-delete,
+.wrapper-popup .action-delete:active {
+    background: none;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: none;
+    color: #fff;
+    font-size: 16px;
+    vertical-align: middle;
+    padding: 5px;
+}
+
+.wrapper-popup .action-delete:before {
+    display: inline-block;
+    text-indent: 0;
+    font-family: 'MUI-Icons';
+    font-style: normal;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    content: '\e07f'; /* trash icon */
+    color: #fff;
+}
+
+.wrapper-popup .actions .action-delete {
+    margin-left: 0;
+}
+
+.wrapper-popup .action-delete > span {
+    display: none;
+}
