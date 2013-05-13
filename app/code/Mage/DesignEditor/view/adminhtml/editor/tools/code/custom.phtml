@@ -12,19 +12,28 @@
 <div id="vde-tab-custom-messages-placeholder"></div>
 <div class="custom-code-description">
     <p><?php echo $this->__('Update the custom.css file to right in order to overwrite the default styles.'); ?></p>
-    <p><?php echo $this->__('Or, replace, delete or download the file:'); ?></p>
+    <h4>Custom CSS</h4>
     <div class="custom-file">
-        <span class="filename"><?php echo $this->getCustomFileName() ?></span>
-
-        <button onclick="document.location='<?php echo $this->getDownloadCustomCssUrl($this->getTheme()) ?>'" class="action-download" title="<?php echo $this->__('Download file'); ?>">
-            <span><?php echo $this->__('Download file'); ?></span>
-        </button>
-        <span class="action-add" title="<?php echo $this->__('Upload File'); ?>">
+        <button class="action-add" title="<?php echo $this->__('Upload File'); ?>" id="custom-css-upload-file-button">
             <span><?php echo $this->__('Upload File'); ?></span>
             <?php echo $this->getFormHtml() ?>
-        </span>
+        </button>
+        <label for="custom-css-upload-file-button">Upload Custom CSS</label>
+        <div class="uploaded-file-wrapper" data-file="uploaded-css">
+            <div class="uploaded-css">
+                <div class="file-row">
+                    <span class="label"><?php echo $this->getCustomFileName() ?></span>
+                    <button class="action-delete">
+                        <span><?php echo $this->__('Remove'); ?></span>
+                    </button>
+                    <button onclick="document.location='<?php echo $this->getDownloadCustomCssUrl($this->getTheme()) ?>'" class="action-download" title="<?php echo $this->__('Download file'); ?>">
+                        <span><?php echo $this->__('Download file'); ?></span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
+    <div class="manage-assets-buttons">
         <button data-manage="fonts" class="action-font-assets" title="<?php echo $this->__('Font Assets'); ?>">
             <span><?php echo $this->__('Font Assets'); ?></span>
         </button>

@@ -1183,6 +1183,21 @@
     margin: 0 5px 0 0;
 }
 
+.custom-code-description .uploaded-file-wrapper .file-row .action-delete {
+    position: relative;
+    top: 0;
+    right: 0;
+}
+
+.custom-code-description .uploaded-file-wrapper .file-row .action-delete:hover,
+.custom-code-description .uploaded-file-wrapper .file-row .action-delete:active {
+    margin-left: 10px;
+}
+
+.custom-code-description .manage-assets-buttons {
+    margin-top: 10px;
+}
+
 .custom-code {
     width: 65.95744680199999%;
 }
@@ -1636,7 +1651,8 @@
 }
 
 .element-logo .custom-file label,
-.element-background .custom-file label {
+.element-background .custom-file label,
+.custom-code-description .custom-file label {
     color: #9f978b;
 }
 

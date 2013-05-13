@@ -106,7 +106,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
      */
     public function getCustomFileName()
     {
-        return pathinfo(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS, PATHINFO_BASENAME);
+        return pathinfo(Mage_Core_Model_Theme_Customization_Files_Css::CUSTOM_CSS, PATHINFO_BASENAME) . ".css";
     }
 
     /**

@@ -14,7 +14,7 @@
             saveCustomCssUrl: null,
             customCssCode: '#custom_code',
             btnUpdateCss: '#vde-tab-custom .action-update',
-            btnUpdateDownload: '#vde-tab-custom .action-download'
+            btnUpdateDownload: '#vde-tab-custom [data-file="uploaded-css"]'
         },
 
         updateButtons: function() {
@@ -66,10 +66,10 @@
         {
             if (!$.trim($(this.customCssCode).val())) {
                 this.btnCssUpdate.attr('disabled', 'disabled');
-                $(this.btnUpdateDownload).fadeOut();
+                $(this.btnUpdateDownload).addClass('no-display');
             } else {
                 this.btnCssUpdate.removeAttr('disabled');
-                $(this.btnUpdateDownload).fadeIn();
+                $(this.btnUpdateDownload).removeClass('no-display');
             }
         }
     });
