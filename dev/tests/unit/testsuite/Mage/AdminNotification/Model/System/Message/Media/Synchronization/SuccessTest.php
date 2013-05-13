@@ -64,9 +64,9 @@ class Mage_AdminNotification_Model_System_Message_Media_Synchronization_SuccessT
 
 
     /**
-     * @param $expectedFirstRun
-     * @param $data
-     * @param $state
+     * @param bool $expectedFirstRun
+     * @param array $data
+     * @param int|bool $state
      * @return void
      * @dataProvider isDisplayedDataProvider
      */

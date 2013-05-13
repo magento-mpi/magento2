@@ -61,8 +61,8 @@ class Mage_AdminNotification_Model_System_Message_Media_Synchronization_ErrorTes
     }
 
     /**
-     * @param $expectedFirstRun
-     * @param $data
+     * @param bool $expectedFirstRun
+     * @param array $data
      * @dataProvider isDisplayedDataProvider
      */
     public function testIsDisplayed($expectedFirstRun, $data)

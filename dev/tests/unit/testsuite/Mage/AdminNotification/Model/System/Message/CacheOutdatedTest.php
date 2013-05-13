@@ -55,8 +55,8 @@ class Mage_AdminNotification_Model_System_Message_CacheOutdatedTest extends PHPU
     }
 
     /**
-     * @param $expectedSum
-     * @param $cacheTypes array
+     * @param string $expectedSum
+     * @param array $cacheTypes
      * @dataProvider getIdentityDataProvider
      */
     public function testGetIdentity($expectedSum, $cacheTypes)
@@ -81,9 +81,9 @@ class Mage_AdminNotification_Model_System_Message_CacheOutdatedTest extends PHPU
     }
 
     /**
-     * @param $expected
-     * @param $allowed
-     * @param $cacheTypes
+     * @param bool $expected
+     * @param bool $allowed
+     * @param array $cacheTypes
      * @dataProvider isDisplayedDataProvider
      */
     public function testIsDisplayed($expected, $allowed, $cacheTypes)
