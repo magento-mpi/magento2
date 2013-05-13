@@ -24,6 +24,7 @@
             </group>
             <group id="paypal_notice_saas_gb" showInDefault="1" showInWebsite="1" showInStore="1" extends="*/paypal_notice">
                 <hide_in_single_store_mode>0</hide_in_single_store_mode>
+                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint_Country</frontend_model>
                 <help_url>https://www.paypal-business.co.uk/how-to-take-online-payments-with-paypal/index.htm</help_url>
                 <depends>
                     <field id="*/account/merchant_country">GB</field>
@@ -31,6 +32,7 @@
             </group>
             <group id="paypal_notice_saas_au" showInDefault="1" showInWebsite="1" showInStore="1" extends="*/paypal_notice">
                 <hide_in_single_store_mode>0</hide_in_single_store_mode>
+                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint_Country</frontend_model>
                 <help_url>https://www.paypal-australia.com.au/business/accept-payments</help_url>
                 <depends>
                     <field id="*/account/merchant_country">AU</field>
