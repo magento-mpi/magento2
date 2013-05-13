@@ -24,8 +24,10 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Tax/default_tax_config');
         $this->systemConfigurationHelper()->configure('ShippingSettings/shipping_settings_default');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->systemConfigurationHelper()->configure('Currency/enable_usd');
         $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenet_without_3Dsecure');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
     }
 
     protected function assertPreConditions()
@@ -48,11 +50,19 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
      */
     public function preconditionsForTests()
     {
+        $taxRule = $this->loadDataSet('Tax', 'new_tax_rule_required',
+            array('tax_rate' => 'US-CA-*-Rate 1,US-NY-*-Rate 1'));
         $user = $this->loadDataSet('PriceReview', 'customer_account_for_prices_validation');
         $address = $this->loadDataSet('PriceReview', 'customer_account_address_for_prices_validation');
         $category = $this->loadDataSet('Category', 'sub_category_required');
         $categoryPath = $category['parent_category'] . '/' . $category['name'];
         $products = array();
+        //Steps
+        $this->navigate('manage_tax_rule');
+        $this->taxHelper()->deleteRulesExceptSpecified();
+        $this->taxHelper()->createTaxRule($taxRule);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_tax_rule');
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($user, $address);
@@ -98,14 +108,14 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
             array('payment_data' => $paymentData));
         $cartProductsData = $this->loadDataSet('ShoppingCartPriceRule', 'prices_for_' . $ruleType);
         $checkoutData = $this->loadDataSet('ShoppingCartPriceRule', 'totals_for_' . $ruleType);
-        $ruleData =
-            $this->loadDataSet('ShoppingCartPriceRule', 'scpr_' . $ruleType, array('conditions' => '%noValue%'));
+        $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_' . $ruleType,
+            array('conditions' => '%noValue%'));
         //Steps
         $this->navigate('manage_shopping_cart_price_rules');
         $this->priceRulesHelper()->createRule($ruleData);
         $this->assertMessagePresent('success', 'success_saved_rule');
         $this->flushCache();
-        $this->reindexAllData();
+        $this->reindexInvalidedData();
         //navigate to frontend
         $this->customerHelper()->frontLoginCustomer($customer);
         foreach ($products['name'] as $key => $productName) {
@@ -153,17 +163,19 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
     public function createSCPRonBackend($ruleType, $rowSubtotal, $testData)
     {
         //Data
-        list($customer, $products) = $testData;
+        list(, $products) = $testData;
         $paymentData = $this->loadDataSet('Payment', 'payment_authorizenet');
-        $orderData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_usa',
-            array('payment_data' => $paymentData));
+        $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_' . $ruleType,
+            array('conditions' => '%noValue%'));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa', array(
+            'coupon_1' => $ruleData['info']['coupon_code'],
+            'payment_data' => $paymentData
+        ));
         $cartProductsData = $this->loadDataSet('ShoppingCartPriceRule', 'prices_for_' . $ruleType);
         $checkoutData = $this->loadDataSet('ShoppingCartPriceRule', 'totals_for_' . $ruleType);
-        $ruleData =
-            $this->loadDataSet('ShoppingCartPriceRule', 'scpr_' . $ruleType, array('conditions' => '%noValue%'));
         //prepare all necessary data to place order
-        foreach ($products['name'] as $key => $productName) {
-            $orderData['products_to_add']['product_' . $key]['filter_name'] = $productName;
+        foreach ($products['sku'] as $key => $productSku) {
+            $orderData['products_to_add']['product_' . $key]['filter_sku'] = $productSku;
             $orderData['products_to_add']['product_' . $key]['product_qty'] =
                 $cartProductsData['product_' . $key]['qty'];
         }
@@ -172,8 +184,6 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
         $orderData['prod_total_verification']['subtotal'] = $checkoutData['subtotal'];
         $orderData['prod_total_verification']['discount'] =
             $checkoutData['discount_rule_label_shop_cart_for_store_view'];
-        $orderData['coupons'] = $ruleData['info']['coupon_code'];
-        $orderData['customer_data']['email'] = $customer['email'];
         //Steps
         $this->navigate('manage_shopping_cart_price_rules');
         $this->priceRulesHelper()->createRule($ruleData);

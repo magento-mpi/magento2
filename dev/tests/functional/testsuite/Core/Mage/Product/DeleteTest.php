@@ -18,10 +18,13 @@
  */
 class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Manage Products</p>
-     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $this->runMassAction('Delete', 'all');
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -77,10 +80,15 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
         $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
         $associated = $this->loadDataSet('AttributeSet', 'associated_attributes',
             array('Product Details' => $attrData['attribute_code']));
-        $configurable = $this->loadDataSet('Product', 'configurable_product_required', array('associated_weight' => 15),
-            array('var1_attr_value1'    => $attrData['option_1']['admin_option_name'],
-                  'general_attribute_1' => $attrData['admin_title']));
-        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $configurable['general_sku']));
+        $configurable = $this->loadDataSet('Product', 'configurable_product_required',
+            array('associated_weight' => 15),
+            array(
+                'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
+                'general_attribute_1' => $attrData['admin_title']
+            )
+        );
+        $search = $this->loadDataSet('Product', 'product_search',
+            array('product_sku' => $configurable['general_sku']));
         //Steps
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -124,11 +132,17 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
         $associated['general_user_attr']['dropdown'][$attrData['attribute_code']] =
             $attrData['option_1']['admin_option_name'];
         $configurable = $this->loadDataSet('Product', 'configurable_product_required',
-            array('associated_name' => $associated['general_name'],
-                  'associated_sku' => $associated['general_sku']),
-            array('var1_attr_value1' => $attrData['option_1']['admin_option_name'],
-                  'general_attribute_1' => $attrData['admin_title']));
-        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $associated['general_sku']));
+            array(
+                'associated_name' => $associated['general_name'],
+                'associated_sku' => $associated['general_sku']
+            ),
+            array(
+                'var1_attr_value1' => $attrData['option_1']['admin_option_name'],
+                'general_attribute_1' => $attrData['admin_title']
+            )
+        );
+        $search = $this->loadDataSet('Product', 'product_search',
+            array('product_sku' => $associated['general_sku']));
         //Steps
         $this->productHelper()->createProduct($associated, $type);
         //Verifying
