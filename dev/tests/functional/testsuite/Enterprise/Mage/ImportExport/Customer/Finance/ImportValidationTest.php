@@ -18,29 +18,32 @@
  */
 class Enterprise_Mage_ImportExport_Customer_Finance_ImportValidationTest extends Mage_Selenium_TestCase
 {
-    protected static $_customerEmail = NULL;
+    protected static $_customerEmail = null;
 
     public function setUpBeforeTests()
     {
-        //logged in once for all tests
         $this->loginAdminUser();
-        //Step 1
         $this->navigate('manage_customers');
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
         self::$_customerEmail = $userData['email'];
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
     }
-    /**
-     * Preconditions:
-     * Log in to Backend.
-     * Navigate to System -> Export
-     */
+
     protected function assertPreConditions()
     {
-        //logged in once for all tests
         $this->loginAdminUser();
     }
+
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
+    }
+
     /**
      * Finances Import, if file data is invalid
      * Steps
@@ -52,7 +55,7 @@ class Enterprise_Mage_ImportExport_Customer_Finance_ImportValidationTest extends
      */
     public function importFinanceFileWithInvalidData($financeData, array $validationMessage)
     {
-        if (isset($financeData['_email']) && $financeData['_email']=='<realEmail>') {
+        if (isset($financeData['_email']) && $financeData['_email'] == '<realEmail>') {
             $financeData['_email'] = self::$_customerEmail;
         }
         $this->navigate('import');
@@ -63,55 +66,40 @@ class Enterprise_Mage_ImportExport_Customer_Finance_ImportValidationTest extends
             $financeData
         );
         //Import file
-        $report = $this->importExportHelper()->import($data) ;
+        $report = $this->importExportHelper()->import($data);
         //Check import
         $this->assertEquals($validationMessage, $report, 'Import has been finished with issues');
     }
 
     public function importDataInvalid()
     {
-        $userData[0] = $this->loadDataSet('ImportExport', 'generic_finance_csv',
-            array(
-                '_email' => ''
-            ));
+        $userData[0] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array('_email' => ''));
         $errorMessage[0] = array("E-mail is not specified in rows: 1");
 
-        $userData[1] = $this->loadDataSet('ImportExport', 'generic_finance_csv',
-            array(
-                '_email' => '<realEmail>',
-            ));
+        $userData[1] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array('_email' => '<realEmail>'));
         unset($userData[1]['_website']);
         $errorMessage[1] = array("Can not find required columns: _website");
 
         $userData[2] = $this->loadDataSet('ImportExport', 'generic_finance_csv',
-            array(
-                '_email' => '<realEmail>',
-                '_website' => 'notexist'
-            ));
+            array('_email' => '<realEmail>', '_website' => 'notexist'));
         $errorMessage[2] = array("Invalid value in website column in rows: 1");
 
-        $userData[3] = $this->loadDataSet('ImportExport', 'generic_finance_csv',
-            array(
-                '_email' => '<realEmail>',
-                'store_credit' => 'incorrect_value',
-                'reward_points' => 'incorrect_value'
-            ));
+        $userData[3] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
+            '_email' => '<realEmail>',
+            'store_credit' => 'incorrect_value',
+            'reward_points' => 'incorrect_value'
+        ));
         $errorMessage[3] = array(
             "Invalid value for 'store_credit' in rows: 1",
             "Invalid value for 'reward_points' in rows: 1"
         );
 
-        $userData[4] = $this->loadDataSet('ImportExport', 'generic_finance_csv',
-            array(
-                '_email' => '<realEmail>',
-            ));
+        $userData[4] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array('_email' => '<realEmail>'));
         unset($userData[4]['credit_score']);
         unset($userData[4]['store_points']);
 
         $userData[5] = $this->loadDataSet('ImportExport', 'generic_finance_csv',
-            array(
-                '_email' => 'test_admin_' . $this->generate('string', 5) . '@unknown-domain.com'
-            ));
+            array('_email' => 'test_admin_' . $this->generate('string', 5) . '@unknown-domain.com'));
         $errorMessage[5] = array("Customer with such email and website code doesn't exist in rows: 1");
 
         $invalidValidation[0] = array(
@@ -138,7 +126,7 @@ class Enterprise_Mage_ImportExport_Customer_Finance_ImportValidationTest extends
             array($userData[3], array('validation' => array('error' => $errorMessage[3],
                 'validation' => $invalidValidation[1]))),
             array($userData[4], array('validation' => array('validation' => array(
-                    "Checked rows: 1, checked entities: 1, invalid rows: 0, total errors: 0"),
+                "Checked rows: 1, checked entities: 1, invalid rows: 0, total errors: 0"),
                 'success' => array("File is valid! To start import process press \"Import\" button  Import")),
                 'import' => array('success' => array("Import successfully done.")))),
             array($userData[5], array('validation' => array('error' => $errorMessage[5],
@@ -183,8 +171,8 @@ class Enterprise_Mage_ImportExport_Customer_Finance_ImportValidationTest extends
             $this->assertEquals($errorMessage, $report['validation']['error'][0],
                 'Incorrect error message is displayed');
             $this->assertEquals(
-            "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import",
-            $report['validation']['validation'][0], 'Wrong validation message is shown');
+                "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import",
+                $report['validation']['validation'][0], 'Wrong validation message is shown');
             $this->assertEquals('Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1',
                 $report['validation']['validation'][1], 'Wrong message about checked rows');
         }
@@ -199,8 +187,7 @@ class Enterprise_Mage_ImportExport_Customer_Finance_ImportValidationTest extends
         $errorMessageMain = 'Row with such email, website, finance website combination was already found. in rows: 2';
 
         return array(
-            array( $csvMain, $errorMessageMain),
+            array($csvMain, $errorMessageMain),
         );
     }
-
 }
