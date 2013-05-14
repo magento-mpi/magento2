@@ -390,14 +390,14 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                     paypalConflictsObject.checkPaymentConflicts(enablerElement, "initial");
                 });
                 if (paypalConflictsObject.isConflict || paypalConflictsObject.ecMissed) {
-                    var notification = \'' .  $this->helper('core')->jsQuoteEscape($this->__('The following error(s) occured:')) . '\';
+                    var notification = \'' .  $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape($this->__('The following error(s) occured:')) . '\';
                     if (paypalConflictsObject.isConflict) {
-                        notification += "\\n  " + \'' .  $this->helper('core')->jsQuoteEscape($this->__('Some PayPal solutions conflict.')) . '\';
+                        notification += "\\n  " + \'' .  $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape($this->__('Some PayPal solutions conflict.')) . '\';
                     }
                     if (paypalConflictsObject.ecMissed) {
-                        notification += "\\n  " + \'' .  $this->helper('core')->jsQuoteEscape($this->__('PayPal Express Checkout is not enabled.')) . '\';
+                        notification += "\\n  " + \'' .  $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape($this->__('PayPal Express Checkout is not enabled.')) . '\';
                     }
-                    notification += "\\n" + \'' .  $this->helper('core')->jsQuoteEscape($this->__('Please re-enable the previously enabled payment solutions.')) . '\';
+                    notification += "\\n" + \'' .  $this->helper('Mage_Core_Helper_Data')->jsQuoteEscape($this->__('Please re-enable the previously enabled payment solutions.')) . '\';
                     setTimeout(function() {
                         alert(notification);
                     }, 1);
@@ -453,6 +453,6 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                 }
             });
         ';
-        return parent::_getExtraJs($element, $tooltipsExist) . $this->helper('adminhtml/js')->getScript($js);
+        return parent::_getExtraJs($element, $tooltipsExist) . $this->helper('Mage_Adminhtml_Helper_Js')->getScript($js);
     }
 }
