@@ -8,8 +8,8 @@
 interface Mage_Core_Model_Dataservice_Path_Visitable
 {
     /**
-     * @param Mage_Core_Model_Dataservice_Path_Visitor $visitor
+     * @param Mage_Core_Model_Dataservice_Path_Navigator $visitor
      * @return mixed
      */
-    public function visit(Mage_Core_Model_Dataservice_Path_Visitor $visitor);
+    public function accept(Mage_Core_Model_Dataservice_Path_Navigator $visitor);
 }

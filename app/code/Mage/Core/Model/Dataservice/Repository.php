@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataservice_Path_Visitable
+class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataservice_Path_Node
 {
     /**
-     * @var array
+     * @var array of Mage_Core_Model_Dataservice_Path_Node
      */
     protected $_dataServices = array();
 
@@ -51,8 +51,8 @@ class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataserv
     }
 
     /**
-     * @param $name
-     * @param $dataService
+     * @param string $name
+     * @param Mage_Core_Model_Dataservice_Path_Node $dataService
      * @return $this
      */
     public function add($name, $dataService)
@@ -62,8 +62,8 @@ class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataserv
     }
 
     /**
-     * @param $name
-     * @return null
+     * @param string $name
+     * @return Mage_Core_Model_Dataservice_Path_Node
      */
     public function get($name)
     {
@@ -74,15 +74,14 @@ class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataserv
     }
 
     /**
-     * Make the Dataservice Object visitable
+     * Returns a child path node that corresponds to the input path element.  This can be used to walk the
+     * dataservice graph.
      *
-     * @param Mage_Core_Model_Dataservice_Path_Visitor $visitor
-     * @return bool|mixed
+     * @param string $pathElement the path element name of the child node
+     * @return Mage_Core_Model_Dataservice_Path_Node|null the child node, or null if it doesn't exist
      */
-    public function visit(Mage_Core_Model_Dataservice_Path_Visitor $visitor)
+    public function getChild($pathElement)
     {
-        $sourceName = $visitor->getCurrentPathElement();
-        $dataService = $this->get($sourceName);
-        return $dataService;
+        return $this->get($pathElement);
     }
 }

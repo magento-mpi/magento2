@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_Path_Composite implements Mage_Core_Model_Dataservice_Path_Visitable
+class Mage_Core_Model_Dataservice_Path_Composite implements Mage_Core_Model_Dataservice_Path_Node
 {
     /**
      * @var array
@@ -24,12 +24,18 @@ class Mage_Core_Model_Dataservice_Path_Composite implements Mage_Core_Model_Data
     }
 
     /**
-     * @param Mage_Core_Model_Dataservice_Path_Visitor $visitor
-     * @return null
+     * Returns a child path node that corresponds to the input path element.  This can be used to walk the
+     * dataservice graph.
+     *
+     * @param string $pathElement the path element name of the child node
+     * @return Mage_Core_Model_Dataservice_Path_Node the child node
      */
-    public function visit(Mage_Core_Model_Dataservice_Path_Visitor $visitor)
+    public function getChild($pathElement)
     {
-        $result = $visitor->visitArray($this->_children);
-        return $result;
+        if (array_key_exists($pathElement, $this->_children)) {
+            return $this->_children[$pathElement];
+        }
+
+        return null;
     }
 }

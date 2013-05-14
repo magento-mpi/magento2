@@ -36,13 +36,11 @@ class Mage_Core_Model_Dataservice_RepositoryTest extends PHPUnit_Framework_TestC
         $this->assertEquals($dataService, $namespaceResults[$nameInNamespace]);
     }
 
-    public function testVisit()
+    public function testGetChild()
     {
         $dataService = (object)array();
         $name = 'name';
         $this->_repository->add($name, $dataService);
-        $visitor = $this->getMock('Mage_Core_Model_Dataservice_Path_Visitor', array(), array(), "", false);
-        $visitor->expects($this->once())->method('getCurrentPathElement')->will($this->returnValue($name));
-        $this->assertEquals($dataService, $this->_repository->visit($visitor));
+        $this->assertEquals($dataService, $this->_repository->getChild($name));
     }
 }

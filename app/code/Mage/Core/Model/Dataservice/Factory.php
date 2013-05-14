@@ -7,6 +7,7 @@
  */
 class Mage_Core_Model_Dataservice_Factory
 {
+    const DATASERVICE_PATH_SEPERATOR = '.';
     /**
      * @var Mage_Core_Model_Dataservice_Config_Interface
      */
@@ -23,8 +24,8 @@ class Mage_Core_Model_Dataservice_Factory
     /** @var Mage_Core_Model_Dataservice_Path_Composite */
     protected $_composite;
 
-    /** @var Mage_Core_Model_Dataservice_Path_Visitor_Factory */
-    protected $_visitorFactory;
+    /** @var Mage_Core_Model_Dataservice_Path_Navigator */
+    protected $_pathNavigator;
 
     /**
      * @param Mage_Core_Model_Dataservice_Config_Interface $config
@@ -37,14 +38,14 @@ class Mage_Core_Model_Dataservice_Factory
         Mage_Core_Model_Dataservice_Config_Interface $config,
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Dataservice_Path_Composite $composite,
-        Mage_Core_Model_Dataservice_Path_Visitor_Factory $visitorFactory,
+        Mage_Core_Model_Dataservice_Path_Navigator $pathNavigator,
         Mage_Core_Model_Dataservice_Repository $repository
     )
     {
         $this->_config = $config;
         $this->_objectManager = $objectManager;
         $this->_composite = $composite;
-        $this->_visitorFactory = $visitorFactory;
+        $this->_pathNavigator = $pathNavigator;
         $this->_repository = $repository;
     }
 
@@ -150,10 +151,9 @@ class Mage_Core_Model_Dataservice_Factory
      */
     public function getArgumentValue($path)
     {
-        /** @var $visitor Mage_Core_Model_Dataservice_Path_Visitor */
-        $visitor = $this->_visitorFactory->get($path);
-        $result = $visitor->visit($this->_composite);
-        return $result;
+        // convert from '{parent.child}' format to array('parent', 'child') format
+        $pathArray = explode(self::DATASERVICE_PATH_SEPERATOR, trim($path, '{}'));
+        return $this->_pathNavigator->search($this->_composite, $pathArray);
     }
 
     /**

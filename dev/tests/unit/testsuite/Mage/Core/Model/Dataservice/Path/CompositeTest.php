@@ -39,19 +39,22 @@ class Mage_Core_Model_Dataservice_Path_CompositeTest extends PHPUnit_Framework_T
             = new Mage_Core_Model_Dataservice_Path_Composite($objectManagerMock, $vector);
     }
 
-    public function testVisit()
+    /**
+     * @dataProvider childrenProvider
+     */
+    public function testGetChildNode($elementName, $expectedResult)
     {
-        /** @var $visitorMock Mage_Core_Model_Dataservice_Path_Visitor */
-        $visitorMock = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_Visitor')->disableOriginalConstructor()
-            ->getMock();
-        $results = array(
-            self::ITEM_ONE   => (object)array('name' => self::ITEM_ONE),
-            self::ITEM_TWO   => (object)array('name' => self::ITEM_TWO),
-            self::ITEM_THREE => (object)array('name' => self::ITEM_THREE)
+        $child = $this->_composite->getChild($elementName);
+
+        $this->assertEquals($expectedResult, $child);
+    }
+
+    public function childrenProvider()
+    {
+        return array(
+            array(self::ITEM_ONE, (object)array('name' => self::ITEM_ONE)),
+            array(self::ITEM_TWO, (object)array('name' => self::ITEM_TWO)),
+            array(self::ITEM_THREE, (object)array('name' => self::ITEM_THREE)),
         );
-        $visitorMock->expects($this->once())->method('visitArray')->with($this->equalTo($results))->will(
-            $this->returnValue(self::RETURN_VALUE)
-        );
-        $this->assertEquals(self::RETURN_VALUE, $this->_composite->visit($visitorMock));
     }
 }

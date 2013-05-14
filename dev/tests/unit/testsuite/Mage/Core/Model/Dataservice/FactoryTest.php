@@ -29,8 +29,8 @@ class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
     /** @var  Mage_Core_Model_Dataservice_Path_Composite */
     protected $_compositeMock;
 
-    /** @var  Mage_Core_Model_Dataservice_Path_Visitor_Factory */
-    protected $_visitorFactoryMock;
+    /** @var  Mage_Core_Model_Dataservice_Path_Navigator */
+    protected $_pathNavigatorMock;
 
     /** @var  Mage_Core_Model_Dataservice_Repository */
     protected $_repositoryMock;
@@ -51,15 +51,14 @@ class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
         $this->_compositeMock = $this->getMock(
             'Mage_Core_Model_Dataservice_Path_Composite', array(), array(), "", false
         );
-        $this->_visitorFactoryMock = $this->getMock(
-            'Mage_Core_Model_Dataservice_Path_Visitor_Factory', array(), array(), "", false
-        );
+        $this->_pathNavigatorMock = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_Navigator')
+            ->disableOriginalConstructor()->getMock();
         $this->_repositoryMock = $this->getMock('Mage_Core_Model_Dataservice_Repository', array(), array(), "", false);
         $this->_factory = new Mage_Core_Model_Dataservice_Factory(
             $this->_configMock,
             $this->_objectManagerMock,
             $this->_compositeMock,
-            $this->_visitorFactoryMock,
+            $this->_pathNavigatorMock,
             $this->_repositoryMock);
         $this->_dataserviceMock = (object)array();
     }
@@ -122,13 +121,10 @@ class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
 
     public function testGetArgumentValue()
     {
-        $visitorMock = $this->getMock('Mage_Core_Model_Dataservice_Path_Visitor', array(), array(), "", false);
         $path = 'path';
         $result = 'result';
-        $this->_visitorFactoryMock->expects($this->once())->method('get')->with($path)->will(
-            $this->returnValue($visitorMock)
-        );
-        $visitorMock->expects($this->once())->method('visit')->with($this->_compositeMock)->will(
+        $pathArray = array($path);
+        $this->_pathNavigatorMock->expects($this->once())->method('search')->with($this->_compositeMock, $pathArray)->will(
             $this->returnValue($result)
         );
         $this->assertEquals($result, $this->_factory->getArgumentValue($path));
