@@ -290,6 +290,10 @@ a:visited:hover {
 .column.right {
   padding-left: 10px;
 }
+.column.left,
+.column.right {
+  min-height: 1px;
+}
 .col1-layout .column.main {
   display: inline;
   float: left;
