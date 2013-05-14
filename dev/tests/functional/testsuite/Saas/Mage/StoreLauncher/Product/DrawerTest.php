@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_StoreLauncher_Product_DrawerTest extends Mage_Selenium_TestCase
+class Saas_Mage_StoreLauncher_Product_DrawerTest extends Mage_Selenium_TestCase
 {
     /**
      * Store new window handle
@@ -34,15 +34,9 @@ class Core_Mage_StoreLauncher_Product_DrawerTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $tileState = $this->getControlAttribute('fieldset', 'product_tile', 'class');
-        $changeState = ('tile-store-settings tile-product tile-complete' == $tileState) ? true : false;
-        if ($changeState) {
-            $this->storeLauncherHelper()->setTileState('product', Core_Mage_StoreLauncher_Helper::$STATE_TODO);
-            //Remove all products
-            $this->navigate('manage_products');
-            $this->runMassAction('Delete', 'all');
-            $this->admin();
-        }
+        $this->storeLauncherHelper()->resetProductTile();
+        //Back to admin
+        $this->loginAdminUser();
     }
 
     /**
@@ -69,7 +63,7 @@ class Core_Mage_StoreLauncher_Product_DrawerTest extends Mage_Selenium_TestCase
     public function navigateToPages($link, $page)
     {
         /**
-         * @var Core_Mage_StoreLauncher_Helper $helper
+         * @var Saas_Mage_StoreLauncher_Helper $helper
          */
         $helper = $this->storeLauncherHelper();
         $helper->openDrawer('product_tile');
@@ -109,7 +103,7 @@ class Core_Mage_StoreLauncher_Product_DrawerTest extends Mage_Selenium_TestCase
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         $category = $this->loadDataSet('ProductTile', 'default_category');
         /**
-         * @var Core_Mage_StoreLauncher_Helper $helper
+         * @var Saas_Mage_StoreLauncher_Helper $helper
          */
         $this->assertEquals('tile-store-settings tile-product tile-todo',
             $this->getControlAttribute('fieldset', 'product_tile', 'class'), 'Tile state is not Equal to TODO');

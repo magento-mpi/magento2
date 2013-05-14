@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
+class Saas_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Possible tile states
@@ -147,12 +147,7 @@ class Core_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
      */
     public function setTileState($tileCode, $tileState)
     {
-        $connectionData = $this->_getDbCredentials();
-        //Uncomment and change if Magento instance is not local
-        /*$connectionData['dbname' ] = 'magento_db';
-        $connectionData['username' ] = 'user';
-        $connectionData['password' ] = '123123q';
-        $connectionData['host' ] = '192.168.1.1';*/
+        $connectionData = $this->tmtHelper()->getTenantDbCredentials();
         if (!empty($connectionData)) {
             try {
                 $connection = new PDO(
@@ -168,5 +163,83 @@ class Core_Mage_StoreLauncher_Helper extends Mage_Selenium_AbstractHelper
             }
         }
         return $this->fail('Could not set Tile state');
+    }
+
+    /**
+     * Reset Payments tile state
+     */
+    public function resetPaymentsTile()
+    {
+        if ($this->isTileComlete('payment_tile')) {
+            $this->navigate('system_configuration');
+            $this->systemConfigurationHelper()->configure('PaymentMethod/paypal_disable');
+            $this->systemConfigurationHelper()->configure('PaymentMethod/authorize_net_disable');
+            $this->admin();
+            $this->storeLauncherHelper()->openDrawer('payment_tile');
+            $this->storeLauncherHelper()->saveDrawer();
+        }
+    }
+
+    /**
+     * Reset Product tile state
+     */
+    public function resetProductTile()
+    {
+        if ($this->isTileComlete('product_tile')) {
+            //Remove all products
+            $this->navigate('manage_products');
+            $this->runMassAction('Delete', 'all');
+            $this->storeLauncherHelper()->setTileState('product', Saas_Mage_StoreLauncher_Helper::$STATE_TODO);
+        }
+    }
+
+    /**
+     * Reset Shipping tile state
+     */
+    public function resetShippingTile()
+    {
+        if ($this->isTileComlete('shipping_tile')) {
+            $this->navigate('system_configuration');
+            $this->systemConfigurationHelper()->configure('ShippingMethod/shipping_disable');
+            $this->admin();
+            $this->storeLauncherHelper()->openDrawer('shipping_tile');
+            $this->clickControl('pageelement', 'shipping_switcher', false);
+            $this->storeLauncherHelper()->saveDrawer();
+        }
+    }
+
+    /**
+     * Reset StoreInfo tile state
+     */
+    public function resetStoreInfoTile()
+    {
+        if ($this->isTileComlete('bussines_info_tile')) {
+            $this->navigate('system_configuration');
+            $this->systemConfigurationHelper()->configure('ShippingSettings/store_information_empty');
+            $this->systemConfigurationHelper()->configure('General/general_default_emails');
+            $this->admin();
+        }
+    }
+
+    /**
+     * Reset StoreInfo tile state
+     */
+    public function resetTaxTile()
+    {
+        if ($this->isTileComlete('tax_rules_tile')) {
+            $this->storeLauncherHelper()->setTileState('tax', Saas_Mage_StoreLauncher_Helper::$STATE_TODO);
+        }
+    }
+
+    /**
+     * Get tile state
+     * @param $tileCode
+     *
+     * @return bool
+     */
+    protected function isTileComlete($tileCode)
+    {
+        $tileState = $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, $tileCode, 'class');
+        return (strpos($tileState, 'tile-complete') !== false) ? true : false;
     }
 }

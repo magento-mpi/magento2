@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
+class Saas_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Save rule name for clean up</p>
@@ -27,20 +27,17 @@ class Core_Mage_StoreLauncher_TaxRules_DrawerTest extends Mage_Selenium_TestCase
      * <p>Preconditions:</p>
      * <p>1. Login to Backend</p>
      * <p>2. Navigate to Store Launcher page</p>
+     * <p>3. Reset tile state</p>
      */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $tileState = $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'tax_rules_tile', 'class');
-        $changeState = ('tile-store-settings tile-tax tile-complete' == $tileState) ? true : false;
-        if ($changeState) {
-            $this->storeLauncherHelper()->setTileState('tax', Core_Mage_StoreLauncher_Helper::$STATE_TODO);
-            $this->admin();
-        }
+        $this->storeLauncherHelper()->resetTaxTile();
+        //Back to admin
+        $this->loginAdminUser();
     }
 
     /**
-     * <p>Set tile state in STATE_TODO</p>
      * <p>Remove Tax Rule</p>
      */
     protected function tearDownAfterTest()

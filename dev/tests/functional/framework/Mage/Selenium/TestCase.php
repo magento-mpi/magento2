@@ -51,7 +51,6 @@
  * @method Core_Mage_RssFeeds_Helper                                                                   rssFeedsHelper()
  * @method Core_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper                           shoppingCartHelper()
  * @method Core_Mage_Store_Helper                                                                      storeHelper()
- * @method Core_Mage_StoreLauncher_Helper                                                              storeLauncherHelper()
  * @method Core_Mage_SystemConfiguration_Helper                                                        systemConfigurationHelper()
  * @method Core_Mage_Tags_Helper                                                                       tagsHelper()
  * @method Core_Mage_Tax_Helper                                                                        taxHelper()
@@ -75,6 +74,8 @@
  * @method Core_Mage_Theme_Helper                                                                      themeHelper()
  * @method Core_Mage_DesignEditor_Helper                                                               designEditorHelper()
  * @method Saas_Mage_TmtApi_Helper                                                                     tmtApiHelper()
+ * @method Saas_Mage_StoreLauncher_Helper                                                              storeLauncherHelper()
+ * @method Saas_Mage_Tmt_Helper                                                                        tmtHelper()
  */
 //@codingStandardsIgnoreEnd
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
@@ -2093,14 +2094,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function takeScreenshot($fileName = null)
     {
-        $windowSize = $this->currentWindow()->size();
         $screenshotPath = $this->getScreenshotPath();
         if (empty($screenshotPath)) {
             $this->fail('Screenshot Path is empty');
         }
 
         if ($fileName == null) {
-            $fileName = time() . '__' . $windowSize['height'] . '_' . $windowSize['width'] . '__' . $this->getTestId();
+            $fileName = time() . '__' . $this->getTestId();
             $fileName = preg_replace('/"/', '\'', $fileName);
             $fileName = preg_replace('/ with data set #/', '__DataSet_', $fileName);
         }
