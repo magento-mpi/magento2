@@ -2043,6 +2043,11 @@
     -webkit-font-smoothing: antialiased;
     content: '\e07f'; /* trash icon */
     color: #828282;
+    opacity: .50;
+}
+
+.wrapper-popup .action-delete .active {
+    opacity: 100;
 }
 
 .wrapper-popup .actions .action-delete {
