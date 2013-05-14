@@ -77,6 +77,7 @@ strong {
 @primary4: @color9;
 @primary5: @color4;
 @primary6: @color10;
+@primary7: @color12; // for some fieldsets
 @primeBlack: green;
 @primeBlackOpacity: rgba(0, 0, 0, 0.5);
 @commonBg : yellow;
@@ -2262,9 +2263,9 @@ div.mage-error {
         &.empty {
           margin: 10px -320px 0 0;
           padding: 0;
-          float:right;
-          width:310px;
-          clear:right;
+          float: right;
+          width: 310px;
+          clear: right;
         }
       }
     }
@@ -4340,7 +4341,7 @@ and (max-width : 768px) {
     }
     margin: 0 0 50px;
     padding: 20px;
-    background: #fff; //tmpColor
+    background: @primary7;
     &:last-child {
       margin-bottom: 0;
     }
@@ -4371,11 +4372,10 @@ and (max-width : 768px) {
 }
 
 .block.bundle.summary {
-  margin-top: 97px;
-  background: #fff; //tmpColor
-  position: absolute;
-  right: 0;
-  top: 0;
+  background: @primary7;
+  margin-top: 54px;
+  float: right;
+  position: relative;
   width: 380px;
   > .title {
     font-weight: 400;
