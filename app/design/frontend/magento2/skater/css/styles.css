@@ -6058,7 +6058,7 @@ body.type-bundle {
   clear: both;
 }
 .minicart.wrapper .block.minicart > .content {
-  margin-top: 15px;
+  margin-top: 5px;
 }
 .minicart.wrapper .block.minicart > .content .subtotal {
   padding: 15px;
@@ -6105,10 +6105,11 @@ body.type-bundle {
   color: #111111;
 }
 .minicart.wrapper .block.minicart > .content .subtitle {
-  display: none;
+  display: block;
+  font-weight: 400;
+  padding: 0 35px 15px 15px;
 }
 .minicart.wrapper .block.minicart > .content .subtitle.empty {
-  display: block;
   padding: 10px 15px;
 }
 .minicart.wrapper .block.minicart > .title {

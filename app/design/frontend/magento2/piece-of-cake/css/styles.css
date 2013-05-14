@@ -3360,10 +3360,10 @@ select:disabled {
   text-decoration: underline;
 }
 .minicart.wrapper .block.minicart > .content .subtitle {
-  display: none;
-}
-.minicart.wrapper .block.minicart > .content .subtitle.empty {
   display: block;
+  font-weight: 400;
+  color: #666666;
+  margin: 10px 0 0;
 }
 .minicart.wrapper .block.minicart > .title,
 .minicart.wrapper .block.minicart > .content .subtotal,

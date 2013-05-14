@@ -3081,25 +3081,21 @@ select:disabled {
   color: #393939;
 }
 .minicart.wrapper .block.minicart > .content .subtitle {
-  display: none;
+  display: block;
+  padding: 5px 10px;
+  background: #000000;
+  font-weight: 400;
+  color: #ffffff;
 }
 .minicart.wrapper .block.minicart > .content .subtitle.empty {
-  display: block;
-  font-weight: 400;
   padding: 10px;
 }
-.minicart.wrapper .block.minicart > .title,
 .minicart.wrapper .block.minicart > .content .disclaimer {
   padding: 0 10px;
   text-align: left;
 }
 .minicart.wrapper .block.minicart > .title {
-  padding: 5px 10px;
-  background: #000000;
-}
-.minicart.wrapper .block.minicart > .title strong {
-  font-weight: 400;
-  color: #ffffff;
+  display: none;
 }
 .minicart.wrapper.active {
   position: relative;
