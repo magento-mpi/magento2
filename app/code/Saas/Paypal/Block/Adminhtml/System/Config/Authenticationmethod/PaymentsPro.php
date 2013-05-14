@@ -164,8 +164,8 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Authenticationmethod_PaymentsPro
     {
         $originalData = $element->getOriginalData();
         if (!empty($originalData['path'])) {
-            $path = explode('/', $originalData['path']);
-            array_pop($path);
+            $originalPath = explode('/', $originalData['path']);
+            $path = array_slice($originalPath, 0, count($originalPath) - 2);
             $this->setPath(implode('_', $path));
         }
         return $this;
