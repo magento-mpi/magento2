@@ -1012,7 +1012,8 @@ h6 {
 
 /* Reviews */
 @starSize : 16px;
-.rating {
+.block.reviews.dashboard .rating,
+.reviews.summary .rating {
   width:5*@starSize;
   margin-right: 3px;
   line-height: 1;
@@ -1409,7 +1410,7 @@ form.search.advanced {
 .message() {
   display: block;
   .clearfix();
-  padding: 12px 20px 12px 55px;
+  padding: 20px 20px 20px 55px;
   margin: 3px 0 3px;
   border-radius: 5px;
   position: relative;
@@ -1420,7 +1421,8 @@ form.search.advanced {
     width: 31px;
     text-align: center;
     left: 12px;
-    top: 0;
+    top: 50%;
+    margin-top: -20px;
     font-family: "icons";
     color: @primary1;
     font-size: 30px;
@@ -2133,28 +2135,32 @@ select {
     font-size: 24px;
     font-weight: 400;
     display: block;
-    border-bottom: 2px solid @borderColor;
+    border-bottom: 1px solid @borderColor;
     padding-bottom: 15px;
   }
   .block {
-    border-bottom: 1px solid @primary2;
+    border-bottom: 1px solid @borderColor;
     margin-bottom: 0;
+    &.active {
+      border-bottom-color: transparent;
+    }
     > .title {
       cursor: pointer;
-      padding: 10px 5px;
+      padding: 15px 5px;
       margin: 0;
       line-height: 16px;
       strong {
         font-size: 14px;
-        font-weight: 600;
+        font-weight: 400;
         font-family: "signikanegative", sans-serif;
+        color: @secondary3;
         &:after {
           content: "\e02d";
           font-family: "MUI-icons";
           float: right;
           font-weight: 400;
-          font-size: 16px;
-          line-height: 16px;
+          font-size: 18px;
+          line-height: 18px;
         }
       }
       &.active strong:after {
@@ -2900,7 +2906,7 @@ select {
       font-size: 14px;
       display: inline-block;
       vertical-align: top;
-      padding: 10px 30px;
+      padding: 10px 15px;
       position: relative;
       z-index: 1;
       text-align: center;
@@ -3367,10 +3373,15 @@ select {
   @optionsHeigth: 23px;
   margin: 17px 0;
   position: relative;
-  .category-view & {
+  .category-view &,
+  .results-view & {
     min-height: 70px;
+    &.bottom {
+      margin-top: 37px;
+    }
   }
-  .category-view &:before {
+  .category-view &:before,
+  .results-view &:before {
     position: absolute;
     top: 35px;
     left: 0;
@@ -3877,7 +3888,7 @@ select {
 }
 
 .product.info.main {
-  .price-box {
+  > .price-box {
     font-family: "benchnine", sans-serif;
     font-weight: 400;
     font-size: 30px;
@@ -3918,6 +3929,20 @@ select {
       float: left;
       font-size: 14px;
       margin-right: 15px;
+    }
+  }
+  .data.table.grouped {
+    tr {
+      border-bottom: 2px solid @borderColor;
+      &:nth-child(even) {
+        background: @primary1;
+      }
+      td {
+        padding: 5px 10px;
+      }
+      .col.qty {
+        width: 50px;
+      }
     }
   }
 }
