@@ -194,9 +194,28 @@
                                     <field id="authentication_method">0</field>
                                 </depends>
                             </field>
-                            <field id="api_wizard">
+                            <field id="api_wizard" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
                                 <depends>
                                     <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_wizard_saas" extends="api_wizard" showInDefault="1" showInWebsite="1" showInStore="1">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                                <depends>
+                                    <field id="*/account/merchant_country" separator="," negative="1">FR,AU</field>
+                                </depends>
+                            </field>
+                            <field id="api_wizard_fr" extends="api_wizard" showInDefault="1" showInWebsite="1" showInStore="1">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                                <depends>
+                                    <field id="*/account/merchant_country">FR</field>
+                                </depends>
+                            </field>
+                            <field id="api_wizard_au" extends="api_wizard" showInDefault="1" showInWebsite="1" showInStore="1">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                                <depends>
+                                    <field id="*/account/merchant_country">AU</field>
                                 </depends>
                             </field>
                             <field id="sandbox_flag">
@@ -686,9 +705,28 @@
                                     <field id="authentication_method">0</field>
                                 </depends>
                             </field>
-                            <field id="api_wizard">
+                            <field id="api_wizard" showInDefault="0" showInWebsite="0" showInStore="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
                                 <depends>
                                     <field id="authentication_method">0</field>
+                                </depends>
+                            </field>
+                            <field id="api_wizard_saas" extends="api_wizard" showInDefault="1" showInWebsite="1" showInStore="1">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                                <depends>
+                                    <field id="*/account/merchant_country" separator="," negative="1">FR,AU</field>
+                                </depends>
+                            </field>
+                            <field id="api_wizard_fr" extends="api_wizard" showInDefault="1" showInWebsite="1" showInStore="1">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                                <depends>
+                                    <field id="*/account/merchant_country">FR</field>
+                                </depends>
+                            </field>
+                            <field id="api_wizard_au" extends="api_wizard" showInDefault="1" showInWebsite="1" showInStore="1">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                                <depends>
+                                    <field id="*/account/merchant_country">AU</field>
                                 </depends>
                             </field>
                             <field id="sandbox_flag">
