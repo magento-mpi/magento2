@@ -161,18 +161,7 @@ Mediabrowser.prototype = {
         this.selectFolder(this.currentNode);
     },
 
-    insert: function(event) {
-        var div;
-        if (event != undefined) {
-            div = Event.findElement(event, 'DIV');
-        } else {
-            $$('div.selected').each(function (e) {
-                div = $(e.id);
-            });
-        }
-        if ($(div.id) == undefined) {
-            return false;
-        }
+    insert: function(value) {
         var targetEl = this.getTargetElement();
         if (! targetEl) {
             alert("Target element not found for content update");
@@ -180,7 +169,7 @@ Mediabrowser.prototype = {
             return;
         }
 
-        var params = {filename:div.id, node:this.currentNode.id, store:this.storeId};
+        var params = {filename:value, node:this.currentNode.id, store:this.storeId};
 
         if (targetEl.tagName.toLowerCase() == 'textarea') {
             params.as_is = 1;
@@ -299,16 +288,12 @@ Mediabrowser.prototype = {
         })
     },
 
-    deleteFiles: function() {
+    deleteFiles: function(value) {
         if (!confirm(this.deleteFileConfirmationMessage)) {
             return false;
         }
         var ids = [];
-        var i = 0;
-        $$('div.selected').each(function (e) {
-            ids[i] = e.id;
-            i++;
-        });
+        ids[0] = value;
         new Ajax.Request(this.deleteFilesUrl, {
             parameters: {files: Object.toJSON(ids)},
             onSuccess: function(transport) {

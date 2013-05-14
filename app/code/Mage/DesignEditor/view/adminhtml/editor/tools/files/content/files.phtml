@@ -15,7 +15,7 @@
 
 <?php if ($this->getFilesCount() > 0): ?>
 
-    <div name="css-editor" >
+    <div name="css-editor">
         <?php if ($this->getStorageType() == 'font'): ?>
             <table cellspacing="0">
                 <?php foreach ($this->getFiles() as $file): ?>
@@ -24,12 +24,12 @@
                             <?php echo $file['text'] ?>
                         </td>
                         <td>
-                            <a href="#" class="action-add" title="<?php echo $this->__('Insert file'); ?>" data-id="<?php echo $file['id'] ?>">
+                            <a href="#" class="action-add" onclick="MediabrowserInstance.insert('<?php echo $file['id'] ?>')" title="<?php echo $this->__('Insert file'); ?>" data-id="<?php echo $file['id'] ?>">
                                 <span><?php echo $this->__('Insert file'); ?></span>
                             </a>
                         </td>
                         <td>
-                            <a href="#" class="action-delete" title="<?php echo $this->__('Delete file'); ?>" data-id="<?php echo $file['id'] ?>">
+                            <a href="#" class="action-delete" onclick="MediabrowserInstance.deleteFiles('<?php echo $file['id'] ?>')" title="<?php echo $this->__('Delete file'); ?>" data-id="<?php echo $file['id'] ?>">
                                 <span><?php echo $this->__('Delete file'); ?></span>
                             </a>
                         </td>
@@ -54,14 +54,3 @@
 <?php else: ?>
     <?php echo $this->__('No files found') ?>
 <?php endif; ?>
-
-<script type="text/javascript">
-    (function ($) {
-        $('#css-editor .action-delete').on('click', function() {
-            MediabrowserInstance.deleteFiles();
-        });
-        $('#css-editor .action-add').on('click', function() {
-            MediabrowserInstance.insert();
-        });
-    })(jQuery);
-</script>
