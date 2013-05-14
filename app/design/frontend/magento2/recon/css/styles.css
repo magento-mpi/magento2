@@ -3145,6 +3145,9 @@ select:disabled {
 .minicart.wrapper p {
   clear: both;
 }
+.eq-ie8 .minicart.wrapper.active:before {
+  display: none;
+}
 /* Product options */
 .minicart .product.options.wrapper {
   position: relative;
@@ -5775,6 +5778,17 @@ body.type-bundle {
   line-height: 1;
   padding: 20px 20px 10px;
   margin-bottom: 0;
+}
+.block.bundle.summary .bundle.summary div > ul {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+.block.bundle.summary .bundle.summary div > ul > li {
+  margin: 0 0 10px;
+}
+.block.bundle.summary .bundle.summary div > ul > li > div > div {
+  margin: 0 0 5px;
 }
 .action.back.customization {
   position: absolute;

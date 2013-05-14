@@ -148,42 +148,42 @@ class Saas_Backend_Model_Config_Backend_DomainsTest extends PHPUnit_Framework_Te
     {
         $values = array();
         $key = Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL
-            . Saas_Backend_Model_Config_Backend_Domains::HTTPS . '://' . $defaultDomain
+            . Saas_Backend_Model_Config_Backend_Domains::HTTPS . '://' . $defaultDomain . '/'
             . Mage_Core_Model_Config::SCOPE_DEFAULT;
         $values[$key] = 1;
 
         $key = Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL
-            . Saas_Backend_Model_Config_Backend_Domains::HTTPS . '://' . $defaultDomain
+            . Saas_Backend_Model_Config_Backend_Domains::HTTPS . '://' . $defaultDomain . '/'
             . Mage_Core_Model_Config::SCOPE_DEFAULT;
         $values[$key] = 1;
 
         $key = Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL
-            . Saas_Backend_Model_Config_Backend_Domains::HTTP . '://' . $defaultDomain
+            . Saas_Backend_Model_Config_Backend_Domains::HTTP . '://' . $defaultDomain . '/'
             . Mage_Core_Model_Config::SCOPE_DEFAULT;
         $values[$key] = 1;
 
         $key = Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
-            . Saas_Backend_Model_Config_Backend_Domains::HTTP . '://' . $defaultDomain
+            . Saas_Backend_Model_Config_Backend_Domains::HTTP . '://' . $defaultDomain . '/'
             . Mage_Core_Model_Config::SCOPE_DEFAULT;
         $values[$key] = 1;
 
         $key = Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL
-            . Saas_Backend_Model_Config_Backend_Domains::HTTPS . '://' . $customSslDomain
+            . Saas_Backend_Model_Config_Backend_Domains::HTTPS . '://' . $customSslDomain . '/'
             . Mage_Core_Model_Config::SCOPE_WEBSITES;
         $values[$key] = 1;
 
         $key = Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL
-            . Saas_Backend_Model_Config_Backend_Domains::HTTPS . '://' . $customSslDomain
+            . Saas_Backend_Model_Config_Backend_Domains::HTTPS . '://' . $customSslDomain . '/'
             . Mage_Core_Model_Config::SCOPE_WEBSITES;
         $values[$key] = 1;
 
         $key = Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL
-            . Saas_Backend_Model_Config_Backend_Domains::HTTP . '://' . $customDomain
+            . Saas_Backend_Model_Config_Backend_Domains::HTTP . '://' . $customDomain . '/'
             . Mage_Core_Model_Config::SCOPE_WEBSITES;
         $values[$key] = 1;
 
         $key = Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
-            . Saas_Backend_Model_Config_Backend_Domains::HTTP . '://' . $customDomain
+            . Saas_Backend_Model_Config_Backend_Domains::HTTP . '://' . $customDomain . '/'
             . Mage_Core_Model_Config::SCOPE_WEBSITES;
         $values[$key] = 1;
 
@@ -339,6 +339,46 @@ class Saas_Backend_Model_Config_Backend_DomainsTest extends PHPUnit_Framework_Te
         $this->assertEquals(
             $this->_configMock->getNode(Saas_Backend_Model_Config_Backend_Domains::XML_CUSTOM_DOMAIN),
             $domainsModel->getCustomDomain()
+        );
+    }
+
+    /**
+     * Dataprovider for formatUrl function
+     */
+    public function formatUrlDataProvider()
+    {
+        return array(
+            array('somedomain.magento.go', 'http://somedomain.magento.go/', 'http'),
+            array('domain.com', 'http://domain.com/', 'http'),
+            array('somedomain.magento.go', 'https://somedomain.magento.go/', 'https'),
+            array('domain.com', 'https://domain.com/', 'https'),
+            array('somedomain.magento.go/', 'http://somedomain.magento.go/', 'http'),
+            array('domain.com/', 'http://domain.com/', 'http'),
+            array('somedomain.magento.go', 'https://somedomain.magento.go/', 'https'),
+            array('domain.com/', 'https://domain.com/', 'https'),
+        );
+    }
+
+    /**
+     * Check is url well formed
+     *
+     * @test
+     * @dataProvider formatUrlDataProvider
+     */
+    public function formatUrl($rawUrl, $expectedUrl,  $protocol)
+    {
+        /** @var  Saas_Backend_Model_Config_Backend_Domains $domainsModel */
+        $domainsModel = new Saas_Backend_Model_Config_Backend_Domains(
+            $this->_configMock,
+            $this->_writerMock,
+            $this->_contextMock,
+            $this->_resourceMock,
+            $this->_dbMock
+        );
+
+        $this->assertEquals(
+            $expectedUrl,
+            $domainsModel->formatUrl($protocol, $rawUrl)
         );
     }
 }

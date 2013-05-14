@@ -80,9 +80,7 @@
 
 // assign comfortaa uppercased font
 .customFont(@size: 14px, @transform: uppercase, @spacing: 0.05em, @fontweight:700) {
-    font-size: @size;
-    font-family: @headingsFont, Arial, Helvetica, sans-serif;
-    font-weight: @fontweight;
+    font: @fontweight @size @headingsFont, Arial, Helvetica, sans-serif;
     text-transform: @transform;
     letter-spacing: @spacing;
 }

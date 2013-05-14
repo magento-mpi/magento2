@@ -1154,7 +1154,6 @@ body.type-bundle {
         .price {
             .customFont(16px,uppercase,0,400);
         }
-        .full-product-price,
         .price-excluding-tax,
         .price-including-tax {
             display: block;
@@ -1190,6 +1189,21 @@ body.type-bundle {
 
     .tocart > .qty {
         margin-bottom: 10px;
+    }
+
+    .bundle.summary {
+        div > ul {
+            font-size: 12px;
+            list-style: none;
+            margin: 10px 0 0;
+            padding: 0;
+            > li {
+                margin: 0 0 10px;
+                > div > div {
+                    margin: 0 0 5px;
+                }
+            }
+        }
     }
 }
 

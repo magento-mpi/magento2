@@ -26,7 +26,8 @@
             isMultipleStoreViewMode: null,
             redirectOnAssign:   false,
             openNewOnAssign:    true,
-            refreshOnAssign:    true
+            refreshOnAssign:    true,
+            afterAssignMode:    'navigation'
         },
 
         /**
@@ -81,7 +82,7 @@
 
             var dialog = data.dialog = this._getDialog().data('dialog');
             dialog.messages.clear();
-            dialog.title.set('Assign theme to your live store-view:');
+            dialog.title.set($.mage.__('Assign theme to your live store-view:'));
             if (data.confirm_message) {
                 dialog.text.set(data.confirm_message);
             }
@@ -213,7 +214,9 @@
                         this.options.afterAssignUrl + 'store_id',
                         stores ? stores[0] : defaultStore,
                         'theme_id',
-                        response.themeId
+                        response.themeId,
+                        'mode',
+                        this.options.afterAssignMode
                     ].join('/');
 
                     if (this.options.openNewOnAssign) {

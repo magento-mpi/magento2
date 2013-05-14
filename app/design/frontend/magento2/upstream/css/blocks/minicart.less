@@ -198,6 +198,15 @@
             font-family: @oswald;
             font-weight: 400;
         }
+        &.empty {
+            > .title {
+                display: none;
+            }
+            > .content .subtitle {
+                display: block;
+                margin-right: -330px;
+            }
+        }
     }
     &.active {
         z-index: 11;
