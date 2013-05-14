@@ -96,6 +96,7 @@
          * @private
          */
         _postPaymentToAuthorizeNet: function(data) {
+            $(this.options.iframeSelector).show();
             $.template('hiddenFormTmpl', this.options.hiddenFormTmpl);
             $.tmpl('hiddenFormTmpl', {
                 target: $(this.options.iframeSelector).attr('name'),

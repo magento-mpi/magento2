@@ -885,6 +885,8 @@ button.primary.disabled:hover,
     top: auto;
     max-height: 300px;
     overflow: auto;
+    width: 100%;
+    float: left;
 }
 
 .suggest-expandable .mage-suggest-dropdown ul {

@@ -5543,10 +5543,25 @@ body.type-bundle {
 }
 .cart.summary {
   background: #cccccc;
-  float: right;
+  display: inline-block;
   width: 260px;
   padding: 20px;
+  margin-left:10px;
 }
+.cart > .summary.fixed, .cart.container > .summary > .container.fixed {
+    position: fixed;
+    top: 0;
+}
+.cart.container > .summary.bottom {
+    vertical-align: bottom;
+    bottom:0;
+}
+
+.cart.container > .summary.sticky{
+    position:fixed;
+    display:inline-block !important
+}
+
 .cart.summary .summary.title {
   font: 700 16px amaranth, Arial, Helvetica, sans-serif;
   text-transform: uppercase;
@@ -6224,6 +6239,8 @@ body.type-bundle {
 .minicart .products.minilist .minilist.items {
   margin: 0;
   position: relative;
+  overflow: auto;
+  max-height: 540px;
 }
 .minicart .products.minilist .item {
   *zoom: 1;

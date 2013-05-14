@@ -119,6 +119,13 @@
         <secure_url>
             <wishlist>/wishlist/</wishlist>
         </secure_url>
+        <di>
+            <Mage_Wishlist_Model_Session>
+                <parameters>
+                    <sessionName>frontend</sessionName>
+                </parameters>
+            </Mage_Wishlist_Model_Session>
+        </di>
     </frontend>
     <adminhtml>
         <translate>
@@ -137,6 +144,13 @@
                 </wishlist>
             </updates>
         </layout>
+        <di>
+            <Mage_Wishlist_Model_Session>
+                <parameters>
+                    <sessionName>adminhtml</sessionName>
+                </parameters>
+            </Mage_Wishlist_Model_Session>
+        </di>
     </adminhtml>
     <default>
         <wishlist>

@@ -2385,10 +2385,25 @@ div.mage-error {
 .cart.summary {
   margin-top: 33px;
   background: #546972;
-  float: right;
+  display: inline-block;
   width: 290px;
   padding: 20px;
+  margin-left:10px;
 }
+.cart > .summary.fixed, .cart.container > .summary > .container.fixed {
+    position: fixed;
+    top: 0;
+}
+.cart.container > .summary.bottom {
+    vertical-align: bottom;
+    bottom:0;
+}
+
+.cart.container > .summary.sticky{
+    position:fixed;
+    display:inline-block !important
+}
+
 .cart.summary .summary.title {
   font-size: 20px;
   font-weight: 200;
