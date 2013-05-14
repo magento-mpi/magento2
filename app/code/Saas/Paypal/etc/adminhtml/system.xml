@@ -208,12 +208,20 @@
                             </field>
                             <field id="api_wizard_fr" extends="api_wizard" showInDefault="1" showInWebsite="1" showInStore="1">
                                 <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                                <button_url><![CDATA[https://www.paypal.com/fr/cgi-bin/webscr?cmd=_login-api-run]]></button_url>
+                                <attribute type="sandbox_button_url">
+                                    <![CDATA[https://www.sandbox.paypal.com/fr/cgi-bin/webscr?cmd=_login-api-run]]>
+                                </attribute>
                                 <depends>
                                     <field id="*/account/merchant_country">FR</field>
                                 </depends>
                             </field>
                             <field id="api_wizard_au" extends="api_wizard" showInDefault="1" showInWebsite="1" showInStore="1">
                                 <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                                <button_url><![CDATA[https://www.paypal.com/au/cgi-bin/webscr?cmd=_login-api-run]]></button_url>
+                                <attribute type="sandbox_button_url">
+                                    <![CDATA[https://www.sandbox.paypal.com/au/cgi-bin/webscr?cmd=_login-api-run]]>
+                                </attribute>
                                 <depends>
                                     <field id="*/account/merchant_country">AU</field>
                                 </depends>
