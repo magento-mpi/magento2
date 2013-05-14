@@ -5834,11 +5834,10 @@ body.type-bundle {
   text-align: center;
 }
 .block.bundle.summary {
-  margin-top: 97px;
   background: #fff;
-  position: absolute;
-  right: 0;
-  top: 0;
+  margin-top: 54px;
+  float: right;
+  position: relative;
   width: 380px;
 }
 .block.bundle.summary > .title {
