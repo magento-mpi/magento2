@@ -159,7 +159,11 @@ if (!FormElementDependenceController.prototype.redefined) {
         if (idTo == 'payment_paypal_group_all_in_one_us_wpp_us_wpp_required_settings_wpp_and_express_checkout_direct_boarding_status_other'
             || idTo == 'payment_paypal_group_all_in_one_us_wpp_us_wpp_required_settings_wpp_and_express_checkout_direct_boarding_status_us'
             || idTo == 'payment_paypal_group_all_in_one_gb_wpp_gb_wpp_required_settings_wpp_and_express_checkout_direct_boarding_status_other'
-            || idTo == 'payment_paypal_group_all_in_one_gb_wpp_gb_wpp_required_settings_wpp_and_express_checkout_direct_boarding_status_us') {
+            || idTo == 'payment_paypal_group_all_in_one_gb_wpp_gb_wpp_required_settings_wpp_and_express_checkout_direct_boarding_status_us'
+            || idTo == 'payment_paypal_alternative_payment_methods_express_checkout_gb_express_checkout_required_express_checkout_required_express_checkout_status_other'
+            || idTo == 'payment_paypal_alternative_payment_methods_express_checkout_gb_express_checkout_required_express_checkout_required_express_checkout_status_us'
+            || idTo == 'payment_paypal_alternative_payment_methods_express_checkout_us_express_checkout_required_express_checkout_required_express_checkout_status_other'
+            || idTo == 'payment_paypal_alternative_payment_methods_express_checkout_us_express_checkout_required_express_checkout_required_express_checkout_status_us') {
             var elementList = [$('row0_'+idTo), $('row2_'+idTo)];
             for (var i = 0; i < elementList.length; i++)
             {

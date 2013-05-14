@@ -29,6 +29,7 @@
  * @see Saas_Paypal_Block_Adminhtml_System_Config_AuthenticationMethod
  */
 /** @var $this Saas_Paypal_Block_Adminhtml_System_Config_AuthenticationMethod */
+$htmlIdPrefix = str_replace('express_checkout_required_express_checkout_required_express_checkout_authentication_method', '', $this->getHtmlId());
 ?>
 
 <?php if ($this->getIsAcceleratedBoarding()): ?>
@@ -46,9 +47,12 @@
 <script type="text/javascript">
     Event.observe(window, "load", function() {
         var fields = [
-            'row0_payment_express_checkout_required_express_checkout_status',
-            'row_payment_express_checkout_required_express_checkout_status',
-            'row2_payment_express_checkout_required_express_checkout_status'
+            'row0_<?php echo $htmlIdPrefix ?>express_checkout_required_express_checkout_required_express_checkout_status_us',
+            'row_<?php echo $htmlIdPrefix ?>express_checkout_required_payment_express_checkout_required_express_checkout_status_us',
+            'row2_<?php echo $htmlIdPrefix ?>express_checkout_required_payment_express_checkout_required_express_checkout_status_us',
+            'row0_<?php echo $htmlIdPrefix ?>express_checkout_required_express_checkout_required_express_checkout_status_other',
+            'row_<?php echo $htmlIdPrefix ?>express_checkout_required_payment_express_checkout_required_express_checkout_status_other',
+            'row2_<?php echo $htmlIdPrefix ?>express_checkout_required_payment_express_checkout_required_express_checkout_status_other'
         ];
         for (var i = 0; i < fields.length; i++) {
             if ($(fields[i])) {
@@ -74,11 +78,12 @@
         <?php endif; ?>
 
         var paymentsExpressCheckoutEnableChange = function () {
-            if ($('payment_express_checkout_required_enable_express_checkout').value == 0) {
-                $('payment_express_checkout_billing_agreement_active').value = 0;
+            if ($('<?php echo $htmlIdPrefix ?>express_checkout_required_enable_express_checkout').value == 0) {
+
+                $('<?php echo $htmlIdPrefix ?>settings_ec_settings_ec_advanced_express_checkout_billing_agreement_active').value = 0;
             }
         }
-        var ecRequiredEnable = $('payment_express_checkout_required_enable_express_checkout');
+        var ecRequiredEnable = $('<?php echo $htmlIdPrefix ?>express_checkout_required_enable_express_checkout');
         if (ecRequiredEnable != null) {
             Event.observe(ecRequiredEnable, 'change', paymentsExpressCheckoutEnableChange);
         }
@@ -87,8 +92,8 @@
         var enableRequiredMethod = function(){
             var newAuthVal = $('<?php echo $this->getHtmlId() ?>').value;
             var methodEnablers = {
-                '<?php echo Saas_Paypal_Model_System_Config_Source_AuthenticationMethod::TYPE_API_CREDENTIALS ?>' : 'payment_express_checkout_required_enable_express_checkout',
-                '<?php echo Saas_Paypal_Model_System_Config_Source_AuthenticationMethod::TYPE_PERMISSIONS ?>' : 'payment_express_checkout_required_boarding_enable_express_checkout'
+                '<?php echo Saas_Paypal_Model_System_Config_Source_AuthenticationMethod::TYPE_API_CREDENTIALS ?>' : '<?php echo $htmlIdPrefix ?>express_checkout_required_enable_express_checkout',
+                '<?php echo Saas_Paypal_Model_System_Config_Source_AuthenticationMethod::TYPE_PERMISSIONS ?>' : '<?php echo $htmlIdPrefix ?>express_checkout_required_boarding_enable_express_checkout'
             };
             var oldMethodEnabler, newMethodEnabler;
             for(var authType in methodEnablers) {
