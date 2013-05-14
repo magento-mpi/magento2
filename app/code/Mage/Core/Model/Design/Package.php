@@ -11,6 +11,31 @@
 
 class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageInterface
 {
+    /**#@+
+     * Common node path to theme design configuration
+     */
+    const XML_PATH_THEME    = 'design/theme/full_name';
+    const XML_PATH_THEME_ID = 'design/theme/theme_id';
+    /**#@-*/
+
+    /**
+     * Path to configuration node that indicates how to materialize view files: with or without "duplication"
+     */
+    const XML_PATH_ALLOW_DUPLICATION = 'global/design/theme/allow_view_files_duplication';
+
+    /**
+     * XPath for configuration setting of signing static files
+     */
+    const XML_PATH_STATIC_FILE_SIGNATURE = 'dev/static/sign';
+
+    /**#@+
+     * Public directories prefix group
+     */
+    const PUBLIC_MODULE_DIR = '_module';
+    const PUBLIC_VIEW_DIR   = '_view';
+    const PUBLIC_THEME_DIR  = '_theme';
+    /**#@-*/
+
     /**
      * Regular expressions matches cache
      *
@@ -529,13 +554,6 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         $publicFile = $this->getViewFilePublicPath($file, $params);
         $url = $this->getPublicFileUrl($publicFile, $isSecure);
 
-        if ($this->_isViewFileOperationAllowed()) {
-            if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned()) {
-                $fileMTime = $this->_filesystem->getMTime($publicFile);
-                $url .= '?' . $fileMTime;
-            }
-        }
-
         return $url;
     }
 
@@ -561,7 +579,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
                 $relativePath = ltrim(substr($file, strlen($dir)), '\\/');
                 $relativePath = str_replace(DIRECTORY_SEPARATOR, '/', $relativePath);
                 $url = Mage::getBaseUrl($urlType, $isSecure) . $relativePath;
-                if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned()) {
+                if ($this->_isStaticFilesSigned() && $this->_isViewFileOperationAllowed()) {
                     $fileMTime = $this->_filesystem->getMTime($file);
                     $url .= '?' . $fileMTime;
                 }
@@ -571,6 +589,16 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         throw new Magento_Exception(
             "Cannot build URL for the file '$file' because it does not reside in a public directory."
         );
+    }
+
+    /**
+     * Check if static files have to be signed
+     *
+     * @return bool
+     */
+    public function _isStaticFilesSigned()
+    {
+        return (bool)Mage::getStoreConfig(self::XML_PATH_STATIC_FILE_SIGNATURE);
     }
 
     /**

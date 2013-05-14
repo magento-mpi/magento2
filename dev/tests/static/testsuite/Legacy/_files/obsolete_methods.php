@@ -447,6 +447,7 @@ return array(
     array('isLeyeredNavigationAllowed'),
     array('isLocalConfigLoaded', 'Mage_Core_Model_Config'),
     array('isReadablePopupObject'),
+    array('isStaticFilesSigned', 'Mage_Core_Helper_Data'),
     array('isTemplateAllowedForApplication'),
     array('isThemeCompatible', 'Mage_Core_Model_Design_Package', 'Mage_Core_Model_Theme::isThemeCompatible'),
     array('isVerbose', 'Magento_Shell'),

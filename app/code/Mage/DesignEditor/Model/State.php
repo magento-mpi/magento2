@@ -228,7 +228,7 @@ class Mage_DesignEditor_Model_State
         $themeId = $this->_backendSession->getData(self::CURRENT_THEME_SESSION_KEY);
         if ($themeId !== null) {
             $this->_application->getStore()
-                ->setConfig(Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID, $themeId);
+                ->setConfig(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID, $themeId);
         }
     }
 

@@ -205,7 +205,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $store = $this->getMock('Mage_Core_Model_Store', array('setConfig'), array(), '', false);
         $store->expects($this->once())
             ->method('setConfig')
-            ->with(Mage_Core_Model_Design_PackageInterface::XML_PATH_THEME_ID, self::THEME_ID);
+            ->with(Mage_Core_Model_Design_Package::XML_PATH_THEME_ID, self::THEME_ID);
 
         $this->_application->expects($this->once())
             ->method('getStore')
