@@ -20,7 +20,7 @@
             <table cellspacing="0">
                 <?php foreach ($this->getFiles() as $file): ?>
                     <tr>
-                        <td class="nm filecnt file-font" id="<?php echo $file['id'] ?>">
+                        <td>
                             <?php echo $file['text'] ?>
                         </td>
                         <td>
@@ -38,14 +38,20 @@
             </table>
         <?php else: ?>
             <?php foreach ($this->getFiles() as $file): ?>
-                <div class="filecnt file-font css-editor-image" id="<?php echo $file['id'] ?>">
-                    <p class="nm">
+                <div class="image base-image css-editor-image">
                         <?php if (isset($file['thumbnailParams'])): ?>
-                            <img src="<?php echo $this->getUrl('*/*/previewImage', $file['thumbnailParams']) ?>">
+                            <img class="asset-image" src="<?php echo $this->getUrl('*/*/previewImage', $file['thumbnailParams']) ?>">
                         <?php endif; ?>
                         <?php echo $file['width'] ?>x<?php echo $file['height'] ?> px.
                         <?php echo $file['text'] ?>
-                    </p>
+                        <div class="actions">
+                            <a href="#" class="action-delete" onclick="MediabrowserInstance.deleteFiles('<?php echo $file['id'] ?>')" title="<?php echo $this->__('Delete file'); ?>" data-id="<?php echo $file['id'] ?>">
+                                <span><?php echo $this->__('Delete file'); ?></span>
+                            </a>
+                            <a href="#" class="action-add" onclick="MediabrowserInstance.insert('<?php echo $file['id'] ?>')" title="<?php echo $this->__('Insert file'); ?>" data-id="<?php echo $file['id'] ?>">
+                                <span><?php echo $this->__('Insert file'); ?></span>
+                            </a>
+                        </div>
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
