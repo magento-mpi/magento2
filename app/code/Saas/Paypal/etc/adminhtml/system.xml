@@ -717,7 +717,8 @@
                                     <field id="authentication_method">1</field>
                                 </depends>
                             </field>
-                            <field id="status" translate="label button_label status_label account_label" sortOrder="17" showInDefault="1" showInWebsite="1">
+                            <field id="status" translate="label button_label status_label account_label" sortOrder="17" showInDefault="0" showInWebsite="0">
+                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
                                 <label>Boarding Status</label>
                                 <button_label>Setup or change your site permissions with Paypal</button_label>
                                 <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus</frontend_model>
@@ -730,6 +731,20 @@
                                 <attribute type="account_id_config_path">paypal/onboarding/receiver_id</attribute>
                                 <depends>
                                     <field id="authentication_method">1</field>
+                                </depends>
+                            </field>
+                            <field id="status_us" extends="status" showInDefault="1" showInWebsite="1">
+                                <hide_in_single_store_mode>0</hide_in_single_store_mode>
+                                <attribute type="create_link">https://www.paypal.com/webapps/mpp/referral/paypal-payments-pro?partner_id=NB9WWHYEMVUMS</attribute>
+                                <depends>
+                                    <field id="*/account/merchant_country">US</field>
+                                </depends>
+                            </field>
+                            <field id="status_other" extends="status" showInDefault="1" showInWebsite="1">
+                                <hide_in_single_store_mode>0</hide_in_single_store_mode>
+                                <attribute type="create_link">https://www.paypal.com/webapps/mpp/referral/website-payments-pro?partner_id=NB9WWHYEMVUMS</attribute>
+                                <depends>
+                                    <field id="*/account/merchant_country" negative="1">US</field>
                                 </depends>
                             </field>
                         </group>
