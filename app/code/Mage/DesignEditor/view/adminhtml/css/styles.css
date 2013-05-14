@@ -2095,7 +2095,7 @@
     left: 0;
     width: 66px;
     height: 66px;
-    background: url(../images/gallery-image-base-label.png) no-repeat;
+    background: url(Mage_DesignEditor::images/gallery-image-base-label.png) no-repeat;
     content: '';
     z-index: 1;
 }
