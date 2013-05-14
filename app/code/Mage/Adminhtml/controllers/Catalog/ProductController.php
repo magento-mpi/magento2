@@ -736,9 +736,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $stockData['use_config_manage_stock'] = 0;
         }
         if ($stockData['use_config_manage_stock'] == 1 && !isset($stockData['manage_stock'])) {
-            $stockData['manage_stock'] = Mage::getStoreConfig(
-                Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK
-            );
+            $stockData['manage_stock'] = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore()
+                ->getConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
         }
         if (isset($stockData['qty']) && (float)$stockData['qty'] > self::MAX_QTY_VALUE) {
             $stockData['qty'] = self::MAX_QTY_VALUE;
