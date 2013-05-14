@@ -151,8 +151,7 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('An error occurred while saving this role.'));
         }
 
-        //$this->getResponse()->setRedirect($this->getUrl("*/*/editrole/rid/$rid"));
-        $this->_redirect('*/*/editrole', array('rid' => $rid));
+        $this->_redirect('*/*/index');
         return;
     }
 

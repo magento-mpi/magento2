@@ -1,0 +1,18 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema#",
+    "title": "Unary Operator Expressions",
+    "description": "A Json Schema for validating MongoDB unary operator expressions",
+    "type": "object",
+    "properties": {
+        "$not": {
+            "patternProperties": {
+                "^[\\$](lt|lte|gt|gte|eq|ne)$": {"type": ["boolean", "number", "string"]}
+            },
+            "additionalProperties": false
+        }
+    },
+    "patternProperties": {
+        "^[\\$](lt|lte|gt|gte|eq|ne)$": {"type": ["boolean", "number", "string"]}
+    },
+    "additionalProperties": false
+}
