@@ -180,14 +180,6 @@
             </modules>
         </translate>
         <events>
-            <adminhtml_init_system_config>
-                <observers>
-                    <paypal>
-                        <class>Saas_Paypal_Model_Observer</class>
-                        <method>loadCountryDependentSolutionsConfig</method>
-                    </paypal>
-                </observers>
-            </adminhtml_init_system_config>
             <controller_action_predispatch_adminhtml_system_config_edit>
                 <observers>
                     <saas_paypal_observer>
