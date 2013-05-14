@@ -814,6 +814,11 @@
                                 </depends>
                             </field>
                         </group>
+                        <field id="enable_express_checkout">
+                            <depends>
+                                <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">0</field>
+                            </depends>
+                        </field>
                         <field id="boarding_enable_express_checkout" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
                             <label>Enable this Solution</label>
                             <config_path>payment/paypal_express_boarding/active</config_path>
@@ -823,6 +828,9 @@
                             <requires>
                                 <group id="express_checkout_required_express_checkout"/>
                             </requires>
+                            <depends>
+                                <field id="*/*/*/express_checkout_required/express_checkout_required_express_checkout/authentication_method">1</field>
+                            </depends>
                         </field>
                     </group>
                     <group id="settings_ec" showInDefault="1" showInWebsite="1" showInStore="1">
