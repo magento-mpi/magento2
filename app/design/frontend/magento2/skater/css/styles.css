@@ -343,6 +343,7 @@ a > span:hover {
 .column.left,
 .column.right {
   padding-top: 20px;
+  min-height: 1px;
 }
 .col1-layout .column.main {
   width: 100%;

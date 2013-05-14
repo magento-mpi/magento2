@@ -4885,9 +4885,11 @@ body.type-bundle {
 }
 .column.left {
   padding-right: 13px;
+  min-height: 1px;
 }
 .column.right {
   padding-left: 13px;
+  min-height: 1px;
 }
 .col1-layout .column.main {
   display: inline;

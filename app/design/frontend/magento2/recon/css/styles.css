@@ -453,10 +453,12 @@ h6 {
 .column.left {
   padding-right: 10px;
   margin-top: 23px;
+  min-height: 1px;
 }
 .column.right {
   padding-left: 10px;
   margin-top: 23px;
+  min-height: 1px;
 }
 .col1-layout .column.main {
   -webkit-box-sizing: border-box;
