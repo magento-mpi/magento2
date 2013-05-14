@@ -52,27 +52,13 @@ class Mage_Core_Service_ObjectManager extends Varien_Object
      * @param mixed $version [optional]
      * @return mixed (service execution response)
      */
-    public function call($serviceReferenceId, $serviceMethod, $request = null, $version = null, $context = 'INT')
+    public function call($serviceReferenceId, $serviceMethod, $request = null, $version = null)
     {
-        $service  = $this->getService($serviceReferenceId, $version);
+        $service  = $this->_serviceFactory->createServiceInstance($serviceReferenceId, $serviceMethod, $version);
 
         $response = $service->call($serviceMethod, $request, $version);
 
         return $response;
-    }
-
-    /**
-     * Retrieve a service instance
-     *
-     * @param string $serviceReferenceId
-     * @param mixed $serviceMethod [optional]
-     * @param mixed $version [optional]
-     * @return Mage_Core_Service_Type_Abstract $service
-     */
-    public function getService($serviceReferenceId, $serviceMethod = null, $version = null)
-    {
-        $service = $this->_serviceFactory->createServiceInstance($serviceReferenceId, $serviceMethod, $version);
-        return $service;
     }
 
     /**

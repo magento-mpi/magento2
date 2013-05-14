@@ -291,8 +291,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
 //        $product->load($productId);
 
         $serviceManager = Mage::getSingleton('Mage_Core_Service_ObjectManager');
-        $product = $serviceManager->getService('products')
-            ->call('item', array(
+        $product = $serviceManager->call('products', 'item', array(
                 'entity_id' => $productId,
                 'store_id'  => Mage::app()->getStore()->getId(),
                 //'fields'    => 'entity_id,name,store_id,sku,stock_item'

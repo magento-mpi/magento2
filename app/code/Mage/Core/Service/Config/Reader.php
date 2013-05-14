@@ -37,7 +37,7 @@ class Mage_Core_Service_Config_Reader extends Magento_Config_XmlAbstract
      */
     protected function _getInitialXml()
     {
-        return '<?xml version="1.0" encoding="utf-8"?><services></services>';
+        return '<?xml version="1.0" encoding="utf-8"?><config></config>';
     }
 
     /**

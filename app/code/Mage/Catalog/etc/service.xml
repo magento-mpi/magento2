@@ -9,47 +9,91 @@
  * @license     {license_link}
  */
 -->
-<services>
-    <service uri="categories" class="Mage_Catalog_Service_CategoryService" title="Catalog Category Service" bind="INT,REST,SOAP">
-        <operation method="create" title="Create new category">
-            <rest-route method=""></rest-route>
+<config>
+    <service>
+        <title>Catalog Category Service</title>
+        <class>Mage_Catalog_Service_CategoryServiceV1</class>
+        <version>1</version>
+        <uri>categories</uri>
+        <allow_remote>1</allow_remote>
+        <call>
+            <title>Create new category</title>
+            <method>create</method>
+            <rest-route>categories</rest-route>
+            <rest-method>POST</rest-method>
             <annotation>CDATA</annotation>
-        </operation>
-        <operation method="item" title="Retrieve a category" />
-        <operation method="items" title="Retrieve category collection by filters" />
-        <operation method="update" title="Update category" />
-        <operation method="delete" title="Delete category" bind="INT" />
-
-        <operation method="init" title="Retrieve a category" />
-        <operation method="status" title="Provides the status of category tree" group="" />
-
-        <service uri="products" class="Mage_Catalog_Service_CategoryService">
-            <operation method="create" title="Create" />
-            <operation method="item" title="Retrieve a link" />
-            <operation method="link" title="Link a category to a product" />
-        </service>
-
-        <version name="V1" class="Mage_Catalog_Service_CategoryServiceV1" />
-
-        <version name="V2" class="Mage_Catalog_Service_CategoryServiceV2">
-            <operation method="move" title="Move category in tree" />
-            <operation method="items" title="Retrieve a category" deprecated="1" />
-            <service uri="products" deprecated="1" />
-        </version>
+        </call>
+        <call>
+            <title>Retrieve a category</title>
+            <method>item</method>
+            <rest-route>categories/:entity_id</rest-route>
+            <rest-method>GET</rest-method>
+        </call>
+        <call>
+            <title>Retrieve category collection by filters</title>
+            <method>items</method>
+            <rest-route>categories</rest-route>
+            <rest-method>GET</rest-method>
+        </call>
+    </service>
+    <service>
+        <title>Catalog Category Service</title>
+        <class>Mage_Catalog_Service_CategoryServiceV2</class>
+        <version>2</version>
+        <uri>categories</uri>
+        <allow_remote>1</allow_remote>
+        <call>
+            <title>Create new category</title>
+            <method>create</method>
+            <rest-route>categories</rest-route>
+            <rest-method>POST</rest-method>
+            <annotation>CDATA</annotation>
+        </call>
+        <call>
+            <title>Retrieve a category</title>
+            <method>item</method>
+            <rest-route>categories/:entity_id</rest-route>
+            <rest-method>GET</rest-method>
+        </call>
+        <call>
+            <title>Retrieve category collection by filters</title>
+            <method>items</method>
+            <rest-route>categories</rest-route>
+            <rest-method>GET</rest-method>
+        </call>
+        <call>
+            <title>Move category within the tree</title>
+            <method>move</method>
+            <rest-route>categories/:pid/:aid</rest-route>
+            <rest-method>POST</rest-method>
+        </call>
     </service>
 
-    <service uri="products" class="Mage_Catalog_Service_ProductService" title="Catalog Product Service" bind="INT,REST,SOAP">
-        <operation method="create" title="Create new product" />
-        <operation method="item" title="Retrieve product" />
-        <operation method="items" title="Retrieve products collection by filters" />
-        <operation method="update" title="Update product" />
-        <operation method="delete" title="Delete product" />
-
-        <service uri="categories" class="Mage_Catalog_Service_CategoryService">
-            <operation method="create" title="Create" />
-            <operation method="item" title="Retrieve a link" />
-            <operation method="link" title="Link a category to a product" />
-        </service>
+    <service>
+        <title>Catalog Product Service</title>
+        <class>Mage_Catalog_Service_ProductService</class>
+        <uri>products</uri>
+        <version>1</version>
+        <allow_remote>1</allow_remote>
+        <call>
+            <title>Create new product</title>
+            <method>create</method>
+            <rest-route>products</rest-route>
+            <rest-method>POST</rest-method>
+            <annotation>CDATA</annotation>
+        </call>
+        <call>
+            <title>Retrieve a product</title>
+            <method>item</method>
+            <rest-route>products/:entity_id</rest-route>
+            <rest-method>GET</rest-method>
+        </call>
+        <call>
+            <title>Retrieve product collection by filters</title>
+            <method>items</method>
+            <rest-route>products</rest-route>
+            <rest-method>GET</rest-method>
+        </call>
     </service>
-</services>
+</config>
 

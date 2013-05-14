@@ -65,9 +65,9 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
     {
         if ($category = $this->_initCatagory()) {
             /** @var $serviceManager Mage_Core_Service_ObjectManager */
-            $serviceManager = Mage::getSingleton('Mage_Core_Service_ObjectManager');
+            $serviceFactory = Mage::getSingleton('Mage_Core_Service_Factory');
             /** @var $layoutService Mage_Core_Service_LayoutService */
-            $layoutService = $serviceManager->getService('layout');
+            $layoutService = $serviceFactory->createServiceInstance('layout');
             $layout = $layoutService->getLayout($this->_currentArea);
 
             $layout->getUpdate()->addHandle('default');

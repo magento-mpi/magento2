@@ -98,7 +98,7 @@ class Mage_Core_Service_Config
             $services = $this->_loadFromCache();
             if ($services && is_string($services)) {
                 $data = unserialize($services);
-                $_array = isset($data['services']) ? $data['services'] : array();
+                $_array = isset($data['config']['services']) ? $data['config']['services'] : array();
                 $this->_services = new Varien_Object($_array);
             } else {
                 $services = $this->_getReader()->getServices();
@@ -106,7 +106,7 @@ class Mage_Core_Service_Config
                 $data = $this->_toArray($services);
 
                 $this->_saveToCache(serialize($data));
-                $_array = isset($data['services']) ? $data['services'] : array();
+                $_array = isset($data['config']['services']) ? $data['config']['services'] : array();
                 $this->_services = new Varien_Object($_array);
             }
         }
@@ -143,12 +143,7 @@ class Mage_Core_Service_Config
 
         if ($root->hasAttributes()) {
             foreach ($root->attributes as $attr) {
-                if ('bind' === $attr->name) {
-                    $value = explode(',', $attr->value);
-                } else {
-                    $value = $attr->value;
-                }
-                $attributes[$attr->name] = $value;
+                $attributes[$attr->name] = $attr->value;
             }
             $result['_attributes_'] = $attributes;
         }
@@ -173,41 +168,37 @@ class Mage_Core_Service_Config
                 $child = $children->item($i);
                 $_children = & $this->_toArray($child);
 
-                $uri = isset($_children['_attributes_']['uri']) ? $_children['_attributes_']['uri'] : $child->nodeName;
-
-                if ('operation' === $child->nodeName) {
-                    if (!isset($result['_operations_'])) {
-                        $result['_operations_'] = array();
+                if ('service' === $child->nodeName) {
+                    if (!isset($result['services'])) {
+                        $result['services'] = array();
                     }
-                    $uri = isset($_children['_attributes_']['method']) ? $_children['_attributes_']['method'] : $child->nodeName;
-                    if (!isset($result['_operations_'][$uri])) {
-                        $result['_operations_'][$uri] = $_children;
+                    $nodeID = $_children['uri'] . (isset($_children['version']) ? ('-version-' . $_children['version']) : '');
+                    if (!isset($result['services'][$nodeID])) {
+                        $result['services'][$nodeID] = $_children;
                     } else {
-                        $result['_operations_'][$uri] = array_merge($result['_operations_'][$uri], $_children);
+                        $result['services'][$nodeID] = array_merge($result['calls'][$nodeID], $_children);
                     }
-                } elseif ('version' === $child->nodeName) {
-                    if (!isset($result['_versions_'])) {
-                        $result['_versions_'] = array();
+                } elseif ('call' === $child->nodeName) {
+                    if (!isset($result['calls'])) {
+                        $result['calls'] = array();
                     }
-
-                    $uri = isset($_children['_attributes_']['name']) ? $_children['_attributes_']['name'] : $child->nodeName;
-
-                    if (!isset($result['_versions_'][$uri])) {
-                        $result['_versions_'][$uri] = $_children;
+                    $nodeID = $_children['method'];
+                    if (!isset($result['calls'][$nodeID])) {
+                        $result['calls'][$nodeID] = $_children;
                     } else {
-                        $result['_versions_'][$uri] = array_merge($result['_versions_'][$uri], $_children);
+                        $result['calls'][$nodeID] = array_merge($result['calls'][$nodeID], $_children);
                     }
                 } else {
-                    if (!isset($result[$uri])) {
-                        $result[$uri] = $_children;
+                    if (!isset($result[$child->nodeName])) {
+                        $result[$child->nodeName] = $_children;
                     } else {
-                        if (!isset($group[$uri])) {
-                            $tmp = $result[$uri];
-                            $result[$uri] = array($tmp);
-                            $group[$uri] = 1;
+                        if (!isset($group[$child->nodeName])) {
+                            $tmp = $result[$child->nodeName];
+                            $result[$child->nodeName] = array($tmp);
+                            $group[$child->nodeName] = 1;
                         }
 
-                        $result[$uri][] = $_children;
+                        $result[$child->nodeName][] = $_children;
                     }
                 }
 
@@ -231,20 +222,22 @@ class Mage_Core_Service_Config
             $version = (string) $this->getServiceVersionBind($serviceReferenceId, $serviceMethod);
         }
 
-        $versionedClassName = $this->getServices()->getData($serviceReferenceId . '/_versions_/' . $version . '/_operations_/' . $serviceMethod . '/_attributes_/class');
-        if (!empty($versionedClassName) && class_exists($versionedClassName)) {
-            return $versionedClassName;
-        }
-        $versionedClassName = $this->getServices()->getData($serviceReferenceId . '/_versions_/' . $version . '/_attributes_/class');
-        if (!empty($versionedClassName) && class_exists($versionedClassName)) {
-            return $versionedClassName;
+        if (!empty($version)) {
+            $versionedClassName = $this->getServices()->getData($serviceReferenceId . '-version-' . $version . '/calls/' . $serviceMethod . '/class');
+            if (!empty($versionedClassName) && class_exists($versionedClassName)) {
+                return $versionedClassName;
+            }
+            $versionedClassName = $this->getServices()->getData($serviceReferenceId . '-version-' . $version . '/class');
+            if (!empty($versionedClassName) && class_exists($versionedClassName)) {
+                return $versionedClassName;
+            }
         }
 
-        $className = $this->getServices()->getData($serviceReferenceId . '/_operations_/' . $serviceMethod . '/_attributes_/class');
+        $className = $this->getServices()->getData($serviceReferenceId . '/calls/' . $serviceMethod . '/class');
         if (!empty($className) && class_exists($className)) {
             return $className;
         }
-        $className = $this->getServices()->getData($serviceReferenceId . '/_attributes_/class');
+        $className = $this->getServices()->getData($serviceReferenceId . '/class');
         if (!empty($className) && class_exists($className)) {
             return $className;
         }
