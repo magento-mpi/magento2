@@ -3285,10 +3285,15 @@ select:disabled {
   text-decoration: underline;
 }
 .minicart.wrapper .block.minicart > .content .subtitle {
-  display: none;
+  display: block;
+  padding: 0 45px;
+  margin: 20px 0 0 0;
+  font-weight: 400;
 }
 .minicart.wrapper .block.minicart > .content .subtitle.empty {
   display: block;
+  padding: 0;
+  margin: 0;
 }
 .minicart.wrapper .block.minicart > .title,
 .minicart.wrapper .block.minicart > .content .subtotal,

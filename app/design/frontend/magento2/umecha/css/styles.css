@@ -1317,7 +1317,10 @@ div.mage-error {
   background: none;
 }
 .minicart.wrapper .block.minicart > .content .subtitle {
-  display: none;
+  display: block;
+  font-family: 'Droid Serif', Arial, sans-serif;
+  font-weight: 400;
+  margin: 0 0 15px;
 }
 .minicart.wrapper .block.minicart > .title,
 .minicart.wrapper .block.minicart > .content .subtotal,
@@ -1338,7 +1341,7 @@ div.mage-error {
 }
 .minicart.wrapper .block.minicart.empty > .content .subtitle {
   display: block;
-  margin-right: -330px;
+  margin: 0 -330px 0 0;
 }
 .minicart.wrapper.active {
   z-index: 11;

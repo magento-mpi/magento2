@@ -2182,7 +2182,7 @@ div.mage-error {
         border: 2px solid darken(@primary1, 13%);
         border-radius: 3px;
         text-align: center;
-        padding: 25px 345px 25px 15px;
+        padding: 58px 345px 25px 15px;
         &:before {
             content: '';
             border-left: 10px solid transparent;
@@ -2201,6 +2201,7 @@ div.mage-error {
             z-index: 2;
         }
         > .content {
+            margin-top: -33px;
             .subtotal {
                 .clearfix;
                 .mark {
@@ -2244,15 +2245,17 @@ div.mage-error {
                 }
             }
             .subtitle {
-                display: none;
+                display: block;
+                text-align: left;
+                padding: 0 50px;
+                margin: 0 0 15px 0;
+                font-weight: 400;
                 &.empty {
-                    display: block;
-                    margin:0 -330px 0 0;
-                    text-align: left;
-                    font-weight: 400;
-                    float:right;
-                    width:310px;
-                    clear:right;
+                    margin: 10px -320px 0 0;
+                    padding: 0;
+                    float: right;
+                    width: 310px;
+                    clear: right;
                 }
             }
         }
@@ -5347,208 +5350,208 @@ and (max-width : 768px) {
 ----------------------------------------------------------------------------- */
 
 .order.details {
-  .clearfix();
+    .clearfix();
 
-  .status {
-    margin: 0.5em 0;
-    line-height: 1.2;
-    font-weight: 400;
-    font-size: 30px;
-    float: left;
-  }
-
-  .subtitle.caption,
-  .title {
-    strong {
-      line-height: 1.2;
-      font-weight: 200;
-      font-size: 20px;
-    }
-    .action {
-      margin-left: 10px;
-    }
-  }
-
-  .subtitle.caption {
-    margin-bottom: 45px;
-  }
-
-  .order.toolbar {
-    clear: none;
-    float: right;
-    margin-top: 29px;
-
-    .action {
-      margin-left: 10px;
-    }
-  }
-
-  .block.order {
-    float: left;
-    width: 48%;
-    padding-right: 2%;
-
-    &.billing.address {
-      clear: left;
-    }
-    .content {
-      background: @primary1;
-      padding: 30px;
-    }
-  }
-
-  .order.info {
-    clear: both;
-
-    > dt {
-      line-height: 1.2;
-      font-weight: 200;
-      font-size: 20px;
+    .status {
+        margin: 0.5em 0;
+        line-height: 1.2;
+        font-weight: 400;
+        font-size: 30px;
+        float: left;
     }
 
-    > dd {
-      margin: 10px 0 0 0;
-      background: @primary1;
-      padding: 30px;
-
-      .items {
-        .clearfix();
-
-        .item {
-          float: left;
-          margin-right: 15px;
+    .subtitle.caption,
+    .title {
+        strong {
+            line-height: 1.2;
+            font-weight: 200;
+            font-size: 20px;
         }
-      }
+        .action {
+            margin-left: 10px;
+        }
     }
-  }
 
-  .additional.details {
-    .order.comments  {
-      background: @primary1;
-      padding: 30px;
+    .subtitle.caption {
+        margin-bottom: 45px;
     }
-  }
+
+    .order.toolbar {
+        clear: none;
+        float: right;
+        margin-top: 29px;
+
+        .action {
+            margin-left: 10px;
+        }
+    }
+
+    .block.order {
+        float: left;
+        width: 48%;
+        padding-right: 2%;
+
+        &.billing.address {
+            clear: left;
+        }
+        .content {
+            background: @primary1;
+            padding: 30px;
+        }
+    }
+
+    .order.info {
+        clear: both;
+
+        > dt {
+            line-height: 1.2;
+            font-weight: 200;
+            font-size: 20px;
+        }
+
+        > dd {
+            margin: 10px 0 0 0;
+            background: @primary1;
+            padding: 30px;
+
+            .items {
+                .clearfix();
+
+                .item {
+                    float: left;
+                    margin-right: 15px;
+                }
+            }
+        }
+    }
+
+    .additional.details {
+        .order.comments  {
+            background: @primary1;
+            padding: 30px;
+        }
+    }
 }
 
 .order.details.items {
-  .order.toolbar {
-    margin: 5px 0 0 0;
-  }
-
-  .order.title {
-    margin-bottom: 10px;
-  }
-
-  .action.show {
-    text-decoration: none;
-    .iconAfter("\e00f", 12px, 'icons');
-
-    &.expanded:after {
-      content: "\e010";
+    .order.toolbar {
+        margin: 5px 0 0 0;
     }
-  }
+
+    .order.title {
+        margin-bottom: 10px;
+    }
+
+    .action.show {
+        text-decoration: none;
+        .iconAfter("\e00f", 12px, 'icons');
+
+        &.expanded:after {
+            content: "\e010";
+        }
+    }
 }
 
 .shipping-tracking-popup {
-  .action.close {
-    .secondaryAction();
-    text-indent: 0;
+    .action.close {
+        .secondaryAction();
+        text-indent: 0;
 
-    span {
-      width: auto;
-      text-indent: 0;
-      &:after {
-        content: "";
-        display: none;
-      }
+        span {
+            width: auto;
+            text-indent: 0;
+            &:after {
+                content: "";
+                display: none;
+          }
+        }
     }
-  }
 }
 
 .data.table.order {
-  margin-bottom: 45px;
-  width: 100%;
+    margin-bottom: 45px;
+    width: 100%;
 
-  thead th {
-    padding: 0 10px;
-  }
-
-  thead tr:last-child th {
-    padding-bottom: 10px;
-  }
-
-  td.col.qty {
-    width: 90px;
-    text-align: left;
-  }
-
-  td.col.price,
-  td.col.subtotal {
-    text-align: left;
-  }
-  td {
-    padding: 16px 10px 10px;
-    vertical-align: top;
-
-    h4 {
-      margin: 0;
+    thead th {
+        padding: 0 10px;
     }
-  }
-  td:first-child,
-  th:first-child {
-    padding-left: 20px;
-  }
-  td:last-child,
-  th:last-child {
-    padding-right: 20px;
-  }
-  tbody:nth-child(even) tr {
-    background: @primary1;
-  }
-  th {
-    text-align: left;
-    font-weight: 400;
-    font-size: 14px;
-    vertical-align: top;
-  }
-  tr:first-child th {
-    font-weight: 400;
-    font-size: 16px;
-  }
-  .item-options {
-    margin: 5px 0;
 
-    dt {
-      font-weight: 400;
-      display: inline;
-      margin-right: 10px;
-      float: left;
-      clear: left;
+    thead tr:last-child th {
+        padding-bottom: 10px;
+    }
 
-      &:after {
-        content: ': ';
-      }
+    td.col.qty {
+        width: 90px;
+        text-align: left;
     }
-    dd {
-      font-weight: 200;
-      margin: 0 0 5px 10px;
-      padding: 0;
-    }
-  }
 
-  tfoot tr:first-child td {
-    border-top: 3px solid @primary2;
-    padding-top: 15px;
-  }
+    td.col.price,
+    td.col.subtotal {
+        text-align: left;
+    }
+    td {
+        padding: 16px 10px 10px;
+        vertical-align: top;
 
-  &.tracking {
-    th, td {
-      padding: 0;
+        h4 {
+            margin: 0;
+        }
     }
-    .label {
-      width: 40%;
+    td:first-child,
+    th:first-child {
+        padding-left: 20px;
     }
-  }
+    td:last-child,
+    th:last-child {
+        padding-right: 20px;
+    }
+    tbody:nth-child(even) tr {
+        background: @primary1;
+    }
+    th {
+        text-align: left;
+        font-weight: 400;
+        font-size: 14px;
+        vertical-align: top;
+    }
+    tr:first-child th {
+        font-weight: 400;
+        font-size: 16px;
+    }
+    .item-options {
+        margin: 5px 0;
+
+        dt {
+            font-weight: 400;
+            display: inline;
+            margin-right: 10px;
+            float: left;
+            clear: left;
+
+            &:after {
+                content: ': ';
+            }
+        }
+        dd {
+            font-weight: 200;
+            margin: 0 0 5px 10px;
+            padding: 0;
+        }
+    }
+
+    tfoot tr:first-child td {
+        border-top: 3px solid @primary2;
+        padding-top: 15px;
+    }
+
+    &.tracking {
+        th, td {
+            padding: 0;
+        }
+        .label {
+          width: 40%;
+        }
+    }
 }
 
 @import url(dark.less);

@@ -2423,26 +2423,22 @@ select {
         }
       }
       .subtitle {
-        display: none;
+        display: block;
+        padding: 5px 10px;
+        background: @primary3;
+        font-weight: 400;
+        color: @primary1;
         &.empty {
-          display: block;
-          font-weight: 400;
           padding: 10px;
         }
       }
     }
-    > .title,
     > .content .disclaimer {
       padding: 0 10px;
       text-align: left;
     }
     > .title {
-      padding: 5px 10px;
-      background: @primary3;
-    }
-    > .title strong {
-      font-weight: 400;
-      color: @primary1;
+      display: none;
     }
   }
   &.active {
