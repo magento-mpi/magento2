@@ -104,7 +104,7 @@ class Core_Mage_Acl_CmsWidgetTest extends Mage_Selenium_TestCase
      */
     public function createNewWidget($loginData)
     {
-        $this->markTestSkipped('Need CMS creation flow  refactored');
+        $this->markTestIncomplete('Need CMS creation flow refactored');
         //Steps
         $this->admin('log_in_to_admin');
         $this->adminUserHelper()->loginAdmin($loginData);

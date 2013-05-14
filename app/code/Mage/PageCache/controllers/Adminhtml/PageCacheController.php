@@ -18,16 +18,6 @@
 class Mage_PageCache_Adminhtml_PageCacheController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Retrieve session model
-     *
-     * @return Mage_Adminhtml_Model_Session
-     */
-    protected function _getSession()
-    {
-        return Mage::getSingleton('Mage_Adminhtml_Model_Session');
-    }
-
-    /**
      * Clean external cache action
      *
      * @return void
@@ -61,6 +51,6 @@ class Mage_PageCache_Adminhtml_PageCacheController extends Mage_Adminhtml_Contro
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_PageCache::page_cache');
+        return $this->_authorization->isAllowed('Mage_PageCache::page_cache');
     }
 }

@@ -150,11 +150,11 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     /**
      * Fill collection with theme model loaded from filesystem
      *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      * @param bool $printQuery
      * @param bool $logQuery
      * @return Mage_Core_Model_Theme_Collection
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function loadData($printQuery = false, $logQuery = false)
     {

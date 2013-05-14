@@ -31,11 +31,15 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
         $request->setRouteName('catalog')
             ->setControllerName('product')
             ->setActionName('view');
+        $arguments = array(
+            'request' => $request,
+            'response' => new Magento_Test_Response(),
+        );
+        $context = Mage::getObjectManager()->create('Mage_Core_Controller_Varien_Action_Context', $arguments);
         $this->_controller = Mage::getModel(
             'Mage_Catalog_ProductController',
             array(
-                'request' => $request,
-                'response' => new Magento_Test_Response(),
+                'context'  => $context,
                 'areaCode' => 'frontend',
             )
         );

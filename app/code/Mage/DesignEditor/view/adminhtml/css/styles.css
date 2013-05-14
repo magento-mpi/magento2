@@ -70,6 +70,28 @@
     border-bottom: 1px solid #000;
 }
 
+.vde-dialog .action-close {
+    background: none;
+    border: none;
+    color: #6d665e;
+    font-weight: normal;
+    font-size: 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #b5b3af;
+
+    border-radius: 0;
+    padding: 4px 0 0 0;
+}
+
+.vde-dialog .action-close:hover {
+    color: #000;
+    border-bottom: 1px solid #000;
+}
+
+.vde-dialog .ui-dialog-buttonset {
+    text-align: left;
+}
+
 /*
     Themes Inputs
 -------------------------------------- */
@@ -201,45 +223,6 @@
     max-width: 1300px;
     height: 100%;
     margin: 0 auto;
-}
-
-/*
-    Theme Loader
--------------------------------------- */
-.theme-loader {
-    width: 75px;
-    height: 75px;
-    border: 1px solid #f98e4e;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    margin: -50px 0 0 -50px;
-    background-color: rgba(255, 255, 255, .8);
-    text-align: center;
-    line-height: 100px;
-}
-
-.eq-ie8 .theme-loader {
-    background: #fff;
-}
-
-[class^=' adminhtml-system-design-editor'] .col-1-layout {
-    padding: 0;
-    min-width: 960px;
-    max-width: 1300px;
-}
-
-.eq-ie8 [class^=' adminhtml-system-design-editor'] .col-1-layout {
-    border-top: 0;
-    border-bottom: 0;
-}
-
-.eq-ie8 [class^=' adminhtml-system-design-editor'] .ui-tabs-panel {
-    border-bottom: 1px solid #b7b2a6;
-}
-
-.eq-ie8 [class^=' adminhtml-system-design-editor'] #theme_selector_tabs {
-    border-top: 1px solid #b7b2a6;
 }
 
 /*
@@ -782,6 +765,7 @@
     left: 0;
     right: 0;
     bottom: 0;
+    height: 100%;
     background: url(Mage_DesignEditor::images/vde-tools-panel-draggable-handler-bg.png) no-repeat 0 50%;
     z-index: 1 !important;
 }
@@ -1204,6 +1188,10 @@
     top: 2px;
 }
 
+.custom-file > .action-delete {
+    top: 2px;
+}
+
 .custom-file .action-add:before {
     font-size: 16px !important;
 }
@@ -1508,6 +1496,22 @@
     margin: 0 auto;
 }
 
+#vde_toolbar_row .vde_toolbar_row_inner .logo {
+    margin-top: 2px;
+    width: 160px;
+}
+
+#vde_toolbar_row .vde_toolbar_row_inner .logo span:before {
+    content: 'Store Designer';
+    font-family: 'CallunaSans';
+    font-size: 18px;
+    font-weight: 700;
+    white-space: nowrap;
+    top: auto;
+    line-height: 25px;
+    letter-spacing: -0.1em;
+}
+
 #vde_toolbar_row .vde_toolbar_cell {
     float: left;
     margin-left: -11pt;
@@ -1754,6 +1758,7 @@
     min-height: 250px;
 }
 
+.tab-panel form > span.field-row + .fieldset,
 .tab-panel form > div:first-child + .fieldset.column,
 .fieldset.column:first-child {
     margin-left: 0;
@@ -1988,6 +1993,10 @@
     content: '\e040';
 }
 
+.eq-ie8 .vde-image-sizing .choice.checked .action-connect:before {
+    content: '\e040';
+}
+
 .vde-image-sizing .field.with-addon .addbefore {
     padding-left: 8px;
     font-size: 13px;
@@ -1999,7 +2008,7 @@
     text-align: right;
 }
 
-.vde-tools-image-settings .note {
+.vde-image-sizing .note {
     border-bottom: 1px solid #31302b;
     padding-bottom: 10px;
 }
@@ -2033,6 +2042,10 @@
     content: '\e010'; /* reload icon */
     margin-right: 5px;
     vertical-align: text-bottom;
+}
+
+.eq-ie8 .vde-image-sizing .action-reset .ui-button-text {
+    vertical-align: bottom;
 }
 
 #add_white_borders {

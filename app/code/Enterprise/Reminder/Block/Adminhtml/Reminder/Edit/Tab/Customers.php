@@ -90,14 +90,14 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends Ma
         ));
 
         $this->addColumn('grid_usage_limit', array(
-            'header'   => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Coupon Usage Limit'),
+            'header'   => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Coupon Use Limit'),
             'align'    => 'left',
             'default'  => '0',
             'index'    => 'usage_limit'
         ));
 
         $this->addColumn('grid_usage_per_customer', array(
-            'header'   => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Coupon Usage per Customer'),
+            'header'   => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Coupon Use Per Customer'),
             'align'    => 'left',
             'default'  => '0',
             'index'    => 'usage_per_customer'
@@ -117,7 +117,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends Ma
         ));
 
         $this->addColumn('grid_last_sent', array(
-            'header'   => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Last Sent At'),
+            'header'   => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Last Sent'),
             'align'    => 'left',
             'width'    => 150,
             'type'     => 'datetime',

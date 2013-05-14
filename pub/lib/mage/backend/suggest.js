@@ -199,6 +199,7 @@
                         case keyCode.DOWN:
                         case keyCode.LEFT:
                         case keyCode.RIGHT:
+                        case keyCode.TAB:
                             break;
                         case keyCode.ENTER:
                         case keyCode.NUMPAD_ENTER:
@@ -211,13 +212,18 @@
                     }
                 },
                 blur: function(event) {
-                    this.close(event);
-                    this._change(event);
+                    if (!this.preventBlur) {
+                        this._abortSearch();
+                        this.close(event);
+                        this._change(event);
+                    } else {
+                        this.element.trigger('focus');
+                    }
                 },
                 cut: this.search,
                 paste: this.search,
                 input: this.search,
-                select: this._onSelectItem
+                selectItem: this._onSelectItem
             }, this.options.events));
 
             this._bindDropdown();
@@ -262,7 +268,16 @@
                     }
                 }, this));
             }, this));
-            this._on(this.dropdown, events);
+
+            // Fix for IE 8
+            this._on(this.dropdown, $.extend(events, {
+                mousedown: function() {
+                    this.preventBlur = true;
+                },
+                mouseup: function() {
+                    this.preventBlur = false;
+                }
+            }));
         },
 
         /**
@@ -317,7 +332,8 @@
                 return;
             }
             this._selectItem(e);
-            this._trigger('select', e || null, {item: this._focused});
+            this._blurItem();
+            this._trigger('select', e || null, {item: this._selectedItem});
         },
 
         /**
@@ -373,7 +389,9 @@
          */
         close: function(e) {
             this._renderedContext = null;
-            this.dropdown.hide().empty();
+            if (this.dropdown.length) {
+                this.dropdown.hide().empty();
+            }
             this._trigger('close', e);
         },
 
@@ -398,7 +416,7 @@
          */
         search: function(e) {
             var term = this._value();
-            if (this._term !== term) {
+            if (this._term !== term && !this.preventBlur) {
                 this._term = term;
                 if (term && term.length >= this.options.minLength) {
                     if (this._trigger("search", e) === false) {
@@ -632,7 +650,11 @@
             });
             if (this.options.showRecent || this.options.showAll) {
                 this._on({
-                    focus: this.search,
+                    focus: function(e) {
+                        if (!this.isDropdownShown()) {
+                            this.search(e);
+                        }
+                    },
                     showAll: this._showAll
                 });
             }
@@ -856,6 +878,7 @@
                         }
                     }
                 }
+                this.close(e);
             } else {
                 this._superApply(arguments);
             }

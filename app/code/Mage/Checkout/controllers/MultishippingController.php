@@ -325,7 +325,7 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
     {
         $shippingMethods = $this->getRequest()->getPost('shipping_method');
         try {
-            Mage::dispatchEvent(
+            $this->_eventManager->dispatch(
                 'checkout_controller_multishipping_shipping_post',
                 array('request'=>$this->getRequest(), 'quote'=>$this->_getCheckout()->getQuote())
             );
@@ -511,7 +511,7 @@ class Mage_Checkout_MultishippingController extends Mage_Checkout_Controller_Act
         $this->loadLayout();
         $this->_initLayoutMessages('Mage_Checkout_Model_Session');
         $ids = $this->_getCheckout()->getOrderIds();
-        Mage::dispatchEvent('checkout_multishipping_controller_success_action', array('order_ids' => $ids));
+        $this->_eventManager->dispatch('checkout_multishipping_controller_success_action', array('order_ids' => $ids));
         $this->renderLayout();
     }
 

@@ -211,7 +211,7 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isAllowed()
     {
-        return ($this->_translationMode === null ? false : true);
+        return $this->_translationMode !== null;
     }
 
     /**

@@ -32,6 +32,21 @@
 class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
 {
     /**
+     * @var Mage_Core_Model_Registry
+     */
+    private $_registry;
+
+    /**
+     * @var Mage_Customer_Model_Session
+     */
+    private $_customerSession;
+
+    /**
+     * @var int
+     */
+    private $_currentWebsiteId;
+
+    /**
      * Array of Segments collections per event name
      *
      * @var array
@@ -44,6 +59,30 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
      * @var array
      */
     protected $_customerWebsiteSegments = array();
+
+    /**
+     * @param Mage_Core_Model_Context $context
+     * @param Mage_Core_Model_Registry $registry
+     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Mage_Customer_Model_Session $customerSession
+     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Model_Context $context,
+        Mage_Core_Model_Registry $registry,
+        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Mage_Customer_Model_Session $customerSession,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Varien_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct($context, $resource, $resourceCollection, $data);
+        $this->_registry = $registry;
+        $this->_customerSession = $customerSession;
+        $this->_currentWebsiteId = $storeManager->getWebsite()->getId();
+    }
 
     /**
      * Class constructor
@@ -296,5 +335,32 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
                 ->getCustomerWebsiteSegments($customerId, $websiteId);
         }
         return $this->_customerWebsiteSegments[$websiteId][$customerId];
+    }
+
+    /**
+     * Retrieve segment ids for the current customer and current website
+     *
+     * @return array
+     */
+    public function getCurrentCustomerSegmentIds()
+    {
+        /** @var Mage_Customer_Model_Session $customerSession */
+        $customerSession = $this->_customerSession;
+        $result = array();
+        /** @var Mage_Customer_Model_Customer $customer */
+        $customer = $this->_registry->registry('segment_customer');
+        if (!$customer) {
+            $customer = $customerSession->getCustomer();
+        }
+        $websiteId = $this->_currentWebsiteId;
+        if (!$customer->getId()) {
+            $allSegmentIds = $customerSession->getCustomerSegmentIds();
+            if ((is_array($allSegmentIds) && isset($allSegmentIds[$websiteId]))) {
+                $result = $allSegmentIds[$websiteId];
+            }
+        } else {
+            $result = $this->getCustomerSegmentIdsForWebsite($customer->getId(), $this->_currentWebsiteId);
+        }
+        return $result;
     }
 }

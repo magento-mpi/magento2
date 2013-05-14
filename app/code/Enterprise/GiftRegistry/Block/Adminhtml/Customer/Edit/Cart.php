@@ -46,12 +46,12 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
         ));
 
         $this->addColumn('name', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Product Name'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Product'),
             'index' => 'name',
         ));
 
         $this->addColumn('sku', array(
-            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Product SKU'),
+            'header' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('SKU'),
             'index' => 'sku',
             'width' => '200px',
         ));

@@ -10,9 +10,10 @@ dev/tests/integration/testsuite/Saas
 dev/tests/static/testsuite/Integrity/Saas
 dev/tests/js/testsuite/saas
 dev/tests/static/testsuite/Legacy/_files/words_saas.xml
-dev/tests/static/testsuite/Php/_files/{whitelist,blacklist}/saas.txt
-dev/tests/static/testsuite/Php/_files/phpcpd/blacklist/saas.txt
+dev/tests/static/testsuite/Php/_files/{blacklist,phpcpd/blacklist,whitelist}/saas.txt
 dev/tests/unit/testsuite/Magento/Profiler/Driver/PinbaTest.php
 dev/tests/unit/testsuite/Magento/Profiler/_files/pinba_functions.php
 dev/tests/unit/testsuite/Saas
+errors
 lib/Magento/Profiler/Driver/Pinba.php
+tmt_templates

@@ -357,9 +357,9 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
             case 'transaction_event':
                 return Mage::helper('Mage_Paypal_Helper_Data')->__('Event');
             case 'transaction_initiation_date':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Initiation Date');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Start Date');
             case 'transaction_completion_date':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Completion Date');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Finish Date');
             case 'transaction_debit_or_credit':
                 return Mage::helper('Mage_Paypal_Helper_Data')->__('Debit or Credit');
             case 'gross_transaction_amount':

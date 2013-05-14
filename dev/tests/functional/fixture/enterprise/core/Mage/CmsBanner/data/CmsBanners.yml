@@ -123,8 +123,8 @@ new_cms_banner_with_variable:
             variable_9: Custom2 Contact Name
             variable_10: Custom2 Contact Email
             variable_11: Store Name
-            variable_12: Store Contact Telephone
-            variable_13: Store Contact Telephone
+            variable_12: Store Phone Number
+            variable_13: Store Phone Number
 
 search_cms_banner_page:
     filter_banner_name: %noValue%

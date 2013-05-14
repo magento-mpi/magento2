@@ -88,7 +88,6 @@
                             showItem(options.start);
                         } else {
                             $(terms).each(function(ind,el) {
-                                console.log(ind);
                                 if ( $(el).attr('id') == options.start) {
                                     current = ind + 1;
                                     showItem(ind);
@@ -99,7 +98,6 @@
                             });
                         }
                     }
-                    console.log(fromUrl);
                 }
             },
 

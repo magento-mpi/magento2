@@ -251,7 +251,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
      */
     protected function _isAllowed()
     {
-        return  Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_CustomerSegment::customersegment')
+        return  $this->_authorization->isAllowed('Enterprise_CustomerSegment::customersegment')
                 && Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled();
     }
 }

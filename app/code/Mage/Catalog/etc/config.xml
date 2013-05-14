@@ -54,6 +54,14 @@
             </indexer>
         </index>
         <events>
+            <catalog_category_save_commit_after>
+                <observers>
+                    <fulltext_reindex>
+                        <class>Mage_Catalog_Model_Observer_Reindex</class>
+                        <method>fulltextReindex</method>
+                    </fulltext_reindex>
+                </observers>
+            </catalog_category_save_commit_after>
             <log_log_clean_after>
                 <observers>
                     <catalog_product_compare_item>

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 -->
 <layout version="0.1.0">
     <checkout_cart_index>
@@ -22,7 +21,7 @@
 
     <wishlist_index_index>
         <reference name="customer.wishlist.item.info">
-            <block type="Enterprise_GiftRegistry_Block_Wishlist_Item_Column_Registry" name="customer.wishlist.item.giftregistry" template="wishlist/item/column/registry.phtml"></block>
+            <block type="Enterprise_GiftRegistry_Block_Wishlist_Item_Column_Registry" name="customer.wishlist.item.giftregistry" template="wishlist/item/column/registry.phtml"/>
         </reference>
     </wishlist_index_index>
 
@@ -30,7 +29,7 @@
         <label>Customer GiftRegistry</label>
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block type="Enterprise_GiftRegistry_Block_Customer_List" name="giftregistry.customer.list" template="customer/list.phtml"></block>
+            <block type="Enterprise_GiftRegistry_Block_Customer_List" name="giftregistry.customer.list" template="customer/list.phtml"/>
         </reference>
     </enterprise_giftregistry_index_index>
 
@@ -76,7 +75,7 @@
         <label>Customer GiftRegistry Search Form</label>
         <update handle="page_calendar"/>
         <reference name="content">
-            <block type="Enterprise_GiftRegistry_Block_Search_Form" name="giftregistry.search.form"  template="search/form.phtml"></block>
+            <block type="Enterprise_GiftRegistry_Block_Search_Form" name="giftregistry.search.form" template="search/form.phtml"></block>
         </reference>
     </enterprise_giftregistry_search_index>
 
@@ -89,10 +88,9 @@
         </reference>
     </enterprise_giftregistry_search_results>
 
-
     <enterprise_giftregistry_search_advanced translate="label" type="page" parent="enterprise_giftregistry_search_index">
         <label>Customer GiftRegistry Advanced Search Form</label>
-        <block type="Enterprise_GiftRegistry_Block_Search_Advanced" name="root" output="1" template="search/advanced.phtml"></block>
+        <block type="Enterprise_GiftRegistry_Block_Search_Advanced" name="root" template="search/advanced.phtml"></block>
     </enterprise_giftregistry_search_advanced>
 
     <enterprise_giftregistry_view_index translate="label" type="page" parent="enterprise_giftregistry_index_share">
@@ -128,15 +126,12 @@
 
     <catalog_product_view>
         <reference name="product.info">
-            <block type="Enterprise_GiftRegistry_Block_Product_View" name="product.view.block"></block>
+            <block type="Enterprise_GiftRegistry_Block_Product_View" name="product.view.block">
+                <action method="setGiftRegistryTemplate"><blockName>product.info.addtocart.additional</blockName><template>Enterprise_GiftRegistry::product/addtocart.phtml</template></action>
+                <action method="setGiftRegistryUrl"><blockName>product.info.addtocart.additional</blockName></action>
+            </block>
         </reference>
     </catalog_product_view>
-
-    <checkout_onepage_index>
-        <reference name="content">
-            <block type="Enterprise_GiftRegistry_Block_Customer_Checkout" name="giftregistry.customer.checkout" template="customer/checkout/onepage.phtml"/>
-        </reference>
-    </checkout_onepage_index>
 
     <checkout_multishipping_addresses>
         <reference name="content">

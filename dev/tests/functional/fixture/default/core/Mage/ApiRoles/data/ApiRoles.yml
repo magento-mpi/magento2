@@ -1,0 +1,14 @@
+#
+# {license_notice}
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Test data for Admin User and API Roles
+
+api_role_new:
+    role_name: Role(%randomize%)

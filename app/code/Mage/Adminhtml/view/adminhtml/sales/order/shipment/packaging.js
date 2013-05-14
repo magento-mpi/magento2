@@ -275,6 +275,10 @@ Packaging.prototype = {
         return result = cn.all(function(value) {
             var v = jQuery.validator.methods[value],
                 element = jQuery(elm);
+            if (!v) {
+                element.removeClass('mage-error');
+                return true;
+            }
             if (element.is(':visible') && !v(element.val(), elm)) {
                 element.addClass('mage-error');
                 return false;

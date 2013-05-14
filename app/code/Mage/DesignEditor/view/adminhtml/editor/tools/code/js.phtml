@@ -9,9 +9,7 @@
  */
 ?>
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js */ ?>
-<div id="vde-tab-js-messages-placeholder">
-    <?php echo $this->getChildHtml('messages') ?>
-</div>
+<div id="vde-tab-js-messages-placeholder"></div>
 <div class="files-wrapper">
     <div class="files-list">
         <div class="files-list-header">
@@ -74,9 +72,11 @@
                     $('body').trigger('refreshJsList', {jsList : data.files});
                     $('#vde-tab-js .files-list-content .items').trigger('refreshIframe');
                 }
-                if (data.message_html) {
-                    $('#vde-tab-js-messages-placeholder').append(data.message_html);
-                }
+
+                $('#vde-tab-js .js-file .action-delete').trigger('addMessage', {
+                    containerId : '#vde-tab-js-messages-placeholder',
+                    message : data.message
+                });
             });
 
             return false;
@@ -121,14 +121,16 @@
                 $(this).val('');
                 if (!data.result.error) {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-success');
-                    $('body').trigger('refreshJsList', {jsList : data.result.files});
+                    $('#js_files_uploader').trigger('refreshJsList', {jsList : data.result.files});
                 } else {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
                 }
                 $('#' + data.fileId).delay(2000).fadeOut(2000);
-                if (data.result.message_html) {
-                    $('#vde-tab-js-messages-placeholder').append(data.result.message_html);
-                }
+
+                $('#js_files_uploader').trigger('addMessage', {
+                    containerId: '#vde-tab-js-messages-placeholder',
+                    message: data.result.message
+                });
             },
 
             /**
@@ -171,9 +173,10 @@
                     showLoader: false,
                     success: $.proxy(function(response) {
                         $('.ui-sortable').trigger('refreshIframe');
-                        if (response.message_html) {
-                            $('#vde-tab-custom-messages-placeholder').append(response.message_html);
-                        }
+                        $('.ui-sortable').trigger('addMessage', {
+                            containerId : '#vde-tab-custom-messages-placeholder',
+                            message : response.message
+                        });
                     }, this),
                     error: $.proxy(function() {
                         alert($.mage.__('Error: unknown error.'));

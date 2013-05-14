@@ -697,7 +697,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         $isQty = Mage::helper('Mage_CatalogInventory_Helper_Data')->isQty($typeId);
 
         if ($isQty) {
-            if (!$this->verifyStock()) {
+            if ($this->getManageStock() && !$this->verifyStock()) {
                 $this->setIsInStock(false)
                     ->setStockStatusChangedAutomaticallyFlag(true);
             }
@@ -732,7 +732,10 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
         if ($qty === null) {
             $qty = $this->getQty();
         }
-        if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_NO && $qty <= $this->getMinQty()) {
+        if ($qty !== null
+            && $this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_NO
+            && $qty <= $this->getMinQty()
+        ) {
             return false;
         }
         return true;

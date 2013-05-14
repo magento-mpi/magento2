@@ -15,7 +15,6 @@ class Saas_PrintedTemplate_Model_Variable_Item_InvoiceTest extends PHPUnit_Frame
     /**
      * Test Get order Item method
      * @dataProvider initVariableProvider
-     * @test
      */
     public function testInitVariable($settings, $taxRatesSettings, $expectedValues)
     {

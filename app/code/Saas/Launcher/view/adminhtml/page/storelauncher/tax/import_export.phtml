@@ -23,7 +23,6 @@
 </div>
 
 <script type="text/javascript">
-    //<![CDATA[
     (function($) {
         $('#import_rates_file').fileupload({
             dataType: 'json',
@@ -37,11 +36,11 @@
                     updateTaxRateMultiselect(data.result);
                     insertValidationMessage('<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('The tax rate has been imported.'); ?>', 'success');
                 } else {
-                    insertValidationMessage('<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('There was an error processing your request.'); ?>', 'error')
+                    insertValidationMessage('<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Invalid file format.'); ?>', 'error')
                 }
             },
             fail: function(e, data) {
-                insertValidationMessage('<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('There was an error processing your request.'); ?>', 'error')
+                insertValidationMessage('<?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Invalid file format.'); ?>', 'error')
             },
             add: function(e, data) {
                 $(this).fileupload('process', data).done(function() {
@@ -79,8 +78,6 @@
             previousSection.after(result.tax_rate_field);
         }
     }(jQuery));
-    //]]>
 </script>
-
 <?php endif; ?>
 
