@@ -27,6 +27,10 @@
     top: 39px;
 }
 
+.selection-search .massaction {
+    display: none;
+}
+
 /* Sku, Price, Weight Fields */
 .field-sku .control .sku {
     display: inline-block;

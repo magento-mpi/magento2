@@ -26,26 +26,18 @@ class Saas_Launcher_Adminhtml_Storelauncher_Design_DrawerController
     protected  $_helperFactory;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Mage_Backend_Controller_Context $context
      * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param null $areaCode
+     * @param string $areaCode
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Mage_Backend_Controller_Context $context,
         Mage_Core_Model_Factory_Helper $helperFactory,
         $areaCode = null,
         array $data = array()
     ) {
-        parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $areaCode, $data);
+        parent::__construct($context, $areaCode, $data);
         $this->_helperFactory = $helperFactory;
     }
 

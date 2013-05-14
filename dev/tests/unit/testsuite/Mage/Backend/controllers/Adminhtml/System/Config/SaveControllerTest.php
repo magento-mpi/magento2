@@ -52,10 +52,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
      */
     protected $_authMock;
 
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_layoutMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -71,9 +67,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
     {
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false, false);
         $responseMock = $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false, false);
-        $objectManagerMock = $this->getMock('Magento_ObjectManager');
-        $frontControllerMock = $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false, false);
-        $authorizationMock = $this->getMock('Mage_Core_Model_Authorization', array(), array(), '', false, false);
+
         $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false, false);
         $configStructureMock = $this->getMock('Mage_Backend_Model_Config_Structure',
             array(), array(), '', false, false
@@ -92,10 +86,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
             array('getUser'), array(), '', false, false
         );
 
-        $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout_Factory',
-            array(), array(), '', false, false
-        );
-
         $this->_sectionMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Section', array(), array(), '', false
         );
@@ -107,35 +97,42 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
         $helperMock->expects($this->any())->method('getUrl')->will($this->returnArgument(0));
         $responseMock->expects($this->once())->method('setRedirect')->with('*/system_config/edit');
 
+        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $arguments = array(
+            'request' => $this->_requestMock,
+            'response' => $responseMock,
+            'session' => $this->_sessionMock,
+            'helper' => $helperMock,
+            'eventManager' => $this->_eventManagerMock,
+        );
+
+        $context = $helper->getObject('Mage_Backend_Controller_Context', $arguments);
         $this->_controller = $this->getMock(
             'Mage_Backend_Adminhtml_System_Config_SaveController',
             array('deniedAction'),
             array(
-                $this->_requestMock,
-                $responseMock,
-                $objectManagerMock,
-                $frontControllerMock,
-                $authorizationMock,
+                $context,
                 $configStructureMock,
                 $this->_configMock,
                 $this->_configFactoryMock,
-                $this->_eventManagerMock,
                 $this->_appMock,
                 $this->_authMock,
-                $this->_layoutMock,
                 null,
-                array(
-                    'helper' => $helperMock,
-                    'session' => $this->_sessionMock,
-                ))
+            )
         );
     }
 
     public function testIndexActionWithAllowedSection()
     {
         $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
-        $this->_configMock->expects($this->once())->method('reinit');
         $this->_sessionMock->expects($this->once())->method('addSuccess')->with('The configuration has been saved.');
+
+        $this->_eventManagerMock->expects($this->exactly(3))->method('dispatch');
+        $this->_eventManagerMock->expects($this->at(0))->method('dispatch')->with('application_process_reinit_config');
+        $this->_eventManagerMock->expects($this->at(1))->method('dispatch')
+            ->with('admin_system_config_section_save_after');
+        $this->_eventManagerMock->expects($this->at(2))->method('dispatch')
+            ->with('admin_system_config_changed_section_test_section');
 
         $groups = array('some_key' => 'some_value');
         $requestParamMap = array(

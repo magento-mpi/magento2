@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Fixture_ModuleOne>
+            <active>true</active>
+            <depends>
+                <Fixture_NonExistingModule type="soft"/>
+            </depends>
+        </Fixture_ModuleOne>
+        <Fixture_ModuleTwo>
+            <active>true</active>
+            <depends>
+                <Fixture_InactiveModule type="soft"/>
+                <Fixture_ModuleOne type="hard"/>
+            </depends>
+        </Fixture_ModuleTwo>
+        <Fixture_ModuleThree>
+            <active>true</active>
+            <depends>
+                <Fixture_ModuleTwo/>
+            </depends>
+        </Fixture_ModuleThree>
+    </modules>
+</config>
+

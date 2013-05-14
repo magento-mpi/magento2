@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
-            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Period'),
+            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Interval'),
             'index'         => 'period',
             'sortable'      => false,
             'period_type'   => $this->getPeriodType(),
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('orders_count', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Number of Orders'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Orders'),
             'index'     => 'orders_count',
             'type'      => 'number',
             'total'     => 'sum',
@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('orders_invoiced', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Number of Invoiced Orders'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Invoiced Orders'),
             'index'     => 'orders_invoiced',
             'type'      => 'number',
             'total'     => 'sum',
@@ -85,7 +85,7 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('invoiced_captured', array(
-            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Total Invoiced Paid'),
+            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Paid Invoices'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'invoiced_captured',
@@ -97,7 +97,7 @@ class Mage_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('invoiced_not_captured', array(
-            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Total Invoiced not Paid'),
+            'header'        => Mage::helper('Mage_Sales_Helper_Data')->__('Unpaid Invoices'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'invoiced_not_captured',

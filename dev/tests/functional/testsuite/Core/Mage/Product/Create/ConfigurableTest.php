@@ -770,17 +770,17 @@ class Core_Mage_Product_Create_ConfigurableTest extends Mage_Selenium_TestCase
         $this->saveForm('confirm', false);
         $this->addFieldIdToMessage('field', 'new_attribute_set_name');
         $this->assertMessagePresent('validation', 'empty_required_field');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->verifyMessagesCount(), $this->getMessagesOnPage());
         //Verifying empty attribute set name
         $this->fillField('new_attribute_set_name', "<script>alert('XSS')</script>");
         $this->saveForm('confirm', false);
         $this->assertMessagePresent('validation', 'attribute_set_html');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->verifyMessagesCount(), $this->getMessagesOnPage());
         //Verifying entering existing attribute set name
         $this->addParameter('attributeSetName', 'Default');
         $this->fillField('new_attribute_set_name', 'Default');
         $this->saveForm('confirm', false);
         $this->assertMessagePresent('error', 'attribute_set_existed');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertTrue($this->verifyMessagesCount(), $this->getMessagesOnPage());
     }
 }

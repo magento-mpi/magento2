@@ -86,7 +86,7 @@ class Enterprise_Mage_CmsBanners_Helper extends Mage_Selenium_AbstractHelper
         $xpathTR = $this->search($searchPage, 'cms_banners_grid');
         $this->assertNotEquals(null, $xpathTR, 'CMS Banner is not found');
         $cellId = $this->getColumnIdByName('Banner Name');
-        $this->addParameter('bannerName', $this->getElement($xpathTR . '//td[' . $cellId . ']')->text());
+        $this->addParameter('elementTitle', $this->getElement($xpathTR . '//td[' . $cellId . ']')->text());
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->getElement($xpathTR . '//td[' . $cellId . ']')->click();
         $this->waitForPageToLoad();

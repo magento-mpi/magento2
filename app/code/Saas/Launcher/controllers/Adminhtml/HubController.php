@@ -25,28 +25,16 @@ class Saas_Launcher_Adminhtml_HubController extends Mage_Backend_Controller_Acti
     protected  $_launcherHelper;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Mage_Backend_Controller_Context $context
      * @param Saas_Launcher_Helper_Data $launcherHelper
-     * @param null $areaCode
-     * @param array $invokeArgs
+     * @param string $areaCode
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Mage_Backend_Controller_Context $context,
         Saas_Launcher_Helper_Data $launcherHelper,
-        $areaCode = null,
-        array $invokeArgs = array()
+        $areaCode = null
     ) {
-        parent::__construct(
-            $request, $response, $objectManager, $frontController, $layoutFactory, $areaCode, $invokeArgs
-        );
+        parent::__construct($context, $areaCode);
         $this->_launcherHelper = $launcherHelper;
     }
 

@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -34,10 +34,10 @@
                     <block type="Mage_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
                         <block type="Mage_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
                     </block>
-                    <container name="additional" label="Additional Info">
-                        <block type='Enterprise_Search_Block_Suggestions' name='search_suggestions' template="suggestions.phtml"></block>
-                        <block type='Enterprise_Search_Block_Recommendations' name='search_recommendations' template="recommendations.phtml"></block>
-                    </container>
+<!--                     <container name="additional" label="Additional Info">
+    <block type='Enterprise_Search_Block_Suggestions' name='search_suggestions' template="suggestions.phtml"></block>
+    <block type='Enterprise_Search_Block_Recommendations' name='search_recommendations' template="recommendations.phtml"></block>
+</container> -->
                     <action method="setToolbarBlockName"><name>product_list_toolbar</name></action>
                 </block>
                 <action method="setListOrders"/>

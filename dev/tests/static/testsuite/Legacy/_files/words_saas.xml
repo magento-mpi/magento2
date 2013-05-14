@@ -3,16 +3,16 @@
 /**
  * {license_notice}
  *
+ * @category    tests
+ * @package     static
+ * @subpackage  Legacy
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
-<!-- These are the settings for legacy testing of Magento Go edition (in addition to Magento 2 Core and EE) -->
+<!-- These are the settings for legacy testing of Magento 2 Go Edition (in addition to Magento 2 Community and Enterprise Edition) -->
 <config>
-    <whitelist>
-        <item>
-            <path>app/code/Saas/Launcher/view/adminhtml/page/promotestore/googleanalytics/drawer.phtml</path>
-            <word>staging</word>
-        </item>
-    </whitelist>
+    <words>
+        <word>Enterprise_Staging</word>
+    </words>
 </config>

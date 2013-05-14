@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,23 +23,27 @@
             <div class="product details">
                 <strong class="product name"><?php echo $this->escapeHtml($_product->getName()) ?></strong>
                 <?php if($_product->getIsSalable()): ?>
-                    <p class="availabale stock" title="<?php echo $this->__('Availability') ?>"><span><?php echo $this->__('In stock') ?></span></p>
+                    <p class="available stock" title="<?php echo $this->__('Availability') ?>"><span><?php echo $this->__('In stock') ?></span></p>
                 <?php else: ?>
-                    <p class="unavailabale stock" title="<?php echo $this->__('Availability') ?>"><span><?php echo $this->__('Out of stock') ?></span></p>
+                    <p class="unavailable stock" title="<?php echo $this->__('Availability') ?>"><span><?php echo $this->__('Out of stock') ?></span></p>
                 <?php endif; ?>
                 <?php echo $this->getChildHtml('', true);?>
             </div>
         </div>
         <div class="bundle summary">
             <strong class="subtitle"><?php echo $this->__('Summary'); ?></strong>
-            <ul class="no-display" id="bundle-summary-template">
-               <li><strong class="label">{{label}}:</strong>{{options}}</li>
-            </ul>
-            <div class="no-display" id="bundle-summary-option-template"><?php echo $this->__('%s x %s', '{{qty}}', '{{name}}') ?></div>
-            <div class="no-display" id="bundle-summary-option-multi-template"><div><?php echo $this->__('%s x %s', '{{qty}}', '{{name}}') ?></div></div>
-            <ul id="bundle-summary">
-                <li class="no-display">&nbsp;</li>
-            </ul>
+            <div id="bundle-summary" data-container="product-summary">
+                <ul data-mage-init='{productSummary: []}'></ul>
+                <script data-template="bundle-summary" type="text/x-jQuery-tmpl">
+                    <li>
+                        <strong class="label">${_label_}:</strong>
+                        <div data-container="options"></div>
+                    </li>
+                </script>
+                <script data-template="bundle-option" type="text/x-jQuery-tmpl">
+                    <div><?php echo $this->__('%s x %s', '${_quantity_}', '${_label_}') ?></div>
+                </script>
+            </div>
         </div>
     </div>
 </div>

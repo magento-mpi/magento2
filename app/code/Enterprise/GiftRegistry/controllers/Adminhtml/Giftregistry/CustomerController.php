@@ -233,7 +233,6 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')
-            ->isAllowed('Enterprise_GiftRegistry::customer_enterprise_giftregistry');
+        return $this->_authorization->isAllowed('Enterprise_GiftRegistry::customer_enterprise_giftregistry');
     }
 }

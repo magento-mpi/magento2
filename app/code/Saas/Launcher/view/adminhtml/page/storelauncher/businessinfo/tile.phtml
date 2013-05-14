@@ -52,9 +52,9 @@
         <footer class="tile-more-info">
             <p class="tile-more-info-label"><?php echo $this->escapeHtml($this->__('See all your store settings at:')); ?></p>
             <p class="tile-more-info-breadcrumbs">
-                <span><?php echo $this->escapeHtml($this->__('Stores')); ?></span>
-                <span><?php echo $this->escapeHtml($this->__('Settings ')); ?></span>
-                <a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'general', '_fragment' => 'general_store_information')); ?>"><?php echo $this->__('Configurations'); ?></a>.
+                <span><?php echo $this->__('Stores'); ?></span>
+                <span><?php echo $this->__('Settings'); ?></span>
+                <a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'general', '_fragment' => 'general_store_information')); ?>"><?php echo $this->__('Configuration'); ?></a>.
             </p>
         </footer>
         <?php endif; ?>

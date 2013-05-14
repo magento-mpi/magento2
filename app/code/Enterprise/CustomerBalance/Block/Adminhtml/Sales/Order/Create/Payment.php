@@ -31,6 +31,16 @@ extends Mage_Core_Block_Template
     }
 
     /**
+     * Return store manager instance
+     *
+     * @return Mage_Core_Model_StoreManager
+     */
+    protected function _getStoreManagerModel()
+    {
+        return Mage::getSingleton('Mage_Core_Model_StoreManager');
+    }
+
+    /**
      * Format value as price
      *
      * @param numeric $value
@@ -44,12 +54,17 @@ extends Mage_Core_Block_Template
     /**
      * Balance getter
      *
+     * @param bool $convertPrice
      * @return float
      */
-    public function getBalance()
+    public function getBalance($convertPrice = false)
     {
-        if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled() || !$this->_getBalanceInstance()) {
+        if (!$this->_helperFactory->get('Enterprise_CustomerBalance_Helper_Data')->isEnabled() || !$this->_getBalanceInstance()) {
             return 0.0;
+        }
+        if ($convertPrice) {
+            return $this->_getStoreManagerModel()->getStore($this->_getOrderCreateModel()->getQuote()->getStoreId())
+                ->convertPrice($this->_getBalanceInstance()->getAmount());
         }
         return $this->_getBalanceInstance()->getAmount();
     }

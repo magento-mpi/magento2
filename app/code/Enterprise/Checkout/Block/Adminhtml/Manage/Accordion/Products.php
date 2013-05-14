@@ -82,7 +82,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Product Name'),
+            'header'    => Mage::helper('Enterprise_Checkout_Helper_Data')->__('Product'),
             'renderer'  => 'Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product',
             'index'     => 'name'
         ));

@@ -115,14 +115,14 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
         ));
 
         $this->addColumn('revisions', array(
-            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Revisions Qty'),
+            'header' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Quantity'),
             'index' => 'revisions_count',
             'type' => 'number'
         ));
 
         $this->addColumn('created_at', array(
             'width'     => 150,
-            'header'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Created At'),
+            'header'    => Mage::helper('Enterprise_Cms_Helper_Data')->__('Created'),
             'index'     => 'created_at',
             'type'      => 'datetime',
         ));

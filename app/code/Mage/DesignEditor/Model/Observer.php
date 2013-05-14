@@ -127,6 +127,8 @@ class Mage_DesignEditor_Model_Observer
     {
         /** @var $configuration Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration */
         $configuration = $event->getData('configuration');
+        /** @var $theme Mage_Core_Model_Theme */
+        $theme = $event->getData('theme');
         if ($configuration->getControlConfig() instanceof Mage_DesignEditor_Model_Config_Control_QuickStyles) {
             /** @var $renderer Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer */
             $renderer = $this->_objectManager->create('Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer');
@@ -137,7 +139,7 @@ class Mage_DesignEditor_Model_Observer
             $themeCss->setDataForSave(array(
                 Mage_Core_Model_Theme_Customization_Files_Css::QUICK_STYLE_CSS => $content
             ));
-            $configuration->getTheme()->setCustomization($themeCss)->save();
+            $theme->setCustomization($themeCss)->save();
         }
     }
 }

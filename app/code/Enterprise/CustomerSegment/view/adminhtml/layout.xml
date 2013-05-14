@@ -64,7 +64,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="grid_segment_name">
                         <arguments>
-                            <header translate="true" module="Enterprise_CustomerSegment">Segment Name</header>
+                            <header translate="true" module="Enterprise_CustomerSegment">Segment</header>
                             <align>left</align>
                             <index>name</index>
                         </arguments>

@@ -192,6 +192,6 @@ class Mage_Adminhtml_Api_RoleController extends Mage_Adminhtml_Controller_Action
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Api::roles');
+        return $this->_authorization->isAllowed('Mage_Api::roles');
     }
 }

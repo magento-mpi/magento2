@@ -8,7 +8,6 @@
  */
 /*jshint browser:true jquery:true*/
 /*global FORM_KEY*/
-/*global Validation*/
 (function($) {
     'use strict';
 
@@ -23,25 +22,43 @@
             var widget = this;
             $('#new_category_parent').before($('<input>', {
                 id: 'new_category_parent-suggest',
-                placeholder: 'start typing to search category'
+                placeholder: $.mage.__('start typing to search category')
             }));
-            $('#new_category_parent-suggest').mage('treeSuggest', this.options.suggestOptions)
-                .on('suggestbeforeselect', function (event) {
-                    clearParentCategory();
-                    $(event.target).treeSuggest('close');
-                    $('#new_category_name').focus();
+
+            /*
+             * Temporary fix for IE
+             * Move treeSuggest initialization to the end of browsers event queue
+             * with the aid of setTimeout function and give time for browser to finally load resources
+             */
+            $.mage.load('treeSuggest');
+            setTimeout($.proxy(function() {
+                $('#new_category_parent-suggest').treeSuggest(this.options.suggestOptions)
+                    .on('suggestbeforeselect', function (event) {
+                        clearParentCategory();
+                        $(event.target).treeSuggest('close');
+                        $('#new_category_name').focus();
+                    });
+            }, this), 0);
+
+            $.validator.addMethod('validate-parent-category', function() {
+                return $('#new_category_parent').val() || $('#new_category_parent-suggest').val() === '';
+            }, $.mage.__('Choose existing category.'));
+            var newCategoryForm = this.element.find('#new_category_form').mage('validation', {
+                errorPlacement: function(error, element) {
+                        error.insertAfter(element.is('#new_category_parent') ?
+                            $('#new_category_parent-suggest').closest('.mage-suggest') :
+                            element);
+                    }
+                }).on('highlight.validate', function(e) {
+                    var options = $(this).validation('option');
+                    if ($(e.target).is('#new_category_parent')) {
+                        options.highlight($('#new_category_parent-suggest').get(0),
+                            options.errorClass, options.validClass || '');
+                    }
                 });
 
-            /* @todo rewrite using jQuery validation */
-            /* Validation doesn't work for this invisible <select> after recent changes for some reason */
-            $('#new_category_parent').css({border: 0, height: 0,padding: 0, width: 0}).show();
-            Validation.add('validate-parent-category', 'Choose existing category.', function() {
-                return $('#new_category_parent').val() || $('#new_category_parent-suggest').val() === '';
-            });
-            var newCategoryForm = new Validation(this.element.get(0));
-
             this.element.dialog({
-                title: 'Create Category',
+                title: $.mage.__('Create Category'),
                 autoOpen: false,
                 minWidth: 560,
                 dialogClass: 'mage-new-category-dialog form-inline',
@@ -49,6 +66,8 @@
                 multiselect: true,
                 resizable: false,
                 open: function() {
+                    // fix for suggest field - overlapping dialog z-index
+                    $('#new_category_parent-suggest').css('z-index', $.ui.dialog.maxZ + 1);
                     var enteredName = $('#category_ids-suggest').val();
                     $('#new_category_name').val(enteredName);
                     if (enteredName === '') {
@@ -59,15 +78,18 @@
                 close: function() {
                     $('#new_category_name, #new_category_parent-suggest').val('');
                     clearParentCategory();
-                    newCategoryForm.reset();
+                    var validationOptions = newCategoryForm.validation('option');
+                    validationOptions.unhighlight($('#new_category_parent-suggest').get(0),
+                        validationOptions.errorClass, validationOptions.validClass || '');
+                    newCategoryForm.validation('clearError');
                     $('#category_ids-suggest').focus();
                 },
                 buttons: [{
-                    text: 'Create Category',
+                    text: $.mage.__('Create Category'),
                     'class': 'action-create primary',
                     'data-action': 'save',
                     click: function(event) {
-                        if (!newCategoryForm.validate()) {
+                        if (!newCategoryForm.valid()) {
                             return;
                         }
 
@@ -93,7 +115,7 @@
                             .success(
                                 function (data) {
                                     if (!data.error) {
-                                        $('#category_ids-suggest').trigger('select', {
+                                        $('#category_ids-suggest').trigger('selectItem', {
                                             id: data.category.entity_id,
                                             label: data.category.name
                                         });
@@ -110,14 +132,6 @@
                                     thisButton.prop('disabled', false);
                                 }
                             );
-                    }
-                },
-                {
-                    text: 'Cancel',
-                    'class': 'action-cancel',
-                    'data-action': 'cancel',
-                    click: function() {
-                        $(this).dialog('close');
                     }
                 }]
             });

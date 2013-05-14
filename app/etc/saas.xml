@@ -1,8 +1,9 @@
-<?xml version="1.0"?>
+<?xml version='1.0' encoding="utf-8" ?>
 <!--
 /**
  * {license_notice}
  *
+ * @category    Saas
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -10,7 +11,73 @@
 <config>
     <global>
         <configurators>
+            <saas_search>Saas_Search_Model_ObjectManager_Configurator</saas_search>
             <saas>Saas_Saas_Model_ObjectManager_Configurator</saas>
         </configurators>
+        <di>
+            <preferences>
+                <Enterprise_Queue_Model_Event_HandlerInterface>Saas_Queue_Model_Event_Handler</Enterprise_Queue_Model_Event_HandlerInterface>
+                <Magento_JobQueue_ClientInterface>Magento_JobQueue_Client_Gearman</Magento_JobQueue_ClientInterface>
+                <Magento_JobQueue_Client_ConfigInterface>Enterprise_Queue_Model_Config_Gearman</Magento_JobQueue_Client_ConfigInterface>
+            </preferences>
+            <!--<Mage_Core_Model_Config>-->
+                <!--<parameters>-->
+                    <!--<storage>Saas_Core_Model_Config_Storage</storage>-->
+                <!--</parameters>-->
+            <!--</Mage_Core_Model_Config>-->
+            <Saas_Queue_Helper_Gearman>
+                <parameters>
+                    <config>Mage_Core_Model_Config_Primary</config>
+                </parameters>
+            </Saas_Queue_Helper_Gearman>
+            <Enterprise_Queue_Helper_Gearman>
+                <parameters>
+                    <config>Mage_Core_Model_Config_Primary</config>
+                </parameters>
+            </Enterprise_Queue_Helper_Gearman>
+
+            <Mage_Core_Model_Config_Locales>
+                <parameters>
+                    <storage>Saas_Core_Model_Config_Storage_Locales</storage>
+                </parameters>
+            </Mage_Core_Model_Config_Locales>
+            <Mage_Core_Model_Config_Modules>
+                <parameters>
+                    <storage>Saas_Core_Model_Config_Storage_Modules</storage>
+                </parameters>
+            </Mage_Core_Model_Config_Modules>
+            <Saas_Core_Model_Config_Storage_Worker>
+                <parameters>
+                    <loader>Mage_Core_Model_Config_Loader_Proxy</loader>
+                    <storageModules>Saas_Core_Model_Config_Storage_Modules</storageModules>
+                    <storageLocales>Saas_Core_Model_Config_Storage_Locales</storageLocales>
+                </parameters>
+            </Saas_Core_Model_Config_Storage_Worker>
+            <Saas_Core_Model_Config_Storage>
+                <parameters>
+                    <loader>Mage_Core_Model_Config_Loader_Proxy</loader>
+                </parameters>
+            </Saas_Core_Model_Config_Storage>
+            <Saas_Core_Model_Config_Storage_Modules>
+                <parameters>
+                    <loader>Mage_Core_Model_Config_Loader_Modules_Proxy</loader>
+                </parameters>
+            </Saas_Core_Model_Config_Storage_Modules>
+            <Saas_Core_Model_Config_Storage_Locales>
+                <parameters>
+                    <loader>Mage_Core_Model_Config_Loader_Locales_Proxy</loader>
+                </parameters>
+            </Saas_Core_Model_Config_Storage_Locales>
+            <Magento_Http_Handler_Composite>
+                <parameters>
+                    <handlers>
+                        <saas>
+                            <sortOrder>10</sortOrder>
+                            <class>Saas_Saas_Model_Http_Handler</class>
+                        </saas>
+                    </handlers>
+                </parameters>
+            </Magento_Http_Handler_Composite>
+        </di>
     </global>
 </config>

@@ -253,9 +253,6 @@ class Mage_Core_Model_App_Area
 
     protected function _initDesign()
     {
-        if (Mage::app()->getRequest()->isStraight()) {
-            return;
-        }
         $this->_getDesign()->setArea($this->_code)->setDefaultDesignTheme();
     }
 }
