@@ -16,6 +16,9 @@
                 <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint</frontend_model>
                 <hide_in_single_store_mode>1</hide_in_single_store_mode>
             </group>
+            <group id="account">
+                <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location</frontend_model>
+            </group>
             <group id="paypal_notice_saas" showInDefault="1" showInWebsite="1" showInStore="1" extends="*/paypal_notice">
                 <hide_in_single_store_mode>0</hide_in_single_store_mode>
                 <depends>

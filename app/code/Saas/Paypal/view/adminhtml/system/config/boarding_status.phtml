@@ -109,6 +109,7 @@ if (!FormElementDependenceController.prototype.redefined) {
                 }
             }
         }
+
         // toggle target row
         var headElement = $(idTo + '-head');
         if (shouldShowUp) {
@@ -118,6 +119,7 @@ if (!FormElementDependenceController.prototype.redefined) {
                     // don't touch hidden inputs (and Use Default inputs too), bc they may have custom logic
                     if ((!item.type || item.type != 'hidden') && !($(item.id+'_inherit') && $(item.id+'_inherit').checked)
                         && !(currentConfig.can_edit_price != undefined && !currentConfig.can_edit_price)) {
+                        $(item).addClassName('fd-enabled');
                         item.disabled = false;
                     }
                 });
@@ -131,12 +133,14 @@ if (!FormElementDependenceController.prototype.redefined) {
                 }
             } else {
                 $(idTo).show();
+                $(idTo).disabled = false;
             }
         } else {
             if ($(idTo).select('input', 'select', 'td')) {
                 $(idTo).select('input', 'select', 'td').each(function (item){
                     // don't touch hidden inputs (and Use Default inputs too), bc they may have custom logic
                     if ((!item.type || item.type != 'hidden') && !($(item.id+'_inherit') && $(item.id+'_inherit').checked)) {
+                        $(item).removeClassName('fd-enabled');
                         item.disabled = true;
                     }
                 });
@@ -145,8 +149,8 @@ if (!FormElementDependenceController.prototype.redefined) {
                 headElement.hide();
             }
             $(idTo).hide();
+            $(idTo).disabled = true;
         }
-
         var rowElement = $('row_' + idTo);
         if (rowElement) {
             if (shouldShowUp) {
