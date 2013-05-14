@@ -77,6 +77,7 @@ strong {
 @primary4: #999999; // cart
 @primary5: #d5e6ec; // Main text
 @primary6: #d5e6ec; // Main text
+@primary7: #6d838c; // for some fieldsets
 @primeBlack: #7f7f7;
 @primeBlackOpacity: rgba(0, 0, 0, 0.5);
 @commonBg : @pageMainBg;
@@ -4340,7 +4341,7 @@ and (max-width : 768px) {
         }
         margin: 0 0 50px;
         padding: 20px;
-        background: #fff; //tmpColor
+        background: @primary7;
         &:last-child {
             margin-bottom: 0;
         }
@@ -4371,11 +4372,10 @@ and (max-width : 768px) {
 }
 
 .block.bundle.summary {
-    margin-top: 97px;
-    background: #fff; //tmpColor
-    position: absolute;
-    right: 0;
-    top: 0;
+    background: @primary7;
+    margin-top: 54px;
+    float: right;
+    position: relative;
     width: 380px;
     > .title {
         font-weight: 400;
