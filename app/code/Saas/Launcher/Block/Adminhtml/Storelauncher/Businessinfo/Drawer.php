@@ -115,7 +115,8 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
             'required' => true,
             'class' => 'validate-email',
             'disabled' => 'disabled',
-            'value' => $this->_storeConfig->getConfig('trans_email/ident_general/email')
+            'value' => $this->_storeConfig->getConfig('trans_email/ident_general/email'),
+            'note' => $helper->__('Uses Store Contact Email as your General Contact Email.'),
         ));
 
         $salesRepresentative = $storeInfo->addFieldset('sales_representative',
