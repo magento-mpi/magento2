@@ -146,7 +146,7 @@
             </block>
         </reference>
         <reference name="content.bottom">
-            <block type="Mage_Reports_Block_Product_Widget_Viewed" page_size="6" template="Mage_Catalog::product/list/items.phtml">
+            <block type="Mage_Reports_Block_Product_Widget_Viewed" name="product.viewed.products" page_size="6" template="Mage_Catalog::product/list/items.phtml">
                 <action method="setType"><type>widget-viewed</type></action>
                 <action method="setViewMode"><mode>grid</mode></action>
                 <action method="setImageType"><image>recently_viewed_products_grid_content_widget</image></action>
