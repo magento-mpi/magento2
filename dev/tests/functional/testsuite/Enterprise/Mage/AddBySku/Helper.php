@@ -14,7 +14,7 @@
  */
 class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
 {
-    //---------------------------------------------------Backend--------------------------------------------------------
+    //---------------------------------------------------Backend------------------------------
     /**
      * Add next product
      *
@@ -24,25 +24,22 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
      */
     public function addProductsBySkuToShoppingCart(array $productsToAdd, $pressButton = true, $isShoppingCart = true)
     {
-        if (!empty($productsToAdd)) {
-            if ($isShoppingCart) {
-                if (!$this->controlIsPresent('pageelement', 'opened_add_to_shopping_cart_by_sku')) {
-                    $this->clickControl('link', 'expand_add_to_shopping_cart_by_sku', false);
-                    $this->waitForAjax();
-                }
-            }
-            if (!$isShoppingCart) {
-                $this->clickButton('add_products_by_sku', false);
-            }
-            $this->_fillSkuQty($productsToAdd);
-            if ($pressButton && $isShoppingCart) {
-                $this->clickButton('add_selected_products_to_shopping_cart', false);
-            }
-            if ($pressButton && !$isShoppingCart) {
-                $this->clickButton('submit_sku_form');
-            }
-            $this->pleaseWait();
+        if ($isShoppingCart && !$this->controlIsPresent('pageelement', 'opened_add_to_shopping_cart_by_sku')) {
+            $this->clickControl('link', 'expand_add_to_shopping_cart_by_sku', false);
+            $this->waitForAjax();
         }
+        if (!$isShoppingCart) {
+            $this->clickButton('add_products_by_sku', false);
+        }
+        $this->_fillSkuQty($productsToAdd);
+        if ($pressButton && $isShoppingCart) {
+            $this->clickButton('add_selected_products_to_shopping_cart', false);
+        }
+        if ($pressButton && !$isShoppingCart) {
+            $this->clickButton('submit_sku_form');
+        }
+        $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getParsedMessages());
+        $this->pleaseWait();
     }
 
     /**
@@ -92,8 +89,9 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
     public function getProductInfoInTable(
         $tableHeadName = 'product_table_head',
         $productTableLine = 'product_line',
-        $skipFields = array('move_to_wishlist','remove')
-    ) {
+        $skipFields = array('move_to_wishlist', 'remove')
+    )
+    {
         $productValues = array();
         $tableRowNames = $this->shoppingCartHelper()->getColumnNamesAndNumbers($tableHeadName);
         $productLine = $this->_getControlXpath('pageelement', $productTableLine);
@@ -136,8 +134,8 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
             $values = array_map('trim', $values);
             foreach ($values as $k => $v) {
                 if ($k % 2 != 0 && isset($values[$k - 1])) {
-                    $productValues['product_' . $index][
-                    $key . '_' . strtolower(preg_replace('#[^0-9a-z]+#i', '', $values[$k - 1]))] = $v;
+                    $indexKey = $key . '_' . strtolower(preg_replace('#[^0-9a-z]+#i', '', $values[$k - 1]));
+                    $productValues['product_' . $index][$indexKey] = $v;
                 }
             }
         } else {
@@ -233,7 +231,8 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
      *
      * @return bool
      */
-    public function isAttentionTableEmpty() {
+    public function isAttentionTableEmpty()
+    {
         if ($this->controlIsVisible('pageelement', 'error_table_head')) {
             $productValues = $this->getProductInfoInTable('error_table_head', 'error_table_line');
             if (empty($productValues)) {
@@ -251,25 +250,24 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
      */
     public function removeItemsFromAttentionTable(array $productsToRemove)
     {
-        if (!empty($productsToRemove)) {
-            if (!$this->isAttentionTableEmpty()) {
-                $xpath = $this->_getControlXpath('pageelement', 'error_table_grid');
-                foreach ($productsToRemove as $key => $productSku) {
-                    $count = $this->getControlCount('pageelement', 'error_table_grid');
-                    $i = 1;
-                    $productSku = 'sku_' . trim($productSku);
-                    while ($i <= $count) {
-                        $value = $this->getAttribute($xpath . "[$i]/td/div/@id");
-                        if (trim($value) == $productSku) {
-                            $this->addParameter('rowIndex', $i);
-                            $this->clickButton('remove_item', false);
-                            unset($productsToRemove[$key]);
-                            $i = $count + 1;
-                            $this->pleaseWait();
-                        } else {
-                            $i++;
-                        }
-                    }
+        if ($this->isAttentionTableEmpty()) {
+            return;
+        }
+        $xpath = $this->_getControlXpath('pageelement', 'error_table_grid');
+        foreach ($productsToRemove as $key => $productSku) {
+            $count = $this->getControlCount('pageelement', 'error_table_grid');
+            $i = 1;
+            $productSku = 'sku_' . trim($productSku);
+            while ($i <= $count) {
+                $value = $this->getElement($xpath . "[$i]/td/div")->attribute('id');
+                if (trim($value) == $productSku) {
+                    $this->addParameter('rowIndex', $i);
+                    $this->clickButton('remove_item', false);
+                    unset($productsToRemove[$key]);
+                    $i = $count + 1;
+                    $this->pleaseWait();
+                } else {
+                    $i++;
                 }
             }
         }
@@ -282,22 +280,20 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
      */
     public function removeItemsFromShoppingCartTable(array $productsToRemove)
     {
-        if (!empty($productsToRemove)) {
-            if (!$this->isShoppingCartEmpty()) {
-                $productsData = $this->getProductInfoInTable('product_table_head', 'table_row');
-                $rowNumber=1;
-                foreach ($productsData as $value) {
-                    if(in_array(trim($value['sku']), $productsToRemove)) {
-                        $this->addParameter('rowNumber', $rowNumber);
-                        $this->select($this->_getControlXpath('dropdown', 'grid_massaction_select'), 'Remove');
-                        $this->pleaseWait();
-                    }
-                    $rowNumber++;
+        if (!$this->isShoppingCartEmpty()) {
+            $productsData = $this->getProductInfoInTable('product_table_head', 'table_row');
+            $rowNumber = 1;
+            foreach ($productsData as $value) {
+                if (in_array(trim($value['sku']), $productsToRemove)) {
+                    $this->addParameter('rowNumber', $rowNumber);
+                    $this->fillDropdown('grid_massaction_select', 'Remove');
+                    $this->pleaseWait();
                 }
+                $rowNumber++;
             }
-            $this->clickButton('update_items_and_qty', false);
-            $this->pleaseWait();
         }
+        $this->clickButton('update_items_and_qty', false);
+        $this->pleaseWait();
     }
 
     /**
@@ -317,7 +313,7 @@ class Enterprise_Mage_AddBySku_Helper extends Mage_Selenium_AbstractHelper
             $this->waitForAjax();
             $this->orderHelper()->configureProduct($product['Options_backend']);
             $uimap = $this->_findUimapElement('fieldset', 'product_composite_configure_form');
-            $this->click($this->_getControlXpath('button', 'ok', $uimap));
+            $this->getControlElement('button', 'ok', $uimap)->click();
         } else {
             $this->fail('Added product is not composite product');
         }

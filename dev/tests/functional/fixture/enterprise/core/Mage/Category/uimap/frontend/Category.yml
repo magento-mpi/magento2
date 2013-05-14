@@ -10,9 +10,12 @@
 ---
 # SKU Widget
 category_page_before_reindex:
-    uimap:
+    uimap: &categoryUIMap
         form:
             fieldsets:
+                -
+                    category_view:
+                        xpath: //div[@class='category-view']
                 -
                     add_by_sku:
                         xpath: //div[@class='widget widget-addbysku']
@@ -36,4 +39,18 @@ category_page_before_reindex:
             qty_sku_invalid_number: //div[@class='validation-advice' and contains(.,'Please enter a valid number in this field.')]
             qty_sku_negative_number: //div[@class='validation-advice' and contains(.,'Please enter a number greater than 0 in this field.')]
             qty_sku_outofrange_number: //div[@class='validation-advice' and contains(.,'The value is not within the specified range.')]
-            qty_sku_required_field: //div[@class='validation-advice' and contains(.,'This is a required field.')]
+
+category_page_after_reindex:
+    uimap: *categoryUIMap
+
+sub_category_page_before_reindex:
+    uimap: *categoryUIMap
+
+category_page_index:
+    uimap: *categoryUIMap
+
+category_layered_navigation:
+    uimap: *categoryUIMap
+
+attribute_layered_navigation:
+    uimap: *categoryUIMap

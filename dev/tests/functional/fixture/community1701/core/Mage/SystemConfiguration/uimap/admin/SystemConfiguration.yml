@@ -348,7 +348,7 @@ system_configuration:
                                     xpath: //div[fieldset[@id='payment_wps_required_settings']]
                                     links:
                                         pps_required_settings_section: //a[@id='payment_wps_required_settings-head']
-                                        pps_start_accepting_payments:  //a[text()='Start accepting payments via PayPal!']
+                                        pps_start_accepting_payments: //a[text()='Start accepting payments via PayPal!']
                                     fields:
                                         pps_email_associated_with_merchant_account: //input[@id='payment_wps_required_settings_business_account']
                                     dropdowns:

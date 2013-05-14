@@ -38,6 +38,7 @@ product_page:
                             gift_card_amount: //select[@id='giftcard-amount']/option[@value='%giftCardAmount%']
                 -
                     add_tag:
+                        xpath: //div[div/h2='Product Tags']
                         buttons:
                             add_tags: //button[//span='Add Tags']
                 -
@@ -74,7 +75,7 @@ product_review:
 products_failed:
     mca: checkout/cart/configureFailed/id/%id%/qty/%qty%/sku/%sku%/
     title: %elementTitle%
-    uimap:
+    uimap: &products_failed-uimap
         form:
             fieldsets:
                 -
@@ -87,40 +88,10 @@ products_failed:
                         xpath: //dt[contains(label,'%title%')]
                         pageelements:
                             custom_option_non_select: //span[normalize-space(text())='%price%']
-                -
-                    product_custom_option_body:
-                        xpath: //dt[contains(label,'%title%')]/following-sibling::dd[1]
-                        buttons:
-                            custom_option_file: //input[@type='file']
-                        checkboxes:
-                            custom_option_check_attribute: //input
-                            custom_option_checkbox: //li[contains(.//label,'%optionTitle%')]//input[@type='checkbox']
-                        dropdowns:
-                            custom_option_select_attribute: //select
-                            custom_option_dropdown: //select
-                            custom_option_day: "//select[contains(@name,'[day]')]"
-                            custom_option_month: //select[contains(@id,'month')]
-                            custom_option_year: //select[contains(@id,'year')]
-                            custom_option_hour: //select[contains(@id,'hour')]
-                            custom_option_minute: //select[contains(@id,'minute')]
-                            custom_option_day_part: //select[contains(@id,'day_part')]
-                        fields:
-                            custom_option_field: //input[@type='text']
-                            custom_option_area: //textarea
-                            bundle_item_qty: /span[@class='qty-holder']/input
-                        links:
-                            downloadable_link: //a[text()='%linkTitle%']
-                        multiselects:
-                            custom_option_multiselect: //select[@multiple='multiple']
-                        radiobuttons:
-                            custom_option_radiobutton: //li[contains(.//label,'%optionTitle%')]//input[@type='radio']
-                        pageelements:
-                            custom_option_price: //span[@class='price' and normalize-space(text())='%price%']
-                            custom_option_select: //option[contains(text(),'%optionTitle% +%optionPrice%')]
-                            custom_option_check: //span[contains(text(),'+')]/span[@class='price' and contains(text(),'%optionPrice%')]
-                            custom_option_max_chars: //p[strong='%maxChars%']
-                            custom_option_file_ext: //p[contains(text(),'Allowed file extensions to upload') and strong='%fileExt%']
-                            custom_option_file_max_width: //p[contains(text(),'Maximum image width') and strong='%fileWidth% px.']
-                            custom_option_file_max_height: //p[contains(text(),'Maximum image height') and strong='%fileHeight% px.']
         buttons:
             update_cart: //button[span='Update Cart']
+
+product_failed:
+    mca: checkout/cart/configureFailed/id/%id%/sku/%sku%/
+    title: %elementTitle%
+    uimap: *products_failed-uimap

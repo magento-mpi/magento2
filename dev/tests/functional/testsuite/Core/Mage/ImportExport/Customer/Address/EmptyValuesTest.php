@@ -20,18 +20,26 @@
  */
 class Core_Mage_ImportExport_Customer_Address_EmptyValuesTest extends Mage_Selenium_TestCase
 {
-    /**
-     * Preconditions:
-     * Log in to Backend.
-     * Navigate to System -> Export/p>
-     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
+    }
+
     protected function assertPreConditions()
     {
-        //logged in once for all tests
         $this->loginAdminUser();
-        //Step 1
         $this->navigate('import');
     }
+
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
+    }
+
     /**
      * Empty values for existing attributes in csv for Customer Addresses
      *
@@ -80,7 +88,7 @@ class Core_Mage_ImportExport_Customer_Address_EmptyValuesTest extends Mage_Selen
         //Verify Customer Address
         $this->openTab('addresses');
         $addressData['state'] = $data[0]['region'];
-        $this->customerHelper()->isAddressPresent($addressData);
+        $this->assertNotEquals(0, $this->customerHelper()->isAddressPresent($addressData));
         $this->assertTrue($this->verifyForm(array('company' => 'Test_Company')),
             'Existent customer has been updated');
     }
@@ -89,20 +97,17 @@ class Core_Mage_ImportExport_Customer_Address_EmptyValuesTest extends Mage_Selen
     {
         return array(
             array(
-                array($this->loadDataSet('ImportExport', 'generic_address_csv',
-                    array(
-                        '_website' => 'base',
-                        'region' => 'New York',
-                        'company' => '',
-                        'fax' => '',
-                        'middlename' => '',
-                        'prefix' =>'',
-                        '_address_default_billing_' => '',
-                        '_address_default_shipping_' => '',
-                        '_entity_id' => $this->generate('string', 10, ':digit:')
-                        )
-                    )
-                )
+                array($this->loadDataSet('ImportExport', 'generic_address_csv', array(
+                    '_website' => 'base',
+                    'region' => 'New York',
+                    'company' => '',
+                    'fax' => '',
+                    'middlename' => '',
+                    'prefix' => '',
+                    '_address_default_billing_' => '',
+                    '_address_default_shipping_' => '',
+                    '_entity_id' => $this->generate('string', 10, ':digit:')
+                )))
             )
         );
     }

@@ -35,18 +35,24 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * @param $ruleData
-     * @return array
+     * Create new Rule
+     *
+     * @param string|array $ruleData
+     * @param string $pageToVerify
      */
-    protected function _ruleData($ruleData)
+    public function createRuleAndContinueEdit($ruleData, $pageToVerify = '')
     {
-        $ruleVars = array();
-        $ruleVars['ruleInfo'] = (isset($ruleData['info'])) ? $ruleData['info'] : array();
-        $ruleVars['Conditions'] = (isset($ruleData['conditions'])) ? $ruleData['conditions'] : array();
-        $ruleVars['ruleActions'] = (isset($ruleData['actions'])) ? $ruleData['actions'] : array();
-        $ruleVars['ruleLabels'] = (isset($ruleData['labels'])) ? $ruleData['labels'] : array();
-        return $ruleVars;
+        $this->clickButton('add_new_rule');
+        $this->fillTabs($ruleData);
+        if (isset($ruleData['info']['rule_name'])) {
+            $this->addParameter('elementTitle', $ruleData['info']['rule_name']);
+        }
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+        if ($pageToVerify !== '') {
+            $this->assertTrue($this->checkCurrentPage($pageToVerify), $this->getParsedMessages());
+        }
     }
+
     /**
      * Filling tabs
      *
@@ -55,20 +61,23 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
     public function fillTabs($ruleData)
     {
         $ruleData = $this->fixtureDataToArray($ruleData);
-        $ruleVars = $this->_ruleData($ruleData);
-        if (array_key_exists('websites', $ruleVars['ruleInfo'])
-            && !$this->controlIsPresent('multiselect', 'websites')) {
-            unset($ruleVars['ruleInfo']['websites']);
+        if (isset($ruleData['info'])) {
+            $this->openTab('rule_information');
+            if (array_key_exists('websites', $ruleData['info'])
+                && !$this->controlIsVisible('multiselect', 'websites')
+            ) {
+                unset($ruleData['info']['websites']);
+            }
+            $this->fillTab($ruleData['info'], 'rule_information');
         }
-        $this->fillTab($ruleVars['ruleInfo'], 'rule_information');
-        if ($ruleVars['Conditions']) {
-            $this->fillConditionsTab($ruleVars['Conditions']);
+        if (isset($ruleData['conditions'])) {
+            $this->fillConditionsTab($ruleData['conditions']);
         }
-        if ($ruleVars['ruleActions']) {
-            $this->fillActionsTab($ruleVars['ruleActions']);
+        if (isset($ruleData['actions'])) {
+            $this->fillActionsTab($ruleData['actions']);
         }
-        if ($ruleVars['ruleLabels']) {
-            $this->fillLabelsTab($ruleVars['ruleLabels']);
+        if (isset($ruleData['labels'])) {
+            $this->fillLabelsTab($ruleData['labels']);
         }
     }
 
@@ -215,8 +224,12 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
                 continue;
             }
             $this->clickControl('link', preg_replace('/(^select_)|(^type_)/', '', $formFieldName), false);
-            $this->_fill(array('type'  => $formField['type'], 'name' => $formFieldName,
-                               'value' => $formField['value'], 'locator' => $formField['path']));
+            $this->_fill(array(
+                'type' => $formField['type'],
+                'name' => $formFieldName,
+                'value' => $formField['value'],
+                'locator' => $formField['path']
+            ));
             $this->clearActiveFocus();
         }
     }
@@ -281,7 +294,8 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
         foreach ($ruleData as $tabName => $tabData) {
             switch ($tabName) {
                 case 'info':
-                    if (array_key_exists('websites', $tabData) && !$this->controlIsPresent('multiselect', 'websites')) {
+                    $this->openTab('rule_information');
+                    if (array_key_exists('websites', $tabData) && !$this->controlIsVisible('multiselect', 'websites')) {
                         unset($tabData['websites']);
                     }
                     $this->verifyForm($tabData, 'rule_information');

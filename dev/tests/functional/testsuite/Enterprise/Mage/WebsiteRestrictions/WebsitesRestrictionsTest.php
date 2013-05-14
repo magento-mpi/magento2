@@ -16,11 +16,6 @@
  */
 class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     * <p>Navigate to System -> Configuration </p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -29,22 +24,19 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
 
     protected function tearDownAfterTestClass()
     {
-        //Data
-        $config = $this->loadDataSet('WebsiteRestrictions', 'disable_website_restrictions');
-        //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('WebsiteRestrictions/disable_website_restrictions');
         $this->clearInvalidedCache();
         $this->frontend();
     }
+
     /**
      * <p>Check Configuration Fields</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5519
      */
-
     public function navigationTest()
     {
         $this->openTab('general_general');
@@ -61,20 +53,16 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
     }
 
     /**
-     *
      * <p>Website Closed HTTP Response 200 OK</p>
      *
      * @test
      * @depends navigationTest
      * @TestlinkId TL-MAGE-5520
      */
-
     public function websiteClosedHttpResponse200()
     {
-        //Data
-        $config = $this->loadDataSet('WebsiteRestrictions', 'website_closed_response_200');
         //Preconditions
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('WebsiteRestrictions/website_closed_response_200');
         $this->clearInvalidedCache();
         //Steps
         $this->frontend('home_page', false);
@@ -83,20 +71,16 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
     }
 
     /**
-     *
      * <p>Website Closed HTTP Response 503</p>
      *
      * @test
      * @depends navigationTest
      * @TestlinkId TL-MAGE-5521
      */
-
     public function websiteClosedHttpResponse503()
     {
-        //Data
-        $config = $this->loadDataSet('WebsiteRestrictions', 'website_closed_response_503');
         //Preconditions
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('WebsiteRestrictions/website_closed_response_503');
         $this->clearInvalidedCache();
         //Steps
         $this->frontend('home_page', false);
@@ -107,17 +91,14 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
     /**
      * <p>Redirect to login form in "Login Only" Mode</p>
      *
-     *
      * @test
      * @depends navigationTest
      * @TestlinkId TL-MAGE-5525
      */
     public function redirectToLoginFormInLoginOnlyMode()
     {
-        //Data
-        $config = $this->loadDataSet('WebsiteRestrictions', 'login_only_to_login_form');
         //Steps
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('WebsiteRestrictions/login_only_to_login_form');
         $this->clearInvalidedCache();
         $this->frontend('home_page', false);
         //Verification
@@ -134,10 +115,8 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
      */
     public function redirectToLandingPageInLoginOnlyMode()
     {
-        //Data
-        $config = $this->loadDataSet('WebsiteRestrictions', 'login_only_to_landing_page');
         //Steps
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('WebsiteRestrictions/login_only_to_landing_page');
         $this->clearInvalidedCache();
         $this->frontend('home_page', false);
         //Verification
@@ -147,17 +126,14 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
     /**
      * <p>Verify that "Forgot Your Password" page is enable in "Login Only" Mode</p>
      *
-     *
      * @test
      * @depends navigationTest
      * @TestlinkId TL-MAGE-5527
      */
     public function forgotYourPasswordInLoginOnlyMode()
     {
-        //Data
-        $config = $this->loadDataSet('WebsiteRestrictions', 'login_only_to_login_form');
         //Steps
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('WebsiteRestrictions/login_only_to_login_form');
         $this->clearInvalidedCache();
         $this->frontend('home_page', false);
         $this->validatePage('customer_login');
@@ -169,7 +145,6 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
     /**
      * <p>Checkout in "Login Only" Mode</p>
      *
-     *
      * @test
      * @depends navigationTest
      * @TestlinkId TL-MAGE-5522
@@ -179,12 +154,12 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $config = $this->loadDataSet('WebsiteRestrictions', 'login_only_to_login_form');
-        $user = array('email'    => $userData['email'], 'password' => $userData['password']);
+        $user = array('email' => $userData['email'], 'password' => $userData['password']);
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney_usa',
-            array('general_name'  => $simple['general_name'], 'email_address'  => $user['email']));
+            array('general_name' => $simple['general_name'], 'email_address' => $user['email']));
         //Preconditions
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('WebsiteRestrictions/login_only_to_login_form');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->clearInvalidedCache();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
@@ -216,9 +191,8 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
     {
         //Data
         $user = $this->loadDataSet('Customers', 'customer_account_register');
-        $config = $this->loadDataSet('WebsiteRestrictions', 'login_and_register_to_login_form');
         //Steps
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('WebsiteRestrictions/login_and_register_to_login_form');
         $this->clearInvalidedCache();
         $this->frontend('home_page', false);
         $this->validatePage('customer_login');
@@ -240,11 +214,8 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
      */
     public function registerCustomerInLoginOnlyMode()
     {
-
-        //Data
-        $config = $this->loadDataSet('WebsiteRestrictions', 'login_only_to_login_form');
         //Precondition
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('WebsiteRestrictions/login_only_to_login_form');
         $this->clearInvalidedCache();
         //Steps
         $this->frontend('register_account', false);

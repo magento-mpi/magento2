@@ -18,18 +18,21 @@
  */
 class Core_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
 {
-    /**
-     *
-     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
+        $this->navigate('manage_stores');
+        $this->storeHelper()->createStore('StoreView/generic_store_view', 'store_view');
+        $this->assertMessagePresent('success', 'success_saved_store_view');
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
     }
 
-    /**
-     * <p>Post conditions:</p>
-     * <p>Log out from Backend.</p>
-     */
     protected function tearDownAfterTestClass()
     {
         $this->logoutAdminUser();
@@ -51,16 +54,16 @@ class Core_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
                     $this->addVerificationMessage("The $control $typeName is not present on page $pageName");
                 }
             }
-
         }
         $this->assertEmptyVerificationErrors();
     }
 
     public function uiElementsTestDataProvider()
     {
-        return array(array('report_customer_totals'),
-                     array('report_product_sold'),
-                     array('report_customer_accounts')
+        return array(
+            array('report_customer_totals'),
+            array('report_product_sold'),
+            array('report_customer_accounts')
 
         );
     }
@@ -84,15 +87,16 @@ class Core_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
 
     public function countGridRowsTestDataProvider()
     {
-        return array(array('report_product_sold', 'product_sold_grid', 'count_rows_by_day'),
-                     array('report_product_sold', 'product_sold_grid', 'count_rows_by_month'),
-                     array('report_product_sold', 'product_sold_grid', 'count_rows_by_year'),
-                     array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_day'),
-                     array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_month'),
-                     array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_year'),
-                     array('report_customer_accounts', 'report_customer_accounts_table', 'count_rows_by_day'),
-                     array('report_customer_accounts', 'report_customer_accounts_table', 'count_rows_by_month'),
-                     array('report_customer_accounts', 'report_customer_accounts_table', 'count_rows_by_year')
+        return array(
+            array('report_product_sold', 'product_sold_grid', 'count_rows_by_day'),
+            array('report_product_sold', 'product_sold_grid', 'count_rows_by_month'),
+            array('report_product_sold', 'product_sold_grid', 'count_rows_by_year'),
+            array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_day'),
+            array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_month'),
+            array('report_customer_totals', 'customer_by_orders_total_table', 'count_rows_by_year'),
+            array('report_customer_accounts', 'report_customer_accounts_table', 'count_rows_by_day'),
+            array('report_customer_accounts', 'report_customer_accounts_table', 'count_rows_by_month'),
+            array('report_customer_accounts', 'report_customer_accounts_table', 'count_rows_by_year')
         );
     }
 
@@ -114,32 +118,42 @@ class Core_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
      */
     public function checkQuantityOrderedProductSoldGridTest()
     {
+        $simple1 = $this->loadDataSet('Product', 'simple_product_visible');
+        $simple2 = $this->loadDataSet('Product', 'simple_product_visible');
+        $orderData1 = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+            array('filter_sku' => $simple1['general_sku']));
+        $orderData2 = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+            array('filter_sku' => $simple2['general_sku']));
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($simple1);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($simple2);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Create first order
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData1);
+        $this->assertMessagePresent('success', 'success_created_order');
+        $firstDate = $this->getControlAttribute('pageelement', 'order_date', 'text');
         // Check current quantity ordered value
         $this->navigate('report_product_sold');
-        $this->gridHelper()->fillDateFromTo();
+        $this->gridHelper()->fillDateFromTo($firstDate, $firstDate);
         $this->clickButton('refresh');
-        $lineLocator = $this->_getControlXpath('pageelement', 'product_sold_grid_line');
-        $count = $this->getControlCount('pageelement', 'product_sold_grid_line');
-        $totalBefore = $this->getElement($lineLocator . "[$count]/*[3]")->text();
-        // Create Product
-        $simple = $this->loadDataSet('Product', 'simple_product_visible');
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($simple);
-        $this->assertMessagePresent('success', 'success_saved_product');
-        //Create Order
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-            array('filter_sku' => $simple['general_name']));
+        $lineLocator = $this->_getControlXpath('pageelement', 'product_sold_grid_line') . "/*[3]";
+        $totalBefore = trim($this->getElement($lineLocator)->text());
+        //Create second order
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
+        $this->orderHelper()->createOrder($orderData2);
         $this->assertMessagePresent('success', 'success_created_order');
-        // Steps
+        $secondDate = $this->getControlAttribute('pageelement', 'order_date', 'text');
+        //Check Quantity Ordered after second order created
         $this->navigate('report_product_sold');
-        $this->gridHelper()->fillDateFromTo();
+        $this->gridHelper()->fillDateFromTo($firstDate, $secondDate);
         $this->clickButton('refresh');
-        //Check Quantity Ordered after  new order created
-        $count = $this->getControlCount('pageelement', 'product_sold_grid_line');
-        $totalAfter = $this->getElement($lineLocator . "[$count]/*[3]")->text();
-        $this->assertEquals($totalBefore + 1, $totalAfter);
+        $totalAfter = trim($this->getElement($lineLocator)->text());
+        $this->assertEquals($totalBefore + 1, $totalAfter,
+            'Wrong records number in grid product_sold_grid_line. Before was ' . $totalBefore
+                . ' after - ' . $totalAfter);
     }
 
     /**
@@ -159,31 +173,38 @@ class Core_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
      */
     public function checkTotalNumberOfOrdersGridTest()
     {
-        // Get Total Number of Orders
-        $this->navigate('report_customer_orders');
-        $this->gridHelper()->fillDateFromTo();
-        $this->clickButton('refresh');
-        $lineLocator = $this->_getControlXpath('pageelement', 'customer_orders_grid_line');
-        $count = $this->getControlCount('pageelement', 'customer_orders_grid_line');
-        $totalBefore = $this->getElement($lineLocator . "[$count]/*[3]")->text();
-        // Create Product
+        //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
+            array('filter_sku' => $simple['general_sku']));
+        //Steps
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        //Create Order
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-            array('filter_sku' => $simple['general_name']));
+        //
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
-        // Steps
+        $firstDate = $this->getControlAttribute('pageelement', 'order_date', 'text');
+        //Get Total Number of Orders
         $this->navigate('report_customer_orders');
-        $this->gridHelper()->fillDateFromTo();
+        $this->gridHelper()->fillDateFromTo($firstDate, $firstDate);
+        $this->clickButton('refresh');
+        $lineLocator = $this->_getControlXpath('pageelement', 'customer_orders_grid_line') . "/*[3]";
+        $totalBefore = trim($this->getElement($lineLocator)->text());
+        //
+        $this->navigate('manage_sales_orders');
+        $this->orderHelper()->createOrder($orderData);
+        $this->assertMessagePresent('success', 'success_created_order');
+        $secondDate = $this->getControlAttribute('pageelement', 'order_date', 'text');
+        //
+        $this->navigate('report_customer_orders');
+        $this->gridHelper()->fillDateFromTo($firstDate, $secondDate);
         $this->clickButton('refresh');
         //Check Quantity Ordered after  new order created
-        $count = $this->getControlCount('pageelement', 'customer_orders_grid_line');
-        $totalAfter = $this->getElement($lineLocator . "[$count]/*[3]")->text();
-        $this->assertEquals($totalBefore + 1, $totalAfter);
+        $totalAfter = trim($this->getElement($lineLocator)->text());
+        $this->assertEquals($totalBefore + 1, $totalAfter,
+            'Wrong records number in report_customer_orders grid. Before was ' . $totalBefore
+                . ' after - ' . $totalAfter);
     }
 }

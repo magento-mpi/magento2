@@ -22,11 +22,10 @@ class Core_Mage_ValidationVatNumber_WithDisableAutomaticGroupChangeTest extends 
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('VatID/store_information_data');
-        $this->systemConfigurationHelper()->expandFieldSet('store_information');
         $this->clickControl('button', 'validate_vat_number', false);
         $this->pleaseWait();
         //Verifying
-        $this->assertTrue($this->controlIsPresent('button', 'vat_number_is_valid'), 'VAT Number is not valid');
+        $this->assertTrue($this->controlIsVisible('pageelement', 'vat_number_is_valid'), 'VAT Number is not valid');
     }
 
     protected function tearDownAfterTestClass()
@@ -34,6 +33,7 @@ class Core_Mage_ValidationVatNumber_WithDisableAutomaticGroupChangeTest extends 
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('VatID/create_new_account_options_disable');
+        $this->systemConfigurationHelper()->configure('ShippingSettings/store_information_empty');
     }
 
     /**
@@ -54,27 +54,23 @@ class Core_Mage_ValidationVatNumber_WithDisableAutomaticGroupChangeTest extends 
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userRegisterData);
+        $this->customerHelper()->createCustomer($userRegisterData, $addressData);
         //Verifying
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        //Steps
-        $this->customerHelper()->openCustomer(array('email' => $userRegisterData['email']));
-        $this->customerHelper()->addAddress($addressData);
-        $this->saveForm('save_customer');
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Verifying
         $this->customerHelper()->openCustomer(array('email' => $userRegisterData['email']));
         $this->openTab('account_information');
         $this->verifyForm(array('group' => 'General'), 'account_information');
+        $this->assertEmptyVerificationErrors();
     }
 
     public function creatingCustomerWithDisableAutomaticGroupDataProvider()
     {
         return array(
-            array(array('country' => 'Germany',        'state' => 'Berlin')),
-            array(array('country' => 'Germany',        'state' => 'Berlin',    'billing_vat_number' => '111607872')),
-            array(array('country' => 'Germany',        'state' => 'Berlin',    'billing_vat_number' => '111111111')),
-            array(array('country' => 'United Kingdom', 'state' => '%noValue%', 'billing_vat_number' => '584451913')),
+            array(array('country' => 'Germany', 'state' => 'Berlin')),
+            array(array('country' => 'Germany', 'state' => 'Berlin', 'vat_number' => '111607872')),
+            array(array('country' => 'Germany', 'state' => 'Berlin', 'vat_number' => '111111111')),
+            array(array('country' => 'United Kingdom', 'state' => '%noValue%', 'vat_number' => '584451913')),
         );
     }
 }

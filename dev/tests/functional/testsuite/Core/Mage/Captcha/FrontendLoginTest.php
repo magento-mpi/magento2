@@ -30,6 +30,7 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
         $this->logoutCustomer();
         $this->loginAdminUser();
     }
+
     public function tearDownAfterTestClass()
     {
         $this->loginAdminUser();
@@ -54,7 +55,6 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         return array('email' => $userData['email'], 'password' => $userData['password']);
-
     }
 
     /**
@@ -181,7 +181,8 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
         $this->customerHelper()->frontLoginCustomer($testUser, false);
         //Verification
         $this->validatePage('customer_login');
-        $this->assertMessagePresent('validation', 'empty_captcha');
+        $this->addFieldIdToMessage('field', 'captcha');
+        $this->assertMessagePresent('validation', 'empty_required_field');
     }
 
     /**
@@ -205,7 +206,6 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
             $this->assertFalse($this->controlIsVisible('pageelement', 'captcha'));
             $this->assertFalse($this->controlIsVisible('button', 'captcha_reload'));
             $this->customerHelper()->frontLoginCustomer($incorrectUser, false);
-            $this->waitForPageToLoad();
         }
         //Verification
         $this->assertTrue($this->controlIsVisible('field', 'captcha'));

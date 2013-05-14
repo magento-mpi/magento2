@@ -45,6 +45,8 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
     {
         $simple1 = $this->productHelper()->createSimpleProduct();
         $simple2 = $this->productHelper()->createSimpleProduct();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
 
         $this->paypalHelper()->paypalDeveloperLogin();
         $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');
@@ -75,7 +77,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
             array('payment' => $paymentData), $testData['products']);
         $configName = ($payment !== 'checkmoney') ? $payment . '_without_3Dsecure' : $payment;
         $paymentConfig = $this->loadDataSet('PaymentMethod', $configName);
-        if ($payment != 'payflowpro' && isset($paymentData['payment_info'])) {
+        if ($payment != 'payflowpro' && isset($paymentData['payment_info']['card_number'])) {
             $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
         }
         if ($payment == 'paypaldirect') {

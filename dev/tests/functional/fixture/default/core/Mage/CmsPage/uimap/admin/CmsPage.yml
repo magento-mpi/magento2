@@ -47,12 +47,11 @@ manage_cms_pages:
             invalid_url_key_with_numbers_only: //li[normalize-space(@class)='error-msg' and contains(.,'The page URL key cannot consist only of numbers.')]
             existing_url_key: //li[normalize-space(@class)='error-msg' and contains(.,'A page URL key for specified store already exists.')]
             invalid_urk_key_spec_sym: //label[@class='mage-error' and @for='%fieldId%' and text()='Please enter a valid URL Key. For example "example-page", "example-page.html" or "anotherlevel/example-page".']
-            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             confirmation_for_delete: Are you sure you want to do this?
 
 create_cms_page:
     mca: cms_page/new/
-    title: New Page / Pages / Elements / Content / Magento Admin
+    title: New Page / Manage Content / Elements / Content / Magento Admin
     uimap:
         form: &createPage
             tabs:
@@ -74,6 +73,9 @@ create_cms_page:
                     content:
                         xpath: //a[@title='Content']
                         fieldsets:
+                            -
+                                every_popup:
+                                    xpath: //div[contains(@class,'ui-dialog ui-widget ui-widget-content')]
                             -
                                 #TODO: add elements if needed
                                 wysiwyg_editor_buttons:
@@ -205,8 +207,6 @@ create_cms_page:
                                         variable: //a[text()='%variableName%']
                                     buttons:
                                         close_variable_insertion: //a[@class='ui-dialog-titlebar-close ui-corner-all']
-                        pageelements:
-                            every_popup: //div[contains(@class,'ui-dialog ui-widget ui-widget-content')]
                 -
                     design:
                         xpath: //a[@title='Design']
@@ -247,7 +247,7 @@ create_cms_page:
 
 edit_cms_page:
     mca: cms_page/edit/page_id/%id%/
-    title: %elementTitle% / Pages / Elements / Content / Magento Admin
+    title: %elementTitle% / Manage Content / Elements / Content / Magento Admin
     uimap:
         form: *createPage
         buttons:
@@ -260,7 +260,7 @@ edit_cms_page:
 
 save_and_continue_edit_cms_page:
     mca: cms_page/edit/page_id/%id%/back/edit/active_tab/%tab%/
-    title: %elementTitle% / Pages / Elements / Content / Magento Admin
+    title: %elementTitle% / Manage Content / Elements / Content / Magento Admin
     uimap:
         form: *createPage
         buttons:
@@ -273,7 +273,7 @@ save_and_continue_edit_cms_page:
 
 error_cms_page:
     mca: cms_page/edit/
-    title: New Page / Pages / Elements / Content / Magento Admin
+    title: New Page / Manage Content / Elements / Content / Magento Admin
     uimap:
         form: *createPage
         buttons:

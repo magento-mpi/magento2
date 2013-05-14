@@ -18,7 +18,14 @@
  */
 class Core_Mage_Product_Linking_DownloadableLinkingTest extends Mage_Selenium_TestCase
 {
-    protected $_productTypes = array('configurable', 'bundle', 'grouped', 'simple', 'virtual', 'downloadable');
+    protected $_productTypes = array('grouped', 'configurable', 'bundle', 'simple', 'virtual', 'downloadable');
+
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_products');
+        $this->runMassAction('Delete', 'all');
+    }
 
     protected function assertPreconditions()
     {

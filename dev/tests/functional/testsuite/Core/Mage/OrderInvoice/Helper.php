@@ -19,27 +19,6 @@
 class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
-     * @param $invoiceData
-     * @return array $verify
-     */
-    protected function _invoiceData($invoiceData)
-    {
-        $verify = array();
-        $this->clickButton('invoice');
-        foreach ($invoiceData as $options) {
-            if (is_array($options)) {
-                $sku = (isset($options['invoice_product_sku'])) ? $options['invoice_product_sku'] : null;
-                $productQty = (isset($options['qty_to_invoice'])) ? $options['qty_to_invoice'] : '%noValue%';
-                if ($sku) {
-                    $verify[$sku] = $productQty;
-                    $this->addParameter('sku', $sku);
-                    $this->fillField('qty_to_invoice', $productQty);
-                }
-            }
-        }
-        return $verify;
-    }
-    /**
      * Provides partial or full invoice
      *
      * @param string $captureType
@@ -47,7 +26,20 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_AbstractHelper
      */
     public function createInvoiceAndVerifyProductQty($captureType = null, $invoiceData = array())
     {
-        $verify = $this->_invoiceData($invoiceData);
+        $verify = array();
+        $this->clickButton('invoice');
+        foreach ($invoiceData as $options) {
+            if (!is_array($options)) {
+                continue;
+            }
+            $productQty = (isset($options['qty_to_invoice'])) ? $options['qty_to_invoice'] : '%noValue%';
+            if (isset($options['invoice_product_sku'])) {
+                $sku = $options['invoice_product_sku'];
+                $verify[$sku] = $productQty;
+                $this->addParameter('sku', $sku);
+                $this->fillField('qty_to_invoice', $productQty);
+            }
+        }
         if ($captureType) {
             $this->fillDropdown('amount', $captureType);
         }

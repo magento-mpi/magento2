@@ -237,7 +237,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->themeHelper()->createTheme($themeData);
         $themeData['id'] = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
         $this->navigate('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        $this->storeHelper()->deleteStoreViewsExceptSpecified();
         //Steps
         $this->navigate('design_editor_selector');
         $this->waitForPageToLoad();
@@ -272,7 +272,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         //Data
         $themeData['id'] = $this->themeHelper()->getThemeIdByTitle('Magento Fixed Design');
         $this->navigate('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        $this->storeHelper()->deleteStoreViewsExceptSpecified();
         //Steps
         $this->navigate('design_editor_selector');
         $this->waitForAjax();
@@ -309,7 +309,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->themeHelper()->createTheme($themeData);
         $themeData['id'] = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
         $this->navigate('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        $this->storeHelper()->deleteStoreViewsExceptSpecified();
         //Steps
         $this->navigate('design_editor_selector');
         $this->waitForPageToLoad();
@@ -346,7 +346,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->themeHelper()->createTheme($themeData);
         $themeData['id'] = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
         $this->navigate('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
+        $this->storeHelper()->deleteStoreViewsExceptSpecified();
         //Steps
         $this->navigate('design_editor_selector');
         $this->waitForPageToLoad();

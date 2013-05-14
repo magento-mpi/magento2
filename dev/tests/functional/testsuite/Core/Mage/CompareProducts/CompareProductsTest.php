@@ -23,7 +23,10 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
 
     public function setUpBeforeTests()
     {
-        $this->markTestIncomplete('MAGETWO-8719');
+        $fallbackOrderHelper = $this->getConfigHelper()->getFixturesFallbackOrder();
+        if (end($fallbackOrderHelper) == 'enterprise') {
+            $this->markTestIncomplete('MAGETWO-8719');
+        }
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Tax/default_tax_config');
@@ -92,6 +95,7 @@ class Core_Mage_CompareProducts_CompareProductsTest extends Mage_Selenium_TestCa
      */
     public function addProductToCompareListFromProductPage($data)
     {
+        $this->markTestIncomplete('BUG: Product is not available in Compare widget on page about_us');
         $verify = $this->loadDataSet('CompareProducts', 'verify_compare_data', null, $data['verify']);
         //Steps and Verifying
         foreach ($data['names'] as $value) {

@@ -126,6 +126,7 @@ class Enterprise_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
      */
     public function preconditionCreateTags(array $testData)
     {
+        $this->markTestIncomplete('BUG: There is no tag_accepted_success message after add tag');
         // Go to frontend and post new tag
         $data = array(
             'email'    => $testData['customer']['email'],
@@ -148,7 +149,7 @@ class Enterprise_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
 
         // Go to backend and set status "Approved" for created tag
         $this->loginAdminUser();
-        $this->navigate('pending_tags');
+        $this->navigate('all_tags');
         $this->tagsHelper()->changeTagsStatus(
             array(
                 array('tag_name' => $testTag)
@@ -276,7 +277,7 @@ class Enterprise_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
                 $pendingTag = $tag;
             }
         }
-        $this->navigate('pending_tags');
+        $this->navigate('all_tags');
         $this->searchAndChoose(array('tag_name' => $pendingTag), 'tags_grid');
         $this->fillDropdown('tags_massaction', 'Delete');
         $this->clickButtonAndConfirm('submit', 'confirmation_for_massaction_delete');

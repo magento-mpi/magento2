@@ -19,30 +19,6 @@
 class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
-     * @param $pageData
-     * @return array
-     */
-    protected function _verifyCmsPageVars($pageData)
-    {
-        $cmsVars = array();
-        $cmsVars['pageInfo'] = (isset($pageData['page_information'])) ? $pageData['page_information'] : array();
-        $cmsVars['content'] = (isset($pageData['content'])) ? $pageData['content'] : array();
-        $cmsVars['design'] = (isset($pageData['design'])) ? $pageData['design'] : array();
-        $cmsVars['metaData'] = (isset($pageData['meta_data'])) ? $pageData['meta_data'] : array();
-        return $cmsVars;
-    }
-
-    /**
-     * @param $cmsVars
-     */
-    protected function _cmsFillTab($cmsVars)
-    {
-        if (isset($cmsVars['metaData'])) {
-            $this->fillTab($cmsVars['metaData'], 'meta_data');
-        }
-    }
-
-    /**
      * Creates page
      *
      * @param string|array $pageData
@@ -50,25 +26,26 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
     public function createCmsPage($pageData)
     {
         $pageData = $this->fixtureDataToArray($pageData);
-        $cmsVars = $this->_verifyCmsPageVars($pageData);
         $this->clickButton('add_new_page');
-        if ($cmsVars['pageInfo']) {
-            if (array_key_exists('store_view', $cmsVars['pageInfo'])
-                && !$this->controlIsPresent('multiselect', 'store_view')) {
-                unset($cmsVars['pageInfo']['store_view']);
+        if (isset($pageData['page_information'])) {
+            $data = $pageData['page_information'];
+            if (array_key_exists('store_view', $data) && !$this->controlIsVisible('multiselect', 'store_view')) {
+                unset($data['store_view']);
             }
-            $this->fillTab($cmsVars['pageInfo'], 'page_information');
+            $this->fillTab($data, 'page_information');
         }
-        if ($cmsVars['content']) {
-            if (!$this->fillContent($cmsVars['content'])) {
+        if (isset($pageData['content'])) {
+            if (!$this->fillContent($pageData['content'])) {
                 //skip next steps, because widget insertion pop-up is opened
                 return;
             }
         }
-        if ($cmsVars['design']) {
-            $this->fillTab($cmsVars['design'], 'design');
+        if (isset($pageData['design'])) {
+            $this->fillTab($pageData['design'], 'design');
         }
-        $this->_cmsFillTab($cmsVars['metaData']);
+        if (isset($pageData['meta_data'])) {
+            $this->fillTab($pageData['meta_data'], 'meta_data');
+        }
         $this->saveForm('save_page');
     }
 
@@ -83,7 +60,10 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
     {
         $widgetsData = (isset($content['widgets'])) ? $content['widgets'] : array();
         $variableData = (isset($content['variable_data'])) ? $content['variable_data'] : array();
-
+        $this->openTab('content');
+        if (isset($content['editor']) && !$this->controlIsVisible('field', 'editor')) {
+            $this->clickButton('show_hide_editor', false);
+        }
         $this->fillForm($content, 'content');
         foreach ($widgetsData as $widget) {
             if (!$this->insertWidget($widget)) {
@@ -101,18 +81,24 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
      * Insert widget
      *
      * @param array $widgetData
-     *
+     * @param string $buttonName
      * @return bool
      */
-    public function insertWidget(array $widgetData, $button)
+    public function insertWidget(array $widgetData, $buttonName = 'insert_widget')
     {
         $chooseOption = (isset($widgetData['chosen_option'])) ? $widgetData['chosen_option'] : array();
-        if ($this->controlIsPresent('fieldset', 'wysiwyg_editor_buttons')) {
-            $this->clickControl('link', 'wysiwyg_insert_widget', false);
+        if ($this->controlIsEditable('button', $buttonName)) {
+            $this->clickButton($buttonName, false);
         } else {
-            $this->clickButton($button, false);
+            $this->clickControl('link', 'wysiwyg_' . $buttonName, false);
         }
-        $this->waitForControlVisible('dropdown', 'widget_type');
+        //@TODO remove when fixed bug for cms_static_block page
+        try {
+            $this->waitForControlVisible('dropdown', 'widget_type');
+        } catch (Exception $e) {
+            $this->markTestIncomplete('BUG: widget_insertion pop-up in not appears for '
+                . $this->getCurrentPage() . ' page');
+        }
         $this->fillFieldset($widgetData, 'widget_insertion');
         if ($chooseOption) {
             $this->selectOptionItem($chooseOption);
@@ -130,21 +116,16 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
      */
     public function selectOptionItem($optionData)
     {
-        $name = '';
-        if ($this->controlIsPresent('button', 'select_option')) {
-            $text = $this->getControlAttribute('button', 'select_option', 'text');
-            $name = trim(strtolower(preg_replace('#[^a-z]+#i', '_', $text)), '_');
-            $this->clickButton('select_option', false);
-            $this->waitForElement($this->_getControlXpath('fieldset', $name));
-        } else {
+        if (!$this->controlIsVisible('button', 'select_option')) {
             $this->fail('Button \'select_option\' is not present on the page ' . $this->getCurrentPage());
         }
-
+        $text = $this->getControlAttribute('button', 'select_option', 'text');
+        $name = trim(strtolower(preg_replace('#[^a-z]+#i', '_', $text)), '_');
+        $this->clickButton('select_option', false);
+        $this->waitForControlVisible('fieldset', $name);
         $rowNames = array('Title', 'Product Name');
         $title = 'Not Selected';
-        $xpath = $this->_getControlXpath('fieldset', $name);
         if (array_key_exists('category_path', $optionData)) {
-            $this->addParameter('widgetParam', $xpath);
             $nodes = explode('/', $optionData['category_path']);
             $title = end($nodes);
             $this->categoryHelper()->selectCategory($optionData['category_path'], $name);
@@ -152,6 +133,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
             unset($optionData['category_path']);
         }
         if (count($optionData) > 0) {
+            $xpath = $this->_getControlXpath('fieldset', 'every_popup');
             $xpathTR = $this->search($optionData, $name);
             $this->assertNotEquals(null, $xpathTR, 'Element is not found');
             $names = $this->getTableHeadRowNames($xpath . "//table[@id]");
@@ -190,13 +172,15 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
      * Inserts variable
      *
      * @param string $variable
+     * @param string $buttonName
+     * @return void
      */
-    public function insertVariable($variable, $button = 'insert_variable')
+    public function insertVariable($variable, $buttonName = 'insert_variable')
     {
-        if ($this->controlIsPresent('link', 'wysiwyg_insert_variable')) {
-            $this->clickControl('link', 'wysiwyg_insert_variable', false);
+        if ($this->controlIsEditable('button', $buttonName)) {
+            $this->clickButton($buttonName, false);
         } else {
-            $this->clickButton($button, false);
+            $this->clickControl('link', 'wysiwyg_' . $buttonName, false);
         }
         $this->waitForElement($this->_getControlXpath('fieldset', 'variable_insertion'));
         $this->addParameter('variableName', $variable);
@@ -269,9 +253,12 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
      */
     public function countElements(array $pageData)
     {
-        $map = array('CMS Page Link'         => 'widget_cms_link', 'CMS Static Block' => 'widget_static_block',
-                     'Catalog Category Link' => 'widget_category_link',
-                     'Catalog Product Link'  => 'widget_product_link');
+        $map = array(
+            'CMS Page Link' => 'widget_cms_link',
+            'CMS Static Block' => 'widget_static_block',
+            'Catalog Category Link' => 'widget_category_link',
+            'Catalog Product Link' => 'widget_product_link'
+        );
         $resultArray = array();
         foreach ($map as $key => $value) {
             $resultArray[$value] = count($this->searchArray($pageData, $key));

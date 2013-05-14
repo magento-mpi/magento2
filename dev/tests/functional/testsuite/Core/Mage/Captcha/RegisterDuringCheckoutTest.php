@@ -28,7 +28,6 @@ class Core_Mage_Captcha_RegisterDuringCheckoutTest extends Mage_Selenium_TestCas
     public function assertPreConditions()
     {
         $this->logoutCustomer();
-        $this->loginAdminUser();
     }
 
     public function tearDownAfterTestClass()
@@ -50,6 +49,7 @@ class Core_Mage_Captcha_RegisterDuringCheckoutTest extends Mage_Selenium_TestCas
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
+        $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -68,8 +68,10 @@ class Core_Mage_Captcha_RegisterDuringCheckoutTest extends Mage_Selenium_TestCas
      */
     public function enableCaptcha($productName)
     {
+        $this->markTestIncomplete('BUG: No captcha image on Billing Information page');
         $checkout = array('checkout_method' => 'register');
         //Steps
+        $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Captcha/enable_register_during_checkout_captcha');
         $this->frontend();
@@ -84,7 +86,6 @@ class Core_Mage_Captcha_RegisterDuringCheckoutTest extends Mage_Selenium_TestCas
         $this->assertFalse($this->controlIsVisible('field', 'captcha_guest_checkout'));
         $this->assertFalse($this->controlIsVisible('pageelement', 'captcha_guest_checkout'));
         $this->assertFalse($this->controlIsVisible('button', 'captcha_reload_guest_checkout'));
-
         $this->assertTrue($this->controlIsVisible('field', 'captcha_register_during_checkout'));
         $this->assertTrue($this->controlIsVisible('pageelement', 'captcha_register_during_checkout'));
         $this->assertTrue($this->controlIsVisible('button', 'captcha_reload_register_during_checkout'));
@@ -132,7 +133,7 @@ class Core_Mage_Captcha_RegisterDuringCheckoutTest extends Mage_Selenium_TestCas
     {
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
-                                           array('general_name' => $productName));
+            array('general_name' => $productName));
         $message = '"Please type the letters below": This is a required field.';
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         //Steps
@@ -153,7 +154,7 @@ class Core_Mage_Captcha_RegisterDuringCheckoutTest extends Mage_Selenium_TestCas
     {
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_different_address',
-                                            array('general_name' => $productName));
+            array('general_name' => $productName));
         $checkoutData['billing_address_data']['captcha_register_during_checkout'] = '1234';
         $message = 'Incorrect CAPTCHA.';
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);

@@ -18,9 +18,6 @@
  */
 class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -108,38 +105,37 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
      * <p>Create Admin User with one empty required field.</p>
      *
      * @param string $emptyField
-     * @param string $fieldId
+     * @param int $messageCount
      *
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-3143
      */
-    public function withRequiredFieldsEmpty($emptyField, $fieldId)
+    public function withRequiredFieldsEmpty($emptyField, $messageCount)
     {
         $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user', array($emptyField => '%noValue%'));
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
-        $this->addParameter('fieldId', $fieldId);
+        $this->addFieldIdToMessage('field', $emptyField);
         if ($emptyField == 'password_confirmation') {
-            $this->assertMessagePresent('error', 'password_unmatch');
-            $this->assertEquals(1, $this->count($this->getParsedMessages('error')));
+            $this->assertMessagePresent('validation', 'password_unmatch');
         } else {
-            $this->assertMessagePresent('error', 'empty_required_field');
-            $this->assertEquals(1, $this->count($this->assertMessagePresent('error', 'empty_required_field')));
+            $this->assertMessagePresent('validation', 'empty_required_field');
         }
+        $this->assertTrue($this->verifyMessagesCount($messageCount), $this->getParsedMessages());
     }
 
     public function withRequiredFieldsEmptyDataProvider()
     {
         return array(
-            array('user_name', 'user_username'),
-            array('first_name', 'user_firstname'),
-            array('last_name', 'user_lastname'),
-            array('email', 'user_email'),
-            array('password', 'user_password'),
-            array('password_confirmation', 'user_confirmation')
+            array('user_name', 1),
+            array('first_name', 1),
+            array('last_name', 1),
+            array('email', 1),
+            array('password', 2),
+            array('password_confirmation', 1)
         );
     }
 
@@ -153,21 +149,20 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
     public function withSpecialCharactersExceptEmail()
     {
         //Data
-        $specialCharacters = array('user_name'  => $this->generate('string', 32, ':punct:'),
-                                   'first_name' => $this->generate('string', 32, ':punct:'),
-                                   'last_name'  => $this->generate('string', 32, ':punct:'),);
+        $specialCharacters = array(
+            'user_name' => $this->generate('string', 32, ':punct:'),
+            'first_name' => $this->generate('string', 32, ':punct:'),
+            'last_name' => $this->generate('string', 32, ':punct:')
+        );
         $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user', $specialCharacters);
         $searchData = $this->loadDataSet('AdminUsers', 'search_admin_user',
-            array('email'      => $userData['email'],
-                  'first_name' => $specialCharacters['first_name'],
-                  'last_name'  => $specialCharacters['last_name'],
-                  'user_name'  => $specialCharacters['user_name']));
+            array('email' => $userData['email']));
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->navigate('manage_admin_users');
-        $this->searchAndOpen($searchData, 'permissionsUserGrid');
+        $this->adminUserHelper()->openAdminUser($searchData);
         $this->assertTrue($this->verifyForm($userData, 'user_info', array('password', 'password_confirmation')),
             $this->getParsedMessages());
     }
@@ -183,24 +178,27 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $password = $this->generate('string', 255, ':alnum:');
-        $longValues = array('user_name'             => $this->generate('string', 40, ':alnum:'),
-                            'first_name'            => $this->generate('string', 32, ':alnum:'),
-                            'last_name'             => $this->generate('string', 32, ':alnum:'),
-                            'email'                 => $this->generate('email', 128, 'valid'),
-                            'password'              => $password,
-                            'password_confirmation' => $password);
+        $longValues = array(
+            'user_name' => $this->generate('string', 40, ':alnum:'),
+            'first_name' => $this->generate('string', 32, ':alnum:'),
+            'last_name' => $this->generate('string', 32, ':alnum:'),
+            'email' => $this->generate('email', 128, 'valid'),
+            'password' => $password,
+            'password_confirmation' => $password
+        );
         $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user', $longValues);
-        $searchData = $this->loadDataSet('AdminUsers', 'search_admin_user',
-            array('email'      => $userData['email'],
-                  'first_name' => $userData['first_name'],
-                  'last_name'  => $userData['last_name'],
-                  'user_name'  => $userData['user_name']));
+        $searchData = $this->loadDataSet('AdminUsers', 'search_admin_user', array(
+            'email' => $userData['email'],
+            'first_name' => $userData['first_name'],
+            'last_name' => $userData['last_name'],
+            'user_name' => $userData['user_name']
+        ));
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->navigate('manage_admin_users');
-        $this->searchAndOpen($searchData, 'permissionsUserGrid');
+        $this->adminUserHelper()->openAdminUser($searchData);
         $this->assertTrue($this->verifyForm($userData, 'user_info', array('password', 'password_confirmation')),
             $this->getParsedMessages());
     }
@@ -230,14 +228,10 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
     public function withInvalidPasswordDataProvider()
     {
         return array(
-            array(array('password'              => '1234567890',
-                        'password_confirmation' => '1234567890',), 'invalid_password'),
-            array(array('password'              => 'testText',
-                        'password_confirmation' => 'testText',), 'invalid_password'),
-            array(array('password'              => '123qwe',
-                        'password_confirmation' => '123qwe',), 'invalid_password'),
-            array(array('password'              => '123123qwe',
-                        'password_confirmation' => '1231234qwe',), 'password_unmatch')
+            array(array('password' => '1234567890', 'password_confirmation' => '1234567890'), 'invalid_password'),
+            array(array('password' => 'testText', 'password_confirmation' => 'testText'), 'invalid_password'),
+            array(array('password' => '123qwe', 'password_confirmation' => '123qwe'), 'invalid_password'),
+            array(array('password' => '123123qwe', 'password_confirmation' => '1231234qwe'), 'password_unmatch')
         );
     }
 
@@ -280,15 +274,16 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
     public function inactiveUser()
     {
         //Data
-        $user = $this->loadDataSet('AdminUsers', 'generic_admin_user', array('this_account_is' => 'Inactive',
-                                                                             'role_name'       => 'Administrators'));
+        $user = $this->loadDataSet('AdminUsers', 'generic_admin_user',
+            array('this_account_is' => 'Inactive', 'role_name' => 'Administrators'));
+        $loginData = array('user_name' => $user['user_name'], 'password' => $user['password']);
         //Steps
         $this->adminUserHelper()->createAdminUser($user);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_user');
         //Steps
         $this->logoutAdminUser();
-        $this->adminUserHelper()->loginAdmin($user);
+        $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
         $this->assertMessagePresent('error', 'inactive_account');
     }
@@ -304,13 +299,14 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user', array('role_name' => 'Administrators'));
+        $loginData = array('user_name' => $userData['user_name'], 'password' => $userData['password']);
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_user');
         //Steps
         $this->logoutAdminUser();
-        $this->adminUserHelper()->loginAdmin($userData);
+        $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
         $this->assertTrue($this->checkCurrentPage($this->pageAfterAdminLogin), $this->getParsedMessages());
     }
@@ -326,13 +322,14 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user');
+        $loginData = array('user_name' => $userData['user_name'], 'password' => $userData['password']);
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_user');
         //Steps
         $this->logoutAdminUser();
-        $this->adminUserHelper()->loginAdmin($userData);
+        $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying
         $this->assertMessagePresent('error', 'access_denied');
     }
@@ -348,7 +345,7 @@ class Core_Mage_AdminUser_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user',
-            array('interface_locale'=>'Deutsch (Deutschland) / German (Germany)'));
+            array('interface_locale' => 'Deutsch (Deutschland) / German (Germany)'));
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying

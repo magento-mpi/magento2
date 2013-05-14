@@ -23,7 +23,11 @@ class Core_Mage_Agcc_ManageCouponCodesTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('Agcc', 'scpr_required_fields_with_agcc');
-        $this->agccHelper()->createRuleWithGeneratedCouponCodes($ruleData, 9);
+        $this->priceRulesHelper()->createRuleAndContinueEdit($ruleData);
+        $this->openTab('manage_coupon_codes');
+        $this->fillField('coupon_qty', '9');
+        $this->clickButton('generate');
+        $this->pleaseWait();
     }
 
     /**
@@ -38,7 +42,9 @@ class Core_Mage_Agcc_ManageCouponCodesTest extends Mage_Selenium_TestCase
         $this->fillDropdown('actions', 'Delete');
         $this->clickButton('submit', false);
         //Verifying
-        $this->assertSame('Please select items.', $this->alertText(),
+        $actualText = $this->alertText();
+        $this->acceptAlert();
+        $this->assertSame('Please select items.', $actualText,
             'actual and expected confirmation message does not match');
     }
 
@@ -51,14 +57,14 @@ class Core_Mage_Agcc_ManageCouponCodesTest extends Mage_Selenium_TestCase
     public function deleteCouponCodes()
     {
         //Steps
-        $trLocator = $this->search(array('No'), 'manage_coupons_grid');
+        $trLocator = $this->search(array('filter_used' => 'No'), 'manage_coupons_grid');
         $this->assertNotNull($trLocator, 'No records found.');
         $columnId = $this->getColumnIdByName('Coupon Code');
         $couponCode = trim($this->getChildElement($this->getElement($trLocator), '//td[' . $columnId . ']')->text());
         $xpathCouponCode = $this->formSearchXpath(array('filter_coupon_code' => $couponCode));
         $this->searchAndChoose(array('filter_coupon_code' => $couponCode), 'manage_coupons_grid');
         $this->fillDropdown('actions', 'Delete');
-        $this->clickButtonAndConfirm('submit', 'confirmation_for_delete', false);
+        $this->clickButtonAndConfirm('submit', 'confirmation_for_delete_coupons', false);
         $this->pleaseWait();
         //Verification
         if ($this->elementIsPresent($xpathCouponCode)) {

@@ -34,7 +34,7 @@ rating_special_symbols:
     visible_in: %noValue%
 
 default_rating:
-    default_value: test_rating_title_%randomize%
+    default_value: %randomize%
     store_view_titles:
         store_view_1:
             store_view_name: Default Store View
@@ -44,7 +44,7 @@ default_rating:
     visible_in: %noValue%
 
 rating_required_fields:
-    default_value: test_rating_title_%randomize%
+    default_value: %randomize%
 
 #<----------------------------------------------------Reviews---------------------------------------------------------->
 search_fields: &searchReview

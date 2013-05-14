@@ -21,11 +21,10 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $shippingSettings = $this->loadDataSet('ShippingMethod', 'free_enable');
-        $paymentSettings = $this->loadDataSet('PaymentMethod', 'savedcc_without_3Dsecure');
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($shippingSettings);
-        $this->systemConfigurationHelper()->configure($paymentSettings);
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/free_enable');
+        $this->systemConfigurationHelper()->configure('PaymentMethod/savedcc_without_3Dsecure');
     }
 
     protected function tearDownAfterTest()
@@ -51,10 +50,16 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        return array('products' => array('product_1' => $simple1['simple']['product_name'],
-                                         'product_2' => $simple2['simple']['product_name']),
-                     'user'     => array('email'    => $userData['email'],
-                                         'password' => $userData['password']));
+        return array(
+            'products' => array(
+                'product_1' => $simple1['simple']['product_name'],
+                'product_2' => $simple2['simple']['product_name']
+            ),
+            'user' => array(
+                'email' => $userData['email'],
+                'password' => $userData['password']
+            )
+        );
     }
 
     /**
@@ -73,14 +78,13 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
     {
         //Data
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
-                                           $testData['products']);
+            $testData['products']);
         $path = 'multiple_with_signed_in/shipping_data/address_data_1/address';
         $checkoutData['shipping_data']['address_data_1']['address'] = $this->loadDataSet('MultipleAddressesCheckout',
-                                                                                         $path,
-                                                                                         array($emptyField => ''));
+            $path, array($emptyField => ''));
         //Steps
-        if ($emptyField == 'country') {
-            $message = '"' . $fieldName . '": Please select an option';
+        if ($emptyField == 'country' || $emptyField == 'state') {
+            $message = '"' . $fieldName . '": Please select an option.';
         } else {
             $message = '"' . $fieldName . '": This is a required field.';
         }
@@ -107,14 +111,13 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
     {
         //Data
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
-                                           $testData['products']);
+            $testData['products']);
         $path = 'multiple_with_signed_in/payment_data/billing_address';
         $checkoutData['payment_data']['billing_address'] = $this->loadDataSet('MultipleAddressesCheckout',
-                                                                              $path,
-                                                                              array($emptyField => ''));
+            $path, array($emptyField => ''));
         //Steps
-        if ($emptyField == 'country') {
-            $message = '"' . $fieldName . '": Please select an option';
+        if ($emptyField == 'country' || $emptyField == 'state') {
+            $message = '"' . $fieldName . '": Please select an option.';
         } else {
             $message = '"' . $fieldName . '": This is a required field.';
         }
@@ -153,7 +156,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
         //Data
         $address = $this->loadDataSet('MultipleAddressesCheckout', 'special_symbols');
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
-                                           $testData['products']);
+            $testData['products']);
         $checkoutData['shipping_data']['address_data_1']['address'] = $address;
         //Steps
         $this->frontend();
@@ -178,7 +181,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
         //Data
         $address = $this->loadDataSet('MultipleAddressesCheckout', 'long_values');
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
-                                           $testData['products']);
+            $testData['products']);
         $checkoutData['shipping_data']['address_data_1']['address'] = $address;
         //Steps
         $this->frontend();
@@ -202,7 +205,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
         //Data
         $address = $this->loadDataSet('MultipleAddressesCheckout', 'special_symbols');
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
-                                           $testData['products']);
+            $testData['products']);
         $checkoutData['payment_data']['billing_address'] = $address;
         //Steps
         $this->frontend();
@@ -227,7 +230,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
         //Data
         $address = $this->loadDataSet('MultipleAddressesCheckout', 'long_values');
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in', null,
-                                           $testData['products']);
+            $testData['products']);
         $checkoutData['payment_data']['billing_address'] = $address;
         //Steps
         $this->frontend();
@@ -241,6 +244,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>Fill in only required fields. Use max long values for fields.</p>
      *
      * @param string $invalidQty
+     * @param string $message
      * @param array $testData
      *
      * @test
@@ -248,28 +252,25 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * @depends preconditionsForTests
      * @testlinkId TL-MAGE-5273
      */
-    public function selectInvalidProductQty($invalidQty, $testData)
+    public function selectInvalidProductQty($invalidQty, $message, $testData)
     {
         //Data
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
-                                           array('product_2'     => '%noValue%',
-                                                'address_data_2' => '%noValue%',
-                                                'product_qty'    => $invalidQty,),
-                                           array('product_1' => $testData['products']['product_1']));
+            array('product_2' => '%noValue%', 'address_data_2' => '%noValue%', 'product_qty' => $invalidQty),
+            array('product_1' => $testData['products']['product_1']));
         //Steps
         $this->frontend();
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError',
-                                    '"shopping_cart_is_empty" message(s) is on the page.');
+        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
     }
 
     public function selectAddressesPageInvalidQtyDataProvider()
     {
         return array(
-            array('-10'),
-            array($this->generate('string', 3, ':alpha:'))
+            array('-10', '"shopping_cart_is_empty" message(s) is on the page.'),
+            array($this->generate('string', 3, ':alpha:'), 'Please enter a valid number.')
         );
     }
 
@@ -286,14 +287,13 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
     {
         //Data
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
-                                           array('shipping'=> '%noValue%'),
-                                           $testData['products']);
+            array('shipping' => '%noValue%'), $testData['products']);
         //Steps
         $this->frontend();
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError',
-                                    "Please select shipping methods for all addresses");
+            "Please select shipping methods for all addresses");
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
     }
 
@@ -310,14 +310,12 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
     {
         //Data
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
-                                           array('payment'=> '%noValue%'),
-                                           $testData['products']);
+            array('payment' => '%noValue%'), $testData['products']);
         //Steps
         $this->frontend();
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError',
-                                    "Payment method is not defined");
+        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', "Please specify payment method.");
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
     }
 
@@ -325,7 +323,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * <p>Empty Card Info field </p>
      *
      * @param string $emptyField
-     * @param string $fieldName
+     * @param string $message
      * @param array $testData
      *
      * @test
@@ -333,29 +331,18 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
      * @depends preconditionsForTests
      * @testlinkId TL-MAGE-5279
      */
-    public function emptyCardInfo($emptyField, $fieldName, $testData)
+    public function emptyCardInfo($emptyField, $message, $testData)
     {
-        //@TODO
-        $messages = array('This is a required field.',
-                          'Credit card number does not match credit card type.',
-                          'Please enter a valid credit card verification number.',
-                          'Card type does not match credit card number.');
-        if ($fieldName) {
-            $message = '"' . $fieldName . '": ' . $messages[0];
-        } else {
-            $message = $messages[0];
-        }
         if ($emptyField == 'card_type') {
-            $message .= "\n" . '"Credit Card Number": ' . $messages[1] . "\n" . '"ccsave_cc_cid": ' . $messages[2];
+            $message .= "\n" . '"Credit Card Number": Credit card number does not match credit card type.'
+                . "\n" . '"Card Verification Number": Please enter a valid credit card verification number.';
         }
         if ($emptyField == 'card_number') {
-            $message = '"Credit Card Type": ' . $messages[3] . "\n\"" . $fieldName . '": ' . $messages[1];
+            $message = '"Credit Card Type": Card type does not match credit card number.' . "\n" . $message;
         }
-
         $paymentData = $this->loadDataSet('Payment', 'payment_savedcc', array($emptyField => ''));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
-                                           array('payment'=> $paymentData),
-                                           $testData['products']);
+            array('payment' => $paymentData), $testData['products']);
         //Steps
         $this->frontend();
         $this->customerHelper()->frontLoginCustomer($testData['user']);
@@ -367,12 +354,12 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_InputDataValidationTest exten
     public function emptyCardInfoDataProvider()
     {
         return array(
-            array('name_on_card', 'Name on Card'),
-            array('card_type', 'Credit Card Type'),
-            array('card_number', 'Credit Card Number'),
-            array('expiration_month', 'ccsave_expiration'),
-            array('expiration_year', ''),
-            array('card_verification_number', 'ccsave_cc_cid')
+            array('name_on_card', '"Name on Card": This is a required field.'),
+            array('card_type', '"Credit Card Type": This is a required field.'),
+            array('card_number', '"Credit Card Number": This is a required field.'),
+            array('expiration_month', '"Expiration Date": This is a required field.'),
+            array('expiration_year', '"ccsave_expiration_yr": This is a required field.'),
+            array('card_verification_number', '"Card Verification Number": This is a required field.')
         );
     }
 }

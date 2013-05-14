@@ -73,8 +73,8 @@ new_page_all_fields:
 #            variable_9: Custom2 Contact Name
 #            variable_10: Custom2 Contact Email
 #            variable_11: Store Name
-#            variable_12: Store Contact Telephone
-#            variable_13: Store Contact Telephone
+#            variable_12: Store Phone Number
+#            variable_13: Store Phone Number
     design:
         layout: 3 columns
         layout_update_xml: %noValue%

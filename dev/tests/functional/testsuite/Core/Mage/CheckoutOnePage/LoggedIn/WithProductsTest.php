@@ -44,8 +44,11 @@ class Core_Mage_CheckoutOnePage_LoggedIn_WithProductsTest extends Mage_Selenium_
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        return array('simple' => $simple['general_name'], 'virtual' => $virtual['general_name'],
-            'user'   => array('email' => $userData['email'], 'password' => $userData['password']));
+        return array(
+            'simple' => $simple['general_name'],
+            'virtual' => $virtual['general_name'],
+            'user' => array('email' => $userData['email'], 'password' => $userData['password'])
+        );
     }
 
     /**
@@ -59,11 +62,8 @@ class Core_Mage_CheckoutOnePage_LoggedIn_WithProductsTest extends Mage_Selenium_
      */
     public function withSimpleProductAndCustomerWithoutAddress($data)
     {
-        $checkoutData = $this->loadDataSet(
-            'OnePageCheckout',
-            'signedin_flatrate_checkmoney_usa',
-            array('general_name' => $data['simple'])
-        );
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_usa',
+            array('general_name' => $data['simple']));
         //Steps
         $this->customerHelper()->frontLoginCustomer($data['user']);
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
@@ -83,11 +83,8 @@ class Core_Mage_CheckoutOnePage_LoggedIn_WithProductsTest extends Mage_Selenium_
     public function withVirtualProductAndCustomerWithoutAddress($data)
     {
         //Data
-        $checkoutData = $this->loadDataSet(
-            'OnePageCheckout',
-            'signedin_flatrate_checkmoney_virtual',
-            array('general_name' => $data['virtual'])
-        );
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_virtual',
+            array('general_name' => $data['virtual']));
         //Steps
         $this->customerHelper()->frontLoginCustomer($data['user']);
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);

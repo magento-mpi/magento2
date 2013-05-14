@@ -14,12 +14,12 @@ advanced_search:
     mca: catalogsearch/advanced/
     click_xpath: //div[@class='footer']//a[@title='Advanced Search']
     title: Advanced Search
-    uimap: &advancedSearch
+    uimap: &advanced_search-uimap
         form:
             fieldsets:
                 -
                     advanced_search_information:
-                        xpath: //form[@id='form-validate']
+                        xpath: //div[h2='Search Settings']
                         fields:
                             name: //input[@id='name']
                             description: //input[@id='description']
@@ -31,16 +31,16 @@ advanced_search:
                             tax_class: //select[@id='tax_class_id']
         buttons:
             search: //div[contains(@class, 'buttons-set')]/button[span='Search']
-        messages: &AdvancedSearchMessages
+        messages: &advanced_search-messages
             error_message: //li[normalize-space(@class)='error-msg' and contains(.,'Please specify at least one search term.')]
             error_message_wrong_entered_data: //p[normalize-space(@class)='error-msg' and contains(.,'No items were found using the following search criteria.')]
             required_price: //div[@id='advice-validate-number-price' and text()='Please enter a valid number in this field.']
             required_price_to: //div[@id='advice-validate-number-price_to' and text()='Please enter a valid number in this field.']
 
 advanced_search_no_data:
-    mca: catalogsearch/advanced/?description=&name=&price%5Bfrom%5D=&price%5Bto%5D=&short_description=&sku=
+    mca: catalogsearch/advanced/?%searchResult%
     title: Advanced Search
-    uimap: *advancedSearch
+    uimap: *advanced_search-uimap
 
 advanced_search_result:
     mca: catalogsearch/advanced/result/?%searchResult%
@@ -59,4 +59,4 @@ advanced_search_result:
                             short_description: //li[.//*[normalize-space(text())='Short Description:']][contains(text(), '%short_description%')]
                             sku: //li[.//*[normalize-space(text())='SKU:']][contains(text(), '%sku%')]
                             price: //li[.//*[normalize-space(text())='Price:']][contains(text(), '%price_from% - %price_to%')]
-        messages: *AdvancedSearchMessages
+        messages: *advanced_search-messages

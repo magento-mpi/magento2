@@ -10,17 +10,18 @@
 #
 ---
 #Test data for Admin User and Admin Role
-
 enable_merge_js:
     configuration_scope: Default Config
     tab_1:
         tab_name: advanced_developer
         configuration:
-            merge_javascript_files: Yes
+            javascript_settings:
+                merge_javascript_files: Yes
 
 disable_merge_js:
     configuration_scope: Default Config
     tab_1:
         tab_name: advanced_developer
         configuration:
-            merge_javascript_files: No
+            javascript_settings:
+                merge_javascript_files: No

@@ -30,8 +30,8 @@ customer_shopping_cart:
                         pageelements:
                             note_csv: //*[@class='note']
                         buttons:
-                            add_row: //button[@class='scalable add']
-                            remove_row: //tr[%del_row%]//td/button[@class='scalable delete']
+                            add_row: //button[@data-ui-id='sku-accordion-addbutton']
+                            remove_row: //tr[%del_row%]//button[@data-ui-id='sku-accordion-deletebutton']
                             reset_file: //button[@class='button btn-reset']
                 -
                     shopping_cart_items_head:

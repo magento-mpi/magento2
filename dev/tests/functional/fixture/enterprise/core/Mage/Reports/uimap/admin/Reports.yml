@@ -18,15 +18,14 @@ reports_invitations_general:
         form:
             fieldsets:
                 -
-                    report_invitations_general:
+                    reports_invitations_general:
                         xpath: //div[@id='page:main-container']
                         buttons: &reportInvitationsButtons
                             refresh: //button[span='Refresh']
                             export: //button[span='Export']
                         dropdowns: &reportInvitationsDropdowns
                             show_by: //select[@name='report_period']
-                            export_to: //td[@class="export a-right"]/select
-                            filter_show_report_for: //select[@id='store_switcher']
+                            export_to: "//div[contains(text(),'Export to:')]/select"
                         fields: &reportInvitationsFields
                             filter_from: //input[@name='report_from']
                             filter_to: //input[@name='report_to']
@@ -48,13 +47,13 @@ reports_invitations_customers:
         form:
             fieldsets:
                 -
-                    report_invitations_customers:
+                    reports_invitations_customers:
                         xpath: //div[@id='page:main-container']
                         buttons: *reportInvitationsButtons
                         dropdowns: *reportInvitationsDropdowns
                         fields: *reportInvitationsFields
                         links:
-                            id:  //a[@name='id']
+                            id: //a[@name='id']
                             name: //a[@name='name']
                             email: //a[@name='email']
                             group: //a[@name='group']
@@ -80,7 +79,7 @@ invitations_order_conversion_rate:
                         buttons: *reportInvitationsButtons
                         pageelements:
                             invitations_order_conversion_rate_grid: //table[@class='data']
-                            invitations_order_conversion_rate_line: //table[@class='data']'/tbody/tr
+                            invitations_order_conversion_rate_line: //table[@class='data']/tbody/tr
 
 # Customer Segment Report page
 customer_segment_report:

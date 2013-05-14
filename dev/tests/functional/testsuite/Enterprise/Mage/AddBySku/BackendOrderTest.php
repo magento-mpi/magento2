@@ -66,8 +66,8 @@ class Enterprise_Mage_AddBySku_BackendOrderTest extends Mage_Selenium_TestCase
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical');
-        $productNonExist = array ('sku' => $this->generate('string', 10, ':alnum:'), 'qty' => 1) ;
-        $productNonExist1 = array ('sku' => $this->generate('string', 10, ':alnum:'), 'qty' => 1) ;
+        $productNonExist = array('sku' => $this->generate('string', 10, ':alnum:'), 'qty' => 1);
+        $productNonExist1 = array('sku' => $this->generate('string', 10, ':alnum:'), 'qty' => 1);
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, $orderData['store_view']);

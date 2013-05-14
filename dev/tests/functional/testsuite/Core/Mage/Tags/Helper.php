@@ -145,11 +145,11 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
     {
         $tagData = $this->fixtureDataToArray($tagData);
         // Select store view if available
-        if (array_key_exists('switch_store', $tagData)) {
-            if ($this->controlIsPresent('dropdown', 'switch_store')) {
-                $this->selectStoreScope('dropdown', 'switch_store', $tagData['switch_store']);
+        if (array_key_exists('choose_store_view', $tagData)) {
+            if ($this->controlIsPresent('dropdown', 'choose_store_view')) {
+                $this->selectStoreScope('dropdown', 'choose_store_view', $tagData['choose_store_view']);
             } else {
-                unset($tagData['switch_store']);
+                unset($tagData['choose_store_view']);
             }
         }
         $prodTagAdmin =

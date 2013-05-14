@@ -23,10 +23,15 @@ class Core_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Selenium_Test
 
     public function setUpBeforeTests()
     {
+        $fallbackOrderHelper = $this->getConfigHelper()->getFixturesFallbackOrder();
+        if (end($fallbackOrderHelper) == 'enterprise') {
+            $this->markTestIncomplete('MAGETWO-8719');
+        }
         $this->loginAdminUser();
+        $this->reindexInvalidedData();
         $this->navigate('system_configuration');
-        $flatCatalogData =
-            $this->loadDataSet('FlatCatalog', 'flat_catalog_frontend', array('use_flat_catalog_product' => 'Yes'));
+        $flatCatalogData = $this->loadDataSet('FlatCatalog', 'flat_catalog_frontend',
+            array('use_flat_catalog_product' => 'Yes'));
         $this->systemConfigurationHelper()->configure($flatCatalogData);
         $this->reindexInvalidedData();
     }
@@ -87,22 +92,20 @@ class Core_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Selenium_Test
         $this->flushCache();
         return array(
             'catName' => $category['name'],
-            'names'   => array(
+            'names' => array(
                 $simple['general_name'],
                 $virtual['general_name']
             ),
-            'verify'  => array(
+            'verify' => array(
                 'product_1_name' => $simple['general_name'],
-                'product_1_sku'  => $simple['general_sku'],
+                'product_1_sku' => $simple['general_sku'],
                 'product_2_name' => $virtual['general_name'],
-                'product_2_sku'  => $virtual['general_sku']
+                'product_2_sku' => $virtual['general_sku']
             )
         );
     }
 
     /**
-     * <p>Bug present MAGETWO-2829</p>
-     *
      * @param array $data
      *
      * @test
@@ -111,7 +114,7 @@ class Core_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Selenium_Test
      */
     public function addProductToCompareListFromProductPage($data)
     {
-        $this->markTestIncomplete('Skipped due to bug MAGETWO-2829');
+        $this->markTestIncomplete('BUG: Product is not available in Compare widget on page about_us');
         //Data
         $verify = $this->loadDataSet('CompareProducts', 'verify_compare_data', null, $data['verify']);
         //Steps
@@ -130,8 +133,6 @@ class Core_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Selenium_Test
     }
 
     /**
-     * <p>Bug present MAGETWO-2829</p>
-     *
      * @param array $data
      *
      * @test
@@ -140,7 +141,6 @@ class Core_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Selenium_Test
      */
     public function addProductToCompareListFromCatalogPage($data)
     {
-        $this->markTestIncomplete('Skipped due to bug MAGETWO-2829');
         //Steps
         foreach ($data['names'] as $value) {
             $this->compareProductsHelper()->frontAddToCompareFromCatalogPage($value, $data['catName']);
@@ -157,8 +157,6 @@ class Core_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Selenium_Test
     }
 
     /**
-     * <p>Bug present MAGETWO-2829</p>
-     *
      * @param array $data
      *
      * @test
@@ -167,7 +165,6 @@ class Core_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Selenium_Test
      */
     public function removeProductFromCompareBlockList($data)
     {
-        $this->markTestIncomplete('Skipped due to bug MAGETWO-2829');
         //Steps
         foreach ($data['names'] as $value) {
             $this->compareProductsHelper()->frontAddToCompareFromCatalogPage($value, $data['catName']);
@@ -181,8 +178,6 @@ class Core_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Selenium_Test
     }
 
     /**
-     * <p>Bug present MAGETWO-2829</p>
-     *
      * @param array $data
      *
      * @test
@@ -191,7 +186,6 @@ class Core_Mage_FlatCatalog_OperationsWithCompareTest extends Mage_Selenium_Test
      */
     public function emptyCompareListIsNotAvailable($data)
     {
-        $this->markTestIncomplete('Skipped due to bug MAGETWO-2829');
         //Steps
         $this->compareProductsHelper()->frontAddToCompareFromCatalogPage($data['names'][0], $data['catName']);
         //Verifying

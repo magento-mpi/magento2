@@ -42,7 +42,6 @@ manage_cms_banners:
             success_saved_cms_banner: //li[normalize-space(@class)='success-msg' and contains(.,'The banner has been saved.')]
             success_deleted_cms_banner: //li[normalize-space(@class)='success-msg' and contains(.,'The banner has been deleted.')]
             empty_content_field: //li[normalize-space(@class)='error-msg' and contains(.,'Please specify default content for at least one store view.')]
-            empty_required_field: //label[(@for)='%fieldId%' and contains(.,'This is a required field.')]
             confirmation_for_delete: Are you sure you want to do this?
             confirmation_for_mass_delete: Are you sure you want to delete these banners?
 
@@ -74,18 +73,21 @@ create_cms_banner:
                         fieldsets:
                             -
                                 default_content:
-                                    xpath: //fieldset[@id='banner_content_default_fieldset']
+                                    xpath: //fieldset[legend/span='Default Content']
                                     fields:
                                         content_area: "//textarea[@id='banner_content_store_default_content' and not(contains(@style,'display: none;'))]"
                                     checkboxes:
-                                        no_default_content: "//div[.//label[contains(.,'No Default Content')]]/input[@type='checkbox']"
+                                        no_default_content: "//div[label/label='No Default Content']/input[@type='checkbox']"
                                     buttons: &insertButtons
                                         insert_widget: //button[span='Insert Widget...']
                                         insert_image: //button[span='Insert Image...']
                                         insert_variable: //button[span='Insert Variable...']
+                                    links:
+                                        wysiwyg_insert_widget: //a[@id='page_content_magentowidget']
+                                        wysiwyg_insert_variable: //a[@id='page_content_magentowidget']
                             -
                                 widget_insertion:
-                                    xpath: "//div[@role='dialog' and //div[span='Insert Widget...']]"
+                                    xpath: "//div[@id='widget_window' and //div[text()='Insert Widget...']]"
                                     dropdowns:
                                         widget_type: //select[@name='widget_type']
                                         template: //select[@name='parameters[template]']
@@ -103,92 +105,84 @@ create_cms_banner:
                                         block_custom_width: "//input[@name='parameters[width]' and not(contains(@style,'display: none;'))]"
                                     buttons:
                                         submit_widget_insert: //button[span='Insert Widget']
-                                        select_option: //button[contains(span,'Select')]
+                                        select_option: //div[div/h3='Widget Insertion']//button[contains(span,'Select')]
                                         close_widget_insertion: //div[@id='widget_window_close']
                                     multiselects:
                                         quick_search_form: //select[@name='parameters[types][]']
                                     pageelements:
                                         chosen_option: "//label[@class='widget-option-label'  and not(contains(@style,'display: none;'))]"
                                         chosen_option_verify: //label[@class='widget-option-label' and normalize-space(text())='%elementName%']
-
                             -
                                 select_page:
-                                    xpath: "//div[@role='dialog' and //div[span='Select Page...']]"
+                                    xpath: //*[div/span[text()='Select Page...']]
                                     fields:
-                                        page_page: //input[@name='page']
-                                        page_filter_id: //input[@name='chooser_id']
-                                        page_filter_title: //input[@name='chooser_title']
-                                        page_filter_url_key: //input[@name='chooser_identifier']
+                                        page: //input[@name='page']
+                                        filter_id: //input[@name='chooser_id']
+                                        filter_title: //input[@name='chooser_title']
+                                        filter_url_key: //input[@name='chooser_identifier']
                                     dropdowns:
-                                        page_view_per_page: //select[@name='limit']
-                                        page_filter_layout: //select[@name='chooser_root_template']
-                                        page_filter_status: //select[@name='chooser_is_active']
+                                        view_per_page: //select[@name='limit']
+                                        filter_layout: //select[@name='chooser_root_template']
+                                        filter_status: //select[@name='chooser_is_active']
                                     buttons:
-                                        page_reset_filter: //button[span='Reset Filter']
-                                        page_search: //button[span='Search']
-                                        page_close_page_insertion: //div[@id='widget-chooser_close']
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                        close_page_insertion: //div[@id='widget-chooser_close']
                                     pageelements:
-                                        page_product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
+                                        product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                             -
                                 select_block:
-                                    xpath: "//div[@role='dialog' and //div[span='Select Block...']]"
+                                    xpath: //*[div/span[text()='Select Block...']]
                                     fields:
-                                        block_page: //input[@name='page']
-                                        block_filter_id: //input[@name='chooser_id']
-                                        block_filter_title: //input[@name='chooser_title']
-                                        block_filter_identifier: //input[@name='chooser_identifier']
+                                        page: //input[@name='page']
+                                        filter_id: //input[@name='chooser_id']
+                                        filter_title: //input[@name='chooser_title']
+                                        filter_identifier: //input[@name='chooser_identifier']
                                     dropdowns:
-                                        block_view_per_page: //select[@name='limit']
-                                        block_filter_status: //select[@name='chooser_is_active']
+                                        view_per_page: //select[@name='limit']
+                                        filter_status: //select[@name='chooser_is_active']
                                     buttons:
-                                        block_reset_filter: //button[span='Reset Filter']
-                                        block_search: //button[span='Search']
-                                        block_close_block_insertion: //div[@id='widget-chooser_close']
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                        close_block_insertion: //div[@id='widget-chooser_close']
                                     pageelements:
-                                        block_product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
+                                        product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                             -
                                 select_category:
-                                    xpath: "//div[@role='dialog' and //div[span='Select Category...']]"
+                                    xpath: //*[div/span[text()='Select Category...']]
                                     links:
-                                        select_category_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
-                                        select_category_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
-                                        select_category_expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                        root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                                        sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
                                     buttons:
-                                        select_category_close_category_insertion: //div[@id='widget-chooser_close']
-                                    pageelements:
-                                        select_category_category_text: %categoryXpath%/div/a/span
-                                        select_category_category_index_text: %categoryXpath%[%index%]/div/a/span
-                                        select_category_category_index_link: %categoryXpath%[%index%]/div/a
+                                        close_category_insertion: //div[@id='widget-chooser_close']
                             -
                                 select_product:
-                                    xpath: "//div[@role='dialog' and //div[span='Select Product...']]"
+                                    xpath: //*[div/span[text()='Select Product...']]
                                     fields:
-                                        select_product_page: //input[@name='page']
-                                        select_product_filter_id: //input[@name='entity_id']\
-                                        select_product_filter_sku: //input[@name='chooser_sku']
-                                        select_product_filter_product_name: //input[@name='chooser_name']
+                                        page: //input[@name='page']
+                                        filter_id: //input[@name='entity_id']\
+                                        filter_sku: //input[@name='chooser_sku']
+                                        filter_product_name: //input[@name='chooser_name']
                                     dropdowns:
-                                        select_product_view_per_page: //select[@name='limit']
+                                        view_per_page: //select[@name='limit']
                                     buttons:
-                                        select_product_reset_filter: //button[span='Reset Filter']
-                                        select_product_search: //button[span='Search']
-                                        select_product_close_product_insertion: //div[@id='widget-chooser_close']
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                        close_product_insertion: //div[@id='widget-chooser_close']
                                     links:
-                                        select_product_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
-                                        select_product_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
-                                        select_product_expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                        root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                                        sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
                                     pageelements:
-                                        select_product_product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
-                                        select_product_category_text: %categoryXpath%/div/a/span
-                                        select_product_category_index_text: %categoryXpath%[%index%]/div/a/span
-                                        select_product_category_index_link: %categoryXpath%[%index%]/div/a
+                                        product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                             -
                                 variable_insertion:
-                                    xpath: //div[@id='variables-chooser']
+                                    xpath: //div[div/span='Insert Variable...']
                                     links:
                                         variable: //a[text()='%variableName%']
                                     buttons:
-                                        close_variable_insertion: //div[@id='variables-chooser_close']
+                                        close_variable_insertion: //a[span='close']
                             -
                                 specific_content:
                                     xpath: //fieldset[@id='banner_content_scopes_fieldset']
@@ -197,19 +191,13 @@ create_cms_banner:
                                     buttons:
                                         insert_widget_content: //button[span='Insert Widget...']
                                         insert_variable_content: //button[span='Insert Variable...']
-                            -
-                                wysiwyg_editor_buttons:
-                                    xpath: //*[@id='page_content_tbl']
-                                    links:
-                                        wysiwyg_insert_widget: //a[@id='page_content_magentowidget']
-                                        wysiwyg_insert_variable: //a[@id='page_content_magentovariable']
                 -
                     related_promotions:
                         xpath: //a[@title='Related Promotions']
                         fieldsets:
                             -
                                 related_shopping_cart_price_rules:
-                                    xpath: //div[@class='entry-edit'][fieldset/legend/span='Related Shopping Cart Price Rules']
+                                    xpath: //fieldset[legend/span='Related Shopping Cart Price Rules']
                                     buttons:
                                         search: //div[@id='related_salesrule_grid']//button[span='Search']
                                         reset_filter: //div[@id='related_salesrule_grid']//button[span='Reset Filter']
@@ -225,7 +213,7 @@ create_cms_banner:
                                         related_shopping_cart_date_expire_to: //input[@name='salesrule_to_date[to]']
                             -
                                 related_catalog_price_rules:
-                                    xpath: //div[@class='entry-edit'][fieldset/legend/span='Related Catalog Price Rules']
+                                    xpath: //fieldset[legend/span='Related Catalog Price Rules']
                                     buttons:
                                         search: //div[@id='related_catalogrule_grid']//button[span='Search']
                                         reset_filter: //div[@id='related_catalogrule_grid']//button[span='Reset Filter']
@@ -243,7 +231,7 @@ create_cms_banner:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_banner: //button[@title='Save Banner']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_and_continue_edit: //button[@title='Save and Continue Edit']
         messages: *bannerMessages
 
 edit_cms_banner:
@@ -254,8 +242,8 @@ edit_cms_banner:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_banner: //button[span='Save Banner']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_banner: //button[@title='Save Banner']
+            save_and_continue_edit: //button[@title='Save and Continue Edit']
             delete_banner: //button[span='Delete Banner']
         messages: *bannerMessages
 
@@ -267,7 +255,7 @@ error_banner_page:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_banner: //button[span='Save Banner']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            save_banner: //button[@title='Save Banner']
+            save_and_continue_edit: //button[@title='Save and Continue Edit']
             delete_banner: //button[span='Delete Banner']
         messages: *bannerMessages

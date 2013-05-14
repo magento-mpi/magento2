@@ -43,7 +43,7 @@ paypal_sandbox_new_buyer_account_amex:
     account_type_buyer: Yes
     login_email: test_frontend_%randomize%@unknown-domain.com
     login_password: 12345678
-    add_credit_card: American Express
+    add_credit_card: AmericanExpress
     add_bank_account_yes: Yes
     account_balance: 9999
     notes: 12345678

@@ -35,8 +35,8 @@ order_statuses:
             create_new_status: //button[span='Create New Status']
             assign_status_to_state: //button[span='Assign Status to State']
         messages:
-            success_saved_status:  //li[normalize-space(@class)='success-msg' and contains(., 'The order status has been saved')]
-            success_assigned_status:  //li[normalize-space(@class)='success-msg' and contains(., 'The order status has been assigned')]
+            success_saved_status: //li[normalize-space(@class)='success-msg' and contains(., 'The order status has been saved')]
+            success_assigned_status: //li[normalize-space(@class)='success-msg' and contains(., 'The order status has been assigned')]
             search_no_result: //td[@class='empty-text a-center' and contains(., 'No records found')]
             success_search: //table[@id='sales_order_status_grid_table']//td[contains(., 'Generic Label')]
 
@@ -62,9 +62,8 @@ new_order_status:
             reset: //button[span='Reset']
             save_status: //button[@data-ui-id='sales-order-status-new-container-save-button']
         messages:
-            success_saved_status:  //li[normalize-space(@class)='success-msg' and contains(., 'The order status has been saved')]
+            success_saved_status: //li[normalize-space(@class)='success-msg' and contains(., 'The order status has been saved')]
             order_status_exist: //li[normalize-space(@class)='error-msg' and contains(., 'Order status with the same status code already exist')]
-            empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             wrong_status_view_code: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.')]
             
 # 'Assign Order Status to State' Page
@@ -91,5 +90,4 @@ assign_order_status:
         checkboxes:
             use_order_status_as_default: //input[@id='is_default']
         messages:
-            empty_required_field: //label[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
             succes_assigned_status: //li[normalize-space(@class)='success-msg' and contains(., 'The order status has been assigned')]

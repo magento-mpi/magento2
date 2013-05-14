@@ -29,33 +29,53 @@ class Enterprise_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      */
     public function preconditionsForTests()
     {
-        $productData = $this->productHelper()->createConfigurableProduct(true);
         $bannerData = $this->loadDataSet('CmsBanners', 'new_cms_banner_req');
+        $category = $this->loadDataSet('Category', 'sub_category_required', array('is_anchor' => 'Yes'));
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
+        $this->categoryHelper()->createCategory($category);
+        $this->assertMessagePresent('success', 'success_saved_category');
+        $this->navigate('manage_products');
+        $this->runMassAction('Delete', 'all');
+        $productData = $this->productHelper()->createConfigurableProduct(true);
         $categoryPath = $productData['category']['path'];
-        $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order', array('general_categories' => $categoryPath),
-            array('add_product_1' => $productData['simple']['product_sku'],
-                  'add_product_2' => $productData['virtual']['product_sku']));
-        $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', array('general_categories' => $categoryPath),
-            array('associated_1' => $productData['simple']['product_sku'],
-                  'associated_2' => $productData['virtual']['product_sku'],
-                  'associated_3' => $productData['downloadable']['product_sku']));
-        $this->productHelper()->createProduct($bundle, 'bundle');
-        $this->assertMessagePresent('success', 'success_saved_product');
+        $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order',
+            array('general_categories' => $categoryPath),
+            array(
+                'add_product_1' => $productData['simple']['product_sku'],
+                'add_product_2' => $productData['virtual']['product_sku']
+            )
+        );
+        $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order',
+            array('general_categories' => $categoryPath),
+            array(
+                'associated_1' => $productData['simple']['product_sku'],
+                'associated_2' => $productData['virtual']['product_sku'],
+                'associated_3' => $productData['downloadable']['product_sku']
+            )
+        );
         $this->productHelper()->createProduct($grouped, 'grouped');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->createProduct($bundle, 'bundle');
         $this->assertMessagePresent('success', 'success_saved_product');
         //Creating Banner
         $this->navigate('manage_cms_banners');
         $this->cmsBannersHelper()->createCmsBanner($bannerData);
         $this->assertMessagePresent('success', 'success_saved_cms_banner');
 
-        return array('category' => array('category_path' => $productData['category']['path']),
-                     'banner_name' => $bannerData['banner_properties']['banner_properties_name'],
-                     'products' => array('product_1' => $productData['simple']['product_sku'],
-                                         'product_2' => $grouped['general_sku'],
-                                         'product_3' => $productData['configurable']['product_sku'],
-                                         'product_4' => $productData['virtual']['product_sku'],
-                                         'product_5' => $bundle['general_sku'],
-                                         'product_6' => $productData['downloadable']['product_sku']));
+        return array(
+            'banner_name' => $bannerData['banner_properties']['banner_properties_name'],
+            'override' => array(
+                'anchor' => $category['parent_category'] . '/' . $category['name'],
+                'not_anchor' => $productData['category']['path'],
+                'product_1' => $productData['simple']['product_sku'],
+                'product_2' => $grouped['general_sku'],
+                'product_3' => $productData['configurable']['product_sku'],
+                'product_4' => $productData['virtual']['product_sku'],
+                'product_5' => $bundle['general_sku'],
+                'product_6' => $productData['downloadable']['product_sku']
+            )
+        );
     }
 
     /**
@@ -73,8 +93,7 @@ class Enterprise_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
     public function createAllTypesOfWidgetsAllFields($dataWidgetType, $testData)
     {
         //Data
-        $widgetData = $this->loadDataSet('CmsWidget', $dataWidgetType . '_widget', $testData['category'],
-            $testData['products']);
+        $widgetData = $this->loadDataSet('CmsWidget', $dataWidgetType . '_widget', null, $testData['override']);
         if ($dataWidgetType == 'banner_rotator') {
             $widgetData['widget_options']['banner_name'] = $testData['banner_name'];
         }
@@ -88,10 +107,10 @@ class Enterprise_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
     public function widgetTypesDataProvider()
     {
         return array(
-              array('banner_rotator'),
-              array('catalog_events_carousel'),
-              array('giftregistry_search'),
-              array('wishlist_search'),
+            array('banner_rotator'),
+            array('catalog_events_carousel'),
+            array('giftregistry_search'),
+            array('wishlist_search'),
         );
     }
 
@@ -111,8 +130,10 @@ class Enterprise_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         //Data
         $override = array();
         if ($dataWidgetType == 'catalog_product_link') {
-            $override = array('filter_sku'    => $testData['products']['product_3'],
-                              'category_path' => $testData['category']['category_path']);
+            $override = array(
+                'filter_sku' => $testData['products']['product_3'],
+                'category_path' => $testData['category']['category_path']
+            );
         } elseif ($dataWidgetType == 'catalog_category_link') {
             $override = array('category_path' => $testData['category']['category_path']);
         }
@@ -142,8 +163,10 @@ class Enterprise_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         //Data
         $override = array();
         if ($dataWidgetType == 'catalog_product_link') {
-            $override = array('filter_sku'    => $testData['products']['product_3'],
-                              'category_path' => $testData['category']['category_path']);
+            $override = array(
+                'filter_sku' => $testData['products']['product_3'],
+                'category_path' => $testData['category']['category_path']
+            );
         } elseif ($dataWidgetType == 'catalog_category_link') {
             $override = array('category_path' => $testData['category']['category_path']);
         }

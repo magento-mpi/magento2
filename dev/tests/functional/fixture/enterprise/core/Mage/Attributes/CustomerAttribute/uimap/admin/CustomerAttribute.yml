@@ -19,7 +19,7 @@ manage_customer_attributes:
             fieldsets:
                 -
                     attributes_grid:
-                        xpath:  //div[@id='customerAttributeGrid']
+                        xpath: //div[@id='customerAttributeGrid']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -29,14 +29,13 @@ manage_customer_attributes:
                         dropdowns:
                             required: //select[@name='is_required']
                             system: //select[@name='is_user_defined']
-                            visible:  //select[@name='is_visible']
+                            visible: //select[@name='is_visible']
                             sort: //input[@name='sort_order']
                         pageelements:
                             attributes_grid_head: //div[@id='customerAttributeGrid']//thead/tr[@class='headings']
         buttons:
             add_new_attribute: //button[span='Add New Attribute' or span='Add New']
         messages: &customerAttributeMessages
-            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' or text()='Failed' and not(contains(@style,'display: none;'))]"
             success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The customer attribute has been deleted.')]
             exists_attribute_code: //span[@data-ui-id='messages-message-error' and contains(.,'Attribute with the same code already exists.')]
             success_saved_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The customer attribute has been saved.')]
@@ -44,7 +43,7 @@ manage_customer_attributes:
             invalid_attribute_code: //label[normalize-space(@class)='mage-error' and contains(.,'Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.')]
             error_invalid_position: //div[@id='advice-validate-digits-position']
             invalid_lines_range: //label[normalize-space(@class)='mage-error' and contains(.,'The value is not within the specified range.')]
-            use_numbers_only:  //label[normalize-space(@class)='mage-error' and contains(.,'Please enter a valid number in this field.')]
+            use_numbers_only: //label[normalize-space(@class)='mage-error' and contains(.,'Please enter a valid number in this field.')]
             delete_confirm_message: Are you sure you want to do this?
 
 # Add New Customer Attribute page
@@ -123,10 +122,10 @@ new_customer_attribute:
                                         is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
                                     required: [admin_option]
         buttons:
-            back: //button[@id="back"]
-            reset: //button[@id="reset"]
-            save_attribute: //button[@id="save"]
-            save_and_continue_edit: //button[@id="save_and_edit_button"]
+            back: //button[@id='back']
+            reset: //button[@id='reset']
+            save_attribute: //button[@id='save']
+            save_and_continue_edit: //button[@id='save_and_edit_button']
         messages: *customerAttributeMessages
 
 # Manage customer Attributes page
@@ -166,9 +165,9 @@ edit_customer_attribute:
                                         is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
                                     required: [admin_option]
         buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
             delete_attribute: //button[span='Delete Attribute']
-            save_attribute: //button[span='Save Attribute']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            back: //button[@id='back']
+            reset: //button[@id='reset']
+            save_attribute: //button[@id='save']
+            save_and_continue_edit: //button[@id='save_and_edit_button']
         messages: *customerAttributeMessages

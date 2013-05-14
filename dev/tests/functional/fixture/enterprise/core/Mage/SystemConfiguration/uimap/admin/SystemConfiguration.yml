@@ -73,8 +73,8 @@ system_configuration:
                                     links:
                                         catalog_catalog_event_link: //parent::div//a[@id='catalog_enterprise_catalogevent-head']
                                     fields:
-                                        number_of_events:  //input[@id="catalog_enterprise_catalogevent_lister_widget_limit"]
-                                        events_to_scroll:  //input[@id="catalog_enterprise_catalogevent_lister_widget_scroll"]
+                                        number_of_events: //input[@id="catalog_enterprise_catalogevent_lister_widget_limit"]
+                                        events_to_scroll: //input[@id="catalog_enterprise_catalogevent_lister_widget_scroll"]
                                     dropdowns:
                                         enable_catalog_events: //select[@id="catalog_enterprise_catalogevent_enabled"]
                                         enable_catalog_event_widget: //select[@id="catalog_enterprise_catalogevent_lister_output"]
@@ -88,7 +88,7 @@ system_configuration:
                                         maximum_number_in_cross_sell: //input[@id="catalog_enterprise_targetrule_crosssell_position_limit"]
                                         maximum_number_inupsell: //input[@id="catalog_enterprise_targetrule_upsell_position_limit"]
                                     dropdowns:
-                                        show_related_products:  //select[@id="catalog_enterprise_targetrule_related_position_behavior"]
+                                        show_related_products: //select[@id="catalog_enterprise_targetrule_related_position_behavior"]
                                         rotation_mode_related_product: //select[@id="catalog_enterprise_targetrule_related_rotation_mode"]
                                         show_cross_sell: //select[@id="catalog_enterprise_targetrule_crosssell_position_behavior"]
                                         rotation_mode_cross_sell: //select[@id="catalog_enterprise_targetrule_crosssell_rotation_mode"]
@@ -330,11 +330,11 @@ system_configuration:
                                         oic_display_printed_card_prices_use_default: //input[@id='tax_sales_display_printed_card_inherit']
                 -
                     sales_gift_card:
-                        xpath:  //a[contains(@href, 'edit/section/giftcard/')]
+                        xpath: //a[contains(@href, 'edit/section/giftcard/')]
                         fieldsets:
                             -
                                 gift_card_email_settings:
-                                    xpath:  //fieldset[@id='giftcard_email']
+                                    xpath: //fieldset[@id='giftcard_email']
                                     links:
                                         gift_card_email_settings_link: //parent::div//a[@id='giftcard_email-head']
                                     dropdowns:
@@ -413,7 +413,7 @@ system_configuration:
                                         sage_pay_direct_link: //parent::div//a[@id='payment_sagepay_direct-head']
                             -
                                 psi_gate:
-                                    xpath:  //fieldset[@id='payment_psigate_basic']
+                                    xpath: //fieldset[@id='payment_psigate_basic']
                                     links:
                                         psi_gate_link: //parent::div//a[@id='payment_psigate_basic-head']
                             -

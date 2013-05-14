@@ -17,16 +17,17 @@
  */
 class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_TestCase
 {
-    protected function assertPreConditions()
-    {
-        $this->logoutCustomer();
-    }
-
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('RMA/enable_rma_on_frontend');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
+    }
+
+    protected function assertPreConditions()
+    {
+        $this->logoutCustomer();
     }
 
     /**
@@ -48,10 +49,11 @@ class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_T
         $this->productHelper()->createProduct($simple2);
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('products' => array ('simple1'  => array ('name' => $simple1['general_name'],
-                                                               'sku'  => $simple1['general_sku']),
-                                          'simple2'  => array ('name' => $simple2['general_name']),
-                                                               'sku'  => $simple2['general_sku']));
+        return array('products' => array(
+            'simple1' => array('name' => $simple1['general_name'], 'sku' => $simple1['general_sku']),
+            'simple2' => array('name' => $simple2['general_name']),
+            'sku' => $simple2['general_sku']
+        ));
     }
 
     /**
@@ -68,16 +70,17 @@ class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_T
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'guest_flatrate_checkmoney_usa',
             array('general_name' => $testData['products']['simple1']['name']));
-        $this->addParameter('param', '0');
         //Preconditions
         $orderNumber = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->orderShipmentHelper()->openOrderAndCreateShipment(array('filter_order_id' => $orderNumber));
-        $orderInfo = array ('order_id' => $orderNumber,
-                            'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
-                            'search_type_id' => 'Email Address',
-                            'email' => $checkoutData['billing_address_data']['billing_email']);
+        $orderInfo = array(
+            'order_id' => $orderNumber,
+            'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
+            'search_type_id' => 'Email Address',
+            'email' => $checkoutData['billing_address_data']['billing_email']
+        );
         //Steps
         $this->addParameter('elementTitle', $orderNumber);
         $this->frontend('orders_and_returns');
@@ -86,6 +89,7 @@ class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_T
         $this->clickControl('link', 'return');
         //Verification
         $this->validatePage('guest_create_rma');
+        $this->addParameter('param', 0);
         $this->assertTrue($this->controlIsPresent('field', 'email'),
             'There is no "Contact Email Address" field on the page');
         $this->assertTrue($this->controlIsPresent('dropdown', 'item'), 'There is no "Item" field on the page');
@@ -121,10 +125,12 @@ class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_T
         $rmaData = $this->loadDataSet('RMA', 'rma_request', array('item' => $testData['products']['simple1']['name']));
         //Preconditions
         $orderNumber = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        $orderInfo = array ('order_id' => $orderNumber,
-                            'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
-                            'search_type_id' => 'Email Address',
-                            'email' => $checkoutData['billing_address_data']['billing_email']);
+        $orderInfo = array(
+            'order_id' => $orderNumber,
+            'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
+            'search_type_id' => 'Email Address',
+            'email' => $checkoutData['billing_address_data']['billing_email']
+        );
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->addParameter('elementTitle', $orderNumber);
@@ -157,10 +163,12 @@ class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_T
             array('item' => $testData['products']['simple1']['name'], 'quantity' => '2'));
         //Preconditions
         $orderNumber = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        $orderInfo = array ('order_id' => $orderNumber,
-                            'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
-                            'search_type_id' => 'Email Address',
-                            'email' => $checkoutData['billing_address_data']['billing_email']);
+        $orderInfo = array(
+            'order_id' => $orderNumber,
+            'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
+            'search_type_id' => 'Email Address',
+            'email' => $checkoutData['billing_address_data']['billing_email']
+        );
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->addParameter('elementTitle', $orderNumber);
@@ -195,10 +203,12 @@ class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_T
         $rmaData['rma_2']['item'] = $testData['products']['simple2']['name'];
         //Preconditions
         $orderNumber = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        $orderInfo = array ('order_id' => $orderNumber,
-                            'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
-                            'search_type_id' => 'Email Address',
-                            'email' => $checkoutData['billing_address_data']['billing_email']);
+        $orderInfo = array(
+            'order_id' => $orderNumber,
+            'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
+            'search_type_id' => 'Email Address',
+            'email' => $checkoutData['billing_address_data']['billing_email']
+        );
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->addParameter('elementTitle', $orderNumber);
@@ -234,10 +244,12 @@ class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_T
         $rmaData2['rma_1']['item'] = $testData['products']['simple2']['name'];
         //Preconditions
         $orderNumber = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        $orderInfo = array ('order_id' => $orderNumber,
-                            'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
-                            'search_type_id' => 'Email Address',
-                            'email' => $checkoutData['billing_address_data']['billing_email']);
+        $orderInfo = array(
+            'order_id' => $orderNumber,
+            'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
+            'search_type_id' => 'Email Address',
+            'email' => $checkoutData['billing_address_data']['billing_email']
+        );
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->addParameter('elementTitle', $orderNumber);
@@ -278,10 +290,12 @@ class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_T
         $this->fillField('product_qty', '5');
         $this->productHelper()->frontAddProductToCart();
         $orderNumber = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        $orderInfo = array ('order_id' => $orderNumber,
-                            'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
-                            'search_type_id' => 'Email Address',
-                            'email' => $checkoutData['billing_address_data']['billing_email']);
+        $orderInfo = array(
+            'order_id' => $orderNumber,
+            'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
+            'search_type_id' => 'Email Address',
+            'email' => $checkoutData['billing_address_data']['billing_email']
+        );
         $shipmentData = array('ship_product_sku' => $testData['products']['simple1']['sku'], 'ship_product_qty' => '3');
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
@@ -318,10 +332,12 @@ class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_T
             array('general_name' => $testData['products']['simple1']['name']));
         //Preconditions
         $orderNumber = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        $orderInfo = array ('order_id' => $orderNumber,
-                            'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
-                            'search_type_id' => 'Email Address',
-                            'email' => $checkoutData['billing_address_data']['billing_email']);
+        $orderInfo = array(
+            'order_id' => $orderNumber,
+            'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
+            'search_type_id' => 'Email Address',
+            'email' => $checkoutData['billing_address_data']['billing_email']
+        );
         //Steps
         $this->addParameter('elementTitle', $orderNumber);
         $this->frontend('orders_and_returns');
@@ -351,10 +367,12 @@ class Enterprise_Mage_Rma_OrdersAndReturns_CreateRmaTest extends Mage_Selenium_T
         $this->systemConfigurationHelper()->configure('RMA/disable_rma_on_frontend');
         $this->frontend();
         $orderNumber = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
-        $orderInfo = array ('order_id' => $orderNumber,
-                            'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
-                            'search_type_id' => 'Email Address',
-                            'email' => $checkoutData['billing_address_data']['billing_email']);
+        $orderInfo = array(
+            'order_id' => $orderNumber,
+            'billing_last_name' => $checkoutData['billing_address_data']['billing_last_name'],
+            'search_type_id' => 'Email Address',
+            'email' => $checkoutData['billing_address_data']['billing_email']
+        );
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->addParameter('elementTitle', $orderNumber);

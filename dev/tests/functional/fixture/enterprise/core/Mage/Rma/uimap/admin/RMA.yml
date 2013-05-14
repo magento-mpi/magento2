@@ -86,7 +86,7 @@ new_rma_item_attribute:
                         fieldsets:
                             -
                                 manage_titles:
-                                    xpath: //div[@class='entity-edit' and contains(.//@id,'attribute-labels-table')]
+                                    xpath: //fieldset[legend/span='Manage Titles (Size, Color, etc.)']
                                     fields:
                                         admin_title: //input[@name='frontend_label[0]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input
@@ -106,18 +106,15 @@ new_rma_item_attribute:
                                         manage_options_option: //tr[contains(@class,'option-row')]
                                         is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
         buttons: &rmaAttributeButton
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            save_attribute: //button[span='Save Attribute']
-            save_and_continue_edit: //button[span='Save and Continue Edit']
+            back: //button[@id='back']
+            reset: //button[@id='reset']
+            save_attribute: //button[@id='save']
+            save_and_continue_edit: //button[@id='save_and_edit_button']
             delete_attribute: //button[span='Delete Attribute']
         messages: &rmaAttributeMessage
             exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute with the same code already exists.')]
-            empty_attribute_code: //*[@id='advice-required-entry-attribute_code']
-            empty_sort_order: //*[@id='advice-required-entry-sort_order']
-            empty_admin_title: //*[@id='advice-required-option-frontend_label[0]']
-            invalid_attribute_code: //div[@id='advice-validate-code-attribute_code']
-            wrong_length_attribute_code: //div[@id='advice-validate-length-attribute_code']
+            wrong_length_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Maximum length of this field must be equal or less than 30 symbols.' and not(contains(@style,'display: none;'))]
+            invalid_attribute_code: //*[@class='mage-error' and @for='attribute_code' and text()='Please use only letters (a-z), numbers (0-9) or underscore(_) in this field, first character should be a letter.' and not(contains(@style,'display: none;'))]
             delete_confirm_message: Are you sure you want to do this?
 
 edit_rma_item_attribute:

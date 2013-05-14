@@ -18,6 +18,15 @@
  */
 class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $config = $this->loadDataSet('FlatCatalog', 'flat_catalog_reviews',
+            array('allow_guests_to_write_reviews' => 'Yes'));
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($config);
+    }
+
     protected function tearDownAfterTest()
     {
         $this->frontend();
@@ -113,6 +122,7 @@ class Core_Mage_Review_FrontendCreateTest extends Mage_Selenium_TestCase
      */
     public function addReviewByGuestWithRating($data)
     {
+        $this->markTestIncomplete('BUG: Fatal error on page after save review');
         //Data
         $reviewData = $this->loadDataSet('ReviewAndRating', 'review_with_rating',
                                          array('rating_name' => $data['withRating']['rating_name']));

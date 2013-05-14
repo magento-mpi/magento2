@@ -14,6 +14,16 @@
 
 class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_stores');
+        $this->storeHelper()->deleteAllStoresExceptSpecified();
+        $this->assertEquals(1, $this->getTotalRecordsInTable('fieldset', 'manage_stores'));
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/enable_single_store_mode');
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -21,17 +31,15 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
 
     protected function tearDownAfterTestClass()
     {
-        $config = $this->loadDataSet('SingleStoreMode', 'disable_single_store_mode');
+        $this->loginAdminUser();
+        $this->navigate('manage_stores');
+        $this->storeHelper()->deleteAllStoresExceptSpecified();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/enable_single_store_mode');
     }
 
     /**
-     * <p>Precondition for test:</p>
-     * <p>1. Login to backend.</p>
-     * <p>2. Navigate to System -> Manage Store.</p>
-     * <p>3. Verify that one store-view is created.</p>
-     * <p>4. Go to System - Configuration - General and enable Single-Store Mode.</p>
+     * <p>Create customer</p>
      *
      * @test
      */
@@ -39,15 +47,10 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
     {
         //Data
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $config = $this->loadDataSet('SingleStoreMode', 'enable_single_store_mode');
         //Steps
-        $this->admin('manage_stores');
-        $this->storeHelper()->deleteStoreViewsExceptSpecified();
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
 
         return $userData;
     }
@@ -56,7 +59,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p>Scope Selector is disabled if Single Store Mode enabled.</p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6180
      */
     public function systemConfigurationVerificationScopeSelector()
@@ -70,7 +72,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p>"Export Table Rates" functionality is displayed if Single Store Mode enabled.</p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6181
      */
     public function systemConfigurationVerificationTableRatesExport()
@@ -85,7 +86,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p>"Account Sharing Options" fieldset is displayed if Single Store Mode enabled.</p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6183
      */
     public function systemConfigurationVerificationAccountSharingOptions()
@@ -100,41 +100,40 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p>"Price" fieldset is displayed if Single Store Mode enabled.</p>
      *
      * @test
-     * @depends preconditionsForTests
-     * @TestLinkId TL-MAGE-6183
+     * @TestLinkId TL-MAGE-6182
      */
     public function systemConfigurationVerificationCatalogPrice()
     {
+        $fallbackOrderHelper = $this->getConfigHelper()->getFixturesFallbackOrder();
+        if (end($fallbackOrderHelper) == 'enterprise') {
+            $this->markTestIncomplete('BUG:');
+        }
         $this->admin('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('catalog_catalog');
-        $this->assertFalse($this->controlIsPresent('fieldset', 'price'), "Fieldset Price is not present on the page");
+        $this->assertTrue($this->controlIsPresent('fieldset', 'price'), "Fieldset Price is not present on the page");
     }
 
     /**
      * <p>"Debug" fieldset is displayed if Single Store Mode enabled.</p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6184
      */
     public function systemConfigurationVerificationDebugOptions()
     {
         $this->admin('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('advanced_developer');
-        $this->assertTrue($this->controlIsPresent('fieldset', 'debug'), "Fieldset Debug is not present on the page");
+        $this->assertFalse($this->controlIsPresent('fieldset', 'debug'), "Fieldset Debug is present on the page");
     }
 
     /**
      *<p>Hints for fields are disabled if Single Store Mode enabled.</p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6185
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function systemConfigurationVerificationHints()
     {
-        //Skip
         $this->markTestIncomplete('MAGETWO-3502');
         //Steps
         $this->admin('system_configuration');
@@ -148,7 +147,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p> Manage Product page </p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6317
      */
     public function verificationManageProducts()
@@ -163,17 +161,17 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
         //Steps
         $this->productHelper()->selectTypeProduct('simple');
         $this->productHelper()->fillProductInfo($productData);
-        //Veryfying
+        //Verifying
         $this->assertFalse($this->controlIsPresent('tab', 'websites'),
             "'Websites' tab is present on the page ");
         //Steps
         $this->productHelper()->openProductTab('prices');
         $columnsName = $this->shoppingCartHelper()->getColumnNamesAndNumbers('prices_group_price_grid_head');
-        //Veryfying
+        //Verifying
         $this->assertFalse((isset($columnsName['website'])), "Group Price table contains 'Website' column");
         //Steps
         $columnsName = $this->shoppingCartHelper()->getColumnNamesAndNumbers('prices_tier_price_grid_head');
-        //Veryfying
+        //Verifying
         $this->assertFalse((isset($columnsName['website'])), "Tier Price table contains 'Website' column");
     }
 
@@ -181,19 +179,18 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p> Search Terms page </p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6316
      */
     public function verificationSearchTerms()
     {
         //Steps
         $this->admin('search_terms');
-        //Veryfying
+        //Verifying
         $this->assertFalse($this->controlIsPresent('dropdown', 'filter_store'),
             'There is "Store" column on the page');
         //Steps
         $this->clickButton('add_new_search_term');
-        //Veryfying
+        //Verifying
         $this->assertFalse($this->controlIsPresent('dropdown', 'store'),
             "'Store' dropdown is present on the page ");
     }
@@ -202,25 +199,24 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p> Review and Ratings page </p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6318
      */
     public function verificationReviewRatings()
     {
         //Steps
-        $this->admin('manage_pending_reviews');
-        //Veryfying
+        $this->admin('manage_all_reviews');
+        //Verifying
         $this->assertFalse($this->controlIsPresent('dropdown', 'filter_visible_in'),
             "There is 'Visible In' column on the page");
         //Steps.
         $this->admin('manage_all_reviews');
-        //Veryfying
+        //Verifying
         $this->assertFalse($this->controlIsPresent('dropdown', 'filter_visible_in'),
             "There is 'Visible In' column on the page");
         //Steps
         $this->admin('manage_ratings');
         $this->clickButton('add_new_rating');
-        //Veryfying
+        //Verifying
         $this->assertFalse($this->controlIsPresent('multiselect', 'visible_in'),
             "There is 'Visible In' multiselect on the page");
     }
@@ -229,41 +225,36 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p> Tags page </p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6319
      */
     public function verificationTags()
     {
         //Steps
         $this->admin('all_tags');
-        //Veryfying
+        //Verifying
+        $this->assertFalse($this->controlIsPresent('dropdown', 'store_view'),
+            "There is 'Store View' column on the page");
         $this->assertFalse($this->controlIsPresent('dropdown', 'store_view'),
             "There is 'Store View' column on the page");
         //Steps
         $this->addParameter('storeId', '1');
         $this->clickButton('add_new_tag');
-        //Veryfying
-        $this->assertFalse($this->controlIsPresent('dropdown', 'switch_store'),
+        //Verifying
+        $this->assertFalse($this->controlIsPresent('dropdown', 'choose_store_view'),
             "There is 'Store Switcher' dropdown on the page");
-        //Steps
-        $this->admin('pending_tags');
-        //Veryfying
-        $this->assertFalse($this->controlIsPresent('dropdown', 'filter_visible_in'),
-            "There is 'Store View' column on the page");
     }
 
     /**
      * <p> URL Rewrite Management page </p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6320
      */
     public function verificationUrlRewrite()
     {
         //Steps
         $this->admin('url_rewrite_management');
-        //Veryfying
+        //Verifying
         $this->assertFalse($this->controlIsPresent('dropdown', 'filter_store_view'),
             "There is 'Store View' column on the page");
     }
@@ -272,12 +263,11 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p>All references to Website-Store-Store View do not displayed in the Manage Content area</p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6167
      */
     public function verificationManageContent()
     {
-        $this->markTestIncomplete('Skipped due to bug MAGETWO-7394');
+        $this->markTestIncomplete('MAGETWO-7394');
         $this->navigate('manage_cms_pages');
         $this->assertTrue($this->controlIsPresent('button', 'add_new_page'),
             'There is no "Add New Page" button on the page');
@@ -293,7 +283,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p>All references to Website-Store-Store View do not displayed in the Static Blocks area</p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6168
      */
     public function verificationStaticBlocks()
@@ -314,10 +303,8 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      * @param string $dataWidgetType
      *
-     * @dataProvider widgetTypesDataProvider
-     *
      * @test
-     * @depends preconditionsForTests
+     * @dataProvider widgetTypesDataProvider
      * @TestLinkId TL-MAGE-6169
      */
     public function verificationAllTypesOfWidgetsInSingleStoreMode($dataWidgetType)
@@ -349,7 +336,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p>All references to Website-Store-Store View do not displayed in the Polls area</p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6171
      */
     public function verificationPolls()
@@ -369,13 +355,12 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p>Scope Selector is not displayed on the Dashboard page.</p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6302
      */
     public function verificationDashboardPage()
     {
         $this->navigate($this->pageAfterAdminLogin);
-        $this->assertFalse($this->controlIsPresent('dropdown', 'store_switcher'),
+        $this->assertFalse($this->controlIsPresent('dropdown', 'choose_store_view'),
             'There is "Choose Store View" scope selector on the page');
     }
 
@@ -383,7 +368,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p>Create Customer Page</p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6229
      */
     public function newCustomer()
@@ -432,7 +416,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p>All references to Website-Store-Store View are not displayed in the Newsletter Subscribers area.</p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6311
      */
     public function verificationNewsletterSubscribers()
@@ -450,7 +433,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p>Catalog Price Rules page does not contain websites columns and multiselects</p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6266
      */
     public function verificationCatalogPriceRule()
@@ -469,7 +451,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p>Shopping Cart Price Rules page does not contain websites columns and multiselects</p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6267
      */
     public function verificationShoppingCartPriceRule()
@@ -483,13 +464,12 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
         $this->assertFalse($this->controlIsPresent('multiselect', 'websites'),
             'There is "Store View" selector on the page');
     }
+
     /**
      * <p>Reports</p>
      *
-     * @dataProvider allReportPagesDataProvider
-     * @depends preconditionsForTests
-     *
      * @test
+     * @dataProvider allReportPagesDataProvider
      * @TestLinkId TL-MAGE-6288
      */
     public function allReportPages($page)
@@ -497,7 +477,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
         //Steps
         $this->navigate($page);
         //Validation
-        $this->assertFalse($this->controlIsPresent('dropdown', 'store_switcher'),
+        $this->assertFalse($this->controlIsPresent('dropdown', 'choose_store_view'),
             "Dropdown associate_to_website present on page");
     }
 
@@ -547,7 +527,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p>"Store" column is not displayed on the Recurring Profiles(beta) page</p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6272
      */
     public function verificationRecurringProfiles()
@@ -562,7 +541,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      *
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6273
      */
     public function verificationTermsAndConditions()
@@ -576,11 +554,11 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
         $this->assertFalse($this->controlIsPresent('multiselect', 'store_view'),
             'There is "Store View" multi selector on the page');
     }
+
     /**
      * <p>All references to Website-Store-Store View are not displayed in the Schedule Design area.</p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6321
      */
     public function verificationDesignSchedule()
@@ -598,7 +576,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      * <p>All references to Website-Store-Store View are not displayed in the Order Statuses area.</p>
      *
      * @test
-     * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6324
      */
     public function verificationOrderStatuses()
@@ -610,5 +587,4 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
         $this->assertFalse($this->controlIsPresent('fieldset', 'store_view_specific_labels'),
             'There is no "Store View Specific Labels" field set on the page');
     }
-
 }

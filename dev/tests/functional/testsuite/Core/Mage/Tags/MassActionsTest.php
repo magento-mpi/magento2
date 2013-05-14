@@ -346,7 +346,6 @@ class Core_Mage_Tags_MassActionsTest extends Core_Mage_Tags_TagsFixtureAbstract
     public function tagDataProvider()
     {
         return array(
-            array('pending_tags'),
             array('all_tags')
         );
     }

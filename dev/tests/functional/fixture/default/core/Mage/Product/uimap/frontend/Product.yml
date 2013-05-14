@@ -76,7 +76,7 @@ product_page:
                             short_description: //div[@class='short-description']//div[@class='std']
                             price_box_map_info: //div[@class='price-box map-info']//span[@class='msrp-price-hide-message'and contains(.,'See price before order confirmation.')]
                             map_popup: //div[@id='map-popup']
-                            group_price: //div[@class='product-shop']//p[@class='special-price']/span[normalize-space(text())='%symbol%%price%']
+                            group_price: //div[@class='product-shop']//p[@class='special-price']//span[normalize-space(text())='%symbol%%price%']
                             product_custom_option_head_order: //dt[%rowNumber%][contains(label,'%title%')]
                 -
                     product_custom_option_head: &product_custom_option_head
@@ -90,7 +90,7 @@ product_page:
                             custom_option_file: //input[@type='file']
                         checkboxes:
                             custom_option_check_attribute: //input
-                            custom_option_checkbox: //li[contains(.//label,'%optionTitle%')]//input[@type='checkbox']
+                            custom_option_checkbox: //*[contains(*/*,'%optionTitle%')]//input[@type='checkbox']
                         dropdowns:
                             custom_option_select_attribute: //select
                             custom_option_dropdown: //select
@@ -109,7 +109,7 @@ product_page:
                         multiselects:
                             custom_option_multiselect: //select[@multiple='multiple']
                         radiobuttons:
-                            custom_option_radiobutton: //li[contains(.//label,'%optionTitle%')]//input[@type='radio']
+                            custom_option_radiobutton: //*[contains(*/*,'%optionTitle%')]//input[@type='radio']
                         #pageelements:
                             #custom_option_price: //span[@class='price' and normalize-space(text())='%price%']
                             #custom_option_select: //option[contains(text(),'%optionTitle% +%optionPrice%')]
@@ -129,11 +129,13 @@ product_page:
                         xpath: //div[h2[text()='Additional Information']]
                 -
                     add_tag: &add_tag
-                        xpath: "//div[label[text()='Add Your Tags:']]"
+                        xpath: //div[h2='Product Tags']
                         buttons:
                             add_tags: //button[@title='Add Tags']
                         fields:
                             input_new_tags: //input[@id='productTagName']
+                        links:
+                            tag_name: //a[text()='%tagName%']
                 -
                     related: &related
                         xpath: //div[@class='box-collateral box-related' or @class='block block-related']
@@ -201,7 +203,6 @@ product_page:
             compare_list_cleared: //li[normalize-space(@class)='success-msg' and contains(.//span,'The comparison list was cleared.')]
             product_removed_from_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product %productName% has been removed from comparison list.')]
             accepted_review: //li[normalize-space(@class)='success-msg' and contains(.//span,'Your review has been accepted for moderation.')]
-            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and contains(.,'This is a required field.')]
 
 product_review:
     mca: review/product/list/id/%id%/

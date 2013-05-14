@@ -835,15 +835,15 @@ gift_messages_individual:
     individual: &forProduct
         product_1:
             sku_product: %noValue%
-            to: me
-            from: guess_who
-            message: How you doing?
+            item_gift_message_from: guess_who
+            item_gift_message_to: you
+            item_gift_message: How you doing?
 
 gift_messages_per_order:
     entire_order: &forOrder
-        from_order_level: guess_who
-        to_order_level: me
-        message_order_level: How you doing?
+        order_gift_message_from: guess_who_%randomize%
+        order_gift_message_to: me_%randomize%
+        order_gift_message: How you doing?
 
 gift_messages: &allGiftMessages
     entire_order: *forOrder
@@ -851,27 +851,27 @@ gift_messages: &allGiftMessages
 
 gift_messages_with_empty_fields:
     entire_order:
-        from_order_level: ''
-        to_order_level: ''
-        message_order_level: How you doing?
+        order_gift_message_from: ''
+        order_gift_message_to: ''
+        order_gift_message: How you doing?
     individual:
         product_1:
             sku_product: %noValue%
-            to: ''
-            from: ''
-            message: How you doing?
+            item_gift_message_from: ''
+            item_gift_message_to: ''
+            item_gift_message: How you doing?
 
 gift_messages_with_empty_fields_expected:
     entire_order:
-        from_order_level: billing_Steven billing_Stevenson
-        to_order_level: shipping_Steven shipping_Stevenson
-        message_order_level: How you doing?
+        order_gift_message_from: billing_Steven billing_Stevenson
+        order_gift_message_to: shipping_Steven shipping_Stevenson
+        order_gift_message: How you doing?
     individual:
         product_1:
             sku_product: %noValue%
-            to: shipping_Steven shipping_Stevenson
-            from: billing_Steven billing_Stevenson
-            message: How you doing?
+            item_gift_message_from: billing_Steven billing_Stevenson
+            item_gift_message_to: shipping_Steven shipping_Stevenson
+            item_gift_message: How you doing?
 
 #*************************************************
 #         3D-Secure Log Verification Data        *

@@ -35,15 +35,14 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
      */
     public function isAddressPresent(array $addressData)
     {
-        $addressCount = $this->getControlCount('pageelement', 'list_customer_address');
-        for ($i = $addressCount; $i > 0; $i--) {
-            $this->addParameter('index', $i);
-            $this->clickControl('pageelement', 'list_customer_address_address', false);
-            $value = $this->getControlAttribute('pageelement', 'list_customer_address_index', 'id');
-            $arrayId = explode('_', $value);
+        /** @var $element PHPUnit_Extensions_Selenium2TestCase_Element */
+        $elements = $this->getControlElements('pageelement', 'list_customer_address', null, false);
+        foreach ($elements as $element) {
+            $element->click();
+            $arrayId = explode('_', $element->attribute('id'));
             $value = end($arrayId);
             $this->addParameter('address_number', $value);
-            $this->waitForElementVisible($this->_getControlXpath('fieldset', 'edit_address'));
+            $this->waitForControlVisible('fieldset', 'edit_address');
             if ($this->verifyForm($addressData, 'addresses')) {
                 $this->clearMessages('verification');
                 return $value;
@@ -119,8 +118,9 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
         if (array_key_exists('send_from', $userData) && !$this->controlIsPresent('dropdown', 'send_from')) {
             unset($userData['send_from']);
         }
-        if (array_key_exists('associate_to_website', $userData) &&
-            !$this->controlIsPresent('dropdown', 'associate_to_website')) {
+        if (array_key_exists('associate_to_website', $userData)
+            && !$this->controlIsPresent('dropdown', 'associate_to_website')
+        ) {
             unset($userData['associate_to_website']);
         }
         //Fill in 'Account Information' tab
@@ -157,6 +157,20 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
+     * @param array $searchData
+     * @return string
+     */
+    public function getCustomerRegistrationDate(array $searchData)
+    {
+        $searchData = $this->_prepareDataForSearch($searchData);
+        $xpathTR = $this->search($searchData, 'customers_grid');
+        $this->assertNotNull($xpathTR, 'Customer is not found');
+        $cellId = $this->getColumnIdByName('Customer Since');
+
+        return trim($this->getElement($xpathTR . '/td[' . $cellId . ']')->text());
+    }
+
+    /**
      * Register Customer on Frontend.
      * PreConditions: 'Login or Create an Account' page is opened.
      *
@@ -178,8 +192,11 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
             $this->clickButton('create_account');
         }
         $this->fillForm($registerData);
-        $waitConditions = array($this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'),
-                                $this->_getControlXpath('link', 'log_out'));
+        $waitConditions = array(
+            $this->_getMessageXpath('general_error'),
+            $this->_getMessageXpath('general_validation'),
+            $this->_getControlXpath('link', 'log_out')
+        );
         $this->clickButton('submit', false);
         $this->waitForElement($waitConditions);
         $this->validatePage();
@@ -189,20 +206,26 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
      * Log in customer at frontend.
      *
      * @param array $loginData
+     * @param bool $validateLogin
      */
-    public function frontLoginCustomer(array $loginData)
+    public function frontLoginCustomer(array $loginData, $validateLogin = true)
     {
         $this->frontend();
         $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillFieldset($loginData, 'log_in_customer');
-        $waitConditions = array($this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'),
-                                $this->_getControlXpath('link', 'log_out'));
+        $waitConditions = array(
+            $this->_getMessageXpath('general_error'),
+            $this->_getMessageXpath('general_validation'),
+            $this->_getControlXpath('link', 'log_out')
+        );
         $this->clickButton('login', false);
         $this->waitForElement($waitConditions);
         $this->addParameter('id', $this->defineIdFromUrl());
-        $this->assertTrue($this->controlIsPresent('link', 'log_out'), 'Customer is not logged in.');
         $this->setCurrentPage($this->_findCurrentPageFromUrl());
+        if ($validateLogin) {
+            $this->assertTrue($this->controlIsPresent('link', 'log_out'), 'Customer is not logged in.');
+        }
     }
 
     /**
@@ -214,14 +237,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
      */
     public function isCustomerPresentInGrid($userData)
     {
-        $data = array('email' => $userData['email']);
-        $this->_prepareDataForSearch($data);
-        $xpathTR = $this->search($data, 'customers_grid');
-        if (!is_null($xpathTR)) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->search(array('email' => $userData['email']), 'customers_grid') !== null;
     }
 
     /**
@@ -231,8 +247,11 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontForgotPassword($emailData)
     {
-        $waitCondition = array($this->_getMessageXpath('general_success'), $this->_getMessageXpath('general_error'),
-                               $this->_getMessageXpath('general_validation'));
+        $waitCondition = array(
+            $this->_getMessageXpath('general_success'),
+            $this->_getMessageXpath('general_error'),
+            $this->_getMessageXpath('general_validation')
+        );
         $this->assertTrue($this->checkCurrentPage('forgot_customer_password'), $this->getParsedMessages());
         $this->fillFieldset($emailData, 'forgot_password');
         $this->clickButton('submit', false);

@@ -77,7 +77,6 @@ new_theme:
         messages:
             success_saved_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been saved.')]
             success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been deleted.')]
-            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This is a required field.' and not(contains(@style,'display: none;'))]
 
 # Edit Theme Page
 edit_theme:
@@ -138,5 +137,4 @@ edit_theme:
         messages:
             success_saved_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been saved.')]
             success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been deleted.')]
-            empty_required_field: //*[@class='mage-error' and @for='%fieldId%' and text()='This is a required field.' and not(contains(@style,'display: none;'))]
             confirmation_for_delete: Are you sure you want to do this?

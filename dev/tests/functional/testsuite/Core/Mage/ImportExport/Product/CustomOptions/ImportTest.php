@@ -18,17 +18,25 @@
  */
 class Core_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage_Selenium_TestCase
 {
-    /**
-     * Preconditions:
-     * Log in to Backend.
-     * Navigate to System -> Import/p>
-     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
+    }
+
     protected function assertPreConditions()
     {
-        //logged in once for all tests
         $this->loginAdminUser();
-        //Step 1
     }
+
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
+    }
+
 
     /**
      * Precondition:
@@ -93,10 +101,12 @@ class Core_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage_Selen
      */
     public function preconditionWithDifferentStoreViews()
     {
+        $this->markTestIncomplete('Need fix for select Store View on product page');
         $this->navigate('manage_products');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['custom_options_data'] =
-            array('custom_options_field' => $this->loadDataSet('Product', 'custom_options_field'));
+        $productData['custom_options_data'] = array(
+            'custom_options_field' => $this->loadDataSet('Product', 'custom_options_field')
+        );
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -118,7 +128,7 @@ class Core_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage_Selen
         $this->waitForPageToLoad();
         $this->productHelper()->openProductTab('custom_options');
         //Need to update custom option, get optionId by Title
-        $optionId = $this->productHelper()->getCustomOptionIdByTitle('Custom Option Field');
+        $optionId = $this->productHelper()->getCustomOptionIdByName('Custom Option Field');
         $this->addParameter('optionId', $optionId);
         $this->fillCheckbox('custom_options_default_value', 'No');
         $this->fillField('custom_options_general_title', 'Custom Option Field ' . $storeViewData['store_view_name']);
@@ -136,12 +146,12 @@ class Core_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage_Selen
      * @test
      * @TestlinkId TL-MAGE-5829
      */
-    public function importWithDifferentStoreViews(array $productData)
+    public function importWithDifferentStoreViews(array $product)
     {
         $this->navigate('export');
         $this->importExportHelper()->chooseExportOptions('Products');
         //set filter by sku
-        $this->importExportHelper()->setFilter(array('sku' => $productData['general_sku']));
+        $this->importExportHelper()->setFilter(array('sku' => $product['general_sku']));
         //Perform export
         $csv = $this->importExportHelper()->export();
         //Verify export result
@@ -162,10 +172,9 @@ class Core_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage_Selen
         $productSearch = $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        $productData['custom_options_data']['custom_options_field1'] =
-            $this->loadDataSet('Product', 'custom_options_field',
-                array('custom_options_general_title' => $csv[0]['_custom_option_title']));
-        $this->productHelper()->verifyProductInfo($productData);
+        $product['custom_options_data']['custom_options_field1'] = $this->loadDataSet('Product', 'custom_options_field',
+            array('custom_options_general_title' => $csv[0]['_custom_option_title']));
+        $this->productHelper()->verifyProductInfo($product);
     }
 
     /**
@@ -178,17 +187,17 @@ class Core_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage_Selen
     public function preconditionDifferentDropdownOptions()
     {
         $this->navigate('manage_products');
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
-        $productData['custom_options_data'] =
-            array('custom_options_dropdown' => $this->loadDataSet('Product', 'custom_options_dropdown'));
-        $this->productHelper()->createProduct($productData);
+        $product = $this->loadDataSet('Product', 'simple_product_required');
+        $product['custom_options_data'] = array(
+            'custom_options_dropdown' => $this->loadDataSet('Product', 'custom_options_dropdown')
+        );
+        $this->productHelper()->createProduct($product);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $productSearch =
-            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
-        $this->productHelper()->openProduct($productSearch);
-        $this->productHelper()->verifyProductInfo($productData);
-        return $productData;
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $product['general_sku']));
+        $this->productHelper()->openProduct($search);
+        $this->productHelper()->verifyProductInfo($product);
+        return $product;
     }
 
     /**
@@ -409,11 +418,12 @@ class Core_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage_Selen
         $productSearch = $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
         $this->productHelper()->openProduct($productSearch);
         $productData['custom_options_data']['custom_options_field'] =
-            $this->loadDataSet('Product', 'custom_options_field',
-                array('custom_options_general_is_required' => 'No', 'custom_options_price' => '0.00',
-                      'custom_options_general_sort_order'  => '0', 'custom_options_sku' => '',
-                      'custom_options_max_characters'      => '0',));
+            $this->loadDataSet('Product', 'custom_options_field', array(
+                'custom_options_general_is_required' => 'No', 'custom_options_price' => '0.00',
+                'custom_options_general_sort_order' => '0', 'custom_options_sku' => '',
+                'custom_options_max_characters' => '0'
+            ));
         $productData['custom_options_data'] = array_reverse($productData['custom_options_data']);
-        $this->productHelper()->verifyCustomOption($productData['custom_options_data']);
+        $this->productHelper()->verifyCustomOptions($productData['custom_options_data']);
     }
 }

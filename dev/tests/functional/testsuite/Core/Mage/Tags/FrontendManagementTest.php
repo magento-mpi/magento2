@@ -25,6 +25,10 @@ class Core_Mage_Tags_FrontendManagementTest extends Core_Mage_Tags_TagsFixtureAb
      */
     public function preconditionsForTests()
     {
+        $fallbackOrderHelper = $this->getConfigHelper()->getFixturesFallbackOrder();
+        if (end($fallbackOrderHelper) == 'enterprise') {
+            $this->markTestIncomplete('MAGETWO-1299');
+        }
         return parent::_preconditionsForAllTagsTests();
     }
     /**

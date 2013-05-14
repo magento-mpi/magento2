@@ -13,7 +13,6 @@
  */
 class Enterprise_Mage_Acl_BugVerifications_ReportsTest extends Mage_Selenium_TestCase
 {
-
     /**
      * <p>Bug Cover<p/>
      * <p>MAGETWO-2592: The button "Fetch Updates" is presented on PayPal Settlement Reports page
@@ -24,26 +23,27 @@ class Enterprise_Mage_Acl_BugVerifications_ReportsTest extends Mage_Selenium_Tes
      */
     public function settlementReportButtons()
     {
+        //Data
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
+            array('resource_acl' => 'reports-sales-paypal_settlement'));
+        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
+            array('role_name' => $roleSource['role_info_tab']['role_name']));
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password' => $testAdminUser['password']);
+        //Preconditions
         $this->loginAdminUser();
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
-            array('resource_acl' => 'pay_pal_settlement'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //Create admin user with specific role
         $this->navigate('manage_admin_users');
-        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
-            array('role_name' => $roleSource['role_info_tab']['role_name']));
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //Steps
-        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->navigate('paypal_reports');
+        $this->assertTrue($this->checkCurrentPage('paypal_reports'), $this->getParsedMessages());
         //verify that button "Fetch Updates" is not presented on PayPal Settlement Reports page.
-        if ($this->buttonIsPresent('fetch_updates')) {
-            $this->fail('This user does not have permission to view "Fetch Update" button');
-        }
+        $this->assertTrue($this->buttonIsPresent('fetch_updates'),
+            'This user does not have permission to view "Fetch Update" button');
     }
 }

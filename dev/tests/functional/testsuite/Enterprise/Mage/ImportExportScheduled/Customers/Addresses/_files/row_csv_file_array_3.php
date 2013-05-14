@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+/** @var $this Mage_Selenium_TestCase */
 return array(
     $this->loadDataSet('ImportExport', 'generic_address_csv', array(
             '_entity_id' => '',

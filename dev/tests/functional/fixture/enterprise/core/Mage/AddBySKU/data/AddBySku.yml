@@ -11,24 +11,24 @@
 ---
 add_by_sku_valid:
     sku: avr_simple
-    sku_qty: 1
+    qty: 1
 
 add_by_sku_invalid:
     sku: ar_simle
-    sku_qty: 1
+    qty: 1
 
 data_to_add_shop_cart_test_single:
     product_1:
         sku: %noValue%
-        sku_qty: 3
+        qty: 3
 
 data_to_add_shop_cart_test_multiple_invalid:
     product_1:
         sku: %validSkuProd1%
-        sku_qty: 1
+        qty: 1
     product_2:
         sku: invalid_sku_%randomize%
-        sku_qty: 1
+        qty: 1
 
 data_to_check_test_single:
     product_1:
@@ -58,13 +58,13 @@ data_to_check_test_multiple_invalid:
 data_to_add_shop_cart_test_remove_invalid:
     product_1:
         sku: invalid_sku_%randomize%
-        sku_qty: 1
+        qty: 1
     product_2:
         sku: invalid_sku_%randomize%
-        sku_qty: 2
+        qty: 2
     product_3:
         sku: invalid_sku_%randomize%
-        sku_qty: 3
+        qty: 3
 
 data_to_check_test_remove_invalid:
     product_1:

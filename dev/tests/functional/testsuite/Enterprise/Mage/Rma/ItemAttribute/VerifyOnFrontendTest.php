@@ -15,7 +15,6 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
@@ -23,6 +22,7 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('RMA/enable_rma_on_frontend');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
     }
 
     protected function assertPreConditions()
@@ -59,8 +59,7 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
         $this->navigate('manage_sales_orders');
         $this->orderShipmentHelper()->openOrderAndCreateShipment(array('filter_order_id' => $orderId));
 
-        return array( 'user'     => $user,
-                      'order_id' => $orderId);
+        return array('user' => $user, 'order_id' => $orderId);
     }
 
     /**
@@ -79,7 +78,6 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
         //Data
         $attrData = $this->loadDataSet('RMAItemsAttribute', $attributeType, array('show_on_frontend' => 'Yes'));
         $this->addParameter('orderId', $testData['order_id']);
-        $this->addParameter('param', '0');
         $this->addParameter('attributeCode', $attrData['attribute_code']);
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -90,6 +88,7 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
         $this->clickControl('link', 'view_order');
         $this->clickControl('link', 'return');
         //Verification
+        $this->addParameter('param', 0);
         $this->assertTrue($this->controlIsPresent('pageelement', 'custom_items_attribute'),
             'Custom RMA attribute must be present');
     }
@@ -120,7 +119,6 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
         //Data
         $attrData = $this->loadDataSet('RMAItemsAttribute', $attributeType, array('show_on_frontend' => 'No'));
         $this->addParameter('orderId', $testData['order_id']);
-        $this->addParameter('param', '0');
         $this->addParameter('attributeCode', $attrData['attribute_code']);
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -160,11 +158,10 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
     public function systemAttributeNotShowOnFrontend($attributeLabel, $attributeName, $testData)
     {
         //Data
-        $this->addParameter('attribute_admin_title', $attributeLabel);
+        $this->addParameter('elementTitle', $attributeLabel);
         $this->addParameter('orderId', $testData['order_id']);
-        $this->addParameter('param', '0');
         //Steps
-        $this->searchAndOpen(array ('filter_attribute_label' => $attributeLabel), 'rma_item_atribute_grid');
+        $this->searchAndOpen(array('filter_attribute_label' => $attributeLabel), 'rma_item_atribute_grid');
         $this->fillDropdown('show_on_frontend', 'No');
         $this->clickButton('save_attribute');
         $this->assertMessagePresent('success', 'success_saved_attribute');
@@ -179,7 +176,7 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
         $this->loginAdminUser();
         $this->navigate('manage_rma_items_attribute');
         $this->addParameter('elementTitle', $attributeLabel);
-        $this->searchAndOpen(array ('filter_attribute_label' => $attributeLabel), 'rma_item_atribute_grid');
+        $this->searchAndOpen(array('filter_attribute_label' => $attributeLabel), 'rma_item_atribute_grid');
         $this->fillDropdown('show_on_frontend', 'Yes');
         $this->clickButton('save_attribute');
         $this->assertMessagePresent('success', 'success_saved_attribute');

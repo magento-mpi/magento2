@@ -20,10 +20,6 @@ class Enterprise_Mage_ImportExport_Customer_Finance_ImportTest extends Mage_Sele
 {
     protected static $_customerData = array();
 
-    /**
-     * Precondition:
-     * Create 2 customers
-     */
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
@@ -31,16 +27,20 @@ class Enterprise_Mage_ImportExport_Customer_Finance_ImportTest extends Mage_Sele
         self::$_customerData = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer(self::$_customerData);
         $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
     }
-    /**
-     * Preconditions:
-     * Log in to Backend.
-     * Navigate to System -> Export
-     */
+
     protected function assertPreConditions()
     {
-        //logged in once for all tests
         $this->loginAdminUser();
+    }
+
+    protected function tearDownAfterTestClass()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
     }
 
     /**
@@ -70,26 +70,21 @@ class Enterprise_Mage_ImportExport_Customer_Finance_ImportTest extends Mage_Sele
         //Step 1
         $this->importExportHelper()->chooseImportOptions('Customer Finances', 'Add/Update Complex Data');
         //Generated CSV data
-        $userDataRowOne = $this->loadDataSet('ImportExport', 'generic_finance_csv',
-            array(
-                '_email' => $userDataOne['email'],
-                'store_credit' => '4321.0000',
-                'reward_points' => '1234'
-            ));
-        $userDataRowTwo = $this->loadDataSet('ImportExport', 'generic_finance_csv',
-            array(
-                '_email' => $userDataTwo['email'],
-                '_finance_website' => 'base',
-                'store_credit' => '4321.0000',
-                'reward_points' => '1234'
-            ));
+        $userDataRowOne = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
+            '_email' => $userDataOne['email'],
+            'store_credit' => '4321.0000',
+            'reward_points' => '1234'
+        ));
+        $userDataRowTwo = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
+            '_email' => $userDataTwo['email'],
+            '_finance_website' => 'base',
+            'store_credit' => '4321.0000',
+            'reward_points' => '1234'
+        ));
         //Build CSV array
-        $data = array(
-            $userDataRowOne,
-            $userDataRowTwo
-        );
+        $data = array($userDataRowOne, $userDataRowTwo);
         //Import file with default flow
-        $report = $this->importExportHelper()->import($data) ;
+        $report = $this->importExportHelper()->import($data);
         //Check import
         $this->assertArrayHasKey('import', $report, 'Import has been finished with issues:' .
             print_r($report, true) . print_r($data, true));
@@ -98,19 +93,13 @@ class Enterprise_Mage_ImportExport_Customer_Finance_ImportTest extends Mage_Sele
         //Check customers
         $this->navigate('manage_customers');
         //Check updated customer
-        $this->customerHelper()->openCustomer(
-            array(
-                'email' => $userDataOne['email']
-            ));
+        $this->customerHelper()->openCustomer(array('email' => $userDataOne['email']));
         $this->assertEquals('$4,321.00', $this->customerHelper()->getStoreCreditBalance(),
             'Adding customer credit score balance is failed');
         $this->assertEquals('1234', $this->customerHelper()->getRewardPointsBalance(),
             'Adding customer reward points balance is failed');
         $this->navigate('manage_customers');
-        $this->customerHelper()->openCustomer(
-            array(
-                'email' => $userDataTwo['email']
-            ));
+        $this->customerHelper()->openCustomer(array('email' => $userDataTwo['email']));
         $this->assertEquals('$4,321.00', $this->customerHelper()->getStoreCreditBalance(),
             'Updating customer credit score balance is failed');
         $this->assertEquals('1234', $this->customerHelper()->getRewardPointsBalance(),
@@ -162,27 +151,26 @@ class Enterprise_Mage_ImportExport_Customer_Finance_ImportTest extends Mage_Sele
     public function partialImportData()
     {
         $csvRows[0] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
-                '_email' => '<realEmail>',
-                'store_credit' => '100',
-                'reward_points' => '200',
-            )
-        );
+            '_email' => '<realEmail>',
+            'store_credit' => '100',
+            'reward_points' => '200',
+        ));
         $csvRows[1] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
-                '_email' => '<realEmail>',
-                'store_credit' => 'store_credit',
-                'reward_points' => 'reward_points',
-            )
-        );
+            '_email' => '<realEmail>',
+            'store_credit' => 'store_credit',
+            'reward_points' => 'reward_points',
+        ));
 
-        $validationMessage = array('validation' => array(
-            'error' => array(
-                "Invalid value for 'store_credit' in rows: 2",
-                "Invalid value for 'reward_points' in rows: 2"
-            ),
+        $validationMessage = array(
             'validation' => array(
-            "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import",
-            "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 2",
-            )
+                'error' => array(
+                    "Invalid value for 'store_credit' in rows: 2",
+                    "Invalid value for 'reward_points' in rows: 2"
+                ),
+                'validation' => array(
+                    "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import",
+                    "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 2",
+                )
             ),
             'import' => array(
                 'success' => array("Import successfully done."),
