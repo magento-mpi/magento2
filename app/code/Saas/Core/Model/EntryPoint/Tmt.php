@@ -35,7 +35,7 @@ class Saas_Core_Model_EntryPoint_Tmt extends Mage_Core_Model_EntryPointAbstract
     /**
      * Process TMT request
      */
-    public function processRequest()
+    protected function _processRequest()
     {
         $this->_objectManager->get('Mage_Core_Model_App')
             ->loadArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);

@@ -19,7 +19,7 @@
         },
 
         _init: function() {
-            if ("optionConfig" in this.options) {
+            if ("optionConfig" in this.options && "bundleConfig" in this.options) {
                 if ("defaultValues" in this.options.bundleConfig) {
                     for (var key in this.options.bundleConfig.defaultValues) {
                         if (this.options.optionConfig.options[key].isMulti) {

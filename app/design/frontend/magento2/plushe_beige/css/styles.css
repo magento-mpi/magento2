@@ -2385,9 +2385,10 @@ div.mage-error {
 .cart.summary {
   margin-top: 33px;
   background: #f8f8f8;
-  float: right;
+  display: inline-block;
   width: 290px;
   padding: 20px;
+  margin-left:10px;
 }
 .cart.summary .summary.title {
   font-size: 20px;
@@ -2396,6 +2397,20 @@ div.mage-error {
   border-bottom: 3px solid #c7c7c7;
   padding-bottom: 15px;
 }
+.cart > .summary.fixed, .cart.container > .summary > .container.fixed {
+    position: fixed;
+    top: 0;
+}
+.cart.container > .summary.bottom {
+    vertical-align: bottom;
+    bottom:0;
+}
+
+.cart.container > .summary.sticky{
+    position:fixed;
+    display:inline-block !important
+}
+
 .cart.summary .block {
   margin-bottom: 0;
   border-bottom: 1px solid #c7c7c7;
