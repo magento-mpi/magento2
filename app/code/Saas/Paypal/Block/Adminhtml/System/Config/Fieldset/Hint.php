@@ -1,22 +1,6 @@
 <?php
 /**
- * Magento Enterprise Edition
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Magento Enterprise Edition License
- * that is bundled with this package in the file LICENSE_EE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://www.magentocommerce.com/license/enterprise-edition
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Saas
  * @package     Saas_Paypal
@@ -24,10 +8,14 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
 /**
  * Renderer for PayPal banner in System Configuration
- *
  * @author      Magento Saas Team <saas@magentocommerce.com>
+ * @method Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint setHelpUrl(string $helpUrl)
+ * @method string getHelpUrl()
+ * @method Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint setHtmlId(string $htmlId)
+ * @method string getHtmlId()
  */
 class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
     extends Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
@@ -75,19 +63,20 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
 
             // check store-view disabling Express Checkout
             document.observe("dom:loaded", function() {
-                var ecButton = $$(".pp-method-express button.button")[0];
-                var ecEnabler = $$(".paypal-ec-enabler.fd-enabled")[0];
-                var ecBoardingEnabler = $$(".paypal-ec-boarding-enabler.fd-enabled")[0];
-                if (typeof ecButton == "undefined" || (typeof ecEnabler != "undefined" && typeof ecBoardingEnabler != "undefined")) {
-                    return;
-                }
-                var $ecButton = $(ecButton);
-                $$(".with-button button.button").each(function(configureButton) {
-                    if (configureButton != ecButton && !configureButton.disabled
-                        && !$(configureButton).hasClassName("paypal-ec-separate")
-                    ) {
-                        togglePaypalSolutionConfigureButton(ecButton, false);
+                $$(".pp-method-express button.button").each(function(ecButton){
+                    var ecEnabler = $$(".paypal-ec-enabler.fd-enabled")[0];
+                    var ecBoardingEnabler = $$(".paypal-ec-boarding-enabler.fd-enabled")[0];
+                    if (typeof ecButton == "undefined" || (typeof ecEnabler != "undefined" && typeof ecBoardingEnabler != "undefined")) {
+                        return;
                     }
+                    var $ecButton = $(ecButton);
+                    $$(".with-button button.button").each(function(configureButton) {
+                        if (configureButton != ecButton && !configureButton.disabled
+                            && !$(configureButton).hasClassName("paypal-ec-separate")
+                        ) {
+                            togglePaypalSolutionConfigureButton(ecButton, false);
+                        }
+                    });
                 });
             });
         ';

@@ -12,30 +12,16 @@
         </Saas_Paypal>
     </modules>
     <global>
-        <models>
-            <paypal>
-                <rewrite>
-                    <config>Saas_Paypal_Model_Config</config>
-                    <express>Saas_Paypal_Model_Express</express>
-                    <ipn>Saas_Paypal_Model_Ipn</ipn>
-                    <method_agreement>Saas_Paypal_Model_Method_Agreement</method_agreement>
-                </rewrite>
-            </paypal>
-            <paypaluk>
-                <rewrite>
-                    <express>Saas_Paypal_Model_ExpressUk</express>
-                </rewrite>
-            </paypaluk>
-        </models>
-        <blocks>
-            <paypal>
-                <rewrite>
-                    <logo>Saas_Paypal_Block_Logo</logo>
-                    <!--<adminhtml_system_config_fieldset_global>Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Global</adminhtml_system_config_fieldset_global>-->
-                    <adminhtml_system_config_fieldset_location>Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location</adminhtml_system_config_fieldset_location>
-                </rewrite>
-            </paypal>
-        </blocks>
+        <di>
+            <preferences>
+                <Mage_Paypal_Model_Config>Saas_Paypal_Model_Config</Mage_Paypal_Model_Config>
+                <Mage_Paypal_Model_Express>Saas_Paypal_Model_Express</Mage_Paypal_Model_Express>
+                <Mage_Paypal_Model_Ipn>Saas_Paypal_Model_Ipn</Mage_Paypal_Model_Ipn>
+                <Mage_Paypal_Model_Method_Agreement>Saas_Paypal_Model_Method_Agreement</Mage_Paypal_Model_Method_Agreement>
+                <Mage_PaypalUk_Model_Express>Saas_Paypal_Model_ExpressUk</Mage_PaypalUk_Model_Express>
+                <Mage_Paypal_Block_Logo>Saas_Paypal_Block_Logo</Mage_Paypal_Block_Logo>
+            </preferences>
+        </di>
         <resources>
             <saas_paypal_setup>
                 <setup>

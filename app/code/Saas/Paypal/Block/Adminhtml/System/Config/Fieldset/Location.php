@@ -409,29 +409,23 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                     }
                 });
 
-/*                var originalFormValidation = configForm.validator.options.onFormValidate;
-                configForm.validator.options.onFormValidate = function(result, form) {
-                    originalFormValidation(result, form);
-                    if (result) {
-                        var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler.fd-enabled")[0];
-                        if (typeof ecPayflowEnabler == "undefined") {
-                            return;
-                        }
-                        var ecPayflowScopeElement = adminSystemConfig.getScopeElement(ecPayflowEnabler);
-                        if ((typeof ecPayflowScopeElement == "undefined" || !ecPayflowScopeElement.checked)
-                            && ecPayflowEnabler.value == 1
-                        ) {
-                            $$(".paypal-ec-enabler.fd-enabled").each(function(ecEnabler) {
-                                ecEnabler.value = 0;
-                                fireEvent(ecEnabler, "change");
-                            });
-                            $$(".paypal-ec-boarding-enabler.fd-enabled").each(function(ecEnabler) {
-                                ecEnabler.value = 0;
-                                fireEvent(ecEnabler, "change");
-                            });
-                        }
+                configForm.on(\'afterValidate\', function() {
+                    var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler.fd-enabled")[0];
+                    if (typeof ecPayflowEnabler == "undefined") {
+                        return;
                     }
-                }*/
+                    var ecPayflowScopeElement = adminSystemConfig.getScopeElement(ecPayflowEnabler);
+                    if ((typeof ecPayflowScopeElement == "undefined" || !ecPayflowScopeElement.checked)
+                        && ecPayflowEnabler.value == 1
+                    ) {
+                        $$(".paypal-ec-enabler").each(function(ecEnabler) {
+                            ecEnabler.value = 0;
+                        });
+                        $$(".paypal-ec-boarding-enabler.fd-enabled").each(function(ecEnabler) {
+                            ecEnabler.value = 0;
+                        });
+                    }
+                });
             });
         ';
         return parent::_getExtraJs($element)
