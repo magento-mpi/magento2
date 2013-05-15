@@ -1319,19 +1319,17 @@ a:visited:hover {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  padding: 5px 10px;
   height: 27px;
-  line-height: 27px;
+  line-height: 13px;
   vertical-align: middle;
   width: 1px;
   height: 25px;
   line-height: 25px;
+  padding: 0 10px;
   white-space: nowrap;
   display: inline-block;
   display: table-cell;
-}
-.no-borderradius .block.add.review .fieldset > .field:not(.ratings) .addon .addbefore,
-.no-borderradius .block.add.review .fieldset > .field:not(.ratings) .addon .addafter {
-  padding-top: 8px;
 }
 .control .block.add.review .fieldset > .field:not(.ratings) .addon .addbefore,
 .control .block.add.review .fieldset > .field:not(.ratings) .addon .addafter {
@@ -1759,9 +1757,6 @@ textarea {
   line-height: 1.2;
   min-height: 4.8em;
 }
-.no-borderradius textarea {
-  padding-top: 8px;
-}
 .control textarea {
   width: 100%;
 }
@@ -1786,12 +1781,9 @@ input[type="text"] {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  padding: 5px 10px;
   height: 27px;
-  line-height: 27px;
-}
-.no-borderradius input[type="password"],
-.no-borderradius input[type="text"] {
-  padding-top: 8px;
+  line-height: 13px;
 }
 .control input[type="password"],
 .control input[type="text"] {
@@ -1820,9 +1812,6 @@ select {
   background-clip: padding-box;
   font-family: sans-serif;
   padding: 5px;
-}
-.no-borderradius select {
-  padding-top: 8px;
 }
 .control select {
   width: 100%;
@@ -5901,19 +5890,17 @@ select:disabled {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  padding: 5px 10px;
   height: 27px;
-  line-height: 27px;
+  line-height: 13px;
   vertical-align: middle;
   width: 1px;
   height: 25px;
   line-height: 25px;
+  padding: 0 10px;
   white-space: nowrap;
   display: inline-block;
   display: table-cell;
-}
-.no-borderradius .fieldset > .field .addon .addbefore,
-.no-borderradius .fieldset > .field .addon .addafter {
-  padding-top: 8px;
 }
 .control .fieldset > .field .addon .addbefore,
 .control .fieldset > .field .addon .addafter {
@@ -6139,19 +6126,17 @@ select:disabled {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  padding: 5px 10px;
   height: 27px;
-  line-height: 27px;
+  line-height: 13px;
   vertical-align: middle;
   width: 1px;
   height: 25px;
   line-height: 25px;
+  padding: 0 10px;
   white-space: nowrap;
   display: inline-block;
   display: table-cell;
-}
-.no-borderradius .product.main.info .product.options.wrapper .field .addon .addbefore,
-.no-borderradius .product.main.info .product.options.wrapper .field .addon .addafter {
-  padding-top: 8px;
 }
 .control .product.main.info .product.options.wrapper .field .addon .addbefore,
 .control .product.main.info .product.options.wrapper .field .addon .addafter {
@@ -7600,37 +7585,17 @@ img[align="right"] {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  padding: 5px 10px;
   height: 27px;
-  line-height: 27px;
+  line-height: 13px;
   vertical-align: middle;
   width: 1px;
   height: 25px;
   line-height: 25px;
+  padding: 0 10px;
   white-space: nowrap;
   display: inline-block;
   display: table-cell;
-}
-.no-borderradius .form.address.edit .fieldset > .field .addon .addbefore,
-.no-borderradius .form.edit.account .fieldset > .field .addon .addbefore,
-.no-borderradius .form.search.advanced .fieldset > .field .addon .addbefore,
-.no-borderradius .form.orders.search .fieldset > .field .addon .addbefore,
-.no-borderradius .form.contact .fieldset > .field .addon .addbefore,
-.no-borderradius .form.password.forget .fieldset > .field .addon .addbefore,
-.no-borderradius .form.create.account .fieldset > .field .addon .addbefore,
-.no-borderradius .form.newsletter.manage .fieldset > .field .addon .addbefore,
-.no-borderradius .form.giftcard.redeem .fieldset > .field .addon .addbefore,
-.no-borderradius .form.password.reset .fieldset > .field .addon .addbefore,
-.no-borderradius .form.address.edit .fieldset > .field .addon .addafter,
-.no-borderradius .form.edit.account .fieldset > .field .addon .addafter,
-.no-borderradius .form.search.advanced .fieldset > .field .addon .addafter,
-.no-borderradius .form.orders.search .fieldset > .field .addon .addafter,
-.no-borderradius .form.contact .fieldset > .field .addon .addafter,
-.no-borderradius .form.password.forget .fieldset > .field .addon .addafter,
-.no-borderradius .form.create.account .fieldset > .field .addon .addafter,
-.no-borderradius .form.newsletter.manage .fieldset > .field .addon .addafter,
-.no-borderradius .form.giftcard.redeem .fieldset > .field .addon .addafter,
-.no-borderradius .form.password.reset .fieldset > .field .addon .addafter {
-  padding-top: 8px;
 }
 .control .form.address.edit .fieldset > .field .addon .addbefore,
 .control .form.edit.account .fieldset > .field .addon .addbefore,
@@ -8073,6 +8038,12 @@ img[align="right"] {
 }
 .form.search.advanced .fieldset {
   width: 550px;
+}
+.form.search.advanced .fieldset .range.price .field {
+  width: 90px;
+}
+.form.search.advanced .fieldset .range.price .with-addon {
+  width: 125px;
 }
 .form.newsletter.manage .field.choice,
 .form.address.edit .field.choice.set,
