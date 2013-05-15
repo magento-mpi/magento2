@@ -21,7 +21,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content extends Mage_
     protected function _construct()
     {
         parent::_construct();
-        $this->_headerText = $this->__('CSS Editor ') . $this->__($this->helper('Mage_Theme_Helper_Storage')->getStorageTypeName());
         $this->_removeButton('back')->_removeButton('edit');
     }
 
@@ -60,6 +59,16 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content extends Mage_
         ));
 
         return $this->helper('Mage_Core_Helper_Data')->jsonEncode($setupObject);
+    }
+
+    /**
+     * Get header text
+     *
+     * @return string
+     */
+    public function getHeaderText()
+    {
+        return $this->__('CSS Editor ') . $this->__($this->helper('Mage_Theme_Helper_Storage')->getStorageTypeName());
     }
 
     /**
