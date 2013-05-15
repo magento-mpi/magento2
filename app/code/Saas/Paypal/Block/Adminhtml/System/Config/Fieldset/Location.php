@@ -409,7 +409,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                     }
                 });
 
-                configForm.on(\'afterValidate\', function() {
+/*                configForm.on(\'afterValidate\', function() {
                     var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler.fd-enabled")[0];
                     if (typeof ecPayflowEnabler == "undefined") {
                         return;
@@ -425,7 +425,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                             ecEnabler.value = 0;
                         });
                     }
-                });
+                });*/
             });
         ';
         return parent::_getExtraJs($element)

@@ -97,7 +97,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
             . ' class="button action-configure'
             . (empty($groupConfig['paypal_ec_separate']) ? '' : ' paypal-ec-separate')
             . $disabledClassString . '" id="' . $htmlId
-            . '-button" onclick="paypalToggleSolution.call(this, \'' . $htmlId . "', '"
+            . '-hea" onclick="paypalToggleSolution.call(this, \'' . $htmlId . "', '"
             . $this->getUrl('*/*/state') . '\'); return false;"><span class="state-closed">'
             . $this->__('Configure') . '</span><span class="state-opened">'
             . $this->__('Close') . '</span></button>';
