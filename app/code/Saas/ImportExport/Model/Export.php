@@ -1,162 +1,216 @@
 <?php
 /**
- * Export model
+ * Export model Process Manager
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_ImportExport_Model_Export extends Mage_ImportExport_Model_Export
+class Saas_ImportExport_Model_Export extends Varien_Object
 {
     /**
-     * Return true if it is last task
-     *
-     * @return boolean
+     * @var Saas_ImportExport_Model_Export_EntityInterface
      */
-    public function getIsLast()
-    {
-        return $this->_getEntityAdapter()->getIsLast();
+    protected $_exportEntity;
+
+    /**
+     * @var Saas_ImportExport_Model_Export_Adapter_Abstract
+     */
+    protected $_storageAdapter;
+
+    /**
+     * @var Saas_ImportExport_Model_Export_EntityFactory
+     */
+    protected $_exportEntityFactory;
+
+    /**
+     * @var Saas_ImportExport_Model_Export_StorageFactory
+     */
+    protected $_storageAdapterFactory;
+
+    /**
+     * @var array
+     */
+    protected $_params = array();
+    /**
+     * @var Saas_ImportExport_Helper_Export_Config
+     */
+    protected $_configHelper;
+
+    /**
+     * @var Saas_ImportExport_Model_Flag
+     */
+    protected $_flag;
+
+    /**
+     * @var bool
+     */
+    protected $_finishedFlag = false;
+
+    /**
+     * Constructor
+     *
+     * @param Saas_ImportExport_Model_Export_EntityFactory $entityFactory
+     * @param Saas_ImportExport_Model_Export_StorageFactory $storageFactory
+     * @param Saas_ImportExport_Helper_Export_Config $configHelper
+     * @param Saas_ImportExport_Model_FlagFactory $flagFactory
+     * @param array $data
+     */
+    public function __construct(
+        Saas_ImportExport_Model_Export_EntityFactory $entityFactory,
+        Saas_ImportExport_Model_Export_StorageFactory $storageFactory,
+        Saas_ImportExport_Helper_Export_Config $configHelper,
+        Saas_ImportExport_Model_FlagFactory $flagFactory,
+        array $data = array()
+    ) {
+        parent::__construct($data);
+        $this->_exportEntityFactory = $entityFactory;
+        $this->_storageAdapterFactory = $storageFactory;
+        $this->_configHelper = $configHelper;
+        $this->_flag = $flagFactory->create();
+        $this->_flag->loadSelf();
     }
 
     /**
-     * Retrieve count tasks for worker
+     * Is export process totally finished
+     *
+     * @return bool
+     */
+    public function getIsFinished()
+    {
+        return $this->_finishedFlag;
+    }
+
+    /**
+     * Export process
+     *
+     * @param array $params
+     * @return null
+     */
+    public function export($params)
+    {
+        $this->_initParams($params);
+        $this->_paginateCollection();
+        if ($this->_isCanExport()) {
+            $this->_saveHeaderColumns();
+            $this->_exportEntity->exportCollection();
+            $this->_saveExportState();
+        } else {
+            $this->_setIsFinished();
+        }
+    }
+
+    /**
+     * Init parameters needed for export
+     *
+     * @param $params
+     */
+    protected function _initParams($params)
+    {
+        try {
+            $this->_params = $params;
+            $this->_storageAdapter = $this->_storageAdapterFactory->create(
+                $this->_getStorageFormat(),
+                $this->_configHelper->getStorageFilePath($this->_getEntityType())
+            );
+            $this->_exportEntity = $this->_exportEntityFactory->create($this->_getEntityType(), $params);
+            $this->_exportEntity->setWriter($this->_storageAdapter);
+        } catch (Exception $e) {
+            $this->_setIsFinished();
+            Mage::logException($e);
+        }
+    }
+
+    /**
+     * Limit collection
+     */
+    protected function _paginateCollection()
+    {
+        $this->_exportEntity
+            ->getCollection()
+            ->setCurPage($this->_getCurrentPage())
+            ->setPageSize($this->_configHelper->getItemsPerPage($this->_getEntityType()));
+    }
+
+    /**
+     * Is can start export
+     *
+     * @return bool
+     */
+    protected function _isCanExport()
+    {
+        if (!$this->_exportEntity->getCollection()->getSize()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Save header columns to storage
+     */
+    protected function _saveHeaderColumns()
+    {
+        $headerCols = $this->_exportEntity->getHeaderCols();
+        if ($this->_getCurrentPage() == 1) {
+            $this->_flag->saveAsProcessing();
+            $this->_storageAdapter->setHeaderCols($headerCols);
+        } else {
+            $this->_storageAdapter->setHeaderColsData($headerCols);
+        }
+    }
+
+    /**
+     * Save export state
+     */
+    protected function _saveExportState()
+    {
+        $countPages = $this->_exportEntity->getCollection()->getLastPageNumber();
+        if ($this->_getCurrentPage() >= $countPages) {
+            $this->_setIsFinished();
+            $this->_flag->saveAsFinished();
+            $exportFile = $this->_storageAdapter->renameTemporaryFile();
+            $this->_flag->saveExportFilename($exportFile);
+        } else {
+            $this->_flag->saveStatusMessage(ceil($this->_getCurrentPage() * 100 / $countPages) . '%');
+        }
+    }
+
+    /**
+     * Get export entity type
+     *
+     * @return string
+     */
+    protected function _getEntityType()
+    {
+        return isset($this->_params['entity']) ? $this->_params['entity'] : '';
+    }
+
+    /**
+     * Get export storage file format
+     *
+     * @return string
+     */
+    protected function _getStorageFormat()
+    {
+        return isset($this->_params['file_format']) ? $this->_params['file_format'] : '';
+    }
+
+    /**
+     * Get current page
      *
      * @return int
      */
-    public function getCountPages()
+    protected function _getCurrentPage()
     {
-        return $this->_getEntityAdapter()->getCountPages();
+        return isset($this->_params['page']) ? $this->_params['page'] : 1;
     }
 
     /**
-     * Retrieve export files destination dir
-     *
-     * @return string
+     * Set finished flag as true
      */
-    protected function getDestinationDir()
+    protected function _setIsFinished()
     {
-        return Mage::getBaseDir('media') . DS . 'importexport' . DS . 'export';
-    }
-
-    /**
-     * Retrieve export file destination
-     *
-     * @return string
-     */
-    public function getDestination()
-    {
-        return $this->getDestinationDir() . DS . $this->getEntity();
-    }
-
-    /**
-     * Export data.
-     *
-     * @throws Mage_Core_Exception
-     * @return string
-     */
-    public function export()
-    {
-        try {
-            $writer = $this->_getWriter();
-            $page = $this->_getData('page');
-            if ($page == 1) {
-                $truncateResult = $writer->truncate();
-                if ($truncateResult === false) {
-                    $this->_getEntityAdapter()->setIsLast();
-                    return $this;
-                }
-            }
-            $this->addLogComment(Mage::helper('Mage_ImportExport_Helper_Data')
-                ->__('Begin export page %s of %s', $page, $this->getEntity()));
-            $this->_getEntityAdapter()
-                ->setCurrentPage($page)
-                ->setWriter($writer)
-                ->export();
-            if ($this->getIsLast()) {
-                $writer->renameTemporaryFile();
-            }
-        } catch (Exception $e) {
-            Mage::logException($e);
-            $this->_getEntityAdapter()->setIsLast();
-            if ($writer) {
-                //Stop export and try to remove temporary file if we have error
-                $writer->truncate();
-            }
-        }
-        unset($writer);
-        return $this;
-    }
-
-    /**
-     * Retrieve last export file information or false if not exists
-     *
-     * @return bool|Varien_Object
-     */
-    public function getLastExportInfo()
-    {
-        $exportFiles = glob('{' . $this->getDestinationDir() .'/*.csv' . '}', GLOB_BRACE);
-        if (!count($exportFiles)) {
-            return false;
-        }
-        foreach ($exportFiles as &$exportFile) {
-            $path = $exportFile;
-            $timestamp = filemtime($path);
-            $dateSuffix   = date('Ymd_His', $timestamp);
-            $downloadName = preg_replace('/^(.+)(\.[^.]+)$/', '\1_' . $dateSuffix . '\2', basename($path));
-            $exportFile = new Varien_Object(array(
-                'path' => $path,
-                'download_name' => $downloadName,
-                'size' => filesize($path),
-                'timestamp' => $timestamp,
-            ));
-        }
-        $lastFile = reset($exportFiles);
-        return $lastFile;
-    }
-
-    /**
-     * Remove last export file
-     *
-     * @return Saas_ImportExport_Model_Export
-     */
-    public function removeLastExportFile()
-    {
-        $exportFiles = glob('{' . $this->getDestinationDir() . '/*}', GLOB_BRACE);
-        foreach ($exportFiles as $exportFile) {
-            if (!unlink($exportFile)) {
-                Mage::throwException(Mage::helper('Saas_ImportExport_Helper_Data')->__('File has not been removed'));
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Get writer object.
-     *
-     * @throws Mage_Core_Exception
-     * @return Saas_ImportExport_Model_Export_Adapter_Abstract
-     */
-    protected function _getWriter()
-    {
-        if (!$this->_writer) {
-            $validWriters = Mage_ImportExport_Model_Config::getModels(self::CONFIG_KEY_FORMATS);
-
-            if (isset($validWriters[$this->getFileFormat()])) {
-                try {
-                    $arguments = array('destination' => $this->getDestination());
-                    $this->_writer = Mage::getModel($validWriters[$this->getFileFormat()]['model'], $arguments);
-
-                } catch (Exception $e) {
-                    Mage::logException($e);
-                    Mage::throwException(
-                        Mage::helper('Saas_ImportExport_Helper_Data')->__('Invalid entity model')
-                    );
-                }
-            } else {
-                Mage::throwException(Mage::helper('Saas_ImportExport_Helper_Data')->__('Invalid file format'));
-            }
-        }
-        return $this->_writer;
+        $this->_finishedFlag = true;
     }
 }

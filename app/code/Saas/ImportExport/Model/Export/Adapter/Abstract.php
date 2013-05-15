@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 abstract class Saas_ImportExport_Model_Export_Adapter_Abstract
+    implements Mage_ImportExport_Model_Export_Adapter_Interface
 {
     /**
      * Destination file path.
@@ -24,28 +25,24 @@ abstract class Saas_ImportExport_Model_Export_Adapter_Abstract
     protected $_headerCols = null;
 
     /**
+     * @var Saas_ImportExport_Helper_Data
+     */
+    protected $_helper;
+    /**
      * Adapter object constructor.
      *
-     * @param string $destination OPTIONAL Destination file path.
-     * @param bool $createPath Create destination path
+     * @param string $destination
+     * @param Saas_ImportExport_Helper_Data $helper
+     * @param bool $createPath
      * @throws Exception
      */
-    final public function __construct($destination, $createPath = true)
+    final public function __construct($destination, Saas_ImportExport_Helper_Data $helper, $createPath = true)
     {
-        if ($destination && $createPath) {
+        if ($createPath) {
             $lib = new Varien_Io_File();
-            $lib->setAllowCreateFolders(true)
-                ->createDestinationDir(dirname($destination));
+            $lib->setAllowCreateFolders(true)->createDestinationDir(dirname($destination));
         }
-
-        /** @var $helper Mage_ImportExport_Helper_Data */
-        $helper = Mage::helper('Saas_ImportExport_Helper_Data');
-        if (!$destination) {
-            $destination = tempnam(sys_get_temp_dir(), 'importexport_');
-        }
-        if (!is_string($destination)) {
-            Mage::throwException($helper->__('Destination file path must be a string'));
-        }
+        $this->_helper = $helper;
         $pathinfo = pathinfo($destination);
 
         if (empty($pathinfo['dirname']) || !is_writable($pathinfo['dirname'])) {
@@ -55,7 +52,6 @@ abstract class Saas_ImportExport_Model_Export_Adapter_Abstract
             Mage::throwException($helper->__('Destination file is not writable'));
         }
         $this->_destination = $destination;
-
         $this->_init();
     }
 
@@ -65,7 +61,7 @@ abstract class Saas_ImportExport_Model_Export_Adapter_Abstract
      * @param array $rowData
      * @return Mage_ImportExport_Model_Export_Adapter_Abstract
      */
-    abstract public function writeRow(array $rowData);
+    abstract public function writeRow($rowData);
 
     /**
      * Truncate destination dir
@@ -137,20 +133,20 @@ abstract class Saas_ImportExport_Model_Export_Adapter_Abstract
     }
 
     /**
-     * Rename temporary file if it is last task
+     * Rename temporary file and return path to them
      *
      * @throws Exception
-     * @return Saas_ImportExport_Model_Export_Adapter_Abstract
+     * @return string
      */
     public function renameTemporaryFile()
     {
         $destination = $this->_destination . '.' . $this->getFileExtension();
         if (!rename($this->_destination, $destination)) {
             Mage::throwException(
-                Mage::helper('Saas_ImportExport_Helper_Data')->__('Temporary export file has not been renamed')
+                $this->_helper->__('Temporary export file has not been renamed')
             );
         }
-        return $this;
+        return $destination;
     }
 
     /**

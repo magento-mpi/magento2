@@ -79,7 +79,7 @@ class Saas_ImportExport_Model_Export_Adapter_Csv extends Saas_ImportExport_Model
      * @throws Exception
      * @return Mage_ImportExport_Model_Export_Adapter_Abstract
      */
-    public function writeRow(array $rowData)
+    public function writeRow($rowData)
     {
         if (null === $this->_headerCols) {
             $this->setHeaderCols(array_keys($rowData));
@@ -105,7 +105,7 @@ class Saas_ImportExport_Model_Export_Adapter_Csv extends Saas_ImportExport_Model
     protected function _setHeaderCols(array $headerColumns, $writeToFile = true)
     {
         if (null !== $this->_headerCols && $writeToFile) {
-            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Header column names already set'));
+            return $this;
         }
         if ($headerColumns) {
             foreach ($headerColumns as $columnName) {
@@ -122,10 +122,8 @@ class Saas_ImportExport_Model_Export_Adapter_Csv extends Saas_ImportExport_Model
         }
         return $this;
     }
+
     /**
-     *
-     * Truncate export-entity files
-     *
      * Truncate export-entity files
      *
      * @return boolean
@@ -136,7 +134,6 @@ class Saas_ImportExport_Model_Export_Adapter_Csv extends Saas_ImportExport_Model
             if (is_resource($this->_fileHandler)) {
                 fclose($this->_fileHandler);
             }
-
             //Remove previous exports
             $exportFiles = glob('{' . dirname($this->_destination) . DS . '*' . '}', GLOB_BRACE);
             foreach ($exportFiles as $exportFile) {

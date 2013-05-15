@@ -15,9 +15,9 @@ class Saas_ImportExport_Helper_Export extends Mage_Core_Helper_Abstract
     protected $_flag;
 
     /**
-     * @var Saas_ImportExport_Model_Export
+     * @var Saas_ImportExport_Helper_Export_Config
      */
-    protected $_exportModel;
+    protected $_configHelper;
 
     /**
      * @var bool|Varien_Object
@@ -27,16 +27,16 @@ class Saas_ImportExport_Helper_Export extends Mage_Core_Helper_Abstract
     /**
      * @param Mage_Core_Helper_Context $context
      * @param Saas_ImportExport_Model_FlagFactory $flagFactory
-     * @param Saas_ImportExport_Model_Export $exportModel
+     * @param Saas_ImportExport_Helper_Export_Config $configHelper
      */
     public function __construct(
         Mage_Core_Helper_Context $context,
         Saas_ImportExport_Model_FlagFactory $flagFactory,
-        Saas_ImportExport_Model_Export $exportModel
+        Saas_ImportExport_Helper_Export_Config $configHelper
     ) {
         $this->_flag = $flagFactory->create();
         $this->_flag->loadSelf();
-        $this->_exportModel = $exportModel;
+        $this->_configHelper = $configHelper;
         parent::__construct($context);
     }
 
@@ -103,6 +103,17 @@ class Saas_ImportExport_Helper_Export extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Mark export task as notified
+     *
+     * @return Saas_ImportExport_Helper_Export
+     */
+    public function setTaskAsNotified()
+    {
+        $this->_flag->saveAsNotified();
+        return $this;
+    }
+
+    /**
      * Remove task info
      *
      * @return Saas_ImportExport_Helper_Export
@@ -134,6 +145,18 @@ class Saas_ImportExport_Helper_Export extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Get export file mime type
+     *
+     * @return string
+     */
+    public function getFileMimeType()
+    {
+        return $this->_configHelper->getMimeTypeByExtension(
+            $this->isFileExist() ? $this->_getFile()->getExtension() : ''
+        );
+    }
+
+    /**
      * Get absolute path for export file
      *
      * @return string
@@ -154,6 +177,21 @@ class Saas_ImportExport_Helper_Export extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Remove last export file
+     *
+     * @return Saas_ImportExport_Helper_Export
+     */
+    public function removeLastExportFile()
+    {
+        $exportFile = $this->_flag->getExportFilename();
+        if ($exportFile && file_exists($exportFile) && !unlink($exportFile)) {
+            Mage::throwException($this->__('File has not been removed'));
+        }
+        $this->removeTask();
+        return $this;
+    }
+
+    /**
      * Retrieve last export file information or false if not exists
      *
      * @return bool|Varien_Object
@@ -161,7 +199,19 @@ class Saas_ImportExport_Helper_Export extends Mage_Core_Helper_Abstract
     protected function _getFile()
     {
         if (is_null($this->_file)) {
-            $this->_file = $this->_exportModel->getLastExportInfo();
+            $exportFile = $this->_flag->getExportFilename();
+            if (!$exportFile || !file_exists($exportFile)) {
+                return false;
+            }
+            $fileInfo = pathinfo($exportFile);
+            $dateSuffix = date('_Ymd_His', filemtime($exportFile));
+            $extension = $fileInfo['extension'];
+            $this->_file = new Varien_Object(array(
+                'path' => $exportFile,
+                'download_name' => $fileInfo['filename'] . $dateSuffix . '.' . $extension,
+                'size' => filesize($exportFile),
+                'extension' => $extension
+            ));
         }
         return $this->_file;
     }

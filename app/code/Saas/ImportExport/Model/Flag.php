@@ -9,10 +9,15 @@
  */
 class Saas_ImportExport_Model_Flag extends Mage_Core_Model_Flag
 {
+    /**#@+
+     * State flags
+     */
     const STATE_QUEUED     = 1;
     const STATE_PROCESSING = 2;
     const STATE_FINISHED   = 3;
     const STATE_NOTIFIED   = 4;
+    /**#@-*/
+
     /**
      * Flag max lifetime after last update
      */
@@ -73,6 +78,7 @@ class Saas_ImportExport_Model_Flag extends Mage_Core_Model_Flag
      */
     public function saveAsQueued()
     {
+        $this->unsetData();
         $this->setState(self::STATE_QUEUED)->save();
     }
 
@@ -98,6 +104,37 @@ class Saas_ImportExport_Model_Flag extends Mage_Core_Model_Flag
     public function saveAsNotified()
     {
         $this->setState(self::STATE_NOTIFIED)->save();
+    }
+
+    /**
+     * Save status message
+     *
+     * @param string $message
+     */
+    public function saveStatusMessage($message)
+    {
+        $this->setFlagData(array('message' => $message))->save();
+    }
+
+    /**
+     * Save export file name
+     *
+     * @param string $filename
+     */
+    public function saveExportFilename($filename)
+    {
+        $this->setFlagData(array('file' => $filename))->save();
+    }
+
+    /**
+     * Get export file name
+     *
+     * @return string|null
+     */
+    public function getExportFilename()
+    {
+        $flagData = $this->getFlagData();
+        return $flagData && isset($flagData['file']) ? $flagData['file'] : null;
     }
 
     /**

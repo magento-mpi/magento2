@@ -6,157 +6,65 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- * @method Saas_ImportExport_Model_Export_Adapter_Abstract getWriter getWriter()
  */
-class Saas_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Model_Export_Entity_Product
-    implements Saas_ImportExport_Model_Export_Entity_Interface
+class Saas_ImportExport_Model_Export_Entity_Product  extends Mage_ImportExport_Model_Export_Entity_Product
+    implements Saas_ImportExport_Model_Export_EntityInterface
 {
     /**
-     * Experimental count entities for one task
-     *
-     * @var int
-     */
-    protected $_countPerPage = 100;
-
-    /**
-     * Export complete flag
+     * Collection flag status
      *
      * @var bool
      */
-    protected $_isLast = true;
+    protected $_isCollectionInitialized = false;
 
     /**
-     * @var int
+     * Customer collection
+     *
+     * @var Mage_Catalog_Model_Resource_Product_Collection
      */
-    protected $_page = 1;
+    protected $_entityCollection;
 
     /**
      * Product entity export constructor
      * @link https://jira.corp.x.com/browse/MAGETWO-9687
      */
-    public function __construct()
+    public function __construct(Mage_Catalog_Model_Resource_Product_Collection $collection)
     {
         $this->_indexValueAttributes = array_merge($this->_indexValueAttributes, array(
             'unit_price_unit',
             'unit_price_base_unit',
         ));
         parent::__construct();
+        $this->_entityCollection = $collection;
+
     }
 
     /**
-     * Retrieve last export task flag
-     *
-     * @return bool
+     * {@inheritdoc}
      */
-    public function getIsLast()
+    public function getCollection()
     {
-        return $this->_isLast;
-    }
-
-    /**
-     * Set last export task flag
-     *
-     * @param boolean $isLast
-
-     * @return Saas_ImportExport_Model_Export_Entity_Product
-     */
-    public function setIsLast($isLast = true)
-    {
-        $this->_isLast = $isLast;
-        return $this;
-    }
-
-    /**
-     * Set current page of collection
-     *
-     * @param int $page
-     * @return Saas_ImportExport_Model_Export_Entity_Product
-     */
-    public function setCurrentPage($page)
-    {
-        $this->_page = (int)$page;
-        if ($this->_page <= 0) {
-            $this->_page = 1;
+        if (!$this->_isCollectionInitialized) {
+            $this->_isCollectionInitialized = true;
+            $this->_prepareEntityCollection($this->_entityCollection);
         }
-        return $this;
-    }
-
-    public function getCurrentPage()
-    {
-        return $this->_page;
+        return $this->_entityCollection;
     }
 
     /**
-     * Count tasks for workers
-     * //TODO: is must be in Abstract class, but in this case we should copy-past from Mage_ImportExport_Model_Export_Entity_Product...
-     *
-     * @var int
+     * {@inheritdoc}
      */
-    protected $_countPages;
-
-    /**
-     * Retrieve count tasks for workers
-     *
-     * @return int
-     */
-    public function getCountPages()
+    public function getHeaderCols()
     {
-        if (!$this->_countPages) {
-            $totalRecords = $this->_prepareEntityCollection(Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection'))
-                ->getSize();
-            $this->_countPages = ceil($totalRecords / $this->_countPerPage);
-        }
-        return $this->_countPages;
+        return array();
     }
 
     /**
-     * @return Saas_ImportExport_Model_Export_Entity_Product
-    */
-    public function export()
-    {
-        $page = $this->getCurrentPage();
-        /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
-        $collection = $this->_prepareEntityCollection(
-            Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
-        );
-        $totalRecords = $collection->getSize();
-        $countPages = ceil($totalRecords / $this->_getCountPerPage());
-        $this->_countPages = $countPages;
-
-        if (!$totalRecords) {
-            $this->setIsLast();
-            return $this;
-        }
-        if ($page < 1 || $page > $countPages) {
-            Mage::throwException(Mage::helper('saas_importexport')->__('Invalid page in export chain'));
-        }
-        $collection->setPage($page, $this->_getCountPerPage());
-        $this->_exportCollection($collection);
-        /**
-         * Check if it is last task and set state
-         */
-        if ($page < $countPages) {
-            $this->setIsLast(false);
-        }
-        return $this;
-    }
-
-    /**
-     * @return int
+     * {@inheritdoc}
      */
-    protected function _getCountPerPage()
+    public function exportCollection()
     {
-        return $this->_countPerPage;
-    }
-
-    /**
-     * Export collection
-     *
-     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
-     * @return Saas_ImportExport_Model_Export_Entity_Product
-     */
-    protected function _exportCollection($collection)
-    {
+        $collection = $this->getCollection();
         $validAttrCodes  = $this->_getExportAttrCodes();
         $writer          = $this->getWriter();
         $defaultStoreId  = Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
@@ -371,7 +279,12 @@ class Saas_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         }
         unset($customOptionsDataPre);
 
-        $this->_saveHeaderCols($customOptionsData, $configurableData, $stockItemRows);
+        $headerCols = $this->_getHeaderCols($customOptionsData, $configurableData, $stockItemRows);
+        if ($collection->getCurPage() == 1) {
+            $writer->setHeaderCols($headerCols);
+        } else {
+            $writer->setHeaderColsData($headerCols);
+        }
 
         foreach ($dataRows as $productId => &$productData) {
             foreach ($productData as $storeId => &$dataRow) {
@@ -507,17 +420,17 @@ class Saas_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                 }
             }
         }
-        return $this;
     }
 
     /**
-     * Save headers
+     * Get headers cols
      *
      * @param array $customOptionsData
      * @param array $configurableData
      * @param array $stockItemRows
+     * @return array
      */
-    protected function _saveHeaderCols($customOptionsData, $configurableData, $stockItemRows)
+    protected function _getHeaderCols($customOptionsData, $configurableData, $stockItemRows)
     {
         $customOptCols = array(
             '_custom_option_store', '_custom_option_type', '_custom_option_title', '_custom_option_is_required',
@@ -563,11 +476,6 @@ class Saas_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                 '_super_attribute_option', '_super_attribute_price_corr'
             ));
         }
-        $writer = $this->getWriter();
-        if ($this->getCurrentPage() == 1) {
-            $writer->setHeaderCols($headerCols);
-        } else {
-            $writer->setHeaderColsData($headerCols);
-        }
+        return $headerCols;
     }
 }
