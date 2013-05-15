@@ -219,27 +219,8 @@ $schema = array(
             )
         ),
 
-        'media_gallery'                  => array(
-            'get_callback' => 'getMediaGalleryImages' // @todo used to be different format
-        ),
         'stock_item'                     => array( // @todo need this to have system working
             'required' => true
-        ),
-
-        'wishlist_enabled'               => array(
-            'required' => false
-        ),
-        'wishList_add_url'               => array(
-            'required'     => false,
-            'get_callback' => array('Mage_Wishlist_Helper_Data', 'getAddUrl')
-        ),
-        'compare_add_url'                => array(
-            'required'     => false,
-            'get_callback' => array('Mage_Catalog_Helper_Product_Compare', 'getAddUrl')
-        ),
-        'email_to_friend_url'            => array(
-            'required'     => false,
-            'get_callback' => array('Mage_Catalog_Helper_Product', 'getEmailToFriendUrl')
         ),
         'can_email_to_friend'            => array(
             'required'     => false,
@@ -252,13 +233,32 @@ $schema = array(
             'required' => false,
             'default'  => 'container2'
         ),
-        'json_config'                    => array(
-            'required'     => false,
-            'get_callback' => array('Mage_Catalog_Helper_Product', 'getJsonConfig')
+        'wishlist_enabled'               => array(
+            'required' => false
         ),
-        'submit_url_for_product'         => array(
-            'required'     => false,
-            'get_callback' => array('Mage_Catalog_Block_Product_View', 'getSubmitUrl')
-        )
+//        'wishList_add_url'               => array(
+//            'required'     => false,
+//            'get_callback' => array('Mage_Wishlist_Helper_Data', 'getAddUrl')
+//        ),
+//        'compare_add_url'                => array(
+//            'required'     => false,
+//            'get_callback' => array('Mage_Catalog_Helper_Product_Compare', 'getAddUrl')
+//        ),
+//        'email_to_friend_url'            => array(
+//            'required'     => false,
+//            'get_callback' => array('Mage_Catalog_Helper_Product', 'getEmailToFriendUrl')
+//        ),
+
+//        'json_config'                    => array(
+//            'required'     => false,
+//            'get_callback' => array('Mage_Catalog_Helper_Product', 'getJsonConfig')
+//        ),
+//        'submit_url_for_product'         => array(
+//            'required'     => false,
+//            'get_callback' => array('Mage_Catalog_Block_Product_View', 'getSubmitUrl')
+//        ),
+//        'media_gallery'                  => array(
+//            'get_callback' => 'getMediaGalleryImages' // @todo used to be different format
+//        )
     )
 );

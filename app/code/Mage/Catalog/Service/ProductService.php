@@ -37,12 +37,12 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
         if ($sku) {
             $id = $product->getIdBySku($sku);
         } else {
-            $id = $product->getId();
+            $id = $product->getEntityId();
         }
 
         if ($id) {
             // TODO: we need this trick as because of improper handling when target record doesn't exist
-            $product->setId(null);
+            $product->setEntityId(null);
 
             try {
                 $product->load($id);
