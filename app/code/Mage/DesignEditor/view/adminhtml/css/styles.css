@@ -2172,3 +2172,33 @@
     top: 5px;
     right: 5px;
 }
+
+.uploader {
+    border-collapse: collapse;
+    display: table;
+    width: 100%;
+}
+
+.uploader .file-row {
+    display: table-row;
+}
+
+.uploader .file-row .file-info-name {
+    display: table-cell;
+    padding: 5px;
+    width: 80%;
+}
+
+.uploader .file-row .file-info-size {
+    display: table-cell;
+    width: 15%;
+    padding: 5px;
+    text-align: right;
+}
+
+.uploader .file-row .file-info-cancel {
+    display: table-cell;
+    width: 5%;
+    padding: 5px;
+    text-align: right;
+}
