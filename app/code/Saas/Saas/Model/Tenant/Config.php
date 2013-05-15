@@ -76,6 +76,13 @@ class Saas_Saas_Model_Tenant_Config
     private $_maintenanceMode;
 
     /**
+     * Task name prefix
+     *
+     * @var string
+     */
+    private $_taskNamePrefix = '';
+
+    /**
      * Constructor
      *
      * @param string $rootDir
@@ -92,6 +99,11 @@ class Saas_Saas_Model_Tenant_Config
         if (array_key_exists('groupConfiguration', $tenantData)) {
             $this->_groupConfiguration = $tenantData['groupConfiguration'];
         }
+
+        if (array_key_exists('magento_task_name_prefix', $tenantData)) {
+            $this->_taskNamePrefix = (string)$tenantData['magento_task_name_prefix'];
+        }
+
         $this->_config = $this->_mergeConfig(array(
             $this->_getLocalConfig(),
             $this->_getModulesConfig(),
@@ -158,6 +170,7 @@ class Saas_Saas_Model_Tenant_Config
             Mage::PARAM_CUSTOM_LOCAL_CONFIG => $this->_config->getXmlString(),
             'status' => $this->_status,
             'maintenance_mode' => $this->_maintenanceMode,
+            'task_name_prefix' => $this->_taskNamePrefix,
         );
     }
 

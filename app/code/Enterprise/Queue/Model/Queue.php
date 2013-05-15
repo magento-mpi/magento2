@@ -10,7 +10,7 @@
 class Enterprise_Queue_Model_Queue implements Enterprise_Queue_Model_QueueInterface
 {
     /**
-     * @var Enterprise_Queue_Model_Resource_Task_Collection
+     * @var Enterprise_Queue_Model_TaskRepository
      */
     protected $_taskRepository;
 
@@ -25,18 +25,39 @@ class Enterprise_Queue_Model_Queue implements Enterprise_Queue_Model_QueueInterf
     protected $_client;
 
     /**
+     * Task name prefix
+     *
+     * @var string
+     */
+    protected $_taskNamePrefix;
+
+    /**
      * @param Enterprise_Queue_Model_Config $queueConfig
      * @param Enterprise_Queue_Model_TaskRepository $taskRepository
      * @param Magento_JobQueue_ClientInterface $client
+     * @param string $taskNamePrefix
      */
     public function __construct(
         Enterprise_Queue_Model_Config $queueConfig,
         Enterprise_Queue_Model_TaskRepository $taskRepository,
-        Magento_JobQueue_ClientInterface $client
+        Magento_JobQueue_ClientInterface $client,
+        $taskNamePrefix = ''
     ) {
         $this->_taskRepository = $taskRepository;
         $this->_queueConfig = $queueConfig;
         $this->_client = $client;
+        $this->_taskNamePrefix = $taskNamePrefix;
+    }
+
+    /**
+     * Get task name
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function _getTaskName($name)
+    {
+        return $this->_taskNamePrefix . $name;
     }
 
     /**
@@ -50,6 +71,7 @@ class Enterprise_Queue_Model_Queue implements Enterprise_Queue_Model_QueueInterf
      */
     public function addTask($taskName, array $params, $priority)
     {
+        $taskName = $this->_getTaskName($taskName);
         try {
             $params = array_merge_recursive($this->_queueConfig->getTaskParams(), $params);
             $task = $this->_taskRepository->get($taskName, $params);
@@ -80,6 +102,7 @@ class Enterprise_Queue_Model_Queue implements Enterprise_Queue_Model_QueueInterf
      */
     public function getTask($taskName, array $params = array())
     {
+        $taskName = $this->_getTaskName($taskName);
         $params = array_merge_recursive($this->_queueConfig->getTaskParams(), $params);
         $task = $this->_taskRepository->get($taskName, $params);
         if ($task->getHandle()) {
