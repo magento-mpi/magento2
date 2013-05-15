@@ -19,7 +19,7 @@
             <span class="file-info-name">{{name}}</span>
             <span class="file-info-size">({{size}})</span>
             <span class="file-info-cancel cancel">
-                <button class="action-delete">
+                <button class="action-delete" data-delete-file="{{id}}">
                     <span><?php echo $this->__('Remove'); ?></span>
                 </button>
             </span>
@@ -53,11 +53,14 @@
                     var progressTmpl = $('#<?php echo $this->getHtmlId(); ?>-template').children(':first').clone();
                     progressTmpl.attr('id', data.fileId);
                     var fileInfoHtml = progressTmpl.html().replace('{{size}}', byteConvert(file.size))
-                        .replace('{{name}}', file.name);
+                        .replace('{{name}}', file.name).replace('{{id}}', data.fileId);
                     progressTmpl.html(fileInfoHtml) ;
 
                     progressTmpl.appendTo('#<?php echo $this->getHtmlId() ?>');
 
+                    $('[data-delete-file="' + data.fileId + '"]').on('click', function() {
+                        alert("wip: remove from dom=" + data.fileId);
+                    });
                 });
                 $(this).fileupload('process', data);
             },
