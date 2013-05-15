@@ -4206,7 +4206,6 @@ div.mage-error {
   /* Opera/IE 8+ */
 
   background: #5e5e5e;
-  border-top: 10px solid #464646;
   -moz-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
   box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
