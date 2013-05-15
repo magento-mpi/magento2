@@ -29,7 +29,7 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Rest')
+        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Config')
             ->disableOriginalConstructor()
             ->getMock();
         $interpreterFactory = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest_Interpreter_Factory')
@@ -62,7 +62,7 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
     public function testMatch()
     {
         $this->_apiConfigMock->expects($this->once())
-            ->method('getAllRestRoutes')
+            ->method('getRestRoutes')
             ->will($this->returnValue(array($this->_routeMock)));
         $this->_routeMock->expects($this->once())
             ->method('match')
@@ -79,7 +79,7 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
     public function testNotMatch()
     {
         $this->_apiConfigMock->expects($this->once())
-            ->method('getAllRestRoutes')
+            ->method('getRestRoutes')
             ->will($this->returnValue(array($this->_routeMock)));
         $this->_routeMock
             ->expects($this->once())
@@ -88,44 +88,6 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
 
         $this->_router->match($this->_request);
-    }
-
-    public function testCheckRoute()
-    {
-        /** Prepare mocks for SUT constructor. */
-        $checkRouteData = $this->_prepareMockDataForCheckRouteTest();
-        $this->_routeMock->expects($this->once())
-            ->method('match')
-            ->with($checkRouteData['request'])
-            ->will($this->returnValue(true));
-
-        /** Execute SUT. */
-        $this->_router->checkRoute(
-            $checkRouteData['request'],
-            $checkRouteData['methodName'],
-            $checkRouteData['version']
-        );
-    }
-
-    public function testCheckRouteException()
-    {
-        /** Prepare mocks for SUT constructor. */
-        $checkRouteData = $this->_prepareMockDataForCheckRouteTest();
-        $this->_routeMock->expects($this->once())
-            ->method('match')
-            ->with($checkRouteData['request'])
-            ->will($this->returnValue(false));
-        $this->setExpectedException(
-            'Mage_Webapi_Exception',
-            'Request does not match any route.',
-            Mage_Webapi_Exception::HTTP_NOT_FOUND
-        );
-        /** Execute SUT. */
-        $this->_router->checkRoute(
-            $checkRouteData['request'],
-            $checkRouteData['methodName'],
-            $checkRouteData['version']
-        );
     }
 
     /**

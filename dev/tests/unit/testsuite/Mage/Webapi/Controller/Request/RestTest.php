@@ -146,57 +146,6 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for getOperation() method.
-     *
-     * @dataProvider providerRequestMethod
-     * @param string $requestMethod Request method
-     * @param string $crudOperation CRUD operation name
-     * @param string|boolean $exceptionMessage Exception message (boolean FALSE if exception is not expected)
-     */
-    public function testGetOperation($requestMethod, $crudOperation, $exceptionMessage = false)
-    {
-        $expectedMethod = false;
-        switch ($requestMethod) {
-            case 'GET':
-            case 'POST':
-            case 'PUT':
-            case 'DELETE':
-                $expectedMethod = 'is' . ucfirst($requestMethod);
-                break;
-        }
-
-        if ($expectedMethod) {
-            $this->_request
-                ->expects($this->once())
-                ->method($expectedMethod)
-                ->will($this->returnValue(true));
-        }
-
-        $this->_request
-            ->expects($this->any())
-            ->method('getMethod')
-            ->will($this->returnValue($requestMethod));
-
-        try {
-            $this->assertEquals($crudOperation, $this->_request->getHttpMethod());
-        } catch (Mage_Webapi_Exception $e) {
-            if ($exceptionMessage) {
-                $this->assertEquals(
-                    $exceptionMessage,
-                    $e->getMessage(),
-                    'Exception message does not match the expected one.'
-                );
-                return;
-            } else {
-                $this->fail('Exception is thrown on valid header: ' . $e->getMessage());
-            }
-        }
-        if ($exceptionMessage) {
-            $this->fail('Expected exception was not raised.');
-        }
-    }
-
-    /**
      * Test for getResourceType() method.
      *
      */
@@ -262,23 +211,6 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
             array('text/html;', null, 'Content-Type header is invalid.'),
             array('application/dialog.dot-info7+xml', 'application/dialog.dot-info7+xml'),
             array('application/x-www-form-urlencoded; charset=cp1251', null, 'UTF-8 is the only supported charset.')
-        );
-    }
-
-    /**
-     * Data provider for testGetOperation().
-     *
-     * @return array
-     */
-    public function providerRequestMethod()
-    {
-        return array(
-            // Each element is: array(Request method, CRUD operation name[, expected exception message])
-            array('INVALID_METHOD', null, 'Request method is invalid.'),
-            array('GET', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_GET),
-            array('POST', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_CREATE),
-            array('PUT', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_UPDATE),
-            array('DELETE', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_DELETE)
         );
     }
 
@@ -356,98 +288,6 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
         $this->_request->setResourceType(Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM);
         /** Initialize SUT. */
         $this->_request->getOperationName();
-    }
-
-    /**
-     * @dataProvider getOperationNameProvider
-     */
-    public function testGetOperationName($resourceType, $httpMethod, $operationName)
-    {
-        /** Prepare mocks for SUT constructor. */
-        $this->_request->setResourceType($resourceType);
-        $this->_request->expects($this->once())->method('isPost')->will($this->returnValue(true));
-        $this->_request->expects($this->once())->method('getMethod')->will($this->returnValue($httpMethod));
-        $this->_request->setResourceName('resourceName');
-
-        /** Initialize SUT. */
-        $this->assertEquals(
-            $operationName,
-            $this->_request->getOperationName(),
-            'Method getOperationName() retrieved invalid resource name. Check $restMethodMap variable.'
-        );
-    }
-
-    /**
-     * Success getOperationName() method data provider.
-     *
-     * @return array
-     */
-    public function getOperationNameProvider()
-    {
-        return array(
-            'GET request with action type: item.' => array(
-                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM,
-                'GET',
-                'resourceNameGet',
-            ),
-            'PUT request with action type: item.' => array(
-                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM,
-                'PUT',
-                'resourceNameUpdate',
-            ),
-            'DELETE request with action type: item.' => array(
-                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM,
-                'DELETE',
-                'resourceNameDelete',
-            ),
-            'GET request with action type: collection.' => array(
-                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION,
-                'GET',
-                'resourceNameList',
-            ),
-            'PUT request with action type: collection.' => array(
-                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION,
-                'PUT',
-                'resourceNameMultiUpdate',
-            ),
-            'DELETE request with action type: collection.' => array(
-                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION,
-                'DELETE',
-                'resourceNameMultiDelete',
-            ),
-        );
-    }
-
-    public function testGetOperationNameWithCreateMethod()
-    {
-        /** Prepare mocks for SUT constructor. */
-        $this->_prepareSutForGetOperationNameWithCreateMethod();
-        $this->_prepareSutForGetBodyParamsTest(array('key_1' => 'value', 'key_2' => 'value'));
-
-        /** Initialize SUT. */
-        $this->assertEquals(
-            'resourceNameCreate',
-            $this->_request->getOperationName(),
-            'Resource name for create method is invalid.'
-        );
-    }
-
-    public function testGetOperationNameWithMultiCreateMethod()
-    {
-        /** Prepare mocks for SUT constructor. */
-        $this->_prepareSutForGetOperationNameWithCreateMethod();
-        $params = array(
-            array('key_1' => 'value 1'),
-            array('key_2' => 'value 2'),
-        );
-        $this->_prepareSutForGetBodyParamsTest($params);
-
-        /** Initialize SUT. */
-        $this->assertEquals(
-            'resourceNameMultiCreate',
-            $this->_request->getOperationName(),
-            'Resource name for multi create method is invalid.'
-        );
     }
 
     /**

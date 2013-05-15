@@ -161,7 +161,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     }
 
     /**
-     * Retrieve one of CRUD operations depending on HTTP method.
+     * Retrieve current HTTP method.
      *
      * @return string
      * @throws Mage_Webapi_Exception
@@ -172,15 +172,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
             throw new Mage_Webapi_Exception($this->_helper->__('Request method is invalid.'),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
-        // Map HTTP methods to classic CRUD verbs
-        $operationByMethod = array(
-            'GET' => self::HTTP_METHOD_GET,
-            'POST' => self::HTTP_METHOD_CREATE,
-            'PUT' => self::HTTP_METHOD_UPDATE,
-            'DELETE' => self::HTTP_METHOD_DELETE
-        );
-
-        return $operationByMethod[$this->getMethod()];
+        return $this->getMethod();
     }
 
     /**

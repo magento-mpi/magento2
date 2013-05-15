@@ -9,9 +9,6 @@
  */
 class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_DispatcherInterface
 {
-    /** @var Mage_Webapi_Model_Config_Rest */
-    protected $_apiConfig;
-
     /** @var Mage_Webapi_Controller_Dispatcher_Rest_Presentation */
     protected $_restPresentation;
 
@@ -23,13 +20,6 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_D
 
     /** @var Mage_Webapi_Controller_Request_Rest */
     protected $_request;
-
-    /**
-     * Action controller factory.
-     *
-     * @var Mage_Webapi_Controller_Action_Factory
-     */
-    protected $_controllerFactory;
 
     /** @var Mage_Webapi_Model_Authorization */
     protected $_authorization;
@@ -43,33 +33,27 @@ class Mage_Webapi_Controller_Dispatcher_Rest implements Mage_Webapi_Controller_D
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Model_Config_Rest $apiConfig
      * @param Mage_Webapi_Controller_Request_Rest $request
      * @param Mage_Webapi_Controller_Response_Rest $response
-     * @param Mage_Webapi_Controller_Action_Factory $controllerFactory
      * @param Mage_Webapi_Controller_Dispatcher_Rest_Presentation $restPresentation
      * @param Mage_Webapi_Controller_Router_Rest $router
      * @param Mage_Webapi_Controller_Dispatcher_Rest_Authentication $authentication
      * @param Mage_Core_Service_ObjectManager $serviceManager
      */
     public function __construct(
-        Mage_Webapi_Model_Config_Rest $apiConfig,
         Mage_Webapi_Controller_Request_Rest $request,
         Mage_Webapi_Controller_Response_Rest $response,
-        Mage_Webapi_Controller_Action_Factory $controllerFactory,
         Mage_Webapi_Controller_Dispatcher_Rest_Presentation $restPresentation,
         Mage_Webapi_Controller_Router_Rest $router,
         // TODO: Mage_Webapi_Model_Authorization $authorization,
         Mage_Webapi_Controller_Dispatcher_Rest_Authentication $authentication,
         Mage_Core_Service_ObjectManager $serviceManager
     ) {
-        $this->_apiConfig = $apiConfig;
         $this->_restPresentation = $restPresentation;
         $this->_router = $router;
         $this->_authentication = $authentication;
-        $this->_request = $request;
-        $this->_controllerFactory = $controllerFactory;
         // TODO: $this->_authorization = $authorization;
+        $this->_request = $request;
         $this->_response = $response;
         $this->_serviceManager = $serviceManager;
     }

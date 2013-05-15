@@ -293,26 +293,42 @@ class Mage_Webapi_Config
         }
     }
 
-    public function getRestRoutes($httpMethod, $serviceBaseUrl = null, $version = null)
+    /**
+     * @param Mage_Webapi_Controller_Request_Rest $request
+     * @return array
+     * @throws Mage_Webapi_Exception
+     */
+    public function getRestRoutes(Mage_Webapi_Controller_Request_Rest $request)
     {
         // TODO: Get information from webapi.xml
-        $routes = array();
+        // get path info and fetch service and version
+        $pathInfo = $request->getPathInfo();
+        $urlDelimiter = '/';
+        $path = explode($urlDelimiter, $pathInfo);
 
+        // uri's will be of pattern webapi/rest/<version>/<service-name>/...
+        if (!isset($path[3]) || !isset($path[4])) {
+            return array();
+        }
+        // TODO: Implement in more elegant way
+        $version = ltrim(ucfirst($path[3]), 'V');
+        $serviceBaseUrl = $urlDelimiter . $path[4];
+        $httpMethod = $request->getHttpMethod();
+
+        $routes = array();
         foreach ($this->getServices() as $serviceName => $serviceData) {
             // skip if baseurl is not null and does not match
             if ($serviceBaseUrl != null && strtolower($serviceBaseUrl) != strtolower($serviceData['baseUrl'])) {
                 // baseurl does not match, just skip this service
                 continue;
             }
-
             // TODO: skip if version is not null and does not match
-
             foreach ($serviceData[self::KEY_OPERATIONS] as $operationName => $operationData) {
                 if (strtoupper($operationData['httpMethod']) == strtoupper($httpMethod)) {
                     $routes[] = $this->_createRoute(
                         array(
                             'routePath' => $serviceData['baseUrl'] . $operationData['route'],
-                            'version' => 1, // hardcoded for now
+                            'version' => $version,
                             'serviceId' => $serviceName,
                             'serviceMethod' => $operationName,
                             'httpMethod' => $httpMethod
