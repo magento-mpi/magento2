@@ -58,6 +58,7 @@
         <dev>
             <js>
                 <merge_files>1</merge_files>
+                <minify>1</minify>
             </js>
         </dev>
         <!-- End of overridden values -->

@@ -50,6 +50,11 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     private $_assetMergeService;
 
     /**
+     * @var Mage_Core_Model_Page_Asset_MinifyService
+     */
+    private $_assetMinifyService;
+
+    /**
      * @var Mage_Page_Model_Asset_GroupedCollection
      */
     private $_pageAssets;
@@ -59,11 +64,13 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Page $page,
         Mage_Core_Model_Page_Asset_MergeService $assetMergeService,
+        Mage_Core_Model_Page_Asset_MinifyService $assetMinifyService,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->_objectManager = $objectManager;
         $this->_assetMergeService = $assetMergeService;
+        $this->_assetMinifyService = $assetMinifyService;
         $this->_pageAssets = $page->getAssets();
     }
 
@@ -206,6 +213,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
             }
 
             $groupAssets = $group->getAll();
+            $groupAssets = $this->_assetMinifyService->getAssets($groupAssets);
             if ($canMerge && count($groupAssets) > 1) {
                 $groupAssets = $this->_assetMergeService->getMergedAssets($groupAssets, $contentType);
             }

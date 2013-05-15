@@ -24,11 +24,6 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
     private $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Design_PackageInterface
-     */
-    private $_designPackage;
-
-    /**
      * @var Mage_Core_Model_Logger
      */
     private $_logger;
@@ -67,7 +62,6 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
 
     /**
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Design_PackageInterface $designPackage
      * @param Mage_Core_Model_Logger $logger
      * @param Mage_Core_Helper_Css_Processing $cssHelper
      * @param Magento_Filesystem $filesystem
@@ -77,7 +71,6 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Design_PackageInterface $designPackage,
         Mage_Core_Model_Logger $logger,
         Mage_Core_Helper_Css_Processing $cssHelper,
         Magento_Filesystem $filesystem,
@@ -85,7 +78,6 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
         array $assets
     ) {
         $this->_objectManager = $objectManager;
-        $this->_designPackage = $designPackage;
         $this->_logger = $logger;
         $this->_filesystem = $filesystem;
         $this->_cssHelper = $cssHelper;
@@ -153,7 +145,7 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
     {
         $result = array();
         foreach ($assets as $asset) {
-            $publicFile = $this->_designPackage->getViewFilePublicPath($asset->getSourceFile());
+            $publicFile = $asset->getSourceFile();
             $result[$publicFile] = $publicFile;
         }
         return $result;

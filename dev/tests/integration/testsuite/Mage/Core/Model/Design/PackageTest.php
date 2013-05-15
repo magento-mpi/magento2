@@ -213,7 +213,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped("Implemented to be run in {$appMode} mode");
         }
         $this->_emulateFixtureTheme();
-        $this->assertEquals($this->_model->getViewFileUrl($file), $result);
+        $this->assertEquals($result, $this->_model->getViewFileUrl($file));
     }
 
     /**
@@ -254,14 +254,9 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
                 'http://localhost/pub/static/frontend/test/default/en_US/Mage_Page/favicon.ico',
             ),
             array(
-                Mage_Core_Model_App_State::MODE_DEVELOPER,
-                'prototype/prototype.js',
-                'http://localhost/pub/lib/prototype/prototype.js'
-            ),
-            array(
                 Mage_Core_Model_App_State::MODE_DEFAULT,
                 'prototype/prototype.js',
-                'http://localhost/pub/lib/prototype/prototype.min.js'
+                'http://localhost/pub/lib/prototype/prototype.js'
             ),
             array(
                 Mage_Core_Model_App_State::MODE_DEVELOPER,

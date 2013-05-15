@@ -113,6 +113,32 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store dev/js/minify 1
+     */
+    public function testGetCssJsHtmlJsMinified()
+    {
+        $this->_block->addJs('varien/js.js');
+        $this->assertStringMatchesFormat(
+            '<script type="text/javascript" src="http://localhost/pub/cache/minify/%s_js.min.js"></script>',
+            $this->_block->getCssJsHtml()
+        );
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store dev/js/minify 0
+     */
+    public function testGetCssJsHtmlJsNotMinified()
+    {
+        $this->_block->addJs('varien/js.js');
+        $this->assertSame(
+            '<script type="text/javascript" src="http://localhost/pub/lib/varien/js.js"></script>' . "\n",
+            $this->_block->getCssJsHtml()
+        );
+    }
+
+    /**
      * Test getRobots default value
      * @magentoAppIsolation enabled
      */

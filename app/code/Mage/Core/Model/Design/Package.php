@@ -617,14 +617,6 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
 
         $sourcePath = $this->getViewFile($themeFile, $params);
 
-        $minifiedSourcePath = $this->_minifiedPathForStaticFiles($sourcePath);
-        if ($minifiedSourcePath && ($this->_getAppMode() != Mage_Core_Model_App_State::MODE_DEVELOPER)
-            && $this->_filesystem->has($minifiedSourcePath)
-        ) {
-            $sourcePath = $minifiedSourcePath;
-            $themeFile = $this->_minifiedPathForStaticFiles($themeFile);
-        }
-
         if (!$this->_filesystem->has($sourcePath)) {
             throw new Magento_Exception("Unable to locate theme file '{$sourcePath}'.");
         }
@@ -665,20 +657,6 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
 
         $this->_notifyViewFileLocationChanged($targetPath, $themeFile, $params);
         return $targetPath;
-    }
-
-    /**
-     * Get minified filename for static files
-     *
-     * @param string $filePath
-     * @return string|null
-     */
-    protected function _minifiedPathForStaticFiles($filePath)
-    {
-        $extension = $this->_getExtension($filePath);
-        return in_array($extension, array(self::CONTENT_TYPE_JS, self::CONTENT_TYPE_CSS))
-            ? str_replace('.' . $extension, '.min.' . $extension, $filePath)
-            : null;
     }
 
     /**
