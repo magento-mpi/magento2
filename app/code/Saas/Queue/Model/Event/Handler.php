@@ -19,6 +19,12 @@ class Saas_Queue_Model_Event_Handler implements Enterprise_Queue_Model_Event_Han
     protected $_queue;
 
     /**
+     * Task name prefix
+     * @var string
+     */
+    protected $_taskNamePrefix = '';
+
+    /**
      * @param Enterprise_Queue_Model_QueueInterface $queue
      */
     public function __construct(Enterprise_Queue_Model_QueueInterface $queue)
