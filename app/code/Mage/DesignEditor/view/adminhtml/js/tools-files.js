@@ -91,10 +91,15 @@ Mediabrowser.prototype = {
         this.hideFileButtons();
         this.activateBlock('contents');
 
-        if(node.id == 'root') {
-            this.hideElement('button_delete_folder');
-        } else {
-            this.showElement('button_delete_folder');
+        // Activate/deactivate trash can icon
+        var deleteFolderId = 'button_delete_folder';
+        if ($(deleteFolderId) != undefined) {
+            if(node.id == 'root') {
+                $(deleteFolderId).removeClassName('activate');
+            }
+            else {
+                $(deleteFolderId).addClassName('activate');
+            }
         }
 
         this.updateHeader(this.currentNode);
