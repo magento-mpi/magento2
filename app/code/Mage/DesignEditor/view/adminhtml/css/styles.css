@@ -2056,3 +2056,121 @@
 .wrapper-popup .action-delete > span {
     display: none;
 }
+
+/* Image Management */
+.image,
+.gallery .ui-state-highlight {
+    position: relative;
+    width: 17.874%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    float: left;
+    margin: 5px 1%;
+    overflow: hidden;
+    background: #fff;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.image .spacer {
+    width: 100%;
+}
+
+.image .asset-image {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 100%;
+}
+
+.image.base-image:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 66px;
+    height: 66px;
+    background: url(Mage_DesignEditor::images/gallery-image-base-label.png) no-repeat;
+    content: '';
+    z-index: 1;
+}
+
+.image.hidden-for-front:after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(247, 242, 236, .8);
+    content: attr(data-image-hidden-label);
+    text-align: center;
+    text-transform: uppercase;
+    color: #a69a8f;
+    font: 18px/110px 'CallunaSans', Arial, sans-serif;
+    font-weight: 500;
+    z-index: 1;
+}
+
+.gallery .image.hidden-for-front:after {
+    line-height: 160px;
+}
+
+.image.active {
+    box-shadow: 0 0 10px #2ea9ec;
+}
+
+.image .actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.image .actions [class^="action-"],
+.image[data-image-hidden]:hover .actions [class^="action-"],
+.image.hidden-for-front:hover .actions [class^="action-"] {
+    visibility: hidden;
+}
+
+.image:hover .actions [class^="action-"],
+.image[data-image-hidden]:hover .actions .action-delete,
+.hidden-for-front:hover .actions .action-delete {
+    visibility: visible;
+}
+
+.image .action-delete {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    z-index: 2;
+}
+
+.image .action-make-base {
+    position: absolute;
+    bottom: 20px;
+    left: 10%;
+    right: 10%;
+    padding: 5px;
+    margin: auto;
+}
+
+.image.base-image .action-make-base {
+    display: none;
+}
+
+.gallery .image .action-delete {
+    top: 5px;
+    right: 5px;
+}
