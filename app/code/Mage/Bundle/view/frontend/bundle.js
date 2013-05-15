@@ -40,7 +40,9 @@
 
                 // Trigger Event to update Summary box
                 this.reloadPrice();
-                this.element.trigger('updateProductSummary', [{config: this.options.bundleConfig}]);
+                this.element.trigger('updateProductSummary', [
+                    {config: this.options.bundleConfig}
+                ]);
             }
         },
         _create: function() {
@@ -53,17 +55,31 @@
 
                     var _this = this;
                     element.each(function() {
-                        var _elem = $(this);
+                        var _elem = $(this),
+                            _elements;
                         if (_elem.is(':not(":checkbox, select[multiple]")')) {
-                            _elem.closest('dd').find('input.qty').each(function() {
+                            if (_elem.closest('dd').find('input.qty').length) {
+                                _elements = _elem.closest('dd').find('input.qty');
+                            } else if (_elem.parentsUntil('nested.options-list').find('input.qty').length) {
+                                _elements = _elem.parentsUntil('nested.options-list').find('input.qty');
+                            } else {
+                                _elements = {};
+                            }
+                            _elements.each(function() {
                                 var _qty = $(this);
                                 _qty.on('blur', $.proxy(function() {
                                     var parts = _elem.attr('id').split('-'),
-                                        value = _elem.val();
-                                    _this.options.bundleConfig.options[parts[2]].selections[value].qty = parseInt(_qty.val(), 10);
-                                    _this.options.optionConfig.options[parts[2]].selections[_elem.val()].qty = parseInt(_qty.val(), 10);
+                                        value = _elem.val(),
+                                        quantity = parseInt(_qty.val(), 10);
+                                    if (quantity > 0 && _this.options.bundleConfig.options[parts[2]] && _this.options.bundleConfig.options[parts[2]].selections[value]
+                                        && _this.options.optionConfig.options[parts[2]].selections[_elem.val()] && _this.options.optionConfig.options[parts[2]]) {
+                                        _this.options.bundleConfig.options[parts[2]].selections[value].qty = parseInt(quantity);
+                                        _this.options.optionConfig.options[parts[2]].selections[_elem.val()].qty = parseInt(quantity);
+                                    }
                                     _this.reloadPrice();
-                                    _this.element.trigger('updateProductSummary', [{config: _this.options.bundleConfig}]);
+                                    _this.element.trigger('updateProductSummary', [
+                                        {config: _this.options.bundleConfig}
+                                    ]);
                                 }, this));
                             });
                         }
@@ -124,7 +140,9 @@
                                 config.selected[parts[2]] = [selected];
                             }
                         } else {
-                            config.selected[parts[2]] = $.grep(config.selected[parts[2]], function(e) {return e[0] != element.val();});
+                            config.selected[parts[2]] = $.grep(config.selected[parts[2]], function(e) {
+                                return e[0] != element.val();
+                            });
                         }
                     }
                 }
@@ -138,7 +156,9 @@
             }
             // Trigger Event to update Summary box
             this.reloadPrice();
-            this.element.trigger('updateProductSummary', [{config: this.options.bundleConfig}]);
+            this.element.trigger('updateProductSummary', [
+                {config: this.options.bundleConfig}
+            ]);
         },
 
         reloadPrice: function() {
@@ -261,7 +281,9 @@
                 this.showQtyInput(optionId, this.options.optionConfig.options[optionId].selections[selectionId].qty, false);
             }
             this.reloadPrice();
-            this.element.trigger('updateProductSummary', [{config: this.options.bundleConfig}]);
+            this.element.trigger('updateProductSummary', [
+                {config: this.options.bundleConfig}
+            ]);
         },
 
         showQtyInput: function(optionId, value, canEdit) {
