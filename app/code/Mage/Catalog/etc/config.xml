@@ -13,15 +13,7 @@
     <modules>
         <Mage_Catalog>
             <version>1.6.0.0.23</version>
-            <api_versions>
-                <V1>
-                    <title>API Version V1</title>
-                </V1>
-                <V2>
-                    <title>API Version V2</title>
-                </V2>
-            </api_versions>
-            <current_api_version>V1</current_api_version>
+            <current_api_version>1</current_api_version>
             <active>true</active>
             <depends>
                 <Mage_Eav>

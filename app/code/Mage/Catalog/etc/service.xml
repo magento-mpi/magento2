@@ -9,28 +9,91 @@
  * @license     {license_link}
  */
 -->
-<services>
-    <service class="Mage_Catalog_Service_CategoryService" name="Catalog Category Service" module="Mage_Catalog">
-        <operation method="create" name="Create new category" />
-        <operation method="create" name="Create" />
-        <operation method="item" name="Retrieve a category" />
-        <operation method="items" name="Retrieve category collection by filters" />
-        <operation method="update" name="Update category" />
-        <operation method="delete" name="Delete category" />
-
-        <version class="Mage_Catalog_Service_CategoryServiceV1" id="1" />
-
-        <version class="Mage_Catalog_Service_CategoryServiceV2" id="2">
-            <operation method="move" name="Move category in tree" />
-        </version>
+<config>
+    <service>
+        <title>Catalog Category Service</title>
+        <class>Mage_Catalog_Service_CategoryServiceV1</class>
+        <version>1</version>
+        <uri>categories</uri>
+        <allow_remote>1</allow_remote>
+        <call>
+            <title>Create new category</title>
+            <method>create</method>
+            <rest-route>categories</rest-route>
+            <rest-method>POST</rest-method>
+            <annotation>CDATA</annotation>
+        </call>
+        <call>
+            <title>Retrieve a category</title>
+            <method>item</method>
+            <rest-route>categories/:entity_id</rest-route>
+            <rest-method>GET</rest-method>
+        </call>
+        <call>
+            <title>Retrieve category collection by filters</title>
+            <method>items</method>
+            <rest-route>categories</rest-route>
+            <rest-method>GET</rest-method>
+        </call>
+    </service>
+    <service>
+        <title>Catalog Category Service</title>
+        <class>Mage_Catalog_Service_CategoryServiceV2</class>
+        <version>2</version>
+        <uri>categories</uri>
+        <allow_remote>1</allow_remote>
+        <call>
+            <title>Create new category</title>
+            <method>create</method>
+            <rest-route>categories</rest-route>
+            <rest-method>POST</rest-method>
+            <annotation>CDATA</annotation>
+        </call>
+        <call>
+            <title>Retrieve a category</title>
+            <method>item</method>
+            <rest-route>categories/:entity_id</rest-route>
+            <rest-method>GET</rest-method>
+        </call>
+        <call>
+            <title>Retrieve category collection by filters</title>
+            <method>items</method>
+            <rest-route>categories</rest-route>
+            <rest-method>GET</rest-method>
+        </call>
+        <call>
+            <title>Move category within the tree</title>
+            <method>move</method>
+            <rest-route>categories/:pid/:aid</rest-route>
+            <rest-method>POST</rest-method>
+        </call>
     </service>
 
-    <service class="Mage_Catalog_Service_ProductService" name="Catalog Product Service" module="Mage_Catalog">
-        <operation method="create" name="Create new product" />
-        <operation method="item" name="Retrieve product" />
-        <operation method="items" name="Retrieve products collection by filters" />
-        <operation method="update" name="Update product" />
-        <operation method="delete" name="Delete product" />
+    <service>
+        <title>Catalog Product Service</title>
+        <class>Mage_Catalog_Service_ProductService</class>
+        <uri>products</uri>
+        <version>1</version>
+        <allow_remote>1</allow_remote>
+        <call>
+            <title>Create new product</title>
+            <method>create</method>
+            <rest-route>products</rest-route>
+            <rest-method>POST</rest-method>
+            <annotation>CDATA</annotation>
+        </call>
+        <call>
+            <title>Retrieve a product</title>
+            <method>item</method>
+            <rest-route>products/:entity_id</rest-route>
+            <rest-method>GET</rest-method>
+        </call>
+        <call>
+            <title>Retrieve product collection by filters</title>
+            <method>items</method>
+            <rest-route>products</rest-route>
+            <rest-method>GET</rest-method>
+        </call>
     </service>
-</services>
+</config>
 

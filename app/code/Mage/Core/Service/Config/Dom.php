@@ -23,7 +23,7 @@ class Mage_Core_Service_Config_Dom extends Magento_Config_Dom
      */
     protected function _getMatchedNode($nodePath)
     {
-        if (!preg_match('/^\/services?$/i', $nodePath)) {
+        if (!preg_match('/^\/config?$/i', $nodePath)) {
             return null;
         }
         return parent::_getMatchedNode($nodePath);

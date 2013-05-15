@@ -41,15 +41,6 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
         }
 
         if ($id) {
-            if ($version) {
-                if ('V1' === $version) {
-                    $product->setSkipReindex(false);
-                } elseif ('V2' === $version) {
-                    // should be implemented to skip re-indexing as the default case
-                    //$product->setSkipReindex(true);
-                }
-            }
-
             // TODO: we need this trick as because of improper handling when target record doesn't exist
             $product->setId(null);
 
@@ -63,7 +54,7 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
             }
         }
 
-        $this->prepareResponse(get_class($this), 'item', $product, $request);
+        $this->prepareModel(get_class($this), 'item', $product, $request);
 
         return $product;
     }
@@ -98,7 +89,7 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
             throw new Mage_Core_Service_Exception($message, Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
         }
 
-        $this->prepareResponse(get_class($this), 'items', $collection, $request);
+        $this->prepareCollection(get_class($this), 'items', $collection, $request);
 
         return $collection;
     }

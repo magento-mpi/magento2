@@ -43,48 +43,22 @@ class Mage_Core_Service_ObjectManager extends Varien_Object
         $this->_config = $config;
     }
 
-    public function getCallerId()
-    {
-        return 'Mage_Core';
-    }
-
     /**
      * Call a service method
      *
      * @param string $serviceReferenceId
      * @param string $serviceMethod
-     * @param mixed $context [optional]
+     * @param mixed $request [optional]
      * @param mixed $version [optional]
      * @return mixed (service execution response)
      */
-    public function call($serviceReferenceId, $serviceMethod, $context = null, $version = null)
+    public function call($serviceReferenceId, $serviceMethod, $request = null, $version = null)
     {
-        if (null === $version) {
-            $version = (string) $this->getServiceVersionBind($this->getCallerId(), $serviceReferenceId);
-        }
+        $service  = $this->_serviceFactory->createServiceInstance($serviceReferenceId, $serviceMethod, $version);
 
-        $service  = $this->getService($serviceReferenceId, $version);
-
-        $response = $service->call($serviceMethod, $context, $version);
+        $response = $service->call($serviceMethod, $request, $version);
 
         return $response;
-    }
-
-    /**
-     * Retrieve a service instance
-     *
-     * @param string $serviceReferenceId
-     * @param mixed $version [optional]
-     * @return Mage_Core_Service_Type_Abstract $service
-     */
-    public function getService($serviceReferenceId, $version = null)
-    {
-        if (null === $version) {
-            $version = (string) $this->getServiceVersionBind($this->getCallerId(), $serviceReferenceId);
-        }
-
-        $service = $this->_serviceFactory->createServiceInstance($serviceReferenceId, $version);
-        return $service;
     }
 
     /**
@@ -195,16 +169,6 @@ class Mage_Core_Service_ObjectManager extends Varien_Object
         }
 
         return $this->_contentSchemas[$schemaFile];
-    }
-
-    /**
-     * @param string $callerReferenceId
-     * @param string $serviceReferenceId
-     * @return string
-     */
-    public function getServiceVersionBind($callerReferenceId, $serviceReferenceId)
-    {
-        return $this->_config->getServiceVersionBind($callerReferenceId, $serviceReferenceId);
     }
 }
 
