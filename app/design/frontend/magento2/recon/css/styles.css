@@ -5719,11 +5719,10 @@ body.type-bundle {
   text-align: center;
 }
 .block.bundle.summary {
-  margin-top: 97px;
+  margin-top: 54px;
   background: #000000;
-  position: absolute;
-  right: 0;
-  top: 0;
+  position: relative;
+  float: right;
   width: 380px;
 }
 .col2-left-layout .block.bundle.summary,
@@ -5737,8 +5736,8 @@ body.type-bundle {
   font-weight: 400;
   border-bottom: 2px solid #393939;
   line-height: 1;
-  padding: 20px 20px 10px;
-  margin-bottom: 0;
+  padding: 20px 0 10px;
+  margin: 0 20px;
 }
 .block.bundle.summary .showcart {
   float: left;
@@ -5777,8 +5776,8 @@ body.type-bundle {
 }
 .block.bundle.summary .box.tocart {
   padding: 10px 0 20px;
-  border-top: 1px solid #ffffff;
-  border-bottom: 1px solid #ffffff;
+  border-top: 1px solid #393939;
+  border-bottom: 1px solid #393939;
 }
 .block.bundle.summary .addto.links .action {
   font-size: 14px;
@@ -5789,12 +5788,12 @@ body.type-bundle {
 }
 .block.bundle.summary .subtitle {
   display: block;
-  margin: 20px -20px 0;
+  margin: 20px 0 0;
   font-weight: 200;
   font-size: 20px;
   border-bottom: 2px solid #393939;
   line-height: 1;
-  padding: 20px 20px 10px;
+  padding: 20px 0 10px;
   margin-bottom: 0;
 }
 .block.bundle.summary .bundle.summary div > ul {
