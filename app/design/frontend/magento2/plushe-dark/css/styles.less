@@ -77,6 +77,7 @@ strong {
 @primary4: #999999;
 @primary5: #837d75;
 @primary6: #675f55;
+@primary7: #fff; // for some fieldsets
 @primeBlack: #7f7f7;
 @primeBlackOpacity: rgba(0, 0, 0, 0.5);
 @commonBg : #fff;
@@ -780,6 +781,7 @@ a:visited {
         .transitionDelay(0s);
     }
 }
+
 
 /* Banner */
 .header .panel .widget {
@@ -3363,6 +3365,9 @@ div.mage-error {
     @spacing: 0 0 10px;
     .item.product {
         .column(4);
+        .col3-layout & {
+            width: 50%;
+        }
         display: inline-block;
         vertical-align: top;
         .borderBox;
@@ -3451,10 +3456,17 @@ div.mage-error {
 
 .block.widget.viewed {
     .products.list.items.widget-viewed-grid {
-        margin: 0 -13px;
         .item.product {
             .column(2);
-            padding: 13px;
+            float: none;
+            display:inline-block;
+            .col2-left-layout &,
+            .col2-right-layout & {
+                width:19.99%;
+            }
+            .col3-layout & {
+                width: 25%;
+            }
             .product.photo {
                 float: none;
                 display: block;
@@ -4331,7 +4343,7 @@ and (max-width : 768px) {
         }
         margin: 0 0 50px;
         padding: 20px;
-        background: #fff; //tmpColor
+        background: @primary7;
         &:last-child {
             margin-bottom: 0;
         }
@@ -4362,11 +4374,10 @@ and (max-width : 768px) {
 }
 
 .block.bundle.summary {
-    margin-top: 97px;
-    background: #fff; //tmpColor
-    position: absolute;
-    right: 0;
-    top: 0;
+    background: @primary7;
+    margin-top: 54px;
+    float: right;
+    position: relative;
     width: 380px;
     > .title {
         font-weight: 400;
