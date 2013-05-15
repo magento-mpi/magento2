@@ -3374,6 +3374,9 @@ div.mage-error {
     @spacing: 0 0 10px;
     .item.product {
         .column(4);
+        .col3-layout & {
+            width: 50%;
+        }
         display: inline-block;
         vertical-align: top;
         .borderBox;
@@ -3462,10 +3465,17 @@ div.mage-error {
 
 .block.widget.viewed {
     .products.list.items.widget-viewed-grid {
-        margin: 0 -13px;
         .item.product {
             .column(2);
-            padding: 13px;
+            float: none;
+            display:inline-block;
+            .col2-left-layout &,
+            .col2-right-layout & {
+                width:19.99%;
+            }
+            .col3-layout & {
+                width: 25%;
+            }
             .product.photo {
                 float: none;
                 display: block;
