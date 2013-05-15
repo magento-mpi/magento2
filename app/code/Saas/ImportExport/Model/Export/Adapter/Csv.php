@@ -23,13 +23,6 @@ class Saas_ImportExport_Model_Export_Adapter_Csv extends Saas_ImportExport_Model
     protected $_enclosure = '"';
 
     /**
-     * Source file handler.
-     *
-     * @var resource
-     */
-    protected $_fileHandler;
-
-    /**
      * Object destructor.
      *
      * @return void
@@ -50,16 +43,6 @@ class Saas_ImportExport_Model_Export_Adapter_Csv extends Saas_ImportExport_Model
     {
         $this->_fileHandler = fopen($this->_destination, 'a+');
         return $this;
-    }
-
-    /**
-     * MIME-type for 'Content-Type' header.
-     *
-     * @return string
-     */
-    public function getContentType()
-    {
-        return 'text/csv';
     }
 
     /**
@@ -121,31 +104,5 @@ class Saas_ImportExport_Model_Export_Adapter_Csv extends Saas_ImportExport_Model
             }
         }
         return $this;
-    }
-
-    /**
-     * Truncate export-entity files
-     *
-     * @return boolean
-     */
-    public function truncate()
-    {
-        try {
-            if (is_resource($this->_fileHandler)) {
-                fclose($this->_fileHandler);
-            }
-            //Remove previous exports
-            $exportFiles = glob('{' . dirname($this->_destination) . DS . '*' . '}', GLOB_BRACE);
-            foreach ($exportFiles as $exportFile) {
-                if (!unlink($exportFile)) {
-                    return false;
-                }
-            }
-            $this->_fileHandler = fopen($this->_destination, 'a+');
-        } catch (Exception $e) {
-            Mage::logException($e);
-            return false;
-        }
-        return true;
     }
 }

@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 abstract class Saas_ImportExport_Model_Export_Adapter_Abstract
-    implements Mage_ImportExport_Model_Export_Adapter_Interface
 {
     /**
      * Destination file path.
@@ -28,6 +27,14 @@ abstract class Saas_ImportExport_Model_Export_Adapter_Abstract
      * @var Saas_ImportExport_Helper_Data
      */
     protected $_helper;
+
+    /**
+     * Source file handler.
+     *
+     * @var resource
+     */
+    protected $_fileHandler;
+
     /**
      * Adapter object constructor.
      *
@@ -64,13 +71,6 @@ abstract class Saas_ImportExport_Model_Export_Adapter_Abstract
     abstract public function writeRow($rowData);
 
     /**
-     * Truncate destination dir
-     *
-     * @return boolean
-     */
-    abstract public function truncate();
-
-    /**
      * Set column names.
      *
      * @param array $headerColumns
@@ -79,14 +79,11 @@ abstract class Saas_ImportExport_Model_Export_Adapter_Abstract
     abstract protected function _setHeaderCols(array $headerColumns, $writeToFile = true);
 
     /**
-     * MIME-type for 'Content-Type' header.
+     * Return file extension for downloading
      *
      * @return string
      */
-    public function getContentType()
-    {
-        return 'application/octet-stream';
-    }
+    abstract public function getFileExtension();
 
     /**
      * Set column names.
@@ -113,26 +110,6 @@ abstract class Saas_ImportExport_Model_Export_Adapter_Abstract
     }
 
     /**
-     * Get contents of export file
-     *
-     * @return string
-     */
-    public function getContents()
-    {
-        return file_get_contents($this->_destination);
-    }
-
-    /**
-     * Return file extension for downloading
-     *
-     * @return string
-     */
-    public function getFileExtension()
-    {
-        return '';
-    }
-
-    /**
      * Rename temporary file and return path to them
      *
      * @throws Exception
@@ -147,6 +124,32 @@ abstract class Saas_ImportExport_Model_Export_Adapter_Abstract
             );
         }
         return $destination;
+    }
+
+    /**
+     * Cleanup destination dir
+     *
+     * @return boolean
+     */
+    public function cleanupWorkingDir()
+    {
+        try {
+            if (is_resource($this->_fileHandler)) {
+                fclose($this->_fileHandler);
+            }
+            //Remove previous exports
+            $exportFiles = glob('{' . dirname($this->_destination) . DS . '*' . '}', GLOB_BRACE);
+            foreach ($exportFiles as $exportFile) {
+                if (!unlink($exportFile)) {
+                    return false;
+                }
+            }
+            $this->_fileHandler = fopen($this->_destination, 'a+');
+        } catch (Exception $e) {
+            Mage::logException($e);
+            return false;
+        }
+        return true;
     }
 
     /**

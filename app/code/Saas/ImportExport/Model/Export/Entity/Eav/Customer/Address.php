@@ -45,4 +45,12 @@ class Saas_ImportExport_Model_Export_Entity_Eav_Customer_Address
             $this->exportItem($item);
         }
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setStorageAdapter(Saas_ImportExport_Model_Export_Adapter_Abstract $writer)
+    {
+        $this->_writer = $writer;
+    }
 }

@@ -78,7 +78,7 @@ class Saas_ImportExport_Model_Flag extends Mage_Core_Model_Flag
      */
     public function saveAsQueued()
     {
-        $this->unsetData();
+        $this->setData('flag_data', null);
         $this->setState(self::STATE_QUEUED)->save();
     }
 
@@ -113,7 +113,7 @@ class Saas_ImportExport_Model_Flag extends Mage_Core_Model_Flag
      */
     public function saveStatusMessage($message)
     {
-        $this->setFlagData(array('message' => $message))->save();
+        $this->_saveFlagData(array('message' => $message));
     }
 
     /**
@@ -123,7 +123,7 @@ class Saas_ImportExport_Model_Flag extends Mage_Core_Model_Flag
      */
     public function saveExportFilename($filename)
     {
-        $this->setFlagData(array('file' => $filename))->save();
+        $this->_saveFlagData(array('file' => $filename));
     }
 
     /**
@@ -149,5 +149,19 @@ class Saas_ImportExport_Model_Flag extends Mage_Core_Model_Flag
             return true;
         }
         return false;
+    }
+
+    /**
+     * Save data to flag
+     *
+     * @param array $data
+     */
+    protected function _saveFlagData($data)
+    {
+        $oldData = $this->getFlagData();
+        if ($oldData) {
+            $data = array_merge($oldData, $data);
+        }
+        $this->setFlagData($data)->save();
     }
 }

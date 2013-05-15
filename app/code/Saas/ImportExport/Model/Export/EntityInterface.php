@@ -10,12 +10,11 @@
 interface Saas_ImportExport_Model_Export_EntityInterface
 {
     /**
-     * Set storage for export entity model
+     * Set storage for export entity model. Wrapper for setWriter()
      *
-     * @param Mage_ImportExport_Model_Export_Adapter_Interface $writer
-     * @return mixed
+     * @param Saas_ImportExport_Model_Export_Adapter_Abstract $writer
      */
-    public function setWriter(Mage_ImportExport_Model_Export_Adapter_Interface $writer);
+    public function setStorageAdapter(Saas_ImportExport_Model_Export_Adapter_Abstract $writer);
 
     /**
      * Get header columns for export data

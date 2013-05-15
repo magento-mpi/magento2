@@ -62,6 +62,14 @@ class Saas_ImportExport_Model_Export_Entity_Product  extends Mage_ImportExport_M
     /**
      * {@inheritdoc}
      */
+    public function setStorageAdapter(Saas_ImportExport_Model_Export_Adapter_Abstract $writer)
+    {
+        $this->_writer = $writer;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function exportCollection()
     {
         $collection = $this->getCollection();

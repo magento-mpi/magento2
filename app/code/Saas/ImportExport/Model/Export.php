@@ -115,7 +115,10 @@ class Saas_ImportExport_Model_Export extends Varien_Object
                 $this->_configHelper->getStorageFilePath($this->_getEntityType())
             );
             $this->_exportEntity = $this->_exportEntityFactory->create($this->_getEntityType(), $params);
-            $this->_exportEntity->setWriter($this->_storageAdapter);
+            $this->_exportEntity->setStorageAdapter($this->_storageAdapter);
+            if ($this->_getCurrentPage() == 1) {
+                $this->_storageAdapter->cleanupWorkingDir();
+            }
         } catch (Exception $e) {
             $this->_setIsFinished();
             Mage::logException($e);
