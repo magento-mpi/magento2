@@ -38,20 +38,23 @@
             </table>
         <?php else: ?>
             <?php foreach ($this->getFiles() as $file): ?>
-                <div class="image base-image css-editor-image">
-                        <?php if (isset($file['thumbnailParams'])): ?>
-                            <img class="asset-image" src="<?php echo $this->getUrl('*/*/previewImage', $file['thumbnailParams']) ?>">
-                        <?php endif; ?>
+                <div class="image base-image asset-image css-editor-image">
+                    <?php if (isset($file['thumbnailParams'])): ?>
+                        <img class="spacer" src="<?php echo Mage::getDesign()->getViewFileUrl('images/spacer.gif') ?>"/>
+                        <img src="<?php echo $this->getUrl('*/*/previewImage', $file['thumbnailParams']) ?>">
+                    <?php endif; ?>
+                    <p>
                         <?php echo $file['width'] ?>x<?php echo $file['height'] ?> px.
                         <?php echo $file['text'] ?>
-                        <div class="actions">
-                            <a href="#" class="action-delete" onclick="MediabrowserInstance.deleteFiles('<?php echo $file['id'] ?>')" title="<?php echo $this->__('Delete file'); ?>" data-id="<?php echo $file['id'] ?>">
-                                <span><?php echo $this->__('Delete file'); ?></span>
-                            </a>
-                            <a href="#" class="action-add" onclick="MediabrowserInstance.insert('<?php echo $file['id'] ?>')" title="<?php echo $this->__('Insert file'); ?>" data-id="<?php echo $file['id'] ?>">
-                                <span><?php echo $this->__('Insert file'); ?></span>
-                            </a>
-                        </div>
+                    </p>
+                    <div class="actions">
+                        <a href="#" class="action-delete" onclick="MediabrowserInstance.deleteFiles('<?php echo $file['id'] ?>')" title="<?php echo $this->__('Delete file'); ?>" data-id="<?php echo $file['id'] ?>">
+                            <span><?php echo $this->__('Delete file'); ?></span>
+                        </a>
+                        <a href="#" class="action-add" onclick="MediabrowserInstance.insert('<?php echo $file['id'] ?>')" title="<?php echo $this->__('Insert file'); ?>" data-id="<?php echo $file['id'] ?>">
+                            <span><?php echo $this->__('Insert file'); ?></span>
+                        </a>
+                    </div>
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>

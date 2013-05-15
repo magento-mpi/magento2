@@ -2063,7 +2063,7 @@
     position: relative;
     width: 17.874%;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 0;
     float: left;
     margin: 5px 1%;
     overflow: hidden;
@@ -2075,7 +2075,7 @@
 }
 
 .image .spacer {
-    width: 100%;
+    width: 20%;
 }
 
 .image .asset-image {
@@ -2157,17 +2157,13 @@
     z-index: 2;
 }
 
-.image .action-make-base {
+.image .action-add {
     position: absolute;
     bottom: 20px;
     left: 10%;
     right: 10%;
     padding: 5px;
     margin: auto;
-}
-
-.image.base-image .action-make-base {
-    display: none;
 }
 
 .gallery .image .action-delete {
