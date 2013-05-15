@@ -340,7 +340,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
             if ($class) {
                 $fullyQualified = "{$class}::{$constant}";
                 $regex = preg_quote($fullyQualified, '/');
-                if ($this->_isSubclassOf($content, $class)) {
+                if ($this->_isSubclassOf($content, $class) && !$this->_isClassConstantDefined($content, $constant)) {
                     $regex .= '|' . preg_quote("self::{$constant}", '/')
                         . '|' . preg_quote("parent::{$constant}", '/')
                         . '|' . preg_quote("static::{$constant}", '/');
@@ -353,6 +353,18 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
                 $this->_suggestReplacement(sprintf("Constant '%s' is obsolete.", $fullyQualified), $replacement)
             );
         }
+    }
+
+    /**
+     * Whether a class constant is defined in the content or not
+     *
+     * @param string $content
+     * @param string $constant
+     * @return bool
+     */
+    protected function _isClassConstantDefined($content, $constant)
+    {
+        return (bool)preg_match('/\bconst\s+' . preg_quote($constant, '/') . '\b/iS', $content);
     }
 
     /**
