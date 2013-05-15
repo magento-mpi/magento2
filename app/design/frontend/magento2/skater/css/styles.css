@@ -4342,11 +4342,10 @@ body.type-bundle {
 .block.bundle.summary {
   background: #ffffff;
   border: 1px solid #cccccc;
-  margin-top: 45px;
-  position: absolute;
-  right: 20px;
-  top: 0;
   width: 300px;
+  margin-top: 54px;
+  float: right;
+  position: relative;
 }
 .block.bundle.summary > .title {
   font-weight: 400;
