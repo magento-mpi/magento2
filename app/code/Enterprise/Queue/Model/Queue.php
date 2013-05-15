@@ -3,7 +3,7 @@
  * Task queue
  *
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
@@ -50,12 +50,12 @@ class Enterprise_Queue_Model_Queue implements Enterprise_Queue_Model_QueueInterf
     }
 
     /**
-     * Get task name
+     * Retrieve full task name with prefix
      *
      * @param string $name
      * @return string
      */
-    protected function _getTaskName($name)
+    protected function _getPrefixedTaskName($name)
     {
         return $this->_taskNamePrefix . $name;
     }
@@ -71,7 +71,7 @@ class Enterprise_Queue_Model_Queue implements Enterprise_Queue_Model_QueueInterf
      */
     public function addTask($taskName, array $params, $priority)
     {
-        $taskName = $this->_getTaskName($taskName);
+        $taskName = $this->_getPrefixedTaskName($taskName);
         try {
             $params = array_merge_recursive($this->_queueConfig->getTaskParams(), $params);
             $task = $this->_taskRepository->get($taskName, $params);
@@ -102,7 +102,7 @@ class Enterprise_Queue_Model_Queue implements Enterprise_Queue_Model_QueueInterf
      */
     public function getTask($taskName, array $params = array())
     {
-        $taskName = $this->_getTaskName($taskName);
+        $taskName = $this->_getPrefixedTaskName($taskName);
         $params = array_merge_recursive($this->_queueConfig->getTaskParams(), $params);
         $task = $this->_taskRepository->get($taskName, $params);
         if ($task->getHandle()) {
