@@ -42,7 +42,8 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_Field
         } else {
             $this->_values = array($fieldData['value']);
         }
-        $fieldId = $fieldPrefix . array_pop($fieldData['dependPath']);
+        $fieldId = $fieldPrefix . (isset($fieldData['dependPath']) && is_array($fieldData['dependPath'])
+            ? array_pop($fieldData['dependPath']) : '');
         $fieldData['dependPath'][] = $fieldId;
         $this->_id = implode('_', $fieldData['dependPath']);
         $this->_isNegative = isset($fieldData['negative']) && $fieldData['negative'];

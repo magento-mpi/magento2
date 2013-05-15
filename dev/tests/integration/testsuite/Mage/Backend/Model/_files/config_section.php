@@ -9,26 +9,48 @@
  * @license     {license_link}
  */
 
-return array(array ('section' => 'paypal', 'groups' =>array(
+return array(array ('section' => 'payment', 'groups' =>array(
         'account' => array (
             'fields' => array (
                 'merchant_country' => array ('value' => 'US'),
-                'business_account' => array ('value' => 'owner@example.com'),
             ),
         ),
-        'global' => array (
-            'fields' => array (
-                'payflow_link' => array ('value' => '1'),
-            ),
-        ),
-        'payflow_link' => array (
-            'fields' => array (
-                'partner' => array ('value' => 'link_partner'),
-                'vendor' => array ('value' => 'link_vendor'),
-                'user' => array ('value' => 'link_user'),
-                'pwd' => array ('value' => 'password'),
-            ),
-        ),
+        'paypal_payments' => array(
+            'groups' => array(
+                'payflow_advanced' => array(
+                    'groups' => array(
+                        'required_settings' => array(
+                            'groups' => array(
+                                'express' => array(
+                                    'fields' => array(
+                                        'business_account' => array ('value' => 'owner@example.com')
+                                    )
+                                )
+                            )
+                        )
+                    )
+                ),
+                'payflow_link' => array(
+                    'groups' => array(
+                        'payflow_link_required' => array(
+                            'fields' => array(
+                                'enable_payflow_link' => array('value' => '1')
+                            ),
+                            'groups' => array(
+                                'payflow_link_payflow_link' => array(
+                                    'fields' => array(
+                                        'partner' => array ('value' => 'link_partner'),
+                                        'vendor' => array ('value' => 'link_vendor'),
+                                        'user' => array ('value' => 'link_user'),
+                                        'pwd' => array ('value' => 'password'),
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
     ),
     'expected' => array(
         'paypal' => array(
