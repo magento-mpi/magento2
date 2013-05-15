@@ -197,15 +197,22 @@ abstract class Mage_Core_Service_Type_Abstract
      *
      * @param string $serviceClass
      * @param string $serviceMethod
-     * @param mixed $collection
+     * @param Varien_Data_Collection $collection
      * @param mixed $request
-     * @return bool
+     * @return $collection
      */
     public function prepareCollection($serviceClass, $serviceMethod, $collection, $request)
     {
+        //$_collection = clone $collection;
+        //$_collection->removeAllItems()
+        //    ->setItemObjectClass('Varien_Object');
         foreach ($collection->getItems() as $item) {
-            $this->prepareModel($serviceClass, $serviceMethod, $item, $request);
+            $container = $this->prepareModel($serviceClass, $serviceMethod, $item, $request);
+            $item->setData($container->getData());
+            //$container->setId($item->getId());
+            //$_collection->addItem($container);
         }
+        return $collection;
     }
 
     /**
