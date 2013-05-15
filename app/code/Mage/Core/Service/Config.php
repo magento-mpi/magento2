@@ -139,14 +139,8 @@ class Mage_Core_Service_Config
     protected function _toArray($root)
     {
         $result = array();
-        $attributes = array();
 
-        if ($root->hasAttributes()) {
-            foreach ($root->attributes as $attr) {
-                $attributes[$attr->name] = $attr->value;
-            }
-            $result['_attributes_'] = $attributes;
-        }
+        $this->_readAttributes($root, $result);
 
         $children = $root->childNodes;
         if ($children) {
@@ -208,6 +202,21 @@ class Mage_Core_Service_Config
         unset($result['#text']);
 
         return $result;
+    }
+
+    /**
+     * @param $node
+     * @param array $result
+     */
+    protected function _readAttributes($node, & $result)
+    {
+        if ($node->hasAttributes()) {
+            $attributes = array();
+            foreach ($node->attributes as $attr) {
+                $attributes[$attr->name] = $attr->value;
+            }
+            $result['_attributes_'] = $attributes;
+        }
     }
 
     /**

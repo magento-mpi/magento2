@@ -25,34 +25,31 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
     protected function _initCatagory()
     {
         Mage::dispatchEvent('catalog_controller_category_init_before', array('controller_action' => $this));
-        $categoryId = (int)$this->getRequest()->getParam('id', false);
+        $categoryId = (int) $this->getRequest()->getParam('id', false);
         if (!$categoryId) {
             return false;
         }
 
-        /** @var $serviceManager Mage_Core_Service_ObjectManager */
-        $serviceManager = Mage::getSingleton('Mage_Core_Service_ObjectManager');
-        $category = $serviceManager->call('categories', 'init', array(
-                'entity_id' => $categoryId,
-                'store_id'  => Mage::app()->getStore()->getId(),
-                'fields'    => 'entity_id,name,path,is_active,store_id'
-            ));
+        $category = Mage::getModel('Mage_Catalog_Model_Category')
+            ->setStoreId(Mage::app()->getStore()->getId())
+            ->load($categoryId);
 
-        if ($category) {
-            Mage::getSingleton('Mage_Catalog_Model_Session')->setLastVisitedCategoryId($category->getId());
-            Mage::register('current_category', $category);
-            try {
-                Mage::dispatchEvent(
-                    'catalog_controller_category_init_after',
-                    array(
-                        'category'          => $category,
-                        'controller_action' => $this
-                    )
-                );
-            } catch (Mage_Core_Exception $e) {
-                Mage::logException($e);
-                return false;
-            }
+        if (!Mage::helper('Mage_Catalog_Helper_Category')->canShow($category)) {
+            return false;
+        }
+        Mage::getSingleton('Mage_Catalog_Model_Session')->setLastVisitedCategoryId($category->getId());
+        Mage::register('current_category', $category);
+        try {
+            Mage::dispatchEvent(
+                'catalog_controller_category_init_after',
+                array(
+                    'category' => $category,
+                    'controller_action' => $this
+                )
+            );
+        } catch (Mage_Core_Exception $e) {
+            Mage::logException($e);
+            return false;
         }
 
         return $category;
@@ -64,14 +61,6 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
     public function viewAction()
     {
         if ($category = $this->_initCatagory()) {
-            /** @var $serviceManager Mage_Core_Service_ObjectManager */
-            $serviceFactory = Mage::getSingleton('Mage_Core_Service_Factory');
-            /** @var $layoutService Mage_Core_Service_LayoutService */
-            $layoutService = $serviceFactory->createServiceInstance('layout');
-            $layout = $layoutService->getLayout($this->_currentArea);
-
-            $layout->getUpdate()->addHandle('default');
-
             $design = Mage::getSingleton('Mage_Catalog_Model_Design');
             $settings = $design->getDesignSettings($category);
 
@@ -80,7 +69,9 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
                 $design->applyCustomDesign($settings->getCustomDesign());
             }
 
-            $update = $layout->getUpdate();
+            Mage::getSingleton('Mage_Catalog_Model_Session')->setLastViewedCategoryId($category->getId());
+
+            $update = $this->getLayout()->getUpdate();
             if ($category->getIsAnchor()) {
                 $type = $category->hasChildren() ? 'layered' : 'layered_without_children';
             } else {
@@ -89,25 +80,21 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
             $this->addPageLayoutHandles(
                 array('type' => $type, 'id' => $category->getId())
             );
-
-            $layoutService->loadLayoutUpdates($layout);
+            $this->loadLayoutUpdates();
 
             // apply custom layout update once layout is loaded
             if ($layoutUpdates = $settings->getLayoutUpdates()) {
                 if (is_array($layoutUpdates)) {
-                    foreach ($layoutUpdates as $layoutUpdate) {
+                    foreach($layoutUpdates as $layoutUpdate) {
                         $update->addUpdate($layoutUpdate);
                     }
                 }
             }
 
-            $layoutService->generateLayoutXml($layout);
-
-            $layoutService->generateLayoutBlocks($layout);
-
+            $this->generateLayoutXml()->generateLayoutBlocks();
             // apply custom layout (page) template once the blocks are generated
             if ($settings->getPageLayout()) {
-                $layout->helper('Mage_Page_Helper_Layout')->applyTemplate($settings->getPageLayout());
+                $this->getLayout()->helper('Mage_Page_Helper_Layout')->applyTemplate($settings->getPageLayout());
             }
 
             if ($root = $this->getLayout()->getBlock('root')) {
@@ -117,10 +104,9 @@ class Mage_Catalog_CategoryController extends Mage_Core_Controller_Front_Action
 
             $this->_initLayoutMessages('Mage_Catalog_Model_Session');
             $this->_initLayoutMessages('Mage_Checkout_Model_Session');
-
-            $output = $layoutService->renderLayout($layout);
-            $this->getResponse()->setBody($output);
-        } elseif (!$this->getResponse()->isRedirect()) {
+            $this->renderLayout();
+        }
+        elseif (!$this->getResponse()->isRedirect()) {
             $this->_forward('noRoute');
         }
     }
