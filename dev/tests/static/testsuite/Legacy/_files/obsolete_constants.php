@@ -67,6 +67,15 @@ return array(
     array('PATH_PREFIX_CUSTOMIZATION', 'Mage_Core_Model_Theme'),
     array('PUBLIC_BASE_THEME_DIR', 'Mage_Core_Model_Design_PackageInterface'),
     array('PUBLIC_CACHE_TAG', 'Mage_Core_Model_Design_PackageInterface'),
+    array('PUBLIC_MODULE_DIR', 'Mage_Core_Model_Design_PackageInterface',
+        'Mage_Core_Model_Design_Package::PUBLIC_MODULE_DIR'
+    ),
+    array('PUBLIC_THEME_DIR', 'Mage_Core_Model_Design_PackageInterface',
+        'Mage_Core_Model_Design_Package::PUBLIC_THEME_DIR'
+    ),
+    array('PUBLIC_VIEW_DIR', 'Mage_Core_Model_Design_PackageInterface',
+        'Mage_Core_Model_Design_Package::PUBLIC_VIEW_DIR'
+    ),
     array('REGISTRY_FORM_PARAMS_KEY', null, 'direct value'),
     array('SCOPE_TYPE_GROUP', 'Mage_Core_Model_App', 'Mage_Core_Model_StoreManagerInterface::SCOPE_TYPE_GROUP'),
     array('SCOPE_TYPE_STORE', 'Mage_Core_Model_App', 'Mage_Core_Model_StoreManagerInterface::SCOPE_TYPE_STORE'),
@@ -89,6 +98,9 @@ return array(
         'Mage_Core_Model_LocaleInterface::XML_PATH_ALLOW_CURRENCIES'),
     array('XML_PATH_ALLOW_CURRENCIES_INSTALLED', 'Mage_Core_Model_Locale',
         'Mage_Core_Model_LocaleInterface::XML_PATH_ALLOW_CURRENCIES_INSTALLED'),
+    array('XML_PATH_ALLOW_DUPLICATION', 'Mage_Core_Model_Design_PackageInterface',
+        'Mage_Core_Model_Design_Package::XML_PATH_ALLOW_DUPLICATION'
+    ),
     array('XML_PATH_ALLOW_MAP_UPDATE', 'Mage_Core_Model_Design_PackageInterface'),
     array('XML_PATH_CACHE_BETA_TYPES'),
     array('XML_PATH_COUNTRY_DEFAULT', 'Mage_Paypal_Model_System_Config_Backend_MerchantCountry'),
@@ -107,6 +119,12 @@ return array(
     ),
     array('XML_PATH_STATIC_FILE_SIGNATURE', 'Mage_Core_Helper_Data',
         'Mage_Core_Model_Design_Package::XML_PATH_STATIC_FILE_SIGNATURE'
+    ),
+    array('XML_PATH_THEME', 'Mage_Core_Model_Design_PackageInterface',
+        'Mage_Core_Model_Design_Package::XML_PATH_THEME'
+    ),
+    array('XML_PATH_THEME_ID', 'Mage_Core_Model_Design_PackageInterface',
+        'Mage_Core_Model_Design_Package::XML_PATH_THEME_ID'
     ),
 );
 
