@@ -19,7 +19,7 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
      * @param mixed $request
      * @param mixed $version [optional]
      * @throws Mage_Core_Service_Exception
-     * @return Mage_Catalog_Model_Product
+     * @return Varien_Object
      */
     public function item($request, $version = null)
     {
@@ -98,6 +98,7 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
      * @param mixed $request
      * @param string $version [optional]
      * @throws Mage_Core_Service_Exception
+     * @return Varien_Object
      */
     public function create($request, $version = null)
     {
@@ -116,12 +117,17 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
             $message = Mage::helper('core')->__('An error occurred while creating the product.');
             throw new Mage_Core_Service_Exception($message, Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
         }
+
+        $result = $this->prepareModel(get_class($this), 'item', $product, $request);
+
+        return $result;
     }
 
     /**
      * @param mixed $request
      * @param string $version [optional]
      * @throws Mage_Core_Service_Exception
+     * @return Varien_Object
      */
     public function update($request, $version = null)
     {
@@ -139,5 +145,9 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
             $message = Mage::helper('core')->__('An error occurred while updating the product.');
             throw new Mage_Core_Service_Exception($message, Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
         }
+
+        $result = $this->prepareModel(get_class($this), 'item', $product, $request);
+
+        return $result;
     }
 }
