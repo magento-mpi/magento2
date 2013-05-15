@@ -37,8 +37,9 @@ class Mage_Directory_Model_Resource_Country_CollectionTest extends PHPUnit_Frame
         $localeMock = $this->getMock('Mage_Core_Model_LocaleInterface');
         $localeMock->expects($this->any())->method('getCountryTranslation')->will($this->returnArgument(0));
 
+        $fetchStrategy = $this->getMockForAbstractClass('Varien_Data_Collection_Db_FetchStrategyInterface');
         $this->_model = $this->getMock('Mage_Directory_Model_Resource_Country_Collection',
-            array('_toOptionArray'), array($helperMock, $localeMock, $resource), '', true
+            array('_toOptionArray'), array($helperMock, $localeMock, $fetchStrategy, $resource), '', true
         );
     }
 
