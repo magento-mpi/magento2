@@ -28,7 +28,9 @@ $numColumns = sizeof($this->getColumns());
                 <?php foreach ($this->getColumns() as $_column): ?>
                 <?php /* @var $_column Mage_Backend_Block_Widget_Grid_Column */ ?>
                     <th data-column="<?php echo $_column->getId() ?>" <?php echo $_column->getHeaderHtmlProperty() ?>>
-                        <span class="nobr"><?php echo $_column->getHeaderHtml() ?></span>
+                        <label for="YYY<?php echo $this->getColumnHtmlId($_column) ?>">
+                            <span class="nobr"><?php echo $_column->getHeaderHtml() ?></span>
+                        </label>
                     </th>
                 <?php endforeach; ?>
                 </tr>
