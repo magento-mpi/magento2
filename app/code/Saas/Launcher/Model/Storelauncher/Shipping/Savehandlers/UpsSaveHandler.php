@@ -58,8 +58,10 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_UpsSaveHandler
 
         // always choose not-deprecated type of UPS API
         $preparedData['carriers']['ups']['fields']['type']['value'] = 'UPS_XML';
-        // Enable UPS for checkout
+        // Enable UPS for checkout in live mode
         $preparedData['carriers']['ups']['fields']['active']['value'] = 1;
+        $preparedData['carriers']['ups']['fields']['is_account_live']['value'] = 1;
+        $preparedData['carriers']['ups']['fields']['mode_xml']['value'] = 1;
 
         return $preparedData;
     }

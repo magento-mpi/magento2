@@ -23,11 +23,33 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
     protected $_template = 'catalog/category/tree.phtml';
 
     /**
+     * Used for category count limitation
+     *
+     * @var Mage_Catalog_Model_Category_Limitation
+     */
+    protected $_limitation;
+
+    /**
      * Is create category restricted
      *
      * @var bool|null
      */
     protected $_isCreateRestricted = null;
+
+
+    /**
+     * Controls class dependencies.
+     *
+     * @param Mage_Core_Block_Template_Context $context
+     * @param array $data
+     * @param Mage_Catalog_Model_Category_Limitation $limitation
+     */
+    public function __construct(Mage_Core_Block_Template_Context $context, array $data = array(),
+                                Mage_Catalog_Model_Category_Limitation $limitation = null)
+    {
+        parent::__construct($context, $data);
+        $this->_limitation = $limitation ?: Mage::getObjectManager()->get('Mage_Catalog_Model_Category_Limitation');
+    }
 
     protected function _construct()
     {
@@ -402,9 +424,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
     protected function _isCreateRestricted()
     {
         if (is_null($this->_isCreateRestricted)) {
-            /** @var $limitation Mage_Catalog_Model_Category_Limitation */
-            $limitation = Mage::getObjectManager()->get('Mage_Catalog_Model_Category_Limitation');
-            $this->_isCreateRestricted = $limitation->isCreateRestricted();
+            $this->_isCreateRestricted = $this->_limitation->isCreateRestricted();
         }
         return $this->_isCreateRestricted;
     }

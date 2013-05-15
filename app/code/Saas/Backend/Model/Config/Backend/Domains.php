@@ -218,7 +218,7 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
     public function formatUrl($protocol, $domain)
     {
         $domain = $this->_sanitizeDomain($domain);
-        return sprintf('%s://%s', $protocol, $domain);
+        return sprintf('%s://%s/', $protocol, $domain);
     }
 
     /**
@@ -247,12 +247,15 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
     {
         $url = str_replace(
             array(self::HTTP . ':', self::HTTPS . ':', '//'),
-            array('', '', ''),
+            '',
             $url
         );
         $urlParts = explode('/', $url);
-        return !empty($urlParts[0]) ? $urlParts[0] : '';
+        if (empty($urlParts[0])) {
+            throw new InvalidArgumentException('Domain name can\'t be empty string');
+        }
 
+        return $urlParts[0];
     }
 
     /**
