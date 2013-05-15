@@ -75,10 +75,10 @@ class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataserv
 
     /**
      * Returns a child path node that corresponds to the input path element.  This can be used to walk the
-     * dataservice graph.
+     * dataservice graph.  Leaf nodes in the graph tend to be of mixed type (scalar, array, or object).
      *
      * @param string $pathElement the path element name of the child node
-     * @return Mage_Core_Model_Dataservice_Path_Node|null the child node, or null if it doesn't exist
+     * @return Mage_Core_Model_Dataservice_Path_Node|mixed|null the child node, or mixed if this is a leaf node
      */
     public function getChild($pathElement)
     {
