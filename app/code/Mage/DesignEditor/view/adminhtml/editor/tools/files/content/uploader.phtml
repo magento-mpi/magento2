@@ -16,18 +16,24 @@
     <div class="clear"></div>
     <div class="no-display" id="<?php echo $this->getHtmlId() ?>-template">
         <div id="{{id}}" class="file-row">
-            <span class="file-info">{{name}} ({{size}})</span>
+            <span class="file-info-name">{{name}}</span>
+            <span class="file-info-size">({{size}})</span>
+            <span class="file-info-cancel cancel">
+                <button class="action-delete">
+                    <span><?php echo $this->__('Remove'); ?></span>
+                </button>
+            </span>
             <div class="progressbar-container">
                 <div class="progressbar upload-progress" style="width: 0%;"></div>
             </div>
-            <div class="clear"></div>
         </div>
     </div>
 </div>
 <div class="fileinput-button form-buttons">
-        <button class="action-default primary" type="submit">Browse Files</button>
+        <button class="action-default primary" type="submit"><?php echo $this->__('Browse Files'); ?></button>
         <input id="fileupload" type="file" name="<?php echo $this->getConfig()->getFileField() ?>"
                data-url="<?php echo $this->getConfig()->getUrl() ?>" multiple>
+        <button class="start action-default" type="submit"><?php echo $this->__('Upload Files'); ?></button>
 </div>
 
 <script type="text/javascript">
@@ -54,9 +60,7 @@
                     progressTmpl.appendTo('#<?php echo $this->getHtmlId() ?>');
 
                 });
-                $(this).fileupload('process', data).done(function () {
-                    data.submit();
-                });
+                $(this).fileupload('process', data);
             },
             done: function(e, data) {
                 var progressSelector = '#' + data.fileId + ' .progressbar-container .progressbar';
