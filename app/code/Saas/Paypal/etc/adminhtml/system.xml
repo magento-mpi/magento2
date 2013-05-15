@@ -51,10 +51,10 @@
             </group>
             <group id="paypal_payment_solutions_saas_all" extends="*/paypal_payment_solutions" showInDefault="1" showInWebsite="1" showInStore="1">
                 <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                <group id="paypal_verisign_ca" sortOrder="30" extends="*/paypal_payments/paypal_verisign_saas" showInDefault="1" showInWebsite="1" showInStore="1">
+                <group id="paypal_verisign_ca" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <hide_in_single_store_mode>0</hide_in_single_store_mode>
                 </group>
-                <group id="paypal_verisign_aunz" sortOrder="20" extends="*/paypal_payments/paypal_verisign_saas" showInDefault="1" showInWebsite="1" showInStore="1">
+                <group id="paypal_verisign_aunz" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <hide_in_single_store_mode>0</hide_in_single_store_mode>
                 </group>
                 <group id="express_checkout_usgb_exclude" extends="*/paypal_payments/express_checkout_saas" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -66,6 +66,12 @@
                 <depends>
                     <field id="*/account/merchant_country" separator="," negative="1">US,GB,AU</field>
                 </depends>
+                <group id="wps_au" showInDefault="0" showInWebsite="0" showInStore="0">
+                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                </group>
+                <group id="payments_pro_hosted_solution_au" showInDefault="0" showInWebsite="0" showInStore="0">
+                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                </group>
             </group>
             <group id="paypal_payment_solutions_saas_au" extends="*/paypal_payment_solutions" showInDefault="1" showInWebsite="1" showInStore="1">
                 <hide_in_single_store_mode>0</hide_in_single_store_mode>
