@@ -100,8 +100,8 @@ class Saas_Saas_Model_Tenant_Config
             $this->_groupConfiguration = $tenantData['groupConfiguration'];
         }
 
-        if (array_key_exists('magento_task_name_prefix', $tenantData)) {
-            $this->_taskNamePrefix = (string)$tenantData['magento_task_name_prefix'];
+        if (array_key_exists('tmt_instance', $tenantData)) {
+            $this->_taskNamePrefix = (string)$tenantData['tmt_instance'];
         }
 
         $this->_config = $this->_mergeConfig(array(
