@@ -5698,11 +5698,10 @@ body.type-bundle {
   text-align: center;
 }
 .block.bundle.summary {
-  margin-top: 97px;
-  background: #ffffff;
-  position: absolute;
-  right: 0;
-  top: 0;
+  margin-top: 54px;
+  background: #f2f2f2;
+  position: relative;
+  float: right;
   width: 380px;
 }
 .col2-left-layout .block.bundle.summary,
@@ -5716,7 +5715,8 @@ body.type-bundle {
   font-weight: 400;
   border-bottom: 2px solid #d9d9d9;
   line-height: 1;
-  padding: 20px 20px 10px;
+  padding: 20px 0 10px;
+  margin: 0 20px;
   margin-bottom: 0;
 }
 .block.bundle.summary .showcart {
@@ -5763,6 +5763,9 @@ body.type-bundle {
   border-top: 1px solid #bdc0cb;
   border-bottom: 1px solid #bdc0cb;
 }
+.block.bundle.summary .box.tocart .input-text {
+  background: #ffffff;
+}
 .block.bundle.summary .addto.links .action {
   font-size: 14px;
   margin-right: 20px;
@@ -5772,12 +5775,12 @@ body.type-bundle {
 }
 .block.bundle.summary .subtitle {
   display: block;
-  margin: 20px -20px 0;
+  margin: 20px 0 0;
   font-weight: 200;
   font-size: 20px;
   border-bottom: 2px solid #d9d9d9;
   line-height: 1;
-  padding: 20px 20px 10px;
+  padding: 20px 0 10px;
   margin-bottom: 0;
 }
 .block.bundle.summary .bundle.summary div > ul {

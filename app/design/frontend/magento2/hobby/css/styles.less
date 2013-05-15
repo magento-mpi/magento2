@@ -3840,7 +3840,7 @@ select {
   font-size: 11px;
   span:before {
     content: "\e02d ";
-    font-family:"MUI-icons";
+    font-family: "MUI-icons";
     font-weight: 400;
     font-size: 11px;
     height: 12px;
@@ -4269,11 +4269,10 @@ and (max-width : 768px)  {
   }
 }
 .block.bundle.summary {
-  margin-top: 97px;
-  background: @primary1;
-  position: absolute;
-  right: 0;
-  top: 0;
+  margin-top: 54px;
+  background: @fieldBg;
+  position: relative;
+  float: right;
   width: 380px;
   .col2-left-layout &,
   .col2-right-layout & {
@@ -4286,7 +4285,8 @@ and (max-width : 768px)  {
     font-weight: 400;
     border-bottom: 2px solid @borderColor;
     line-height: 1;
-    padding: 20px 20px 10px;
+    padding: 20px 0 10px;
+    margin: 0 20px;
     margin-bottom: 0;
   }
   .showcart {
@@ -4325,27 +4325,30 @@ and (max-width : 768px)  {
     }
   }
   .box.tocart {
-    padding:10px 0 20px;
-    border-top:1px solid @primary2;
-    border-bottom:1px solid @primary2;
+    padding: 10px 0 20px;
+    border-top: 1px solid @primary2;
+    border-bottom: 1px solid @primary2;
+    .input-text {
+      background: @primary1;
+    }
   }
   .addto.links {
     .action {
       font-size: 14px;
-      margin-right:20px;
+      margin-right: 20px;
       &:last-child {
-        margin-right:0;
+        margin-right: 0;
       }
     }
   }
   .subtitle {
     display: block;
-    margin: 20px -20px 0;
+    margin: 20px 0 0;
     font-weight: 200;
     font-size: 20px;
     border-bottom: 2px solid @borderColor;
     line-height: 1;
-    padding: 20px 20px 10px;
+    padding: 20px 0 10px;
     margin-bottom: 0;
   }
     .bundle.summary {
