@@ -132,7 +132,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     /**
      * Helper to process css content
      *
-     * @var Mage_Core_Helper_Css_Processing
+     * @var Mage_Core_Helper_Css
      */
     protected $_cssHelper;
 
@@ -143,7 +143,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
      * @param Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool
      * @param Mage_Core_Model_App_State $appState
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
-     * @param Mage_Core_Helper_Css_Processing $cssHelper
+     * @param Mage_Core_Helper_Css $cssHelper
      */
     public function __construct(
         Mage_Core_Model_Dir $dirs,
@@ -152,7 +152,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         Mage_Core_Model_Design_FileResolution_StrategyPool $resolutionPool,
         Mage_Core_Model_App_State $appState,
         Mage_Core_Model_StoreManagerInterface $storeManager,
-        Mage_Core_Helper_Css_Processing $cssHelper
+        Mage_Core_Helper_Css $cssHelper
     ) {
         $this->_dirs = $dirs;
         $this->_moduleReader = $moduleReader;
@@ -781,12 +781,12 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
         $content = $this->_filesystem->read($sourcePath);
 
         $package = $this;
-        $callback = function ($relativeUrl) use ($package, $sourcePath, $fileName, $params) {
-            $relatedFilePathPublic = $package->publishRelatedViewFile($relativeUrl, $sourcePath, $fileName, $params);
+        $callback = function ($relativeUrl, $originalPath) use ($package, $fileName, $params) {
+            $relatedFilePathPublic = $package->publishRelatedViewFile($relativeUrl, $originalPath, $fileName, $params);
             return $relatedFilePathPublic;
         };
         try {
-            $content = $this->_cssHelper->replaceCssRelativeUrls($content, $publicPath, $callback);
+            $content = $this->_cssHelper->replaceCssRelativeUrls($content, $sourcePath, $publicPath, $callback);
         } catch (Magento_Exception $e) {
             Mage::logException($e);
         }
@@ -794,7 +794,12 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
     }
 
     /**
-     * Publish relative $fileUrl based on information about parent file path and name
+     * Publish relative $fileUrl based on information about parent file path and name.
+     *
+     * The method is public only because PHP 5.3 does not permit usage of protected methods inside the closures,
+     * even if a closure is created in the same class. The method is not intended to be used by a client of this class.
+     * If you ever need to call this method externally, then ensure you have a good reason for it. As such the method
+     * would need to be added to the class's interface and proxy.
      *
      * @param string $fileUrl URL to the file that was extracted from $parentFilePath
      * @param string $parentFilePath path to the file
@@ -819,7 +824,7 @@ class Mage_Core_Model_Design_Package implements Mage_Core_Model_Design_PackageIn
                     $params['module'] = false;
                 }
             } else {
-                $relativeThemeFile = $this->_filesystem->normalizePath(dirname($parentFileName) . DS . $fileUrl, true);
+                $relativeThemeFile = $this->_filesystem->normalizePath(dirname($parentFileName) . '/' . $fileUrl, true);
             }
         }
         return $this->_publishViewFile($relativeThemeFile, $params);

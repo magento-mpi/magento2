@@ -63,7 +63,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
             false);
         $appState = new Mage_Core_Model_App_State(Mage_Core_Model_App_State::MODE_PRODUCTION);
         $storeManager = $this->getMock('Mage_Core_Model_StoreManagerInterface');
-        $cssHelper = $this->getMock('Mage_Core_Helper_Css_Processing', array(), array(), '', false);
+        $cssHelper = $this->getMock('Mage_Core_Helper_Css', array(), array(), '', false);
 
         // Create model to be tested
         $expected = 'http://example.com/public_dir/a/t/m/file.js';

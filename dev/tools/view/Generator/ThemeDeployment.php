@@ -16,7 +16,7 @@ class Generator_ThemeDeployment
     /**
      * Helper to process CSS content and fix urls
      *
-     * @var Mage_Core_Helper_Css_Processing
+     * @var Mage_Core_Helper_Css
      */
     private $_cssHelper;
 
@@ -53,7 +53,7 @@ class Generator_ThemeDeployment
     /**
      * Constructor
      *
-     * @param Mage_Core_Helper_Css_Processing $cssHelper
+     * @param Mage_Core_Helper_Css $cssHelper
      * @param string $destinationHomeDir
      * @param string $configPermitted
      * @param string|null $configForbidden
@@ -61,7 +61,7 @@ class Generator_ThemeDeployment
      * @throws Magento_Exception
      */
     public function __construct(
-        Mage_Core_Helper_Css_Processing $cssHelper,
+        Mage_Core_Helper_Css $cssHelper,
         $destinationHomeDir,
         $configPermitted,
         $configForbidden = null,
@@ -178,9 +178,9 @@ class Generator_ThemeDeployment
     protected function _deployFile($fileSource, $fileDestination, $context)
     {
         // Create directory
-        $dir = dirname($fileDestination);
-        if (!is_dir($dir) && !$this->_isDryRun) {
-            mkdir($dir, 0777, true);
+        $destFileDir = dirname($fileDestination);
+        if (!is_dir($destFileDir) && !$this->_isDryRun) {
+            mkdir($destFileDir, 0777, true);
         }
 
         // Copy file
@@ -189,7 +189,6 @@ class Generator_ThemeDeployment
             // Callback to resolve relative urls to the file names
             $destContext = $context['destinationContext'];
             $destHomeDir = $this->_destinationHomeDir;
-            $destFileDir = dirname($fileDestination);
             $callback = function ($relativeUrl) use ($destContext, $destFileDir, $destHomeDir) {
                 $parts = explode(Mage_Core_Model_Design_PackageInterface::SCOPE_SEPARATOR, $relativeUrl);
                 if (count($parts) == 2) {
@@ -211,7 +210,7 @@ class Generator_ThemeDeployment
 
             // Replace relative urls and write the modified content (if not dry run)
             $content = file_get_contents($fileSource);
-            $content = $this->_cssHelper->replaceCssRelativeUrls($content, $fileDestination, $callback);
+            $content = $this->_cssHelper->replaceCssRelativeUrls($content, $fileSource, $fileDestination, $callback);
             if (!$this->_isDryRun) {
                 file_put_contents($fileDestination, $content);
             }

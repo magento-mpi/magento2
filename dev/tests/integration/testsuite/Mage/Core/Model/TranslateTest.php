@@ -38,7 +38,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
                 Mage::getSingleton('Mage_Core_Model_Design_FileResolution_StrategyPool'),
                 new Mage_Core_Model_App_State(),
                 Mage::getSingleton('Mage_Core_Model_StoreManagerInterface'),
-                Mage::getSingleton('Mage_Core_Helper_Css_Processing'),
+                Mage::getSingleton('Mage_Core_Helper_Css'),
             )
         );
         $this->_designModel->expects($this->any())
@@ -141,7 +141,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
                 Mage::getSingleton('Mage_Core_Model_Design_FileResolution_StrategyPool'),
                 new Mage_Core_Model_App_State(),
                 Mage::getSingleton('Mage_Core_Model_StoreManagerInterface'),
-                Mage::getSingleton('Mage_Core_Helper_Css_Processing'),
+                Mage::getSingleton('Mage_Core_Helper_Css'),
             )
         );
         $this->_designModel->expects($this->any())

@@ -70,7 +70,7 @@ class Mage_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
 
         $this->_logger = $this->getMock('Mage_Core_Model_Logger', array('logException'), array(), '', false);
 
-        $this->_cssHelper = $this->getMock('Mage_Core_Helper_Css_Processing', array(), array(), '', false);
+        $this->_cssHelper = $this->getMock('Mage_Core_Helper_Css', array(), array(), '', false);
 
         $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
 
@@ -238,7 +238,7 @@ class Mage_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
 
     public function testIteratorInterfaceMergeFailure()
     {
-        $mergeError = new Exception('Merge has failed');
+        $mergeError = new Exception('File not found');
         $assetBroken = $this->getMockForAbstractClass('Mage_Core_Model_Page_Asset_MergeableInterface');
         $assetBroken->expects($this->any())->method('getContentType')->will($this->returnValue('js'));
         $assetBroken->expects($this->any())->method('getSourceFile')
@@ -248,8 +248,8 @@ class Mage_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
             $this->_objectManager, $this->_logger, $this->_cssHelper, $this->_filesystem,
             $this->_dirs, array($this->_assetJsOne, $this->_assetJsTwo, $assetBroken)
         );
-        
-        
+
+
         $this->_objectManager->expects($this->never())->method('create');
         $this->_logger->expects($this->once())->method('logException')->with($this->identicalTo($mergeError));
 

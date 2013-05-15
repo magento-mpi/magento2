@@ -1,6 +1,6 @@
 <?php
 /**
- * Helper to process CSS file content
+ * Helper to work with CSS files
  *
  * {license_notice}
  *
@@ -8,7 +8,7 @@
  * @license   {license_link}
  */
 
-class Mage_Core_Helper_Css_Processing
+class Mage_Core_Helper_Css
 {
     /**
      * PCRE that matches non-absolute URLs in CSS content
@@ -39,23 +39,27 @@ class Mage_Core_Helper_Css_Processing
     }
 
     /**
-     * Go through CSS content and replace relative urls with properly modified urls, according to the css file's
-     * location
+     * Go through CSS content and modify relative urls, when content is read at $originalPath and then put to $newPath
      *
      * @param string $cssContent
-     * @param string $cssFilePath
-     * @param callable $cbRelUrlToPublicPath
+     * @param string $originalPath
+     * @param string $newPath
+     * @param callable|null $cbRelUrlToPublicPath Optional custom callback to resolve relative urls to file paths
      * @return mixed
      */
-    public function replaceCssRelativeUrls($cssContent, $cssFilePath, $cbRelUrlToPublicPath)
+    public function replaceCssRelativeUrls($cssContent, $originalPath, $newPath, $cbRelUrlToPublicPath = null)
     {
-        $cssFilePath = $this->_filesystem->normalizePath($cssFilePath);
+        $newPath = $this->_filesystem->normalizePath($newPath);
         $relativeUrls = $this->_extractCssRelativeUrls($cssContent);
-        foreach ($relativeUrls as $urlNotation => $oldRelativeUrl) {
-            $filePath = call_user_func($cbRelUrlToPublicPath, $oldRelativeUrl);
+        foreach ($relativeUrls as $urlNotation => $originalRelativeUrl) {
+            if ($cbRelUrlToPublicPath) {
+                $filePath = call_user_func($cbRelUrlToPublicPath, $originalRelativeUrl, $originalPath);
+            } else {
+                $filePath = $this->_filesystem->normalizePath(dirname($originalPath) . '/' . $originalRelativeUrl);
+            }
             $filePath = $this->_filesystem->normalizePath($filePath);
-            $relativePath = $this->_getFileRelativePath($cssFilePath, $filePath);
-            $urlNotationNew = str_replace($oldRelativeUrl, $relativePath, $urlNotation);
+            $relativePath = $this->_getFileRelativePath($newPath, $filePath);
+            $urlNotationNew = str_replace($originalRelativeUrl, $relativePath, $urlNotation);
             $cssContent = str_replace($urlNotation, $urlNotationNew, $cssContent);
         }
         return $cssContent;

@@ -29,7 +29,7 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
     private $_logger;
 
     /**
-     * @var Mage_Core_Helper_Css_Processing
+     * @var Mage_Core_Helper_Css
      */
     private $_cssHelper;
 
@@ -63,7 +63,7 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
     /**
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Logger $logger
-     * @param Mage_Core_Helper_Css_Processing $cssHelper
+     * @param Mage_Core_Helper_Css $cssHelper
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Dir $dirs
      * @param array $assets
@@ -72,7 +72,7 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
     public function __construct(
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Logger $logger,
-        Mage_Core_Helper_Css_Processing $cssHelper,
+        Mage_Core_Helper_Css $cssHelper,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Dir $dirs,
         array $assets
@@ -195,13 +195,14 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
      */
     protected function _getMergedFilePath(array $publicFiles)
     {
-        $jsDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
-        $publicDir = $this->_dirs->getDir(Mage_Core_Model_Dir::STATIC_VIEW);
+        $jsDir = Magento_Filesystem::fixSeparator($this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB));
+        $publicDir = Magento_Filesystem::fixSeparator($this->_dirs->getDir(Mage_Core_Model_Dir::STATIC_VIEW));
         $prefixRemovals = array($jsDir, $publicDir);
 
         $relFileNames = array();
         foreach ($publicFiles as $file) {
-            $relFileNames[] = Magento_Filesystem::fixSeparator(str_replace($prefixRemovals, '', $file));
+            $file = Magento_Filesystem::fixSeparator($file);
+            $relFileNames[] = str_replace($prefixRemovals, '', $file);
         }
 
         $mergedDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_VIEW_CACHE) . '/'
@@ -227,10 +228,7 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
             }
             $content = $this->_filesystem->read($file);
             if ($isCss) {
-                $callback = function ($relativeUrl) use ($file) {
-                    return dirname($file) . '/' . $relativeUrl;
-                };
-                $content = $this->_cssHelper->replaceCssRelativeUrls($content, $targetFile, $callback);
+                $content = $this->_cssHelper->replaceCssRelativeUrls($content, $file, $targetFile);
             }
             $result[] = $content;
         }

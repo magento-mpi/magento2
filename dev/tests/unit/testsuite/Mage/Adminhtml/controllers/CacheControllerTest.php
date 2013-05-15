@@ -6,8 +6,7 @@
  * @license     {license_link}
  */
 
-require_once (realpath(dirname(__FILE__) . '/../../../../../../../')
-    . '/app/code/Mage/Adminhtml/controllers/CacheController.php');
+require_once __DIR__ . '/../../../../../../../app/code/Mage/Adminhtml/controllers/CacheController.php';
 
 class Mage_Adminhtml_CacheControllerTest extends PHPUnit_Framework_TestCase
 {
