@@ -65,7 +65,8 @@
                     $selectionGrid = $optionBox.find('.selection-search'),
                     optionIndex = $optionBox.attr('id').replace('bundle_option_', ''),
                     productIds = [],
-                    productSkus = [];
+                    productSkus = [],
+                    selectedProductList = {};
 
                 $optionBox.find('[name$="[product_id]"]').each(function () {
                     if (!$(this).closest('tr').find('[name$="[delete]"]').val()) {
@@ -77,6 +78,21 @@
                 bSelection.gridSelection.set(optionIndex, $H({}));
                 bSelection.gridRemoval = $H({});
                 bSelection.gridSelectedProductSkus = productSkus;
+                $selectionGrid.on('change', '.col-id input', function () {
+                    var tr = $(this).closest('tr');
+                    if ($(this).is(':checked')) {
+                        selectedProductList[$(this).val()] = {
+                            name: $.trim(tr.find('.col-name').html()),
+                            sku: $.trim(tr.find('.col-sku').html()),
+                            product_id: $(this).val(),
+                            option_id: $('bundle_selection_id_' + optionIndex).val(),
+                            selection_price_value: 0,
+                            selection_qty: 1
+                        };
+                    } else {
+                        delete selectedProductList[$(this).val()];
+                    }
+                });
                 $selectionGrid.dialog({
                     title: $optionBox.find('input[name$="[title]"]').val() === '' ?
                         $.mage.__('Add Products to New Option') :
@@ -96,18 +112,9 @@
                         text: $.mage.__('Add Selected Products'),
                         'class': 'add primary',
                         click: function() {
-                            $selectionGrid.find('tbody .col-id input:checked').closest('tr').each(
-                                function() {
-                                    window.bSelection.addRow(optionIndex, {
-                                        name: $.trim($(this).find('.col-name').html()),
-                                        selection_price_value: 0,
-                                        selection_qty: 1,
-                                        sku: $.trim($(this).find('.col-sku').html()),
-                                        product_id: $(this).find('.col-id  input').val(),
-                                        option_id: $('bundle_selection_id_' + optionIndex).val()
-                                    });
-                                }
-                            );
+                            $.each(selectedProductList, function() {
+                                window.bSelection.addRow(optionIndex, this);
+                            });
                             bSelection.gridRemoval.each(
                                 function(pair) {
                                     $optionBox.find('.col-sku').filter(function () {
