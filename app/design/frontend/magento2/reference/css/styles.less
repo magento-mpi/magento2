@@ -3385,22 +3385,20 @@ div.mage-error {
             margin: @spacing;
         }
         .addto.links {
-            padding: 10px 0 0;
-            border-top: 1px solid @primary2;
             .action:after {
                 content: '';
                 display: block;
             }
         }
         .actions {
-            display: none;
+            visibility: hidden;
             .primary {
                 margin: 0 0 10px;
             }
         }
         &:hover {
             .actions {
-                display: block;
+                visibility: visible;
             }
         }
     }
@@ -3471,6 +3469,11 @@ div.mage-error {
                 display: block;
                 margin: 0 0 10px;
             }
+        }
+    }
+    .products.list.items.widget-viewed-list {
+        .item.product {
+            .column(12);
         }
     }
 }

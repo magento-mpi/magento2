@@ -4277,13 +4277,6 @@ div.mage-error {
 .block.related .products.list .item.product .price-box {
   margin: 0 0 10px;
 }
-.block.widget.viewed .products.list .item.product .addto.links,
-.block.crosssell .products.list .item.product .addto.links,
-.block.upsell .products.list .item.product .addto.links,
-.block.related .products.list .item.product .addto.links {
-  padding: 10px 0 0;
-  border-top: 1px solid #c7c7c7;
-}
 .block.widget.viewed .products.list .item.product .addto.links .action:after,
 .block.crosssell .products.list .item.product .addto.links .action:after,
 .block.upsell .products.list .item.product .addto.links .action:after,
@@ -4295,7 +4288,7 @@ div.mage-error {
 .block.crosssell .products.list .item.product .actions,
 .block.upsell .products.list .item.product .actions,
 .block.related .products.list .item.product .actions {
-  display: none;
+  visibility: hidden;
 }
 .block.widget.viewed .products.list .item.product .actions .primary,
 .block.crosssell .products.list .item.product .actions .primary,
@@ -4307,7 +4300,7 @@ div.mage-error {
 .block.crosssell .products.list .item.product:hover .actions,
 .block.upsell .products.list .item.product:hover .actions,
 .block.related .products.list .item.product:hover .actions {
-  display: block;
+  visibility: visible;
 }
 .block.crosssell .products.list.items.crosssell {
   margin: 0 -13px;
@@ -4353,6 +4346,15 @@ div.mage-error {
   float: none;
   display: block;
   margin: 0 0 10px;
+}
+.block.widget.viewed .products.list.items.widget-viewed-list .item.product {
+  display: inline;
+  float: left;
+  width: 100%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .product.info.detailed + .block.upsell,
 .product.info.detailed + .block.related {
