@@ -350,6 +350,6 @@ class Mage_Tag_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tag::tag_all');
+        return $this->_authorization->isAllowed('Mage_Tag::tag_all');
     }
 }

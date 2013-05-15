@@ -438,6 +438,11 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
             throw new Mage_Core_Exception($this->_helper->__('Theme isn\'t deletable.'));
         }
         $this->getThemeImage()->removePreviewImage();
+
+        /** @var $updatesCollection Mage_Core_Model_Resource_Layout_Update_Collection */
+        $updatesCollection = $this->_objectManager->create('Mage_Core_Model_Resource_Layout_Update_Collection');
+        $updatesCollection->addThemeFilter($this->getId())->delete();
+
         return parent::_beforeDelete();
     }
 
@@ -463,6 +468,10 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _afterDelete()
     {
+        $stagingVersion = $this->getStagingVersion();
+        if ($stagingVersion) {
+            $stagingVersion->delete();
+        }
         $this->getCollection()->updateChildRelations($this);
         return parent::_afterDelete();
     }

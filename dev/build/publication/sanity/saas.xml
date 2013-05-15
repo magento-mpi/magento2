@@ -29,7 +29,6 @@
         <word>Enterprise_Persistent</word>
         <word>PricePermissions</word>
         <word>PromotionPermissions</word>
-        <word>Enterprise_Checkout</word>
         <word>Enterprise_Reminder</word>
         <word>Enterprise_Rma</word>
         <word>Enterprise_Tag</word>
@@ -42,6 +41,40 @@
         <word>CustomerSegment</word>
     </words>
     <whitelist>
+        <item>
+            <!-- MUST be refactored -->
+            <word>TargetRule</word>
+            <word>GiftWrapping</word>
+            <word>CustomerSegment</word>
+            <path>app/design/adminhtml/default/backend/css/debug.css</path>
+        </item>
+        <item>
+            <!-- MUST be refactored -->
+            <word>TargetRule</word>
+            <path>app/code/Saas/Launcher/view/adminhtml/page/promotestore/relatedproducts/drawer.phtml</path>
+        </item>
+        <item>
+            <!-- MUST be refactored -->
+            <word>CustomerSegment</word>
+            <word>Moneybookers</word>
+            <word>GoogleOptimizer</word>
+            <path>tmt_templates/mc/en_US/db/empty_data.sql</path>
+        </item>
+        <item>
+            <!-- MUST be refactored -->
+            <word>CustomerSegment</word>
+            <word>Moneybookers</word>
+            <word>GoogleOptimizer</word>
+            <path>tmt_templates/mc/en_US/db/sample_data.sql</path>
+        </item>
+        <item>
+            <word>Enterprise_ImportExport</word>
+            <path>app/etc/modules/XSaas_Edition.xml</path>
+        </item>
+        <item>
+            <word>Enterprise_ImportExport</word>
+            <path>app/etc/modules/XSaas_Edition.xml.dist</path>
+        </item>
         <item>
             <path>dev/build</path>
         </item>
@@ -144,12 +177,12 @@
             <path>app/design/frontend/magento2/reference/Mage_Catalog/product/list/item/item.phtml</path>
         </item>
         <item>
-            <word>TargetRule</word>
-            <path>app/design/frontend/magento2/reference/Mage_Catalog/product/list/items.phtml</path>
+            <word>CustomerSegment</word>
+            <path>app/code/Enterprise/PageCache/Model/Observer.php</path>
         </item>
         <item>
-            <word>TargetRule</word>
-            <path>app/code/Saas/Launcher/view/adminhtml/page/promotestore/relatedproducts/drawer.phtml</path>
+            <word>CustomerSegment</word>
+            <path>app/code/Enterprise/PageCache/etc/config.xml</path>
         </item>
         <item>
             <word>GiftWrapping</word>
@@ -159,6 +192,10 @@
         </item>
         <item>
             <word>CustomerSegment</word>
+            <path>app/code/Enterprise/Logging/Model/Handler/Controllers.php</path>
+        </item>
+        <item>
+            word>CustomerSegment</word>
             <path>app/code/Enterprise/PageCache/Model/Observer.php</path>
         </item>
         <item>

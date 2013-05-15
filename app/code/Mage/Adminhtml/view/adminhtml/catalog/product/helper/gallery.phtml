@@ -35,8 +35,6 @@ $elementName = $this->getElement()->getName() . '[images]';
 
     <script id="<?php echo $this->getHtmlId() ?>-template" type="text/x-jquery-tmpl">
         <div class="image item {{if disabled == 1 }}hidden-for-front{{/if}}"
-             data-image-label="<?php echo $this->__('Main') ?>"
-             data-image-hidden-label="<?php echo $this->__('Hidden') ?>"
              data-role="image">
             <input type="hidden" name="<?php echo $elementName ?>[${file_id}][position]" value="${position}" class="position"/>
             <input type="hidden" name="<?php echo $elementName ?>[${file_id}][file]" value="${file}"/>
@@ -57,11 +55,13 @@ $elementName = $this->getElement()->getName() . '[images]';
                 <button type="button" class="action-delete" data-role="delete-button" title="<?php echo $this->__('Delete image') ?>">
                     <span> <?php echo $this->__('Delete image') ?></span >
                 </button>
-                <button type="button" class="action-make-main" data-role="make-main-button" title="<?php echo $this->__('Make Base') ?>">
+                <button type="button" class="action-make-base" data-role="make-base-button" title="<?php echo $this->__('Make Base') ?>">
                     <span><?php echo $this->__('Make Base') ?></span >
                 </button >
                 <div class="draggable-handle" ></div >
             </div >
+            <div class="image-label"></div>
+            <div class="image-fade"><span><?php echo $this->__('Hidden') ?></span></div>
         </div>
     </script>
     <script class="dialog-template" type="text/x-jquery-tmpl"  data-title="Image Options">

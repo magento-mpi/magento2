@@ -32,8 +32,8 @@
             }
             zipIsRange.attr('checked', zipIsRange.val() == 1);
             zipIsRange.trigger('change');
+            updater.update();
             $.ui.dialog.prototype.open.apply(this);
-
         },
         close: function() {
             $.ui.dialog.prototype.close.apply(this);
@@ -98,7 +98,7 @@
                             .attr('checked', true)
                             .addClass(options.mselectCheckedClass)
                             .end();
-                    var itemsWrapper = select.next().find('.' + options.mselectItemsWrapperClass + '');
+                    var itemsWrapper = select.nextUntil().find('.' + options.mselectItemsWrapperClass + '');
                     itemsWrapper.children('.' + options.mselectListItemClass + '').length
                             ? itemsWrapper.children('.' + options.mselectListItemClass + ':last').after(mselectItemHtml)
                             : itemsWrapper.prepend(mselectItemHtml);

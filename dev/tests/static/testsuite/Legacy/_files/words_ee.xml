@@ -10,96 +10,27 @@
  * @license     {license_link}
  */
 -->
-<!-- These are the settings for legacy testing of Magento 2 EE (in addition to Magento 2 Core) -->
+<!-- These are the settings for legacy testing of Magento 2 EE (in addition to Magento 2 CE) -->
 <config>
     <words>
-        <!-- Enterprise_Staging -->
-        <word>staging</word>
+        <word>Enterprise_Staging</word>
     </words>
     <whitelist>
         <item>
             <path>app/code/Enterprise/Enterprise/data/enterprise_enterprise_setup/data-upgrade-1.11.0.0-1.11.0.1.php</path>
-            <word>staging</word>
+            <word>Enterprise_Staging</word>
         </item>
         <item>
             <path>app/code/Enterprise/Enterprise/sql/enterprise_enterprise_setup/upgrade-1.11.0.1-1.11.0.2.php</path>
-            <word>staging</word>
+            <word>Enterprise_Staging</word>
         </item>
         <item>
-            <path>app/code/Mage/Core/Model/Theme.php</path>
-            <word>staging</word>
+            <path>dev/tests/functional/testsuite/Enterprise/Mage/GiftWrapping/</path>
+            <word>Enterprise_Staging</word>
         </item>
         <item>
-            <path>app/code/Mage/Core/Model/Theme/Registration.php</path>
-            <word>staging</word>
-        </item>
-        <item>
-            <path>app/code/Mage/Core/Model/Theme/Service.php</path>
-            <word>staging</word>
-        </item>
-        <item>
-            <path>app/code/Mage/Core/Model/Theme/Domain/Factory.php</path>
-            <word>staging</word>
-        </item>
-        <item>
-            <path>app/code/Mage/Core/Model/Theme/Domain/Staging.php</path>
-            <word>staging</word>
-        </item>
-        <item>
-            <path>app/code/Mage/Core/Model/Theme/Domain/Virtual.php</path>
-            <word>staging</word>
-        </item>
-        <item>
-            <path>app/code/Mage/Core/sql/core_setup/upgrade-1.6.0.10-1.6.0.11.php</path>
-            <word>staging</word>
-        </item>
-        <item>
-            <path>app/code/Mage/DesignEditor/Block/Adminhtml/Editor/Toolbar/Buttons/Save.php</path>
-            <word>staging</word>
-        </item>
-        <item>
-            <path>app/code/Mage/DesignEditor/controllers/Adminhtml/System/Design/EditorController.php</path>
-            <word>staging</word>
-        </item>
-        <item>
-            <path>app/code/Mage/DesignEditor/Helper/Data.php</path>
-            <word>staging</word>
-        </item>
-        <item>
-            <path>dev/tests/integration/testsuite/Mage/Core/Model/Resource/Theme/CollectionTest.php</path>
-            <word>staging</word>
-        </item>
-        <item>
-            <path>dev/tests/unit/testsuite/Mage/Core/Model/ThemeTest.php</path>
-            <word>staging</word>
-        </item>
-        <item>
-            <path>dev/tests/unit/testsuite/Mage/Core/Model/Theme/Domain/StagingTest.php</path>
-            <word>staging</word>
-        </item>
-        <item>
-            <path>dev/tests/unit/testsuite/Mage/Core/Model/Theme/Domain/VirtualTest.php</path>
-            <word>staging</word>
-        </item>
-        <item>
-            <path>dev/tests/unit/testsuite/Mage/Core/Model/Theme/Copy/VirtualToStagingTest.php</path>
-            <word>staging</word>
-        </item>
-        <item>
-            <path>dev/tests/unit/testsuite/Mage/DesignEditor/Block/Adminhtml/Editor/Toolbar/Buttons/SaveTest.php</path>
-            <word>staging</word>
-        </item>
-        <item>
-            <path>dev/tests/integration/testsuite/Mage/Core/Model/Theme/Copy/TestCase.php</path>
-            <word>staging</word>
-        </item>
-        <item>
-            <path>dev/tests/integration/testsuite/Mage/Core/Model/Theme/Copy/VirtualToStagingTest.php</path>
-            <word>staging</word>
-        </item>
-        <item>
-            <path>app/code/Mage/DesignEditor/Block/Adminhtml/Editor/Form/Renderer/LogoUploader.php</path>
-            <word>staging</word>
+            <path>dev/tests/functional/testsuite/Enterprise/Mage/Rollback/RollbackTest.php</path>
+            <word>Enterprise_Staging</word>
         </item>
     </whitelist>
 </config>

@@ -18,8 +18,8 @@ return array(
     'web/cookie/cookie_httponly',
     'web/session',
     'web/browser_capabilities',
-
-    'design/theme',
+    'web/unsecure',
+    'web/secure',
 
     'currency/webservicex',
     'currency/import',
@@ -41,8 +41,6 @@ return array(
     'catalog/search/use_layered_navigation_count',
     'catalog/search/search_recommendations_count_results_enabled',
     'catalog/search/search_recommendations_count',
-
-    'catalog/downloadable',
 
     'sendfriend/email/max_recipients',
     'sendfriend/email/max_per_hour',
@@ -111,6 +109,18 @@ return array(
     'payment/authorizenet/debug',
 
     'payment_services/centinel/debug',
+
+    'payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/debug',
+    'payment/paypal_payments/wps/settings_payments_standart/settings_payments_standart_advanced/debug',
+    'payment/paypal_payments/wpp/wpp_settings/wpp_settings_advanced/debug',
+    'payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced'
+        . '/billing_agreement/debug',
+    'payment/paypal_payments/payments_pro_payflow_edition/settings_pp_pe/settings_pp_pe_advanced/debug',
+    'payment/paypal_payments/paypal_verisign/settings_paypal_payflow/settings_paypal_payflow_advanced/debug',
+    'payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/debug',
+    'payment/paypal_payments/payflow_link/settings_payflow_link/settings_payflow_link_advanced/debug',
+    'payment/paypal_payments/payments_pro_hosted_solution/pphs_settings/pphs_settings_advanced/debug',
+    'payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/debug',
 
     'google/checkout/debug',
     'google/googleshopping/debug',

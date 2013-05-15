@@ -27,21 +27,19 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
 
     protected function setUp()
     {
+        $helper = new Magento_Test_Helper_ObjectManager($this);
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
+        $arguments = array(
+            'objectManager' => $this->_objectManagerMock
+        );
+        $context = $helper->getObject('Mage_Backend_Controller_Context', $arguments);
+
         $this->_model = $this->getMock('Mage_DesignEditor_Adminhtml_System_Design_EditorController',
             array('_forward', '_title', '__', 'loadLayout', '_setActiveMenu', 'renderLayout', 'getLayout'),
             array(
-                $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false),
-                $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false),
-                $this->_objectManagerMock,
-                $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false),
-                $this->getMock('Mage_Core_Model_Layout_Factory', array(), array(), '', false),
-                null,
-                array(
-                    'translator' => 'translator',
-                    'helper'     => 'helper',
-                    'session'    => 'session'
-                )
+                $context,
+                $this->getMock('Mage_DesignEditor_Model_Theme_Context', array(), array(), '', false),
+                null
             ));
         /** @var $layoutMock Mage_Core_Model_Layout|PHPUnit_Framework_MockObject_MockObject */
         $layoutMock  = $this->getMock('Mage_Core_Model_Layout', array('getBlock'), array(), '', false);

@@ -64,7 +64,7 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='finish_at'>
                         <arguments>
-                            <header translate='true' module='Mage_Newsletter'>Queue Finish</header>
+                            <header translate='true' module='Mage_Newsletter'>Queue End</header>
                             <type>datetime</type>
                             <index>queue_finish_at</index>
                             <gmtoffset>1</gmtoffset>

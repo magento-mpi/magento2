@@ -237,6 +237,14 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
                 ->will($this->returnValue(array()));
         }
 
+        if (!$extendConfigData) {
+            $this->_backendConfigMock->expects($this->never())->method('extendConfig');
+        } else {
+            $this->_backendConfigMock->expects($this->once())->method('extendConfig')
+                ->with('some', false, array('section1/group1/field1' => 'some_value'))
+                ->will($this->returnValue(array()));
+        }
+
         $this->_coreConfigMock->expects($this->any())->method('getNode')
             ->with($this->equalTo(null), $this->equalTo('stores'), $this->equalTo('store_code'))
             ->will($this->returnValue($xmlConfig));

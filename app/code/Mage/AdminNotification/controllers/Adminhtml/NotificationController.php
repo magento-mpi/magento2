@@ -28,17 +28,16 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
     {
         $notificationId = (int)$this->getRequest()->getParam('id');
         if ($notificationId) {
-            $session = Mage::getSingleton('Mage_Backend_Model_Session');
             try {
                 $this->_objectManager->create('Mage_AdminNotification_Model_NotificationService')
                     ->markAsRead($notificationId);
-                $session->addSuccess(
+                $this->_session->addSuccess(
                     Mage::helper('Mage_AdminNotification_Helper_Data')->__('The message has been marked as read.')
                 );
             } catch (Mage_Core_Exception $e) {
-                $session->addError($e->getMessage());
+                $this->_session->addError($e->getMessage());
             } catch (Exception $e) {
-                $session->addException($e,
+                $this->_session->addException($e,
                     Mage::helper('Mage_AdminNotification_Helper_Data')
                         ->__('An error occurred while marking notification as read.')
                 );
@@ -74,10 +73,9 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
 
     public function massMarkAsReadAction()
     {
-        $session = Mage::getSingleton('Mage_Backend_Model_Session');
         $ids = $this->getRequest()->getParam('notification');
         if (!is_array($ids)) {
-            $session->addError(Mage::helper('Mage_AdminNotification_Helper_Data')->__('Please select messages.'));
+            $this->_session->addError(Mage::helper('Mage_AdminNotification_Helper_Data')->__('Please select messages.'));
         } else {
             try {
                 foreach ($ids as $id) {
@@ -93,9 +91,9 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
                         ->__('Total of %d record(s) have been marked as read.', count($ids))
                 );
             } catch (Mage_Core_Exception $e) {
-                $session->addError($e->getMessage());
+                $this->_session->addError($e->getMessage());
             } catch (Exception $e) {
-                $session->addException($e,
+                $this->_session->addException($e,
                     Mage::helper('Mage_AdminNotification_Helper_Data')
                         ->__('An error occurred while marking the messages as read.')
                 );
@@ -107,7 +105,6 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
     public function removeAction()
     {
         if ($id = $this->getRequest()->getParam('id')) {
-            $session = Mage::getSingleton('Mage_Backend_Model_Session');
             $model = Mage::getModel('Mage_AdminNotification_Model_Inbox')
                 ->load($id);
 
@@ -119,13 +116,13 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
             try {
                 $model->setIsRemove(1)
                     ->save();
-                $session->addSuccess(
+                $this->_session->addSuccess(
                     Mage::helper('Mage_AdminNotification_Helper_Data')->__('The message has been removed.')
                 );
             } catch (Mage_Core_Exception $e) {
-                $session->addError($e->getMessage());
+                $this->_session->addError($e->getMessage());
             } catch (Exception $e) {
-                $session->addException($e,
+                $this->_session->addException($e,
                     Mage::helper('Mage_AdminNotification_Helper_Data')
                         ->__('An error occurred while removing the message.')
                 );
@@ -139,10 +136,11 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
 
     public function massRemoveAction()
     {
-        $session = Mage::getSingleton('Mage_Backend_Model_Session');
         $ids = $this->getRequest()->getParam('notification');
         if (!is_array($ids)) {
-            $session->addError(Mage::helper('Mage_AdminNotification_Helper_Data')->__('Please select messages.'));
+            $this->_session->addError(
+                Mage::helper('Mage_AdminNotification_Helper_Data')->__('Please select messages.')
+            );
         } else {
             try {
                 foreach ($ids as $id) {
@@ -158,7 +156,7 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
                         ->__('Total of %d record(s) have been removed.', count($ids))
                 );
             } catch (Mage_Core_Exception $e) {
-                $session->addError($e->getMessage());
+                $this->_session->addError($e->getMessage());
             } catch (Exception $e) {
                 $session->addException($e,
                     Mage::helper('Mage_AdminNotification_Helper_Data')
@@ -190,6 +188,6 @@ class Mage_AdminNotification_Adminhtml_NotificationController extends Mage_Backe
             default:
                 $acl = 'Mage_AdminNotification::show_list';
         }
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed($acl);
+        return $this->_authorization->isAllowed($acl);
     }
 }

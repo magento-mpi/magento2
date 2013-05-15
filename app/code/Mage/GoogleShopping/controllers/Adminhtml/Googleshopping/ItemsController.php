@@ -318,6 +318,6 @@ class Mage_GoogleShopping_Adminhtml_Googleshopping_ItemsController extends Mage_
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_GoogleShopping::items');
+        return $this->_authorization->isAllowed('Mage_GoogleShopping::items');
     }
 }

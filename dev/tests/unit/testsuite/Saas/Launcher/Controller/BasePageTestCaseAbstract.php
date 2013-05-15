@@ -32,7 +32,6 @@ abstract class Saas_Launcher_Controller_BasePageTestCaseAbstract extends PHPUnit
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param string|null $areaCode
-     * @param array $invokeArgs
      * @return Saas_Launcher_Controller_BasePage
      */
     abstract protected function _getMockedPageControllerInstance(
@@ -41,8 +40,7 @@ abstract class Saas_Launcher_Controller_BasePageTestCaseAbstract extends PHPUnit
         Magento_ObjectManager $objectManager,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Layout_Factory $layoutFactory,
-        $areaCode = null,
-        array $invokeArgs = array()
+        $areaCode = null
     );
 
     protected function setUp()

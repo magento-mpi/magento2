@@ -291,11 +291,6 @@ button.primary.disabled:hover,
 .action-manage-images:active,
 .action-manage-images.active,
 .action-manage-images[disabled],
-.mage-new-category-dialog .action-cancel,
-.mage-new-category-dialog .action-cancel:hover,
-.mage-new-category-dialog .action-cancel:active,
-.mage-new-category-dialog .action-cancel.active,
-.mage-new-category-dialog .action-cancel[disabled],
 .notification-entry-dialog .action-cancel,
 .notification-entry-dialog .action-cancel:hover,
 .notification-entry-dialog .action-cancel:active,
@@ -315,7 +310,7 @@ button.primary.disabled:hover,
 .vde-image-sizing .action-connect:hover,
 .vde-image-sizing .action-connect:active,
 .vde-image-sizing .action-connect.active,
-.vde-image-sizing .action-connect:disabled,
+.vde-image-sizing .action-connect[disabled],
 .suggest-expandable .action-show-all,
 .suggest-expandable .action-show-all:hover,
 .suggest-expandable .action-show-all:active,
@@ -366,6 +361,7 @@ button.primary.disabled:hover,
     padding: 0;
     box-shadow: none;
     text-shadow: none;
+    filter: none;
 }
 
 .eq-ie8 .customer-current-activity .action-refresh,
@@ -404,11 +400,7 @@ button.primary.disabled:hover,
 .eq-ie8 .fieldset-wrapper-title .action-add,
 .eq-ie8 .fieldset-wrapper-title .action-add:hover,
 .eq-ie8 .fieldset-wrapper-title .action-add:active,
-.eq-ie8 .fieldset-wrapper-title .action-add.active,
-.eq-ie8 .custom-file > .action-add,
-.eq-ie8 .custom-file > .action-add:hover,
-.eq-ie8 .custom-file > .action-add:active,
-.eq-ie8 .custom-file > .action-add.active,
+.eq-ie8 .fieldset-wrapper-title .action-add.active
 .eq-ie8 .vde-tools-header .action-close,
 .eq-ie8 .vde-tools-header .action-close:hover,
 .eq-ie8 .vde-tools-header .action-close:active,
@@ -447,19 +439,19 @@ button.primary.disabled:hover,
     filter: none;
 }
 
-.data-table .action-.delete:disabled,
-.data-table .action-delete:disabled,
-#product-variations-matrix .action-choose:disabled,
-.image-panel .action-close:disabled,
-.image-panel-controls .action-remove:disabled,
-.suggest-expandable .action-show-all:disabled,
-.fieldset-wrapper-title .action-add:disabled,
+.data-table .action-.delete[disabled],
+.data-table .action-delete[disabled],
+#product-variations-matrix .action-choose[disabled],
+.image-panel .action-close[disabled],
+.image-panel-controls .action-remove[disabled],
+.suggest-expandable .action-show-all[disabled],
+.fieldset-wrapper-title .action-add[disabled],
 #store-view-window [class^='action-close'],
 #store-view-window [class^='action-close']:hover,
 #store-view-window [class^='action-close']:active,
 #store-view-window [class^='action-close'].active,
-#store-view-window [class^='action-close']:disabled,
-.custom-file > .action-add:disabled,
+#store-view-window [class^='action-close'][disabled],
+.custom-file > .action-add[disabled],
 .image .action-delete,
 .image .action-delete:hover,
 .image .action-delete:active,
@@ -483,6 +475,7 @@ button.primary.disabled:hover,
     padding: 0;
     box-shadow: none;
     text-shadow: none;
+    filter: none;
 }
 
 .fade.critical-notification {
@@ -493,28 +486,28 @@ button.primary.disabled:hover,
     top: 200px;
 }
 
-.data-table .action-.delete:disabled,
-.data-table .action-delete:disabled,
-#product-variations-matrix .action-choose:disabled,
-.image-panel .action-close:disabled,
-.image-panel-controls .action-remove:disabled,
-.suggest-expandable .action-show-all:disabled,
-.fieldset-wrapper-title .action-add:disabled,
+.data-table .action-.delete[disabled],
+.data-table .action-delete[disabled],
+#product-variations-matrix .action-choose[disabled],
+.image-panel .action-close[disabled],
+.image-panel-controls .action-remove[disabled],
+.suggest-expandable .action-show-all[disabled],
+.fieldset-wrapper-title .action-add[disabled],
 #store-view-window [class^='action-close'],
 #store-view-window [class^='action-close']:hover,
 #store-view-window [class^='action-close']:active,
 #store-view-window [class^='action-close'].active,
-#store-view-window [class^='action-close']:disabled,
-.custom-file > .action-add:disabled,
-.vde-tools-header .action-close:disabled,
+#store-view-window [class^='action-close'][disabled],
+.custom-file > .action-add[disabled],
+.vde-tools-header .action-close[disabled],
 .vde-image-sizing .action-reset,
 .vde-image-sizing .action-reset:hover,
 .vde-image-sizing .action-reset:active,
 .vde-image-sizing .action-reset.active,
 .vde-image-sizing .action-reset[disabled],
-.image .action-delete:disabled,
-.fieldset-wrapper-title .actions .action-delete:disabled,
-.address-list-item-actions .action-delete:disabled,
+.image .action-delete[disabled],
+.fieldset-wrapper-title .actions .action-delete[disabled],
+.address-list-item-actions .action-delete[disabled],
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
@@ -542,41 +535,6 @@ button.primary.disabled:hover,
     padding: 0;
     box-shadow: none;
     text-shadow: none;
-}
-
-.eq-ie8 .data-table .action-.delete:disabled,
-.eq-ie8 .data-table .action-delete:disabled,
-.eq-ie8 #product-variations-matrix .action-choose:disabled,
-.eq-ie8 .image-panel .action-close:disabled,
-.eq-ie8 .image-panel-controls .action-remove:disabled,
-.eq-ie8 .suggest-expandable .action-show-all:disabled,
-.eq-ie8 .fieldset-wrapper-title .action-add:disabled,
-.eq-ie8 #store-view-window [class^='action-close'],
-.eq-ie8 #store-view-window [class^='action-close']:hover,
-.eq-ie8 #store-view-window [class^='action-close']:active,
-.eq-ie8 #store-view-window [class^='action-close'].active,
-.eq-ie8 #store-view-window [class^='action-close']:disabled,
-.eq-ie8 .custom-file > .action-add:disabled,
-.eq-ie8 .vde-tools-header .action-close:disabled,
-.eq-ie8 .image .action-delete:disabled,
-.eq-ie8 .fieldset-wrapper-title .actions .action-delete:disabled,
-.eq-ie8 .address-list-item-actions .action-delete:disabled,
-.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back,
-.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:hover,
-.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:active,
-.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back.active,
-.eq-ie8 [class^=" adminhtml-catalog-product-"] .page-actions .action-back:disabled,
-.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back,
-.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back:hover,
-.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back:active,
-.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back.active,
-.eq-ie8 [class^=" adminhtml-newsletter-"] .page-actions .action-back:disabled,
-.eq-ie8 .notifications [class^="action-"],
-.eq-ie8 .notifications [class^="action-"]:hover,
-.eq-ie8 .notifications [class^="action-"]:active,
-.eq-ie8 .notifications [class^="action-"].active,
-.eq-ie8 .notifications [class^="action-"]:disabled,
-.eq-ie8 .notification .action-close:disabled {
     filter: none;
 }
 
@@ -584,7 +542,22 @@ button.primary.disabled:hover,
 .vde-image-sizing .action-connect:hover,
 .vde-image-sizing .action-connect:active,
 .vde-image-sizing .action-connect.active,
-.vde-image-sizing .action-connect:disabled {
+.vde-image-sizing .action-connect[disabled],
+.vde-tab-data .action-download,
+.vde-tab-data .action-download:hover,
+.vde-tab-data .action-download:active,
+.vde-tab-data .action-download.active,
+.vde-tab-data .action-download[disabled],
+.vde-tab-data .action-delete,
+.vde-tab-data .action-delete:hover,
+.vde-tab-data .action-delete:active,
+.vde-tab-data .action-delete.active,
+.vde-tab-data .action-delete[disabled],
+.vde-tab-data .action-edit,
+.vde-tab-data .action-edit:hover,
+.vde-tab-data .action-edit:active,
+.vde-tab-data .action-edit.active,
+.vde-tab-data .action-edit[disabled] {
     border: none;
     border-radius: 0;
     background: none;
@@ -592,12 +565,13 @@ button.primary.disabled:hover,
     padding: 0;
     box-shadow: none;
     text-shadow: none;
+    filter: none;
 }
+
 /*
     Actions as links
 -------------------------------------- */
-.notification-entry-dialog .action-cancel,
-.mage-new-category-dialog .action-cancel {
+.notification-entry-dialog .action-cancel {
     background: none;
     border: none;
     color: #6d665e;
@@ -607,8 +581,7 @@ button.primary.disabled:hover,
     text-decoration: underline;
 }
 
-.notification-entry-dialog .action-cancel:hover,
-.mage-new-category-dialog .action-cancel:hover {
+.notification-entry-dialog .action-cancel:hover {
     color: #000;
     border-bottom-color: #000;
 }
@@ -739,7 +712,8 @@ button.primary.disabled:hover,
     color: #b2b2b2;
 }
 
-.mage-suggest input[type="search"] {
+.mage-suggest input[type="search"],
+.mage-suggest input.search {
     width: 100%;
     border: none;
     background: none;
@@ -887,7 +861,8 @@ button.primary.disabled:hover,
     border-bottom: 1px solid #e5e5e5;
 }
 
-.suggest-expandable .mage-suggest-inner > input[type="search"] {
+.suggest-expandable .mage-suggest-inner > input[type="search"],
+.suggest-expandable .mage-suggest-inner > input.search {
     position: relative;
     margin: 6px 5px 5px;
     padding-right: 20px;
@@ -908,6 +883,10 @@ button.primary.disabled:hover,
     background: none;
     margin: 0;
     top: auto;
+    max-height: 300px;
+    overflow: auto;
+    width: 100%;
+    float: left;
 }
 
 .suggest-expandable .mage-suggest-dropdown ul {
@@ -936,7 +915,7 @@ button.primary.disabled:hover,
 }
 
 .page-actions.fixed #product-template-suggest-container {
-    margin-left: 148px;
+    display: none;
 }
 
 /*
@@ -1114,6 +1093,7 @@ input[type=range],
 input[type=email],
 input[type=url],
 input[type=search],
+input.search,
 input[type=tel],
 input[type=color],
 textarea,
@@ -1171,6 +1151,7 @@ input[type=range]:focus,
 input[type=email]:focus,
 input[type=url]:focus,
 input[type=search]:focus,
+input.search:focus,
 input[type=tel]:focus,
 input[type=color]:focus,
 textarea:focus,
@@ -1202,6 +1183,10 @@ textarea[readonly] {
 select[disabled].multiselect > option[selected] {
     color: #fff;
     background: #6d6d6d;
+}
+
+.eq-ie8 select[disabled="disabled"][multiple="multiple"] option[selected="selected"]{
+    background-color: #ddd;
 }
 
 textarea:-moz-placeholder,
@@ -1323,8 +1308,11 @@ fieldset.field [class^='fields-group-'] .field .control {
     Form Validation
 -------------------------------------- */
 label.mage-error {
+    display: block;
     color: red;
     text-align: left;
+    clear: both;
+    margin: 3px 0 0 0;
 }
 
 textarea.mage-error,
@@ -1893,6 +1881,10 @@ input.mage-error ~ .addafter {
 .field-msrp input ~ label.addafter strong {
     margin-left: 2px;
     margin-right: -2px;
+}
+
+.eq-ie8 .field-apply_to .multiselect {
+    height: 120px;
 }
 
 /*
@@ -2525,11 +2517,13 @@ table tbody tr:nth-child(odd):hover th {
 
 /*.navigation .level-0:hover > a,
 .eq-ie8 .navigation .level-0:hover > a,*/
-.navigation .level-0.hover.recent > a,
-.navigation .level-0 > a:focus {
+.navigation .level-0.hover.recent > a {
     background: #fff;
     color: #676056;
     text-shadow: 0 1px 3px #c1bfbb;
+}
+.navigation .level-0 > a:focus {
+    outline: none;
 }
 
 .navigation .level-0 > .submenu {
@@ -2792,6 +2786,16 @@ table tbody tr:nth-child(odd):hover th {
     color: #f2ebde;
     height: 1.333em;
 }
+
+.navigation .level-0.item-system:hover > a span,
+.navigation .level-0.item-stores:hover > a span {
+    background: #31302B;
+}
+.navigation .level-0.item-system:hover > a span:after,
+.navigation .level-0.item-stores:hover > a span:after {
+    color: #58534a;
+}
+
 
 .no-js .navigation .level-0.item-system:hover > a span,
 .navigation .level-0.item-system.hover > a span,
@@ -3463,7 +3467,6 @@ table tbody tr:nth-child(odd):hover th {
     padding: 5px 15px 5px 24px;
     color: #333;
     font-size: 13px;
-    font-weight: bold;
     text-decoration: none;
 }
 
@@ -3681,6 +3684,10 @@ table tbody tr:nth-child(odd):hover th {
     text-shadow: 0 1px 0 #fff;
 }
 
+.side-col .ui-tabs .ui-accordion-header:focus {
+    outline: none;
+}
+
 .side-col .ui-accordion-header:before {
     position: absolute;
     left: 4px;
@@ -3814,7 +3821,6 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 /* TODO: styles for navigation on System > Configuration page */
-
 
 /*
     Horizontal Tabs
@@ -4085,7 +4091,7 @@ table tbody tr:nth-child(odd):hover th {
     max-width: 1259px;
 }
 
-.lt-ie9 .page-actions.fixed .page-actions-inner {
+.lt-ie10 .page-actions.fixed .page-actions-inner {
     background: #f5f2ed;
 }
 
@@ -4530,6 +4536,7 @@ table tbody tr:nth-child(odd):hover th {
 .grid .filter .range input {
     margin-top: 0;
     vertical-align: middle;
+    width: 80%;
 }
 
 .grid .filter .range select {
@@ -4557,8 +4564,8 @@ table tbody tr:nth-child(odd):hover th {
 
 .grid .filter .date:before {
     position: absolute;
-    left: 61px;
-    top: 2px;
+    left: 85%;
+    top: 1px;
     margin-top: 0;
     text-shadow: none;
     width: 16px;
@@ -4754,6 +4761,25 @@ tr.dynamic-grid input.input-text {
     table-layout: fixed;
 }
 
+#cross_sell_product_grid table.data th,
+#up_sell_product_grid table.data th,
+#related_product_grid table.data th,
+#productGrid_table th,
+.ui-dialog .data th {
+    word-wrap: normal;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+#cross_sell_product_grid table.data th > span,
+#up_sell_product_grid table.data th > span,
+#related_product_grid table.data th > span,
+#productGrid_table th > span,
+.ui-dialog .data th > span {
+    white-space: normal;
+}
+
+
 table .col-draggable {
     width: 1%;
 }
@@ -4762,6 +4788,7 @@ table .col-default,
 table .col-select,
 table .col-qty,
 table .col-actions,
+table .col-action,
 table .col-id {
     width: 5%;
 }
@@ -4784,7 +4811,7 @@ table .col-sku {
 }
 
 table .col-attr-name {
-    width: 120px;
+    width: 8%;
 }
 
 table .col-draggable .draggable-handle {
@@ -4838,6 +4865,10 @@ table .col-draggable .draggable-handle {
 .eq-ie8 .data-table td,
 .eq-ie8 .data-table tbody tr td {
     border-width: 0 0 1px;
+}
+
+.eq-ie8 .data-table td > .field {
+    margin-bottom: 0;
 }
 
 .data-table tbody tr.selected td,
@@ -5479,7 +5510,7 @@ table .col-draggable .draggable-handle {
 }
 
 .message-system-list li {
-    padding: 5px 13px 7px 36px; 
+    padding: 5px 13px 7px 36px;
     position: relative;
 }
 
@@ -5600,3 +5631,4 @@ table .col-draggable .draggable-handle {
 .fieldset-wrapper-title:after {
     clear: both;
 }
+

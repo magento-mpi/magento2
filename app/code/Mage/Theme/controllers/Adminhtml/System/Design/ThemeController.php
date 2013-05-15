@@ -18,7 +18,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
      */
     public function indexAction()
     {
-        $this->_objectManager->get('Mage_Core_Model_Event_Manager')->dispatch('theme_registration_from_filesystem');
+        $this->_eventManager->dispatch('theme_registration_from_filesystem');
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Theme::system_design_theme');
         $this->renderLayout();

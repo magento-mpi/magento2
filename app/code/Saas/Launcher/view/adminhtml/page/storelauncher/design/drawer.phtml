@@ -240,9 +240,11 @@
             $('.action-theme-assign')
                 .on('click.themeAssign', function(event) {
                     event.preventDefault();
-                    $('#drawer').drawerPages('drawerPageSwitch', 'theme-config');
                     $('#theme-image').attr('src', $(this).attr('data-theme-img-src'));
                     $('#theme-id').val($(this).attr('data-theme-id'));
+                    $('#drawer')
+                        .drawerPages('drawerPageSwitch', 'theme-config')
+                        .drawer('scrollToTop');
                 });
 
             $('.store-logo-bg-switcher li')

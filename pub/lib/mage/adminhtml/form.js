@@ -425,6 +425,7 @@ FormElementDependenceController.prototype = {
                         && !(currentConfig.can_edit_price != undefined && !currentConfig.can_edit_price)) {
                         $(item).addClassName('fd-enabled');
                         item.disabled = false;
+                        jQuery(item).removeClass('ignore-validate');
                     }
                 });
             }
@@ -437,7 +438,9 @@ FormElementDependenceController.prototype = {
                 }
             } else {
                 $(idTo).show();
-                $(idTo).disabled = false;
+                if ($(idTo).tagName.toLowerCase() in ['input', 'select']) {
+                    $(idTo).disabled = false;
+                }
             }
         } else {
             if ($(idTo).select('input', 'select', 'td')) {
@@ -446,6 +449,7 @@ FormElementDependenceController.prototype = {
                     if ((!item.type || item.type != 'hidden') && !($(item.id+'_inherit') && $(item.id+'_inherit').checked)) {
                         $(item).removeClassName('fd-enabled');
                         item.disabled = true;
+                        jQuery(item).addClass('ignore-validate');
                     }
                 });
             }
@@ -453,7 +457,11 @@ FormElementDependenceController.prototype = {
                 headElement.hide();
             }
             $(idTo).hide();
-            $(idTo).disabled = true;
+
+            if ($(idTo).tagName.toLowerCase() in ['input', 'select']) {
+                $(idTo).disabled = true;
+            }
+
         }
         var rowElement = $('row_' + idTo);
         if (rowElement) {

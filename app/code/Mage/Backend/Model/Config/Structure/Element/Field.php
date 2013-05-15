@@ -226,7 +226,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
      */
     public function getSectionId()
     {
-        $parts = explode('/', $this->getPath());
+        $parts = explode('/', $this->getConfigPath() ?: $this->getPath());
         return current($parts);
     }
 
@@ -237,7 +237,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
      */
     public function getGroupPath()
     {
-        return dirname($this->getPath());
+        return dirname($this->getConfigPath() ?: $this->getPath());
     }
 
     /**

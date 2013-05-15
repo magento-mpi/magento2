@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Model_Config_DataTest extends Mage_Backend_Area_TestCase
+class Mage_Backend_Model_ConfigTest extends Mage_Backend_Area_TestCase
 {
     /**
      * @covers Mage_Backend_Model_Config::save

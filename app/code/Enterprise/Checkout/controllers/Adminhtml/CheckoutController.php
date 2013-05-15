@@ -344,7 +344,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
      */
     public function createOrderAction()
     {
-        if (!Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Sales::create')) {
+        if (!$this->_authorization->isAllowed('Mage_Sales::create')) {
             Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Access denied.'));
         }
         try {
@@ -571,7 +571,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
      */
     protected function _isModificationAllowed()
     {
-        if (!Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Checkout::update')) {
+        if (!$this->_authorization->isAllowed('Enterprise_Checkout::update')) {
             Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Access denied.'));
         }
     }
@@ -583,8 +583,8 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Checkout::view')
-            || Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Checkout::update');
+        return $this->_authorization->isAllowed('Enterprise_Checkout::view')
+            || $this->_authorization->isAllowed('Enterprise_Checkout::update');
     }
 
     /**

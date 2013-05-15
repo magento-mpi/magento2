@@ -14,7 +14,6 @@ class Saas_PrintedTemplate_Model_Variable_Item_CreditmemoTest extends PHPUnit_Fr
     /**
      * Test Get order Item method
      * @dataProvider initVariableProvider
-     * @test
      */
     public function testInitVariable($settings, $expectedValues)
     {

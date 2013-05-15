@@ -37,11 +37,9 @@
                     name: 'save',
                     button: this.btnSaveDrawer
                 });
-                this.element.off('drawerHidden');
-                this._on({drawerHidden: function() {
-                    console.trace();
-                    this.destroy();
-                }});
+                this._on('body', {
+                    'drawerRefresh.drawer': 'destroy'
+                });
             },
 
             destroy: function() {

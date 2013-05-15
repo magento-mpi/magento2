@@ -25,7 +25,6 @@
     </div>
 </form>
 <script type="text/javascript">
-//<![CDATA[
 (function($, window) {
     $(function() {
         window.configForm = jQuery('#config-edit-form').mage('form').mage('validation', {
@@ -88,7 +87,7 @@
                 element.classNames().each(function(className) {
                     if (className.indexOf(classPrefix + '-') == 0
                         || (full && className.indexOf(classPrefix + '_') == 0)
-                    ) {
+                        ) {
                         callback(className);
                     }
                 });
@@ -345,5 +344,4 @@
         handleHash();
     });
 })(jQuery, window);
-//]]>
 </script>
