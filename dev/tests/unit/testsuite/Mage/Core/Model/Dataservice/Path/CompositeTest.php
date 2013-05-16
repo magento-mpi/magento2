@@ -27,11 +27,11 @@ class Mage_Core_Model_Dataservice_Path_CompositeTest extends PHPUnit_Framework_T
         /** @var $objectManagerMock Magento_ObjectManager */
         $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->disableOriginalConstructor()->getMock();
         $this->_map = array(
-            array(self::ITEM_ONE, array(), (object)array('name' => self::ITEM_ONE)),
-            array(self::ITEM_TWO, array(), (object)array('name' => self::ITEM_TWO)),
-            array(self::ITEM_THREE, array(), (object)array('name' => self::ITEM_THREE))
+            array(self::ITEM_ONE, (object)array('name' => self::ITEM_ONE)),
+            array(self::ITEM_TWO, (object)array('name' => self::ITEM_TWO)),
+            array(self::ITEM_THREE, (object)array('name' => self::ITEM_THREE))
         );
-        $objectManagerMock->expects($this->any())->method('create')->will($this->returnValueMap($this->_map));
+        $objectManagerMock->expects($this->any())->method('get')->will($this->returnValueMap($this->_map));
         $vector = array((self::ITEM_ONE)   => (self::ITEM_ONE),
                         (self::ITEM_TWO)   => (self::ITEM_TWO),
                         (self::ITEM_THREE) => (self::ITEM_THREE));

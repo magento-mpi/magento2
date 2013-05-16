@@ -19,7 +19,7 @@ class Mage_Core_Model_Dataservice_Path_Composite implements Mage_Core_Model_Data
     public function __construct(Magento_ObjectManager $objectManager, $items)
     {
         foreach ($items as $key => $item) {
-            $this->_children[$key] = $objectManager->create($item);
+            $this->_children[$key] = $objectManager->get($item);
         }
     }
 
