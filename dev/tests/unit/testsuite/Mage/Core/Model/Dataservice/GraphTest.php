@@ -57,8 +57,6 @@ class Mage_Core_Model_Dataservice_GraphTest extends PHPUnit_Framework_TestCase
         $this->_factoryMock->expects($this->once())->method('initDataService')->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME)
         )->will($this->returnValue($this->_dataserviceMock));
-        $classInformation = array('class' => self::TEST_CLASS_NAME,
-                                  'retrieveMethod' => 'retrieveMethod', 'methodArguments' => array());
         $this->_repositoryMock->expects($this->once())->method("add")->with(
             $this->equalTo(self::TEST_DATA_SERVICE_NAME),
             $this->equalTo($this->_dataserviceMock)
