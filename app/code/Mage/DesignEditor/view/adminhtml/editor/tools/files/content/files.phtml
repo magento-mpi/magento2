@@ -44,10 +44,13 @@
                         <img class="spacer" src="<?php echo Mage::getDesign()->getViewFileUrl('images/spacer.gif') ?>"/>
                         <img src="<?php echo $this->getUrl('*/*/previewImage', $file['thumbnailParams']) ?>">
                     <?php endif; ?>
-                    <p>
+                    <img class="spacer" src="<?php echo Mage::getDesign()->getViewFileUrl('images/spacer.gif') ?>"/>
+                    <div>
                         <?php echo $file['width'] ?>x<?php echo $file['height'] ?> px.
+                    </div>
+                    <div class="image-text">
                         <?php echo $file['text'] ?>
-                    </p>
+                    </div>
                     <div class="actions">
                         <a href="#" class="action-delete" title="<?php echo $this->__('Delete file'); ?>" data-delete-file="<?php echo $file['id'] ?>">
                             <span><?php echo $this->__('Delete file'); ?></span>

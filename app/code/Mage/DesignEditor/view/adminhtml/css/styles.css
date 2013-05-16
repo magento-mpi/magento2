@@ -2075,7 +2075,6 @@
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     font: 10px/1.333 Arial,Helvetica,sans-serif;
-    word-wrap: break-word;
 }
 
 .image .spacer {
@@ -2168,6 +2167,14 @@
     right: 10%;
     padding: 5px;
     margin: auto;
+}
+
+.image-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
 }
 
 .gallery .image .action-delete {
