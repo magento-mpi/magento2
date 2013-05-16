@@ -592,28 +592,9 @@
                                     <field id="authentication_method">0</field>
                                 </depends>
                             </field>
-                            <field id="api_wizard" showInDefault="0" showInWebsite="0" showInStore="0">
-                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            <field id="api_wizard" showInDefault="1" showInWebsite="1" showInStore="1">
                                 <depends>
                                     <field id="authentication_method">0</field>
-                                </depends>
-                            </field>
-                            <field id="api_wizard_saas" extends="api_wizard" showInDefault="1" showInWebsite="1" showInStore="1">
-                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
-                                <depends>
-                                    <field id="*/account/merchant_country" separator="," negative="1">FR,AU</field>
-                                </depends>
-                            </field>
-                            <field id="api_wizard_fr" extends="api_wizard" showInDefault="1" showInWebsite="1" showInStore="1">
-                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
-                                <depends>
-                                    <field id="*/account/merchant_country">FR</field>
-                                </depends>
-                            </field>
-                            <field id="api_wizard_au" extends="api_wizard" showInDefault="1" showInWebsite="1" showInStore="1">
-                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
-                                <depends>
-                                    <field id="*/account/merchant_country">AU</field>
                                 </depends>
                             </field>
                             <field id="sandbox_flag">
@@ -655,8 +636,7 @@
                                     <field id="authentication_method">1</field>
                                 </depends>
                             </field>
-                            <field id="status" translate="label button_label status_label account_label" sortOrder="17" showInDefault="0" showInWebsite="0" showInStore="0">
-                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            <field id="status" translate="label button_label status_label account_label" sortOrder="17" showInDefault="1" showInWebsite="1" showInStore="1">
                                 <label>Boarding Status</label>
                                 <button_label>Setup or change your site permissions with Paypal</button_label>
                                 <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus</frontend_model>
@@ -667,22 +647,11 @@
                                 <attribute type="status_config_path">payment/paypal_express_boarding/status</attribute>
                                 <attribute type="account_config_path">paypal/onboarding/boarding_account</attribute>
                                 <attribute type="account_id_config_path">paypal/onboarding/receiver_id</attribute>
+                                <attribute type="create_link">
+                                    <![CDATA[https://www.paypal.com/webapps/mpp/referral/paypal-payments-pro?partner_id=NB9WWHYEMVUMS]]>
+                                </attribute>
                                 <depends>
                                     <field id="authentication_method">1</field>
-                                </depends>
-                            </field>
-                            <field id="status_us" extends="payment/paypal_payments/express_checkout/express_checkout_required/express_checkout_required_express_checkout/status" showInDefault="1" showInWebsite="1">
-                                <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                                <attribute type="create_link">https://www.paypal.com/webapps/mpp/referral/paypal-payments-pro?partner_id=NB9WWHYEMVUMS</attribute>
-                                <depends>
-                                    <field id="*/account/merchant_country">US</field>
-                                </depends>
-                            </field>
-                            <field id="status_other" extends="payment/paypal_payments/express_checkout/express_checkout_required/express_checkout_required_express_checkout/status" showInDefault="1" showInWebsite="1">
-                                <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                                <attribute type="create_link">https://www.paypal.com/webapps/mpp/referral/website-payments-pro?partner_id=NB9WWHYEMVUMS</attribute>
-                                <depends>
-                                    <field id="*/account/merchant_country" negative="1">US</field>
                                 </depends>
                             </field>
                         </group>
