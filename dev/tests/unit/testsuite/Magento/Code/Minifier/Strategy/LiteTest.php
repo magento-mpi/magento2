@@ -11,7 +11,7 @@ class Magento_Code_Minifier_Strategy_LiteTest extends PHPUnit_Framework_TestCase
     public function testGetMinifiedFile()
     {
         $originalFile = __DIR__ . '/original/some.js';
-        $expectedMinifiedFile = __DIR__ . '/minified/some.min.js';
+        $minifiedFile = __DIR__ . '/minified/some.min.js';
         $content = 'content';
         $minifiedContent = 'minified content';
 
@@ -22,7 +22,7 @@ class Magento_Code_Minifier_Strategy_LiteTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($content));
         $filesystem->expects($this->once())
             ->method('write')
-            ->with($this->anything(), $minifiedContent);
+            ->with($minifiedFile, $minifiedContent);
 
         $adapter = $this->getMockForAbstractClass('Magento_Code_Minifier_AdapterInterface', array(), '', false);
         $adapter->expects($this->once())
@@ -31,20 +31,18 @@ class Magento_Code_Minifier_Strategy_LiteTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($minifiedContent));
 
         $strategy = new Magento_Code_Minifier_Strategy_Lite($adapter, $filesystem);
-
-        $minifiedFile = $strategy->getMinifiedFile($originalFile, $expectedMinifiedFile);
-        $this->assertSame($expectedMinifiedFile, $minifiedFile);
+        $strategy->minifyFile($originalFile, $minifiedFile);
     }
 
     public function testGetMinifiedFileNoUpdateNeeded()
     {
         $originalFile = __DIR__ . '/original/some.js';
-        $expectedMinifiedFile = __DIR__ . '/some.min.js';
+        $minifiedFile = __DIR__ . '/some.min.js';
 
         $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())
             ->method('has')
-            ->with($expectedMinifiedFile)
+            ->with($minifiedFile)
             ->will($this->returnValue(true));
         $filesystem->expects($this->never())
             ->method('read');
@@ -57,7 +55,6 @@ class Magento_Code_Minifier_Strategy_LiteTest extends PHPUnit_Framework_TestCase
 
         $strategy = new Magento_Code_Minifier_Strategy_Lite($adapter, $filesystem);
 
-        $minifiedFile = $strategy->getMinifiedFile($originalFile, $expectedMinifiedFile);
-        $this->assertSame($expectedMinifiedFile, $minifiedFile);
+        $strategy->minifyFile($originalFile, $minifiedFile);
     }
 }

@@ -42,16 +42,14 @@ class Magento_Code_Minifier_Strategy_Lite implements Magento_Code_Minifier_Strat
      *
      * @param string $originalFile path to original file
      * @param string $targetFile
-     * @return bool|string
      */
-    public function getMinifiedFile($originalFile, $targetFile)
+    public function minifyFile($originalFile, $targetFile)
     {
         if ($this->_isUpdateNeeded($targetFile)) {
             $content = $this->_filesystem->read($originalFile);
             $content = $this->_adapter->minify($content);
             $this->_filesystem->write($targetFile, $content);
         }
-        return $targetFile;
     }
 
     /**

@@ -42,11 +42,11 @@ class Mage_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_Tes
     public function testGetAssets()
     {
         $assetOne = $this->getMockForAbstractClass('Mage_Core_Model_Page_Asset_LocalInterface');
-        $assetOne->expects($this->exactly(1))
+        $assetOne->expects($this->once())
             ->method('getContentType')
             ->will($this->returnValue('js'));
         $assetTwo = $this->getMockForAbstractClass('Mage_Core_Model_Page_Asset_LocalInterface');
-        $assetTwo->expects($this->exactly(1))
+        $assetTwo->expects($this->once())
             ->method('getContentType')
             ->will($this->returnValue('js'));
 
@@ -123,7 +123,7 @@ class Mage_Core_Model_Page_Asset_MinifyServiceTest extends PHPUnit_Framework_Tes
             ->will($this->returnValue($mode));
 
         $asset = $this->getMockForAbstractClass('Mage_Core_Model_Page_Asset_LocalInterface');
-        $asset->expects($this->exactly(1))
+        $asset->expects($this->once())
             ->method('getContentType')
             ->will($this->returnValue('js'));
 

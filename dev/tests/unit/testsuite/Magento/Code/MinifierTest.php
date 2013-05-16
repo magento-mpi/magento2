@@ -14,6 +14,11 @@ class Magento_Code_MinifierTest extends PHPUnit_Framework_TestCase
     protected $_strategy;
 
     /**
+     * @var Magento_Filesystem|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_filesystem;
+
+    /**
      * @var Magento_Code_Minifier
      */
     protected $_minifier;
@@ -21,7 +26,8 @@ class Magento_Code_MinifierTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_strategy = $this->getMockForAbstractClass('Magento_Code_Minifier_StrategyInterface');
-        $this->_minifier = new Magento_Code_Minifier($this->_strategy, __DIR__);
+        $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
+        $this->_minifier = new Magento_Code_Minifier($this->_strategy, $this->_filesystem, __DIR__);
     }
 
     public function testGetMinifiedFile()
@@ -29,9 +35,8 @@ class Magento_Code_MinifierTest extends PHPUnit_Framework_TestCase
         $originalFile = '/original/some.js';
 
         $this->_strategy->expects($this->once())
-            ->method('getMinifiedFile')
-            ->with($originalFile, $this->matches(__DIR__ . '%ssome.min.js'))
-            ->will($this->returnArgument(1));
+            ->method('minifyFile')
+            ->with($originalFile, $this->matches(__DIR__ . '%ssome.min.js'));
         $minifiedFile = $this->_minifier->getMinifiedFile($originalFile);
         $this->assertStringMatchesFormat(__DIR__ . '%ssome.min.js', $minifiedFile);
     }
@@ -40,8 +45,22 @@ class Magento_Code_MinifierTest extends PHPUnit_Framework_TestCase
     {
         $originalFile = 'file.min.js';
         $this->_strategy->expects($this->never())
-            ->method('getMinifiedFile');
+            ->method('minifyFile');
         $minifiedFile = $this->_minifier->getMinifiedFile($originalFile);
         $this->assertSame($originalFile, $minifiedFile);
+    }
+
+    public function testGetMinifiedFileExistsMinified()
+    {
+        $originalFile = __DIR__ . '/original/some.js';
+        $expectedMinifiedFile = __DIR__ . '/original/some.min.js';
+
+        $this->_filesystem->expects($this->any())
+            ->method('has')
+            ->with($expectedMinifiedFile)
+            ->will($this->returnValue(true));
+
+        $minifiedFile = $this->_minifier->getMinifiedFile($originalFile, '/minified/some.min.js');
+        $this->assertStringEndsWith($expectedMinifiedFile, $minifiedFile);
     }
 }

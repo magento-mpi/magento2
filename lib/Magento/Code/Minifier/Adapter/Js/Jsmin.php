@@ -6,12 +6,13 @@
  * @license     {license_link}
  */
 
-/**
- * Adapter for JSMin library
- */
 if (!class_exists('JSMin')) {
     require_once(__DIR__ . '/../../../../../JSMin/jsmin.php');
 }
+
+/**
+ * Adapter for JSMin library
+ */
 class Magento_Code_Minifier_Adapter_Js_Jsmin implements Magento_Code_Minifier_AdapterInterface
 {
     /**

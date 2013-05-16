@@ -11,7 +11,7 @@ class Magento_Code_Minifier_Strategy_GenerateTest extends PHPUnit_Framework_Test
     public function testGetMinifiedFile()
     {
         $originalFile = __DIR__ . '/original/some.js';
-        $expectedMinifiedFile = __DIR__ . '/minified/some.min.js';
+        $minifiedFile = __DIR__ . '/minified/some.min.js';
         $content = 'content';
         $minifiedContent = 'minified content';
 
@@ -22,7 +22,7 @@ class Magento_Code_Minifier_Strategy_GenerateTest extends PHPUnit_Framework_Test
             ->will($this->returnValue($content));
         $filesystem->expects($this->once())
             ->method('write')
-            ->with($this->anything(), $minifiedContent);
+            ->with($minifiedFile, $minifiedContent);
 
         $adapter = $this->getMockForAbstractClass('Magento_Code_Minifier_AdapterInterface', array(), '', false);
         $adapter->expects($this->once())
@@ -31,46 +31,26 @@ class Magento_Code_Minifier_Strategy_GenerateTest extends PHPUnit_Framework_Test
             ->will($this->returnValue($minifiedContent));
 
         $strategy = new Magento_Code_Minifier_Strategy_Generate($adapter, $filesystem);
-
-        $minifiedFile = $strategy->getMinifiedFile($originalFile, $expectedMinifiedFile);
-        $this->assertSame($expectedMinifiedFile, $minifiedFile);
-    }
-
-    public function testGetMinifiedFileOriginalMinified()
-    {
-        $originalFile = __DIR__ . '/original/some.js';
-        $expectedMinifiedFile = __DIR__ . '/original/some.min.js';
-
-        $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-        $filesystem->expects($this->never())
-            ->method('read');
-        $filesystem->expects($this->never())
-            ->method('write');
-        $filesystem->expects($this->any())
-            ->method('has')
-            ->with($expectedMinifiedFile)
-            ->will($this->returnValue(true));
-
-        $adapter = $this->getMockForAbstractClass('Magento_Code_Minifier_AdapterInterface', array(), '', false);
-        $adapter->expects($this->never())
-            ->method('minify');
-
-        $strategy = new Magento_Code_Minifier_Strategy_Generate($adapter, $filesystem);
-
-        $minifiedFile = $strategy->getMinifiedFile($originalFile, '/minified/some.min.js');
-        $this->assertStringEndsWith($expectedMinifiedFile, $minifiedFile);
+        $strategy->minifyFile($originalFile, $minifiedFile);
     }
 
     public function testGetMinifiedFileNoUpdateNeeded()
     {
         $originalFile = __DIR__ . '/original/some.js';
-        $expectedMinifiedFile = __DIR__ . '/some.min.js';
+        $minifiedFile = __DIR__ . '/some.min.js';
 
         $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-        $filesystem->expects($this->at(2))
+        $filesystem->expects($this->once())
             ->method('has')
-            ->with($expectedMinifiedFile)
+            ->with($minifiedFile)
             ->will($this->returnValue(true));
+        $mTimeMap = array(
+            array($originalFile, null, 1),
+            array($minifiedFile, null, 1),
+        );
+        $filesystem->expects($this->exactly(2))
+            ->method('getMTime')
+            ->will($this->returnValueMap($mTimeMap));
         $filesystem->expects($this->never())
             ->method('read');
         $filesystem->expects($this->never())
@@ -81,8 +61,6 @@ class Magento_Code_Minifier_Strategy_GenerateTest extends PHPUnit_Framework_Test
             ->method('minify');
 
         $strategy = new Magento_Code_Minifier_Strategy_Generate($adapter, $filesystem);
-
-        $minifiedFile = $strategy->getMinifiedFile($originalFile, $expectedMinifiedFile);
-        $this->assertSame($expectedMinifiedFile, $minifiedFile);
+        $strategy->minifyFile($originalFile, $minifiedFile);
     }
 }

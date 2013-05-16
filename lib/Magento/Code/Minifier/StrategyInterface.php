@@ -12,11 +12,10 @@
 interface Magento_Code_Minifier_StrategyInterface
 {
     /**
-     * Get path to minified file
+     * Generates minified file
      *
      * @param string $originalFile
      * @param string $targetFile
-     * @return string
      */
-    public function getMinifiedFile($originalFile, $targetFile);
+    public function minifyFile($originalFile, $targetFile);
 }

@@ -14,17 +14,27 @@ class Magento_Code_Minifier
     private $_strategy;
 
     /**
+     * @var Magento_Filesystem
+     */
+    private $_filesystem;
+
+    /**
      * @var string directory where minified files are saved
      */
-    protected $_baseDir;
+    private $_baseDir;
 
     /**
      * @param Magento_Code_Minifier_StrategyInterface $strategy
+     * @param Magento_Filesystem $filesystem
      * @param string $baseDir
      */
-    public function __construct(Magento_Code_Minifier_StrategyInterface $strategy, $baseDir)
-    {
+    public function __construct(
+        Magento_Code_Minifier_StrategyInterface $strategy,
+        Magento_Filesystem $filesystem,
+        $baseDir
+    ) {
         $this->_strategy = $strategy;
+        $this->_filesystem = $filesystem;
         $this->_baseDir = $baseDir;
     }
 
@@ -39,8 +49,13 @@ class Magento_Code_Minifier
         if ($this->_isFileMinified($originalFile)) {
             return $originalFile;
         }
-        return $this->_strategy->getMinifiedFile($originalFile,
-            $this->_baseDir . '/' . $this->_generateMinifiedFileName($originalFile));
+        $minifiedFile = $this->_findOriginalMinifiedFile($originalFile);
+        if (!$minifiedFile) {
+            $minifiedFile = $this->_baseDir . '/' . $this->_generateMinifiedFileName($originalFile);
+            $this->_strategy->minifyFile($originalFile, $minifiedFile);
+        }
+
+        return $minifiedFile;
     }
 
     /**
@@ -66,5 +81,21 @@ class Magento_Code_Minifier
         $minifiedName = md5($originalFile) . '_' . $fileInfo['filename'] . '.min.' . $fileInfo['extension'];
 
         return $minifiedName;
+    }
+
+    /**
+     * Search for minified file provided along with the original file in the code base
+     *
+     * @param string $originalFile
+     * @return bool|string
+     */
+    protected function _findOriginalMinifiedFile($originalFile)
+    {
+        $fileInfo = pathinfo($originalFile);
+        $minifiedFile = $fileInfo['dirname'] . '/' . $fileInfo['filename'] . '.min.' . $fileInfo['extension'];
+        if ($this->_filesystem->has($minifiedFile)) {
+            return $minifiedFile;
+        }
+        return false;
     }
 }
