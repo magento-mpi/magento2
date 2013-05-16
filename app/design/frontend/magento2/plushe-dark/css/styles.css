@@ -5262,6 +5262,14 @@ div.mage-error {
   width: 430px;
   padding-bottom: 30px;
 }
+.col2-left-layout .product.info.main,
+.col2-right-layout .product.info.main {
+  width: 370px;
+}
+.col3-layout .product.info.main {
+  float: none;
+  width: 100%;
+}
 .product.info.main .price-box {
   font-size: 20px;
   padding-bottom: 10px;
@@ -5467,6 +5475,14 @@ div.mage-error {
   float: left;
   width: 540px;
   padding-bottom: 30px;
+}
+.col2-left-layout .product.media,
+.col2-right-layout .product.media {
+  width: 400px;
+}
+.col3-layout .product.media {
+  float: none;
+  width: 100%;
 }
 .box.tocart {
   margin: 15px 0;
@@ -5871,6 +5887,13 @@ body.type-bundle {
   float: left;
   width: 500px;
 }
+.col2-left-layout .bundle.options.container .product.options.wrapper,
+.col2-right-layout .bundle.options.container .product.options.wrapper {
+  width: 450px;
+}
+.col3-layout .bundle.options.container .product.options.wrapper {
+  width: 360px;
+}
 .bundle.options.container .product.options.bottom {
   float: left;
   width: 500px;
@@ -5935,6 +5958,13 @@ body.type-bundle {
   float: right;
   position: relative;
   width: 380px;
+}
+.col2-left-layout .block.bundle.summary,
+.col2-right-layout .block.bundle.summary {
+  width: 320px;
+}
+.col3-layout .block.bundle.summary {
+  width: 230px;
 }
 .block.bundle.summary > .title {
   font-weight: 400;
