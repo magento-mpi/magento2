@@ -8,12 +8,39 @@
  */
 /*jshint jquery:true*/
 (function($) {
+    /**
+     * Dialog button title
+     *
+     * @const
+     * @type {string}
+     */
     var BUTTON_ASSIGN = 'Assign';
+
+    /**
+     * Dialog button title
+     *
+     * @const
+     * @type {string}
+     */
     var BUTTON_EDIT = 'Edit';
 
-    //TODO since we can't convert data to JSON string we use magic numbers
-    var DEFAULT_STORE = '-1';
-    var EMPTY_STORES = '-2';
+    //TODO since we can't convert data to JSON string we use magic numbers DEFAULT_STORE and EMPTY_STORES
+
+    /**
+     * Magic number to send via AJAX request to notify that theme should be assigned to default store
+     *
+     * @const
+     * @type {number}
+     */
+    var DEFAULT_STORE = -1;
+
+    /**
+     * Magic number to send via AJAX request to notify that theme should be unassigned from every store
+     *
+     * @const
+     * @type {number}
+     */
+    var EMPTY_STORES = -2;
 
     'use strict';
     /**
@@ -41,7 +68,7 @@
         /**
          * List of themes and stores that assigned to them
          *
-         * @type {Array.<number>}
+         * @type {Object.<number, Array>}
          * @private
          */
         _storesByThemes: [],
@@ -78,8 +105,8 @@
          *  - VDE
          *  - VDE when trying to perform save-and-assign
          *
-         * @param event
-         * @param data
+         * @param {Object.<string>} event
+         * @param {Object.<string>} data
          * @private
          */
         _onAssign: function(event, data) {
@@ -105,6 +132,8 @@
         /**
          * Handler for 'assign-confirm' event
          *
+         * @param {Object.<string>} event
+         * @param {Object.<string>} data
          * @private
          */
         _onAssignConfirm: function(event, data) {
@@ -122,15 +151,30 @@
             this._sendAssignRequest(themeId, stores, data.isSaveAndAssign);
         },
 
+        /**
+         * Handler for show-stores-before event
+         *
+         * @param {Object.<string>} event
+         * @param {Object.<string>} data
+         * @private
+         */
         _onBeforeShowStoresEvent: function(event, data) {
             if (this.options.hasMultipleStores) {
                 this._setThemeStoresToCheckboxes(data.theme_id);
             }
         },
 
+        /**
+         * Get stores that given theme is assigned to
+         *
+         * @param {number} theme
+         * @returns {Array}
+         * @private
+         */
         _getAssignedStores: function(theme) {
             return this._storesByThemes[theme] || [];
         },
+
         /**
          * Setter for internal list of stores that themes assigned to
          *
@@ -158,12 +202,21 @@
             return this._getCheckboxes();
         },
 
+        /**
+         * Set checkboxes so they match stores that have given theme assigned
+         *
+         * @param {number} themeId
+         * @private
+         */
         _setThemeStoresToCheckboxes: function (themeId) {
             this._setCheckboxes(this._getAssignedStores(themeId));
         },
 
         /**
          * Check if the stores changed
+         *
+         * @param {number} themeId
+         * @param {Array.<number>} storesToAssign
          * @protected
          */
         _isStoreChanged: function(themeId, storesToAssign) {
@@ -174,10 +227,11 @@
 
         /**
          * Send AJAX request to assign theme to store-views
+         *
+         * @param {number} themeId
+         * @param {Array.<number>|null} stores
+         * @param {boolean} isSaveAndAssign
          * @public
-         * @param themeId {int}
-         * @param stores {Array.<number>|null}
-         * @param isSaveAndAssign {bool}
          */
         _sendAssignRequest: function(themeId, stores, isSaveAndAssign) {
             if (!this.options.assignUrl) {
@@ -220,10 +274,10 @@
         /**
          * Assign Save Theme AJAX call Success handler
          *
-         * @param response
-         * @param stores
-         * @param themeId
-         * @param isSaveAndAssign {bool}
+         * @param {Object} response
+         * @param {Array} stores
+         * @param {number} themeId
+         * @param {boolean} isSaveAndAssign
          */
         assignThemeSuccess: function(response, stores, themeId, isSaveAndAssign) {
             var dialog = this._getDialog().data('dialog');
@@ -269,7 +323,7 @@
         /**
          * Prepare items for post request
          *
-         * @param items
+         * @param {Object} items
          * @return {Object}
          * @private
          */

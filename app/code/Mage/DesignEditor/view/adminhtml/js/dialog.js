@@ -101,6 +101,11 @@
             this.setButtons(buttons);
         },
 
+        /**
+         * Set dialog buttons
+         *
+         * @param {Array.<Object>|Object} buttons
+         */
         setButtons: function(buttons) {
             if (buttons == undefined) {
                 buttons = [];
@@ -126,6 +131,12 @@
             this._setOption('buttons', buttons);
         },
 
+        /**
+         * Add buttons to dialog
+         *
+         * @param {Object} button
+         * @param {number} position
+         */
         addButton: function(button, position) {
             button.text = $.mage.__(button.text)
 
@@ -134,6 +145,11 @@
             this._setOption('buttons', buttons);
         },
 
+        /**
+         * Remove button from dialog
+         *
+         * @param {string|number}buttonPointer
+         */
         removeButton: function(buttonPointer) {
             var buttons = this.options.buttons;
 
