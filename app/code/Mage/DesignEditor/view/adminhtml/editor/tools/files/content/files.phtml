@@ -21,19 +21,20 @@
                 <?php foreach ($this->getFiles() as $file): ?>
                 <div class="clear"></div>
                     <div class="file-row filecnt file-font" id="<?php echo $file['id'] ?>">
-                        <span>
+                        <span class="file-info-name">
                             <?php echo $file['text'] ?>
                         </span>
-                        <span>
+                        <span class="file-info-size">
                             <a href="#" class="action-add" title="<?php echo $this->__('Insert file'); ?>" data-insert-file="<?php echo $file['id'] ?>">
                                 <span><?php echo $this->__('Insert file'); ?></span>
                             </a>
                         </span>
-                        <span>
+                        <span class="file-info-cancel">
                             <a href="#" class="action-delete" title="<?php echo $this->__('Delete file'); ?>" data-delete-file="<?php echo $file['id'] ?>">
                                 <span><?php echo $this->__('Delete file'); ?></span>
                             </a>
                         </span>
+                    </div>
                 </div>
                 <?php endforeach; ?>
             </div>
