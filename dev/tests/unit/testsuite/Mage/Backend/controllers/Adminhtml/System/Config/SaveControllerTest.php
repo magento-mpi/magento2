@@ -198,7 +198,8 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
     {
         $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
-        $groups = array('some.key' => 'some.val');
+        $fixturePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
+        $groups = require_once($fixturePath . 'groups_array.php');
         $requestParamMap = array(
             array('section', null, 'test_section'),
             array('website', null, 'test_website'),
@@ -210,7 +211,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
             array('config_state', null, 'test_config_state'),
         );
 
-        $fixturePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
         $files = require_once($fixturePath . 'files_array.php');
 
         $this->_requestMock->expects($this->any())->method('getPost')->will($this->returnValueMap($requestPostMap));

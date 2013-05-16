@@ -272,7 +272,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
     public function verifyTagProduct(array $tagSearchData, array $productSearchData)
     {
         $this->productHelper()->openProduct($productSearchData);
-        $this->openTab('product_tags');
+        $this->productHelper()->openProductTab('product_tags');
         $xpathTR = $this->search($tagSearchData, 'product_tags');
         return $xpathTR ? true : false;
     }
