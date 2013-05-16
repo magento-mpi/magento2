@@ -3111,7 +3111,7 @@ select {
     vertical-align: top;
     .borderBox;
     margin: 0;
-    padding: 20px;
+    padding: 11px;
     float: none;
     .product.photo {
       float: left;
@@ -3135,14 +3135,11 @@ select {
       }
     }
     .actions {
-      display: none;
-      .primary {
-        margin: 0 0 10px;
-      }
+      visibility: hidden;
     }
     &:hover {
       .actions {
-        display: block;
+        visibility: visible;
       }
     }
   }
@@ -3153,7 +3150,6 @@ select {
   padding-top: 25px;
   border-top: 1px solid @fieldBg;
   .products.list {
-    margin: 0 -20px;
     .productItems();
   }
 }
@@ -3172,8 +3168,9 @@ select {
 .block.crosssell,
 .block.upsell,
 .block.related {
-  clear: both;
+  .clearfix;
   .blocklist();
+  clear:both;
 }
 
 .block.crosssell {
@@ -3197,14 +3194,11 @@ select {
 
 .block.widget.viewed {
   .products.list.items.widget-viewed-grid {
-    margin: 0 -13px;
     .item.product {
       .borderBox;
       width: 20%;
       padding-left: 1%;
       padding-right: 1%;
-      .col2-left-layout &,
-      .col2-right-layout &,
       .col3-layout & {
         width: 25%;
       }
@@ -3213,6 +3207,11 @@ select {
         display: block;
         margin: 0 0 10px;
       }
+    }
+  }
+  .products.list.items.widget-viewed-list {
+    .item.product {
+        .column(12);
     }
   }
 }
