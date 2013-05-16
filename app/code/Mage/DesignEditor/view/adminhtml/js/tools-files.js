@@ -113,7 +113,7 @@ Mediabrowser.prototype = {
         if (this.showBreadcrumbs)
             this.drawBreadcrumbs(this.currentNode);
 
-        this.showElement('loading-mask');
+        jQuery('#contents').loadingPopup({ timeout: false });
         new Ajax.Request(this.contentsUrl, {
             parameters: {node: this.currentNode.id},
             evalJS: true,
@@ -121,7 +121,7 @@ Mediabrowser.prototype = {
                 try {
                     this.currentNode.select();
                     this.onAjaxSuccess(transport);
-                    this.hideElement('loading-mask');
+                    jQuery('#contents').trigger('hideLoadingPopup');
                     if ($('contents') != undefined) {
                         $('contents').update(transport.responseText);
                         $$('div.filecnt').each(function(s) {
