@@ -25,7 +25,10 @@
                         <curl/>
                         <iconv/>
                         <ctype/>
-                        <gd/>
+                        <any>
+                            <gd/>
+                            <imagick min_version="3.0.0"/>
+                        </any>
                     </extensions>
                 </php>
             </system_requirements>
