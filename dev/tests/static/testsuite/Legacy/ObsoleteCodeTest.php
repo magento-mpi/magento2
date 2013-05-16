@@ -66,7 +66,6 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     protected static function _populateList(array &$list, array &$errors, $filePattern, $hasScope = true)
     {
-
         foreach (glob(__DIR__ . '/_files/' . $filePattern) as $file) {
             foreach (self::_readList($file) as $row) {
                 list($item, $scope, $replacement) = self::_padRow($row, $hasScope);
@@ -209,7 +208,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
                     $content,
                     $message
                 );
-                if ($this->_isSubclassOf($content, $class)) {
+                if ($this->_isClassOrInterface($content, $class) || $this->_isDirectDescendant($content, $class)) {
                     $this->_assertNotRegExp('/function\s*' . $quotedMethod . '\s*\(/iS', $content, $message);
                     $this->_assertNotRegExp('/this->' . $quotedMethod . '\s*\(/iS', $content, $message);
                     $this->_assertNotRegExp(
@@ -298,7 +297,7 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
         foreach (self::$_attributes as $row) {
             list($attribute, $class, $replacement) = $row;
             if ($class) {
-                if (!$this->_isSubclassOf($content, $class)) {
+                if (!$this->_isClassOrInterface($content, $class) && !$this->_isDirectDescendant($content, $class)) {
                     continue;
                 }
                 $fullyQualified = "{$class}::\${$attribute}";
@@ -340,10 +339,12 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
             if ($class) {
                 $fullyQualified = "{$class}::{$constant}";
                 $regex = preg_quote($fullyQualified, '/');
-                if ($this->_isSubclassOf($content, $class) && !$this->_isClassConstantDefined($content, $constant)) {
-                    $regex .= '|' . preg_quote("self::{$constant}", '/')
-                        . '|' . preg_quote("parent::{$constant}", '/')
-                        . '|' . preg_quote("static::{$constant}", '/');
+                if ($this->_isDirectDescendant($content, $class)) {
+                    $regex .= '|' . preg_quote("parent::{$constant}", '/');
+                    if (!$this->_isClassConstantDefined($content, $constant)) {
+                        $regex .= '|' . preg_quote("self::{$constant}", '/')
+                            . '|' . preg_quote("static::{$constant}", '/');
+                    }
                 }
             } else {
                 $fullyQualified = $constant;
@@ -378,18 +379,32 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Analyze contents of a file to determine whether this is declaration of or a direct descendant of specified class
+     * Analyze contents to determine whether this is declaration of specified class/interface
      *
      * @param string $content
-     * @param string $class
+     * @param string $name
      * @return bool
      */
-    protected function _isSubclassOf($content, $class)
+    protected function _isClassOrInterface($content, $name)
     {
-        if (!$class) {
-            return false;
-        }
-        return (bool)preg_match('/(class|extends|implements)\s+' . preg_quote($class, '/') . '(\s|;)/S', $content);
+        $name = preg_quote($name, '/');
+        return (bool)preg_match('/\b(?:class|interface)\s+' . $name . '\b[^{]*\{/iS', $content);
+    }
+
+    /**
+     * Analyze contents to determine whether this is a direct descendant of specified class/interface
+     *
+     * @param string $content
+     * @param string $name
+     * @return bool
+     */
+    protected function _isDirectDescendant($content, $name)
+    {
+        $name = preg_quote($name, '/');
+        return (bool)preg_match(
+            '/\s+extends\s+' . $name . '\b|\s+implements\s+[^{]*\b' . $name . '\b[^{]*\{/iS',
+            $content
+        );
     }
 
     /**
