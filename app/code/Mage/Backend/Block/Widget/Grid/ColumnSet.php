@@ -180,17 +180,6 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     }
 
     /**
-     * Retrieve the html id of the filter
-     *
-     * @param Mage_Backend_Block_Widget_Grid_Column $column
-     * @return string
-     */
-    public function getColumnHtmlId(Mage_Backend_Block_Widget_Grid_Column $column)
-    {
-        return $column->getHtmlId();
-    }
-
-    /**
      * Set sortability flag for columns
      *
      * @param bool $value

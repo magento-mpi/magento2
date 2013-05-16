@@ -135,7 +135,7 @@ $numColumns = sizeof($this->getColumns());
             <tr class="headings">
                 <?php foreach ($this->getColumns() as $_column): ?>
                 <th<?php echo $_column->getHeaderHtmlProperty() ?>>
-                    <label for="<?php echo $this->getColumnHtmlId($_column) ?>">
+                    <label for="<?php echo $_column->getHtmlId() ?>">
                         <span><?php echo $_column->getHeaderHtml() ?></span>
                     </label>
                 </th>
