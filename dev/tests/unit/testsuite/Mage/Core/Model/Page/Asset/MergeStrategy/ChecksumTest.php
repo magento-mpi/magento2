@@ -41,17 +41,6 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_ChecksumTest extends PHPUnit_Fram
     protected function setUp()
     {
         $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-
-        $this->_strategy = $this->getMock('Mage_Core_Model_Page_Asset_MergeStrategy_MergeStrategyInterface');
-
-        $this->_object = new Mage_Core_Model_Page_Asset_MergeStrategy_Checksum($this->_strategy, $this->_filesystem);
-    }
-
-    /**
-     * Prepare common expectations for all mergeFiles tests
-     */
-    protected function _prepareStrategy()
-    {
         $this->_filesystem->expects($this->exactly(2))
             ->method('getMTime')
             ->will($this->returnValueMap(
@@ -60,6 +49,10 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_ChecksumTest extends PHPUnit_Fram
                     array('file2.js', null, '456'),
                 )
             ));
+
+        $this->_strategy = $this->getMock('Mage_Core_Model_Page_Asset_MergeStrategyInterface');
+
+        $this->_object = new Mage_Core_Model_Page_Asset_MergeStrategy_Checksum($this->_strategy, $this->_filesystem);
     }
 
     /**
@@ -67,8 +60,6 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_ChecksumTest extends PHPUnit_Fram
      */
     public function testMergeFilesNoMergeRequired()
     {
-        $this->_prepareStrategy();
-
         $this->_filesystem
             ->expects($this->exactly(2))
             ->method('has')
@@ -97,7 +88,7 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_ChecksumTest extends PHPUnit_Fram
             ->method('mergeFiles')
         ;
 
-        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile);
+        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile, 'contentType');
     }
 
     /**
@@ -107,8 +98,6 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_ChecksumTest extends PHPUnit_Fram
      */
     public function testMergeFilesFilesDoNotExist($isFileExists, $isMetaFileExists)
     {
-        $this->_prepareStrategy();
-
         $this->_filesystem->expects($this->any())
             ->method('has')
             ->will($this->returnValueMap(
@@ -122,7 +111,7 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_ChecksumTest extends PHPUnit_Fram
         $this->_strategy
             ->expects($this->once())
             ->method('mergeFiles')
-            ->with($this->_filesArray, $this->_mergedFile)
+            ->with($this->_filesArray, $this->_mergedFile, 'contentType')
         ;
 
         $this->_filesystem
@@ -131,7 +120,7 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_ChecksumTest extends PHPUnit_Fram
             ->with($this->_mergedMetaFile, '123456')
         ;
 
-        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile);
+        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile, 'contentType');
     }
 
     /**
@@ -150,8 +139,6 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_ChecksumTest extends PHPUnit_Fram
      */
     public function testMergeFilesExistWrongChecksum()
     {
-        $this->_prepareStrategy();
-
         $this->_filesystem
             ->expects($this->exactly(2))
             ->method('has')
@@ -173,7 +160,7 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_ChecksumTest extends PHPUnit_Fram
         $this->_strategy
             ->expects($this->once())
             ->method('mergeFiles')
-            ->with($this->_filesArray, $this->_mergedFile)
+            ->with($this->_filesArray, $this->_mergedFile, 'contentType')
         ;
 
         $this->_filesystem
@@ -182,23 +169,6 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_ChecksumTest extends PHPUnit_Fram
             ->with($this->_mergedMetaFile, '123456')
         ;
 
-        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile);
-    }
-
-    /**
-     * @dataProvider setIsCssDataProvider
-     */
-    public function testSetIsCss($value)
-    {
-        $this->_strategy
-            ->expects($this->once())
-            ->method('setIsCss')
-            ->with($value);
-        $this->_object->setIsCss($value);
-    }
-
-    public function setIsCssDataProvider()
-    {
-        return array(array(true), array(false));
+        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile, 'contentType');
     }
 }

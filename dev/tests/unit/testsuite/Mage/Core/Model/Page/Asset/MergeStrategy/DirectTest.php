@@ -45,38 +45,38 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_DirectTest extends PHPUnit_Framew
      */
     public function testMergeFilesNoFilesException()
     {
-        $this->_object->mergeFiles(array('no_file.js'), 'some_file.js');
+        $this->_object->mergeFiles(array('no_file.js'), 'some_file.js', 'js');
     }
 
     /**
-     * Tests mergeFiles() and setIsCss(true)
+     * Test mergeFiles() for css content type
      */
-    public function testMergeFilesCssTrue()
+    public function testMergeFilesCss()
     {
-        $this->_object->setIsCss(true);
         $this->_cssHelper
             ->expects($this->exactly(2))
             ->method('replaceCssRelativeUrls')
             ->will($this->returnArgument(0));
-        $this->_testMergeFiles();
+        $this->_testMergeFiles('css');
     }
 
     /**
-     * Tests mergeFiles() and setIsCss(false)
+     * Test mergeFiles() for js content type
      */
-    public function testMergeFilesCssFalse()
+    public function testMergeFilesJs()
     {
-        $this->_object->setIsCss(false);
         $this->_cssHelper
             ->expects($this->never())
             ->method('replaceCssRelativeUrls');
-        $this->_testMergeFiles();
+        $this->_testMergeFiles('js');
     }
 
     /**
      * Test mergeFiles itself
+     *
+     * @param string $contentType
      */
-    protected function _testMergeFiles()
+    protected function _testMergeFiles($contentType)
     {
         $mergedFile = '/merged_file.js';
 
@@ -108,6 +108,6 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_DirectTest extends PHPUnit_Framew
             ->with($mergedFile, 'script1script2')
         ;
 
-        $this->_object->mergeFiles(array('/pub/script_one.js', '/pub/script_two.js'), $mergedFile);
+        $this->_object->mergeFiles(array('/pub/script_one.js', '/pub/script_two.js'), $mergedFile, $contentType);
     }
 }

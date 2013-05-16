@@ -27,7 +27,7 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
     private $_logger;
 
     /**
-     * @var Mage_Core_Model_Page_Asset_MergeStrategy_MergeStrategyInterface
+     * @var Mage_Core_Model_Page_Asset_MergeStrategyInterface
      */
     private $_mergeStrategy;
 
@@ -52,7 +52,7 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Logger $logger,
      * @param Mage_Core_Model_Dir $dirs,
-     * @param Mage_Core_Model_Page_Asset_MergeStrategy_MergeStrategyInterface $mergeStrategy
+     * @param Mage_Core_Model_Page_Asset_MergeStrategyInterface $mergeStrategy
      * @param array $assets
      * @throws InvalidArgumentException
      */
@@ -60,7 +60,7 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Logger $logger,
         Mage_Core_Model_Dir $dirs,
-        Mage_Core_Model_Page_Asset_MergeStrategy_MergeStrategyInterface $mergeStrategy,
+        Mage_Core_Model_Page_Asset_MergeStrategyInterface $mergeStrategy,
         array $assets
     ) {
         $this->_objectManager = $objectManager;
@@ -115,7 +115,7 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
         $sourceFiles = $this->_getPublicFilesToMerge($assets);
         $destinationFile = $this->_getMergedFilePath($sourceFiles);
 
-        $this->_mergeStrategy->mergeFiles($sourceFiles, $destinationFile);
+        $this->_mergeStrategy->mergeFiles($sourceFiles, $destinationFile, $this->_contentType);
         return $this->_objectManager->create('Mage_Core_Model_Page_Asset_PublicFile', array(
             'file' => $destinationFile,
             'contentType' => $this->_contentType,

@@ -95,7 +95,7 @@
             <preferences>
                 <Mage_Core_Model_Session_Abstract>Mage_Core_Model_Session</Mage_Core_Model_Session_Abstract>
                 <Mage_Core_Model_LocaleInterface>Mage_Core_Model_Locale</Mage_Core_Model_LocaleInterface>
-                <Mage_Core_Model_Page_Asset_MergeStrategy_MergeStrategyInterface>Mage_Core_Model_Page_Asset_MergeStrategy_Direct</Mage_Core_Model_Page_Asset_MergeStrategy_MergeStrategyInterface>
+                <Mage_Core_Model_Page_Asset_MergeStrategyInterface>Mage_Core_Model_Page_Asset_MergeStrategy_Direct</Mage_Core_Model_Page_Asset_MergeStrategyInterface>
             </preferences>
             <Magento_Data_Structure>
                 <shared>0</shared>

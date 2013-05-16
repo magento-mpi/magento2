@@ -36,7 +36,7 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_FileExistsTest extends PHPUnit_Fr
     protected function setUp()
     {
         $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
-        $this->_strategy = $this->getMock('Mage_Core_Model_Page_Asset_MergeStrategy_MergeStrategyInterface');
+        $this->_strategy = $this->getMock('Mage_Core_Model_Page_Asset_MergeStrategyInterface');
 
         $this->_object = new Mage_Core_Model_Page_Asset_MergeStrategy_FileExists($this->_strategy, $this->_filesystem);
     }
@@ -54,7 +54,7 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_FileExistsTest extends PHPUnit_Fr
             ->will($this->returnValue(true))
         ;
 
-        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile);
+        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile, 'contentType');
     }
 
     public function testMergeFilesFileDoesNotExist()
@@ -62,7 +62,7 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_FileExistsTest extends PHPUnit_Fr
         $this->_strategy
             ->expects($this->once())
             ->method('mergeFiles')
-            ->with($this->_filesArray, $this->_mergedFile)
+            ->with($this->_filesArray, $this->_mergedFile, 'contentType')
         ;
 
         $this->_filesystem->expects($this->once())
@@ -71,23 +71,6 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_FileExistsTest extends PHPUnit_Fr
             ->will($this->returnValue(false))
         ;
 
-        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile);
-    }
-
-    /**
-     * @dataProvider setIsCssDataProvider
-     */
-    public function testSetIsCss($value)
-    {
-        $this->_strategy
-            ->expects($this->once())
-            ->method('setIsCss')
-            ->with($value);
-        $this->_object->setIsCss($value);
-    }
-
-    public function setIsCssDataProvider()
-    {
-        return array(array(true), array(false));
+        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile, 'contentType');
     }
 }

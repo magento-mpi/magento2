@@ -59,9 +59,7 @@ class Mage_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
 
         $this->_dirs = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
 
-        $this->_mergeStrategy = $this->getMock(
-            'Mage_Core_Model_Page_Asset_MergeStrategy_MergeStrategyInterface'
-        );
+        $this->_mergeStrategy = $this->getMock('Mage_Core_Model_Page_Asset_MergeStrategyInterface');
 
         $this->_objectManager = $this->getMockForAbstractClass(
             'Magento_ObjectManager', array(), '', true, true, true, array('create')
@@ -117,24 +115,6 @@ class Mage_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
     {
         $mergedFile = '/_merged/19b2d7c942efeb2327eadbcf04635b02.js';
 
-        $this->_dirs
-            ->expects($this->at(0))
-            ->method('getDir')
-            ->with(Mage_Core_Model_Dir::PUB_LIB)
-            ->will($this->returnValue(''));
-
-        $this->_dirs
-            ->expects($this->at(1))
-            ->method('getDir')
-            ->with(Mage_Core_Model_Dir::STATIC_VIEW)
-            ->will($this->returnValue(''));
-
-        $this->_dirs
-            ->expects($this->at(2))
-            ->method('getDir')
-            ->with(Mage_Core_Model_Dir::PUB_VIEW_CACHE)
-            ->will($this->returnValue(''));
-
         $this->_logger->expects($this->never())->method('logException');
 
         $publicFiles = array(
@@ -145,7 +125,7 @@ class Mage_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCase
         $this->_mergeStrategy
             ->expects($this->once())
             ->method('mergeFiles')
-            ->with($publicFiles, $mergedFile)
+            ->with($publicFiles, $mergedFile, 'js')
             ->will($this->returnValue(null));
 
         $mergedAsset = $this->getMockForAbstractClass('Mage_Core_Model_Page_Asset_MergeableInterface');

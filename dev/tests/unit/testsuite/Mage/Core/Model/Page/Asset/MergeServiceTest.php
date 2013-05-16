@@ -70,10 +70,9 @@ class Mage_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_Test
      * @param string $storeConfigPath
      * @param string $appMode
      * @param string $mergeStrategy
-     * @param bool $isCss
      * @dataProvider getMergedAssetsDataProvider
      */
-    public function testGetMergedAssets(array $assets, $contentType, $storeConfigPath, $appMode, $mergeStrategy, $isCss)
+    public function testGetMergedAssets(array $assets, $contentType, $storeConfigPath, $appMode, $mergeStrategy)
     {
         $mergedAsset = $this->getMock('Mage_Core_Model_Page_Asset_AssetInterface');
         $this->_storeConfig
@@ -85,9 +84,6 @@ class Mage_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_Test
         ;
 
         $mergeStrategyMock = $this->getMock($mergeStrategy, array(), array(), '', false);
-        $mergeStrategyMock->expects($this->once())
-            ->method('setIsCss')
-            ->with($isCss);
 
         $this->_objectManager
             ->expects($this->once())
@@ -127,32 +123,42 @@ class Mage_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_Test
                 Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS,
                 Mage_Core_Model_Page_Asset_MergeService::XML_PATH_MERGE_JS_FILES,
                 Mage_Core_Model_App_State::MODE_PRODUCTION,
-                'Mage_Core_Model_Page_Asset_MergeStrategy_FileExists',
-                false
+                'Mage_Core_Model_Page_Asset_MergeStrategy_FileExists'
             ),
             'css production mode' => array(
                 $cssAssets,
                 Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS,
                 Mage_Core_Model_Page_Asset_MergeService::XML_PATH_MERGE_CSS_FILES,
                 Mage_Core_Model_App_State::MODE_PRODUCTION,
-                'Mage_Core_Model_Page_Asset_MergeStrategy_FileExists',
-                true
+                'Mage_Core_Model_Page_Asset_MergeStrategy_FileExists'
             ),
             'js default mode' => array(
                 $jsAssets,
                 Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS,
                 Mage_Core_Model_Page_Asset_MergeService::XML_PATH_MERGE_JS_FILES,
                 Mage_Core_Model_App_State::MODE_DEFAULT,
-                'Mage_Core_Model_Page_Asset_MergeStrategy_Checksum',
-                false
+                'Mage_Core_Model_Page_Asset_MergeStrategy_Checksum'
             ),
             'css default mode' => array(
                 $cssAssets,
                 Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS,
                 Mage_Core_Model_Page_Asset_MergeService::XML_PATH_MERGE_CSS_FILES,
                 Mage_Core_Model_App_State::MODE_DEFAULT,
-                'Mage_Core_Model_Page_Asset_MergeStrategy_Checksum',
-                true
+                'Mage_Core_Model_Page_Asset_MergeStrategy_Checksum'
+            ),
+            'js developer mode' => array(
+                $jsAssets,
+                Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS,
+                Mage_Core_Model_Page_Asset_MergeService::XML_PATH_MERGE_JS_FILES,
+                Mage_Core_Model_App_State::MODE_DEVELOPER,
+                'Mage_Core_Model_Page_Asset_MergeStrategy_Checksum'
+            ),
+            'css developer mode' => array(
+                $cssAssets,
+                Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS,
+                Mage_Core_Model_Page_Asset_MergeService::XML_PATH_MERGE_CSS_FILES,
+                Mage_Core_Model_App_State::MODE_DEVELOPER,
+                'Mage_Core_Model_Page_Asset_MergeStrategy_Checksum'
             ),
         );
     }

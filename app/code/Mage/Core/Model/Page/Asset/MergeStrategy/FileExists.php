@@ -9,11 +9,10 @@
 /**
  * Merge strategy representing the following: merged file is being recreated if and only if merged file does not exist
  */
-class Mage_Core_Model_Page_Asset_MergeStrategy_FileExists
-    implements Mage_Core_Model_Page_Asset_MergeStrategy_MergeStrategyInterface
+class Mage_Core_Model_Page_Asset_MergeStrategy_FileExists implements Mage_Core_Model_Page_Asset_MergeStrategyInterface
 {
     /**
-     * @var Mage_Core_Model_Page_Asset_MergeStrategy_MergeStrategyInterface
+     * @var Mage_Core_Model_Page_Asset_MergeStrategyInterface
      */
     private $_strategy;
 
@@ -23,11 +22,11 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_FileExists
     private $_filesystem;
 
     /**
-     * @param Mage_Core_Model_Page_Asset_MergeStrategy_MergeStrategyInterface $strategy
+     * @param Mage_Core_Model_Page_Asset_MergeStrategyInterface $strategy
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
-        Mage_Core_Model_Page_Asset_MergeStrategy_MergeStrategyInterface $strategy,
+        Mage_Core_Model_Page_Asset_MergeStrategyInterface $strategy,
         Magento_Filesystem $filesystem
     ) {
         $this->_strategy = $strategy;
@@ -37,18 +36,10 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_FileExists
     /**
      * {@inheritdoc}
      */
-    public function mergeFiles(array $publicFiles, $destinationFile)
+    public function mergeFiles(array $publicFiles, $destinationFile, $contentType)
     {
         if (!$this->_filesystem->has($destinationFile)) {
-            $this->_strategy->mergeFiles($publicFiles, $destinationFile);
+            $this->_strategy->mergeFiles($publicFiles, $destinationFile, $contentType);
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setIsCss($isCss)
-    {
-        $this->_strategy->setIsCss($isCss);
     }
 }

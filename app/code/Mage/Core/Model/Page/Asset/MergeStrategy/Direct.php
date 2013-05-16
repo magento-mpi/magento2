@@ -9,8 +9,7 @@
 /**
  * Simple merge strategy - merge anyway
  */
-class Mage_Core_Model_Page_Asset_MergeStrategy_Direct
-    implements Mage_Core_Model_Page_Asset_MergeStrategy_MergeStrategyInterface
+class Mage_Core_Model_Page_Asset_MergeStrategy_Direct implements Mage_Core_Model_Page_Asset_MergeStrategyInterface
 {
     /**
      * @var Magento_Filesystem
@@ -26,11 +25,6 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_Direct
      * @var Mage_Core_Helper_Css
      */
     private $_cssHelper;
-
-    /**
-     * @var bool
-     */
-    private $_isCss;
 
     /**
      * @param Magento_Filesystem $filesystem
@@ -50,47 +44,40 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_Direct
     /**
      * {@inheritdoc}
      */
-    public function mergeFiles(array $publicFiles, $destinationFile)
+    public function mergeFiles(array $publicFiles, $destinationFile, $contentType)
     {
-        // Compose content
-        $mergedContent = $this->_composeMergedContent($publicFiles, $destinationFile);
+        $mergedContent = $this->_composeMergedContent($publicFiles, $destinationFile, $contentType);
 
-        // Save merged content
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->write($destinationFile, $mergedContent);
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function setIsCss($isCss)
-    {
-        $this->_isCss = (bool)$isCss;
-    }
-
-    /**
-     * Merge files together and removed merged content
+     * Merge files together and modify content if needed
      *
      * @param array $publicFiles
      * @param string $targetFile
+     * @param string $contentType
      * @return string
      * @throws Magento_Exception
      */
-    protected function _composeMergedContent(array $publicFiles, $targetFile)
+    protected function _composeMergedContent(array $publicFiles, $targetFile, $contentType)
     {
         $result = array();
+        $isCss = $contentType == Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS;
+
         foreach ($publicFiles as $file) {
             if (!$this->_filesystem->has($file)) {
                 throw new Magento_Exception("Unable to locate file '{$file}' for merging.");
             }
             $content = $this->_filesystem->read($file);
-            if ($this->_isCss) {
+            if ($isCss) {
                 $content = $this->_cssHelper->replaceCssRelativeUrls($content, $file, $targetFile);
             }
             $result[] = $content;
         }
         $result = ltrim(implode($result));
-        if ($this->_isCss) {
+        if ($isCss) {
             $result = $this->_popCssImportsUp($result);
         }
 

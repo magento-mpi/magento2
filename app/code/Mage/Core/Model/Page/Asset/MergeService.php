@@ -84,11 +84,11 @@ class Mage_Core_Model_Page_Asset_MergeService
         $isJsMergeEnabled = $this->_storeConfig->getConfigFlag(self::XML_PATH_MERGE_JS_FILES);
         if (($isCss && $isCssMergeEnabled) || ($isJs && $isJsMergeEnabled)) {
             if ($this->_state->getMode() == Mage_Core_Model_App_State::MODE_PRODUCTION) {
-                $mergeStrategy = $this->_objectManager->get('Mage_Core_Model_Page_Asset_MergeStrategy_FileExists');
+                $mergeStrategyClass = 'Mage_Core_Model_Page_Asset_MergeStrategy_FileExists';
             } else {
-                $mergeStrategy = $this->_objectManager->get('Mage_Core_Model_Page_Asset_MergeStrategy_Checksum');
+                $mergeStrategyClass = 'Mage_Core_Model_Page_Asset_MergeStrategy_Checksum';
             }
-            $mergeStrategy->setIsCss($isCss);
+            $mergeStrategy = $this->_objectManager->get($mergeStrategyClass);
 
             $assets = $this->_objectManager->create(
                 'Mage_Core_Model_Page_Asset_Merged', array('assets' => $assets, 'mergeStrategy' => $mergeStrategy)
