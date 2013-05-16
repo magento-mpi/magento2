@@ -146,54 +146,15 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for getOperation() method.
+     * Test for getResourceType() method.
      *
-     * @dataProvider providerRequestMethod
-     * @param string $requestMethod Request method
-     * @param string $crudOperation CRUD operation name
-     * @param string|boolean $exceptionMessage Exception message (boolean FALSE if exception is not expected)
      */
-    public function testGetOperation($requestMethod, $crudOperation, $exceptionMessage = false)
+    public function testGetResourceType()
     {
-        $expectedMethod = false;
-        switch ($requestMethod) {
-            case 'GET':
-            case 'POST':
-            case 'PUT':
-            case 'DELETE':
-                $expectedMethod = 'is' . ucfirst($requestMethod);
-                break;
-        }
-
-        if ($expectedMethod) {
-            $this->_request
-                ->expects($this->once())
-                ->method($expectedMethod)
-                ->will($this->returnValue(true));
-        }
-
-        $this->_request
-            ->expects($this->any())
-            ->method('getMethod')
-            ->will($this->returnValue($requestMethod));
-
-        try {
-            $this->assertEquals($crudOperation, $this->_request->getHttpMethod());
-        } catch (Mage_Webapi_Exception $e) {
-            if ($exceptionMessage) {
-                $this->assertEquals(
-                    $exceptionMessage,
-                    $e->getMessage(),
-                    'Exception message does not match the expected one.'
-                );
-                return;
-            } else {
-                $this->fail('Exception is thrown on valid header: ' . $e->getMessage());
-            }
-        }
-        if ($exceptionMessage) {
-            $this->fail('Expected exception was not raised.');
-        }
+        $this->assertNull($this->_request->getResourceType());
+        $resource = 'test_resource';
+        $this->_request->setResourceType($resource);
+        $this->assertEquals($resource, $this->_request->getResourceType());
     }
 
     /**
@@ -254,20 +215,41 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Data provider for testGetOperation().
-     *
-     * @return array
+     * @dataProvider dataProviderTestGetActionTypeByMethod
+     * @param string $methodName
+     * @param string $expectedActionType
      */
-    public function providerRequestMethod()
+    public function testGetActionTypeByMethod($methodName, $expectedActionType)
+    {
+        $this->assertEquals(
+            $expectedActionType,
+            Mage_Webapi_Controller_Request_Rest::getActionTypeByOperation($methodName),
+            "Action type was identified incorrectly by method name."
+        );
+    }
+
+    public static function dataProviderTestGetActionTypeByMethod()
     {
         return array(
-            // Each element is: array(Request method, CRUD operation name[, expected exception message])
-            array('INVALID_METHOD', null, 'Request method is invalid.'),
-            array('GET', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_GET),
-            array('POST', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_POST),
-            array('PUT', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_PUT),
-            array('DELETE', Mage_Webapi_Controller_Request_Rest::HTTP_METHOD_DELETE)
+            array(
+                Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE,
+                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION
+            ),
+            array(
+                Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
+                Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM
+            ),
         );
+    }
+
+    public function testGetActionTypeException()
+    {
+        $methodName = 'invalidMethodV1';
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            sprintf('The "%s" method is not a valid resource method.', $methodName)
+        );
+        Mage_Webapi_Controller_Request_Rest::getActionTypeByOperation($methodName);
     }
 
     public function testGetResourceVersion()
@@ -286,10 +268,38 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
         $this->_request->getResourceVersion();
     }
 
-    public function testGetServiceName()
+    public function testGetResourceName()
     {
-        $serviceName = 'serviceName';
-        $this->_request->setServiceName($serviceName);
-        $this->assertEquals($serviceName, $this->_request->getServiceName());
+        $resourceName = 'resourceName';
+        $this->_request->setResourceName($resourceName);
+        $this->assertEquals($resourceName, $this->_request->getResourceName());
+    }
+
+    public function testGetOperationNameMethodNotExistException()
+    {
+        /** Prepare mocks for SUT constructor. */
+        $this->setExpectedException(
+            'Mage_Webapi_Exception',
+            'Requested method does not exist.',
+            Mage_Webapi_Exception::HTTP_NOT_FOUND
+        );
+        $this->_request->expects($this->once())->method('isPost')->will($this->returnValue(true));
+        $this->_request->expects($this->once())->method('getMethod')->will($this->returnValue('POST'));
+        $this->_request->setResourceType(Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM);
+        /** Initialize SUT. */
+        $this->_request->getOperationName();
+    }
+
+    /**
+     * Prepare SUT for GetOperationName() with create action.
+     */
+    protected function _prepareSutForGetOperationNameWithCreateMethod()
+    {
+        $this->_request->setResourceType(Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION);
+        $this->_request->expects($this->once())->method('isPost')->will($this->returnValue(true));
+        $this->_request->expects($this->once())
+            ->method('getMethod')
+            ->will($this->returnValue('POST'));
+        $this->_request->setResourceName('resourceName');
     }
 }

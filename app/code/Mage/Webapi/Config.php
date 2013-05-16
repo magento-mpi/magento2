@@ -77,7 +77,7 @@ class Mage_Webapi_Config
     protected function _getConfigFile()
     {
         $files = $this->_moduleReader->getModuleConfigurationFiles('webapi.xml');
-        return (array) $files;
+        return (array)$files;
     }
 
     /**
@@ -89,7 +89,8 @@ class Mage_Webapi_Config
     {
         if (null === $this->_reader) {
             $configFiles = $this->_getConfigFile();
-            $this->_reader = $this->_config->getModelInstance('Mage_Webapi_Config_Reader',
+            $this->_reader = $this->_config->getModelInstance(
+                'Mage_Webapi_Config_Reader',
                 array('configFiles' => $configFiles)
             );
         }
@@ -125,7 +126,7 @@ class Mage_Webapi_Config
     /**
      * Load services from cache
      */
-    private function _loadFromCache ()
+    private function _loadFromCache()
     {
         return $this->_configCacheType->load(self::CACHE_ID);
     }
@@ -134,7 +135,7 @@ class Mage_Webapi_Config
      * Save services into the cache
      * @param string $data serialized version of the webapi registry
      */
-    protected function _saveToCache ($data)
+    protected function _saveToCache($data)
     {
         $this->_configCacheType->save($data, self::CACHE_ID);
         return $this;
@@ -174,7 +175,9 @@ class Mage_Webapi_Config
                 $child = $children->item($i);
                 $_children = & $this->_toArray($child);
 
-                $nodeId = isset($_children['class']) ? $_children['class'] :
+                $nodeId = isset($_children['class'])
+                    ? $_children['class']
+                    :
                     (isset($_children['method']) ? $_children['method'] : $child->nodeName);
 
                 if ('rest-route' === $child->nodeName) {
@@ -185,7 +188,10 @@ class Mage_Webapi_Config
                     if (!isset($result[self::KEY_OPERATIONS][$nodeId])) {
                         $result[self::KEY_OPERATIONS][$nodeId] = $_children;
                     } else {
-                        $result[self::KEY_OPERATIONS][$nodeId] = array_merge($result['operations'][$nodeId], $_children);
+                        $result[self::KEY_OPERATIONS][$nodeId] = array_merge(
+                            $result['operations'][$nodeId],
+                            $_children
+                        );
                     }
 
                     $result[self::KEY_OPERATIONS][$nodeId]['route'] = $result[self::KEY_OPERATIONS][$nodeId]['value'];
@@ -211,10 +217,12 @@ class Mage_Webapi_Config
 
     /**
      * Retrieve info about the given service
-     * @param string $serviceName the name
+     *
+     * @param $serviceName Name
+     * @param $serviceVersion Version
      * @throw InvalidArgumentException if the service does not exist
      */
-    public function getService ($serviceName)
+    public function getService($serviceName)
     {
         if (isset($this->_services[$serviceName])) {
             return $this->_services[$serviceName];
@@ -231,24 +239,27 @@ class Mage_Webapi_Config
      * @param string $baseUrl the base url for all route of thsi service (e.g. products)
      * @throw InvalidArgumentException if the service already exists
      */
-    public function addService ($serviceName, $serviceClass, $baseUrl)
+    public function addService($serviceName, $serviceClass, $baseUrl)
     {
         if (isset($this->_services[$serviceName])) {
             throw new InvalidArgumentException("Service $serviceName already exists");
-        }
-        else {
-            $this->_services[$serviceName] = array('name' => $serviceName,
-                'class' => $serviceClass, 'baseUrl' => $baseUrl);
+        } else {
+            $this->_services[$serviceName] = array(
+                'name' => $serviceName,
+                'class' => $serviceClass,
+                'baseUrl' => $baseUrl
+            );
         }
     }
 
     /**
      * Retrieve info about the given operation
+     *
      * @param string $serviceName
      * @param string $operation
      * @throw InvalidArgumentException if the service or operation do not exist
      */
-    public function getOperation ($serviceName, $operation)
+    public function getOperation($serviceName, $operation)
     {
         $service = $this->getService($serviceName);
 
@@ -268,60 +279,62 @@ class Mage_Webapi_Config
      * @param string $restRoute the route expression
      * @throw InvalidArgumentException if the service does not exist or the operation is already present
      */
-    public function addOperation ($serviceName, $operation, $httpMethod, $restRoute)
+    public function addOperation($serviceName, $operation, $httpMethod, $restRoute)
     {
-        if (! isset($this->_services[$serviceName])) {
+        if (!isset($this->_services[$serviceName])) {
             throw new InvalidArgumentException("Service $serviceName does not exist");
-        }
-        elseif (isset($this->_services[$serviceName][self::KEY_OPERATIONS][$operation])) {
+        } elseif (isset($this->_services[$serviceName][self::KEY_OPERATIONS][$operation])) {
             throw new InvalidArgumentException("operation $operation already exists");
-        }
-        else {
-            $this->_services[$serviceName][self::KEY_OPERATIONS][$operation] = array('name' => $operation,
-                'httpMethod' => $httpMethod, 'route' => $restRoute,
-                'restRoutePattern' => $this->computeRoutePattern());
+        } else {
+            $this->_services[$serviceName][self::KEY_OPERATIONS][$operation] = array(
+                'name' => $operation,
+                'httpMethod' => $httpMethod,
+                'route' => $restRoute
+            );
         }
     }
 
     /**
-     * Compute a regular expression for the route given
-     *
-     * We no longer need this, since Alex has another way to do route matching
-     * Will remove later
+     * @param Mage_Webapi_Controller_Request_Rest $request
+     * @return array
+     * @throws Mage_Webapi_Exception
      */
-    private function computeRoutePattern ($route)
-    {
-        $route = explode('/', $route);
-        $pattern = array();
-
-        foreach ($route as $i) {
-            if (strncmp($i, '{') == 0 && strncmp(strrev($i), '}') == 0) {
-                $pattern[] = '.+';
-            }
-            else {
-                $pattern[] = $i;
-            }
-        }
-
-        $pattern = '^\/' . implode('\/', $pattern) . '$';
-        return $pattern;
-    }
-
-    public function getRestRoutes ($httpMethod)
+    public function getRestRoutes(Mage_Webapi_Controller_Request_Rest $request)
     {
         // TODO: Get information from webapi.xml
-        $routes = array();
+        // get path info and fetch service and version
+        $pathInfo = $request->getPathInfo();
+        $urlDelimiter = '/';
+        $path = explode($urlDelimiter, $pathInfo);
 
+        // uri's will be of pattern webapi/rest/<version>/<service-name>/...
+        if (!isset($path[3]) || !isset($path[4])) {
+            return array();
+        }
+        // TODO: Implement in more elegant way
+        $version = ltrim(ucfirst($path[3]), 'V');
+        $serviceBaseUrl = $urlDelimiter . $path[4];
+        $httpMethod = $request->getHttpMethod();
+
+        $routes = array();
         foreach ($this->getServices() as $serviceName => $serviceData) {
+            // skip if baseurl is not null and does not match
+            if ($serviceBaseUrl != null && strtolower($serviceBaseUrl) != strtolower($serviceData['baseUrl'])) {
+                // baseurl does not match, just skip this service
+                continue;
+            }
+            // TODO: skip if version is not null and does not match
             foreach ($serviceData[self::KEY_OPERATIONS] as $operationName => $operationData) {
                 if (strtoupper($operationData['httpMethod']) == strtoupper($httpMethod)) {
-                    $routes[] = $this->_createRoute(array(
-                        'routePath' => $serviceData['baseUrl'] . $operationData['route'],
-                        'version' => 1, // hardcoded for now
-                        'serviceId' => $serviceName,
-                        'serviceMethod' => $operationName,
-                        'httpMethod' => $httpMethod
-                    ));
+                    $routes[] = $this->_createRoute(
+                        array(
+                            'routePath' => $serviceData['baseUrl'] . $operationData['route'],
+                            'version' => $version,
+                            'serviceId' => $serviceName,
+                            'serviceMethod' => $operationName,
+                            'httpMethod' => $httpMethod
+                        )
+                    );
                 }
             }
         }
@@ -342,7 +355,7 @@ class Mage_Webapi_Config
      *  );</pre>
      * @return Mage_Webapi_Controller_Router_Route_Rest
      */
-    protected function _createRoute ($routeData)
+    protected function _createRoute($routeData)
     {
         $apiTypeRoutePath = $this->_application->getConfig()->getAreaFrontName()
             . '/:' . Mage_Webapi_Controller_Front::API_TYPE_REST;

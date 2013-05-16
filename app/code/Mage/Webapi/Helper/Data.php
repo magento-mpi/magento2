@@ -38,7 +38,7 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      * @param string|object $classOrObject Resource class name
      * @param string $methodName Resource method name
      * @param array $requestData Data to be passed to method
-     * @param Mage_Core_Service_Config $apiConfig
+     * @param Mage_Webapi_Model_ConfigAbstract $apiConfig
      * @return array Array of prepared method arguments
      * @throws Mage_Webapi_Exception
      */
@@ -46,7 +46,7 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
         $classOrObject,
         $methodName,
         $requestData,
-        Mage_Core_Service_Config $apiConfig
+        Mage_Webapi_Model_ConfigAbstract $apiConfig
     ) {
         $methodReflection = self::createMethodReflection($classOrObject, $methodName);
         $methodData = $apiConfig->getMethodMetadata($methodReflection);
@@ -79,12 +79,12 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param mixed $data
      * @param string $dataType
-     * @param Mage_Core_Service_Config $apiConfig
+     * @param Mage_Webapi_Model_ConfigAbstract $apiConfig
      * @return mixed
      * @throws LogicException If specified $dataType is invalid
      * @throws Mage_Webapi_Exception If required fields do not have values specified in $data
      */
-    protected function _formatParamData($data, $dataType, Mage_Core_Service_Config $apiConfig)
+    protected function _formatParamData($data, $dataType, Mage_Webapi_Model_ConfigAbstract $apiConfig)
     {
         if ($this->_configHelper->isTypeSimple($dataType) || is_null($data)) {
             $formattedData = $data;
@@ -101,7 +101,7 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param array $data
      * @param string $dataType
-     * @param Mage_Core_Service_Config $apiConfig
+     * @param Mage_Webapi_Model_ConfigAbstract $apiConfig
      * @return array
      * @throws Mage_Webapi_Exception If passed data is not an array
      */
@@ -126,7 +126,7 @@ class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param array|object $data
      * @param string $dataType
-     * @param Mage_Core_Service_Config $apiConfig
+     * @param Mage_Webapi_Model_ConfigAbstract $apiConfig
      * @return object Object of required data type
      * @throws LogicException If specified $dataType is invalid
      * @throws Mage_Webapi_Exception If required fields does not have values specified in $data

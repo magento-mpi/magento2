@@ -43,7 +43,7 @@ class Mage_Webapi_Controller_Router_Rest
     public function match(Mage_Webapi_Controller_Request_Rest $request)
     {
         /** @var Mage_Webapi_Controller_Router_Route_Rest[] $routes */
-        $routes = $this->_apiConfig->getRestRoutes($request->getHttpMethod());
+        $routes = $this->_apiConfig->getRestRoutes($request);
         foreach ($routes as $route) {
             $params = $route->match($request);
             if ($params !== false) {

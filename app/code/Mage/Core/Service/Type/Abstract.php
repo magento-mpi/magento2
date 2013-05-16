@@ -38,7 +38,7 @@ abstract class Mage_Core_Service_Type_Abstract
     final public function call($serviceMethod, $request = null, $version = null)
     {
         // implement ACL and other routine procedures here (debugging, profiling, etc)
-        $this->authorize(get_class($this), $serviceMethod);
+//        $this->authorize(get_class($this), $serviceMethod);
 
         return $this->$serviceMethod($request, $version);
     }
@@ -77,7 +77,7 @@ abstract class Mage_Core_Service_Type_Abstract
      * @param mixed $request [optional]
      * @return Magento_Data_Array $request
      */
-    public function prepareRequest($serviceClass, $serviceMethod, $request = null)
+    public function prepareRequest($serviceClass, $serviceMethod, $request = array())
     {
         if (!$request instanceof Magento_Data_Array) {
             $request = new Magento_Data_Array($request);
@@ -86,7 +86,7 @@ abstract class Mage_Core_Service_Type_Abstract
         if (!$request->getIsPrepared()) {
             $requestSchema = $request->getRequestSchema() ? $request->getRequestSchema() : array();
             if (!$requestSchema instanceof Magento_Data_Schema) {
-                $requestSchema = $this->_serviceObjectManager->getRequestSchema($serviceClass, $serviceMethod, $request->getVersion(), $requestSchema);
+                $requestSchema = $this->_serviceObjectManager->getRequestSchema($serviceClass, $serviceMethod, $request->getVersion());
             }
 
             if ($requestSchema->getDataNamespace()) {
@@ -268,7 +268,7 @@ abstract class Mage_Core_Service_Type_Abstract
                 if (strpos($config['get_callback'], '/') !== false) {
                     list ($method, $key) = explode('/', $config['get_callback']);
                     $result = $model->$method();
-                    $result = array_key_exists($key, $result) ? $result[$key] : null;
+                    $result = is_array($result) && array_key_exists($key, $result) ? $result[$key] : null;
                 } else {
                     $result = $model->$config['get_callback']();
                 }

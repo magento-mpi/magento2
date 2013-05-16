@@ -2,5 +2,9 @@
 <config>
     <service class="Mage_Catalog_Service_ProductService" baseUrl="/products">
         <rest-route httpMethod="GET" method="item">/:entity_id</rest-route>
+        <rest-route httpMethod="POST" method="create"></rest-route>
+        <rest-route httpMethod="PUT" method="update">/:entity_id</rest-route>
+        <rest-route httpMethod="DELETE" method="delete">/:entity_id</rest-route>
+        <rest-route httpMethod="GET" method="items"></rest-route>
     </service>
 </config>

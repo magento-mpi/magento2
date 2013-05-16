@@ -25,6 +25,18 @@ $schema = array(
                 )
             )
         ),
+        'name'        => array(
+            'label'       => 'Product Name',
+            'type'        => 'string',
+            'required'    => false,
+            'default'     => null
+        ),
+        'sku'        => array(
+            'label'       => 'Product SKU',
+            'type'        => 'string',
+            'required'    => false,
+            'default'     => null
+        ),
         'attribute_set_id' => array(
             'label'       => 'Attribute Set ID',
             'default'     => null,

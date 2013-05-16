@@ -114,53 +114,6 @@ $schema = array(
         'msrp'                           => array(
             'required' => false
         ),
-        'bundle'                         => array(
-            'required'  => false,
-            'condition' => array('type_id', 'bundle'),
-            '_elements' => array(
-                'price_type'    => array(),
-                'sku_type'      => array(),
-                'weight_type'   => array(),
-                'shipment_type' => array(),
-                'price_view'    => array()
-            )
-        ),
-        'downloadable'                   => array(
-            'required'  => false,
-            '_elements' => array(
-                'links_purchased_separately' => array(),
-                'samples_title'              => array(),
-                'links_title'                => array(),
-                'shipment_type'              => array(),
-            )
-        ),
-        'gift_message_available'         => array(
-            'required' => false
-        ),
-        'tax_class_id'                   => array(
-            'required' => true
-        ),
-        'enableGoogleCheckout'           => array(
-            'required' => false
-        ),
-        'giftcard'                       => array(
-            'required'  => false,
-            '_elements' => array(
-                'giftcard_amounts'          => array(), // @todo used to be different format
-                'allow_open_amount'         => array(),
-                'open_amount_min'           => array(),
-                'open_amount_max'           => array(),
-                'giftcard_type'             => array(),
-                'is_redeemable'             => array(),
-                'use_config_is_redeemable'  => array(),
-                'lifetime'                  => array(),
-                'useConfigLifetime'         => array(),
-                'email_template'            => array(),
-                'use_config_email_template' => array(),
-                'allow_message'             => array(),
-                'use_config_allow_message'  => array()
-            )
-        ),
         'gift_wrapping_available'        => array(
             'required' => false
         ),
@@ -176,89 +129,8 @@ $schema = array(
         'is_in_stock'                    => array(
             'required' => true
         ),
-        'qty'                            => array(
-            'required'     => false,
-            'get_callback' => 'getQuantityAndStockStatus/qty'
-        ),
         'website_ids'                    => array(
             'required' => false
-        ),
-        'prices'                         => array(
-            '_elements' => array(
-                'price'         => array(
-                    'required' => true
-                ),
-                'special_price' => array(
-                    'required'  => false,
-                    '_elements' => array(
-                        'special_price'     => array(),
-                        'special_from_date' => array(),
-                        'special_to_date'   => array()
-                    )
-                ),
-                'cost'          => array(
-                    'required' => false
-                ),
-                'group_price'   => array(
-                    'required' => false
-                ),
-                'minimal_price' => array(
-                    'required' => false
-                ),
-                'tier_price'    => array(
-                    'required' => false
-                )
-            )
-        ),
-        'images'                         => array(
-            'required'  => false,
-            '_elements' => array(
-                'image'       => array(),
-                'small_image' => array(),
-                'thumbnail'   => array()
-            )
-        ),
-
-        'stock_item'                     => array( // @todo need this to have system working
-            'required' => true
-        ),
-        'can_email_to_friend'            => array(
-            'required'     => false,
-            'get_callback' => array('Mage_Catalog_Block_Product_View', 'canEmailToFriend')
-        ),
-        'has_options'                    => array(
-            'required' => false
-        ),
-        'options_container'              => array(
-            'required' => false,
-            'default'  => 'container2'
-        ),
-        'wishlist_enabled'               => array(
-            'required' => false
-        ),
-//        'wishList_add_url'               => array(
-//            'required'     => false,
-//            'get_callback' => array('Mage_Wishlist_Helper_Data', 'getAddUrl')
-//        ),
-//        'compare_add_url'                => array(
-//            'required'     => false,
-//            'get_callback' => array('Mage_Catalog_Helper_Product_Compare', 'getAddUrl')
-//        ),
-//        'email_to_friend_url'            => array(
-//            'required'     => false,
-//            'get_callback' => array('Mage_Catalog_Helper_Product', 'getEmailToFriendUrl')
-//        ),
-
-//        'json_config'                    => array(
-//            'required'     => false,
-//            'get_callback' => array('Mage_Catalog_Helper_Product', 'getJsonConfig')
-//        ),
-//        'submit_url_for_product'         => array(
-//            'required'     => false,
-//            'get_callback' => array('Mage_Catalog_Block_Product_View', 'getSubmitUrl')
-//        ),
-//        'media_gallery'                  => array(
-//            'get_callback' => 'getMediaGalleryImages' // @todo used to be different format
-//        )
+        )
     )
 );

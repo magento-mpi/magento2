@@ -142,7 +142,7 @@ class Mage_Catalog_Service_ProductService extends Mage_Core_Service_Type_Abstrac
         } catch (Mage_Core_Service_Exception $e) {
             throw $e;
         } catch (Exception $e) {
-            $message = Mage::helper('core')->__('An error occurred while updating the product.');
+            $message = Mage::helper('Mage_Core_Helper_Data')->__('An error occurred while updating the product.');
             throw new Mage_Core_Service_Exception($message, Mage_Core_Service_Exception::HTTP_INTERNAL_ERROR);
         }
 

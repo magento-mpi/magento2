@@ -1,6 +1,6 @@
 <?php
 /**
- * File with unit tests for REST routes generator class: Mage_Webapi_Model_Config_Reader_Reflector_Rest_RouteGenerator.
+ * File with unit tests for REST routes generator class: Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator.
  *
  * {license_notice}
  *
@@ -18,10 +18,10 @@ require_once __DIR__ . '/../../../_files/resource_with_invalid_name.php';
 
 /**#@-*/
 
-class Mage_Core_Service_Config_Reader_Rest_RouteGeneratorTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Model_Config_Reader_Rest_RouteGeneratorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Webapi_Model_Config_Reader_Reflector_Rest_RouteGenerator
+     * @var Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator
      */
     protected $_model;
 
@@ -32,7 +32,7 @@ class Mage_Core_Service_Config_Reader_Rest_RouteGeneratorTest extends PHPUnit_Fr
             array('__'),
             array(Mage::getObjectManager()->get('Mage_Core_Helper_Context'))
         );
-        $this->_model = new Mage_Webapi_Model_Config_Reader_Reflector_Rest_RouteGenerator($helper);
+        $this->_model = new Mage_Webapi_Model_Config_Reader_Rest_RouteGenerator($helper);
     }
 
     /**
@@ -203,7 +203,7 @@ class Mage_Core_Service_Config_Reader_Rest_RouteGeneratorTest extends PHPUnit_Fr
         $this->assertInternalType(
             'array',
             $actualRoutes,
-            "Mage_Core_Service_Config::generateRestRoutes() must return value of 'array' type."
+            "Mage_Webapi_Model_Config::generateRestRoutes() must return value of 'array' type."
         );
 
         foreach ($expectedRoutes as $expectedRoute => $expectedMetadata) {
