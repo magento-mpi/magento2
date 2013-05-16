@@ -151,14 +151,6 @@ Mediabrowser.prototype = {
         }
     },
 
-    selectFile: function (event) {
-        var div = Event.findElement(event, 'DIV');
-        $$('div.filecnt.selected[id!="' + div.id + '"]').each(function(e) {
-            e.removeClassName('selected');
-        })
-        div.toggleClassName('selected');
-    },
-
     handleUploadComplete: function(files) {
         $$('div[class*="file-row complete"]').each(function(e) {
             $(e.id).remove();
@@ -206,7 +198,7 @@ Mediabrowser.prototype = {
 
     /**
      * Find document target element in next order:
-     *  in acive file browser opener:
+     *  in active file browser opener:
      *  - input field with ID: "src" in opener window
      *  - input field with ID: "href" in opener window
      *  in document:
