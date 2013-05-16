@@ -11,10 +11,9 @@
 <?php
 /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content_Uploader */
 ?>
-
-<div id="<?php echo $this->getHtmlId() ?>" class="uploader">
+<div id="<?php echo $this->getHtmlId() ?>" class="uploader no-display">
     <div class="clear"></div>
-    <div class="no-display" id="<?php echo $this->getHtmlId() ?>-template">
+    <div class="no-display" data-template="<?php echo $this->getHtmlId() ?>-template">
         <div id="{{id}}" class="file-row">
             <span class="file-info-name">{{name}}</span>
             <span class="file-info-size">({{size}})</span>
@@ -30,32 +29,49 @@
     </div>
 </div>
 <div id="contents"></div>
-<div class="fileinput-button form-buttons">
-        <button class="action-default primary" type="submit"><?php echo $this->__('Browse Files'); ?></button>
-        <input id="fileupload" type="file" name="<?php echo $this->getConfig()->getFileField() ?>"
-               data-url="<?php echo $this->getConfig()->getUrl() ?>" multiple>
+<div class="form-buttons">
+    <span class="fileinput-button">
+            <button class="action-default primary" data-action="browse" type="submit"><?php echo $this->__('Browse Files'); ?></button>
+            <input id="fileupload" type="file" name="<?php echo $this->getConfig()->getFileField() ?>"
+                   data-url="<?php echo $this->getConfig()->getUrl() ?>" multiple>
+    </span>
+    <button class="no-display action-default primary" data-action="upload"><?php echo $this->__('Upload'); ?></button>
 </div>
 
 <script type="text/javascript">
 //<![CDATA[
 (function($) {
     $(function () {
+        $('[data-action="upload"]').on('click', function() {
+            var queuedFiles = $('#fileupload').fileupload('option', 'queuedFiles');
+
+            for (var c = 0; c < queuedFiles.length; c++) {
+                queuedFiles[c].submit();
+            }
+        });
+
         $('#fileupload').fileupload({
             dataType: 'json',
             formData: {
                 isAjax: 'true',
                 form_key: FORM_KEY
             },
+            queuedFiles : [],
             sequentialUploads: true,
             maxFileSize: <?php echo Mage::getObjectManager()->get('Magento_File_Size')->getMaxFileSize()?>,
             add: function(e, data) {
+                $('[data-action="upload"]').removeClass('no-display');
+                $('[data-action="browse"]').removeClass('primary');
+                $('#contents').addClass('no-display');
+                $('#<?php echo $this->getHtmlId() ?>').removeClass('no-display').addClass('uploader');
+
                 $.each(data.files, function (index, file) {
                     data.fileId =  Math.random().toString(36).substr(2,9);
-                    var progressTmpl = $('#<?php echo $this->getHtmlId(); ?>-template').children(':first').clone();
+                    var progressTmpl = $('[data-template="<?php echo $this->getHtmlId(); ?>-template"]').children(':first').clone();
                     progressTmpl.attr('id', data.fileId);
                     var fileInfoHtml = progressTmpl.html().replace('{{size}}', byteConvert(file.size))
                         .replace('{{name}}', file.name).replace('{{id}}', data.fileId);
-                    progressTmpl.html(fileInfoHtml) ;
+                    progressTmpl.html(fileInfoHtml);
 
                     progressTmpl.appendTo('#<?php echo $this->getHtmlId() ?>');
 
@@ -63,9 +79,20 @@
                         alert("wip: remove from dom=" + data.fileId);
                     });
                 });
-                $(this).fileupload('process', data);
+
+                var that = this;
+                $(this).fileupload('process', data).done(function() {
+                    var queuedFiles = $(that).fileupload('option', 'queuedFiles');
+                    queuedFiles.push(data);
+                    $(that).fileupload('option', 'queuedFiles', queuedFiles);
+                });
             },
             done: function(e, data) {
+                $('[data-action="upload"]').addClass('no-display');
+                $('[data-action="browse"]').addClass('primary');
+                $('#contents').removeClass('no-display');
+                $('#<?php echo $this->getHtmlId() ?>').addClass('no-display').removeClass('uploader');
+
                 var progressSelector = '#' + data.fileId + ' .progressbar-container .progressbar';
                 $(progressSelector).css('width','100%');
                 if (data.result && !data.result.hasOwnProperty('errorcode')) {
