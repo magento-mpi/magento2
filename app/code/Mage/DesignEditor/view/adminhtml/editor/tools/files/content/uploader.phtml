@@ -15,15 +15,16 @@
     <div class="clear"></div>
     <div class="no-display" data-template="<?php echo $this->getHtmlId() ?>-template">
         <div id="{{id}}" class="file-row">
-            <span class="file-info-name">{{name}}</span>
-            <span class="file-info-size">({{size}})</span>
-            <span class="file-info-cancel cancel">
-                <button class="action-delete" data-delete-file="{{id}}">
-                    <span><?php echo $this->__('Remove'); ?></span>
-                </button>
-            </span>
             <div class="progressbar-container">
-                <div class="progressbar upload-progress" style="width: 0%;"></div>
+                <span class="file-info-name">{{name}}</span>
+                <span class="file-info-size">({{size}})</span>
+                <span class="file-info-cancel cancel">
+                    <button class="action-delete" data-delete-file="{{id}}">
+                        <span><?php echo $this->__('Remove'); ?></span>
+                    </button>
+                </span>
+                <div class="progressbar upload-progress"></div>
+            </div>
             </div>
         </div>
     </div>
@@ -121,7 +122,7 @@
             },
             progress: function(e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
-                var progressSelector = '#' + data.fileId + ' .progressbar-container .progressbar';
+                var progressSelector = '#' + data.fileId + ' .progressbar';
                 $(progressSelector).css('width', progress + '%');
             },
             fail: function(e, data) {

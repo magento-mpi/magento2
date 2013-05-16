@@ -2192,6 +2192,20 @@
     display: table-row;
 }
 
+.uploader .file-row .progressbar-container {
+    position: relative;
+}
+
+.uploader .file-row .progressbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: green;
+    opacity: 0.3;
+}
+
 .uploader .file-row .file-info-name {
     display: table-cell;
     padding: 5px;
