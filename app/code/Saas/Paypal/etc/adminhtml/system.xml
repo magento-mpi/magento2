@@ -549,8 +549,8 @@
                     </group>
                 </group>
 
-                <group id="paypal_verisign" showInDefault="0" showInWebsite="0" showInStore="0">
-                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                <group id="paypal_verisign">
+                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
                     <group id="settings_paypal_payflow">
                         <field id="payment_action" showInDefault="1" showInWebsite="0" showInStore="0"/>
                         <field id="heading_cc" showInDefault="1" showInWebsite="0" showInStore="0"/>
@@ -599,24 +599,7 @@
                         </group>
                     </group>
                 </group>
-                <group id="paypal_verisign_saas" extends="*/paypal_payments/paypal_verisign" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                    <depends>
-                        <field id="*/account/merchant_country" negative="1">AU</field>
-                    </depends>
-                </group>
-                <group id="paypal_verisign_au" extends="*/paypal_payments/paypal_verisign" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                    <more_url>https://www.paypal-australia.com.au/business/accept-payments/accept-a-payment-gateway</more_url>
-                    <group id="settings_paypal_payflow">
-                        <field id="cctypes">
-                            <comment/>
-                        </field>
-                    </group>
-                    <depends>
-                        <field id="*/account/merchant_country">AU</field>
-                    </depends>
-                </group>
+
                 <group id="paypal_verisign_with_express_checkout" showInDefault="1" showInWebsite="1" showInStore="1">
                     <hide_in_single_store_mode>0</hide_in_single_store_mode>
                     <group id="paypal_payflow_express_checkout">
@@ -720,8 +703,8 @@
                     </depends>
                 </group>
 
-                <group id="express_checkout" showInWebsite="0" showInDefault="0" showInStore="0">
-                    <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                <group id="express_checkout">
+                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
                     <attribute type="activity_path">
                         <path_3>payment/paypal_express_boarding/active</path_3>
                     </attribute>
@@ -879,7 +862,7 @@
                             </depends>
                         </field>
                     </group>
-                    <group id="settings_ec" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <group id="settings_ec">
                         <hide_in_single_store_mode>0</hide_in_single_store_mode>
                         <field id="title">
                             <depends>
@@ -1078,26 +1061,6 @@
                             </field>
                         </group>
                     </group>
-                </group>
-                <group id="express_checkout_au" extends="*/paypal_payments/express_checkout" showInWebsite="1" showInDefault="1" showInStore="1">
-                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                    <more_url>https://www.paypal-australia.com.au/business/accept-payments/accept-payments-on-your-website/express-checkout</more_url>
-                    <group id="express_checkout_required">
-                        <group id="express_checkout_required_express_checkout">
-                            <field id="authentication_method">
-                                <attribute type="create_account_link">https://www.paypal.com/au/webapps/mpp/referral/paypal-express-checkout?partner_id=NB9WWHYEMVUMS</attribute>
-                            </field>
-                        </group>
-                    </group>
-                    <depends>
-                        <field id="*/account/merchant_country">AU</field>
-                    </depends>
-                </group>
-                <group id="express_checkout_saas" extends="*/paypal_payments/express_checkout" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                    <depends>
-                        <field id="*/account/merchant_country" negative="1">AU</field>
-                    </depends>
                 </group>
             </group>
         </section>
