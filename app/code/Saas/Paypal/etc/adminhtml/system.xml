@@ -586,12 +586,6 @@
                         </group>
                     </group>
                 </group>
-                <group id="payments_pro_hosted_solution_au">
-                    <more_url>https://www.paypal-australia.com.au/business/accept-payments/accept-payments-on-your-website/hss</more_url>
-                    <depends>
-                        <field id="*/account/merchant_country">AU</field>
-                    </depends>
-                </group>
 
                 <group id="express_checkout">
                     <hide_in_single_store_mode>0</hide_in_single_store_mode>
