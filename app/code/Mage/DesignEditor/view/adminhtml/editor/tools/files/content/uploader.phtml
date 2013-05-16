@@ -106,10 +106,23 @@
                 });
             },
             done: function(e, data) {
-                $('[data-action="upload"]').addClass('no-display');
-                $('[data-action="browse"]').addClass('primary');
-                $('#contents').removeClass('no-display');
-                $('#<?php echo $this->getHtmlId() ?>').addClass('no-display').removeClass('uploader');
+                var origQueuedFiles = $('#fileupload').fileupload('option', 'queuedFiles');
+                var newQueuedFiles = [];
+
+                for (var c = 0; c < origQueuedFiles.length; c++) {
+                    var queuedFile = origQueuedFiles[c];
+                    if (queuedFile.fileId != data.fileId) {
+                        newQueuedFiles.push(queuedFile);
+                    }
+                }
+                $('#fileupload').fileupload('option', 'queuedFiles', newQueuedFiles);
+
+                if (newQueuedFiles.length === 0) {
+                    $('[data-action="upload"]').addClass('no-display');
+                    $('[data-action="browse"]').addClass('primary');
+                    $('#contents').removeClass('no-display');
+                    $('#<?php echo $this->getHtmlId() ?>').addClass('no-display').removeClass('uploader');
+                }
 
                 var progressSelector = '#' + data.fileId + ' .progressbar-container .progressbar';
                 $(progressSelector).css('width','100%');
