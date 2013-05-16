@@ -20,7 +20,7 @@
     <button data-folder="create" class="action-folder-create" title="<?php echo $this->__('Create Folder'); ?>">
         <span><?php echo $this->__('Create Folder'); ?></span>
     </button>
-    <button data-folder="delete" id="button_delete_folder" class="action-delete" title="<?php echo $this->__('Delete Folder'); ?>">
+    <button data-folder="delete" id="button_delete_folder" class="action-delete">
         <span><?php echo $this->__('Delete Folder'); ?></span>
     </button>
     <p></p>
@@ -75,10 +75,6 @@ Ext.onReady(function(){
     (function ($) {
         $('[data-folder="create"]').on('click', function() {
             MediabrowserInstance.newFolder();
-        });
-
-        $('[data-folder="delete"]').on('click', function() {
-            MediabrowserInstance.deleteFolder();
         });
     })(jQuery);
 </script>

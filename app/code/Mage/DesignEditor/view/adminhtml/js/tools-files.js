@@ -92,14 +92,22 @@ Mediabrowser.prototype = {
         this.activateBlock('contents');
 
         // Activate/deactivate trash can icon
-        var deleteFolderId = 'button_delete_folder';
-        if ($(deleteFolderId) != undefined) {
+        var dataFolderDelete = '[data-folder="delete"]';
+        if (jQuery(dataFolderDelete) != undefined) {
+            var deleteFolderTitle = '';
             if(node.id == 'root') {
-                $(deleteFolderId).removeClassName('activate');
+                jQuery(dataFolderDelete).removeClass('activate');
             }
             else {
-                $(deleteFolderId).addClassName('activate');
+                deleteFolderTitle = jQuery.mage.__('Delete') + ' ' + node.text + ' ' + jQuery.mage.__('Folder');
+                jQuery(dataFolderDelete).addClass('activate')
+                    .on('click', function() {
+                        MediabrowserInstance.deleteFolder();
+                    });
             }
+            jQuery(dataFolderDelete).on('mouseover', function() {
+                jQuery(this).attr('title', deleteFolderTitle);
+            });
         }
 
         this.updateHeader(this.currentNode);

@@ -2043,10 +2043,12 @@
     -webkit-font-smoothing: antialiased;
     content: '\e07f'; /* trash icon */
     color: #b7b3ad;
+    cursor: default;
 }
 
 .wrapper-popup .action-delete:before .activate {
     color: #7e7e7e;
+    cursor: pointer;
 }
 
 .wrapper-popup .actions .action-delete {
