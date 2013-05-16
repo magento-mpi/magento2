@@ -58,7 +58,7 @@ class Mage_Directory_Model_Resource_Country_CollectionTest extends PHPUnit_Frame
         $this->_model->setForegroundCountries($foregroundCountries);
         $result = $this->_model->toOptionArray($emptyLabel);
         $this->assertEquals(count($optionsArray) + (int)!empty($emptyLabel), count($result));
-        foreach($expectedResults as $index => $expectedResult) {
+        foreach ($expectedResults as $index => $expectedResult) {
             $this->assertEquals($expectedResult, $result[$index]['label']);
         }
     }
