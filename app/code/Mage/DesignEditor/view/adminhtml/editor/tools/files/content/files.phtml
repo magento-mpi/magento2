@@ -17,28 +17,28 @@
 
     <div name="css-editor">
         <?php if ($this->getStorageType() == 'font'): ?>
-            <table cellspacing="0">
+            <div class="uploader">
                 <?php foreach ($this->getFiles() as $file): ?>
-                    <tr>
-                        <td>
+                <div class="clear"></div>
+                    <div class="file-row filecnt file-font" id="<?php echo $file['id'] ?>">
+                        <span>
                             <?php echo $file['text'] ?>
-                        </td>
-                        <td>
-                            <a href="#" class="action-add" onclick="MediabrowserInstance.insert('<?php echo $file['id'] ?>')" title="<?php echo $this->__('Insert file'); ?>" data-id="<?php echo $file['id'] ?>">
+                        </span>
+                        <span>
+                            <a href="#" class="action-add" title="<?php echo $this->__('Insert file'); ?>">
                                 <span><?php echo $this->__('Insert file'); ?></span>
                             </a>
-                        </td>
-                        <td>
-                            <a href="#" class="action-delete" onclick="MediabrowserInstance.deleteFiles('<?php echo $file['id'] ?>')" title="<?php echo $this->__('Delete file'); ?>" data-id="<?php echo $file['id'] ?>">
+                        </span>
+                        <span>
+                            <a href="#" class="action-delete" onclick="MediabrowserInstance.deleteFiles('<?php echo $file['id'] ?>')" title="<?php echo $this->__('Delete file'); ?>">
                                 <span><?php echo $this->__('Delete file'); ?></span>
                             </a>
-                        </td>
-                    </tr>
+                </div>
                 <?php endforeach; ?>
-            </table>
+            </div>
         <?php else: ?>
             <?php foreach ($this->getFiles() as $file): ?>
-                <div class="image base-image asset-image css-editor-image">
+                <div class="image base-image asset-image css-editor-image filecnt file-font" id="<?php echo $file['id'] ?>">
                     <?php if (isset($file['thumbnailParams'])): ?>
                         <img class="spacer" src="<?php echo Mage::getDesign()->getViewFileUrl('images/spacer.gif') ?>"/>
                         <img src="<?php echo $this->getUrl('*/*/previewImage', $file['thumbnailParams']) ?>">
@@ -48,10 +48,10 @@
                         <?php echo $file['text'] ?>
                     </p>
                     <div class="actions">
-                        <a href="#" class="action-delete" onclick="MediabrowserInstance.deleteFiles('<?php echo $file['id'] ?>')" title="<?php echo $this->__('Delete file'); ?>" data-id="<?php echo $file['id'] ?>">
+                        <a href="#" class="action-delete" onclick="MediabrowserInstance.deleteFiles('<?php echo $file['id'] ?>')" title="<?php echo $this->__('Delete file'); ?>">
                             <span><?php echo $this->__('Delete file'); ?></span>
                         </a>
-                        <a href="#" class="action-add" onclick="MediabrowserInstance.insert('<?php echo $file['id'] ?>')" title="<?php echo $this->__('Insert file'); ?>" data-id="<?php echo $file['id'] ?>">
+                        <a href="#" class="action-add" title="<?php echo $this->__('Insert file'); ?>">
                             <span><?php echo $this->__('Insert file'); ?></span>
                         </a>
                     </div>
