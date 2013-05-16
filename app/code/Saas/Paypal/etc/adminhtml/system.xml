@@ -592,7 +592,7 @@
                                     <field id="authentication_method">0</field>
                                 </depends>
                             </field>
-                            <field id="api_wizard" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <field id="api_wizard">
                                 <depends>
                                     <field id="authentication_method">0</field>
                                 </depends>
