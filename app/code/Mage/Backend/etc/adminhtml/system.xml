@@ -221,7 +221,7 @@
                     <label>Merge JavaScript Files</label>
                     <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
-                <field id="minify" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="minify_files" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Minify JavaScript Files</label>
                     <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
                 </field>

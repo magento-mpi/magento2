@@ -9,7 +9,7 @@
 /**
  * Interface for minification adapters
  */
-interface Magento_Code_Minify_AdapterInterface
+interface Magento_Code_Minifier_AdapterInterface
 {
     /**
      * Minify content

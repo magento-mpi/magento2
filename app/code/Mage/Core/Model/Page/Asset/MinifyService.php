@@ -11,6 +11,13 @@
  */
 class Mage_Core_Model_Page_Asset_MinifyService
 {
+    /**#@+
+     * XPaths to minification configuration
+     */
+    const XML_PATH_MINIFICATION_ENABLED = 'dev/%s/minify_files';
+    const XML_PATH_MINIFICATION_ADAPTER = 'dev/%s/minify_adapter';
+    /**#@-*/
+
     /**
      * @var Mage_Core_Model_Store_Config
      */
@@ -27,7 +34,7 @@ class Mage_Core_Model_Page_Asset_MinifyService
     protected $_enabled = array();
 
     /**
-     * @var Magento_Code_Minifier[]|bool[]
+     * @var Magento_Code_Minifier[]
      */
     protected $_minifiers = array();
 
@@ -73,14 +80,13 @@ class Mage_Core_Model_Page_Asset_MinifyService
         foreach ($assets as $asset) {
             $contentType = $asset->getContentType();
             if ($this->_isEnabled($contentType)) {
-                $resultAssets[] = $this->_objectManager
+                $asset = $this->_objectManager
                     ->create('Mage_Core_Model_Page_Asset_Minified', array(
                         'asset' => $asset,
                         'minifier' => $this->_getMinifier($contentType)
                     ));
-            } else {
-                $resultAssets[] = $asset;
             }
+            $resultAssets[] = $asset;
         }
         return $resultAssets;
     }
@@ -89,7 +95,7 @@ class Mage_Core_Model_Page_Asset_MinifyService
      * Get minifier object configured with specified content type
      *
      * @param string $contentType
-     * @return bool|Magento_Code_Minifier
+     * @return Magento_Code_Minifier
      */
     protected function _getMinifier($contentType)
     {
@@ -97,19 +103,22 @@ class Mage_Core_Model_Page_Asset_MinifyService
             $adapter = $this->_getAdapter($contentType);
             $strategyParams = array(
                 'adapter' => $adapter,
-                'baseDir' => $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_VIEW_CACHE) . '/minify',
             );
             switch ($this->_appState->getMode()) {
                 case Mage_Core_Model_App_State::MODE_PRODUCTION:
-                    $strategy = $this->_objectManager->create('Magento_Code_Minify_Strategy_Lite', $strategyParams);
+                    $strategy = $this->_objectManager->create('Magento_Code_Minifier_Strategy_Lite', $strategyParams);
                     break;
                 default:
                     $strategy = $this->_objectManager
-                        ->create('Magento_Code_Minify_Strategy_Generate', $strategyParams);
+                        ->create('Magento_Code_Minifier_Strategy_Generate', $strategyParams);
             }
 
             $this->_minifiers[$contentType] = $this->_objectManager->create('Magento_Code_Minifier',
-                array('strategy' => $strategy));
+                array(
+                    'strategy' => $strategy,
+                    'baseDir' => $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_VIEW_CACHE) . '/minify',
+                )
+            );
         }
         return $this->_minifiers[$contentType];
     }
@@ -123,7 +132,9 @@ class Mage_Core_Model_Page_Asset_MinifyService
     protected function _isEnabled($contentType)
     {
         if (!isset($this->_enabled[$contentType])) {
-            $this->_enabled[$contentType] = $this->_storeConfig->getConfigFlag('dev/' . $contentType . '/minify');
+            $this->_enabled[$contentType] = $this->_storeConfig->getConfigFlag(
+                sprintf(self::XML_PATH_MINIFICATION_ENABLED, $contentType)
+            );
         }
         return $this->_enabled[$contentType];
     }
@@ -137,7 +148,9 @@ class Mage_Core_Model_Page_Asset_MinifyService
      */
     protected function _getAdapter($contentType)
     {
-        $adapterClass = $this->_storeConfig->getConfig('dev/' . $contentType . '/minify_adapter');
+        $adapterClass = $this->_storeConfig->getConfig(
+            sprintf(self::XML_PATH_MINIFICATION_ADAPTER, $contentType)
+        );
         if (!$adapterClass) {
             throw new Mage_Core_Exception(
                 "Minification adapter is not specified for '$contentType' content type"

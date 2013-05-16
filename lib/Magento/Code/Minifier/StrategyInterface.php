@@ -9,14 +9,14 @@
 /**
  * Interface for minification strategies
  */
-interface Magento_Code_Minify_StrategyInterface
+interface Magento_Code_Minifier_StrategyInterface
 {
     /**
      * Get path to minified file
      *
      * @param string $originalFile
-     * @param Magento_Code_Minifier $minifier
+     * @param string $targetFile
      * @return string
      */
-    public function getMinifiedFile($originalFile, Magento_Code_Minifier $minifier);
+    public function getMinifiedFile($originalFile, $targetFile);
 }

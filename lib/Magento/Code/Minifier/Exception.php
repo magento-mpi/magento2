@@ -6,6 +6,6 @@
  * @license     {license_link}
  */
 
-class Magento_Code_Minify_Exception extends Exception
+class Magento_Code_Minifier_Exception extends Exception
 {
 }
