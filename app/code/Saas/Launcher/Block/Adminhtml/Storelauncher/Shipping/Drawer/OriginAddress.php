@@ -104,7 +104,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
             'value' => $addressData['postcode']
         ));
 
-        $countries = $this->_countryConfigModel->toOptionArray();
+        $countries = $this->_countryConfigModel->toOptionArray(false, 'US');
         $fieldset->addField('country_id', 'select', array(
             'name' => 'country_id',
             'label' => $helper->__('Country'),

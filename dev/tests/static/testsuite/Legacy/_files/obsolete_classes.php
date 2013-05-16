@@ -732,4 +732,5 @@ return array(
     array('Mage_Adminhtml_Block_Notification_Grid_Renderer_Actions',
         'Mage_AdminNotification_Block_Grid_Renderer_Actions'),
     array('Mage_Adminhtml_Block_Cache_Notifications'),
+    array('Mage_AdminNotification_Block_Grid'),
 );

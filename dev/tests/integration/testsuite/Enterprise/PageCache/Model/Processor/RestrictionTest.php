@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCase
+class Enterprise_PageCache_Model_Processor_RestrictionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Enterprise_PageCache_Model_Processor
@@ -25,27 +25,17 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
         $this->_model = Mage::getModel('Enterprise_PageCache_Model_Processor');
     }
 
-    public function testIsAllowedHttps()
+    public function testIsAllowedNoCacheCookie()
     {
         $this->assertTrue($this->_model->isAllowed());
-        $_SERVER['HTTPS'] = 'on';
+        $_COOKIE[Enterprise_PageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE] = '1';
         $this->assertFalse($this->_model->isAllowed());
     }
 
-    public function testIsAllowedSessionIdGetParam()
+    public function testIsAllowedNoCacheGetParam()
     {
         $this->assertTrue($this->_model->isAllowed());
-        $_GET[Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM] = 'session_id';
-        $this->assertFalse($this->_model->isAllowed());
-    }
-
-    /**
-     * @magentoAppIsolation enabled
-     */
-    public function testIsAllowedUseCacheFlag()
-    {
-        $this->assertTrue($this->_model->isAllowed());
-        Mage::app()->getCacheInstance()->banUse('full_page');
+        $_GET['no_cache'] = '1';
         $this->assertFalse($this->_model->isAllowed());
     }
 }

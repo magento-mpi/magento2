@@ -3,12 +3,12 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Enterprise_PageCache
+ * @package     Saas_PageCache
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCase
+class Saas_PageCache_Model_Processor_RestrictionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Enterprise_PageCache_Model_Processor
@@ -25,27 +25,17 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
         $this->_model = Mage::getModel('Enterprise_PageCache_Model_Processor');
     }
 
-    public function testIsAllowedHttps()
+    public function testIsAllowedNoCacheCookie()
     {
         $this->assertTrue($this->_model->isAllowed());
-        $_SERVER['HTTPS'] = 'on';
-        $this->assertFalse($this->_model->isAllowed());
+        $_COOKIE[Enterprise_PageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE] = '1';
+        $this->assertTrue($this->_model->isAllowed());
     }
 
-    public function testIsAllowedSessionIdGetParam()
+    public function testIsAllowedNoCacheGetParam()
     {
         $this->assertTrue($this->_model->isAllowed());
-        $_GET[Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM] = 'session_id';
-        $this->assertFalse($this->_model->isAllowed());
-    }
-
-    /**
-     * @magentoAppIsolation enabled
-     */
-    public function testIsAllowedUseCacheFlag()
-    {
+        $_GET['no_cache'] = '1';
         $this->assertTrue($this->_model->isAllowed());
-        Mage::app()->getCacheInstance()->banUse('full_page');
-        $this->assertFalse($this->_model->isAllowed());
     }
 }
