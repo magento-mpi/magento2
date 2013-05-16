@@ -339,7 +339,11 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
             if ($class) {
                 $fullyQualified = "{$class}::{$constant}";
                 $regex = preg_quote($fullyQualified, '/');
-                if ($this->_isDirectDescendant($content, $class)) {
+                if ($this->_isClassOrInterface($content, $class)) {
+                    $regex .= '|' . $this->_getClassConstantDefinitionRegExp($constant)
+                        . '|' . preg_quote("self::{$constant}", '/')
+                        . '|' . preg_quote("static::{$constant}", '/');
+                } else if ($this->_isDirectDescendant($content, $class)) {
                     $regex .= '|' . preg_quote("parent::{$constant}", '/');
                     if (!$this->_isClassConstantDefined($content, $constant)) {
                         $regex .= '|' . preg_quote("self::{$constant}", '/')
@@ -365,7 +369,18 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
      */
     protected function _isClassConstantDefined($content, $constant)
     {
-        return (bool)preg_match('/\bconst\s+' . preg_quote($constant, '/') . '\b/iS', $content);
+        return (bool)preg_match('/' . $this->_getClassConstantDefinitionRegExp($constant) . '/iS', $content);
+    }
+
+    /**
+     * Retrieve a PCRE matching a class constant definition
+     *
+     * @param string $constant
+     * @return string
+     */
+    protected function _getClassConstantDefinitionRegExp($constant)
+    {
+        return '\bconst\s+' . preg_quote($constant, '/') . '\b';
     }
 
     /**
