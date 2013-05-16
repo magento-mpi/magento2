@@ -126,12 +126,12 @@ Mediabrowser.prototype = {
                         $('contents').update(transport.responseText);
                         $$('div.filecnt').each(function(s) {
                             // Bind to the Insert File button.
-                            var dataInsertFile = '[data-insert-file=' + s.id + ']';
+                            var dataInsertFile = "[data-insert-file='" + s.id + "']";
                             jQuery(dataInsertFile).on('click', function() {
                                 MediabrowserInstance.insert(s.id);
                             });
                             // Bind to the trash can.
-                            var dataDeleteFile = '[data-delete-file=' + s.id + ']';
+                            var dataDeleteFile = "[data-delete-file='" + s.id + "']";
                             jQuery(dataDeleteFile).on('click', function() {
                                 MediabrowserInstance.deleteFiles(s.id);
                             });
