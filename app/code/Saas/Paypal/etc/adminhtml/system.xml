@@ -138,32 +138,6 @@
                                     <field id="authentication_method">0</field>
                                 </depends>
                             </field>
-                            <field id="api_wizard_saas" extends="api_wizard" showInDefault="1" showInWebsite="1" showInStore="1">
-                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
-                                <depends>
-                                    <field id="*/account/merchant_country" separator="," negative="1">FR,AU</field>
-                                </depends>
-                            </field>
-                            <field id="api_wizard_fr" extends="api_wizard" showInDefault="1" showInWebsite="1" showInStore="1">
-                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
-                                <button_url><![CDATA[https://www.paypal.com/fr/cgi-bin/webscr?cmd=_login-api-run]]></button_url>
-                                <attribute type="sandbox_button_url">
-                                    <![CDATA[https://www.sandbox.paypal.com/fr/cgi-bin/webscr?cmd=_login-api-run]]>
-                                </attribute>
-                                <depends>
-                                    <field id="*/account/merchant_country">FR</field>
-                                </depends>
-                            </field>
-                            <field id="api_wizard_au" extends="api_wizard" showInDefault="1" showInWebsite="1" showInStore="1">
-                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
-                                <button_url><![CDATA[https://www.paypal.com/au/cgi-bin/webscr?cmd=_login-api-run]]></button_url>
-                                <attribute type="sandbox_button_url">
-                                    <![CDATA[https://www.sandbox.paypal.com/au/cgi-bin/webscr?cmd=_login-api-run]]>
-                                </attribute>
-                                <depends>
-                                    <field id="*/account/merchant_country">AU</field>
-                                </depends>
-                            </field>
                             <field id="sandbox_flag">
                                 <depends>
                                     <field id="authentication_method">0</field>
@@ -184,8 +158,8 @@
                                     <field id="authentication_method">0</field>
                                 </depends>
                             </field>
-                            <field id="direct_boarding_status" type="select" translate="label button_label status_label account_label" sortOrder="17" showInDefault="0" showInWebsite="0" showInStore="0">
-                                <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                            <field id="direct_boarding_status" type="select" translate="label button_label status_label account_label" sortOrder="17" showInDefault="1" showInWebsite="1" showInStore="1">
+                                <hide_in_single_store_mode>0</hide_in_single_store_mode>
                                 <label>Boarding Status</label>
                                 <frontend_model>Saas_Paypal_Block_Adminhtml_System_Config_BoardingStatus</frontend_model>
                                 <button_label>Setup or change your site permissions with Paypal</button_label>
@@ -201,21 +175,6 @@
                                 </attribute>
                                 <depends>
                                     <field id="authentication_method">1</field>
-                                </depends>
-                            </field>
-                            <field id="direct_boarding_status_us" extends="*/paypal_payments/wpp/wpp_required_settings/wpp_and_express_checkout/direct_boarding_status" showInDefault="1" showInWebsite="1" showInStore="1">
-                                <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                                <depends>
-                                    <field id="*/account/merchant_country">US</field>
-                                </depends>
-                            </field>
-                            <field id="direct_boarding_status_other" extends="*/paypal_payments/wpp/wpp_required_settings/wpp_and_express_checkout/direct_boarding_status" showInDefault="1" showInWebsite="1" showInStore="1">
-                                <hide_in_single_store_mode>0</hide_in_single_store_mode>
-                                <attribute type="create_link">
-                                    <![CDATA[https://www.paypal.com/webapps/mpp/referral/website-payments-pro?partner_id=NB9WWHYEMVUMS]]>
-                                </attribute>
-                                <depends>
-                                    <field id="*/account/merchant_country" negative="1">US</field>
                                 </depends>
                             </field>
                         </group>
