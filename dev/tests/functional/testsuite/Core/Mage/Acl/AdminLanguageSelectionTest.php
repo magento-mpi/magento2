@@ -20,9 +20,7 @@ class Core_Mage_Acl_AdminLanguageSelectionTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {
-        $this->fail('check');
         $this->loginAdminUser();
-        $this->fail('check');
     }
 
     /**
