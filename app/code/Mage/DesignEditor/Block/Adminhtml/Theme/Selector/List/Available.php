@@ -100,13 +100,8 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
     protected function _addThemeButtons($themeBlock)
     {
         parent::_addThemeButtons($themeBlock);
-
         $this->_addDemoButtonHtml($themeBlock)->_addAssignButtonHtml($themeBlock);
-
-        if ($this->_getServiceModel()->isCustomizationsExist()) {
-            $this->_addEditButtonHtml($themeBlock);
-        }
-
+        $this->_addEditButtonHtml($themeBlock);
         return $this;
     }
 }
