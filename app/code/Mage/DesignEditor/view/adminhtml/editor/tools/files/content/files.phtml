@@ -25,12 +25,12 @@
                             <?php echo $file['text'] ?>
                         </span>
                         <span>
-                            <a href="#" class="action-add" title="<?php echo $this->__('Insert file'); ?>">
+                            <a href="#" class="action-add" title="<?php echo $this->__('Insert file'); ?>" data-insert-file="<?php echo $file['id'] ?>">
                                 <span><?php echo $this->__('Insert file'); ?></span>
                             </a>
                         </span>
                         <span>
-                            <a href="#" class="action-delete" onclick="MediabrowserInstance.deleteFiles('<?php echo $file['id'] ?>')" title="<?php echo $this->__('Delete file'); ?>">
+                            <a href="#" class="action-delete" title="<?php echo $this->__('Delete file'); ?>" data-delete-file="<?php echo $file['id'] ?>">
                                 <span><?php echo $this->__('Delete file'); ?></span>
                             </a>
                 </div>
@@ -38,7 +38,7 @@
             </div>
         <?php else: ?>
             <?php foreach ($this->getFiles() as $file): ?>
-                <div class="image base-image asset-image css-editor-image filecnt file-font" id="<?php echo $file['id'] ?>">
+                <div class="image base-image asset-image css-editor-image">
                     <?php if (isset($file['thumbnailParams'])): ?>
                         <img class="spacer" src="<?php echo Mage::getDesign()->getViewFileUrl('images/spacer.gif') ?>"/>
                         <img src="<?php echo $this->getUrl('*/*/previewImage', $file['thumbnailParams']) ?>">
@@ -47,11 +47,11 @@
                         <?php echo $file['width'] ?>x<?php echo $file['height'] ?> px.
                         <?php echo $file['text'] ?>
                     </p>
-                    <div class="actions">
-                        <a href="#" class="action-delete" onclick="MediabrowserInstance.deleteFiles('<?php echo $file['id'] ?>')" title="<?php echo $this->__('Delete file'); ?>">
+                    <div class="actions filecnt file-font" id="<?php echo $file['id'] ?>">
+                        <a href="#" class="action-delete" title="<?php echo $this->__('Delete file'); ?>" data-delete-file="<?php echo $file['id'] ?>">
                             <span><?php echo $this->__('Delete file'); ?></span>
                         </a>
-                        <a href="#" class="action-add" title="<?php echo $this->__('Insert file'); ?>">
+                        <a href="#" class="action-add" title="<?php echo $this->__('Insert file'); ?>" data-insert-file="<?php echo $file['id'] ?>">
                             <span><?php echo $this->__('Insert file'); ?></span>
                         </a>
                     </div>

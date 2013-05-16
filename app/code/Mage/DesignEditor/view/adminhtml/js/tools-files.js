@@ -88,7 +88,6 @@ Mediabrowser.prototype = {
 
     selectFolder: function (node, event) {
         this.currentNode = node;
-        this.hideFileButtons();
         this.activateBlock('contents');
 
         // Activate/deactivate trash can icon
@@ -126,8 +125,16 @@ Mediabrowser.prototype = {
                     if ($('contents') != undefined) {
                         $('contents').update(transport.responseText);
                         $$('div.filecnt').each(function(s) {
-                            Event.observe(s.id, 'click', this.selectFile.bind(this));
-                            Event.observe(s.id, 'dblclick', this.insert.bind(this));
+                            // Bind to the Insert File button.
+                            var dataInsertFile = '[data-insert-file=' + s.id + ']';
+                            jQuery(dataInsertFile).on('click', function() {
+                                MediabrowserInstance.insert(s.id);
+                            });
+                            // Bind to the trash can.
+                            var dataDeleteFile = '[data-delete-file=' + s.id + ']';
+                            jQuery(dataDeleteFile).on('click', function() {
+                                MediabrowserInstance.deleteFiles(s.id);
+                            });
                         }.bind(this));
                     }
                 } catch(e) {
@@ -150,21 +157,6 @@ Mediabrowser.prototype = {
             e.removeClassName('selected');
         })
         div.toggleClassName('selected');
-        if(div.hasClassName('selected')) {
-            this.showFileButtons();
-        } else {
-            this.hideFileButtons();
-        }
-    },
-
-    showFileButtons: function () {
-        this.showElement('button_delete_files');
-        this.showElement('button_insert_files');
-    },
-
-    hideFileButtons: function () {
-        this.hideElement('button_delete_files');
-        this.hideElement('button_insert_files');
     },
 
     handleUploadComplete: function(files) {
@@ -174,19 +166,7 @@ Mediabrowser.prototype = {
         this.selectFolder(this.currentNode);
     },
 
-    insert: function(event) {
-        var div;
-        if (event != undefined) {
-            div = Event.findElement(event, 'DIV');
-        } else {
-            $$('div.selected').each(function (e) {
-                div = $(e.id);
-            });
-        }
-        if ($(div.id) == undefined) {
-            return false;
-        }
-
+    insert: function(id) {
         var targetEl = this.getTargetElement();
         if (! targetEl) {
             alert("Target element not found for content update");
@@ -194,7 +174,7 @@ Mediabrowser.prototype = {
             return;
         }
 
-        var params = {filename:div.id, node:this.currentNode.id, store:this.storeId};
+        var params = {filename:id, node:this.currentNode.id, store:this.storeId};
 
         if (targetEl.tagName.toLowerCase() == 'textarea') {
             params.as_is = 1;
