@@ -139,4 +139,8 @@ applications:
                 uimap_path: ~
                 login: 'login'
                 password: 'password'
+            tmt:
+                url: 'http://tmt.domain.com/'
+                base_page_uimap: 'home'
+                uimap_path: 'tmt'
     default: *ee

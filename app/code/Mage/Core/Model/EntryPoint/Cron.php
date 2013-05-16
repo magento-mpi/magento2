@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Mage_Core_Model_EntryPoint_Cron extends Mage_Core_Model_EntryPointAbstract
 {
     /**
