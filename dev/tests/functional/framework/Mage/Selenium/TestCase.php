@@ -2093,13 +2093,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function takeScreenshot($fileName = null)
     {
+        $windowSize = $this->currentWindow()->size();
         $screenshotPath = $this->getScreenshotPath();
         if (empty($screenshotPath)) {
             $this->fail('Screenshot Path is empty');
         }
 
         if ($fileName == null) {
-            $fileName = time() . '__' . $this->getTestId();
+            $fileName = time() . '__' . $windowSize['height'] . '_' . $windowSize['width'] . '__' . $this->getTestId();
             $fileName = preg_replace('/"/', '\'', $fileName);
             $fileName = preg_replace('/ with data set #/', '__DataSet_', $fileName);
         }
