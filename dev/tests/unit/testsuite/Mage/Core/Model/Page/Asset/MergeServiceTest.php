@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -36,18 +33,25 @@ class Mage_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_Test
      */
     protected $_dirs;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_state;
+
     public function setUp()
     {
         $this->_objectManager = $this->getMockForAbstractClass('Magento_ObjectManager', array('create'));
         $this->_storeConfig = $this->getMock('Mage_Core_Model_Store_Config', array('getConfigFlag'));
         $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
         $this->_dirs = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
+        $this->_state = $this->getMock('Mage_Core_Model_App_State', array(), array(), '', false);
 
         $this->_object = new Mage_Core_Model_Page_Asset_MergeService(
             $this->_objectManager,
             $this->_storeConfig,
             $this->_filesystem,
-            $this->_dirs
+            $this->_dirs,
+            $this->_state
         );
     }
 
@@ -64,9 +68,12 @@ class Mage_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_Test
      * @param array $assets
      * @param string $contentType
      * @param string $storeConfigPath
+     * @param string $appMode
+     * @param string $mergeStrategy
+     * @param bool $isCss
      * @dataProvider getMergedAssetsDataProvider
      */
-    public function testGetMergedAssets(array $assets, $contentType, $storeConfigPath)
+    public function testGetMergedAssets(array $assets, $contentType, $storeConfigPath, $appMode, $mergeStrategy, $isCss)
     {
         $mergedAsset = $this->getMock('Mage_Core_Model_Page_Asset_AssetInterface');
         $this->_storeConfig
@@ -76,12 +83,31 @@ class Mage_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_Test
                 array($storeConfigPath, null, true),
             )))
         ;
+
+        $mergeStrategyMock = $this->getMock($mergeStrategy, array(), array(), '', false);
+        $mergeStrategyMock->expects($this->once())
+            ->method('setIsCss')
+            ->with($isCss);
+
         $this->_objectManager
             ->expects($this->once())
             ->method('create')
-            ->with('Mage_Core_Model_Page_Asset_Merged', array('assets' => $assets))
+            ->with(
+                'Mage_Core_Model_Page_Asset_Merged', array('assets' => $assets, 'mergeStrategy' => $mergeStrategyMock)
+            )
             ->will($this->returnValue($mergedAsset))
         ;
+
+        $this->_objectManager
+            ->expects($this->once())
+            ->method('get')
+            ->with($mergeStrategy)
+            ->will($this->returnValue($mergeStrategyMock))
+        ;
+        $this->_state
+            ->expects($this->once())
+            ->method('getMode')
+            ->will($this->returnValue($appMode));
         $this->assertSame($mergedAsset, $this->_object->getMergedAssets($assets, $contentType));
     }
 
@@ -96,15 +122,37 @@ class Mage_Core_Model_Page_Asset_MergeServiceTest extends PHPUnit_Framework_Test
             new Mage_Core_Model_Page_Asset_Remote('http://127.0.0.1/magento/style_two.css')
         );
         return array(
-            'js' => array(
+            'js production mode' => array(
                 $jsAssets,
                 Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS,
                 Mage_Core_Model_Page_Asset_MergeService::XML_PATH_MERGE_JS_FILES,
+                Mage_Core_Model_App_State::MODE_PRODUCTION,
+                'Mage_Core_Model_Page_Asset_MergeStrategy_FileExists',
+                false
             ),
-            'css' => array(
+            'css production mode' => array(
                 $cssAssets,
                 Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS,
                 Mage_Core_Model_Page_Asset_MergeService::XML_PATH_MERGE_CSS_FILES,
+                Mage_Core_Model_App_State::MODE_PRODUCTION,
+                'Mage_Core_Model_Page_Asset_MergeStrategy_FileExists',
+                true
+            ),
+            'js default mode' => array(
+                $jsAssets,
+                Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_JS,
+                Mage_Core_Model_Page_Asset_MergeService::XML_PATH_MERGE_JS_FILES,
+                Mage_Core_Model_App_State::MODE_DEFAULT,
+                'Mage_Core_Model_Page_Asset_MergeStrategy_Checksum',
+                false
+            ),
+            'css default mode' => array(
+                $cssAssets,
+                Mage_Core_Model_Design_PackageInterface::CONTENT_TYPE_CSS,
+                Mage_Core_Model_Page_Asset_MergeService::XML_PATH_MERGE_CSS_FILES,
+                Mage_Core_Model_App_State::MODE_DEFAULT,
+                'Mage_Core_Model_Page_Asset_MergeStrategy_Checksum',
+                true
             ),
         );
     }

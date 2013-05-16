@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -41,21 +39,29 @@ class Mage_Core_Model_Page_Asset_MergeService
     private $_dirs;
 
     /**
+     * @var Mage_Core_Model_App_State
+     */
+    private $_state;
+
+    /**
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Magento_Filesystem $filesystem,
      * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_App_State $state
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Store_Config $storeConfig,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_Dir $dirs
+        Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_App_State $state
     ) {
         $this->_objectManager = $objectManager;
         $this->_storeConfig = $storeConfig;
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
+        $this->_state = $state;
     }
 
     /**
@@ -77,8 +83,15 @@ class Mage_Core_Model_Page_Asset_MergeService
         $isCssMergeEnabled = $this->_storeConfig->getConfigFlag(self::XML_PATH_MERGE_CSS_FILES);
         $isJsMergeEnabled = $this->_storeConfig->getConfigFlag(self::XML_PATH_MERGE_JS_FILES);
         if (($isCss && $isCssMergeEnabled) || ($isJs && $isJsMergeEnabled)) {
+            if ($this->_state->getMode() == Mage_Core_Model_App_State::MODE_PRODUCTION) {
+                $mergeStrategy = $this->_objectManager->get('Mage_Core_Model_Page_Asset_MergeStrategy_FileExists');
+            } else {
+                $mergeStrategy = $this->_objectManager->get('Mage_Core_Model_Page_Asset_MergeStrategy_Checksum');
+            }
+            $mergeStrategy->setIsCss($isCss);
+
             $assets = $this->_objectManager->create(
-                'Mage_Core_Model_Page_Asset_Merged', array('assets' => $assets)
+                'Mage_Core_Model_Page_Asset_Merged', array('assets' => $assets, 'mergeStrategy' => $mergeStrategy)
             );
         }
 

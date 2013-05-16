@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -29,19 +27,9 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
     private $_logger;
 
     /**
-     * @var Mage_Core_Helper_Css
+     * @var Mage_Core_Model_Page_Asset_MergeStrategy_MergeStrategyInterface
      */
-    private $_cssHelper;
-
-    /**
-     * @var Magento_Filesystem
-     */
-    private $_filesystem;
-
-    /**
-     * @var Mage_Core_Model_Dir
-     */
-    private $_dirs;
+    private $_mergeStrategy;
 
     /**
      * @var Mage_Core_Model_Page_Asset_MergeableInterface[]
@@ -62,26 +50,23 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
 
     /**
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Logger $logger
-     * @param Mage_Core_Helper_Css $cssHelper
-     * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_Dir $dirs
+     * @param Mage_Core_Model_Logger $logger,
+     * @param Mage_Core_Model_Dir $dirs,
+     * @param Mage_Core_Model_Page_Asset_MergeStrategy_MergeStrategyInterface $mergeStrategy
      * @param array $assets
      * @throws InvalidArgumentException
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Logger $logger,
-        Mage_Core_Helper_Css $cssHelper,
-        Magento_Filesystem $filesystem,
         Mage_Core_Model_Dir $dirs,
+        Mage_Core_Model_Page_Asset_MergeStrategy_MergeStrategyInterface $mergeStrategy,
         array $assets
     ) {
         $this->_objectManager = $objectManager;
         $this->_logger = $logger;
-        $this->_filesystem = $filesystem;
-        $this->_cssHelper = $cssHelper;
         $this->_dirs = $dirs;
+        $this->_mergeStrategy = $mergeStrategy;
 
         if (!$assets) {
             throw new InvalidArgumentException('At least one asset has to be passed for merging.');
@@ -128,8 +113,11 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
     protected function _getMergedAsset(array $assets)
     {
         $sourceFiles = $this->_getPublicFilesToMerge($assets);
+        $destinationFile = $this->_getMergedFilePath($sourceFiles);
+
+        $this->_mergeStrategy->mergeFiles($sourceFiles, $destinationFile);
         return $this->_objectManager->create('Mage_Core_Model_Page_Asset_PublicFile', array(
-            'file' => $this->_mergeFiles($sourceFiles),
+            'file' => $destinationFile,
             'contentType' => $this->_contentType,
         ));
     }
@@ -149,42 +137,6 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
             $result[$publicFile] = $publicFile;
         }
         return $result;
-    }
-
-    /**
-     * Merge files into one
-     *
-     * @param array $publicFiles
-     * @return string
-     * @throws Magento_Exception
-     */
-    protected function _mergeFiles($publicFiles)
-    {
-        // Extract files to merge
-        $mergedFile = $this->_getMergedFilePath($publicFiles);
-        $mergedMTimeFile  = $mergedFile . '.dat';
-
-        // Check whether we have already merged these files
-        $filesMTimeData = '';
-        foreach ($publicFiles as $file) {
-            $filesMTimeData .= $this->_filesystem->getMTime($file);
-        }
-        if ($this->_filesystem->has($mergedFile) && $this->_filesystem->has($mergedMTimeFile)
-            && ($filesMTimeData == $this->_filesystem->read($mergedMTimeFile))
-        ) {
-            return $mergedFile;
-        }
-
-        // Compose content
-        $mergedContent = $this->_composeMergedContent($publicFiles, $mergedFile);
-
-        // Save merged content
-        if (!$this->_filesystem->isDirectory(dirname($mergedFile))) {
-            $this->_filesystem->createDirectory(dirname($mergedFile), 0777);
-        }
-        $this->_filesystem->write($mergedFile, $mergedContent);
-        $this->_filesystem->write($mergedMTimeFile, $filesMTimeData);
-        return $mergedFile;
     }
 
     /**
@@ -208,62 +160,6 @@ class Mage_Core_Model_Page_Asset_Merged implements Iterator
         $mergedDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_VIEW_CACHE) . '/'
             . self::PUBLIC_MERGE_DIR;
         return $mergedDir . '/' . md5(implode('|', $relFileNames)) . '.' . $this->_contentType;
-    }
-
-    /**
-     * Merge files together and removed merged content
-     *
-     * @param array $publicFiles
-     * @param string $targetFile
-     * @return string
-     * @throws Magento_Exception
-     */
-    protected function _composeMergedContent(array $publicFiles, $targetFile)
-    {
-        $isCss = $this->_contentType == Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS;
-        $result = array();
-        foreach ($publicFiles as $file) {
-            if (!$this->_filesystem->has($file)) {
-                throw new Magento_Exception("Unable to locate file '{$file}' for merging.");
-            }
-            $content = $this->_filesystem->read($file);
-            if ($isCss) {
-                $content = $this->_cssHelper->replaceCssRelativeUrls($content, $file, $targetFile);
-            }
-            $result[] = $content;
-        }
-        $result = ltrim(implode($result));
-        if ($isCss) {
-            $result = $this->_popCssImportsUp($result);
-        }
-
-        return $result;
-    }
-
-    /**
-     * Put CSS import directives to the start of CSS content
-     *
-     * @param string $contents
-     * @return string
-     */
-    protected function _popCssImportsUp($contents)
-    {
-        $parts = preg_split('/(@import\s.+?;\s*)/', $contents, -1, PREG_SPLIT_DELIM_CAPTURE);
-        $imports = array();
-        $css = array();
-        foreach ($parts as $part) {
-            if (0 === strpos($part, '@import', 0)) {
-                $imports[] = trim($part);
-            } else {
-                $css[] = $part;
-            }
-        }
-
-        $result = implode($css);
-        if ($imports) {
-            $result = implode("\n", $imports) . "\n" . "/* Import directives above popped up. */\n" . $result;
-        }
-        return $result;
     }
 
     /**
