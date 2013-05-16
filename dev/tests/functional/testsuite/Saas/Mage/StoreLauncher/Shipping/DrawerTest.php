@@ -16,23 +16,18 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_StoreLauncher_Shipping_DrawerTest extends Mage_Selenium_TestCase
+class Saas_Mage_StoreLauncher_Shipping_DrawerTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
+     * <p>1. Login to Backend</p>
+     * <p>2. Navigate to Store Launcher page</p>
+     * <p>3. Reset tile state</p>
      */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $tileState = $this->getControlAttribute('fieldset', 'shipping_tile', 'class');
-        $changeState = ('tile-store-settings tile-shipping tile-complete' == $tileState) ? true : false;
-        if ($changeState) {
-            $this->storeLauncherHelper()->setTileState('shipping', Core_Mage_StoreLauncher_Helper::$STATE_TODO);
-        }
-        $shippingConfig = $this->loadDataSet('ShippingMethod', 'shipping_disable');
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($shippingConfig);
-        $this->admin();
+        $this->storeLauncherHelper()->resetShippingTile();
     }
 
     /**

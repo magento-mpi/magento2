@@ -16,27 +16,18 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_StoreLauncher_Payment_DrawerTest extends Mage_Selenium_TestCase
+class Saas_Mage_StoreLauncher_Payment_DrawerTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
      * <p>1. Login to Backend</p>
      * <p>2. Navigate to Store Launcher page</p>
+     * <p>3. Reset tile state</p>
      */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $tileState = $this->getControlAttribute('fieldset', 'payment_tile', 'class');
-        $changeState = ('tile-store-settings tile-payments tile-complete' == $tileState) ? true : false;
-        if ($changeState) {
-            $this->storeLauncherHelper()->setTileState('payments', Core_Mage_StoreLauncher_Helper::$STATE_TODO);
-        }
-        $this->navigate('system_configuration');
-        $paypalConfig = $this->loadDataSet('PaymentMethod', 'paypal_disable');
-        $this->systemConfigurationHelper()->configure($paypalConfig);
-        $authorizeConfig = $this->loadDataSet('PaymentMethod', 'authorize_net_disable');
-        $this->systemConfigurationHelper()->configure($authorizeConfig);
-        $this->admin();
+        $this->storeLauncherHelper()->resetPaymentsTile();
     }
 
     /**

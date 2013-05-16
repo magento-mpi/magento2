@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_StoreLauncher_TileTest extends Mage_Selenium_TestCase
+class Saas_Mage_StoreLauncher_TileTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -53,7 +53,7 @@ class Core_Mage_StoreLauncher_TileTest extends Mage_Selenium_TestCase
     public function designOfTileIsChangedAfterMouseNavigation($tile)
     {
         /**
-         * @var Core_Mage_StoreLauncher_Helper $helper
+         * @var Saas_Mage_StoreLauncher_Helper $helper
          */
         $helper = $this->storeLauncherHelper();
         /**

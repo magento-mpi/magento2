@@ -15,16 +15,43 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
     /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Backend_Model_Config $backendConfigModel
+     * @param string $locale
+     * @return Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandler
+     */
+    protected function _getFlatRateSaveHandlerInstance(
+        Mage_Core_Model_Config $config,
+        Mage_Backend_Model_Config $backendConfigModel,
+        $locale
+    ) {
+        $localeMock = $this->getMockBuilder('Mage_Core_Model_Locale')
+            ->setMethods(array('getLocale'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $localeMock->expects($this->once())
+            ->method('getLocale')
+            ->will($this->returnValue(new Zend_Locale($locale)));
+
+        $validator = new Magento_Validator_Float();
+
+        return new Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandler(
+            $config,
+            $backendConfigModel,
+            $localeMock,
+            $validator
+        );
+    }
+
+    /**
+     * @param Mage_Core_Model_Config $config
+     * @param Mage_Backend_Model_Config $backendConfigModel
      * @return Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
     public function getSaveHandlerInstance(
         Mage_Core_Model_Config $config,
         Mage_Backend_Model_Config $backendConfigModel
     ) {
-        return new Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandler(
-            $config,
-            $backendConfigModel
-        );
+        return $this->_getFlatRateSaveHandlerInstance($config, $backendConfigModel, 'en_US');
     }
 
     /**
@@ -38,13 +65,13 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
         $data0 = array();
         $data0['groups']['flatrate']['fields']['name']['value'] = ' flate rate method name ';
         $data0['groups']['flatrate']['fields']['type']['value'] = 'O';
-        $data0['groups']['flatrate']['fields']['price']['value'] = ' price ';
+        $data0['groups']['flatrate']['fields']['price']['value'] = ' 10.11 ';
         $data0['groups']['flatrate']['fields']['active']['value'] = '1';
 
         $preparedData0 = array();
         $preparedData0['carriers']['flatrate']['fields']['name']['value'] = 'flate rate method name';
         $preparedData0['carriers']['flatrate']['fields']['type']['value'] = 'O';
-        $preparedData0['carriers']['flatrate']['fields']['price']['value'] = 'price';
+        $preparedData0['carriers']['flatrate']['fields']['price']['value'] = '10.11';
         $preparedData0['carriers']['flatrate']['fields']['active']['value'] = 1;
 
         // data set #1
@@ -56,7 +83,6 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
             array($data0, $preparedData0, array('carriers')),
             array($data1, $preparedData1, array('carriers')),
         );
-
     }
 
     /**
@@ -71,19 +97,27 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
         $data1 = array();
         $data1['groups']['flatrate']['fields']['name']['value'] = ' flate rate method name ';
         $data1['groups']['flatrate']['fields']['type']['value'] = 'K'; // wrong type
-        $data1['groups']['flatrate']['fields']['price']['value'] = ' price ';
+        $data1['groups']['flatrate']['fields']['price']['value'] = ' 10.11 ';
 
         $data2 = array();
+        // name is absent
         $data2['groups']['flatrate']['fields']['type']['value'] = 'O';
-        $data2['groups']['flatrate']['fields']['price']['value'] = ' price ';
+        $data2['groups']['flatrate']['fields']['price']['value'] = ' 10.11 ';
 
         $data3 = array();
+        // type is absent
         $data3['groups']['flatrate']['fields']['name']['value'] = ' flate rate method name ';
-        $data3['groups']['flatrate']['fields']['price']['value'] = ' price ';
+        $data3['groups']['flatrate']['fields']['price']['value'] = ' 10.11 ';
 
         $data4 = array();
+        // price is absent
         $data4['groups']['flatrate']['fields']['name']['value'] = ' flate rate method name ';
         $data4['groups']['flatrate']['fields']['type']['value'] = 'O';
+
+        $data5 = array();
+        $data5['groups']['flatrate']['fields']['name']['value'] = ' flate rate method name ';
+        $data5['groups']['flatrate']['fields']['type']['value'] = 'O';
+        $data5['groups']['flatrate']['fields']['price']['value'] = ' price '; // wrong price
 
         return array(
             array($data0),
@@ -91,6 +125,41 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
             array($data2),
             array($data3),
             array($data4),
+            array($data5),
         );
+    }
+
+    /**
+     * @dataProvider prepareDataForDifferentLocalesDataProvider
+     * @param array $data
+     * @param array $expectedResult
+     * @param string $configSection
+     * @param $locale
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function testPrepareDataForDifferentLocales(array $data, array $expectedResult, $configSection, $locale)
+    {
+        $backendConfigModel = $this->getMockBuilder('Mage_Backend_Model_Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $config = $this->getMockBuilder('Mage_Core_Model_Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $saveHandler = $this->_getFlatRateSaveHandlerInstance($config, $backendConfigModel, $locale);
+        $this->assertEquals($expectedResult, $saveHandler->prepareData($data));
+    }
+
+    public function prepareDataForDifferentLocalesDataProvider()
+    {
+        $data = $this->prepareDataValidInputDataProvider();
+        $data[0][0]['groups']['flatrate']['fields']['price']['value'] = '11,15';
+        $data[0][1]['carriers']['flatrate']['fields']['price']['value'] = '11.15';
+        $data[0][] = 'uk_UA';
+        $data[1][0]['groups']['flatrate']['fields']['price']['value'] = '1,978.13';
+        $data[1][1]['carriers']['flatrate']['fields']['price']['value'] = '1978.13';
+        $data[1][] = 'en_US';
+        return $data;
     }
 }
