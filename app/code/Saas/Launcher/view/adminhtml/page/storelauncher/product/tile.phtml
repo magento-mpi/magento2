@@ -49,32 +49,32 @@
         </footer>
         <?php endif; ?>
     </div>
-    <script type="text/javascript">
-        (function ($) {
-            head.js(
-                "<?php echo $this->getViewFileUrl('jquery/jquery.ba-hashchange.min.js') ?>",
-                "<?php echo $this->getViewFileUrl('Saas_Launcher::page/launcher.js') ?>",
-                function () {
-                    $('#drawer').drawer();
-                    $('#drawer').drawer('setDependencies',
-                        '<?php echo $this->getTileCode() ?>',
-                        [
-                            "<?php echo $this->getViewFileUrl('jquery/fileUploader/jquery.iframe-transport.js') ?>",
-                            "<?php echo $this->getViewFileUrl('jquery/fileUploader/jquery.fileupload.js') ?>",
-                            "<?php echo $this->getViewFileUrl('jquery/fileUploader/load-image.min.js') ?>",
-                            "<?php echo $this->getViewFileUrl('jquery/fileUploader/canvas-to-blob.min.js') ?>",
-                            "<?php echo $this->getViewFileUrl('jquery/fileUploader/jquery.fileupload-fp.js') ?>",
-                            "<?php echo $this->getViewFileUrl('Mage_Adminhtml::catalog/base-image-uploader.js') ?>",
-                            "<?php echo $this->getViewFileUrl('jquery/jstree/jquery.hotkeys.js') ?>",
-                            "<?php echo $this->getViewFileUrl('jquery/jstree/jquery.jstree.js') ?>",
-                            "<?php echo $this->getViewFileUrl('Mage_Adminhtml::catalog/type-switcher.js') ?>",
-                            "<?php echo $this->getViewFileUrl('Mage_Catalog::js/product-gallery.js') ?>",
-                            "<?php echo $this->getViewFileUrl('mage/adminhtml/browser.js') ?>",
-                            "<?php echo $this->getViewFileUrl('mage/proxy-event.js') ?>"
-                        ]
-                    );
-                }
-            );
-        })(jQuery);
-    </script>
 </article>
+<script type="text/javascript">
+jQuery(function ($) {
+    head.js(
+        "<?php echo $this->getViewFileUrl('jquery/jquery.ba-hashchange.min.js') ?>",
+        "<?php echo $this->getViewFileUrl('Saas_Launcher::page/launcher.js') ?>",
+        function () {
+            $('#drawer').drawer();
+            $('#drawer').drawer('setDependencies',
+                '<?php echo $this->getTileCode() ?>',
+                [
+                    "<?php echo $this->getViewFileUrl('jquery/fileUploader/jquery.iframe-transport.js') ?>",
+                    "<?php echo $this->getViewFileUrl('jquery/fileUploader/jquery.fileupload.js') ?>",
+                    "<?php echo $this->getViewFileUrl('jquery/fileUploader/load-image.min.js') ?>",
+                    "<?php echo $this->getViewFileUrl('jquery/fileUploader/canvas-to-blob.min.js') ?>",
+                    "<?php echo $this->getViewFileUrl('jquery/fileUploader/jquery.fileupload-fp.js') ?>",
+                    "<?php echo $this->getViewFileUrl('Mage_Adminhtml::catalog/base-image-uploader.js') ?>",
+                    "<?php echo $this->getViewFileUrl('jquery/jstree/jquery.hotkeys.js') ?>",
+                    "<?php echo $this->getViewFileUrl('jquery/jstree/jquery.jstree.js') ?>",
+                    "<?php echo $this->getViewFileUrl('Mage_Adminhtml::catalog/type-switcher.js') ?>",
+                    "<?php echo $this->getViewFileUrl('Mage_Catalog::js/product-gallery.js') ?>",
+                    "<?php echo $this->getViewFileUrl('mage/adminhtml/browser.js') ?>",
+                    "<?php echo $this->getViewFileUrl('mage/proxy-event.js') ?>"
+                ]
+            );
+        }
+    );
+});
+</script>

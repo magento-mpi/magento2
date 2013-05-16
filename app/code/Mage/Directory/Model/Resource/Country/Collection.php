@@ -35,14 +35,16 @@ class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_R
     /**
      * @param Mage_Core_Helper_String $stringHelper
      * @param Mage_Core_Model_LocaleInterface $locale
+     * @param Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Mage_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
         Mage_Core_Helper_String $stringHelper,
         Mage_Core_Model_LocaleInterface $locale,
+        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         $resource = null
     ) {
-        parent::__construct($resource);
+        parent::__construct($fetchStrategy, $resource);
         $this->_stringHelper = $stringHelper;
         $this->_locale = $locale;
     }

@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_StoreLauncher_DrawerTest extends Mage_Selenium_TestCase
+class Saas_Mage_StoreLauncher_DrawerTest extends Mage_Selenium_TestCase
 {
     /**
      * Set tile states in initial state before tests
@@ -25,18 +25,19 @@ class Core_Mage_StoreLauncher_DrawerTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         //Products tile
-        $this->navigate('manage_products');
-        $this->runMassAction('Delete', 'all');
-        $this->storeLauncherHelper()->setTileState('product', Core_Mage_StoreLauncher_Helper::$STATE_TODO);
+        $this->storeLauncherHelper()->resetProductTile();
+        //Back to admin
+        $this->loginAdminUser();
         //Shipping tile
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('ShippingMethod/shipping_disable');
-        $this->storeLauncherHelper()->setTileState('shipping', Core_Mage_StoreLauncher_Helper::$STATE_TODO);
+        $this->storeLauncherHelper()->resetShippingTile();
         //StoreInfo tile
-        $this->systemConfigurationHelper()->configure('ShippingSettings/store_information_empty');
-        $this->systemConfigurationHelper()->configure('General/general_default_emails');
+        $this->storeLauncherHelper()->resetStoreInfoTile();
         //Tax tile
-        $this->storeLauncherHelper()->setTileState('tax', Core_Mage_StoreLauncher_Helper::$STATE_TODO);
+        $this->storeLauncherHelper()->resetTaxTile();
+        //Back to admin
+        $this->loginAdminUser();
+        //Payment tile
+        $this->storeLauncherHelper()->resetPaymentsTile();
     }
 
     /**
@@ -60,7 +61,7 @@ class Core_Mage_StoreLauncher_DrawerTest extends Mage_Selenium_TestCase
     public function drawerIsDisplayed($tile)
     {
         /**
-         * @var Core_Mage_StoreLauncher_Helper $helper
+         * @var Saas_Mage_StoreLauncher_Helper $helper
          */
         $helper = $this->storeLauncherHelper();
         $helper->openDrawer($tile);
@@ -80,7 +81,7 @@ class Core_Mage_StoreLauncher_DrawerTest extends Mage_Selenium_TestCase
     public function returnToTheStoreLauncherPage($tile)
     {
         /**
-         * @var Core_Mage_StoreLauncher_Helper $helper
+         * @var Saas_Mage_StoreLauncher_Helper $helper
          */
         $helper = $this->storeLauncherHelper();
         $this->assertContains('tile-todo', $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, $tile, 'class'),

@@ -16,26 +16,18 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCase
+class Saas_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
      * <p>1. Login to Backend</p>
      * <p>2. Navigate to Store Launcher page</p>
+     * <p>3. Reset tile state</p>
      */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-        $tileState = $this->getControlAttribute(self::UIMAP_TYPE_FIELDSET, 'bussines_info_tile', 'class');
-        $changeState = ('tile-store-settings tile-store-info tile-complete' == $tileState) ? true : false;
-        if ($changeState) {
-            $this->navigate('system_configuration');
-            $config = $this->loadDataSet('ShippingSettings', 'store_information_empty');
-            $this->systemConfigurationHelper()->configure($config);
-            $config = $this->loadDataSet('General', 'general_default_emails');
-            $this->systemConfigurationHelper()->configure($config);
-            $this->admin();
-        }
+        $this->storeLauncherHelper()->resetStoreInfoTile();
     }
 
     /**
@@ -64,7 +56,7 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
         $this->systemConfigurationHelper()->configure($config);
         $this->admin();
         /**
-         * @var Core_Mage_StoreLauncher_Helper $helper
+         * @var Saas_Mage_StoreLauncher_Helper $helper
          */
         $helper = $this->storeLauncherHelper();
         $helper->openDrawer('bussines_info_tile');
@@ -111,7 +103,7 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
     public function businessAddressIsDisplayedOnTile()
     {
         /**
-         * @var Core_Mage_StoreLauncher_Helper $helper
+         * @var Saas_Mage_StoreLauncher_Helper $helper
          */
         $helper = $this->storeLauncherHelper();
         $helper->openDrawer('bussines_info_tile');
@@ -143,7 +135,7 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
     public function cancelEditingStoreInfo()
     {
         /**
-         * @var Core_Mage_StoreLauncher_Helper $helper
+         * @var Saas_Mage_StoreLauncher_Helper $helper
          */
         $helper = $this->storeLauncherHelper();
         $helper->openDrawer('bussines_info_tile');
@@ -167,7 +159,7 @@ class Core_Mage_StoreLauncher_StoreInfo_DrawerTest extends Mage_Selenium_TestCas
     public function editEmailAddresses()
     {
         /**
-         * @var Core_Mage_StoreLauncher_Helper $helper
+         * @var Saas_Mage_StoreLauncher_Helper $helper
          */
         $helper = $this->storeLauncherHelper();
         $helper->openDrawer('bussines_info_tile');

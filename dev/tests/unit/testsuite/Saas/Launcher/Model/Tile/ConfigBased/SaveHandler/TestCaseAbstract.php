@@ -124,7 +124,7 @@ abstract class Saas_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
 
         $config->expects($this->once())
             ->method('reinit')
-            ->will($this->returnValue($config));
+            ->will($this->returnSelf());
 
         $saveHandler = $this->getSaveHandlerInstance($config, $backendConfigModel);
         $saveHandler->save($data);
