@@ -6,7 +6,6 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- * @method Saas_ImportExport_Model_Export_Adapter_Abstract getWriter getWriter()
  */
 class Saas_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Model_Import_Entity_Product
 {

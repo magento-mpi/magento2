@@ -30,18 +30,14 @@ class Saas_ImportExport_Model_Export extends Varien_Object
     protected $_storageAdapterFactory;
 
     /**
-     * @var array
-     */
-    protected $_params = array();
-    /**
      * @var Saas_ImportExport_Helper_Export_Config
      */
     protected $_configHelper;
 
     /**
-     * @var Saas_ImportExport_Model_Flag
+     * @var Saas_ImportExport_Helper_Export_State
      */
-    protected $_flag;
+    protected $_stateHelper;
 
     /**
      * @var bool
@@ -49,27 +45,31 @@ class Saas_ImportExport_Model_Export extends Varien_Object
     protected $_finishedFlag = false;
 
     /**
+     * @var array
+     */
+    protected $_params = array();
+
+    /**
      * Constructor
      *
      * @param Saas_ImportExport_Model_Export_EntityFactory $entityFactory
      * @param Saas_ImportExport_Model_Export_StorageFactory $storageFactory
      * @param Saas_ImportExport_Helper_Export_Config $configHelper
-     * @param Saas_ImportExport_Model_FlagFactory $flagFactory
+     * @param Saas_ImportExport_Helper_Export_State $stateHelper
      * @param array $data
      */
     public function __construct(
         Saas_ImportExport_Model_Export_EntityFactory $entityFactory,
         Saas_ImportExport_Model_Export_StorageFactory $storageFactory,
         Saas_ImportExport_Helper_Export_Config $configHelper,
-        Saas_ImportExport_Model_FlagFactory $flagFactory,
+        Saas_ImportExport_Helper_Export_State $stateHelper,
         array $data = array()
     ) {
         parent::__construct($data);
         $this->_exportEntityFactory = $entityFactory;
         $this->_storageAdapterFactory = $storageFactory;
         $this->_configHelper = $configHelper;
-        $this->_flag = $flagFactory->create();
-        $this->_flag->loadSelf();
+        $this->_stateHelper = $stateHelper;
     }
 
     /**
@@ -86,7 +86,6 @@ class Saas_ImportExport_Model_Export extends Varien_Object
      * Export process
      *
      * @param array $params
-     * @return null
      */
     public function export($params)
     {
@@ -94,17 +93,30 @@ class Saas_ImportExport_Model_Export extends Varien_Object
         $this->_paginateCollection();
         if ($this->_isCanExport()) {
             $this->_saveHeaderColumns();
-            $this->_exportEntity->exportCollection();
+            $this->_export();
             $this->_saveExportState();
         } else {
-            $this->_setIsFinished();
+            $this->_finishExport();
+        }
+    }
+
+    /**
+     * Start exporting
+     */
+    protected function _export()
+    {
+        try {
+            $this->_exportEntity->exportCollection();
+        } catch (Exception $e) {
+            $this->_finishExport();
+            Mage::logException($e);
         }
     }
 
     /**
      * Init parameters needed for export
      *
-     * @param $params
+     * @param array $params
      */
     protected function _initParams($params)
     {
@@ -118,9 +130,10 @@ class Saas_ImportExport_Model_Export extends Varien_Object
             $this->_exportEntity->setStorageAdapter($this->_storageAdapter);
             if ($this->_getCurrentPage() == 1) {
                 $this->_storageAdapter->cleanupWorkingDir();
+                $this->_stateHelper->setTaskAsProcessing();
             }
         } catch (Exception $e) {
-            $this->_setIsFinished();
+            $this->_finishExport();
             Mage::logException($e);
         }
     }
@@ -156,7 +169,6 @@ class Saas_ImportExport_Model_Export extends Varien_Object
     {
         $headerCols = $this->_exportEntity->getHeaderCols();
         if ($this->_getCurrentPage() == 1) {
-            $this->_flag->saveAsProcessing();
             $this->_storageAdapter->setHeaderCols($headerCols);
         } else {
             $this->_storageAdapter->setHeaderColsData($headerCols);
@@ -170,12 +182,9 @@ class Saas_ImportExport_Model_Export extends Varien_Object
     {
         $countPages = $this->_exportEntity->getCollection()->getLastPageNumber();
         if ($this->_getCurrentPage() >= $countPages) {
-            $this->_setIsFinished();
-            $this->_flag->saveAsFinished();
-            $exportFile = $this->_storageAdapter->renameTemporaryFile();
-            $this->_flag->saveExportFilename($exportFile);
+            $this->_finishExport(true);
         } else {
-            $this->_flag->saveStatusMessage(ceil($this->_getCurrentPage() * 100 / $countPages) . '%');
+            $this->_stateHelper->saveTaskStatusMessage(ceil($this->_getCurrentPage() * 100 / $countPages) . '%');
         }
     }
 
@@ -210,10 +219,17 @@ class Saas_ImportExport_Model_Export extends Varien_Object
     }
 
     /**
-     * Set finished flag as true
+     * Set finished flag as true and try save export file
+     *
+     * @param bool $saveFile
      */
-    protected function _setIsFinished()
+    protected function _finishExport($saveFile = false)
     {
         $this->_finishedFlag = true;
+        $this->_stateHelper->setTaskAsFinished();
+        if ($saveFile && $this->_storageAdapter) {
+            $exportFile = $this->_storageAdapter->renameTemporaryFile();
+            $this->_stateHelper->saveExportFilename($exportFile);
+        }
     }
 }

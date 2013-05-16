@@ -18,26 +18,26 @@
         /**
          * Disable export form
          */
-        disableExport: function () {
+        disableExport: function() {
             this.exportFormEl.prop("disabled", true);
         },
         /**
          * Enable export form
          */
-        enableExport: function () {
+        enableExport: function() {
             this.exportFormEl.prop("disabled", false);
         },
         /**
          * Check export progress
          */
-        checkStatus: function() {
+        checkStatus: function(){
             var self = this,
                 ajaxParams = {
                     url: '<?php echo $this->getCheckExportUrl()?>',
                     type: 'POST',
                     dataType: 'json',
                     data: {form_key: '<?php echo $this->getFormKey()?>'},
-                    success: function (response) {
+                    success: function(response) {
                         if (response.finished) {
                             self.enableExport();
                             self.exportResultEl.html(response.html);
@@ -55,7 +55,7 @@
         }
     };
     <?php if ($this->isExportInProgress()) : ?>
-        (function ($) {
+        (function($) {
             saasExport.disableExport();
             saasExport.checkStatus();
         })(jQuery);

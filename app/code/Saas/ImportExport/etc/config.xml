@@ -74,7 +74,53 @@
                     </saas_importexport>
                 </observers>
             </process_export_customer>
+            <process_import_catalog_product>
+                <observers>
+                    <saas_importexport>
+                        <asynchronous>true</asynchronous>
+                        <class>Saas_Queue_Model_Observer_Import</class>
+                        <method>processImport</method>
+                        <params>
+                            <task_name>import_catalog_product</task_name>
+                        </params>
+                    </saas_importexport>
+                </observers>
+            </process_import_catalog_product>
+            <process_import_customer>
+                <observers>
+                    <saas_importexport>
+                        <asynchronous>true</asynchronous>
+                        <class>Saas_Queue_Model_Observer_Import</class>
+                        <method>processImport</method>
+                        <params>
+                            <task_name>import_customer</task_name>
+                        </params>
+                    </saas_importexport>
+                </observers>
+            </process_import_customer>
         </events>
+        <di>
+            <Saas_ImportExport_Helper_Import_State>
+                <parameters>
+                    <stateFlag>Saas_ImportExport_Model_Import_State_Flag</stateFlag>
+                </parameters>
+            </Saas_ImportExport_Helper_Import_State>
+            <Saas_ImportExport_Helper_Export_State>
+                <parameters>
+                    <stateFlag>Saas_ImportExport_Model_Export_State_Flag</stateFlag>
+                </parameters>
+            </Saas_ImportExport_Helper_Export_State>
+            <Saas_ImportExport_Model_System_Message_ExportFinished>
+                <parameters>
+                    <stateHelper>Saas_ImportExport_Helper_Export_State</stateHelper>
+                </parameters>
+            </Saas_ImportExport_Model_System_Message_ExportFinished>
+            <Saas_ImportExport_Model_System_Message_ImportFinished>
+                <parameters>
+                    <stateHelper>Saas_ImportExport_Helper_Import_State</stateHelper>
+                </parameters>
+            </Saas_ImportExport_Model_System_Message_ImportFinished>
+        </di>
     </global>
     <admin>
         <routers>
@@ -99,8 +145,8 @@
             <Mage_AdminNotification_Model_System_MessageList>
                 <parameters>
                     <messages>
-                        <!-- TODO: add one message for import/export -->
-                        <export_finished>Saas_ImportExport_Model_System_Message_Export</export_finished>
+                        <export_finished>Saas_ImportExport_Model_System_Message_ExportFinished</export_finished>
+                        <import_finished>Saas_ImportExport_Model_System_Message_ImportFinished</import_finished>
                     </messages>
                 </parameters>
             </Mage_AdminNotification_Model_System_MessageList>

@@ -9,6 +9,9 @@
  */
 class Saas_ImportExport_Helper_Export_Config extends Mage_Core_Helper_Abstract
 {
+    /**
+     * Default items per page
+     */
     const DEFAULT_ITEMS_PER_PAGE = 100;
 
     /**#@+
@@ -16,15 +19,6 @@ class Saas_ImportExport_Helper_Export_Config extends Mage_Core_Helper_Abstract
      */
     const XML_PATH_CONFIG_KEY_ENTITIES = 'global/importexport/export_entities';
     /**#@-*/
-
-    /**
-     * List of available mime-types
-     *
-     * @var array
-     */
-    protected $_mimeTypes = array(
-        'csv' => 'text/csv',
-    );
 
     /**
      * @var Mage_Core_Model_Config
@@ -60,16 +54,5 @@ class Saas_ImportExport_Helper_Export_Config extends Mage_Core_Helper_Abstract
     public function getStorageFilePath($entityType)
     {
         return Mage::getBaseDir('media') . DS . 'importexport' . DS . 'export' . DS . $entityType;
-    }
-
-    /**
-     * Get mime type by file extension
-     *
-     * @param string $extension
-     * @return string
-     */
-    public function getMimeTypeByExtension($extension)
-    {
-        return isset($this->_mimeTypes[$extension]) ? $this->_mimeTypes[$extension] : 'application/octet-stream';
     }
 }

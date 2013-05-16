@@ -15,21 +15,30 @@ class Saas_ImportExport_Block_Adminhtml_Export_Result extends Mage_Backend_Block
     const TIMEOUT_CHECK_EXPORT_PROGRESS = 3;
 
     /**
-     * @var Saas_ImportExport_Helper_Export
+     * @var Saas_ImportExport_Helper_Export_State
      */
-    protected $_exportHelper;
+    protected $_stateHelper;
+
+    /**
+     * @var Saas_ImportExport_Helper_Export_File
+     */
+    protected $_fileHelper;
+
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Saas_ImportExport_Helper_Export $exportHelper
+     * @param Saas_ImportExport_Helper_Export_State $stateHelper
+     * @param Saas_ImportExport_Helper_Export_File $fileHelper,
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Saas_ImportExport_Helper_Export $exportHelper,
+        Saas_ImportExport_Helper_Export_State $stateHelper,
+        Saas_ImportExport_Helper_Export_File $fileHelper,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        $this->_exportHelper = $exportHelper;
+        $this->_stateHelper = $stateHelper;
+        $this->_fileHelper = $fileHelper;
     }
 
     /**
@@ -37,7 +46,7 @@ class Saas_ImportExport_Block_Adminhtml_Export_Result extends Mage_Backend_Block
      */
     public function isExportInProgress()
     {
-        return $this->_exportHelper->isTaskAdded();
+        return $this->_stateHelper->isInProgress();
     }
 
     /**
@@ -65,7 +74,7 @@ class Saas_ImportExport_Block_Adminhtml_Export_Result extends Mage_Backend_Block
      */
     protected function _toHtml()
     {
-        if ($this->isExportInProgress() || $this->_exportHelper->isFileExist()) {
+        if ($this->isExportInProgress() || $this->_fileHelper->isExist()) {
             return parent::_toHtml();
         }
         return '';

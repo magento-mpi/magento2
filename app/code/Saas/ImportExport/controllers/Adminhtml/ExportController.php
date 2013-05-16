@@ -22,9 +22,14 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
     protected $_eventManager;
 
     /**
-     * @var Saas_ImportExport_Helper_Export
+     * @var Saas_ImportExport_Helper_Export_State
      */
-    protected $_exportHelper;
+    protected $_stateHelper;
+
+    /**
+     * @var Saas_ImportExport_Helper_Export_File
+     */
+    protected $_fileHelper;
 
     /**
      * @param Mage_Core_Controller_Request_Http $request
@@ -34,7 +39,8 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
      * @param Mage_Core_Model_Authorization $authorizationModel
      * @param Mage_Core_Model_Event_Manager $eventManager
-     * @param Saas_ImportExport_Helper_Export $exportHelper
+     * @param Saas_ImportExport_Helper_Export_State $stateHelper
+     * @param Saas_ImportExport_Helper_Export_File $fileHelper
      * @param string $areaCode
      * @param array $invokeArgs
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -47,16 +53,17 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
         Mage_Core_Model_Layout_Factory $layoutFactory,
         Mage_Core_Model_Authorization $authorizationModel,
         Mage_Core_Model_Event_Manager $eventManager,
-        Saas_ImportExport_Helper_Export $exportHelper,
+        Saas_ImportExport_Helper_Export_State $stateHelper,
+        Saas_ImportExport_Helper_Export_File $fileHelper,
         $areaCode = null,
         array $invokeArgs = array()
     ) {
         parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $areaCode,
-            $invokeArgs
-        );
+            $invokeArgs);
         $this->_authorizationModel = $authorizationModel;
         $this->_eventManager = $eventManager;
-        $this->_exportHelper = $exportHelper;
+        $this->_stateHelper = $stateHelper;
+        $this->_fileHelper = $fileHelper;
     }
 
     /**
@@ -81,6 +88,24 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
     }
 
     /**
+     * Redirect on index page if export is in progress
+     *
+     * @return Saas_ImportExport_Adminhtml_ImportController
+     */
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        if ($this->getRequest()->isDispatched()
+            && $this->_stateHelper->isInProgress()
+            && $this->getRequest()->getActionName() !== 'check') {
+            $this->_getSession()->addError($this->__('Another export is in progress'));
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            return $this->_redirect('*/*/index');
+        }
+        return $this;
+    }
+
+    /**
      * Add task to queue for processing export
      *
      * @return Saas_ImportExport_Adminhtml_ExportController
@@ -90,14 +115,9 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
     {
         if ($this->getRequest()->getPost(Mage_ImportExport_Model_Export::FILTER_ELEMENT_GROUP)) {
             try {
-                if ($this->_exportHelper->isTaskAdded()) {
-                    throw new Mage_Core_Exception($this->__('Export task has been already added to queue'));
-                }
-                $this->_exportHelper->setTaskAsQueued();
+                $this->_stateHelper->setTaskAsQueued();
                 $this->_eventManager->dispatch($this->_getEventName(), array('export_params' => $this->getRequest()->getParams()));
                 $this->_getSession()->addSuccess($this->__('Export task has been added to queue'));
-            } catch (Mage_Core_Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
                 $this->_getSession()->addError($this->__('No valid data sent'));
@@ -115,20 +135,25 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
      */
     public function downloadAction()
     {
-        if ($this->_exportHelper->isTaskAdded()) {
-            $this->_getSession()->addError($this->__('Another export is in progress'));
-            $this->_redirect('*/*/index');
-            return;
-        }
-        if (!$this->_exportHelper->isFileExist()) {
+        if (!$this->_fileHelper->isExist()) {
             $this->_getSession()->addError($this->__('Export file does not exist'));
             $this->_redirect('*/*/index');
             return;
         }
-        $this->_prepareDownloadResponse($this->_exportHelper->getFileDownloadName(), array(
-            'type'  => 'filename',
-            'value' => $this->_exportHelper->getFilePath(),
-        ), $this->_exportHelper->getFileMimeType());
+        try {
+            $this->_prepareDownloadResponse($this->_fileHelper->getDownloadName(), array(
+                'type'  => 'filename',
+                'value' => $this->_fileHelper->getPath(),
+            ), $this->_fileHelper->getMimeType());
+        } catch (Magento_Filesystem_Exception $fe) {
+            $this->_getSession()->addError($this->__('Export file does not exist'));
+            $this->_fileHelper->removeLastExportFile();
+            $this->_redirect('*/*/index');
+        } catch (Exception $e) {
+            Mage::logException($e);
+            $this->_getSession()->addError($this->__('Cannot download file'));
+            $this->_redirect('*/*/index');
+        }
     }
 
     /**
@@ -138,13 +163,8 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
      */
     public function removeAction()
     {
-        if ($this->_exportHelper->isTaskAdded()) {
-            $this->_getSession()->addError($this->__('Another export is in progress'));
-            $this->_redirect('*/*/index');
-            return;
-        }
         try {
-            $this->_exportHelper->removeLastExportFile();
+            $this->_fileHelper->removeLastExportFile();
             $this->_getSession()->addSuccess($this->__('Export file has been removed'));
         } catch (Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -157,22 +177,14 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
      */
     public function checkAction()
     {
-        $res = array(
-            'finished' => false
-        );
-        if ($this->_exportHelper->isTaskAdded()) {
-            if ($this->_exportHelper->isProcessMaxLifetimeReached()) {
-                $this->_exportHelper->removeTask();
-                $res['finished'] = true;
-                $res['html'] = $this->__('An error has occurred during export. Please try again later.');
-            } else {
-                $res['message'] = $this->_exportHelper->getTaskStatusMessage();
-            }
+        $res = array('finished' => false);
+        if ($this->_stateHelper->isInProgress()) {
+                $res['message'] = $this->_stateHelper->getTaskStatusMessage();
         } else {
             $res['finished'] = true;
             $res['html'] = $this->_getExportInfoHtml();
-//          do not show message about finish file exporting
-            $this->_exportHelper->setTaskAsNotified();
+//          do not show "export finished" message
+            $this->_stateHelper->setTaskAsNotified();
         }
         $this->_endAjax($res);
     }
@@ -196,10 +208,14 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
     protected function _getEventName()
     {
         $entity = $this->getRequest()->getParam('entity');
-        if ($entity == 'customer_address') {
-            $entity = 'customer';
+        if ($entity == 'catalog_product') {
+            $taskName = 'export_catalog_product';
+        } elseif (in_array($entity, array('customer', 'customer_address'))) {
+            $taskName = 'export_customer';
+        } else {
+            $taskName = '';
         }
-        return 'process_export_' . $entity;
+        return 'process_' . $taskName;
     }
 
     /**

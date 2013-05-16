@@ -18,4 +18,9 @@
             </block>
         </reference>
     </adminhtml_export_index>
+    <adminhtml_import_busy>
+        <reference name="content">
+            <block type="Mage_Core_Block_Template" template="Saas_ImportExport::import/busy.phtml" name="busy" alias="busy"/>
+        </reference>
+    </adminhtml_import_busy>
 </layout>

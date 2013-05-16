@@ -10,22 +10,22 @@
 class Saas_ImportExport_Block_Adminhtml_Export_Result_Download extends Mage_Backend_Block_Widget_Container
 {
     /**
-     * @var Saas_ImportExport_Helper_Export
+     * @var Saas_ImportExport_Helper_Export_File
      */
-    protected $_exportHelper;
+    protected $_fileHelper;
 
     /**
      * @param Mage_Core_Block_Template_Context $context
-     * @param Saas_ImportExport_Helper_Export $exportHelper
+     * @param Saas_ImportExport_Helper_Export_File $fileHelper
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Saas_ImportExport_Helper_Export $exportHelper,
+        Saas_ImportExport_Helper_Export_File $fileHelper,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        $this->_exportHelper = $exportHelper;
+        $this->_fileHelper = $fileHelper;
     }
 
     /**
@@ -77,7 +77,7 @@ class Saas_ImportExport_Block_Adminhtml_Export_Result_Download extends Mage_Back
      */
     public function getFileName()
     {
-        return $this->isFileReady() ? $this->_exportHelper->getFileDownloadName() : '';
+        return $this->isFileReady() ? $this->_fileHelper->getDownloadName() : '';
     }
 
     /**
@@ -87,7 +87,7 @@ class Saas_ImportExport_Block_Adminhtml_Export_Result_Download extends Mage_Back
      */
     public function isFileReady()
     {
-        return (bool)$this->_exportHelper->isFileExist();
+        return (bool)$this->_fileHelper->isExist();
 
     }
 }
