@@ -55,7 +55,7 @@ class Magento_Code_MinifierTest extends PHPUnit_Framework_TestCase
         $originalFile = __DIR__ . '/original/some.js';
         $expectedMinifiedFile = __DIR__ . '/original/some.min.js';
 
-        $this->_filesystem->expects($this->any())
+        $this->_filesystem->expects($this->once())
             ->method('has')
             ->with($expectedMinifiedFile)
             ->will($this->returnValue(true));
