@@ -32,9 +32,6 @@ class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
     /** @var  Mage_Core_Model_Dataservice_Path_Navigator */
     protected $_pathNavigatorMock;
 
-    /** @var  Mage_Core_Model_Dataservice_Repository */
-    protected $_repositoryMock;
-
     protected $_dataserviceMock;
 
     public function retrieveMethod()
@@ -53,29 +50,28 @@ class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
         );
         $this->_pathNavigatorMock = $this->getMockBuilder('Mage_Core_Model_Dataservice_Path_Navigator')
             ->disableOriginalConstructor()->getMock();
-        $this->_repositoryMock = $this->getMock('Mage_Core_Model_Dataservice_Repository', array(), array(), "", false);
         $this->_factory = new Mage_Core_Model_Dataservice_Factory(
             $this->_configMock,
             $this->_objectManagerMock,
             $this->_compositeMock,
-            $this->_pathNavigatorMock,
-            $this->_repositoryMock);
+            $this->_pathNavigatorMock);
         $this->_dataserviceMock = (object)array();
     }
 
-    public function testInit()
+    public function testGetArgumentValue()
     {
-        $this->_repositoryMock->expects($this->once())->method('addNameInNamespace')->with(
-            self::TEST_NAMESPACE,
-            self::TEST_DATA_SERVICE_NAME,
-            self::TEST_NAMESPACE_ALIAS
+        $path = 'path';
+        $result = 'result';
+        $pathArray = array($path);
+        $this->_pathNavigatorMock->expects($this->once())->method('search')->with($this->_compositeMock, $pathArray)
+            ->will(
+            $this->returnValue($result)
         );
-        $namespaceConfig
-            = array('namespaces' => array(self::TEST_NAMESPACE =>
-                                          Mage_Core_Model_Dataservice_FactoryTest::TEST_NAMESPACE_ALIAS));
-        $this->_repositoryMock->expects($this->once())->method("get")->with(
-            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
-        )->will($this->returnValue(null));
+        $this->assertEquals($result, $this->_factory->getArgumentValue($path));
+    }
+
+    public function testInitDataService()
+    {
         $classInformation = array('class'          => self::TEST_CLASS_NAME,
                                   'retrieveMethod' => 'retrieveMethod', 'methodArguments' => array());
         $this->_configMock->expects($this->once())->method("getClassByAlias")->with(
@@ -84,49 +80,6 @@ class Mage_Core_Model_Dataservice_FactoryTest extends PHPUnit_Framework_TestCase
         $this->_objectManagerMock->expects($this->once())->method("create")->with(
             $this->equalTo(self::TEST_CLASS_NAME)
         )->will($this->returnValue($this));
-        $this->_repositoryMock->expects($this->once())->method("add")->with(
-            $this->equalTo(self::TEST_DATA_SERVICE_NAME),
-            $this->equalTo($this->_dataserviceMock)
-        );
-        $this->_factory->init(
-            array(self::TEST_DATA_SERVICE_NAME => $namespaceConfig)
-        );
-    }
-
-    public function testGet()
-    {
-        $this->_dataserviceMock = (object)array();
-        $this->_repositoryMock->expects($this->at(0))->method("get")->with(
-            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
-        )->will($this->returnValue(null));
-        $this->_repositoryMock->expects($this->at(1))->method("get")->with(
-            $this->equalTo(self::TEST_DATA_SERVICE_NAME)
-        )->will($this->returnValue($this->_dataserviceMock));
-        $this->assertEquals(
-            $this->_dataserviceMock,
-            $this->_factory->get(self::TEST_DATA_SERVICE_NAME)
-        );
-    }
-
-    public function testGetByNamespace()
-    {
-        $this->_repositoryMock->expects($this->once())->method('getByNamespace')->with(
-            self::TEST_NAMESPACE
-        )->will($this->returnValue(self::TEST_DATA_SERVICE_NAME));
-        $this->assertEquals(
-            self::TEST_DATA_SERVICE_NAME,
-            $this->_factory->getByNamespace(self::TEST_NAMESPACE)
-        );
-    }
-
-    public function testGetArgumentValue()
-    {
-        $path = 'path';
-        $result = 'result';
-        $pathArray = array($path);
-        $this->_pathNavigatorMock->expects($this->once())->method('search')->with($this->_compositeMock, $pathArray)->will(
-            $this->returnValue($result)
-        );
-        $this->assertEquals($result, $this->_factory->getArgumentValue($path));
+        $this->assertSame($this->_dataserviceMock, $this->_factory->initDataService(self::TEST_DATA_SERVICE_NAME));
     }
 }

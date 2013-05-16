@@ -18,9 +18,6 @@ class Mage_Core_Model_Dataservice_Factory
      */
     protected $_objectManager;
 
-    /** @var Mage_Core_Model_Dataservice_Repository */
-    protected $_repository;
-
     /** @var Mage_Core_Model_Dataservice_Path_Composite */
     protected $_composite;
 
@@ -38,36 +35,13 @@ class Mage_Core_Model_Dataservice_Factory
         Mage_Core_Model_Dataservice_Config_Interface $config,
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Dataservice_Path_Composite $composite,
-        Mage_Core_Model_Dataservice_Path_Navigator $pathNavigator,
-        Mage_Core_Model_Dataservice_Repository $repository
+        Mage_Core_Model_Dataservice_Path_Navigator $pathNavigator
     )
     {
         $this->_config = $config;
         $this->_objectManager = $objectManager;
         $this->_composite = $composite;
         $this->_pathNavigator = $pathNavigator;
-        $this->_repository = $repository;
-    }
-
-    /**
-     * takes array of the following structure
-     * and initializes all of the data sources
-     *
-     *  array(dataServiceName => array(
-     *      blocks => array(
-     *          'namespace' => aliasInNamespace
-     *      ))
-     *
-     * @param array $dataServicesList
-     * @return Mage_Core_Model_Dataservice_Factory
-     */
-    public function init(array $dataServicesList)
-    {
-        foreach ($dataServicesList as $dataServiceName => $namespaceConfig) {
-            $this->initDataService($dataServiceName);
-            $this->assignToNamespace($dataServiceName, $namespaceConfig);
-        }
-        return $this;
     }
 
     /**
@@ -78,27 +52,13 @@ class Mage_Core_Model_Dataservice_Factory
      */
     public function initDataService($sourceName)
     {
-        if (($dataService = $this->getRepository()->get($sourceName)) !== null) {
-            return $dataService;
-        }
         $classInformation = $this->getConfig()->getClassByAlias($sourceName);
         $instance = $this->_objectManager->create($classInformation['class']);
         $dataService = $this->_applyMethod(
             $instance, $classInformation['retrieveMethod'],
             $classInformation['methodArguments']
         );
-        $this->getRepository()->add($sourceName, $dataService);
         return $dataService;
-    }
-
-    /**
-     * Retrieve repository for the data from service calls
-     *
-     * @return array|Mage_Core_Model_Dataservice_Repository
-     */
-    public function getRepository()
-    {
-        return $this->_repository;
     }
 
     /**
@@ -154,49 +114,5 @@ class Mage_Core_Model_Dataservice_Factory
         // convert from '{parent.child}' format to array('parent', 'child') format
         $pathArray = explode(self::DATASERVICE_PATH_SEPERATOR, trim($path, '{}'));
         return $this->_pathNavigator->search($this->_composite, $pathArray);
-    }
-
-    /**
-     * Assign service call name to the namespace
-     *
-     * @param $dataServiceName
-     * @param $namespaceConfig
-     * @throws Exception
-     */
-    public function assignToNamespace($dataServiceName, $namespaceConfig)
-    {
-        if (!isset($namespaceConfig['namespaces'])) {
-            throw new Exception("Data reference configuration doesn't have a block to link to");
-        }
-        foreach ($namespaceConfig['namespaces'] as $namespaceName => $aliasInNamespace) {
-            $this->getRepository()->addNameInNamespace($namespaceName, $dataServiceName, $aliasInNamespace);
-        }
-    }
-
-    /**
-     * Retrieve all data for the service calls for particular namespace
-     *
-     * @param $namespace
-     * @return mixed
-     */
-    public function getByNamespace($namespace)
-    {
-        $dataServices = $this->getRepository()->getByNamespace($namespace);
-        return $dataServices;
-    }
-
-    /**
-     * Retrieve the data or the service call based on its name
-     *
-     * @param $sourceName
-     * @return bool|mixed
-     */
-    public function get($sourceName)
-    {
-        $dataService = $this->getRepository()->get($sourceName);
-        if ($dataService == null) {
-            $dataService = $this->initDataService($sourceName);
-        }
-        return $dataService;
     }
 }
