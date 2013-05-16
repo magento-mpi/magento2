@@ -16,10 +16,10 @@
 <?php if ($this->getFilesCount() > 0): ?>
 
     <div name="css-editor">
-        <?php if ($this->getStorageType() == 'font'): ?>
+        <?php if ($this->getStorageType() == Mage_Theme_Model_Wysiwyg_Storage::TYPE_FONT): ?>
             <div class="uploader">
                 <?php foreach ($this->getFiles() as $file): ?>
-                <div class="clear"></div>
+                    <div class="clear"></div>
                     <div class="file-row filecnt file-font" id="<?php echo $file['id'] ?>">
                         <span class="file-info-name">
                             <?php echo $file['text'] ?>
@@ -35,7 +35,6 @@
                             </a>
                         </span>
                     </div>
-                </div>
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
