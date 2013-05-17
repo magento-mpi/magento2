@@ -36,7 +36,7 @@ class Mage_Catalog_CategoryControllerTest extends Magento_Test_TestCase_Controll
                     'categorypath-category-1-category-1-1-category-1-1-1-html',
                     'category-category-1-1-1',
                     '<title>Category 1.1.1 - Category 1.1 - Category 1</title>',
-                    '<h1>Category 1.1.1</h1>',
+                    '<h1%S>%SCategory 1.1.1%S</h1>',
                     'Simple Product Two',
                     '$45.67',
                 ),
@@ -51,7 +51,7 @@ class Mage_Catalog_CategoryControllerTest extends Magento_Test_TestCase_Controll
                     'categorypath-category-1-category-1-1-html',
                     'category-category-1-1',
                     '<title>Category 1.1 - Category 1</title>',
-                    '<h1>Category 1.1</h1>',
+                    '<h1%S>%SCategory 1.1%S</h1>',
                     'Simple Product',
                     '$10.00',
                     'Simple Product Two',
@@ -86,7 +86,7 @@ class Mage_Catalog_CategoryControllerTest extends Magento_Test_TestCase_Controll
 
         /* Response content */
         foreach ($expectedContent as $expectedText) {
-            $this->assertContains($expectedText, $responseBody);
+            $this->assertStringMatchesFormat($expectedText, $responseBody);
         }
 
         $actualProductCount = substr_count($responseBody, '<h2 class="product-name">');
