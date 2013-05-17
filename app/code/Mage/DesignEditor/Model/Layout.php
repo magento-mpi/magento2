@@ -102,7 +102,10 @@ class Mage_DesignEditor_Model_Layout extends Mage_Core_Model_Layout
         $area = Mage_Core_Model_Design_PackageInterface::DEFAULT_AREA
     ) {
         $this->_helper       = $helper;
-        parent::__construct($blockFactory, $structure, $argumentProcessor, $translator, $scheduledStructure, $graph, $area);
+        parent::__construct(
+            $blockFactory,
+            $structure, $argumentProcessor, $translator, $scheduledStructure, $graph, $area
+        );
     }
 
     /**
