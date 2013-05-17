@@ -159,10 +159,6 @@ strong {
   list-style-type: none;
 }
 /*
- *    Global Properties
- *
------------------------------------------------------------------------------ */
-/*
  *    Forms
  *
 ----------------------------------------------------------------------------- */
@@ -707,8 +703,8 @@ h6 {
 .page.bottom .place.locator {
   display: inline;
   float: left;
-  width: 16.666666666666664%;
-  margin: 0 0%;
+  width: 140px;
+  margin: 0 10px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -742,8 +738,8 @@ h6 {
 .page.bottom .place.blog {
   display: inline;
   float: left;
-  width: 16.666666666666664%;
-  margin: 0 0%;
+  width: 140px;
+  margin: 0 10px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -816,8 +812,8 @@ h6 {
 .page.bottom .place.communication {
   display: inline;
   float: left;
-  width: 33.33333333333333%;
-  margin: 0 0%;
+  width: 300px;
+  margin: 0 10px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -895,8 +891,8 @@ h6 {
 .page.bottom .place.info {
   display: inline;
   float: left;
-  width: 33.33333333333333%;
-  margin: 0 0%;
+  width: 300px;
+  margin: 0 10px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -3971,8 +3967,8 @@ select:disabled {
 .block.related .products.list .item.product {
   display: inline;
   float: left;
-  width: 33.33333333333333%;
-  margin: 0 0%;
+  width: 300px;
+  margin: 0 10px;
   display: inline-block;
   vertical-align: top;
   -webkit-box-sizing: border-box;
@@ -4054,8 +4050,8 @@ select:disabled {
 .block.crosssell .products.list.items.crosssell .item.product {
   display: inline;
   float: left;
-  width: 16.666666666666664%;
-  margin: 0 0%;
+  width: 140px;
+  margin: 0 10px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -4095,8 +4091,8 @@ select:disabled {
 .block.widget.viewed .products.list.items.widget-viewed-list .item.product {
   display: inline;
   float: left;
-  width: 100%;
-  margin: 0 0%;
+  width: 940px;
+  margin: 0 10px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -4782,8 +4778,8 @@ select:disabled {
 .col2-right-layout .widget.viewed.grid .products.list .item.product {
   display: inline;
   float: left;
-  width: 25%;
-  margin: 0 0%;
+  width: 220px;
+  margin: 0 10px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -4796,8 +4792,8 @@ select:disabled {
 .col3-layout .widget.viewed.grid .products.list .item.product {
   display: inline;
   float: left;
-  width: 33.33333333333333%;
-  margin: 0 0%;
+  width: 300px;
+  margin: 0 10px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -5582,8 +5578,8 @@ select:disabled {
 .temp-upsell-placeholder {
   display: inline;
   float: left;
-  width: 100%;
-  margin: 0 0%;
+  width: 940px;
+  margin: 0 10px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -7519,8 +7515,8 @@ img[align="right"] {
 .home.banners .banner.link {
   display: inline;
   float: left;
-  width: 25%;
-  margin: 0 0%;
+  width: 220px;
+  margin: 0 10px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
