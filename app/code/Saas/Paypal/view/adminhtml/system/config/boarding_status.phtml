@@ -121,6 +121,7 @@ if (!FormElementDependenceController.prototype.redefined) {
                         && !(currentConfig.can_edit_price != undefined && !currentConfig.can_edit_price)) {
                         $(item).addClassName('fd-enabled');
                         item.disabled = false;
+                        jQuery(item).removeClass('ignore-validate');
                     }
                 });
             }
@@ -133,7 +134,9 @@ if (!FormElementDependenceController.prototype.redefined) {
                 }
             } else {
                 $(idTo).show();
-                $(idTo).disabled = false;
+                if ($(idTo).tagName.toLowerCase() in ['input', 'select']) {
+                    $(idTo).disabled = false;
+                }
             }
         } else {
             if ($(idTo).select('input', 'select', 'td')) {
@@ -142,6 +145,7 @@ if (!FormElementDependenceController.prototype.redefined) {
                     if ((!item.type || item.type != 'hidden') && !($(item.id+'_inherit') && $(item.id+'_inherit').checked)) {
                         $(item).removeClassName('fd-enabled');
                         item.disabled = true;
+                        jQuery(item).addClass('ignore-validate');
                     }
                 });
             }
@@ -149,9 +153,16 @@ if (!FormElementDependenceController.prototype.redefined) {
                 headElement.hide();
             }
             $(idTo).hide();
-            $(idTo).disabled = true;
+
+            if ($(idTo).tagName.toLowerCase() in ['input', 'select']) {
+                $(idTo).disabled = true;
+            }
+
         }
         var rowElement = $('row_' + idTo);
+        if (rowElement == undefined) {
+            rowElement = $(idTo).up(this._config.levels_up);
+        }
         if (rowElement) {
             if (shouldShowUp) {
                 rowElement.show();
