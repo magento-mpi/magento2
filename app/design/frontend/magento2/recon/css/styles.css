@@ -7007,6 +7007,28 @@ img[align="right"] {
   color: #cd2d2d;
 }
 /* Address book */
+.customer-address-index .action.add {
+  border: none;
+  border-radius: 0;
+  background: #ae1523;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.customer-address-index .action.add:hover,
+.customer-address-index .action.add:active {
+  background: #d74957;
+}
+.customer-address-index .action.add span {
+  font-size: 14px;
+  font-weight: 700;
+  font-style: italic;
+  color: #ffffff;
+  text-transform: uppercase;
+  line-height: 1;
+}
 .block.addresses:not(.dashboard) {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
