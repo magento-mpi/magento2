@@ -17,8 +17,8 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_adapters = array(
-        Varien_Image_Adapter::ADAPTER_GD2,
-        Varien_Image_Adapter::ADAPTER_IM
+        Mage_Core_Model_Image_AdapterFactory::ADAPTER_GD2,
+        Mage_Core_Model_Image_AdapterFactory::ADAPTER_IM
     );
 
     /**
@@ -30,9 +30,10 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     protected function _prepareData($data)
     {
         $result = array();
+        $objectManager = Mage::getObjectManager();
         foreach ($this->_adapters as $adapter) {
             foreach ($data as $row) {
-                $row[] = Varien_Image_Adapter::factory($adapter);
+                $row[] = $objectManager->get('Mage_Core_Model_Image_AdapterFactory')->create($adapter);
                 $result[] = $row;
             }
         }
@@ -136,9 +137,10 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
 
     public function adaptersDataProvider()
     {
+        $objectManager = Mage::getObjectManager();
         $data = array();
         foreach ($this->_adapters as $adapter) {
-            $data[] = array(Varien_Image_Adapter::factory($adapter));
+            $data[] = array($objectManager->get('Mage_Core_Model_Image_AdapterFactory')->create($adapter));
         }
         return $data;
     }
@@ -595,35 +597,57 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      */
     public function createPngFromStringDataProvider()
     {
+        $objectManager = Mage::getObjectManager();
         return array(
             array(
                 array('x' => 5, 'y' => 8),
                 'expectedColor1' => array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0),
                 array('x' => 0, 'y' => 15),
                 'expectedColor2' => array('red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 127),
-                Varien_Image_Adapter::factory(Varien_Image_Adapter::ADAPTER_GD2)
+                $objectManager->get('Mage_Core_Model_Image_AdapterFactory')
+                    ->create(Mage_Core_Model_Image_AdapterFactory::ADAPTER_GD2),
             ),
             array(
                 array('x' => 4, 'y' => 7),
                 'expectedColor1' => array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0),
                 array('x' => 0, 'y' => 15),
                 'expectedColor2' => array('red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 127),
-                Varien_Image_Adapter::factory(Varien_Image_Adapter::ADAPTER_IM)
+                $objectManager->get('Mage_Core_Model_Image_AdapterFactory')
+                    ->create(Mage_Core_Model_Image_AdapterFactory::ADAPTER_IM),
             ),
             array(
                 array('x' => 1, 'y' => 14),
                 'expectedColor1' => array('red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 127),
                 array('x' => 5, 'y' => 12),
                 'expectedColor2' => array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0),
-                Varien_Image_Adapter::factory(Varien_Image_Adapter::ADAPTER_GD2)
+                $objectManager->get('Mage_Core_Model_Image_AdapterFactory')
+                    ->create(Mage_Core_Model_Image_AdapterFactory::ADAPTER_GD2),
             ),
             array(
                 array('x' => 1, 'y' => 14),
                 'expectedColor1' => array('red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 127),
                 array('x' => 4, 'y' => 10),
                 'expectedColor2' => array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0),
-                Varien_Image_Adapter::factory(Varien_Image_Adapter::ADAPTER_IM)
+                $objectManager->get('Mage_Core_Model_Image_AdapterFactory')
+                    ->create(Mage_Core_Model_Image_AdapterFactory::ADAPTER_IM),
             ),
         );
+    }
+
+    public function testValidateUploadFile()
+    {
+        $objectManager = Mage::getObjectManager();
+        $imageAdapter = $objectManager->get('Mage_Core_Model_Image_AdapterFactory')->create();
+        $this->assertTrue($imageAdapter->validateUploadFile($this->_getFixture('magento_thumbnail.jpg')));
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testValidateUploadFileException()
+    {
+        $objectManager = Mage::getObjectManager();
+        $imageAdapter = $objectManager->get('Mage_Core_Model_Image_AdapterFactory')->create();
+        $imageAdapter->validateUploadFile(__FILE__);
     }
 }

@@ -22,8 +22,8 @@ class Mage_Adminhtml_Catalog_Product_GalleryController extends Mage_Adminhtml_Co
         try {
             $uploader = Mage::getModel('Mage_Core_Model_File_Uploader', array('fileId' => 'image'));
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
-            $uploader->addValidateCallback('catalog_product_image',
-                Mage::helper('Mage_Catalog_Helper_Image'), 'validateUploadFile');
+            $imageAdapter = $this->_objectManager->get('Mage_Core_Model_Image_AdapterFactory')->create();
+            $uploader->addValidateCallback('catalog_product_image', $imageAdapter, 'validateUploadFile');
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
             $result = $uploader->save(
