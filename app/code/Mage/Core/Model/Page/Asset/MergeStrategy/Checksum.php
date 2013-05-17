@@ -47,7 +47,7 @@ class Mage_Core_Model_Page_Asset_MergeStrategy_Checksum implements Mage_Core_Mod
             $filesMTimeData .= $this->_filesystem->getMTime($file);
         }
         if (!($this->_filesystem->has($destinationFile) && $this->_filesystem->has($mergedMTimeFile)
-            && ($filesMTimeData == $this->_filesystem->read($mergedMTimeFile)))
+            && (strcmp($filesMTimeData, $this->_filesystem->read($mergedMTimeFile)) == 0))
         ) {
             $this->_strategy->mergeFiles($publicFiles, $destinationFile, $contentType);
             $this->_filesystem->write($mergedMTimeFile, $filesMTimeData);
