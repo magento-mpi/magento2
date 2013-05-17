@@ -72,14 +72,25 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
         );
         $config = new Saas_Saas_Model_Tenant_Config(__DIR__, $configData);
         $result = $config->getApplicationParams();
+
         $this->assertArrayHasKey(Mage::PARAM_APP_DIRS, $result);
         $this->assertArrayHasKey(Mage_Core_Model_Dir::MEDIA, $result[Mage::PARAM_APP_DIRS]);
         $this->assertContains('media_dir', $result[Mage::PARAM_APP_DIRS][Mage_Core_Model_Dir::MEDIA]);
+        $this->assertArrayHasKey(Mage_Core_Model_Dir::STATIC_VIEW, $result[Mage::PARAM_APP_DIRS]);
+        $this->assertContains('skin', $result[Mage::PARAM_APP_DIRS][Mage_Core_Model_Dir::STATIC_VIEW]);
         $this->assertArrayHasKey(Mage_Core_Model_Dir::VAR_DIR, $result[Mage::PARAM_APP_DIRS]);
         $this->assertContains('media_dir', $result[Mage::PARAM_APP_DIRS][Mage_Core_Model_Dir::VAR_DIR]);
+        $this->assertArrayHasKey(Mage_Core_Model_Dir::PUB_VIEW_CACHE, $result[Mage::PARAM_APP_DIRS]);
+        $this->assertContains('media_dir', $result[Mage::PARAM_APP_DIRS][Mage_Core_Model_Dir::PUB_VIEW_CACHE]);
+
         $this->assertArrayHasKey(Mage::PARAM_APP_URIS, $result);
         $this->assertArrayHasKey(Mage_Core_Model_Dir::MEDIA, $result[Mage::PARAM_APP_URIS]);
         $this->assertContains('media_dir', $result[Mage::PARAM_APP_URIS][Mage_Core_Model_Dir::MEDIA]);
+        $this->assertArrayHasKey(Mage_Core_Model_Dir::STATIC_VIEW, $result[Mage::PARAM_APP_URIS]);
+        $this->assertContains('skin', $result[Mage::PARAM_APP_URIS][Mage_Core_Model_Dir::STATIC_VIEW]);
+        $this->assertArrayHasKey(Mage_Core_Model_Dir::PUB_VIEW_CACHE, $result[Mage::PARAM_APP_URIS]);
+        $this->assertContains('media_dir', $result[Mage::PARAM_APP_URIS][Mage_Core_Model_Dir::PUB_VIEW_CACHE]);
+
         $this->assertArrayHasKey(Mage::PARAM_CUSTOM_LOCAL_CONFIG, $result);
         $this->assertContains('<Saas>', $result[Mage::PARAM_CUSTOM_LOCAL_CONFIG]);
     }
