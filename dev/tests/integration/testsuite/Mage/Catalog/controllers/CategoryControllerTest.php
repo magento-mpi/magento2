@@ -33,12 +33,12 @@ class Mage_Catalog_CategoryControllerTest extends Magento_Test_TestCase_Controll
                     'catalog_category_view_type_default_without_children',
                 ),
                 array(
-                    '%scategorypath-category-1-category-1-1-category-1-1-1-html%a',
-                    '%scategory-category-1-1-1%a',
-                    '%s<title>Category 1.1.1 - Category 1.1 - Category 1</title>%a',
-                    '%s<h1%S>%SCategory 1.1.1%S</h1>%a',
-                    '%sSimple Product Two%a',
-                    '%s$45.67%a',
+                    '%acategorypath-category-1-category-1-1-category-1-1-1-html%a',
+                    '%acategory-category-1-1-1%a',
+                    '%a<title>Category 1.1.1 - Category 1.1 - Category 1</title>%a',
+                    '%a<h1%S>%SCategory 1.1.1%S</h1>%a',
+                    '%aSimple Product Two%a',
+                    '%a$45.67%a',
                 ),
             ),
             'anchor category' => array(
@@ -48,14 +48,14 @@ class Mage_Catalog_CategoryControllerTest extends Magento_Test_TestCase_Controll
                     'catalog_category_view_type_layered',
                 ),
                 array(
-                    '%scategorypath-category-1-category-1-1-html%a',
-                    '%scategory-category-1-1%a',
-                    '%s<title>Category 1.1 - Category 1</title>%a',
-                    '%s<h1%S>%SCategory 1.1%S</h1>%a',
-                    '%sSimple Product%a',
-                    '%s$10.00%a',
-                    '%sSimple Product Two%a',
-                    '%s$45.67%a',
+                    '%acategorypath-category-1-category-1-1-html%a',
+                    '%acategory-category-1-1%a',
+                    '%a<title>Category 1.1 - Category 1</title>%a',
+                    '%a<h1%S>%SCategory 1.1%S</h1>%a',
+                    '%aSimple Product%a',
+                    '%a$10.00%a',
+                    '%aSimple Product Two%a',
+                    '%a$45.67%a',
                 ),
             ),
         );
@@ -88,9 +88,6 @@ class Mage_Catalog_CategoryControllerTest extends Magento_Test_TestCase_Controll
         foreach ($expectedContent as $expectedText) {
             $this->assertStringMatchesFormat($expectedText, $responseBody);
         }
-
-        $actualProductCount = substr_count($responseBody, '<h2 class="product-name">');
-        $this->assertEquals($expectedProductCount, $actualProductCount, 'Number of products on the page.');
     }
 
     public function testViewActionNoCategoryId()
