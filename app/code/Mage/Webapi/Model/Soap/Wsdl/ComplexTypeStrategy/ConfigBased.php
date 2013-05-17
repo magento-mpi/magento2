@@ -64,6 +64,12 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
             return $soapType;
         }
 
+        // TODO: Temporary error-preventive measure
+        $typeData = $this->_config->getTypeData($type);
+        if (!isset($typeData['parameters'])) {
+            throw new LogicException("Type definition is invalid: $type");
+        }
+
         /** @var DOMDocument $dom */
         $dom = $this->getContext()->toDomDocument();
         $this->_dom = $dom;
@@ -74,7 +80,6 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
 
         $complexType = $this->_dom->createElement(Wsdl::XSD_NS . ':complexType');
         $complexType->setAttribute('name', $type);
-        $typeData = $this->_config->getTypeData($type);
         if (isset($typeData['documentation'])) {
             $this->addAnnotation($complexType, $typeData['documentation']);
         }

@@ -48,6 +48,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
             'str' => 'string',
             'integer' => 'int',
             'bool' => 'boolean',
+            'mixed' => 'anyType' // TODO: Temporary solution
         );
 
         return isset($normalizationMap[$type]) ? $normalizationMap[$type] : $type;
@@ -65,7 +66,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
             $type = $this->getArrayItemType($type);
         }
 
-        return in_array($type, array('string', 'int', 'float', 'double', 'boolean'));
+        return in_array($type, array('string', 'int', 'float', 'double', 'boolean', 'anyType' /** TODO: Temporary solution */));
     }
 
     /**

@@ -19,12 +19,14 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     const WSDL_CACHE_ID = 'WSDL';
 
     /**
-     * API Resource config instance.
+     * API config instance.
      * Used to retrieve complex types data.
      *
-     * @var Mage_Webapi_Model_Config_Soap
+     * @var Mage_Webapi_Config
      */
     protected $_apiConfig;
+
+    protected $_newApiConfig;
 
     /**
      * WSDL factory instance.
@@ -41,26 +43,34 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     /** @var Mage_Core_Model_CacheInterface */
     protected $_cache;
 
+    /** @var Mage_Core_Service_ObjectManager */
+    protected $_serviceObjectManager;
+
     /**
      * Construct auto discover with resource config and list of requested resources.
      *
-     * @param Mage_Webapi_Model_Config_Soap $apiConfig
+     * @param Mage_Webapi_Config $apiConfig
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
      * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Core_Model_CacheInterface $cache
+     * @param Mage_Core_Service_ObjectManager $serviceObjectManager
      *
      * @throws InvalidArgumentException
      */
     public function __construct(
+        Mage_Webapi_Config $newApiConfig,
         Mage_Webapi_Model_Config_Soap $apiConfig,
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
         Mage_Webapi_Helper_Config $helper,
-        Mage_Core_Model_CacheInterface $cache
+        Mage_Core_Model_CacheInterface $cache,
+        Mage_Core_Service_ObjectManager $serviceObjectManager
     ) {
         $this->_apiConfig = $apiConfig;
+        $this->_newApiConfig = $newApiConfig;
         $this->_wsdlFactory = $wsdlFactory;
         $this->_helper = $helper;
         $this->_cache = $cache;
+        $this->_serviceObjectManager = $serviceObjectManager;
     }
 
     /**
@@ -84,14 +94,53 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         }
 
         $resources = array();
-        try {
-            foreach ($requestedResources as $resourceName => $resourceVersion) {
-                $resources[$resourceName] = $this->_apiConfig->getResourceDataMerged($resourceName, $resourceVersion);
-            }
-        } catch (Exception $e) {
-            throw new Mage_Webapi_Exception($e->getMessage(), Mage_Webapi_Exception::HTTP_BAD_REQUEST);
-        }
+        /** @var Mage_Webapi_Helper_Config $configHelper */
+        $configHelper = Mage::helper('Mage_Webapi_Helper_Config');
+        $services = $this->_newApiConfig->getServices();
+        foreach ($services as $resourceName => $serviceData) {
+            $resourceName = $configHelper->translateResourceName($serviceData['class']);
+            $resources[$resourceName] = array('methods' => array());
+            // TODO: Add service version to $serviceData
+            foreach ($serviceData['operations'] as $operation => $operationData) {
+                /** Collect input parameters */
+                $inputParameters = array();
+                /** @var Magento_Data_Schema $requestSchema */
+                $requestSchema = $this->_serviceObjectManager->getRequestSchema($serviceData['class'], $operation);
+                $requestFields = $requestSchema->getData('fields');
+                foreach ($requestFields as $fieldName => $fieldData) {
+                    $inputParameters[$fieldName] = array(
+                        // TODO: Remove default values
+                        'type' => isset($fieldData['type']) ? $this->_helper->normalizeType($fieldData['type']) : 'string',
+                        'required' => isset($fieldData['required']) ? $fieldData['required'] : false,
+                        'documentation' => isset($fieldData['label']) ? $fieldData['label'] : "Default label"
+                    );
+                }
 
+                /** Collect output parameters */
+                $outputParameters = array();
+                /** @var Magento_Data_Schema $responseSchema */
+                $responseSchema = $this->_serviceObjectManager->getResponseSchema($serviceData['class'], $operation);
+                $responseFields = $responseSchema->getData('fields');
+                foreach ($responseFields as $fieldName => $fieldData) {
+                    $inputParameters[$fieldName] = array(
+                        // TODO: Remove default values
+                        'type' => isset($fieldData['type']) ? $this->_helper->normalizeType($fieldData['type']) : 'string',
+                        'required' => isset($fieldData['required']) ? $fieldData['required'] : false,
+                        'documentation' => isset($fieldData['label']) ? $fieldData['label'] : "Default label"
+                    );
+                }
+
+                $resources[$resourceName]['methods'][$operation] = array(
+                    'documentation' => '', // TODO: Get documentation
+                );
+                if (!empty($inputParameters)) {
+                    $resources[$resourceName]['methods'][$operation]['interface']['in']['parameters'] = $inputParameters;
+                }
+                if (!empty($outputParameters)) {
+                    $resources[$resourceName]['methods'][$operation]['interface']['out']['parameters'] = $outputParameters;
+                }
+            }
+        }
         $wsdlContent = $this->generate($resources, $endpointUrl);
 
         if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
