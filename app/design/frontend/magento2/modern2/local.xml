@@ -44,8 +44,7 @@
 
         <remove name="top.links" />
         <move element="minicart" destination="panel.menu" after="-" />
-        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.header" template="Mage_Catalog::product/compare/sidebar.phtml">
-            <action method="setIsLink"><link>1</link></action>
+        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.header" template="Mage_Catalog::product/compare/link.phtml">
         </block>
         <reference name="header.panel">
             <block type="Mage_Page_Block_Template_Links" name="panel.menu" before="-">
