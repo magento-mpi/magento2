@@ -39,6 +39,7 @@ app/code/Mage/Core/data
 app/code/Mage/Core/Model/Abstract.php
 app/code/Mage/Core/Model/Config
 app/code/Mage/Core/Model/Cache
+app/code/Mage/Core/Model/Dataservice
 app/code/Mage/Core/Model/Design.php
 app/code/Mage/Core/Model/Design/FileResolution
 app/code/Mage/Core/Model/Design/Fallback
