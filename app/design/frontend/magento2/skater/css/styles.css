@@ -210,11 +210,14 @@ textarea {
   color: #333333;
   font: 14px/1.43 Arial, Helvetica, sans-serif;
 }
-html {
-  min-width: 1025px;
-  background: #ee2375;
+html,
+body {
+  height: 100%;
+  width: 100%;
 }
 body {
+  background: #ee2375;
+  min-width: 1025px;
   position: relative;
 }
 .page.wrapper {
@@ -440,6 +443,13 @@ strong {
   border-color: #666666 !important;
   color: #666666 !important;
   background: #cccccc !important;
+}
+.page.popup {
+  background: #ffffff;
+  min-width: 100px;
+}
+.page.popup .page.wrapper {
+  background: #ffffff;
 }
 .page.wrapper > .header {
   background-color: #ee2375;
@@ -8189,6 +8199,33 @@ body.type-bundle {
   left: 50%;
   zoom: 1;
   z-index: 2;
+}
+.page.tracking {
+  padding: 20px;
+}
+.page.tracking .actions .action.close {
+  border: none;
+  background: #ee2375;
+  display: inline-block;
+  margin: 0;
+  padding: 4px 12px;
+  outline: none;
+}
+.page.tracking .actions .action.close span {
+  font: 700 14px amaranth, Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  line-height: 16px;
+}
+.page.tracking .actions .action.close:hover {
+  background: #6ab92d;
+}
+.page.tracking .subtitle.caption {
+  margin-bottom: 20px;
+  font: 700 15px amaranth, Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 .widget ul {
   padding: 0;
