@@ -25,10 +25,10 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      * @magentoConfigFixture current_store giftcard/general/order_item_status 2
      * @magentoDataFixture Enterprise/GiftCard/_files/gift_card.php
      * @magentoDataFixture Enterprise/GiftCard/_files/order_with_gift_card.php
-     * @magentoDataFixture Mage/Core/_files/frontend_default_theme.php
      */
     public function testGenerateGiftCardAccountsEmailSending()
     {
+        Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
         $order = Mage::getModel('Mage_Sales_Model_Order');
         $this->_checkOrderItemProductOptions($order, true);
 

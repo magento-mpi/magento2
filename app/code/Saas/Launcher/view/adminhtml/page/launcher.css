@@ -1969,7 +1969,6 @@
     color: #676056;
 }
 
-.add-product .field-weight .choice,
 .add-product .field-service {
     display: none;
 }
@@ -1994,6 +1993,10 @@
     position: absolute;
     left: 0;
     top: 30px;
+}
+
+.add-product .field-weight .choice {
+    width: 100px;
 }
 
 .import-products .field-service {

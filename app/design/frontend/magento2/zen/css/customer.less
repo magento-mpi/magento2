@@ -856,7 +856,7 @@
             text-decoration: none;
             > span {
                 font-family: Arial, Helvetica, sans-serif;
-                text-transform: none;
+                text-transform: lowercase;
             }
         }
     }
@@ -1075,5 +1075,20 @@
                 z-index: 2;
             }
         }
+    }
+}
+
+// Track order popup
+
+.page.tracking {
+    padding: 20px;
+    .actions {
+        .action.close {
+            .primaryAction();
+        }
+    }
+    .subtitle.caption {
+        margin-bottom: 20px;
+        .customFont(15px);
     }
 }
