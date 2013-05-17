@@ -5810,6 +5810,14 @@ body.type-bundle {
   float: left;
   width: 650px;
 }
+.cart.table.wrapper .action.delete {
+  position: relative;
+}
+.cart.table.wrapper .action.delete span:after {
+  position: absolute;
+  left: 0;
+  top: 2px;
+}
 .cart.summary {
   background: #f1efe7;
   margin-top: 27px;
@@ -6231,13 +6239,16 @@ body.type-bundle {
 .cart.totals td:first-child strong {
   font-size: 14px;
 }
-.cart.totals .giftcard .amount span {
+.cart.totals .giftcard .amount span,
+.cart.totals .storecredit .amount span {
   white-space: nowrap;
 }
-.cart.totals .giftcard .action.delete {
+.cart.totals .giftcard .action.delete,
+.cart.totals .storecredit .action.delete {
   display: inline-block;
 }
-.cart.totals .giftcard .action.delete span {
+.cart.totals .giftcard .action.delete span,
+.cart.totals .storecredit .action.delete span {
   color: #acaba8;
   width: 13px;
   display: block;
@@ -6247,19 +6258,23 @@ body.type-bundle {
   text-align: center;
   text-indent: -999em;
 }
-.cart.totals .giftcard .action.delete span:active {
+.cart.totals .giftcard .action.delete span:active,
+.cart.totals .storecredit .action.delete span:active {
   outline: 0;
 }
-.cart.totals .giftcard .action.delete span:after {
+.cart.totals .giftcard .action.delete span:after,
+.cart.totals .storecredit .action.delete span:after {
   text-indent: 0;
   display: block;
 }
-.cart.totals .giftcard .action.delete span:after {
+.cart.totals .giftcard .action.delete span:after,
+.cart.totals .storecredit .action.delete span:after {
   font-size: 10px;
   height: 10px;
   line-height: 10px;
 }
-.cart.totals .giftcard .action.delete:hover span {
+.cart.totals .giftcard .action.delete:hover span,
+.cart.totals .storecredit .action.delete:hover span {
   color: #111111;
 }
 .cart.totals .discount .amount span {
