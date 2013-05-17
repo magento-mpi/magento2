@@ -61,11 +61,10 @@ class Mage_Backend_Block_Widget_GridTest extends Mage_Backend_Area_TestCase
      */
     protected function _getColumnSetMock()
     {
-        $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
         return $this->getMock('Mage_Backend_Block_Widget_Grid_ColumnSet', array(), array(
             Mage::getModel('Mage_Core_Block_Template_Context', array(
-                'dirs' => new Mage_Core_Model_Dir($filesystem, __DIR__),
-                'filesystem' => $filesystem
+                'dirs' => new Mage_Core_Model_Dir(__DIR__),
+                'filesystem' => new Magento_Filesystem(new Magento_Filesystem_Adapter_Local),
             )),
             Mage::getModel('Mage_Backend_Helper_Data'),
             Mage::getModel('Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory'),

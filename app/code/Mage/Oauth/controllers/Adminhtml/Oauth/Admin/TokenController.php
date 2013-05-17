@@ -161,6 +161,6 @@ class Mage_Oauth_Adminhtml_Oauth_Admin_TokenController extends Mage_Adminhtml_Co
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Oauth::oauth_admin_token');
+        return $this->_authorization->isAllowed('Mage_Oauth::oauth_admin_token');
     }
 }

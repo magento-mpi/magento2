@@ -3,7 +3,7 @@
 # Server version:               5.1.63
 # Server OS:                    portbld-freebsd8.1
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2013-04-11 02:35:34
+# Date/time:                    2013-05-08 16:51:40
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -953,7 +953,7 @@ CREATE TABLE IF NOT EXISTS `catalog_eav_attribute` (
   CONSTRAINT `FK_CATALOG_EAV_ATTRIBUTE_ATTRIBUTE_ID_EAV_ATTRIBUTE_ATTRIBUTE_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catalog EAV Attribute Table';
 
-# Dumping data for table catalog_eav_attribute: ~111 rows (approximately)
+# Dumping data for table catalog_eav_attribute: ~109 rows (approximately)
 
 INSERT INTO `catalog_eav_attribute` (`attribute_id`, `frontend_input_renderer`, `is_global`, `is_visible`, `is_searchable`, `is_filterable`, `is_comparable`, `is_visible_on_front`, `is_html_allowed_on_front`, `is_used_for_price_rules`, `is_filterable_in_search`, `used_in_product_listing`, `used_for_sort_by`, `is_configurable`, `apply_to`, `is_visible_in_advanced_search`, `position`, `is_wysiwyg_enabled`, `is_used_for_promo_rules`, `search_weight`) VALUES
 	(41, NULL, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, NULL, 0, 0, 0, 0, 1),
@@ -1455,7 +1455,6 @@ CREATE TABLE IF NOT EXISTS `catalog_product_flat_1` (
   `has_options` smallint(6) NOT NULL DEFAULT '0' COMMENT 'Has Options',
   `image` varchar(255) DEFAULT NULL COMMENT 'Image',
   `image_label` varchar(255) DEFAULT NULL COMMENT 'Image Label',
-  `is_recurring` smallint(6) DEFAULT NULL COMMENT 'Is Recurring',
   `is_redeemable` int(11) DEFAULT NULL COMMENT 'Is Redeemable',
   `lifetime` int(11) DEFAULT NULL COMMENT 'Lifetime',
   `links_exist` int(11) DEFAULT NULL COMMENT 'Links Exist',
@@ -1471,7 +1470,6 @@ CREATE TABLE IF NOT EXISTS `catalog_product_flat_1` (
   `price` decimal(12,4) DEFAULT NULL COMMENT 'Price',
   `price_type` int(11) DEFAULT NULL COMMENT 'Price Type',
   `price_view` int(11) DEFAULT NULL COMMENT 'Price View',
-  `recurring_profile` text COMMENT 'Recurring Profile',
   `required_options` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Required Options',
   `shipment_type` int(11) DEFAULT NULL COMMENT 'Shipment Type',
   `short_description` text COMMENT 'Short Description',
@@ -2096,7 +2094,7 @@ CREATE TABLE IF NOT EXISTS `catalog_product_index_website` (
 # Dumping data for table catalog_product_index_website: ~1 rows (approximately)
 
 INSERT INTO `catalog_product_index_website` (`website_id`, `website_date`, `rate`) VALUES
-	(1, '2013-04-10', 1);
+	(1, '2013-05-08', 1);
 
 
 
@@ -2746,7 +2744,7 @@ CREATE TABLE IF NOT EXISTS `core_resource` (
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Resources';
 
-# Dumping data for table core_resource: ~71 rows (approximately)
+# Dumping data for table core_resource: ~73 rows (approximately)
 
 INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('adminnotification_setup', '2.0.0.0', '2.0.0.0'),
@@ -2780,6 +2778,7 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('enterprise_logging_setup', '1.11.0.0', '1.11.0.0'),
 	('enterprise_pagecache_setup', '1.11.0.0', '1.11.0.0'),
 	('enterprise_pci_setup', '1.11.0.0', '1.11.0.0'),
+	('enterprise_queue_setup', '2.0.0.0', '2.0.0.0'),
 	('enterprise_reward_setup', '1.11.0.2', '1.11.0.2'),
 	('enterprise_salesarchive_setup', '1.11.0.0', '1.11.0.0'),
 	('enterprise_search_setup', '1.11.0.0', '1.11.0.0'),
@@ -2804,6 +2803,7 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('rating_setup', '1.6.0.1', '1.6.0.1'),
 	('reports_setup', '1.6.0.0.2', '1.6.0.0.2'),
 	('review_setup', '1.6.0.0', '1.6.0.0'),
+	('saas_jobnotification_setup', '2.0.0.0', '2.0.0.0'),
 	('saas_printedtemplate_setup', '0.1.0', '0.1.0'),
 	('saas_sales_setup', '2.0.0.0', '2.0.0.0'),
 	('saas_unitprice_setup', '0.1.4', '0.1.4'),
@@ -2897,37 +2897,29 @@ CREATE TABLE IF NOT EXISTS `core_theme` (
   `area` varchar(255) NOT NULL COMMENT 'Theme Area',
   `type` smallint(6) NOT NULL COMMENT 'Theme type: 0:physical, 1:virtual, 2:staging',
   PRIMARY KEY (`theme_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='Core theme';
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COMMENT='Core theme';
 
-# Dumping data for table core_theme: ~16 rows (approximately)
+# Dumping data for table core_theme: ~26 rows (approximately)
 
 INSERT INTO `core_theme` (`theme_id`, `parent_id`, `theme_path`, `theme_version`, `theme_title`, `preview_image`, `magento_version_from`, `magento_version_to`, `is_featured`, `area`, `type`) VALUES
-	(1, NULL, 'default/backend', '1.0.0.0', 'Magento 2 backend', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
-	(2, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
-	(3, 2, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
-	(4, 2, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
-	(5, NULL, 'default/demo', '2.0.0.0', 'Magento Demo', 'preview_magento_demo.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(6, 5, 'default/blank', '2.0.0.0', 'Magento Blank', 'preview_magento_blank.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(7, 5, 'default/demo_blue', '2.0.0.0', 'Magento Demo Blue', 'preview_magento_demo_blue.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(8, 5, 'default/iphone', '2.0.0.0', 'Magento Iphone', 'preview_magento_iphone.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(9, 5, 'default/modern', '2.0.0.0', 'Magento Modern', 'preview_magento_modern.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(10, NULL, 'enterprise/fixed', '2.0.0.0', 'Magento Fixed Design', 'preview_magento_fixed_design.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(11, 10, 'enterprise/iphone_html5', '2.0.0.0', 'Magento Iphone (HTML5)', 'preview_magento_iphone_html5.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(12, NULL, 'magento2/reference', '1.0.0.0', 'Plushe', 'preview_plushe.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(13, NULL, 'pro/fluid', '2.0.0.0', 'Magento Fluid Design', 'preview_magento_fluid_design.jpeg', '2.0.0.0', '*', 1, 'frontend', 0),
-	(14, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
-	(15, 14, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
-	(16, 14, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
-	(23, 12, 'magento2/modern2', '1.0.0.0', 'Modern 2', 'preview_modern2.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(24, 12, 'magento2/piece-of-cake', '1.0.0.0', 'Piece of Cake', 'preview_piece_of_cake.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(26, 12, 'magento2/upstream', '1.0.0.0', 'Upstream', 'preview_upstream.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(27, 24, 'magento2/electron', '1.0.0.0', 'Electron', 'preview_electron.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(28, 12, 'magento2/hobby', '1.0.0.0', 'Hobby', 'preview_hobby.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(29, 12, 'magento2/plushe-dark', '1.0.0.0', 'Plushe Dark', 'preview_plushe_dark.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(30, 12, 'magento2/plushe_blue', '1.0.0.0', 'Plushe Blue', 'preview_plushe_blue.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(31, 28, 'magento2/recon', '1.0.0.0', 'Recon', 'preview_recon.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(32, 23, 'magento2/skater', '1.0.0.0', 'Skater', 'preview_skater.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-	(33, 26, 'magento2/umecha', '1.0.0.0', 'Umecha', 'preview_umecha.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0);
+  (1, NULL, 'default/backend', '1.0.0.0', 'Magento 2 backend', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
+  (2, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
+  (3, 2, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
+  (4, 2, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
+  (5, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
+  (6, 5, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
+  (7, 5, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
+  (8, NULL, 'magento2/reference', '1.0.0.0', 'Plushe', 'preview_plushe.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (9, 8, 'magento2/modern2', '1.0.0.0', 'Modern 2', 'preview_modern2.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (10, 8, 'magento2/piece-of-cake', '1.0.0.0', 'Piece of Cake', 'preview_piece_of_cake.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (11, 8, 'magento2/upstream', '1.0.0.0', 'Upstream', 'preview_upstream.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (12, 10, 'magento2/electron', '1.0.0.0', 'Electron', 'preview_electron.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (13, 8, 'magento2/hobby', '1.0.0.0', 'Hobby', 'preview_hobby.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (14, 8, 'magento2/plushe-dark', '1.0.0.0', 'Plushe Dark', 'preview_plushe_dark.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (15, 8, 'magento2/plushe_blue', '1.0.0.0', 'Plushe Blue', 'preview_plushe_blue.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (16, 13, 'magento2/recon', '1.0.0.0', 'Recon', 'preview_recon.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (17, 9, 'magento2/skater', '1.0.0.0', 'Skater', 'preview_skater.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
+  (18, 11, 'magento2/umecha', '1.0.0.0', 'Umecha', 'preview_umecha.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0);
 
 
 
@@ -5145,7 +5137,7 @@ CREATE TABLE IF NOT EXISTS `eav_attribute` (
   CONSTRAINT `FK_EAV_ATTRIBUTE_ENTITY_TYPE_ID_EAV_ENTITY_TYPE_ENTITY_TYPE_ID` FOREIGN KEY (`entity_type_id`) REFERENCES `eav_entity_type` (`entity_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=utf8 COMMENT='Eav Attribute';
 
-# Dumping data for table eav_attribute: ~157 rows (approximately)
+# Dumping data for table eav_attribute: ~155 rows (approximately)
 
 INSERT INTO `eav_attribute` (`attribute_id`, `entity_type_id`, `attribute_code`, `attribute_model`, `backend_model`, `backend_type`, `backend_table`, `frontend_model`, `frontend_input`, `frontend_label`, `frontend_class`, `source_model`, `is_required`, `is_user_defined`, `default_value`, `is_unique`, `note`) VALUES
 	(1, 1, 'website_id', NULL, 'Mage_Customer_Model_Customer_Attribute_Backend_Website', 'static', NULL, NULL, 'select', 'Associate to Website', NULL, 'Mage_Customer_Model_Customer_Attribute_Source_Website', 1, 0, NULL, 0, NULL),
@@ -5463,7 +5455,7 @@ CREATE TABLE IF NOT EXISTS `eav_entity_attribute` (
   CONSTRAINT `FK_EAV_ENTT_ATTR_ATTR_GROUP_ID_EAV_ATTR_GROUP_ATTR_GROUP_ID` FOREIGN KEY (`attribute_group_id`) REFERENCES `eav_attribute_group` (`attribute_group_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8 COMMENT='Eav Entity Attributes';
 
-# Dumping data for table eav_entity_attribute: ~151 rows (approximately)
+# Dumping data for table eav_entity_attribute: ~149 rows (approximately)
 
 INSERT INTO `eav_entity_attribute` (`entity_attribute_id`, `entity_type_id`, `attribute_set_id`, `attribute_group_id`, `attribute_id`, `sort_order`) VALUES
 	(1, 1, 1, 1, 1, 10),
@@ -6645,20 +6637,7 @@ CREATE TABLE IF NOT EXISTS `enterprise_logging_event` (
   KEY `IDX_ENTERPRISE_LOGGING_EVENT_USER_ID` (`user_id`),
   KEY `IDX_ENTERPRISE_LOGGING_EVENT_USER` (`user`),
   CONSTRAINT `FK_ENTERPRISE_LOGGING_EVENT_USER_ID_ADMIN_USER_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `admin_user` (`user_id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='Enterprise Logging Event';
-
-# Dumping data for table enterprise_logging_event: ~7 rows (approximately)
-
-INSERT INTO `enterprise_logging_event` (`log_id`, `ip`, `x_forwarded_ip`, `event_code`, `time`, `action`, `info`, `status`, `user`, `user_id`, `fullaction`, `error_message`) VALUES
-	(1, -1062730385, 0, 'admin_login', '2013-04-10 23:09:57', 'login', 'a:1:{s:7:"general";N;}', 'success', 'admin', 1, 'adminhtml_index_index', NULL),
-	(2, -1062730385, 0, 'admin_login', '2013-04-10 23:22:07', 'login', 'a:1:{s:7:"general";N;}', 'failure', 'admin', 1, 'adminhtml_process_list', NULL),
-	(3, -1062730385, 0, 'admin_login', '2013-04-10 23:22:17', 'login', 'a:1:{s:7:"general";N;}', 'success', 'admin', 1, 'adminhtml_process_list', NULL),
-	(4, -1062730385, 0, 'admin_login', '2013-04-10 23:23:45', 'login', 'a:1:{s:7:"general";N;}', 'success', 'admin', 1, 'adminhtml_process_list', NULL),
-	(5, -1062730385, 0, 'admin_login', '2013-04-10 23:30:31', 'login', 'a:1:{s:7:"general";N;}', 'success', 'admin', 1, 'adminhtml_process_list', NULL),
-	(6, -1062730385, 0, 'admin_login', '2013-04-10 23:31:41', 'login', 'a:1:{s:7:"general";N;}', 'success', 'admin', 1, 'adminhtml_process_list', NULL),
-	(7, -1062730385, 0, 'admin_login', '2013-04-10 23:34:19', 'login', 'a:1:{s:7:"general";N;}', 'success', 'admin', 1, 'adminhtml_process_list', NULL);
-
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Enterprise Logging Event';
 
 # Dumping structure for table enterprise_logging_event_changes
 CREATE TABLE IF NOT EXISTS `enterprise_logging_event_changes` (
@@ -7071,16 +7050,16 @@ CREATE TABLE IF NOT EXISTS `index_process` (
 # Dumping data for table index_process: ~10 rows (approximately)
 
 INSERT INTO `index_process` (`process_id`, `indexer_code`, `status`, `started_at`, `ended_at`, `mode`) VALUES
-	(1, 'catalog_product_attribute', 'pending', '2013-04-10 23:33:23', '2013-04-10 23:33:23', 'real_time'),
-	(2, 'catalog_product_price', 'pending', '2013-04-10 23:33:23', '2013-04-10 23:33:23', 'real_time'),
-	(3, 'catalog_url', 'pending', '2013-04-10 23:33:23', '2013-04-10 23:33:23', 'real_time'),
-	(4, 'catalog_product_flat', 'pending', '2013-04-10 23:33:23', '2013-04-10 23:33:24', 'real_time'),
-	(5, 'catalog_category_flat', 'pending', '2013-04-10 23:33:24', '2013-04-10 23:33:24', 'real_time'),
-	(6, 'catalog_category_product', 'pending', '2013-04-10 23:33:24', '2013-04-10 23:33:24', 'real_time'),
-	(7, 'cataloginventory_stock', 'pending', '2013-04-10 23:33:24', '2013-04-10 23:33:24', 'real_time'),
-	(8, 'catalogsearch_fulltext', 'pending', '2013-04-10 23:33:24', '2013-04-10 23:33:24', 'real_time'),
-	(9, 'tag_summary', 'pending', '2013-04-10 23:33:24', '2013-04-10 23:33:24', 'real_time'),
-	(10, 'catalogsearch_fulltext_default', 'pending', '2013-04-10 23:33:24', '2013-04-10 23:33:24', 'real_time');
+	(1, 'catalog_product_attribute', 'pending', '2013-05-08 13:49:19', '2013-05-08 13:49:19', 'real_time'),
+	(2, 'catalog_product_price', 'pending', '2013-05-08 13:49:19', '2013-05-08 13:49:19', 'real_time'),
+	(3, 'catalog_url', 'pending', '2013-05-08 13:49:19', '2013-05-08 13:49:19', 'real_time'),
+	(4, 'catalog_product_flat', 'pending', '2013-05-08 13:49:19', '2013-05-08 13:49:20', 'real_time'),
+	(5, 'catalog_category_flat', 'pending', '2013-05-08 13:49:20', '2013-05-08 13:49:20', 'real_time'),
+	(6, 'catalog_category_product', 'pending', '2013-05-08 13:49:20', '2013-05-08 13:49:20', 'real_time'),
+	(7, 'cataloginventory_stock', 'pending', '2013-05-08 13:49:20', '2013-05-08 13:49:20', 'real_time'),
+	(8, 'catalogsearch_fulltext', 'pending', '2013-05-08 13:49:20', '2013-05-08 13:49:20', 'real_time'),
+	(9, 'tag_summary', 'pending', '2013-05-08 13:49:20', '2013-05-08 13:49:20', 'real_time'),
+	(10, 'catalogsearch_fulltext_default', 'pending', '2013-05-08 13:49:20', '2013-05-08 13:49:20', 'real_time');
 
 
 
@@ -7098,6 +7077,14 @@ CREATE TABLE IF NOT EXISTS `index_process_event` (
 # Dumping data for table index_process_event: ~0 rows (approximately)
 
 
+
+
+# Dumping structure for table job_queue
+CREATE TABLE IF NOT EXISTS `job_queue` (
+  `unique_key` varchar(64) NOT NULL COMMENT 'Unique task key',
+  `handle` varchar(255) NOT NULL COMMENT 'Job handle',
+  PRIMARY KEY (`unique_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Job Queue table';
 
 
 # Dumping structure for table launcher_link_tracker
@@ -8079,6 +8066,19 @@ CREATE TABLE IF NOT EXISTS `review_store` (
 
 
 
+# Dumping structure for table saas_jobnotification_inbox
+CREATE TABLE IF NOT EXISTS `saas_jobnotification_inbox` (
+  `notification_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Message id',
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Create date',
+  `title` varchar(255) NOT NULL COMMENT 'Title',
+  `is_read` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Flag if notification read',
+  `is_remove` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Flag if notification might be removed',
+  PRIMARY KEY (`notification_id`),
+  KEY `IDX_SAAS_JOBNOTIFICATION_INBOX_IS_READ` (`is_read`),
+  KEY `IDX_SAAS_JOBNOTIFICATION_INBOX_IS_REMOVE` (`is_remove`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Job Notification Inbox';
+
+
 # Dumping structure for table saas_printed_template
 CREATE TABLE IF NOT EXISTS `saas_printed_template` (
   `template_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -8102,8 +8102,6 @@ CREATE TABLE IF NOT EXISTS `saas_printed_template` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='saas_printed_template';
 
 # Dumping data for table saas_printed_template: ~0 rows (approximately)
-
-
 
 
 # Dumping structure for table saas_printed_template_order_item_tax

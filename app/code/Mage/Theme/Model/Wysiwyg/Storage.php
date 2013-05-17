@@ -61,21 +61,29 @@ class Mage_Theme_Model_Wysiwyg_Storage
     protected $_objectManager;
 
     /**
+     * @var Mage_Core_Model_Image_AdapterFactory
+     */
+    protected $_imageFactory;
+
+    /**
      * Initialize dependencies
      *
      * @param Magento_Filesystem $filesystem
      * @param Mage_Theme_Helper_Storage $helper
      * @param Magento_ObjectManager $objectManager
+     * @param Mage_Core_Model_Image_AdapterFactory $imageFactory
      */
     public function __construct(
         Magento_Filesystem $filesystem,
         Mage_Theme_Helper_Storage $helper,
-        Magento_ObjectManager $objectManager
+        Magento_ObjectManager $objectManager,
+        Mage_Core_Model_Image_AdapterFactory $imageFactory
     ) {
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_helper = $helper;
         $this->_objectManager = $objectManager;
+        $this->_imageFactory = $imageFactory;
     }
 
     /**
@@ -130,8 +138,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $thumbnailPath = $thumbnailDir . Magento_Filesystem::DIRECTORY_SEPARATOR . pathinfo($source, PATHINFO_BASENAME);
         try {
             $this->_filesystem->ensureDirectoryExists($thumbnailDir);
-            $adapter = $this->_objectManager->get('Mage_Core_Helper_Data')->getImageAdapterType();
-            $image = $this->_objectManager->get('Varien_Image_Adapter')->factory($adapter);
+            $image = $this->_imageFactory->create();
             $image->open($source);
             $image->keepAspectRatio(true);
             $image->resize(self::THUMBNAIL_WIDTH, self::THUMBNAIL_HEIGHT);

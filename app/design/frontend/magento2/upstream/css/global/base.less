@@ -1,18 +1,23 @@
-//
-// {license_notice}
-//
-// @category    design
-// @package     magento2_upstream
-// @copyright   {copyright}
-// @license     {license_link}
-//
-
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @package     magento2_upstream
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
 html, body, button, input, select, textarea {
     color: @color1;
     font: 400 14px/1.786 Arial, Verdana, sans-serif;
 }
 
+html {
+    min-width: 1035px;
+    background: @dark;
+}
+
 body {
+    position: relative;
     background-color: @color14;
     background-image: url(../images/main-bg.jpg);
     background-repeat: no-repeat;
@@ -138,6 +143,7 @@ input[type=range],
 input[type=email],
 input[type=url],
 input[type=search],
+input.search,
 input[type=tel],
 input[type=color],
 textarea,

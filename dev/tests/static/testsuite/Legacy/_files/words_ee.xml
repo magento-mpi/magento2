@@ -10,10 +10,9 @@
  * @license     {license_link}
  */
 -->
-<!-- These are the settings for legacy testing of Magento 2 EE (in addition to Magento 2 Core) -->
+<!-- These are the settings for legacy testing of Magento 2 EE (in addition to Magento 2 CE) -->
 <config>
     <words>
-        <!-- Enterprise_Staging -->
         <word>Enterprise_Staging</word>
     </words>
     <whitelist>

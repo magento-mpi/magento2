@@ -21,30 +21,17 @@ class Mage_DesignEditor_Adminhtml_System_Design_Editor_ToolsController extends M
     protected $_themeContext;
 
     /**
-     * Initialize dependencies
-     *
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Mage_Backend_Controller_Context $context
      * @param Mage_DesignEditor_Model_Theme_Context $themeContext
-     * @param null $areaCode
-     * @param array $invokeArgs
+     * @param string $areaCode
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Mage_Backend_Controller_Context $context,
         Mage_DesignEditor_Model_Theme_Context $themeContext,
-        $areaCode = null,
-        array $invokeArgs = array()
+        $areaCode = null
     ) {
+        parent::__construct($context, $areaCode);
         $this->_themeContext = $themeContext;
-        parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $areaCode,
-            $invokeArgs);
     }
 
     /**

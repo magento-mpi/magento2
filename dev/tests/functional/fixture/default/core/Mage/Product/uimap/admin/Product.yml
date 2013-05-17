@@ -96,7 +96,7 @@ new_product:
                             attribute_set_toggle: //*[@class='action-toggle']
                             attribute_set_toggle_disabled: //*[@class='action-toggle disabled']
                         fields:
-                            attribute_set_name: //*[@id='product-template-suggest' and not(contains(@calss, 'mage-suggest-state-loading'))]
+                            attribute_set_name: //*[@id='product-template-suggest' and not(contains(@class, 'mage-suggest-state-loading'))]
                         links:
                             attribute_set: //a[@role='menuitem' and text()='%attributeSet%']
                             show_all_attribute_sets: //a[@role='menuitem' and text()='Show all...']
@@ -154,7 +154,7 @@ new_product:
                                         general_price: //input[@id='price' and not(@disabled)]
                                         general_description: //textarea[@id='description']
                                         general_weight: //input[@id='weight' and not(@disabled)]
-                                        general_categories: //input[@id='category_ids-suggest'][not(@class='mage-suggest-state-loading')]
+                                        general_categories: //input[@id='category_ids-suggest']
                                         general_qty: //input[@name='product[quantity_and_stock_status][qty]']
                                         general_user_attr_field: //input[@id='%attributeCodeField%']
                                         general_weight_disabled: //input[@id='weight' and (@disabled)]
@@ -727,7 +727,7 @@ new_product:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_and_continue_edit: //*[@data-ui-id='product-edit-save-split-button']
-            save_split_select: //*[@data-ui-id='product-edit-save-split-button-dropdown']
+            save_split_select: //button[@data-ui-id='product-edit-save-split-button-dropdown']
             save_product_by_action: //*[@id='save-split-button-%additionalAction%-button']
             save_disabled: //*[@data-ui-id='product-edit-save-split-button' and contains(@class, 'disabled')]
         messages: *productMesssages

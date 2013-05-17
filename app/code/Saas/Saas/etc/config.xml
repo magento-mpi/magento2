@@ -42,6 +42,13 @@
             </Saas_Saas_Model_Cache>
         </di>
     </global>
+    <frontend>
+        <design>
+            <theme>
+                <full_name>magento2/reference</full_name>
+            </theme>
+        </design>
+    </frontend>
     <adminhtml>
         <di>
             <preferences>

@@ -83,7 +83,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
 
         $this->addColumn('date_created',
             array(
-                'header'=> Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Date Created'),
+                'header'=> Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Created'),
                 'width' => 120,
                 'type'  => 'date',
                 'index' => 'date_created',
@@ -91,7 +91,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
 
         $this->addColumn('date_expires',
             array(
-                'header'  => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Expiration Date'),
+                'header'  => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('End on'),
                 'width'   => 120,
                 'type'    => 'date',
                 'index'   => 'date_expires',

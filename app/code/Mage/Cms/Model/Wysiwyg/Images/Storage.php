@@ -41,16 +41,26 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
     protected $_filesystem;
 
     /**
+     * @var Mage_Core_Model_Image_AdapterFactory
+     */
+    protected $_imageFactory;
+
+    /**
      * Constructor
      *
      * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_Image_AdapterFactory $imageFactory
      * @param array $data
      */
-    public function __construct(Magento_Filesystem $filesystem, array $data = array())
-    {
+    public function __construct(
+        Magento_Filesystem $filesystem,
+        Mage_Core_Model_Image_AdapterFactory $imageFactory,
+        array $data = array()
+    ) {
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->setWorkingDirectory($this->getHelper()->getStorageRoot());
+        $this->_imageFactory = $imageFactory;
         parent::__construct($data);
     }
 
@@ -376,8 +386,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
         if (!$this->_filesystem->isWritable($targetDir)) {
             return false;
         }
-        $adapter = Mage::helper('Mage_Core_Helper_Data')->getImageAdapterType();
-        $image = Varien_Image_Adapter::factory($adapter);
+        $image = $this->_imageFactory->create();
         $image->open($source);
         $width = $this->getConfigData('resize_width');
         $height = $this->getConfigData('resize_height');

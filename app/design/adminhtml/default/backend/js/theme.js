@@ -76,7 +76,7 @@
 
     $.widget('mage.globalNavigation', {
         options: {
-            menuCategory: '.level-0.parent',
+            menuCategory: '.level-0',
             menuLinks: 'a',
             itemsConfig: null,
             hoverIntentConfig: {
@@ -97,18 +97,7 @@
                 .hoverIntent($.extend({}, this.options.hoverIntentConfig, {
                     over: !config.open ? this._hoverEffects : $.noop,
                     out: !config.close ? this._leaveEffects : $.noop
-                }))
-                .on('click', function() {
-                    $(this)
-                        .addClass('recent')
-                        .siblings('.level-0')
-                        .removeClass('recent');
-                    /*                    $(this)
-                     .siblings('.level-0')
-                     .removeClass('hover')
-                     .find('> .submenu')
-                     .hide();*/
-                });
+                }));
             if (config.open) {
                 category.on(config.open, this._hoverEffects);
             }
@@ -143,6 +132,10 @@
         },
 
         _hoverEffects: function (e) {
+            $(this)
+                .addClass('hover recent')
+                .siblings('.level-0').removeClass('recent hover');
+
             var targetSubmenu = $(e.target).closest('.submenu');
             if(targetSubmenu.length && targetSubmenu.is(':visible')) {
                 return;
@@ -150,12 +143,6 @@
             var availableWidth = parseInt($(this).parent().css('width')) - $(this).position().left,
                 submenu = $('> .submenu', this),
                 colsWidth = 0;
-
-            $(this)
-                .addClass('hover')
-/*                .siblings('.level-0.parent')
-                .find('> .submenu').hide()*/
-                ;
 
             submenu.show();
 
@@ -427,6 +414,7 @@
                     .siblings('input').end()
                     .find('.farbtastic').show();
             });
+        switcherForIe8();
     });
 
     $(document).on('ajaxComplete', function() {

@@ -30,6 +30,8 @@ class Saas_Search_Model_Client_Balancer_PhpExtension extends Saas_Search_Model_C
     /**
      * Add an array of Solr Documents to the index all at once
      *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      * @param  array $documents Should be an array of Apache_Solr_Document instances
      * @param  boolean $allowDups
      * @param  boolean $overwritePending
@@ -57,10 +59,13 @@ class Saas_Search_Model_Client_Balancer_PhpExtension extends Saas_Search_Model_C
     /**
      * Create a delete document based on a multiple queries and submit it
      *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      * @param  array $rawQueries Expected to be utf-8 encoded
      * @param  boolean $fromPending
      * @param  boolean $fromCommitted
-     * @param  int|float $timeout Maximum expected duration of the delete operation on the server (otherwise, will throw a communication exception)
+     * @param  int|float $timeout Maximum expected duration of the delete operation on the server
+     *  (otherwise, will throw a communication exception)
      * @return Apache_Solr_Response
      *
      * @throws Exception If an error occurs during the service call
@@ -73,7 +78,7 @@ class Saas_Search_Model_Client_Balancer_PhpExtension extends Saas_Search_Model_C
                 return $service->deleteByQueries($rawQueries);
             } catch (Exception $e) {
                 if ($e->getCode() != 0) {
-                   // throw $e;
+                    // throw $e;
                 }
             }
             $service = $this->_selectWriteService(true);
@@ -84,10 +89,13 @@ class Saas_Search_Model_Client_Balancer_PhpExtension extends Saas_Search_Model_C
     /**
      * Alias to Apache_Solr_Service::deleteByMultipleIds() method
      *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      * @param  array $ids Expected to be utf-8 encoded strings
      * @param  boolean $fromPending
      * @param  boolean $fromCommitted
-     * @param  int|float $timeout Maximum expected duration of the delete operation on the server (otherwise, will throw a communication exception)
+     * @param  int|float $timeout Maximum expected duration of the delete operation on the server
+     *  (otherwise, will throw a communication exception)
      * @return Apache_Solr_Response
      *
      * @throws Exception If an error occurs during the service call
@@ -100,7 +108,7 @@ class Saas_Search_Model_Client_Balancer_PhpExtension extends Saas_Search_Model_C
                 return $service->deleteByIds($ids);
             } catch (Exception $e) {
                 if ($e->getCode() != 0) {
-                   // throw $e;
+                    // throw $e;
                 }
             }
             $service = $this->_selectWriteService(true);
@@ -121,7 +129,7 @@ class Saas_Search_Model_Client_Balancer_PhpExtension extends Saas_Search_Model_C
                 return $service->ping();
             } catch (Exception $e) {
                 if ($e->getCode() != 0) {
-                   // throw $e;
+                    // throw $e;
                 }
             }
             $service = $this->_selectReadService(true);
@@ -139,7 +147,7 @@ class Saas_Search_Model_Client_Balancer_PhpExtension extends Saas_Search_Model_C
     {
         $this->_reconnect();
         $service = $this->_selectReadService();
-        $service->setServlet($type,  $path);
+        $service->setServlet($type, $path);
         $this->_selectWriteService()->setServlet($type, $path);
     }
 
@@ -158,7 +166,7 @@ class Saas_Search_Model_Client_Balancer_PhpExtension extends Saas_Search_Model_C
                 return $service->query($query);
             } catch (Exception $e) {
                 if ($e->getCode() != 0) {
-                   //throw $e;
+                    //throw $e;
                 }
             }
             $service = $this->_selectReadService(true);

@@ -22,7 +22,7 @@ class Mage_Tax_Model_Resource_Calculation_Rule_CollectionTest extends PHPUnit_Fr
      */
     public function testSetClassTypeFilter($classType, $elementId, $expected)
     {
-        $collection = new Mage_Tax_Model_Resource_Calculation_Rule_Collection();
+        $collection = Mage::getModel('Mage_Tax_Model_Resource_Calculation_Rule_Collection');
         $collection->setClassTypeFilter($classType, $elementId);
         $this->assertRegExp($expected, (string)$collection->getSelect());
     }
@@ -44,7 +44,7 @@ class Mage_Tax_Model_Resource_Calculation_Rule_CollectionTest extends PHPUnit_Fr
      */
     public function testSetClassTypeFilterWithWrongType()
     {
-        $collection = new Mage_Tax_Model_Resource_Calculation_Rule_Collection();
+        $collection = Mage::getModel('Mage_Tax_Model_Resource_Calculation_Rule_Collection');
         $collection->setClassTypeFilter('WrongType', 1);
     }
 }

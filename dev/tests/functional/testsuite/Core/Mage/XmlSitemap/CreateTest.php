@@ -27,22 +27,15 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
+    }
+
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('General/disable_http_only');
         $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
         $this->systemConfigurationHelper()->configure('XmlSitemap/admin_disable_push_to_robots');
-    }
-
-    protected function tearDownAfterTest()
-    {
-        $this->closeLastWindow();
-    }
-
-    protected function tearDownAfterTestClass()
-    {
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
     }
 
     /**
@@ -54,6 +47,7 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsDefaultValue()
     {
         //Open XML Sitemap tab
+        $this->navigate('system_configuration');
         $loadData = $this->loadDataSet('XmlSitemap', 'admin_disable_push_to_robots');
         $tab = $loadData['tab_1']['tab_name'];
         $this->systemConfigurationHelper()->openConfigurationTab($tab);
@@ -70,29 +64,28 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsSave()
     {
         //Enable push to robots.txt option
+        $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('XmlSitemap/admin_enable_push_to_robots');
 
         //Open XML Sitemap page
-        $this->navigate('google_sitemap');
+        $this->navigate('xml_sitemap');
 
         //Create data
         $productData = $this->loadDataSet('XmlSitemap', 'new_xml_sitemap');
 
         //Click 'Add Sitemap' button
-        $this->clickButton('add_sitemap', true);
+        $this->clickButton('add_sitemap');
 
         //Fill form and save sitemap
         $this->fillFieldset($productData, 'xml_sitemap_create');
-        $this->clickButton('save_and_generate', true);
-        $this->pleaseWait();
-        $this->validatePage();
+        $this->clickButton('save_and_generate');
 
         //Check message
         $this->assertMessagePresent('error', 'success_saved_xml_sitemap');
 
         //Create sitemap link
-        $uri = "sitemap.xml";
-        $sitemapUrl = $this->xmlSitemapHelper()->getFileUrl($uri);
+        $sitemapUri = "sitemap.xml";
+        $sitemapUrl = $this->xmlSitemapHelper()->getFileUrl($sitemapUri);
 
         //Create url in format [base url]/robots.txt an read the file
         $uri = "robots.txt";
@@ -119,7 +112,7 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
         $fieldData = $this->loadDataSet('XmlSitemap', 'new_xml_sitemap', array($emptyField => '%noValue%'));
 
         //Open XML Sitemap page
-        $this->navigate('google_sitemap');
+        $this->navigate('xml_sitemap');
 
         //Click 'Add Sitemap' button
         $this->clickButton('add_sitemap', true);
@@ -152,6 +145,7 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsPushRobots()
     {
         //Enable push to robots.txt option
+        $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('XmlSitemap/admin_enable_push_to_robots');
 
         //Open Search Engine Robots tab
@@ -172,7 +166,7 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
         $actualRobotsFile = str_replace($order, '', $this->getFile($robotsUrl));
 
         //get Robots.txt file and compare with expected content
-        $expectedRobotsFile = $fieldData['tab_1']['configuration']['edit_custom_instruction_test'];
+        $expectedRobotsFile = $fieldData['tab_1']['configuration']['search_engine_robots']['edit_custom_instruction'];
         $expectedRobotsTrim = str_replace($order, '', $expectedRobotsFile);
 
         //Compare file
@@ -187,16 +181,11 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
      */
     public function withRequiredFieldsSaveNotPush()
     {
-        $websiteData = $this->loadDataSet('Website', 'generic_website');
         //Steps
-        $this->navigate('manage_stores');
-        $this->storeHelper()->createStore($websiteData, 'website');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_website');
         $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('SingleStoreMode/disable_single_store_mode');
         //Enable Submission to Robots.txt = "No" and save config
         $this->systemConfigurationHelper()->configure('XmlSitemap/admin_disable_push_to_robots');
-
         //Open Search Engine Robots tab
         $this->systemConfigurationHelper()->openConfigurationTab('general_design');
         $this->systemConfigurationHelper()->expandFieldSet('search_engine_robots');
@@ -211,17 +200,15 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
         $productData = $this->loadDataSet('XmlSitemap', 'new_xml_sitemap');
 
         //Open XML Sitemap page
-        $this->navigate('google_sitemap');
+        $this->navigate('xml_sitemap');
 
         //Click 'Add Sitemap' button
-        $this->clickButton('add_sitemap', true);
+        $this->clickButton('add_sitemap');
         $this->waitForAjax();
 
         //Fill form and save sitemap
         $this->fillFieldset($productData, 'xml_sitemap_create');
-        $this->clickButton('save_and_generate', true);
-        $this->pleaseWait();
-        $this->validatePage();
+        $this->clickButton('save_and_generate');
 
         //Check message
         $this->assertMessagePresent('error', 'success_saved_xml_sitemap');
@@ -248,9 +235,11 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmptyReset()
     {
         //Enable push to robots.txt option
-        //$this->systemConfigurationHelper()->configure('XmlSitemap/admin_enable_push_to_robots');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('XmlSitemap/admin_enable_push_to_robots');
 
         //Open Search Engine Robots tab
+        $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('general_design');
         $this->systemConfigurationHelper()->expandFieldSet('search_engine_robots');
         //Fill "Edit custom instruction of robots.txt File" filed and save config
@@ -269,10 +258,9 @@ class Core_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
         //get Robots.txt file and compare with expected content
         $expectedRobots =
             "User-agent: *" . "Disallow: /index.php/" . "Disallow: /*?" . "Disallow: /*.js$" . "Disallow: /*.css$"
-            . "Disallow: /checkout/" . "Disallow: /tag/" . "Disallow: /app/" . "Disallow: /downloader/"
-            . "Disallow: /js/" . "Disallow: /lib/" . "Disallow: /*.php$" . "Disallow: /pkginfo/" . "Disallow: /report/"
-            . "Disallow: /skin/" . "Disallow: /var/" . "Disallow: /catalog/" . "Disallow: /customer/"
-            . "Disallow: /sendfriend/" . "Disallow: /review/" . "Disallow: /*SID=";
+            . "Disallow: /checkout/" . "Disallow: /app/" . "Disallow: /downloader/" . "Disallow: /js/" . "Disallow: /lib/"
+            . "Disallow: /*.php$" . "Disallow: /pkginfo/" . "Disallow: /report/" . "Disallow: /var/"
+            . "Disallow: /catalog/" . "Disallow: /customer/" . "Disallow: /sendfriend/" . "Disallow: /review/" . "Disallow: /*SID=";
         $expectedRobotsTrim = str_replace($order, '', $expectedRobots);
 
         //Compare file

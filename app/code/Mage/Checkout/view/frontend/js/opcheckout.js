@@ -489,13 +489,13 @@
                 .on('click', this.options.review.continueSelector, $.proxy(this._saveOrder, this))
                 .on('saveOrder', this.options.review.container, $.proxy(this._saveOrder, this))
                 .on('contentUpdated', this.options.review.container, $.proxy(function() {
-                var paypalIframe = this.element.find(this.options.review.container)
-                    .find('[data-container="paypal-iframe"]');
-                if (paypalIframe.length) {
-                    paypalIframe.show();
-                    $(this.options.review.submitContainer).hide();
-                }
-            }, this));
+                    var paypalIframe = this.element.find(this.options.review.container)
+                        .find('[data-container="paypal-iframe"]');
+                    if (paypalIframe.length) {
+                        paypalIframe.show();
+                        $(this.options.review.submitContainer).hide();
+                    }
+                }, this));
         },
 
         _saveOrder: function() {

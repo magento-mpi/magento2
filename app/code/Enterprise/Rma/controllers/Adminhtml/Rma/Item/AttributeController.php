@@ -242,7 +242,7 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
             $attributeObject->setCanManageOptionLabels(true);
 
             try {
-                Mage::dispatchEvent('enterprise_rma_item_attribute_before_save', array(
+                $this->_eventManager->dispatch('enterprise_rma_item_attribute_before_save', array(
                     'attribute' => $attributeObject
                 ));
 
@@ -330,6 +330,6 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Rma::rma_attribute');
+        return $this->_authorization->isAllowed('Enterprise_Rma::rma_attribute');
     }
 }

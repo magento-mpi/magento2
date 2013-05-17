@@ -47,6 +47,8 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodDirectPostTest ext
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         //Verifying
@@ -83,10 +85,16 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodDirectPostTest ext
      */
     public function authorizeDirectPost($testData)
     {
+        $this->markTestIncomplete('MAGETWO-8885');
         //Data
-        $checkoutData = $this->loadDataSet('OnePageCheckout', 'with_register_flatrate_checkmoney_usa',
-            array('general_name' => $testData['sku'],
-                'payment_data' => $this->loadDataSet('Payment', 'payment_authorizenetdp')));
+        $checkoutData = $this->loadDataSet(
+            'OnePageCheckout',
+            'with_register_flatrate_checkmoney_usa',
+            array(
+                'general_name' => $testData['sku'],
+                'payment_data' => $this->loadDataSet('Payment', 'payment_authorizenetdp')
+            )
+        );
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenetdp_enable');

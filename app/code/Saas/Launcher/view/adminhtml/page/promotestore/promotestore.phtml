@@ -18,15 +18,6 @@
             <a class="action-switch-to-analytics" href="<?php echo $this->getUrl('adminhtml/dashboard/index')?>"><?php echo $this->__('Dashboard'); ?></a>
         </div>
     </div>
-
-    <div id="promote-store" class="store-launcher-content">
-
-        <?php foreach($this->getTileBlocks() as $tile):?>
-        <?php echo $tile->toHtml() ?>
-        <?php endforeach;?>
-
-    </div>
-
     <div id="drawer" class="drawer">
         <header class="drawer-header">
             <div class="drawer-header-inner">
@@ -37,15 +28,16 @@
                 </div>
             </div>
         </header>
-
         <section class="drawer-content">
             <div class="drawer-content-inner"></div>
         </section>
-
         <footer class="drawer-footer">
             <div class="drawer-footer-inner"></div>
         </footer>
-
     </div>
-
+    <div id="promote-store" class="store-launcher-content">
+        <?php foreach($this->getTileBlocks() as $tile):?>
+        <?php echo $tile->toHtml() ?>
+        <?php endforeach;?>
+    </div>
 </section>

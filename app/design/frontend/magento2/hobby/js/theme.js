@@ -9,6 +9,88 @@
 (function($) {
     'use strict';
 
+    /* Navigation */
+    $.widget('theme.navigation', {
+        options: {
+            topLinks: '> .level0',
+            dropdown: null,
+            dropdownLabel: 'More'
+        },
+
+        _create: function() {
+            this.topLinks = $(this.options.topLinks, this.element);
+
+            this._events();
+        },
+
+        _init: function() {
+            this._checkIfShouldCollapse();
+        },
+
+        _events: function() {},
+
+        _checkIfShouldCollapse: function() {
+            if (this._getTopLinksWidth() > this.element.outerWidth()) {
+                !this.dropdown && this._createDropdown();
+
+            } else {
+                this._destroyDropdown();
+            }
+        },
+
+        _createDropdown: function() {
+            this.dropdown = $('<li class="level0 level-top parent more"></li>');
+            this.dropdownLabel = $('<a href="#" class="level-top"><span>' + $.mage.__(this.options.dropdownLabel) + '</span></a>');
+            this.dropdownSubmenu = $('<div class="submenu"></div>');
+            this.dropdownItems = $('<ul class="level0">' + this._getHiddenLinks() + '</ul>');
+
+            this.dropdownSubmenu
+                .append(this.dropdownItems);
+
+            this.dropdown
+                .append(this.dropdownLabel)
+                .append(this.dropdownSubmenu)
+                .appendTo(this.element);
+
+            this.dropdown
+                .hoverIntent(config)
+                .find('> .submenu').hide();
+        },
+
+        _destroyDropdown: function() {
+            this.dropdown && this.dropdown.remove();
+            $('.level0.hidden', this.element)
+                .removeClass('hidden')
+                .show();
+        },
+
+        _getTopLinksWidth: function() {
+            var totalWidth = 0;
+
+            $.each(this.topLinks, function(index, item) {
+                totalWidth += $(item).outerWidth();
+            });
+
+            return totalWidth;
+        },
+
+        _getHiddenLinks: function() {
+            var totalWidth = 0;
+
+            this.hiddenLinks = $('<div></div>');
+
+            $.each(this.topLinks, $.proxy(function(index, item) {
+                totalWidth += $(item).outerWidth();
+                if (totalWidth + 130 >= this.element.outerWidth()) {
+                    this.hiddenLinks.append($(item).clone().attr('class', 'column'));
+                    $(item).addClass('hidden').hide();
+                }
+            }, this));
+
+            return this.hiddenLinks.html();
+        }
+    });
+
     function showNav() {
         var self= $(this);
         self.closest('nav.navigation').addClass('hover');
@@ -140,27 +222,6 @@
         out: hideNav // function = onMouseOut callback (REQUIRED)
     };
 
-    function checkWrap() {
-        var navWidth = $('.navigation > ul').width();
-        var totalWidth=0;
-        var stop = 0;
-        $('.navigation > ul > li').each(function(index) {
-            totalWidth = totalWidth + $(this).outerWidth();
-            if(totalWidth > navWidth && stop == 0) {
-                stop = index - 1;
-            };
-        });
-        if (stop > 0) {
-            var items = $('.navigation > ul > li');
-            items
-                .slice(stop,items.lenght)
-                .wrapAll('<li class="level-top more parent">')
-                .wrapAll('<div class="submenu"/>')
-                .wrapAll('<ul />');
-        }
-
-    }
-
     function listScroll() {
         var list = $('[data-action="scroll"]').addClass('carousel');
         var listInner = $('> .minilist.items', list);
@@ -186,7 +247,7 @@
                             items.removeClass('shown');
                             items.removeClass('hidden');
                             listInner.animate({
-                            left: '-=' + itemWidth*perpage,
+                            left: '-=' + itemWidth*perpage
                         }, 400, 'easeInOutCubic', function() {
                             // Animation complete.
                             page = page + 1;
@@ -196,8 +257,7 @@
                             for (var i=perpage; i < items.length; i++) {
                                 $(items[i + page*perpage]).addClass('hidden');
                             };
-                            console.log(i);
-                            previous.removeAttr('disabled');
+                                            previous.removeAttr('disabled');
                             if (page == pages) {
                                 next.attr('disabled', 'disabled');
                             }
@@ -230,20 +290,9 @@
         }
     }
 
-/*    $(window).resize(function() {
-        if(this.resizeTO) clearTimeout(this.resizeTO);
-        this.resizeTO = setTimeout(function() {
-            $(this).trigger('resizeEnd');
-        }, 500);
-    });
-    $(window).bind('resizeEnd', function() {
-
-    });*/
-
     $(document).ready(function() {
         //document.documentElement.clientWidth && screen.width
-//        listScroll();
-        checkWrap();
+       $('.navigation > ul').navigation();
         //$('.navigation .level-top > .submenu').hide();
         $('.navigation .level-top').hoverIntent(config).find('> .submenu').hide();
         if ($('.customer.welcome').length > 0) {

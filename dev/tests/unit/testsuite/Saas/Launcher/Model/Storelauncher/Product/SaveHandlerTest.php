@@ -65,7 +65,8 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
                     'manage_stock' => 1,
                     'qty' => 500,
                     'is_in_stock' => 1,
-                )
+                ),
+                'is_virtual' => null
             )
         );
         $preparedData0 = $data0;
@@ -78,8 +79,16 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
             'use_config_manage_stock' => 0, // manage stock explicitly
             'is_qty_decimal' => 0, // quantity can be represented only by integer value
         );
+        $preparedData0['product']['typeId'] = Mage_Catalog_Model_Product_Type::TYPE_SIMPLE;
+
+        // add virtual product test data
+        $data1 = $data0;
+        $data1['product']['is_virtual'] = '';
+        $preparedData1 = $preparedData0;
+        $preparedData1['product']['typeId'] = Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL;
         return array(
-            array($data0, $preparedData0)
+            array($data0, $preparedData0),
+            array($data1, $preparedData1),
         );
     }
 
@@ -170,7 +179,7 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
             ->will($this->returnValue($product));
         $product->expects($this->once())
             ->method('setTypeId')
-            ->with(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
+            ->with($preparedData['product']['typeId'])
             ->will($this->returnValue($product));
         $product->expects($this->once())
             ->method('setData')

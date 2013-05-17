@@ -43,13 +43,13 @@
             <action method="setShowPart"><value>customer</value></action>
         </block>
 
-        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare" template="Mage_Catalog::product/compare/block.phtml">
+        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.header" template="Mage_Catalog::product/compare/sidebar.phtml">
             <action method="setIsLink"><link>1</link></action>
         </block>
 
-        <remove name="tags_popular" />
+        <!-- <remove name="tags_popular" /> -->
         <!--<remove name="catalog.compare.sidebar"/>-->
-        <remove name="product_tag_list" />
+        <!-- <remove name="product_tag_list" /> -->
 
         <remove name="top.links" />
         <reference name="header.panel">
@@ -66,6 +66,7 @@
                 <block type="Mage_Customer_Block_Account_Link">
                     <action method="addAccountLink"><target>panel.menu</target><position>10</position></action>
                 </block>
+                <action method="addLinkBlock"><blockName>catalog.compare.header</blockName></action>
                 <block type="Mage_Wishlist_Block_Links" name="wishlist.link" />
                 <action method="addLinkBlock"><blockName>wishlist.link</blockName><position>0</position></action>
             </block>
@@ -119,14 +120,14 @@
 
     <catalog_product_view>
         <reference name="content">
-            <container name="product.info.top" as="product.info.top" label="Product Info Top" htmlTag="div" htmlClass="product info top" before="-" />
+            <container name="product-info-top" as="product-info-top" label="Product Info Top" htmlTag="div" htmlClass="product info top" before="-" />
             <move element="product.image.thumbs" destination="product.info.media.image" after="product.image.main" />
         </reference>
         <remove name="product.info.sku" />
         <move element="product.info.overview" destination="product.info.details" before="-" as="product_overview" />
-        <move element="breadcrumbs" destination="product.info.top" before="-" />
-        <move element="product.info.rating" destination="product.info.top" before="breadcrumbs" />
-        <move element="page.main.title" destination="content" after="product.info.top" />
+        <move element="breadcrumbs" destination="product-info-top" before="-" />
+        <move element="product.info.rating" destination="product-info-top" before="breadcrumbs" />
+        <move element="page.main.title" destination="content" after="product-info-top" />
         <!-- product.info.rating -->
         <reference name="product.info.overview">
             <action method="setAtLabel" translate="label"><label>none</label></action>
@@ -157,6 +158,13 @@
                 <action method="setImageType"><image>recently_viewed_products_grid_content_widget</image></action>
             </block>
         </reference>
+
+        <move element="product_tag_list" destination="content.bottom" after="-" as="product_tags" />
+        <reference name="product_tag_list">
+            <action method="setAtLabel" translate="label"><label>none</label></action>
+            <action method="setTitle" translate="value"><value>Tags</value></action>
+        </reference>
+
     </catalog_product_view>
 
     <catalog_product_view_type_grouped>
@@ -171,16 +179,6 @@
             <block type="Mage_Review_Block_Product_View" as="content" name="product.redirect" template="redirect.phtml" />
         </reference>
     </review_product_list>
-
-    <!-- Temporary add homepage html -->
-    <cms_index_index translate="label" type="page" parent="cms_page_view">
-        <label>CMS Home Page</label>
-        <!-- <remove name="page.main.title" /> -->
-        <remove name="content" />
-        <reference name="content.top">
-            <block type="Mage_Core_Block_Template" name="default_home_page" template="Mage_Cms::default/home.phtml"/>
-        </reference>
-    </cms_index_index>
 
     <print>
         <reference name="head">

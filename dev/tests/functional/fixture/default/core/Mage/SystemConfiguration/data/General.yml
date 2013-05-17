@@ -41,3 +41,12 @@ general_locale_default:
         configuration:
             locale_options:
                 locale: English (United States)
+
+general_default_country_options:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: general_general
+        configuration:
+            countries_options:
+                default_country_use_default: %noValue%
+                default_country: United States

@@ -1,11 +1,11 @@
-// **
-// * {license_notice}
-// *
-// * @category    design
-// * @package     magento2_skater
-// * @copyright   {copyright}
-// * @license     {license_link}
-// */
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @package     magento2_skater
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
 
 // *
 // *    Global Notices
@@ -65,8 +65,12 @@
         content: "\e01c";
         color: @msgOk;
     }
-    a {
+    a,
+    a:visited {
         color: @msgOk;
+    }
+    a:hover {
+        color: darken(@msgOk, 15%);
     }
 }
 
@@ -78,8 +82,12 @@
         content: "\e000";
         color: @msgNote;
     }
-    a {
+    a,
+    a:visited {
         color: @msgNoteText;
+    }
+    a:hover {
+        color: darken(@msgNoteText, 15%);
     }
 }
 
@@ -91,8 +99,12 @@
         content: "\e014";
         color: @msgErr;
     }
-    a {
+    a,
+    a:visited {
         color: @msgErr;
+    }
+    a:hover {
+        color: darken(@msgErr, 15%);
     }
 }
 

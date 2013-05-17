@@ -1,11 +1,11 @@
-//
-// {license_notice}
-//
-// @category    design
-// @package     magento2_umecha
-// @copyright   {copyright}
-// @license     {license_link}
-//
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @package     magento2_umecha
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
 
 /*
     Sidebar
@@ -26,7 +26,8 @@
 /* Recently viewed block */
 .block.viewed,
 .block.reorder,
-.block.compared {
+.block.compared,
+.block.poll {
     .block;
     .product.name {
         font-family: @defaultFont;
@@ -87,6 +88,36 @@
     .paypal-logo {
         margin: 0 0 50px 0;
     }
+
+    .widget.new,
+    .block.wishlist {
+        .block;
+        .products.minilist {
+            float: none;
+            border-right: 0;
+            max-width: 100%;
+            padding: 0;
+            > .item {
+                margin-bottom: 30px;
+                padding: 0 0 10px;
+                width: auto;
+                visibility: visible;
+                border: solid @color2;
+                border-width: 0 0 1px;
+                &:before {
+                    display: none;
+                }
+                .actions {
+                    margin: 5px 0;
+                }
+            }
+        }
+        &.photos {
+            .img.photo.container {
+                margin: 0 auto 20px;
+            }
+        }
+    }
     .item {
         .product.name {
             font-family: @defaultFont;
@@ -123,5 +154,37 @@
                 }
             }
         }
+    }
+}
+
+/*
+    Polls
+-------------------------------------- */
+.block.poll {
+    .fieldset {
+        .legend {
+            margin-bottom: -20px;
+            span {
+                font-size: 12px;
+            }
+        }
+    }
+    .choice {
+        padding: 3px;
+        margin-bottom: 0;
+        &:nth-child(even) {
+            background: @color7;
+        }
+        .label {
+            float: none;
+            width: auto;
+            span {
+                display: inline;
+            }
+        }
+    }
+    .actions {
+        margin: 10px 0;
+        text-align: right;
     }
 }

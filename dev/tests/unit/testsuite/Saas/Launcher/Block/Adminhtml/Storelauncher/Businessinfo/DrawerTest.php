@@ -106,7 +106,6 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extend
             'trans_email/ident_general/email' => 'owner@example.com',
             'general/store_information/name' => 'Store Name',
             'general/store_information/phone' => '1234567890',
-            'general/store_information/merchant_vat_number' => '123456',
             // shipping origin data
             'shipping/origin/street_line1' => 'In the middle of nowhere',
             'shipping/origin/street_line2' => '5A',
@@ -127,7 +126,6 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extend
             'name' => 'Store Name',
             'phone' => '1234567890',
             'email' => 'owner@example.com',
-            'merchant_vat_number' => '123456',
         );
 
         $configMap0 = $baseConfigMap;

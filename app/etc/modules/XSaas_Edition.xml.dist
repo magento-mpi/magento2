@@ -15,13 +15,11 @@
         <Enterprise_Cms><active>true</active></Enterprise_Cms>
         <Enterprise_Customer><active>true</active></Enterprise_Customer>
         <Enterprise_CustomerBalance><active>true</active></Enterprise_CustomerBalance>
-        <Enterprise_CustomerSegment><active>true</active></Enterprise_CustomerSegment>
         <Enterprise_Eav><active>true</active></Enterprise_Eav>
         <Enterprise_Enterprise><active>true</active></Enterprise_Enterprise>
         <Enterprise_ImportExport><active>false</active></Enterprise_ImportExport>
         <Enterprise_GiftCard><active>true</active></Enterprise_GiftCard>
         <Enterprise_GiftCardAccount><active>true</active></Enterprise_GiftCardAccount>
-        <Enterprise_GiftRegistry><active>true</active></Enterprise_GiftRegistry>
         <Enterprise_Logging><active>true</active></Enterprise_Logging>
         <Enterprise_PageCache><active>true</active></Enterprise_PageCache>
         <Enterprise_Pbridge><active>true</active></Enterprise_Pbridge>
@@ -36,11 +34,13 @@
         <Mage_Webapi><active>false</active></Mage_Webapi>
         <Saas_Backend><active>true</active></Saas_Backend>
         <Saas_Backup><active>true</active></Saas_Backup>
+        <Saas_Catalog><active>true</active></Saas_Catalog>
         <Saas_CatalogRule><active>true</active></Saas_CatalogRule>
         <Saas_Core><active>true</active></Saas_Core>
         <Saas_Customer><active>true</active></Saas_Customer>
         <Saas_Design><active>true</active></Saas_Design>
         <Saas_Index><active>true</active></Saas_Index>
+        <Saas_JobNotification><active>true</active></Saas_JobNotification>
         <Saas_Launcher><active>true</active></Saas_Launcher>
         <Saas_Newsletter><active>true</active></Saas_Newsletter>
         <Saas_Page><active>true</active></Saas_Page>
@@ -51,6 +51,8 @@
         <Saas_Saas><active>true</active></Saas_Saas>
         <Saas_Sales><active>true</active></Saas_Sales>
         <Saas_Search><active>true</active></Saas_Search>
+        <Saas_Shipping><active>true</active></Saas_Shipping>
+        <Saas_Sitemap><active>true</active></Saas_Sitemap>
         <Saas_UnitPrice><active>true</active></Saas_UnitPrice>
         <Saas_ImportExport><active>true</active></Saas_ImportExport>
     </modules>

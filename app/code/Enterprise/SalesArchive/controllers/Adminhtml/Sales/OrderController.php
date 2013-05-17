@@ -29,7 +29,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_OrderController extends Mage_Admin
             $archive = Mage::getModel('Enterprise_SalesArchive_Model_Archive');
             $ids = $archive->getIdsInArchive(Enterprise_SalesArchive_Model_Archive::ORDER, $id);
             if ($ids) {
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_SalesArchive::orders');
+                return $this->_authorization->isAllowed('Enterprise_SalesArchive::orders');
             }
         }
         return parent::_isAllowed();

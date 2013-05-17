@@ -39,34 +39,20 @@ class Saas_Launcher_Adminhtml_Storelauncher_IndexController extends Saas_Launche
     protected  $_launcherHelper;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Mage_Backend_Controller_Context $context
      * @param Mage_Core_Model_Config $configModel
      * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
-     * @param Saas_Launcher_Helper_Data $launcherHelper,
+     * @param Saas_Launcher_Helper_Data $launcherHelper
      * @param string $areaCode
-     * @param array $invokeArgs
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Mage_Backend_Controller_Context $context,
         Mage_Core_Model_Config $configModel,
         Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
         Saas_Launcher_Helper_Data $launcherHelper,
-        $areaCode = null,
-        array $invokeArgs = array()
+        $areaCode = null
     ) {
-        parent::__construct($request, $response, $objectManager, $frontController,
-            $layoutFactory, $areaCode, $invokeArgs
-        );
+        parent::__construct($context, $areaCode);
         $this->_configModel = $configModel;
         $this->_configWriter = $configWriter;
         $this->_launcherHelper = $launcherHelper;
@@ -108,7 +94,7 @@ class Saas_Launcher_Adminhtml_Storelauncher_IndexController extends Saas_Launche
         $launcherFlag = $this->_objectManager->get('Saas_Launcher_Model_Storelauncher_Flag');
         $launcherFlag->loadSelf()->setState(1);
         $launcherFlag->save();
-        $responseContent = Mage::helper('Saas_Launcher_Helper_Data')->jsonEncode(array(
+        $responseContent = $this->_launcherHelper->jsonEncode(array(
             'success' => true,
             'error_message' => '',
         ));

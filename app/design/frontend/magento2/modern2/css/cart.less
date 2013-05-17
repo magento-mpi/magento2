@@ -1,13 +1,13 @@
-// **
-// * {license_notice}
-// *
-// * @category    design
-// * @package     magento2_modern2
-// * @copyright  {copyright}
-// * @license    {license_link}
-// */
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @package     magento2_modern2
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
 
-//*
+// *
 // *    Mage_Checkout
 // *
 // *    Shopping Cart
@@ -39,7 +39,6 @@
             }
         }
     }
-
     .action.update {
         .customFont(10px);
         color: @primary1;
@@ -233,7 +232,6 @@
             &:hover {
                 color: @primary4;
             }
-
         }
         > .content {
             display: none;
@@ -366,13 +364,17 @@
     dt,
     .item.title {
         font-weight: bold;
+        margin-top: 5px;
+    }
+    dt > label img + a {
+        font-weight: normal;
     }
     dd,
     .item.options {
         margin: 0;
         .field.choice {
             padding: 0;
-            margin-bottom: 2px;
+            margin-bottom: 5px;
             display: block;
         }
     }
@@ -432,7 +434,7 @@
     tbody th {
     }
     td {
-        border-right: 1px solid @primary2;
+        border-right: 1px solid @primary1;
         padding: 5px;
         vertical-align: top;
     }
@@ -484,13 +486,16 @@
     }
     .amount {
         .customFont(17px);
+        strong {
+            font-weight: 400;
+        }
     }
     .mark strong {
         font-weight: normal;
     }
     td, th {
         text-align: right;
-        padding: 12px 0 12px 5px;
+        padding: 5px 0 5px 5px;
     }
     td:not(:first-child) {
         strong {
@@ -657,9 +662,6 @@
 
 // Product options
 .minicart {
-    @textColor: @primary6;
-    @optionsBg: rgba(0, 0, 0, .8);
-    @optionsColor: #fff;
     .product.options.wrapper {
         position: relative;
         display: inline-block;
@@ -694,7 +696,6 @@
                 z-index: 2;
             }
         }
-
     }
     .product.options.details {
         display: none;
@@ -710,7 +711,6 @@
         min-width: 100px;
         .title {
             font-weight: bold;
-
         }
         color: @optionsColor;
     }
@@ -780,7 +780,6 @@
         }
         .pricing {
             margin-top: 10px;
-
             .label:after {
                 content: ': ';
             }
@@ -823,6 +822,8 @@
     }
 }
 
+/**/
+
 .action.showcart {
     color: @primary3;
     position: relative;
@@ -851,5 +852,29 @@
     }
     .qty.empty {
         display: none;
+    }
+}
+.eq-ie8 {
+    .header > .panel .links a.action.showcart:hover {
+        text-decoration: none;
+    }
+    .action.showcart {
+        text-decoration: none;
+        white-space: nowrap;
+        letter-spacing: -.31em;
+        word-spacing: -.43em;
+        &:after {
+            margin-left: 3px;
+        }
+        &:after,
+        span,
+        .qty:after,
+        .qty:before {
+            letter-spacing: normal;
+            word-spacing: normal;
+        }
+        .qty:before {
+            content: "\00a0(";
+        }
     }
 }

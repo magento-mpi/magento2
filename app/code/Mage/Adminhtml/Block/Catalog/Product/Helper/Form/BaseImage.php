@@ -100,7 +100,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
         <p class="image-placeholder-text">{$this->__('Click here or drag and drop to add images')}</p>
     </div>
     <script id="{$htmlId}-template" class="image-template" type="text/x-jquery-tmpl">
-        <div class="image" data-image-label="{$this->__('Main')}" data-image-hidden-label="{$this->__('Hidden')}">
+        <div class="image">
             <img class="spacer" src="{$spacerImage}"/>
             <img class="product-image" src="\${url}" data-position="\${position}" alt="\${label}" />
             <div class="actions">
@@ -112,6 +112,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
                 </button>
                 <div class="draggable-handle"></div>
             </div>
+            <div class="image-label"></div>
+            <div class="image-fade"><span>{$this->__('Hidden')}</span></div>
         </div>
     </script>
 </div>

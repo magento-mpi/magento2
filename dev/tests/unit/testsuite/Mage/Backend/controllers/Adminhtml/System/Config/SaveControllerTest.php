@@ -52,10 +52,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
      */
     protected $_authMock;
 
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_layoutMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -71,9 +67,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
     {
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false, false);
         $responseMock = $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false, false);
-        $objectManagerMock = $this->getMock('Magento_ObjectManager');
-        $frontControllerMock = $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false, false);
-        $authorizationMock = $this->getMock('Mage_Core_Model_Authorization', array(), array(), '', false, false);
+
         $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false, false);
         $configStructureMock = $this->getMock('Mage_Backend_Model_Config_Structure',
             array(), array(), '', false, false
@@ -92,10 +86,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
             array('getUser'), array(), '', false, false
         );
 
-        $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout_Factory',
-            array(), array(), '', false, false
-        );
-
         $this->_sectionMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Section', array(), array(), '', false
         );
@@ -107,27 +97,28 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
         $helperMock->expects($this->any())->method('getUrl')->will($this->returnArgument(0));
         $responseMock->expects($this->once())->method('setRedirect')->with('*/system_config/edit');
 
+        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $arguments = array(
+            'request' => $this->_requestMock,
+            'response' => $responseMock,
+            'session' => $this->_sessionMock,
+            'helper' => $helperMock,
+            'eventManager' => $this->_eventManagerMock,
+        );
+
+        $context = $helper->getObject('Mage_Backend_Controller_Context', $arguments);
         $this->_controller = $this->getMock(
             'Mage_Backend_Adminhtml_System_Config_SaveController',
             array('deniedAction'),
             array(
-                $this->_requestMock,
-                $responseMock,
-                $objectManagerMock,
-                $frontControllerMock,
-                $authorizationMock,
+                $context,
                 $configStructureMock,
                 $this->_configMock,
                 $this->_configFactoryMock,
-                $this->_eventManagerMock,
                 $this->_appMock,
                 $this->_authMock,
-                $this->_layoutMock,
                 null,
-                array(
-                    'helper' => $helperMock,
-                    'session' => $this->_sessionMock,
-                ))
+            )
         );
     }
 
@@ -207,7 +198,8 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
     {
         $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
-        $groups = array('some.key' => 'some.val');
+        $fixturePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
+        $groups = require_once($fixturePath . 'groups_array.php');
         $requestParamMap = array(
             array('section', null, 'test_section'),
             array('website', null, 'test_website'),
@@ -219,7 +211,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
             array('config_state', null, 'test_config_state'),
         );
 
-        $fixturePath = dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
         $files = require_once($fixturePath . 'files_array.php');
 
         $this->_requestMock->expects($this->any())->method('getPost')->will($this->returnValueMap($requestPostMap));

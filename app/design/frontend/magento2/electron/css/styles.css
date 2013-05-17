@@ -1,8 +1,10 @@
 /**
  * {license_notice}
  *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @category    design
+ * @package     magento2_electron
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 @font-face {
   font-family: 'MUI-Icons';
@@ -18,141 +20,6 @@
   font-weight: 400;
   font-style: normal;
 }
-body {
-  position: relative;
-  padding-bottom: 50px;
-}
-.temp {
-  opacity: 0;
-  -webkit-transition: opacity 0.2s linear 0.2s;
-  -moz-transition: opacity 0.2s linear 0.2s;
-  -ms-transition: opacity 0.2s linear 0.2s;
-  -o-transition: opacity 0.2s linear 0.2s;
-  transition: opacity 0.2s linear 0.2s;
-  width: 100%;
-  padding: 5px;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
-  border-top: 1px solid #999999;
-  background: #cccccc;
-  position: fixed;
-  z-index: 999;
-  bottom: 0;
-  left: 0;
-}
-.temp:hover {
-  opacity: 1;
-}
-.temp dt {
-  padding: 5px;
-  font-weight: 700;
-}
-.temp dt:after {
-  content: ' {';
-}
-.temp dd {
-  padding: 0 5px;
-  font-size: 13px;
-  margin-left: 0;
-}
-.temp dd a {
-  white-space: nowrap;
-}
-.temp dd:after {
-  content: '}';
-  font-weight: 700;
-}
-.temp .options {
-  display: none;
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-  background: #cccccc;
-  border: 1px solid #999999;
-  border-bottom: 0;
-  padding: 10px;
-}
-.temp .options ul {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-  margin-left: 20px;
-}
-.temp .options ul > li {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-}
-.temp button span:before {
-  font-family: "cake-icons";
-  font-size: 16px;
-  line-height: 16px;
-  height: 16px;
-  overflow: hidden;
-  content: "\e07e";
-  font-style: normal;
-  speak: none;
-  font-weight: normal;
-  -webkit-font-smoothing: antialiased;
-  display: inline-block;
-  vertical-align: middle;
-  text-align: center;
-}
-.temp button span:before {
-  vertical-align: top;
-  margin-top: 2px;
-  margin-right: 5px;
-}
-.temp.active .options {
-  display: block;
-}
-.product.name:first-letter,
-.product.description:first-letter {
-  text-transform: capitalize;
-}
-.col1-layout:before {
-  position: fixed;
-  top: 0;
-  right: 0;
-  font-size: 11px;
-  background: rgba(0, 0, 0, 0.4);
-  color: #fff;
-  content: '.col1-layout ';
-}
-.col2-left-layout:before {
-  position: fixed;
-  top: 0;
-  right: 0;
-  font-size: 11px;
-  background: rgba(0, 0, 0, 0.4);
-  color: #fff;
-  content: '.col2-left-layout ';
-}
-.col2-right-layout:before {
-  position: fixed;
-  top: 0;
-  right: 0;
-  font-size: 11px;
-  background: rgba(0, 0, 0, 0.4);
-  color: #fff;
-  content: '.col2-right-layout ';
-}
-.col3-layout:before {
-  position: fixed;
-  top: 0;
-  right: 0;
-  font-size: 11px;
-  background: rgba(0, 0, 0, 0.4);
-  color: #fff;
-  content: '.col3-layout ';
-}
 /*CSS3 transition*/
 /*all .25s ease|linear|ease-in|ease-out|ease-in-out|cubic-bezier*/
 /*.box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
@@ -160,21 +27,9 @@ body {
   -moz-box-shadow: @arguments;
   -webkit-box-shadow: @arguments;
 }*/
-/**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
- */
 /* =============================================================================
    Switchable terms
    ========================================================================== */
-/**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
- */
 /*
     Fieldset
 -------------------------------------- */
@@ -248,6 +103,7 @@ strong {
 div.mage-error {
   background-image: none;
   padding-left: 0;
+  color: red;
   font-size: 12px;
   font-weight: normal;
 }
@@ -270,11 +126,13 @@ textarea {
   color: #9ba4ad;
   font: 400 12px/1.33 Arial, Helvetica, sans-serif;
 }
-body {
-  padding-bottom: 0;
+html {
+  min-width: 1025px;
 }
-.page.wrapper {
+body {
+  position: relative;
   background: url(../images/bg_page.png) repeat #2f2f38;
+  padding-bottom: 0;
 }
 a,
 a:visited {
@@ -388,6 +246,7 @@ a:visited:hover {
 }
 .sidebar .block .actions .button > span,
 .sidebar .block .actions .tocart > span {
+  border: none;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
   background: #9ea5ac;
@@ -420,11 +279,60 @@ a:visited:hover {
   background: linear-gradient(to bottom, #b8c3ce 0%, #a2afbd 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b8c3ce', endColorstr='#a2afbd', GradientType=0);
 }
-.sidebar .block .actions .tocart span {
-  padding: 5px 7px 6px;
-}
 .sidebar .block .actions .primary {
   display: inline-block;
+}
+.sidebar .block .actions .primary .action {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  display: inline-block;
+  line-height: normal !important;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  position: relative;
+  text-shadow: none;
+  text-align: center;
+  outline: none;
+  -webkit-appearance: none;
+  z-index: 1;
+}
+.sidebar .block .actions .primary .action > span {
+  border: none;
+  border-radius: 5px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
+  background: #9ea5ac;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzllYTVhYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM4MzhhOTMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top, #9ea5ac 0%, #838a93 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #9ea5ac), color-stop(100%, #838a93));
+  background: -webkit-linear-gradient(top, #9ea5ac 0%, #838a93 100%);
+  background: -o-linear-gradient(top, #9ea5ac 0%, #838a93 100%);
+  background: -ms-linear-gradient(top, #9ea5ac 0%, #838a93 100%);
+  background: linear-gradient(to bottom, #9ea5ac 0%, #838a93 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9ea5ac', endColorstr='#838a93', GradientType=0);
+  color: #333;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  display: block;
+  margin: 0;
+  padding: 8px 11px 7px;
+  position: relative;
+}
+.sidebar .block .actions .primary .action:hover > span {
+  background: #b8c3ce;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2I4YzNjZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNhMmFmYmQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top, #b8c3ce 0%, #a2afbd 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b8c3ce), color-stop(100%, #a2afbd));
+  background: -webkit-linear-gradient(top, #b8c3ce 0%, #a2afbd 100%);
+  background: -o-linear-gradient(top, #b8c3ce 0%, #a2afbd 100%);
+  background: -ms-linear-gradient(top, #b8c3ce 0%, #a2afbd 100%);
+  background: linear-gradient(to bottom, #b8c3ce 0%, #a2afbd 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b8c3ce', endColorstr='#a2afbd', GradientType=0);
+}
+.sidebar .block .actions .primary .tocart span {
+  padding: 5px 7px 6px;
 }
 .sidebar .block .actions .primary + .secondary {
   float: right;
@@ -459,7 +367,7 @@ a:visited:hover {
   line-height: 8px;
   height: 8px;
   overflow: hidden;
-  content: "\e012";
+  content: "\e016";
   font-style: normal;
   speak: none;
   font-weight: normal;
@@ -493,7 +401,7 @@ a:visited:hover {
   line-height: 8px;
   height: 8px;
   overflow: hidden;
-  content: "\e012";
+  content: "\e016";
   font-style: normal;
   speak: none;
   font-weight: normal;
@@ -652,6 +560,7 @@ a:visited:hover {
   margin: 15px 0 0;
 }
 .page.title .title + .action > span {
+  border: none;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
   background: #9ea5ac;
@@ -824,10 +733,7 @@ a:visited:hover {
   display: inline;
 }
 .header > .content .links a {
-  border-bottom: 1px solid #e5e5e5;
-}
-.header > .content .links a:hover {
-  border-bottom-color: #9ba4ad;
+  text-decoration: underline;
 }
 .header > .content .links .top-link-checkout {
   border: 1px solid #b17805;
@@ -850,6 +756,7 @@ a:visited:hover {
   margin: 0;
   padding: 7px 10px 6px;
   position: relative;
+  text-decoration: none;
 }
 .header > .content .links .top-link-checkout:hover {
   background: #ffd263;
@@ -899,10 +806,7 @@ a:visited:hover {
   display: inline;
 }
 .header .panel .links a {
-  border-bottom: 1px solid #758390;
-}
-.header .panel .links a:hover {
-  border-bottom-color: #9ba4ad;
+  border-bottom: 1px solid;
 }
 .header .panel > .links {
   display: inline;
@@ -913,6 +817,7 @@ a:visited:hover {
 .header .panel .login {
   display: inline-block;
   margin-left: 20px;
+  vertical-align: bottom;
 }
 .header .panel .login li {
   margin: 0;
@@ -977,10 +882,7 @@ a:visited:hover {
   display: inline;
 }
 .footer .links a {
-  border-bottom: 1px solid #646971;
-}
-.footer .links a:hover {
-  border-bottom-color: #9ba4ad;
+  border-bottom: 1px solid;
 }
 .footer .links + .links {
   clear: both;
@@ -1190,6 +1092,31 @@ a:visited:hover {
   margin: 0;
 }
 /* Reviews */
+.review.view {
+  *zoom: 1;
+}
+.review.view:before,
+.review.view:after {
+  content: "";
+  display: table;
+}
+.review.view:after {
+  clear: both;
+}
+.review.view .product.details {
+  float: left;
+  width: 300px;
+}
+.review.view .review.details {
+  float: right;
+  width: 480px;
+}
+.review.view .review.details .reviews.summary {
+  margin: 10px 0;
+}
+.review.view .review.details .review.content {
+  margin: 20px 0;
+}
 .reviews.summary {
   line-height: 16px;
 }
@@ -1706,6 +1633,9 @@ ul.messages ul {
   margin: 0;
   list-style-type: none;
 }
+ul.messages > li + li {
+  margin: 10px 0 0;
+}
 .success-msg {
   background: #6ab92d;
 }
@@ -1980,7 +1910,7 @@ select:disabled {
   display: block;
   border-right: 0;
   float: left;
-  line-height: 29px;
+  line-height: 1;
   height: 29px;
   width: 100%;
 }
@@ -2618,6 +2548,7 @@ select:disabled {
   float: right;
 }
 .cart.main.actions .action.update > span {
+  border: none;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
   background: #9ea5ac;
@@ -2687,12 +2618,30 @@ select:disabled {
 .review .items.data td.col.qty {
   padding-top: 16px;
 }
+.items.data td.col.qty .control.qty div.mage-error {
+  background: #414149;
+  position: absolute;
+  padding: 5px;
+  margin: 10px 0 0 -60px;
+  width: 150px;
+}
+.items.data td.col.qty .control.qty div.mage-error:before {
+  position: absolute;
+  top: -5px;
+  left: 75px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #414149;
+  height: 0;
+  width: 0;
+}
 .items.data th.col.qty {
   text-transform: uppercase;
 }
 .items.data input.qty {
-  width: 40px;
+  line-height: 1;
   text-align: center;
+  width: 40px;
 }
 .items.data td.col.price,
 .items.data td.col.subtotal {
@@ -2782,6 +2731,7 @@ select:disabled {
   float: right;
   width: 290px;
   padding: 0 20px 20px;
+  display:inline-block;
 }
 .cart.summary .summary.title {
   color: #bec1c4;
@@ -2793,6 +2743,21 @@ select:disabled {
   padding-bottom: 4px;
   text-align: center;
 }
+
+.cart > .summary.fixed, .cart.container > .summary > .container.fixed {
+    position: fixed;
+    top: 0;
+}
+.cart.container > .summary.bottom {
+    vertical-align: bottom;
+    bottom:0;
+}
+
+.cart.container > .summary.sticky{
+    position:fixed;
+    display:inline-block !important
+}
+
 .cart.summary .block {
   background: #4a4a52;
   font-size: 12px;
@@ -2869,6 +2834,7 @@ select:disabled {
   z-index: 1;
 }
 .cart.summary .block .action > span {
+  border: none;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
   background: #9ea5ac;
@@ -2947,6 +2913,7 @@ select:disabled {
   z-index: 1;
 }
 .block.shipping .fieldset.rates .actions .action > span {
+  border: none;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
   background: #9ea5ac;
@@ -3802,7 +3769,7 @@ select:disabled {
   line-height: 11px;
   height: 11px;
   overflow: hidden;
-  content: "\e012";
+  content: "\e016";
   font-style: normal;
   speak: none;
   font-weight: normal;
@@ -3908,6 +3875,7 @@ select:disabled {
   z-index: 1;
 }
 .action.subscribe > span {
+  border: none;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
   background: #9ea5ac;
@@ -4060,7 +4028,6 @@ select:disabled {
   border-width: 0 1px 1px;
   font-size: 13px;
   background: #4a4a52;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
   margin: 0;
   position: absolute;
   left: -1px;
@@ -4140,15 +4107,6 @@ select:disabled {
   background: #4a4a52;
   color: #95c6db;
 }
-.navigation > ul > .level-top.hover.parent > a:after {
-  border-bottom: 1px solid #4a4a52;
-  content: '';
-  position: absolute;
-  left: 1px;
-  bottom: -1px;
-  width: 100%;
-  z-index: 5;
-}
 /* Exceptions */
 .no-rgba .navigation .level-top > a:after {
   border-left-color: transparent;
@@ -4200,10 +4158,115 @@ select:disabled {
 .block.related .field.choice.related {
   margin: 0 0 10px;
 }
+.block.product.tags .content .subtitle {
+  display: none;
+}
+.block.product.tags .content .tags.items {
+  padding: 10px 0 0;
+  text-align: center;
+}
+.block.product.tags .content .tags.items .item {
+  display: inline-block;
+  margin: 0 5px;
+}
+.block.product.tags .content .tags.items .item .amount {
+  font-size: 10px;
+  margin-left: 2px;
+}
+.block.product.tags .content .tags.items .item .amount:before {
+  display: inline;
+  content: '(';
+}
+.block.product.tags .content .tags.items .item .amount:after {
+  display: inline;
+  content: ')';
+}
+.block.product.tags .content .form.add.tag {
+  padding: 25px 0 0;
+  text-align: center;
+}
+.block.product.tags .content .form.add.tag .field,
+.block.product.tags .content .form.add.tag .actions,
+.block.product.tags .content .form.add.tag .label,
+.block.product.tags .content .form.add.tag .control {
+  display: inline-block;
+  vertical-align: top;
+}
+.block.product.tags .content .form.add.tag .field .label {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  padding: 5px 5px 0 0;
+  text-align: right;
+  width: 29%;
+}
+.block.product.tags .content .form.add.tag .field .control {
+  text-align: left;
+  width: 69%;
+}
+.block.product.tags .content .form.add.tag .field .control p {
+  font-size: 12px;
+}
+.block.product.tags .content .form.add.tag .action.add.tag {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  display: inline-block;
+  line-height: normal !important;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  position: relative;
+  text-shadow: none;
+  text-align: center;
+  outline: none;
+  -webkit-appearance: none;
+  z-index: 1;
+}
+.block.product.tags .content .form.add.tag .action.add.tag > span {
+  border: none;
+  border-radius: 5px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
+  background: #9ea5ac;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzllYTVhYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM4MzhhOTMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top, #9ea5ac 0%, #838a93 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #9ea5ac), color-stop(100%, #838a93));
+  background: -webkit-linear-gradient(top, #9ea5ac 0%, #838a93 100%);
+  background: -o-linear-gradient(top, #9ea5ac 0%, #838a93 100%);
+  background: -ms-linear-gradient(top, #9ea5ac 0%, #838a93 100%);
+  background: linear-gradient(to bottom, #9ea5ac 0%, #838a93 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9ea5ac', endColorstr='#838a93', GradientType=0);
+  color: #333;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  display: block;
+  margin: 0;
+  padding: 8px 11px 7px;
+  position: relative;
+}
+.block.product.tags .content .form.add.tag .action.add.tag:hover > span {
+  background: #b8c3ce;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2I4YzNjZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNhMmFmYmQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top, #b8c3ce 0%, #a2afbd 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b8c3ce), color-stop(100%, #a2afbd));
+  background: -webkit-linear-gradient(top, #b8c3ce 0%, #a2afbd 100%);
+  background: -o-linear-gradient(top, #b8c3ce 0%, #a2afbd 100%);
+  background: -ms-linear-gradient(top, #b8c3ce 0%, #a2afbd 100%);
+  background: linear-gradient(to bottom, #b8c3ce 0%, #a2afbd 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b8c3ce', endColorstr='#a2afbd', GradientType=0);
+}
 .block.widget.viewed,
 .block.crosssell,
 .block.upsell,
-.block.related {
+.block.related,
+.block.product.tags {
   *zoom: 1;
   margin: 30px 0;
   padding-top: 25px;
@@ -4214,30 +4277,35 @@ select:disabled {
 .block.crosssell:before,
 .block.upsell:before,
 .block.related:before,
+.block.product.tags:before,
 .block.widget.viewed:after,
 .block.crosssell:after,
 .block.upsell:after,
-.block.related:after {
+.block.related:after,
+.block.product.tags:after {
   content: "";
   display: table;
 }
 .block.widget.viewed:after,
 .block.crosssell:after,
 .block.upsell:after,
-.block.related:after {
+.block.related:after,
+.block.product.tags:after {
   clear: both;
 }
 .block.widget.viewed .title,
 .block.crosssell .title,
 .block.upsell .title,
-.block.related .title {
+.block.related .title,
+.block.product.tags .title {
   position: relative;
   text-align: center;
 }
 .block.widget.viewed .title strong,
 .block.crosssell .title strong,
 .block.upsell .title strong,
-.block.related .title strong {
+.block.related .title strong,
+.block.product.tags .title strong {
   background: #2f2f38;
   color: #9ba4ad;
   display: inline-block;
@@ -4252,7 +4320,8 @@ select:disabled {
 .block.widget.viewed .title:after,
 .block.crosssell .title:after,
 .block.upsell .title:after,
-.block.related .title:after {
+.block.related .title:after,
+.block.product.tags .title:after {
   content: '';
   background: #3d3d44;
   display: block;
@@ -4266,13 +4335,15 @@ select:disabled {
 .block.widget.viewed .products.list,
 .block.crosssell .products.list,
 .block.upsell .products.list,
-.block.related .products.list {
+.block.related .products.list,
+.block.product.tags .products.list {
   margin: 0 -20px;
 }
 .block.widget.viewed .products.list .item.product,
 .block.crosssell .products.list .item.product,
 .block.upsell .products.list .item.product,
-.block.related .products.list .item.product {
+.block.related .products.list .item.product,
+.block.product.tags .products.list .item.product {
   display: inline;
   float: left;
   width: 33.33333333333333%;
@@ -4295,49 +4366,57 @@ select:disabled {
 .block.widget.viewed .products.list .item.product .product.details,
 .block.crosssell .products.list .item.product .product.details,
 .block.upsell .products.list .item.product .product.details,
-.block.related .products.list .item.product .product.details {
+.block.related .products.list .item.product .product.details,
+.block.product.tags .products.list .item.product .product.details {
   overflow: hidden;
 }
 .block.widget.viewed .products.list .item.product .product.name,
 .block.crosssell .products.list .item.product .product.name,
 .block.upsell .products.list .item.product .product.name,
 .block.related .products.list .item.product .product.name,
+.block.product.tags .products.list .item.product .product.name,
 .block.widget.viewed .products.list .item.product .price-box,
 .block.crosssell .products.list .item.product .price-box,
 .block.upsell .products.list .item.product .price-box,
-.block.related .products.list .item.product .price-box {
+.block.related .products.list .item.product .price-box,
+.block.product.tags .products.list .item.product .price-box {
   margin: 0 0 10px;
 }
 .block.widget.viewed .products.list .item.product .addto.links,
 .block.crosssell .products.list .item.product .addto.links,
 .block.upsell .products.list .item.product .addto.links,
-.block.related .products.list .item.product .addto.links {
+.block.related .products.list .item.product .addto.links,
+.block.product.tags .products.list .item.product .addto.links {
   padding: 10px 0 0;
   border-top: 1px solid #bec1c4;
 }
 .block.widget.viewed .products.list .item.product .addto.links .action:after,
 .block.crosssell .products.list .item.product .addto.links .action:after,
 .block.upsell .products.list .item.product .addto.links .action:after,
-.block.related .products.list .item.product .addto.links .action:after {
+.block.related .products.list .item.product .addto.links .action:after,
+.block.product.tags .products.list .item.product .addto.links .action:after {
   content: '';
   display: block;
 }
 .block.widget.viewed .products.list .item.product .actions,
 .block.crosssell .products.list .item.product .actions,
 .block.upsell .products.list .item.product .actions,
-.block.related .products.list .item.product .actions {
+.block.related .products.list .item.product .actions,
+.block.product.tags .products.list .item.product .actions {
   display: none;
 }
 .block.widget.viewed .products.list .item.product .actions .primary,
 .block.crosssell .products.list .item.product .actions .primary,
 .block.upsell .products.list .item.product .actions .primary,
-.block.related .products.list .item.product .actions .primary {
+.block.related .products.list .item.product .actions .primary,
+.block.product.tags .products.list .item.product .actions .primary {
   margin: 0 0 10px;
 }
 .block.widget.viewed .products.list .item.product:hover .actions,
 .block.crosssell .products.list .item.product:hover .actions,
 .block.upsell .products.list .item.product:hover .actions,
-.block.related .products.list .item.product:hover .actions {
+.block.related .products.list .item.product:hover .actions,
+.block.product.tags .products.list .item.product:hover .actions {
   display: block;
 }
 .block.crosssell .products.list.items.crosssell {
@@ -4410,6 +4489,143 @@ select:disabled {
   line-height: 1.5;
   text-decoration: underline;
 }
+.block.compare .items.compare .item {
+  margin: 0;
+  padding-right: 20px;
+  overflow: hidden;
+}
+.block.compare .items.compare .item .action.delete span:after {
+  content: "\e016";
+  font-size: 8px;
+}
+.block.compare .items.compare .product.name {
+  float: left;
+}
+.block.compare .items.compare .action.delete {
+  margin-right: -20px;
+  float: right;
+}
+.catalog-product-compare-index .action.print {
+  float: right;
+  margin-top: -50px;
+}
+.comparison.wrapper {
+  clear: both;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 50px;
+}
+.comparison.wrapper:after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 15px;
+}
+.comparison.container {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.data.comparison {
+  table-layout: fixed;
+}
+.data.comparison .cell {
+  border: 1px solid #414149;
+}
+.data.comparison .cell.label {
+  background: #414149;
+  border: none;
+  border-right: 1px solid #414149;
+  font-weight: 600;
+  text-align: left;
+  padding-left: 10px;
+  width: 130px;
+}
+.data.comparison .cell.label .attribute.label {
+  display: block;
+  width: 100%;
+  word-break: break-all;
+}
+.data.comparison .cell.label.product {
+  padding-bottom: 16px;
+  width: 130px;
+}
+.data.comparison .cell {
+  padding: 15px;
+  vertical-align: top;
+}
+.data.comparison .cell p:first-child {
+  margin-top: 0;
+}
+.data.comparison .cell .attibute.value {
+  width: 100%;
+  overflow: hidden;
+}
+.data.comparison .cell.product {
+  border: 1px solid #414149;
+  border-top: none;
+  width: 165px;
+}
+.data.comparison .cell.product.label {
+  border: none;
+  border-right: 1px solid #414149;
+}
+.data.comparison .cell.product .action.tocart {
+  min-width: auto;
+}
+.data.comparison .cell.product .action.tocart span {
+  font-size: 14px;
+  padding: 8px 11px;
+}
+.data.comparison .cell.attribute {
+  font-size: 12px;
+}
+.data.comparison .product.photo {
+  text-align: center;
+  display: block;
+  margin: 0 auto 15px;
+}
+.data.comparison .product.photo .img.photo.container {
+  display: inline-block !important;
+}
+.data.comparison .actions,
+.data.comparison .price-box,
+.data.comparison .product.rating,
+.data.comparison .product.name {
+  margin: 15px 0;
+}
+.data.comparison .addto.links {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #414149;
+  font-size: 12px;
+}
+.data.comparison .cell.remove {
+  border-top: 1px solid #414149;
+  border-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  text-align: right;
+}
+.data.comparison .cell.remove .action.delete {
+  float: right;
+  padding: 4px;
+  margin-right: -15px;
+}
+.data.comparison .cell.remove.label {
+  border: none;
+  border-right: 1px solid #414149;
+  padding-bottom: 16px;
+}
+.comparison.headings {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: auto;
+}
 /*
  *    Mage_Catalog
  *
@@ -4470,10 +4686,7 @@ select:disabled {
   margin: 9px 0 11px;
 }
 .block.filter dd a {
-  border-bottom: 1px solid #758390;
-}
-.block.filter dd a:hover {
-  border-bottom-color: #9ba4ad;
+  border-bottom: 1px solid;
 }
 .block.filter dd .count {
   color: #999;
@@ -4505,10 +4718,7 @@ select:disabled {
 }
 .block.account.nav .nav.items .nav.item a {
   color: #9ba4ad;
-  border-bottom: 1px solid #758390;
-}
-.block.account.nav .nav.items .nav.item a:hover {
-  border-bottom-color: #9ba4ad;
+  border-bottom: 1px solid;
 }
 .my-account .block.dashboard,
 .my-account .block.addresses {
@@ -4580,6 +4790,10 @@ select:disabled {
   line-height: 18px;
   padding: 0 30px 30px 0;
 }
+/*
+ *    My Account
+ *
+----------------------------------------------------------------------------- */
 .my-account a {
   color: #93ccfc;
   text-decoration: underline;
@@ -4691,12 +4905,267 @@ select:disabled {
   content: '«';
   display: inline;
 }
+.my-account .tag.edit + .toolbar {
+  display: none;
+}
+.my-account .tag.edit .action.delete {
+  text-decoration: none;
+}
+.my-account .tag.edit .action.delete span:after {
+  content: "\e016";
+  font-size: 8px;
+}
+.my-account .data.table.tags .col {
+  vertical-align: top;
+}
+.my-account .data.table.tags .col.photo {
+  padding-right: 20px;
+  white-space: nowrap;
+  width: 1px;
+}
+.my-account .data.table.tags .col.item {
+  width: 60%;
+}
+.my-account .data.table.tags .col.actions .addto.links {
+  padding-top: 16px;
+}
+.my-account .tags.items.cloud {
+  font-size: 14px;
+  margin: 0 0 30px;
+}
+.my-account .tags.items.cloud .item {
+  display: inline-block;
+  margin: 0 20px 0 0;
+}
+.my-account .block.dashboard.tags .item.product {
+  margin: 0 0 30px;
+}
+.my-account .block.dashboard.tags .item.product .items.tags .item {
+  display: inline-block;
+}
+.my-account .block.dashboard.tags .item.product .items.tags .item:after {
+  display: inline;
+  content: ', ';
+}
+.my-account .block.dashboard.tags .item.product .items.tags .item:last-child:after {
+  content: '';
+}
 .my-wishlist .page-title {
   display: none;
 }
 .my-wishlist fieldset {
   border: none;
   padding: 0;
+}
+/*
+ *    My Account --> My orders
+ *
+----------------------------------------------------------------------------- */
+.order.details .status {
+  float: left;
+  color: #bec1c4;
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1;
+  font-size: 20px;
+}
+.order.details .subtitle.caption strong,
+.order.details .title strong {
+  color: #bec1c4;
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1;
+  font-size: 20px;
+}
+.order.details .subtitle.caption .action,
+.order.details .title .action {
+  margin-left: 10px;
+}
+.order.details .order.toolbar {
+  float: right;
+  margin-top: 0;
+}
+.order.details .order.toolbar .action {
+  margin-left: 10px;
+}
+.order.details .block.order {
+  float: left;
+  width: 48%;
+  padding-right: 2%;
+}
+.order.details .block.order.billing.address {
+  clear: left;
+}
+.order.details .block.order .content {
+  padding: 0 0 40px;
+}
+.order.details .order.date {
+  margin: 0 0 50px;
+}
+.order.details .order.info {
+  clear: both;
+  padding: 20px 0 0;
+}
+.order.details .order.info > dt {
+  color: #bec1c4;
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1;
+  font-size: 20px;
+  margin: 0 0 20px;
+}
+.order.details .order.info > dd {
+  margin: 10px 0 0 0;
+  padding: 0;
+}
+.order.details .order.info > dd .items {
+  *zoom: 1;
+}
+.order.details .order.info > dd .items:before,
+.order.details .order.info > dd .items:after {
+  content: "";
+  display: table;
+}
+.order.details .order.info > dd .items:after {
+  clear: both;
+}
+.order.details .order.info > dd .items .item {
+  float: left;
+  margin-right: 15px;
+}
+.order.details .additional.details .order.comments {
+  padding: 30px;
+}
+.data.table.order {
+  margin-bottom: 10px;
+}
+.data.table.order tbody tr:last-child td {
+  border-bottom: 1px solid #3d3d44;
+}
+.order.details.items {
+  clear: both;
+}
+.order.details.items .order.toolbar {
+  margin: 9px 0 0 0;
+}
+.order.details.items .action.show {
+  text-decoration: none;
+}
+.order.details.items .action.show:after {
+  font-family: "cake-icons";
+  font-size: 12px;
+  line-height: 12px;
+  height: 12px;
+  overflow: hidden;
+  content: "\e014";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.order.details.items .action.show.expanded:after {
+  content: "\e010";
+}
+.gift.message.details {
+  position: relative;
+}
+.gift.message.details .action.close {
+  width: 11px;
+  display: block;
+  line-height: 0px;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
+  text-indent: -999em;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.gift.message.details .action.close:after {
+  font-family: "cake-icons";
+  font-size: 11px;
+  line-height: 11px;
+  height: 11px;
+  overflow: hidden;
+  content: "\e016";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.gift.message.details .action.close:active {
+  outline: 0;
+}
+.gift.message.details .action.close:after {
+  text-indent: 0;
+  display: block;
+}
+.gift.message.details .action.close:hover:after {
+  color: #ffffff;
+}
+.data.table.tracking .label {
+  width: 40%;
+}
+.shipping-tracking-popup .action.close {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  display: inline-block;
+  line-height: normal !important;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  position: relative;
+  text-shadow: none;
+  text-align: center;
+  outline: none;
+  -webkit-appearance: none;
+  z-index: 1;
+  text-indent: 0;
+}
+.shipping-tracking-popup .action.close > span {
+  border: none;
+  border-radius: 5px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
+  background: #9ea5ac;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzllYTVhYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM4MzhhOTMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top, #9ea5ac 0%, #838a93 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #9ea5ac), color-stop(100%, #838a93));
+  background: -webkit-linear-gradient(top, #9ea5ac 0%, #838a93 100%);
+  background: -o-linear-gradient(top, #9ea5ac 0%, #838a93 100%);
+  background: -ms-linear-gradient(top, #9ea5ac 0%, #838a93 100%);
+  background: linear-gradient(to bottom, #9ea5ac 0%, #838a93 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9ea5ac', endColorstr='#838a93', GradientType=0);
+  color: #333;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  display: block;
+  margin: 0;
+  padding: 8px 11px 7px;
+  position: relative;
+}
+.shipping-tracking-popup .action.close:hover > span {
+  background: #b8c3ce;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2I4YzNjZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNhMmFmYmQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top, #b8c3ce 0%, #a2afbd 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b8c3ce), color-stop(100%, #a2afbd));
+  background: -webkit-linear-gradient(top, #b8c3ce 0%, #a2afbd 100%);
+  background: -o-linear-gradient(top, #b8c3ce 0%, #a2afbd 100%);
+  background: -ms-linear-gradient(top, #b8c3ce 0%, #a2afbd 100%);
+  background: linear-gradient(to bottom, #b8c3ce 0%, #a2afbd 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b8c3ce', endColorstr='#a2afbd', GradientType=0);
+}
+.shipping-tracking-popup .action.close span {
+  width: auto;
+  text-indent: 0;
+}
+.shipping-tracking-popup .action.close span:after {
+  content: "";
+  display: none;
 }
 /*
  *    Mage_Catalog
@@ -5852,6 +6321,7 @@ select:disabled {
 }
 .prices.tier {
   background: #9ba4ad;
+  color: #333333;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   line-height: 16px;
@@ -6474,6 +6944,17 @@ body.type-bundle {
   margin-right: 15px;
   text-decoration: underline;
 }
+.block.bundle.summary .bundle.summary div > ul {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+.block.bundle.summary .bundle.summary div > ul > li {
+  margin: 0 0 10px;
+}
+.block.bundle.summary .bundle.summary div > ul > li > div > div {
+  margin: 0 0 5px;
+}
 .action.back.customization {
   position: absolute;
   top: 57px;
@@ -6806,7 +7287,8 @@ img[align="right"] {
 .form.password.forget .fieldset,
 .form.create.account .fieldset,
 .form.newsletter.manage .fieldset,
-.form.giftcard.redeem .fieldset {
+.form.giftcard.redeem .fieldset,
+.form.password.reset .fieldset {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -6838,7 +7320,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field,
 .form.create.account .fieldset > .field,
 .form.newsletter.manage .fieldset > .field,
-.form.giftcard.redeem .fieldset > .field {
+.form.giftcard.redeem .fieldset > .field,
+.form.password.reset .fieldset > .field {
   *zoom: 1;
 }
 .form.address.edit .fieldset > .field:before,
@@ -6850,6 +7333,7 @@ img[align="right"] {
 .form.create.account .fieldset > .field:before,
 .form.newsletter.manage .fieldset > .field:before,
 .form.giftcard.redeem .fieldset > .field:before,
+.form.password.reset .fieldset > .field:before,
 .form.address.edit .fieldset > .field:after,
 .form.edit.account .fieldset > .field:after,
 .form.search.advanced .fieldset > .field:after,
@@ -6858,7 +7342,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field:after,
 .form.create.account .fieldset > .field:after,
 .form.newsletter.manage .fieldset > .field:after,
-.form.giftcard.redeem .fieldset > .field:after {
+.form.giftcard.redeem .fieldset > .field:after,
+.form.password.reset .fieldset > .field:after {
   content: "";
   display: table;
 }
@@ -6870,7 +7355,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field:after,
 .form.create.account .fieldset > .field:after,
 .form.newsletter.manage .fieldset > .field:after,
-.form.giftcard.redeem .fieldset > .field:after {
+.form.giftcard.redeem .fieldset > .field:after,
+.form.password.reset .fieldset > .field:after {
   clear: both;
 }
 .form.address.edit .fieldset > .field > .control,
@@ -6882,6 +7368,7 @@ img[align="right"] {
 .form.create.account .fieldset > .field > .control,
 .form.newsletter.manage .fieldset > .field > .control,
 .form.giftcard.redeem .fieldset > .field > .control,
+.form.password.reset .fieldset > .field > .control,
 .form.address.edit .fieldset > .field > .label,
 .form.edit.account .fieldset > .field > .label,
 .form.search.advanced .fieldset > .field > .label,
@@ -6890,7 +7377,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field > .label,
 .form.create.account .fieldset > .field > .label,
 .form.newsletter.manage .fieldset > .field > .label,
-.form.giftcard.redeem .fieldset > .field > .label {
+.form.giftcard.redeem .fieldset > .field > .label,
+.form.password.reset .fieldset > .field > .label {
   margin: 0;
   float: left;
   width: 30%;
@@ -6912,7 +7400,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field > .control,
 .form.create.account .fieldset > .field > .control,
 .form.newsletter.manage .fieldset > .field > .control,
-.form.giftcard.redeem .fieldset > .field > .control {
+.form.giftcard.redeem .fieldset > .field > .control,
+.form.password.reset .fieldset > .field > .control {
   width: 70%;
 }
 .form.address.edit .fieldset > .field.no-label .control,
@@ -6923,7 +7412,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field.no-label .control,
 .form.create.account .fieldset > .field.no-label .control,
 .form.newsletter.manage .fieldset > .field.no-label .control,
-.form.giftcard.redeem .fieldset > .field.no-label .control {
+.form.giftcard.redeem .fieldset > .field.no-label .control,
+.form.password.reset .fieldset > .field.no-label .control {
   margin-left: 30%;
 }
 .form.address.edit .fieldset > *,
@@ -6934,7 +7424,8 @@ img[align="right"] {
 .form.password.forget .fieldset > *,
 .form.create.account .fieldset > *,
 .form.newsletter.manage .fieldset > *,
-.form.giftcard.redeem .fieldset > * {
+.form.giftcard.redeem .fieldset > *,
+.form.password.reset .fieldset > * {
   letter-spacing: normal;
   word-spacing: normal;
 }
@@ -6946,7 +7437,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .legend + br,
 .form.create.account .fieldset > .legend + br,
 .form.newsletter.manage .fieldset > .legend + br,
-.form.giftcard.redeem .fieldset > .legend + br {
+.form.giftcard.redeem .fieldset > .legend + br,
+.form.password.reset .fieldset > .legend + br {
   display: none;
 }
 .form.address.edit .fieldset .legend,
@@ -6957,7 +7449,8 @@ img[align="right"] {
 .form.password.forget .fieldset .legend,
 .form.create.account .fieldset .legend,
 .form.newsletter.manage .fieldset .legend,
-.form.giftcard.redeem .fieldset .legend {
+.form.giftcard.redeem .fieldset .legend,
+.form.password.reset .fieldset .legend {
   float: left;
   color: #bec1c4;
   line-height: 1.2;
@@ -6978,7 +7471,8 @@ img[align="right"] {
 .form.password.forget .fieldset .legend + br,
 .form.create.account .fieldset .legend + br,
 .form.newsletter.manage .fieldset .legend + br,
-.form.giftcard.redeem .fieldset .legend + br {
+.form.giftcard.redeem .fieldset .legend + br,
+.form.password.reset .fieldset .legend + br {
   display: block;
   clear: both;
 }
@@ -6990,7 +7484,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field,
 .form.create.account .fieldset > .field,
 .form.newsletter.manage .fieldset > .field,
-.form.giftcard.redeem .fieldset > .field {
+.form.giftcard.redeem .fieldset > .field,
+.form.password.reset .fieldset > .field {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -7005,7 +7500,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field > .label,
 .form.create.account .fieldset > .field > .label,
 .form.newsletter.manage .fieldset > .field > .label,
-.form.giftcard.redeem .fieldset > .field > .label {
+.form.giftcard.redeem .fieldset > .field > .label,
+.form.password.reset .fieldset > .field > .label {
   display: block;
 }
 .form.address.edit .fieldset > .field.choice > .control,
@@ -7016,7 +7512,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field.choice > .control,
 .form.create.account .fieldset > .field.choice > .control,
 .form.newsletter.manage .fieldset > .field.choice > .control,
-.form.giftcard.redeem .fieldset > .field.choice > .control {
+.form.giftcard.redeem .fieldset > .field.choice > .control,
+.form.password.reset .fieldset > .field.choice > .control {
   width: auto;
 }
 .form.address.edit .fieldset > .field.choice > .label,
@@ -7027,7 +7524,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field.choice > .label,
 .form.create.account .fieldset > .field.choice > .label,
 .form.newsletter.manage .fieldset > .field.choice > .label,
-.form.giftcard.redeem .fieldset > .field.choice > .label {
+.form.giftcard.redeem .fieldset > .field.choice > .label,
+.form.password.reset .fieldset > .field.choice > .label {
   display: inline;
 }
 .form.address.edit .fieldset > .field.required > .label span:first-child:after,
@@ -7038,7 +7536,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field.required > .label span:first-child:after,
 .form.create.account .fieldset > .field.required > .label span:first-child:after,
 .form.newsletter.manage .fieldset > .field.required > .label span:first-child:after,
-.form.giftcard.redeem .fieldset > .field.required > .label span:first-child:after {
+.form.giftcard.redeem .fieldset > .field.required > .label span:first-child:after,
+.form.password.reset .fieldset > .field.required > .label span:first-child:after {
   content: '*';
   color: red;
 }
@@ -7050,7 +7549,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field .addon,
 .form.create.account .fieldset > .field .addon,
 .form.newsletter.manage .fieldset > .field .addon,
-.form.giftcard.redeem .fieldset > .field .addon {
+.form.giftcard.redeem .fieldset > .field .addon,
+.form.password.reset .fieldset > .field .addon {
   padding: 0;
   display: table;
   width: 100%;
@@ -7064,6 +7564,7 @@ img[align="right"] {
 .form.create.account .fieldset > .field .addon textarea,
 .form.newsletter.manage .fieldset > .field .addon textarea,
 .form.giftcard.redeem .fieldset > .field .addon textarea,
+.form.password.reset .fieldset > .field .addon textarea,
 .form.address.edit .fieldset > .field .addon select,
 .form.edit.account .fieldset > .field .addon select,
 .form.search.advanced .fieldset > .field .addon select,
@@ -7073,6 +7574,7 @@ img[align="right"] {
 .form.create.account .fieldset > .field .addon select,
 .form.newsletter.manage .fieldset > .field .addon select,
 .form.giftcard.redeem .fieldset > .field .addon select,
+.form.password.reset .fieldset > .field .addon select,
 .form.address.edit .fieldset > .field .addon input,
 .form.edit.account .fieldset > .field .addon input,
 .form.search.advanced .fieldset > .field .addon input,
@@ -7081,7 +7583,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field .addon input,
 .form.create.account .fieldset > .field .addon input,
 .form.newsletter.manage .fieldset > .field .addon input,
-.form.giftcard.redeem .fieldset > .field .addon input {
+.form.giftcard.redeem .fieldset > .field .addon input,
+.form.password.reset .fieldset > .field .addon input {
   display: table-cell;
   width: 100%;
   border-radius: 0;
@@ -7097,6 +7600,7 @@ img[align="right"] {
 .form.create.account .fieldset > .field .addon .addbefore,
 .form.newsletter.manage .fieldset > .field .addon .addbefore,
 .form.giftcard.redeem .fieldset > .field .addon .addbefore,
+.form.password.reset .fieldset > .field .addon .addbefore,
 .form.address.edit .fieldset > .field .addon .addafter,
 .form.edit.account .fieldset > .field .addon .addafter,
 .form.search.advanced .fieldset > .field .addon .addafter,
@@ -7105,7 +7609,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field .addon .addafter,
 .form.create.account .fieldset > .field .addon .addafter,
 .form.newsletter.manage .fieldset > .field .addon .addafter,
-.form.giftcard.redeem .fieldset > .field .addon .addafter {
+.form.giftcard.redeem .fieldset > .field .addon .addafter,
+.form.password.reset .fieldset > .field .addon .addafter {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -7141,6 +7646,7 @@ img[align="right"] {
 .no-borderradius .form.create.account .fieldset > .field .addon .addbefore,
 .no-borderradius .form.newsletter.manage .fieldset > .field .addon .addbefore,
 .no-borderradius .form.giftcard.redeem .fieldset > .field .addon .addbefore,
+.no-borderradius .form.password.reset .fieldset > .field .addon .addbefore,
 .no-borderradius .form.address.edit .fieldset > .field .addon .addafter,
 .no-borderradius .form.edit.account .fieldset > .field .addon .addafter,
 .no-borderradius .form.search.advanced .fieldset > .field .addon .addafter,
@@ -7149,7 +7655,8 @@ img[align="right"] {
 .no-borderradius .form.password.forget .fieldset > .field .addon .addafter,
 .no-borderradius .form.create.account .fieldset > .field .addon .addafter,
 .no-borderradius .form.newsletter.manage .fieldset > .field .addon .addafter,
-.no-borderradius .form.giftcard.redeem .fieldset > .field .addon .addafter {
+.no-borderradius .form.giftcard.redeem .fieldset > .field .addon .addafter,
+.no-borderradius .form.password.reset .fieldset > .field .addon .addafter {
   padding-top: 8px;
 }
 .control .form.address.edit .fieldset > .field .addon .addbefore,
@@ -7161,6 +7668,7 @@ img[align="right"] {
 .control .form.create.account .fieldset > .field .addon .addbefore,
 .control .form.newsletter.manage .fieldset > .field .addon .addbefore,
 .control .form.giftcard.redeem .fieldset > .field .addon .addbefore,
+.control .form.password.reset .fieldset > .field .addon .addbefore,
 .control .form.address.edit .fieldset > .field .addon .addafter,
 .control .form.edit.account .fieldset > .field .addon .addafter,
 .control .form.search.advanced .fieldset > .field .addon .addafter,
@@ -7169,7 +7677,8 @@ img[align="right"] {
 .control .form.password.forget .fieldset > .field .addon .addafter,
 .control .form.create.account .fieldset > .field .addon .addafter,
 .control .form.newsletter.manage .fieldset > .field .addon .addafter,
-.control .form.giftcard.redeem .fieldset > .field .addon .addafter {
+.control .form.giftcard.redeem .fieldset > .field .addon .addafter,
+.control .form.password.reset .fieldset > .field .addon .addafter {
   width: 100%;
 }
 .form.address.edit .fieldset > .field .addon .addbefore:disabled,
@@ -7181,6 +7690,7 @@ img[align="right"] {
 .form.create.account .fieldset > .field .addon .addbefore:disabled,
 .form.newsletter.manage .fieldset > .field .addon .addbefore:disabled,
 .form.giftcard.redeem .fieldset > .field .addon .addbefore:disabled,
+.form.password.reset .fieldset > .field .addon .addbefore:disabled,
 .form.address.edit .fieldset > .field .addon .addafter:disabled,
 .form.edit.account .fieldset > .field .addon .addafter:disabled,
 .form.search.advanced .fieldset > .field .addon .addafter:disabled,
@@ -7189,7 +7699,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field .addon .addafter:disabled,
 .form.create.account .fieldset > .field .addon .addafter:disabled,
 .form.newsletter.manage .fieldset > .field .addon .addafter:disabled,
-.form.giftcard.redeem .fieldset > .field .addon .addafter:disabled {
+.form.giftcard.redeem .fieldset > .field .addon .addafter:disabled,
+.form.password.reset .fieldset > .field .addon .addafter:disabled {
   opacity: 0.5;
 }
 .form.address.edit .fieldset > .field .note,
@@ -7200,7 +7711,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field .note,
 .form.create.account .fieldset > .field .note,
 .form.newsletter.manage .fieldset > .field .note,
-.form.giftcard.redeem .fieldset > .field .note {
+.form.giftcard.redeem .fieldset > .field .note,
+.form.password.reset .fieldset > .field .note {
   padding-left: 15px;
 }
 .form.address.edit .fieldset > .field .note:before,
@@ -7211,7 +7723,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field .note:before,
 .form.create.account .fieldset > .field .note:before,
 .form.newsletter.manage .fieldset > .field .note:before,
-.form.giftcard.redeem .fieldset > .field .note:before {
+.form.giftcard.redeem .fieldset > .field .note:before,
+.form.password.reset .fieldset > .field .note:before {
   position: absolute;
   margin: 4px 0 0 -14px;
   content: '';
@@ -7232,7 +7745,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field:last-child,
 .form.create.account .fieldset > .field:last-child,
 .form.newsletter.manage .fieldset > .field:last-child,
-.form.giftcard.redeem .fieldset > .field:last-child {
+.form.giftcard.redeem .fieldset > .field:last-child,
+.form.password.reset .fieldset > .field:last-child {
   margin-bottom: 0;
 }
 .form.address.edit .fieldset > .field .nested,
@@ -7243,7 +7757,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field .nested,
 .form.create.account .fieldset > .field .nested,
 .form.newsletter.manage .fieldset > .field .nested,
-.form.giftcard.redeem .fieldset > .field .nested {
+.form.giftcard.redeem .fieldset > .field .nested,
+.form.password.reset .fieldset > .field .nested {
   padding: 0 0 5px;
 }
 .form.address.edit .fieldset > .field .nested .field,
@@ -7254,7 +7769,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field .nested .field,
 .form.create.account .fieldset > .field .nested .field,
 .form.newsletter.manage .fieldset > .field .nested .field,
-.form.giftcard.redeem .fieldset > .field .nested .field {
+.form.giftcard.redeem .fieldset > .field .nested .field,
+.form.password.reset .fieldset > .field .nested .field {
   margin: 5px 0;
 }
 .form.address.edit .fieldset > .field > .label,
@@ -7265,7 +7781,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field > .label,
 .form.create.account .fieldset > .field > .label,
 .form.newsletter.manage .fieldset > .field > .label,
-.form.giftcard.redeem .fieldset > .field > .label {
+.form.giftcard.redeem .fieldset > .field > .label,
+.form.password.reset .fieldset > .field > .label {
   display: block;
   padding: 0 0 5px;
 }
@@ -7277,7 +7794,8 @@ img[align="right"] {
 .form.password.forget .fieldset > .field.note,
 .form.create.account .fieldset > .field.note,
 .form.newsletter.manage .fieldset > .field.note,
-.form.giftcard.redeem .fieldset > .field.note {
+.form.giftcard.redeem .fieldset > .field.note,
+.form.password.reset .fieldset > .field.note {
   width: 100%;
 }
 .form.address.edit .fieldset .field.street,
@@ -7288,7 +7806,8 @@ img[align="right"] {
 .form.password.forget .fieldset .field.street,
 .form.create.account .fieldset .field.street,
 .form.newsletter.manage .fieldset .field.street,
-.form.giftcard.redeem .fieldset .field.street {
+.form.giftcard.redeem .fieldset .field.street,
+.form.password.reset .fieldset .field.street {
   width: 100%;
 }
 .form.address.edit .fieldset .field.fullname,
@@ -7299,7 +7818,8 @@ img[align="right"] {
 .form.password.forget .fieldset .field.fullname,
 .form.create.account .fieldset .field.fullname,
 .form.newsletter.manage .fieldset .field.fullname,
-.form.giftcard.redeem .fieldset .field.fullname {
+.form.giftcard.redeem .fieldset .field.fullname,
+.form.password.reset .fieldset .field.fullname {
   width: 100%;
 }
 .form.address.edit .fieldset .field.fullname .fields.group-5 .field,
@@ -7310,7 +7830,8 @@ img[align="right"] {
 .form.password.forget .fieldset .field.fullname .fields.group-5 .field,
 .form.create.account .fieldset .field.fullname .fields.group-5 .field,
 .form.newsletter.manage .fieldset .field.fullname .fields.group-5 .field,
-.form.giftcard.redeem .fieldset .field.fullname .fields.group-5 .field {
+.form.giftcard.redeem .fieldset .field.fullname .fields.group-5 .field,
+.form.password.reset .fieldset .field.fullname .fields.group-5 .field {
   width: 20%;
 }
 .form.address.edit .fieldset .field.choice.newsletter,
@@ -7321,7 +7842,8 @@ img[align="right"] {
 .form.password.forget .fieldset .field.choice.newsletter,
 .form.create.account .fieldset .field.choice.newsletter,
 .form.newsletter.manage .fieldset .field.choice.newsletter,
-.form.giftcard.redeem .fieldset .field.choice.newsletter {
+.form.giftcard.redeem .fieldset .field.choice.newsletter,
+.form.password.reset .fieldset .field.choice.newsletter {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -7342,7 +7864,8 @@ img[align="right"] {
 .form.password.forget .fieldset .field.choice.newsletter > .label,
 .form.create.account .fieldset .field.choice.newsletter > .label,
 .form.newsletter.manage .fieldset .field.choice.newsletter > .label,
-.form.giftcard.redeem .fieldset .field.choice.newsletter > .label {
+.form.giftcard.redeem .fieldset .field.choice.newsletter > .label,
+.form.password.reset .fieldset .field.choice.newsletter > .label {
   float: none;
 }
 .form.address.edit .fieldset .field.dob .fields.group .field,
@@ -7353,7 +7876,8 @@ img[align="right"] {
 .form.password.forget .fieldset .field.dob .fields.group .field,
 .form.create.account .fieldset .field.dob .fields.group .field,
 .form.newsletter.manage .fieldset .field.dob .fields.group .field,
-.form.giftcard.redeem .fieldset .field.dob .fields.group .field {
+.form.giftcard.redeem .fieldset .field.dob .fields.group .field,
+.form.password.reset .fieldset .field.dob .fields.group .field {
   width: 33%;
   position: relative;
   z-index: 1;
@@ -7366,7 +7890,8 @@ img[align="right"] {
 .form.password.forget .fieldset .field.dob .fields.group .field .label,
 .form.create.account .fieldset .field.dob .fields.group .field .label,
 .form.newsletter.manage .fieldset .field.dob .fields.group .field .label,
-.form.giftcard.redeem .fieldset .field.dob .fields.group .field .label {
+.form.giftcard.redeem .fieldset .field.dob .fields.group .field .label,
+.form.password.reset .fieldset .field.dob .fields.group .field .label {
   position: absolute;
   bottom: 0;
   font-size: 12px;
@@ -7380,7 +7905,8 @@ img[align="right"] {
 .form.password.forget .fieldset .field.dob .fields.group .field input,
 .form.create.account .fieldset .field.dob .fields.group .field input,
 .form.newsletter.manage .fieldset .field.dob .fields.group .field input,
-.form.giftcard.redeem .fieldset .field.dob .fields.group .field input {
+.form.giftcard.redeem .fieldset .field.dob .fields.group .field input,
+.form.password.reset .fieldset .field.dob .fields.group .field input {
   margin-bottom: 16px;
 }
 .form.address.edit .actions,
@@ -7391,7 +7917,8 @@ img[align="right"] {
 .form.password.forget .actions,
 .form.create.account .actions,
 .form.newsletter.manage .actions,
-.form.giftcard.redeem .actions {
+.form.giftcard.redeem .actions,
+.form.password.reset .actions {
   *zoom: 1;
   text-align: center;
   margin: 20px auto;
@@ -7406,6 +7933,7 @@ img[align="right"] {
 .form.create.account .actions:before,
 .form.newsletter.manage .actions:before,
 .form.giftcard.redeem .actions:before,
+.form.password.reset .actions:before,
 .form.address.edit .actions:after,
 .form.edit.account .actions:after,
 .form.search.advanced .actions:after,
@@ -7414,7 +7942,8 @@ img[align="right"] {
 .form.password.forget .actions:after,
 .form.create.account .actions:after,
 .form.newsletter.manage .actions:after,
-.form.giftcard.redeem .actions:after {
+.form.giftcard.redeem .actions:after,
+.form.password.reset .actions:after {
   content: "";
   display: table;
 }
@@ -7426,7 +7955,8 @@ img[align="right"] {
 .form.password.forget .actions:after,
 .form.create.account .actions:after,
 .form.newsletter.manage .actions:after,
-.form.giftcard.redeem .actions:after {
+.form.giftcard.redeem .actions:after,
+.form.password.reset .actions:after {
   clear: both;
 }
 .form.address.edit .actions .action.submit,
@@ -7438,6 +7968,7 @@ img[align="right"] {
 .form.create.account .actions .action.submit,
 .form.newsletter.manage .actions .action.submit,
 .form.giftcard.redeem .actions .action.submit,
+.form.password.reset .actions .action.submit,
 .form.address.edit .actions .action.search,
 .form.edit.account .actions .action.search,
 .form.search.advanced .actions .action.search,
@@ -7446,7 +7977,8 @@ img[align="right"] {
 .form.password.forget .actions .action.search,
 .form.create.account .actions .action.search,
 .form.newsletter.manage .actions .action.search,
-.form.giftcard.redeem .actions .action.search {
+.form.giftcard.redeem .actions .action.search,
+.form.password.reset .actions .action.search {
   border: none;
   border-radius: 0;
   background: transparent;
@@ -7472,6 +8004,7 @@ img[align="right"] {
 .form.create.account .actions .action.submit > span,
 .form.newsletter.manage .actions .action.submit > span,
 .form.giftcard.redeem .actions .action.submit > span,
+.form.password.reset .actions .action.submit > span,
 .form.address.edit .actions .action.search > span,
 .form.edit.account .actions .action.search > span,
 .form.search.advanced .actions .action.search > span,
@@ -7480,7 +8013,8 @@ img[align="right"] {
 .form.password.forget .actions .action.search > span,
 .form.create.account .actions .action.search > span,
 .form.newsletter.manage .actions .action.search > span,
-.form.giftcard.redeem .actions .action.search > span {
+.form.giftcard.redeem .actions .action.search > span,
+.form.password.reset .actions .action.search > span {
   border: 1px solid #b17805;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
@@ -7512,6 +8046,7 @@ img[align="right"] {
 .form.create.account .actions .action.submit:hover > span,
 .form.newsletter.manage .actions .action.submit:hover > span,
 .form.giftcard.redeem .actions .action.submit:hover > span,
+.form.password.reset .actions .action.submit:hover > span,
 .form.address.edit .actions .action.search:hover > span,
 .form.edit.account .actions .action.search:hover > span,
 .form.search.advanced .actions .action.search:hover > span,
@@ -7520,7 +8055,8 @@ img[align="right"] {
 .form.password.forget .actions .action.search:hover > span,
 .form.create.account .actions .action.search:hover > span,
 .form.newsletter.manage .actions .action.search:hover > span,
-.form.giftcard.redeem .actions .action.search:hover > span {
+.form.giftcard.redeem .actions .action.search:hover > span,
+.form.password.reset .actions .action.search:hover > span {
   background: #ffd263;
   background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZDI2MyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmQyNjMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
   background: -moz-linear-gradient(top, #ffd263 0%, #ffd263 100%);
@@ -7539,7 +8075,8 @@ img[align="right"] {
 .form.password.forget .actions .secondary,
 .form.create.account .actions .secondary,
 .form.newsletter.manage .actions .secondary,
-.form.giftcard.redeem .actions .secondary {
+.form.giftcard.redeem .actions .secondary,
+.form.password.reset .actions .secondary {
   font-size: 12px;
   text-decoration: underline;
   float: left;
@@ -7556,7 +8093,8 @@ img[align="right"] {
 .form.password.forget .actions .secondary span:before,
 .form.create.account .actions .secondary span:before,
 .form.newsletter.manage .actions .secondary span:before,
-.form.giftcard.redeem .actions .secondary span:before {
+.form.giftcard.redeem .actions .secondary span:before,
+.form.password.reset .actions .secondary span:before {
   content: '«';
   display: inline;
 }
@@ -7656,6 +8194,7 @@ img[align="right"] {
   z-index: 1;
 }
 .form.giftcard.redeem .actions .secondary .action > span {
+  border: none;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
   background: #9ea5ac;
@@ -7837,6 +8376,7 @@ img[align="right"] {
   z-index: 1;
 }
 .send.friend .actions .action.add > span {
+  border: none;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
   background: #9ea5ac;
@@ -8019,6 +8559,7 @@ img[align="right"] {
 }
 .data.wishlist + .actions .action.share > span,
 .data.wishlist + .actions .action.update > span {
+  border: none;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
   background: #9ea5ac;

@@ -21,7 +21,8 @@
                 <span><?php echo $this->getAttributeSetName()?></span>
             </button>
             <ul class="dropdown-menu">
-                <input type="search" id="product-template-suggest" placeholder="start typing to search template"/>
+                <input type="text" id="product-template-suggest" class="search"
+                       placeholder="start typing to search template"/>
             </ul>
         </div>
     </div>
@@ -186,10 +187,6 @@ jQuery(function($) {
     $form.data('autogenerator', new Autogenerator(masks).bindAll());
 
     $('.widget-button-save .item-default').parent().hide();
-
-    if ($.trim($('#name').val()) == '') {
-        $('#name').focus();
-    }
 
     $('#product-online-switcher')
         .prop('checked', $('#status').val() == '1')

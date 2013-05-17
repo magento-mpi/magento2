@@ -576,6 +576,7 @@ return array(
     array('Mage_Eav_Model_Convert_Adapter_Entity'),
     array('Mage_Eav_Model_Convert_Adapter_Grid'),
     array('Mage_Eav_Model_Convert_Parser_Abstract'),
+    array('Mage_Eav_Model_Entity_Collection'),
     array('Mage_GiftMessage_Block_Message_Form'),
     array('Mage_GiftMessage_Block_Message_Helper'),
     array('Mage_GiftMessage_IndexController'),
@@ -731,4 +732,5 @@ return array(
     array('Mage_Adminhtml_Block_Notification_Grid_Renderer_Actions',
         'Mage_AdminNotification_Block_Grid_Renderer_Actions'),
     array('Mage_Adminhtml_Block_Cache_Notifications'),
+    array('Mage_AdminNotification_Block_Grid'),
 );

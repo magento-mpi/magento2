@@ -20,6 +20,12 @@
 
         _bind: function() {
             // Close tour wellcome popup
+            this.element.on('click', $.proxy(function(e) {
+                if ($(e.target).prop('id') === this.options.tourPrefix + '-wrapper') {
+                    this.element.find('#action-close-' + this.options.tourPrefix + '-wellcome-popup').click();
+                }
+            }, this));
+
             $('#action-close-' + this.options.tourPrefix + '-wellcome-popup')
                 .on('click.hideTourPopup', $.proxy(this._closeWelcomePopup, this));
 

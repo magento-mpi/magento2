@@ -10,7 +10,7 @@
 ?>
 <?php $_wishlistItem = $this->getWishlistItem(); ?>
 <?php $_wishlistSubmitUrl = $this->helper('Mage_Wishlist_Helper_Data')->getUpdateUrl($_wishlistItem); ?>
-<div class="addto links">
+<div class="product addto links">
 <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
     <a href="<?php echo $_wishlistSubmitUrl ?>" class="action towishlist updated"><span><?php echo $this->__('Update Wishlist') ?></span></a>
 <?php endif; ?>

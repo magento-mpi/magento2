@@ -70,6 +70,8 @@
 }
 
 /* For browsers without css3 selectors support */
+.tile-store-settings:first-child + .tile-store-settings + .tile-store-settings + .tile-store-settings,
+.tile-store-settings:first-child,
 .eq-ie8 .tile-home-page,
 .eq-ie8 .tile-customer-communication,
 .eq-ie8 .tile-catalog-price-rule,
@@ -1967,7 +1969,6 @@
     color: #676056;
 }
 
-.add-product .field-weight .choice,
 .add-product .field-service {
     display: none;
 }
@@ -1992,6 +1993,10 @@
     position: absolute;
     left: 0;
     top: 30px;
+}
+
+.add-product .field-weight .choice {
+    width: 100px;
 }
 
 .import-products .field-service {

@@ -52,7 +52,7 @@ class Saas_Sales_Model_Limitation_Specification_Backend_SalesTest extends PHPUni
         );
     }
 
-    public function testIsNotAllowed()
+    public function testIsNotSatisfied()
     {
         $this->_requestMock->expects($this->any())->method('getControllerModule')
             ->will($this->returnValue('Mage_Adminhtml'));

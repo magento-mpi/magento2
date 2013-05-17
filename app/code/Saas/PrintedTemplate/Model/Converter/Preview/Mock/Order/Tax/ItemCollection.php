@@ -21,9 +21,9 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Tax_ItemCollection
     /**
      * Initialize order payment with mock data
      */
-    public function __construct()
+    public function __construct(Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy)
     {
-        parent::__construct();
+        parent::__construct($fetchStrategy);
         $this->_data = $this->_getMockData();
     }
 
