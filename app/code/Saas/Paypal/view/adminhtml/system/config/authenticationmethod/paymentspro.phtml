@@ -37,7 +37,7 @@
         var paymentsProAuthMethodId                 = '<?php echo $this->getHtmlId() ?>';
         var paymentsProApiCredOpt                   = '<?php echo $this->getAuthMethOpt('api_credentials') ?>';
         var paymentsProPermissionsOpt               = '<?php echo $this->getAuthMethOpt('permissions') ?>';
-        var paymentsProBillAgrEnable                = '<?php echo $this->getPath() ?>' + '_wpp_settings_wpp_settings_advanced_wpp_billing_agreement_active';
+        var paymentsProBillAgrEnable                = '<?php echo $this->getPath() ?>' + '_wpp_settings_wpp_and_express_checkout_authentication_method_' + $(paymentsProAuthMethodId).value + '_wpp_settings_advanced_wpp_billing_agreement_active';
         var paymentsProApiCredEnable                = '<?php echo $this->getPath() ?>' + '_wpp_required_settings_enable_wpp';
         var paymentsProApiCredEnableRow             = 'row_' + paymentsProApiCredEnable;
         var paymentsProPermissionsEnable            = '<?php echo $this->getPath() ?>' + '_wpp_required_settings_enable_wpp_boarding';
