@@ -81,12 +81,12 @@ app/code/Mage/Index/Model/Indexer/Abstract.php
 app/code/Mage/Index/Model/EntryPoint/Shell.php
 app/code/Mage/Index/Model/EntryPoint/Indexer.php
 app/code/Mage/Index/Model/Shell.php
-app/code/Mage/Install/Model/EntryPoint/Upgrade.php
-app/code/Mage/Install/Model/EntryPoint/Console.php
-app/code/Mage/Log/Model/EntryPoint/Shell.php
+app/code/Mage/Install/Model/EntryPoint
+app/code/Mage/Log/Model/EntryPoint
 app/code/Mage/Log/Model/Resource/Helper
 app/code/Mage/Log/Model/Resource/Shell.php
 app/code/Mage/Log/Model/Shell.php
+app/code/Mage/Log/Model/Shell
 app/code/Mage/Page/Helper/Robots.php
 app/code/Mage/Page/Model/Asset
 app/code/Mage/Reports/Block/Adminhtml/Customer
