@@ -44,6 +44,7 @@
 (function($) {
     $(function () {
         $('[data-action="upload"]').on('click', function() {
+            $('[data-action="upload"]').prop('disabled', true);
             var queuedFiles = $('#fileupload').fileupload('option', 'queuedFiles');
 
             for (var c = 0; c < queuedFiles.length; c++) {
@@ -61,6 +62,7 @@
             sequentialUploads: true,
             maxFileSize: <?php echo Mage::getObjectManager()->get('Magento_File_Size')->getMaxFileSize()?>,
             add: function(e, data) {
+                $('[data-action="upload"]').removeProp('disabled');
                 $('[data-action="upload"]').removeClass('no-display');
                 $('[data-action="browse"]').removeClass('primary');
                 $('#contents').addClass('no-display');
