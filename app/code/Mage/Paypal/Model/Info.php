@@ -105,6 +105,27 @@ class Mage_Paypal_Model_Info
     const PAYMENTSTATUS_VOIDED       = 'voided';
 
     /**
+     * PayPal payment transaction type
+     */
+    const TXN_TYPE_ADJUSTMENT = 'adjustment';
+    const TXN_TYPE_NEW_CASE   = 'new_case';
+
+    /**
+     * PayPal payment reason code when payment_status is Reversed, Refunded, or Canceled_Reversal.
+     */
+    const PAYMENT_REASON_CODE_REFUND  = 'refund';
+
+    /**
+     * PayPal order status for Reverse payment status
+     */
+    const ORDER_STATUS_REVERSED = 'paypal_reversed';
+
+    /**
+     * PayPal order status for Canceled Reversal payment status
+     */
+    const ORDER_STATUS_CANCELED_REVERSAL = 'paypal_canceled_reversal';
+
+    /**
      * Map of payment information available to customer
      *
      * @var array
@@ -314,26 +335,30 @@ class Mage_Paypal_Model_Info
      */
     public static function explainReasonCode($code)
     {
-        switch ($code) {
-            case 'chargeback':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Chargeback by customer.');
-            case 'guarantee':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Customer triggered a money-back guarantee.');
-            case 'buyer-complaint':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Customer complaint.');
-            case 'refund':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Refund issued by merchant.');
-            case 'adjustment_reversal':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Reversal of an adjustment.');
-            case 'chargeback_reimbursement':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Reimbursement for a chargeback.');
-            case 'chargeback_settlement':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Settlement of a chargeback.');
-            case 'none': // break is intentionally omitted
-            case 'other':
-            default:
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Unknown reason. Please contact PayPal customer service.');
-        }
+        $comments = array(
+            'chargeback'               => Mage::helper('Mage_Paypal_Helper_Data')->__('A reversal has occurred on this transaction due to a chargeback by your customer.'),
+            'guarantee'                => Mage::helper('Mage_Paypal_Helper_Data')->__('A reversal has occurred on this transaction due to your customer triggering a money-back guarantee.'),
+            'buyer-complaint'          => Mage::helper('Mage_Paypal_Helper_Data')->__('A reversal has occurred on this transaction due to a complaint about the transaction from your customer.'),
+            'buyer_complaint'          => Mage::helper('Mage_Paypal_Helper_Data')->__('A reversal has occurred on this transaction due to a complaint about the transaction from your customer.'),
+            'refund'                   => Mage::helper('Mage_Paypal_Helper_Data')->__('A reversal has occurred on this transaction because you have given the customer a refund.'),
+            'adjustment_reversal'      => Mage::helper('Mage_Paypal_Helper_Data')->__('Reversal of an adjustment.'),
+            'admin_fraud_reversal'     => Mage::helper('Mage_Paypal_Helper_Data')->__('Transaction reversal due to fraud detected by PayPal administrators.'),
+            'admin_reversal'           => Mage::helper('Mage_Paypal_Helper_Data')->__('Transaction reversal by PayPal administrators.'),
+            'chargeback_reimbursement' => Mage::helper('Mage_Paypal_Helper_Data')->__('Reimbursement for a chargeback.'),
+            'chargeback_settlement'    => Mage::helper('Mage_Paypal_Helper_Data')->__('Settlement of a chargeback.'),
+            'unauthorized_spoof'       => Mage::helper('Mage_Paypal_Helper_Data')->__('A reversal has occurred on this transaction because of a customer dispute suspecting unauthorized spoof.'),
+            'non_receipt'              => Mage::helper('Mage_Paypal_Helper_Data')->__('Buyer claims that he did not receive goods or service.'),
+            'not_as_described'         => Mage::helper('Mage_Paypal_Helper_Data')->__('Buyer claims that the goods or service received differ from merchant’s description of the goods or service.'),
+            'unauthorized'             => Mage::helper('Mage_Paypal_Helper_Data')->__('Buyer claims that he/she did not authorize transaction.'),
+            'adjustment_reimburse'     => Mage::helper('Mage_Paypal_Helper_Data')->__('A case that has been resolved and close requires a reimbursement.'),
+            'duplicate'                => Mage::helper('Mage_Paypal_Helper_Data')->__('Buyer claims that a possible duplicate payment was made to the merchant.'),
+            'merchandise'              => Mage::helper('Mage_Paypal_Helper_Data')->__('Buyer claims that the received merchandise is unsatisfactory, defective, or damaged.'),
+        );
+        $value = (array_key_exists($code, $comments) && !empty($comments[$code]))
+            ? $comments[$code]
+            : Mage::helper('Mage_Paypal_Helper_Data')->__('Unknown reason. Please contact PayPal customer service.'
+            );
+        return $value;
     }
 
     /**
@@ -349,6 +374,7 @@ class Mage_Paypal_Model_Info
             case 'other':
             case 'chargeback':
             case 'buyer-complaint':
+            case 'buyer_complaint':
             case 'adjustment_reversal':
                 return true;
             case 'guarantee':
@@ -433,6 +459,23 @@ class Mage_Paypal_Model_Info
                 return Mage::helper('Mage_Paypal_Helper_Data')->__('PayPal/Centinel Electronic Commerce Indicator');
         }
         return '';
+    }
+
+    /**
+     * Get case type label
+     *
+     * @param string $key
+     * @return string
+     */
+    public static function getCaseTypeLabel($key)
+    {
+        $labels = array(
+            'chargeback' => Mage::helper('Mage_Paypal_Helper_Data')->__('Chargeback'),
+            'complaint'  => Mage::helper('Mage_Paypal_Helper_Data')->__('Complaint'),
+            'dispute'    => Mage::helper('Mage_Paypal_Helper_Data')->__('Dispute')
+        );
+        $value = (array_key_exists($key, $labels) && !empty($labels[$key])) ? $labels[$key] : '';
+        return $value;
     }
 
     /**
