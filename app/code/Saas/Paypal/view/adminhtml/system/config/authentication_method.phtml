@@ -47,12 +47,9 @@ $htmlIdPrefix = str_replace('express_checkout_required_express_checkout_required
 <script type="text/javascript">
     Event.observe(window, "load", function() {
         var fields = [
-            'row0_<?php echo $htmlIdPrefix ?>express_checkout_required_express_checkout_required_express_checkout_status_us',
-            'row_<?php echo $htmlIdPrefix ?>express_checkout_required_payment_express_checkout_required_express_checkout_status_us',
-            'row2_<?php echo $htmlIdPrefix ?>express_checkout_required_payment_express_checkout_required_express_checkout_status_us',
-            'row0_<?php echo $htmlIdPrefix ?>express_checkout_required_express_checkout_required_express_checkout_status_other',
-            'row_<?php echo $htmlIdPrefix ?>express_checkout_required_payment_express_checkout_required_express_checkout_status_other',
-            'row2_<?php echo $htmlIdPrefix ?>express_checkout_required_payment_express_checkout_required_express_checkout_status_other'
+            'row0_<?php echo $htmlIdPrefix ?>express_checkout_required_express_checkout_required_express_checkout_status',
+            'row_<?php echo $htmlIdPrefix ?>express_checkout_required_payment_express_checkout_required_express_checkout_status',
+            'row2_<?php echo $htmlIdPrefix ?>express_checkout_required_payment_express_checkout_required_express_checkout_status'
         ];
         for (var i = 0; i < fields.length; i++) {
             if ($(fields[i])) {
