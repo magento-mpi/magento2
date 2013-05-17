@@ -30,12 +30,6 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_config->expects($this->once())->method('getModuleDir')->with(
             $this->equalTo('etc'), $this->equalTo(self::NAMEPART)
         )->will($this->returnValue(__DIR__ . '/_files/'));
-        $appMock = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
-        $appMock->expects($this->once())->method('getConfig')->will($this->returnValue($this->_config));
-        $objectManagerMock = $this->getMock('Magento_ObjectManager');
-        $objectManagerMock->expects($this->any())->
-            method('get')->with($this->equalTo('Mage_Core_Model_App'))->will($this->returnValue($appMock));
-        Mage::setObjectManager($objectManagerMock);
         $this->_dataserviceConfig = new Mage_Core_Model_Dataservice_Config($this->_config);
     }
 

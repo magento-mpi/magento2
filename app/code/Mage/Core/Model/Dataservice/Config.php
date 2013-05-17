@@ -44,7 +44,7 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
         $node = $this->_simpleXml->xpath("//service-call[@name='" . $alias . "']");
 
         if (count($node) == 0) {
-            throw Mage::exception('Mage_Core', 'Service call with name "' . $alias . '" doesn\'t exist');
+            throw new Mage_Core_Exception('Service call with name "' . $alias . '" doesn\'t exist');
         }
 
         /** @var $node Mage_Core_Model_Config_Element */
@@ -64,7 +64,8 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
         );
 
         if (!$result['class']) {
-            throw Mage::exception('Mage_Core', 'Invalid Service call ' . $alias . ', service type must be defined in the "service" attribute');
+            throw new Mage_Core_Exception('Invalid Service call ' . $alias
+                . ', service type must be defined in the "service" attribute');
         }
 
         return $result;
@@ -76,7 +77,7 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
     public function init()
     {
         $updatesRootPath = self::CONFIG_AREA . '/' . self::CONFIG_NODE;
-        $sourcesRoot = Mage::app()->getConfig()->getNode($updatesRootPath);
+        $sourcesRoot = $this->_config->getNode($updatesRootPath);
 
         /* Layout update files declared in configuration */
         $callsStr = '<calls />';
