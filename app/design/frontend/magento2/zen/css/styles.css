@@ -213,11 +213,14 @@ textarea {
   color: #111111;
   font: 14px/1.43 Arial, Helvetica, sans-serif;
 }
-html {
-  background: #f6f5f0 none;
-  min-width: 1025px;
+html,
+body {
+  height: 100%;
+  width: 100%;
 }
 body {
+  background: #f6f5f0 none;
+  min-width: 1025px;
   position: relative;
 }
 .page.wrapper {
@@ -455,6 +458,10 @@ strong {
   border-color: #666666 !important;
   color: #666666 !important;
   background: #e2e2e2 !important;
+}
+.page.popup {
+  background: #f6f5f0;
+  min-width: 100px;
 }
 .page.wrapper > .header {
   background-color: #f6f5f0;
@@ -8225,7 +8232,7 @@ body.type-bundle {
 }
 .my-account .dashboard.tags .title .action.view > span {
   font-family: Arial, Helvetica, sans-serif;
-  text-transform: none;
+  text-transform: lowercase;
 }
 .my-account .storecredit .account.balance .price {
   font-weight: bold;
@@ -8563,6 +8570,41 @@ body.type-bundle {
   left: 50%;
   zoom: 1;
   z-index: 2;
+}
+.page.tracking {
+  padding: 20px;
+}
+.page.tracking .actions .action.close {
+  border: none;
+  background: #a5955f;
+  display: inline-block;
+  margin: 0;
+  padding: 4px 12px;
+  outline: none;
+}
+.page.tracking .actions .action.close span {
+  font: 400 12px oldstandard, Arial, Helvetica, sans-serif;
+  letter-spacing: 0.1em;
+  font-size: 12px;
+  font-family: oldstandard, Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  color: #ffffff;
+  line-height: 16px;
+}
+.page.tracking .actions .action.close:hover {
+  background: #8d7f52;
+}
+.page.tracking .subtitle.caption {
+  margin-bottom: 20px;
+  font: 400 15px oldstandard, Arial, Helvetica, sans-serif;
+  letter-spacing: 0.1em;
+  font-size: 15px;
+  font-family: oldstandard, Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0;
 }
 .widget ul {
   padding: 0;
