@@ -13,15 +13,15 @@
 
     <default>
         <reference name="head">
-            <!-- Need to be refactored to jQuery
+
             <action method="addJs" ifconfig="catalog/enterprise_catalogevent/enabled">
-                <file>Enterprise_CatalogEvent::ticker.js</file>
+                <file>Enterprise_CatalogEvent::js/ticker.js</file>
             </action>
-            -->
+
             <action method="addCss" ifconfig="catalog/enterprise_catalogevent/enabled">
                 <file>Enterprise_CatalogEvent::widgets.css</file>
             </action>
-            <!-- Need to be refactored to jQuery
+            <!--
             <action method="addJs" ifconfig="catalog/enterprise_catalogevent/enabled">
                 <file>Enterprise_CatalogEvent::slider.js</file>
             </action>
