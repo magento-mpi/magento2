@@ -46,7 +46,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content extends Mage_
 
         $setupObject->setData(array(
             'newFolderPrompt'                 => $this->__('New Folder Name:'),
-            'deleteFolderConfirmationMessage' => $this->__('Are you sure you want to delete current folder?'),
+            'deleteFolderConfirmationMessage' => $this->__('Are you sure you want to delete the current folder?'),
             'deleteFileConfirmationMessage'   => $this->__('Are you sure you want to delete the selected file?'),
             'targetElementId' => $this->getTargetElementId(),
             'contentsUrl'     => $this->getContentsUrl(),
