@@ -62,7 +62,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
             // check store-view disabling Express Checkout
             document.observe("dom:loaded", function() {
                 $$(".pp-method-express button.button").each(function(ecButton){
-                    var ecEnabler = $$(".paypal-ec-enabler.fd-enabled")[0];
+                    var ecEnabler = $$(".paypal-ec-enabler")[0];
                     if (typeof ecButton == "undefined" || typeof ecEnabler != "undefined") {
                         return;
                     }
