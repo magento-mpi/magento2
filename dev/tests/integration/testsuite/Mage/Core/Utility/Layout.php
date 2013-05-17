@@ -80,7 +80,7 @@ class Mage_Core_Utility_Layout
             'scheduledStructure' => Mage::getObjectManager()->create('Mage_Core_Model_Layout_ScheduledStructure',
                 array()
             ),
-            'dataServiceGraph' => Mage::getObjectManager()->create('Mage_Core_Model_Dataservice_Graph',
+            'dataserviceGraph' => Mage::getObjectManager()->create('Mage_Core_Model_Dataservice_Graph',
                 array(), false
             )
         );

@@ -19,28 +19,28 @@ class Mage_Core_Model_Dataservice_RepositoryTest extends PHPUnit_Framework_TestC
 
     public function testAddGet()
     {
-        $dataService = (object)array();
+        $dataservice = (object)array();
         $name = 'name';
-        $this->assertEquals($dataService, $this->_repository->add($name, $dataService)->get($name));
+        $this->assertEquals($dataservice, $this->_repository->add($name, $dataservice)->get($name));
     }
 
     public function testAddGetNamespace()
     {
-        $dataService = (object)array();
+        $dataservice = (object)array();
         $nameInNamespace = 'name_in_namespace';
         $namespace = 'namespace';
         $name = 'name';
-        $namespaceResults = $this->_repository->add($name, $dataService)->addNameInNamespace(
+        $namespaceResults = $this->_repository->add($name, $dataservice)->addNameInNamespace(
             $namespace, $name, $nameInNamespace
         )->getByNamespace($namespace);
-        $this->assertEquals($dataService, $namespaceResults[$nameInNamespace]);
+        $this->assertEquals($dataservice, $namespaceResults[$nameInNamespace]);
     }
 
     public function testGetChild()
     {
-        $dataService = (object)array();
+        $dataservice = (object)array();
         $name = 'name';
-        $this->_repository->add($name, $dataService);
-        $this->assertEquals($dataService, $this->_repository->getChild($name));
+        $this->_repository->add($name, $dataservice);
+        $this->assertEquals($dataservice, $this->_repository->getChild($name));
     }
 }

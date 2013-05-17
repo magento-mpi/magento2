@@ -50,15 +50,15 @@ class Mage_Core_Model_Dataservice_Factory
      * @param $sourceName
      * @return bool|mixed
      */
-    public function initDataService($sourceName)
+    public function createDataservice($sourceName)
     {
         $classInformation = $this->getConfig()->getClassByAlias($sourceName);
         $instance = $this->_objectManager->create($classInformation['class']);
-        $dataService = $this->_applyMethod(
+        $dataservice = $this->_applyMethod(
             $instance, $classInformation['retrieveMethod'],
             $classInformation['methodArguments']
         );
-        return $dataService;
+        return $dataservice;
     }
 
     /**
