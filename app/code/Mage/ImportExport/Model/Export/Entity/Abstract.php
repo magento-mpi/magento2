@@ -165,6 +165,20 @@ abstract class Mage_ImportExport_Model_Export_Entity_Abstract
     }
 
     /**
+     * Get header columns
+     *
+     * @return array
+     */
+    abstract protected function _getHeaderColumns();
+
+    /**
+     * Get entity collection
+     *
+     * @return Varien_Data_Collection_Db
+     */
+    abstract protected function _getEntityCollection();
+
+    /**
      * Get attributes codes which are appropriate for export.
      *
      * @return array

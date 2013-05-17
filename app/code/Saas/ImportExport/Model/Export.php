@@ -128,6 +128,7 @@ class Saas_ImportExport_Model_Export extends Varien_Object
             );
             $this->_exportEntity = $this->_exportEntityFactory->create($this->_getEntityType(), $params);
             $this->_exportEntity->setStorageAdapter($this->_storageAdapter);
+            $this->_exportEntity->prepareCollection();
             if ($this->_getCurrentPage() == 1) {
                 $this->_storageAdapter->cleanupWorkingDir();
                 $this->_stateHelper->setTaskAsProcessing();
@@ -167,7 +168,7 @@ class Saas_ImportExport_Model_Export extends Varien_Object
      */
     protected function _saveHeaderColumns()
     {
-        $headerCols = $this->_exportEntity->getHeaderCols();
+        $headerCols = $this->_exportEntity->getHeaderColumns();
         if ($this->_getCurrentPage() == 1) {
             $this->_storageAdapter->setHeaderCols($headerCols);
         } else {

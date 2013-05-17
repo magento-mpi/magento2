@@ -9,31 +9,27 @@ class Saas_ImportExport_Model_Export_Entity_Eav_Customer extends Mage_ImportExpo
     implements Saas_ImportExport_Model_Export_EntityInterface
 {
     /**
-     * Collection flag status
-     *
-     * @var bool
-     */
-    protected $_isCollectionInitialized = false;
-
-    /**
      * {@inheritdoc}
      */
     public function getCollection()
     {
-        if (!$this->_isCollectionInitialized) {
-            $this->_isCollectionInitialized = true;
-            $this->_prepareEntityCollection($this->_customerCollection);
-        }
-        return $this->_customerCollection;
+        return $this->_getEntityCollection();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function prepareCollection()
+    {
+        $this->_prepareEntityCollection($this->_getEntityCollection());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getHeaderCols()
+    public function getHeaderColumns()
     {
-        $validAttributeCodes = $this->_getExportAttributeCodes();
-        return array_merge($this->_permanentAttributes, $validAttributeCodes, array('password'));
+        return $this->_getHeaderColumns();
     }
 
     /**

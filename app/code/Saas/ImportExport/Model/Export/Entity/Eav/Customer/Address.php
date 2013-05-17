@@ -4,29 +4,26 @@ class Saas_ImportExport_Model_Export_Entity_Eav_Customer_Address
     implements Saas_ImportExport_Model_Export_EntityInterface
 {
     /**
-     * Collection flag status
-     *
-     * @var bool
-     */
-    protected $_isCollectionInitialized = false;
-
-    /**
      * {@inheritdoc}
      */
     public function getCollection()
     {
-        if (!$this->_isCollectionInitialized) {
-            $this->_isCollectionInitialized = true;
-            $this->_prepareEntityCollection($this->_addressCollection);
-            $this->_addressCollection->setCustomerFilter(array_keys($this->_customers));
-        }
-        return $this->_addressCollection;
+        return $this->_getEntityCollection();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function prepareCollection()
+    {
+        $this->_prepareEntityCollection($this->_getEntityCollection());
+        $this->_getEntityCollection()->setCustomerFilter(array_keys($this->_customers));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getHeaderCols()
+    public function getHeaderColumns()
     {
         return array_merge(
             $this->_permanentAttributes,

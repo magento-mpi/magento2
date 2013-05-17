@@ -21,7 +21,7 @@ interface Saas_ImportExport_Model_Export_EntityInterface
      *
      * @return array
      */
-    public function getHeaderCols();
+    public function getHeaderColumns();
 
     /**
      * Retrieve export collection
@@ -29,6 +29,13 @@ interface Saas_ImportExport_Model_Export_EntityInterface
      * @return Varien_Data_Collection_Db
      */
     public function getCollection();
+
+    /**
+     * Prepare collection for export
+     *
+     * @return mixed
+     */
+    public function prepareCollection();
 
     /**
      * Export entity collection
