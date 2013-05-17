@@ -266,7 +266,6 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                     Event.observe(enablerElement, "change", paypalConflictsObject.onChangeEnabler);
                     var enablerScopeElement = adminSystemConfig.getScopeElement(enablerElement);
                     if (enablerScopeElement) {
-                    alert(enablerScopeElement);
                         Event.observe(enablerScopeElement, "click", paypalConflictsObject.onClickEnablerScope);
                     }
                 });
