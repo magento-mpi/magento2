@@ -17,7 +17,7 @@ class Mage_Core_Model_Dataservice_Request implements Mage_Core_Model_Dataservice
     }
 
     /**
-     * Returns a child path node that corresponds to the input path element.  This can be used to walk the
+     * Return a child path node that corresponds to the input path element.  This can be used to walk the
      * dataservice graph.  Leaf nodes in the graph tend to be of mixed type (scalar, array, or object).
      *
      * @param string $pathElement the path element name of the child node

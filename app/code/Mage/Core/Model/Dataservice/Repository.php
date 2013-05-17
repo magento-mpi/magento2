@@ -18,6 +18,8 @@ class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataserv
     protected $_namespaces = array();
 
     /**
+     * Assign a new name to existing namespace identified by alias.
+     *
      * @param $namespace
      * @param $name
      * @param $nameInNamespace
@@ -34,6 +36,8 @@ class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataserv
     }
 
     /**
+     * Get all data services from namespace.
+     *
      * @param $namespace
      * @return array
      */
@@ -51,6 +55,8 @@ class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataserv
     }
 
     /**
+     * Add new service data.
+     *
      * @param string $name
      * @param Mage_Core_Model_Dataservice_Path_Node $dataService
      * @return $this
@@ -62,6 +68,8 @@ class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataserv
     }
 
     /**
+     * Get service data by name.
+     *
      * @param string $name
      * @return Mage_Core_Model_Dataservice_Path_Node
      */
@@ -74,7 +82,7 @@ class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataserv
     }
 
     /**
-     * Returns a child path node that corresponds to the input path element.  This can be used to walk the
+     * Return a child path node that corresponds to the input path element.  This can be used to walk the
      * dataservice graph.  Leaf nodes in the graph tend to be of mixed type (scalar, array, or object).
      *
      * @param string $pathElement the path element name of the child node

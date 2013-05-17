@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Dataservice_Graph
+class Mage_Core_Model_Dataservice_Graph implements Mage_Core_Model_Dataservice_Path_Node
 {
     /** @var Mage_Core_Model_Dataservice_Factory */
     protected $_factory;
@@ -45,6 +45,7 @@ class Mage_Core_Model_Dataservice_Graph
      *
      * @param array $dataServicesList
      * @return Mage_Core_Model_Dataservice_Graph
+     * @throws Exception
      */
     public function init(array $dataServicesList)
     {
@@ -77,7 +78,7 @@ class Mage_Core_Model_Dataservice_Graph
     }
 
     /**
-     * Retrieve all data for the service calls for particular namespace
+     * Retrieve all data for the service calls for particular namespace.
      *
      * @param $namespace
      * @return mixed
@@ -89,10 +90,24 @@ class Mage_Core_Model_Dataservice_Graph
     }
 
     /**
+     * Get repository object.
+     *
      * @return \Mage_Core_Model_Dataservice_Repository
      */
     public function getRepository()
     {
         return $this->_repository;
+    }
+
+    /**
+     * Return a child path node that corresponds to the input path element.  This can be used to walk the
+     * dataservice graph.  Leaf nodes in the graph tend to be of mixed type (scalar, array, or object).
+     *
+     * @param string $pathElement the path element name of the child node
+     * @return Mage_Core_Model_Dataservice_Path_Node|mixed|null the child node, or mixed if this is a leaf node
+     */
+    public function getChild($pathElement)
+    {
+        return $this->get($pathElement);
     }
 }
