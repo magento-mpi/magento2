@@ -38,7 +38,6 @@ return array(
         '/pub/lib/mage/backend/tabs.js',
         '/pub/lib/mage/validation.js',
         '/pub/lib/mage/validation/validation.js',
-        '/pub/lib/mage/backend/suggest.js',
         '/pub/lib/mage/backend/menu.js',
         '/pub/lib/mage/backend/suggest.js',
         '/pub/lib/mage/backend/tree-suggest.js'

@@ -19,7 +19,7 @@ class Mage_Core_Model_Theme_CopyService
     protected $_filesystem;
 
     /**
-     * @var Mage_Core_Model_Theme_File_Factory
+     * @var Mage_Core_Model_Theme_FileFactory
      */
     protected $_fileFactory;
 
@@ -29,18 +29,34 @@ class Mage_Core_Model_Theme_CopyService
     protected $_link;
 
     /**
+     * @var Mage_Core_Model_Layout_UpdateFactory
+     */
+    protected $_updateFactory;
+
+    /**
+     * @var Mage_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
+
+    /**
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_Theme_File_Factory $fileFactory
+     * @param Mage_Core_Model_Theme_FileFactory $fileFactory
      * @param Mage_Core_Model_Layout_Link $link
+     * @param Mage_Core_Model_Layout_UpdateFactory $updateFactory
+     * @param Mage_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_Theme_File_Factory $fileFactory,
-        Mage_Core_Model_Layout_Link $link
+        Mage_Core_Model_Theme_FileFactory $fileFactory,
+        Mage_Core_Model_Layout_Link $link,
+        Mage_Core_Model_Layout_UpdateFactory $updateFactory,
+        Mage_Core_Model_Event_Manager $eventManager
     ) {
         $this->_filesystem = $filesystem;
         $this->_fileFactory = $fileFactory;
         $this->_link = $link;
+        $this->_updateFactory = $updateFactory;
+        $this->_eventManager = $eventManager;
     }
 
     /**
@@ -54,6 +70,7 @@ class Mage_Core_Model_Theme_CopyService
         $this->_copyDatabaseCustomization($source, $target);
         $this->_copyLayoutCustomization($source, $target);
         $this->_copyFilesystemCustomization($source, $target);
+        $this->_eventManager->dispatch('theme_copy_after', array('sourceTheme' => $source, 'targetTheme' => $target));
     }
 
     /**
@@ -91,25 +108,36 @@ class Mage_Core_Model_Theme_CopyService
      */
     protected function _copyLayoutCustomization(Mage_Core_Model_Theme $source, Mage_Core_Model_Theme $target)
     {
-        $targetCollection = $this->_link->getCollection()->addFieldToFilter('theme_id', $target->getId());
-        /** @var $layoutLink Mage_Core_Model_Layout_Link */
-        foreach ($targetCollection as $layoutLink) {
-            $layoutLink->delete();
-        }
-        $sourceCollection = $this->_link->getCollection()->addFieldToFilter('theme_id', $source->getId());
+        $update = $this->_updateFactory->create();
+        /** @var $targetUpdates Mage_Core_Model_Resource_Layout_Update_Collection */
+        $targetUpdates = $update->getCollection();
+        $targetUpdates->addThemeFilter($target->getId());
+        $targetUpdates->delete();
+
+        /** @var $sourceCollection Mage_Core_Model_Resource_Layout_Link_Collection */
+        $sourceCollection = $this->_link->getCollection();
+        $sourceCollection->addThemeFilter($source->getId());
         /** @var $layoutLink Mage_Core_Model_Layout_Link */
         foreach ($sourceCollection as $layoutLink) {
-            $layoutLink->setId(null);
-            $layoutLink->setThemeId($target->getId());
-            $layoutLink->save();
+            /** @var $update Mage_Core_Model_Layout_Update */
+            $update = $this->_updateFactory->create();
+            $update->load($layoutLink->getLayoutUpdateId());
+            if ($update->getId()) {
+                $update->setId(null);
+                $update->save();
+                $layoutLink->setThemeId($target->getId());
+                $layoutLink->setLayoutUpdateId($update->getId());
+                $layoutLink->setId(null);
+                $layoutLink->save();
+            }
         }
     }
 
     /**
      * Copy customizations stored in a file system from one theme to another, overriding existing data
      *
-     * @param $source
-     * @param $target
+     * @param Mage_Core_Model_Theme $source
+     * @param Mage_Core_Model_Theme $target
      */
     protected function _copyFilesystemCustomization(Mage_Core_Model_Theme $source, Mage_Core_Model_Theme $target)
     {

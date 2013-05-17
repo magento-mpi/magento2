@@ -254,6 +254,9 @@ tinyMceWysiwygSetup.prototype =
 
     onChangeContent: function() {
         // Add "changed" to tab class if it exists
+        if (tinyMCE.get(this.id)) {
+            jQuery('#' + this.id).val(tinyMCE.get(this.id).getContent()).trigger('change');
+        }
         if(this.config.tab_id) {
             var tab = $$('a[id$=' + this.config.tab_id + ']')[0];
             if ($(tab) != undefined && $(tab).hasClassName('tab-item-link')) {

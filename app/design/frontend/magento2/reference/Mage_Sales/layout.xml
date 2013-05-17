@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     base_default
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -78,8 +78,8 @@ Customer account home dashboard layout
                     <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>order/items/renderer/default.phtml</template></action>
                     <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>order/items/renderer/default.phtml</template></action>
                     <block type="Mage_Sales_Block_Order_Totals" name="order_totals" template="order/totals.phtml">
-                        <action method="setLabelProperties"><value>colspan="4" class="a-right"</value></action>
-                        <action method="setValueProperties"><value>class="last a-right"</value></action>
+                        <action method="setLabelProperties"><value>colspan="4" class="mark"</value></action>
+                        <action method="setValueProperties"><value>class="amount"</value></action>
                         <block type="Mage_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml" />
                     </block>
                 </block>
@@ -106,8 +106,8 @@ Customer account home dashboard layout
                     <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>order/invoice/items/renderer/default.phtml</template></action>
                     <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>order/invoice/items/renderer/default.phtml</template></action>
                     <block type="Mage_Sales_Block_Order_Invoice_Totals" name="invoice_totals" template="order/totals.phtml">
-                        <action method="setLabelProperties"><value>colspan="4" class="a-right"</value></action>
-                        <action method="setValueProperties"><value>class="last a-right"</value></action>
+                        <action method="setLabelProperties"><value>colspan="4" class="mark"</value></action>
+                        <action method="setValueProperties"><value>class="amount"</value></action>
                         <block type="Mage_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml" />
                     </block>
                     <block type="Mage_Sales_Block_Order_Comments" name="invoice_comments" template="order/comments.phtml" />
@@ -158,8 +158,8 @@ Customer account home dashboard layout
                     <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>order/creditmemo/items/renderer/default.phtml</template></action>
                     <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>order/creditmemo/items/renderer/default.phtml</template></action>
                     <block type="Mage_Sales_Block_Order_Creditmemo_Totals" name="creditmemo_totals" template="order/totals.phtml">
-                        <action method="setLabelProperties"><value>colspan="6" class="a-right"</value></action>
-                        <action method="setValueProperties"><value>class="a-right"</value></action>
+                        <action method="setLabelProperties"><value>colspan="6" class="mark"</value></action>
+                        <action method="setValueProperties"><value>class="amount"</value></action>
                         <block type="Mage_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
                     </block>
                     <block type="Mage_Sales_Block_Order_Comments" name="creditmemo_comments" template="order/comments.phtml" />
@@ -190,8 +190,8 @@ Customer account home dashboard layout
                 <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>order/items/renderer/default.phtml</template></action>
                 <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>order/items/renderer/default.phtml</template></action>
                 <block type="Mage_Sales_Block_Order_Totals" name="order_totals" template="order/totals.phtml">
-                    <action method="setLabelProperties"><value>colspan="4" class="a-right"</value></action>
-                    <action method="setValueProperties"><value>class="last a-right"</value></action>
+                    <action method="setLabelProperties"><value>colspan="4" class="mark"</value></action>
+                    <action method="setValueProperties"><value>class="amount"</value></action>
                     <block type="Mage_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml">
                         <action method="setIsPlaneMode"><value>1</value></action>
                     </block>
@@ -208,8 +208,8 @@ Customer account home dashboard layout
                 <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>order/invoice/items/renderer/default.phtml</template></action>
                 <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>order/invoice/items/renderer/default.phtml</template></action>
                 <block type="Mage_Sales_Block_Order_Invoice_Totals" name="invoice_totals" template="order/totals.phtml">
-                    <action method="setLabelProperties"><value>colspan="4" class="a-right"</value></action>
-                    <action method="setValueProperties"><value>class="last a-right"</value></action>
+                    <action method="setLabelProperties"><value>colspan="4" class="mark"</value></action>
+                    <action method="setValueProperties"><value>class="amount"</value></action>
                     <block type="Mage_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml" />
                 </block>
             </block>
@@ -234,8 +234,8 @@ Customer account home dashboard layout
                 <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>order/creditmemo/items/renderer/default.phtml</template></action>
                 <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>order/creditmemo/items/renderer/default.phtml</template></action>
                 <block type="Mage_Sales_Block_Order_Creditmemo_Totals" name="creditmemo_totals" template="order/totals.phtml">
-                    <action method="setLabelProperties"><value>colspan="6" class="a-right"</value></action>
-                    <action method="setValueProperties"><value>class="a-right"</value></action>
+                    <action method="setLabelProperties"><value>colspan="6" class="mark"</value></action>
+                    <action method="setValueProperties"><value>class="amount"</value></action>
                     <block type="Mage_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
                 </block>
             </block>
@@ -327,8 +327,8 @@ Guest
                     <action method="addItemRender"><type>default</type><block>Mage_Sales_Block_Order_Item_Renderer_Default</block><template>order/items/renderer/default.phtml</template></action>
                     <action method="addItemRender"><type>grouped</type><block>Mage_Sales_Block_Order_Item_Renderer_Grouped</block><template>order/items/renderer/default.phtml</template></action>
                     <block type="Mage_Sales_Block_Order_Totals" name="order_totals" template="order/totals.phtml">
-                        <action method="setLabelProperties"><value>colspan="4" class="a-right"</value></action>
-                        <action method="setValueProperties"><value>class="last a-right"</value></action>
+                        <action method="setLabelProperties"><value>colspan="4" class="mark"</value></action>
+                        <action method="setValueProperties"><value>class="amount"</value></action>
                         <block type="Mage_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml" />
                     </block>
                 </block>

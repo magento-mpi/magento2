@@ -55,7 +55,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Grid
         parent::_prepareColumns();
 
         $this->addColumn('is_visible', array(
-            'header'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('Visible on Frontend'),
+            'header'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('Visible to Customer'),
             'sortable'  => true,
             'index'     => 'is_visible',
             'type'      => 'options',

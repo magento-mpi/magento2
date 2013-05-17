@@ -115,7 +115,7 @@ applications:
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
     saas: &saas
-        fallbackOrderFixture: 'enterprise, default'
+        fallbackOrderFixture: 'saas, enterprise, default'
         fallbackOrderHelper: 'Saas, Enterprise, Core'
         design_theme: Enterprise/Magento Fixed Design
         ftp: *ftp
@@ -133,4 +133,10 @@ applications:
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
+            tmt_api:
+                url: 'http://tenant.stage.server/soap.php?action=wsdl'
+                base_page_uimap: ~
+                uimap_path: ~
+                login: 'login'
+                password: 'password'
     default: *ee

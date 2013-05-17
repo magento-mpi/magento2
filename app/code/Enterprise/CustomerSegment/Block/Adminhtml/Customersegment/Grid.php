@@ -64,7 +64,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
         ));
 
         $this->addColumn('grid_segment_name', array(
-            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segment Name'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segment'),
             'align'     => 'left',
             'index'     => 'name',
         ));

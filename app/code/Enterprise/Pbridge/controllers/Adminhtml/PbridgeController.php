@@ -90,6 +90,6 @@ class Enterprise_Pbridge_Adminhtml_PbridgeController extends Mage_Adminhtml_Cont
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Sales::sales_order');
+        return $this->_authorization->isAllowed('Mage_Sales::sales_order');
     }
 }

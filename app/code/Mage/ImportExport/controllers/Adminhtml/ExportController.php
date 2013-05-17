@@ -49,7 +49,7 @@ class Mage_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_ImportExport::export');
+        return $this->_authorization->isAllowed('Mage_ImportExport::export');
     }
 
     /**

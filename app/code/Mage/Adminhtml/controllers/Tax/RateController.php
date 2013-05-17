@@ -400,21 +400,21 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     {
         switch ($this->getRequest()->getActionName()) {
             case 'importExport':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::import_export');
+                return $this->_authorization->isAllowed('Mage_Tax::import_export');
                 break;
 
             case 'index':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::manage_tax');
+                return $this->_authorization->isAllowed('Mage_Tax::manage_tax');
                 break;
 
             case 'importPost':
             case 'exportPost':
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::manage_tax')
-                    || Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::import_export');
+                return $this->_authorization->isAllowed('Mage_Tax::manage_tax')
+                    || $this->_authorization->isAllowed('Mage_Tax::import_export');
                 break;
 
             default:
-                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Tax::manage_tax');
+                return $this->_authorization->isAllowed('Mage_Tax::manage_tax');
                 break;
         }
 

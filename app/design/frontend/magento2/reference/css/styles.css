@@ -2,7 +2,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     magento2
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -150,20 +150,22 @@ textarea {
 }
 html {
   background: #ffffff;
+  min-width: 1025px;
+}
+body {
+  position: relative;
 }
 .page.wrapper {
   background: #ffffff;
 }
 a,
-a:visited,
-a > span {
+a:visited {
   color: #332e29;
   text-decoration: none;
 }
 a:hover,
-a:visited:hover,
-a > span:hover {
-  color: #f47a1f;
+a:visited:hover {
+  color: #da370a;
 }
 /* General block */
 .column.main .block {
@@ -235,13 +237,41 @@ a > span:hover {
 }
 .page.title {
   margin-bottom: 30px;
+  *zoom: 1;
+}
+.page.title:before,
+.page.title:after {
+  content: "";
+  display: table;
+}
+.page.title:after {
+  clear: both;
 }
 .page.title .title {
+  display: inline;
   margin: 0;
   line-height: 1.2;
   font-weight: 200;
   font-size: 30px;
   color: #837d75;
+}
+.page.title .action {
+  float: right;
+  border: none;
+  border-radius: 0;
+  background: #da370a;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.page.title .action span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
 }
 .page.main > .page.title {
   padding-left: 10px;
@@ -328,7 +358,6 @@ a > span:hover {
   clear: both;
 }
 .col3-layout .column.left {
-  float: left;
   display: inline;
   float: left;
   width: 16.666666666666664%;
@@ -398,7 +427,7 @@ a > span:hover {
 }
 .header > .content .links a:hover,
 .header > .content .links a:hover > span {
-  color: #f47a1f;
+  color: #da370a;
 }
 .header .panel {
   *zoom: 1;
@@ -521,7 +550,7 @@ a > span:hover {
   text-align: center;
 }
 .page.bottom .link.locator:before {
-  color: #f47a1f;
+  color: #da370a;
   display: block;
   padding-top: 5px;
   margin: 10px auto 10px;
@@ -695,7 +724,7 @@ a > span:hover {
   background: #ffffff;
   border-top: 1px solid;
   border-color: #dedede;
-  padding: 30px 0;
+  padding: 30px 0 80px;
 }
 .footer > .content {
   padding-left: 10px;
@@ -744,7 +773,7 @@ a > span:hover {
 }
 .footer .links a:hover,
 .footer .links a:hover > span {
-  color: #f47a1f;
+  color: #da370a;
 }
 .footer .copyright {
   font-size: 14px;
@@ -772,7 +801,7 @@ a > span:hover {
 .header .panel .switcher {
   margin-right: 25px;
 }
-.header .panel .switcher :last-child {
+.header .panel .switcher:last-child {
   margin-right: 0;
 }
 .switcher .label {
@@ -789,7 +818,6 @@ a > span:hover {
 }
 .switcher .options > ul {
   padding: 0;
-  margin: 0;
   list-style-type: none;
   margin: 0;
   padding: 5px 10px;
@@ -904,7 +932,7 @@ a > span:hover {
 .banner-header {
   font-size: 16px;
   text-transform: uppercase;
-  color: #f47a1f;
+  color: #da370a;
 }
 /* Global Notices  */
 .notice.global.site {
@@ -964,7 +992,7 @@ a > span:hover {
   width: 80px;
   margin-right: 3px;
   line-height: 1;
-  color: rgba(244, 122, 31, 0.3);
+  color: rgba(218, 55, 10, 0.3);
   display: inline-block;
   vertical-align: top;
   margin-top: -1px;
@@ -973,7 +1001,7 @@ a > span:hover {
 .reviews.summary .rating > span {
   display: block;
   overflow: hidden;
-  color: #f47a1f;
+  color: #da370a;
   height: 0;
   padding-top: 16px;
   line-height: 1;
@@ -1042,7 +1070,6 @@ a > span:hover {
   display: none;
 }
 .block.add.review .fieldset {
-  margin: 0;
   letter-spacing: -0.31em;
   /* webkit */
 
@@ -1070,7 +1097,7 @@ a > span:hover {
   border-bottom: 1px solid;
   border-color: #d7d7d7;
 }
-.block.add.review .fieldset > .legend  + br {
+.block.add.review .fieldset > .legend + br {
   clear: both;
   display: block !important;
 }
@@ -1106,7 +1133,7 @@ a > span:hover {
 .block.add.review .fieldset > .field:not(.ratings).choice > .label {
   display: inline;
 }
-.block.add.review .fieldset > .field:not(.ratings).required > .label span:first-child:after {
+.block.add.review .fieldset > .field:not(.ratings).required > .label > span:first-child:after {
   content: '*';
   color: red;
 }
@@ -1196,7 +1223,7 @@ a > span:hover {
   font-size: 0;
   line-height: 0;
   width: 0;
-  border-bottom: 5px solid #666;
+  border-bottom: 5px solid #675f55;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 }
@@ -1215,7 +1242,7 @@ a > span:hover {
 .block.add.review .action.submit {
   border: none;
   border-radius: 0;
-  background: #f47a1f;
+  background: #da370a;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
@@ -1251,11 +1278,7 @@ a > span:hover {
 .block.add.review .action.cancel:focus,
 .block.add.review .action.cancel:active,
 .block.add.review .action.cancel:hover {
-  color: #f47a1f;
-}
-.block.add.review .action.cancel span,
-.block.add.review .action.cancel span:hover {
-  color: inherit;
+  color: #da370a;
 }
 .block.add.review .actions,
 .block.add.review .field:not(.ratings) {
@@ -1309,14 +1332,14 @@ a > span:hover {
   content: "\e01a\e01a\e01a\e01a\e01a";
   font-style: normal;
   font-size: 16px;
-  color: rgba(244, 122, 31, 0.3);
+  color: rgba(218, 55, 10, 0.3);
   speak: none;
   font-weight: normal;
   -webkit-font-smoothing: antialiased;
 }
 .field.ratings .field.rating .control input:focus + label:before,
 .field.ratings .field.rating .control input:checked + label:before {
-  color: #f47a1f;
+  color: #da370a;
   opacity: 1;
 }
 .field.ratings .field.rating .control label {
@@ -1338,10 +1361,10 @@ a > span:hover {
   opacity: 0;
 }
 .field.ratings .field.rating .control label:hover:before {
-  color: #f47a1f;
+  color: #da370a;
   opacity: 1;
 }
-.field.ratings .field.rating .control label:hover  ~ label:before {
+.field.ratings .field.rating .control label:hover ~ label:before {
   opacity: 0 !important;
 }
 .field.ratings .field.rating .control .rating-1 {
@@ -1373,6 +1396,53 @@ a > span:hover {
 }
 .field.ratings .field.rating .control .rating-5:before {
   content: "\e01a\e01a\e01a\e01a\e01a";
+}
+/* Review details */
+.review.view .product.name {
+  display: inline-block;
+  margin: 0 0 0;
+}
+.review.view .product.details {
+  float: left;
+  margin-right: 30px;
+}
+.review.view .product.photo {
+  display: block;
+  margin-bottom: 30px;
+}
+.review.view .review.details {
+  margin: 30px 0;
+  display: table;
+}
+.review.view .review.details .ratings.summary {
+  margin-bottom: 30px;
+}
+.review.view .review.details .ratings.summary strong {
+  font-weight: 600;
+  display: block;
+  margin: 0 0 15px;
+}
+.review.view .review.details .ratings.summary .item {
+  display: table-row;
+}
+.review.view .review.details .ratings.summary .label {
+  padding: 0 0 10px;
+  padding-right: 10px;
+  display: table-cell;
+}
+.review.view .review.details .ratings.summary .label:after {
+  content: ': ';
+}
+.review.view .review.details .review.date {
+  font-size: 12px;
+}
+.review.view .review.details .review.title {
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 0 15px;
+}
+.customer.review.view + .actions {
+  clear: both;
 }
 /*
  *    MESSAGES
@@ -1446,7 +1516,6 @@ a > span:hover {
   height: 0;
   width: 0;
   overflow: hidden;
-  position: absolute;
   display: block;
   position: absolute;
   top: 15px;
@@ -1457,6 +1526,12 @@ ul.messages ul {
   padding: 0;
   margin: 0;
   list-style-type: none;
+}
+ul.messages ul li {
+  margin-top: 5px;
+}
+ul.messages ul li:first-child {
+  margin-top: 0px;
 }
 .success-msg {
   background: #d3edd5;
@@ -1677,6 +1752,17 @@ select:focus {
 select:disabled {
   opacity: 0.5;
 }
+textarea.mage-error,
+select.mage-error,
+input[type="password"].mage-error,
+input[type="text"].mage-error {
+  border-color: #da370a !important;
+}
+div.mage-error {
+  color: #da370a !important;
+  font-size: 12px;
+  padding-top: 4px;
+}
 /*
  *    Mage_CatalogSearch
  *
@@ -1810,7 +1896,7 @@ select:disabled {
 .opc.wrapper > .opc .section > .step-title {
   padding: 15px 20px;
   line-height: 1;
-  background: #f47a1f;
+  background: #da370a;
   font-size: 22px;
   color: #fff;
 }
@@ -1899,7 +1985,7 @@ select:disabled {
   float: right;
   border: none;
   border-radius: 0;
-  background: #f47a1f;
+  background: #da370a;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
@@ -1945,7 +2031,7 @@ select:disabled {
   display: block;
   letter-spacing: normal;
   word-spacing: normal;
-  color: #f47a1f;
+  color: #da370a;
 }
 .opc.loading .active {
   position: relative;
@@ -1982,7 +2068,7 @@ select:disabled {
   width: 16px;
   height: 16px;
   background: url(../images/loader.gif) no-repeat 0 0;
-  background-color: #f47a1f;
+  background-color: #da370a;
   vertical-align: top;
 }
 /* Step login */
@@ -2032,7 +2118,7 @@ select:disabled {
 .step.login.wrapper button.action:not(.reload) {
   border: none;
   border-radius: 0;
-  background: #f47a1f;
+  background: #da370a;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
@@ -2112,7 +2198,16 @@ select:disabled {
 }
 .order.data.items tr.grand.total .amount {
   font-size: 24px;
-  color: #f47a1f;
+  color: #da370a;
+}
+.order.review.data th.col.price,
+.order.review.data th.col.subtotal {
+  text-align: right;
+  padding-right: 10px;
+}
+.order.review.data th.col.item {
+  text-align: left;
+  padding-left: 20px;
 }
 /*
  *    Mage_Checkout
@@ -2137,6 +2232,7 @@ select:disabled {
 }
 .cart.main.actions .action.continue {
   position: absolute;
+  text-decoration: underline;
   right: 0;
   top: 3px;
 }
@@ -2348,7 +2444,7 @@ select:disabled {
 .cart.summary .block .action {
   border: none;
   border-radius: 0;
-  background: #f47a1f;
+  background: #da370a;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
@@ -2366,6 +2462,16 @@ select:disabled {
 .cart.summary .block .action span {
   font-size: 12px;
   line-height: 12px;
+}
+.cart.summary .block .action.check span {
+  display: inline;
+  color: #332e29;
+  text-decoration: none;
+}
+.cart.summary .block .action.check span:focus,
+.cart.summary .block .action.check span:active,
+.cart.summary .block .action.check span:hover {
+  color: #da370a;
 }
 .cart.table.wrapper.detailed + .cart.summary {
   margin-top: 54px;
@@ -2461,11 +2567,7 @@ select:disabled {
 .block.discount .fieldset.coupon .action.cancel:focus,
 .block.discount .fieldset.coupon .action.cancel:active,
 .block.discount .fieldset.coupon .action.cancel:hover {
-  color: #f47a1f;
-}
-.block.discount .fieldset.coupon .action.cancel span,
-.block.discount .fieldset.coupon .action.cancel span:hover {
-  color: inherit;
+  color: #da370a;
 }
 .block.discount .fieldset.coupon .action.cancel span {
   text-transform: none;
@@ -2494,6 +2596,59 @@ select:disabled {
 }
 .data-table td:last-child {
   border: 0;
+}
+.form.giftcard.redeem .field {
+  margin: 15px 0;
+}
+.form.giftcard.redeem .label {
+  margin-bottom: 10px;
+  display: block;
+}
+.form.giftcard.redeem .primary {
+  display: inline;
+  margin-right: 15px;
+}
+.form.giftcard.redeem .primary .action {
+  border: none;
+  border-radius: 0;
+  background: #da370a;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.form.giftcard.redeem .primary .action span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.form.giftcard.redeem .secondary {
+  display: inline;
+}
+.form.giftcard.redeem .secondary .action {
+  border: none;
+  border-radius: 0;
+  background: #c2c2c2;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.form.giftcard.redeem .secondary .action span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.form.giftcard.redeem .secondary .action:focus,
+.form.giftcard.redeem .secondary .action:active,
+.form.giftcard.redeem .secondary .action:hover {
+  background: #999999;
 }
 .block.giftcard .form.add .fieldset {
   position: relative;
@@ -2535,11 +2690,7 @@ select:disabled {
 .block.giftcard .action.check:focus,
 .block.giftcard .action.check:active,
 .block.giftcard .action.check:hover {
-  color: #f47a1f;
-}
-.block.giftcard .action.check span,
-.block.giftcard .action.check span:hover {
-  color: inherit;
+  color: #da370a;
 }
 .block.giftcard .action.check span {
   text-transform: none;
@@ -2557,7 +2708,7 @@ select:disabled {
 }
 .cart.totals td:not(:first-child) strong {
   font-size: 24px;
-  color: #f47a1f;
+  color: #da370a;
 }
 .cart.totals td:first-child {
   text-align: left;
@@ -2571,8 +2722,11 @@ select:disabled {
   padding: 20px;
 }
 .checkout.methods.items .item {
-  margin: 10px auto;
+  margin: 15px auto;
   text-align: center;
+}
+.checkout.methods.items .action.multicheckout {
+  text-decoration: underline;
 }
 /*
  *    Mage_Checkout
@@ -2649,7 +2803,7 @@ select:disabled {
   font-weight: 700;
   font-size: 24px;
   line-height: 24px;
-  color: #f47a1f;
+  color: #da370a;
 }
 .minicart.wrapper .block.minicart > .content .subtotal .amount.incl.tax {
   display: block;
@@ -2670,7 +2824,7 @@ select:disabled {
   text-align: right;
 }
 .minicart.wrapper .block.minicart > .content .actions .secondary a {
-  color: #f47a1f;
+  color: #da370a;
 }
 .minicart.wrapper .block.minicart > .content .subtitle {
   display: none;
@@ -2694,6 +2848,12 @@ select:disabled {
   float: right;
   width: 310px;
   clear: right;
+}
+.minicart.wrapper .block.minicart > .title .text {
+  display: none;
+}
+.minicart.wrapper .block.minicart > .title .qty:before {
+  content: attr(title) ": ";
 }
 .minicart.wrapper .block.minicart .minicart.empty.text {
   margin-top: 15px;
@@ -2796,6 +2956,9 @@ select:disabled {
 .block.minicart.empty > .title {
   display: none;
 }
+.eq-ie8 .minicart.wrapper.active:before {
+  display: none;
+}
 /* Product options */
 .minicart .product.options.wrapper {
   position: relative;
@@ -2887,24 +3050,76 @@ select:disabled {
   left: auto;
   right: -10px;
 }
+.minicart.wrapper .block.minicart > .content > .actions .primary {
+  *zoom: 1;
+  text-align: center;
+}
+.minicart.wrapper .block.minicart > .content > .actions .primary:before,
+.minicart.wrapper .block.minicart > .content > .actions .primary:after {
+  content: "";
+  display: table;
+}
+.minicart.wrapper .block.minicart > .content > .actions .primary:after {
+  clear: both;
+}
+.minicart.wrapper .block.minicart > .content > .actions .primary .checkout.paypal {
+  display: inline;
+}
+.minicart.wrapper .block.minicart > .content > .actions .primary .checkout.paypal input[type="image"] {
+  margin-top: 5px;
+  float: left;
+}
+.minicart.wrapper .block.minicart > .content > .actions .primary .checkout.paypal:after {
+  float: none;
+}
+.minicart.wrapper .block.minicart > .content > .actions .primary .checkout.paypal + .action.checkout {
+  float: right;
+}
 /* Paypal button */
 .checkout.paypal {
+  display: none;
   display: inline-block;
   vertical-align: top;
 }
-.checkout.paypal a {
+.checkout.paypal input[type="image"] {
   display: inline-block;
   vertical-align: top;
 }
 .checkout.paypal.before:before {
-  content: "- " attr(label) " -";
+  content: "- " attr(data-label) " -";
   text-transform: uppercase;
   display: inline-block;
   line-height: 32px;
   font-size: 14px;
   vertical-align: middle;
+  margin: 0 5px;
 }
-.products.minilist {
+.checkout.paypal.after:after {
+  content: "- " attr(data-label) " -";
+  text-transform: uppercase;
+  display: inline-block;
+  line-height: 32px;
+  font-size: 14px;
+  vertical-align: middle;
+  margin: 0 5px;
+}
+.box.tocart .checkout.paypal.after:after {
+  display: none;
+}
+.box.tocart .checkout.paypal.after:before {
+  content: "- " attr(data-label) " -";
+  text-transform: uppercase;
+  display: inline-block;
+  line-height: 32px;
+  font-size: 14px;
+  vertical-align: middle;
+  margin: 0 5px;
+}
+.checkout.methods .checkout.paypal.after:after {
+  display: block;
+  text-align: center;
+}
+.block.minicart .products.minilist {
   float: left;
   padding: 0;
   border-right: 1px solid #d7d7d7;
@@ -2913,17 +3128,17 @@ select:disabled {
   position: relative;
   z-index: 1;
 }
-.products.minilist .minilist.items {
+.block.minicart .products.minilist .minilist.items {
   position: relative;
   white-space: nowrap;
 }
-.products.minilist.animation {
+.block.minicart .products.minilist.animation {
   position: relative;
 }
-.products.minilist.animation .items-wrapper {
+.block.minicart .products.minilist.animation .items-wrapper {
   overflow: hidden;
 }
-.products.minilist.animation:after {
+.block.minicart .products.minilist.animation:after {
   content: 'moving';
   position: absolute;
   z-index: 999;
@@ -2934,20 +3149,11 @@ select:disabled {
   background: #fff;
   opacity: 0.01;
 }
-.products.minilist.animation .item {
+.block.minicart .products.minilist.animation .item {
   visibility: visible;
 }
-.products.minilist .item {
+.block.minicart .products.minilist .item {
   padding: 0 20px;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-
   vertical-align: top;
   text-align: left;
   white-space: normal;
@@ -2966,7 +3172,7 @@ select:disabled {
 
   margin-left: 0;
 }
-.products.minilist .item:before {
+.block.minicart .products.minilist .item:before {
   content: '';
   width: 0;
   display: block;
@@ -2975,54 +3181,54 @@ select:disabled {
   margin-left: -20px;
   position: absolute;
 }
-.products.minilist .item.item:not(.shown) + .shown:before,
-.products.minilist .item:first-child:before {
+.block.minicart .products.minilist .item.item:not(.shown) + .shown:before,
+.block.minicart .products.minilist .item:first-child:before {
   display: none;
 }
-.wrapper.active .products.minilist .item.shown {
+.wrapper.active .block.minicart .products.minilist .item.shown {
   visibility: visible;
 }
-.products.minilist .item.hidden {
+.block.minicart .products.minilist .item.hidden {
   margin-left: -187px !important;
 }
-.products.minilist .item .product.photo {
+.block.minicart .products.minilist .item .product.photo {
   display: block;
   margin-bottom: 10px;
 }
-.products.minilist .item .product.photo .photo.container {
+.block.minicart .products.minilist .item .product.photo .photo.container {
   overflow: visible !important;
   margin: 0 auto;
 }
-.products.minilist .item .product.photo .photo.image {
+.block.minicart .products.minilist .item .product.photo .photo.image {
   border: 1px solid #dcdcdc;
   display: block;
   margin: 0 auto;
 }
-.products.minilist .item .pricing {
+.block.minicart .products.minilist .item .pricing {
   margin-top: 10px;
 }
-.products.minilist .item .pricing:not(.complex) .label.display {
+.block.minicart .products.minilist .item .pricing:not(.complex) .label.display {
   display: none;
 }
-.products.minilist .item .pricing .label:after {
+.block.minicart .products.minilist .item .pricing .label:after {
   content: ': ';
 }
-.products.minilist .item .actions {
+.block.minicart .products.minilist .item .actions {
   float: right;
 }
-.products.minilist .item .action.edit {
+.block.minicart .products.minilist .item .action.edit {
   font-size: 12px;
 }
-.products.minilist .item .product.options.wrapper + .action.edit:before {
+.block.minicart .products.minilist .item .product.options.wrapper + .action.edit:before {
   content: ' | ';
   display: inline-block;
   text-decoration: none;
   margin: 0 8px;
 }
-.products.minilist .item .product.options.wrapper + .action.edit:hover:before {
+.block.minicart .products.minilist .item .product.options.wrapper + .action.edit:hover:before {
   color: #675f55;
 }
-.products.minilist .item .action.delete {
+.block.minicart .products.minilist .item .action.delete {
   position: absolute;
   margin-left: -5px;
   margin-top: -1.35em;
@@ -3063,6 +3269,11 @@ select:disabled {
   text-indent: 0;
   display: block;
 }
+.action.delete:focus,
+.action.delete:active,
+.action.delete:hover {
+  outline: none;
+}
 .action.delete:focus span,
 .action.delete:active span,
 .action.delete:hover span {
@@ -3071,7 +3282,7 @@ select:disabled {
 .action.checkout {
   border: none;
   border-radius: 0;
-  background: #f47a1f;
+  background: #da370a;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
@@ -3177,9 +3388,9 @@ select:disabled {
   top: 0;
   margin-top: -30%;
   text-indent: 0;
-  background: #f47a1f;
+  background: #da370a;
   display: inline-block;
-  border: 1px solid #f47a1f;
+  border: 1px solid #da370a;
   border-radius: 50px;
   font-size: 14px;
   font-weight: 600;
@@ -3202,6 +3413,35 @@ select:disabled {
 }
 .action.showcart .qty.empty {
   display: none;
+}
+/*
+ *    Mage_Sales
+ *
+----------------------------------------------------------------------------- */
+.block.reorder {
+  padding-right: 30px;
+}
+.block.reorder .item {
+  padding-left: 20px;
+}
+.block.reorder .item input {
+  float: left;
+  margin-top: 2px;
+  margin-left: -20px;
+}
+.block.reorder .subtitle {
+  display: block;
+  margin: 0 0 15px;
+  font-weight: 600;
+}
+.block.reorder .actions {
+  margin: 15px 0 0;
+}
+.block.reorder .actions .primary,
+.block.reorder .actions .secondary {
+  margin-right: 5px;
+  display: inline-block;
+  vertical-align: middle;
 }
 /*
  *    Mage_Newsletter
@@ -3265,10 +3505,10 @@ select:disabled {
   box-shadow: none;
   text-shadow: none;
   outline: none;
-  background: #f47a1f;
+  background: #da370a;
   border-radius: 3px;
   padding: 7px;
-  border: 1px solid #f47a1f;
+  border: 1px solid #da370a;
 }
 .action.subscribe span {
   width: 16px;
@@ -3302,6 +3542,96 @@ select:disabled {
   text-indent: 0;
   display: block;
 }
+.form.newsletter.manage .fieldset {
+  margin: 0 0 20px;
+  padding: 0;
+  border: 0;
+}
+.form.newsletter.manage .fieldset .legend {
+  float: left;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+.form.newsletter.manage .fieldset .legend + br {
+  display: block;
+  clear: both;
+}
+.form.newsletter.manage .action.save {
+  border: none;
+  border-radius: 0;
+  background: #da370a;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.form.newsletter.manage .action.save span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.form.newsletter.manage .actions .primary {
+  margin-bottom: 15px;
+}
+/*
+ *    Mage_Tags
+ *
+----------------------------------------------------------------------------- */
+.tags.product,
+.tags.items.cloud {
+  margin: 0 0 20px;
+}
+.tags.product .item,
+.tags.items.cloud .item {
+  display: inline-block;
+  margin: 0 0 5px 5px;
+}
+.tags.product .item:first-child,
+.tags.items.cloud .item:first-child {
+  margin-left: 0;
+}
+.tags.product .amount,
+.tags.items.cloud .amount {
+  margin-left: 3px;
+}
+.tags.product .amount:before,
+.tags.items.cloud .amount:before {
+  content: '(';
+}
+.tags.product .amount:after,
+.tags.items.cloud .amount:after {
+  content: ')';
+}
+.data.table.tags .col.photo {
+  width: 1px;
+}
+.data.table.tags .addto.links {
+  margin-top: 15px;
+}
+.tag.edit {
+  line-height: 16px;
+}
+.tag.edit strong {
+  font-weight: 400;
+}
+.tag.edit strong:after {
+  content: ': ';
+}
+.tag.edit .tag.text {
+  font-weight: 600;
+}
+.tag.edit .tag.text:before {
+  content: "\201C";
+}
+.tag.edit .tag.text:after {
+  content: "\201D ";
+}
+.tag.edit .action {
+  vertical-align: middle;
+}
 /*
  *    Widgets
  *
@@ -3315,6 +3645,207 @@ select:disabled {
   padding: 0;
   margin: 0;
   list-style-type: none;
+}
+/*
+ *    Mage_Catalog
+ *
+ *    Compare
+----------------------------------------------------------------------------- */
+.block.compare > .title .qty {
+  font-size: 16px;
+  margin-right: -5px;
+}
+.block.compare > .title .qty:before {
+  content: '(';
+}
+.block.compare > .title .qty:after {
+  content: ')';
+}
+.block.compare .item {
+  padding-right: 20px;
+  overflow: hidden;
+}
+.block.compare .product.name {
+  float: left;
+}
+.block.compare .action.delete {
+  margin-right: -20px;
+  float: right;
+}
+.block.compare .action.compare {
+  border: none;
+  border-radius: 0;
+  background: #c2c2c2;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  float: right;
+}
+.block.compare .action.compare span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.block.compare .action.compare:focus,
+.block.compare .action.compare:active,
+.block.compare .action.compare:hover {
+  background: #999999;
+}
+.block.compare .action.clear {
+  float: left;
+  margin-top: 10px;
+}
+.block.compare .actions {
+  margin-top: 15px;
+  *zoom: 1;
+}
+.block.compare .actions:before,
+.block.compare .actions:after {
+  content: "";
+  display: table;
+}
+.block.compare .actions:after {
+  clear: both;
+}
+.catalog-product-compare-index .action.print {
+  float: right;
+  margin-top: -50px;
+}
+.comparison.wrapper {
+  clear: both;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 50px;
+}
+.comparison.wrapper:after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 15px;
+}
+.comparison.container {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.data.comparison {
+  table-layout: fixed;
+}
+.data.comparison .cell.label {
+  width: 130px;
+  padding-left: 10px;
+  font-weight: 600;
+  text-align: left;
+  border-right: 1px solid #e5e5e5;
+}
+.data.comparison .cell.label .attribute.label {
+  display: block;
+  width: 100%;
+  word-break: break-all;
+}
+.data.comparison .cell.label.product {
+  border-bottom: 1px solid #e5e5e5;
+}
+.data.comparison .cell {
+  padding: 15px;
+  vertical-align: top;
+}
+.data.comparison .cell p:first-child {
+  margin-top: 0;
+}
+.data.comparison .cell .attibute.value {
+  width: 100%;
+  overflow: hidden;
+}
+.data.comparison .cell.product {
+  width: 140px;
+}
+.data.comparison .cell.product.info {
+  border-bottom: 1px solid #e5e5e5;
+}
+.data.comparison .cell.attribute {
+  font-size: 12px;
+}
+.data.comparison td:last-child {
+  border-right: 1px solid #e5e5e5;
+}
+.data.comparison tr:nth-child(odd) .cell.attribute {
+  background-color: #f8f8f8;
+}
+.data.comparison .product.photo {
+  text-align: center;
+  display: block;
+  margin: 0 auto 15px;
+}
+.data.comparison .product.photo .img.photo.container {
+  display: inline-block !important;
+}
+.data.comparison .actions,
+.data.comparison .price-box,
+.data.comparison .product.rating,
+.data.comparison .product.name {
+  margin: 15px 0;
+}
+.data.comparison .addto.links {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e5e5e5;
+  font-size: 12px;
+}
+.data.comparison .cell.remove {
+  padding-top: 0;
+  padding-bottom: 0;
+  text-align: right;
+}
+.data.comparison .cell.remove .action.delete {
+  float: right;
+  border: none;
+  border-radius: 0;
+  background: #c2c2c2;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  padding: 4px;
+  margin-right: -15px;
+}
+.data.comparison .cell.remove .action.delete span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.data.comparison .cell.remove .action.delete:focus,
+.data.comparison .cell.remove .action.delete:active,
+.data.comparison .cell.remove .action.delete:hover {
+  background: #999999;
+}
+.data.comparison .cell.remove .action.delete span {
+  overflow: hidden;
+  line-height: 0;
+}
+.data.comparison .cell.remove .action.delete span:after {
+  content: "\e012";
+  font-size: 12px;
+}
+.comparison.headings {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: auto;
+  background-color: #ffffff;
+}
+.comparison.headings th {
+  background-color: #ffffff;
 }
 /*
  *    Mage_Catalog
@@ -3339,7 +3870,6 @@ select:disabled {
   position: absolute;
   display: block;
   top: 51px;
-  bottom: 0;
   left: 0;
   bottom: 0;
   right: 0;
@@ -3474,9 +4004,6 @@ select:disabled {
 
 }
 .navigation > ul > .level-top > .submenu > ul li.column {
-  direction: rtl;
-  min-width: 150px;
-  max-width: 220px;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -3486,29 +4013,11 @@ select:disabled {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 
+  width: 25%;
   display: inline-block;
-  margin-right: 30px;
+  margin-left: -5px;
+  padding-right: 30px;
   vertical-align: top;
-  /*&:first-child:before {
-                    display: none;
-                }*/
-
-}
-.navigation > ul > .level-top > .submenu > ul li.column > ul {
-  direction: ltr;
-}
-.navigation > ul > .level-top > .submenu > ul li.column:before {
-  content: '';
-  display: block;
-  position: absolute;
-  width: 0;
-  overflow: hidden;
-  border: 1px solid;
-  border-width: 0 1px 0 1px;
-  border-left-color: #d7d7d7;
-  border-right-color: #ffffff;
-  top: 45px;
-  bottom: 45px;
 }
 .navigation > ul > .level-top > .submenu > ul .level1 > a {
   text-transform: uppercase;
@@ -3543,17 +4052,83 @@ select:disabled {
   transition: opacity 0.2s linear 0;
   opacity: 1;
 }
-.level-top.more:after {
-  content: '>>';
-  padding: 10px;
+.navigation > ul > .level-top.more > .submenu {
+  background: none;
+  border-width: 0;
 }
-.level-top.more ul {
+.navigation > ul > .level-top.more > .submenu > ul {
   position: relative;
+  background: #f8f8f8;
+  -moz-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
+}
+.level-top.more:after {
+  cursor: pointer;
+  content: "\e010";
+  font-family: "icons";
+  font-size: 16px;
+  display: inline-block;
+  padding: .6em .7em 1em;
+  margin-top: 0.4em;
+  border-radius: 4px 4px 0 0;
+  position: relative;
+  z-index: 1;
+}
+.level-top.more.hover:after {
+  background: #f8f8f8;
+  -moz-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
 }
 .level-top.more li.level-top {
   width: 200px;
-  border: 1px solid red;
-  padding: 10px;
+  margin: 0 0 0 -10px !important;
+  padding: 7px 10px 7px 30px;
+  /*        &:first-child:after {
+            content:'';
+            position: absolute;
+            width:10px;
+            display: block;
+            background: @pageMainBg;
+            z-index: 2;
+            top:0;
+            bottom:0;
+            left:225px;
+        }*/
+
+}
+.level-top.more li.level-top > a {
+  font-size: 16px;
+}
+.level-top.more li.level-top.hover,
+.level-top.more li.level-top:hover {
+  background: #f8f8f8;
+}
+.level-top.more li.level-top.hover > a span,
+.level-top.more li.level-top:hover > a span {
+  color: #675f55;
+}
+.level-top.more li.level-top.hover.parent:before,
+.level-top.more li.level-top:hover.parent:before {
+  content: "\e02a";
+  float: right;
+  font-family: "MUI-icons";
+  font-size: 16px;
+  color: #da370a;
+  margin-right: 8px;
+}
+.level-top.more li.level-top > a span {
+  color: #837d75;
+}
+.level-top.more li.level-top > .submenu {
+  position: absolute;
+  right: 0;
+  padding: 0;
+  left: 0;
+  top: 0;
+  margin-left: 230px;
+  min-height: 100%;
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -3563,12 +4138,17 @@ select:disabled {
   box-sizing: border-box;
   /* Opera/IE 8+ */
 
+  background: #f8f8f8;
+  border-top: 10px solid #ffffff;
+  -moz-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 8px rgba(0, 0, 0, 0.3);
 }
-.level-top.more li.level-top .submenu {
-  position: absolute;
-  right: 0;
-  top: 45px;
-  left: 220px;
+.level-top.more li.level-top > .submenu > ul {
+  background: #f8f8f8;
+  position: relative;
+  z-index: 1;
+  padding: 10px;
 }
 /* Exceptions */
 .no-rgba .navigation .level-top > a:after {
@@ -3607,11 +4187,7 @@ select:disabled {
 .block.related .action.select:focus,
 .block.related .action.select:active,
 .block.related .action.select:hover {
-  color: #f47a1f;
-}
-.block.related .action.select span,
-.block.related .action.select span:hover {
-  color: inherit;
+  color: #da370a;
 }
 .block.related .field.choice.related {
   margin: 0 0 10px;
@@ -3639,9 +4215,6 @@ select:disabled {
   float: left;
   width: 33.33333333333333%;
   margin: 0 0%;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
   display: inline-block;
   vertical-align: top;
   -webkit-box-sizing: border-box;
@@ -3873,6 +4446,7 @@ select:disabled {
  *    Product Listing
 ----------------------------------------------------------------------------- */
 .toolbar {
+  clear: both;
   margin: 17px 0;
   *zoom: 1;
 }
@@ -3894,6 +4468,9 @@ select:disabled {
 .toolbar.alternative .limiter {
   border-left: 1px solid #e5e5e5;
   padding: 2px 0 2px 15px;
+}
+.toolbar .amount {
+  display: none;
 }
 .toolbar:before,
 .toolbar:after {
@@ -4048,7 +4625,7 @@ select:disabled {
   margin-top: 4px;
 }
 .toolbar .options .selected {
-  color: #f47a1f;
+  color: #da370a;
 }
 .toolbar .options.active ul {
   height: auto;
@@ -4063,9 +4640,7 @@ select:disabled {
   margin: 2px 15px 0 0;
 }
 .toolbar .pager .text {
-  margin: 0 5px;
-  line-height: 25px;
-  display: inline-block;
+  display: none;
 }
 .toolbar .pages {
   margin-left: 15px;
@@ -4115,7 +4690,7 @@ select:disabled {
 }
 .toolbar .pages > ol strong {
   font-weight: 400;
-  color: #f47a1f;
+  color: #da370a;
 }
 .toolbar .action.sort {
   display: inline-block;
@@ -4291,7 +4866,7 @@ select:disabled {
 .products.wrapper.grid .products.list .item.product {
   display: inline;
   float: left;
-  width: 20%;
+  width: 16.666666666666664%;
   margin: 0 0%;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -4432,7 +5007,7 @@ select:disabled {
 .action.tocart {
   border: none;
   border-radius: 0;
-  background: #f47a1f;
+  background: #da370a;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
@@ -4503,7 +5078,7 @@ select:disabled {
 .fieldset > .field.choice > .label {
   display: inline;
 }
-.fieldset > .field.required > .label span:first-child:after {
+.fieldset > .field.required > .label > span:first-child:after {
   content: '*';
   color: red;
 }
@@ -4593,7 +5168,7 @@ select:disabled {
   font-size: 0;
   line-height: 0;
   width: 0;
-  border-bottom: 5px solid #666;
+  border-bottom: 5px solid #675f55;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 }
@@ -4625,7 +5200,7 @@ select:disabled {
   text-decoration: line-through;
 }
 .product.info.main .special-price {
-  color: #f47a1f;
+  color: #da370a;
 }
 .product.info.main .stock {
   margin: 15px 0;
@@ -4666,7 +5241,7 @@ select:disabled {
 .product.main.info .product.options.wrapper .field.choice > .label {
   display: inline;
 }
-.product.main.info .product.options.wrapper .field.required > .label span:first-child:after {
+.product.main.info .product.options.wrapper .field.required > .label > span:first-child:after {
   content: '*';
   color: red;
 }
@@ -4756,7 +5331,7 @@ select:disabled {
   font-size: 0;
   line-height: 0;
   width: 0;
-  border-bottom: 5px solid #666;
+  border-bottom: 5px solid #675f55;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 }
@@ -4765,7 +5340,7 @@ select:disabled {
   font-weight: 600;
   padding: 0 0 5px;
 }
-.type-configurable .product.main.info .product.options.wrapper  select {
+.type-configurable .product.main.info .product.options.wrapper select {
   min-width: 40%;
   width: auto;
   padding: 2px;
@@ -4774,7 +5349,7 @@ select:disabled {
 .action.primary.tocart {
   border: none;
   border-radius: 0;
-  background: #f47a1f;
+  background: #da370a;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
@@ -4798,7 +5373,7 @@ select:disabled {
 }
 .product.media {
   float: left;
-  width: 550px;
+  width: 540px;
   padding-bottom: 30px;
 }
 .box.tocart {
@@ -4819,7 +5394,8 @@ select:disabled {
 }
 .box.tocart .label {
   display: block;
-  text-align: center;
+  text-align: left;
+  font-weight: 600;
   text-transform: uppercase;
   line-height: 25px;
 }
@@ -4974,7 +5550,7 @@ select:disabled {
     text-decoration: none;
     padding: 11px 11px 8px;
     border: 2px solid #e5e5e5;
-    background: #f8f8f8;
+    background: rgba(0, 0, 0, 0.03);
     border-bottom: none;
     text-transform: uppercase;
     border-radius: 4px 4px 0 0;
@@ -4995,7 +5571,6 @@ select:disabled {
     *zoom: 1;
     margin-top: 36px;
     padding: 20px;
-    background: #fff;
   }
   .product.data > .item.content:before,
   .product.data > .item.content:after {
@@ -5304,7 +5879,7 @@ body.type-bundle {
   float: right;
 }
 .block.bundle.summary .price-box .full-product-price .price {
-  color: #f47a1f;
+  color: #da370a;
   font-weight: 700;
   font-size: 24px;
 }
@@ -5330,6 +5905,17 @@ body.type-bundle {
   padding: 20px 20px 10px;
   margin-bottom: 0;
 }
+.block.bundle.summary .bundle.summary div > ul {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+.block.bundle.summary .bundle.summary div > ul > li {
+  margin: 0 0 10px;
+}
+.block.bundle.summary .bundle.summary div > ul > li > div > div {
+  margin: 0 0 5px;
+}
 .action.back.customization {
   position: absolute;
   top: 57px;
@@ -5349,11 +5935,7 @@ body.type-bundle {
 .action.back.customization:focus,
 .action.back.customization:active,
 .action.back.customization:hover {
-  color: #f47a1f;
-}
-.action.back.customization span,
-.action.back.customization span:hover {
-  color: inherit;
+  color: #da370a;
 }
 img[align="left"] {
   margin: 0 22px 22px 0;
@@ -5379,7 +5961,6 @@ img[align="right"] {
   font-weight: 600;
   font-size: 12px;
   margin: 0;
-  padding: 5px 10px;
   position: absolute;
   top: 100%;
   margin-left: -11px;
@@ -5397,7 +5978,7 @@ img[align="right"] {
   transition: visibility 0s linear 0.2s, opacity 0.2s linear 0s;
 }
 .customer.welcome .menu > ul li {
-  margin: 5px 0;
+  margin: 15px;
   display: block;
   white-space: nowrap;
 }
@@ -5413,10 +5994,13 @@ img[align="right"] {
   -o-transition-delay: 0s;
   transition-delay: 0s;
 }
-.header .content .customer.welcome .customer.link span {
+.header .content .customer.welcome .customer.name {
+  font-weight: 400;
+}
+.header .content .customer.welcome .customer.name span {
   color: #837d75;
 }
-.header .content .customer.welcome .customer.link span:after {
+.header .content .customer.welcome .customer.name span:after {
   font-family: "MUI-Icons";
   font-size: 16px;
   line-height: 16px;
@@ -5431,16 +6015,16 @@ img[align="right"] {
   vertical-align: middle;
   text-align: center;
 }
-.header .content .customer.welcome .customer.link:focus span,
-.header .content .customer.welcome .customer.link:hover span,
-.header .content .customer.welcome .customer.link.active span {
+.header .content .customer.welcome .customer.name:focus span,
+.header .content .customer.welcome .customer.name:hover span,
+.header .content .customer.welcome .customer.name.active span {
   color: #675f55;
   outline: 0;
 }
-.header .content .customer.welcome .customer.link.active span:after {
+.header .content .customer.welcome .customer.name.active span:after {
   content: "\e029";
 }
-.customer.welcome  + li {
+.customer.welcome + li {
   display: none;
 }
 .customer.welcome + li {
@@ -5490,7 +6074,7 @@ img[align="right"] {
 
   text-align: right;
   position: absolute;
-  bottom: 90px;
+  bottom: 140px;
   width: 50%;
   padding: 0 40px;
 }
@@ -5528,7 +6112,7 @@ img[align="right"] {
 .login.container .action.create {
   border: none;
   border-radius: 0;
-  background: #f47a1f;
+  background: #da370a;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
@@ -5544,7 +6128,6 @@ img[align="right"] {
   line-height: 16px;
 }
 .form.login .fieldset.login {
-  margin: 0;
   letter-spacing: -0.31em;
   /* webkit */
 
@@ -5632,7 +6215,7 @@ img[align="right"] {
   vertical-align: middle;
   text-align: center;
   text-indent: -999em;
-  color: #f47a1f;
+  color: #da370a;
   text-shadow: 0px 1px rgba(0, 0, 0, 0.4);
 }
 .action.reload span:after {
@@ -5658,11 +6241,17 @@ img[align="right"] {
   display: block;
 }
 /* Registration */
+.form.send.friend .fieldset,
+.form.address.edit .fieldset,
+.form.edit.account .fieldset,
 .form.search.advanced .fieldset,
 .form.orders.search .fieldset,
 .form.contact .fieldset,
 .form.password.forget .fieldset,
-.form.create.account .fieldset {
+.form.create.account .fieldset,
+.form.wishlist.share .fieldset,
+.form.password.reset .fieldset,
+.form.add.tag .fieldset {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */
 
@@ -5687,36 +6276,60 @@ img[align="right"] {
   position: relative;
   z-index: 1;
 }
+.form.send.friend .fieldset > .field,
+.form.address.edit .fieldset > .field,
+.form.edit.account .fieldset > .field,
 .form.search.advanced .fieldset > .field,
 .form.orders.search .fieldset > .field,
 .form.contact .fieldset > .field,
 .form.password.forget .fieldset > .field,
-.form.create.account .fieldset > .field {
+.form.create.account .fieldset > .field,
+.form.wishlist.share .fieldset > .field,
+.form.password.reset .fieldset > .field,
+.form.add.tag .fieldset > .field {
   width: 50%;
   display: inline-block;
   padding-right: 20px;
   vertical-align: top;
 }
+.form.send.friend .fieldset > *,
+.form.address.edit .fieldset > *,
+.form.edit.account .fieldset > *,
 .form.search.advanced .fieldset > *,
 .form.orders.search .fieldset > *,
 .form.contact .fieldset > *,
 .form.password.forget .fieldset > *,
-.form.create.account .fieldset > * {
+.form.create.account .fieldset > *,
+.form.wishlist.share .fieldset > *,
+.form.password.reset .fieldset > *,
+.form.add.tag .fieldset > * {
   letter-spacing: normal;
   word-spacing: normal;
 }
+.form.send.friend .fieldset > .legend + br,
+.form.address.edit .fieldset > .legend + br,
+.form.edit.account .fieldset > .legend + br,
 .form.search.advanced .fieldset > .legend + br,
 .form.orders.search .fieldset > .legend + br,
 .form.contact .fieldset > .legend + br,
 .form.password.forget .fieldset > .legend + br,
-.form.create.account .fieldset > .legend + br {
+.form.create.account .fieldset > .legend + br,
+.form.wishlist.share .fieldset > .legend + br,
+.form.password.reset .fieldset > .legend + br,
+.form.add.tag .fieldset > .legend + br {
   display: none;
 }
+.form.send.friend .fieldset .legend,
+.form.address.edit .fieldset .legend,
+.form.edit.account .fieldset .legend,
 .form.search.advanced .fieldset .legend,
 .form.orders.search .fieldset .legend,
 .form.contact .fieldset .legend,
 .form.password.forget .fieldset .legend,
-.form.create.account .fieldset .legend {
+.form.create.account .fieldset .legend,
+.form.wishlist.share .fieldset .legend,
+.form.password.reset .fieldset .legend,
+.form.add.tag .fieldset .legend {
   float: left;
   line-height: 1.2;
   font-size: 20px;
@@ -5727,94 +6340,166 @@ img[align="right"] {
   background: #fff;
   margin: -30px -10px 30px -30px;
 }
-.form.search.advanced .fieldset .legend  + br,
-.form.orders.search .fieldset .legend  + br,
-.form.contact .fieldset .legend  + br,
-.form.password.forget .fieldset .legend  + br,
-.form.create.account .fieldset .legend  + br {
+.form.send.friend .fieldset .legend + br,
+.form.address.edit .fieldset .legend + br,
+.form.edit.account .fieldset .legend + br,
+.form.search.advanced .fieldset .legend + br,
+.form.orders.search .fieldset .legend + br,
+.form.contact .fieldset .legend + br,
+.form.password.forget .fieldset .legend + br,
+.form.create.account .fieldset .legend + br,
+.form.wishlist.share .fieldset .legend + br,
+.form.password.reset .fieldset .legend + br,
+.form.add.tag .fieldset .legend + br {
   display: block;
   clear: both;
 }
+.form.send.friend .fieldset > .field,
+.form.address.edit .fieldset > .field,
+.form.edit.account .fieldset > .field,
 .form.search.advanced .fieldset > .field,
 .form.orders.search .fieldset > .field,
 .form.contact .fieldset > .field,
 .form.password.forget .fieldset > .field,
-.form.create.account .fieldset > .field {
+.form.create.account .fieldset > .field,
+.form.wishlist.share .fieldset > .field,
+.form.password.reset .fieldset > .field,
+.form.add.tag .fieldset > .field {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0 0 10px;
   margin-bottom: 20px;
 }
+.form.send.friend .fieldset > .field > .label,
+.form.address.edit .fieldset > .field > .label,
+.form.edit.account .fieldset > .field > .label,
 .form.search.advanced .fieldset > .field > .label,
 .form.orders.search .fieldset > .field > .label,
 .form.contact .fieldset > .field > .label,
 .form.password.forget .fieldset > .field > .label,
-.form.create.account .fieldset > .field > .label {
+.form.create.account .fieldset > .field > .label,
+.form.wishlist.share .fieldset > .field > .label,
+.form.password.reset .fieldset > .field > .label,
+.form.add.tag .fieldset > .field > .label {
   display: block;
 }
+.form.send.friend .fieldset > .field.choice > .control,
+.form.address.edit .fieldset > .field.choice > .control,
+.form.edit.account .fieldset > .field.choice > .control,
 .form.search.advanced .fieldset > .field.choice > .control,
 .form.orders.search .fieldset > .field.choice > .control,
 .form.contact .fieldset > .field.choice > .control,
 .form.password.forget .fieldset > .field.choice > .control,
-.form.create.account .fieldset > .field.choice > .control {
+.form.create.account .fieldset > .field.choice > .control,
+.form.wishlist.share .fieldset > .field.choice > .control,
+.form.password.reset .fieldset > .field.choice > .control,
+.form.add.tag .fieldset > .field.choice > .control {
   width: auto;
 }
+.form.send.friend .fieldset > .field.choice > .label,
+.form.address.edit .fieldset > .field.choice > .label,
+.form.edit.account .fieldset > .field.choice > .label,
 .form.search.advanced .fieldset > .field.choice > .label,
 .form.orders.search .fieldset > .field.choice > .label,
 .form.contact .fieldset > .field.choice > .label,
 .form.password.forget .fieldset > .field.choice > .label,
-.form.create.account .fieldset > .field.choice > .label {
+.form.create.account .fieldset > .field.choice > .label,
+.form.wishlist.share .fieldset > .field.choice > .label,
+.form.password.reset .fieldset > .field.choice > .label,
+.form.add.tag .fieldset > .field.choice > .label {
   display: inline;
 }
-.form.search.advanced .fieldset > .field.required > .label span:first-child:after,
-.form.orders.search .fieldset > .field.required > .label span:first-child:after,
-.form.contact .fieldset > .field.required > .label span:first-child:after,
-.form.password.forget .fieldset > .field.required > .label span:first-child:after,
-.form.create.account .fieldset > .field.required > .label span:first-child:after {
+.form.send.friend .fieldset > .field.required > .label > span:first-child:after,
+.form.address.edit .fieldset > .field.required > .label > span:first-child:after,
+.form.edit.account .fieldset > .field.required > .label > span:first-child:after,
+.form.search.advanced .fieldset > .field.required > .label > span:first-child:after,
+.form.orders.search .fieldset > .field.required > .label > span:first-child:after,
+.form.contact .fieldset > .field.required > .label > span:first-child:after,
+.form.password.forget .fieldset > .field.required > .label > span:first-child:after,
+.form.create.account .fieldset > .field.required > .label > span:first-child:after,
+.form.wishlist.share .fieldset > .field.required > .label > span:first-child:after,
+.form.password.reset .fieldset > .field.required > .label > span:first-child:after,
+.form.add.tag .fieldset > .field.required > .label > span:first-child:after {
   content: '*';
   color: red;
 }
+.form.send.friend .fieldset > .field .addon,
+.form.address.edit .fieldset > .field .addon,
+.form.edit.account .fieldset > .field .addon,
 .form.search.advanced .fieldset > .field .addon,
 .form.orders.search .fieldset > .field .addon,
 .form.contact .fieldset > .field .addon,
 .form.password.forget .fieldset > .field .addon,
-.form.create.account .fieldset > .field .addon {
+.form.create.account .fieldset > .field .addon,
+.form.wishlist.share .fieldset > .field .addon,
+.form.password.reset .fieldset > .field .addon,
+.form.add.tag .fieldset > .field .addon {
   padding: 0;
   display: table;
   width: 100%;
 }
+.form.send.friend .fieldset > .field .addon textarea,
+.form.address.edit .fieldset > .field .addon textarea,
+.form.edit.account .fieldset > .field .addon textarea,
 .form.search.advanced .fieldset > .field .addon textarea,
 .form.orders.search .fieldset > .field .addon textarea,
 .form.contact .fieldset > .field .addon textarea,
 .form.password.forget .fieldset > .field .addon textarea,
 .form.create.account .fieldset > .field .addon textarea,
+.form.wishlist.share .fieldset > .field .addon textarea,
+.form.password.reset .fieldset > .field .addon textarea,
+.form.add.tag .fieldset > .field .addon textarea,
+.form.send.friend .fieldset > .field .addon select,
+.form.address.edit .fieldset > .field .addon select,
+.form.edit.account .fieldset > .field .addon select,
 .form.search.advanced .fieldset > .field .addon select,
 .form.orders.search .fieldset > .field .addon select,
 .form.contact .fieldset > .field .addon select,
 .form.password.forget .fieldset > .field .addon select,
 .form.create.account .fieldset > .field .addon select,
+.form.wishlist.share .fieldset > .field .addon select,
+.form.password.reset .fieldset > .field .addon select,
+.form.add.tag .fieldset > .field .addon select,
+.form.send.friend .fieldset > .field .addon input,
+.form.address.edit .fieldset > .field .addon input,
+.form.edit.account .fieldset > .field .addon input,
 .form.search.advanced .fieldset > .field .addon input,
 .form.orders.search .fieldset > .field .addon input,
 .form.contact .fieldset > .field .addon input,
 .form.password.forget .fieldset > .field .addon input,
-.form.create.account .fieldset > .field .addon input {
+.form.create.account .fieldset > .field .addon input,
+.form.wishlist.share .fieldset > .field .addon input,
+.form.password.reset .fieldset > .field .addon input,
+.form.add.tag .fieldset > .field .addon input {
   display: table-cell;
   width: 100%;
   border-radius: 0;
   box-shadow: none;
   margin: 0;
 }
+.form.send.friend .fieldset > .field .addon .addbefore,
+.form.address.edit .fieldset > .field .addon .addbefore,
+.form.edit.account .fieldset > .field .addon .addbefore,
 .form.search.advanced .fieldset > .field .addon .addbefore,
 .form.orders.search .fieldset > .field .addon .addbefore,
 .form.contact .fieldset > .field .addon .addbefore,
 .form.password.forget .fieldset > .field .addon .addbefore,
 .form.create.account .fieldset > .field .addon .addbefore,
+.form.wishlist.share .fieldset > .field .addon .addbefore,
+.form.password.reset .fieldset > .field .addon .addbefore,
+.form.add.tag .fieldset > .field .addon .addbefore,
+.form.send.friend .fieldset > .field .addon .addafter,
+.form.address.edit .fieldset > .field .addon .addafter,
+.form.edit.account .fieldset > .field .addon .addafter,
 .form.search.advanced .fieldset > .field .addon .addafter,
 .form.orders.search .fieldset > .field .addon .addafter,
 .form.contact .fieldset > .field .addon .addafter,
 .form.password.forget .fieldset > .field .addon .addafter,
-.form.create.account .fieldset > .field .addon .addafter {
+.form.create.account .fieldset > .field .addon .addafter,
+.form.wishlist.share .fieldset > .field .addon .addafter,
+.form.password.reset .fieldset > .field .addon .addafter,
+.form.add.tag .fieldset > .field .addon .addafter {
   vertical-align: middle;
   width: 1px;
   height: 0;
@@ -5849,90 +6534,174 @@ img[align="right"] {
 */
 
 }
+.no-borderradius .form.send.friend .fieldset > .field .addon .addbefore,
+.no-borderradius .form.address.edit .fieldset > .field .addon .addbefore,
+.no-borderradius .form.edit.account .fieldset > .field .addon .addbefore,
 .no-borderradius .form.search.advanced .fieldset > .field .addon .addbefore,
 .no-borderradius .form.orders.search .fieldset > .field .addon .addbefore,
 .no-borderradius .form.contact .fieldset > .field .addon .addbefore,
 .no-borderradius .form.password.forget .fieldset > .field .addon .addbefore,
 .no-borderradius .form.create.account .fieldset > .field .addon .addbefore,
+.no-borderradius .form.wishlist.share .fieldset > .field .addon .addbefore,
+.no-borderradius .form.password.reset .fieldset > .field .addon .addbefore,
+.no-borderradius .form.add.tag .fieldset > .field .addon .addbefore,
+.no-borderradius .form.send.friend .fieldset > .field .addon .addafter,
+.no-borderradius .form.address.edit .fieldset > .field .addon .addafter,
+.no-borderradius .form.edit.account .fieldset > .field .addon .addafter,
 .no-borderradius .form.search.advanced .fieldset > .field .addon .addafter,
 .no-borderradius .form.orders.search .fieldset > .field .addon .addafter,
 .no-borderradius .form.contact .fieldset > .field .addon .addafter,
 .no-borderradius .form.password.forget .fieldset > .field .addon .addafter,
-.no-borderradius .form.create.account .fieldset > .field .addon .addafter {
+.no-borderradius .form.create.account .fieldset > .field .addon .addafter,
+.no-borderradius .form.wishlist.share .fieldset > .field .addon .addafter,
+.no-borderradius .form.password.reset .fieldset > .field .addon .addafter,
+.no-borderradius .form.add.tag .fieldset > .field .addon .addafter {
   padding-top: 8px;
 }
+.form.send.friend .fieldset > .field .addon .addbefore:focus,
+.form.address.edit .fieldset > .field .addon .addbefore:focus,
+.form.edit.account .fieldset > .field .addon .addbefore:focus,
 .form.search.advanced .fieldset > .field .addon .addbefore:focus,
 .form.orders.search .fieldset > .field .addon .addbefore:focus,
 .form.contact .fieldset > .field .addon .addbefore:focus,
 .form.password.forget .fieldset > .field .addon .addbefore:focus,
 .form.create.account .fieldset > .field .addon .addbefore:focus,
+.form.wishlist.share .fieldset > .field .addon .addbefore:focus,
+.form.password.reset .fieldset > .field .addon .addbefore:focus,
+.form.add.tag .fieldset > .field .addon .addbefore:focus,
+.form.send.friend .fieldset > .field .addon .addafter:focus,
+.form.address.edit .fieldset > .field .addon .addafter:focus,
+.form.edit.account .fieldset > .field .addon .addafter:focus,
 .form.search.advanced .fieldset > .field .addon .addafter:focus,
 .form.orders.search .fieldset > .field .addon .addafter:focus,
 .form.contact .fieldset > .field .addon .addafter:focus,
 .form.password.forget .fieldset > .field .addon .addafter:focus,
-.form.create.account .fieldset > .field .addon .addafter:focus {
+.form.create.account .fieldset > .field .addon .addafter:focus,
+.form.wishlist.share .fieldset > .field .addon .addafter:focus,
+.form.password.reset .fieldset > .field .addon .addafter:focus,
+.form.add.tag .fieldset > .field .addon .addafter:focus {
   border-color: #999;
 }
+.control .form.send.friend .fieldset > .field .addon .addbefore,
+.control .form.address.edit .fieldset > .field .addon .addbefore,
+.control .form.edit.account .fieldset > .field .addon .addbefore,
 .control .form.search.advanced .fieldset > .field .addon .addbefore,
 .control .form.orders.search .fieldset > .field .addon .addbefore,
 .control .form.contact .fieldset > .field .addon .addbefore,
 .control .form.password.forget .fieldset > .field .addon .addbefore,
 .control .form.create.account .fieldset > .field .addon .addbefore,
+.control .form.wishlist.share .fieldset > .field .addon .addbefore,
+.control .form.password.reset .fieldset > .field .addon .addbefore,
+.control .form.add.tag .fieldset > .field .addon .addbefore,
+.control .form.send.friend .fieldset > .field .addon .addafter,
+.control .form.address.edit .fieldset > .field .addon .addafter,
+.control .form.edit.account .fieldset > .field .addon .addafter,
 .control .form.search.advanced .fieldset > .field .addon .addafter,
 .control .form.orders.search .fieldset > .field .addon .addafter,
 .control .form.contact .fieldset > .field .addon .addafter,
 .control .form.password.forget .fieldset > .field .addon .addafter,
-.control .form.create.account .fieldset > .field .addon .addafter {
+.control .form.create.account .fieldset > .field .addon .addafter,
+.control .form.wishlist.share .fieldset > .field .addon .addafter,
+.control .form.password.reset .fieldset > .field .addon .addafter,
+.control .form.add.tag .fieldset > .field .addon .addafter {
   width: 100%;
 }
+.form.send.friend .fieldset > .field .addon .addbefore:disabled,
+.form.address.edit .fieldset > .field .addon .addbefore:disabled,
+.form.edit.account .fieldset > .field .addon .addbefore:disabled,
 .form.search.advanced .fieldset > .field .addon .addbefore:disabled,
 .form.orders.search .fieldset > .field .addon .addbefore:disabled,
 .form.contact .fieldset > .field .addon .addbefore:disabled,
 .form.password.forget .fieldset > .field .addon .addbefore:disabled,
 .form.create.account .fieldset > .field .addon .addbefore:disabled,
+.form.wishlist.share .fieldset > .field .addon .addbefore:disabled,
+.form.password.reset .fieldset > .field .addon .addbefore:disabled,
+.form.add.tag .fieldset > .field .addon .addbefore:disabled,
+.form.send.friend .fieldset > .field .addon .addafter:disabled,
+.form.address.edit .fieldset > .field .addon .addafter:disabled,
+.form.edit.account .fieldset > .field .addon .addafter:disabled,
 .form.search.advanced .fieldset > .field .addon .addafter:disabled,
 .form.orders.search .fieldset > .field .addon .addafter:disabled,
 .form.contact .fieldset > .field .addon .addafter:disabled,
 .form.password.forget .fieldset > .field .addon .addafter:disabled,
-.form.create.account .fieldset > .field .addon .addafter:disabled {
+.form.create.account .fieldset > .field .addon .addafter:disabled,
+.form.wishlist.share .fieldset > .field .addon .addafter:disabled,
+.form.password.reset .fieldset > .field .addon .addafter:disabled,
+.form.add.tag .fieldset > .field .addon .addafter:disabled {
   opacity: 0.5;
 }
+.form.send.friend .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
+.form.address.edit .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
+.form.edit.account .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .form.search.advanced .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .form.orders.search .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .form.contact .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .form.password.forget .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
 .form.create.account .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
+.form.wishlist.share .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
+.form.password.reset .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
+.form.add.tag .fieldset > .field .addon .addbefore::-webkit-input-placeholder,
+.form.send.friend .fieldset > .field .addon .addafter::-webkit-input-placeholder,
+.form.address.edit .fieldset > .field .addon .addafter::-webkit-input-placeholder,
+.form.edit.account .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.search.advanced .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.orders.search .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.contact .fieldset > .field .addon .addafter::-webkit-input-placeholder,
 .form.password.forget .fieldset > .field .addon .addafter::-webkit-input-placeholder,
-.form.create.account .fieldset > .field .addon .addafter::-webkit-input-placeholder {
+.form.create.account .fieldset > .field .addon .addafter::-webkit-input-placeholder,
+.form.wishlist.share .fieldset > .field .addon .addafter::-webkit-input-placeholder,
+.form.password.reset .fieldset > .field .addon .addafter::-webkit-input-placeholder,
+.form.add.tag .fieldset > .field .addon .addafter::-webkit-input-placeholder {
   line-height: 1.333;
 }
+.form.send.friend .fieldset > .field .addon .addbefore:-ms-input-placeholder,
+.form.address.edit .fieldset > .field .addon .addbefore:-ms-input-placeholder,
+.form.edit.account .fieldset > .field .addon .addbefore:-ms-input-placeholder,
 .form.search.advanced .fieldset > .field .addon .addbefore:-ms-input-placeholder,
 .form.orders.search .fieldset > .field .addon .addbefore:-ms-input-placeholder,
 .form.contact .fieldset > .field .addon .addbefore:-ms-input-placeholder,
 .form.password.forget .fieldset > .field .addon .addbefore:-ms-input-placeholder,
 .form.create.account .fieldset > .field .addon .addbefore:-ms-input-placeholder,
+.form.wishlist.share .fieldset > .field .addon .addbefore:-ms-input-placeholder,
+.form.password.reset .fieldset > .field .addon .addbefore:-ms-input-placeholder,
+.form.add.tag .fieldset > .field .addon .addbefore:-ms-input-placeholder,
+.form.send.friend .fieldset > .field .addon .addafter:-ms-input-placeholder,
+.form.address.edit .fieldset > .field .addon .addafter:-ms-input-placeholder,
+.form.edit.account .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.search.advanced .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.orders.search .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.contact .fieldset > .field .addon .addafter:-ms-input-placeholder,
 .form.password.forget .fieldset > .field .addon .addafter:-ms-input-placeholder,
-.form.create.account .fieldset > .field .addon .addafter:-ms-input-placeholder {
+.form.create.account .fieldset > .field .addon .addafter:-ms-input-placeholder,
+.form.wishlist.share .fieldset > .field .addon .addafter:-ms-input-placeholder,
+.form.password.reset .fieldset > .field .addon .addafter:-ms-input-placeholder,
+.form.add.tag .fieldset > .field .addon .addafter:-ms-input-placeholder {
   line-height: 1.333;
 }
+.form.send.friend .fieldset > .field .note,
+.form.address.edit .fieldset > .field .note,
+.form.edit.account .fieldset > .field .note,
 .form.search.advanced .fieldset > .field .note,
 .form.orders.search .fieldset > .field .note,
 .form.contact .fieldset > .field .note,
 .form.password.forget .fieldset > .field .note,
-.form.create.account .fieldset > .field .note {
+.form.create.account .fieldset > .field .note,
+.form.wishlist.share .fieldset > .field .note,
+.form.password.reset .fieldset > .field .note,
+.form.add.tag .fieldset > .field .note {
   padding-left: 15px;
 }
+.form.send.friend .fieldset > .field .note:before,
+.form.address.edit .fieldset > .field .note:before,
+.form.edit.account .fieldset > .field .note:before,
 .form.search.advanced .fieldset > .field .note:before,
 .form.orders.search .fieldset > .field .note:before,
 .form.contact .fieldset > .field .note:before,
 .form.password.forget .fieldset > .field .note:before,
-.form.create.account .fieldset > .field .note:before {
+.form.create.account .fieldset > .field .note:before,
+.form.wishlist.share .fieldset > .field .note:before,
+.form.password.reset .fieldset > .field .note:before,
+.form.add.tag .fieldset > .field .note:before {
   position: absolute;
   margin: 4px 0 0 -14px;
   content: '';
@@ -5941,172 +6710,342 @@ img[align="right"] {
   font-size: 0;
   line-height: 0;
   width: 0;
-  border-bottom: 5px solid #666;
+  border-bottom: 5px solid #675f55;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 }
+.form.send.friend .fieldset > .field:last-child,
+.form.address.edit .fieldset > .field:last-child,
+.form.edit.account .fieldset > .field:last-child,
 .form.search.advanced .fieldset > .field:last-child,
 .form.orders.search .fieldset > .field:last-child,
 .form.contact .fieldset > .field:last-child,
 .form.password.forget .fieldset > .field:last-child,
-.form.create.account .fieldset > .field:last-child {
+.form.create.account .fieldset > .field:last-child,
+.form.wishlist.share .fieldset > .field:last-child,
+.form.password.reset .fieldset > .field:last-child,
+.form.add.tag .fieldset > .field:last-child {
   margin-bottom: 0;
 }
+.form.send.friend .fieldset > .field .nested,
+.form.address.edit .fieldset > .field .nested,
+.form.edit.account .fieldset > .field .nested,
 .form.search.advanced .fieldset > .field .nested,
 .form.orders.search .fieldset > .field .nested,
 .form.contact .fieldset > .field .nested,
 .form.password.forget .fieldset > .field .nested,
-.form.create.account .fieldset > .field .nested {
+.form.create.account .fieldset > .field .nested,
+.form.wishlist.share .fieldset > .field .nested,
+.form.password.reset .fieldset > .field .nested,
+.form.add.tag .fieldset > .field .nested {
   padding: 0 0 5px;
 }
+.form.send.friend .fieldset > .field .nested .field,
+.form.address.edit .fieldset > .field .nested .field,
+.form.edit.account .fieldset > .field .nested .field,
 .form.search.advanced .fieldset > .field .nested .field,
 .form.orders.search .fieldset > .field .nested .field,
 .form.contact .fieldset > .field .nested .field,
 .form.password.forget .fieldset > .field .nested .field,
-.form.create.account .fieldset > .field .nested .field {
+.form.create.account .fieldset > .field .nested .field,
+.form.wishlist.share .fieldset > .field .nested .field,
+.form.password.reset .fieldset > .field .nested .field,
+.form.add.tag .fieldset > .field .nested .field {
   margin: 5px 0;
 }
+.form.send.friend .fieldset > .field > .label,
+.form.address.edit .fieldset > .field > .label,
+.form.edit.account .fieldset > .field > .label,
 .form.search.advanced .fieldset > .field > .label,
 .form.orders.search .fieldset > .field > .label,
 .form.contact .fieldset > .field > .label,
 .form.password.forget .fieldset > .field > .label,
-.form.create.account .fieldset > .field > .label {
+.form.create.account .fieldset > .field > .label,
+.form.wishlist.share .fieldset > .field > .label,
+.form.password.reset .fieldset > .field > .label,
+.form.add.tag .fieldset > .field > .label {
   display: block;
   padding: 0 0 5px;
 }
+.form.send.friend .fieldset > .field.note,
+.form.address.edit .fieldset > .field.note,
+.form.edit.account .fieldset > .field.note,
 .form.search.advanced .fieldset > .field.note,
 .form.orders.search .fieldset > .field.note,
 .form.contact .fieldset > .field.note,
 .form.password.forget .fieldset > .field.note,
-.form.create.account .fieldset > .field.note {
+.form.create.account .fieldset > .field.note,
+.form.wishlist.share .fieldset > .field.note,
+.form.password.reset .fieldset > .field.note,
+.form.add.tag .fieldset > .field.note {
   width: 100%;
 }
+.form.send.friend .fieldset .field.street,
+.form.address.edit .fieldset .field.street,
+.form.edit.account .fieldset .field.street,
 .form.search.advanced .fieldset .field.street,
 .form.orders.search .fieldset .field.street,
 .form.contact .fieldset .field.street,
 .form.password.forget .fieldset .field.street,
-.form.create.account .fieldset .field.street {
+.form.create.account .fieldset .field.street,
+.form.wishlist.share .fieldset .field.street,
+.form.password.reset .fieldset .field.street,
+.form.add.tag .fieldset .field.street {
   width: 100%;
 }
+.form.send.friend .fieldset .field.fullname,
+.form.address.edit .fieldset .field.fullname,
+.form.edit.account .fieldset .field.fullname,
 .form.search.advanced .fieldset .field.fullname,
 .form.orders.search .fieldset .field.fullname,
 .form.contact .fieldset .field.fullname,
 .form.password.forget .fieldset .field.fullname,
-.form.create.account .fieldset .field.fullname {
+.form.create.account .fieldset .field.fullname,
+.form.wishlist.share .fieldset .field.fullname,
+.form.password.reset .fieldset .field.fullname,
+.form.add.tag .fieldset .field.fullname {
   width: 100%;
 }
+.form.send.friend .fieldset .field.fullname .fields.group-5 .field,
+.form.address.edit .fieldset .field.fullname .fields.group-5 .field,
+.form.edit.account .fieldset .field.fullname .fields.group-5 .field,
 .form.search.advanced .fieldset .field.fullname .fields.group-5 .field,
 .form.orders.search .fieldset .field.fullname .fields.group-5 .field,
 .form.contact .fieldset .field.fullname .fields.group-5 .field,
 .form.password.forget .fieldset .field.fullname .fields.group-5 .field,
-.form.create.account .fieldset .field.fullname .fields.group-5 .field {
+.form.create.account .fieldset .field.fullname .fields.group-5 .field,
+.form.wishlist.share .fieldset .field.fullname .fields.group-5 .field,
+.form.password.reset .fieldset .field.fullname .fields.group-5 .field,
+.form.add.tag .fieldset .field.fullname .fields.group-5 .field {
   width: 20%;
 }
+.form.send.friend .fieldset .field.choice.newsletter,
+.form.address.edit .fieldset .field.choice.newsletter,
+.form.edit.account .fieldset .field.choice.newsletter,
 .form.search.advanced .fieldset .field.choice.newsletter,
 .form.orders.search .fieldset .field.choice.newsletter,
 .form.contact .fieldset .field.choice.newsletter,
 .form.password.forget .fieldset .field.choice.newsletter,
-.form.create.account .fieldset .field.choice.newsletter {
+.form.create.account .fieldset .field.choice.newsletter,
+.form.wishlist.share .fieldset .field.choice.newsletter,
+.form.password.reset .fieldset .field.choice.newsletter,
+.form.add.tag .fieldset .field.choice.newsletter {
   width: 100%;
 }
+.form.send.friend .fieldset .field.dob .fields.group .field,
+.form.address.edit .fieldset .field.dob .fields.group .field,
+.form.edit.account .fieldset .field.dob .fields.group .field,
 .form.search.advanced .fieldset .field.dob .fields.group .field,
 .form.orders.search .fieldset .field.dob .fields.group .field,
 .form.contact .fieldset .field.dob .fields.group .field,
 .form.password.forget .fieldset .field.dob .fields.group .field,
-.form.create.account .fieldset .field.dob .fields.group .field {
+.form.create.account .fieldset .field.dob .fields.group .field,
+.form.wishlist.share .fieldset .field.dob .fields.group .field,
+.form.password.reset .fieldset .field.dob .fields.group .field,
+.form.add.tag .fieldset .field.dob .fields.group .field {
   width: 33%;
   position: relative;
   z-index: 1;
 }
+.form.send.friend .fieldset .field.dob .fields.group .field .label,
+.form.address.edit .fieldset .field.dob .fields.group .field .label,
+.form.edit.account .fieldset .field.dob .fields.group .field .label,
 .form.search.advanced .fieldset .field.dob .fields.group .field .label,
 .form.orders.search .fieldset .field.dob .fields.group .field .label,
 .form.contact .fieldset .field.dob .fields.group .field .label,
 .form.password.forget .fieldset .field.dob .fields.group .field .label,
-.form.create.account .fieldset .field.dob .fields.group .field .label {
+.form.create.account .fieldset .field.dob .fields.group .field .label,
+.form.wishlist.share .fieldset .field.dob .fields.group .field .label,
+.form.password.reset .fieldset .field.dob .fields.group .field .label,
+.form.add.tag .fieldset .field.dob .fields.group .field .label {
   position: absolute;
   bottom: 0;
   font-size: 12px;
   line-height: 16px;
 }
+.form.send.friend .fieldset .field.dob .fields.group .field input,
+.form.address.edit .fieldset .field.dob .fields.group .field input,
+.form.edit.account .fieldset .field.dob .fields.group .field input,
 .form.search.advanced .fieldset .field.dob .fields.group .field input,
 .form.orders.search .fieldset .field.dob .fields.group .field input,
 .form.contact .fieldset .field.dob .fields.group .field input,
 .form.password.forget .fieldset .field.dob .fields.group .field input,
-.form.create.account .fieldset .field.dob .fields.group .field input {
+.form.create.account .fieldset .field.dob .fields.group .field input,
+.form.wishlist.share .fieldset .field.dob .fields.group .field input,
+.form.password.reset .fieldset .field.dob .fields.group .field input,
+.form.add.tag .fieldset .field.dob .fields.group .field input {
   margin-bottom: 16px;
 }
+.form.send.friend .action.save,
+.form.address.edit .action.save,
+.form.edit.account .action.save,
+.form.search.advanced .action.save,
+.form.orders.search .action.save,
+.form.contact .action.save,
+.form.password.forget .action.save,
+.form.create.account .action.save,
+.form.wishlist.share .action.save,
+.form.password.reset .action.save,
+.form.add.tag .action.save,
+.form.send.friend .action.submit,
+.form.address.edit .action.submit,
+.form.edit.account .action.submit,
 .form.search.advanced .action.submit,
 .form.orders.search .action.submit,
 .form.contact .action.submit,
 .form.password.forget .action.submit,
-.form.create.account .action.submit {
+.form.create.account .action.submit,
+.form.wishlist.share .action.submit,
+.form.password.reset .action.submit,
+.form.add.tag .action.submit,
+.form.send.friend .action.add,
+.form.address.edit .action.add,
+.form.edit.account .action.add,
+.form.search.advanced .action.add,
+.form.orders.search .action.add,
+.form.contact .action.add,
+.form.password.forget .action.add,
+.form.create.account .action.add,
+.form.wishlist.share .action.add,
+.form.password.reset .action.add,
+.form.add.tag .action.add {
   border: none;
   border-radius: 0;
-  background: #f47a1f;
+  background: #da370a;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
   text-shadow: none;
   outline: none;
 }
+.form.send.friend .action.save span,
+.form.address.edit .action.save span,
+.form.edit.account .action.save span,
+.form.search.advanced .action.save span,
+.form.orders.search .action.save span,
+.form.contact .action.save span,
+.form.password.forget .action.save span,
+.form.create.account .action.save span,
+.form.wishlist.share .action.save span,
+.form.password.reset .action.save span,
+.form.add.tag .action.save span,
+.form.send.friend .action.submit span,
+.form.address.edit .action.submit span,
+.form.edit.account .action.submit span,
 .form.search.advanced .action.submit span,
 .form.orders.search .action.submit span,
 .form.contact .action.submit span,
 .form.password.forget .action.submit span,
-.form.create.account .action.submit span {
+.form.create.account .action.submit span,
+.form.wishlist.share .action.submit span,
+.form.password.reset .action.submit span,
+.form.add.tag .action.submit span,
+.form.send.friend .action.add span,
+.form.address.edit .action.add span,
+.form.edit.account .action.add span,
+.form.search.advanced .action.add span,
+.form.orders.search .action.add span,
+.form.contact .action.add span,
+.form.password.forget .action.add span,
+.form.create.account .action.add span,
+.form.wishlist.share .action.add span,
+.form.password.reset .action.add span,
+.form.add.tag .action.add span {
   font-size: 14px;
   color: #fff;
   text-transform: uppercase;
   font-weight: 600;
   line-height: 16px;
 }
+.form.send.friend .actions,
+.form.address.edit .actions,
+.form.edit.account .actions,
 .form.search.advanced .actions,
 .form.orders.search .actions,
 .form.contact .actions,
 .form.password.forget .actions,
-.form.create.account .actions {
+.form.create.account .actions,
+.form.wishlist.share .actions,
+.form.password.reset .actions,
+.form.add.tag .actions {
   *zoom: 1;
   width: 690px;
 }
+.form.send.friend .actions:before,
+.form.address.edit .actions:before,
+.form.edit.account .actions:before,
 .form.search.advanced .actions:before,
 .form.orders.search .actions:before,
 .form.contact .actions:before,
 .form.password.forget .actions:before,
 .form.create.account .actions:before,
+.form.wishlist.share .actions:before,
+.form.password.reset .actions:before,
+.form.add.tag .actions:before,
+.form.send.friend .actions:after,
+.form.address.edit .actions:after,
+.form.edit.account .actions:after,
 .form.search.advanced .actions:after,
 .form.orders.search .actions:after,
 .form.contact .actions:after,
 .form.password.forget .actions:after,
-.form.create.account .actions:after {
+.form.create.account .actions:after,
+.form.wishlist.share .actions:after,
+.form.password.reset .actions:after,
+.form.add.tag .actions:after {
   content: "";
   display: table;
 }
+.form.send.friend .actions:after,
+.form.address.edit .actions:after,
+.form.edit.account .actions:after,
 .form.search.advanced .actions:after,
 .form.orders.search .actions:after,
 .form.contact .actions:after,
 .form.password.forget .actions:after,
-.form.create.account .actions:after {
+.form.create.account .actions:after,
+.form.wishlist.share .actions:after,
+.form.password.reset .actions:after,
+.form.add.tag .actions:after {
   clear: both;
 }
+.form.send.friend .actions .primary,
+.form.address.edit .actions .primary,
+.form.edit.account .actions .primary,
 .form.search.advanced .actions .primary,
 .form.orders.search .actions .primary,
 .form.contact .actions .primary,
 .form.password.forget .actions .primary,
-.form.create.account .actions .primary {
+.form.create.account .actions .primary,
+.form.wishlist.share .actions .primary,
+.form.password.reset .actions .primary,
+.form.add.tag .actions .primary {
   float: right;
 }
+.form.send.friend .actions .secondary,
+.form.address.edit .actions .secondary,
+.form.edit.account .actions .secondary,
 .form.search.advanced .actions .secondary,
 .form.orders.search .actions .secondary,
 .form.contact .actions .secondary,
 .form.password.forget .actions .secondary,
-.form.create.account .actions .secondary {
+.form.create.account .actions .secondary,
+.form.wishlist.share .actions .secondary,
+.form.password.reset .actions .secondary,
+.form.add.tag .actions .secondary {
   float: left;
 }
+.form.send.friend .fieldset.create.account:after,
+.form.address.edit .fieldset.create.account:after,
+.form.edit.account .fieldset.create.account:after,
 .form.search.advanced .fieldset.create.account:after,
 .form.orders.search .fieldset.create.account:after,
 .form.contact .fieldset.create.account:after,
 .form.password.forget .fieldset.create.account:after,
-.form.create.account .fieldset.create.account:after {
+.form.create.account .fieldset.create.account:after,
+.form.wishlist.share .fieldset.create.account:after,
+.form.password.reset .fieldset.create.account:after,
+.form.add.tag .fieldset.create.account:after {
   content: attr(data-hasrequired);
   display: block;
   position: absolute;
@@ -6115,7 +7054,85 @@ img[align="right"] {
   padding: 10px 0 0;
   letter-spacing: normal;
   word-spacing: normal;
-  color: #f47a1f;
+  color: #da370a;
+}
+.form.send.friend .fieldset.recipients .fields {
+  *zoom: 1;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 1;
+}
+.form.send.friend .fieldset.recipients .fields:before,
+.form.send.friend .fieldset.recipients .fields:after {
+  content: "";
+  display: table;
+}
+.form.send.friend .fieldset.recipients .fields:after {
+  clear: both;
+}
+.form.send.friend .fieldset.recipients .fields .field {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  width: 50%;
+  padding-right: 20px;
+  float: left;
+}
+.form.send.friend .fieldset.recipients .fields .action.delete {
+  position: absolute;
+  right: 0;
+  top: 0px;
+}
+.form.send.friend .actions > .primary {
+  float: right;
+  text-align: right;
+}
+.form.send.friend .actions > .primary .action.submit {
+  float: right;
+  margin-left: 10px;
+}
+.form.send.friend .actions > .primary .action.add {
+  border: none;
+  border-radius: 0;
+  background: #c2c2c2;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.form.send.friend .actions > .primary .action.add span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.form.send.friend .actions > .primary .action.add:focus,
+.form.send.friend .actions > .primary .action.add:active,
+.form.send.friend .actions > .primary .action.add:hover {
+  background: #999999;
+}
+.form.send.friend .actions > .primary .limit {
+  margin: 0;
+  display: inline-block;
+}
+.form.address.edit .field.company,
+.form.edit.account .field.password.current,
+.form.edit.account .field.choice {
+  margin-right: 30%;
+}
+.form.address.edit .field.note.default,
+.form.address.edit .field.choice.set,
+.form.wishlist.share .field.emails,
+.form.wishlist.share .field.text {
+  width: 100%;
 }
 .form.search.advanced,
 .form.orders.search,
@@ -6156,7 +7173,7 @@ img[align="right"] {
 .form.contact .action {
   border: none;
   border-radius: 0;
-  background: #f47a1f;
+  background: #da370a;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
@@ -6200,6 +7217,188 @@ img[align="right"] {
 .form.contact .fieldset .field.comment textarea {
   min-height: 13.2em;
 }
+.form.add.tag > .field {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0 0 10px;
+  margin-bottom: 20px;
+}
+.form.add.tag > .field > .label {
+  display: block;
+}
+.form.add.tag > .field.choice > .control {
+  width: auto;
+}
+.form.add.tag > .field.choice > .label {
+  display: inline;
+}
+.form.add.tag > .field.required > .label > span:first-child:after {
+  content: '*';
+  color: red;
+}
+.form.add.tag > .field .addon {
+  padding: 0;
+  display: table;
+  width: 100%;
+}
+.form.add.tag > .field .addon textarea,
+.form.add.tag > .field .addon select,
+.form.add.tag > .field .addon input {
+  display: table-cell;
+  width: 100%;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+}
+.form.add.tag > .field .addon .addbefore,
+.form.add.tag > .field .addon .addafter {
+  vertical-align: middle;
+  width: 1px;
+  height: 0;
+  white-space: nowrap;
+  display: inline-block;
+  display: table-cell;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid #c2c2c2;
+  border-radius: 3px;
+  background: #ffffff;
+  padding: 0 10px 0;
+  font-size: 14px;
+  font-family: "sourcesanspro";
+  font-weight: 400;
+  /* Prevent background color leak outs */
+
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  outline: none;
+  height: 32px;
+  line-height: 1;
+  /*
+    &:-moz-placeholder {
+        line-height: 32px;
+    }
+    &::-moz-placeholder {
+        line-height: 32px;
+    }
+*/
+
+}
+.no-borderradius .form.add.tag > .field .addon .addbefore,
+.no-borderradius .form.add.tag > .field .addon .addafter {
+  padding-top: 8px;
+}
+.form.add.tag > .field .addon .addbefore:focus,
+.form.add.tag > .field .addon .addafter:focus {
+  border-color: #999;
+}
+.control .form.add.tag > .field .addon .addbefore,
+.control .form.add.tag > .field .addon .addafter {
+  width: 100%;
+}
+.form.add.tag > .field .addon .addbefore:disabled,
+.form.add.tag > .field .addon .addafter:disabled {
+  opacity: 0.5;
+}
+.form.add.tag > .field .addon .addbefore::-webkit-input-placeholder,
+.form.add.tag > .field .addon .addafter::-webkit-input-placeholder {
+  line-height: 1.333;
+}
+.form.add.tag > .field .addon .addbefore:-ms-input-placeholder,
+.form.add.tag > .field .addon .addafter:-ms-input-placeholder {
+  line-height: 1.333;
+}
+.form.add.tag > .field .note {
+  padding-left: 15px;
+}
+.form.add.tag > .field .note:before {
+  position: absolute;
+  margin: 4px 0 0 -14px;
+  content: '';
+  display: inline-block;
+  vertical-align: top;
+  font-size: 0;
+  line-height: 0;
+  width: 0;
+  border-bottom: 5px solid #675f55;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+.form.add.tag > .field:last-child {
+  margin-bottom: 0;
+}
+.form.add.tag > .field .nested {
+  padding: 0 0 5px;
+}
+.form.add.tag > .field .nested .field {
+  margin: 5px 0;
+}
+.form.add.tag > .field > .label {
+  display: block;
+  padding: 0 0 5px;
+}
+/*
+ *    MISC
+ *
+----------------------------------------------------------------------------- */
+.action.back span:before {
+  content: '\00AB\00A0';
+}
+/*
+ *    Mage_Poll
+ *
+ *    Account
+----------------------------------------------------------------------------- */
+.block.poll .item {
+  margin: 0 15px;
+}
+.block.poll .poll.answer {
+  display: block;
+}
+.block.poll .fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.block.poll .field {
+  margin: 10px 0;
+}
+.block.poll .legend {
+  font-weight: 600;
+  float: left;
+}
+.block.poll .legend + br {
+  display: block;
+  clear: both;
+}
+.block.poll .action.submit {
+  border: none;
+  border-radius: 0;
+  background: #c2c2c2;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+}
+.block.poll .action.submit span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.block.poll .action.submit:focus,
+.block.poll .action.submit:active,
+.block.poll .action.submit:hover {
+  background: #999999;
+}
+.block.poll .actions {
+  margin-top: 15px;
+}
 /*
  *    Mage_Customer
  *
@@ -6230,7 +7429,7 @@ img[align="right"] {
   margin-bottom: 10px;
 }
 .block.account.nav .item.current {
-  color: #f47a1f;
+  color: #da370a;
 }
 .block.account.nav .item strong {
   font-weight: 400;
@@ -6286,36 +7485,99 @@ img[align="right"] {
   display: block;
   margin-bottom: 20px;
 }
-.data.table.orders.recent {
+.data.table.orders {
   width: 100%;
 }
-.data.table.orders.recent td,
-.data.table.orders.recent th {
+.data.table.orders td,
+.data.table.orders th {
   padding: 10px 20px;
   text-align: left;
 }
-.data.table.orders.recent td.col.total,
-.data.table.orders.recent th.col.total {
+.data.table.orders td.col.total,
+.data.table.orders th.col.total {
   text-align: right;
 }
-.data.table.orders.recent td.col.actions,
-.data.table.orders.recent th.col.actions {
+.data.table.orders td.col.actions,
+.data.table.orders th.col.actions {
   white-space: nowrap;
 }
-.data.table.orders.recent td.col.actions .action:last-child,
-.data.table.orders.recent th.col.actions .action:last-child {
+.data.table.orders td.col.actions .action:last-child,
+.data.table.orders th.col.actions .action:last-child {
   margin-left: 20px;
 }
-.data.table.orders.recent td em,
-.data.table.orders.recent th em {
+.data.table.orders td em,
+.data.table.orders th em {
   font-style: normal;
 }
-.data.table.orders.recent th {
+.data.table.orders th {
   font-size: 16px;
   font-weight: 400;
 }
-.data.table.orders.recent tr:nth-child(odd) td {
+.data.table.orders tr:nth-child(odd) td {
   background: #f8f8f8;
+}
+/* Address book */
+.block.addresses:not(.dashboard) {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+
+  float: left;
+}
+.block.addresses:not(.dashboard) .title .action,
+.block.addresses:not(.dashboard) .subtitle .action {
+  font-weight: 400;
+  font-size: 14px;
+  margin-left: 20px;
+  text-decoration: underline;
+  display: inline-block;
+  text-transform: lowercase;
+}
+.block.addresses:not(.dashboard) .title .action:first-letter,
+.block.addresses:not(.dashboard) .subtitle .action:first-letter {
+  text-transform: uppercase;
+}
+.block.addresses:not(.dashboard) .content {
+  background: #f8f8f8;
+  padding: 30px;
+}
+.block.addresses:not(.dashboard) .subtitle {
+  font-size: 18px;
+  font-weight: 200;
+  display: block;
+  margin-bottom: 20px;
+}
+.block.addresses:not(.dashboard) .box:first-child {
+  margin-bottom: 30px;
+}
+.block.addresses:not(.dashboard) address {
+  line-height: 1.666;
+  font-style: normal;
+}
+.block.addresses:not(.dashboard).default {
+  float: left;
+  width: 60%;
+}
+.block.addresses:not(.dashboard).list {
+  float: right;
+  width: 35%;
+}
+.block.addresses:not(.dashboard).list .item {
+  margin-bottom: 30px;
+}
+.block.addresses:not(.dashboard).list .item.actions {
+  margin-top: 15px;
+}
+.block.addresses:not(.dashboard).list .action {
+  margin-right: 10px;
+}
+.customer-address-index .column.main .actions {
+  clear: left;
 }
 /*
  *    Homepage styles
@@ -6378,7 +7640,7 @@ img[align="right"] {
   font-size: 40px;
   margin-top: -48px;
 }
-.col3-layout .home.banners .banner.link.style3 .text  b {
+.col3-layout .home.banners .banner.link.style3 .text b {
   font-size: 60px;
 }
 .home.banners .banner.link.style4 .text {
@@ -6441,7 +7703,7 @@ img[align="right"] {
 .banner.main .banner.action {
   border: none;
   border-radius: 0;
-  background: #f47a1f;
+  background: #da370a;
   margin: 0;
   padding: 9px 11px 9px;
   box-shadow: none;
@@ -6464,4 +7726,389 @@ img[align="right"] {
 }
 .no-display {
   display: none;
+}
+/*
+ *    My Account -> My Product Reviews
+ *
+----------------------------------------------------------------------------- */
+.data.table.tags,
+.data.table.reviews {
+  width: 100%;
+}
+.data.table.tags th,
+.data.table.reviews th,
+.data.table.tags td,
+.data.table.reviews td {
+  padding: 8px 5px;
+}
+.data.table.tags th,
+.data.table.reviews th {
+  text-align: left;
+  text-transform: uppercase;
+  border-bottom: 1px solid #e5e5e5;
+}
+.data.table.tags tbody tr:nth-child(even) td,
+.data.table.reviews tbody tr:nth-child(even) td {
+  background: #e5e5e5;
+}
+.data.table.tags tbody td,
+.data.table.reviews tbody td {
+  border-bottom: 1px solid #e5e5e5;
+  vertical-align: top;
+}
+.data.table.tags .product.name,
+.data.table.reviews .product.name {
+  margin: 0;
+}
+/*
+ *    My Account -> My Wishlist
+ *
+----------------------------------------------------------------------------- */
+.data.table.wishlist {
+  width: 100%;
+  margin-bottom: 15px;
+}
+.data.table.wishlist thead th {
+  padding-top: 0;
+  padding-bottom: 10px;
+  text-align: left;
+  font-weight: 400;
+  font-size: 16px;
+}
+.data.table.wishlist td,
+.data.table.wishlist th {
+  padding: 16px 10px 10px;
+  vertical-align: top;
+}
+.data.table.wishlist td:first-child,
+.data.table.wishlist th:first-child {
+  padding-left: 20px;
+}
+.data.table.wishlist td:last-child,
+.data.table.wishlist th:last-child {
+  padding-right: 20px;
+}
+.data.table.wishlist tbody tr:nth-child(even) {
+  background: #f8f8f8;
+}
+.data.table.wishlist textarea {
+  width: 100%;
+}
+.data.table.wishlist .box.tocart .qty {
+  width: 50px;
+}
+.data.table.wishlist + .actions .primary {
+  margin-bottom: 15px;
+}
+.data.table.wishlist + .actions .primary .action.share,
+.data.table.wishlist + .actions .primary .action.update {
+  border: none;
+  border-radius: 0;
+  background: #da370a;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  padding: 5px 11px;
+}
+.data.table.wishlist + .actions .primary .action.share span,
+.data.table.wishlist + .actions .primary .action.update span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.data.table.wishlist .col.photo {
+  width: 100px;
+}
+.data.table.wishlist .col.actions {
+  width: 200px;
+}
+.data.table.wishlist .item-options {
+  background: rgba(0, 0, 0, 0.8);
+  color: #ffffff;
+  display: none;
+  position: absolute;
+  border-radius: 5px;
+  padding: 10px;
+  right: 100%;
+  top: 50%;
+  margin-top: -20px;
+  margin-right: 15px;
+  max-width: 200px;
+  min-width: 100px;
+}
+.data.table.wishlist .item-options > p {
+  margin-top: 0;
+}
+.data.table.wishlist .item-options dl {
+  margin: 0;
+}
+.data.table.wishlist .item-options dl dt {
+  display: inline;
+  float: left;
+  clear: left;
+  font-weight: 600;
+}
+.data.table.wishlist .item-options dl dt:after {
+  content: ':';
+  margin-right: 5px;
+}
+.data.table.wishlist .item-options dl dd {
+  margin: 0;
+}
+.data.table.wishlist .truncated .truncated_full_value {
+  position: relative;
+}
+.data.table.wishlist .truncated .truncated_full_value.show:before {
+  content: '';
+  border-left: 10px solid rgba(0, 0, 0, 0.8);
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+  display: block;
+  position: absolute;
+  top: 3px;
+  margin-top: 0;
+  left: -15px;
+  z-index: 2;
+}
+.data.table.wishlist .truncated .truncated_full_value.show .item-options {
+  display: block;
+}
+.data.table.wishlist .truncated .details {
+  font-size: 12px;
+  border-bottom: 1px dotted #332e29;
+  cursor: help;
+}
+/*
+ *    Page -> Advanced Search
+ *
+----------------------------------------------------------------------------- */
+.form.search.advanced .field.price .range.price.fields.group .field:first-child input {
+  width: 96%;
+}
+/*
+ *    My Account -> My orders
+ *
+----------------------------------------------------------------------------- */
+.order.details {
+  *zoom: 1;
+}
+.order.details:before,
+.order.details:after {
+  content: "";
+  display: table;
+}
+.order.details:after {
+  clear: both;
+}
+.order.details .status {
+  margin: 0.5em 0;
+  line-height: 1.2;
+  font-weight: 400;
+  font-size: 30px;
+  float: left;
+}
+.order.details .subtitle.caption strong,
+.order.details .title strong {
+  line-height: 1.2;
+  font-weight: 200;
+  font-size: 20px;
+}
+.order.details .subtitle.caption .action,
+.order.details .title .action {
+  margin-left: 10px;
+}
+.order.details .subtitle.caption {
+  margin-bottom: 45px;
+}
+.order.details .order.toolbar {
+  clear: none;
+  float: right;
+  margin-top: 29px;
+}
+.order.details .order.toolbar .action {
+  margin-left: 10px;
+}
+.order.details .block.order {
+  float: left;
+  width: 48%;
+  padding-right: 2%;
+}
+.order.details .block.order.billing.address {
+  clear: left;
+}
+.order.details .block.order .content {
+  background: #f8f8f8;
+  padding: 30px;
+}
+.order.details .order.info {
+  clear: both;
+}
+.order.details .order.info > dt {
+  line-height: 1.2;
+  font-weight: 200;
+  font-size: 20px;
+}
+.order.details .order.info > dd {
+  margin: 10px 0 0 0;
+  background: #f8f8f8;
+  padding: 30px;
+}
+.order.details .order.info > dd .items {
+  *zoom: 1;
+}
+.order.details .order.info > dd .items:before,
+.order.details .order.info > dd .items:after {
+  content: "";
+  display: table;
+}
+.order.details .order.info > dd .items:after {
+  clear: both;
+}
+.order.details .order.info > dd .items .item {
+  float: left;
+  margin-right: 15px;
+}
+.order.details .additional.details .order.comments {
+  background: #f8f8f8;
+  padding: 30px;
+}
+.order.details.items .order.toolbar {
+  margin: 5px 0 0 0;
+}
+.order.details.items .order.title {
+  margin-bottom: 10px;
+}
+.order.details.items .action.show {
+  text-decoration: none;
+}
+.order.details.items .action.show:after {
+  font-family: "icons";
+  font-size: 12px;
+  line-height: 12px;
+  height: 12px;
+  overflow: hidden;
+  content: "\e00f";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.order.details.items .action.show.expanded:after {
+  content: "\e010";
+}
+.shipping-tracking-popup .action.close {
+  border: none;
+  border-radius: 0;
+  background: #c2c2c2;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  text-indent: 0;
+}
+.shipping-tracking-popup .action.close span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.shipping-tracking-popup .action.close:focus,
+.shipping-tracking-popup .action.close:active,
+.shipping-tracking-popup .action.close:hover {
+  background: #999999;
+}
+.shipping-tracking-popup .action.close span {
+  width: auto;
+  text-indent: 0;
+}
+.shipping-tracking-popup .action.close span:after {
+  content: "";
+  display: none;
+}
+.data.table.order {
+  margin-bottom: 45px;
+  width: 100%;
+}
+.data.table.order thead th {
+  padding: 0 10px;
+}
+.data.table.order thead tr:last-child th {
+  padding-bottom: 10px;
+}
+.data.table.order td.col.qty {
+  width: 90px;
+  text-align: left;
+}
+.data.table.order td.col.price,
+.data.table.order td.col.subtotal {
+  text-align: left;
+}
+.data.table.order td {
+  padding: 16px 10px 10px;
+  vertical-align: top;
+}
+.data.table.order td h4 {
+  margin: 0;
+}
+.data.table.order td:first-child,
+.data.table.order th:first-child {
+  padding-left: 20px;
+}
+.data.table.order td:last-child,
+.data.table.order th:last-child {
+  padding-right: 20px;
+}
+.data.table.order tbody:nth-child(even) tr {
+  background: #f8f8f8;
+}
+.data.table.order th {
+  text-align: left;
+  font-weight: 400;
+  font-size: 14px;
+  vertical-align: top;
+}
+.data.table.order tr:first-child th {
+  font-weight: 400;
+  font-size: 16px;
+}
+.data.table.order .item-options {
+  margin: 5px 0;
+}
+.data.table.order .item-options dt {
+  font-weight: 400;
+  display: inline;
+  margin-right: 10px;
+  float: left;
+  clear: left;
+}
+.data.table.order .item-options dt:after {
+  content: ': ';
+}
+.data.table.order .item-options dd {
+  font-weight: 200;
+  margin: 0 0 5px 10px;
+  padding: 0;
+}
+.data.table.order tfoot tr:first-child td {
+  border-top: 3px solid #e5e5e5;
+  padding-top: 15px;
+}
+.data.table.order.tracking th,
+.data.table.order.tracking td {
+  padding: 0;
+}
+.data.table.order.tracking .label {
+  width: 40%;
 }

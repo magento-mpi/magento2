@@ -3,8 +3,8 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     default_default
+ * @category    Mage
+ * @package     Saas_Launcher
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -30,35 +30,16 @@
         <reference name="head">
             <action method="addCss"><file>Mage_Catalog::product/product.css</file></action>
             <action method="addCss"><file>Saas_Launcher::page/launcher.css</file></action>
-            <action method="addJs"><file>Saas_Launcher::page/launcher.js</file></action>
-            <action method="addJs"><file>Saas_Launcher::page/storelauncher/store-tour.js</file></action>
-
-            <!--Tax Tile-->
-            <action method="addJs"><file>jquery/editableMultiselect/js/jquery.editable.js</file></action>
-            <action method="addJs"><file>jquery/editableMultiselect/js/jquery.multiselect.js</file></action>
-            <action method="addJs"><file>mage/backend/editablemultiselect.js</file></action>
-            <action method="addJs"><file>jquery/jquery.ba-hashchange.min.js</file></action>
-            <action method="addCss"><file>jquery/editableMultiselect/css/jquery.multiselect.css</file></action>
             <action method="addCss"><file>Mage_Core::prototype/magento.css</file></action>
-
-            <action method="addCss"><file>jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
-            <action method="addJs"><file>jquery/fileUploader/jquery.iframe-transport.js</file></action>
-            <action method="addJs"><file>jquery/fileUploader/jquery.fileupload.js</file></action>
-            <action method="addJs"><file>jquery/fileUploader/load-image.min.js</file></action>
-            <action method="addJs"><file>jquery/fileUploader/canvas-to-blob.min.js</file></action>
-            <action method="addJs"><file>jquery/fileUploader/jquery.fileupload-fp.js</file></action>
-
-            <!--Product Tile-->
-            <action method="addJs"><file>Mage_Adminhtml::catalog/base-image-uploader.js</file></action>
+            <action method="addCss"><file>jquery/editableMultiselect/css/jquery.multiselect.css</file></action>
             <action method="addCss"><file>Mage_Adminhtml::catalog/category-selector.css</file></action>
-            <action method="addJs"><file>jquery/jstree/jquery.hotkeys.js</file></action>
-            <action method="addJs"><file>jquery/jstree/jquery.jstree.js</file></action>
-            <action method="addJs"><file>Mage_Adminhtml::catalog/type-switcher.js</file></action>
-            <action method="addJs"><file>Mage_Catalog::js/product-gallery.js</file></action>
+            <action method="addCss"><file>jquery/fileUploader/css/jquery.fileupload-ui.css</file></action>
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
         </reference>
         <reference name="js">
             <block type="Mage_Backend_Block_Template" template="system/config/js.phtml"/>
             <block type="Mage_Backend_Block_Template" template="Saas_Launcher::page/storelauncher/js.phtml" name="storelauncher.js" />
+            <block type="Mage_Backend_Block_Template" template="Saas_Launcher::page/js.phtml" name="page.js" />
         </reference>
         <reference name="content">
             <block type="Saas_Launcher_Block_Adminhtml_Storelauncher_Page" name="landing.page" template="page/storelauncher/storelauncher.phtml">
@@ -83,7 +64,7 @@
     </launcher_storelauncher_tax_drawer_save>
 
     <launcher_storelauncher_businessinfo_drawer_load>
-        <block type="Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer" name="business_info.drawer" />
+        <block type="Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer" name="business_info.drawer" template="page/storelauncher/businessinfo/drawer.phtml"/>
     </launcher_storelauncher_businessinfo_drawer_load>
 
     <launcher_storelauncher_businessinfo_drawer_save>
@@ -247,8 +228,9 @@
         <update handle="promotestore_index"/>
         <reference name="head">
             <action method="addCss"><file>Saas_Launcher::page/launcher.css</file></action>
-            <action method="addJs"><file>Saas_Launcher::page/launcher.js</file></action>
-            <action method="addJs"><file>jquery/jquery.ba-hashchange.min.js</file></action>
+        </reference>
+        <reference name="js">
+            <block type="Mage_Backend_Block_Template" template="Saas_Launcher::page/js.phtml" name="page.js" />
         </reference>
         <reference name="content">
             <block type="Saas_Launcher_Block_Adminhtml_Promotestore_Page" name="promotestore.page" template="page/promotestore/promotestore.phtml" />

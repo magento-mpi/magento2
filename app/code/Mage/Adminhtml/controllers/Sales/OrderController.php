@@ -690,7 +690,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 $aclResource = 'Mage_Sales::sales_order';
                 break;
         }
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed($aclResource);
+        return $this->_authorization->isAllowed($aclResource);
     }
 
     /**

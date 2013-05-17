@@ -62,7 +62,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header' => Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA #'),
+            'header' => Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA'),
             'type'   => 'number',
             'index'  => 'increment_id',
             'header_css_class'  => 'col-rma-number',
@@ -70,7 +70,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('date_requested', array(
-            'header' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Date Requested'),
+            'header' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Requested Date'),
             'index' => 'date_requested',
             'type' => 'datetime',
             'html_decorators' => array('nobr'),
@@ -79,7 +79,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('order_increment_id', array(
-            'header' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Order #'),
+            'header' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Order'),
             'type'   => 'number',
             'index'  => 'order_increment_id',
             'header_css_class'  => 'col-order-number',
@@ -96,7 +96,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('customer_name', array(
-            'header' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Customer Name'),
+            'header' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Customer'),
             'index' => 'customer_name',
             'header_css_class'  => 'col-name',
             'column_css_class'  => 'col-name'

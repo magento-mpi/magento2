@@ -77,14 +77,18 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest extends 
         $options = $block->getOptions();
 
         $mainAction = json_decode($data['data_attribute']['mage-init'], true);
-        $this->assertNotEmpty($mainAction['button']['eventData']['confirm_message']);
+        if ($mainAction['button']['event'] != 'save') {
+            $this->assertNotEmpty($mainAction['button']['eventData']['confirm_message']);
+        }
         $mainAction['button']['eventData']['confirm_message'] = 0;
 
         $this->assertEquals($expected, $mainAction);
         foreach ($options as $option) {
             $action = json_decode($option['data_attribute']['mage-init'], true);
 
-            $this->assertNotEmpty($action['button']['eventData']['confirm_message']);
+            if ($mainAction['button']['event'] != 'save') {
+                $this->assertNotEmpty($action['button']['eventData']['confirm_message']);
+            }
             $action['button']['eventData']['confirm_message'] = 0;
 
             $isFound = false;

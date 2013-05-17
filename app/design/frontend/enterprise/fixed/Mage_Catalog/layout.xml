@@ -32,13 +32,6 @@ Default layout, loads most of the pages
                 <action method="setBlockId"><block_id>top_callout</block_id></action>
             </block>
         </reference>
-        <!--reference name="left">
-            <block type="Mage_Core_Block_Template" name="left.permanent.callout" template="Mage_Page::left_col.phtml">
-                <action method="setImgSrc"><src>images/media/col_left_callout.jpg</src></action>
-                <action method="setImgAlt" translate="alt" module="Mage_Catalog"><alt>Our customer service is available 24/7. Call us at (555) 555-0123.</alt></action>
-                <action method="setLinkUrl"><url>checkout/cart</url></action>
-            </block>
-        </reference-->
         <reference name="right">
             <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
         </reference>
@@ -145,8 +138,8 @@ Product view
             <action method="setTemplate"><template>1column.phtml</template></action>
         </reference>
         <reference name="head">
-            <action method="addJs"><file>js/jqzoom/js/jquery.jqzoom-core-pack.js</file></action>
-            <action method="addCss"><file>js/jqzoom/css/jquery.jqzoom.css</file></action>
+            <action method="addJs"><file>jquery/jqzoom/js/jquery.jqzoom-core-pack.js</file></action>
+            <action method="addCss"><file>jquery/jqzoom/css/jquery.jqzoom.css</file></action>
         </reference>
         <update handle="page_calendar"/>
         <reference name="content">

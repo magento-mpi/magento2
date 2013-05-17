@@ -50,6 +50,8 @@ class Saas_Design_Model_Limitation_Specification_Backend_ThemesTest extends PHPU
         return array(
             array('Mage_Theme_Adminhtml', 'unknown', 'unknown'),
             array('Mage_Theme_Adminhtml', 'system_design_theme', 'unknown'),
+            array('Mage_Theme_Adminhtml', 'unknown', 'index'),
+            array('unknown', 'system_design_theme', 'unknown'),
             array('unknown', 'system_design_theme', 'index'),
             array('unknown', 'unknown', 'new'),
             array('unknown', 'unknown', 'unknown'),
@@ -58,9 +60,9 @@ class Saas_Design_Model_Limitation_Specification_Backend_ThemesTest extends PHPU
 
     /**
      * @param string $action
-     * @dataProvider dataProviderForIsNotAllowed
+     * @dataProvider dataProviderForIsNotSatisfied
      */
-    public function testIsNotAllowed($action)
+    public function testIsNotSatisfied($action)
     {
         $this->_requestMock->expects($this->any())->method('getControllerModule')
             ->will($this->returnValue('Mage_Theme_Adminhtml'));
@@ -75,7 +77,7 @@ class Saas_Design_Model_Limitation_Specification_Backend_ThemesTest extends PHPU
     /**
      * @return array
      */
-    public function dataProviderForIsNotAllowed()
+    public function dataProviderForIsNotSatisfied()
     {
         return array(
             array('index'),

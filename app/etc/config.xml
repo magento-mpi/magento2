@@ -75,6 +75,7 @@
                 <Mage_Core_Model_CacheInterface>Mage_Core_Model_Cache_Proxy</Mage_Core_Model_CacheInterface>
                 <Mage_Core_Model_StoreManagerInterface>Mage_Core_Model_StoreManager</Mage_Core_Model_StoreManagerInterface>
                 <Mage_Core_Model_Design_PackageInterface>Mage_Core_Model_Design_Package</Mage_Core_Model_Design_PackageInterface>
+                <Mage_Core_Model_LocaleInterface>Mage_Core_Model_Locale</Mage_Core_Model_LocaleInterface>
             </preferences>
             <Mage_Core_Model_Cache>
                 <parameters>
@@ -187,6 +188,11 @@
             <Magento_Acl>
                 <shared>0</shared>
             </Magento_Acl>
+            <Mage_Core_Model_Context>
+                <parameters>
+                    <eventDispatcher>Mage_Core_Model_Event_Manager_Proxy</eventDispatcher>
+                </parameters>
+            </Mage_Core_Model_Context>
         </di>
     </global>
     <default>

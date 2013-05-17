@@ -78,7 +78,7 @@ applications:
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
-                after_login_page: 'store_launcher'
+                after_login_page: 'dashboard'
             frontend:
                 url: '{{url}}'
                 base_page_uimap: 'home_page'
@@ -107,7 +107,7 @@ applications:
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
-                after_login_page: 'store_launcher'
+                after_login_page: 'dashboard'
             frontend:
                 url: '{{enterprise_url}}'
                 base_page_uimap: 'home_page'
@@ -115,7 +115,7 @@ applications:
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
     saas: &saas
-        fallbackOrderFixture: 'enterprise, default'
+        fallbackOrderFixture: 'saas, enterprise, default'
         fallbackOrderHelper: 'Saas, Enterprise, Core'
         design_theme: Enterprise/Magento Fixed Design
         ftp: *ftp

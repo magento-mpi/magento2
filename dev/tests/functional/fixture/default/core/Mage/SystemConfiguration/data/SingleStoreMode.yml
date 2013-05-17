@@ -8,6 +8,7 @@
 # @license     {license_link}
 #
 enable_single_store_mode:
+    configuration_scope: Default Config
     tab_1:
         tab_name: general_general
         configuration:
@@ -15,6 +16,7 @@ enable_single_store_mode:
                 enable_single_store_mode: Yes
 
 disable_single_store_mode:
+    configuration_scope: Default Config
     tab_1:
         tab_name: general_general
         configuration:

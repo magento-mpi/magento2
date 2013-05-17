@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     enterprise_default
+ * @package     magento2_reference
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -218,6 +218,9 @@ Customer account address book
         <label>Customer My Account Address Book</label>
         <!-- Mage_Customer -->
         <update handle="customer_account"/>
+        <reference name="page.main.title">
+            <block type="Mage_Customer_Block_Address_Book" name="address.book.button" template="address/button.phtml" />
+        </reference>
         <reference name="my.account.wrapper">
             <block type="Mage_Customer_Block_Address_Book" name="address_book" template="address/book.phtml"/>
         </reference>

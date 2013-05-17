@@ -70,6 +70,8 @@
 }
 
 /* For browsers without css3 selectors support */
+.tile-store-settings:first-child + .tile-store-settings + .tile-store-settings + .tile-store-settings,
+.tile-store-settings:first-child,
 .eq-ie8 .tile-home-page,
 .eq-ie8 .tile-customer-communication,
 .eq-ie8 .tile-catalog-price-rule,

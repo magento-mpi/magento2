@@ -18,8 +18,13 @@
  */
 class Saas_Mage_Product_Linking_BundleLinkingTest extends Core_Mage_Product_Linking_BundleLinkingTest
 {
-    protected static $_productTypes = array('configurable', 'bundle', 'grouped', 'simple', 'virtual');
+    protected $_productTypes = array('configurable', 'bundle', 'grouped', 'simple', 'virtual');
 
+    /**
+     * <p>Override DataProvider to exclude downloadable product type</p>
+     *
+     * @return array
+     */
     public function linkingTypeDataProvider()
     {
         return array(

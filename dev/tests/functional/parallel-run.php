@@ -27,6 +27,7 @@ foreach ($argv as $optionNameOrValue) {
 if (!isset($argv[1])) {
     echo 'Usage: php -f ./', basename(__FILE__), ' path/to/tests -- [options]', PHP_EOL;
     echo <<<USAGE
+    --whitelist <URL|file>          path to source with list of glob patterns with tests to be executed, one per line
     --reinstall-after <regexp>      reinstall Magento instance after path to test case doesn't match regexp
                                         (but matched previously)
     --exclude <regexp>              do not run test cases path to which matches regexp
@@ -72,26 +73,32 @@ for ($i = 0; $i < $maxInstances; ++$i) {
     );
 }
 
-$paths = array();
-$pathToTests = $argv[1];
-if (strlen($pathToTests) > 4096) { // interpreting as comma-separated list of files
-    if (!preg_match('/^[^*?{}]+$/', $pathToTests)) {
-        echo 'Path to tests is too long for glob and does not look like a comma-separated list of files.', PHP_EOL;
-        exit(1);
+$whitelist = array();
+if (isset($cliOptions['whitelist'])) {
+    foreach (file($cliOptions['whitelist'], FILE_IGNORE_NEW_LINES) as $pattern) {
+        if (0 === strpos($pattern, '#')) {
+            continue;
+        }
+        $files = glob(__DIR__ . DIRECTORY_SEPARATOR . $pattern, GLOB_BRACE | GLOB_ERR);
+        if (empty($files)) {
+            throw new Exception("The glob() pattern '{$pattern}' didn't return any result.");
+        }
+        foreach ($files as $file) {
+            $whitelist[str_replace(__DIR__ . DIRECTORY_SEPARATOR, '', $file)] = true;
+        }
     }
-    $paths = explode(',', $pathToTests);
-} else {
-    $paths = glob($pathToTests, GLOB_BRACE | GLOB_ERR) ?: array();
 }
 
+$pathToTests = $argv[1];
 $testCases = array();
-foreach ($paths as $globItem) {
+foreach (glob($pathToTests, GLOB_BRACE | GLOB_ERR) ?: array() as $globItem) {
     if (is_dir($globItem)) {
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($globItem)) as $fileInfo) {
             $pathToTestCase = (string)$fileInfo;
             if (preg_match('/Test\.php$/', $pathToTestCase)
                 && (!isset($cliOptions['include-only']) || preg_match($cliOptions['include-only'], $pathToTestCase))
                 && (!isset($cliOptions['exclude']) || !preg_match($cliOptions['exclude'], $pathToTestCase))
+                && (empty($whitelist) || !empty($whitelist[$pathToTestCase]))
             ) {
                 $testCases[$pathToTestCase] = true;
             }
@@ -99,6 +106,7 @@ foreach ($paths as $globItem) {
     } elseif (preg_match('/Test\.php$/', $globItem)
         && (!isset($cliOptions['include-only']) || preg_match($cliOptions['include-only'], $globItem))
         && (!isset($cliOptions['exclude']) || !preg_match($cliOptions['exclude'], $globItem))
+        && (empty($whitelist) || !empty($whitelist[$pathToTestCase]))
     ) {
         $testCases[$globItem] = true;
     }

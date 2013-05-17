@@ -33,6 +33,6 @@ class Mage_Adminhtml_Customer_OnlineController extends Mage_Adminhtml_Controller
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Customer::online');
+        return $this->_authorization->isAllowed('Mage_Customer::online');
     }
 }
