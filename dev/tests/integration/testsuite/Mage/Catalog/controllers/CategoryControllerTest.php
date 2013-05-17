@@ -27,7 +27,6 @@ class Mage_Catalog_CategoryControllerTest extends Magento_Test_TestCase_Controll
         return array(
             'category without children' => array(
                 '$categoryId' => 5,
-                '$expectedProductCount' => 1,
                 array(
                     'catalog_category_view_type_default',
                     'catalog_category_view_type_default_without_children',
@@ -43,7 +42,6 @@ class Mage_Catalog_CategoryControllerTest extends Magento_Test_TestCase_Controll
             ),
             'anchor category' => array(
                 '$categoryId' => 4,
-                '$expectedProductCount' => 2,
                 array(
                     'catalog_category_view_type_layered',
                 ),
@@ -64,7 +62,7 @@ class Mage_Catalog_CategoryControllerTest extends Magento_Test_TestCase_Controll
     /**
      * @dataProvider getViewActionDataProvider
      */
-    public function testViewAction($categoryId, $expectedProductCount, array $expectedHandles, array $expectedContent)
+    public function testViewAction($categoryId, array $expectedHandles, array $expectedContent)
     {
         $this->dispatch("catalog/category/view/id/$categoryId");
 

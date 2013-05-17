@@ -167,8 +167,7 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
                 if (!empty($data)) {
                     if (!empty($groups[$groupName])) {
                         $groups[$groupName] = array_merge_recursive((array)$groups[$groupName], $data);
-                    }
-                    else {
+                    } else {
                         $groups[$groupName] = $data;
                     }
                 }

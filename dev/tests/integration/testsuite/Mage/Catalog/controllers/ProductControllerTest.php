@@ -74,7 +74,7 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
     {
         $this->dispatch('catalog/product/view/id/1');
         $html = $this->getResponse()->getBody();
-        $this->assertSelectCount('div[id="product-options-wrapper"]', 1, $html);
+        $this->assertSelectCount('#product-options-wrapper', 1, $html);
     }
 
     public function testViewActionNoProductId()
