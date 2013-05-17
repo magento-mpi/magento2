@@ -206,11 +206,14 @@ textarea {
   color: #111111;
   font: 14px/1.43 Arial, Helvetica, sans-serif;
 }
-html {
-  background: #f6f4f3 url(../images/header-bg.jpg);
-  min-width: 1025px;
+html,
+body {
+  height: 100%;
+  width: 100%;
 }
 body {
+  background: #f6f4f3 url(../images/header-bg.jpg);
+  min-width: 1025px;
   position: relative;
 }
 .page.wrapper {
@@ -436,6 +439,10 @@ strong {
   border-color: #666666 !important;
   color: #666666 !important;
   background: #e2e2e2 !important;
+}
+.page.popup {
+  background: #ffffff;
+  min-width: 100px;
 }
 .page.wrapper > .header {
   background-color: #f6f4f3;
@@ -8124,6 +8131,33 @@ body.type-bundle {
   left: 50%;
   zoom: 1;
   z-index: 2;
+}
+.page.tracking {
+  padding: 20px;
+}
+.page.tracking .actions .action.close {
+  border: none;
+  background: #dc0000;
+  display: inline-block;
+  margin: 0;
+  padding: 4px 12px;
+  outline: none;
+}
+.page.tracking .actions .action.close span {
+  font: 400 12px comfortaa, Arial, Helvetica, sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffffff;
+  line-height: 16px;
+}
+.page.tracking .actions .action.close:hover {
+  background: #b10000;
+}
+.page.tracking .subtitle.caption {
+  margin-bottom: 20px;
+  font: 400 15px comfortaa, Arial, Helvetica, sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 .widget ul {
   padding: 0;
