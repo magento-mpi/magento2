@@ -12,7 +12,7 @@
 /** @var $product Mage_Catalog_Model_Product */
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 
-$product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
+$product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL)
     ->setId(1)
     ->setAttributeSetId(4)
     ->setName('Simple Product')
@@ -32,7 +32,7 @@ $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setMetaDescription('meta description')
 
     ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED)
+    ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
     ->setWebsiteIds(array(1))
     ->setCateroryIds(array())
     ->setStockData(
@@ -43,5 +43,4 @@ $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
             'is_in_stock'               => 1,
         )
     )
-
     ->save();

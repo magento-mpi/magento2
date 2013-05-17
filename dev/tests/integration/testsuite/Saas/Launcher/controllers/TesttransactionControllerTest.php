@@ -30,7 +30,7 @@ class Saas_Launcher_TesttransactionControllerTest extends Magento_Test_TestCase_
     }
 
     /**
-     * @magentoDataFixture Saas/Launcher/controllers/_files/product_disabled.php
+     * @magentoDataFixture Saas/Launcher/controllers/_files/products_nonsupported.php
      */
     public function testDisabledProducts()
     {
@@ -41,9 +41,21 @@ class Saas_Launcher_TesttransactionControllerTest extends Magento_Test_TestCase_
     }
 
     /**
-     * @magentoDataFixture Saas/Launcher/controllers/_files/product_enabled.php
+     * @magentoDataFixture Saas/Launcher/controllers/_files/product_simple.php
      */
     public function testEnabledProducts()
+    {
+        $this->dispatch('launcher/testtransaction');
+        $this->assertEquals($this->_cart->getQuote()->getItemsQty(), 1);
+        $this->dispatch('launcher/testtransaction');
+        $this->assertEquals($this->_cart->getQuote()->getItemsQty(), 1);
+        $this->assertRedirect($this->stringContains('checkout/cart'));
+    }
+
+    /**
+     * @magentoDataFixture Saas/Launcher/controllers/_files/product_virtual.php
+     */
+    public function testVirtualProducts()
     {
         $this->dispatch('launcher/testtransaction');
         $this->assertEquals($this->_cart->getQuote()->getItemsQty(), 1);

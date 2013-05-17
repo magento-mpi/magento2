@@ -10,7 +10,7 @@
 (function($, window) {
     $.widget('mage.float', {
         options: {
-            productOptionsSelector: '#product-options-wrapper'
+            productOptionsSelector: ''
         },
 
         /**
@@ -27,26 +27,18 @@
          */
         _setTop: function() {
             if ((this.element).is(':visible')) {
-                var starTop = $(this.options.productOptionsSelector).offset().top,
-                    offset = $(document).scrollTop(),
-                    maxTop = this.element.parent().offset().top;
-                if (!this.options.top) {
-                    this.options.top = this.element.position().top;
-                    this.element.css('top', this.options.top);
-                }
+                var startOffset = this.element.parent().offset().top + parseInt(this.element.css("margin-top")),
+                    currentOffset = $(document).scrollTop(),
+                    parentHeight = $(this.options.productOptionsSelector).height() - parseInt(this.element.css("margin-top")),
+                    elHeight = this.element.innerHeight(),
+                    discrepancyOffset = currentOffset - startOffset;
 
-                if (starTop > offset) {
-                    return false;
-                }
-
-                if (offset < this.options.top) {
-                    offset = this.options.top;
-                }
-
-                var allowedTop = this.options.top + offset - starTop;
-
-                if (allowedTop < maxTop) {
-                    this.element.css('top', allowedTop);
+                if (discrepancyOffset >= 0) {
+                    if (discrepancyOffset + elHeight < parentHeight) {
+                        this.element.css('top', discrepancyOffset);
+                    }
+                } else {
+                    this.element.css('top', 0);
                 }
             }
         }

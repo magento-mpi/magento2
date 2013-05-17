@@ -67,7 +67,7 @@
             var listItem = $(this).closest('.mselect-list-item');
             var that = listItem.children('.mselect-edit');
             var index = listItem.index(),
-                select = that.closest('.mselect-list').prev(),
+                select = that.closest('.mselect-list').prevAll('.multiselect:first'),
                 id = select.find('option').eq(index).attr('value'),
                 item;
 
