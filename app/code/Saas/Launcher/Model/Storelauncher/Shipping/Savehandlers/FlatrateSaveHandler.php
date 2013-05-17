@@ -69,7 +69,7 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
         if (empty($data['groups']['flatrate']['fields']['name']['value'])) {
             throw new Saas_Launcher_Exception('Display Name is required.');
         }
-        if (empty($data['groups']['flatrate']['fields']['price']['value'])) {
+        if (!isset($data['groups']['flatrate']['fields']['price']['value'])) {
             throw new Saas_Launcher_Exception('Price is required.');
         }
         $rate = trim($data['groups']['flatrate']['fields']['price']['value']);
