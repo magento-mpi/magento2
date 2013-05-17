@@ -1966,7 +1966,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
                 $this->fillForm($rowValue, 'custom_options');
                 if ((isset($rowValue['custom_options_sort_order'])) && (isset($rowValue['custom_options_title']))) {
                     $orderedRows[$rowValue['custom_options_title']]= $rowValue['custom_options_sort_order'];
-                unset($rowValue['custom_options_sort_order']);
+                    unset($rowValue['custom_options_sort_order']);
                 }
             }
         }
@@ -2003,19 +2003,19 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
         if (!empty($orderedBlocks)) {
             $this->verifyBlocksOrder($orderedBlocks, 'custom_options_general_titles');
         }
-        $orderedRows = array();
         foreach($customOptionData as $customOption) {
             $optionId = $this->getCustomOptionIdByName($customOption['custom_options_general_title']);
             $this->addParameter('optionId', $optionId);
-            foreach ($customOption as $keyRow=>$valueRow) {
+            $orderedRows = array();
+            foreach ($customOption as $keyRow => $valueRow) {
                 if (preg_match('/^custom_option_row/', $keyRow) && is_array($valueRow)) {
                     $orderedRows[$valueRow['custom_options_title']] = $valueRow['custom_options_sort_order'];
                 }
             }
+            if (!empty($orderedRows)) {
+                $this->verifyBlocksOrder($orderedRows, 'custom_options_titles');
+            }
             $this->verifyForm($customOption, 'custom_options');
-        }
-        if (!empty($orderedRows)) {
-            $this->verifyBlocksOrder($orderedRows, 'custom_options_titles');
         }
         return true;
     }
