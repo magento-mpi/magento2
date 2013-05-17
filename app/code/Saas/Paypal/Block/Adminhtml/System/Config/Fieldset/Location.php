@@ -17,7 +17,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
     extends Mage_Backend_Block_System_Config_Form_Fieldset
 {
     /**
-     * Add conflicts resolution js code to the fieldset
+     * Render fieldset html
      *
      * @param Varien_Data_Form_Element_Abstract $element
      * @return string
@@ -37,7 +37,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                     "ecDependent": false,
                     sharePayflowEnabling: function(enabler, isEvent) {
                         paypalConflictsObject.payflowLinkEnabling(enabler, isEvent);
-                        var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler.fd-enabled")[0];
+                        var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[0];
                         if (typeof ecPayflowEnabler == "undefined") {
                             return;
                         }
@@ -61,10 +61,10 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                             $(ecPayflowScopeElement).click();
                         }
 
-                        var ecEnabler = !enabler.enablerObject.ecBoarding ? $$(".paypal-ec-enabler.fd-enabled")[0]
-                            : $$(".paypal-ec-boarding-enabler.fd-enabled")[0];
-                        var ecOtherEnabler = enabler.enablerObject.ecBoarding ? $$(".paypal-ec-enabler.fd-enabled")[0]
-                            : $$(".paypal-ec-boarding-enabler.fd-enabled")[0];
+                        var ecEnabler = !enabler.enablerObject.ecBoarding ? $$(".paypal-ec-enabler")[0]
+                            : $$(".paypal-ec-boarding-enabler")[0];
+                        var ecOtherEnabler = enabler.enablerObject.ecBoarding ? $$(".paypal-ec-enabler")[0]
+                            : $$(".paypal-ec-boarding-enabler")[0];
                         if (!isEvent && enabler.value == 1) {
                             paypalConflictsObject.ecDependent = ecPayflowEnabler;
                         }
@@ -103,12 +103,12 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                         if (isEvent && enabler.enablerObject.ecIndependent && !enabler.enablerObject.ecEnabler &&
                             !enabler.enablerObject.ecBoardingEnabler && !enabler.enablerObject.ecSeparate
                         ) {
-                            var ecBoardingEnabler = $$(".paypal-ec-boarding-enabler.fd-enabled")[0];
+                            var ecBoardingEnabler = $$(".paypal-ec-boarding-enabler")[0];
                             if (enabler.value == 1 && ecBoardingEnabler.value == 1) {
                                 ecBoardingEnabler.value = 0;
                                 fireEvent(ecBoardingEnabler, "change");
                             } else if (enabler.value == 0) {
-                                var ecEnabler = $$(".paypal-ec-enabler.fd-enabled")[0];
+                                var ecEnabler = $$(".paypal-ec-enabler")[0];
                                 if ($(ecAuthenticationMethodField.id).value == 1 && ecEnabler.value == 1) {
                                     ecEnabler.value = 0;
                                     fireEvent(ecEnabler, "change");
@@ -121,7 +121,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                     },
                     onClickEnablerScope: function(event) {
                         paypalConflictsObject.checkPaymentConflicts(
-                            $(adminSystemConfig.getUpTr($(Event.element(event))).select(".paypal-enabler.fd-enabled")[0]),
+                            $(adminSystemConfig.getUpTr($(Event.element(event))).select(".paypal-enabler")[0]),
                             "click"
                         );
                     },
@@ -172,7 +172,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                             return;
                         }
                         var couldBeConfigured = true;
-                        $$(".paypal-enabler.fd-enabled").each(function(enabler) {
+                        $$(".paypal-enabler").each(function(enabler) {
                             if (enabler.enablerObject.ecEnabler || enabler.enablerObject.ecBoardingEnabler
                                 || enabler.enablerObject.ecConflicts || enabler.enablerObject.ecSeparate
                             ) {
@@ -191,10 +191,10 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                     // type could be "initial", "change", "click"
                     checkPaymentConflicts: function(enabler, type) {
                         var isEvent = (type != "initial");
-                        var ecEnabler = !enabler.enablerObject.ecBoarding ? $$(".paypal-ec-enabler.fd-enabled")[0]
-                            : $$(".paypal-ec-boarding-enabler.fd-enabled")[0];
-                        var ecOtherEnabler = enabler.enablerObject.ecBoarding ? $$(".paypal-ec-enabler.fd-enabled")[0]
-                            : $$(".paypal-ec-boarding-enabler.fd-enabled")[0];
+                        var ecEnabler = !enabler.enablerObject.ecBoarding ? $$(".paypal-ec-enabler")[0]
+                            : $$(".paypal-ec-boarding-enabler")[0];
+                        var ecOtherEnabler = enabler.enablerObject.ecBoarding ? $$(".paypal-ec-enabler")[0]
+                            : $$(".paypal-ec-boarding-enabler")[0];
                         if (enabler.value == 0) {
                             if (!enabler.enablerObject.ecIndependent && type == "change") {
                                 if (typeof ecEnabler != "undefined" && ecEnabler.value == 1) {
@@ -222,7 +222,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                             }
                         }
                         // check other solutions
-                        $$(".paypal-enabler.fd-enabled").each(function(anotherEnabler) {
+                        $$(".paypal-enabler").each(function(anotherEnabler) {
                             var anotherEnablerScopeElement = adminSystemConfig.getScopeElement(anotherEnabler);
                             if (!confirmationApproved && isEvent || $(anotherEnabler) == enabler
                                 || anotherEnabler.value == 0
@@ -296,7 +296,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                 };
 
                 // fill enablers with conflict data
-                $$(".paypal-enabler.fd-enabled").each(function(enablerElement) {
+                $$(".paypal-enabler").each(function(enablerElement) {
                     var enablerObj = {
                         ecIndependent: false,
                         ecConflicts: false,
@@ -343,7 +343,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                 });
 
                 var disablePayflow = true;
-                $$(".paypal-ec-payflow-enabler.fd-enabled").each(function(payflowEnabler) {
+                $$(".paypal-ec-payflow-enabler").each(function(payflowEnabler) {
                     var payflowScopeElement = adminSystemConfig.getScopeElement(payflowEnabler);
                     if ((typeof payflowScopeElement == "undefined" || !payflowScopeElement.checked)
                         && payflowEnabler.value == 1
@@ -354,7 +354,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
 
                 if (disablePayflow) {
                     // initially uncheck payflow
-                    var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler.fd-enabled")[0];
+                    var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[0];
                     if (typeof ecPayflowEnabler != "undefined") {
                         if (ecPayflowEnabler.value == 1) {
                             ecPayflowEnabler.value = 0;
@@ -368,7 +368,7 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                     }
                 }
 
-                $$(".paypal-enabler.fd-enabled").each(function(enablerElement) {
+                $$(".paypal-enabler").each(function(enablerElement) {
                     paypalConflictsObject.checkPaymentConflicts(enablerElement, "initial");
                 });
                 if (paypalConflictsObject.isConflict || paypalConflictsObject.ecMissed) {
@@ -410,8 +410,9 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                     }
                 });
 
-/*                configForm.on(\'afterValidate\', function() {
-                    var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler.fd-enabled")[0];
+//*/
+                configForm.on(\'afterValidate\', function() {
+                    var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[0];
                     if (typeof ecPayflowEnabler == "undefined") {
                         return;
                     }
@@ -422,11 +423,12 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                         $$(".paypal-ec-enabler").each(function(ecEnabler) {
                             ecEnabler.value = 0;
                         });
-                        $$(".paypal-ec-boarding-enabler.fd-enabled").each(function(ecEnabler) {
+                        $$(".paypal-ec-boarding-enabler").each(function(ecEnabler) {
                             ecEnabler.value = 0;
                         });
                     }
-                });*/
+                });
+//*/
             });
         ';
         return $this->toHtml() . $this->helper('Mage_Adminhtml_Helper_Js')->getScript($js);

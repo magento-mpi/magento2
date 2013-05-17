@@ -64,8 +64,8 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
             // check store-view disabling Express Checkout
             document.observe("dom:loaded", function() {
                 $$(".pp-method-express button.button").each(function(ecButton){
-                    var ecEnabler = $$(".paypal-ec-enabler.fd-enabled")[0];
-                    var ecBoardingEnabler = $$(".paypal-ec-boarding-enabler.fd-enabled")[0];
+                    var ecEnabler = $$(".paypal-ec-enabler")[0];
+                    var ecBoardingEnabler = $$(".paypal-ec-boarding-enabler")[0];
                     if (typeof ecButton == "undefined" || (typeof ecEnabler != "undefined" && typeof ecBoardingEnabler != "undefined")) {
                         return;
                     }
