@@ -46,8 +46,14 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     protected $_filesystem;
 
     /**
+     * @var Mage_Core_Model_Image_Factory
+     */
+    protected $_imageFactory;
+
+    /**
      * @param Mage_Core_Model_Context $context
      * @param Magento_Filesystem $filesystem
+     * @param Mage_Core_Model_Image_Factory $imageFactory
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -55,6 +61,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     public function __construct(
         Mage_Core_Model_Context $context,
         Magento_Filesystem $filesystem,
+        Mage_Core_Model_Image_Factory $imageFactory,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -66,6 +73,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         $this->_filesystem->ensureDirectoryExists($baseDir);
         $this->_filesystem->setIsAllowCreateDirectories(false);
         $this->_filesystem->setWorkingDirectory($baseDir);
+        $this->_imageFactory = $imageFactory;
     }
 
     /**
@@ -375,8 +383,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     public function getImageProcessor()
     {
         if (!$this->_processor) {
-            $adapter = Mage::helper('Mage_Core_Helper_Data')->getImageAdapterType();
-            $this->_processor = new Varien_Image($this->getBaseFile(), $adapter);
+            $this->_processor = $this->_imageFactory->create($this->getBaseFile());
         }
         $this->_processor->keepAspectRatio($this->_keepAspectRatio);
         $this->_processor->keepFrame($this->_keepFrame);

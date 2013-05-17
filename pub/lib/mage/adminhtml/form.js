@@ -464,6 +464,9 @@ FormElementDependenceController.prototype = {
 
         }
         var rowElement = $('row_' + idTo);
+        if (rowElement == undefined) {
+            rowElement = $(idTo).up(this._config.levels_up);
+        }
         if (rowElement) {
             if (shouldShowUp) {
                 rowElement.show();

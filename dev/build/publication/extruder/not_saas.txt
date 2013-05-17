@@ -78,3 +78,4 @@ pub/lib/mage/directpost.js
 dev/tests/integration/testsuite/Mage/Adminhtml/controllers/NewsletterQueueControllerTest.php
 dev/tests/integration/testsuite/Mage/Adminhtml/controllers/NewsletterTemplateControllerTest.php
 dev/tests/integration/testsuite/Mage/Adminhtml/controllers/System/DesignControllerTest.php
+dev/tests/integration/testsuite/Enterprise/PageCache/Model/Processor/RestrictionTest.php

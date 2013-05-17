@@ -62,6 +62,7 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FedexSaveHandler
 
         // Enable Fedex for checkout
         $preparedData['carriers']['fedex']['fields']['active']['value'] = 1;
+        $preparedData['carriers']['fedex']['fields']['sandbox_mode']['value'] = 0;
 
         return $preparedData;
     }

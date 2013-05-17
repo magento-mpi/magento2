@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -30,20 +29,6 @@ class Enterprise_PageCache_Model_ProcessorTest extends PHPUnit_Framework_TestCas
     {
         $this->assertTrue($this->_model->isAllowed());
         $_SERVER['HTTPS'] = 'on';
-        $this->assertFalse($this->_model->isAllowed());
-    }
-
-    public function testIsAllowedNoCacheCookie()
-    {
-        $this->assertTrue($this->_model->isAllowed());
-        $_COOKIE[Enterprise_PageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE] = '1';
-        $this->assertFalse($this->_model->isAllowed());
-    }
-
-    public function testIsAllowedNoCacheGetParam()
-    {
-        $this->assertTrue($this->_model->isAllowed());
-        $_GET['no_cache'] = '1';
         $this->assertFalse($this->_model->isAllowed());
     }
 

@@ -15,11 +15,11 @@
 class Mage_Backend_Block_Widget_FormTest extends Mage_Backend_Area_TestCase
 {
     /**
-     * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php
      * @magentoAppIsolation enabled
      */
     public function testSetFieldset()
     {
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         $layout = Mage::getObjectManager()->create('Mage_Core_Model_Layout');
         $formBlock = $layout->addBlock('Mage_Backend_Block_Widget_Form');
         $fieldSet = Mage::getObjectManager()->create('Varien_Data_Form_Element_Fieldset');
