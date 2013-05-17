@@ -12,13 +12,6 @@ require_once 'Mage/ImportExport/controllers/Adminhtml/ImportController.php';
 class Saas_ImportExport_Adminhtml_ImportController extends Mage_ImportExport_Adminhtml_ImportController
 {
     /**
-     * Event manager model
-     *
-     * @var Mage_Core_Model_Event_Manager
-     */
-    protected $_eventManager;
-
-    /**
      * Import state helper
      *
      * @var Saas_ImportExport_Helper_Import_State
@@ -26,31 +19,18 @@ class Saas_ImportExport_Adminhtml_ImportController extends Mage_ImportExport_Adm
     protected $_stateHelper;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
-     * @param Mage_Core_Model_Event_Manager $eventManager
+     * Constructor
+     *
+     * @param Mage_Backend_Controller_Context $context
      * @param Saas_ImportExport_Helper_Import_State $stateHelper
-     * @param string $areaCode
-     * @param array $invokeArgs
+     * @param string|null $areaCode
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
-        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Controller_Context $context,
         Saas_ImportExport_Helper_Import_State $stateHelper,
-        $areaCode = null,
-        array $invokeArgs = array()
+        $areaCode = null
     ) {
-        parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $areaCode,
-            $invokeArgs);
-
-        $this->_eventManager = $eventManager;
+        parent::__construct($context, $areaCode);
         $this->_stateHelper = $stateHelper;
     }
 

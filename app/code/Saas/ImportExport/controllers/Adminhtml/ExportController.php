@@ -10,18 +10,6 @@
 class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * @var Mage_Core_Model_Authorization
-     */
-    protected $_authorizationModel;
-
-    /**
-     * Event manager model
-     *
-     * @var Mage_Core_Model_Event_Manager
-     */
-    protected $_eventManager;
-
-    /**
      * @var Saas_ImportExport_Helper_Export_State
      */
     protected $_stateHelper;
@@ -32,36 +20,20 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
     protected $_fileHelper;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
-     * @param Mage_Core_Model_Authorization $authorizationModel
-     * @param Mage_Core_Model_Event_Manager $eventManager
+     * Constructor
+     *
+     * @param Mage_Backend_Controller_Context $context
      * @param Saas_ImportExport_Helper_Export_State $stateHelper
      * @param Saas_ImportExport_Helper_Export_File $fileHelper
-     * @param string $areaCode
-     * @param array $invokeArgs
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @param string|null $areaCode
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
-        Mage_Core_Model_Authorization $authorizationModel,
-        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Controller_Context $context,
         Saas_ImportExport_Helper_Export_State $stateHelper,
         Saas_ImportExport_Helper_Export_File $fileHelper,
-        $areaCode = null,
-        array $invokeArgs = array()
+        $areaCode = null
     ) {
-        parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $areaCode,
-            $invokeArgs);
-        $this->_authorizationModel = $authorizationModel;
-        $this->_eventManager = $eventManager;
+        parent::__construct($context, $areaCode);
         $this->_stateHelper = $stateHelper;
         $this->_fileHelper = $fileHelper;
     }
@@ -84,7 +56,7 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
      */
     protected function _isAllowed()
     {
-        return $this->_authorizationModel->isAllowed('Mage_ImportExport::export');
+        return $this->_authorization->isAllowed('Mage_ImportExport::export');
     }
 
     /**
