@@ -22,8 +22,9 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
      * @param Varien_Data_Form_Element_Abstract $element
      * @return string
      */
-    protected function _getExtraJs($element)
+    public function render(Varien_Data_Form_Element_Abstract $element)
     {
+        $this->setElement($element);
         $authMethodCredentials = Saas_Paypal_Model_System_Config_Source_AuthenticationMethod::TYPE_API_CREDENTIALS;
         $js = '
             document.observe("dom:loaded", function() {
@@ -428,7 +429,6 @@ class Saas_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                 });*/
             });
         ';
-        return parent::_getExtraJs($element)
-            . $this->helper('Mage_Adminhtml_Helper_Js')->getScript($js);
+        return $this->toHtml() . $this->helper('Mage_Adminhtml_Helper_Js')->getScript($js);
     }
 }
