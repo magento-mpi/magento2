@@ -72,7 +72,11 @@ class Saas_Launcher_TesttransactionController extends Mage_Core_Controller_Front
     {
         if (!$this->_cartModel->getQuote()->getItemsCount()) {
             $products = $this->_productModel->getResourceCollection()
-                ->addFieldToFilter('status', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+                ->addFieldToFilter('status', Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+                ->addFieldToFilter('type_id', array(
+                    Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL,
+                    Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
+                ));
             if ($products->count()) {
                 $productId = $products->addAttributeToSort('entity_id', 'ASC')->getFirstItem()->getId();
                 $product = $this->_productModel->load($productId);
