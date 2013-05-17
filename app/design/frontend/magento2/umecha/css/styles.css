@@ -4527,6 +4527,17 @@ body.type-bundle {
   display: inline-block;
   float: none;
 }
+.block.widget.viewed .products.list.items.widget-viewed-list .item.product {
+  display: inline;
+  float: left;
+  width: 100%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  float: none;
+}
 .block.related .actions {
   margin: 10px 0;
 }
