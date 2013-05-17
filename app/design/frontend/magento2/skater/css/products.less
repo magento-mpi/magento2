@@ -372,7 +372,13 @@
 }
 
 .block.widget.viewed {
+    clear: both;
     .products.list.items > .item {
+        .product.photo {
+            .photo {
+                margin: 0 auto;
+            }
+        }
         .addto.links .action {
             display: inline-block;
             margin: 0 0 0 -1px;
@@ -384,9 +390,19 @@
             }
         }
     }
+    .products.list.items.widget-viewed-list {
+        .product.actions .primary {
+            text-align:left;
+        }
+        .product.photo {
+            .photo {
+                margin: 0 9px 0 0;
+            }
+        }
+    }
 }
 
-.col3-layout .block.widget.viewed,
+.col3-layout .block.widget.viewed.grid,
 .col3-layout .block.upsell,
 .col3-layout .block.related {
     .products.list .item.product {
