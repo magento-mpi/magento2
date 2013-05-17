@@ -1,6 +1,6 @@
 <?php
 /**
- * Dataservice factory
+ * Dataservice graph.  Manages creation and storage of dataservices.
  *
  * @copyright   {copyright}
  * @license     {license_link}
@@ -38,24 +38,24 @@ class Mage_Core_Model_Dataservice_Graph implements Mage_Core_Model_Dataservice_P
      * takes array of the following structure
      * and initializes all of the data sources
      *
-     *  array(dataServiceName => array(
+     *  array(dataserviceName => array(
      *      blocks => array(
      *          'namespace' => aliasInNamespace
      *      ))
      *
-     * @param array $dataServicesList
+     * @param array $dataservicesList
      * @return Mage_Core_Model_Dataservice_Graph
      * @throws Exception
      */
-    public function init(array $dataServicesList)
+    public function init(array $dataservicesList)
     {
-        foreach ($dataServicesList as $dataServiceName => $namespaceConfig) {
-            $this->get($dataServiceName);
+        foreach ($dataservicesList as $dataserviceName => $namespaceConfig) {
+            $this->get($dataserviceName);
             if (!isset($namespaceConfig['namespaces'])) {
                 throw new Exception("Data reference configuration doesn't have a block to link to");
             }
             foreach ($namespaceConfig['namespaces'] as $namespaceName => $aliasInNamespace) {
-                $this->_repository->addNameInNamespace($namespaceName, $dataServiceName, $aliasInNamespace);
+                $this->_repository->addNameInNamespace($namespaceName, $dataserviceName, $aliasInNamespace);
             }
         }
         return $this;
@@ -69,12 +69,12 @@ class Mage_Core_Model_Dataservice_Graph implements Mage_Core_Model_Dataservice_P
      */
     public function get($sourceName)
     {
-        $dataService = $this->_repository->get($sourceName);
-        if ($dataService == null) {
-            $dataService = $this->_factory->initDataService($sourceName);
+        $dataservice = $this->_repository->get($sourceName);
+        if ($dataservice == null) {
+            $dataservice = $this->_factory->createDataservice($sourceName);
         }
-        $this->getRepository()->add($sourceName, $dataService);
-        return $dataService;
+        $this->getRepository()->add($sourceName, $dataservice);
+        return $dataservice;
     }
 
     /**
@@ -85,8 +85,8 @@ class Mage_Core_Model_Dataservice_Graph implements Mage_Core_Model_Dataservice_P
      */
     public function getByNamespace($namespace)
     {
-        $dataServices = $this->getRepository()->getByNamespace($namespace);
-        return $dataServices;
+        $dataservices = $this->getRepository()->getByNamespace($namespace);
+        return $dataservices;
     }
 
     /**

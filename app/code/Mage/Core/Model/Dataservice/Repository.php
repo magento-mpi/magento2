@@ -10,7 +10,7 @@ class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataserv
     /**
      * @var array of Mage_Core_Model_Dataservice_Path_Node
      */
-    protected $_dataServices = array();
+    protected $_dataservices = array();
 
     /**
      * @var array
@@ -46,24 +46,24 @@ class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataserv
         if (!isset($this->_namespaces[$namespace])) {
             return array();
         }
-        $dataServices = array();
-        $dataServicesNames = $this->_namespaces[$namespace];
-        foreach ($dataServicesNames as $name => $nameInNamespace) {
-            $dataServices[$nameInNamespace] = $this->get($name);
+        $dataservices = array();
+        $dataservicesNames = $this->_namespaces[$namespace];
+        foreach ($dataservicesNames as $name => $nameInNamespace) {
+            $dataservices[$nameInNamespace] = $this->get($name);
         }
-        return $dataServices;
+        return $dataservices;
     }
 
     /**
      * Add new service data.
      *
      * @param string $name
-     * @param Mage_Core_Model_Dataservice_Path_Node $dataService
+     * @param Mage_Core_Model_Dataservice_Path_Node $dataservice
      * @return $this
      */
-    public function add($name, $dataService)
+    public function add($name, $dataservice)
     {
-        $this->_dataServices[$name] = $dataService;
+        $this->_dataservices[$name] = $dataservice;
         return $this;
     }
 
@@ -75,10 +75,10 @@ class Mage_Core_Model_Dataservice_Repository implements Mage_Core_Model_Dataserv
      */
     public function get($name)
     {
-        if (!isset($this->_dataServices[$name])) {
+        if (!isset($this->_dataservices[$name])) {
             return null;
         }
-        return $this->_dataServices[$name];
+        return $this->_dataservices[$name];
     }
 
     /**

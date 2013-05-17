@@ -12,7 +12,7 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
     const NAMEPART = 'NAMEPART';
 
     /** @var Mage_Core_Model_Dataservice_Config */
-    protected $_dataServiceConfig;
+    protected $_dataserviceConfig;
 
     /** @var Mage_Core_Model_Config */
     protected $_config;
@@ -36,13 +36,13 @@ class Mage_Core_Model_Dataservice_ConfigTest extends PHPUnit_Framework_TestCase
         $objectManagerMock->expects($this->any())->
             method('get')->with($this->equalTo('Mage_Core_Model_App'))->will($this->returnValue($appMock));
         Mage::setObjectManager($objectManagerMock);
-        $this->_dataServiceConfig = new Mage_Core_Model_Dataservice_Config($this->_config);
+        $this->_dataserviceConfig = new Mage_Core_Model_Dataservice_Config($this->_config);
     }
 
     public function testGetClassByAlias()
     {
         // result should match the config.xml file
-        $result = $this->_dataServiceConfig->getClassByAlias('alias');
+        $result = $this->_dataserviceConfig->getClassByAlias('alias');
         $this->assertNotNull($result);
         $this->assertEquals('some_class_name', $result['class']);
         $this->assertEquals('some_method_name', $result['retrieveMethod']);
