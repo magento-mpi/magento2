@@ -67,6 +67,11 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
     protected $_sortedFactory;
 
     /**
+     * @var Mage_Core_Model_Config_Loader_Local
+     */
+    protected $_localLoader;
+
+    /**
      * @param Mage_Core_Model_Config_Primary $primaryConfig
      * @param Mage_Core_Model_Dir $dirs
      * @param Mage_Core_Model_Config_BaseFactory $prototypeFactory
@@ -74,6 +79,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
      * @param Mage_Core_Model_Config_Loader_Modules_File $fileReader
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Config_Modules_SortedFactory $sortedFactory
+     * @param Mage_Core_Model_Config_Loader_Local $localLoader
      * @param array $allowedModules
      */
     public function __construct(
@@ -84,6 +90,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         Mage_Core_Model_Config_Loader_Modules_File $fileReader,
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Config_Modules_SortedFactory $sortedFactory,
+        Mage_Core_Model_Config_Loader_Local $localLoader,
         array $allowedModules = array()
     ) {
         $this->_dirs = $dirs;
@@ -94,6 +101,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         $this->_fileReader = $fileReader;
         $this->_objectManager = $objectManager;
         $this->_sortedFactory = $sortedFactory;
+        $this->_localLoader = $localLoader;
     }
 
     /**
@@ -122,7 +130,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         Magento_Profiler::stop('load_modules_configuration');
 
         // Prevent local configuration overriding
-        $config->extend($this->_primaryConfig);
+        $this->_localLoader->load($config);
 
         $config->applyExtends();
 
