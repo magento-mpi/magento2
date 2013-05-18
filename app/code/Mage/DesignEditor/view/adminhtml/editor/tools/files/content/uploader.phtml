@@ -11,20 +11,21 @@
 <?php
 /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content_Uploader */
 ?>
-<div id="<?php echo $this->getHtmlId() ?>" class="uploader no-display">
-    <div class="clear"></div>
-    <div class="no-display" data-template="<?php echo $this->getHtmlId() ?>-template">
-        <div id="{{id}}" class="file-row">
-            <div class="progressbar-container">
-                <span class="file-info-name">{{name}}</span>
-                <span class="file-info-size">({{size}})</span>
-                <span class="file-info-cancel">
-                    <button class="action-delete" data-delete-file="{{id}}">
-                        <span><?php echo $this->__('Remove'); ?></span>
-                    </button>
-                </span>
-                <div class="progressbar upload-progress"></div>
-            </div>
+<div class="scroll-assets">
+    <div id="<?php echo $this->getHtmlId() ?>" class="uploader no-display">
+        <div class="clear"></div>
+        <div class="no-display" data-template="<?php echo $this->getHtmlId() ?>-template">
+            <div id="{{id}}" class="file-row">
+                <div class="progressbar-container">
+                    <span class="file-info-name">{{name}}</span>
+                    <span class="file-info-size">({{size}})</span>
+                    <span class="file-info-cancel">
+                        <button class="action-delete" data-delete-file="{{id}}">
+                            <span><?php echo $this->__('Remove'); ?></span>
+                        </button>
+                    </span>
+                    <div class="progressbar upload-progress"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -32,7 +33,9 @@
 <div id="contents"></div>
 <div class="form-buttons">
     <span class="fileinput-button">
-            <button class="action-default primary" data-action="browse" type="submit"><?php echo $this->__('Browse Files'); ?></button>
+            <button class="action-default primary" data-action="browse" type="submit">
+                <?php echo $this->__('Browse Files'); ?>
+            </button>
             <input id="fileupload" type="file" name="<?php echo $this->getConfig()->getFileField() ?>"
                    data-url="<?php echo $this->getConfig()->getUrl() ?>" multiple>
     </span>
