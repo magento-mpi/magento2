@@ -131,6 +131,7 @@ class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testCapture()
     {
+        $this->markTestIncomplete('MAGETWO-10202');
         /**
          * To avoid complicated environment emulation for online payment,
          * we can check if proper error message from payment gateway was received or not.
@@ -150,6 +151,7 @@ class Mage_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testVoid()
     {
+        $this->markTestIncomplete('MAGETWO-10202');
         /**
          * To avoid complicated environment emulation for online voiding,
          * we can check if proper error message from payment gateway was received or not.
