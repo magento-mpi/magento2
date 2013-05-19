@@ -24,7 +24,7 @@ class Saas_Paypal_Model_Boarding_Express extends Mage_Paypal_Model_Express
      *
      * @var string
      */
-    protected $_formBlockType = 'Saas_Paypal_Model_Boarding_Express_Form';
+    protected $_formBlockType = 'Saas_Paypal_Block_Boarding_Express_Form';
 
     /**
      * Website Payments Pro instance type
