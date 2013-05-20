@@ -7,7 +7,7 @@
  */
 class Mage_Core_Model_Dataservice_Factory
 {
-    const DATASERVICE_PATH_SEPERATOR = '.';
+    const DATASERVICE_PATH_SEPARATOR = '.';
     /**
      * @var Mage_Core_Model_Dataservice_Config_Interface
      */
@@ -35,8 +35,7 @@ class Mage_Core_Model_Dataservice_Factory
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Dataservice_Path_Composite $composite,
         Mage_Core_Model_Dataservice_Path_Navigator $pathNavigator
-    )
-    {
+    ) {
         $this->_config = $config;
         $this->_objectManager = $objectManager;
         $this->_composite = $composite;
@@ -111,7 +110,7 @@ class Mage_Core_Model_Dataservice_Factory
     public function getArgumentValue($path)
     {
         // convert from '{parent.child}' format to array('parent', 'child') format
-        $pathArray = explode(self::DATASERVICE_PATH_SEPERATOR, trim($path, '{}'));
+        $pathArray = explode(self::DATASERVICE_PATH_SEPARATOR, trim($path, '{}'));
         return $this->_pathNavigator->search($this->_composite, $pathArray);
     }
 }

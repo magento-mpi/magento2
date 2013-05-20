@@ -20,8 +20,7 @@ class Mage_Core_Model_Dataservice_Graph implements Mage_Core_Model_Dataservice_P
     public function __construct(
         Mage_Core_Model_Dataservice_Factory $factory,
         Mage_Core_Model_Dataservice_Repository $repository
-    )
-    {
+    ) {
         $this->_factory = $factory;
         $this->_repository = $repository;
     }
