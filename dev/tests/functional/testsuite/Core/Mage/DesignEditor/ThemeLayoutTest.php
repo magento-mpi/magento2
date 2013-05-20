@@ -75,6 +75,9 @@ class Core_Mage_DesignEditor_ThemeLayoutTest extends Mage_Selenium_TestCase
         $blockDraggable = $this->designEditorHelper()->getBlock(self::DRAGGABLE_VDE_BLOCK_NAME, true);
         $destination = $this->designEditorHelper()->getBlock(self::CONTENT_VDE_BLOCK_NAME, true);
         $this->designEditorHelper()->dragBlock($blockDraggable, $destination);
+        $this->assertEquals($destination->attribute('data-name'),
+            $this->getContainer($blockDraggable, true)->attribute('data-name')
+        );
 
         // Switch to navigation mode, open required page
         $this->designEditorHelper()->selectModeSwitcher('Disabled');
@@ -83,8 +86,8 @@ class Core_Mage_DesignEditor_ThemeLayoutTest extends Mage_Selenium_TestCase
         $this->clickButton('search', false);
 
         // Verify that changes are applied
-        $container = $this->vdeHelper()->getContainer(
-            $this->vdeHelper()->getBlock(self::DRAGGABLE_FRONT_BLOCK_NAME)
+        $container = $this->designEditorHelper()->getContainer(
+            $this->designEditorHelper()->getBlock(self::DRAGGABLE_FRONT_BLOCK_NAME)
         );
         $this->assertEquals(self::CONTENT_FRONT_BLOCK_NAME, $container->attribute('class'));
         $this->assertNull($this->vdeHelper()->getBlock(self::REMOVABLE_FRONT_BLOCK_NAME));

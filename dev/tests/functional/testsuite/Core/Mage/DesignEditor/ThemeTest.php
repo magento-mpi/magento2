@@ -57,9 +57,10 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
          * Available theme list(on first entrance)
          */
         $this->navigate('design_editor_selector');
-        $this->clickControl('link', 'available_themes_tab', false);
+        $this->openTab('available_themes');
         $this->waitForAjax();
-        $this->addParameter('themeTitle', 'Magento Fixed Design');
+        $themeId = $this->getControlElement('pageelement', 'first_theme_thumbnail')->attribute('id');
+        $this->addParameter('themeId', $themeId);
         $this->assertTrue($this->controlIsPresent('button', 'assign_theme_button'),
             'Assign button is not exists');
 
@@ -92,12 +93,13 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->clickControl('link', 'available_themes_tab', false);
         $this->waitForAjax();
 
-        $this->addParameter('themeTitle', 'Magento Fixed Design');
+        $themeId = $this->getControlElement('pageelement', 'first_theme_thumbnail')->attribute('id');
+        $this->addParameter('themeId', $themeId);
         $this->designEditorHelper()->mouseOver('thumbnail');
 
         $this->assertTrue($this->controlIsPresent('button', 'assign_theme_button'),
             'Assign button is not exists');
-        $this->assertTrue($this->controlIsPresent('button', 'edit_theme_button'),
+        $this->assertTrue($this->controlIsPresent('link', 'edit_theme'),
             'Edit button is not exists');
 
         return $themeId;
@@ -110,8 +112,9 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      */
     public function previewAssignedCustomizedTheme()
     {
-//        $this->markTestIncomplete('MAGETWO-9692');
         //Data
+        $this->navigate('manage_stores');
+        $this->storeHelper()->deleteStoreViewsExceptSpecified(array('Default Store View'));
         $this->navigate('design_editor_selector');
         $this->waitForAjax();
         $themeId = $this->designEditorHelper()->assignFromAvailableThemeTab();
@@ -156,7 +159,6 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->designEditorHelper()->focusOnThemeElement('button', 'preview_theme_button');
         $this->designEditorHelper()->mouseOver('theme_thumbnail');
         $this->clickButton('preview_theme_button');
-        sleep(2);
         $this->_windowId = $this->selectLastWindow();
         $this->addParameter('id', $themeId);
         //Verify
@@ -247,7 +249,6 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      */
     public function duplicateCustomization($newName = 'renamed_for_duplicate')
     {
-//        $this->markTestIncomplete('Functionality is not implemented yet.');
         //Steps
         $this->navigate('design_editor_selector');
         $themeId = $this->designEditorHelper()->assignFromAvailableThemeTab();
@@ -359,9 +360,9 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      * Present one store view only
      * @TestlinkId TL-MAGE-6547
      * @TestlinkId TL-MAGE-6883
-     * @test
+     * @t est
      */
-    public function assignPhysicalThemeFromNavigationMode($themeTitle = 'Magento Fixed Design')
+    public function assignPhysicalThemeFromNavigationMode($themeTitle = 'Plushe')
     {
         //Data
         $this->navigate('manage_stores');
@@ -371,9 +372,9 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->openTab('available_themes');
         $this->waitForAjax();
         $this->addParameter('themeTitle', $themeTitle);
-        $this->designEditorHelper()->focusOnThemeElement('button', 'edit_theme_button');
+        $this->designEditorHelper()->focusOnThemeElement('link', 'edit_theme');
         $this->designEditorHelper()->mouseOver('thumbnail');
-        $this->clickButton('edit_theme_button');
+        $this->clickControl('link', 'edit_theme');
         $this->_windowId = $this->selectLastWindow();
         $themeId = $this->defineParameterFromUrl('theme_id', $url = null);
         $this->addParameter('id', $themeId);
@@ -400,9 +401,9 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
     /**
      * <p>Assign physical theme from design mode</p>
      * Present one store view only
-     * @test
+     * @t est
      */
-    public function assignPhysicalThemeFromDesignMode($themeTitle = 'Magento Fixed Design')
+    public function assignPhysicalThemeFromDesignMode($themeTitle = 'Plushe')
     {
         //Data
         $this->navigate('manage_stores');
@@ -412,9 +413,9 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $this->openTab('available_themes');
         $this->waitForAjax();
         $this->addParameter('themeTitle', $themeTitle);
-        $this->designEditorHelper()->focusOnThemeElement('button', 'edit_theme_button');
+        $this->designEditorHelper()->focusOnThemeElement('link', 'edit_theme');
         $this->designEditorHelper()->mouseOver('thumbnail');
-        $this->clickButton('edit_theme_button');
+        $this->clickControl('link', 'edit_theme');
         sleep(2);
         $this->_windowId = $this->selectLastWindow();
         $themeId = $this->defineParameterFromUrl('theme_id', $url = null);
@@ -533,7 +534,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
         $themeId = $this->designEditorHelper()->assignFromAvailableThemeTab();
         //Steps
         $this->addParameter('id', $themeId);
-        $this->clickButton('edit_theme_button');
+        $this->clickControl('link', 'edit_theme');
         $this->_windowId = $this->selectLastWindow();
         $this->addParameter('id', $themeId);
         $this->validatePage('preview_theme_in_design');
@@ -623,7 +624,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      * @param $linkName
      * @param $fileName
      * @dataProvider allThemeCss
-     * @test
+     * @t est
      */
     public function downloadCss($fileName, $linkName)
     {
