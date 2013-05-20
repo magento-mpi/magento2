@@ -131,13 +131,13 @@
                     $('[data-action="browse"]').addClass('primary');
                     $('#contents').removeClass('no-display');
                     $('#<?php echo $this->getHtmlId() ?>').addClass('no-display').removeClass('uploader');
+                    MediabrowserInstance.handleUploadComplete();
                 }
 
                 var progressSelector = '#' + data.fileId + ' .progressbar-container .progressbar';
                 $(progressSelector).css('width','100%');
                 if (data.result && !data.result.hasOwnProperty('errorcode')) {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-success');
-                    MediabrowserInstance.handleUploadComplete();
                 } else {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
                 }
