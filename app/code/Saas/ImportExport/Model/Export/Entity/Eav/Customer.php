@@ -37,8 +37,7 @@ class Saas_ImportExport_Model_Export_Entity_Eav_Customer extends Mage_ImportExpo
      */
     public function exportCollection()
     {
-        $collection = $this->getCollection();
-        foreach ($collection as $item) {
+        foreach ($this->getCollection() as $item) {
             $this->exportItem($item);
         }
     }

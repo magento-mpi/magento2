@@ -47,7 +47,7 @@ class Saas_ImportExport_Model_Export_Entity_Product  extends Mage_ImportExport_M
     public function getHeaderColumns()
     {
         $headerCols = $this->_getHeaderColumns();
-//      collect header columns
+        //  collect header columns
         if (!$headerCols) {
             $this->_getExportData();
         }
@@ -67,9 +67,8 @@ class Saas_ImportExport_Model_Export_Entity_Product  extends Mage_ImportExport_M
      */
     public function exportCollection()
     {
-        $exportData = $this->_getExportData();
         $writer = $this->getWriter();
-        foreach ($exportData as $dataRow) {
+        foreach ($this->_getExportData() as $dataRow) {
             $writer->writeRow($dataRow);
         }
     }

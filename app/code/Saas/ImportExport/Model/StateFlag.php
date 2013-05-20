@@ -18,11 +18,10 @@ abstract class Saas_ImportExport_Model_StateFlag extends Mage_Core_Model_Flag
     const STATE_NOTIFIED   = 4;
     /**#@-*/
 
-    /**#@+
+    /**
      * Flag max lifetime after last update
      */
     const FLAG_LIFETIME = 120;
-    /**#@-*/
 
     /**
      * Load flag data

@@ -47,7 +47,7 @@ class Saas_ImportExport_Model_Export extends Varien_Object
     /**
      * @var array
      */
-    protected $_params = array();
+    protected $_options = array();
 
     /**
      * Constructor
@@ -85,48 +85,33 @@ class Saas_ImportExport_Model_Export extends Varien_Object
     /**
      * Export process
      *
-     * @param array $params
+     * @param array $options
      */
-    public function export($params)
+    public function export($options)
     {
-        $this->_initParams($params);
+        $this->_init($options);
         $this->_paginateCollection();
         if ($this->_isCanExport()) {
-            $this->_saveHeaderColumns();
             $this->_export();
-            $this->_saveExportState();
         } else {
             $this->_finishExport();
         }
     }
 
     /**
-     * Start exporting
-     */
-    protected function _export()
-    {
-        try {
-            $this->_exportEntity->exportCollection();
-        } catch (Exception $e) {
-            $this->_finishExport();
-            Mage::logException($e);
-        }
-    }
-
-    /**
      * Init parameters needed for export
      *
-     * @param array $params
+     * @param array $options
      */
-    protected function _initParams($params)
+    protected function _init($options)
     {
         try {
-            $this->_params = $params;
+            $this->_options = $options;
             $this->_storageAdapter = $this->_storageAdapterFactory->create(
                 $this->_getStorageFormat(),
                 $this->_configHelper->getStorageFilePath($this->_getEntityType())
             );
-            $this->_exportEntity = $this->_exportEntityFactory->create($this->_getEntityType(), $params);
+            $this->_exportEntity = $this->_exportEntityFactory->create($this->_getEntityType(), $options);
             $this->_exportEntity->setStorageAdapter($this->_storageAdapter);
             $this->_exportEntity->prepareCollection();
             if ($this->_getCurrentPage() == 1) {
@@ -157,10 +142,22 @@ class Saas_ImportExport_Model_Export extends Varien_Object
      */
     protected function _isCanExport()
     {
-        if (!$this->_exportEntity->getCollection()->getSize()) {
-            return false;
+        return (bool)$this->_exportEntity->getCollection()->getSize();
+    }
+
+    /**
+     * Start exporting
+     */
+    protected function _export()
+    {
+        try {
+            $this->_saveHeaderColumns();
+            $this->_exportEntity->exportCollection();
+            $this->_saveExportState();
+        } catch (Exception $e) {
+            $this->_finishExport();
+            Mage::logException($e);
         }
-        return true;
     }
 
     /**
@@ -190,36 +187,6 @@ class Saas_ImportExport_Model_Export extends Varien_Object
     }
 
     /**
-     * Get export entity type
-     *
-     * @return string
-     */
-    protected function _getEntityType()
-    {
-        return isset($this->_params['entity']) ? $this->_params['entity'] : '';
-    }
-
-    /**
-     * Get export storage file format
-     *
-     * @return string
-     */
-    protected function _getStorageFormat()
-    {
-        return isset($this->_params['file_format']) ? $this->_params['file_format'] : '';
-    }
-
-    /**
-     * Get current page
-     *
-     * @return int
-     */
-    protected function _getCurrentPage()
-    {
-        return isset($this->_params['page']) ? $this->_params['page'] : 1;
-    }
-
-    /**
      * Set finished flag as true and try save export file
      *
      * @param bool $saveFile
@@ -232,5 +199,35 @@ class Saas_ImportExport_Model_Export extends Varien_Object
             $exportFile = $this->_storageAdapter->renameTemporaryFile();
             $this->_stateHelper->saveExportFilename($exportFile);
         }
+    }
+
+    /**
+     * Get export entity type
+     *
+     * @return string
+     */
+    protected function _getEntityType()
+    {
+        return isset($this->_options['entity']) ? $this->_options['entity'] : '';
+    }
+
+    /**
+     * Get export storage file format
+     *
+     * @return string
+     */
+    protected function _getStorageFormat()
+    {
+        return isset($this->_options['file_format']) ? $this->_options['file_format'] : '';
+    }
+
+    /**
+     * Get current page
+     *
+     * @return int
+     */
+    protected function _getCurrentPage()
+    {
+        return isset($this->_options['page']) ? $this->_options['page'] : 1;
     }
 }
