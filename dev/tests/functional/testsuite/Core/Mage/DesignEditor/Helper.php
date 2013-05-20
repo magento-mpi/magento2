@@ -62,16 +62,20 @@ class Core_Mage_DesignEditor_Helper extends Mage_Selenium_AbstractHelper
      */
     public function assignFromAvailableThemeTab($themeTitle = 'Magento Fixed Design')
     {
-        $this->clickControl('link', 'available_themes_tab', false);
+        $this->openTab('available_themes');
         $this->waitForAjax();
         $this->addParameter('themeTitle', $themeTitle);
-        $this->mouseOver('thumbnail');
         $this->focusOnThemeElement('button', 'assign_theme_button');
-        $this->clickButtonAndConfirm('assign_theme_button', 'confirmation_for_assign_to_default', false);
+        $this->mouseOver('thumbnail');
+        $this->clickButton('assign_theme_button', false);
+        $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'assign_theme_confirmation');
+        $this->assertTrue($this->controlIsPresent(self::UIMAP_TYPE_MESSAGE, 'confirmation_for_assign_to_default'));
+        $this->clickButton('assign', false);
+        sleep(2);
         $this->_windowId = $this->selectLastWindow();
         $themeId = $this->defineParameterFromUrl('theme_id', $url = null);
         $this->addParameter('id', $themeId);
-        $this->validatePage('assigned_theme_default_in_design');
+        $this->validatePage('assigned_theme_default_in_navigation');
 
         $this->closeWindow($this->_windowId);
         $this->selectLastWindow();
@@ -90,6 +94,103 @@ class Core_Mage_DesignEditor_Helper extends Mage_Selenium_AbstractHelper
         $availableElement = $this->elementIsPresent($locator);
         $this->focusOnElement($availableElement);
         $this->pleaseWait();
+    }
+
+    /**
+     * Drag and drop VDE block in design mode
+     *
+     * @param PHPUnit_Extensions_Selenium2TestCase_Element $block
+     * @param PHPUnit_Extensions_Selenium2TestCase_Element $destinationContainer
+     * @return Core_Mage_Vde_Helper
+     */
+    public function dragBlock($block, $destinationContainer)
+    {
+        $this->assertNotNull($block, 'Unable to drag block: element not exists');
+        $block->click();
+        $this->moveto($block);
+        $this->buttondown();
+        $this->moveto($destinationContainer);
+        $this->buttonup();
+        $this->waitForPageToLoad();
+        $this->assertEquals($destinationContainer->attribute('data-name'),
+            $this->getContainer($block, true)->attribute('data-name')
+        );
+
+        return $this;
+    }
+
+    /**
+     * Get block element by data-name or class name
+     *
+     * @param string $name data-name attribute in design mode or class name in navigation mode
+     * @param bool $designMode
+     * @return null|PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+
+    public function getBlock($name, $designMode = false)
+    {
+        if ($designMode) {
+            $mode = 'design';
+            $this->addParameter('dataName', $name);
+        } else {
+            $mode = 'navigation';
+            $this->addParameter('className', $name);
+        }
+        $this->setVdePage($mode);
+        if ($this->controlIsPresent('fieldset', 'iframe')) {
+            $this->frame('vde_container_frame');
+        }
+        if ($this->controlIsPresent('pageelement', 'vde_element')) {
+            return $this->getElement($this->_getControlXpath('pageelement', 'vde_element'));
+        }
+
+        return null;
+    }
+
+    /**
+     * Get wrapper element
+     *
+     * @param PHPUnit_Extensions_Selenium2TestCase_Element $block
+     * @param bool $designMode
+     * @return null|PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+    public function getContainer($block, $designMode = false)
+    {
+        if ($designMode) {
+            $mode = 'design';
+            $this->addParameter('dataName', $block->attribute('data-name'));
+        } else {
+            $mode = 'navigation';
+            $this->addParameter('className', $block->attribute('class'));
+        }
+        $this->setVdePage($mode);
+        if ($this->controlIsPresent('fieldset', 'iframe')) {
+            $this->frame('vde_container_frame');
+        }
+        $xpath = $this->_getControlXpath('pageelement', 'vde_element') . "/parent::div/parent::div";
+        if ($this->elementIsPresent($xpath)) {
+            return $this->getElement($xpath);
+        }
+
+        return null;
+    }
+
+    /**
+     * Set area and current page in design or layout mode
+     *
+     * @param string $mode
+     * @param string $frontPage
+     */
+    public function setVdePage($mode, $frontPage = '')
+    {
+        if ($mode == 'navigation' && $frontPage != '') {
+            // Set provided frontend page as current in navigation mode
+            $this->setArea('frontend');
+            $this->setCurrentPage($frontPage);
+        } else {
+            $this->getArea() == 'admin' ? : $this->setArea('admin');
+            $this->getCurrentPage() == 'vde_' . $mode ? : $this->setCurrentPage('vde_' . $mode);
+        }
     }
 
 }
