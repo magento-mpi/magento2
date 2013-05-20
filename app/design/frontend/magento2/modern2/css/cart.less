@@ -185,6 +185,14 @@
 .cart.table.wrapper {
     float: left;
     width: 650px;
+    .action.delete {
+        position: relative;
+        span:after {
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+    }
 }
 
 .cart.summary {
@@ -509,7 +517,8 @@
             font-size: 14px;
         }
     }
-    .giftcard {
+    .giftcard,
+    .storecredit {
         .amount span {
             white-space: nowrap;
         }
