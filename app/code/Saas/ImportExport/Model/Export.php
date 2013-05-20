@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_ImportExport_Model_Export extends Varien_Object
+class Saas_ImportExport_Model_Export
 {
     /**
      * @var Saas_ImportExport_Model_Export_EntityInterface
@@ -56,16 +56,13 @@ class Saas_ImportExport_Model_Export extends Varien_Object
      * @param Saas_ImportExport_Model_Export_StorageFactory $storageFactory
      * @param Saas_ImportExport_Helper_Export_Config $configHelper
      * @param Saas_ImportExport_Helper_Export_State $stateHelper
-     * @param array $data
      */
     public function __construct(
         Saas_ImportExport_Model_Export_EntityFactory $entityFactory,
         Saas_ImportExport_Model_Export_StorageFactory $storageFactory,
         Saas_ImportExport_Helper_Export_Config $configHelper,
-        Saas_ImportExport_Helper_Export_State $stateHelper,
-        array $data = array()
+        Saas_ImportExport_Helper_Export_State $stateHelper
     ) {
-        parent::__construct($data);
         $this->_exportEntityFactory = $entityFactory;
         $this->_storageAdapterFactory = $storageFactory;
         $this->_configHelper = $configHelper;

@@ -18,13 +18,6 @@ abstract class Saas_ImportExport_Model_System_Message_Abstract
     protected $_stateHelper;
 
     /**
-     * Index helper
-     *
-     * @var Saas_ImportExport_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Flag is displayed
      *
      * @var bool
@@ -33,14 +26,11 @@ abstract class Saas_ImportExport_Model_System_Message_Abstract
 
     /**
      * @param Saas_ImportExport_Helper_StateAbstract $stateHelper
-     * @param Saas_ImportExport_Helper_Data $helper
      */
     public function __construct(
-        Saas_ImportExport_Helper_StateAbstract $stateHelper,
-        Saas_ImportExport_Helper_Data $helper
+        Saas_ImportExport_Helper_StateAbstract $stateHelper
     ) {
         $this->_stateHelper = $stateHelper;
-        $this->_helper = $helper;
     }
 
     /**

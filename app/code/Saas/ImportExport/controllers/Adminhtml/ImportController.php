@@ -65,7 +65,7 @@ class Saas_ImportExport_Adminhtml_ImportController extends Mage_ImportExport_Adm
     {
         $this->_initAction()
             ->_title($this->__('System Busy'));
-        /** @var Mage_Core_Block_Template $block */
+        /** @var Saas_ImportExport_Block_Adminhtml_Import_Busy $block */
         $block = $this->getLayout()->getBlock('busy');
         if (!$block) {
             throw new RuntimeException('Busy block is not found.');
@@ -80,9 +80,15 @@ class Saas_ImportExport_Adminhtml_ImportController extends Mage_ImportExport_Adm
     public function startAction()
     {
         if ($this->getRequest()->isPost()) {
-            $this->_stateHelper->setTaskAsQueued();
-            $this->_eventManager->dispatch($this->_getEventName());
-            $this->_getImportFrameBlock()->addSuccess($this->__('Import task has been added to queue.'));
+            try {
+                $this->_stateHelper->setTaskAsQueued();
+                $this->_eventManager->dispatch($this->_getEventName());
+                $this->_getImportFrameBlock()->addSuccess($this->__('Import task has been added to queue.'));
+            } catch (Exception $e) {
+                $this->_stateHelper->setTaskAsNotified();
+                $this->_getImportFrameBlock()->addError(
+                    $this->__('Import task has not been added to queue. Please try again later'));
+            }
             $this->renderLayout();
         } else {
             $this->_redirect('*/*/index');

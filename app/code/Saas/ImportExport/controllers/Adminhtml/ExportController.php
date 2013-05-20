@@ -108,6 +108,7 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
                 ));
                 $this->_getSession()->addSuccess($this->__('Export task has been added to queue.'));
             } catch (Exception $e) {
+                $this->_stateHelper->setTaskAsNotified();
                 $this->_logger->logException($e);
                 $this->_getSession()->addError($this->__('No valid data sent.'));
             }
