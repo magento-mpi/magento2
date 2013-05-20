@@ -2790,7 +2790,6 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('index_setup', '1.6.0.0', '1.6.0.0'),
 	('launcher_setup', '2.0.0.0', '2.0.0.0'),
 	('log_setup', '1.6.0.0', '1.6.0.0'),
-	('moneybookers_setup', '1.6.0.0', '1.6.0.0'),
 	('newsletter_setup', '1.6.0.2', '1.6.0.2'),
 	('ogone_setup', '1.6.0.0', '1.6.0.0'),
 	('paygate_setup', '1.6.0.0', '1.6.0.0'),

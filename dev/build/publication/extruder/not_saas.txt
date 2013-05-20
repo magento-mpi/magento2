@@ -1,7 +1,6 @@
 # Files or directories that are not part of Go Edition.
 #
 CHANGELOG.markdown
-app/code/Phoenix
 app/code/Enterprise/AdminGws
 app/code/Enterprise/BannerCustomerSegment
 app/code/Enterprise/CatalogEvent
@@ -57,7 +56,6 @@ dev/tests/integration/testsuite/Mage/Connect
 dev/tests/integration/testsuite/Mage/Downloadable
 dev/tests/integration/testsuite/Mage/PageCache
 dev/tests/integration/testsuite/Mage/Webapi
-dev/tests/integration/testsuite/Phoenix
 dev/tests/static/testsuite/Integrity/Enterprise/AdminGws
 dev/tests/static/testsuite/Integrity/Enterprise/EditionTest.php
 dev/tests/static/testsuite/Legacy/Enterprise/AdminGws

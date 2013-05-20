@@ -19,7 +19,6 @@
         <word>ukpromerchant</word>
         <!-- Removed modules -->
         <word>Find_Feed</word>
-        <word>Moneybookers</word>
         <word>AdminGws</word>
         <word>CatalogEvent</word>
         <word>CatalogPermissions</word>
@@ -56,14 +55,12 @@
         <item>
             <!-- MUST be refactored -->
             <word>CustomerSegment</word>
-            <word>Moneybookers</word>
             <word>GoogleOptimizer</word>
             <path>tmt_templates/mc/en_US/db/empty_data.sql</path>
         </item>
         <item>
             <!-- MUST be refactored -->
             <word>CustomerSegment</word>
-            <word>Moneybookers</word>
             <word>GoogleOptimizer</word>
             <path>tmt_templates/mc/en_US/db/sample_data.sql</path>
         </item>
