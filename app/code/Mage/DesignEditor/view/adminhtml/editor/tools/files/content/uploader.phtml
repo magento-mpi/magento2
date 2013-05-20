@@ -48,14 +48,18 @@
     $(function () {
         $('[data-action="upload"]').on('click', function() {
             $('[data-action="upload"]').prop('disabled', true);
-            var queuedFiles = $('#fileupload').fileupload('option', 'queuedFiles');
+            var queuedFiles = $('#fileupload').assetfileupload('option', 'queuedFiles');
 
             for (var c = 0; c < queuedFiles.length; c++) {
                 queuedFiles[c].submit();
             }
         });
 
-        $('#fileupload').fileupload({
+        $.widget('mage.assetfileupload', $.blueimpFP.fileupload, {
+
+        });
+
+        $('#fileupload').assetfileupload({
             dataType: 'json',
             formData: {
                 isAjax: 'true',
@@ -83,7 +87,7 @@
 
                     $('[data-delete-file="' + data.fileId + '"]').on('click', function() {
                         $('#' + data.fileId).remove();
-                        var origQueuedFiles = $('#fileupload').fileupload('option', 'queuedFiles');
+                        var origQueuedFiles = $('#fileupload').assetfileupload('option', 'queuedFiles');
                         var newQueuedFiles = [];
 
                         for (var c = 0; c < origQueuedFiles.length; c++) {
@@ -93,7 +97,7 @@
                             }
                         }
 
-                        $('#fileupload').fileupload('option', 'queuedFiles', newQueuedFiles);
+                        $('#fileupload').assetfileupload('option', 'queuedFiles', newQueuedFiles);
                         if (newQueuedFiles.length === 0) {
                             $('[data-action="upload"]').addClass('no-display');
                             $('[data-action="browse"]').addClass('primary');
@@ -104,14 +108,14 @@
                 });
 
                 var that = this;
-                $(this).fileupload('process', data).done(function() {
-                    var queuedFiles = $(that).fileupload('option', 'queuedFiles');
+                $(this).assetfileupload('process', data).done(function() {
+                    var queuedFiles = $(that).assetfileupload('option', 'queuedFiles');
                     queuedFiles.push(data);
-                    $(that).fileupload('option', 'queuedFiles', queuedFiles);
+                    $(that).assetfileupload('option', 'queuedFiles', queuedFiles);
                 });
             },
             done: function(e, data) {
-                var origQueuedFiles = $('#fileupload').fileupload('option', 'queuedFiles');
+                var origQueuedFiles = $('#fileupload').assetfileupload('option', 'queuedFiles');
                 var newQueuedFiles = [];
 
                 for (var c = 0; c < origQueuedFiles.length; c++) {
@@ -120,7 +124,7 @@
                         newQueuedFiles.push(queuedFile);
                     }
                 }
-                $('#fileupload').fileupload('option', 'queuedFiles', newQueuedFiles);
+                $('#fileupload').assetfileupload('option', 'queuedFiles', newQueuedFiles);
 
                 if (newQueuedFiles.length === 0) {
                     $('[data-action="upload"]').addClass('no-display');
