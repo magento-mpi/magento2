@@ -71,6 +71,12 @@
                 $('#contents').removeClass('no-display');
                 $('#<?php echo $this->getHtmlId() ?>').addClass('no-display').removeClass('uploader');
                 MediabrowserInstance.handleUploadComplete();
+
+                $('[data-upload-id]').each(function(index, row) {
+                    if ($(row).data('upload-status') === 'success') {
+                        $(row).remove();
+                    }
+                });
             }
         });
 
@@ -122,6 +128,20 @@
                 });
             },
             done: function(e, data) {
+                var progressSelector = '[data-upload-id="' + data.fileId + '"] .progressbar';
+                $(progressSelector).css('width','100%');
+
+                var fileRow = $('[data-upload-id="' + data.fileId + '"]');
+                if (data.result && !data.result.hasOwnProperty('errorcode')) {
+                    $(progressSelector).removeClass('upload-progress').addClass('upload-success');
+
+                    fileRow.data('upload-status', 'success');
+                } else {
+                    $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
+
+                    fileRow.data('upload-status', 'failure');
+                }
+
                 var origQueuedFiles = $('#fileupload').assetfileupload('option', 'queuedFiles');
                 var newQueuedFiles = [];
 
@@ -131,18 +151,10 @@
                         newQueuedFiles.push(queuedFile);
                     }
                 }
-                $('#fileupload').assetfileupload('option', 'queuedFiles', newQueuedFiles);
 
+                $('#fileupload').assetfileupload('option', 'queuedFiles', newQueuedFiles);
                 if (newQueuedFiles.length === 0) {
                     $(this).assetfileupload('switchToRegularView');
-                }
-
-                var progressSelector = '[data-upload-id="' + data.fileId + '"] .progressbar';
-                $(progressSelector).css('width','100%');
-                if (data.result && !data.result.hasOwnProperty('errorcode')) {
-                    $(progressSelector).removeClass('upload-progress').addClass('upload-success');
-                } else {
-                    $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
                 }
             },
             progress: function(e, data) {
@@ -153,6 +165,9 @@
             fail: function(e, data) {
                 var progressSelector = '[data-upload-id="' + data.fileId + '"] .progressbar';
                 $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
+
+                var fileRow = $('[data-upload-id="' + data.fileId + '"]');
+                fileRow.data('upload-status', 'failure');
             }
         });
     });
