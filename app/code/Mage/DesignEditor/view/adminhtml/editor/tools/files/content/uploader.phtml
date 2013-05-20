@@ -59,6 +59,14 @@
             queuedFiles = $('#fileupload').assetfileupload('option', 'queuedFiles', []);
         });
 
+        $('#fileupload').on('click', function() {
+            $('[data-upload-id]').each(function(index, row) {
+                if ($(row).data('upload-status') === 'failure') {
+                    $(row).remove();
+                }
+            });
+        });
+
         $.widget('mage.assetfileupload', $.blueimpFP.fileupload, {
             switchToUploadQueueView: function() {
                 $('[data-action="upload"]').removeProp('disabled');
