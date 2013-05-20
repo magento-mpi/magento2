@@ -34,12 +34,12 @@ class Mage_GoogleOptimizer_Block_Code_Page extends Mage_GoogleOptimizer_Block_Co
     }
 
     /**
-     * Return entity (product, category, cms page)
+     * Get google experiment code model
      *
-     * @return Mage_Cms_Model_Page|Mage_Catalog_Model_Product|Mage_Catalog_Model_Category
+     * @return Mage_GoogleOptimizer_Model_Code
      */
-    protected function _getEntity()
+    protected function _getGoogleExperimentModel()
     {
-        return $this->_page;
+        return $this->_page->getGoogleExperiment();
     }
 }

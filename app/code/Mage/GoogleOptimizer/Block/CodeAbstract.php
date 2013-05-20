@@ -45,10 +45,15 @@ abstract class Mage_GoogleOptimizer_Block_CodeAbstract extends Mage_Core_Block_T
      * Get google experiment code model
      *
      * @return Mage_GoogleOptimizer_Model_Code
+     * @throws RuntimeException
      */
     protected function _getGoogleExperimentModel()
     {
-        return $this->_getEntity()->getGoogleExperiment();
+        $entity = $this->_registry->registry($this->_registryName);
+        if (!$entity) {
+            throw new RuntimeException('Register...');
+        }
+        return $entity->getGoogleExperiment();
     }
 
     /**
@@ -74,13 +79,5 @@ abstract class Mage_GoogleOptimizer_Block_CodeAbstract extends Mage_Core_Block_T
             $result = $this->_getGoogleExperimentModel()->getData('experiment_script');
         }
         return $result;
-    }
-
-    /**
-     * @return Mage_Core_Model_Abstract
-     */
-    protected function _getEntity()
-    {
-        return $this->_registry->registry($this->_registryName);
     }
 }

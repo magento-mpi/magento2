@@ -59,13 +59,14 @@ class Mage_GoogleOptimizer_Model_Observer_Product_Save
             $this->_modelCode->load($values['code_id']);
         }
 
-        $data = array(
-            'entity_type' => Mage_GoogleOptimizer_Model_Code::CODE_ENTITY_TYPE_PRODUCT,
-            'entity_id' => $product->getId(),
-            'store_id' => $product->getStoreId(),
-            'experiment_script' => $values['experiment_script'],
-        );
         if ($product->getId() && $values['experiment_script']) {
+            $data = array(
+                'entity_type' => Mage_GoogleOptimizer_Model_Code::CODE_ENTITY_TYPE_PRODUCT,
+                'entity_id' => $product->getId(),
+                'store_id' => $product->getStoreId(),
+                'experiment_script' => $values['experiment_script'],
+            );
+
             $this->_modelCode->addData($data);
             $this->_modelCode->save();
         }

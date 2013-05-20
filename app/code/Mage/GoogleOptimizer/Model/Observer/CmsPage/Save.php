@@ -47,12 +47,12 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_Save
      */
     public function saveCmsGoogleExperimentScript($observer)
     {
-        /** @var $cmsPage Mage_Cms_Model_Page */
-        $cmsPage = $observer->getEvent()->getObject();
-
         if (!$this->_helper->isGoogleExperimentActive()) {
             return $this;
         }
+
+        /** @var $cmsPage Mage_Cms_Model_Page */
+        $cmsPage = $observer->getEvent()->getObject();
 
         $values = $this->_request->getParam('google_experiment');
         if (!empty($values['code_id'])) {
@@ -60,12 +60,14 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_Save
         }
 
         if ($cmsPage->getId() && $values['experiment_script']) {
-            $this->_modelCode
-                ->setEntityType(Mage_GoogleOptimizer_Model_Code::CODE_ENTITY_TYPE_CMS)
-                ->setEntityId($cmsPage->getId())
-                ->setStoreId(0)
-                ->setExperimentScript($values['experiment_script']);
+            $data = array(
+                'entity_type' => Mage_GoogleOptimizer_Model_Code::CODE_ENTITY_TYPE_CMS,
+                'entity_id' => $cmsPage->getId(),
+                'store_id' => 0,
+                'experiment_script' => $values['experiment_script'],
+            );
 
+            $this->_modelCode->addData($data);
             $this->_modelCode->save();
         }
 

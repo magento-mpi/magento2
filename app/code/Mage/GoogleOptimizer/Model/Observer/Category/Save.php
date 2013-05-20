@@ -60,12 +60,14 @@ class Mage_GoogleOptimizer_Model_Observer_Category_Save
         }
 
         if ($category->getId() && $values['experiment_script']) {
-            $this->_modelCode
-                ->setEntityType(Mage_GoogleOptimizer_Model_Code::CODE_ENTITY_TYPE_CATEGORY)
-                ->setEntityId($category->getId())
-                ->setStoreId($category->getStoreId())
-                ->setExperimentScript($values['experiment_script']);
+            $data = array(
+                'entity_type' => Mage_GoogleOptimizer_Model_Code::CODE_ENTITY_TYPE_CATEGORY,
+                'entity_id' => $category->getId(),
+                'store_id' => $category->getStoreId(),
+                'experiment_script' => $values['experiment_script'],
+            );
 
+            $this->_modelCode->addData($data);
             $this->_modelCode->save();
         }
 

@@ -28,7 +28,6 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
     /**
      * @param Mage_Core_Block_Template_Context $context
      * @param Mage_GoogleOptimizer_Helper_Data $helperData
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $eavAttribute
      * @param Mage_Core_Model_Registry $registry
      * @param Varien_Data_Form $form
      * @param array $data
@@ -36,7 +35,6 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
     public function __construct(
         Mage_Core_Block_Template_Context $context,
         Mage_GoogleOptimizer_Helper_Data $helperData,
-        Mage_Catalog_Model_Resource_Eav_Attribute $eavAttribute,
         Mage_Core_Model_Registry $registry,
         Varien_Data_Form $form,
         array $data = array()
@@ -47,39 +45,40 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
         parent::__construct($context, $data);
     }
 
+    /**
+     * Prepare form before rendering HTML
+     *
+     * @return Mage_Backend_Block_Widget_Form
+     */
     protected function _prepareForm()
     {
-        $fieldset = $this->_form->addFieldset('googleoptimizer_fields',
-            array('legend' => $this->__('Google Analytics Content Experiments Code'))
-        );
+        $fieldset = $this->_form->addFieldset('googleoptimizer_fields', array(
+            'legend' => $this->__('Google Analytics Content Experiments Code')
+        ));
 
         $disabledScriptsFields = false;
         $experimentCode = array();
         $experimentId = '';
 
-        if ($this->getProduct()->getGoogleExperiment()) {
-            $experimentCode = $this->getProduct()->getGoogleExperiment()->getExperimentScript();
-            $experimentId = $this->getProduct()->getGoogleExperiment()->getCodeId();
+        if (null != ($experiment = $this->getProduct()->getGoogleExperiment())) {
+            $experimentCode = $experiment->getExperimentScript();
+            $experimentId = $experiment->getCodeId();
         }
 
-        $fieldset->addField('experiment_script', 'textarea',
-            array(
-                'name'  => 'experiment_script',
-                'label' => $this->__('Experiment Code'),
-                'value' => $experimentCode,
-                'class' => 'textarea googleoptimizer',
-                'required' => false,
-                'note' => $this->__('Note: Experiment code should be added to the original page only.'),
-            )
-        );
+        $fieldset->addField('experiment_script', 'textarea', array(
+            'name' => 'experiment_script',
+            'label' => $this->__('Experiment Code'),
+            'value' => $experimentCode,
+            'class' => 'textarea googleoptimizer',
+            'required' => false,
+            'note' => $this->__('Note: Experiment code should be added to the original page only.'),
+        ));
 
-        $fieldset->addField('code_id', 'hidden',
-            array(
-                'name'  => 'code_id',
-                'value' => $experimentId,
-                'required' => false,
-            )
-        );
+        $fieldset->addField('code_id', 'hidden', array(
+            'name' => 'code_id',
+            'value' => $experimentId,
+            'required' => false,
+        ));
 
         $this->_form->setFieldNameSuffix('google_experiment');
         $this->setForm($this->_form);
@@ -87,31 +86,51 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
         return parent::_prepareForm();
     }
 
+    /**
+     * Get Product entity
+     *
+     * @return Mage_Catalog_Model_Product|null
+     */
     public function getProduct()
     {
         return $this->_registry->registry('product');
     }
 
-    public function getGoogleOptimizer()
-    {
-        return $this->getProduct()->getGoogleOptimizerScripts();
-    }
-
+    /**
+     * Return Tab label
+     *
+     * @return string
+     */
     public function getTabLabel()
     {
         return $this->_helperData->__('Product View Optimization');
     }
 
+    /**
+     * Return Tab title
+     *
+     * @return string
+     */
     public function getTabTitle()
     {
         return $this->_helperData->__('Product View Optimization');
     }
 
+    /**
+     * Can show tab in tabs
+     *
+     * @return boolean
+     */
     public function canShowTab()
     {
         return $this->_helperData->isGoogleExperimentActive($this->getProduct()->getStoreId());
     }
 
+    /**
+     * Tab is hidden
+     *
+     * @return boolean
+     */
     public function isHidden()
     {
         return false;
