@@ -172,10 +172,12 @@ Mediabrowser.prototype = {
             params.as_is = 1;
         }
 
+        jQuery('#contents').loadingPopup({ timeout: false });
         new Ajax.Request(this.onInsertUrl, {
             parameters: params,
             onSuccess: function(transport) {
                 try {
+                    jQuery('#contents').trigger('hideLoadingPopup');
                     this.onAjaxSuccess(transport);
                     if (this.getMediaBrowserOpener()) {
                         self.blur();
@@ -291,10 +293,12 @@ Mediabrowser.prototype = {
         }
         var ids = [];
         ids[0] = value;
+        jQuery('#contents').loadingPopup({ timeout: false });
         new Ajax.Request(this.deleteFilesUrl, {
             parameters: {files: Object.toJSON(ids)},
             onSuccess: function(transport) {
                 try {
+                    jQuery('#contents').trigger('hideLoadingPopup');
                     this.onAjaxSuccess(transport);
                     this.selectFolder(this.currentNode);
                 } catch(e) {
