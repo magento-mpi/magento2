@@ -37,9 +37,6 @@ class Saas_Saas_Model_ObjectManager_ConfiguratorTest extends PHPUnit_Framework_T
                 'Saas_Saas_Model_DisabledConfiguration_Config' => array(
                     'parameters' => array('plainList' => Saas_Saas_Model_DisabledConfiguration_Config::getPlainList()),
                 ),
-                'Enterprise_Queue_Model_Queue' => array(
-                    'parameters' => array('taskNamePrefix' => $this->_taskNamePrefix),
-                ),
             ));
         $this->_model->configure($objectManagerMock);
     }
