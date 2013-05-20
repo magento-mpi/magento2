@@ -20,27 +20,6 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     extends Mage_Core_Block_Template
 {
     /**
-     * Application model
-     *
-     * @var Mage_Core_Model_App
-     */
-    protected $_app;
-
-    /**
-     * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Core_Model_App $app
-     * @param array $data
-     */
-    public function __construct(
-        Mage_Core_Block_Template_Context $context,
-        Mage_Core_Model_App $app,
-        array $data = array()
-    ) {
-        $this->_app = $app;
-        parent::__construct($context, $data);
-    }
-
-    /**
      * Get tab title
      *
      * @return string
