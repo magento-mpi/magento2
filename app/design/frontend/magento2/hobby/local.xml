@@ -163,7 +163,8 @@
 
     <print>
         <reference name="head">
-            <!-- <action method="addCss"><file>css/print.css</file></action> -->
+            <action method="addCss"><file>mui/reset.css</file></action>
+            <action method="addCss"><file>css/print.css</file></action>
         </reference>
     </print>
 

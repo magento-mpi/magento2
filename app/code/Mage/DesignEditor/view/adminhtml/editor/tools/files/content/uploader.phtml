@@ -29,8 +29,8 @@
             </div>
         </div>
     </div>
+    <div id="contents"></div>
 </div>
-<div id="contents"></div>
 <div class="form-buttons">
     <span class="fileinput-button">
             <button class="action-default primary" data-action="browse" type="submit">
@@ -64,16 +64,11 @@
                 $('[data-action="upload"]').removeProp('disabled');
                 $('[data-action="upload"]').removeClass('no-display');
                 $('[data-action="browse"]').removeClass('primary');
-                $('#contents').addClass('no-display');
-
-                $('#<?php echo $this->getHtmlId() ?>').removeClass('no-display').addClass('uploader');
             },
 
             switchToRegularView: function() {
                 $('[data-action="upload"]').addClass('no-display');
                 $('[data-action="browse"]').addClass('primary');
-                $('#contents').removeClass('no-display');
-                $('#<?php echo $this->getHtmlId() ?>').addClass('no-display').removeClass('uploader');
                 MediabrowserInstance.handleUploadComplete();
 
                 $('[data-upload-id]').each(function(index, row) {

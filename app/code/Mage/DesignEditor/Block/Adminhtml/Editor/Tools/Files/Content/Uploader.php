@@ -13,8 +13,8 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content_Uploader extends Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader
-
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content_Uploader
+    extends Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader
 {
     /**
      * Path to uploader template

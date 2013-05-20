@@ -172,10 +172,12 @@ Mediabrowser.prototype = {
             params.as_is = 1;
         }
 
+        jQuery('#contents').loadingPopup({ timeout: false });
         new Ajax.Request(this.onInsertUrl, {
             parameters: params,
             onSuccess: function(transport) {
                 try {
+                    jQuery('#contents').trigger('hideLoadingPopup');
                     this.onAjaxSuccess(transport);
                     if (this.getMediaBrowserOpener()) {
                         self.blur();
@@ -314,7 +316,7 @@ Mediabrowser.prototype = {
     deleteFiles: function(value) {
         var ids = [];
         ids[0] = value;
-
+        jQuery('#contents').loadingPopup({ timeout: false });
         var dialogId = 'dialog-message-confirm';
         jQuery('body').append('<div class="ui-dialog-content ui-widget-content" id="' + dialogId + '"></div>');
         jQuery('#' + dialogId).dialog({
@@ -338,6 +340,7 @@ Mediabrowser.prototype = {
                         parameters: {files: Object.toJSON(ids)},
                         onSuccess: function(transport) {
                             try {
+                                jQuery('#contents').trigger('hideLoadingPopup');
                                 event.view.MediabrowserInstance.onAjaxSuccess(transport);
                                 event.view.MediabrowserInstance.selectFolder(event.view.MediabrowserInstance.currentNode);
                             } catch(e) {

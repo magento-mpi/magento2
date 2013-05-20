@@ -3445,7 +3445,8 @@ div.mage-error {
 .block.widget.viewed,
 .block.crosssell,
 .block.upsell,
-.block.related {
+.block.related,
+.block.widget.new {
     clear: both;
     .blocklist();
 }
@@ -3492,6 +3493,41 @@ div.mage-error {
     .products.list.items.widget-viewed-list {
         .item.product {
             .column(12);
+            float: none;
+            display:inline-block;
+        }
+    }
+}
+
+.block.widget.new {
+    .products.list.items.widget-new-grid {
+        .item.product {
+            width:20%;
+            float: none;
+            display:inline-block;
+            .col2-left-layout &,
+            .col2-right-layout & {
+                .column(3);
+                float: none;
+                display:inline-block;
+            }
+            .col3-layout & {
+                .column(4);
+                float: none;
+                display:inline-block;
+            }
+            .product.photo {
+                float: none;
+                display: block;
+                margin: 0 0 10px;
+            }
+        }
+    }
+    .products.list.items.widget-new-list {
+        .item.product {
+            .column(12);
+            float: none;
+            display:inline-block;
         }
     }
 }
