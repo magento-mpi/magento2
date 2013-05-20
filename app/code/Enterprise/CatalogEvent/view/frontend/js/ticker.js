@@ -11,19 +11,22 @@
 (function($) {
     $.widget('mage.ticker', {
         options: {
-
+            secondsInDay: 86400,
+            secondsInHour: 3600,
+            secondsInMinute: 60,
+            msInSecond: 1000
         },
 
         _create: function() {
             this.start = new Date();
             setInterval($.proxy(function(){
                 var seconds = this._getEstimate(),
-                    daySec = Math.floor(seconds / (3600 * 24)) * (3600 * 24),
-                    hourSec = Math.floor(seconds / 3600) * 3600,
-                    minuteSec =  Math.floor(seconds / 60) * 60;
-                this.element.find('[data-container="days"]').html(this._formatNumber(Math.floor(daySec / (3600 * 24))));
-                this.element.find('[data-container="hour"]').html(this._formatNumber(Math.floor((hourSec - daySec) / 3600)));
-                this.element.find('[data-container="minute"]').html(this._formatNumber(Math.floor((minuteSec - hourSec) / 60)));
+                    daySec = Math.floor(seconds / this.options.secondsInDay) * this.options.secondsInDay,
+                    hourSec = Math.floor(seconds / this.options.secondsInHour) * this.options.secondsInHour,
+                    minuteSec =  Math.floor(seconds / this.options.secondsInMinute) * this.options.secondsInMinute;
+                this.element.find('[data-container="days"]').html(this._formatNumber(Math.floor(daySec / this.options.secondsInDay)));
+                this.element.find('[data-container="hour"]').html(this._formatNumber(Math.floor((hourSec - daySec) / this.options.secondsInHour)));
+                this.element.find('[data-container="minute"]').html(this._formatNumber(Math.floor((minuteSec - hourSec) / this.options.secondsInMinute)));
                 this.element.find('[data-container="second"]').html(this._formatNumber(seconds - minuteSec));
                 if (daySec > 0) {
                     this.element.find('[data-container="second"]').prev('[data-container="delimiter"]').hide();
@@ -36,7 +39,7 @@
                     this.element.find('[data-container="second"]').prev('[data-container="delimiter"]').show();
                     this.element.find('[data-container="second"]').show();
                 }
-            }, this), 1000);
+            }, this), this.options.msInSecond);
         },
 
         /**
@@ -46,7 +49,7 @@
          */
         _getEstimate: function () {
             var now = new Date(),
-                result = this.options.secondsToClose - (now.getTime() - this.start.getTime()) / 1000;
+                result = this.options.secondsToClose - (now.getTime() - this.start.getTime()) / this.options.msInSecond;
             return result < 0 ? 0 : Math.round(result);
         },
 
