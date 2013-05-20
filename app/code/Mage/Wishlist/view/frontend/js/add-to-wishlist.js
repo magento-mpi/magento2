@@ -23,7 +23,7 @@
                         productInfo = this.options[this.options.productType + 'Info'],
                         additionalData = $(this.options.customOptionsInfo).serialize();
                     if (productInfo !== undefined) {
-                        additionalData += $(productInfo).serialize()
+                        additionalData += $(productInfo).serialize();
                     }
                     $(event.target).attr('href', url + (url.indexOf('?') == -1 ? '?' : '&') + additionalData);
                 }
