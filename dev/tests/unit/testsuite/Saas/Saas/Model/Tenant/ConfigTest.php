@@ -232,8 +232,6 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
             'no limitations' => array(
                 array(
                     'tenantConfiguration' => array('local' => self::_wrapXml(self::XML_MEDIA_DIR)),
-                    'groupConfiguration' => array('some_other_config' => self::_wrapXml('<some_config/>')),
-                    'version_hash'        => '1234567',
                     'groupConfiguration'  => array('some_other_config' => self::_wrapXml('<some_config/>')),
                     'version_hash'        => '1234567',
                     'status'              => Saas_Saas_Model_Tenant_Config::STATUS_ENABLED,
@@ -243,9 +241,6 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
             'only limitations' => array(
                 array(
                     'tenantConfiguration' => array('local' => self::_wrapXml(self::XML_MEDIA_DIR)),
-                    'groupConfiguration' => array(
-                        'limitations' => $this->_wrapXml($limitationOne)),
-                    'version_hash'        => '1234567',
                     'groupConfiguration'  => array('limitations' => self::_wrapXml($limitationOne)),
                     'version_hash'        => '1234567',
                     'status'              => Saas_Saas_Model_Tenant_Config::STATUS_ENABLED,
@@ -259,14 +254,7 @@ class Saas_Saas_Model_Tenant_ConfigTest extends PHPUnit_Framework_TestCase
                  */
                 array(
                     'tenantConfiguration' => array(
-<<<<<<< HEAD
                         'local' => self::_wrapXml(self::XML_MEDIA_DIR . $limitationTwo),
-                        'modules' => self::_wrapXml($limitationThree),
-                    ),
-                    'groupConfiguration' => array(
-                        'limitations' => $this->_wrapXml($limitationOne)),
-                    'version_hash'        => '1234567',
-                        'local'   => self::_wrapXml(self::XML_MEDIA_DIR . $limitationTwo),
                         'modules' => self::_wrapXml($limitationThree),
                     ),
                     'groupConfiguration'  => array('limitations' => self::_wrapXml($limitationOne)),
