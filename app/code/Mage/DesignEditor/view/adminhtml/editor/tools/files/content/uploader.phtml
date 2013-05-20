@@ -13,16 +13,22 @@
 ?>
 <div class="scroll-assets">
     <div id="<?php echo $this->getHtmlId() ?>" class="uploader no-display">
-        <div class="clear"></div>
         <div class="no-display" data-template="<?php echo $this->getHtmlId() ?>-template">
             <div class="file-row" data-upload-id="${id}">
                 <div class="progressbar-container">
                     <span class="file-info-name">${name}</span>
-                    <span class="file-info-size">(${size})</span>
-                    <span class="file-info-cancel">
-                        <button class="action-delete" data-delete-file="${id}">
-                            <span><?php echo $this->__('Remove'); ?></span>
-                        </button>
+                    <span class="file-info-details">
+                        <span class="file-info-size">(${size})</span>
+                        <span class="file-info-error hidden">&nbsp;</span>
+                    </span>
+                    <span class="file-icon">
+                        <span class="file-info-cancel">
+                            <button class="action-delete" data-delete-file="${id}">
+                                <span><?php echo $this->__('Remove'); ?></span>
+                            </button>
+                        </span>
+                        <span class="file-upload-success hidden">C</span>
+                        <span class="file-upload-failure hidden">!</span>
                     </span>
                     <div class="progressbar upload-progress"></div>
                 </div>
@@ -154,10 +160,15 @@
                 $(progressSelector).css('width','100%');
 
                 var fileRow = $('[data-upload-id="' + data.fileId + '"]');
+                fileRow.find('.file-info-size').addClass('hidden');
+                fileRow.find('.file-info-cancel').addClass('hidden');
                 if (data.result && !data.result.hasOwnProperty('errorcode')) {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-success');
                     fileRow.data('upload-status', 'success');
+                    fileRow.find('.file-upload-success').removeClass('hidden');
                 } else {
+                    fileRow.find('.file-info-error').html(data.result.error).removeClass('hidden');
+                    fileRow.find('.file-upload-failure').removeClass('hidden');
                     $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
                     fileRow.data('upload-status', 'failure');
                 }
