@@ -36,15 +36,15 @@ class Saas_ImportExport_Block_Adminhtml_Export_Result_Download extends Mage_Back
         $this->setTemplate('Saas_ImportExport::export/result/download.phtml');
 
         $this->_addButton('download_export', array(
-            'label'    => $this->__('Download'),
-            'class'    => 'download',
-            'onclick'  => 'return setLocation("' . $this->getDownloadUrl() . '")',
+            'label' => $this->__('Download'),
+            'class' => 'download',
+            'onclick' => 'return setLocation("' . $this->getDownloadUrl() . '")',
         ));
 
         $this->_addButton('remove_export', array(
-            'label'    => $this->__('Remove'),
-            'class'    => 'remove',
-            'onclick'  => 'return setLocation("' . $this->getRemoveUrl() . '")',
+            'label' => $this->__('Remove'),
+            'class' => 'remove',
+            'onclick' => 'return setLocation("' . $this->getRemoveUrl() . '")',
         ));
 
         parent::_construct();
@@ -87,7 +87,6 @@ class Saas_ImportExport_Block_Adminhtml_Export_Result_Download extends Mage_Back
      */
     public function isFileReady()
     {
-        return (bool)$this->_fileHelper->isExist();
-
+        return $this->_fileHelper->isExist();
     }
 }
