@@ -53,6 +53,8 @@
             for (var c = 0; c < queuedFiles.length; c++) {
                 queuedFiles[c].submit();
             }
+
+            queuedFiles = $('#fileupload').assetfileupload('option', 'queuedFiles', []);
         });
 
         $.widget('mage.assetfileupload', $.blueimpFP.fileupload, {
@@ -77,6 +79,17 @@
                         $(row).remove();
                     }
                 });
+            },
+
+            fileUploadsWithStatus: function(uploadStatus) {
+                var arr = [];
+                $('[data-upload-id]').each(function(index, row) {
+                    if ($(row).data('upload-status') === uploadStatus) {
+                        arr.push(row);
+                    }
+                });
+
+                return arr;
             }
         });
 
@@ -101,6 +114,7 @@
                         id : data.fileId,
                     });
                     fileRowTmpl.appendTo('#<?php echo $this->getHtmlId() ?>');
+                    fileRowTmpl.data('upload-status', 'pending');
 
                     $('[data-delete-file="' + data.fileId + '"]').on('click', function() {
                         $('[data-upload-id="' + data.fileId + '"]').remove();
@@ -142,18 +156,8 @@
                     fileRow.data('upload-status', 'failure');
                 }
 
-                var origQueuedFiles = $('#fileupload').assetfileupload('option', 'queuedFiles');
-                var newQueuedFiles = [];
-
-                for (var c = 0; c < origQueuedFiles.length; c++) {
-                    var queuedFile = origQueuedFiles[c];
-                    if (queuedFile.fileId != data.fileId) {
-                        newQueuedFiles.push(queuedFile);
-                    }
-                }
-
-                $('#fileupload').assetfileupload('option', 'queuedFiles', newQueuedFiles);
-                if (newQueuedFiles.length === 0) {
+                var fileUploadRows = $('#fileupload').assetfileupload('fileUploadsWithStatus', 'pending');
+                if (fileUploadRows.length === 0) {
                     $(this).assetfileupload('switchToRegularView');
                 }
             },
