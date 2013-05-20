@@ -94,11 +94,9 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         }
 
         $resources = array();
-        /** @var Mage_Webapi_Helper_Config $configHelper */
-        $configHelper = Mage::helper('Mage_Webapi_Helper_Config');
         $services = $this->_newApiConfig->getServices();
         foreach ($services as $resourceName => $serviceData) {
-            $resourceName = $configHelper->translateResourceName($serviceData['class']);
+            $resourceName = $this->_helper->translateResourceName($serviceData['class']);
             $resources[$resourceName] = array('methods' => array());
             // TODO: Add service version to $serviceData
             foreach ($serviceData['operations'] as $operation => $operationData) {
@@ -122,7 +120,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                 $responseSchema = $this->_serviceObjectManager->getResponseSchema($serviceData['class'], $operation);
                 $responseFields = $responseSchema->getData('fields');
                 foreach ($responseFields as $fieldName => $fieldData) {
-                    $inputParameters[$fieldName] = array(
+                    $outputParameters[$fieldName] = array(
                         // TODO: Remove default values
                         'type' => isset($fieldData['type']) ? $this->_helper->normalizeType($fieldData['type']) : 'string',
                         'required' => isset($fieldData['required']) ? $fieldData['required'] : false,

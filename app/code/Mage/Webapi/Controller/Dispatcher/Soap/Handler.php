@@ -53,6 +53,12 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      */
     protected $_requestHeaders = array(self::HEADER_SECURITY);
 
+    /** @var Mage_Core_Service_ObjectManager */
+    protected $_serviceManager;
+
+    /** @var Mage_Webapi_Config */
+    protected $_newApiConfig;
+
     /**
      * Initialize dependencies.
      *
@@ -63,6 +69,8 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      * @param Mage_Webapi_Model_Authorization $authorization
      * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
+     * @param Mage_Core_Service_ObjectManager $serviceManager
+     * @param Mage_Webapi_Config $newApiConfig
      */
     public function __construct(
         Mage_Webapi_Model_Config_Soap $apiConfig,
@@ -71,7 +79,9 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
         Mage_Webapi_Controller_Action_Factory $controllerFactory,
         Mage_Webapi_Model_Authorization $authorization,
         Mage_Webapi_Controller_Request_Soap $request,
-        Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
+        Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
+        Mage_Core_Service_ObjectManager $serviceManager,
+        Mage_Webapi_Config $newApiConfig
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_helper = $helper;
@@ -80,6 +90,8 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
         $this->_authorization = $authorization;
         $this->_request = $request;
         $this->_errorProcessor = $errorProcessor;
+        $this->_serviceManager = $serviceManager;
+        $this->_newApiConfig = $newApiConfig;
     }
 
     /**
@@ -97,47 +109,35 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
             $this->_processSoapHeader($operation, $arguments);
         } else {
             try {
-                if (is_null($this->_usernameToken)) {
-                    throw new Mage_Webapi_Exception(
-                        $this->_helper->__('WS-Security UsernameToken is not found in SOAP-request.'),
-                        Mage_Webapi_Exception::HTTP_UNAUTHORIZED
-                    );
-                }
-                $this->_authentication->authenticate($this->_usernameToken);
-                $resourceVersion = $this->_getOperationVersion($operation);
-                $resourceName = $this->_apiConfig->getResourceNameByOperation($operation, $resourceVersion);
-                if (!$resourceName) {
-                    throw new Mage_Webapi_Exception(
-                        $this->_helper->__('Method "%s" is not found.', $operation),
-                        Mage_Webapi_Exception::HTTP_NOT_FOUND
-                    );
-                }
-                $controllerClass = $this->_apiConfig->getControllerClassByOperationName($operation);
-                $controllerInstance = $this->_controllerFactory->createActionController(
-                    $controllerClass,
-                    $this->_request
-                );
-                $method = $this->_apiConfig->getMethodNameByOperation($operation, $resourceVersion);
+                // TODO: Uncomment authentication
+//                if (is_null($this->_usernameToken)) {
+//                    throw new Mage_Webapi_Exception(
+//                        $this->_helper->__('WS-Security UsernameToken is not found in SOAP-request.'),
+//                        Mage_Webapi_Exception::HTTP_UNAUTHORIZED
+//                    );
+//                }
+//                $this->_authentication->authenticate($this->_usernameToken);
 
-                $this->_authorization->checkResourceAcl($resourceName, $method);
+                // TODO: Enable authorization
+//                $this->_authorization->checkResourceAcl($resourceName, $method);
 
                 $arguments = reset($arguments);
                 $arguments = get_object_vars($arguments);
-                $versionAfterFallback = $this->_apiConfig->identifyVersionSuffix(
-                    $operation,
-                    $resourceVersion,
-                    $controllerInstance
-                );
-                $this->_apiConfig->checkDeprecationPolicy($resourceName, $method, $versionAfterFallback);
-                $action = $method . $versionAfterFallback;
-                $arguments = $this->_helper->prepareMethodParams(
-                    $controllerClass,
-                    $action,
+
+                $serviceId = $this->_newApiConfig->getClassBySoapOperation($operation);
+                $serviceMethod = $this->_newApiConfig->getMethodBySoapOperation($operation);
+                $outputData = $this->_serviceManager->call(
+                    $serviceId,
+                    $serviceMethod,
                     $arguments,
-                    $this->_apiConfig
+                    'V1' // TODO: Service version is hardcoded for now
                 );
-                $outputData = call_user_func_array(array($controllerInstance, $action), $arguments);
-                return (object)array(self::RESULT_NODE_NAME => $outputData);
+                if ($outputData instanceof Varien_Object || $outputData instanceof Varien_Data_Collection_Db) {
+                    $outputData = $outputData->getData();
+                }
+                // TODO: Check why 'result' node is not generated in WSDL
+                // return (object)array(self::RESULT_NODE_NAME => $outputData);
+                return (object)$outputData;
             } catch (Mage_Webapi_Exception $e) {
                 throw new Mage_Webapi_Model_Soap_Fault($e->getMessage(), $e->getOriginator(), $e);
             } catch (Exception $e) {

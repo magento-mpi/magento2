@@ -49,24 +49,37 @@ class Mage_Webapi_Config
     protected $_application;
 
     /**
+     * List of SOAP operations available in the system
+     *
+     * @var array
+     */
+    protected $_soapOperations;
+
+    /** @var Mage_Webapi_Helper_Config */
+    protected $_helper;
+
+    /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Controller_Router_Route_Factory $routeFactory
      * @param Mage_Core_Model_App $application
+     * @param Mage_Webapi_Helper_Config $helper
      */
     public function __construct(
         Mage_Core_Model_Config $config,
         Mage_Core_Model_Cache_Type_Config $configCacheType,
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Controller_Router_Route_Factory $routeFactory,
-        Mage_Core_Model_App $application
+        Mage_Core_Model_App $application,
+        Mage_Webapi_Helper_Config $helper
     ) {
         $this->_config = $config;
         $this->_configCacheType = $configCacheType;
         $this->_moduleReader = $moduleReader;
         $this->_routeFactory = $routeFactory;
         $this->_application = $application;
+        $this->_helper = $helper;
     }
 
     /**
@@ -370,5 +383,79 @@ class Mage_Webapi_Config
             ->setServiceMethod($routeData['serviceMethod'])
             ->setServiceVersion(Mage_Core_Service_Config::VERSION_NUMBER_PREFIX . $routeData['version']);
         return $route;
+    }
+
+    /**
+     * Retrieve the list of SOAP operations available in the system
+     *
+     * @return array <pre>
+     * array(
+     *     array(
+     *         'class' => $serviceClass,
+     *         'method' => $serviceMethod),
+     *      ...
+     * )</pre>
+     */
+    protected function _getSoapOperations()
+    {
+        if (null == $this->_soapOperations) {
+            $this->_soapOperations = array();
+            $services = $this->getServices();
+            foreach ($services as $serviceData) {
+                $resourceName = $this->_helper->translateResourceName($serviceData['class']);
+                foreach ($serviceData['operations'] as $method => $methodData) {
+                    $operationName = $resourceName . ucfirst($method);
+                    $this->_soapOperations[$operationName] = array(
+                        'class' => $serviceData['class'],
+                        'method' => $method
+                    );
+                }
+            }
+        }
+        return $this->_soapOperations;
+    }
+
+    /**
+     * Retrieve service class name corresponding to provided SOAP operation name.
+     *
+     * @param string $soapOperation
+     * @return string
+     * @throws Mage_Webapi_Exception
+     */
+    public function getClassBySoapOperation($soapOperation)
+    {
+        $soapOperations = $this->_getSoapOperations();
+        if (!isset($soapOperations[$soapOperation])) {
+            throw new Mage_Webapi_Exception(
+                $this->_helper->__(
+                    'Operation "%s" not found.',
+                    $soapOperation
+                ),
+                Mage_Webapi_Exception::HTTP_NOT_FOUND
+            );
+        }
+        return $soapOperations[$soapOperation]['class'];
+    }
+
+    /**
+     * Retrieve service method name corresponding to provided SOAP operation name.
+     *
+     * @param string $soapOperation
+     * @return string
+     * @throws Mage_Webapi_Exception
+     */
+    public function getMethodBySoapOperation($soapOperation)
+    {
+        $soapOperations = $this->_getSoapOperations();
+        if (!isset($soapOperations[$soapOperation])) {
+            throw new Mage_Webapi_Exception(
+                $this->_helper->__(
+                    'Operation "%s" not found.',
+                    $soapOperation
+                ),
+                Mage_Webapi_Exception::HTTP_NOT_FOUND
+            );
+        }
+        return $soapOperations[$soapOperation]['method'];
     }
 }
