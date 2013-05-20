@@ -2192,6 +2192,8 @@
     display: table;
     width: 99.5%;
     padding: 0;
+    border: 0 !important;
+    margin: 0 !important;
 }
 
 .uploader .file-row {
