@@ -123,11 +123,21 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                     $address = $customer->getAddressItemById($addressId);
                     if (!$address) {
                         $address = Mage::getModel('Mage_Customer_Model_Address');
+                        $address->setId($addressId);
                         $customer->addAddress($address);
                     }
 
+                    $requestScope = sprintf('address/%s', $addressId);
                     $formData = $addressForm->setEntity($address)
-                        ->extractData($request);
+                        ->extractData($request, $requestScope);
+                    $customer->setDefaultBilling(
+                        !empty($data['account']['default_billing'])
+                        && $data['account']['default_billing'] == $addressId
+                    );
+                    $customer->setDefaultShipping(
+                        !empty($data['account']['default_shipping'])
+                        && $data['account']['default_shipping'] == $addressId
+                    );
                     $addressForm->restoreData($formData);
                 }
             }
