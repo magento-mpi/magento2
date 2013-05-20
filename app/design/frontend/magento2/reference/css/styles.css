@@ -4232,6 +4232,7 @@ div.mage-error {
 .block.upsell .products.list,
 .block.related .products.list,
 .block.widget.new .products.list {
+  clear: both;
   margin: 0 -20px;
 }
 .block.widget.viewed .products.list .item.product,
@@ -4447,6 +4448,115 @@ div.mage-error {
   float: none;
   display: block;
   margin: 0 0 10px;
+}
+.block.widget .pager {
+  float: right;
+}
+.block.widget .pager .amount {
+  float: left;
+  line-height: 25px;
+  margin: 2px 15px 0 0;
+}
+.block.widget .pager .text {
+  display: none;
+}
+.block.widget .pages {
+  margin-left: 15px;
+  float: left;
+}
+.block.widget .pages .label {
+  line-height: 25px;
+  display: inline-block;
+}
+.block.widget .pages strong.label {
+  font-weight: 400;
+  float: left;
+  line-height: 25px;
+  margin-top: 2px;
+  margin-right: 5px;
+  display: none;
+}
+.block.widget .pages input {
+  width: 30px;
+  margin: 0 5px;
+  text-align: center;
+  padding: 0 5px;
+  height: 25px;
+  line-height: 25px;
+}
+.block.widget .pages > ol {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 2px;
+  line-height: 25px;
+  vertical-align: middle;
+}
+.block.widget .pages > ol > li {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+.block.widget .pages > ol li {
+  display: inline;
+}
+.block.widget .pages > ol strong,
+.block.widget .pages > ol a {
+  padding: 0 3px;
+}
+.block.widget .pages > ol strong {
+  font-weight: 400;
+  color: #da370a;
+}
+.block.widget .action.next,
+.block.widget .action.previous {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+}
+.block.widget .action.next span,
+.block.widget .action.previous span {
+  color: #c2c2c2;
+  width: 16px;
+  display: block;
+  line-height: 0px;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
+  text-indent: -999em;
+}
+.block.widget .action.next span:after,
+.block.widget .action.previous span:after {
+  font-family: "icons";
+  font-size: 16px;
+  line-height: 16px;
+  height: 16px;
+  overflow: hidden;
+  content: '';
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.block.widget .action.next span:active,
+.block.widget .action.previous span:active {
+  outline: 0;
+}
+.block.widget .action.next span:after,
+.block.widget .action.previous span:after {
+  text-indent: 0;
+  display: block;
+}
+.block.widget .action.next span:after {
+  content: '\e01a';
+}
+.block.widget .action.previous span:after {
+  content: '\e01b';
 }
 /*
  *    Mage_Catalog
