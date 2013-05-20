@@ -258,7 +258,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
             if ($node->hasChildren() && $node->getName() == 'any') {
                 $installed = false;
                 $extentions = array();
-                foreach($node->children() as $any) {
+                foreach ($node->children() as $any) {
                     $extentions[] = "'" . $any->getName() .
                         ($any->attributes()->min_version ? ' - v.' . $any->attributes()->min_version : '') . "'";
                     if ($this->_checkExtension($any->getName(), $any->attributes()->min_version)) {
@@ -272,8 +272,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
                         implode($extentions, ', ')
                     );
                 }
-            }
-            elseif (!$this->_checkExtension($extension, $node->attributes()->min_version)) {
+            } elseif (!$this->_checkExtension($extension, $node->attributes()->min_version)) {
                 throw new Magento_Exception(
                     "The module '{$moduleName}' cannot be enabled without PHP extension '{$extension}'"
                 );
