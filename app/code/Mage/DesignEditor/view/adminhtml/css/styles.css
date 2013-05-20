@@ -2051,7 +2051,7 @@
     cursor: default;
 }
 
-.wrapper-popup .action-delete:before .activate {
+.wrapper-popup .activate:before {
     color: #7e7e7e;
     cursor: pointer;
 }

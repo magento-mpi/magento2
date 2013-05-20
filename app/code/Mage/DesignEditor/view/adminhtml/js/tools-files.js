@@ -267,41 +267,94 @@ Mediabrowser.prototype = {
     },
 
     deleteFolder: function() {
-        if (!confirm(this.deleteFolderConfirmationMessage)) {
-            return false;
-        }
-        new Ajax.Request(this.deleteFolderUrl, {
-            onSuccess: function(transport) {
-                try {
-                    this.onAjaxSuccess(transport);
-                    var parent = this.currentNode.parentNode;
-                    parent.removeChild(this.currentNode);
-                    this.selectFolder(parent);
+        var dialogId = 'dialog-message-confirm';
+        jQuery('body').append('<div class="ui-dialog-content ui-widget-content" id="' + dialogId + '"></div>');
+        jQuery('#' + dialogId).dialog({
+            autoOpen:    false,
+            title:       jQuery.mage.__('Delete Folder'),
+            modal:       true,
+            resizable:   false,
+            dialogClass: 'vde-dialog',
+            width:       500,
+            buttons: [{
+                text: jQuery.mage.__('Cancel'),
+                'class': 'action-close',
+                click: function() {
+                    jQuery('#' + dialogId).dialog('close');
                 }
-                catch (e) {
-                    alert(e.message);
+            }, {
+                text: jQuery.mage.__('Yes'),
+                'class': 'primary',
+                click: function(event) {
+                    new Ajax.Request(event.view.MediabrowserInstance.deleteFolderUrl, {
+                        onSuccess: function(transport) {
+                            try {
+                                event.view.MediabrowserInstance.onAjaxSuccess(transport);
+                                var parent = event.view.MediabrowserInstance.currentNode.parentNode;
+                                parent.removeChild(event.view.MediabrowserInstance.currentNode);
+                                event.view.MediabrowserInstance.selectFolder(parent);
+                            }
+                            catch (e) {
+                                alert(e.message);
+                            }
+                        }.bind(event.view.MediabrowserInstance)
+                    });
+                    jQuery('#' + dialogId).dialog('close');
                 }
-            }.bind(this)
-        })
+            }],
+            close:      function(event, ui) {
+                jQuery(this).dialog('destroy');
+                jQuery('#' + dialogId).remove();
+            }
+        });
+        jQuery('#' + dialogId).text(jQuery.mage.__('Are you sure you want to delete the folder named') + ' "' + this.currentNode.text + '"?');
+        jQuery('#' + dialogId).dialog('open');
     },
 
     deleteFiles: function(value) {
-        if (!confirm(this.deleteFileConfirmationMessage)) {
-            return false;
-        }
         var ids = [];
         ids[0] = value;
-        new Ajax.Request(this.deleteFilesUrl, {
-            parameters: {files: Object.toJSON(ids)},
-            onSuccess: function(transport) {
-                try {
-                    this.onAjaxSuccess(transport);
-                    this.selectFolder(this.currentNode);
-                } catch(e) {
-                    alert(e.message);
+
+        var dialogId = 'dialog-message-confirm';
+        jQuery('body').append('<div class="ui-dialog-content ui-widget-content" id="' + dialogId + '"></div>');
+        jQuery('#' + dialogId).dialog({
+            autoOpen:    false,
+            title:       jQuery.mage.__('Delete File'),
+            modal:       true,
+            resizable:   false,
+            dialogClass: 'vde-dialog',
+            width:       500,
+            buttons: [{
+                text: jQuery.mage.__('Cancel'),
+                'class': 'action-close',
+                click: function() {
+                    jQuery('#' + dialogId).dialog('close');
                 }
-            }.bind(this)
+            }, {
+                text: jQuery.mage.__('Yes'),
+                'class': 'primary',
+                click: function(event) {
+                    new Ajax.Request(event.view.MediabrowserInstance.deleteFilesUrl, {
+                        parameters: {files: Object.toJSON(ids)},
+                        onSuccess: function(transport) {
+                            try {
+                                event.view.MediabrowserInstance.onAjaxSuccess(transport);
+                                event.view.MediabrowserInstance.selectFolder(event.view.MediabrowserInstance.currentNode);
+                            } catch(e) {
+                                alert(e.message);
+                            }
+                        }.bind(event.view.MediabrowserInstance)
+                    });
+                    jQuery('#' + dialogId).dialog('close');
+                }
+            }],
+            close:      function(event, ui) {
+                jQuery(this).dialog('destroy');
+                jQuery('#' + dialogId).remove();
+            }
         });
+        jQuery('#' + dialogId).text(this.deleteFileConfirmationMessage);
+        jQuery('#' + dialogId).dialog('open');
     },
 
     drawBreadcrumbs: function(node) {
