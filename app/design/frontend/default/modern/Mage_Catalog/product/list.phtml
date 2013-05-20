@@ -66,7 +66,7 @@ $_imageSize = $this->getVar('product_list_image_size', 'Mage_Catalog');
                     <ul class="add-to-links">
                         <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
                         <li><a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getAddUrl($_product) ?>"
-                               class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
+                               class="link-wishlist" data-action="add-to-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
                         <?php endif; ?>
                         <?php if ($_compareUrl = $this->getAddToCompareUrl($_product)): ?>
                         <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>"
@@ -120,7 +120,7 @@ $_imageSize = $this->getVar('product_list_image_size', 'Mage_Catalog');
                 <ul class="add-to-links">
                     <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
                     <li><a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getAddUrl($_product) ?>"
-                           class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
+                           class="link-wishlist" data-action="add-to-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
                     <?php endif; ?>
                     <?php if ($_compareUrl = $this->getAddToCompareUrl($_product)): ?>
                     <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>"
