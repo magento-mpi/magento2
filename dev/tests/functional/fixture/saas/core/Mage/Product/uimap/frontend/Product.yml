@@ -1,0 +1,25 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Product
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Frontend Product page
+product_page:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    product_info:
+                        xpath: //div[@class='product info main']
+                        pageelements:
+                            product_name: //hgroup[@class='page title product']/h1/span
+                -
+                    related:
+                        xpath: //div[@class='box-collateral box-related' or @class='block related']
+                        links:
+                            related_product: //a[normalize-space(text())='%productName%']
