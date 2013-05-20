@@ -1,95 +1,86 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_GoogleOptimizer
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-
-/**
  * Google Optimizer Scripts Block
  *
- * @category   Mage
- * @package    Mage_GoogleOptimizer
- * @author     Magento Core Team <core@magentocommerce.com>
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license {license_link}
  */
-class Mage_GoogleOptimizer_Block_Code extends Mage_Core_Block_Template
+abstract class Mage_GoogleOptimizer_Block_Code extends Mage_Core_Block_Template
 {
-    protected $_scriptType          = null;
-    protected $_googleOptmizerModel = null;
-    protected $_avaibleScriptTypes = array('control_script', 'tracking_script', 'conversion_script');
-
     /**
-     * override this method if need something special for type of script
-     *
-     * @return Mage_GoogleOptimizer_Block_Code
+     * @var Entity name in registry
      */
-    protected function _initGoogleOptimizerModel()
-    {
-        return $this;
-    }
+    protected $_registryName;
 
     /**
-     * Setting google optimizer model
-     *
-     * @param Varien_Object $model
-     * @return Mage_GoogleOptimizer_Block_Code
+     * @var Mage_Core_Model_Registry
      */
-    protected function _setGoogleOptimizerModel($model)
-    {
-        $this->_googleOptmizerModel = $model;
-        return $this;
-    }
+    protected $_registry;
 
     /**
-     * Return google optimizer model
-     *
-     * @return Varien_Object
+     * @var Mage_GoogleOptimizer_Helper_Data
      */
-    protected function _getGoogleOptimizerModel()
-    {
-        return $this->_googleOptmizerModel;
-    }
+    protected $_helper;
 
-    protected function _toHtml()
-    {
-        return parent::_toHtml() . $this->getScriptCode();
+    /**
+     * @param Mage_Core_Block_Template_Context $context
+     * @param Mage_GoogleOptimizer_Helper_Data $helper
+     * @param Mage_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Mage_Core_Block_Template_Context $context,
+        Mage_GoogleOptimizer_Helper_Data $helper,
+        Mage_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_helper = $helper;
+        $this->_registry = $registry;
+        parent::__construct($context, $data);
     }
 
     /**
-     * Return script by type $this->_scriptType
+     * Get google experiment code model
+     *
+     * @return Mage_GoogleOptimizer_Model_Code
+     */
+    protected function _getGoogleExperimentModel()
+    {
+        return $this->_getEntity()->getGoogleExperiment();
+    }
+
+    /**
+     * Render block HTML
      *
      * @return string
      */
-    public function getScriptCode()
+    protected function _toHtml()
     {
-        if (!Mage::helper('Mage_GoogleOptimizer_Helper_Data')->isOptimizerActive()) {
-            return '';
-        }
-        if (is_null($this->_scriptType)) {
-            return '';
-        }
-        $this->_initGoogleOptimizerModel();
-        if (!($this->_getGoogleOptimizerModel() instanceof Varien_Object)) {
-            return '';
-        }
-        return $this->_getGoogleOptimizerModel()->getData($this->_scriptType);
+        return parent::_toHtml() . $this->_getScriptCode();
     }
 
     /**
-     * Check than set script type
+     * Return script
      *
-     * @param string $scriptType
-     * @return Mage_GoogleOptimizer_Block_Code
+     * @return string
      */
-    public function setScriptType($scriptType)
+    protected function _getScriptCode()
     {
-        if (in_array($scriptType, $this->_avaibleScriptTypes)) {
-            $this->_scriptType = $scriptType;
+        $result = '';
+
+        if ($this->_helper->isGoogleExperimentActive() && $this->_getGoogleExperimentModel()) {
+            $result = $this->_getGoogleExperimentModel()->getData('experiment_script');
         }
-        return $this;
+        return $result;
+    }
+
+    /**
+     * @return Mage_Core_Model_Abstract
+     */
+    protected function _getEntity()
+    {
+        return $this->_registry->registry($this->_registryName);
     }
 }
