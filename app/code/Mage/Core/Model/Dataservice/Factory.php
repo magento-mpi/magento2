@@ -27,9 +27,8 @@ class Mage_Core_Model_Dataservice_Factory
     /**
      * @param Mage_Core_Model_Dataservice_Config_Interface $config
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Dataservice_Path_Composite
-     * @param Mage_Core_Model_Dataservice_Path_Visitor_Factory
-     * @param Mage_Core_Model_Dataservice_Repository $repository
+     * @param Mage_Core_Model_Dataservice_Path_Composite $composite
+     * @param Mage_Core_Model_Dataservice_Path_Navigator $pathNavigator
      */
     public function __construct(
         Mage_Core_Model_Dataservice_Config_Interface $config,
