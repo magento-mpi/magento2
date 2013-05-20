@@ -24,14 +24,14 @@ abstract class Saas_ImportExport_Helper_StateAbstract extends Mage_Core_Helper_A
     /**
      * Constructor
      *
+     * @param Mage_Core_Helper_Context $context
      * @param Saas_ImportExport_Model_StateFlag $stateFlag
      * @param Saas_ImportExport_Helper_Shutdown_Handler $shutdownHandler
-     * @param Mage_Core_Helper_Context $context
      */
     public function __construct(
+        Mage_Core_Helper_Context $context,
         Saas_ImportExport_Model_StateFlag $stateFlag,
-        Saas_ImportExport_Helper_Shutdown_Handler $shutdownHandler,
-        Mage_Core_Helper_Context $context
+        Saas_ImportExport_Helper_Shutdown_Handler $shutdownHandler
     ) {
         $this->_stateFlag = $stateFlag;
         $this->_shutdownHandler = $shutdownHandler;

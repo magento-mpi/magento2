@@ -15,9 +15,9 @@ class Saas_ImportExport_Helper_Export_Config extends Mage_Core_Helper_Abstract
     const DEFAULT_ITEMS_PER_PAGE = 100;
 
     /**#@+
-     * Config keys.
+     * Config keys
      */
-    const XML_PATH_CONFIG_KEY_ENTITIES = 'global/importexport/export_entities';
+    const XML_PATH_CONFIG_KEY_ENTITIES = 'global/importexport/export_entities/%s/per_page';
     /**#@-*/
 
     /**
@@ -26,12 +26,24 @@ class Saas_ImportExport_Helper_Export_Config extends Mage_Core_Helper_Abstract
     protected $_applicationConfig;
 
     /**
+     * @var Mage_Core_Model_Dir
+     */
+    protected $_dir;
+
+    /**
+     * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_Config $applicationConfig
+     * @param Mage_Core_Model_Dir $dir
      */
     public function __construct(
-        Mage_Core_Model_Config $applicationConfig
+        Mage_Core_Helper_Context $context,
+        Mage_Core_Model_Config $applicationConfig,
+        Mage_Core_Model_Dir $dir
     ) {
+        parent::__construct($context);
+
         $this->_applicationConfig = $applicationConfig;
+        $this->_dir = $dir;
     }
 
     /**
@@ -40,8 +52,7 @@ class Saas_ImportExport_Helper_Export_Config extends Mage_Core_Helper_Abstract
      */
     public function getItemsPerPage($entityType)
     {
-        $items = (int)$this->_applicationConfig
-            ->getNode(self::XML_PATH_CONFIG_KEY_ENTITIES . '/' . $entityType . '/per_page');
+        $items = (int)$this->_applicationConfig->getNode(sprintf(self::XML_PATH_CONFIG_KEY_ENTITIES, $entityType));
         return $items ? $items : self::DEFAULT_ITEMS_PER_PAGE;
     }
 
@@ -53,6 +64,6 @@ class Saas_ImportExport_Helper_Export_Config extends Mage_Core_Helper_Abstract
      */
     public function getStorageFilePath($entityType)
     {
-        return Mage::getBaseDir('media') . DS . 'importexport' . DS . 'export' . DS . $entityType;
+        return $this->_dir->getDir('media') . DS . 'importexport' . DS . 'export' . DS . $entityType;
     }
 }

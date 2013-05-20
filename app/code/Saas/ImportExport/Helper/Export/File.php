@@ -20,7 +20,7 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
     protected $_stateFlag;
 
     /**
-     * @var bool|Varien_Object
+     * @var null|Varien_Object
      */
     protected $_file = null;
 
@@ -33,23 +33,22 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
         'csv' => 'text/csv',
     );
 
-    /**#@+
+    /**
      * Default file mime type
      */
-    const DEFAULT_MIME_TYPE = 'application/octet-stream';
-    /**#@-*/
+    const MIME_TYPE_DEFAULT = 'application/octet-stream';
 
     /**
      * Constructor
      *
+     * @param Mage_Core_Helper_Context $context
      * @param Saas_ImportExport_Helper_Export_Config $configHelper
      * @param Saas_ImportExport_Model_Export_State_FlagFactory $flagFactory
-     * @param Mage_Core_Helper_Context $context
      */
     public function __construct(
+        Mage_Core_Helper_Context $context,
         Saas_ImportExport_Helper_Export_Config $configHelper,
-        Saas_ImportExport_Model_Export_State_FlagFactory $flagFactory,
-        Mage_Core_Helper_Context $context
+        Saas_ImportExport_Model_Export_State_FlagFactory $flagFactory
     ) {
         $this->_configHelper = $configHelper;
         $this->_stateFlag = $flagFactory->create();
@@ -74,7 +73,7 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
     public function getMimeType()
     {
         $extension = $this->isExist() ? $this->_getFile()->getExtension() : '';
-        return isset($this->_mimeTypes[$extension]) ? $this->_mimeTypes[$extension] : self::DEFAULT_MIME_TYPE;
+        return isset($this->_mimeTypes[$extension]) ? $this->_mimeTypes[$extension] : self::MIME_TYPE_DEFAULT;
     }
 
     /**
@@ -101,12 +100,13 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
      * Remove last export file
      *
      * @return Saas_ImportExport_Helper_Export_File
+     * @throws RuntimeException
      */
     public function removeLastExportFile()
     {
         $exportFile = $this->_stateFlag->getExportFilename();
         if ($exportFile && file_exists($exportFile) && !unlink($exportFile)) {
-            Mage::throwException($this->__('File has not been removed'));
+            throw new RuntimeException($this->__('File has not been removed.'));
         }
         return $this;
     }
@@ -124,11 +124,10 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
                 return false;
             }
             $fileInfo = pathinfo($exportFile);
-            $dateSuffix = date('_Ymd_His', filemtime($exportFile));
             $extension = $fileInfo['extension'];
             $this->_file = new Varien_Object(array(
                 'path' => $exportFile,
-                'download_name' => $fileInfo['filename'] . $dateSuffix . '.' . $extension,
+                'download_name' => $fileInfo['filename'] . date('_Ymd_His', filemtime($exportFile)) . '.' . $extension,
                 'extension' => $extension
             ));
         }
