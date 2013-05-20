@@ -145,11 +145,9 @@
                 var fileRow = $('[data-upload-id="' + data.fileId + '"]');
                 if (data.result && !data.result.hasOwnProperty('errorcode')) {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-success');
-
                     fileRow.data('upload-status', 'success');
                 } else {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
-
                     fileRow.data('upload-status', 'failure');
                 }
 
