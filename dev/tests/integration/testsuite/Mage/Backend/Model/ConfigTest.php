@@ -67,6 +67,7 @@ class Mage_Backend_Model_ConfigTest extends Mage_Backend_Area_TestCase
      */
     public function testSave($section, $groups, $expected)
     {
+        $this->markTestIncomplete('Bug: MAGETWO-10203');
         /** @var $_configDataObject Mage_Backend_Model_Config */
         $_configDataObject = Mage::getModel('Mage_Backend_Model_Config');
         $_configDataObject->setSection($section)
