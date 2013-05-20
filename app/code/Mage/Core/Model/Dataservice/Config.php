@@ -134,7 +134,8 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
         }
         $filename = $this->_config->getModuleDir('etc', $nameParts[0]) . '/' . $nameParts[1];
         if (!is_readable($filename)) {
-            throw new Magento_Exception("Service calls configuration file '{$filename}' doesn't exist or isn't readable.");
+            throw new
+                Magento_Exception("Service calls configuration file '{$filename}' doesn't exist or isn't readable.");
         }
         return $filename;
     }
