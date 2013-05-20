@@ -9,8 +9,14 @@
  */
 class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_Config_Interface
 {
+    /**
+     * The global area in the config
+     */
     const CONFIG_AREA = 'global';
 
+    /**
+     * The location in xml for the service-calls
+     */
     const CONFIG_NODE = 'service-calls';
 
     /**
@@ -18,11 +24,11 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
      */
     protected $_simpleXml;
 
-    protected $_objectManager;
-
+    /**
+     * @var string
+     */
     protected $_elementClass = 'Varien_Simplexml_Element';
 
-    protected $_loaded = false;
     /**
      * @var Mage_Core_Model_Config
      */
