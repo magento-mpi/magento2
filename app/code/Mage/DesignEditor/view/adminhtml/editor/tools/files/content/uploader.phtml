@@ -15,12 +15,12 @@
     <div id="<?php echo $this->getHtmlId() ?>" class="uploader no-display">
         <div class="clear"></div>
         <div class="no-display" data-template="<?php echo $this->getHtmlId() ?>-template">
-            <div id="{{id}}" class="file-row">
+            <div class="file-row" data-upload-id="${id}">
                 <div class="progressbar-container">
-                    <span class="file-info-name">{{name}}</span>
-                    <span class="file-info-size">({{size}})</span>
+                    <span class="file-info-name">${name}</span>
+                    <span class="file-info-size">(${size})</span>
                     <span class="file-info-cancel">
-                        <button class="action-delete" data-delete-file="{{id}}">
+                        <button class="action-delete" data-delete-file="${id}">
                             <span><?php echo $this->__('Remove'); ?></span>
                         </button>
                     </span>
@@ -86,18 +86,18 @@
             add: function(e, data) {
                 $(this).assetfileupload('switchToUploadQueueView');
 
+                var that = this;
                 $.each(data.files, function (index, file) {
                     data.fileId =  Math.random().toString(36).substr(2,9);
-                    var progressTmpl = $('[data-template="<?php echo $this->getHtmlId(); ?>-template"]').children(':first').clone();
-                    progressTmpl.attr('id', data.fileId);
-                    var fileInfoHtml = progressTmpl.html().replace('{{size}}', byteConvert(file.size))
-                        .replace('{{name}}', file.name).replace('{{id}}', data.fileId);
-                    progressTmpl.html(fileInfoHtml);
-
-                    progressTmpl.appendTo('#<?php echo $this->getHtmlId() ?>');
+                    var fileRowTmpl = $.tmpl($('[data-template="<?php echo $this->getHtmlId(); ?>-template"]'), {
+                        size: byteConvert(file.size),
+                        name : file.name,
+                        id : data.fileId,
+                    });
+                    fileRowTmpl.appendTo('#<?php echo $this->getHtmlId() ?>');
 
                     $('[data-delete-file="' + data.fileId + '"]').on('click', function() {
-                        $('#' + data.fileId).remove();
+                        $('[data-upload-id="' + data.fileId + '"]').remove();
                         var origQueuedFiles = $('#fileupload').assetfileupload('option', 'queuedFiles');
                         var newQueuedFiles = [];
 
@@ -110,12 +110,11 @@
 
                         $('#fileupload').assetfileupload('option', 'queuedFiles', newQueuedFiles);
                         if (newQueuedFiles.length === 0) {
-                            $('#fileupload').assetfileupload('option', 'queuedFiles', newQueuedFiles);
+                            $(that).assetfileupload('switchToRegularView');
                         }
                     });
                 });
 
-                var that = this;
                 $(this).assetfileupload('process', data).done(function() {
                     var queuedFiles = $(that).assetfileupload('option', 'queuedFiles');
                     queuedFiles.push(data);
@@ -138,7 +137,7 @@
                     $(this).assetfileupload('switchToRegularView');
                 }
 
-                var progressSelector = '#' + data.fileId + ' .progressbar-container .progressbar';
+                var progressSelector = '[data-upload-id="' + data.fileId + '"] .progressbar';
                 $(progressSelector).css('width','100%');
                 if (data.result && !data.result.hasOwnProperty('errorcode')) {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-success');
@@ -148,11 +147,11 @@
             },
             progress: function(e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
-                var progressSelector = '#' + data.fileId + ' .progressbar';
+                var progressSelector = '[data-upload-id="' + data.fileId + '"] .progressbar';
                 $(progressSelector).css('width', progress + '%');
             },
             fail: function(e, data) {
-                var progressSelector = '#' + data.fileId + ' .progressbar-container .progressbar';
+                var progressSelector = '[data-upload-id="' + data.fileId + '"] .progressbar';
                 $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
             }
         });
