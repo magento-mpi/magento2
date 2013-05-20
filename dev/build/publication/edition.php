@@ -40,12 +40,10 @@ try {
             $configurator = new CommunityConfigurator();
             break;
         case 'ee':
-            $lists[] = 'not_ee.txt';
             $lists[] = 'saas.txt';
             $configurator = new EnterpriseConfigurator($basePath, new Varien_Io_File());
             break;
         case 'saas':
-            $lists[] = 'not_ee.txt';
             $lists[] = 'not_saas.txt';
             $configurator = new SaasConfigurator($basePath, new Varien_Io_File());
             break;

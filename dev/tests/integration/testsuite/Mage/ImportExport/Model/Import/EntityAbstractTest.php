@@ -19,13 +19,9 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      */
     public function testSaveValidatedBunches()
     {
-        $filePathParts = array(__DIR__, 'Entity', 'Eav', '_files', 'customers_for_validation_test*.csv');
-        $filePattern = glob(implode(DS, $filePathParts));
-        foreach ($filePattern as $file) {
-            $sourceFile = $file;
-            break;
-        }
-        $source = new Mage_ImportExport_Model_Import_Source_Csv($sourceFile);
+        $source = new Mage_ImportExport_Model_Import_Source_Csv(
+            __DIR__ . '/Entity/Eav/_files/customers_for_validation_test.csv'
+        );
         $source->rewind();
         $expected = $source->current();
         /** @var $model Mage_ImportExport_Model_Import_EntityAbstract|PHPUnit_Framework_MockObject_MockObject */
