@@ -59,6 +59,14 @@
             queuedFiles = $('#fileupload').assetfileupload('option', 'queuedFiles', []);
         });
 
+        $('#fileupload').on('click', function() {
+            $('[data-upload-id]').each(function(index, row) {
+                if ($(row).data('upload-status') === 'failure') {
+                    $(row).remove();
+                }
+            });
+        });
+
         $.widget('mage.assetfileupload', $.blueimpFP.fileupload, {
             switchToUploadQueueView: function() {
                 $('[data-action="upload"]').removeProp('disabled');
@@ -145,11 +153,9 @@
                 var fileRow = $('[data-upload-id="' + data.fileId + '"]');
                 if (data.result && !data.result.hasOwnProperty('errorcode')) {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-success');
-
                     fileRow.data('upload-status', 'success');
                 } else {
                     $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
-
                     fileRow.data('upload-status', 'failure');
                 }
 
