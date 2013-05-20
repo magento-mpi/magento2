@@ -17,13 +17,14 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
     extends Mage_Backend_Block_System_Config_Form_Fieldset
 {
     /**
-     * Add conflicts resolution js code to the fieldset
+     * Render fieldset html
      *
      * @param Varien_Data_Form_Element_Abstract $element
      * @return string
      */
-    protected function _getExtraJs($element)
+    public function render(Varien_Data_Form_Element_Abstract $element)
     {
+        $this->setElement($element);
         $js = '
             document.observe("dom:loaded", function() {
                 $$(".with-button button.button").each(function(configureButton) {
@@ -33,7 +34,8 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                     "isConflict": false,
                     "ecMissed": false,
                     sharePayflowEnabling: function(enabler, isEvent) {
-                        var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler.fd-enabled")[0];
+
+                        var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[0];
                         if (typeof ecPayflowEnabler == "undefined") {
                             return;
                         }
@@ -57,7 +59,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                             $(ecPayflowScopeElement).click();
                         }
 
-                        var ecEnabler = $$(".paypal-ec-enabler.fd-enabled")[0];
+                        var ecEnabler = $$(".paypal-ec-enabler")[0];
                         if (ecPayflowEnabler.value != enabler.value && (isEvent || enabler.value == 1)) {
                             ecPayflowEnabler.value = enabler.value;
                             fireEvent(ecPayflowEnabler, "change");
@@ -84,7 +86,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                     },
                     onClickEnablerScope: function(event) {
                         paypalConflictsObject.checkPaymentConflicts(
-                            $(adminSystemConfig.getUpTr($(Event.element(event))).select(".paypal-enabler.fd-enabled")[0]),
+                            $(adminSystemConfig.getUpTr($(Event.element(event))).select(".paypal-enabler")[0]),
                             "click"
                         );
                     },
@@ -131,7 +133,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                                 return;
                             }
                             var couldBeConfigured = true;
-                            $$(".paypal-enabler.fd-enabled").each(function(enabler) {
+                            $$(".paypal-enabler").each(function(enabler) {
                                 if (enabler.enablerObject.ecEnabler || enabler.enablerObject.ecConflicts
                                     || enabler.enablerObject.ecSeparate
                                 ) {
@@ -154,7 +156,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                             return;
                         }
                         var isEvent = (type != "initial");
-                        var ecEnabler = $$(".paypal-ec-enabler.fd-enabled")[0];
+                        var ecEnabler = $$(".paypal-ec-enabler")[0];
 
                         if (enabler.value == 0) {
                             if (!enabler.enablerObject.ecIndependent && type == "change") {
@@ -174,7 +176,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                         var confirmationApproved = isEvent;
                         var confirmationShowed = false;
                         // check other solutions
-                        $$(".paypal-enabler.fd-enabled").each(function(anotherEnabler) {
+                        $$(".paypal-enabler").each(function(anotherEnabler) {
                             var anotherEnablerScopeElement = adminSystemConfig.getScopeElement(anotherEnabler);
                             if (!confirmationApproved && isEvent || $(anotherEnabler) == enabler
                                 || anotherEnabler.value == 0
@@ -231,7 +233,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                 };
 
                 // fill enablers with conflict data
-                $$(".paypal-enabler.fd-enabled").each(function(enablerElement) {
+                $$(".paypal-enabler").each(function(enablerElement) {
                     var enablerObj = {
                         ecIndependent: false,
                         ecConflicts: false,
@@ -269,7 +271,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                 });
 
                 // initially uncheck payflow
-                var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler.fd-enabled")[0];
+                var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[0];
                 if (typeof ecPayflowEnabler != "undefined") {
                     if (ecPayflowEnabler.value == 1) {
                         ecPayflowEnabler.value = 0;
@@ -282,7 +284,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                     }
                 }
 
-                $$(".paypal-enabler.fd-enabled").each(function(enablerElement) {
+                $$(".paypal-enabler").each(function(enablerElement) {
                     paypalConflictsObject.checkPaymentConflicts(enablerElement, "initial");
                 });
                 if (paypalConflictsObject.isConflict || paypalConflictsObject.ecMissed) {
@@ -314,7 +316,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                 });
 
                 configForm.on(\'afterValidate\', function() {
-                    var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler.fd-enabled")[0];
+                    var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[0];
                     if (typeof ecPayflowEnabler == "undefined") {
                         return;
                     }
@@ -329,7 +331,6 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
                 });
             });
         ';
-        return parent::_getExtraJs($element)
-            . $this->helper('Mage_Adminhtml_Helper_Js')->getScript($js);
+        return $this->toHtml() . $this->helper('Mage_Adminhtml_Helper_Js')->getScript($js);
     }
 }
