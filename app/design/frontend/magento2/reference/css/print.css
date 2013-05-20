@@ -33,6 +33,19 @@ body  { background:#fff !important; font-size:9pt !important; margin:15px !impor
     margin-bottom: 30px;
 }
 
+.order.details .title,
+.order.details .caption {
+    clear: both;
+    margin-bottom: 15px;
+}
+
+.order.details .title strong,
+.order.details .caption strong {
+    line-height: 1.2;
+    font-weight: 200;
+    font-size: 20px;
+}
+
 /* blocks */
 .order.details .block.order {
     float: left;
