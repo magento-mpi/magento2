@@ -4221,7 +4221,8 @@ div.mage-error {
 .block.crosssell,
 .block.upsell,
 .block.related,
-.block.widget.new {
+.block.widget.new,
+.block.widget.compared {
   clear: both;
   margin: 30px 0;
   padding-top: 25px;
@@ -4231,7 +4232,8 @@ div.mage-error {
 .block.crosssell .products.list,
 .block.upsell .products.list,
 .block.related .products.list,
-.block.widget.new .products.list {
+.block.widget.new .products.list,
+.block.widget.compared .products.list {
   clear: both;
   margin: 0 -20px;
 }
@@ -4239,7 +4241,8 @@ div.mage-error {
 .block.crosssell .products.list .item.product,
 .block.upsell .products.list .item.product,
 .block.related .products.list .item.product,
-.block.widget.new .products.list .item.product {
+.block.widget.new .products.list .item.product,
+.block.widget.compared .products.list .item.product {
   display: inline;
   float: left;
   width: 33.33333333333333%;
@@ -4263,14 +4266,16 @@ div.mage-error {
 .col3-layout .block.crosssell .products.list .item.product,
 .col3-layout .block.upsell .products.list .item.product,
 .col3-layout .block.related .products.list .item.product,
-.col3-layout .block.widget.new .products.list .item.product {
+.col3-layout .block.widget.new .products.list .item.product,
+.col3-layout .block.widget.compared .products.list .item.product {
   width: 50%;
 }
 .block.widget.viewed .products.list .item.product .product.photo,
 .block.crosssell .products.list .item.product .product.photo,
 .block.upsell .products.list .item.product .product.photo,
 .block.related .products.list .item.product .product.photo,
-.block.widget.new .products.list .item.product .product.photo {
+.block.widget.new .products.list .item.product .product.photo,
+.block.widget.compared .products.list .item.product .product.photo {
   float: left;
   margin-right: 20px;
 }
@@ -4278,7 +4283,8 @@ div.mage-error {
 .block.crosssell .products.list .item.product .product.details,
 .block.upsell .products.list .item.product .product.details,
 .block.related .products.list .item.product .product.details,
-.block.widget.new .products.list .item.product .product.details {
+.block.widget.new .products.list .item.product .product.details,
+.block.widget.compared .products.list .item.product .product.details {
   overflow: hidden;
 }
 .block.widget.viewed .products.list .item.product .product.name,
@@ -4286,18 +4292,21 @@ div.mage-error {
 .block.upsell .products.list .item.product .product.name,
 .block.related .products.list .item.product .product.name,
 .block.widget.new .products.list .item.product .product.name,
+.block.widget.compared .products.list .item.product .product.name,
 .block.widget.viewed .products.list .item.product .price-box,
 .block.crosssell .products.list .item.product .price-box,
 .block.upsell .products.list .item.product .price-box,
 .block.related .products.list .item.product .price-box,
-.block.widget.new .products.list .item.product .price-box {
+.block.widget.new .products.list .item.product .price-box,
+.block.widget.compared .products.list .item.product .price-box {
   margin: 0 0 10px;
 }
 .block.widget.viewed .products.list .item.product .addto.links .action:after,
 .block.crosssell .products.list .item.product .addto.links .action:after,
 .block.upsell .products.list .item.product .addto.links .action:after,
 .block.related .products.list .item.product .addto.links .action:after,
-.block.widget.new .products.list .item.product .addto.links .action:after {
+.block.widget.new .products.list .item.product .addto.links .action:after,
+.block.widget.compared .products.list .item.product .addto.links .action:after {
   content: '';
   display: block;
 }
@@ -4305,21 +4314,24 @@ div.mage-error {
 .block.crosssell .products.list .item.product .actions,
 .block.upsell .products.list .item.product .actions,
 .block.related .products.list .item.product .actions,
-.block.widget.new .products.list .item.product .actions {
+.block.widget.new .products.list .item.product .actions,
+.block.widget.compared .products.list .item.product .actions {
   visibility: hidden;
 }
 .block.widget.viewed .products.list .item.product .actions .primary,
 .block.crosssell .products.list .item.product .actions .primary,
 .block.upsell .products.list .item.product .actions .primary,
 .block.related .products.list .item.product .actions .primary,
-.block.widget.new .products.list .item.product .actions .primary {
+.block.widget.new .products.list .item.product .actions .primary,
+.block.widget.compared .products.list .item.product .actions .primary {
   margin: 0 0 10px;
 }
 .block.widget.viewed .products.list .item.product:hover .actions,
 .block.crosssell .products.list .item.product:hover .actions,
 .block.upsell .products.list .item.product:hover .actions,
 .block.related .products.list .item.product:hover .actions,
-.block.widget.new .products.list .item.product:hover .actions {
+.block.widget.new .products.list .item.product:hover .actions,
+.block.widget.compared .products.list .item.product:hover .actions {
   visibility: visible;
 }
 .block.crosssell .products.list.items.crosssell {
@@ -4368,6 +4380,40 @@ div.mage-error {
   margin: 0 0 10px;
 }
 .block.widget.viewed .products.list.items.widget-viewed-list .item.product {
+  display: inline;
+  float: left;
+  width: 100%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  float: none;
+  display: inline-block;
+}
+.block.widget.compared .products.list.items.widget-compared-grid .item.product {
+  display: inline;
+  float: left;
+  width: 16.666666666666664%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  float: none;
+  display: inline-block;
+}
+.col2-left-layout .block.widget.compared .products.list.items.widget-compared-grid .item.product,
+.col2-right-layout .block.widget.compared .products.list.items.widget-compared-grid .item.product {
+  width: 19.99%;
+}
+.col3-layout .block.widget.compared .products.list.items.widget-compared-grid .item.product {
+  width: 25%;
+}
+.block.widget.compared .products.list.items.widget-compared-grid .item.product .product.photo {
+  float: none;
+  display: block;
+  margin: 0 0 10px;
+}
+.block.widget.compared .products.list.items.widget-compared-list .item.product {
   display: inline;
   float: left;
   width: 100%;
