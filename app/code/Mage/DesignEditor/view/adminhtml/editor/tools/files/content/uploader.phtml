@@ -56,7 +56,22 @@
         });
 
         $.widget('mage.assetfileupload', $.blueimpFP.fileupload, {
+            switchToUploadQueueView: function() {
+                $('[data-action="upload"]').removeProp('disabled');
+                $('[data-action="upload"]').removeClass('no-display');
+                $('[data-action="browse"]').removeClass('primary');
+                $('#contents').addClass('no-display');
 
+                $('#<?php echo $this->getHtmlId() ?>').removeClass('no-display').addClass('uploader');
+            },
+
+            switchToRegularView: function() {
+                $('[data-action="upload"]').addClass('no-display');
+                $('[data-action="browse"]').addClass('primary');
+                $('#contents').removeClass('no-display');
+                $('#<?php echo $this->getHtmlId() ?>').addClass('no-display').removeClass('uploader');
+                MediabrowserInstance.handleUploadComplete();
+            }
         });
 
         $('#fileupload').assetfileupload({
@@ -69,11 +84,7 @@
             sequentialUploads: true,
             maxFileSize: <?php echo Mage::getObjectManager()->get('Magento_File_Size')->getMaxFileSize()?>,
             add: function(e, data) {
-                $('[data-action="upload"]').removeProp('disabled');
-                $('[data-action="upload"]').removeClass('no-display');
-                $('[data-action="browse"]').removeClass('primary');
-                $('#contents').addClass('no-display');
-                $('#<?php echo $this->getHtmlId() ?>').removeClass('no-display').addClass('uploader');
+                $(this).assetfileupload('switchToUploadQueueView');
 
                 $.each(data.files, function (index, file) {
                     data.fileId =  Math.random().toString(36).substr(2,9);
@@ -99,10 +110,7 @@
 
                         $('#fileupload').assetfileupload('option', 'queuedFiles', newQueuedFiles);
                         if (newQueuedFiles.length === 0) {
-                            $('[data-action="upload"]').addClass('no-display');
-                            $('[data-action="browse"]').addClass('primary');
-                            $('#contents').removeClass('no-display');
-                            $('#<?php echo $this->getHtmlId() ?>').addClass('no-display').removeClass('uploader');
+                            $('#fileupload').assetfileupload('option', 'queuedFiles', newQueuedFiles);
                         }
                     });
                 });
@@ -127,11 +135,7 @@
                 $('#fileupload').assetfileupload('option', 'queuedFiles', newQueuedFiles);
 
                 if (newQueuedFiles.length === 0) {
-                    $('[data-action="upload"]').addClass('no-display');
-                    $('[data-action="browse"]').addClass('primary');
-                    $('#contents').removeClass('no-display');
-                    $('#<?php echo $this->getHtmlId() ?>').addClass('no-display').removeClass('uploader');
-                    MediabrowserInstance.handleUploadComplete();
+                    $(this).assetfileupload('switchToRegularView');
                 }
 
                 var progressSelector = '#' + data.fileId + ' .progressbar-container .progressbar';
