@@ -59,12 +59,14 @@ class Core_Mage_DesignEditor_Helper extends Mage_Selenium_AbstractHelper
 
     /**
      * Assign theme from Available theme tab.
+     * @return string
      */
-    public function assignFromAvailableThemeTab($themeTitle = 'Magento Fixed Design')
+    public function assignFromAvailableThemeTab()
     {
         $this->openTab('available_themes');
         $this->waitForAjax();
-        $this->addParameter('themeTitle', $themeTitle);
+        $themeId = $this->getControlElement('pageelement', 'first_theme_thumbnail')->attribute('id');
+        $this->addParameter('themeId', $themeId);
         $this->focusOnThemeElement('button', 'assign_theme_button');
         $this->mouseOver('thumbnail');
         $this->clickButton('assign_theme_button', false);
@@ -78,7 +80,7 @@ class Core_Mage_DesignEditor_Helper extends Mage_Selenium_AbstractHelper
         $this->validatePage('assigned_theme_default_in_navigation');
 
         $this->closeWindow($this->_windowId);
-        $this->selectLastWindow();
+        $this->selectLastWindow('');
         $this->validatePage();
         $this->assertMessagePresent('success', 'assign_success');
         $this->clickButton('close');
@@ -88,11 +90,12 @@ class Core_Mage_DesignEditor_Helper extends Mage_Selenium_AbstractHelper
 
     /**
      * Focus on the theme
+     * @param PHPUnit_Extensions_Selenium2TestCase_Element $controlType
+     * @param PHPUnit_Extensions_Selenium2TestCase_Element $controlName
      */
     public function focusOnThemeElement($controlType, $controlName)
     {
-        $locator = $this->_getControlXpath($controlType, $controlName);
-        $availableElement = $this->elementIsPresent($locator);
+        $availableElement = $this->getControlElement($controlType, $controlName);
         $this->focusOnElement($availableElement);
         $this->pleaseWait();
     }
@@ -113,11 +116,6 @@ class Core_Mage_DesignEditor_Helper extends Mage_Selenium_AbstractHelper
         $this->moveto($destinationContainer);
         $this->buttonup();
         $this->waitForPageToLoad();
-        $this->assertEquals($destinationContainer->attribute('data-name'),
-            $this->getContainer($block, true)->attribute('data-name')
-        );
-
-        return $this;
     }
 
     /**
@@ -142,7 +140,7 @@ class Core_Mage_DesignEditor_Helper extends Mage_Selenium_AbstractHelper
             $this->frame('vde_container_frame');
         }
         if ($this->controlIsPresent('pageelement', 'vde_element')) {
-            return $this->getElement($this->_getControlXpath('pageelement', 'vde_element'));
+            return $this->getControlElement('pageelement', 'vde_element');
         }
 
         return null;
@@ -192,6 +190,23 @@ class Core_Mage_DesignEditor_Helper extends Mage_Selenium_AbstractHelper
             $this->getArea() == 'admin' ? : $this->setArea('admin');
             $this->getCurrentPage() == 'vde_' . $mode ? : $this->setCurrentPage('vde_' . $mode);
         }
+    }
+
+    /**
+     * Select store view for assign/edit
+     * @return string
+     */
+    public function chooseStoreView()
+    {
+        $xpathStoreView = $this->_getControlXpath('pageelement', 'store_view_label_by_title');
+        $storeViewId = $this->getElement($xpathStoreView)->attribute('for');
+        $this->addParameter('storeId', $storeViewId);
+        $xpathStoreViewInput = $this->_getControlXpath('pageelement', 'store_view_input_by_id');
+        $xpathStoreViewInput = sprintf($xpathStoreViewInput, $storeViewId);
+        $storeViewName = $this->getElement($xpathStoreViewInput)->attribute('name');
+        $this->fillCheckbox($storeViewName, 'Yes', $xpathStoreViewInput);
+
+        return $storeViewId = str_replace('storeview_', '', $storeViewId);
     }
 
 }

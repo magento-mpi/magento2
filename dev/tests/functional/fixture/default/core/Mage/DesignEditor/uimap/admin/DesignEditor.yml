@@ -14,62 +14,63 @@ design_editor_selector:
     click_xpath: //*[@class='navigation']//a[contains(@href, '/system_design_editor/')]
     title: Store Designer / Design / Content / Magento Admin
     uimap: &designEditorSelector
-        tabs:
-            -
-                available_themes:
-                    xpath: //a[@id='theme_selector_tabs_available_themes']
-                    fieldsets:
-                        -
-                            available_themes_content:
-                                xpath: //div[@id='theme_selector_tabs_available_themes_content']
-                                pageelements:
-                                    header_available_themes: //h3[contains(.,'Choose a theme to start with')]
-                                    theme_list: //div[@class='infinite_scroll']
-                                    theme_list_elements: //div[@class='infinite_scroll']/ul/li
-                                    thumbnail: //div/article[contains(.,'%themeTitle%')]
-                                links:
-                                    assign_theme: //div/article[contains(.,'%themeTitle%')]//*[contains(@class, 'action-theme-assign')]
-                                    edit_theme_button: //div/article[contains(.,'%themeTitle%')]//a[contains(@title, 'Edit')]
-                                messages:
-                                    success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been deleted.')]
-                                buttons:
-                                    assign_theme_button: //div/article[contains(.,'%themeTitle%')]//button[contains(@title, 'Assign to a Storeview')]
-                        -
-                            assign_theme_confirmation:
-                                xpath: //div[div/span[contains(text(), 'Assign theme to your live store-view')]]
-                                buttons:
-                                    assign: //div[@class='ui-dialog-buttonset']/button/span[text()='Assign']
-                                    close: //div[@class='ui-dialog-buttonset']/button/span[text()='Close']
-                                links:
-                                    close_x: //span[text()='close']/parent::a
-                                messages:
-                                    confirmation_for_assign_to_default: //*[normalize-space(@class)='confirm_message' and contains(.,'You are about to apply this theme for your live store, are you really want to do this?')]
-                                    assign_success: //*[normalize-space(@class)='message-success' and contains(.,'Theme successfully assigned')]
-                                pageelements:
-                                    store_view_label_by_title: //span[@class='storeview-name' and contains(., '%storeName%')]/parent::label
-                                    store_view_input_by_id: //li[@class='storeview']//input[@id='%storeId%']
-            -
-                my_customization:
-                    xpath: //a[@id='theme_selector_tabs_customizations']
-                    fieldsets:
-                        -
-                            customizations_content:
-                                xpath: //div[@id='theme_selector_tabs_customizations_content']
-                                buttons:
-                                    assign_customization_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Assign to a Storeview')]
-                                    edit_customization_button: //li[@id='theme-id-%id%']//a[contains(@title, 'Edit')]
-                                    delete_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Remove')]
-                                    delete_customization_button: //div/article[contains(.,'%themeTitle%')]//button[contains(@title, 'Remove')]
-                                    preview_theme_button: //li[@id='theme-id-%id%']//a[contains(@title, 'Preview Theme')]
-                                    duplicate_theme: //li[@id='theme-id-%id%']//button[contains(@title, 'Duplicate')]
-                                    save_rename_theme: //li[@id='theme-id-%id%']//button[contains(@title, 'Save')]
-                                fields:
-                                    theme_name: //form[@class='edit-theme-title-form']/input
-                                pageelements:
-                                    theme_thumbnail: //li[@id='theme-id-%id%']//div[@class='theme-content']
-                                    theme_assigned_storeview: //li[@id='theme-id-%id%']//*[@class='theme-assigned-to-storeview' and contains(.,'%id%')]
-                                    edit_theme_name: //li[@id='theme-id-%id%']//span[@class='edit-theme-title']
-                                    theme_title: //li[@id='theme-id-%id%']/div[@class='theme-assigned-data']/h4[@class='theme-title']
+        form:
+            tabs:
+                -
+                    available_themes:
+                        xpath: //a[@id='theme_selector_tabs_available_themes']
+                        fieldsets:
+                            -
+                                available_themes_content:
+                                    xpath: //div[@id='theme_selector_tabs_available_themes_content']
+                                    pageelements:
+                                        header_available_themes: //h3[contains(.,'Choose a theme to start with')]
+                                        theme_list: //div[@class='infinite_scroll']
+                                        theme_list_elements: //div[@class='infinite_scroll']/ul/li
+                                        thumbnail: //li[@id='%themeId%']//div[@class='theme-content']
+                                        first_theme_thumbnail: //li[@class='theme'][1]
+                                    links:
+                                        edit_theme: //li[@id='%themeId%']//a[contains(@title, 'Edit')]
+                                    messages:
+                                        success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been deleted.')]
+                                    buttons:
+                                        assign_theme_button: //li[@id='%themeId%']//button[contains(@title, 'Assign to a Storeview')]
+                            -
+                                assign_theme_confirmation:
+                                    xpath: //div[div/span[contains(text(), 'Assign theme to your live store-view')]]
+                                    buttons:
+                                        assign: //div[@class='ui-dialog-buttonset']/button/span[text()='Assign']
+                                        close: //div[@class='ui-dialog-buttonset']/button/span[text()='Close']
+                                    links:
+                                        close_x: //span[text()='close']/parent::a
+                                    messages:
+                                        confirmation_for_assign_to_default: //*[normalize-space(@class)='confirm_message' and contains(.,'You are about to apply this theme for your live store, are you really want to do this?')]
+                                        assign_success: //*[normalize-space(@class)='message-success' and contains(.,'Theme successfully assigned')]
+                                    pageelements:
+                                        store_view_label_by_title: //span[@class='storeview-name' and contains(., '%storeName%')]/parent::label
+                                        store_view_input_by_id: //li[@class='storeview']//input[@id='%storeId%']
+                -
+                    my_customization:
+                        xpath: //a[@id='theme_selector_tabs_customizations']
+                        fieldsets:
+                            -
+                                customizations_content:
+                                    xpath: //div[@id='theme_selector_tabs_customizations_content']
+                                    buttons:
+                                        assign_customization_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Assign to a Storeview')]
+                                        edit_customization_button: //li[@id='theme-id-%id%']//a[contains(@title, 'Edit')]
+                                        delete_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Remove')]
+                                        delete_customization_button: //div/article[contains(.,'%themeTitle%')]//button[contains(@title, 'Remove')]
+                                        preview_theme_button: //li[@id='theme-id-%id%']//a[contains(@title, 'Preview Theme')]
+                                        duplicate_theme: //li[@id='theme-id-%id%']//button[contains(@title, 'Duplicate')]
+                                        save_rename_theme: //li[@id='theme-id-%id%']//button[contains(@title, 'Save')]
+                                    fields:
+                                        theme_name: //form[@class='edit-theme-title-form']/input
+                                    pageelements:
+                                        theme_thumbnail: //li[@id='theme-id-%id%']//div[@class='theme-content']
+                                        theme_assigned_storeview: //li[@id='theme-id-%id%']//*[@class='theme-assigned-to-storeview' and contains(.,'%id%')]
+                                        edit_theme_name: //li[@id='theme-id-%id%']//span[@class='edit-theme-title']
+                                        theme_title: //li[@id='theme-id-%id%']/div[@class='theme-assigned-data']/h4[@class='theme-title']
         messages:
             confirmation_for_delete: Are you sure you want to do this?
 
