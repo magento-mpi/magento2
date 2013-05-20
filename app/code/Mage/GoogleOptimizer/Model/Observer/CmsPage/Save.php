@@ -32,8 +32,8 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_Save
     public function __construct(
         Mage_GoogleOptimizer_Helper_Data $helper,
         Mage_GoogleOptimizer_Model_Code $modelCode,
-        Mage_Core_Controller_Request_Http $request)
-    {
+        Mage_Core_Controller_Request_Http $request
+    ) {
         $this->_helper = $helper;
         $this->_modelCode = $modelCode;
         $this->_request = $request;
@@ -43,7 +43,7 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_Save
      * Save product scripts after saving product
      *
      * @param Varien_Event_Observer $observer
-     * @return Mage_GoogleOptimizer_Model_Observer
+     * @return Mage_GoogleOptimizer_Model_Observer_CmsPage_Save
      */
     public function saveCmsGoogleExperimentScript($observer)
     {

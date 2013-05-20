@@ -11,7 +11,6 @@ class Mage_GoogleOptimizer_Model_Resource_Code extends Mage_Core_Model_Resource_
 {
     /**
      * Resource initialization
-     *
      */
     protected function _construct()
     {
@@ -21,11 +20,11 @@ class Mage_GoogleOptimizer_Model_Resource_Code extends Mage_Core_Model_Resource_
     /**
      * Load scripts by entity and store
      *
-     * @param $object
-     * @param $entityId
-     * @param $entityType
-     * @param $storeId
-     * @return $this
+     * @param Mage_GoogleOptimizer_Model_Code $object
+     * @param int $entityId
+     * @param string $entityType
+     * @param int $storeId
+     * @return Mage_GoogleOptimizer_Model_Resource_Code
      */
     public function loadByEntityType($object, $entityId, $entityType, $storeId)
     {

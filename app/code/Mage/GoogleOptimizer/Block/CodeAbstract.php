@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-abstract class Mage_GoogleOptimizer_Block_Code extends Mage_Core_Block_Template
+abstract class Mage_GoogleOptimizer_Block_CodeAbstract extends Mage_Core_Block_Template
 {
     /**
      * @var Entity name in registry

@@ -26,7 +26,7 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_Delete
      * Delete Product scripts after deleting product
      *
      * @param Varien_Object $observer
-     * @return Mage_GoogleOptimizer_Model_Observer
+     * @return Mage_GoogleOptimizer_Model_Observer_CmsPage_Delete
      */
     public function deleteCmsGoogleExperimentScript($observer)
     {

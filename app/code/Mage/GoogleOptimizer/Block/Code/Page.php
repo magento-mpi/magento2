@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Mage_GoogleOptimizer_Block_Code_Page extends Mage_GoogleOptimizer_Block_Code
+class Mage_GoogleOptimizer_Block_Code_Page extends Mage_GoogleOptimizer_Block_CodeAbstract
 {
     /**
      * @var Mage_Cms_Model_Page
@@ -27,8 +27,8 @@ class Mage_GoogleOptimizer_Block_Code_Page extends Mage_GoogleOptimizer_Block_Co
         Mage_Core_Model_Registry $registry,
         Mage_Cms_Model_Page $page,
         array $data = array()
-    )
-    {
+    ) {
+        // Mage_Cms_Model_Page is singleton
         $this->_page = $page;
         parent::__construct($context, $helper, $registry, $data);
     }

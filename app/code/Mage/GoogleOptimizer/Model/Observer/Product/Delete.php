@@ -17,9 +17,8 @@ class Mage_GoogleOptimizer_Model_Observer_Product_Delete
     /**
      * @param Mage_GoogleOptimizer_Model_Code $modelCode
      */
-    public function __construct(
-        Mage_GoogleOptimizer_Model_Code $modelCode
-    ) {
+    public function __construct(Mage_GoogleOptimizer_Model_Code $modelCode)
+    {
         $this->_modelCode = $modelCode;
     }
 
@@ -27,7 +26,7 @@ class Mage_GoogleOptimizer_Model_Observer_Product_Delete
      * Delete Product scripts after deleting product
      *
      * @param Varien_Object $observer
-     * @return Mage_GoogleOptimizer_Model_Observer
+     * @return Mage_GoogleOptimizer_Model_Observer_Product_Delete
      */
     public function deleteProductGoogleExperimentScript($observer)
     {

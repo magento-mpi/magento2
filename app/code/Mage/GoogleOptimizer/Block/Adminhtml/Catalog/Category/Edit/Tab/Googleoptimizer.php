@@ -28,6 +28,9 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
     /**
      * @param Mage_Core_Block_Template_Context $context
      * @param Mage_Catalog_Model_Category $category
+     * @param Mage_GoogleOptimizer_Helper_Data $helperData
+     * @param Mage_Core_Model_Registry $registry
+     * @param Varien_Data_Form $form
      * @param array $data
      */
     public function __construct(
@@ -45,6 +48,9 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return mixed
+     */
     public function getCategory()
     {
         return $this->_registry->registry('current_category');
@@ -55,7 +61,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
         return $this->getCategory()->getGoogleOptimizerScripts();
     }
 
-    public function _prepareLayout()
+    protected function _prepareLayout()
     {
         $fieldset = $this->_form->addFieldset('googleoptimizer_fields',
             array('legend' => $this->__('Google Analytics Content Experiments Code'))
@@ -63,7 +69,6 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
         /** @var $category Mage_Catalog_Model_Category */
         $category = $this->getCategory();
 
-        $disabledScriptsFields = false;
         $experimentCode = array();
         $experimentId = '';
 
@@ -74,7 +79,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
 
         $fieldset->addField('experiment_script', 'textarea',
             array(
-                'name'  => 'experiment_script',
+                'name' => 'experiment_script',
                 'label' => $this->__('Experiment Code'),
                 'value' => $experimentCode,
                 'class' => 'textarea googleoptimizer',
@@ -85,7 +90,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
 
         $fieldset->addField('code_id', 'hidden',
             array(
-                'name'  => 'code_id',
+                'name' => 'code_id',
                 'value' => $experimentId,
                 'required' => false,
             )

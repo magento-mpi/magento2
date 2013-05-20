@@ -35,7 +35,7 @@ class Mage_GoogleOptimizer_Model_Observer_Product_Load
      * Loading product scripts after load product
      *
      * @param Varien_Event_Observer $observer
-     * @return Mage_GoogleOptimizer_Model_Observer
+     * @return Mage_GoogleOptimizer_Model_Observer_Product_Load
      */
     public function appendToProductGoogleExperimentScript($observer)
     {

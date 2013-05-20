@@ -8,8 +8,8 @@
  * @license {license_link}
  */
 class Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
-    extends Mage_Adminhtml_Block_Widget_Form
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+    extends Mage_Backend_Block_Widget_Form
+    implements Mage_Backend_Block_Widget_Tab_Interface
 {
     /**
      * @var Mage_GoogleOptimizer_Helper_Data
@@ -108,10 +108,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
 
     public function canShowTab()
     {
-        if ($this->_helperData->isGoogleExperimentActive()) {
-            return true;
-        }
-        return false;
+        return $this->_helperData->isGoogleExperimentActive();
     }
 
     public function isHidden()

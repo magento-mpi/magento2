@@ -109,10 +109,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
 
     public function canShowTab()
     {
-        if ($this->_helperData->isGoogleExperimentActive($this->getProduct()->getStoreId())) {
-            return true;
-        }
-        return false;
+        return $this->_helperData->isGoogleExperimentActive($this->getProduct()->getStoreId());
     }
 
     public function isHidden()
