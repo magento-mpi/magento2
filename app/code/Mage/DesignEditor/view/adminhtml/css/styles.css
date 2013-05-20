@@ -2277,3 +2277,11 @@
     overflow-y: auto;
     max-height: 200px;
 }
+
+#content_header_text {
+    display: inline;
+}
+
+.uploaded {
+    float: right;
+}

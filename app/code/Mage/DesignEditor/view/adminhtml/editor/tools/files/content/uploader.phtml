@@ -78,6 +78,8 @@
                 $('[data-action="upload"]').removeProp('disabled');
                 $('[data-action="upload"]').removeClass('no-display');
                 $('[data-action="browse"]').removeClass('primary');
+                $('.uploaded').addClass('no-display');
+                $('#fileupload').assetfileupload('option', 'uploadCount', 0);
             },
 
             switchToRegularView: function() {
@@ -113,6 +115,7 @@
             queuedFiles : [],
             sequentialUploads: true,
             maxFileSize: <?php echo Mage::getObjectManager()->get('Magento_File_Size')->getMaxFileSize()?>,
+            uploadCount: 0,
             add: function(e, data) {
                 $(this).assetfileupload('switchToUploadQueueView');
 
@@ -157,6 +160,7 @@
             },
             done: function(e, data) {
                 var progressSelector = '[data-upload-id="' + data.fileId + '"] .progressbar';
+                var uploadCount = $('#fileupload').assetfileupload('option', 'uploadCount');
                 $(progressSelector).css('width','100%');
 
                 var fileRow = $('[data-upload-id="' + data.fileId + '"]');
@@ -166,6 +170,7 @@
                     $(progressSelector).removeClass('upload-progress').addClass('upload-success');
                     fileRow.data('upload-status', 'success');
                     fileRow.find('.file-upload-success').removeClass('hidden');
+                    uploadCount++;
                 } else {
                     fileRow.find('.file-info-error').html(data.result.error).removeClass('hidden');
                     fileRow.find('.file-upload-failure').removeClass('hidden');
@@ -177,6 +182,11 @@
                 if (fileUploadRows.length === 0) {
                     $(this).assetfileupload('switchToRegularView');
                 }
+
+                /** Display and update number of files uploaded */
+                $('.uploaded span').html(uploadCount);
+                $('.uploaded').removeClass('no-display');
+                $('#fileupload').assetfileupload('option', 'uploadCount', uploadCount);
             },
             progress: function(e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
