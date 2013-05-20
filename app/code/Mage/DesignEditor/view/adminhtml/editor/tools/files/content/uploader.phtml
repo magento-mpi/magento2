@@ -54,6 +54,8 @@
                 queuedFiles[c].submit();
             }
 
+            $('[data-upload-id]').find('button').addClass('hidden');
+
             queuedFiles = $('#fileupload').assetfileupload('option', 'queuedFiles', []);
         });
 
