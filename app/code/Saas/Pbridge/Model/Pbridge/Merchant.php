@@ -284,6 +284,20 @@ class Saas_Pbridge_Model_Pbridge_Merchant
         )
     );
 
+    /**
+     * Writer of configuration storage
+     *
+     * @var Mage_Core_Model_Config_Storage_WriterInterface
+     */
+    protected $_configWriter;
+
+    /**
+     * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
+     */
+    public function __construct(Mage_Core_Model_Config_Storage_WriterInterface $configWriter)
+    {
+        $this->_configWriter = $configWriter;
+    }
 
     /**
      * Update payments configuration on Pbridge side
@@ -501,7 +515,7 @@ class Saas_Pbridge_Model_Pbridge_Merchant
                 break;
             }
         }
-        Mage::getConfig()->saveConfig('payment/pbridge/profilestatus', $profileStatus);
+        $this->_configWriter->save('payment/pbridge/profilestatus', $profileStatus, 'default', 0);
         return $this;
     }
 
