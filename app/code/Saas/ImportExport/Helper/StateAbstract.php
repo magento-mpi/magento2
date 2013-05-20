@@ -17,24 +17,19 @@ abstract class Saas_ImportExport_Helper_StateAbstract extends Mage_Core_Helper_A
     protected $_stateFlag;
 
     /**
-     * @var Saas_ImportExport_Helper_Shutdown_Handler
-     */
-    protected $_shutdownHandler;
-
-    /**
      * Constructor
      *
      * @param Mage_Core_Helper_Context $context
      * @param Saas_ImportExport_Model_StateFlag $stateFlag
-     * @param Saas_ImportExport_Helper_Shutdown_Handler $shutdownHandler
+     * @param Saas_ImportExport_Helper_Data $dataHelper
      */
     public function __construct(
         Mage_Core_Helper_Context $context,
         Saas_ImportExport_Model_StateFlag $stateFlag,
-        Saas_ImportExport_Helper_Shutdown_Handler $shutdownHandler
+        Saas_ImportExport_Helper_Data $dataHelper
     ) {
         $this->_stateFlag = $stateFlag;
-        $this->_shutdownHandler = $shutdownHandler;
+        $dataHelper->registerShutdownFunction($this, 'onValidationShutdown');
         parent::__construct($context);
     }
 
@@ -99,18 +94,6 @@ abstract class Saas_ImportExport_Helper_StateAbstract extends Mage_Core_Helper_A
     public function setTaskAsNotified()
     {
         $this->_stateFlag->saveAsNotified();
-        return $this;
-    }
-
-    /**
-     * Register shutdown function for processing PHP Fatal Errors which had occurred during specified process
-     *
-     * @return Saas_ImportExport_Helper_Import_State
-     */
-    public function registerShutdownFunction()
-    {
-        $this->_shutdownHandler->registerShutdownFunction($this, 'onValidationShutdown');
-
         return $this;
     }
 

@@ -38,7 +38,7 @@ class Saas_ImportExport_Model_Export_Entity_Product  extends Mage_ImportExport_M
      */
     public function getCollection()
     {
-        return $this->_entityCollection;
+        return $this->_getEntityCollection();
     }
 
     /**
