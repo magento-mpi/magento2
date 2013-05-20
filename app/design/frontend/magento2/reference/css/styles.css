@@ -2396,23 +2396,9 @@ div.mage-error {
 .cart.summary {
   margin-top: 33px;
   background: #f8f8f8;
-  display: inline-block;
+  float: right;
   width: 290px;
-  margin-left:10px;;
-}
-
-.cart > .summary.fixed, .cart.container > .summary > .container.fixed {
-    position: fixed;
-    top: 0;
-}
-.cart.container > .summary.bottom {
-    vertical-align: bottom;
-    bottom:0;
-}
-
-.cart.container > .summary.sticky{
-    position:fixed;
-    display:inline-block !important
+  padding: 20px;
 }
 .cart.summary .summary.title {
   font-size: 20px;

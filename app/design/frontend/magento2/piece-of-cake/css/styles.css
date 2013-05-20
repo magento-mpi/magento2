@@ -2793,25 +2793,10 @@ select:disabled {
   width: 665px;
 }
 .cart.summary {
-  display: inline-block;
+  float: right;
   width: 290px;
   padding: 0 20px 20px;
-  margin-left:10px;
 }
-.cart > .summary.fixed, .cart.container > .summary > .container.fixed {
-    position: fixed;
-    top: 0;
-}
-.cart.container > .summary.bottom {
-    vertical-align: bottom;
-    bottom:0;
-}
-
-.cart.container > .summary.sticky{
-    position:fixed;
-    display:inline-block !important
-}
-
 .cart.summary .summary.title {
   color: #202020;
   font-family: 'Tenor Sans', sans-serif;

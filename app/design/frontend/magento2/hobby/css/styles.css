@@ -2745,10 +2745,9 @@ select:disabled {
 .cart.summary {
   margin-top: 33px;
   background: #ffffff;
-  display: inline-block;
+  float: right;
   width: 290px;
   padding: 20px;
-  margin-left:10px;
 }
 .cart.summary .summary.title {
   font-family: "benchnine";
@@ -2758,21 +2757,6 @@ select:disabled {
   border-bottom: 1px solid #d9d9d9;
   padding-bottom: 15px;
 }
-
-.cart > .summary.fixed, .cart.container > .summary > .container.fixed {
-    position: fixed;
-    top: 0;
-}
-.cart.container > .summary.bottom {
-    vertical-align: bottom;
-    bottom:0;
-}
-
-.cart.container > .summary.sticky{
-    position:fixed;
-    display:inline-block !important
-}
-
 .cart.summary .block {
   border-bottom: 1px solid #d9d9d9;
   margin-bottom: 0;
@@ -3267,11 +3251,6 @@ select:disabled {
   position: relative;
   z-index: 1;
 }
-.products.minilist .items {
-  overflow: auto;
-  max-height: 360px;
-}
-
 .products.minilist .item {
   -webkit-box-sizing: border-box;
   /* Safari/Chrome, other WebKit */

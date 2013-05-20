@@ -3748,6 +3748,15 @@ ul.messages ul {
   margin: -5px 0 0;
   padding: 0 15px 5px;
 }
+.product-pricing {
+  background: #ffffff;
+  border: 1px solid #e2e2e2;
+  border-top: 0;
+  color: #666666;
+  font-size: 12px;
+  margin: -5px 0 0;
+  padding: 0 15px 5px;
+}
 .action.primary.customize,
 .action.primary.tocart {
   border: none;
@@ -5545,26 +5554,10 @@ body.type-bundle {
 .cart.summary {
   background: #f6f4f3;
   margin-top: 27px;
-  display: inline-block;
+  float: right;
   width: 260px;
   padding: 20px;
-  margin-left:10px;
 }
-
-.cart > .summary.fixed, .cart.container > .summary > .container.fixed {
-    position: fixed;
-    top: 0;
-}
-.cart.container > .summary.bottom {
-    vertical-align: bottom;
-    bottom:0;
-}
-
-.cart.container > .summary.sticky{
-    position:fixed;
-    display:inline-block !important
-}
-
 .cart.summary .summary.title {
   font: 400 16px comfortaa, Arial, Helvetica, sans-serif;
   letter-spacing: 0.1em;
@@ -6248,8 +6241,6 @@ body.type-bundle {
 .minicart .products.minilist .minilist.items {
   margin: 0;
   position: relative;
-  overflow: auto;
-  max-height: 510px;
 }
 .minicart .products.minilist .item {
   *zoom: 1;
