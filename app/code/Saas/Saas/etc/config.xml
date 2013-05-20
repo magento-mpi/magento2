@@ -66,4 +66,11 @@
             </core_config_data_save_before>
         </events>
     </adminhtml>
+    <default>
+        <web>
+             <forbiddenForRedirectAreas>
+                <vde></vde>
+            </forbiddenForRedirectAreas>
+        </web>
+    </default>
 </config>
