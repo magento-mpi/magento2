@@ -66,7 +66,7 @@ class Saas_Apps_Helper_Data extends Mage_Backend_Helper_Data
         $url = (string)$this->_config->getNode(self::XML_PATH_APP_TAB_URL . '/' . $localeCode);
         if (!$url) {
             $url = (string)$this->_config->getNode(
-                self::XML_PATH_APP_TAB_URL . '/' . Mage_Core_Model_Locale::DEFAULT_LOCALE
+                self::XML_PATH_APP_TAB_URL . '/' . Mage_Core_Model_LocaleInterface::DEFAULT_LOCALE
             );
         }
         return $url;
