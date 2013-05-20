@@ -80,7 +80,8 @@ class Core_Mage_DesignEditor_Helper extends Mage_Selenium_AbstractHelper
         $this->closeWindow($this->_windowId);
         $this->selectLastWindow();
         $this->validatePage();
-
+        $this->assertMessagePresent('success', 'assign_success');
+        $this->clickButton('close');
 
         return $themeId;
     }
