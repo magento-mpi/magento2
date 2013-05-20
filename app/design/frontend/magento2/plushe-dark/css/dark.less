@@ -17,8 +17,9 @@
 @headerBg : #313131;
 @headerBgImage : none;
 @pageMainBg : #464646;
-@searchFieldBg : #ababab;
+@searchFieldBg : #bbb;
 @textColor: #c4c4c4;
+@inputColor: #333;
 
 @link : #c4c4c4;
 
@@ -42,26 +43,26 @@ a > span {
 
 .action.showcart {
     .qty {
-        color: #333;
+        color: @inputColor;
     }
 }
 
 .primaryAction() {
     span {
-        color: #333;
+        color: @inputColor;
     }
 }
 
 .formField() {
     .addon {
         .addafter {
-            color: #333;
+            color: @inputColor;
         }
     }
 }
 
 input, select, textarea {
-    color: #333;
+    color: @inputColor;
 }
 
 .toolbar {

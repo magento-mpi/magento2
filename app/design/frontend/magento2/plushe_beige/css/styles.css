@@ -8121,6 +8121,11 @@ img[align="right"] {
 .form.search.advanced .field.price .range.price.fields.group .field:first-child input {
   width: 96%;
 }
+.form.search.advanced .group.price .addon .addafter {
+  color: #837d75;
+  border: none;
+  background: none;
+}
 /*
  *    My Account -> My orders
  *

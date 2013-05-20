@@ -1410,6 +1410,18 @@ div.mage-error {
         border-radius: 3px 0 0 3px;
         border-right: 0;
         border-color: @primary3;
+        &::-webkit-input-placeholder {
+          color: @inputColor;
+        }
+        &:-moz-placeholder { /* Firefox 18- */
+          color: @inputColor;
+        }
+        &::-moz-placeholder {  /* Firefox 19+ */
+          color: @inputColor;
+        }
+        &:-ms-input-placeholder {
+          color: @inputColor;
+        }
         &:focus {
             border-color: @primary3;
         }
@@ -1574,7 +1586,7 @@ div.mage-error {
             display: block;
             letter-spacing: normal;
             word-spacing: normal;
-            color: @secondary1;
+            color: @secondary2;
         }
     }
 }
@@ -2780,6 +2792,18 @@ div.mage-error {
     }
     input[type="text"] {
         width: 100%;
+        &::-webkit-input-placeholder {
+          color: @inputColor;
+        }
+        &:-moz-placeholder { /* Firefox 18- */
+          color: @inputColor;
+        }
+        &::-moz-placeholder {  /* Firefox 19+ */
+          color: @inputColor;
+        }
+        &:-ms-input-placeholder {
+          color: @inputColor;
+        }
     }
     .footer & {
         width:310px;
@@ -4876,7 +4900,7 @@ and (max-width : 768px) {
             padding: 10px 0 0;
             letter-spacing: normal;
             word-spacing: normal;
-            color: @secondary1;
+            color: @secondary2 !important;
         }
     }
 }
@@ -5501,6 +5525,15 @@ and (max-width : 768px) {
             }
         }
     }
+  .group.price {
+    .addon {
+      .addafter {
+        color: @textColor;
+        border: none;
+        background: none;
+      }
+    }
+  }
 }
 
 /*
