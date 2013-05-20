@@ -12,7 +12,7 @@
 design_editor_selector:
     mca: system_design_editor/
     click_xpath: //*[@class='navigation']//a[contains(@href, '/system_design_editor/')]
-    title: Editor / Design / Content / Magento Admin
+    title: Store Designer / Design / Content / Magento Admin
     uimap: &designEditorSelector
         pageelements:
             header_available_themes: //h3[contains(.,'Choose a theme to start with')]
@@ -24,36 +24,49 @@ design_editor_selector:
             store_view_label_by_title: //div[@id='store-view-window']//label[contains(., '%storeName%')]
             store_view_input_by_id: //div[@id='store-view-window']//input[@id='%storeId%']
             theme_thumbnail: //li[@id='theme-id-%id%']//div[@class='theme-content']
+            thumbnail: //div/article[contains(.,'%themeTitle%')]
             theme_assigned_storeview: //li[@id='theme-id-%id%']//*[@class='theme-assigned-to-storeview' and contains(.,'%id%')]
+            edit_theme_name: //li[@id='theme-id-%id%']//span[@class='edit-theme-title']
+            theme_title: //li[@id='theme-id-%id%']/div[@class='theme-assigned-data']/h4[@class='theme-title']
         links:
             available_themes_tab: //a[@id='theme_selector_tabs_available_themes']
             customized_themes_tab: //a[@id='theme_selector_tabs_customizations']
-            assign_theme: //li[@id='theme-id-%id%']//*[contains(@class, 'action-theme-assign')]
+            assign_theme: //div/article[contains(.,'%themeTitle%')]//*[contains(@class, 'action-theme-assign')]
         messages:
             confirmation_for_delete: Are you sure you want to do this?
             success_deleted_theme: //li[normalize-space(@class)='success-msg' and contains(.,'The theme has been deleted.')]
             confirmation_for_assign_to_default: You are about to apply this theme for your live store, are you really want to do this?
         buttons:
-            assign_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Assign to a Storeview')]
-            edit_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Edit')]
+            assign_theme_button: //div/article[contains(.,'%themeTitle%')]//button[contains(@title, 'Assign to a Storeview')]
+            assign_customization_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Assign to a Storeview')]
+            edit_customization_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Edit')]
+            edit_theme_button: //div/article[contains(.,'%themeTitle%')]//button[contains(@title, 'Edit')]
             delete_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Remove')]
-            preview_demo_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Theme Demo')]
             preview_theme_button: //li[@id='theme-id-%id%']//button[contains(@title, 'Preview Theme')]
             store_assign_done: //div[@id='store-view-window']//button[contains(@title, 'Assign')]
             store_assign_close: //div[@id='store-view-window']//div[contains (@class, 'actions')]//span[contains(@title, 'Close')]
             store_assign_close_x: //div[@id='store-view-window']//div[contains (@class, 'popup')]//span[contains(@class, 'action-close-popup')]
             duplicate_theme: //li[@id='theme-id-%id%']//button[@class='action-duplicate']
-
+            save_rename_theme: //li[@id='theme-id-%id%']//button[contains(@title, 'Save')]
         dropdowns:
             locales_switcher: //select[@id='interface_locale']
+        fields:
+            theme_name: //form[@class='edit-theme-title-form']/input
+
+design_editor_selector_first_assign:
+    mca: system_design_editor/#theme_selector_tabs_available_themes_content
+    click_xpath: //*[@class='navigation']//a[contains(@href, '/system_design_editor/')]
+    title: Store Designer / Design / Content / Magento Admin
+    uimap: *designEditorSelector
 
 preview_theme_in_navigation:
     mca: system_design_editor/launch/theme_id/%id%/mode/navigation/
-    title: Editor / Magento Admin
+    title: Store Designer / Magento Admin
     uimap:
         buttons:
             select: //div[@id='vde_toolbar_buttons']//button[@data-toggle='dropdown']
             save_and_assign: //div[@id='vde_toolbar_buttons']//span[contains(text(), 'Save and Assign')]
+            assign: //button[contains(@title, 'Assign')]
         links:
             quit: //div[@id='vde_toolbar_buttons']//a[contains(@href, 'quit/')]
         pageelements:
@@ -66,7 +79,7 @@ preview_theme_in_navigation:
 
 preview_theme_in_design:
     mca: system_design_editor/launch/theme_id/%id%/mode/design/
-    title: Editor / Magento Admin
+    title: Store Designer / Magento Admin
     uimap: &themeInDesign
         form:
             fieldsets:
@@ -75,6 +88,7 @@ preview_theme_in_design:
                         buttons:
                             select: //div[@id='vde_toolbar_buttons']//button[@data-toggle='dropdown']
                             save_and_assign: //div[@id='vde_toolbar_buttons']//span[contains(text(), 'Save and Assign')]
+                            assign: //button[contains(@title, 'Assign')]
                         pageelements:
                             mode_switcher: //div[@id='vde_toolbar_row']//label[@for='product-online-switcher']
                             vde_toolbar_row: //div[@id='vde_toolbar_row']
@@ -85,6 +99,7 @@ preview_theme_in_design:
                             view_option: //div[@id='vde_view_options']//div[@class='vde_toolbar_cell_title']
                         messages:
                             confirmation_for_assign_to_default_in_dm: You are about to apply current changes for your live store, are you sure want to do this?
+                            assign_physical_theme_to_default_in_dm: "You are about to apply this theme for your live store, are you sure want to do this?\n\nNote: copy of the current theme will be created automatically and assigned to your store, so you can change your copy as you wish"
                             no_change: No changes found.
                 -
                     bottom_bar:
@@ -270,7 +285,7 @@ preview_theme_in_design:
                                         css_print: //span[contains(text(), 'css/print.css')]
                                         css_styles_ie: //span[contains(text(), 'css/styles-ie.css')]
                                         css_styles: //span[contains(text(), 'css/styles.css')]
-                                        jquery_jqzoom: //span[contains(text(), 'pub/lib/jquery/jqzoom/css/jquery.jqzoom.css')]
+                                        jquery_jqzoom: //span[contains(text(), 'js/jqzoom/css/jquery.jqzoom.css')]
                                         mage_cms: //span[contains(text(), 'Mage_Cms::widgets.css')]
                                         mage_page: //span[contains(text(), 'Mage_Page::css/tabs.css')]
                                         mage_reports: //span[contains(text(), 'Mage_Reports::widgets.css')]
@@ -279,7 +294,7 @@ preview_theme_in_design:
                                         css_print_download: //li[@class='item' and contains (., 'css/print.css')]/a[@class='action-download']
                                         css_styles_ie_download: //li[@class='item' and contains (., 'css/styles-ie.css')]/a[@class='action-download']
                                         css_styles_download: //li[@class='item' and contains (., 'css/styles.css')]/a[@class='action-download']
-                                        jquery_jqzoom_download: //li[@class='item' and contains (., 'pub/lib/jquery/jqzoom/css/jquery.jqzoom.css')]/a[@class='action-download']
+                                        jquery_jqzoom_download: //li[@class='item' and contains (., 'js/jqzoom/css/jquery.jqzoom.css')]/a[@class='action-download']
                                         mage_cms_download: //li[@class='item' and contains (., 'Mage_Cms::widgets.css')]/a[@class='action-download']
                                         mage_page_download: //li[@class='item' and contains (., 'Mage_Page::css/tabs.css')]/a[@class='action-download']
                                         mage_reports_download: //li[@class='item' and contains (., 'Mage_Reports::widgets.css')]/a[@class='action-download']
@@ -312,15 +327,15 @@ preview_theme_in_design:
 
 assigned_theme_default_in_design:
     mca: system_design_editor/launch/store_id/0/theme_id/%id%/
-    title: Editor / Magento Admin
+    title: Store Designer / Magento Admin
     uimap: *themeInDesign
 
 assigned_theme_in_design:
     mca: system_design_editor/launch/store_id/%storeId%/theme_id/%storeId%/
-    title: Editor / Design / Content / Magento Admin
+    title: Store Designer / Magento Admin
     uimap: *themeInDesign
 
 save_and_assign_theme_default_in_design:
     mca: system_design_editor/launch/theme_id/%id%/store_id/0/theme_id/%id%/
-    title: Editor / Design / Content / Magento Admin
+    title: Store Designer / Magento Admin
     uimap: *themeInDesign

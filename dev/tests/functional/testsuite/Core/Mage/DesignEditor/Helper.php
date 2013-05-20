@@ -37,13 +37,9 @@ class Core_Mage_DesignEditor_Helper extends Mage_Selenium_AbstractHelper
 
     /**
      * Delete theme
-     * @param $themeData
      */
-    public function deleteTheme($themeData)
+    public function deleteTheme()
     {
-        $themeId = $this->themeHelper()->getThemeIdByTitle($themeData['theme']['theme_title']);
-        $this->addParameter('id', $themeId);
-        $this->navigate('design_editor_selector');
         $this->clickButtonAndConfirm('delete_theme_button', 'confirmation_for_delete');
         $this->assertMessagePresent('success', 'success_deleted_theme');
     }
@@ -59,6 +55,41 @@ class Core_Mage_DesignEditor_Helper extends Mage_Selenium_AbstractHelper
         if (($status && $statusData == 'Disabled') || (!$status && $statusData == 'Enabled')) {
             $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'mode_switcher');
         }
+    }
+
+    /**
+     * Assign theme from Available theme tab.
+     */
+    public function assignFromAvailableThemeTab($themeTitle = 'Magento Fixed Design')
+    {
+        $this->clickControl('link', 'available_themes_tab', false);
+        $this->waitForAjax();
+        $this->addParameter('themeTitle', $themeTitle);
+        $this->mouseOver('thumbnail');
+        $this->focusOnThemeElement('button', 'assign_theme_button');
+        $this->clickButtonAndConfirm('assign_theme_button', 'confirmation_for_assign_to_default', false);
+        $this->_windowId = $this->selectLastWindow();
+        $themeId = $this->defineParameterFromUrl('theme_id', $url = null);
+        $this->addParameter('id', $themeId);
+        $this->validatePage('assigned_theme_default_in_design');
+
+        $this->closeWindow($this->_windowId);
+        $this->selectLastWindow();
+        $this->validatePage();
+
+
+        return $themeId;
+    }
+
+    /**
+     * Focus on the theme
+     */
+    public function focusOnThemeElement($controlType, $controlName)
+    {
+        $locator = $this->_getControlXpath($controlType, $controlName);
+        $availableElement = $this->elementIsPresent($locator);
+        $this->focusOnElement($availableElement);
+        $this->pleaseWait();
     }
 
 }
