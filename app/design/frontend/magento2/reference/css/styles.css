@@ -4220,7 +4220,8 @@ div.mage-error {
 .block.widget.viewed,
 .block.crosssell,
 .block.upsell,
-.block.related {
+.block.related,
+.block.widget.new {
   clear: both;
   margin: 30px 0;
   padding-top: 25px;
@@ -4229,13 +4230,15 @@ div.mage-error {
 .block.widget.viewed .products.list,
 .block.crosssell .products.list,
 .block.upsell .products.list,
-.block.related .products.list {
+.block.related .products.list,
+.block.widget.new .products.list {
   margin: 0 -20px;
 }
 .block.widget.viewed .products.list .item.product,
 .block.crosssell .products.list .item.product,
 .block.upsell .products.list .item.product,
-.block.related .products.list .item.product {
+.block.related .products.list .item.product,
+.block.widget.new .products.list .item.product {
   display: inline;
   float: left;
   width: 33.33333333333333%;
@@ -4258,55 +4261,64 @@ div.mage-error {
 .col3-layout .block.widget.viewed .products.list .item.product,
 .col3-layout .block.crosssell .products.list .item.product,
 .col3-layout .block.upsell .products.list .item.product,
-.col3-layout .block.related .products.list .item.product {
+.col3-layout .block.related .products.list .item.product,
+.col3-layout .block.widget.new .products.list .item.product {
   width: 50%;
 }
 .block.widget.viewed .products.list .item.product .product.photo,
 .block.crosssell .products.list .item.product .product.photo,
 .block.upsell .products.list .item.product .product.photo,
-.block.related .products.list .item.product .product.photo {
+.block.related .products.list .item.product .product.photo,
+.block.widget.new .products.list .item.product .product.photo {
   float: left;
   margin-right: 20px;
 }
 .block.widget.viewed .products.list .item.product .product.details,
 .block.crosssell .products.list .item.product .product.details,
 .block.upsell .products.list .item.product .product.details,
-.block.related .products.list .item.product .product.details {
+.block.related .products.list .item.product .product.details,
+.block.widget.new .products.list .item.product .product.details {
   overflow: hidden;
 }
 .block.widget.viewed .products.list .item.product .product.name,
 .block.crosssell .products.list .item.product .product.name,
 .block.upsell .products.list .item.product .product.name,
 .block.related .products.list .item.product .product.name,
+.block.widget.new .products.list .item.product .product.name,
 .block.widget.viewed .products.list .item.product .price-box,
 .block.crosssell .products.list .item.product .price-box,
 .block.upsell .products.list .item.product .price-box,
-.block.related .products.list .item.product .price-box {
+.block.related .products.list .item.product .price-box,
+.block.widget.new .products.list .item.product .price-box {
   margin: 0 0 10px;
 }
 .block.widget.viewed .products.list .item.product .addto.links .action:after,
 .block.crosssell .products.list .item.product .addto.links .action:after,
 .block.upsell .products.list .item.product .addto.links .action:after,
-.block.related .products.list .item.product .addto.links .action:after {
+.block.related .products.list .item.product .addto.links .action:after,
+.block.widget.new .products.list .item.product .addto.links .action:after {
   content: '';
   display: block;
 }
 .block.widget.viewed .products.list .item.product .actions,
 .block.crosssell .products.list .item.product .actions,
 .block.upsell .products.list .item.product .actions,
-.block.related .products.list .item.product .actions {
+.block.related .products.list .item.product .actions,
+.block.widget.new .products.list .item.product .actions {
   visibility: hidden;
 }
 .block.widget.viewed .products.list .item.product .actions .primary,
 .block.crosssell .products.list .item.product .actions .primary,
 .block.upsell .products.list .item.product .actions .primary,
-.block.related .products.list .item.product .actions .primary {
+.block.related .products.list .item.product .actions .primary,
+.block.widget.new .products.list .item.product .actions .primary {
   margin: 0 0 10px;
 }
 .block.widget.viewed .products.list .item.product:hover .actions,
 .block.crosssell .products.list .item.product:hover .actions,
 .block.upsell .products.list .item.product:hover .actions,
-.block.related .products.list .item.product:hover .actions {
+.block.related .products.list .item.product:hover .actions,
+.block.widget.new .products.list .item.product:hover .actions {
   visibility: visible;
 }
 .block.crosssell .products.list.items.crosssell {
@@ -4362,6 +4374,52 @@ div.mage-error {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  float: none;
+  display: inline-block;
+}
+.block.widget.new .products.list.items.widget-new-grid .item.product {
+  width: 20%;
+  float: none;
+  display: inline-block;
+}
+.col2-left-layout .block.widget.new .products.list.items.widget-new-grid .item.product,
+.col2-right-layout .block.widget.new .products.list.items.widget-new-grid .item.product {
+  display: inline;
+  float: left;
+  width: 25%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  float: none;
+  display: inline-block;
+}
+.col3-layout .block.widget.new .products.list.items.widget-new-grid .item.product {
+  display: inline;
+  float: left;
+  width: 33.33333333333333%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  float: none;
+  display: inline-block;
+}
+.block.widget.new .products.list.items.widget-new-grid .item.product .product.photo {
+  float: none;
+  display: block;
+  margin: 0 0 10px;
+}
+.block.widget.new .products.list.items.widget-new-list .item.product {
+  display: inline;
+  float: left;
+  width: 100%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  float: none;
+  display: inline-block;
 }
 .product.info.detailed + .block.upsell,
 .product.info.detailed + .block.related {
