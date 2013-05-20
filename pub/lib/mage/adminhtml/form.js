@@ -439,7 +439,7 @@ FormElementDependenceController.prototype = {
                 $(idTo).show();
                 if (['input', 'select'].indexOf($(idTo).tagName.toLowerCase()) != -1) {
                     $(idTo).disabled = false;
-                    jQuery(idTo).removeClass('ignore-validate');
+                    jQuery('#' + idTo).removeClass('ignore-validate');
                 }
             }
         } else {
@@ -458,7 +458,7 @@ FormElementDependenceController.prototype = {
             $(idTo).hide();
             if (['input', 'select'].indexOf($(idTo).tagName.toLowerCase()) != -1) {
                 $(idTo).disabled = true;
-                jQuery(idTo).addClass('ignore-validate');
+                jQuery('#' + idTo).addClass('ignore-validate');
             }
 
         }
