@@ -16,9 +16,8 @@ class Saas_ImportExport_Model_Import_State_Flag extends Saas_ImportExport_Model_
      */
     protected $_flagCode = 'import_entity';
 
-    /**#@+
+    /**
      * Flag max lifetime after last update
      */
     const FLAG_LIFETIME = 1800;
-    /**#@-*/
 }

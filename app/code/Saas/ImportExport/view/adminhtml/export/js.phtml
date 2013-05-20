@@ -30,7 +30,7 @@
         /**
          * Check export progress
          */
-        checkStatus: function(){
+        checkStatus: function() {
             var self = this,
                 ajaxParams = {
                     url: '<?php echo $this->getCheckExportUrl()?>',
@@ -54,7 +54,7 @@
             jQuery.ajax(ajaxParams)
         }
     };
-    <?php if ($this->isExportInProgress()) : ?>
+    <?php if ($this->isExportInProgress()): ?>
         (function($) {
             saasExport.disableExport();
             saasExport.checkStatus();

@@ -16,8 +16,6 @@ class Saas_ImportExport_Model_System_Message_ImportFinished extends Saas_ImportE
 
     /**
      * @inheritdoc
-     *
-     * @return string
      */
     public function getText()
     {

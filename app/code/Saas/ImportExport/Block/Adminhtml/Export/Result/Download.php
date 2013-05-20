@@ -77,15 +77,15 @@ class Saas_ImportExport_Block_Adminhtml_Export_Result_Download extends Mage_Back
      */
     public function getFileName()
     {
-        return $this->isFileReady() ? $this->_fileHelper->getDownloadName() : '';
+        return $this->isFileExist() ? $this->_fileHelper->getDownloadName() : '';
     }
 
     /**
-     * Is export file ready
+     * Is export file exist
      *
      * @return bool
      */
-    public function isFileReady()
+    public function isFileExist()
     {
         return $this->_fileHelper->isExist();
     }

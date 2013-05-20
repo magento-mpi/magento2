@@ -18,7 +18,8 @@
             <?php if ($this->isExportInProgress()): ?>
                 <div id="export-loader">
                     <p class="loader">
-                        <img src="<?php echo $this->getViewFileUrl('images/ajax-loader-tr.gif') ?>" alt="<?php echo $this->__('Loading...') ?>"/>
+                        <img src="<?php echo $this->getViewFileUrl('images/ajax-loader-tr.gif') ?>"
+                             alt="<?php echo $this->__('Loading...') ?>"/>
                         <br/><?php echo $this->__('Please wait...') ?> <span class="export-progress"></span>
                     </p>
                 </div>

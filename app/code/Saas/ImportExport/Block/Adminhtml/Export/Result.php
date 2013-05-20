@@ -10,9 +10,9 @@
 class Saas_ImportExport_Block_Adminhtml_Export_Result extends Mage_Backend_Block_Template
 {
     /**
-     * How often should be status of export checked
+     * How often should be status of export checked (in ms)
      */
-    const TIMEOUT_CHECK_EXPORT_PROGRESS = 3;
+    const TIMEOUT_CHECK_EXPORT_PROGRESS = 3000;
 
     /**
      * @var Saas_ImportExport_Helper_Export_State
@@ -66,7 +66,7 @@ class Saas_ImportExport_Block_Adminhtml_Export_Result extends Mage_Backend_Block
      */
     public function getCheckExportTimeout()
     {
-        return self::TIMEOUT_CHECK_EXPORT_PROGRESS * 1000;
+        return self::TIMEOUT_CHECK_EXPORT_PROGRESS;
     }
 
     /**
@@ -74,9 +74,6 @@ class Saas_ImportExport_Block_Adminhtml_Export_Result extends Mage_Backend_Block
      */
     protected function _toHtml()
     {
-        if ($this->isExportInProgress() || $this->_fileHelper->isExist()) {
-            return parent::_toHtml();
-        }
-        return '';
+        return $this->isExportInProgress() || $this->_fileHelper->isExist() ? parent::_toHtml() : '';
     }
 }

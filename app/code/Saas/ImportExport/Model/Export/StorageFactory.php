@@ -22,17 +22,17 @@ class Saas_ImportExport_Model_Export_StorageFactory
     /**
      * Return concrete storage instance
      *
-     * @param string $storageFormat
+     * @param string $modelName
      * @param string $destination
      * @return Saas_ImportExport_Model_Export_Adapter_Abstract
      * @throws Exception
      */
-    public function create($storageFormat, $destination)
+    public function create($modelName, $destination)
     {
-        $validStorages = Mage_ImportExport_Model_Config::getModels(Mage_ImportExport_Model_Export::CONFIG_KEY_FORMATS);
+        $models = Mage_ImportExport_Model_Config::getModels(Mage_ImportExport_Model_Export::CONFIG_KEY_FORMATS);
 
-        if (isset($validStorages[$storageFormat])) {
-            return $this->_objectManager->create($validStorages[$storageFormat]['model'],
+        if (isset($models[$modelName]['model'])) {
+            return $this->_objectManager->create($models[$modelName]['model'],
                 array('destination' => $destination));
         }
         throw new Exception('Invalid export storage adapter');

@@ -137,7 +137,7 @@ abstract class Saas_ImportExport_Model_Export_Adapter_Abstract
             if (is_resource($this->_fileHandler)) {
                 fclose($this->_fileHandler);
             }
-            //Remove previous exports
+            // Remove previous exports
             $exportFiles = glob('{' . dirname($this->_destination) . DS . '*' . '}', GLOB_BRACE);
             foreach ($exportFiles as $exportFile) {
                 if (!unlink($exportFile)) {

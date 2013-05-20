@@ -32,8 +32,6 @@ interface Saas_ImportExport_Model_Export_EntityInterface
 
     /**
      * Prepare collection for export
-     *
-     * @return mixed
      */
     public function prepareCollection();
 
