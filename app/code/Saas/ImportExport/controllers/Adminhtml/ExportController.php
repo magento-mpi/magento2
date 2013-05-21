@@ -102,13 +102,13 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
     {
         if ($this->getRequest()->getPost(Mage_ImportExport_Model_Export::FILTER_ELEMENT_GROUP)) {
             try {
-                $this->_stateHelper->setTaskAsQueued();
+                $this->_stateHelper->saveTaskAsQueued();
                 $this->_eventManager->dispatch($this->_getEventName(), array(
                     'export_params' => $this->getRequest()->getParams()
                 ));
                 $this->_getSession()->addSuccess($this->__('Export task has been added to queue.'));
             } catch (Exception $e) {
-                $this->_stateHelper->setTaskAsNotified();
+                $this->_stateHelper->saveTaskAsNotified();
                 $this->_logger->logException($e);
                 $this->_getSession()->addError($this->__('No valid data sent.'));
             }
@@ -156,8 +156,8 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
         try {
             $this->_fileHelper->removeLastExportFile();
             $this->_getSession()->addSuccess($this->__('Export file has been removed.'));
-        } catch (Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+        } catch (Magento_Filesystem_Exception $e) {
+            $this->_getSession()->addError($this->__('File has not been removed.'));
         }
         $this->_redirect('*/*/index');
     }
@@ -172,7 +172,7 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
         } else {
             $result = array('finished' => true, 'html' => $this->_getExportInfoHtml());
             // it is need to prevent display "export finished" message
-            $this->_stateHelper->setTaskAsNotified();
+            $this->_stateHelper->saveTaskAsNotified();
         }
 
         $this->getResponse()->setBody($this->_coreHelper->jsonEncode($result));

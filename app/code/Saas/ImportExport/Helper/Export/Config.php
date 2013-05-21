@@ -64,6 +64,8 @@ class Saas_ImportExport_Helper_Export_Config extends Mage_Core_Helper_Abstract
      */
     public function getStorageFilePath($entityType)
     {
-        return $this->_dir->getDir('media') . DS . 'importexport' . DS . 'export' . DS . $entityType;
+        return $this->_dir->getDir('media') . Magento_Filesystem::DIRECTORY_SEPARATOR . 'importexport'
+            . Magento_Filesystem::DIRECTORY_SEPARATOR . 'export'
+            . Magento_Filesystem::DIRECTORY_SEPARATOR . $entityType;
     }
 }

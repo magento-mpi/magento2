@@ -6,24 +6,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_ImportExport_Model_Export_Adapter_Csv extends Saas_ImportExport_Model_Export_Adapter_Abstract
+class Saas_ImportExport_Model_Export_Adapter_Csv extends Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
 {
     /**
-     * Field delimiter.
+     * Field delimiter
      *
      * @var string
      */
     protected $_delimiter = ',';
 
     /**
-     * Field enclosure character.
+     * Field enclosure character
      *
      * @var string
      */
     protected $_enclosure = '"';
 
     /**
-     * Object destructor.
+     * Object destructor
      *
      * @return void
      */
@@ -35,7 +35,7 @@ class Saas_ImportExport_Model_Export_Adapter_Csv extends Saas_ImportExport_Model
     }
 
     /**
-     * Method called as last step of object instance creation. Can be overrided in child classes.
+     * Open file handler
      *
      * @return Saas_ImportExport_Model_Export_Adapter_Csv
      */
@@ -46,9 +46,7 @@ class Saas_ImportExport_Model_Export_Adapter_Csv extends Saas_ImportExport_Model
     }
 
     /**
-     * Return file extension for downloading.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getFileExtension()
     {
@@ -56,53 +54,34 @@ class Saas_ImportExport_Model_Export_Adapter_Csv extends Saas_ImportExport_Model
     }
 
     /**
-     * Write row data to source file.
-     *
-     * @param array $rowData
-     * @throws Exception
-     * @return Mage_ImportExport_Model_Export_Adapter_Abstract
+     * {@inheritdoc}
      */
-    public function writeRow($rowData)
+    public function writeRow(array $rowData)
     {
-        if (null === $this->_headerCols) {
-            $this->setHeaderCols(array_keys($rowData));
-        }
-        fputcsv(
-            $this->_fileHandler,
-            array_merge($this->_headerCols, array_intersect_key($rowData, $this->_headerCols)),
-            $this->_delimiter,
-            $this->_enclosure
-        );
-
+        $this->_saveToCsv(array_merge($this->_headerColumns, array_intersect_key($rowData, $this->_headerColumns)));
         return $this;
     }
 
     /**
-     * Set column names.
-     *
-     * @param array $headerColumns
-     * @param boolean $writeToFile
-     * @throws Exception
-     * @return Mage_ImportExport_Model_Export_Adapter_Abstract
+     * {@inheritdoc}
      */
-    protected function _setHeaderCols(array $headerColumns, $writeToFile = true)
+    public function writeHeaderColumns(array $headerColumns)
     {
-        if (null !== $this->_headerCols && $writeToFile) {
+        if (null !== $this->_headerColumns) {
             return $this;
         }
-        if ($headerColumns) {
-            foreach ($headerColumns as $columnName) {
-                $this->_headerCols[$columnName] = false;
-            }
-            if ($writeToFile) {
-                fputcsv(
-                    $this->_fileHandler,
-                    array_keys($this->_headerCols),
-                    $this->_delimiter,
-                    $this->_enclosure
-                );
-            }
-        }
+        $this->saveHeaderColumns($headerColumns);
+        $this->_saveToCsv(array_keys($this->_headerColumns));
         return $this;
+    }
+
+    /**
+     * Save data to csv
+     *
+     * @param array $fields
+     */
+    protected function _saveToCsv(array $fields)
+    {
+        fputcsv($this->_fileHandler, $fields, $this->_delimiter, $this->_enclosure);
     }
 }

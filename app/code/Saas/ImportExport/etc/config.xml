@@ -110,16 +110,16 @@
                     <stateFlag>Saas_ImportExport_Model_Export_State_Flag</stateFlag>
                 </parameters>
             </Saas_ImportExport_Helper_Export_State>
-            <Saas_ImportExport_Model_System_Message_ExportFinished>
+            <Saas_ImportExport_Model_Export_System_Message_Finished>
                 <parameters>
                     <stateHelper>Saas_ImportExport_Helper_Export_State</stateHelper>
                 </parameters>
-            </Saas_ImportExport_Model_System_Message_ExportFinished>
-            <Saas_ImportExport_Model_System_Message_ImportFinished>
+            </Saas_ImportExport_Model_Export_System_Message_Finished>
+            <Saas_ImportExport_Model_Import_System_Message_Finished>
                 <parameters>
                     <stateHelper>Saas_ImportExport_Helper_Import_State</stateHelper>
                 </parameters>
-            </Saas_ImportExport_Model_System_Message_ImportFinished>
+            </Saas_ImportExport_Model_Import_System_Message_Finished>
         </di>
     </global>
     <admin>
@@ -145,8 +145,8 @@
             <Mage_AdminNotification_Model_System_MessageList>
                 <parameters>
                     <messages>
-                        <export_finished>Saas_ImportExport_Model_System_Message_ExportFinished</export_finished>
-                        <import_finished>Saas_ImportExport_Model_System_Message_ImportFinished</import_finished>
+                        <export_finished>Saas_ImportExport_Model_Export_System_Message_Finished</export_finished>
+                        <import_finished>Saas_ImportExport_Model_Import_System_Message_Finished</import_finished>
                     </messages>
                 </parameters>
             </Mage_AdminNotification_Model_System_MessageList>

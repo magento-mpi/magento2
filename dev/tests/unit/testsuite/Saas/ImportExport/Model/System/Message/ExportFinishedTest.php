@@ -7,7 +7,7 @@
  */
 class Saas_ImportExport_Model_System_Message_ExportFinishedTest extends PHPUnit_Framework_TestCase {
     /**
-     * @var Saas_ImportExport_Model_System_Message_ExportFinished
+     * @var Saas_ImportExport_Model_Export_System_Message_Finished
      */
     protected $_model;
 
@@ -20,7 +20,7 @@ class Saas_ImportExport_Model_System_Message_ExportFinishedTest extends PHPUnit_
     {
         $this->_stateHelperMock = $this->getMock('Saas_ImportExport_Helper_Export_State', array(), array(), '', false);
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
-        $this->_model = $objectManager->getObject('Saas_ImportExport_Model_System_Message_ExportFinished', array(
+        $this->_model = $objectManager->getObject('Saas_ImportExport_Model_Export_System_Message_Finished', array(
             'stateHelper' => $this->_stateHelperMock
         ));
     }
@@ -28,7 +28,7 @@ class Saas_ImportExport_Model_System_Message_ExportFinishedTest extends PHPUnit_
     public function testIsDisplayedWithNotFinishedState()
     {
         $this->_stateHelperMock->expects($this->any())->method('isTaskFinished')->will($this->returnValue(false));
-        $this->_stateHelperMock->expects($this->never())->method('setTaskAsNotified');
+        $this->_stateHelperMock->expects($this->never())->method('saveTaskAsNotified');
 
         $this->assertFalse($this->_model->isDisplayed());
     }
@@ -36,7 +36,7 @@ class Saas_ImportExport_Model_System_Message_ExportFinishedTest extends PHPUnit_
     public function testIsDisplayedWithFinishedState()
     {
         $this->_stateHelperMock->expects($this->any())->method('isTaskFinished')->will($this->returnValue(true));
-        $this->_stateHelperMock->expects($this->once())->method('setTaskAsNotified');
+        $this->_stateHelperMock->expects($this->once())->method('saveTaskAsNotified');
 
         $this->assertTrue($this->_model->isDisplayed());
         /** check internal cache */
@@ -54,7 +54,7 @@ class Saas_ImportExport_Model_System_Message_ExportFinishedTest extends PHPUnit_
 
     public function testGetIdentity()
     {
-        $this->assertEquals(Saas_ImportExport_Model_System_Message_ExportFinished::MESSAGE_IDENTITY,
+        $this->assertEquals(Saas_ImportExport_Model_Export_System_Message_Finished::MESSAGE_IDENTITY,
             $this->_model->getIdentity());
     }
 

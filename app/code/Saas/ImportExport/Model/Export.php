@@ -15,7 +15,7 @@ class Saas_ImportExport_Model_Export
     protected $_exportEntity;
 
     /**
-     * @var Saas_ImportExport_Model_Export_Adapter_Abstract
+     * @var Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
      */
     protected $_storageAdapter;
 
@@ -50,23 +50,31 @@ class Saas_ImportExport_Model_Export
     protected $_options = array();
 
     /**
+     * @var Mage_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Constructor
      *
      * @param Saas_ImportExport_Model_Export_EntityFactory $entityFactory
      * @param Saas_ImportExport_Model_Export_StorageFactory $storageFactory
      * @param Saas_ImportExport_Helper_Export_Config $configHelper
      * @param Saas_ImportExport_Helper_Export_State $stateHelper
+     * @param Mage_Core_Model_Logger $logger
      */
     public function __construct(
         Saas_ImportExport_Model_Export_EntityFactory $entityFactory,
         Saas_ImportExport_Model_Export_StorageFactory $storageFactory,
         Saas_ImportExport_Helper_Export_Config $configHelper,
-        Saas_ImportExport_Helper_Export_State $stateHelper
+        Saas_ImportExport_Helper_Export_State $stateHelper,
+        Mage_Core_Model_Logger $logger
     ) {
         $this->_exportEntityFactory = $entityFactory;
         $this->_storageAdapterFactory = $storageFactory;
         $this->_configHelper = $configHelper;
         $this->_stateHelper = $stateHelper;
+        $this->_logger = $logger;
     }
 
     /**
@@ -86,12 +94,16 @@ class Saas_ImportExport_Model_Export
      */
     public function export($options)
     {
-        $this->_init($options);
-        $this->_paginateCollection();
-        if ($this->_isCanExport()) {
-            $this->_export();
-        } else {
-            $this->_finishExport();
+        try {
+            $this->_init($options);
+            $this->_paginateCollection();
+            if ($this->_isCanExport()) {
+                $this->_export();
+            } else {
+                $this->_finishExportSuccess();
+            }
+        } catch (Exception $e) {
+            $this->_finishExportFail($e);
         }
     }
 
@@ -99,6 +111,7 @@ class Saas_ImportExport_Model_Export
      * Init parameters needed for export
      *
      * @param array $options
+     * @throws Exception
      */
     protected function _init($options)
     {
@@ -113,11 +126,12 @@ class Saas_ImportExport_Model_Export
             $this->_exportEntity->prepareCollection();
             if ($this->_getCurrentPage() == 1) {
                 $this->_storageAdapter->cleanupWorkingDir();
-                $this->_stateHelper->setTaskAsProcessing();
+                $this->_stateHelper->saveTaskAsProcessing();
             }
         } catch (Exception $e) {
-            $this->_finishExport();
-            Mage::logException($e);
+            $this->_logger->logException($e);
+            $this->_finishExportFail($e);
+            throw new Exception('Cannot init export process');
         }
     }
 
@@ -150,10 +164,13 @@ class Saas_ImportExport_Model_Export
         try {
             $this->_saveHeaderColumns();
             $this->_exportEntity->exportCollection();
-            $this->_saveExportState();
+            if ($this->_isExportFinished()) {
+                $this->_finishExportSuccess();
+            } else {
+                $this->_saveTaskStatusMessage();
+            }
         } catch (Exception $e) {
-            $this->_finishExport();
-            Mage::logException($e);
+            $this->_finishExportFail($e);
         }
     }
 
@@ -164,38 +181,62 @@ class Saas_ImportExport_Model_Export
     {
         $headerCols = $this->_exportEntity->getHeaderColumns();
         if ($this->_getCurrentPage() == 1) {
-            $this->_storageAdapter->setHeaderCols($headerCols);
+            $this->_storageAdapter->writeHeaderColumns($headerCols);
         } else {
-            $this->_storageAdapter->setHeaderColsData($headerCols);
+            $this->_storageAdapter->saveHeaderColumns($headerCols);
         }
     }
 
     /**
-     * Save export state
-     */
-    protected function _saveExportState()
-    {
-        $countPages = $this->_exportEntity->getCollection()->getLastPageNumber();
-        if ($this->_getCurrentPage() >= $countPages) {
-            $this->_finishExport(true);
-        } else {
-            $this->_stateHelper->saveTaskStatusMessage(ceil($this->_getCurrentPage() * 100 / $countPages) . '%');
-        }
-    }
-
-    /**
-     * Set finished flag as true and try save export file
+     * Is export totally finished
      *
-     * @param bool $saveFile
+     * @return bool
      */
-    protected function _finishExport($saveFile = false)
+    protected function _isExportFinished()
+    {
+        return $this->_getCurrentPage() >= $this->_exportEntity->getCollection()->getLastPageNumber();
+    }
+
+    /**
+     * Save task status message
+     */
+    protected function _saveTaskStatusMessage()
+    {
+        $this->_stateHelper->saveTaskStatusMessage(ceil($this->_getCurrentPage() * 100 /
+            $this->_exportEntity->getCollection()->getLastPageNumber()) . '%');
+    }
+
+    /**
+     * Save export as finished
+     */
+    protected function _saveAsFinished()
     {
         $this->_finishedFlag = true;
-        $this->_stateHelper->setTaskAsFinished();
-        if ($saveFile && $this->_storageAdapter) {
-            $exportFile = $this->_storageAdapter->renameTemporaryFile();
-            $this->_stateHelper->saveExportFilename($exportFile);
+        $this->_stateHelper->saveTaskAsFinished();
+    }
+
+    /**
+     * Success finish export, save output file
+     */
+    protected function _finishExportSuccess()
+    {
+        $this->_saveAsFinished();
+        try {
+            $this->_stateHelper->saveExportFilename($this->_storageAdapter->renameTemporaryFile());
+        } catch (Magento_Filesystem_Exception $e) {
+            $this->_logger->logException($e);
         }
+    }
+
+    /**
+     * Fail finish export
+     *
+     * @param Exception $e
+     */
+    protected function _finishExportFail(Exception $e)
+    {
+        $this->_saveAsFinished();
+        $this->_logger->logException($e);
     }
 
     /**

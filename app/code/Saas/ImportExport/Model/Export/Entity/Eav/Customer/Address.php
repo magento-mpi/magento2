@@ -1,4 +1,12 @@
 <?php
+/**
+ * Adaptive class for export Customer Address entity
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 class Saas_ImportExport_Model_Export_Entity_Eav_Customer_Address
     extends Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address
     implements Saas_ImportExport_Model_Export_EntityInterface
@@ -12,7 +20,7 @@ class Saas_ImportExport_Model_Export_Entity_Eav_Customer_Address
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function prepareCollection()
     {
@@ -45,7 +53,7 @@ class Saas_ImportExport_Model_Export_Entity_Eav_Customer_Address
     /**
      * {@inheritdoc}
      */
-    public function setStorageAdapter(Saas_ImportExport_Model_Export_Adapter_Abstract $writer)
+    public function setStorageAdapter(Saas_ImportExport_Model_Export_Adapter_AdapterAbstract $writer)
     {
         $this->_writer = $writer;
     }

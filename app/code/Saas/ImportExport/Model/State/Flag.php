@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Saas_ImportExport_Model_StateFlag extends Mage_Core_Model_Flag
+abstract class Saas_ImportExport_Model_State_Flag extends Mage_Core_Model_Flag
 {
     /**#@+
      * State flags

@@ -7,7 +7,8 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Saas_ImportExport_Model_System_Message_ImportFinished extends Saas_ImportExport_Model_System_Message_Abstract
+class Saas_ImportExport_Model_Import_System_Message_Finished
+    extends Saas_ImportExport_Model_System_Message_FinishedAbstract
 {
     /**
      * Message Identity
@@ -15,7 +16,7 @@ class Saas_ImportExport_Model_System_Message_ImportFinished extends Saas_ImportE
     const MESSAGE_IDENTITY = 'IMPORT_ENTITY';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getText()
     {
@@ -23,7 +24,7 @@ class Saas_ImportExport_Model_System_Message_ImportFinished extends Saas_ImportE
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getIdentity()
     {

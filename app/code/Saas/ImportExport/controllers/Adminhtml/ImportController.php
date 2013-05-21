@@ -81,11 +81,11 @@ class Saas_ImportExport_Adminhtml_ImportController extends Mage_ImportExport_Adm
     {
         if ($this->getRequest()->isPost()) {
             try {
-                $this->_stateHelper->setTaskAsQueued();
+                $this->_stateHelper->saveTaskAsQueued();
                 $this->_eventManager->dispatch($this->_getEventName());
                 $this->_getImportFrameBlock()->addSuccess($this->__('Import task has been added to queue.'));
             } catch (Exception $e) {
-                $this->_stateHelper->setTaskAsNotified();
+                $this->_stateHelper->saveTaskAsNotified();
                 $this->_getImportFrameBlock()->addError(
                     $this->__('Import task has not been added to queue. Please try again later'));
             }

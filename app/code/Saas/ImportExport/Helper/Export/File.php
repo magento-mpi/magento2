@@ -20,9 +20,14 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
     protected $_stateFlag;
 
     /**
-     * @var null|Varien_Object
+     * @var null|bool|Varien_Object
      */
     protected $_file = null;
+
+    /**
+     * @var Magento_Filesystem
+     */
+    protected $_filesystem;
 
     /**
      * List of available mime-types
@@ -44,14 +49,17 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
      * @param Mage_Core_Helper_Context $context
      * @param Saas_ImportExport_Helper_Export_Config $configHelper
      * @param Saas_ImportExport_Model_Export_State_FlagFactory $flagFactory
+     * @param Magento_Filesystem $filesystem
      */
     public function __construct(
         Mage_Core_Helper_Context $context,
         Saas_ImportExport_Helper_Export_Config $configHelper,
-        Saas_ImportExport_Model_Export_State_FlagFactory $flagFactory
+        Saas_ImportExport_Model_Export_State_FlagFactory $flagFactory,
+        Magento_Filesystem $filesystem
     ) {
         $this->_configHelper = $configHelper;
         $this->_stateFlag = $flagFactory->create();
+        $this->_filesystem = $filesystem;
         parent::__construct($context);
     }
 
@@ -100,13 +108,12 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
      * Remove last export file
      *
      * @return Saas_ImportExport_Helper_Export_File
-     * @throws RuntimeException
+     * @throws Magento_Filesystem_Exception
      */
     public function removeLastExportFile()
     {
-        $exportFile = $this->_stateFlag->getExportFilename();
-        if ($exportFile && file_exists($exportFile) && !unlink($exportFile)) {
-            throw new RuntimeException($this->__('File has not been removed.'));
+        if ($this->isExist()) {
+            $this->_filesystem->delete($this->_stateFlag->getExportFilename());
         }
         return $this;
     }
@@ -120,14 +127,18 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
     {
         if (is_null($this->_file)) {
             $exportFile = $this->_stateFlag->getExportFilename();
-            if (!$exportFile || !file_exists($exportFile)) {
+            if (!$exportFile || !$this->_filesystem->isFile($exportFile)) {
+                $this->_file = false;
                 return false;
             }
+            // Magento_Filesystem currently don't have this functionality
             $fileInfo = pathinfo($exportFile);
             $extension = $fileInfo['extension'];
             $this->_file = new Varien_Object(array(
                 'path' => $exportFile,
-                'download_name' => $fileInfo['filename'] . date('_Ymd_His', filemtime($exportFile)) . '.' . $extension,
+                'download_name' => $fileInfo['filename']
+                    . date('_Ymd_His', $this->_filesystem->getMTime($exportFile))
+                    . '.' . $extension,
                 'extension' => $extension
             ));
         }

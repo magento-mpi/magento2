@@ -61,9 +61,9 @@ class Saas_Queue_Model_Observer_Import extends Saas_Queue_Model_ObserverAbstract
      */
     public function processImport(Varien_Event_Observer $observer)
     {
-        $this->_stateHelper->setTaskAsProcessing();
+        $this->_stateHelper->saveTaskAsProcessing();
         $this->_importModel->importSource();
-        $this->_stateHelper->setTaskAsFinished();
+        $this->_stateHelper->saveTaskAsFinished();
 //      refresh index after import products
         if ($observer->getEvent()->getName() == 'process_import_catalog_product') {
             $this->_eventManager->dispatch('application_process_refresh_catalog');

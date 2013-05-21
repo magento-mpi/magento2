@@ -24,7 +24,7 @@ class Saas_ImportExport_Model_Export_StorageFactory
      *
      * @param string $modelName
      * @param string $destination
-     * @return Saas_ImportExport_Model_Export_Adapter_Abstract
+     * @return Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
      * @throws Exception
      */
     public function create($modelName, $destination)

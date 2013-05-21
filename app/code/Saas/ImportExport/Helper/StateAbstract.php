@@ -12,7 +12,7 @@ abstract class Saas_ImportExport_Helper_StateAbstract extends Mage_Core_Helper_A
     /**
      * Process flag
      *
-     * @var Saas_ImportExport_Model_StateFlag
+     * @var Saas_ImportExport_Model_State_Flag
      */
     protected $_stateFlag;
 
@@ -20,12 +20,12 @@ abstract class Saas_ImportExport_Helper_StateAbstract extends Mage_Core_Helper_A
      * Constructor
      *
      * @param Mage_Core_Helper_Context $context
-     * @param Saas_ImportExport_Model_StateFlag $stateFlag
+     * @param Saas_ImportExport_Model_State_Flag $stateFlag
      * @param Saas_ImportExport_Helper_Data $dataHelper
      */
     public function __construct(
         Mage_Core_Helper_Context $context,
-        Saas_ImportExport_Model_StateFlag $stateFlag,
+        Saas_ImportExport_Model_State_Flag $stateFlag,
         Saas_ImportExport_Helper_Data $dataHelper
     ) {
         $this->_stateFlag = $stateFlag;
@@ -58,7 +58,7 @@ abstract class Saas_ImportExport_Helper_StateAbstract extends Mage_Core_Helper_A
      *
      * @return Saas_ImportExport_Helper_Import_State
      */
-    public function setTaskAsQueued()
+    public function saveTaskAsQueued()
     {
         $this->_stateFlag->saveAsQueued();
         return $this;
@@ -69,7 +69,7 @@ abstract class Saas_ImportExport_Helper_StateAbstract extends Mage_Core_Helper_A
      *
      * @return Saas_ImportExport_Helper_Import_State
      */
-    public function setTaskAsProcessing()
+    public function saveTaskAsProcessing()
     {
         $this->_stateFlag->saveAsProcessing();
         return $this;
@@ -80,7 +80,7 @@ abstract class Saas_ImportExport_Helper_StateAbstract extends Mage_Core_Helper_A
      *
      * @return Saas_ImportExport_Helper_Import_State
      */
-    public function setTaskAsFinished()
+    public function saveTaskAsFinished()
     {
         $this->_stateFlag->saveAsFinished();
         return $this;
@@ -91,7 +91,7 @@ abstract class Saas_ImportExport_Helper_StateAbstract extends Mage_Core_Helper_A
      *
      * @return Saas_ImportExport_Helper_Import_State
      */
-    public function setTaskAsNotified()
+    public function saveTaskAsNotified()
     {
         $this->_stateFlag->saveAsNotified();
         return $this;

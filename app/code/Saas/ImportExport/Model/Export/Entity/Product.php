@@ -1,6 +1,6 @@
 <?php
 /**
- * Export entity product class
+ * Adaptive class for export Products entity
  *
  * {license_notice}
  *
@@ -26,7 +26,7 @@ class Saas_ImportExport_Model_Export_Entity_Product  extends Mage_ImportExport_M
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function prepareCollection()
     {
@@ -57,7 +57,7 @@ class Saas_ImportExport_Model_Export_Entity_Product  extends Mage_ImportExport_M
     /**
      * {@inheritdoc}
      */
-    public function setStorageAdapter(Saas_ImportExport_Model_Export_Adapter_Abstract $writer)
+    public function setStorageAdapter(Saas_ImportExport_Model_Export_Adapter_AdapterAbstract $writer)
     {
         $this->_writer = $writer;
     }

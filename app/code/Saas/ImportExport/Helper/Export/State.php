@@ -16,13 +16,13 @@ class Saas_ImportExport_Helper_Export_State extends Saas_ImportExport_Helper_Sta
     protected $_configHelper;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function onValidationShutdown()
     {
         $error = error_get_last();
         if ($error && isset($error['type']) && E_ERROR == $error['type'] && $this->isInProgress()) {
-            $this->setTaskAsNotified();
+            $this->saveTaskAsNotified();
         }
     }
 

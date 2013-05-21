@@ -1,13 +1,13 @@
 <?php
 /**
- * Abstract class for notified status of export/import process
+ * Abstract class for export/import finished message
  *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
-abstract class Saas_ImportExport_Model_System_Message_Abstract
+abstract class Saas_ImportExport_Model_System_Message_FinishedAbstract
     implements Mage_AdminNotification_Model_System_MessageInterface
 {
     /**
@@ -43,7 +43,7 @@ abstract class Saas_ImportExport_Model_System_Message_Abstract
         if (null === $this->_isDisplayed) {
             $this->_isDisplayed = $this->_stateHelper->isTaskFinished();
             if ($this->_isDisplayed) {
-                $this->_stateHelper->setTaskAsNotified();
+                $this->_stateHelper->saveTaskAsNotified();
             }
         }
         return $this->_isDisplayed;

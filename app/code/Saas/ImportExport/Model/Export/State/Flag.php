@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_ImportExport_Model_Export_State_Flag extends Saas_ImportExport_Model_StateFlag
+class Saas_ImportExport_Model_Export_State_Flag extends Saas_ImportExport_Model_State_Flag
 {
     /**
      * Flag code

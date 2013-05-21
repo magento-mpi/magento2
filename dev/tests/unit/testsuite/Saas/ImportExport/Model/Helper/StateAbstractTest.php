@@ -19,7 +19,7 @@ class Saas_ImportExport_Helper_StateAbstractTest extends PHPUnit_Framework_TestC
 
     public function setUp() {
 
-        $this->_stateFlagMock = $this->getMock('Saas_ImportExport_Model_StateFlag', array(), array(), '', false);
+        $this->_stateFlagMock = $this->getMock('Saas_ImportExport_Model_State_Flag', array(), array(), '', false);
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_helperModel = $objectManager->getObject('Stub_Saas_ImportExport_Helper_StateAbstract', array(
             'context' => $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false),
@@ -61,28 +61,28 @@ class Saas_ImportExport_Helper_StateAbstractTest extends PHPUnit_Framework_TestC
         $this->assertEquals($expectedValue, $this->_helperModel->isTaskFinished());
     }
 
-    public function testSetTaskAsQueued()
+    public function testSaveTaskAsQueued()
     {
         $this->_stateFlagMock->expects($this->once())->method('saveAsQueued')->will($this->returnSelf());
-        $this->_helperModel->setTaskAsQueued();
+        $this->_helperModel->saveTaskAsQueued();
     }
 
-    public function testSetTaskAsProcessing()
+    public function testSaveTaskAsProcessing()
     {
         $this->_stateFlagMock->expects($this->once())->method('saveAsProcessing')->will($this->returnSelf());
-        $this->_helperModel->setTaskAsProcessing();
+        $this->_helperModel->saveTaskAsProcessing();
     }
 
-    public function testSetTaskAsFinished()
+    public function testSaveTaskAsFinished()
     {
         $this->_stateFlagMock->expects($this->once())->method('saveAsFinished')->will($this->returnSelf());
-        $this->_helperModel->setTaskAsFinished();
+        $this->_helperModel->saveTaskAsFinished();
     }
 
-    public function testSetTaskAsNotified()
+    public function testSaveTaskAsNotified()
     {
         $this->_stateFlagMock->expects($this->once())->method('saveAsNotified')->will($this->returnSelf());
-        $this->_helperModel->setTaskAsNotified();
+        $this->_helperModel->saveTaskAsNotified();
     }
 }
 

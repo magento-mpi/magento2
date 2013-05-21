@@ -1,6 +1,6 @@
 <?php
 /**
- * Entity Export interface
+ * Entity Export interface. Adaptive interface for export entities from Mage_ImportExport module
  *
  * {license_notice}
  *
@@ -12,9 +12,9 @@ interface Saas_ImportExport_Model_Export_EntityInterface
     /**
      * Set storage for export entity model. Wrapper for setWriter()
      *
-     * @param Saas_ImportExport_Model_Export_Adapter_Abstract $writer
+     * @param Saas_ImportExport_Model_Export_Adapter_AdapterAbstract $writer
      */
-    public function setStorageAdapter(Saas_ImportExport_Model_Export_Adapter_Abstract $writer);
+    public function setStorageAdapter(Saas_ImportExport_Model_Export_Adapter_AdapterAbstract $writer);
 
     /**
      * Get header columns for export data
