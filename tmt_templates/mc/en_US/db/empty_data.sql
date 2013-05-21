@@ -6934,19 +6934,16 @@ CREATE TABLE IF NOT EXISTS `googlecheckout_notification` (
 
 # Dumping structure for table googleoptimizer_code
 CREATE TABLE IF NOT EXISTS `googleoptimizer_code` (
-  `code_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Google optimizer code id',
+  `code_id` int(10) unsigned NOT NULL auto_increment COMMENT 'Google experiment code id',
   `entity_id` int(10) unsigned NOT NULL COMMENT 'Optimized entity id product id or catalog id',
-  `entity_type` varchar(50) DEFAULT NULL COMMENT 'Optimized entity type',
+  `entity_type` varchar(50) default NULL COMMENT 'Optimized entity type',
   `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store id',
-  `control_script` text COMMENT 'Google optimizer control script',
-  `tracking_script` text COMMENT 'Google optimizer tracking script',
-  `conversion_script` text COMMENT 'Google optimizer conversion script',
-  `conversion_page` varchar(255) DEFAULT NULL COMMENT 'Google optimizer conversion page',
-  `additional_data` text COMMENT 'Google optimizer additional data',
-  PRIMARY KEY (`code_id`),
+  `experiment_script` text COMMENT 'Google experiment script',
+  PRIMARY KEY  (`code_id`),
+  UNIQUE KEY `UNQ_GOOGLEOPTIMIZER_CODE_STORE_ID_ENTITY_ID_ENTITY_TYPE` (`store_id`,`entity_id`,`entity_type`),
   KEY `IDX_GOOGLEOPTIMIZER_CODE_STORE_ID` (`store_id`),
   CONSTRAINT `FK_GOOGLEOPTIMIZER_CODE_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Googleoptimizer code';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Google Experiment code';
 
 # Dumping data for table googleoptimizer_code: ~0 rows (approximately)
 
