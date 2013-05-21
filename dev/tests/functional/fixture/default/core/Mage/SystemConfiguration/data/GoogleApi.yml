@@ -1,0 +1,23 @@
+#
+# {license_notice}
+#
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+content_experiments_enable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_google_api
+        configuration:
+            google_analytics:
+                enable_google_analytics: Yes
+                enable_content_experiments: Yes
+
+content_experiments_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_google_api
+        configuration:
+            google_analytics:
+                enable_content_experiments: No
