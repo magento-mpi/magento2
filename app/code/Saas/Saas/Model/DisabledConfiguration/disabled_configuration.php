@@ -141,11 +141,6 @@ return array(
     'payment/paypal_payments/wpp/wpp_settings/wpp_settings_advanced/debug',
     'payment/paypal_payments/wpp/wpp_settings/wpp_settings_advanced/verify_peer',
 
-    'payment/paypal_payments/wpp/wpp_settings_wpp_and_express_checkout_authentication_method_0/wpp_settings_advanced/debug',
-    'payment/paypal_payments/wpp/wpp_settings_wpp_and_express_checkout_authentication_method_0/wpp_settings_advanced/verify_peer',
-
-    'payment/paypal_payments/wpp/wpp_settings_wpp_and_express_checkout_authentication_method_1/wpp_settings_advanced/debug',
-
     'payment/paypal_payments/wps/settings_payments_standart/settings_payments_standart_advanced/debug',
     'payment/paypal_payments/wps/settings_payments_standart/settings_payments_standart_advanced/verify_peer',
 
