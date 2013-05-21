@@ -43,5 +43,4 @@ $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
             'is_in_stock'               => 1,
         )
     )
-
     ->save();

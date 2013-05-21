@@ -71,10 +71,13 @@
                                     var parts = _elem.attr('id').split('-'),
                                         value = _elem.val(),
                                         quantity = parseInt(_qty.val(), 10);
-                                    if (quantity > 0 && _this.options.bundleConfig.options[parts[2]] && _this.options.bundleConfig.options[parts[2]].selections[value]
-                                        && _this.options.optionConfig.options[parts[2]].selections[_elem.val()] && _this.options.optionConfig.options[parts[2]]) {
-                                        _this.options.bundleConfig.options[parts[2]].selections[value].qty = parseInt(quantity);
-                                        _this.options.optionConfig.options[parts[2]].selections[_elem.val()].qty = parseInt(quantity);
+                                    if (quantity > 0 && _this.options.bundleConfig.options[parts[2]] &&
+                                        _this.options.bundleConfig.options[parts[2]].selections[value] &&
+                                        _this.options.optionConfig.options[parts[2]].selections[_elem.val()] &&
+                                        _this.options.optionConfig.options[parts[2]]
+                                    ) {
+                                        _this.options.bundleConfig.options[parts[2]].selections[value].qty = parseInt(quantity, 10);
+                                        _this.options.optionConfig.options[parts[2]].selections[_elem.val()].qty = parseInt(quantity, 10);
                                     }
                                     _this.reloadPrice();
                                     _this.element.trigger('updateProductSummary', [
@@ -204,7 +207,7 @@
                         if (value.indexOf('price-including-tax-') >= 0) {
                             price = optionPrice.priceInclTax;
                         } else if (value.indexOf('price-excluding-tax-') >= 0) {
-                            price = optionPrice.price;
+                            price = optionPrice.priceExclTax;
                         } else if (value.indexOf('product-price-') >= 0) {
                             price = optionPrice.price;
                         }
