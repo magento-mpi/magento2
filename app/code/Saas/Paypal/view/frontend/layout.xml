@@ -43,7 +43,7 @@
                 <block type="Mage_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" as="details" template="paypal/express/review/details.phtml">
                     <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>checkout/onepage/review/item.phtml</template></action>
                     <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>checkout/onepage/review/item.phtml</template></action>
-                    <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Rendererr_Configurable</block><template>checkout/onepage/review/item.phtml</template></action>
+                    <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>checkout/onepage/review/item.phtml</template></action>
                     <block type="Mage_Checkout_Block_Cart_Totals" name="paypal.express.review.details.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>
                 </block>
                 <block type="Mage_Checkout_Block_Agreements" name="paypal.express.review.details.agreements" as="agreements" template="checkout/onepage/agreements.phtml"/>
@@ -77,12 +77,11 @@
     -->
     <catalog_product_view>
         <reference name="product.info.addtocart">
-            <block type="Mage_Page_Block_Html_Wrapper" name="product.info.addtocart.paypal.wrapper" translate="label">
-                <label>PayPal Express Checkout Shortcut Wrapper</label>
+            <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
                 <block type="Mage_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="paypal/express/shortcut.phtml">
                     <action method="setIsInCatalogProduct"><value>1</value></action>
                 </block>
-            </block>
+            </container>
         </reference>
         <update handle="SHORTCUT_popup" />
         <reference name="right">
