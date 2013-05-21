@@ -6361,6 +6361,54 @@ body.account .page.title > .action.disabled:active {
   vertical-align: top;
   background: url(../images/loader.gif);
 }
+.paypal.review.view .paypal.subtitle.caption {
+  margin-bottom: 25px;
+}
+.paypal.review.view .paypal.subtitle.caption .action {
+  margin-left: 10px;
+}
+.paypal.review.view .paypal.subtitle.caption strong {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Oswald', Arial, sans-serif;
+}
+.paypal.review.view .form.paypal.review .fieldset {
+  width: 100%;
+}
+.paypal.review.view .form.paypal.review .fieldset.shipping.address {
+  float: right;
+  width: 49%;
+}
+.paypal.review.view .form.paypal.review .fieldset.billing.address {
+  float: left;
+  width: 49%;
+}
+.paypal.review.view .form.paypal.review .fieldset.shipping.method {
+  clear: both;
+  margin-bottom: 35px;
+}
+.paypal.review.view .form.paypal.review .fieldset .nested {
+  margin-top: 10px;
+}
+.paypal.review.view .actions {
+  margin-top: 35px;
+  text-align: right;
+}
+.paypal.review.view .actions .action.update {
+  margin-left: 10px;
+}
+.paypal.review.view .data.table.paypal.review.items {
+  width: 100%;
+}
+.paypal.review.view .data.table.paypal.review.items td,
+.paypal.review.view .data.table.paypal.review.items th {
+  padding: 10px 20px;
+  text-align: left;
+}
+.paypal.review.view .data.table.paypal.review.items td.col.total,
+.paypal.review.view .data.table.paypal.review.items th.col.total {
+  text-align: right;
+}
 /*
     Shopping Cart
 -------------------------------------- */

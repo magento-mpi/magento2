@@ -7502,6 +7502,100 @@ img[align="right"] {
   display: none;
 }
 /*
+ *    Review paypal express checkout order
+ *
+----------------------------------------------------------------------------- */
+.paypal.review.view .paypal.subtitle.caption {
+  margin-bottom: 25px;
+}
+.paypal.review.view .paypal.subtitle.caption .action {
+  margin-left: 10px;
+}
+.paypal.review.view .paypal.subtitle.caption strong {
+  font-family: "benchnine", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0.5em 0;
+}
+.paypal.review.view .form.paypal.review .fieldset {
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+}
+.paypal.review.view .form.paypal.review .fieldset.shipping.address {
+  float: right;
+  width: 49%;
+}
+.paypal.review.view .form.paypal.review .fieldset.billing.address {
+  float: left;
+  width: 49%;
+}
+.paypal.review.view .form.paypal.review .fieldset.shipping.method {
+  clear: both;
+  margin: 0 0 35px;
+}
+.paypal.review.view .form.paypal.review .fieldset .nested {
+  margin-top: 10px;
+}
+.paypal.review.view .actions {
+  margin-top: 35px;
+  text-align: right;
+}
+.paypal.review.view .actions .action.update {
+  display: inline-block;
+  border: none;
+  border-radius: 0;
+  background: #596078;
+  margin: 0;
+  padding: 9px 11px 9px;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  color: #fff;
+  text-decoration: none;
+  margin-left: 10px;
+}
+.paypal.review.view .actions .action.update span {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 16px;
+}
+.paypal.review.view .actions .action.update:focus,
+.paypal.review.view .actions .action.update:active,
+.paypal.review.view .actions .action.update:hover {
+  background: #14148f;
+}
+.paypal.review.view .data.table.paypal.review.items {
+  width: 100%;
+}
+.paypal.review.view .data.table.paypal.review.items td,
+.paypal.review.view .data.table.paypal.review.items th {
+  padding: 10px 20px;
+  text-align: left;
+}
+.paypal.review.view .data.table.paypal.review.items td.col.total,
+.paypal.review.view .data.table.paypal.review.items th.col.total {
+  text-align: right;
+}
+.paypal.review.view .data.table.paypal.review.items th {
+  font-size: 16px;
+  font-weight: 400;
+}
+.paypal.review.view .data.table.paypal.review.items tbody tr:nth-child(odd) td {
+  background: #ffffff;
+}
+.paypal.review.view .data.table.paypal.review.items tfoot tr:first-child td {
+  border-top: 3px solid #bdc0cb;
+  padding-top: 15px;
+}
+.paypal.review.view .data.table.paypal.review.items .product.name {
+  color: #596078;
+  font-size: 18px;
+}
+/*
  *    Homepage styles
  *
 ----------------------------------------------------------------------------- */

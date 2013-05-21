@@ -5016,6 +5016,83 @@ and (max-width : 768px)  {
 }
 
 /*
+ *    Review paypal express checkout order
+ *
+----------------------------------------------------------------------------- */
+
+.paypal.review.view {
+    .paypal.subtitle.caption {
+        margin-bottom: 25px;
+        .action {
+            margin-left: 10px;
+        }
+        strong {
+            font-family: "benchnine", sans-serif;
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 1.2;
+            margin: 0.5em 0;
+        }
+    }
+    .form.paypal.review {
+        .fieldset {
+            padding-left: 0;
+            padding-right: 0;
+            width: 100%;
+            &.shipping.address {
+                float: right;
+                width: 49%;
+            }
+            &.billing.address {
+                float: left;
+                width: 49%;
+            }
+            &.shipping.method {
+                clear: both;
+                margin: 0 0 35px;
+            }
+            .nested {
+                margin-top: 10px;
+            }
+        }
+    }
+    .actions {
+        margin-top: 35px;
+        text-align: right;
+        .action.update {
+            .secondaryAction();
+            margin-left: 10px;
+        }
+    }
+    .data.table.paypal.review.items {
+        width: 100%;
+        td,
+        th {
+            padding: 10px 20px;
+            text-align:left;
+            &.col.total {
+                text-align: right;
+            }
+        }
+        th {
+            font-size: 16px;
+            font-weight: 400;
+        }
+        tbody tr:nth-child(odd) td {
+            background: @primary1;
+        }
+        tfoot tr:first-child td {
+            border-top: 3px solid @primary2;
+            padding-top: 15px;
+        }
+        .product.name {
+            color: @secondary3;
+            font-size: 18px;
+        }
+    }
+}
+
+/*
  *    Homepage styles
  *
 ----------------------------------------------------------------------------- */
