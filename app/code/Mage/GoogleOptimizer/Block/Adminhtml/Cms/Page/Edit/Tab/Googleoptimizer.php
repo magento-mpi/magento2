@@ -35,9 +35,10 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
         Varien_Data_Form $form,
         array $data = array()
     ) {
+        parent::__construct($context, $data);
+
         $this->_helperData = $helperData;
         $this->_registry = $registry;
-        parent::__construct($context, $data);
         $this->setForm($form);
     }
 
