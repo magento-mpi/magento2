@@ -10,40 +10,38 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
     /**
      * @var array
      */
-    protected $_categoryData;
+    protected static $_categoryData;
 
-    public function assertPreConditions()
+    public function setUpBeforeTests()
     {
-        parent::assertPreConditions();
+        parent::setUpBeforeTests();
 
-        if (!$this->_categoryData) {
-            $this->loginAdminUser();
+        $this->loginAdminUser();
 
-            // Enable in System Configuration
-            $this->navigate('system_configuration');
-            $this->systemConfigurationHelper()->configure('GoogleApi/content_experiments_enable');
+        // Enable in System Configuration
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('GoogleApi/content_experiments_enable');
 
-            // Open manage categories
-            $this->navigate('manage_categories', false);
-            $this->categoryHelper()->checkCategoriesPage();
+        // Open manage categories
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
 
-            // Set experiment_code
-            $categoryData = $this->loadDataSet('Category', 'sub_category_required');
-            $categoryData['experiment_code'] = 'experiment_code';
-            $this->categoryHelper()->createCategory($categoryData);
-            $this->_categoryData = $categoryData;
-        }
+        // Set experiment_code
+        $categoryData = $this->loadDataSet('Category', 'sub_category_required');
+        $categoryData['experiment_code'] = 'experiment_code';
+        $this->categoryHelper()->createCategory($categoryData);
+        self::$_categoryData = $categoryData;
     }
 
-    public function tearDownAfterTest()
+    public function tearDownAfterTestClass()
     {
-        parent::tearDownAfterTest();
+        parent::tearDownAfterTestClass();
 
         // Delete fixture
         $this->loginAdminUser();
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->selectCategory(
-            sprintf('%s/%s', $this->_categoryData['parent_category'], $this->_categoryData['name'])
+            sprintf('%s/%s', self::$_categoryData['parent_category'], self::$_categoryData['name'])
         );
         $this->categoryHelper()->deleteCategory('delete_category', 'confirm_delete');
         $this->assertMessagePresent('success', 'success_deleted_category');
@@ -57,10 +55,10 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
     {
         // Open category on frontend
         $this->frontend('home');
-        $this->categoryHelper()->frontOpenCategory($this->_categoryData['name']);
+        $this->categoryHelper()->frontOpenCategory(self::$_categoryData['name']);
 
         // Check result
-        $this->assertTrue($this->textIsPresent($this->_categoryData['experiment_code']),
+        $this->assertTrue($this->textIsPresent(self::$_categoryData['experiment_code']),
             'Experiment code is not found.');
     }
 
@@ -78,18 +76,18 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
 
         // Update experiment_code
         $this->categoryHelper()->selectCategory(
-            sprintf('%s/%s', $this->_categoryData['parent_category'], $this->_categoryData['name'])
+            sprintf('%s/%s', self::$_categoryData['parent_category'], self::$_categoryData['name'])
         );
-        $this->_categoryData['experiment_code'] = 'experiment_code_updated';
-        $this->categoryHelper()->fillCategoryInfo(array('experiment_code' => $this->_categoryData['experiment_code']));
+        self::$_categoryData['experiment_code'] = 'experiment_code_updated';
+        $this->categoryHelper()->fillCategoryInfo(array('experiment_code' => self::$_categoryData['experiment_code']));
         $this->clickButton('save_category');
 
         // Open category on frontend
         $this->frontend('home');
-        $this->categoryHelper()->frontOpenCategory($this->_categoryData['name']);
+        $this->categoryHelper()->frontOpenCategory(self::$_categoryData['name']);
 
         // Check result
-        $this->assertTrue($this->textIsPresent($this->_categoryData['experiment_code']),
+        $this->assertTrue($this->textIsPresent(self::$_categoryData['experiment_code']),
             'Experiment code is not found.');
     }
 
@@ -107,10 +105,10 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
 
         // Open category on frontend
         $this->frontend('home');
-        $this->categoryHelper()->frontOpenCategory($this->_categoryData['name']);
+        $this->categoryHelper()->frontOpenCategory(self::$_categoryData['name']);
 
         // Check result
-        $this->assertFalse($this->textIsPresent($this->_categoryData['experiment_code']),
+        $this->assertFalse($this->textIsPresent(self::$_categoryData['experiment_code']),
             'Experiment code is not disabled.');
     }
 }
