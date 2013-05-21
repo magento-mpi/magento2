@@ -230,6 +230,8 @@
  * @method Enterprise_Mage_Rollback_Helper                                                             rollbackHelper()
  * @method Enterprise_Mage_WebsiteRestrictions_Helper                                                  websiteRestrictionsHelper()
  * @method Saas_Mage_Printedtemplate_Helper                                                            printedtemplateHelper()
+ * @method Saas_Mage_StoreLauncher_Helper                                                              storeLauncherHelper()
+ * @method Saas_Mage_Tmt_Helper                                                                        tmtHelper()
  * @method Saas_Mage_Unitprice_Helper                                                                  unitpriceHelper()
  *
  * @method fail($message)

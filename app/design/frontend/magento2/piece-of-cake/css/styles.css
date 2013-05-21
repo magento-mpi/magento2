@@ -592,6 +592,10 @@ a:visited:hover {
 .column.main {
   min-height: 500px;
 }
+.column.left,
+.column.right {
+  min-height: 1px;
+}
 .col1-layout .column.main {
   display: inline;
   float: left;
@@ -1344,19 +1348,17 @@ a:visited:hover {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  padding: 5px 10px;
   height: 27px;
-  line-height: 27px;
+  line-height: 13px;
   vertical-align: middle;
   width: 1px;
   height: 25px;
   line-height: 25px;
+  padding: 0 10px;
   white-space: nowrap;
   display: inline-block;
   display: table-cell;
-}
-.no-borderradius .block.add.review .fieldset > .field:not(.ratings) .addon .addbefore,
-.no-borderradius .block.add.review .fieldset > .field:not(.ratings) .addon .addafter {
-  padding-top: 8px;
 }
 .control .block.add.review .fieldset > .field:not(.ratings) .addon .addbefore,
 .control .block.add.review .fieldset > .field:not(.ratings) .addon .addafter {
@@ -1807,9 +1809,6 @@ textarea {
   line-height: 1.2;
   min-height: 4.8em;
 }
-.no-borderradius textarea {
-  padding-top: 8px;
-}
 .control textarea {
   width: 100%;
 }
@@ -1833,12 +1832,9 @@ input[type="text"] {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  padding: 5px 10px;
   height: 27px;
-  line-height: 27px;
-}
-.no-borderradius input[type="password"],
-.no-borderradius input[type="text"] {
-  padding-top: 8px;
+  line-height: 13px;
 }
 .control input[type="password"],
 .control input[type="text"] {
@@ -1866,9 +1862,6 @@ select {
   background-clip: padding-box;
   font-family: sans-serif;
   padding: 5px;
-}
-.no-borderradius select {
-  padding-top: 8px;
 }
 .control select {
   width: 100%;
@@ -3360,10 +3353,10 @@ select:disabled {
   text-decoration: underline;
 }
 .minicart.wrapper .block.minicart > .content .subtitle {
-  display: none;
-}
-.minicart.wrapper .block.minicart > .content .subtitle.empty {
   display: block;
+  font-weight: 400;
+  color: #666666;
+  margin: 10px 0 0;
 }
 .minicart.wrapper .block.minicart > .title,
 .minicart.wrapper .block.minicart > .content .subtotal,
@@ -4396,11 +4389,10 @@ select:disabled {
 .block.upsell,
 .block.related,
 .block.product.tags {
+  clear: both;
   *zoom: 1;
   margin: 30px 0;
   padding-top: 25px;
-  padding-left: 140px;
-  padding-right: 140px;
 }
 .block.widget.viewed:before,
 .block.crosssell:before,
@@ -4461,13 +4453,6 @@ select:disabled {
   top: 50%;
   width: 100%;
 }
-.block.widget.viewed .products.list,
-.block.crosssell .products.list,
-.block.upsell .products.list,
-.block.related .products.list,
-.block.product.tags .products.list {
-  margin: 0 -20px;
-}
 .block.widget.viewed .products.list .item.product,
 .block.crosssell .products.list .item.product,
 .block.upsell .products.list .item.product,
@@ -4475,7 +4460,7 @@ select:disabled {
 .block.product.tags .products.list .item.product {
   display: inline;
   float: left;
-  width: 33.33333333333333%;
+  width: 16.666666666666664%;
   margin: 0 0%;
   display: inline-block;
   vertical-align: top;
@@ -4489,8 +4474,46 @@ select:disabled {
   /* Opera/IE 8+ */
 
   margin: 0;
-  padding: 20px;
+  padding: 13px;
   float: none;
+}
+.catalog-product-view.col1-layout .block.widget.viewed .products.list .item.product,
+.catalog-product-view.col1-layout .block.crosssell .products.list .item.product,
+.catalog-product-view.col1-layout .block.upsell .products.list .item.product,
+.catalog-product-view.col1-layout .block.related .products.list .item.product,
+.catalog-product-view.col1-layout .block.product.tags .products.list .item.product {
+  display: inline;
+  float: left;
+  width: 25%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.col2-left-layout .block.widget.viewed .products.list .item.product,
+.col2-left-layout .block.crosssell .products.list .item.product,
+.col2-left-layout .block.upsell .products.list .item.product,
+.col2-left-layout .block.related .products.list .item.product,
+.col2-left-layout .block.product.tags .products.list .item.product,
+.col2-right-layout .block.widget.viewed .products.list .item.product,
+.col2-right-layout .block.crosssell .products.list .item.product,
+.col2-right-layout .block.upsell .products.list .item.product,
+.col2-right-layout .block.related .products.list .item.product,
+.col2-right-layout .block.product.tags .products.list .item.product {
+  width: 20%;
+}
+.col3-layout .block.widget.viewed .products.list .item.product,
+.col3-layout .block.crosssell .products.list .item.product,
+.col3-layout .block.upsell .products.list .item.product,
+.col3-layout .block.related .products.list .item.product,
+.col3-layout .block.product.tags .products.list .item.product {
+  display: inline;
+  float: left;
+  width: 33.33333333333333%;
+  margin: 0 0%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .block.widget.viewed .products.list .item.product .product.details,
 .block.crosssell .products.list .item.product .product.details,
@@ -4511,14 +4534,6 @@ select:disabled {
 .block.product.tags .products.list .item.product .price-box {
   margin: 0 0 10px;
 }
-.block.widget.viewed .products.list .item.product .addto.links,
-.block.crosssell .products.list .item.product .addto.links,
-.block.upsell .products.list .item.product .addto.links,
-.block.related .products.list .item.product .addto.links,
-.block.product.tags .products.list .item.product .addto.links {
-  padding: 10px 0 0;
-  border-top: 1px solid #202020;
-}
 .block.widget.viewed .products.list .item.product .addto.links .action:after,
 .block.crosssell .products.list .item.product .addto.links .action:after,
 .block.upsell .products.list .item.product .addto.links .action:after,
@@ -4532,7 +4547,16 @@ select:disabled {
 .block.upsell .products.list .item.product .actions,
 .block.related .products.list .item.product .actions,
 .block.product.tags .products.list .item.product .actions {
-  display: none;
+  visibility: hidden;
+}
+.block.widget.viewed .products.list .item.product .actions .addto.links a,
+.block.crosssell .products.list .item.product .actions .addto.links a,
+.block.upsell .products.list .item.product .actions .addto.links a,
+.block.related .products.list .item.product .actions .addto.links a,
+.block.product.tags .products.list .item.product .actions .addto.links a {
+  font-size: 11px;
+  line-height: 1.5;
+  text-decoration: underline;
 }
 .block.widget.viewed .products.list .item.product .actions .primary,
 .block.crosssell .products.list .item.product .actions .primary,
@@ -4546,7 +4570,15 @@ select:disabled {
 .block.upsell .products.list .item.product:hover .actions,
 .block.related .products.list .item.product:hover .actions,
 .block.product.tags .products.list .item.product:hover .actions {
-  display: block;
+  visibility: visible;
+}
+.catalog-product-view.col1-layout .block.widget.viewed,
+.catalog-product-view.col1-layout .block.crosssell,
+.catalog-product-view.col1-layout .block.upsell,
+.catalog-product-view.col1-layout .block.related,
+.catalog-product-view.col1-layout .block.product.tags {
+  padding-left: 140px;
+  padding-right: 140px;
 }
 .block.crosssell .products.list.items.crosssell {
   margin: 0 -13px;
@@ -4574,25 +4606,29 @@ select:disabled {
   display: block;
   margin: 0 0 10px;
 }
-.block.widget.viewed .products.list.items.widget-viewed-grid {
-  margin: 0 -13px;
-}
 .block.widget.viewed .products.list.items.widget-viewed-grid .item.product {
+  float: none;
+  display: inline-block;
+}
+.block.widget.viewed .products.list.items.widget-viewed-grid .item.product .product.photo {
+  display: block;
+  margin: 0 0 10px;
+}
+.block.widget.viewed .products.list.items.widget-viewed-list .item.product {
   display: inline;
   float: left;
-  width: 25%;
+  width: 100%;
   margin: 0 0%;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  float: none;
-  display: inline-block;
-  padding: 13px;
 }
-.block.widget.viewed .products.list.items.widget-viewed-grid .item.product .product.photo {
-  float: none;
-  display: block;
-  margin: 0 0 10px;
+.block.widget.viewed .products.list.items.widget-viewed-list .item.product .product.photo {
+  float: left;
+  margin-right: 20px;
+}
+.block.widget.viewed .products.list.items.widget-viewed-list .item.product .product.details {
+  overflow: hidden;
 }
 .block.related .products.list .item.product .product.details {
   overflow: visible;
@@ -6087,19 +6123,17 @@ select:disabled {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  padding: 5px 10px;
   height: 27px;
-  line-height: 27px;
+  line-height: 13px;
   vertical-align: middle;
   width: 1px;
   height: 25px;
   line-height: 25px;
+  padding: 0 10px;
   white-space: nowrap;
   display: inline-block;
   display: table-cell;
-}
-.no-borderradius .fieldset > .field .addon .addbefore,
-.no-borderradius .fieldset > .field .addon .addafter {
-  padding-top: 8px;
 }
 .control .fieldset > .field .addon .addbefore,
 .control .fieldset > .field .addon .addafter {
@@ -6327,19 +6361,17 @@ select:disabled {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  padding: 5px 10px;
   height: 27px;
-  line-height: 27px;
+  line-height: 13px;
   vertical-align: middle;
   width: 1px;
   height: 25px;
   line-height: 25px;
+  padding: 0 10px;
   white-space: nowrap;
   display: inline-block;
   display: table-cell;
-}
-.no-borderradius .product.main.info .product.options.wrapper .field .addon .addbefore,
-.no-borderradius .product.main.info .product.options.wrapper .field .addon .addafter {
-  padding-top: 8px;
 }
 .control .product.main.info .product.options.wrapper .field .addon .addbefore,
 .control .product.main.info .product.options.wrapper .field .addon .addafter {
@@ -6678,7 +6710,6 @@ select:disabled {
 .product.info.detailed {
   *zoom: 1;
   clear: left;
-  padding: 0 140px;
 }
 .product.info.detailed:before,
 .product.info.detailed:after {
@@ -6687,6 +6718,9 @@ select:disabled {
 }
 .product.info.detailed:after {
   clear: both;
+}
+.catalog-product-view.col1-layout .product.info.detailed {
+  padding: 0 140px;
 }
 @media only screen and (max-width: 99999px) {
   .product.data {
@@ -8051,37 +8085,17 @@ img[align="right"] {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding;
   background-clip: padding-box;
+  padding: 5px 10px;
   height: 27px;
-  line-height: 27px;
+  line-height: 13px;
   vertical-align: middle;
   width: 1px;
   height: 25px;
   line-height: 25px;
+  padding: 0 10px;
   white-space: nowrap;
   display: inline-block;
   display: table-cell;
-}
-.no-borderradius .form.address.edit .fieldset > .field .addon .addbefore,
-.no-borderradius .form.edit.account .fieldset > .field .addon .addbefore,
-.no-borderradius .form.search.advanced .fieldset > .field .addon .addbefore,
-.no-borderradius .form.orders.search .fieldset > .field .addon .addbefore,
-.no-borderradius .form.contact .fieldset > .field .addon .addbefore,
-.no-borderradius .form.password.forget .fieldset > .field .addon .addbefore,
-.no-borderradius .form.create.account .fieldset > .field .addon .addbefore,
-.no-borderradius .form.newsletter.manage .fieldset > .field .addon .addbefore,
-.no-borderradius .form.giftcard.redeem .fieldset > .field .addon .addbefore,
-.no-borderradius .form.password.reset .fieldset > .field .addon .addbefore,
-.no-borderradius .form.address.edit .fieldset > .field .addon .addafter,
-.no-borderradius .form.edit.account .fieldset > .field .addon .addafter,
-.no-borderradius .form.search.advanced .fieldset > .field .addon .addafter,
-.no-borderradius .form.orders.search .fieldset > .field .addon .addafter,
-.no-borderradius .form.contact .fieldset > .field .addon .addafter,
-.no-borderradius .form.password.forget .fieldset > .field .addon .addafter,
-.no-borderradius .form.create.account .fieldset > .field .addon .addafter,
-.no-borderradius .form.newsletter.manage .fieldset > .field .addon .addafter,
-.no-borderradius .form.giftcard.redeem .fieldset > .field .addon .addafter,
-.no-borderradius .form.password.reset .fieldset > .field .addon .addafter {
-  padding-top: 8px;
 }
 .control .form.address.edit .fieldset > .field .addon .addbefore,
 .control .form.edit.account .fieldset > .field .addon .addbefore,
@@ -8583,6 +8597,15 @@ img[align="right"] {
 .form.password.reset .actions .secondary span:before {
   content: '«';
   display: inline;
+}
+.form.search.advanced .fieldset .range.price .field {
+  width: 90px;
+}
+.form.search.advanced .fieldset .range.price .with-addon {
+  width: 125px;
+}
+.form.search.advanced .fieldset .range.price .addafter {
+  border-left: 0;
 }
 .form.newsletter.manage .field.choice,
 .form.address.edit .field.choice.set {

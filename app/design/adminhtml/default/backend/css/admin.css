@@ -291,11 +291,6 @@ button.primary.disabled:hover,
 .action-manage-images:active,
 .action-manage-images.active,
 .action-manage-images[disabled],
-.notification-entry-dialog .action-cancel,
-.notification-entry-dialog .action-cancel:hover,
-.notification-entry-dialog .action-cancel:active,
-.notification-entry-dialog .action-cancel.active,
-.notification-entry-dialog .action-cancel[disabled],
 .image-panel .action-close,
 .image-panel .action-close:hover,
 .image-panel .action-close:active,
@@ -566,24 +561,6 @@ button.primary.disabled:hover,
     box-shadow: none;
     text-shadow: none;
     filter: none;
-}
-
-/*
-    Actions as links
--------------------------------------- */
-.notification-entry-dialog .action-cancel {
-    background: none;
-    border: none;
-    color: #6d665e;
-    font-weight: normal;
-    font-size: 12px;
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-.notification-entry-dialog .action-cancel:hover {
-    color: #000;
-    border-bottom-color: #000;
 }
 
 /*
@@ -886,6 +863,8 @@ button.primary.disabled:hover,
     border-radius: 0 0 3px 3px;
     max-height: 300px;
     overflow: auto;
+    width: 100%;
+    float: left;
 }
 
 .suggest-expandable .mage-suggest-dropdown ul {
@@ -5651,11 +5630,9 @@ table .col-draggable .draggable-handle {
 
 .message-system .message-system-short .error a:before,
 .message-system-list li.error:before {
-    content: '!';
-    font-family: inherit;
-    color: #fff;
-    background: #c00815;
-    border-radius: 8px;
+    content: "\e086";
+    font-family: 'MUI-Icons';
+    color: #c00815;
 }
 
 .ui-dialog .message-system-list {

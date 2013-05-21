@@ -50,8 +50,8 @@
  * @method Core_Mage_Review_Helper                                                                     reviewHelper()
  * @method Core_Mage_RssFeeds_Helper                                                                   rssFeedsHelper()
  * @method Core_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper                           shoppingCartHelper()
- * @method Core_Mage_StoreLauncher_Helper                                                              storeLauncherHelper()
  * @method Core_Mage_Store_Helper                                                                      storeHelper()
+ * @method Core_Mage_StoreLauncher_Helper                                                              storeLauncherHelper()
  * @method Core_Mage_SystemConfiguration_Helper                                                        systemConfigurationHelper()
  * @method Core_Mage_Tags_Helper                                                                       tagsHelper()
  * @method Core_Mage_Tax_Helper                                                                        taxHelper()
@@ -75,8 +75,10 @@
  * @method Enterprise_Mage_Rollback_Helper                                                             rollbackHelper()
  * @method Enterprise_Mage_WebsiteRestrictions_Helper                                                  websiteRestrictionsHelper()
  * @method Saas_Mage_Printedtemplate_Helper                                                            printedtemplateHelper()
+ * @method Saas_Mage_StoreLauncher_Helper                                                              storeLauncherHelper()
+ * @method Saas_Mage_Tmt_Helper                                                                        tmtHelper()
+ * @method Saas_Mage_TmtApi_Helper                                                                     tmtApiHelper()
  * @method Saas_Mage_Unitprice_Helper                                                                  unitpriceHelper()
- * @method Saas_Mage_TmtApi_Helper
  */
 //@codingStandardsIgnoreEnd
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase

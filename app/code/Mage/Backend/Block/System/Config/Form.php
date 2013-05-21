@@ -223,7 +223,8 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $fieldsetConfig = array(
             'legend' => $group->getLabel(),
             'comment' => $group->getComment(),
-            'expanded' => $group->isExpanded()
+            'expanded' => $group->isExpanded(),
+            'group' => $group->getData()
         );
 
         $fieldset = $form->addFieldset($this->_generateElementId($group->getPath()), $fieldsetConfig);
@@ -314,6 +315,8 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      * @param $path
      * @param string $fieldPrefix
      * @param string $labelPrefix
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _initElement(
         Mage_Backend_Model_Config_Structure_Element_Field $field,
@@ -357,6 +360,19 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $dependencies = $field->getDependencies($fieldPrefix, $this->getStoreCode());
         $this->_populateDependenciesBlock($dependencies, $elementId, $elementName);
 
+        $sharedClass = '';
+        if ($field->getAttribute('shared') && $field->getConfigPath()) {
+            $sharedClass = ' shared shared-' . str_replace('/', '-', $field->getConfigPath());
+        }
+
+        $requiresClass = '';
+        $requiredPaths = array_merge($field->getRequiredFields($fieldPrefix), $field->getRequiredGroups($fieldPrefix));
+        if (!empty($requiredPaths)) {
+            $requiresClass = ' requires';
+            foreach ($requiredPaths as $requiredPath) {
+                $requiresClass .= ' requires-' . $this->_generateElementId($requiredPath);
+            }
+        }
 
         $formField = $fieldset->addField($elementId, $field->getType(), array(
             'name' => $elementName,
@@ -366,7 +382,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
             'hint' => $field->getHint(),
             'value' => $data,
             'inherit' => $inherit,
-            'class' => $field->getFrontendClass(),
+            'class' => $field->getFrontendClass() . $sharedClass . $requiresClass,
             'field_config' => $field->getData(),
             'scope' => $this->getScope(),
             'scope_id' => $this->getScopeId(),
@@ -397,12 +413,13 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      */
     protected function _populateDependenciesBlock(array $dependencies, $elementId, $elementName)
     {
-        foreach ($dependencies as $dependentId => $dependentValue) {
-            $fieldNameFrom = $this->_generateElementName($dependentId, null, '_');
+        foreach ($dependencies as $dependentField) {
+            /** @var $dependentField Mage_Backend_Model_Config_Structure_Element_Dependency_Field */
+            $fieldNameFrom = $this->_generateElementName($dependentField->getId(), null, '_');
             $this->_getDependence()
                 ->addFieldMap($elementId, $elementName)
-                ->addFieldMap($this->_generateElementId($dependentId), $fieldNameFrom)
-                ->addFieldDependence($elementName, $fieldNameFrom, $dependentValue);
+                ->addFieldMap($this->_generateElementId($dependentField->getId()), $fieldNameFrom)
+                ->addFieldDependence($elementName, $fieldNameFrom, $dependentField);
         }
     }
 

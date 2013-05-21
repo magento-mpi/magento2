@@ -19,6 +19,8 @@
                 <Enterprise_Queue_Model_Event_HandlerInterface>Saas_Queue_Model_Event_Handler</Enterprise_Queue_Model_Event_HandlerInterface>
                 <Magento_JobQueue_ClientInterface>Magento_JobQueue_Client_Gearman</Magento_JobQueue_ClientInterface>
                 <Magento_JobQueue_Client_ConfigInterface>Enterprise_Queue_Model_Config_Gearman</Magento_JobQueue_Client_ConfigInterface>
+                <Enterprise_PageCache_Model_Processor_RestrictionInterface>Saas_PageCache_Model_Processor_Restriction</Enterprise_PageCache_Model_Processor_RestrictionInterface>
+                <Enterprise_Customer_Helper_Data>Saas_Customer_Helper_Data</Enterprise_Customer_Helper_Data>
             </preferences>
             <!--<Mage_Core_Model_Config>-->
                 <!--<parameters>-->

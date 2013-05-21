@@ -18,12 +18,13 @@
         <ul class="dropdown-menu" data-mark-as-read-url="<?php echo $this->getUrl('adminhtml/notification/ajaxMarkAsRead'); ?>">
             <?php foreach ($this->getLatestUnreadNotifications() as $notification) : ?>
             <?php /** @var $notification Mage_AdminNotification_Model_Inbox*/ ?>
-            <li class="notification-entry" data-notification-id="<?php echo $this->escapeHtml($notification->getId()); ?>">
+            <li class="notification-entry<?php if ($notification->getSeverity() == 1): ?> notification-critical<?php endif; ?>"
+                data-notification-id="<?php echo $this->escapeHtml($notification->getId()); ?>"
+                data-notification-severity="<?php if ($notification->getSeverity() == 1): ?>1<?php endif; ?>">
                 <strong><?php echo $this->escapeHtml($notification->getTitle()); ?></strong>
                 <span class="notification-description"><?php echo $this->escapeHtml($notification->getDescription()); ?></span>
                 <time><?php echo $this->escapeHtml($this->formatNotificationDate($notification->getDateAdded())); ?></time>
                 <button class="action-close"><?php echo $this->__('Close'); ?></button>
-
                 <div class="notification-dialog-content" data-title="<?php echo $this->__('Notification'); ?>" data-cancel-caption="<?php echo  $this->__('Cancel'); ?>" data-acknowledge-caption="<?php echo $this->__('Acknowledge'); ?>">
                     <strong><?php echo $this->escapeHtml($notification->getTitle()); ?></strong>
                     <span class="notification-description"><?php echo $this->escapeHtml($notification->getDescription()); ?></span>
@@ -32,7 +33,6 @@
                     </div>
                     <time><?php echo $this->escapeHtml($this->formatNotificationDate($notification->getDateAdded())); ?></time>
                 </div>
-
             </li>
             <?php endforeach; ?>
             <li class="last">
