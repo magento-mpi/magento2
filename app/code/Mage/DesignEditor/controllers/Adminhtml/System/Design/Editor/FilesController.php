@@ -14,7 +14,8 @@
 
 require_once  'Mage/Theme/controllers/Adminhtml/System/Design/Wysiwyg/FilesController.php';
 
-class Mage_DesignEditor_Adminhtml_System_Design_Editor_FilesController extends Mage_Theme_Adminhtml_System_Design_Wysiwyg_FilesController
+class Mage_DesignEditor_Adminhtml_System_Design_Editor_FilesController
+    extends Mage_Theme_Adminhtml_System_Design_Wysiwyg_FilesController
 {
     /**
      * Tree json action
