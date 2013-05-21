@@ -119,7 +119,7 @@ class Mage_Paypal_Model_Ipn
         $this->_debugData['postback_to'] = $postbackUrl;
 
         $httpAdapter->setConfig(array('verifypeer' => $this->_config->verifyPeer));
-        $httpAdapter->write(Zend_Http_Client::POST, $postbackUrl, '1.1', array(), $postbackQuery);
+        $httpAdapter->write(Zend_Http_Client::POST, $postbackUrl, '1.1', array('Connection: close'), $postbackQuery);
         try {
             $postbackResult = $httpAdapter->read();
         } catch (Exception $e) {

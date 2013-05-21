@@ -613,7 +613,7 @@ class Mage_Paypal_Model_Config
      */
     public function getPaypalUrl(array $params = array())
     {
-        return sprintf('https://www.%spaypal.com/webscr%s',
+        return sprintf('https://www.%spaypal.com/cgi-bin/webscr%s',
             $this->sandboxFlag ? 'sandbox.' : '',
             $params ? '?' . http_build_query($params) : ''
         );
