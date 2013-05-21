@@ -2228,21 +2228,36 @@
 .uploader .file-row .file-info-name {
     display: table-cell;
     padding: 5px;
-    width: 80%;
+    width: 70%;
 }
 
-.uploader .file-row .file-info-size {
+.uploader .file-row .file-info-details {
     display: table-cell;
-    width: 15%;
+    width: 25%;
     padding: 5px;
     text-align: right;
 }
 
-.uploader .file-row .file-info-cancel {
+.uploader .file-row .file-info-size {
+}
+
+.uploader .file-row .file-info-error {
+}
+
+.uploader .file-row .file-icon {
     display: table-cell;
     width: 5%;
     padding: 5px;
     text-align: right;
+}
+
+.uploader .file-row .file-upload-cancel {
+}
+
+.uploader .file-row .file-upload-success {
+}
+
+.uploader .file-row .file-upload-failure {
 }
 
 .uploader-image {
@@ -2261,4 +2276,12 @@
 .scroll-assets {
     overflow-y: auto;
     max-height: 200px;
+}
+
+#content_header_text {
+    display: inline;
+}
+
+.uploaded {
+    float: right;
 }
