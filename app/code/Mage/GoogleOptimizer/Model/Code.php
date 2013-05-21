@@ -2,6 +2,10 @@
 /**
  * Google Experiment Code Model
  *
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license {license_link}
  * @method Mage_GoogleOptimizer_Model_Resource_Code _getResource()
  * @method Mage_GoogleOptimizer_Model_Resource_Code getResource()
  * @method Mage_GoogleOptimizer_Model_Code setEntityId(int $value)
@@ -12,28 +16,16 @@
  * @method int getStoreId()
  * @method Mage_GoogleOptimizer_Model_Code setExperimentScript(int $value)
  * @method string getExperimentScript()
- *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
  */
 class Mage_GoogleOptimizer_Model_Code extends Mage_Core_Model_Abstract
 {
-    /**
-     * Entity type product
+    /**#@+
+     * Entity types
      */
-    const CODE_ENTITY_TYPE_PRODUCT = 'product';
-
-    /**
-     * Entity type category
-     */
-    const CODE_ENTITY_TYPE_CATEGORY = 'category';
-
-    /**
-     * Entity type category
-     */
-    const CODE_ENTITY_TYPE_CMS = 'cms';
+    const ENTITY_TYPE_PRODUCT = 'product';
+    const ENTITY_TYPE_CATEGORY = 'category';
+    const ENTITY_TYPE_PAGE = 'cms';
+    /**#@-*/
 
     /**
      * @var bool
@@ -50,14 +42,14 @@ class Mage_GoogleOptimizer_Model_Code extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Loading scripts and assigning scripts on entity
+     * Loading by entity id and type type
      *
-     * @param $entityId
-     * @param $entityType
-     * @param $storeId
-     * @return $this
+     * @param int $entityId
+     * @param string $entityType One of self::CODE_ENTITY_TYPE_
+     * @param int $storeId
+     * @return Mage_GoogleOptimizer_Model_Code
      */
-    public function loadScripts($entityId, $entityType, $storeId = 0)
+    public function loadByEntityIdAndType($entityId, $entityType, $storeId = 0)
     {
         $this->getResource()->loadByEntityType($this, $entityId, $entityType, $storeId);
         $this->_afterLoad();

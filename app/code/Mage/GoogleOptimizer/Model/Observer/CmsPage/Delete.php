@@ -32,7 +32,10 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_Delete
     {
         /** @var $cmsPage Mage_Cms_Model_Page */
         $cmsPage = $observer->getEvent()->getObject();
-        $this->_modelCode->loadScripts($cmsPage->getId(), Mage_GoogleOptimizer_Model_Code::CODE_ENTITY_TYPE_CMS);
+        $this->_modelCode->loadByEntityIdAndType(
+            $cmsPage->getId(),
+            Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE
+        );
         if ($this->_modelCode->getId()) {
             $this->_modelCode->delete();
         }

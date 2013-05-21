@@ -17,11 +17,6 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
     protected $_helperData;
 
     /**
-     * @var Varien_Data_Form
-     */
-    protected $_form;
-
-    /**
      * @var Mage_Core_Model_Registry
      */
     protected $_registry;
@@ -41,7 +36,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
         array $data = array()
     ) {
         $this->_helperData = $helperData;
-        $this->_form = $form;
+        $this->setForm($this->_form);
         $this->_registry = $registry;
         parent::__construct($context, $data);
     }
@@ -60,7 +55,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
         $experimentCode = array();
         $experimentId = '';
 
-        if (null != ($experiment = $this->_getPage()->getGoogleExperiment())) {
+        if (null != ($experiment = $this->_getGoogleExperiment())) {
             $experimentCode = $experiment->getExperimentScript();
             $experimentId = $experiment->getCodeId();
         }
@@ -81,19 +76,23 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
         ));
 
         $this->_form->setFieldNameSuffix('google_experiment');
-        $this->setForm($this->_form);
 
         return parent::_prepareForm();
     }
 
     /**
-     * Get Page Entity
+     * Get google experiment code model
      *
-     * @return mixed
+     * @return Mage_GoogleOptimizer_Model_Code
+     * @throws RuntimeException
      */
-    protected function _getPage()
+    protected function _getGoogleExperiment()
     {
-        return $this->_registry->registry('cms_page');
+        $entity = $this->_registry->registry('cms_page');
+        if (!$entity) {
+            throw new RuntimeException('Entity is not found in registry.');
+        }
+        return $entity->getGoogleExperiment();
     }
 
     /**

@@ -32,9 +32,9 @@ class Mage_GoogleOptimizer_Model_Observer_Product_Delete
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $observer->getEvent()->getProduct();
-        $this->_modelCode->loadScripts(
+        $this->_modelCode->loadByEntityIdAndType(
             $product->getId(),
-            Mage_GoogleOptimizer_Model_Code::CODE_ENTITY_TYPE_PRODUCT,
+            Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PRODUCT,
             $product->getStoreId()
         );
 

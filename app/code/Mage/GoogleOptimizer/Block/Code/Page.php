@@ -38,7 +38,7 @@ class Mage_GoogleOptimizer_Block_Code_Page extends Mage_GoogleOptimizer_Block_Co
      *
      * @return Mage_GoogleOptimizer_Model_Code
      */
-    protected function _getGoogleExperimentModel()
+    protected function _getGoogleExperiment()
     {
         return $this->_page->getGoogleExperiment();
     }

@@ -16,11 +16,6 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
     protected $_helperData;
 
     /**
-     * @var Varien_Data_Form
-     */
-    protected $_form;
-
-    /**
      * @var Mage_Core_Model_Registry
      */
     protected $_registry;
@@ -40,7 +35,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
         array $data = array()
     ) {
         $this->_helperData = $helperData;
-        $this->_form = $form;
+        $this->setForm($this->_form);
         $this->_registry = $registry;
         parent::__construct($context, $data);
     }
@@ -56,11 +51,10 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
             'legend' => $this->__('Google Analytics Content Experiments Code')
         ));
 
-        $disabledScriptsFields = false;
         $experimentCode = array();
         $experimentId = '';
 
-        if (null != ($experiment = $this->getProduct()->getGoogleExperiment())) {
+        if (null != ($experiment = $this->_getGoogleExperiment())) {
             $experimentCode = $experiment->getExperimentScript();
             $experimentId = $experiment->getCodeId();
         }
@@ -81,19 +75,34 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
         ));
 
         $this->_form->setFieldNameSuffix('google_experiment');
-        $this->setForm($this->_form);
 
         return parent::_prepareForm();
     }
 
     /**
+     * Get google experiment code model
+     *
+     * @return Mage_GoogleOptimizer_Model_Code
+     */
+    protected function _getGoogleExperiment()
+    {
+        return $this->_getProduct()->getGoogleExperiment();
+    }
+
+    /**
      * Get Product entity
      *
-     * @return Mage_Catalog_Model_Product|null
+     * @return Mage_Catalog_Model_Product
+     * @throws RuntimeException
      */
-    public function getProduct()
+    protected function _getProduct()
     {
-        return $this->_registry->registry('product');
+        $entity = $this->_registry->registry('product');
+        if (!$entity) {
+            throw new RuntimeException('Entity is not found in registry.');
+        }
+
+        return $entity;
     }
 
     /**
@@ -103,7 +112,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
      */
     public function getTabLabel()
     {
-        return $this->_helperData->__('Product View Optimization');
+        return $this->__('Product View Optimization');
     }
 
     /**
@@ -113,7 +122,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
      */
     public function getTabTitle()
     {
-        return $this->_helperData->__('Product View Optimization');
+        return $this->__('Product View Optimization');
     }
 
     /**

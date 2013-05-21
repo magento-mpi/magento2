@@ -46,9 +46,9 @@ class Mage_GoogleOptimizer_Model_Observer_Product_Load
             return $this;
         }
 
-        $this->_modelCode->loadScripts(
+        $this->_modelCode->loadByEntityIdAndType(
             $product->getId(),
-            Mage_GoogleOptimizer_Model_Code::CODE_ENTITY_TYPE_PRODUCT,
+            Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PRODUCT,
             $product->getStoreId()
         );
 

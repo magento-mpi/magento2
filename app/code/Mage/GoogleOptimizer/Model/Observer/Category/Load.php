@@ -46,9 +46,9 @@ class Mage_GoogleOptimizer_Model_Observer_Category_Load
             return $this;
         }
 
-        $this->_modelCode->loadScripts(
+        $this->_modelCode->loadByEntityIdAndType(
             $category->getId(),
-            Mage_GoogleOptimizer_Model_Code::CODE_ENTITY_TYPE_CATEGORY,
+            Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY,
             $category->getStoreId()
         );
 

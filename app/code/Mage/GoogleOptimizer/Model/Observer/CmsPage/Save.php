@@ -61,7 +61,7 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_Save
 
         if ($cmsPage->getId() && $values['experiment_script']) {
             $data = array(
-                'entity_type' => Mage_GoogleOptimizer_Model_Code::CODE_ENTITY_TYPE_CMS,
+                'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE,
                 'entity_id' => $cmsPage->getId(),
                 'store_id' => 0,
                 'experiment_script' => $values['experiment_script'],

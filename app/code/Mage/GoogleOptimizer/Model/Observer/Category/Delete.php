@@ -32,9 +32,9 @@ class Mage_GoogleOptimizer_Model_Observer_Category_Delete
     {
         /** @var $category Mage_Catalog_Model_Category */
         $category = $observer->getEvent()->getCategory();
-        $this->_modelCode->loadScripts(
+        $this->_modelCode->loadByType(
             $category->getId(),
-            Mage_GoogleOptimizer_Model_Code::CODE_ENTITY_TYPE_CATEGORY,
+            Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY,
             $category->getStoreId()
         );
         if ($this->_modelCode->getId()) {

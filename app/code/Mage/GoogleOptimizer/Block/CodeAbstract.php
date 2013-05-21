@@ -47,11 +47,11 @@ abstract class Mage_GoogleOptimizer_Block_CodeAbstract extends Mage_Core_Block_T
      * @return Mage_GoogleOptimizer_Model_Code
      * @throws RuntimeException
      */
-    protected function _getGoogleExperimentModel()
+    protected function _getGoogleExperiment()
     {
         $entity = $this->_registry->registry($this->_registryName);
         if (!$entity) {
-            throw new RuntimeException('Register...');
+            throw new RuntimeException('Entity is not found in registry.');
         }
         return $entity->getGoogleExperiment();
     }
@@ -75,8 +75,8 @@ abstract class Mage_GoogleOptimizer_Block_CodeAbstract extends Mage_Core_Block_T
     {
         $result = '';
 
-        if ($this->_helper->isGoogleExperimentActive() && $this->_getGoogleExperimentModel()) {
-            $result = $this->_getGoogleExperimentModel()->getData('experiment_script');
+        if ($this->_helper->isGoogleExperimentActive() && $this->_getGoogleExperiment()) {
+            $result = $this->_getGoogleExperiment()->getData('experiment_script');
         }
         return $result;
     }
