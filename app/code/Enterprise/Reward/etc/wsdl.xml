@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:typens="urn:{{var wsdl.name}}" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             name="{{var wsdl.name}}" targetNamespace="urn:{{var wsdl.name}}">
+    <types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
+            <complexType name="shoppingCartInfoEntity">
+                <all>
+                    <element name="use_reward_points" type="xsd:string" minOccurs="0"/>
+                    <element name="reward_points_balance" type="xsd:string" minOccurs="0"/>
+                    <element name="base_reward_currency_amount" type="xsd:string" minOccurs="0"/>
+                    <element name="reward_currency_amount" type="xsd:string" minOccurs="0"/>
+                </all>
+            </complexType>
+            <complexType name="salesOrderListEntity">
+                <all>
+                    <element name="reward_points_balance" type="xsd:string" minOccurs="0" />
+                    <element name="base_reward_currency_amount" type="xsd:string" minOccurs="0" />
+                    <element name="reward_currency_amount" type="xsd:string" minOccurs="0" />
+                    <element name="base_rwrd_crrncy_amt_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="rwrd_currency_amount_invoiced" type="xsd:string" minOccurs="0" />
+                    <element name="base_rwrd_crrncy_amnt_refnded" type="xsd:string" minOccurs="0" />
+                    <element name="rwrd_crrncy_amnt_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="reward_points_balance_refunded" type="xsd:string" minOccurs="0" />
+                    <element name="reward_points_balance_refund" type="xsd:string" minOccurs="0" />
+                    <element name="reward_salesrule_points" type="xsd:string" minOccurs="0" />
+                </all>
+            </complexType>
+            <complexType name="salesOrderCreditmemoEntity">
+                <all>
+                    <element name="base_reward_currency_amount" type="xsd:string" minOccurs="0" />
+                    <element name="reward_currency_amount" type="xsd:string" minOccurs="0" />
+                    <element name="reward_points_balance" type="xsd:string" minOccurs="0" />
+                    <element name="reward_points_balance_refund" type="xsd:string" minOccurs="0" />
+                </all>
+            </complexType>
+        </schema>
+    </types>
+</definitions>
