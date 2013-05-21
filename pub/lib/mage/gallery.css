@@ -70,36 +70,44 @@
 }
 
 .magento-zoom {
-    display: inline-block;
+    display: block;
 }
 
 .magento-zoom-enlarged {
     position: absolute;
     z-index: 9999;
     overflow: hidden;
-    background: rgba(255, 255, 255, .95);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000, endColorstr=#CC000000);
+    background: #fff;
+/*     background: rgba(255, 255, 255, .95);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000, endColorstr=#CC000000); */
     zoom: 1;
+    outline:4px solid #675f55;
 }
-
 .magento-zoom-enlarged img {
     position: absolute;
 }
 
 /** Lightbox */
 #magento-zoom-gallery-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 9999;
+    padding:14px;
+    border:1px solid #837d75;
+    cursor: pointer;
+    background: #fff;
+}
+#magento-zoom-gallery-close:before {
+    content:'';
     display: block;
     width: 12px;
     height: 12px;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 9999;
     background: url(../images/bkg_gallery.png) -80px -12px no-repeat;
     cursor: pointer;
 }
 
-#magento-zoom-gallery-close:hover {
+#magento-zoom-gallery-close:hover:before {
     background-position: -80px 0;
 }
 
@@ -111,26 +119,54 @@
     top: 0 !important;
     right: 0;
     bottom: 0;
+    outline:0;
+    background-color: #fff!important;
+}
+
+body.js-lightbox {
+    width:100%;
+    height:100%;
+    position: relative;
+    overflow: hidden;
+    padding:15px;
+    -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
 .magento-zoom-enlarged.lightbox #magento-zoom-enlarged-controls img {
-    position: static;
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+    margin:auto;
+    left:0!important;
+    right:0!important;
+    top:0!important;
+    bottom:0!important;
+    display: block;
 }
 
+
+
+.lightbox #magento-zoom-enlarged-controls {
+    top: 15px;
+    left:15px;
+    right:15px;
+    bottom:15px;
+    position: absolute;
+    -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
 .lightbox #magento-zoom-enlarged-inner {
-    background: #fff;
-    float: left;
-    position: relative;
-    width: 910px;
-    padding: 25px 25px 0;
-    box-shadow: 0 0 5px 0 #999;
 }
 
 .lightbox #magento-zoom-gallery-thumbs {
-    padding: 10px 0;
+    padding: 15px;
     border-top: 1px solid #ddd;
     background: #fff;
-    position: relative;
+    position: absolute;
+    bottom:0;
 }
 
 .lightbox #magento-zoom-gallery-thumbs [rel$=-slide] {
@@ -192,7 +228,7 @@
 }
 
 .lightbox #magento-zoom-enlarged-controls {
-    position: relative;
+    /* position: relative; */
     text-align: center;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -208,27 +244,43 @@
     width: 50%;
     cursor: pointer;
     z-index: 9999;
-    background: url(../images/bkg_gallery.png) 0 50% no-repeat;
 }
-
+.lightbox #magento-zoom-enlarged-controls [rel]:before {
+    content:'';
+    display: inline-block;
+    background: url(../images/bkg_gallery.png) 0 50% no-repeat;
+    width:42px;
+    height:24px;
+    overflow: hidden;
+    position: absolute;
+    top:50%;
+    margin-top:-12px;
+}
 .lightbox #magento-zoom-enlarged-controls [rel$="-prev"] {
     left: -25px;
     padding-left: 25px;
-    background-position: -92px 50%;
+    text-align:left;
+}
+.lightbox #magento-zoom-enlarged-controls [rel$="-prev"]:before {
+    background-position: -83px 50%;
+    left:25px;
 }
 
-.lightbox #magento-zoom-enlarged-controls [rel$="-prev"]:hover {
-    background-position: -596px 50%;
+.lightbox #magento-zoom-enlarged-controls [rel$="-prev"]:hover:before {
+    background-position: -587px 50%;
 }
 
 .lightbox #magento-zoom-enlarged-controls [rel$="-next"] {
     right: -25px;
+    text-align:right;
     padding-right: 25px;
-    background-position: -659px 50%;
 }
-
-.lightbox #magento-zoom-enlarged-controls [rel$="-next"]:hover {
-    background-position: -1178px 50%;
+.lightbox #magento-zoom-enlarged-controls [rel$="-next"]:before {
+    background-position: -1105px 50%;
+    right:25px;
+}
+.lightbox #magento-zoom-enlarged-controls [rel$="-next"]:hover:before {
+    background-position: -1624px 50%;
 }
 
 .lightbox #magento-zoom-enlarged-controls > img {

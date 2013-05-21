@@ -41,7 +41,7 @@ class Enterprise_Customer_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $address->load('admin@example.com', 'email');
 
         $entity = new Varien_Object(array('id' => $address->getId()));
-        $collection = $this->getMock('Varien_Data_Collection_Db', array('getItems'));
+        $collection = $this->getMock('Varien_Data_Collection_Db', array('getItems'), array(), '', false);
         $collection
             ->expects($this->any())
             ->method('getItems')

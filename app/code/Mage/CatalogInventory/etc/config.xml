@@ -117,6 +117,14 @@
                     </inventory>
                 </observers>
             </sales_model_service_quote_submit_failure>
+            <paypal_payment_cancel>
+                <observers>
+                    <inventory>
+                        <class>Mage_CatalogInventory_Model_Observer</class>
+                        <method>revertQuoteInventory</method>
+                    </inventory>
+                </observers>
+            </paypal_payment_cancel>
             <sales_order_item_cancel>
                 <observers>
                     <inventory>

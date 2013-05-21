@@ -312,6 +312,13 @@
                 </observers>
             </cms_wysiwyg_images_static_urls_allowed>
         </events>
+        <di>
+            <Mage_Catalog_Model_Session>
+                <parameters>
+                    <sessionName>adminhtml</sessionName>
+                </parameters>
+            </Mage_Catalog_Model_Session>
+        </di>
     </adminhtml>
     <frontend>
         <routers>
@@ -413,6 +420,13 @@
                 </attributes>
             </collection>
         </category>
+        <di>
+            <Mage_Catalog_Model_Session>
+                <parameters>
+                    <sessionName>frontend</sessionName>
+                </parameters>
+            </Mage_Catalog_Model_Session>
+        </di>
     </frontend>
     <default>
         <catalog>

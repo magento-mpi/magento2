@@ -123,7 +123,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
 
         $this->addColumn('set_name',
             array(
-                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Attrib. Set Name'),
+                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute Set'),
                 'width' => '100px',
                 'index' => 'attribute_set_id',
                 'type'  => 'options',
@@ -137,7 +137,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
             'index'     => 'sku'
         ));
         $this->addColumn('chooser_name', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Product Name'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Product'),
             'name'      => 'chooser_name',
             'index'     => 'name'
         ));

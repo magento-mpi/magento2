@@ -18,7 +18,7 @@
  */
 class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
 {
-    private static $_productTypes = array('configurable', 'bundle', 'grouped', 'simple', 'virtual', 'downloadable');
+    protected $_productTypes = array('configurable', 'bundle', 'grouped', 'simple', 'virtual', 'downloadable');
 
     protected function assertPreconditions()
     {
@@ -35,7 +35,7 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
     {
         $forLinking = array();
         $linking = $this->productHelper()->createBundleProduct();
-        foreach (self::$_productTypes as $product) {
+        foreach ($this->_productTypes as $product) {
             $method = 'create' . ucfirst($product) . 'Product';
             $forLinking[$product] = $this->productHelper()->$method();
         }
@@ -95,6 +95,7 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      */
     public function crossSellsInStock($linkingType, $testData)
     {
+        $this->markTestIncomplete('MAGETWO-9533');
         //Data
         $assignType = 'cross_sells';
         $assignProductType = 'bundle';
@@ -229,6 +230,7 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      */
     public function crossSellsOutStock($linkingType, $testData)
     {
+        $this->markTestIncomplete('MAGETWO-9533');
         //Data
         $assignType = 'cross_sells';
         $assignProductType = 'bundle';

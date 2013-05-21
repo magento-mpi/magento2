@@ -173,6 +173,6 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_CatalogSearch::search');
+        return $this->_authorization->isAllowed('Mage_CatalogSearch::search');
     }
 }

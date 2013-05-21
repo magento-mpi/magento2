@@ -33,7 +33,8 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Assigned
     protected function _addThemeButtons($themeBlock)
     {
         parent::_addThemeButtons($themeBlock);
-        $this->_addPreviewButtonHtml($themeBlock)->_addAssignButtonHtml($themeBlock)->_addEditButtonHtml($themeBlock);
+        $this->_addDuplicateButtonHtml($themeBlock)->_addPreviewButtonHtml($themeBlock)
+            ->_addAssignButtonHtml($themeBlock)->_addEditButtonHtml($themeBlock);
         return $this;
     }
 }

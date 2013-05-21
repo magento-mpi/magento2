@@ -43,8 +43,7 @@
             <action method="setShowPart"><value>customer</value></action>
         </block>
 
-        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare" template="Mage_Catalog::product/compare/block.phtml">
-            <action method="setIsLink"><link>1</link></action>
+        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.header" template="Mage_Catalog::product/compare/link.phtml">
         </block>
 
         <!-- <remove name="tags_popular" /> -->
@@ -66,6 +65,7 @@
                 <block type="Mage_Customer_Block_Account_Link">
                     <action method="addAccountLink"><target>panel.menu</target><position>10</position></action>
                 </block>
+                <action method="addLinkBlock"><blockName>catalog.compare.header</blockName></action>
                 <block type="Mage_Wishlist_Block_Links" name="wishlist.link" />
                 <action method="addLinkBlock"><blockName>wishlist.link</blockName><position>0</position></action>
             </block>
@@ -178,16 +178,6 @@
             <block type="Mage_Review_Block_Product_View" as="content" name="product.redirect" template="redirect.phtml" />
         </reference>
     </review_product_list>
-
-    <!-- Temporary add homepage html -->
-    <cms_index_index translate="label" type="page" parent="cms_page_view">
-        <label>CMS Home Page</label>
-        <!-- <remove name="page.main.title" /> -->
-        <remove name="content" />
-        <reference name="content.top">
-            <block type="Mage_Core_Block_Template" name="default_home_page" template="Mage_Cms::default/home.phtml"/>
-        </reference>
-    </cms_index_index>
 
     <print>
         <reference name="head">

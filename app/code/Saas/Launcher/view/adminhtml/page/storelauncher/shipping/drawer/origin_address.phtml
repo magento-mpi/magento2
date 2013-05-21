@@ -60,80 +60,80 @@ $address = $this->getAddress();
     </ul>
 </script>
 <script type="text/javascript">
-    (function($) {
-        var originAddressView = $('#shipping-origin-address-view'),
-            originAddressForm = $('#shipping-origin-address-form'),
-            editOriginAddress = $('#action-origin-address-edit'),
-            saveOriginAddress = $('#action-origin-address-save'),
-            cancelOriginAddress = $('#action-origin-address-cancel'),
-            messagePlaceholder = $('#shipping-origin-address-view-title'),
-            insertValidationMessage = function(messageText, messageType) {
-                $('<div class="message-validation ' + messageType + '">' + messageText + '</div>')
-                        .insertAfter(messagePlaceholder);
-                delay && clearTimeout(delay);
-                var delay = setTimeout(function() {
-                    $('.message-validation').slideUp(400);
-                }, 3000);
-            },
-            originAddressEditSwitchOff = function() {
-                originAddressForm.hide();
-                originAddressView.show();
-            },
-            originAddressEditSwitchOn = function() {
-                originAddressView.hide();
-                originAddressForm.show();
-            };
+jQuery(function ($) {
+    var originAddressView = $('#shipping-origin-address-view'),
+        originAddressForm = $('#shipping-origin-address-form'),
+        editOriginAddress = $('#action-origin-address-edit'),
+        saveOriginAddress = $('#action-origin-address-save'),
+        cancelOriginAddress = $('#action-origin-address-cancel'),
+        messagePlaceholder = $('#shipping-origin-address-view-title'),
+        insertValidationMessage = function(messageText, messageType) {
+            $('<div class="message-validation ' + messageType + '">' + messageText + '</div>')
+                    .insertAfter(messagePlaceholder);
+            delay && clearTimeout(delay);
+            var delay = setTimeout(function() {
+                $('.message-validation').slideUp(400);
+            }, 3000);
+        },
+        originAddressEditSwitchOff = function() {
+            originAddressForm.hide();
+            originAddressView.show();
+        },
+        originAddressEditSwitchOn = function() {
+            originAddressView.hide();
+            originAddressForm.show();
+        };
 
-        $("#shipping-origin-address").mage('form').mage('validation');
+    $("#shipping-origin-address").mage('form').mage('validation');
 
-        saveOriginAddress
-            .on('click.OriginAddressSave', function(event) {
-                event.preventDefault();
-                var drawerForm = $('#shipping-origin-address').validation();
-                if (!drawerForm.valid()) {
-                    return;
-                }
-                originAddressForm.addClass('loading');
+    saveOriginAddress
+        .on('click.OriginAddressSave', function(event) {
+            event.preventDefault();
+            var drawerForm = $('#shipping-origin-address').validation();
+            if (!drawerForm.valid()) {
+                return;
+            }
+            originAddressForm.addClass('loading');
 
-                $.ajax({
-                    type: 'POST',
-                    data: drawerForm.serializeArray(),
-                    dataType: 'json',
-                    showLoader: true,
-                    context: originAddressForm,
-                    url: $(this).attr('data-save-url')
-                }).success(function(result, status) {
-                        originAddressForm.removeClass('loading');
-                        if (result && result.error_message) {
-                            insertValidationMessage(result.error_message, 'error');
-                        } else {
-                            var address = [{
-                                street_line1: $('#street_line1').val(),
-                                street_line2: $('#street_line2').val(),
-                                city: $('#city').val(),
-                                postcode: $('#postcode').val(),
-                                country: $('#country_id option:selected').text(),
-                                region: $('#region_id option:selected').text()
-                            }];
-                            originAddressView
-                                .find('.shipping-origin-address-data')
-                                .html($("#addressTemplate")
-                                .tmpl(address));
+            $.ajax({
+                type: 'POST',
+                data: drawerForm.serializeArray(),
+                dataType: 'json',
+                showLoader: true,
+                context: originAddressForm,
+                url: $(this).attr('data-save-url')
+            }).success(function(result, status) {
+                    originAddressForm.removeClass('loading');
+                    if (result && result.error_message) {
+                        insertValidationMessage(result.error_message, 'error');
+                    } else {
+                        var address = [{
+                            street_line1: $('#street_line1').val(),
+                            street_line2: $('#street_line2').val(),
+                            city: $('#city').val(),
+                            postcode: $('#postcode').val(),
+                            country: $('#country_id option:selected:not([value=0])').text(),
+                            region: $('#region_id option:selected:not([value=0])').text()
+                        }];
+                        originAddressView
+                            .find('.shipping-origin-address-data')
+                            .html($("#addressTemplate")
+                            .tmpl(address));
 
-                            originAddressEditSwitchOff();
-                            insertValidationMessage(result.message, 'success');
-                        }
-                    });
-            });
-        cancelOriginAddress
-            .on('click.OriginAddressCancel', function(event) {
-                event.preventDefault();
-                originAddressEditSwitchOff();
-            });
-        editOriginAddress
-            .on('click.OriginAddressEdit', function(event) {
-                event.preventDefault();
-                originAddressEditSwitchOn();
-            });
-    })(jQuery);
+                        originAddressEditSwitchOff();
+                        insertValidationMessage(result.message, 'success');
+                    }
+                });
+        });
+    cancelOriginAddress
+        .on('click.OriginAddressCancel', function(event) {
+            event.preventDefault();
+            originAddressEditSwitchOff();
+        });
+    editOriginAddress
+        .on('click.OriginAddressEdit', function(event) {
+            event.preventDefault();
+            originAddressEditSwitchOn();
+        });
+});
 </script>

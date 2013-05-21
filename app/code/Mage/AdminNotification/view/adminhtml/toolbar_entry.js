@@ -50,19 +50,16 @@
         var showNotificationDetails = function(notificationEntry) {
             var popupElement = notificationEntry.find('.notification-dialog-content').clone();
             var notificationId = notificationEntry.attr('data-notification-id');
+            var dialogClassSeverity = 'notification-entry-dialog';
+            if (notificationEntry.attr('data-notification-severity')) {
+                dialogClassSeverity = 'notification-entry-dialog notification-entry-dialog-critical';
+            }
             popupElement.dialog({
                 title: popupElement.attr('data-title'),
                 minWidth: 500,
                 modal: true,
-                dialogClass: 'notification-entry-dialog',
+                dialogClass: dialogClassSeverity,
                 buttons: [
-                    {
-                        text: popupElement.attr('data-cancel-caption'),
-                        'class': 'action-cancel',
-                        click: function(event) {
-                            $(this).dialog('close');
-                        }
-                    },
                     {
                         text: popupElement.attr('data-acknowledge-caption'),
                         'class': 'action-acknowledge primary',
@@ -71,9 +68,17 @@
                             removeNotificationFromList(notificationEntry);
                             $(this).dialog('close');
                         }
+                    },
+                    {
+                        text: popupElement.attr('data-cancel-caption'),
+                        'class': 'action-cancel',
+                        click: function(event) {
+                            $(this).dialog('close');
+                        }
                     }
                 ]
             });
+            popupElement.parent().attr('aria-live','assertive');
             popupElement.dialog('open');
         };
 

@@ -327,7 +327,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                         'product_tab' => $this->getRequest()->getParam('product_tab'),
                     );
                     if ($isNewAttributeSet) {
-                        $requestParams['new_attribute_set_id'] = $attributeSetId;
+                        $requestParams['new_attribute_set_id'] = $attributeSet->getId();
                     }
                     $this->_redirect('adminhtml/catalog_product/addAttribute', $requestParams);
                 } elseif ($redirectBack) {
@@ -396,6 +396,6 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Catalog::attributes_attributes');
+        return $this->_authorization->isAllowed('Mage_Catalog::attributes_attributes');
     }
 }

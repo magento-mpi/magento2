@@ -160,6 +160,7 @@ Additional block for bundle product type
         <label>Catalog Product View (Bundle)</label>
         <reference name="head">
             <action method="addJs"><file>Mage_Bundle::bundle.js</file></action>
+            <action method="addJs"><file>Mage_Bundle::js/product-summary.js</file></action>
         </reference>
         <reference name="root">
             <action method="addBodyClass"><value>type-bundle</value></action>
@@ -185,7 +186,7 @@ Additional block for bundle product type
         </reference>
         <reference name="product.info.options.wrapper.bottom">
             <remove name="product.tierprices" />
-            <block type="Mage_Bundle_Block_Catalog_Product_View" name="bundle.tierprices" as="tierprices" before="-" template="Mage_Catalog::product/view/tierprices.phtml"/>
+            <block type="Mage_Bundle_Block_Catalog_Product_View" name="bundle.tierprices" as="tierprices" before="-" template="Mage_Bundle::catalog/product/view/tierprices.phtml"/>
             <block type="Mage_CatalogInventory_Block_Qtyincrements" name="product.info.qtyincrements" before="-" template="qtyincrements.phtml"/>
             <block type="Mage_Bundle_Block_Catalog_Product_View" name="bundle.back.button" as="backButton" after="-" template="catalog/product/view/backbutton.phtml"/>
             <action method="unsetChild"><block>product.info.addtocart</block></action>

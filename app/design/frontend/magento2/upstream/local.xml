@@ -46,13 +46,14 @@
             <action method="setShowPart"><value>customer</value></action>
         </block>
 
-        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare" template="Mage_Catalog::product/compare/block.phtml">
-            <action method="setIsLink"><link>1</link></action>
+        <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.header" template="Mage_Catalog::product/compare/link.phtml">
         </block>
 
-        <remove name="tags_popular" />
+        <reference name="top.links">
+            <action method="addLinkBlock"><blockName>catalog.compare.header</blockName></action>
+        </reference>
+
         <!--<remove name="catalog.compare.sidebar"/>-->
-        <remove name="product_tag_list" />
         <remove name="checkout_cart_link" />
 
         <reference name="catalog.topnav">
@@ -92,6 +93,13 @@
             <action method="setTitle" translate="value"><value>Overview</value></action>
         </reference>
 
+        <move element="product_tag_list" destination="product.info.details" after="-" as="product_tags" />
+        <reference name="product_tag_list">
+            <action method="setAtLabel" translate="label"><label>none</label></action>
+            <action method="addToParentGroup"><group>detailed_info</group></action>
+            <action method="setTitle" translate="value"><value>Tags</value></action>
+        </reference>
+
         <reference name="product.info.details" after="-">
             <block type="Mage_Catalog_Block_Product_View_Additional" name="product.info.reviews.tab" as="product_reviews">
                 <action method="addToParentGroup"><group>detailed_info</group></action>
@@ -111,15 +119,6 @@
             <block type="Mage_Review_Block_Product_View" as="content" name="product.redirect" template="redirect.phtml" />
         </reference>
     </review_product_list>
-
-    <!-- Temporary add homepage html -->
-    <cms_index_index translate="label" type="page" parent="cms_page_view">
-        <label>CMS Home Page</label>
-        <remove name="content" />
-        <reference name="content.top">
-            <block type="Mage_Core_Block_Template" name="default_home_page" template="Mage_Cms::default/home.phtml"/>
-        </reference>
-    </cms_index_index>
 
     <print>
         <reference name="head">

@@ -268,6 +268,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
      */
     public function assignPhysicalThemeFromNavigationMode()
     {
+        $this->markTestIncomplete('MAGETWO-9010');
         //Data
         $themeData['id'] = $this->themeHelper()->getThemeIdByTitle('Magento Fixed Design');
         $this->navigate('manage_stores');

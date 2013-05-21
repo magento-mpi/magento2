@@ -71,7 +71,7 @@
                     </block>
                     <block type='Mage_Backend_Block_Widget_Grid_Column' as='size'>
                         <arguments>
-                            <header translate='true' module='Mage_Backup'>Size, Bytes</header>
+                            <header translate='true' module='Mage_Backup'>Size(bytes)</header>
                             <index>size</index>
                             <type>number</type>
                             <filter>0</filter>

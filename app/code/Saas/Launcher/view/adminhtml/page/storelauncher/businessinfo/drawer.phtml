@@ -15,12 +15,12 @@
 </div>
 <?php echo $this->getChildHtml('form_after');?>
 <script type="text/javascript">
-(function($) {
+jQuery(function ($) {
     head.js(
         "<?php echo $this->getViewFileUrl('Saas_Launcher::page/storelauncher/businessinfo/autocomplete.js') ?>",
         function () {
             $('#store_email').autocompleteEmail();
         }
     );
-})(jQuery);
+});
 </script>

@@ -68,8 +68,7 @@ class Core_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Selenium_T
             array('recovery_link_exp_period' => $expirationPeriod));
         //Steps
         if ($expirationPeriod == 'a' || $expirationPeriod == '1.1') {
-            $message = '"Recovery Link Expiration Period (days)": Please use numbers only in this field. '
-                       . 'Please avoid spaces or other characters such as dots or commas.';
+            $message = '"Recovery Link Expiration Period (days)": Please enter a valid number in this field.';
         } else {
             $message = '"Recovery Link Expiration Period (days)": The value is not within the specified range.';
         }
@@ -158,8 +157,7 @@ class Core_Mage_SystemConfiguration_TemplateSettingsTest extends Mage_Selenium_T
         //Verification
         if ($expirationPeriod == 'a' || $expirationPeriod == '1.1') {
             $this->setExpectedException('PHPUnit_Framework_AssertionFailedError',
-                '"Recovery Link Expiration Period (days)": Please use numbers only in this field. '
-                . 'Please avoid spaces or other characters such as dots or commas.');
+                '"Recovery Link Expiration Period (days)": Please enter a valid number in this field.');
         } elseif ($expirationPeriod == '0') {
             $this->setExpectedException('PHPUnit_Framework_AssertionFailedError',
                 '"Recovery Link Expiration Period (days)": The value is not within the specified range.');

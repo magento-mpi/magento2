@@ -18,6 +18,8 @@ return array(
     'web/cookie/cookie_httponly',
     'web/session',
     'web/browser_capabilities',
+    'web/unsecure',
+    'web/secure',
 
     'currency/webservicex',
     'currency/import',
@@ -58,7 +60,6 @@ return array(
     'customer/online_customers',
 
     'customer/account_share',
-    'customer/enterprise_customersegment',
     'customer/captcha',
 
     'sales/minimum_order/multi_address',
@@ -109,16 +110,15 @@ return array(
 
     'payment_services/centinel/debug',
 
-    'paypal/express/debug',
-    'paypal/wps/debug',
-    'paypal/wpp/debug',
-    'paypal/paypal_billing_agreement/debug',
-    'paypal/wpp_pe/debug',
-    'paypal/verisign/debug',
-    'paypal/express_pe/debug',
-    'paypal/payflow_link/debug',
-    'paypal/hosted_pro/debug',
-    'paypal/payflow_advanced/debug',
+    'payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/debug',
+    'payment/paypal_payments/wps/settings_payments_standart/settings_payments_standart_advanced/debug',
+    'payment/paypal_payments/wpp/wpp_settings/wpp_settings_advanced/debug',
+    'payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced'
+        . '/billing_agreement/debug',
+    'payment/paypal_payments/paypal_verisign/settings_paypal_payflow/settings_paypal_payflow_advanced/debug',
+    'payment/paypal_payments/payflow_advanced/settings_express_checkout/settings_express_checkout_advanced/debug',
+    'payment/paypal_payments/payflow_link/settings_payflow_link/settings_payflow_link_advanced/debug',
+    'payment/paypal_payments/payflow_advanced/settings_payments_advanced/settings_payments_advanced_advanced/debug',
 
     'google/checkout/debug',
     'google/googleshopping/debug',

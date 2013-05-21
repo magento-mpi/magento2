@@ -16,11 +16,11 @@ class Mage_ImportExport_Block_Adminhtml_Export_FilterTest
     extends PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php
      * @magentoAppIsolation enabled
      */
     public function testGetDateFromToHtmlWithValue()
     {
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         $block = Mage::getObjectManager()->create('Mage_ImportExport_Block_Adminhtml_Export_Filter');
         $method = new ReflectionMethod(
                     'Mage_ImportExport_Block_Adminhtml_Export_Filter', '_getDateFromToHtmlWithValue');

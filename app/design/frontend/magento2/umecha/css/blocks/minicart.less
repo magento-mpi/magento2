@@ -181,7 +181,10 @@
                 }
             }
             .subtitle {
-                display: none;
+                display: block;
+                font-family: @font1;
+                font-weight: 400;
+                margin: 0 0 15px;
             }
         }
         > .title,
@@ -197,6 +200,15 @@
         > .title strong {
             font-family: @font1;
             font-weight: 400;
+        }
+        &.empty {
+            > .title {
+                display: none;
+            }
+            > .content .subtitle {
+                display: block;
+                margin: 0 -330px 0 0;
+            }
         }
     }
     &.active {

@@ -191,7 +191,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         $this->_title($this->__('New Product'));
 
-        Mage::dispatchEvent('catalog_product_new_action', array('product' => $product));
+        $this->_eventManager->dispatch('catalog_product_new_action', array('product' => $product));
 
         if ($this->getRequest()->getParam('popup')) {
             $this->loadLayout('popup');
@@ -242,7 +242,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         $this->_title($product->getName());
 
-        Mage::dispatchEvent('catalog_product_edit_action', array('product' => $product));
+        $this->_eventManager->dispatch('catalog_product_edit_action', array('product' => $product));
 
         $_additionalLayoutPart = '';
         if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE
@@ -717,7 +717,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             && !$product->getOptionsReadonly()
         );
 
-        Mage::dispatchEvent(
+        $this->_eventManager->dispatch(
             'catalog_product_prepare_save',
             array('product' => $product, 'request' => $this->getRequest())
         );
@@ -760,7 +760,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->_filterStockData($data['product']['stock_data']);
 
             $product = $this->_initProductSave($this->_initProduct());
-            Mage::dispatchEvent(
+            $this->_eventManager->dispatch(
                 'catalog_product_transition_product_type',
                 array('product' => $product, 'request' => $this->getRequest())
             );
@@ -997,7 +997,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Catalog::products');
+        return $this->_authorization->isAllowed('Mage_Catalog::products');
     }
 
     /**

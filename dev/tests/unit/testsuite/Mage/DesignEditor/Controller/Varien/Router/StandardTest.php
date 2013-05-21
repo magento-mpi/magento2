@@ -38,11 +38,6 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
      */
     protected $_model;
 
-    public function tearDown()
-    {
-        unset($this->_model);
-    }
-
     /**
      * @param Mage_Core_Controller_Request_Http $request
      * @param bool $isVde

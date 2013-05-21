@@ -122,6 +122,10 @@
             }
         },
 
+        scrollToTop: function() {
+          window.scrollTo(0, 0);
+        },
+
         drawerOpen: function() {
             var elem = this.element,
                 headerHeight = this.drawerTopPosition.offset().top,
@@ -129,7 +133,7 @@
 
             elem.trigger('drawerRefresh');
             this._drawerMinHeight();
-            window.scrollTo(0, 0);
+            this.scrollToTop();
             this._startDrawerClose = false;
 
             elem
@@ -167,7 +171,7 @@
             }, 100);
 
             if (elem.hasClass(this.options.stickyHeaderClass)) {
-                window.scrollTo(0, 0);
+                this.scrollToTop()
                 elem.css({
                     top: 0
                 });

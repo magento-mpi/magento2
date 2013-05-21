@@ -182,7 +182,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
                 null,
                 null
             );
-        } else if (!$date instanceof Zend_Date) {
+        } elseif (!$date instanceof Zend_Date) {
             $date = Mage::app()->getLocale()->date(strtotime($date), null, null);
         }
 
@@ -276,6 +276,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param string $password
      * @param string|integer|boolean $salt
+     * @return string
      */
     public function getHash($password, $salt = false)
     {
@@ -352,7 +353,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
         return $string;
     }
 
-    public function isDevAllowed($storeId=null)
+    public function isDevAllowed($storeId = null)
     {
         $allow = true;
 
@@ -490,8 +491,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
                 $isEven = !$isEven;
                 $i++;
                 $this->_decorateArrayObject($element, $keyIsLast, ($i === $count), $forceSetAll || ($i === $count));
-            }
-            elseif (is_array($element)) {
+            } elseif (is_array($element)) {
                 if ($forceSetAll || (0 === $i)) {
                     $array[$key][$keyIsFirst] = (0 === $i);
                 }
@@ -520,7 +520,8 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
      * @param mixed $value
      * @param bool $dontSkip
      */
-    private function _decorateArrayObject($element, $key, $value, $dontSkip) {
+    private function _decorateArrayObject($element, $key, $value, $dontSkip)
+    {
         if ($dontSkip && $element instanceof Varien_Object) {
             $element->setData($key, $value);
         }
@@ -577,13 +578,11 @@ XML;
                     }
                     $hasStringKey = true;
                     $xml->$key = $value;
-                }
-                elseif (is_int($key)) {
+                } elseif (is_int($key)) {
                     $hasNumericKey = true;
                     $xml->{$rootName}[$key] = $value;
                 }
-            }
-            else {
+            } else {
                 self::_assocToXml($value, $key, $xml->$key);
             }
         }
@@ -609,15 +608,13 @@ XML;
                 foreach ($value->$key as $v) {
                     $array[$key][$i++] = (string)$v;
                 }
-            }
-            else {
+            } else {
                 // try to transform it into string value, trimming spaces between elements
                 $array[$key] = trim((string)$value);
                 if (empty($array[$key]) && !empty($value)) {
                     $array[$key] = self::xmlToAssoc($value);
-                }
-                // untrim strings values
-                else {
+                } else {
+                    // untrim strings values
                     $array[$key] = (string)$value;
                 }
             }
@@ -636,12 +633,8 @@ XML;
     public function jsonEncode($valueToEncode, $cycleCheck = false, $options = array())
     {
         $json = Zend_Json::encode($valueToEncode, $cycleCheck, $options);
-        /* @var $inline Mage_Core_Model_Translate_Inline */
-        $inline = Mage::getSingleton('Mage_Core_Model_Translate_Inline');
-        if ($inline->isAllowed()) {
-            $inline->setIsJson(true);
-            $inline->processResponseBody($json);
-            $inline->setIsJson(false);
+        if ($this->_translator->isAllowed()) {
+            $this->_translator->processResponseBody($json, true);
         }
 
         return $json;
@@ -652,6 +645,7 @@ XML;
      * encoded in the JSON format
      *
      * @param string $encodedValue
+     * @param int $objectDecodeType
      * @return mixed
      */
     public function jsonDecode($encodedValue, $objectDecodeType = Zend_Json::TYPE_ARRAY)
@@ -661,12 +655,13 @@ XML;
 
     /**
      * Generate a hash from unique ID
-     * @param $prefix
+     *
+     * @param string $prefix
      * @return string
      */
     public function uniqHash($prefix = '')
     {
-        return $prefix . md5(uniqid(microtime().mt_rand(), true));
+        return $prefix . md5(uniqid(microtime() . mt_rand(), true));
     }
 
     /**
@@ -815,5 +810,15 @@ XML;
     public function isSingleStoreModeEnabled()
     {
         return (bool) Mage::getStoreConfig(self::XML_PATH_SINGLE_STORE_MODE_ENABLED);
+    }
+
+    /**
+     * Returns the translate model for this instance.
+     *
+     * @return Mage_Core_Model_Translate
+     */
+    public function getTranslator()
+    {
+        return $this->_translator;
     }
 }

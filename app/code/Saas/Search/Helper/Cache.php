@@ -49,8 +49,11 @@ class Saas_Search_Helper_Cache extends Saas_Search_Helper_Data
         $this->_registryManager = $registry;
         $this->_client = $client;
     }
+
     /**
      * Retrieve information from search engine configuration not used store config
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
      * @param  string $field
      * @param  int $storeId

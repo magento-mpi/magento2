@@ -53,13 +53,13 @@ class Mage_DesignEditor_Model_Theme_Context
      *
      * @param Mage_Backend_Model_Session $backendSession
      * @param Mage_Core_Model_Theme_Factory $themeFactory
-     * @param Mage_Captcha_Helper_Data $helper
+     * @param Mage_Core_Helper_Data $helper
      * @param Mage_Core_Model_Theme_CopyService $copyService
      */
     public function __construct(
         Mage_Backend_Model_Session $backendSession,
         Mage_Core_Model_Theme_Factory $themeFactory,
-        Mage_Captcha_Helper_Data $helper,
+        Mage_Core_Helper_Data $helper,
         Mage_Core_Model_Theme_CopyService $copyService
     ) {
         $this->_backendSession = $backendSession;

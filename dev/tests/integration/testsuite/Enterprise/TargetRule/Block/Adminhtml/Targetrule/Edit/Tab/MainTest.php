@@ -15,11 +15,11 @@
 class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_MainTest extends Mage_Backend_Area_TestCase
 {
     /**
-     * @magentoDataFixture Mage/Core/_files/init_adminhtml_design.php
      * @magentoAppIsolation enabled
      */
     public function testPrepareForm()
     {
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         Mage::register('current_target_rule', Mage::getModel('Enterprise_TargetRule_Model_Rule'));
 
         $block = Mage::app()->getLayout()->createBlock(

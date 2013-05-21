@@ -27,7 +27,7 @@
                <span class="warning"><a href="#" title="<?php echo $this->escapeHtml($this->__('Major System Messages'));?>"><?php echo $this->getMajorCount();?></a></span>
             <?php endif;?>
         </div>
-        <div id="message-system-all" title="<?php echo $this->escapeHtml($this->__('System messages'));?>" data-mage-init="{systemMessageDialog:{autoOpen:false, width: 600, ajaxUrl: &quot;<?php echo $this->jsQuoteEscape($this->getMessagesUrl());?>&quot;}}"></div>
+        <div id="message-system-all" title="<?php echo $this->escapeHtml($this->__('System messages'));?>" data-mage-init="<?php echo $this->escapeHtml($this->getSystemMessageDialogJson());?>"></div>
     </div>
 </div>
 
