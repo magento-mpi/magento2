@@ -10,18 +10,13 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->openConfigurationTab('sales_google_api');
-        $this->systemConfigurationHelper()->expandFieldSet('google_analytics');
-        $this->fillField('google_verification_code', '');
-        $this->clickButton('save_config');
-        $this->assertMessagePresent('success', 'success_saved_config');
+        $this->systemConfigurationHelper()->configure('GoogleApi/content_experiments_enable');
     }
 
     /**
      * @test
-     * @group goinc2
+     * @group goinc
      */
     public function checkBehaviorOnCreate()
     {
@@ -31,7 +26,7 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
 
     /**
      * @test
-     * @group goinc2
+     * @group goinc
      */
     public function checkBehaviorOnUpdate()
     {
@@ -39,7 +34,7 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
 
     /**
      * @test
-     * @group goinc2
+     * @group goinc
      */
     public function checkBehaviorOnDelete()
     {
@@ -47,9 +42,11 @@ class Core_Mage_GoogleOptimizer_CategoryTest extends Mage_Selenium_TestCase
 
     /**
      * @test
-     * @group goinc2
+     * @group goinc
      */
     public function checkBehaviorIfDisabled()
     {
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('GoogleApi/content_experiments_disable');
     }
 }

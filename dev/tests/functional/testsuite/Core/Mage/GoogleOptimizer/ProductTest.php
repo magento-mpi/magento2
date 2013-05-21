@@ -10,6 +10,8 @@ class Core_Mage_GoogleOptimizer_ProductTest extends Mage_Selenium_TestCase
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('GoogleApi/content_experiments_enable');
     }
 
     /**
@@ -42,5 +44,7 @@ class Core_Mage_GoogleOptimizer_ProductTest extends Mage_Selenium_TestCase
      */
     public function checkBehaviorIfDisabled()
     {
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('GoogleApi/content_experiments_disable');
     }
 }
