@@ -45,9 +45,6 @@ class Mage_Webapi_Config
     /** @var Magento_Controller_Router_Route_Factory */
     protected $_routeFactory;
 
-    /** @var Mage_Core_Model_App */
-    protected $_application;
-
     /**
      * List of SOAP operations available in the system
      *
@@ -63,7 +60,6 @@ class Mage_Webapi_Config
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Controller_Router_Route_Factory $routeFactory
-     * @param Mage_Core_Model_App $application
      * @param Mage_Webapi_Helper_Config $helper
      */
     public function __construct(
@@ -71,14 +67,12 @@ class Mage_Webapi_Config
         Mage_Core_Model_Cache_Type_Config $configCacheType,
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Controller_Router_Route_Factory $routeFactory,
-        Mage_Core_Model_App $application,
         Mage_Webapi_Helper_Config $helper
     ) {
         $this->_config = $config;
         $this->_configCacheType = $configCacheType;
         $this->_moduleReader = $moduleReader;
         $this->_routeFactory = $routeFactory;
-        $this->_application = $application;
         $this->_helper = $helper;
     }
 
@@ -314,19 +308,9 @@ class Mage_Webapi_Config
      */
     public function getRestRoutes(Mage_Webapi_Controller_Request_Rest $request)
     {
-        // TODO: Get information from webapi.xml
-        // get path info and fetch service and version
-        $pathInfo = $request->getPathInfo();
-        $urlDelimiter = '/';
-        $path = explode($urlDelimiter, $pathInfo);
-
-        // uri's will be of pattern webapi/rest/<version>/<service-name>/...
-        if (!isset($path[3]) || !isset($path[4])) {
-            return array();
-        }
-        // TODO: Implement in more elegant way
-        $version = ltrim(ucfirst($path[3]), 'V');
-        $serviceBaseUrl = $urlDelimiter . $path[4];
+        $baseUrlRegExp = '/^\/\w+/';
+        preg_match($baseUrlRegExp, $request->getPathInfo(), $matches);
+        $serviceBaseUrl = isset($matches[0]) ? $matches[0] : null;
         $httpMethod = $request->getHttpMethod();
 
         $routes = array();
@@ -342,7 +326,7 @@ class Mage_Webapi_Config
                     $routes[] = $this->_createRoute(
                         array(
                             'routePath' => $serviceData['baseUrl'] . $operationData['route'],
-                            'version' => $version,
+                            'version' => $request->getResourceVersion(), // TODO: Take version from config
                             'serviceId' => $serviceName,
                             'serviceMethod' => $operationName,
                             'httpMethod' => $httpMethod
@@ -370,14 +354,8 @@ class Mage_Webapi_Config
      */
     protected function _createRoute($routeData)
     {
-        $apiTypeRoutePath = $this->_application->getConfig()->getAreaFrontName()
-            . '/:' . Mage_Webapi_Controller_Front::API_TYPE_REST;
-        $fullRoutePath = $apiTypeRoutePath
-            . '/' . Mage_Core_Service_Config::VERSION_NUMBER_PREFIX . $routeData['version']
-            . $routeData['routePath'];
-
         /** @var $route Mage_Webapi_Controller_Router_Route_Rest */
-        $route = $this->_routeFactory->createRoute('Mage_Webapi_Controller_Router_Route_Rest', $fullRoutePath);
+        $route = $this->_routeFactory->createRoute('Mage_Webapi_Controller_Router_Route_Rest', $routeData['routePath']);
         $route->setServiceId($routeData['serviceId'])
             ->setHttpMethod($routeData['httpMethod'])
             ->setServiceMethod($routeData['serviceMethod'])
@@ -392,7 +370,8 @@ class Mage_Webapi_Config
      * array(
      *     array(
      *         'class' => $serviceClass,
-     *         'method' => $serviceMethod),
+     *         'method' => $serviceMethod
+     *     ),
      *      ...
      * )</pre>
      */

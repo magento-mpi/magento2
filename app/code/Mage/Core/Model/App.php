@@ -243,6 +243,9 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
                 ) {
                     $this->getConfig()->setCurrentAreaCode($areaCode);
                     $frontControllerClass = $areaInfo['front_controller'];
+                    /** Remove area from path info */
+                    array_shift($pathParts);
+                    $this->getRequest()->setPathInfo('/' . implode('/', $pathParts));
                     break;
                 }
             }

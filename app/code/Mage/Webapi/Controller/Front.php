@@ -132,8 +132,7 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
     {
         if (is_null($this->_apiType)) {
             $request = $this->_application->getRequest();
-            $apiRoutePath = $this->_application->getConfig()->getAreaFrontName()
-                . '/:' . Mage_Webapi_Controller_Request::PARAM_API_TYPE;
+            $apiRoutePath = '/:' . Mage_Webapi_Controller_Request::PARAM_API_TYPE;
             $apiRoute = $this->_routeFactory->createRoute(
                 'Mage_Webapi_Controller_Router_Route',
                 $apiRoutePath
@@ -149,6 +148,11 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
                     Mage_Webapi_Exception::HTTP_BAD_REQUEST);
             }
             $this->_apiType = $apiType;
+
+            /** Remove API type from path info */
+            $pathParts = explode('/', trim($request->getPathInfo(), '/'));
+            array_shift($pathParts);
+            $request->setPathInfo('/' . implode('/', $pathParts));
         }
         return $this->_apiType;
     }
