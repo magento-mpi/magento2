@@ -35,28 +35,20 @@ class Saas_Launcher_TesttransactionController extends Mage_Core_Controller_Front
     /**
      * Constructor
      *
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
-     * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Mage_Core_Controller_Varien_Action_Context $context
      * @param Mage_Checkout_Model_Cart $cartModel
      * @param Mage_Catalog_Model_Product $productModel
      * @param Mage_Checkout_Model_Session $checkoutSession
      * @param string $areaCode
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Mage_Core_Controller_Varien_Action_Context $context,
         Mage_Checkout_Model_Cart $cartModel,
         Mage_Catalog_Model_Product $productModel,
         Mage_Checkout_Model_Session $checkoutSession,
         $areaCode = null
     ) {
-        parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $areaCode);
+        parent::__construct($context, $areaCode);
 
         $this->_cartModel = $cartModel;
         $this->_productModel = $productModel;
