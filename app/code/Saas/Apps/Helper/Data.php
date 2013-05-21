@@ -61,7 +61,7 @@ class Saas_Apps_Helper_Data extends Mage_Backend_Helper_Data
     {
         $localeCode = $this->_locale->getLocaleCode();
         if (!$localeCode) {
-            $localeCode = Mage_Core_Model_Locale::DEFAULT_LOCALE;
+            $localeCode = Mage_Core_Model_LocaleInterface::DEFAULT_LOCALE;
         }
         $url = (string)$this->_config->getNode(self::XML_PATH_APP_TAB_URL . '/' . $localeCode);
         if (!$url) {
