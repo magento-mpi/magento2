@@ -31,7 +31,7 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_LoadTest extends PHPUnit_Frame
     {
         $this->_helperMock = $this->getMock('Mage_GoogleOptimizer_Helper_Data', array(), array(), '', false);
         $this->_codeMock = $this->getMock(
-            'Mage_GoogleOptimizer_Model_Code', array('getId', 'loadScripts'), array(), '', false
+            'Mage_GoogleOptimizer_Model_Code', array('getId', 'loadByEntityIdAndType'), array(), '', false
         );
         $this->_eventObserverMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
 
@@ -56,11 +56,11 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_LoadTest extends PHPUnit_Frame
 
         $values = array(
             'entity_id' => 3,
-            'entity_type' => Mage_GoogleOptimizer_Model_Code::CODE_ENTITY_TYPE_CMS,
+            'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE,
             'store_id' => 0
         );
 
-        $this->_codeMock->expects($this->once())->method('loadScripts')
+        $this->_codeMock->expects($this->once())->method('loadByEntityIdAndType')
             ->with($values['entity_id'], $values['entity_type'], $values['store_id']);
 
         $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue(2));
@@ -84,7 +84,7 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_LoadTest extends PHPUnit_Frame
 
         $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->will($this->returnValue(false));
 
-        $this->_codeMock->expects($this->never())->method('loadScripts');
+        $this->_codeMock->expects($this->never())->method('loadByEntityIdAndType');
 
         $this->_codeMock->expects($this->never())->method('getId');
 
@@ -109,11 +109,11 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_LoadTest extends PHPUnit_Frame
 
         $values = array(
             'entity_id' => 3,
-            'entity_type' => Mage_GoogleOptimizer_Model_Code::CODE_ENTITY_TYPE_CMS,
+            'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE,
             'store_id' => 0
         );
 
-        $this->_codeMock->expects($this->once())->method('loadScripts')
+        $this->_codeMock->expects($this->once())->method('loadByEntityIdAndType')
             ->with($values['entity_id'], $values['entity_type'], $values['store_id']);
 
         $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue(false));

@@ -38,6 +38,7 @@ class Mage_GoogleOptimizer_Model_Observer_Block_Category_Tab
     {
         /** @var $tabs Mage_Adminhtml_Block_Catalog_Category_Tabs */
         $tabs = $observer->getEvent()->getTabs();
+
         if ($this->_helper->isGoogleExperimentActive()) {
             $tabs->addTab('google-experiment-tab', array(
                 'label'     => $this->_helper->__('Category View Optimization'),
