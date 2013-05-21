@@ -246,6 +246,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
      * @param SimpleXMLElement $xml
      * @param string $moduleName
      * @throws Magento_Exception
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _assertSystemRequirements(SimpleXMLElement $xml, $moduleName)
     {

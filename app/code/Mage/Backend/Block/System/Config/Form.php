@@ -315,6 +315,8 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      * @param $path
      * @param string $fieldPrefix
      * @param string $labelPrefix
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _initElement(
         Mage_Backend_Model_Config_Structure_Element_Field $field,
