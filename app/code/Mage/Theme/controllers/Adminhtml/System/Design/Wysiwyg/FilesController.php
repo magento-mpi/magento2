@@ -50,7 +50,7 @@ class Mage_Theme_Adminhtml_System_Design_Wysiwyg_FilesController extends Mage_Ad
         } catch (Mage_Core_Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
-            $result = array('error' => true, 'message' => $this->__('Unknown error'));
+            $result = array('error' => true, 'message' => $this->__('Sorry, there was an unknown error.'));
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
         $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));

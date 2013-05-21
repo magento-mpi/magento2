@@ -25,7 +25,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Bloc
         $this->_removeButton('back')->_removeButton('edit');
         $this->_addButton('newfolder', array(
             'class'   => 'save',
-            'label'   => $this->__('Create Folder...'),
+            'label'   => $this->__('Create Folder'),
             'type'    => 'button',
             'onclick' => 'MediabrowserInstance.newFolder();'
         ));
@@ -77,8 +77,8 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Bloc
 
         $setupObject->setData(array(
             'newFolderPrompt'                 => $this->__('New Folder Name:'),
-            'deleteFolderConfirmationMessage' => $this->__('Are you sure you want to delete current folder?'),
-            'deleteFileConfirmationMessage'   => $this->__('Are you sure you want to delete the selected file?'),
+            'deleteFolderConfirmationMessage' => $this->__('Are you sure you want to delete this folder?'),
+            'deleteFileConfirmationMessage'   => $this->__('Are you sure you want to delete this file?'),
             'targetElementId' => $this->getTargetElementId(),
             'contentsUrl'     => $this->getContentsUrl(),
             'onInsertUrl'     => $this->getOnInsertUrl(),

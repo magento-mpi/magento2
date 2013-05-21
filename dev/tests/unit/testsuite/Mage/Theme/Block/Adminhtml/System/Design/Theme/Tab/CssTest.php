@@ -72,7 +72,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
 
         $result = $method->invokeArgs($this->_model, array());
         $expectedResult = 'Allowed file types *.css.<br />';
-        $expectedResult .= 'The file you upload will replace the existing custom.css file (shown below).<br />';
+        $expectedResult .= 'This file will replace the current custom.css file and can\'t be more than 2 MB.<br />';
         $expectedResult .= sprintf(
             'Max file size to upload %sM',
             $sizeModel->getMaxFileSizeInMb()
