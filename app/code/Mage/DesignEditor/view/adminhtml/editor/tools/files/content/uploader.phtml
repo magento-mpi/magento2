@@ -123,7 +123,7 @@
                 $.each(data.files, function (index, file) {
                     data.fileId =  Math.random().toString(36).substr(2,9);
                     var fileSize = typeof(file.size) == "undefined"
-                        ? $.mage.__('size was not detected')
+                        ? $.mage.__('We could not detect a size.')
                         : byteConvert(file.size);
                     var fileRowTmpl = $.tmpl($('[data-template="<?php echo $this->getHtmlId(); ?>-template"]'), {
                         size: fileSize,
