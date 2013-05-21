@@ -15,6 +15,11 @@ class Mage_GoogleOptimizer_Model_Observer_Category_DeleteTest extends PHPUnit_Fr
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
+    protected $_category;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_eventObserverMock;
 
     /**
@@ -24,11 +29,12 @@ class Mage_GoogleOptimizer_Model_Observer_Category_DeleteTest extends PHPUnit_Fr
 
     public function setUp()
     {
-        $this->_codeMock = $this->getMock(
-            'Mage_GoogleOptimizer_Model_Code', array('getId', 'loadByEntityIdAndType', 'delete'), array(), '', false
-        );
-
+        $this->_codeMock = $this->getMock('Mage_GoogleOptimizer_Model_Code', array(), array(), '', false);
+        $this->_category = $this->getMock('Mage_Catalog_Model_Category', array(), array(), '', false);
+        $event = $this->getMock('Varien_Event', array('getCategory'), array(), '', false);
+        $event->expects($this->once())->method('getCategory')->will($this->returnValue($this->_category));
         $this->_eventObserverMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
+        $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Mage_GoogleOptimizer_Model_Observer_Category_Delete', array(
@@ -38,28 +44,15 @@ class Mage_GoogleOptimizer_Model_Observer_Category_DeleteTest extends PHPUnit_Fr
 
     public function testDeleteFromCategoryGoogleExperimentScriptSuccess()
     {
-        $event = $this->getMock('Varien_Event', array('getCategory'), array(), '', false);
-        $category = $this->getMock(
-            'Mage_Catalog_Model_Category', array('getId', 'getStoreId'), array(), '', false
-        );
+        $entityId = 3;
+        $storeId = 0;
 
-        $event->expects($this->once())->method('getCategory')->will($this->returnValue($category));
-        $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
-
-        $values = array(
-            'entity_id' => 3,
-            'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY,
-            'store_id' => 0
-        );
+        $this->_category->expects($this->once())->method('getId')->will($this->returnValue($entityId));
+        $this->_category->expects($this->once())->method('getStoreId')->will($this->returnValue($storeId));
 
         $this->_codeMock->expects($this->once())->method('loadByEntityIdAndType')
-            ->with($values['entity_id'], $values['entity_type'], $values['store_id']);
-
+            ->with($entityId, Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY, $storeId);
         $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue(2));
-
-        $category->expects($this->once())->method('getId')->will($this->returnValue($values['entity_id']));
-        $category->expects($this->once())->method('getStoreId')->will($this->returnValue($values['store_id']));
-
         $this->_codeMock->expects($this->once())->method('delete');
 
         $this->_model->deleteCategoryGoogleExperimentScript($this->_eventObserverMock);
@@ -67,28 +60,15 @@ class Mage_GoogleOptimizer_Model_Observer_Category_DeleteTest extends PHPUnit_Fr
 
     public function testDeleteFromCategoryGoogleExperimentScriptFail()
     {
-        $event = $this->getMock('Varien_Event', array('getCategory'), array(), '', false);
-        $category = $this->getMock(
-            'Mage_Catalog_Model_Category', array('getId', 'getStoreId'), array(), '', false
-        );
+        $entityId = 3;
+        $storeId = 0;
 
-        $event->expects($this->once())->method('getCategory')->will($this->returnValue($category));
-        $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
-
-        $values = array(
-            'entity_id' => 3,
-            'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY,
-            'store_id' => 0
-        );
+        $this->_category->expects($this->once())->method('getId')->will($this->returnValue($entityId));
+        $this->_category->expects($this->once())->method('getStoreId')->will($this->returnValue($storeId));
 
         $this->_codeMock->expects($this->once())->method('loadByEntityIdAndType')
-            ->with($values['entity_id'], $values['entity_type'], $values['store_id']);
-
+            ->with($entityId, Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY, $storeId);
         $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue(0));
-
-        $category->expects($this->once())->method('getId')->will($this->returnValue($values['entity_id']));
-        $category->expects($this->once())->method('getStoreId')->will($this->returnValue($values['store_id']));
-
         $this->_codeMock->expects($this->never())->method('delete');
 
         $this->_model->deleteCategoryGoogleExperimentScript($this->_eventObserverMock);

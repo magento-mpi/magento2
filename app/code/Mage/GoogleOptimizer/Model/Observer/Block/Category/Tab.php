@@ -36,16 +36,17 @@ class Mage_GoogleOptimizer_Model_Observer_Block_Category_Tab
      */
     public function addGoogleExperimentTab(Varien_Event_Observer $observer)
     {
-        /** @var $tabs Mage_Adminhtml_Block_Catalog_Category_Tabs */
-        $tabs = $observer->getEvent()->getTabs();
-
         if ($this->_helper->isGoogleExperimentActive()) {
+            $block = $this->_layout->createBlock(
+                'Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptimizer',
+                'google-experiment-form'
+            );
+
+            /** @var $tabs Mage_Adminhtml_Block_Catalog_Category_Tabs */
+            $tabs = $observer->getEvent()->getTabs();
             $tabs->addTab('google-experiment-tab', array(
-                'label'     => $this->_helper->__('Category View Optimization'),
-                'content'   => $this->_layout->createBlock(
-                    'Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptimizer',
-                    'google-experiment-form'
-                )->toHtml(),
+                'label' => $this->_helper->__('Category View Optimization'),
+                'content' => $block->toHtml(),
             ));
         }
     }
