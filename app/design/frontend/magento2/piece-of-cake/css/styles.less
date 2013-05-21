@@ -5664,12 +5664,23 @@ and (max-width : 768px)  {
                 width: 90px;
             }
             .with-addon {
+                position: relative;
+                margin: 0 0 0 20px;
                 width: 125px;
+                &:before {
+                    content: '-';
+                    left: -9px;
+                    top: 5px;
+                    position: absolute;
+                }
             }
             .addafter {
                 border-left: 0;
             }
         }
+    }
+    .action.search {
+        .secondaryAction();
     }
 }
 

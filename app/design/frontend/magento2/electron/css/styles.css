@@ -8108,7 +8108,15 @@ img[align="right"] {
   width: 90px;
 }
 .form.search.advanced .fieldset .range.price .with-addon {
+  position: relative;
+  margin: 0 0 0 20px;
   width: 125px;
+}
+.form.search.advanced .fieldset .range.price .with-addon:before {
+  content: '-';
+  left: -9px;
+  top: 5px;
+  position: absolute;
 }
 .form.newsletter.manage .field.choice,
 .form.address.edit .field.choice.set,
