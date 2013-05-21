@@ -18,8 +18,31 @@ product_page:
                         xpath: //div[@class='product info main']
                         pageelements:
                             product_name: //hgroup[@class='page title product']/h1/span
+                            product_custom_option_head_order: //div[@class = 'product options configure']/div[%rowNumber%]/label[contains(span,'%title%')]
+
+                -
+                    product_options:
+                        pageelements:
+                            product_custom_option_head_order: #exists in ee UIMap.
+
                 -
                     related:
                         xpath: //div[@class='box-collateral box-related' or @class='block related']
                         links:
                             related_product: //a[normalize-space(text())='%productName%']
+                -
+                    upsells:
+                        xpath: //div[@class='block upsell']
+                        links:
+                            up_sells_product: //a[normalize-space(text())='%productName%']
+                -
+                    product_custom_option_head:
+                        xpath: //div[contains(label/span,'%title%')]
+                -
+                    customize_product_info:
+                        xpath: //div[@id='product-options-wrapper']
+                -
+                    product_custom_option_body: &product_custom_option_body
+                        xpath: //div[contains(label/span,'Drop-down')]
+                        fields:
+                            bundle_item_qty: //div[@class='field qty qty-holder']//input
