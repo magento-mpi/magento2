@@ -185,6 +185,12 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
             ->method('generateResetPasswordLinkToken')
             ->will($this->returnValue($token));
 
+        $coreHelperMock = $this->getMockBuilder('Mage_Core_Model_Url')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getUrl'))
+            ->getMock();
+        $coreHelperMock->expects($this->any())->method('getUrl')->will($this->returnValue($testUrl));
+
         $this->_objectManager->expects($this->at(0))
             ->method('create')
             ->with($this->equalTo('Mage_Customer_Model_Customer'))
@@ -195,7 +201,11 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('Mage_Customer_Helper_Data'))
             ->will($this->returnValue($customerHelperMock));
 
-        $this->_model->expects($this->any())->method('getUrl')->will($this->returnValue($testUrl));
+        $this->_objectManager->expects($this->at(2))
+            ->method('create')
+            ->with($this->equalTo('Mage_Core_Model_Url'))
+            ->will($this->returnValue($coreHelperMock));
+
         $this->_model->resetPasswordAction();
     }
 

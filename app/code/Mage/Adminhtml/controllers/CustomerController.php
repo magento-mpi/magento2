@@ -272,11 +272,12 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         try {
             $newResetPasswordLinkToken = $this->_objectManager->create('Mage_Customer_Helper_Data')->generateResetPasswordLinkToken();
             $customer->changeResetPasswordLinkToken($newResetPasswordLinkToken);
-            $resetUrl = $this->getUrl('customer/account/createPassword',
-                array(
-                    '_query' => array(
-                        'id' => $customer->getId(),
-                        'token' => $newResetPasswordLinkToken))
+            $resetUrl = $this->_objectManager->create('Mage_Core_Model_Url')
+                ->getUrl('customer/account/createPassword',
+                    array(
+                        '_query' => array(
+                            'id' => $customer->getId(),
+                            'token' => $newResetPasswordLinkToken))
             );
             $customer->setResetPasswordUrl($resetUrl);
             $customer->sendPasswordReminderEmail();
