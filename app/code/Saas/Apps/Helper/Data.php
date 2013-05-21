@@ -39,12 +39,12 @@ class Saas_Apps_Helper_Data extends Mage_Backend_Helper_Data
     /**
      * Apps helper constructor
      *
-     * @param Mage_Core_Model_Config_Modules $config
+     * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Helper_Context $context
      * @param Mage_Core_Model_Locale $locale
      */
     public function __construct(
-        Mage_Core_Model_Config_Modules $config,
+        Mage_Core_Model_Config $config,
         Mage_Core_Helper_Context $context,
         Mage_Core_Model_Locale $locale
     ) {
