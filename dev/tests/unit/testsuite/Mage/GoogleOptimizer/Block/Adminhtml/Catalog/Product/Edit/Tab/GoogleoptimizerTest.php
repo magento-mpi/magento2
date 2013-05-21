@@ -33,11 +33,21 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
         $this->_contextMock = $this->getMock('Mage_Core_Block_Template_Context', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Mage_GoogleOptimizer_Helper_Data', array(), array(), '', false);
         $this->_registryMock = $this->getMock('Mage_Core_Model_Registry', array(), array(), '', false);
+        $formMock = $this->getMock('Varien_Data_Form', array('setParent', 'setBaseUrl'), array(), '', false);
+        $urlBuilderMock = $this->getMock('Mage_Core_Model_UrlInterface', array(), array(), '', false);
+
+        $formMock->expects($this->once())->method('setParent');
+        $formMock->expects($this->once())->method('setBaseUrl');
+        $urlBuilderMock->expects($this->once())->method('getBaseUrl');
+        $this->_contextMock->expects($this->once())->method('getUrlBuilder')->will($this->returnValue($urlBuilderMock));
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_block = $objectManagerHelper->getObject(
             'Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimizer', array(
-            'context' => $this->_contextMock, 'helperData' => $this->_helperMock, 'registry' => $this->_registryMock
+            'context' => $this->_contextMock,
+            'helperData' => $this->_helperMock,
+            'registry' => $this->_registryMock,
+            'form' => $formMock
         ));
     }
 
