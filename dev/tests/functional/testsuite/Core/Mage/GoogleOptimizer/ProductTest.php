@@ -9,13 +9,15 @@ class Core_Mage_GoogleOptimizer_ProductTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {
+        parent::setUpBeforeTests();
+
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GoogleApi/content_experiments_enable');
     }
 
     /**
-     * @test
+     * @_test
      * @group goinc
      */
     public function checkBehaviorOnCreate()
@@ -23,7 +25,7 @@ class Core_Mage_GoogleOptimizer_ProductTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @test
+     * @_test
      * @group goinc
      */
     public function checkBehaviorOnUpdate()
@@ -31,15 +33,7 @@ class Core_Mage_GoogleOptimizer_ProductTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * @test
-     * @group goinc
-     */
-    public function checkBehaviorOnDelete()
-    {
-    }
-
-    /**
-     * @test
+     * @_test
      * @group goinc
      */
     public function checkBehaviorIfDisabled()
