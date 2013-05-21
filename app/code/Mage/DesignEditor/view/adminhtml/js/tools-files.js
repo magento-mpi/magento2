@@ -282,7 +282,8 @@ Mediabrowser.prototype = {
                 text: jQuery.mage.__('Cancel'),
                 'class': 'action-close',
                 click: function() {
-                    jQuery('#' + dialogId).dialog('close');
+                    jQuery('#contents').trigger('hideLoadingPopup');
+                    jQuery('#' + dialogId).dialog('destroy');
                 }
             }, {
                 text: jQuery.mage.__('Yes'),
@@ -303,11 +304,7 @@ Mediabrowser.prototype = {
                     });
                     jQuery('#' + dialogId).dialog('close');
                 }
-            }],
-            close:      function(event, ui) {
-                jQuery(this).dialog('destroy');
-                jQuery('#' + dialogId).remove();
-            }
+            }]
         });
         jQuery('#' + dialogId).text(jQuery.mage.__('Are you sure you want to delete the folder named') + ' "' + this.currentNode.text + '"?');
         jQuery('#' + dialogId).dialog('open');
@@ -330,7 +327,8 @@ Mediabrowser.prototype = {
                 text: jQuery.mage.__('Cancel'),
                 'class': 'action-close',
                 click: function() {
-                    jQuery('#' + dialogId).dialog('close');
+                    jQuery('#contents').trigger('hideLoadingPopup');
+                    jQuery('#' + dialogId).dialog('destroy');
                 }
             }, {
                 text: jQuery.mage.__('Yes'),
@@ -350,11 +348,7 @@ Mediabrowser.prototype = {
                     });
                     jQuery('#' + dialogId).dialog('close');
                 }
-            }],
-            close:      function(event, ui) {
-                jQuery(this).dialog('destroy');
-                jQuery('#' + dialogId).remove();
-            }
+            }]
         });
         jQuery('#' + dialogId).text(this.deleteFileConfirmationMessage);
         jQuery('#' + dialogId).dialog('open');
