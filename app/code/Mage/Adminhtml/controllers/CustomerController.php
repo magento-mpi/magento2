@@ -253,7 +253,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     /**
      * Reset password handler
      *
-     * @return Mage_Backend_Controller_ActionAbstract
+     * @return Mage_Adminhtml_CustomerController
      */
     public function resetPasswordAction()
     {
@@ -263,17 +263,17 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
 
         /** @var Mage_Customer_Model_Customer $customer */
-        $customer = $this->_objectManager->get('Mage_Customer_Model_Customer');
+        $customer = $this->_objectManager->create('Mage_Customer_Model_Customer');
         $customer->load($customerId);
         if (!$customer->getId()) {
             return $this->_redirect('*/customer');
         }
 
         try {
-            $newResetPasswordLinkToken = $this->_objectManager->get('Mage_Customer_Helper_Data')->generateResetPasswordLinkToken();
+            $newResetPasswordLinkToken = $this->_objectManager->create('Mage_Customer_Helper_Data')->generateResetPasswordLinkToken();
             $customer->changeResetPasswordLinkToken($newResetPasswordLinkToken);
-            $resetUrl = $this->_objectManager->create('Mage_Core_Model_Url')
-                ->getUrl('customer/account/createPassword', array(
+            $resetUrl = $this->getUrl('customer/account/createPassword',
+                array(
                     '_query' => array(
                         'id' => $customer->getId(),
                         'token' => $newResetPasswordLinkToken))
@@ -289,10 +289,10 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $this->_addSessionErrorMessages($messages);
         } catch (Exception $exception) {
             $this->_getSession()->addException($exception,
-                $this->_getHelper()->__('An error occurred while resetting customer password.'));
+                Mage::helper('Mage_Backend_Helper_Data')->__('An error occurred while resetting customer password.'));
         }
 
-        $this->_redirect('*/*/edit', array('id' => $customerId, '_current' => true));
+        return $this->_redirect('*/*/edit', array('id' => $customerId, '_current' => true));
     }
 
     /**

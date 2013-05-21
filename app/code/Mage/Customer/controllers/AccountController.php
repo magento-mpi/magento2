@@ -264,7 +264,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 array('account_controller' => $this, 'customer' => $customer)
             );
 
-            $newResetPasswordLinkToken = Mage::helper('Mage_Customer_Helper_Data')->generateResetPasswordLinkToken();
+            $newResetPasswordLinkToken = $this->_objectManager->get('Mage_Customer_Helper_Data')->generateResetPasswordLinkToken();
             $customer->changeResetPasswordLinkToken($newResetPasswordLinkToken);
 
             if ($customer->isConfirmationRequired()) {

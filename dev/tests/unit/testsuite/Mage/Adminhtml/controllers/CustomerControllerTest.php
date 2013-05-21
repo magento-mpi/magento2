@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Catalog
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -19,31 +17,112 @@ require 'Mage/Adminhtml/controllers/CustomerController.php';
 class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Tested class name
+     * Request mock instance
      *
-     * @var string
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_testClassName = 'Mage_Adminhtml_CustomerController';
+    protected $_request;
+
+    /**
+     * Response mock instance
+     *
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_response;
+
+    /**
+     * Instance of mocked tested object
+     *
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_model;
+
+    /**
+     * ObjectManager mock instance
+     *
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_objectManager;
+
+    /**
+     * Session mock instance
+     *
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_session;
+
+    /**
+     * Backend helper mock instance
+     *
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_helper;
+
+    /**
+     * Prepare required values
+     */
+    public function setUp()
+    {
+        $this->_request = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getParam'))
+            ->getMock();
+
+        $this->_response = $this->getMockBuilder('Mage_Core_Controller_Response_Http')
+            ->disableOriginalConstructor()
+            ->setMethods(array('setRedirect'))
+            ->getMock();
+
+        $this->_objectManager = $this->getMockBuilder('Mage_Core_Model_ObjectManager')
+            ->disableOriginalConstructor()
+            ->setMethods(array('get', 'create'))
+            ->getMock();
+        $frontControllerMock = $this->getMockBuilder('Mage_Core_Controller_Varien_Front')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $layoutFactory = $this->getMockBuilder('Mage_Core_Model_Layout_Factory')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_session = $this->getMockBuilder('Mage_Backend_Model_Session')
+            ->disableOriginalConstructor()
+            ->setMethods(array('setIsUrlNotice', 'addSuccess'))
+            ->getMock();
+        $this->_session->expects($this->any())->method('setIsUrlNotice');
+        $this->_session->expects($this->any())->method('addSuccess');
+
+        $this->_helper = $this->getMockBuilder('Mage_Backend_Helper_Data')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getUrl', '__'))
+            ->getMock();
+        $this->_helper->expects($this->any())->method('__');
+
+        $invokeArgs = array('translator' => 'translator', 'helper' => $this->_helper, 'session' => $this->_session);
+
+        $arguments = array($this->_request, $this->_response, $this->_objectManager, $frontControllerMock,
+            $layoutFactory, 'test_area_code', $invokeArgs
+        );
+        $this->_model = $this->getMockBuilder('Mage_Adminhtml_CustomerController')
+            ->setConstructorArgs($arguments)
+            ->setMethods(array('loadLayout', 'getUrl'))
+            ->getMock();
+    }
 
     /**
      * Test Mage_Adminhtml_CustomerController::resetPasswordAction()
      */
     public function testResetPasswordActionNoCustomer()
     {
-        $requestMock = $this->_prepareRequestMock();
-        $controllerMock = $this->getMockBuilder($this->_testClassName)
-            ->disableOriginalConstructor()
-            ->setMethods(array('getRequest', '_redirect'))
-            ->getMock();
-        $controllerMock->expects($this->once())
-            ->method('getRequest')
-            ->will($this->returnValue($requestMock));
-        $controllerMock->expects($this->once())
-            ->method('_redirect')
-            ->with($this->equalTo('*/customer'))
-            ->will($this->returnValue($controllerMock));
-        $result = $controllerMock->resetPasswordAction();
-        $this->assertInstanceOf($this->_testClassName, $result);
+        $this->_request->expects($this->once())
+            ->method('getParam')
+            ->with($this->equalTo('customer_id'), $this->equalTo(0))
+            ->will($this->returnValue(false)
+        );
+        $this->_helper->expects($this->any())
+            ->method('getUrl')
+            ->with($this->equalTo('*/customer'), $this->equalTo(array()));
+
+        $this->_model->resetPasswordAction();
     }
 
     /**
@@ -52,79 +131,43 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
     public function testResetPasswordActionNoCustomerId()
     {
         $customerId = rand(1, 10000);
-        $requestHttpMock = $this->_prepareRequestMock($customerId);
 
-        $arguments = $this->_getArguments();
+        $this->_request->expects($this->once())
+            ->method('getParam')
+            ->with($this->equalTo('customer_id'), $this->equalTo(0))
+            ->will($this->returnValue($customerId)
+        );
 
-        $customerMock = $this->getMockBuilder('Mage_Customer_Model_Customer')
-            ->disableOriginalConstructor()
-            ->setMethods(array('load', 'getId', 'changeResetPasswordLinkToken', 'setResetPasswordUrl',
-                'sendPasswordReminderEmail'))
-            ->getMock();
-        $customerMock->expects($this->once())
-            ->method('load')
-            ->with($this->equalTo($customerId));
-        $customerMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(null));
+        $customerMock = $this->_returnCustomerMock($customerId);
 
-        $objectManagerMock = $this->getMockBuilder('Mage_Core_Model_ObjectManager')
-            ->disableOriginalConstructor()
-            ->setMethods(array('get', 'create'))
-            ->getMock();
-        $objectManagerMock->expects($this->at(0))
-            ->method('get')
+        $this->_objectManager->expects($this->any())
+            ->method('create')
             ->with($this->equalTo('Mage_Customer_Model_Customer'))
             ->will($this->returnValue($customerMock));
 
-        $controllerMock = $this->getMockBuilder($this->_testClassName)
-            ->setConstructorArgs(
-                array(
-                    $requestHttpMock,
-                    $arguments['response'],
-                    $objectManagerMock,
-                    $arguments['front'],
-                    $arguments['layout'],
-                    $arguments['area'],
-                    $arguments['args']
-            ))
-            ->setMethods(array('getRequest', '_redirect'))
-            ->getMock();
-        $controllerMock->expects($this->once())
-            ->method('getRequest')
-            ->will($this->returnValue($requestHttpMock));
-        $controllerMock->expects($this->once())
-            ->method('_redirect')
-            ->with($this->equalTo('*/customer'))
-            ->will($this->returnValue($controllerMock));
-        $result = $controllerMock->resetPasswordAction();
-        $this->assertInstanceOf($this->_testClassName, $result);
+        $this->_helper->expects($this->any())
+            ->method('getUrl')
+            ->with($this->equalTo('*/customer'), $this->equalTo(array()));
+
+        $this->_model->resetPasswordAction();
     }
 
     /**
-     * Test Mage_Adminhtml_CustomerController::resetPasswordAction()
-     * Normal behaviour
+     * Test that sendPasswordReminderEmail() is called
      */
     public function testResetPasswordActionSendEmail()
     {
         $customerId = rand(1, 10000);
         $token = md5(time());
-        $testUrl = 'example.com';
-        $requestHttpMock = $this->_prepareRequestMock($customerId);
+        $testUrl = 'http://example.com';
 
-        $arguments = $this->_getArguments();
+        $this->_request->expects($this->once())
+            ->method('getParam')
+            ->with($this->equalTo('customer_id'), $this->equalTo(0))
+            ->will($this->returnValue($customerId)
+        );
 
-        $customerMock = $this->getMockBuilder('Mage_Customer_Model_Customer')
-            ->disableOriginalConstructor()
-            ->setMethods(array('load', 'getId', 'changeResetPasswordLinkToken', 'setResetPasswordUrl',
-                'sendPasswordReminderEmail'))
-            ->getMock();
-        $customerMock->expects($this->once())
-            ->method('load')
-            ->with($this->equalTo($customerId));
-        $customerMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue($customerId));
+        $customerMock = $this->_returnCustomerMock($customerId, true);
         $customerMock->expects($this->once())
             ->method('changeResetPasswordLinkToken')
             ->with($this->equalTo($token));
@@ -134,21 +177,6 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
         $customerMock->expects($this->once())
             ->method('sendPasswordReminderEmail');
 
-        $sessionMock = $this->getMockBuilder('Mage_Backend_Model_Session')
-            ->disableOriginalConstructor()
-            ->setMethods(array('addSuccess'))
-            ->getMock();
-        $sessionMock->expects($this->any())
-            ->method('addSuccess');
-
-        $backendHelperMock = $this->getMockBuilder('Mage_Backend_Helper_Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('__'))
-            ->getMock();
-        $backendHelperMock->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
-
         $customerHelperMock = $this->getMockBuilder('Mage_Customer_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('generateResetPasswordLinkToken'))
@@ -157,110 +185,40 @@ class Mage_Adminhtml_CustomerControllerTest extends PHPUnit_Framework_TestCase
             ->method('generateResetPasswordLinkToken')
             ->will($this->returnValue($token));
 
-        $coreUrlMock = $this->getMockBuilder('Mage_Core_Model_Url')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getUrl'))
-            ->getMock();
-        $coreUrlMock->expects($this->once())
-            ->method('getUrl')
-            ->with(
-                $this->equalTo('customer/account/createPassword'),
-                $this->equalTo(array(
-                    '_query' => array(
-                        'id' => $customerId,
-                        'token' => $token
-                    )
-                )))
-            ->will($this->returnValue($testUrl));
-
-        $objectManagerMock = $this->getMockBuilder('Mage_Core_Model_ObjectManager')
-            ->disableOriginalConstructor()
-            ->setMethods(array('get', 'create'))
-            ->getMock();
-        $objectManagerMock->expects($this->at(0))
-            ->method('get')
+        $this->_objectManager->expects($this->at(0))
+            ->method('create')
             ->with($this->equalTo('Mage_Customer_Model_Customer'))
             ->will($this->returnValue($customerMock));
-        $objectManagerMock->expects($this->at(1))
-            ->method('get')
+
+        $this->_objectManager->expects($this->at(1))
+            ->method('create')
             ->with($this->equalTo('Mage_Customer_Helper_Data'))
             ->will($this->returnValue($customerHelperMock));
-        $objectManagerMock->expects($this->at(2))
-            ->method('create')
-            ->with($this->equalTo('Mage_Core_Model_Url'))
-            ->will($this->returnValue($coreUrlMock));
 
-        $controllerMock = $this->getMockBuilder($this->_testClassName)
-            ->setConstructorArgs(
-                array(
-                    $requestHttpMock,
-                    $arguments['response'],
-                    $objectManagerMock,
-                    $arguments['front'],
-                    $arguments['layout'],
-                    $arguments['area'],
-                    $arguments['args']
-                ))
-            ->setMethods(array('getRequest', '_getSession', '_getHelper', '_redirect'))
-            ->getMock();
-        $controllerMock->expects($this->once())
-            ->method('getRequest')
-            ->will($this->returnValue($requestHttpMock));
-        $controllerMock->expects($this->once())
-            ->method('_getSession')
-            ->will($this->returnValue($sessionMock));
-        $controllerMock->expects($this->once())
-            ->method('_getHelper')
-            ->will($this->returnValue($backendHelperMock));
-        $controllerMock->expects($this->once())
-            ->method('_redirect')
-            ->with($this->equalTo('*/*/edit'), $this->equalTo(array('id' => $customerId, '_current' => true)))
-            ->will($this->returnValue($controllerMock));
-        $controllerMock->resetPasswordAction();
+        $this->_model->expects($this->any())->method('getUrl')->will($this->returnValue($testUrl));
+        $this->_model->resetPasswordAction();
     }
 
-    /**
-     * Return request mock object
+     /**
+     * Return customer mock instance
      *
-     * @param null $customerId
+     * @param int $customerId
+     * @param null|int $id
      * @return PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _prepareRequestMock($customerId = null)
+    protected function _returnCustomerMock($customerId, $id = null)
     {
-        $requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
+        $customerMock = $this->getMockBuilder('Mage_Customer_Model_Customer')
             ->disableOriginalConstructor()
-            ->setMethods(array('getParam'))
+            ->setMethods(array('load', 'getId', 'changeResetPasswordLinkToken', 'setResetPasswordUrl',
+                'sendPasswordReminderEmail'))
             ->getMock();
-        $requestMock->expects($this->once())
-            ->method('getParam')
-            ->with($this->equalTo('customer_id'), $this->equalTo(0))
-            ->will($this->returnValue($customerId));
-        return $requestMock;
-    }
-
-    /**
-     * Return constructor arguments
-     *
-     * @return array
-     */
-    protected function _getArguments()
-    {
-        $arguments = array();
-        $arguments['response'] = $responseHttpMock = $this->getMockBuilder('Mage_Core_Controller_Response_Http')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $arguments['front'] = $this->getMockBuilder('Mage_Core_Controller_Varien_Front')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $arguments['layout'] = $this->getMockBuilder('Mage_Core_Model_Layout_Factory')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $arguments['area'] = 'test';
-        $arguments['args'] = array(
-            'translator' => new Varien_Object(),
-            'helper' => new Varien_Object(),
-            'session' => new Varien_Object()
-        );
-        return $arguments;
+        $customerMock->expects($this->any())
+            ->method('load')
+            ->with($this->equalTo($customerId));
+        $customerMock->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue($id));
+        return $customerMock;
     }
 }

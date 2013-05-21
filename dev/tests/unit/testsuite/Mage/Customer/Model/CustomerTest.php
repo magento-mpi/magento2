@@ -14,11 +14,20 @@
 class Mage_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Tested class name
-     *
-     * @var string
+     * Mock model instance
      */
-    protected $_testClassName = 'Mage_Customer_Model_Customer';
+    protected $_model;
+
+    /**
+     * Set required values
+     */
+    public function setUp()
+    {
+        $this->_model = $this->getMockBuilder('Mage_Customer_Model_Customer')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getStoreId', '_sendEmailTemplate', '_getWebsiteStoreId'))
+            ->getMock();
+    }
 
     /**
      * Test Mage_Customer_Model_Customer::sendPasswordResetConfirmationEmail()
@@ -27,24 +36,19 @@ class Mage_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
     {
         $storeId = rand(1, 10000);
 
-        $objectMock = $this->getMockBuilder($this->_testClassName)
-            ->disableOriginalConstructor()
-            ->setMethods(array('getStoreId', '_getWebsiteStoreId', '_sendEmailTemplate'))
-            ->getMock();
-        $objectMock->expects($this->once())
+        $this->_model->expects($this->any())
             ->method('getStoreId')
             ->will($this->returnValue(false));
-        $objectMock->expects($this->once())
+        $this->_model->expects($this->any())
             ->method('_getWebsiteStoreId')
             ->will($this->returnValue($storeId));
-        $objectMock->expects($this->once())
+        $this->_model->expects($this->once())
             ->method('_sendEmailTemplate')
             ->with(
                 $this->equalTo(Mage_Customer_Model_Customer::XML_PATH_FORGOT_EMAIL_TEMPLATE),
                 $this->equalTo(Mage_Customer_Model_Customer::XML_PATH_FORGOT_EMAIL_IDENTITY),
-                $this->equalTo(array('customer' => $objectMock)),
+                $this->equalTo(array('customer' => $this->_model)),
                 $this->equalTo($storeId));
-        $result = $objectMock->sendPasswordResetConfirmationEmail();
-        $this->assertInstanceOf($this->_testClassName, $result);
+        $this->_model->sendPasswordResetConfirmationEmail();
     }
 }

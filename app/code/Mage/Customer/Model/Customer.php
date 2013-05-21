@@ -644,7 +644,8 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
 
         $this->_sendEmailTemplate(self::XML_PATH_FORGOT_EMAIL_TEMPLATE, self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-            array('customer' => $this), $storeId);
+            array('customer' => $this), $storeId
+        );
 
         return $this;
     }
@@ -662,7 +663,8 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
 
         $this->_sendEmailTemplate(self::XML_PATH_RESET_PASSWORD_TEMPLATE, self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-            array('customer' => $this), $storeId);
+            array('customer' => $this), $storeId
+        );
 
         return $this;
     }

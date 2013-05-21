@@ -56,7 +56,7 @@ class Mage_User_Model_User
     const XML_PATH_FORGOT_EMAIL_TEMPLATE    = 'admin/emails/forgot_email_template';
     const XML_PATH_FORGOT_EMAIL_IDENTITY    = 'admin/emails/forgot_email_identity';
 
-    const XML_PATH_RESET_PASSWORD_TEMPLATE = 'admin/emails/reset_template';
+    const XML_PATH_RESET_PASSWORD_TEMPLATE  = 'admin/emails/reset_password_template';
 
     /**
      * Minimum length of admin password
