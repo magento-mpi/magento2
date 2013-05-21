@@ -40,7 +40,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
      */
     protected function _prepareForm()
     {
-        $fieldset = $this->_form->addFieldset('googleoptimizer_fields', array(
+        $fieldset = $this->getForm()->addFieldset('googleoptimizer_fields', array(
             'legend' => $this->__('Google Analytics Content Experiments Code')
         ));
 
@@ -67,7 +67,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
             'required' => false,
         ));
 
-        $this->_form->setFieldNameSuffix('google_experiment');
+        $this->getForm()->setFieldNameSuffix('google_experiment');
 
         return parent::_prepareForm();
     }

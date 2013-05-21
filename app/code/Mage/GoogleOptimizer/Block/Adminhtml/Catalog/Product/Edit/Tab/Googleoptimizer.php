@@ -48,7 +48,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
      */
     protected function _prepareForm()
     {
-        $fieldset = $this->_form->addFieldset('googleoptimizer_fields', array(
+        $fieldset = $this->getForm()->addFieldset('googleoptimizer_fields', array(
             'legend' => $this->__('Google Analytics Content Experiments Code')
         ));
 
@@ -75,7 +75,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
             'required' => false,
         ));
 
-        $this->_form->setFieldNameSuffix('google_experiment');
+        $this->getForm()->setFieldNameSuffix('google_experiment');
 
         return parent::_prepareForm();
     }
@@ -133,7 +133,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
      */
     public function canShowTab()
     {
-        return $this->_helperData->isGoogleExperimentActive($this->getProduct()->getStoreId());
+        return $this->_helperData->isGoogleExperimentActive($this->_getProduct()->getStoreId());
     }
 
     /**

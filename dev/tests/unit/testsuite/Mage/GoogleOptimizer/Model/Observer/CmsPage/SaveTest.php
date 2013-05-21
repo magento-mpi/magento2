@@ -28,7 +28,7 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Frame
     protected $_requestMock;
 
     /**
-     * @var Mage_GoogleOptimizer_Model_Observer_Product_Load
+     * @var Mage_GoogleOptimizer_Model_Observer_CmsPage_Save
      */
     protected $_model;
 
@@ -66,7 +66,7 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Frame
 
         $values = array(
             'entity_id' => 3,
-            'entity_type' => Mage_GoogleOptimizer_Model_Code::CODE_ENTITY_TYPE_CMS,
+            'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE,
             'store_id' => 0,
             'experiment_script' => 'some string',
         );
@@ -100,7 +100,7 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Frame
 
         $values = array(
             'entity_id' => 3,
-            'entity_type' => Mage_GoogleOptimizer_Model_Code::CODE_ENTITY_TYPE_CMS,
+            'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE,
             'store_id' => 0,
             'experiment_script' => 'some string',
         );

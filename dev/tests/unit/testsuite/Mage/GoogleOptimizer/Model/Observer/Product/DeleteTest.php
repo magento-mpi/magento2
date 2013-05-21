@@ -18,14 +18,14 @@ class Mage_GoogleOptimizer_Model_Observer_Product_DeleteTest extends PHPUnit_Fra
     protected $_eventObserverMock;
 
     /**
-     * @var Mage_GoogleOptimizer_Model_Observer_Product_Load
+     * @var Mage_GoogleOptimizer_Model_Observer_Product_Delete
      */
     protected $_model;
 
     public function setUp()
     {
         $this->_codeMock = $this->getMock(
-            'Mage_GoogleOptimizer_Model_Code', array('getId', 'loadScripts', 'delete'), array(), '', false
+            'Mage_GoogleOptimizer_Model_Code', array('getId', 'loadByEntityIdAndType', 'delete'), array(), '', false
         );
 
         $this->_requestMock = $this->getMock(
@@ -51,11 +51,11 @@ class Mage_GoogleOptimizer_Model_Observer_Product_DeleteTest extends PHPUnit_Fra
 
         $values = array(
             'entity_id' => 3,
-            'entity_type' => Mage_GoogleOptimizer_Model_Code::CODE_ENTITY_TYPE_PRODUCT,
+            'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PRODUCT,
             'store_id' => 0
         );
 
-        $this->_codeMock->expects($this->once())->method('loadScripts')
+        $this->_codeMock->expects($this->once())->method('loadByEntityIdAndType')
             ->with($values['entity_id'], $values['entity_type'], $values['store_id']);
 
         $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue(2));
@@ -80,11 +80,11 @@ class Mage_GoogleOptimizer_Model_Observer_Product_DeleteTest extends PHPUnit_Fra
 
         $values = array(
             'entity_id' => 3,
-            'entity_type' => Mage_GoogleOptimizer_Model_Code::CODE_ENTITY_TYPE_PRODUCT,
+            'entity_type' => Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PRODUCT,
             'store_id' => 0
         );
 
-        $this->_codeMock->expects($this->once())->method('loadScripts')
+        $this->_codeMock->expects($this->once())->method('loadByEntityIdAndType')
             ->with($values['entity_id'], $values['entity_type'], $values['store_id']);
 
         $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue(0));

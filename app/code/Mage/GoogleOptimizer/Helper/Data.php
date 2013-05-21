@@ -39,7 +39,7 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Checks if Google Experiment is active
      *
-     * @param null $store
+     * @param string $store
      * @return bool
      */
     public function isGoogleExperimentActive($store = null)
