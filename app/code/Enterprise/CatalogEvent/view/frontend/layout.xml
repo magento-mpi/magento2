@@ -21,11 +21,11 @@
             <action method="addCss" ifconfig="catalog/enterprise_catalogevent/enabled">
                 <file>Enterprise_CatalogEvent::widgets.css</file>
             </action>
-            <!--
+
             <action method="addJs" ifconfig="catalog/enterprise_catalogevent/enabled">
-                <file>Enterprise_CatalogEvent::slider.js</file>
+                <file>Enterprise_CatalogEvent::js/carousel.js</file>
             </action>
-            -->
+
         </reference>
     </default>
 
