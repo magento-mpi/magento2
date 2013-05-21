@@ -53,7 +53,7 @@ class Mage_GoogleOptimizer_Model_Observer_Block_Category_TabTest extends PHPUnit
         $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->will($this->returnValue(true));
         $this->_helperMock->expects($this->once())->method('__');
 
-        $block = $this->getMock('StdClass', array('toHtml'));
+        $block = $this->getMock('Mage_Core_Block', array('toHtml'));
 
 
         $this->_layoutMock->expects($this->once())->method('createBlock')->with(
