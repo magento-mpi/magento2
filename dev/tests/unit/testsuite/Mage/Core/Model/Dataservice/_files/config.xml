@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <service-call name='alias' service='some_class_name' method='some_method_name'>
+    <service_call name='alias' service='some_class_name' method='some_method_name'>
         <arg name="some_arg_name">foo</arg>
-    </service-call>
+    </service_call>
 </config>

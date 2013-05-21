@@ -15,9 +15,9 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
     const CONFIG_AREA = 'global';
 
     /**
-     * The location in xml for the service-calls
+     * The location in xml for the service_calls
      */
-    const CONFIG_NODE = 'service-calls';
+    const CONFIG_NODE = 'service_calls';
 
     /**
      * @var Varien_Simplexml_Element
@@ -47,7 +47,7 @@ class Mage_Core_Model_Dataservice_Config implements Mage_Core_Model_Dataservice_
      */
     public function getClassByAlias($alias)
     {
-        $node = $this->_simpleXml->xpath("//service-call[@name='" . $alias . "']");
+        $node = $this->_simpleXml->xpath("//service_call[@name='" . $alias . "']");
 
         if (count($node) == 0) {
             throw new Mage_Core_Exception('Service call with name "' . $alias . '" doesn\'t exist');
