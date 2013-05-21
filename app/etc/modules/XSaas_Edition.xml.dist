@@ -54,5 +54,6 @@
         <Saas_Shipping><active>true</active></Saas_Shipping>
         <Saas_Sitemap><active>true</active></Saas_Sitemap>
         <Saas_UnitPrice><active>true</active></Saas_UnitPrice>
+        <Saas_Webistrano><active>true</active></Saas_Webistrano>
     </modules>
 </config>
