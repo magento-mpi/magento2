@@ -10,11 +10,12 @@
  */
 
 return array(array ('section' => 'payment', 'groups' =>array(
-        'account' => array (
-            'fields' => array (
-                'merchant_country' => array ('value' => 'US'),
-            ),
-        ),
+// TODO: This piece of code should be uncommented after revert of changes described in MPI-1023 comments
+//        'account' => array (
+//            'fields' => array (
+//                'merchant_country' => array ('value' => 'US'),
+//            ),
+//        ),
         'paypal_payments' => array(
             'groups' => array(
                 'payflow_advanced' => array(
@@ -55,7 +56,8 @@ return array(array ('section' => 'payment', 'groups' =>array(
     'expected' => array(
         'paypal' => array(
             'paypal/general/business_account' => 'owner@example.com',
-            'paypal/general/merchant_country' => 'US'
+// TODO: This piece of code should be uncommented after revert of changes described in MPI-1023 comments 
+//            'paypal/general/merchant_country' => 'US'
         ),
         'payment/payflow_link' => array(
             'payment/payflow_link/active' => '1',
