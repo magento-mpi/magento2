@@ -23,10 +23,9 @@
                         <br/><?php echo $this->__('Please wait...') ?> <span class="export-progress"></span>
                     </p>
                 </div>
-            <?php else:
-                    echo $this->getChildBlock('export.result.download')->toHtml();
-                endif;
-            ?>
+            <?php else: ?>
+                <?php echo $this->getChildBlock('export.result.download')->toHtml(); ?>
+            <?php endif; ?>
         </div>
     </fieldset>
 </div>

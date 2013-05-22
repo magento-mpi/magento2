@@ -12,7 +12,8 @@ class Saas_ImportExport_Helper_Export_FileTest extends PHPUnit_Framework_TestCas
      */
     protected $_helperModel;
 
-    public function setUp() {
+    public function setUp()
+    {
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_helperModel = $objectManager->getObject('Stub_Helper_Export_File');
     }

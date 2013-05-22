@@ -22,8 +22,8 @@ class Saas_ImportExport_Helper_Export_ConfigTest extends PHPUnit_Framework_TestC
      */
     protected $_helperModel;
 
-    public function setUp() {
-
+    public function setUp()
+    {
         $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_dirModel = $objectManager->getObject('Mage_Core_Model_Dir');

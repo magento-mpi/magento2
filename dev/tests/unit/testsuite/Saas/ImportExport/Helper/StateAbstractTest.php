@@ -17,8 +17,8 @@ class Saas_ImportExport_Helper_StateAbstractTest extends PHPUnit_Framework_TestC
      */
     protected $_helperModel;
 
-    public function setUp() {
-
+    public function setUp()
+    {
         $this->_stateFlagMock = $this->getMock('Saas_ImportExport_Model_State_Flag', array(), array(), '', false);
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_helperModel = $objectManager->getObject('Stub_Saas_ImportExport_Helper_StateAbstract', array(

@@ -51,7 +51,8 @@ class Saas_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->_exportModel->isFinished());
     }
 
-    protected function _callFinishExportMethod() {
+    protected function _callFinishExportMethod()
+    {
         $class = new ReflectionClass('Saas_ImportExport_Model_Export');
         $method = $class->getMethod('_saveAsFinished');
         $method->setAccessible(true);

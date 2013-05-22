@@ -5,7 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_ImportExport_Model_System_Message_ExportFinishedTest extends PHPUnit_Framework_TestCase {
+class Saas_ImportExport_Model_Export_System_Message_FinishedTest extends PHPUnit_Framework_TestCase
+{
     /**
      * @var Saas_ImportExport_Model_Export_System_Message_Finished
      */
