@@ -26,6 +26,11 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     protected $_apiConfig;
 
+    /**
+     * TODO: Temporary variable for step-by-step refactoring according to new requirements
+     *
+     * @var Mage_Webapi_Config
+     */
     protected $_newApiConfig;
 
     /**
@@ -49,7 +54,8 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     /**
      * Construct auto discover with resource config and list of requested resources.
      *
-     * @param Mage_Webapi_Config $apiConfig
+     * @param Mage_Webapi_Config $newApiConfig
+     * @param Mage_Webapi_Model_Config_Soap $apiConfig
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
      * @param Mage_Webapi_Helper_Config $helper
      * @param Mage_Core_Model_CacheInterface $cache
@@ -95,7 +101,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
 
         $resources = array();
         $services = $this->_newApiConfig->getServices();
-        foreach ($services as $resourceName => $serviceData) {
+        foreach ($services as $serviceData) {
             $resourceName = $this->_helper->translateResourceName($serviceData['class']);
             $resources[$resourceName] = array('methods' => array());
             // TODO: Add service version to $serviceData
@@ -108,7 +114,9 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                 foreach ($requestFields as $fieldName => $fieldData) {
                     $inputParameters[$fieldName] = array(
                         // TODO: Remove default values
-                        'type' => isset($fieldData['type']) ? $this->_helper->normalizeType($fieldData['type']) : 'string',
+                        'type' => isset($fieldData['type'])
+                            ? $this->_helper->normalizeType($fieldData['type'])
+                            : 'string',
                         'required' => isset($fieldData['required']) ? $fieldData['required'] : false,
                         'documentation' => isset($fieldData['label']) ? $fieldData['label'] : "Default label"
                     );
@@ -122,7 +130,9 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                 foreach ($responseFields as $fieldName => $fieldData) {
                     $outputParameters[$fieldName] = array(
                         // TODO: Remove default values
-                        'type' => isset($fieldData['type']) ? $this->_helper->normalizeType($fieldData['type']) : 'string',
+                        'type' => isset($fieldData['type'])
+                            ? $this->_helper->normalizeType($fieldData['type'])
+                            : 'string',
                         'required' => isset($fieldData['required']) ? $fieldData['required'] : false,
                         'documentation' => isset($fieldData['label']) ? $fieldData['label'] : "Default label"
                     );
@@ -132,10 +142,12 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                     'documentation' => '', // TODO: Get documentation
                 );
                 if (!empty($inputParameters)) {
-                    $resources[$resourceName]['methods'][$operation]['interface']['in']['parameters'] = $inputParameters;
+                    $resources[$resourceName]['methods'][$operation]['interface']['in']['parameters'] =
+                        $inputParameters;
                 }
                 if (!empty($outputParameters)) {
-                    $resources[$resourceName]['methods'][$operation]['interface']['out']['parameters'] = $outputParameters;
+                    $resources[$resourceName]['methods'][$operation]['interface']['out']['parameters'] =
+                        $outputParameters;
                 }
             }
         }

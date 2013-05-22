@@ -56,7 +56,7 @@ class Mage_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abstra
      * @param string $type
      * @param array $parentCallInfo array of callInfo from parent complex type
      * @return string
-     * @throws InvalidArgumentException
+     * @throws LogicException
      */
     public function addComplexType($type, $parentCallInfo = array())
     {
